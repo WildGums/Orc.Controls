@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 
 namespace Orc.Controls.Examples
 {
+    using global::TimeSpanControl;
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -23,6 +25,7 @@ namespace Orc.Controls.Examples
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new MainViewViewModel();
         }
     }
 }
