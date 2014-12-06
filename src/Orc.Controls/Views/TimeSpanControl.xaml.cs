@@ -84,7 +84,7 @@ namespace Orc.Controls
             if ((bool)e.NewValue)
             {
                 var focusedControl = Keyboard.FocusedElement;
-                if (focusedControl.Equals(DaysDockPanel))
+                if (focusedControl.Equals(NumericTBDays))
                 {
                     Keyboard.Focus(NumericTBDays);
                 }

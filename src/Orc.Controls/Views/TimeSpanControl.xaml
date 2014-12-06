@@ -101,24 +101,19 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <DockPanel x:Name="DaysDockPanel" Focusable="True">
-                <controls:NumericTextBox x:Name="NumericTBDays" Text="{Binding Path=Days}" MinValue="0" MaxValue="100" />
-            </DockPanel>
+            <controls:NumericTextBox x:Name="NumericTBDays" Text="{Binding Path=Days}" MinValue="0" MaxValue="100" />
             <TextBlock Grid.Column="1" Text="." Style="{StaticResource RatioSignStyle}" />
             <TextBlock Grid.Column="1" Text="d" Foreground="DarkGray" Style="{StaticResource LettersStyle}" />
-            <Grid Grid.Column="2" Focusable="True">
-                <controls:NumericTextBox x:Name="NumericTBHours" Text="{Binding Path=Hours}" MaxValue="23" MinValue="0"/>
-            </Grid>
+            
+            <controls:NumericTextBox x:Name="NumericTBHours" Grid.Column="2" Text="{Binding Path=Hours}" MaxValue="23" MinValue="0"/>
             <TextBlock Grid.Column="3" Text=":" Style="{StaticResource RatioSignStyle}" />
             <TextBlock Grid.Column="3" Text="h" Foreground="DarkGray" Style="{StaticResource LettersStyle}" />
-            <Grid Grid.Column="4" Focusable="True">
-                <controls:NumericTextBox x:Name="NumericTBMinutes" Text="{Binding Path=Minutes}" MaxValue="59" MinValue="0" />
-            </Grid>
+            
+            <controls:NumericTextBox x:Name="NumericTBMinutes" Grid.Column="4" Text="{Binding Path=Minutes}" MaxValue="59" MinValue="0" />
             <TextBlock Grid.Column="5" Text=":" Style="{StaticResource RatioSignStyle}" />
             <TextBlock Grid.Column="5" Text="m" Foreground="DarkGray" Style="{StaticResource LettersStyle}" />
-            <Grid Grid.Column="6" Focusable="True">
-                <controls:NumericTextBox x:Name="NumericTBSeconds" Text="{Binding Path=Seconds}" MaxValue="59" MinValue="0"/>
-            </Grid>
+            
+            <controls:NumericTextBox x:Name="NumericTBSeconds" Grid.Column="6" Text="{Binding Path=Seconds}" MaxValue="59" MinValue="0"/>
             <TextBlock Grid.Column="7" Text="s" Foreground="DarkGray" Style="{StaticResource LettersStyle}" />
         </Grid>
     </Border>
