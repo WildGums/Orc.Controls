@@ -1,13 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls", "Orc.Controls\Orc.Controls.csproj", "{E6CE2111-3D7C-4759-A886-E44EC77CE3AA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.Tests", "Orc.Controls.Tests\Orc.Controls.Tests.csproj", "{9D4DD1A4-D63D-4766-BA11-29FC99C1CBEF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.Examples", "Orc.Controls.Examples\Orc.Controls.Examples.csproj", "{FC8A5188-FF86-4D47-B72C-834D12B20406}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{197B99D4-F329-4377-A097-0B40424D8D05}"
+	ProjectSection(SolutionItems) = preProject
+		Orc.Controls.sln.DotSettings = Orc.Controls.sln.DotSettings
+		SolutionAssemblyInfo.cs = SolutionAssemblyInfo.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AAE2B7A4-D901-4DA2-97FD-F7127657C1A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +38,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E6CE2111-3D7C-4759-A886-E44EC77CE3AA} = {AAE2B7A4-D901-4DA2-97FD-F7127657C1A1}
+		{9D4DD1A4-D63D-4766-BA11-29FC99C1CBEF} = {AAE2B7A4-D901-4DA2-97FD-F7127657C1A1}
+		{FC8A5188-FF86-4D47-B72C-834D12B20406} = {AAE2B7A4-D901-4DA2-97FD-F7127657C1A1}
 	EndGlobalSection
 EndGlobal
