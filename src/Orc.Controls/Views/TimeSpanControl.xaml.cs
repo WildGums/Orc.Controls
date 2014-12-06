@@ -76,6 +76,20 @@ namespace Orc.Controls
             var control = obj as TimeSpanControl;
             control._timeSpanControlViewModel.Value = control.Value;
         }
+
+        protected override void OnIsKeyboardFocusWithinChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnIsKeyboardFocusWithinChanged(e);
+
+            if ((bool)e.NewValue)
+            {
+                var focusedControl = Keyboard.FocusedElement;
+                if (focusedControl.Equals(DaysDockPanel))
+                {
+                    Keyboard.Focus(NumericTBDays);
+                }
+            }
+        }
         
     }
 }
