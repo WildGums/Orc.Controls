@@ -43,16 +43,16 @@ namespace Orc.Controls
         {
             var activeTextBoxIndex = _numericTextBoxes.IndexOf(sender as NumericTextBox);
             var prevTextBox = _numericTextBoxes[activeTextBoxIndex - 1];
-            prevTextBox.Focus();
             prevTextBox.CaretIndex = prevTextBox.Text.Length;
+            prevTextBox.Focus();
         }
 
         private void NumericTbDaysOnRightBoundReached(object sender, EventArgs eventArgs)
         {
             var activeTextBoxIndex = _numericTextBoxes.IndexOf(sender as NumericTextBox);
             var nextTextBox = _numericTextBoxes[activeTextBoxIndex + 1];
-            nextTextBox.Focus();
             nextTextBox.CaretIndex = 0;
+            nextTextBox.Focus();
         }
 
         private void TimeSpanControlViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
