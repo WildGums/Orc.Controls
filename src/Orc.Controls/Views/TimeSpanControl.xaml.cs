@@ -30,16 +30,16 @@ namespace Orc.Controls
                 NumericTBMinutes,
                 NumericTBSeconds,
             };
-            NumericTBDays.RightBoundReached += NumericTbDaysOnRightBoundReached;
-            NumericTBHours.RightBoundReached += NumericTbDaysOnRightBoundReached;
-            NumericTBMinutes.RightBoundReached += NumericTbDaysOnRightBoundReached;
+            NumericTBDays.RightBoundReached += NumericTextBoxOnRightBoundReached;
+            NumericTBHours.RightBoundReached += NumericTextBoxOnRightBoundReached;
+            NumericTBMinutes.RightBoundReached += NumericTextBoxOnRightBoundReached;
 
-            NumericTBHours.LeftBoundReached += NumericTbDaysOnLeftBoundReached;
-            NumericTBMinutes.LeftBoundReached += NumericTbDaysOnLeftBoundReached;
-            NumericTBSeconds.LeftBoundReached += NumericTbDaysOnLeftBoundReached;
+            NumericTBHours.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
+            NumericTBMinutes.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
+            NumericTBSeconds.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
         }
 
-        private void NumericTbDaysOnLeftBoundReached(object sender, EventArgs e)
+        private void NumericTextBoxOnLeftBoundReached(object sender, EventArgs e)
         {
             var activeTextBoxIndex = _numericTextBoxes.IndexOf(sender as NumericTextBox);
             var prevTextBox = _numericTextBoxes[activeTextBoxIndex - 1];
@@ -47,7 +47,7 @@ namespace Orc.Controls
             prevTextBox.Focus();
         }
 
-        private void NumericTbDaysOnRightBoundReached(object sender, EventArgs eventArgs)
+        private void NumericTextBoxOnRightBoundReached(object sender, EventArgs eventArgs)
         {
             var activeTextBoxIndex = _numericTextBoxes.IndexOf(sender as NumericTextBox);
             var nextTextBox = _numericTextBoxes[activeTextBoxIndex + 1];
@@ -76,20 +76,5 @@ namespace Orc.Controls
             var control = obj as TimeSpanControl;
             control._timeSpanControlViewModel.Value = control.Value;
         }
-
-        protected override void OnIsKeyboardFocusWithinChanged(DependencyPropertyChangedEventArgs e)
-        {
-            base.OnIsKeyboardFocusWithinChanged(e);
-
-            if ((bool)e.NewValue)
-            {
-                var focusedControl = Keyboard.FocusedElement;
-                if (focusedControl.Equals(NumericTBDays))
-                {
-                    Keyboard.Focus(NumericTBDays);
-                }
-            }
-        }
-        
     }
 }

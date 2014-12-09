@@ -8,16 +8,6 @@
              x:Name="CurrentControl"
              d:DesignHeight="22" d:DesignWidth="120">
     <UserControl.Resources>
-        <LinearGradientBrush x:Key="TextBoxBorder" EndPoint="0,20" MappingMode="Absolute" StartPoint="0,0">
-            <GradientStop Color="#ABADB3" Offset="0.05"/>
-            <GradientStop Color="#E2E3EA" Offset="0.07"/>
-            <GradientStop Color="#E3E9EF" Offset="1"/>
-        </LinearGradientBrush>
-        <LinearGradientBrush x:Key="SelectedTextBoxBorder" EndPoint="0,20" MappingMode="Absolute" StartPoint="0,0">
-            <GradientStop Color="#5794BF" Offset="0.05"/>
-            <GradientStop Color="#BEDAED" Offset="0.07"/>
-            <GradientStop Color="#C7E2F1" Offset="1"/>
-        </LinearGradientBrush>
         <Style TargetType="{x:Type Border}">
             <Setter Property="BorderBrush" Value="LightGray"/>
             <Style.Triggers>
