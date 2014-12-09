@@ -136,17 +136,32 @@ namespace Orc.Controls
         {
             base.OnPreviewKeyDown(e);
 
-            if (e.Key == Key.Right  && CaretIndex == Text.Length)
+            if (e.Key == Key.Right && (CaretAtEnd || CaretAtStart && AllTextSelected))
             {
                 RaiseRightBoundReachedEvent();
                 e.Handled = true;
             }
 
-            if (e.Key == Key.Left && CaretIndex == 0)
+            if (e.Key == Key.Left && CaretAtStart)
             {
                 RaiseLeftBoundReachedEvent();
                 e.Handled = true;
             }
+        }
+
+        private bool AllTextSelected
+        {
+            get { return SelectedText == Text; }
+        }
+
+        private bool CaretAtStart
+        {
+            get { return CaretIndex == 0; }
+        }
+
+        private bool CaretAtEnd
+        {
+            get { return CaretIndex == Text.Length; }
         }
 
         private void RaiseRightBoundReachedEvent()
