@@ -14,7 +14,7 @@
     {
         private readonly TimeSpanControlViewModel _timeSpanControlViewModel;
         private readonly List<NumericTextBox> _numericTextBoxes;
-        private int _activeTextBoxIndex;
+        private TimeSpanPart _activeTextBoxIndex;
         private bool _isInEditMode;
 
         public TimeSpanControl()
@@ -81,7 +81,7 @@
 
         private void NumericTBDays_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            _activeTextBoxIndex = _numericTextBoxes.IndexOf(sender as NumericTextBox);
+            _activeTextBoxIndex = (TimeSpanPart)(_numericTextBoxes.IndexOf(sender as NumericTextBox));
             NumericTBEditorContainer.Visibility = Visibility.Visible;
             _isInEditMode = true;
         }
@@ -101,22 +101,22 @@
             {
                 NumericTBEditorContainer.Visibility = Visibility.Collapsed;
                 _isInEditMode = false;
-                Value = RefreshValues(_activeTextBoxIndex, Convert.ToDouble(NumericTBEditor.Text));
+                Value = CreateTimeSpan(_activeTextBoxIndex, Convert.ToDouble(NumericTBEditor.Text));
                 e.Handled = true;
             }
         }
 
-        private TimeSpan RefreshValues(int timeSpanPart, double value)
+        private TimeSpan CreateTimeSpan(TimeSpanPart timeSpanPart, double value)
         {
             switch (timeSpanPart)
             {
-                case 0:
+                case TimeSpanPart.Days:
                     return TimeSpan.FromDays(value);
-                case 1:
+                case TimeSpanPart.Hours:
                     return TimeSpan.FromHours(value);
-                case 2:
+                case TimeSpanPart.Minutes:
                     return TimeSpan.FromMinutes(value);
-                case 3:
+                case TimeSpanPart.Seconds:
                     return TimeSpan.FromSeconds(value);
                 default:
                     throw new InvalidOperationException();

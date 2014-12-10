@@ -86,6 +86,7 @@
     <Compile Include="Views\TimeSpanControl.xaml.cs">
       <DependentUpon>TimeSpanControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TimeSpanPart.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\TimeSpanControl.xaml">
