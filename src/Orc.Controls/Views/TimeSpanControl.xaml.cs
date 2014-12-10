@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+
     /// <summary>
     /// Interaction logic for TimeSpanControl.xaml
     /// </summary>
     public partial class TimeSpanControl : UserControl
     {
-        private TimeSpanControlViewModel _timeSpanControlViewModel;
-        private List<NumericTextBox> _numericTextBoxes;
+        private readonly TimeSpanControlViewModel _timeSpanControlViewModel;
+        private readonly List<NumericTextBox> _numericTextBoxes;
         private int _activeTextBoxIndex;
         private bool _isInEditMode;
 
@@ -25,7 +23,7 @@ namespace Orc.Controls
             _timeSpanControlViewModel = new TimeSpanControlViewModel();
             MainContainer.DataContext = _timeSpanControlViewModel;
             _timeSpanControlViewModel.PropertyChanged += TimeSpanControlViewModelOnPropertyChanged;
-            
+
             _numericTextBoxes = new List<NumericTextBox>()
             {
                 NumericTBDays,
@@ -44,16 +42,16 @@ namespace Orc.Controls
 
         private void NumericTextBoxOnLeftBoundReached(object sender, EventArgs e)
         {
-            var activeTextBoxIndex = _numericTextBoxes.IndexOf(sender as NumericTextBox);
-            var prevTextBox = _numericTextBoxes[activeTextBoxIndex - 1];
+            var currentTextBoxIndex = _numericTextBoxes.IndexOf(sender as NumericTextBox);
+            var prevTextBox = _numericTextBoxes[currentTextBoxIndex - 1];
             prevTextBox.CaretIndex = prevTextBox.Text.Length;
             prevTextBox.Focus();
         }
 
         private void NumericTextBoxOnRightBoundReached(object sender, EventArgs eventArgs)
         {
-            var activeTextBoxIndex = _numericTextBoxes.IndexOf(sender as NumericTextBox);
-            var nextTextBox = _numericTextBoxes[activeTextBoxIndex + 1];
+            var currentTextBoxIndex = _numericTextBoxes.IndexOf(sender as NumericTextBox);
+            var nextTextBox = _numericTextBoxes[currentTextBoxIndex + 1];
             nextTextBox.CaretIndex = 0;
             nextTextBox.Focus();
         }
@@ -68,11 +66,12 @@ namespace Orc.Controls
 
         public TimeSpan Value
         {
-            get { return (TimeSpan)GetValue(ValueProperty); }
+            get { return (TimeSpan) GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
+
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register("Value", typeof(TimeSpan), typeof(TimeSpanControl), new UIPropertyMetadata(TimeSpan.Zero, OnValueChanged));
+            DependencyProperty.Register("Value", typeof (TimeSpan), typeof (TimeSpanControl), new UIPropertyMetadata(TimeSpan.Zero, OnValueChanged));
 
         private static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
@@ -83,7 +82,7 @@ namespace Orc.Controls
         private void NumericTBDays_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             _activeTextBoxIndex = _numericTextBoxes.IndexOf(sender as NumericTextBox);
-            NumericTBEditor.Visibility = Visibility.Visible;
+            NumericTBEditorContainer.Visibility = Visibility.Visible;
             _isInEditMode = true;
         }
 
@@ -93,39 +92,34 @@ namespace Orc.Controls
 
             if (e.Key == Key.Escape && _isInEditMode)
             {
-                NumericTBEditor.Visibility = Visibility.Collapsed;
+                NumericTBEditorContainer.Visibility = Visibility.Collapsed;
                 _isInEditMode = false;
                 e.Handled = true;
             }
 
             if (e.Key == Key.Enter && _isInEditMode)
             {
-                NumericTBEditor.Visibility = Visibility.Collapsed;
+                NumericTBEditorContainer.Visibility = Visibility.Collapsed;
                 _isInEditMode = false;
-                RefreshValues();
+                Value = RefreshValues(_activeTextBoxIndex, Convert.ToDouble(NumericTBEditor.Text));
                 e.Handled = true;
             }
         }
 
-        private void RefreshValues()
+        private TimeSpan RefreshValues(int timeSpanPart, double value)
         {
-            var newValue = NumericTBEditor.Text;
-            switch (_activeTextBoxIndex)
+            switch (timeSpanPart)
             {
                 case 0:
-                    Value = TimeSpan.FromDays(Convert.ToInt32(newValue));
-                    break;
+                    return TimeSpan.FromDays(value);
                 case 1:
-                    Value = TimeSpan.FromHours(Convert.ToInt32(newValue));
-                    break;
+                    return TimeSpan.FromHours(value);
                 case 2:
-                    Value = TimeSpan.FromMinutes(Convert.ToInt32(newValue));
-                    break;
+                    return TimeSpan.FromMinutes(value);
                 case 3:
-                    Value = TimeSpan.FromSeconds(Convert.ToInt32(newValue));
-                    break;
+                    return TimeSpan.FromSeconds(value);
                 default:
-                    throw new IndexOutOfRangeException();
+                    throw new InvalidOperationException();
             }
         }
 
@@ -133,13 +127,13 @@ namespace Orc.Controls
         {
             NumericTBEditor.Focus();
         }
+
         private void NumericTBEditor_OnIsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (!IsKeyboardFocusWithin)
             {
-                NumericTBEditor.Visibility = Visibility.Collapsed;
+                NumericTBEditorContainer.Visibility = Visibility.Collapsed;
             }
-
         }
     }
 }
