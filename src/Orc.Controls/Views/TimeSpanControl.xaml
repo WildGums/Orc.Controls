@@ -113,7 +113,7 @@
                 <TextBlock Grid.Column="7" Text="s" Style="{StaticResource LettersStyle}" />
             </Grid>
         </Border>
-        <Border x:Name="NumericTBEditorContainer" Grid.ColumnSpan="8" BorderBrush="Red"  BorderThickness="1"
+        <Border x:Name="NumericTBEditorContainer" Grid.ColumnSpan="8" BorderBrush="Orange"  BorderThickness="1"
                 Width="{Binding ActualWidth, ElementName=MainContainer}" Visibility="Collapsed"
                 Height="{Binding ActualHeight, ElementName=MainContainer}">
             <Grid HorizontalAlignment="Stretch" Background="White">
@@ -122,13 +122,13 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <controls:NumericTextBox x:Name="NumericTBEditor" Grid.Column="0"
-                                         MinValue="0" Margin="0"
+                                         MinValue="0" Margin="2 0 2 0"
                                          HorizontalContentAlignment="Left"
                                          VerticalContentAlignment="Center" 
                                          IsKeyboardFocusWithinChanged="NumericTBEditor_OnIsKeyboardFocusWithinChanged" 
                                          IsVisibleChanged="NumericTBEditor_OnIsVisibleChanged"/>
-                <TextBlock x:Name="NumericTBEditorMeasure" Foreground="DarkGray" Grid.Column="1" 
-                           HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock x:Name="NumericTBEditorUnit" Foreground="DarkGray" Grid.Column="1" 
+                           HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2 0 4 0"/>
             </Grid>
         </Border>
     </Grid>

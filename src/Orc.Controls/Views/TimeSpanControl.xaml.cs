@@ -14,7 +14,7 @@
     {
         private readonly TimeSpanControlViewModel _timeSpanControlViewModel;
         private readonly List<NumericTextBox> _numericTextBoxes;
-        private TimeSpanPart _activeTextBoxIndex;
+        private TimeSpanPart _activeTextBoxPart;
         private bool _isInEditMode;
 
         public TimeSpanControl()
@@ -81,7 +81,7 @@
 
         private void NumericTBDays_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            _activeTextBoxIndex = (TimeSpanPart)(_numericTextBoxes.IndexOf(sender as NumericTextBox));
+            _activeTextBoxPart = (TimeSpanPart)(_numericTextBoxes.IndexOf(sender as NumericTextBox));
             NumericTBEditorContainer.Visibility = Visibility.Visible;
             _isInEditMode = true;
         }
@@ -101,7 +101,7 @@
             {
                 NumericTBEditorContainer.Visibility = Visibility.Collapsed;
                 _isInEditMode = false;
-                Value = CreateTimeSpan(_activeTextBoxIndex, Convert.ToDouble(NumericTBEditor.Text));
+                Value = CreateTimeSpan(_activeTextBoxPart, Convert.ToDouble(NumericTBEditor.Text));
                 e.Handled = true;
             }
         }
@@ -125,7 +125,25 @@
 
         private void NumericTBEditor_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            NumericTBEditorUnit.Text = GetUnit();
             NumericTBEditor.Focus();
+        }
+
+        private string GetUnit()
+        {
+            switch (_activeTextBoxPart)
+            {
+                case TimeSpanPart.Days:
+                    return "days";
+                case TimeSpanPart.Hours:
+                    return "hours";
+                case TimeSpanPart.Minutes:
+                    return "minutes";
+                case TimeSpanPart.Seconds:
+                    return "seconds";
+                default:
+                    throw new InvalidOperationException();
+            }
         }
 
         private void NumericTBEditor_OnIsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
