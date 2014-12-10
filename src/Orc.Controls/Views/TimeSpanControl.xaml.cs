@@ -16,6 +16,9 @@ namespace Orc.Controls
     {
         private TimeSpanControlViewModel _timeSpanControlViewModel;
         private List<NumericTextBox> _numericTextBoxes;
+        private int _activeTextBoxIndex;
+        private bool _isInEditMode;
+
         public TimeSpanControl()
         {
             InitializeComponent();
@@ -75,6 +78,68 @@ namespace Orc.Controls
         {
             var control = obj as TimeSpanControl;
             control._timeSpanControlViewModel.Value = control.Value;
+        }
+
+        private void NumericTBDays_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            _activeTextBoxIndex = _numericTextBoxes.IndexOf(sender as NumericTextBox);
+            NumericTBEditor.Visibility = Visibility.Visible;
+            _isInEditMode = true;
+        }
+
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            base.OnPreviewKeyDown(e);
+
+            if (e.Key == Key.Escape && _isInEditMode)
+            {
+                NumericTBEditor.Visibility = Visibility.Collapsed;
+                _isInEditMode = false;
+                e.Handled = true;
+            }
+
+            if (e.Key == Key.Enter && _isInEditMode)
+            {
+                NumericTBEditor.Visibility = Visibility.Collapsed;
+                _isInEditMode = false;
+                RefreshValues();
+                e.Handled = true;
+            }
+        }
+
+        private void RefreshValues()
+        {
+            var newValue = NumericTBEditor.Text;
+            switch (_activeTextBoxIndex)
+            {
+                case 0:
+                    Value = TimeSpan.FromDays(Convert.ToInt32(newValue));
+                    break;
+                case 1:
+                    Value = TimeSpan.FromHours(Convert.ToInt32(newValue));
+                    break;
+                case 2:
+                    Value = TimeSpan.FromMinutes(Convert.ToInt32(newValue));
+                    break;
+                case 3:
+                    Value = TimeSpan.FromSeconds(Convert.ToInt32(newValue));
+                    break;
+                default:
+                    throw new IndexOutOfRangeException();
+            }
+        }
+
+        private void NumericTBEditor_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            NumericTBEditor.Focus();
+        }
+        private void NumericTBEditor_OnIsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (!IsKeyboardFocusWithin)
+            {
+                NumericTBEditor.Visibility = Visibility.Collapsed;
+            }
+
         }
     }
 }

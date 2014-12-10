@@ -17,7 +17,7 @@ namespace Orc.Controls
                 OnPropertyChanged("Days");
                 OnPropertyChanged("Hours");
                 OnPropertyChanged("Minutes");
-                OnPropertyChanged("Seconda");
+                OnPropertyChanged("Seconds");
                 OnPropertyChanged("Value");
             }
         }

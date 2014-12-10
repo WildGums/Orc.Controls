@@ -79,32 +79,47 @@
         </Style>
     </UserControl.Resources>
 
-    <Border x:Name="MainContainer" BorderThickness="1" Width="115" Height="22" KeyboardNavigation.TabNavigation="Once">
-        <Grid  Background="White" HorizontalAlignment="Stretch">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <controls:NumericTextBox x:Name="NumericTBDays" Text="{Binding Path=Days}" MinValue="0" MaxValue="100" />
-            <TextBlock Grid.Column="1" Text="." Style="{StaticResource RatioSignStyle}" />
-            <TextBlock Grid.Column="1" Text="d" Foreground="DarkGray" Style="{StaticResource LettersStyle}" />
+    <Grid>
+        <Border x:Name="MainContainer" BorderThickness="1" Width="115" Height="22" KeyboardNavigation.TabNavigation="Once">
+            <Grid  Background="White" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <controls:NumericTextBox x:Name="NumericTBDays" Text="{Binding Path=Days}" MinValue="0" MaxValue="100" 
+                                         MouseDoubleClick="NumericTBDays_OnMouseDoubleClick"/>
+                <TextBlock Grid.Column="1" Text="." Style="{StaticResource RatioSignStyle}" />
+                <TextBlock Grid.Column="1" Text="d" Foreground="DarkGray" Style="{StaticResource LettersStyle}" />
             
-            <controls:NumericTextBox x:Name="NumericTBHours" Grid.Column="2" Text="{Binding Path=Hours}" MaxValue="23" MinValue="0"/>
-            <TextBlock Grid.Column="3" Text=":" Style="{StaticResource RatioSignStyle}" />
-            <TextBlock Grid.Column="3" Text="h" Foreground="DarkGray" Style="{StaticResource LettersStyle}" />
+                <controls:NumericTextBox x:Name="NumericTBHours" Grid.Column="2" Text="{Binding Path=Hours}" MaxValue="23" MinValue="0"
+                                         MouseDoubleClick="NumericTBDays_OnMouseDoubleClick"/>
+                <TextBlock Grid.Column="3" Text=":" Style="{StaticResource RatioSignStyle}" />
+                <TextBlock Grid.Column="3" Text="h" Foreground="DarkGray" Style="{StaticResource LettersStyle}" />
             
-            <controls:NumericTextBox x:Name="NumericTBMinutes" Grid.Column="4" Text="{Binding Path=Minutes}" MaxValue="59" MinValue="0" />
-            <TextBlock Grid.Column="5" Text=":" Style="{StaticResource RatioSignStyle}" />
-            <TextBlock Grid.Column="5" Text="m" Foreground="DarkGray" Style="{StaticResource LettersStyle}" />
+                <controls:NumericTextBox x:Name="NumericTBMinutes" Grid.Column="4" Text="{Binding Path=Minutes}" MaxValue="59" MinValue="0"
+                                         MouseDoubleClick="NumericTBDays_OnMouseDoubleClick"/>
+                <TextBlock Grid.Column="5" Text=":" Style="{StaticResource RatioSignStyle}" />
+                <TextBlock Grid.Column="5" Text="m" Foreground="DarkGray" Style="{StaticResource LettersStyle}" />
             
-            <controls:NumericTextBox x:Name="NumericTBSeconds" Grid.Column="6" Text="{Binding Path=Seconds}" MaxValue="59" MinValue="0"/>
-            <TextBlock Grid.Column="7" Text="s" Foreground="DarkGray" Style="{StaticResource LettersStyle}" />
-        </Grid>
-    </Border>
+                <controls:NumericTextBox x:Name="NumericTBSeconds" Grid.Column="6" Text="{Binding Path=Seconds}" MaxValue="59" MinValue="0"
+                                         MouseDoubleClick="NumericTBDays_OnMouseDoubleClick"/>
+                <TextBlock Grid.Column="7" Text="s" Foreground="DarkGray" Style="{StaticResource LettersStyle}" />
+            </Grid>
+        </Border>
+        <controls:NumericTextBox x:Name="NumericTBEditor" MinValue="0" Margin="0"
+                                 Grid.ColumnSpan="8" BorderBrush="Red" BorderThickness="1" 
+                                 Width="{Binding ActualWidth, ElementName=MainContainer}"
+                                 Height="{Binding ActualHeight, ElementName=MainContainer}"
+                                 HorizontalContentAlignment="Left"
+                                 VerticalContentAlignment="Center" Visibility="Collapsed"
+                                 IsKeyboardFocusWithinChanged="NumericTBEditor_OnIsKeyboardFocusWithinChanged" 
+                                 IsVisibleChanged="NumericTBEditor_OnIsVisibleChanged"/>
+    </Grid>
 </UserControl>
