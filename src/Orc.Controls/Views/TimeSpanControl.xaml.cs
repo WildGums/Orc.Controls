@@ -101,7 +101,7 @@
             {
                 NumericTBEditorContainer.Visibility = Visibility.Collapsed;
                 _isInEditMode = false;
-                Value = CreateTimeSpan(_activeTextBoxPart, Convert.ToDouble(NumericTBEditor.Text));
+                Value = CreateTimeSpan(_activeTextBoxPart, NumericTBEditor.Value);
                 e.Handled = true;
             }
         }
