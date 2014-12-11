@@ -6,6 +6,7 @@ using System.Windows.Input;
 
 namespace Orc.Controls
 {
+    using System.Globalization;
     using System.Windows.Media;
 
     public class NumericTextBox:TextBox
@@ -44,26 +45,40 @@ namespace Orc.Controls
             if (textBox != null)
                 textBox.SelectAll();
         }
-        public int MinValue
+
+        public bool AllowDecimal
         {
-            get { return (int)GetValue(MinValueProperty); }
+            get { return (bool)GetValue(AllowDecimalProperty); }
+            set { SetValue(AllowDecimalProperty, value); }
+        }
+        public static readonly DependencyProperty AllowDecimalProperty =
+            DependencyProperty.Register("AllowDecimal", typeof(bool), typeof(NumericTextBox), new UIPropertyMetadata(false, AllowDecimalChanged));
+
+        private static void AllowDecimalChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+        public double MinValue
+        {
+            get { return (double)GetValue(MinValueProperty); }
             set { SetValue(MinValueProperty, value); }
         }
         public static readonly DependencyProperty MinValueProperty =
-            DependencyProperty.Register("MinValue", typeof(int), typeof(NumericTextBox), new UIPropertyMetadata(0, OnMinValueChanged));
+            DependencyProperty.Register("MinValue", typeof(double), typeof(NumericTextBox), new UIPropertyMetadata(0.0, OnMinValueChanged));
 
         private static void OnMinValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
            
         }
 
-        public int MaxValue
+        public double MaxValue
         {
-            get { return (int)GetValue(MaxValueProperty); }
+            get { return (double)GetValue(MaxValueProperty); }
             set { SetValue(MaxValueProperty, value); }
         }
         public static readonly DependencyProperty MaxValueProperty =
-            DependencyProperty.Register("MaxValue", typeof(int), typeof(NumericTextBox), new UIPropertyMetadata(int.MaxValue, OnMaxValueChanged));
+            DependencyProperty.Register("MaxValue", typeof(double), typeof(NumericTextBox), new UIPropertyMetadata(double.MaxValue, OnMaxValueChanged));
 
         private static void OnMaxValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
@@ -79,6 +94,20 @@ namespace Orc.Controls
                 base.Text = LeaveOnlyNumbers(value);
             }
         }
+
+        public double Value
+        {
+            get { return Convert.ToDouble(base.Text); }
+            set
+            {
+                var format = "F0";
+                if (AllowDecimal)
+                {
+                    format ="G";
+                }
+                base.Text = value.ToString(format);
+            }
+        }
  
         #endregion
  
@@ -88,7 +117,7 @@ namespace Orc.Controls
             var validText = inputText;
             foreach (var c in inputText)
             {
-                if (!IsDigit(c))
+                if (!IsValidSymbol(c))
                 {
                     validText = validText.Replace(c.ToString(), string.Empty);
                 }
@@ -96,7 +125,21 @@ namespace Orc.Controls
             return validText;
         }
 
-        private bool IsValidValue(int inputValue)
+        private bool IsValidSymbol(char c)
+        {
+            if (IsDigit(c))
+            {
+                return true;
+            }
+            var symbol = c.ToString();
+            if (AllowDecimal && symbol == CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool IsValidValue(double inputValue)
         {
             return inputValue <= MaxValue && inputValue >= MinValue;
         }
@@ -119,8 +162,8 @@ namespace Orc.Controls
                 return;
             }
             
-            int value;
-            if (!int.TryParse(text, out value))
+            double value;
+            if (!double.TryParse(text, out value))
             {
                 e.Handled = true;
                 return;                    

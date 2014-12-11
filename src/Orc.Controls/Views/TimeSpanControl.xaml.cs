@@ -150,7 +150,7 @@
         {
             if (IsKeyboardFocusWithin)
             {
-                NumericTBEditor.Text = (string.Format("{0:F0}", GetTotalValue()));
+                NumericTBEditor.Value = GetTotalValue();
                 return;
             }
             NumericTBEditorContainer.Visibility = Visibility.Collapsed;
