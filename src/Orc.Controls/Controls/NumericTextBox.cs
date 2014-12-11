@@ -1,98 +1,65 @@
-﻿using System;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NumericTextBox.cs" company="Wild Gums">
+//   Copyright (c) 2008 - 2014 Wild Gums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
 
 namespace Orc.Controls
 {
+    using System;
     using System.Globalization;
+    using System.Text;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
     using System.Windows.Media;
 
-    public class NumericTextBox:TextBox
+    public class NumericTextBox : TextBox
     {
-        public event EventHandler RightBoundReached;
-        public event EventHandler LeftBoundReached;
+        #region Constants
+        public static readonly DependencyProperty AllowDecimalProperty =
+            DependencyProperty.Register("AllowDecimal", typeof (bool), typeof (NumericTextBox), new UIPropertyMetadata(false, AllowDecimalChanged));
+
+        public static readonly DependencyProperty MinValueProperty =
+            DependencyProperty.Register("MinValue", typeof (double), typeof (NumericTextBox), new UIPropertyMetadata(0.0, OnMinValueChanged));
+
+        public static readonly DependencyProperty MaxValueProperty =
+            DependencyProperty.Register("MaxValue", typeof (double), typeof (NumericTextBox), new UIPropertyMetadata(double.MaxValue, OnMaxValueChanged));
+        #endregion
+
+        #region Constructors
         public NumericTextBox()
         {
             AddHandler(PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(SelectivelyIgnoreMouseButton), true);
             AddHandler(GotKeyboardFocusEvent, new RoutedEventHandler(SelectAllText), true);
             AddHandler(MouseDoubleClickEvent, new RoutedEventHandler(SelectAllText), true);
         }
+        #endregion
 
-        private static void SelectivelyIgnoreMouseButton(object sender, MouseButtonEventArgs e)
-        {
-            DependencyObject parent = e.OriginalSource as UIElement;
-            while (parent != null && !(parent is TextBox))
-            {
-                parent = VisualTreeHelper.GetParent(parent);
-            }
-
-            if (parent != null)
-            {
-                var textBox = (TextBox)parent;
-                if (!textBox.IsKeyboardFocusWithin)
-                {
-                    textBox.Focus();
-                    e.Handled = true;
-                }
-            }
-        }
-
-        private static void SelectAllText(object sender, RoutedEventArgs e)
-        {
-            var textBox = e.OriginalSource as TextBox;
-            if (textBox != null)
-                textBox.SelectAll();
-        }
-
+        #region Properties
         public bool AllowDecimal
         {
-            get { return (bool)GetValue(AllowDecimalProperty); }
+            get { return (bool) GetValue(AllowDecimalProperty); }
             set { SetValue(AllowDecimalProperty, value); }
-        }
-        public static readonly DependencyProperty AllowDecimalProperty =
-            DependencyProperty.Register("AllowDecimal", typeof(bool), typeof(NumericTextBox), new UIPropertyMetadata(false, AllowDecimalChanged));
-
-        private static void AllowDecimalChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-
         }
 
         public double MinValue
         {
-            get { return (double)GetValue(MinValueProperty); }
+            get { return (double) GetValue(MinValueProperty); }
             set { SetValue(MinValueProperty, value); }
-        }
-        public static readonly DependencyProperty MinValueProperty =
-            DependencyProperty.Register("MinValue", typeof(double), typeof(NumericTextBox), new UIPropertyMetadata(0.0, OnMinValueChanged));
-
-        private static void OnMinValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-           
         }
 
         public double MaxValue
         {
-            get { return (double)GetValue(MaxValueProperty); }
+            get { return (double) GetValue(MaxValueProperty); }
             set { SetValue(MaxValueProperty, value); }
         }
-        public static readonly DependencyProperty MaxValueProperty =
-            DependencyProperty.Register("MaxValue", typeof(double), typeof(NumericTextBox), new UIPropertyMetadata(double.MaxValue, OnMaxValueChanged));
 
-        private static void OnMaxValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-            
-        }
-
-        #region Properties
-        new public string Text
+        public new string Text
         {
             get { return base.Text; }
-            set
-            {
-                base.Text = LeaveOnlyNumbers(value);
-            }
+            set { base.Text = LeaveOnlyNumbers(value); }
         }
 
         public double Value
@@ -103,14 +70,13 @@ namespace Orc.Controls
                 var format = "F0";
                 if (AllowDecimal)
                 {
-                    format ="G";
+                    format = "G";
                 }
                 base.Text = value.ToString(format);
             }
         }
- 
         #endregion
- 
+
         #region Functions
         private string LeaveOnlyNumbers(string inputText)
         {
@@ -149,9 +115,27 @@ namespace Orc.Controls
             return (c >= '0' && c <= '9');
         }
         #endregion
- 
+
         #region Event Functions
 
+        #region Properties
+        private bool AllTextSelected
+        {
+            get { return SelectedText == Text; }
+        }
+
+        private bool CaretAtStart
+        {
+            get { return CaretIndex == 0; }
+        }
+
+        private bool CaretAtEnd
+        {
+            get { return CaretIndex == Text.Length; }
+        }
+        #endregion
+
+        #region Methods
         protected override void OnPreviewTextInput(TextCompositionEventArgs e)
         {
             base.OnPreviewTextInput(e);
@@ -161,12 +145,12 @@ namespace Orc.Controls
             {
                 return;
             }
-            
+
             double value;
             if (!double.TryParse(text, out value))
             {
                 e.Handled = true;
-                return;                    
+                return;
             }
 
             if (!IsValidValue(value))
@@ -190,21 +174,6 @@ namespace Orc.Controls
                 RaiseLeftBoundReachedEvent();
                 e.Handled = true;
             }
-        }
-
-        private bool AllTextSelected
-        {
-            get { return SelectedText == Text; }
-        }
-
-        private bool CaretAtStart
-        {
-            get { return CaretIndex == 0; }
-        }
-
-        private bool CaretAtEnd
-        {
-            get { return CaretIndex == Text.Length; }
         }
 
         private void RaiseRightBoundReachedEvent()
@@ -235,7 +204,53 @@ namespace Orc.Controls
             text.Insert(CaretIndex, inputText);
             return (text.ToString());
         }
+        #endregion
 
         #endregion
+
+        #region Methods
+        private static void SelectivelyIgnoreMouseButton(object sender, MouseButtonEventArgs e)
+        {
+            DependencyObject parent = e.OriginalSource as UIElement;
+            while (parent != null && !(parent is TextBox))
+            {
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+
+            if (parent != null)
+            {
+                var textBox = (TextBox) parent;
+                if (!textBox.IsKeyboardFocusWithin)
+                {
+                    textBox.Focus();
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private static void SelectAllText(object sender, RoutedEventArgs e)
+        {
+            var textBox = e.OriginalSource as TextBox;
+            if (textBox != null)
+            {
+                textBox.SelectAll();
+            }
+        }
+
+        private static void AllowDecimalChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        private static void OnMinValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        private static void OnMaxValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+        }
+        #endregion
+
+        public event EventHandler RightBoundReached;
+        public event EventHandler LeftBoundReached;
     }
 }

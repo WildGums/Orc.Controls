@@ -1,4 +1,11 @@
-﻿namespace Orc.Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TimeSpanControl.xaml.cs" company="Wild Gums">
+//   Copyright (c) 2008 - 2014 Wild Gums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -12,11 +19,19 @@
     /// </summary>
     public partial class TimeSpanControl : UserControl
     {
-        private readonly TimeSpanControlViewModel _timeSpanControlViewModel;
+        #region Constants
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register("Value", typeof (TimeSpan), typeof (TimeSpanControl), new UIPropertyMetadata(TimeSpan.Zero, OnValueChanged));
+        #endregion
+
+        #region Fields
         private readonly List<NumericTextBox> _numericTextBoxes;
+        private readonly TimeSpanControlViewModel _timeSpanControlViewModel;
         private TimeSpanPart _activeTextBoxPart;
         private bool _isInEditMode;
+        #endregion
 
+        #region Constructors
         public TimeSpanControl()
         {
             InitializeComponent();
@@ -39,7 +54,17 @@
             NumericTBMinutes.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
             NumericTBSeconds.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
         }
+        #endregion
 
+        #region Properties
+        public TimeSpan Value
+        {
+            get { return (TimeSpan) GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
+        }
+        #endregion
+
+        #region Methods
         private void NumericTextBoxOnLeftBoundReached(object sender, EventArgs e)
         {
             var currentTextBoxIndex = _numericTextBoxes.IndexOf(sender as NumericTextBox);
@@ -64,15 +89,6 @@
             }
         }
 
-        public TimeSpan Value
-        {
-            get { return (TimeSpan) GetValue(ValueProperty); }
-            set { SetValue(ValueProperty, value); }
-        }
-
-        public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register("Value", typeof (TimeSpan), typeof (TimeSpanControl), new UIPropertyMetadata(TimeSpan.Zero, OnValueChanged));
-
         private static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var control = obj as TimeSpanControl;
@@ -81,7 +97,7 @@
 
         private void NumericTBDays_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            _activeTextBoxPart = (TimeSpanPart)(_numericTextBoxes.IndexOf(sender as NumericTextBox));
+            _activeTextBoxPart = (TimeSpanPart) (_numericTextBoxes.IndexOf(sender as NumericTextBox));
             NumericTBEditorContainer.Visibility = Visibility.Visible;
             _isInEditMode = true;
         }
@@ -172,5 +188,6 @@
                     throw new InvalidOperationException();
             }
         }
+        #endregion
     }
 }

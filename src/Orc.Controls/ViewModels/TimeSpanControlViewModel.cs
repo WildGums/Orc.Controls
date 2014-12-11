@@ -1,24 +1,37 @@
-﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TimeSpanControlViewModel.cs" company="Wild Gums">
+//   Copyright (c) 2008 - 2014 Wild Gums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
 
 namespace Orc.Controls
 {
-    public class TimeSpanControlViewModel: INotifyPropertyChanged
+    using System;
+    using Catel.MVVM;
+
+    public class TimeSpanControlViewModel : ViewModelBase
     {
+        #region Fields
         private TimeSpan _value;
+        #endregion
+
+        #region Properties
         public TimeSpan Value
         {
             get { return _value; }
             set
             {
-                if (_value == value) return;
+                if (_value == value)
+                {
+                    return;
+                }
                 _value = value;
-                OnPropertyChanged("Days");
-                OnPropertyChanged("Hours");
-                OnPropertyChanged("Minutes");
-                OnPropertyChanged("Seconds");
-                OnPropertyChanged("Value");
+                RaisePropertyChanged(() => Days);
+                RaisePropertyChanged(() => Hours);
+                RaisePropertyChanged(() => Minutes);
+                RaisePropertyChanged(() => Seconds);
+                RaisePropertyChanged(() => Value);
             }
         }
 
@@ -27,7 +40,10 @@ namespace Orc.Controls
             get { return _value.Days; }
             set
             {
-                if (_value.Days == value) return;
+                if (_value.Days == value)
+                {
+                    return;
+                }
                 Value = new TimeSpan(value, Hours, Minutes, Seconds);
             }
         }
@@ -37,7 +53,10 @@ namespace Orc.Controls
             get { return _value.Hours; }
             set
             {
-                if (_value.Hours == value) return;
+                if (_value.Hours == value)
+                {
+                    return;
+                }
                 Value = new TimeSpan(Days, value, Minutes, Seconds);
             }
         }
@@ -47,7 +66,10 @@ namespace Orc.Controls
             get { return _value.Minutes; }
             set
             {
-                if (_value.Minutes==value)return;
+                if (_value.Minutes == value)
+                {
+                    return;
+                }
                 Value = new TimeSpan(Days, Hours, value, Seconds);
             }
         }
@@ -57,17 +79,13 @@ namespace Orc.Controls
             get { return _value.Seconds; }
             set
             {
-                if (_value.Seconds == value) return;
+                if (_value.Seconds == value)
+                {
+                    return;
+                }
                 Value = new TimeSpan(Days, Hours, Minutes, value);
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName = null)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        }
+        #endregion
     }
 }
