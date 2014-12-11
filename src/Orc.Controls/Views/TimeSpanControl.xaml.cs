@@ -148,9 +148,28 @@
 
         private void NumericTBEditor_OnIsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (!IsKeyboardFocusWithin)
+            if (IsKeyboardFocusWithin)
             {
-                NumericTBEditorContainer.Visibility = Visibility.Collapsed;
+                NumericTBEditor.Text = (string.Format("{0:F0}", GetTotalValue()));
+                return;
+            }
+            NumericTBEditorContainer.Visibility = Visibility.Collapsed;
+        }
+
+        private double GetTotalValue()
+        {
+            switch (_activeTextBoxPart)
+            {
+                case TimeSpanPart.Days:
+                    return Value.TotalDays;
+                case TimeSpanPart.Hours:
+                    return Value.TotalHours;
+                case TimeSpanPart.Minutes:
+                    return Value.TotalMinutes;
+                case TimeSpanPart.Seconds:
+                    return Value.TotalSeconds;
+                default:
+                    throw new InvalidOperationException();
             }
         }
     }
