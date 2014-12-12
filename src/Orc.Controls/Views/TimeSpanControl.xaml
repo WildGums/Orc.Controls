@@ -4,13 +4,48 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:Orc.Controls"
+             xmlns:converters="clr-namespace:Orc.Controls.Converters"
              mc:Ignorable="d" 
              x:Name="CurrentControl"
              d:DesignHeight="22" d:DesignWidth="120">
     <UserControl.Resources>
+        <converters:TimeSpanToTotalStringConverter x:Key="TimeSpanToTotalConverter" />
+        
         <Style TargetType="{x:Type Border}">
             <Setter Property="BorderBrush" Value="LightGray"/>
             <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True" />
+                        <Condition Property="Name" Value="MainContainer" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="ToolTip">
+                        <Setter.Value>
+                            <Grid Margin="5 2 5 2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Total:" HorizontalAlignment="Left"/>
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Days" HorizontalAlignment="Left" Margin="10 0 10 0"/>
+                                <TextBlock Grid.Column="0" Grid.Row="2" Text="Hours" HorizontalAlignment="Left" Margin="10 0 10 0"/>
+                                <TextBlock Grid.Column="0" Grid.Row="3" Text="Minutes" HorizontalAlignment="Left" Margin="10 0 10 0"/>
+                                <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"
+                                           Text="{Binding Value, Converter={StaticResource TimeSpanToTotalConverter}, ConverterParameter=Days}"/>
+                                <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"
+                                           Text="{Binding Value, Converter={StaticResource TimeSpanToTotalConverter}, ConverterParameter=Hours}"/>
+                                <TextBlock Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left"
+                                           Text="{Binding Value, Converter={StaticResource TimeSpanToTotalConverter}, ConverterParameter=Minutes}"/>
+                            </Grid>
+                        </Setter.Value>
+                    </Setter>
+                </MultiTrigger>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="BorderBrush" Value="Orange" />
                 </Trigger>
