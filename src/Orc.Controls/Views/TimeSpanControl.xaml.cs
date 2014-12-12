@@ -133,9 +133,15 @@ namespace Orc.Controls
             {
                 NumericTBEditorContainer.Visibility = Visibility.Collapsed;
                 _isInEditMode = false;
-                Value = CreateTimeSpan(_activeTextBoxPart, NumericTBEditor.Value);
+                Value = RoundTimeSpan(CreateTimeSpan(_activeTextBoxPart, NumericTBEditor.Value));
                 e.Handled = true;
             }
+        }
+
+        private TimeSpan RoundTimeSpan(TimeSpan timeSpan)
+        {
+            var totalSeconds = Math.Round(timeSpan.TotalSeconds);
+            return TimeSpan.FromSeconds(totalSeconds);
         }
 
         private TimeSpan CreateTimeSpan(TimeSpanPart timeSpanPart, double value)

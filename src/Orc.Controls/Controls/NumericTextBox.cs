@@ -70,7 +70,7 @@ namespace Orc.Controls
                 var format = "F0";
                 if (AllowDecimal)
                 {
-                    format = "F5";
+                    format = "0.#####";
                 }
                 base.Text = value.ToString(format);
             }
