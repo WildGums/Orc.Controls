@@ -53,6 +53,12 @@ namespace Orc.Controls
             NumericTBHours.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
             NumericTBMinutes.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
             NumericTBSeconds.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
+
+            TextBlockD.MouseDown += TextBlockD_MouseDown;
+            TextBlockH.MouseDown += TextBlockD_MouseDown;
+            TextBlockM.MouseDown += TextBlockD_MouseDown;
+            TextBlockS.MouseDown += TextBlockD_MouseDown;
+            
         }
         #endregion
 
@@ -97,9 +103,19 @@ namespace Orc.Controls
 
         private void NumericTBDays_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            _activeTextBoxPart = (TimeSpanPart) (_numericTextBoxes.IndexOf(sender as NumericTextBox));
+            _activeTextBoxPart = (TimeSpanPart)(_numericTextBoxes.IndexOf(sender as NumericTextBox));
             NumericTBEditorContainer.Visibility = Visibility.Visible;
             _isInEditMode = true;
+        }
+
+        void TextBlockD_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                _activeTextBoxPart = (TimeSpanPart)((sender as TextBlock).Tag);
+                NumericTBEditorContainer.Visibility = Visibility.Visible;
+                _isInEditMode = true;
+            }
         }
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
