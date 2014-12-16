@@ -174,6 +174,38 @@ namespace Orc.Controls
                 RaiseLeftBoundReachedEvent();
                 e.Handled = true;
             }
+
+            if (e.Key == Key.Up && AllTextSelected)
+            {
+                OnUpDown(1);
+                e.Handled = true;
+            }
+
+            if (e.Key == Key.Down )
+            {
+                OnUpDown(-1);
+                e.Handled = true;
+            }
+        }
+
+        private void OnUpDown(int increment)
+        {
+            Value = GetNewValue(Value, increment);
+            SelectAll();
+        }
+
+        private double GetNewValue(double oldValue, int increment)
+        {
+            if (oldValue.Equals(MaxValue) && increment == 1)
+            {
+                return MinValue;
+            }
+            if (oldValue.Equals(MinValue) && increment == -1)
+            {
+                return MaxValue;
+            }
+
+            return oldValue + Convert.ToDouble(increment);
         }
 
         private void RaiseRightBoundReachedEvent()
