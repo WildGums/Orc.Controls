@@ -26,16 +26,16 @@ namespace Orc.Controls
 
         #region Fields
         private readonly List<NumericTextBox> _numericTextBoxes;
-        private readonly DateTimePickerControlViewModel _timeSpanControlViewModel;
+        private readonly DateTimePickerControlViewModel _dateTimePickerControlViewModel;
         #endregion
 
         #region Constructors
         public DateTimePickerControl()
         {
             InitializeComponent();
-            _timeSpanControlViewModel = new DateTimePickerControlViewModel();
-            MainContainer.DataContext = _timeSpanControlViewModel;
-            _timeSpanControlViewModel.PropertyChanged += TimeSpanControlViewModelOnPropertyChanged;
+            _dateTimePickerControlViewModel = new DateTimePickerControlViewModel();
+            MainContainer.DataContext = _dateTimePickerControlViewModel;
+            _dateTimePickerControlViewModel.PropertyChanged += DateTimePickerControlViewModelOnPropertyChanged;
 
             _numericTextBoxes = new List<NumericTextBox>()
             {
@@ -85,18 +85,18 @@ namespace Orc.Controls
             nextTextBox.Focus();
         }
 
-        private void TimeSpanControlViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        private void DateTimePickerControlViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             if (propertyChangedEventArgs.PropertyName == "Value")
             {
-                Value = _timeSpanControlViewModel.Value;
+                Value = _dateTimePickerControlViewModel.Value;
             }
         }
 
         private static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var control = obj as DateTimePickerControl;
-            control._timeSpanControlViewModel.Value = control.Value;
+            control._dateTimePickerControlViewModel.Value = control.Value;
         }
         #endregion
     }
