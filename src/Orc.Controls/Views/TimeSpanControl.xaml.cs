@@ -13,6 +13,7 @@ namespace Orc.Controls
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
+    using Helpers;
 
     /// <summary>
     /// Interaction logic for TimeSpanControl.xaml
@@ -125,7 +126,7 @@ namespace Orc.Controls
             {
                 NumericTBEditorContainer.Visibility = Visibility.Collapsed;
                 _isInEditMode = false;
-                Value = RoundTimeSpan(CreateTimeSpan(_activeTextBoxPart, NumericTBEditor.Value));
+                Value = RoundTimeSpan(TimeSpanPartHelper.CreateTimeSpan(_activeTextBoxPart, NumericTBEditor.Value));
                 e.Handled = true;
             }
         }
@@ -138,7 +139,7 @@ namespace Orc.Controls
 
         private void NumericTBEditor_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            NumericTBEditorUnit.Text = GetTimeSpanPartName(_activeTextBoxPart);
+            NumericTBEditorUnit.Text = TimeSpanPartHelper.GetTimeSpanPartName(_activeTextBoxPart);
             NumericTBEditor.Focus();
         }
 
@@ -146,61 +147,10 @@ namespace Orc.Controls
         {
             if (IsKeyboardFocusWithin)
             {
-                NumericTBEditor.Value = GetTimeSpanPartValue(Value,_activeTextBoxPart);
+                NumericTBEditor.Value = TimeSpanPartHelper.GetTimeSpanPartValue(Value, _activeTextBoxPart);
                 return;
             }
             NumericTBEditorContainer.Visibility = Visibility.Collapsed;
-        }
-
-        private static TimeSpan CreateTimeSpan(TimeSpanPart timeSpanPart, double value)
-        {
-            switch (timeSpanPart)
-            {
-                case TimeSpanPart.Days:
-                    return TimeSpan.FromDays(value);
-                case TimeSpanPart.Hours:
-                    return TimeSpan.FromHours(value);
-                case TimeSpanPart.Minutes:
-                    return TimeSpan.FromMinutes(value);
-                case TimeSpanPart.Seconds:
-                    return TimeSpan.FromSeconds(value);
-                default:
-                    throw new InvalidOperationException();
-            }
-        }
-
-        private string GetTimeSpanPartName(TimeSpanPart timeSpanPart)
-        {
-            switch (timeSpanPart)
-            {
-                case TimeSpanPart.Days:
-                    return "days";
-                case TimeSpanPart.Hours:
-                    return "hours";
-                case TimeSpanPart.Minutes:
-                    return "minutes";
-                case TimeSpanPart.Seconds:
-                    return "seconds";
-                default:
-                    throw new InvalidOperationException();
-            }
-        }
-
-        private static double GetTimeSpanPartValue(TimeSpan value, TimeSpanPart timeSpanPart)
-        {
-            switch (timeSpanPart)
-            {
-                case TimeSpanPart.Days:
-                    return value.TotalDays;
-                case TimeSpanPart.Hours:
-                    return value.TotalHours;
-                case TimeSpanPart.Minutes:
-                    return value.TotalMinutes;
-                case TimeSpanPart.Seconds:
-                    return value.TotalSeconds;
-                default:
-                    throw new InvalidOperationException();
-            }
         }
         #endregion
     }
