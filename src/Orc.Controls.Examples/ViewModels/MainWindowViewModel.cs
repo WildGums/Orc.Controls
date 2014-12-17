@@ -50,7 +50,7 @@ namespace Orc.Controls.Examples.ViewModels
                     return;
                 }
                 _dateTimeValue = value;
-                RaisePropertyChanged(() => TimeSpanValue);
+                RaisePropertyChanged(() => DateTimeValue);
             }
         }
         #endregion

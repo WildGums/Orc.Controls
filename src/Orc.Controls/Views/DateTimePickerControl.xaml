@@ -80,7 +80,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <Border x:Name="MainContainer" BorderThickness="1" Width="165" Height="22" >
+        <Border x:Name="MainContainer" BorderThickness="1" Width="175" Height="22" >
             <Grid  Background="White" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -99,15 +99,15 @@
 
                 <controls:NumericTextBox x:Name="NumericTBDay" Grid.Column="0" Text="{Binding Path=Day}" MinValue="1" MaxValue="31" />
                 <TextBlock Grid.Column="1" Text="/" Style="{StaticResource RatioSignStyle}" />
-                <TextBlock x:Name="TextBlockD" Grid.Column="1" Text="/" Style="{StaticResource LettersStyle}" />
+                <TextBlock x:Name="TextBlockD" Grid.Column="1" Text="d" Style="{StaticResource LettersStyle}" />
                 
                 <controls:NumericTextBox x:Name="NumericTBMonth" Grid.Column="2" Text="{Binding Path=Month}" MinValue="1" MaxValue="12" />
                 <TextBlock Grid.Column="3" Text="/" Style="{StaticResource RatioSignStyle}" />
-                <TextBlock x:Name="TextBlockMo" Grid.Column="3" Text="/" Style="{StaticResource LettersStyle}" />
+                <TextBlock x:Name="TextBlockMo" Grid.Column="3" Text="m" Style="{StaticResource LettersStyle}" />
                 
-                <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Text="{Binding Path=Year}" MinValue="2000" MaxValue="3000" />
-                <TextBlock Grid.Column="5" Text="/" Style="{StaticResource RatioSignStyle}" />
-                <TextBlock x:Name="TextBlockY" Grid.Column="5" Text="/" Style="{StaticResource LettersStyle}" />
+                <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Text="{Binding Path=Year}" MinValue="0" MaxValue="3000" />
+                <TextBlock Grid.Column="5" Text="" Style="{StaticResource RatioSignStyle}" />
+                <TextBlock x:Name="TextBlockY" Grid.Column="5" Text="y" Style="{StaticResource LettersStyle}" />
 
                 <controls:NumericTextBox x:Name="NumericTBHour" Grid.Column="6" Text="{Binding Path=Hour}" MaxValue="23" MinValue="0" />
                 <TextBlock Grid.Column="7" Text=":" Style="{StaticResource RatioSignStyle}" />

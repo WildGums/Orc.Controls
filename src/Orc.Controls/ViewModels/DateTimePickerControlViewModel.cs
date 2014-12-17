@@ -27,8 +27,9 @@ namespace Orc.Controls
                     return;
                 }
                 _value = value;
-                RaisePropertyChanged(() => Year);
+                RaisePropertyChanged(() => Day);
                 RaisePropertyChanged(() => Month);
+                RaisePropertyChanged(() => Year);
                 RaisePropertyChanged(() => Hour);
                 RaisePropertyChanged(() => Minute);
                 RaisePropertyChanged(() => Second);
