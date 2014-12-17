@@ -83,13 +83,21 @@
     <Compile Include="Controls\NumericTextBox.cs" />
     <Compile Include="Converters\TimeSpanToTotalStringConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\DateTimePickerControlViewModel.cs" />
     <Compile Include="ViewModels\TimeSpanControlViewModel.cs" />
+    <Compile Include="Views\DateTimePickerControl.xaml.cs">
+      <DependentUpon>DateTimePickerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TimeSpanControl.xaml.cs">
       <DependentUpon>TimeSpanControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TimeSpanPart.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\DateTimePickerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\TimeSpanControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

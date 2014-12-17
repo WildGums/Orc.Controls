@@ -14,12 +14,14 @@ namespace Orc.Controls.Examples.ViewModels
     {
         #region Fields
         private TimeSpan _timeSpanValue;
+        private DateTime _dateTimeValue;
         #endregion
 
         #region Constructors
         public MainWindowViewModel()
         {
             TimeSpanValue = new TimeSpan(10, 11, 12, 13);
+            DateTimeValue = DateTime.Now;
         }
         #endregion
 
@@ -34,6 +36,20 @@ namespace Orc.Controls.Examples.ViewModels
                     return;
                 }
                 _timeSpanValue = value;
+                RaisePropertyChanged(() => TimeSpanValue);
+            }
+        }
+
+        public DateTime DateTimeValue
+        {
+            get { return _dateTimeValue; }
+            set
+            {
+                if (_dateTimeValue == value)
+                {
+                    return;
+                }
+                _dateTimeValue = value;
                 RaisePropertyChanged(() => TimeSpanValue);
             }
         }

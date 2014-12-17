@@ -13,11 +13,11 @@ namespace Orc.Controls
     public class DateTimePickerControlViewModel : ViewModelBase
     {
         #region Fields
-        private TimeSpan _value;
+        private DateTime _value;
         #endregion
 
         #region Properties
-        public TimeSpan Value
+        public DateTime Value
         {
             get { return _value; }
             set
@@ -27,63 +27,90 @@ namespace Orc.Controls
                     return;
                 }
                 _value = value;
-                RaisePropertyChanged(() => Days);
-                RaisePropertyChanged(() => Hours);
-                RaisePropertyChanged(() => Minutes);
-                RaisePropertyChanged(() => Seconds);
+                RaisePropertyChanged(() => Year);
+                RaisePropertyChanged(() => Month);
+                RaisePropertyChanged(() => Hour);
+                RaisePropertyChanged(() => Minute);
+                RaisePropertyChanged(() => Second);
                 RaisePropertyChanged(() => Value);
             }
         }
 
-        public int Days
+        public int Year
         {
-            get { return _value.Days; }
+            get { return _value.Year; }
             set
             {
-                if (_value.Days == value)
+                if (_value.Year == value)
                 {
                     return;
                 }
-                Value = new TimeSpan(value, Hours, Minutes, Seconds);
+                Value = new DateTime(value, Month, Day, Hour, Minute, Second);
             }
         }
 
-        public int Hours
+        public int Month
         {
-            get { return _value.Hours; }
+            get { return _value.Month; }
             set
             {
-                if (_value.Hours == value)
+                if (_value.Month == value)
                 {
                     return;
                 }
-                Value = new TimeSpan(Days, value, Minutes, Seconds);
+                Value = new DateTime(Year, value, Day, Hour, Minute, Second);
             }
         }
 
-        public int Minutes
+        public int Day
         {
-            get { return _value.Minutes; }
+            get { return _value.Day; }
             set
             {
-                if (_value.Minutes == value)
+                if (_value.Day == value)
                 {
                     return;
                 }
-                Value = new TimeSpan(Days, Hours, value, Seconds);
+                Value = new DateTime(Year, Month, value, Hour, Minute, Second);
             }
         }
 
-        public int Seconds
+        public int Hour
         {
-            get { return _value.Seconds; }
+            get { return _value.Hour; }
             set
             {
-                if (_value.Seconds == value)
+                if (_value.Hour == value)
                 {
                     return;
                 }
-                Value = new TimeSpan(Days, Hours, Minutes, value);
+                Value = new DateTime(Year, Month, Day, value, Minute, Second);
+            }
+        }
+
+        public int Minute
+        {
+            get { return _value.Minute; }
+            set
+            {
+                if (_value.Minute == value)
+                {
+                    return;
+                }
+                Value = new DateTime(Year, Month, Day, Hour, value, Second);
+            }
+        }
+
+        public int Second
+        {
+            get { return _value.Second; }
+            set
+            {
+                if (_value.Second == value)
+                {
+                    return;
+                }
+                Value = new DateTime(Year, Month, Day, Hour, Minute, value);
             }
         }
         #endregion
