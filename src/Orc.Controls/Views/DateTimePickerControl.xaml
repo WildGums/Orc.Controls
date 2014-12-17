@@ -80,7 +80,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <Border x:Name="MainContainer" BorderThickness="1" Width="175" Height="22" >
+        <Border x:Name="MainContainer" BorderThickness="1" MinWidth="175" Height="22" >
             <Grid  Background="White" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>

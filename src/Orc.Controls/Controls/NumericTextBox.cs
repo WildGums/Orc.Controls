@@ -112,7 +112,7 @@ namespace Orc.Controls
 
         public bool IsDigit(char c)
         {
-            return (c >= '0' && c <= '9');
+            return c >= '0' && c <= '9';
         }
         #endregion
 
@@ -181,7 +181,7 @@ namespace Orc.Controls
                 e.Handled = true;
             }
 
-            if (e.Key == Key.Down )
+            if (e.Key == Key.Down)
             {
                 OnUpDown(-1);
                 e.Handled = true;
