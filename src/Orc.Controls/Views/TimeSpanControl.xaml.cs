@@ -54,11 +54,10 @@ namespace Orc.Controls
             NumericTBMinutes.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
             NumericTBSeconds.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
 
-            TextBlockD.MouseDown += TextBlockD_MouseDown;
-            TextBlockH.MouseDown += TextBlockD_MouseDown;
-            TextBlockM.MouseDown += TextBlockD_MouseDown;
-            TextBlockS.MouseDown += TextBlockD_MouseDown;
-            
+            TextBlockD.MouseDown += TextBlock_MouseDown;
+            TextBlockH.MouseDown += TextBlock_MouseDown;
+            TextBlockM.MouseDown += TextBlock_MouseDown;
+            TextBlockS.MouseDown += TextBlock_MouseDown;
         }
         #endregion
 
@@ -101,18 +100,11 @@ namespace Orc.Controls
             control._timeSpanControlViewModel.Value = control.Value;
         }
 
-        private void NumericTBDays_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            _activeTextBoxPart = (TimeSpanPart)(_numericTextBoxes.IndexOf(sender as NumericTextBox));
-            NumericTBEditorContainer.Visibility = Visibility.Visible;
-            _isInEditMode = true;
-        }
-
-        void TextBlockD_MouseDown(object sender, MouseButtonEventArgs e)
+        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
             {
-                _activeTextBoxPart = (TimeSpanPart)((sender as TextBlock).Tag);
+                _activeTextBoxPart = (TimeSpanPart) ((sender as TextBlock).Tag);
                 NumericTBEditorContainer.Visibility = Visibility.Visible;
                 _isInEditMode = true;
             }
@@ -144,7 +136,23 @@ namespace Orc.Controls
             return TimeSpan.FromSeconds(totalSeconds);
         }
 
-        private TimeSpan CreateTimeSpan(TimeSpanPart timeSpanPart, double value)
+        private void NumericTBEditor_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            NumericTBEditorUnit.Text = GetTimeSpanPartName(_activeTextBoxPart);
+            NumericTBEditor.Focus();
+        }
+
+        private void NumericTBEditor_OnIsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (IsKeyboardFocusWithin)
+            {
+                NumericTBEditor.Value = GetTimeSpanPartValue(Value,_activeTextBoxPart);
+                return;
+            }
+            NumericTBEditorContainer.Visibility = Visibility.Collapsed;
+        }
+
+        private static TimeSpan CreateTimeSpan(TimeSpanPart timeSpanPart, double value)
         {
             switch (timeSpanPart)
             {
@@ -161,15 +169,9 @@ namespace Orc.Controls
             }
         }
 
-        private void NumericTBEditor_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private string GetTimeSpanPartName(TimeSpanPart timeSpanPart)
         {
-            NumericTBEditorUnit.Text = GetUnit();
-            NumericTBEditor.Focus();
-        }
-
-        private string GetUnit()
-        {
-            switch (_activeTextBoxPart)
+            switch (timeSpanPart)
             {
                 case TimeSpanPart.Days:
                     return "days";
@@ -184,28 +186,18 @@ namespace Orc.Controls
             }
         }
 
-        private void NumericTBEditor_OnIsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private static double GetTimeSpanPartValue(TimeSpan value, TimeSpanPart timeSpanPart)
         {
-            if (IsKeyboardFocusWithin)
-            {
-                NumericTBEditor.Value = GetTotalValue();
-                return;
-            }
-            NumericTBEditorContainer.Visibility = Visibility.Collapsed;
-        }
-
-        private double GetTotalValue()
-        {
-            switch (_activeTextBoxPart)
+            switch (timeSpanPart)
             {
                 case TimeSpanPart.Days:
-                    return Value.TotalDays;
+                    return value.TotalDays;
                 case TimeSpanPart.Hours:
-                    return Value.TotalHours;
+                    return value.TotalHours;
                 case TimeSpanPart.Minutes:
-                    return Value.TotalMinutes;
+                    return value.TotalMinutes;
                 case TimeSpanPart.Seconds:
-                    return Value.TotalSeconds;
+                    return value.TotalSeconds;
                 default:
                     throw new InvalidOperationException();
             }
