@@ -79,7 +79,11 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid x:Name="MainGrid" Height="44">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <Border x:Name="MainContainer" BorderThickness="1" MinWidth="175" Height="22" >
             <Grid  Background="White" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
@@ -99,26 +103,32 @@
 
                 <controls:NumericTextBox x:Name="NumericTBDay" Grid.Column="0" Text="{Binding Path=Day}" MinValue="1" MaxValue="31" />
                 <TextBlock Grid.Column="1" Text="/" Style="{StaticResource RatioSignStyle}" />
-                <TextBlock x:Name="TextBlockD" Grid.Column="1" Text="d" Style="{StaticResource LettersStyle}" />
+                <TextBlock x:Name="TextBlockD" Grid.Column="1" Text="d" Style="{StaticResource LettersStyle}"
+                           Tag="{x:Static controls:DateTimePart.Day}" />
                 
                 <controls:NumericTextBox x:Name="NumericTBMonth" Grid.Column="2" Text="{Binding Path=Month}" MinValue="1" MaxValue="12" />
                 <TextBlock Grid.Column="3" Text="/" Style="{StaticResource RatioSignStyle}" />
-                <TextBlock x:Name="TextBlockMo" Grid.Column="3" Text="m" Style="{StaticResource LettersStyle}" />
+                <TextBlock x:Name="TextBlockMo" Grid.Column="3" Text="m" Style="{StaticResource LettersStyle}"
+                           Tag="{x:Static controls:DateTimePart.Month}" />
                 
                 <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Text="{Binding Path=Year}" MinValue="0" MaxValue="3000" />
                 <TextBlock Grid.Column="5" Text="" Style="{StaticResource RatioSignStyle}" />
-                <TextBlock x:Name="TextBlockY" Grid.Column="5" Text="y" Style="{StaticResource LettersStyle}" />
+                <TextBlock x:Name="TextBlockY" Grid.Column="5" Text="y" Style="{StaticResource LettersStyle}"
+                           Tag="{x:Static controls:DateTimePart.Year}" />
 
                 <controls:NumericTextBox x:Name="NumericTBHour" Grid.Column="6" Text="{Binding Path=Hour}" MaxValue="23" MinValue="0" />
                 <TextBlock Grid.Column="7" Text=":" Style="{StaticResource RatioSignStyle}" />
-                <TextBlock x:Name="TextBlockH" Grid.Column="7" Text="h" Style="{StaticResource LettersStyle}" />
+                <TextBlock x:Name="TextBlockH" Grid.Column="7" Text="h" Style="{StaticResource LettersStyle}"
+                           Tag="{x:Static controls:DateTimePart.Hour}" />
             
                 <controls:NumericTextBox x:Name="NumericTBMinute" Grid.Column="8" Text="{Binding Path=Minute}" MaxValue="59" MinValue="0"/>
                 <TextBlock Grid.Column="9" Text=":" Style="{StaticResource RatioSignStyle}" />
-                <TextBlock x:Name="TextBlockM" Grid.Column="9" Text="m" Style="{StaticResource LettersStyle}" />
+                <TextBlock x:Name="TextBlockM" Grid.Column="9" Text="m" Style="{StaticResource LettersStyle}"
+                           Tag="{x:Static controls:DateTimePart.Minute}" />
             
                 <controls:NumericTextBox x:Name="NumericTBSecond" Grid.Column="10" Text="{Binding Path=Second}" MaxValue="59" MinValue="0"/>
-                <TextBlock x:Name="TextBlockS" Grid.Column="11" Text="s" Style="{StaticResource LettersStyle}" />
+                <TextBlock x:Name="TextBlockS" Grid.Column="11" Text="s" Style="{StaticResource LettersStyle}"
+                           Tag="{x:Static controls:DateTimePart.Second}" />
             </Grid>
         </Border>
     </Grid>

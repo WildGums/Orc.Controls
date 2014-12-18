@@ -81,7 +81,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\NumericTextBox.cs" />
+    <Compile Include="Controls\DateTimePart.cs" />
     <Compile Include="Converters\TimeSpanToTotalStringConverter.cs" />
+    <Compile Include="Helpers\DateTimePartHelper.cs" />
     <Compile Include="Helpers\TimeSpanPartHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DateTimePickerControlViewModel.cs" />
