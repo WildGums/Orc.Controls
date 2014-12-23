@@ -9,24 +9,18 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
+    using Catel.MVVM.Views;
 
     /// <summary>
     /// Interaction logic for TimeSpanControl.xaml
     /// </summary>
     public partial class TimeSpanControl
     {
-        #region Constants
-        public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register("Value", typeof (TimeSpan), typeof (TimeSpanControl), new UIPropertyMetadata(TimeSpan.Zero, OnValueChanged));
-        #endregion
-
         #region Fields
         private readonly List<NumericTextBox> _numericTextBoxes;
-        private readonly TimeSpanViewModel _timeSpanViewModel;
         private TimeSpanPart _activeTextBoxPart;
         private bool _isInEditMode;
         #endregion
@@ -35,9 +29,6 @@ namespace Orc.Controls
         public TimeSpanControl()
         {
             InitializeComponent();
-            _timeSpanViewModel = new TimeSpanViewModel();
-            MainContainer.DataContext = _timeSpanViewModel;
-            _timeSpanViewModel.PropertyChanged += TimeSpanViewModelOnPropertyChanged;
 
             _numericTextBoxes = new List<NumericTextBox>()
             {
@@ -63,11 +54,15 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public TimeSpan Value
         {
             get { return (TimeSpan) GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
+
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(TimeSpan), typeof(TimeSpanControl), 
+            new UIPropertyMetadata(TimeSpan.Zero));
         #endregion
 
         #region Methods
@@ -87,25 +82,11 @@ namespace Orc.Controls
             nextTextBox.Focus();
         }
 
-        private void TimeSpanViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            if (propertyChangedEventArgs.PropertyName == "Value")
-            {
-                Value = _timeSpanViewModel.Value;
-            }
-        }
-
-        private static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-            var control = obj as TimeSpanControl;
-            control._timeSpanViewModel.Value = control.Value;
-        }
-
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
             {
-                _activeTextBoxPart = (TimeSpanPart) ((sender as TextBlock).Tag);
+                _activeTextBoxPart = (TimeSpanPart) ((TextBlock)sender).Tag;
                 NumericTBEditorContainer.Visibility = Visibility.Visible;
                 _isInEditMode = true;
             }
