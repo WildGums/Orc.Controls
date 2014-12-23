@@ -10,26 +10,21 @@ namespace Orc.Controls
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Data;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
+    using Catel.MVVM.Views;
 
     /// <summary>
     /// Interaction logic for TimeSpanControl.xaml
     /// </summary>
-    public partial class DateTimePickerControl : UserControl
+    public partial class DateTimePickerControl
     {
-        #region Constants
-        public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register("Value", typeof (DateTime), typeof (DateTimePickerControl), new UIPropertyMetadata(DateTime.Now, OnValueChanged));
-        #endregion
-
         #region Fields
-        private readonly DateTimePickerControlViewModel _dateTimePickerControlViewModel;
         private readonly List<NumericTextBox> _numericTextBoxes;
         private DateTimePart _activeTextBoxPart;
-        private UIElement _currentCombobox;
         private bool _isInEditMode;
         #endregion
 
@@ -37,9 +32,6 @@ namespace Orc.Controls
         public DateTimePickerControl()
         {
             InitializeComponent();
-            _dateTimePickerControlViewModel = new DateTimePickerControlViewModel();
-            MainContainer.DataContext = _dateTimePickerControlViewModel;
-            _dateTimePickerControlViewModel.PropertyChanged += DateTimePickerControlViewModelOnPropertyChanged;
 
             _numericTextBoxes = new List<NumericTextBox>()
             {
@@ -50,6 +42,7 @@ namespace Orc.Controls
                 NumericTBMinute,
                 NumericTBSecond,
             };
+
             NumericTBDay.RightBoundReached += NumericTextBoxOnRightBoundReached;
             NumericTBMonth.RightBoundReached += NumericTextBoxOnRightBoundReached;
             NumericTBYear.RightBoundReached += NumericTextBoxOnRightBoundReached;
@@ -72,11 +65,15 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public DateTime Value
         {
-            get { return (DateTime) GetValue(ValueProperty); }
+            get { return (DateTime)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
+
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(DateTime), typeof(DateTimePickerControl),
+            new UIPropertyMetadata(DateTime.Now));
         #endregion
 
         #region Methods
@@ -84,6 +81,7 @@ namespace Orc.Controls
         {
             var currentTextBoxIndex = _numericTextBoxes.IndexOf(sender as NumericTextBox);
             var prevTextBox = _numericTextBoxes[currentTextBoxIndex - 1];
+
             prevTextBox.CaretIndex = prevTextBox.Text.Length;
             prevTextBox.Focus();
         }
@@ -92,22 +90,9 @@ namespace Orc.Controls
         {
             var currentTextBoxIndex = _numericTextBoxes.IndexOf(sender as NumericTextBox);
             var nextTextBox = _numericTextBoxes[currentTextBoxIndex + 1];
+
             nextTextBox.CaretIndex = 0;
             nextTextBox.Focus();
-        }
-
-        private void DateTimePickerControlViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            if (propertyChangedEventArgs.PropertyName == "Value")
-            {
-                Value = _dateTimePickerControlViewModel.Value;
-            }
-        }
-
-        private static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-            var control = obj as DateTimePickerControl;
-            control._dateTimePickerControlViewModel.Value = control.Value;
         }
 
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
@@ -118,7 +103,7 @@ namespace Orc.Controls
             {
                 RemoveCombobox();
 
-                _activeTextBoxPart = (DateTimePart) ((sender as TextBlock).Tag);
+                _activeTextBoxPart = (DateTimePart) ((TextBlock) sender).Tag;
                 DateTimePartHelper.CreateCombobox(MainGrid, _activeTextBoxPart);
 
                 _isInEditMode = true;
@@ -127,10 +112,7 @@ namespace Orc.Controls
 
         private void RemoveCombobox()
         {
-            var comboBox = MainGrid.Children
-                .Cast<FrameworkElement>()
-                .Where(x => x.Name == "comboBox")
-                .FirstOrDefault();
+            var comboBox = MainGrid.Children.Cast<FrameworkElement>().FirstOrDefault(x => string.Equals(x.Name, "comboBox"));
             if (comboBox != null)
             {
                 MainGrid.Children.Remove(comboBox);

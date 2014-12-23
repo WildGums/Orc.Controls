@@ -17,7 +17,7 @@ namespace Orc.Controls
     /// <summary>
     /// Interaction logic for TimeSpanControl.xaml
     /// </summary>
-    public partial class TimeSpanControl : UserControl
+    public partial class TimeSpanControl
     {
         #region Constants
         public static readonly DependencyProperty ValueProperty =
@@ -26,7 +26,7 @@ namespace Orc.Controls
 
         #region Fields
         private readonly List<NumericTextBox> _numericTextBoxes;
-        private readonly TimeSpanControlViewModel _timeSpanControlViewModel;
+        private readonly TimeSpanViewModel _timeSpanViewModel;
         private TimeSpanPart _activeTextBoxPart;
         private bool _isInEditMode;
         #endregion
@@ -35,9 +35,9 @@ namespace Orc.Controls
         public TimeSpanControl()
         {
             InitializeComponent();
-            _timeSpanControlViewModel = new TimeSpanControlViewModel();
-            MainContainer.DataContext = _timeSpanControlViewModel;
-            _timeSpanControlViewModel.PropertyChanged += TimeSpanControlViewModelOnPropertyChanged;
+            _timeSpanViewModel = new TimeSpanViewModel();
+            MainContainer.DataContext = _timeSpanViewModel;
+            _timeSpanViewModel.PropertyChanged += TimeSpanViewModelOnPropertyChanged;
 
             _numericTextBoxes = new List<NumericTextBox>()
             {
@@ -46,6 +46,7 @@ namespace Orc.Controls
                 NumericTBMinutes,
                 NumericTBSeconds,
             };
+
             NumericTBDays.RightBoundReached += NumericTextBoxOnRightBoundReached;
             NumericTBHours.RightBoundReached += NumericTextBoxOnRightBoundReached;
             NumericTBMinutes.RightBoundReached += NumericTextBoxOnRightBoundReached;
@@ -86,18 +87,18 @@ namespace Orc.Controls
             nextTextBox.Focus();
         }
 
-        private void TimeSpanControlViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        private void TimeSpanViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             if (propertyChangedEventArgs.PropertyName == "Value")
             {
-                Value = _timeSpanControlViewModel.Value;
+                Value = _timeSpanViewModel.Value;
             }
         }
 
         private static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var control = obj as TimeSpanControl;
-            control._timeSpanControlViewModel.Value = control.Value;
+            control._timeSpanViewModel.Value = control.Value;
         }
 
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)

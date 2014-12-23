@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DateTimePickerControlViewModel.cs" company="Wild Gums">
+// <copyright file="DateTimePickerViewModel.cs" company="Wild Gums">
 //   Copyright (c) 2008 - 2014 Wild Gums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -10,7 +10,7 @@ namespace Orc.Controls
     using System;
     using Catel.MVVM;
 
-    public class DateTimePickerControlViewModel : ViewModelBase
+    public class DateTimePickerViewModel : ViewModelBase
     {
         #region Fields
         private DateTime _value;
@@ -26,14 +26,11 @@ namespace Orc.Controls
                 {
                     return;
                 }
+
                 _value = value;
-                RaisePropertyChanged(() => Day);
-                RaisePropertyChanged(() => Month);
-                RaisePropertyChanged(() => Year);
-                RaisePropertyChanged(() => Hour);
-                RaisePropertyChanged(() => Minute);
-                RaisePropertyChanged(() => Second);
-                RaisePropertyChanged(() => Value);
+
+                // Raise all property changed
+                RaisePropertyChanged(string.Empty);
             }
         }
 
@@ -46,6 +43,7 @@ namespace Orc.Controls
                 {
                     return;
                 }
+
                 Value = new DateTime(value, Month, Day, Hour, Minute, Second);
             }
         }
@@ -59,6 +57,7 @@ namespace Orc.Controls
                 {
                     return;
                 }
+
                 Value = new DateTime(Year, value, Day, Hour, Minute, Second);
             }
         }
@@ -72,6 +71,7 @@ namespace Orc.Controls
                 {
                     return;
                 }
+
                 Value = new DateTime(Year, Month, value, Hour, Minute, Second);
             }
         }
@@ -85,6 +85,7 @@ namespace Orc.Controls
                 {
                     return;
                 }
+
                 Value = new DateTime(Year, Month, Day, value, Minute, Second);
             }
         }
@@ -98,6 +99,7 @@ namespace Orc.Controls
                 {
                     return;
                 }
+
                 Value = new DateTime(Year, Month, Day, Hour, value, Second);
             }
         }
@@ -111,6 +113,7 @@ namespace Orc.Controls
                 {
                     return;
                 }
+
                 Value = new DateTime(Year, Month, Day, Hour, Minute, value);
             }
         }
