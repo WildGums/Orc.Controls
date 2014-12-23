@@ -13,7 +13,6 @@ namespace Orc.Controls
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
-    using Helpers;
 
     /// <summary>
     /// Interaction logic for TimeSpanControl.xaml
@@ -126,7 +125,7 @@ namespace Orc.Controls
             {
                 NumericTBEditorContainer.Visibility = Visibility.Collapsed;
                 _isInEditMode = false;
-                Value = RoundTimeSpan(TimeSpanPartHelper.CreateTimeSpan(_activeTextBoxPart, NumericTBEditor.Value));
+                Value = RoundTimeSpan(_activeTextBoxPart.CreateTimeSpan(NumericTBEditor.Value));
                 e.Handled = true;
             }
         }
@@ -139,7 +138,7 @@ namespace Orc.Controls
 
         private void NumericTBEditor_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            NumericTBEditorUnit.Text = TimeSpanPartHelper.GetTimeSpanPartName(_activeTextBoxPart);
+            NumericTBEditorUnit.Text = _activeTextBoxPart.GetTimeSpanPartName();
             NumericTBEditor.Focus();
         }
 
@@ -147,7 +146,7 @@ namespace Orc.Controls
         {
             if (IsKeyboardFocusWithin)
             {
-                NumericTBEditor.Value = TimeSpanPartHelper.GetTimeSpanPartValue(Value, _activeTextBoxPart);
+                NumericTBEditor.Value = Value.GetTimeSpanPartValue(_activeTextBoxPart);
                 return;
             }
             NumericTBEditorContainer.Visibility = Visibility.Collapsed;

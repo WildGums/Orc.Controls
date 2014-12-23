@@ -14,7 +14,6 @@ namespace Orc.Controls
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
-    using Helpers;
 
     /// <summary>
     /// Interaction logic for TimeSpanControl.xaml

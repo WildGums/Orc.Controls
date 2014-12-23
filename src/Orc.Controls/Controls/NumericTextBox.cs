@@ -77,6 +77,11 @@ namespace Orc.Controls
         }
         #endregion
 
+        #region Events
+        public event EventHandler RightBoundReached;
+        public event EventHandler LeftBoundReached;
+        #endregion
+
         #region Functions
         private string LeaveOnlyNumbers(string inputText)
         {
@@ -281,8 +286,5 @@ namespace Orc.Controls
         {
         }
         #endregion
-
-        public event EventHandler RightBoundReached;
-        public event EventHandler LeftBoundReached;
     }
 }
