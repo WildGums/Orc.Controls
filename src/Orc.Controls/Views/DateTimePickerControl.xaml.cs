@@ -29,6 +29,11 @@ namespace Orc.Controls
         #endregion
 
         #region Constructors
+        static DateTimePickerControl()
+        {
+            typeof(DateTimePickerControl).AutoDetectViewPropertiesToSubscribe();
+        }
+
         public DateTimePickerControl()
         {
             InitializeComponent();

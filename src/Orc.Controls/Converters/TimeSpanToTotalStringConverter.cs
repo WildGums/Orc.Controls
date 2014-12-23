@@ -16,18 +16,22 @@ namespace Orc.Controls.Converters
         {
             var timeSpan = (TimeSpan) value;
             var format = "F";
+
             if (parameter.Equals("Days"))
             {
                 return timeSpan.TotalDays.ToString(format);
             }
+
             if (parameter.Equals("Hours"))
             {
                 return timeSpan.TotalHours.ToString(format);
             }
+
             if (parameter.Equals("Minutes"))
             {
                 return timeSpan.TotalMinutes.ToString(format);
             }
+
             return string.Empty;
         }
     }

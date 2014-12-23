@@ -26,6 +26,11 @@ namespace Orc.Controls
         #endregion
 
         #region Constructors
+        static TimeSpanControl()
+        {
+            typeof(TimeSpanControl).AutoDetectViewPropertiesToSubscribe();
+        }
+
         public TimeSpanControl()
         {
             InitializeComponent();
@@ -131,6 +136,7 @@ namespace Orc.Controls
                 NumericTBEditor.Value = Value.GetTimeSpanPartValue(_activeTextBoxPart);
                 return;
             }
+
             NumericTBEditorContainer.Visibility = Visibility.Collapsed;
         }
         #endregion
