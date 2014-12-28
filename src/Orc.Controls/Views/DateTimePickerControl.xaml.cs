@@ -102,25 +102,28 @@ namespace Orc.Controls
 
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            RemoveCombobox();
+            RemovePopup();
 
             if (e.ClickCount == 2)
             {
-                RemoveCombobox();
+                _activeTextBoxPart = (DateTimePart)((TextBlock)sender).Tag;
+                var numericTextBoxName = _activeTextBoxPart.GetDateTimePartName();
+                var numericTextBox = (NumericTextBox)FindName(numericTextBoxName);
 
-                _activeTextBoxPart = (DateTimePart) ((TextBlock) sender).Tag;
-                DateTimePartHelper.CreateCombobox(MainGrid, _activeTextBoxPart);
+                RemovePopup();
+
+                DateTimePartHelper.CreatePopup(MainGrid, _activeTextBoxPart, numericTextBox);
 
                 _isInEditMode = true;
             }
         }
 
-        private void RemoveCombobox()
+        private void RemovePopup()
         {
-            var comboBox = MainGrid.Children.Cast<FrameworkElement>().FirstOrDefault(x => string.Equals(x.Name, "comboBox"));
-            if (comboBox != null)
+            var popup = MainGrid.Children.Cast<FrameworkElement>().FirstOrDefault(x => string.Equals(x.Name, "comboBox"));
+            if (popup != null)
             {
-                MainGrid.Children.Remove(comboBox);
+                MainGrid.Children.Remove(popup);
             }
         }
 
@@ -130,14 +133,14 @@ namespace Orc.Controls
 
             if (e.Key == Key.Escape && _isInEditMode)
             {
-                RemoveCombobox();
+                RemovePopup();
                 _isInEditMode = false;
                 e.Handled = true;
             }
 
             if (e.Key == Key.Enter && _isInEditMode)
             {
-                RemoveCombobox();
+                RemovePopup();
                 _isInEditMode = false;
                 e.Handled = true;
             }
