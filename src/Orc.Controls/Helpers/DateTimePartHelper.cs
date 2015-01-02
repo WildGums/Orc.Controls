@@ -14,7 +14,7 @@ namespace Orc.Controls
     public static class DateTimePartHelper
     {
         #region Methods
-        public static void CreatePopup(Grid grid, DateTimePart dateTimePart, NumericTextBox textBox)
+        public static Popup CreatePopup(Grid grid, DateTimePart dateTimePart, NumericTextBox textBox)
         {
             var popup = new Popup();
             var popupSource = new ListBox {ItemsSource = dateTimePart.GetPopupSource()};
@@ -31,6 +31,8 @@ namespace Orc.Controls
 
             Grid.SetRow(popup, 1);
             grid.Children.Add(popup);
+
+            return popup;
         }
         #endregion
     }

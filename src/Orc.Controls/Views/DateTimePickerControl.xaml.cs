@@ -24,8 +24,9 @@ namespace Orc.Controls
     {
         #region Fields
         private readonly List<NumericTextBox> _numericTextBoxes;
-        private DateTimePart _activeTextBoxPart;
         private bool _isInEditMode;
+        private NumericTextBox _activeNumericTextBox;
+        private bool _isInEditPopup;
         #endregion
 
         #region Constructors
@@ -102,19 +103,40 @@ namespace Orc.Controls
 
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            RemovePopup();
+            if (_activeNumericTextBox != null)
+            {
+                _activeNumericTextBox.PreviewLostKeyboardFocus -= NumericTextBoxOnLostFocus;
+
+                RemovePopup();
+            }
+            
 
             if (e.ClickCount == 2)
             {
-                _activeTextBoxPart = (DateTimePart)((TextBlock)sender).Tag;
+                var _activeTextBoxPart = (DateTimePart)((TextBlock)sender).Tag;
                 var numericTextBoxName = _activeTextBoxPart.GetDateTimePartName();
-                var numericTextBox = (NumericTextBox)FindName(numericTextBoxName);
+                _activeNumericTextBox = (NumericTextBox)FindName(numericTextBoxName);
 
-                RemovePopup();
+                var popup = DateTimePartHelper.CreatePopup(MainGrid, _activeTextBoxPart, _activeNumericTextBox);
+                popup.PreviewMouseDown += PopupOnPreviewMouseDown;
 
-                DateTimePartHelper.CreatePopup(MainGrid, _activeTextBoxPart, numericTextBox);
+                _activeNumericTextBox.PreviewLostKeyboardFocus += NumericTextBoxOnLostFocus;
+                _activeNumericTextBox.Focus();
 
                 _isInEditMode = true;
+            }
+        }
+
+        private void PopupOnPreviewMouseDown(object sender, MouseButtonEventArgs mouseButtonEventArgs)
+        {
+            _isInEditPopup = true;
+        }
+
+        private void NumericTextBoxOnLostFocus(object sender, RoutedEventArgs routedEventArgs)
+        {
+            if (!_isInEditPopup)
+            {
+                RemovePopup();
             }
         }
 
@@ -124,6 +146,7 @@ namespace Orc.Controls
             if (popup != null)
             {
                 MainGrid.Children.Remove(popup);
+                _isInEditPopup = false;
             }
         }
 
