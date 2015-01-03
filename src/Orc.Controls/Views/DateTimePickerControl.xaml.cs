@@ -24,8 +24,9 @@ namespace Orc.Controls
     {
         #region Fields
         private readonly List<NumericTextBox> _numericTextBoxes;
-        private DateTimePart _activeTextBoxPart;
         private bool _isInEditMode;
+        private NumericTextBox _activeNumericTextBox;
+        private bool _isInEditPopup;
         #endregion
 
         #region Constructors
@@ -102,25 +103,50 @@ namespace Orc.Controls
 
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            RemoveCombobox();
+            if (_activeNumericTextBox != null)
+            {
+                _activeNumericTextBox.PreviewLostKeyboardFocus -= NumericTextBoxOnLostFocus;
+
+                RemovePopup();
+            }
+            
 
             if (e.ClickCount == 2)
             {
-                RemoveCombobox();
+                var _activeTextBoxPart = (DateTimePart)((TextBlock)sender).Tag;
+                var numericTextBoxName = _activeTextBoxPart.GetDateTimePartName();
+                _activeNumericTextBox = (NumericTextBox)FindName(numericTextBoxName);
 
-                _activeTextBoxPart = (DateTimePart) ((TextBlock) sender).Tag;
-                DateTimePartHelper.CreateCombobox(MainGrid, _activeTextBoxPart);
+                var popup = DateTimePartHelper.CreatePopup(MainGrid, _activeTextBoxPart, _activeNumericTextBox);
+                popup.PreviewMouseDown += PopupOnPreviewMouseDown;
+
+                _activeNumericTextBox.PreviewLostKeyboardFocus += NumericTextBoxOnLostFocus;
+                _activeNumericTextBox.Focus();
 
                 _isInEditMode = true;
             }
         }
 
-        private void RemoveCombobox()
+        private void PopupOnPreviewMouseDown(object sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
-            var comboBox = MainGrid.Children.Cast<FrameworkElement>().FirstOrDefault(x => string.Equals(x.Name, "comboBox"));
-            if (comboBox != null)
+            _isInEditPopup = true;
+        }
+
+        private void NumericTextBoxOnLostFocus(object sender, RoutedEventArgs routedEventArgs)
+        {
+            if (!_isInEditPopup)
             {
-                MainGrid.Children.Remove(comboBox);
+                RemovePopup();
+            }
+        }
+
+        private void RemovePopup()
+        {
+            var popup = MainGrid.Children.Cast<FrameworkElement>().FirstOrDefault(x => string.Equals(x.Name, "comboBox"));
+            if (popup != null)
+            {
+                MainGrid.Children.Remove(popup);
+                _isInEditPopup = false;
             }
         }
 
@@ -130,14 +156,14 @@ namespace Orc.Controls
 
             if (e.Key == Key.Escape && _isInEditMode)
             {
-                RemoveCombobox();
+                RemovePopup();
                 _isInEditMode = false;
                 e.Handled = true;
             }
 
             if (e.Key == Key.Enter && _isInEditMode)
             {
-                RemoveCombobox();
+                RemovePopup();
                 _isInEditMode = false;
                 e.Handled = true;
             }

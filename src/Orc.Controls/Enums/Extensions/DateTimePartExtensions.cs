@@ -12,7 +12,7 @@ namespace Orc.Controls
 
     public static class DateTimePartExtensions
     {
-        public static ObservableCollection<string> GetComboboxItemSource(this DateTimePart dateTimePart)
+        public static ObservableCollection<string> GetPopupSource(this DateTimePart dateTimePart)
         {
             switch (dateTimePart)
             {
@@ -33,6 +33,33 @@ namespace Orc.Controls
 
                 case DateTimePart.Second:
                     return new ObservableCollection<string> { "11", "12" };
+
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+
+        public static string GetDateTimePartName(this DateTimePart dateTimePart)
+        {
+            switch (dateTimePart)
+            {
+                case DateTimePart.Day:
+                    return "NumericTBDay";
+
+                case DateTimePart.Month:
+                    return "NumericTBMonth";
+
+                case DateTimePart.Year:
+                    return "NumericTBYear";
+
+                case DateTimePart.Hour:
+                    return "NumericTBHour";
+
+                case DateTimePart.Minute:
+                    return "NumericTBMinute";
+
+                case DateTimePart.Second:
+                    return "NumericTBSecond";
 
                 default:
                     throw new InvalidOperationException();
