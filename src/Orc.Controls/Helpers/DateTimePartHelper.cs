@@ -7,17 +7,20 @@
 
 namespace Orc.Controls
 {
+    using System;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
+    using Catel.IoC;
+    using Services.Interfaces;
 
     public static class DateTimePartHelper
     {
         #region Methods
-        public static Popup CreatePopup(Grid grid, DateTimePart dateTimePart, NumericTextBox textBox)
+        public static Popup CreatePopup(DateTime dateTime, Grid grid, DateTimePart dateTimePart, NumericTextBox textBox)
         {
             var popup = new Popup();
-            var popupSource = new ListBox {ItemsSource = dateTimePart.GetPopupSource()};
+            var popupSource = CreatePopupSource(dateTime, dateTimePart);
             popup.Child = popupSource;
 
             popup.Name = "comboBox";
@@ -33,6 +36,15 @@ namespace Orc.Controls
             grid.Children.Add(popup);
 
             return popup;
+        }
+
+        private static ListBox CreatePopupSource(DateTime dateTime, DateTimePart dateTimePart)
+        {
+            var serviceLocator = ServiceLocator.Default;
+            var suggestionListService = serviceLocator.ResolveType<ISuggestionListService>();
+            var source = suggestionListService.GetSuggestionList(dateTime, dateTimePart);
+
+            return new ListBox(){ItemsSource = source};
         }
         #endregion
     }
