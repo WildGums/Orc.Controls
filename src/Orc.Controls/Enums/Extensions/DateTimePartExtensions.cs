@@ -8,37 +8,9 @@
 namespace Orc.Controls
 {
     using System;
-    using System.Collections.ObjectModel;
 
     public static class DateTimePartExtensions
     {
-        public static ObservableCollection<string> GetPopupSource(this DateTimePart dateTimePart)
-        {
-            switch (dateTimePart)
-            {
-                case DateTimePart.Day:
-                    return new ObservableCollection<string> { "1", "2" };
-
-                case DateTimePart.Month:
-                    return new ObservableCollection<string> { "3", "4" };
-
-                case DateTimePart.Year:
-                    return new ObservableCollection<string> { "5", "6" };
-
-                case DateTimePart.Hour:
-                    return new ObservableCollection<string> { "7", "8" };
-
-                case DateTimePart.Minute:
-                    return new ObservableCollection<string> { "9", "10" };
-
-                case DateTimePart.Second:
-                    return new ObservableCollection<string> { "11", "12" };
-
-                default:
-                    throw new InvalidOperationException();
-            }
-        }
-
         public static string GetDateTimePartName(this DateTimePart dateTimePart)
         {
             switch (dateTimePart)
