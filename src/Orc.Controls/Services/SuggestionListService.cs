@@ -8,6 +8,8 @@
 namespace Orc.Controls.Services
 {
     using System;
+    using System.Collections.Generic;
+    using System.Globalization;
     using Interfaces;
 
     public class SuggestionListService : ISuggestionListService
@@ -15,7 +17,60 @@ namespace Orc.Controls.Services
         #region ISuggestionListService Members
         public string[] GetSuggestionList(DateTime dateTime, DateTimePart editablePart)
         {
-            return new[] {"qq", "ee", "ff"};
+            switch (editablePart)
+            {
+                case DateTimePart.Day:
+                    var days = new List<string>();
+                    var daysInMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
+                    for (var i = 1; i <= daysInMonth; i++)
+                    {
+                        var day = new DateTime(dateTime.Year, dateTime.Month, i).ToString("dd ddd", CultureInfo.InvariantCulture);
+                        days.Add(day);
+                    }
+                    return days.ToArray();
+
+                case DateTimePart.Month:
+                    var months = new List<string>();
+                    for (var i = 1; i <= 12; i++)
+                    {
+                        months.Add(i.ToString());
+                    }
+                    return months.ToArray();
+                case DateTimePart.Year:
+                    var years = new List<string>();
+                    for (var i = 2000; i <= 2050; i++)
+                    {
+                        years.Add(i.ToString());
+                    }
+                    return years.ToArray();
+
+                case DateTimePart.Hour:
+                    var hours = new List<string>();
+                    for (var i = 0; i < 24; i++)
+                    {
+                        hours.Add(i.ToString());
+                    }
+                    return hours.ToArray();
+
+                case DateTimePart.Minute:
+                    var minutes = new List<string>();
+                    for (var i = 0; i < 60; i++)
+                    {
+                        minutes.Add(i.ToString());
+                    }
+                    return minutes.ToArray();
+
+                case DateTimePart.Second:
+                    var seconds = new List<string>();
+                    for (var i = 0; i < 60; i++)
+                    {
+                        seconds.Add(i.ToString());
+                    }
+                    return seconds.ToArray();
+
+                default:
+                    throw new InvalidOperationException();
+            }
         }
         #endregion
     }

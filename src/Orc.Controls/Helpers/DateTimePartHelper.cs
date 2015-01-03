@@ -24,7 +24,7 @@ namespace Orc.Controls
             popup.Child = popupSource;
 
             popup.Name = "comboBox";
-            popup.Width = textBox.ActualWidth + 10;
+            popup.MinWidth = textBox.ActualWidth + 25;
             popup.MaxHeight = 100;
             popup.PlacementTarget = textBox;
             popup.Placement = PlacementMode.Bottom;
