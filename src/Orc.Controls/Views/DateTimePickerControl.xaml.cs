@@ -117,7 +117,12 @@ namespace Orc.Controls
                 var numericTextBoxName = activeTextBoxPart.GetDateTimePartName();
                 _activeNumericTextBox = (NumericTextBox)FindName(numericTextBoxName);
 
-                var popup = DateTimePartHelper.CreatePopup(Value, MainGrid, activeTextBoxPart, _activeNumericTextBox);
+                var dateTimePartHelper = new DateTimePartHelper(Value, activeTextBoxPart, _activeNumericTextBox);
+                var popup = dateTimePartHelper.CreatePopup();
+
+                Grid.SetRow(popup, 1);
+                MainGrid.Children.Add(popup);
+                
                 popup.PreviewMouseDown += PopupOnPreviewMouseDown;
 
                 _activeNumericTextBox.PreviewLostKeyboardFocus += NumericTextBoxOnLostFocus;

@@ -14,35 +14,43 @@ namespace Orc.Controls
     using Catel.IoC;
     using Services.Interfaces;
 
-    public static class DateTimePartHelper
+    public class DateTimePartHelper
     {
+        private readonly DateTime _dateTime;
+        private readonly NumericTextBox _textBox;
+        private readonly DateTimePart _dateTimePart;
+
+        public DateTimePartHelper(DateTime dateTime,DateTimePart dateTimePart, NumericTextBox textBox)
+        {
+            _dateTime = dateTime;
+            _textBox = textBox;
+            _dateTimePart = dateTimePart;
+        }
+
         #region Methods
-        public static Popup CreatePopup(DateTime dateTime, Grid grid, DateTimePart dateTimePart, NumericTextBox textBox)
+        public Popup CreatePopup()
         {
             var popup = new Popup();
-            var popupSource = CreatePopupSource(dateTime, dateTimePart);
+            var popupSource = CreatePopupSource();
             popup.Child = popupSource;
 
             popup.Name = "comboBox";
-            popup.MinWidth = textBox.ActualWidth + 25;
+            popup.MinWidth = _textBox.ActualWidth + 25;
             popup.MaxHeight = 100;
-            popup.PlacementTarget = textBox;
+            popup.PlacementTarget = _textBox;
             popup.Placement = PlacementMode.Bottom;
             popup.VerticalOffset = 2;
             popup.IsOpen = true;
             popup.Visibility = Visibility.Visible;
 
-            Grid.SetRow(popup, 1);
-            grid.Children.Add(popup);
-
             return popup;
         }
 
-        private static ListBox CreatePopupSource(DateTime dateTime, DateTimePart dateTimePart)
+        private ListBox CreatePopupSource()
         {
             var serviceLocator = ServiceLocator.Default;
             var suggestionListService = serviceLocator.ResolveType<ISuggestionListService>();
-            var source = suggestionListService.GetSuggestionList(dateTime, dateTimePart);
+            var source = suggestionListService.GetSuggestionList(_dateTime, _dateTimePart);
 
             return new ListBox(){ItemsSource = source};
         }
