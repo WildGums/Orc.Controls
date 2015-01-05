@@ -8,6 +8,7 @@
 namespace Orc.Controls
 {
     using System;
+    using System.Globalization;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
@@ -18,32 +19,62 @@ namespace Orc.Controls
     {
         private readonly DateTime _dateTime;
         private readonly NumericTextBox _textBox;
+        private readonly ToggleButton _toggleButton;
         private readonly DateTimePart _dateTimePart;
 
-        public DateTimePartHelper(DateTime dateTime,DateTimePart dateTimePart, NumericTextBox textBox)
+        public DateTimePartHelper(DateTime dateTime, DateTimePart dateTimePart, NumericTextBox textBox, ToggleButton activeToggleButton)
         {
             _dateTime = dateTime;
             _textBox = textBox;
+            _toggleButton = activeToggleButton;
             _dateTimePart = dateTimePart;
         }
 
         #region Methods
         public Popup CreatePopup()
         {
-            var popup = new Popup();
+            var popup = new Popup
+            {
+                MinWidth = _textBox.ActualWidth + 25,
+                MaxHeight = 100,
+                PlacementTarget = _textBox,
+                Placement = PlacementMode.Bottom,
+                VerticalOffset = 2,
+                IsOpen = true,
+                StaysOpen = false
+            };
+
+            popup.Closed += PopupOnClosed;
+
             var popupSource = CreatePopupSource();
+            popupSource.SelectionChanged += PopupSourceOnSelectionChanged;
+
             popup.Child = popupSource;
 
-            popup.Name = "comboBox";
-            popup.MinWidth = _textBox.ActualWidth + 25;
-            popup.MaxHeight = 100;
-            popup.PlacementTarget = _textBox;
-            popup.Placement = PlacementMode.Bottom;
-            popup.VerticalOffset = 2;
-            popup.IsOpen = true;
-            popup.StaysOpen = false;
-
             return popup;
+        }
+
+        private void PopupOnClosed(object sender, EventArgs eventArgs)
+        {
+            _toggleButton.IsChecked = false;
+        }
+
+        private void PopupSourceOnSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
+        {
+            var selectedItem = ((ListBox) sender).SelectedItems[0];
+            UpdateTextBox(selectedItem.ToString());
+        }
+
+        private void UpdateTextBox(string selectedItem)
+        {
+            switch (_dateTimePart)
+            {
+                case DateTimePart.Day:
+                    var day = selectedItem.Split(new char[0]);
+                    _textBox.Text = day[0];
+                    break;
+            }
+            _textBox.Text = selectedItem;
         }
 
         private ListBox CreatePopupSource()

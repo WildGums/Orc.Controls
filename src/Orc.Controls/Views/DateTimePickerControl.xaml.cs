@@ -96,16 +96,10 @@ namespace Orc.Controls
             _activeDateTimePart = (DateTimePart) ((ToggleButton) sender).Tag;
 
             var activeNumericTextBox = (NumericTextBox)FindName(_activeDateTimePart.GetDateTimePartName());
+            var activeToggleButton = (ToggleButton)FindName(_activeDateTimePart.GetDateTimePartToggleButtonName());
 
-            var dateTimePartHelper = new DateTimePartHelper(Value, _activeDateTimePart, activeNumericTextBox);
-            var dateTimePartPopup = dateTimePartHelper.CreatePopup();
-            dateTimePartPopup.Closed += DateTimePartPopupOnClosed; 
-        }
-
-        private void DateTimePartPopupOnClosed(object sender, EventArgs eventArgs)
-        {
-            var currentToggleButton = (ToggleButton)FindName(_activeDateTimePart.GetDateTimePartToggleButtonName());
-            currentToggleButton.IsChecked = false;
+            var dateTimePartHelper = new DateTimePartHelper(Value, _activeDateTimePart, activeNumericTextBox, activeToggleButton);
+            var popup = dateTimePartHelper.CreatePopup();
         }
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
