@@ -26,9 +26,7 @@ namespace Orc.Controls
 
         #region Fields
         private readonly List<NumericTextBox> _numericTextBoxes;
-        private NumericTextBox _activeNumericTextBox;
-        private bool _isInEditMode;
-        private bool _isInEditPopup;
+        private DateTimePart _activeDateTimePart;
         #endregion
 
         #region Constructors
@@ -95,27 +93,32 @@ namespace Orc.Controls
 
         private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
         {
-            var activeTextBoxPart = (DateTimePart) ((ToggleButton) sender).Tag;
+            _activeDateTimePart = (DateTimePart) ((ToggleButton) sender).Tag;
 
-            _activeNumericTextBox = (NumericTextBox) FindName(activeTextBoxPart.GetDateTimePartName());
+            var activeNumericTextBox = (NumericTextBox)FindName(_activeDateTimePart.GetDateTimePartName());
 
-            var dateTimePartHelper = new DateTimePartHelper(Value, activeTextBoxPart, _activeNumericTextBox);
-            dateTimePartHelper.CreatePopup();
+            var dateTimePartHelper = new DateTimePartHelper(Value, _activeDateTimePart, activeNumericTextBox);
+            var dateTimePartPopup = dateTimePartHelper.CreatePopup();
+            dateTimePartPopup.Closed += DateTimePartPopupOnClosed; 
+        }
+
+        private void DateTimePartPopupOnClosed(object sender, EventArgs eventArgs)
+        {
+            var currentToggleButton = (ToggleButton)FindName(_activeDateTimePart.GetDateTimePartToggleButtonName());
+            currentToggleButton.IsChecked = false;
         }
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
             base.OnPreviewKeyDown(e);
 
-            if (e.Key == Key.Escape && _isInEditMode)
+            if (e.Key == Key.Escape)
             {
-                _isInEditMode = false;
                 e.Handled = true;
             }
 
-            if (e.Key == Key.Enter && _isInEditMode)
+            if (e.Key == Key.Enter)
             {
-                _isInEditMode = false;
                 e.Handled = true;
             }
         }

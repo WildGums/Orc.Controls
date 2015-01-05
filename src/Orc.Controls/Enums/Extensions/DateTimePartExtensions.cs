@@ -37,5 +37,32 @@ namespace Orc.Controls
                     throw new InvalidOperationException();
             }
         }
+
+        public static string GetDateTimePartToggleButtonName(this DateTimePart dateTimePart)
+        {
+            switch (dateTimePart)
+            {
+                case DateTimePart.Day:
+                    return "ToggleButtonD";
+
+                case DateTimePart.Month:
+                    return "ToggleButtonMo";
+
+                case DateTimePart.Year:
+                    return "ToggleButtonY";
+
+                case DateTimePart.Hour:
+                    return "ToggleButtonH";
+
+                case DateTimePart.Minute:
+                    return "ToggleButtonM";
+
+                case DateTimePart.Second:
+                    return "ToggleButtonS";
+
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
     }
 }

@@ -41,7 +41,7 @@ namespace Orc.Controls
             popup.Placement = PlacementMode.Bottom;
             popup.VerticalOffset = 2;
             popup.IsOpen = true;
-            popup.Visibility = Visibility.Visible;
+            popup.StaysOpen = false;
 
             return popup;
         }
