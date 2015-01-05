@@ -24,7 +24,7 @@ namespace Orc.Controls.Services
                     var daysInMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
                     for (var i = 1; i <= daysInMonth; i++)
                     {
-                        var day = new DateTime(dateTime.Year, dateTime.Month, i).ToString("dd ddd", CultureInfo.InvariantCulture);
+                        var day = new DateTime(dateTime.Year, dateTime.Month, i).ToString("d ddd", CultureInfo.InvariantCulture);
                         days.Add(day);
                     }
                     return days.ToArray();
