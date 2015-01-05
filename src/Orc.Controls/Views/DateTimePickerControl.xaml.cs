@@ -115,24 +115,23 @@ namespace Orc.Controls
             {
                 var activeTextBoxPart = (DateTimePart)((TextBlock)sender).Tag;
                 var numericTextBoxName = activeTextBoxPart.GetDateTimePartName();
+
                 _activeNumericTextBox = (NumericTextBox)FindName(numericTextBoxName);
+                _activeNumericTextBox.PreviewLostKeyboardFocus += NumericTextBoxOnLostFocus;
 
                 var dateTimePartHelper = new DateTimePartHelper(Value, activeTextBoxPart, _activeNumericTextBox);
-                var popup = dateTimePartHelper.CreatePopup();
+                var dateTimePartPopup = dateTimePartHelper.CreatePopup();
+                dateTimePartPopup.PreviewMouseDown += DateTimePartPopupOnPreviewMouseDown;
 
-                Grid.SetRow(popup, 1);
-                MainGrid.Children.Add(popup);
-                
-                popup.PreviewMouseDown += PopupOnPreviewMouseDown;
+                Grid.SetRow(dateTimePartPopup, 1);
+                MainGrid.Children.Add(dateTimePartPopup);
 
-                _activeNumericTextBox.PreviewLostKeyboardFocus += NumericTextBoxOnLostFocus;
                 _activeNumericTextBox.Focus();
-
                 _isInEditMode = true;
             }
         }
 
-        private void PopupOnPreviewMouseDown(object sender, MouseButtonEventArgs mouseButtonEventArgs)
+        private void DateTimePartPopupOnPreviewMouseDown(object sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
             _isInEditPopup = true;
         }
