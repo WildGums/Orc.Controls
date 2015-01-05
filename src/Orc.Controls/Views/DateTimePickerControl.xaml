@@ -45,6 +45,11 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <ControlTemplate x:Key="ToggleButtonTemplate" TargetType="{x:Type ToggleButton}">
+            <TextBlock Style="{StaticResource LettersStyle}">
+                <ContentPresenter/>
+            </TextBlock>
+        </ControlTemplate>
         <Style BasedOn="{x:Null}" TargetType="{x:Type controls:NumericTextBox}">
             <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="Margin" Value="2 0 0 0"/>
@@ -99,32 +104,33 @@
 
                 <controls:NumericTextBox x:Name="NumericTBDay" Grid.Column="0" Text="{Binding Day}" MinValue="1" MaxValue="31" />
                 <TextBlock Grid.Column="1" Text="/" Style="{StaticResource RatioSignStyle}" />
-                <TextBlock x:Name="TextBlockD" Grid.Column="1" Text="d" Style="{StaticResource LettersStyle}"
-                           Tag="{x:Static controls:DateTimePart.Day}" />
-                
+                <ToggleButton Grid.Column="1" Tag="{x:Static controls:DateTimePart.Day}" Checked="ToggleButton_OnChecked"
+                              Template="{StaticResource ToggleButtonTemplate}" Content="d" />
+
                 <controls:NumericTextBox x:Name="NumericTBMonth" Grid.Column="2" Text="{Binding Month}" MinValue="1" MaxValue="12" />
                 <TextBlock Grid.Column="3" Text="/" Style="{StaticResource RatioSignStyle}" />
-                <TextBlock x:Name="TextBlockMo" Grid.Column="3" Text="m" Style="{StaticResource LettersStyle}"
-                           Tag="{x:Static controls:DateTimePart.Month}" />
+                <ToggleButton Grid.Column="3" Tag="{x:Static controls:DateTimePart.Month}" Checked="ToggleButton_OnChecked"
+                              Template="{StaticResource ToggleButtonTemplate}" Content="m" />
                 
                 <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Text="{Binding Year}" MinValue="0" MaxValue="3000" />
                 <TextBlock Grid.Column="5" Text="" Style="{StaticResource RatioSignStyle}" />
-                <TextBlock x:Name="TextBlockY" Grid.Column="5" Text="y" Style="{StaticResource LettersStyle}"
-                           Tag="{x:Static controls:DateTimePart.Year}" />
+                <ToggleButton Grid.Column="5" Tag="{x:Static controls:DateTimePart.Year}" Checked="ToggleButton_OnChecked"
+                              Template="{StaticResource ToggleButtonTemplate}" Content="y" />
 
                 <controls:NumericTextBox x:Name="NumericTBHour" Grid.Column="6" Text="{Binding Hour}" MaxValue="23" MinValue="0" />
                 <TextBlock Grid.Column="7" Text=":" Style="{StaticResource RatioSignStyle}" />
-                <TextBlock x:Name="TextBlockH" Grid.Column="7" Text="h" Style="{StaticResource LettersStyle}"
-                           Tag="{x:Static controls:DateTimePart.Hour}" />
-            
+                <ToggleButton Grid.Column="7" Tag="{x:Static controls:DateTimePart.Hour}" Checked="ToggleButton_OnChecked"
+                              Template="{StaticResource ToggleButtonTemplate}" Content="h" />
+
                 <controls:NumericTextBox x:Name="NumericTBMinute" Grid.Column="8" Text="{Binding Minute}" MaxValue="59" MinValue="0"/>
                 <TextBlock Grid.Column="9" Text=":" Style="{StaticResource RatioSignStyle}" />
-                <TextBlock x:Name="TextBlockM" Grid.Column="9" Text="m" Style="{StaticResource LettersStyle}"
-                           Tag="{x:Static controls:DateTimePart.Minute}" />
-            
+                <ToggleButton Grid.Column="9" Tag="{x:Static controls:DateTimePart.Minute}" Checked="ToggleButton_OnChecked"
+                              Template="{StaticResource ToggleButtonTemplate}" Content="m" />
+
                 <controls:NumericTextBox x:Name="NumericTBSecond" Grid.Column="10" Text="{Binding Second}" MaxValue="59" MinValue="0"/>
-                <TextBlock x:Name="TextBlockS" Grid.Column="11" Text="s" Style="{StaticResource LettersStyle}"
-                           Tag="{x:Static controls:DateTimePart.Second}" />
+                <ToggleButton Grid.Column="11" Tag="{x:Static controls:DateTimePart.Second}" Checked="ToggleButton_OnChecked"
+                              Template="{StaticResource ToggleButtonTemplate}" Content="s" />
+
             </Grid>
         </Border>
     </Grid>

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DateTimePickerControl.xaml.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2014 Wild Gums. All rights reserved.
+//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -9,11 +9,8 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Data;
-    using System.Linq;
     using System.Windows;
-    using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using Catel.MVVM.Views;
 
@@ -22,17 +19,22 @@ namespace Orc.Controls
     /// </summary>
     public partial class DateTimePickerControl
     {
+        #region Constants
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof (DateTime), typeof (DateTimePickerControl),
+            new UIPropertyMetadata(DateTime.Now));
+        #endregion
+
         #region Fields
         private readonly List<NumericTextBox> _numericTextBoxes;
-        private bool _isInEditMode;
         private NumericTextBox _activeNumericTextBox;
+        private bool _isInEditMode;
         private bool _isInEditPopup;
         #endregion
 
         #region Constructors
         static DateTimePickerControl()
         {
-            typeof(DateTimePickerControl).AutoDetectViewPropertiesToSubscribe();
+            typeof (DateTimePickerControl).AutoDetectViewPropertiesToSubscribe();
         }
 
         public DateTimePickerControl()
@@ -60,13 +62,6 @@ namespace Orc.Controls
             NumericTBHour.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
             NumericTBMinute.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
             NumericTBSecond.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
-
-            TextBlockD.MouseDown += TextBlock_MouseDown;
-            TextBlockMo.MouseDown += TextBlock_MouseDown;
-            TextBlockY.MouseDown += TextBlock_MouseDown;
-            TextBlockH.MouseDown += TextBlock_MouseDown;
-            TextBlockM.MouseDown += TextBlock_MouseDown;
-            TextBlockS.MouseDown += TextBlock_MouseDown;
         }
         #endregion
 
@@ -74,12 +69,9 @@ namespace Orc.Controls
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public DateTime Value
         {
-            get { return (DateTime)GetValue(ValueProperty); }
+            get { return (DateTime) GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
-
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(DateTime), typeof(DateTimePickerControl),
-            new UIPropertyMetadata(DateTime.Now));
         #endregion
 
         #region Methods
@@ -101,57 +93,14 @@ namespace Orc.Controls
             nextTextBox.Focus();
         }
 
-        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
         {
-            if (_activeNumericTextBox != null)
-            {
-                _activeNumericTextBox.PreviewLostKeyboardFocus -= NumericTextBoxOnLostFocus;
+            var activeTextBoxPart = (DateTimePart) ((ToggleButton) sender).Tag;
 
-                RemovePopup();
-            }
-            
+            _activeNumericTextBox = (NumericTextBox) FindName(activeTextBoxPart.GetDateTimePartName());
 
-            if (e.ClickCount == 2)
-            {
-                var activeTextBoxPart = (DateTimePart)((TextBlock)sender).Tag;
-                var numericTextBoxName = activeTextBoxPart.GetDateTimePartName();
-
-                _activeNumericTextBox = (NumericTextBox)FindName(numericTextBoxName);
-                _activeNumericTextBox.PreviewLostKeyboardFocus += NumericTextBoxOnLostFocus;
-
-                var dateTimePartHelper = new DateTimePartHelper(Value, activeTextBoxPart, _activeNumericTextBox);
-                var dateTimePartPopup = dateTimePartHelper.CreatePopup();
-                dateTimePartPopup.PreviewMouseDown += DateTimePartPopupOnPreviewMouseDown;
-
-                Grid.SetRow(dateTimePartPopup, 1);
-                MainGrid.Children.Add(dateTimePartPopup);
-
-                _activeNumericTextBox.Focus();
-                _isInEditMode = true;
-            }
-        }
-
-        private void DateTimePartPopupOnPreviewMouseDown(object sender, MouseButtonEventArgs mouseButtonEventArgs)
-        {
-            _isInEditPopup = true;
-        }
-
-        private void NumericTextBoxOnLostFocus(object sender, RoutedEventArgs routedEventArgs)
-        {
-            if (!_isInEditPopup)
-            {
-                RemovePopup();
-            }
-        }
-
-        private void RemovePopup()
-        {
-            var popup = MainGrid.Children.Cast<FrameworkElement>().FirstOrDefault(x => string.Equals(x.Name, "comboBox"));
-            if (popup != null)
-            {
-                MainGrid.Children.Remove(popup);
-                _isInEditPopup = false;
-            }
+            var dateTimePartHelper = new DateTimePartHelper(Value, activeTextBoxPart, _activeNumericTextBox);
+            dateTimePartHelper.CreatePopup();
         }
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
@@ -160,14 +109,12 @@ namespace Orc.Controls
 
             if (e.Key == Key.Escape && _isInEditMode)
             {
-                RemovePopup();
                 _isInEditMode = false;
                 e.Handled = true;
             }
 
             if (e.Key == Key.Enter && _isInEditMode)
             {
-                RemovePopup();
                 _isInEditMode = false;
                 e.Handled = true;
             }
