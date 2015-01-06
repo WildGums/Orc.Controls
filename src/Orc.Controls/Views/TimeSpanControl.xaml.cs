@@ -67,7 +67,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(TimeSpan), typeof(TimeSpanControl), 
-            new UIPropertyMetadata(TimeSpan.Zero));
+            new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
 
         #region Methods
