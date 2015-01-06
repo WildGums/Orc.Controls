@@ -126,7 +126,7 @@ namespace Orc.Controls
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-            base.OnPreviewKeyDown(e);
+                base.OnPreviewKeyDown(e);
 
             if (e.Key == Key.Escape && _isInEditMode)
             {
