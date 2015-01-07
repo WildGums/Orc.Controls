@@ -8,10 +8,9 @@
 namespace Orc.Controls
 {
     using System;
-    using System.Globalization;
-    using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
+    using System.Windows.Input;
     using Catel.IoC;
     using Services.Interfaces;
 
@@ -47,22 +46,78 @@ namespace Orc.Controls
             popup.Closed += PopupOnClosed;
 
             var popupSource = CreatePopupSource();
-            popupSource.SelectionChanged += PopupSourceOnSelectionChanged;
+            popupSource.PreviewKeyDown += popupSource_PreviewKeyDown;
+            popupSource.MouseDoubleClick += PopupSourceOnMouseDoubleClick;
 
             popup.Child = popupSource;
-
+            SelectItem(popupSource);
+            popupSource.Focus();
+            
             return popup;
+        }
+
+        private void PopupSourceOnMouseDoubleClick(object sender, MouseButtonEventArgs mouseButtonEventArgs)
+        {
+            var listbox = ((ListBox)sender);
+            UpdateTextBox(listbox.SelectedItems[0].ToString());
+            ((Popup)listbox.Parent).IsOpen = false;
+            _textBox.Focus();
+        }
+
+        void popupSource_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            var listbox = ((ListBox)sender);
+            if (e.Key == Key.Down)
+            {
+                if (listbox.SelectedIndex < listbox.Items.Count)
+                {
+                    listbox.SelectedIndex++;
+                    listbox.ScrollIntoView(listbox.SelectedItem);
+                    e.Handled = true;
+                }
+            }
+            if (e.Key == Key.Up)
+            {
+                if (listbox.SelectedIndex > 0)
+                {
+                    listbox.SelectedIndex--;
+                    listbox.ScrollIntoView(listbox.SelectedItem);
+                    e.Handled = true;
+                }
+            }
+            if (e.Key == Key.Escape)
+            {
+                ((Popup)listbox.Parent).IsOpen = false;
+                _textBox.Focus();
+                e.Handled = true;
+            }
+            if (e.Key == Key.Enter)
+            {
+                UpdateTextBox(listbox.SelectedItems[0].ToString());
+                ((Popup)listbox.Parent).IsOpen = false;
+                _textBox.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void SelectItem(ListBox listBox)
+        {
+            foreach (var item in listBox.Items)
+            {
+                if (item.ToString().StartsWith(_textBox.Text))
+                {
+                    listBox.SelectedItem = item;
+                    listBox.ScrollIntoView(listBox.SelectedItem);
+                    listBox.Focus();
+
+                    break;
+                }
+            }
         }
 
         private void PopupOnClosed(object sender, EventArgs eventArgs)
         {
             _toggleButton.IsChecked = false;
-        }
-
-        private void PopupSourceOnSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
-        {
-            var selectedItem = ((ListBox) sender).SelectedItems[0];
-            UpdateTextBox(selectedItem.ToString());
         }
 
         private void UpdateTextBox(string selectedItem)
@@ -83,7 +138,8 @@ namespace Orc.Controls
             var suggestionListService = serviceLocator.ResolveType<ISuggestionListService>();
             var source = suggestionListService.GetSuggestionList(_dateTime, _dateTimePart);
 
-            return new ListBox(){ItemsSource = source};
+            var listbox = new ListBox() { ItemsSource = source, IsSynchronizedWithCurrentItem = false};
+            return listbox;
         }
         #endregion
     }

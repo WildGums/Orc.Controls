@@ -99,22 +99,7 @@ namespace Orc.Controls
             var activeToggleButton = (ToggleButton)FindName(_activeDateTimePart.GetDateTimePartToggleButtonName());
 
             var dateTimePartHelper = new DateTimePartHelper(Value, _activeDateTimePart, activeNumericTextBox, activeToggleButton);
-            var popup = dateTimePartHelper.CreatePopup();
-        }
-
-        protected override void OnPreviewKeyDown(KeyEventArgs e)
-        {
-            base.OnPreviewKeyDown(e);
-
-            if (e.Key == Key.Escape)
-            {
-                e.Handled = true;
-            }
-
-            if (e.Key == Key.Enter)
-            {
-                e.Handled = true;
-            }
+            dateTimePartHelper.CreatePopup();
         }
         #endregion
     }
