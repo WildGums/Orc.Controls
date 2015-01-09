@@ -10,6 +10,8 @@ namespace Orc.Controls.Services
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
+    using System.Text;
     using Interfaces;
 
     public class SuggestionListService : ISuggestionListService
@@ -34,7 +36,14 @@ namespace Orc.Controls.Services
                     for (var i = 1; i <= 12; i++)
                     {
                         var month = new DateTime(dateTime.Year, i, dateTime.Day).ToString("M MMM", CultureInfo.InvariantCulture);
-                        months.Add(month);
+                        if (i<10)
+                        {
+                            months.Add("  " + month);
+                        }
+                        else
+                        {
+                            months.Add(month);
+                        }
                     }
                     return months.ToArray();
 
