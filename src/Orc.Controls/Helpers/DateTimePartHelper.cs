@@ -122,13 +122,6 @@ namespace Orc.Controls
 
         private void UpdateTextBox(string selectedItem)
         {
-            switch (_dateTimePart)
-            {
-                case DateTimePart.Day:
-                    var day = selectedItem.Split(new char[0]);
-                    _textBox.Text = day[0];
-                    break;
-            }
             _textBox.Text = selectedItem;
         }
 

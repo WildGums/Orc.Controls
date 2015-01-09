@@ -33,7 +33,8 @@ namespace Orc.Controls.Services
                     var months = new List<string>();
                     for (var i = 1; i <= 12; i++)
                     {
-                        months.Add(i.ToString());
+                        var month = new DateTime(dateTime.Year, i, dateTime.Day).ToString("M MMM", CultureInfo.InvariantCulture);
+                        months.Add(month);
                     }
                     return months.ToArray();
 
