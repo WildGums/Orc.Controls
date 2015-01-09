@@ -69,6 +69,16 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(DateTime), typeof(DateTimePickerControl),
             new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool EnableDatePicker
+        {
+            get { return (bool)GetValue(EnableDatePickerProperty); }
+            set { SetValue(EnableDatePickerProperty, value); }
+        }
+
+        public static readonly DependencyProperty EnableDatePickerProperty = DependencyProperty.Register("EnableDatePicker", typeof(bool), typeof(DateTimePickerControl),
+            new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
 
         #region Methods

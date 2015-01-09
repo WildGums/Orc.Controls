@@ -5,9 +5,39 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:controls="clr-namespace:Orc.Controls"
                    xmlns:catel="http://catel.codeplex.com"
-                   mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="120">
+                   xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                   mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="190">
     
     <UserControl.Resources>
+        <catel:BooleanToHidingVisibilityConverter x:Key="BooleanToHidingVisibilityConverter"/>
+        
+        <ControlTemplate x:Key="ToogleButtonTemplate" TargetType="{x:Type ToggleButton}">
+            <Border BorderBrush="{TemplateBinding BorderBrush}" 
+					Background="{TemplateBinding Background}" 
+                    BorderThickness="{TemplateBinding BorderThickness}"
+					SnapsToDevicePixels="true"
+					CornerRadius="0">
+                <Grid VerticalAlignment="Stretch">
+                    <Border Grid.Row="0" Background="{TemplateBinding BorderBrush}" Height="4" VerticalAlignment="Top"/>
+                    <Ellipse Grid.Row="0" Width="3" Height="3" Fill="White" VerticalAlignment="Top"/>
+                    <TextBlock Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat=' d '}"
+                               Margin="0 3 0 0" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                </Grid>
+            </Border>
+        </ControlTemplate>
+        <Style x:Key="DatePickerToogleButtonStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="LightGray"/>
+            <Setter Property="Margin" Value="1"/>
+            <Setter Property="Template" Value="{StaticResource ToogleButtonTemplate}"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="Orange"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <Style TargetType="{x:Type ListBoxItem}">
             <Setter Property="Padding" Value="2 2 5 2" />
         </Style>
@@ -95,53 +125,58 @@
     </UserControl.Resources>
 
     <Grid x:Name="MainGrid">
-        <Border BorderThickness="1" MinWidth="175" Height="22" >
-            <Grid  Background="White" HorizontalAlignment="Stretch">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+        <Border BorderThickness="1" MinWidth="185" Height="22" >
+            <DockPanel Background="White">
+                <ToggleButton x:Name="Icon" DockPanel.Dock="Right" VerticalAlignment="Stretch"
+                              Style="{StaticResource DatePickerToogleButtonStyle}"
+                              Visibility="{Binding EnableDatePicker, Converter={StaticResource BooleanToHidingVisibilityConverter}}"/>
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                <controls:NumericTextBox x:Name="NumericTBDay" Grid.Column="0" Text="{Binding Day}" MinValue="1" />
-                <TextBlock Grid.Column="1" Text="/" Style="{StaticResource RatioSignStyle}" />
-                <ToggleButton Grid.Column="1" x:Name="ToggleButtonD" Tag="{x:Static controls:DateTimePart.Day}"
-                              IsChecked="{Binding IsOpenedPopup}" Checked="ToggleButton_OnChecked" Content="d" />
+                    <controls:NumericTextBox x:Name="NumericTBDay" Grid.Column="0" Text="{Binding Day}" MinValue="1" />
+                    <TextBlock Grid.Column="1" Text="/" Style="{StaticResource RatioSignStyle}" />
+                    <ToggleButton Grid.Column="1" x:Name="ToggleButtonD" Tag="{x:Static controls:DateTimePart.Day}"
+                                  IsChecked="{Binding IsOpenedPopup}" Checked="ToggleButton_OnChecked" Content="d" />
 
-                <controls:NumericTextBox x:Name="NumericTBMonth" Grid.Column="2" Text="{Binding Month, UpdateSourceTrigger=PropertyChanged}" 
-                                         MinValue="1" MaxValue="12" TextChanged="NumericTBMonth_OnTextChanged"/>
-                <TextBlock Grid.Column="3" Text="/" Style="{StaticResource RatioSignStyle}" />
-                <ToggleButton Grid.Column="3" x:Name="ToggleButtonMo" Tag="{x:Static controls:DateTimePart.Month}"
-                              IsChecked="{Binding IsOpenedPopup}" Checked="ToggleButton_OnChecked" Content="m" />
+                    <controls:NumericTextBox x:Name="NumericTBMonth" Grid.Column="2" Text="{Binding Month, UpdateSourceTrigger=PropertyChanged}" 
+                                             MinValue="1" MaxValue="12" TextChanged="NumericTBMonth_OnTextChanged"/>
+                    <TextBlock Grid.Column="3" Text="/" Style="{StaticResource RatioSignStyle}" />
+                    <ToggleButton Grid.Column="3" x:Name="ToggleButtonMo" Tag="{x:Static controls:DateTimePart.Month}"
+                                  IsChecked="{Binding IsOpenedPopup}" Checked="ToggleButton_OnChecked" Content="m" />
                 
-                <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Text="{Binding Year}" MinValue="0" />
-                <TextBlock Grid.Column="5" Text="" Style="{StaticResource RatioSignStyle}" />
-                <ToggleButton Grid.Column="5" x:Name="ToggleButtonY" Tag="{x:Static controls:DateTimePart.Year}" Content="y" />
+                    <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Text="{Binding Year}" MinValue="0" />
+                    <TextBlock Grid.Column="5" Text="" Style="{StaticResource RatioSignStyle}" />
+                    <ToggleButton Grid.Column="5" x:Name="ToggleButtonY" Tag="{x:Static controls:DateTimePart.Year}" Content="y" />
 
-                <controls:NumericTextBox x:Name="NumericTBHour" Grid.Column="6" Text="{Binding Hour}" MaxValue="23" MinValue="0" />
-                <TextBlock Grid.Column="7" Text=":" Style="{StaticResource RatioSignStyle}" />
-                <ToggleButton Grid.Column="7" x:Name="ToggleButtonH" Tag="{x:Static controls:DateTimePart.Hour}"
-                              IsChecked="{Binding IsOpenedPopup}" Checked="ToggleButton_OnChecked" Content="h" />
+                    <controls:NumericTextBox x:Name="NumericTBHour" Grid.Column="6" Text="{Binding Hour}" MaxValue="23" MinValue="0" />
+                    <TextBlock Grid.Column="7" Text=":" Style="{StaticResource RatioSignStyle}" />
+                    <ToggleButton Grid.Column="7" x:Name="ToggleButtonH" Tag="{x:Static controls:DateTimePart.Hour}"
+                                  IsChecked="{Binding IsOpenedPopup}" Checked="ToggleButton_OnChecked" Content="h" />
 
-                <controls:NumericTextBox x:Name="NumericTBMinute" Grid.Column="8" Text="{Binding Minute}" MaxValue="59" MinValue="0"/>
-                <TextBlock Grid.Column="9" Text=":" Style="{StaticResource RatioSignStyle}" />
-                <ToggleButton Grid.Column="9" x:Name="ToggleButtonM" Tag="{x:Static controls:DateTimePart.Minute}"
-                              IsChecked="{Binding IsOpenedPopup}" Checked="ToggleButton_OnChecked" Content="m" />
+                    <controls:NumericTextBox x:Name="NumericTBMinute" Grid.Column="8" Text="{Binding Minute}" MaxValue="59" MinValue="0"/>
+                    <TextBlock Grid.Column="9" Text=":" Style="{StaticResource RatioSignStyle}" />
+                    <ToggleButton Grid.Column="9" x:Name="ToggleButtonM" Tag="{x:Static controls:DateTimePart.Minute}"
+                                  IsChecked="{Binding IsOpenedPopup}" Checked="ToggleButton_OnChecked" Content="m" />
 
-                <controls:NumericTextBox x:Name="NumericTBSecond" Grid.Column="10" Text="{Binding Second}" MaxValue="59" MinValue="0"/>
-                <ToggleButton Grid.Column="11" x:Name="ToggleButtonS" Tag="{x:Static controls:DateTimePart.Second}"
-                              IsChecked="{Binding IsOpenedPopup}" Checked="ToggleButton_OnChecked" Content="s" />
-
-            </Grid>
+                    <controls:NumericTextBox x:Name="NumericTBSecond" Grid.Column="10" Text="{Binding Second}" MaxValue="59" MinValue="0"/>
+                    <ToggleButton Grid.Column="11" x:Name="ToggleButtonS" Tag="{x:Static controls:DateTimePart.Second}"
+                                  IsChecked="{Binding IsOpenedPopup}" Checked="ToggleButton_OnChecked" Content="s" />
+                
+                </Grid>
+            </DockPanel>
         </Border>
     </Grid>
 </catel:UserControl>

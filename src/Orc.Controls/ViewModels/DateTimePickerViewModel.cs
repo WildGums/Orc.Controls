@@ -14,9 +14,26 @@ namespace Orc.Controls
     {
         #region Fields
         private DateTime _value;
+        private bool _enableDatePicke;
         #endregion
 
         #region Properties
+        public bool EnableDatePicker
+        {
+            get { return _enableDatePicke; }
+            set
+            {
+                if (_enableDatePicke == value)
+                {
+                    return;
+                }
+
+                _enableDatePicke = value;
+
+                RaisePropertyChanged("Value");
+            }
+        }
+
         public DateTime Value
         {
             get { return _value; }
