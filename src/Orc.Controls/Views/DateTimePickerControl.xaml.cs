@@ -122,9 +122,36 @@ namespace Orc.Controls
         {
             var calendarPopup = CreateCalendarPopup(); 
             calendarPopup.Closed += CalendarPopupOnClosed;
-            var popupSource = new Calendar(){Margin = new Thickness(0,-3,0,-3)};
-            calendarPopup.Child = popupSource;
-            popupSource.Focus();
+
+            var calendarPopupSource = CreateCalendarPopupSource();
+            calendarPopup.Child = calendarPopupSource;
+
+            calendarPopupSource.Focus();
+        }
+
+        private Calendar CreateCalendarPopupSource()
+        {
+            var calendar = new Calendar()
+            {
+                Margin = new Thickness(0, -3, 0, -3), 
+                DisplayDate = Value, 
+                SelectedDate = Value
+            };
+            
+            calendar.SelectedDatesChanged += CalendarOnSelectedDatesChanged;
+            return calendar;
+        }
+
+        private void CalendarOnSelectedDatesChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
+        {
+            var calendar = (Calendar) sender;
+            if (calendar.SelectedDate.HasValue)
+            {
+                var selectedDate = calendar.SelectedDate.Value;
+                NumericTBDay.Text = selectedDate.Day.ToString();
+                NumericTBMonth.Text = selectedDate.Month.ToString();
+                NumericTBYear.Text = selectedDate.Year.ToString();
+            }
         }
 
         private void CalendarPopupOnClosed(object sender, EventArgs eventArgs)
@@ -141,7 +168,6 @@ namespace Orc.Controls
                 VerticalOffset = -5,
                 IsOpen = true,
                 StaysOpen = false,
-                AllowsTransparency = true
             };
             return popup;
         }
