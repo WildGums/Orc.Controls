@@ -35,7 +35,7 @@ namespace Orc.Controls.Services
                     var months = new List<string>();
                     for (var i = 1; i <= 12; i++)
                     {
-                        var month = new DateTime(dateTime.Year, i, dateTime.Day).ToString("M MMM", CultureInfo.InvariantCulture);
+                        var month = new DateTime(dateTime.Year, i, 1).ToString("M MMM", CultureInfo.InvariantCulture);
                         if (i<10)
                         {
                             months.Add("  " + month);
