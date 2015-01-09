@@ -138,13 +138,40 @@ namespace Orc.Controls
                 SelectedDate = Value
             };
             
-            calendar.SelectedDatesChanged += CalendarOnSelectedDatesChanged;
+            calendar.PreviewKeyDown += CalendarOnPreviewKeyDown;
+            calendar.MouseDoubleClick += CalendarOnMouseDoubleClick;
+
             return calendar;
         }
 
-        private void CalendarOnSelectedDatesChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
+        private void CalendarOnMouseDoubleClick(object sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
-            var calendar = (Calendar) sender;
+            var calendar = ((Calendar)sender);
+            UpdateTextBoxes(calendar);
+            ((Popup)calendar.Parent).IsOpen = false;
+            NumericTBDay.Focus();
+        }
+
+        private void CalendarOnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            var calendar = ((Calendar)sender);
+            if (e.Key == Key.Escape)
+            {
+                ((Popup)calendar.Parent).IsOpen = false;
+                NumericTBDay.Focus();
+                e.Handled = true;
+            }
+            if (e.Key == Key.Enter)
+            {
+                UpdateTextBoxes(calendar);
+                ((Popup)calendar.Parent).IsOpen = false;
+                NumericTBDay.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void UpdateTextBoxes(Calendar calendar)
+        {
             if (calendar.SelectedDate.HasValue)
             {
                 var selectedDate = calendar.SelectedDate.Value;
