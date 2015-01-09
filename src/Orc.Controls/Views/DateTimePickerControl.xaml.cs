@@ -10,6 +10,7 @@ namespace Orc.Controls
     using System;
     using System.Collections.Generic;
     using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using Catel.MVVM.Views;
@@ -100,5 +101,11 @@ namespace Orc.Controls
             dateTimePartHelper.CreatePopup();
         }
         #endregion
+
+        private void NumericTBMonth_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var daysInMonth = DateTime.DaysInMonth(Value.Year, Value.Month);
+            NumericTBDay.MaxValue = daysInMonth;
+        }
     }
 }

@@ -109,12 +109,13 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <controls:NumericTextBox x:Name="NumericTBDay" Grid.Column="0" Text="{Binding Day}" MinValue="1" MaxValue="31" />
+                <controls:NumericTextBox x:Name="NumericTBDay" Grid.Column="0" Text="{Binding Day}" MinValue="1" />
                 <TextBlock Grid.Column="1" Text="/" Style="{StaticResource RatioSignStyle}" />
                 <ToggleButton Grid.Column="1" x:Name="ToggleButtonD" Tag="{x:Static controls:DateTimePart.Day}"
                               IsChecked="{Binding IsOpenedPopup}" Checked="ToggleButton_OnChecked" Content="d" />
 
-                <controls:NumericTextBox x:Name="NumericTBMonth" Grid.Column="2" Text="{Binding Month, UpdateSourceTrigger=PropertyChanged}" MinValue="1" MaxValue="12" />
+                <controls:NumericTextBox x:Name="NumericTBMonth" Grid.Column="2" Text="{Binding Month, UpdateSourceTrigger=PropertyChanged}" 
+                                         MinValue="1" MaxValue="12" TextChanged="NumericTBMonth_OnTextChanged"/>
                 <TextBlock Grid.Column="3" Text="/" Style="{StaticResource RatioSignStyle}" />
                 <ToggleButton Grid.Column="3" x:Name="ToggleButtonMo" Tag="{x:Static controls:DateTimePart.Month}"
                               IsChecked="{Binding IsOpenedPopup}" Checked="ToggleButton_OnChecked" Content="m" />
