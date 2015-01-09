@@ -8,6 +8,9 @@
                    mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="120">
     
     <UserControl.Resources>
+        <Style TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Padding" Value="2 2 5 2" />
+        </Style>
         <Style TargetType="{x:Type Border}">
             <Setter Property="BorderBrush" Value="LightGray"/>
             <Style.Triggers>
