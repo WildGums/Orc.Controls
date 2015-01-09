@@ -36,13 +36,6 @@ namespace Orc.Controls.Services
                         months.Add(i.ToString());
                     }
                     return months.ToArray();
-                case DateTimePart.Year:
-                    var years = new List<string>();
-                    for (var i = 2000; i <= 2050; i++)
-                    {
-                        years.Add(i.ToString());
-                    }
-                    return years.ToArray();
 
                 case DateTimePart.Hour:
                     var hours = new List<string>();

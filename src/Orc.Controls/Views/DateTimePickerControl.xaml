@@ -120,10 +120,9 @@
                 <ToggleButton Grid.Column="3" x:Name="ToggleButtonMo" Tag="{x:Static controls:DateTimePart.Month}"
                               IsChecked="{Binding IsOpenedPopup}" Checked="ToggleButton_OnChecked" Content="m" />
                 
-                <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Text="{Binding Year}" MinValue="0" MaxValue="3000" />
+                <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Text="{Binding Year}" MinValue="0" />
                 <TextBlock Grid.Column="5" Text="" Style="{StaticResource RatioSignStyle}" />
-                <ToggleButton Grid.Column="5" x:Name="ToggleButtonY" Tag="{x:Static controls:DateTimePart.Year}"
-                              IsChecked="{Binding IsOpenedPopup}" Checked="ToggleButton_OnChecked" Content="y" />
+                <ToggleButton Grid.Column="5" x:Name="ToggleButtonY" Tag="{x:Static controls:DateTimePart.Year}" Content="y" />
 
                 <controls:NumericTextBox x:Name="NumericTBHour" Grid.Column="6" Text="{Binding Hour}" MaxValue="23" MinValue="0" />
                 <TextBlock Grid.Column="7" Text=":" Style="{StaticResource RatioSignStyle}" />
