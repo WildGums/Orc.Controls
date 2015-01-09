@@ -10,8 +10,8 @@
     
     <UserControl.Resources>
         <catel:BooleanToHidingVisibilityConverter x:Key="BooleanToHidingVisibilityConverter"/>
-        
-        <ControlTemplate x:Key="ToogleButtonTemplate" TargetType="{x:Type ToggleButton}">
+
+        <ControlTemplate x:Key="DatePickerToogleButtonTemplate" TargetType="{x:Type ToggleButton}">
             <Border BorderBrush="{TemplateBinding BorderBrush}" 
 					Background="{TemplateBinding Background}" 
                     BorderThickness="{TemplateBinding BorderThickness}"
@@ -31,7 +31,7 @@
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderBrush" Value="LightGray"/>
             <Setter Property="Margin" Value="1"/>
-            <Setter Property="Template" Value="{StaticResource ToogleButtonTemplate}"/>
+            <Setter Property="Template" Value="{StaticResource DatePickerToogleButtonTemplate}"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="BorderBrush" Value="Orange"/>
@@ -127,8 +127,8 @@
     <Grid x:Name="MainGrid">
         <Border BorderThickness="1" MinWidth="185" Height="22" >
             <DockPanel Background="White">
-                <ToggleButton x:Name="Icon" DockPanel.Dock="Right" VerticalAlignment="Stretch"
-                              Style="{StaticResource DatePickerToogleButtonStyle}"
+                <ToggleButton x:Name="DatePickerIcon" DockPanel.Dock="Right" VerticalAlignment="Stretch"
+                              Style="{StaticResource DatePickerToogleButtonStyle}" Checked="DatePickerIcon_OnChecked"
                               Visibility="{Binding EnableDatePicker, Converter={StaticResource BooleanToHidingVisibilityConverter}}"/>
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>

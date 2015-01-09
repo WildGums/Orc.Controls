@@ -117,5 +117,33 @@ namespace Orc.Controls
             var daysInMonth = DateTime.DaysInMonth(Value.Year, Value.Month);
             NumericTBDay.MaxValue = daysInMonth;
         }
+
+        private void DatePickerIcon_OnChecked(object sender, RoutedEventArgs e)
+        {
+            var calendarPopup = CreateCalendarPopup(); 
+            calendarPopup.Closed += CalendarPopupOnClosed;
+            var popupSource = new Calendar(){Margin = new Thickness(0,-3,0,-3)};
+            calendarPopup.Child = popupSource;
+            popupSource.Focus();
+        }
+
+        private void CalendarPopupOnClosed(object sender, EventArgs eventArgs)
+        {
+            DatePickerIcon.IsChecked = false;
+        }
+
+        private Popup CreateCalendarPopup()
+        {
+            var popup = new Popup
+            {
+                PlacementTarget = MainGrid,
+                Placement = PlacementMode.Bottom,
+                VerticalOffset = -5,
+                IsOpen = true,
+                StaysOpen = false,
+                AllowsTransparency = true
+            };
+            return popup;
+        }
     }
 }
