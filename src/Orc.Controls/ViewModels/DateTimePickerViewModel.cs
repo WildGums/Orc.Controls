@@ -31,6 +31,9 @@ namespace Orc.Controls
 
                 // Raise all property changed
                 RaisePropertyChanged(string.Empty);
+
+                // Required for mappings
+                RaisePropertyChanged("Value");
             }
         }
 

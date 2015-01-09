@@ -19,11 +19,6 @@ namespace Orc.Controls
     /// </summary>
     public partial class DateTimePickerControl
     {
-        #region Constants
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof (DateTime), typeof (DateTimePickerControl),
-            new UIPropertyMetadata(DateTime.Now));
-        #endregion
-
         #region Fields
         private readonly List<NumericTextBox> _numericTextBoxes;
         private DateTimePart _activeDateTimePart;
@@ -70,6 +65,9 @@ namespace Orc.Controls
             get { return (DateTime) GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
+
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(DateTime), typeof(DateTimePickerControl),
+            new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
 
         #region Methods
