@@ -60,8 +60,14 @@ namespace Orc.Controls
                 {
                     return;
                 }
-
-                Value = new DateTime(Year, value, Day, Hour, Minute, Second);
+                var daysInMonth = DateTime.DaysInMonth(Year, value);
+                if (Day <= daysInMonth)
+                {
+                    Value = new DateTime(Year, value, Day, Hour, Minute, Second);
+                    return;
+                }
+                Day = daysInMonth;
+                Value = new DateTime(Year, value, daysInMonth, Hour, Minute, Second);
             }
         }
 
