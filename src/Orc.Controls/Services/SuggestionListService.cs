@@ -27,7 +27,7 @@ namespace Orc.Controls.Services
                     for (var i = 1; i <= daysInMonth; i++)
                     {
                         var day = new DateTime(dateTime.Year, dateTime.Month, i).ToString("d ddd", CultureInfo.InvariantCulture);
-                        days.Add(day);
+                        days.Add(AlignItem(i, day));
                     }
                     return days.ToArray();
 
@@ -36,14 +36,7 @@ namespace Orc.Controls.Services
                     for (var i = 1; i <= 12; i++)
                     {
                         var month = new DateTime(dateTime.Year, i, 1).ToString("M MMM", CultureInfo.InvariantCulture);
-                        if (i<10)
-                        {
-                            months.Add("  " + month);
-                        }
-                        else
-                        {
-                            months.Add(month);
-                        }
+                        months.Add(AlignItem(i, month));
                     }
                     return months.ToArray();
 
@@ -51,7 +44,7 @@ namespace Orc.Controls.Services
                     var hours = new List<string>();
                     for (var i = 0; i < 24; i++)
                     {
-                        hours.Add(i.ToString());
+                        hours.Add(AlignItem(i, i.ToString()));
                     }
                     return hours.ToArray();
 
@@ -59,7 +52,7 @@ namespace Orc.Controls.Services
                     var minutes = new List<string>();
                     for (var i = 0; i < 60; i++)
                     {
-                        minutes.Add(i.ToString());
+                        minutes.Add(AlignItem(i, i.ToString()));
                     }
                     return minutes.ToArray();
 
@@ -67,13 +60,22 @@ namespace Orc.Controls.Services
                     var seconds = new List<string>();
                     for (var i = 0; i < 60; i++)
                     {
-                        seconds.Add(i.ToString());
+                        seconds.Add(AlignItem(i, i.ToString()));
                     }
                     return seconds.ToArray();
 
                 default:
                     throw new InvalidOperationException();
             }
+        }
+
+        private static string AlignItem(int itemIndex, string item)
+        {
+            if (itemIndex < 10)
+            {
+               return "  " + item;
+            }
+            return item;
         }
         #endregion
     }
