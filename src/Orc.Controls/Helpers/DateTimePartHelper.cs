@@ -52,7 +52,7 @@ namespace Orc.Controls
 
             var popupSource = CreatePopupSource();
             popupSource.PreviewKeyDown += popupSource_PreviewKeyDown;
-            popupSource.MouseDoubleClick += PopupSourceOnMouseDoubleClick;
+            popupSource.MouseUp += PopupSourceOnMouseUp;
 
             popup.Child = popupSource;
             SelectItem(popupSource);
@@ -61,12 +61,12 @@ namespace Orc.Controls
             return popup;
         }
 
-        private void PopupSourceOnMouseDoubleClick(object sender, MouseButtonEventArgs mouseButtonEventArgs)
+        private void PopupSourceOnMouseUp(object sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
-            var listbox = ((ListBox) sender);
+            var listbox = ((ListBox)sender);
             UpdateTextBox((KeyValuePair<string, string>)listbox.SelectedItems[0]);
-            
-            ((Popup) listbox.Parent).IsOpen = false;
+
+            ((Popup)listbox.Parent).IsOpen = false;
             _textBox.Focus();
         }
 
