@@ -9,7 +9,7 @@
                    mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="190">
     
     <UserControl.Resources>
-        <catel:BooleanToHidingVisibilityConverter x:Key="BooleanToHidingVisibilityConverter"/>
+        <catel:BooleanToCollapsingVisibilityConverter x:Key="BooleanToCollapsingVisibilityConverter"/>
 
         <ControlTemplate x:Key="DatePickerToogleButtonTemplate" TargetType="{x:Type ToggleButton}">
             <Border BorderBrush="{TemplateBinding BorderBrush}" 
@@ -125,12 +125,13 @@
     </UserControl.Resources>
 
     <Grid x:Name="MainGrid">
-        <Border BorderThickness="1" MinWidth="185" Height="22" >
-            <DockPanel Background="White">
-                <ToggleButton x:Name="DatePickerIcon" DockPanel.Dock="Right" VerticalAlignment="Stretch"
-                              Style="{StaticResource DatePickerToogleButtonStyle}" Checked="DatePickerIcon_OnChecked"
-                              Visibility="{Binding EnableDatePicker, Converter={StaticResource BooleanToHidingVisibilityConverter}}"/>
-                <Grid HorizontalAlignment="Stretch">
+        <Border BorderThickness="1" Height="22" >
+            <Grid Background="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid Margin="0 0 4 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -176,7 +177,10 @@
                                   Checked="ToggleButton_OnChecked" Content="s" />
                 
                 </Grid>
-            </DockPanel>
+                <ToggleButton Grid.Column="1" x:Name="DatePickerIcon" DockPanel.Dock="Right" VerticalAlignment="Stretch"
+                              Style="{StaticResource DatePickerToogleButtonStyle}" Checked="DatePickerIcon_OnChecked"
+                              Visibility="{Binding EnableDatePicker, Converter={StaticResource BooleanToCollapsingVisibilityConverter}}"/>
+            </Grid>
         </Border>
     </Grid>
 </catel:UserControl>
