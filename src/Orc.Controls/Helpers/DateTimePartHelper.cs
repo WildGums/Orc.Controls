@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DateTimePartHelper.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2014 Wild Gums. All rights reserved.
+//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -8,6 +8,7 @@
 namespace Orc.Controls
 {
     using System;
+    using System.Collections.Generic;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
@@ -16,11 +17,14 @@ namespace Orc.Controls
 
     public class DateTimePartHelper
     {
+        #region Fields
         private readonly DateTime _dateTime;
+        private readonly DateTimePart _dateTimePart;
         private readonly NumericTextBox _textBox;
         private readonly ToggleButton _toggleButton;
-        private readonly DateTimePart _dateTimePart;
+        #endregion
 
+        #region Constructors
         public DateTimePartHelper(DateTime dateTime, DateTimePart dateTimePart, NumericTextBox textBox, ToggleButton activeToggleButton)
         {
             _dateTime = dateTime;
@@ -28,6 +32,7 @@ namespace Orc.Controls
             _toggleButton = activeToggleButton;
             _dateTimePart = dateTimePart;
         }
+        #endregion
 
         #region Methods
         public Popup CreatePopup()
@@ -58,15 +63,16 @@ namespace Orc.Controls
 
         private void PopupSourceOnMouseDoubleClick(object sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
-            var listbox = ((ListBox)sender);
-            UpdateTextBox(listbox.SelectedItems[0].ToString());
-            ((Popup)listbox.Parent).IsOpen = false;
+            var listbox = ((ListBox) sender);
+            UpdateTextBox((KeyValuePair<string, string>)listbox.SelectedItems[0]);
+            
+            ((Popup) listbox.Parent).IsOpen = false;
             _textBox.Focus();
         }
 
-        void popupSource_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void popupSource_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            var listbox = ((ListBox)sender);
+            var listbox = ((ListBox) sender);
             if (e.Key == Key.Down)
             {
                 if (listbox.SelectedIndex < listbox.Items.Count)
@@ -87,14 +93,14 @@ namespace Orc.Controls
             }
             if (e.Key == Key.Escape)
             {
-                ((Popup)listbox.Parent).IsOpen = false;
+                ((Popup) listbox.Parent).IsOpen = false;
                 _textBox.Focus();
                 e.Handled = true;
             }
             if (e.Key == Key.Enter)
             {
-                UpdateTextBox(listbox.SelectedItems[0].ToString());
-                ((Popup)listbox.Parent).IsOpen = false;
+                UpdateTextBox((KeyValuePair<string, string>)listbox.SelectedItems[0]);
+                ((Popup) listbox.Parent).IsOpen = false;
                 _textBox.Focus();
                 e.Handled = true;
             }
@@ -104,7 +110,7 @@ namespace Orc.Controls
         {
             foreach (var item in listBox.Items)
             {
-                if (item.ToString().StartsWith(_textBox.Text))
+                if ((((KeyValuePair<string, string>)item).Key) == _textBox.Text)
                 {
                     listBox.SelectedItem = item;
                     listBox.ScrollIntoView(listBox.SelectedItem);
@@ -120,9 +126,9 @@ namespace Orc.Controls
             _toggleButton.IsChecked = false;
         }
 
-        private void UpdateTextBox(string selectedItem)
+        private void UpdateTextBox(KeyValuePair<string, string> selectedItem)
         {
-            _textBox.Text = selectedItem;
+            _textBox.Text = selectedItem.Key;
         }
 
         private ListBox CreatePopupSource()
@@ -131,7 +137,12 @@ namespace Orc.Controls
             var suggestionListService = serviceLocator.ResolveType<ISuggestionListService>();
             var source = suggestionListService.GetSuggestionList(_dateTime, _dateTimePart);
 
-            var listbox = new ListBox() { ItemsSource = source, IsSynchronizedWithCurrentItem = false};
+            var listbox = new ListBox()
+            {
+                ItemsSource = source,
+                IsSynchronizedWithCurrentItem = false,
+                DisplayMemberPath = "Value"
+            };
             return listbox;
         }
         #endregion
