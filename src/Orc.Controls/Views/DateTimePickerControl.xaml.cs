@@ -139,17 +139,20 @@ namespace Orc.Controls
             };
             
             calendar.PreviewKeyDown += CalendarOnPreviewKeyDown;
-            calendar.MouseDoubleClick += CalendarOnMouseDoubleClick;
+            calendar.SelectedDatesChanged += CalendarOnSelectedDatesChanged;
 
             return calendar;
         }
 
-        private void CalendarOnMouseDoubleClick(object sender, MouseButtonEventArgs mouseButtonEventArgs)
+        private void CalendarOnSelectedDatesChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
-            var calendar = ((Calendar)sender);
-            UpdateTextBoxes(calendar);
+            var calendar = (((Calendar)sender));
+            if (calendar.SelectedDate.HasValue)
+            {
+                UpdateValue(calendar.SelectedDate.Value);
+            }
             ((Popup)calendar.Parent).IsOpen = false;
-            NumericTBDay.Focus();
+            
         }
 
         private void CalendarOnPreviewKeyDown(object sender, KeyEventArgs e)
@@ -163,22 +166,19 @@ namespace Orc.Controls
             }
             if (e.Key == Key.Enter)
             {
-                UpdateTextBoxes(calendar);
+                if (calendar.SelectedDate.HasValue)
+                {
+                    UpdateValue(calendar.SelectedDate.Value);
+                }
                 ((Popup)calendar.Parent).IsOpen = false;
-                NumericTBDay.Focus();
+
                 e.Handled = true;
             }
         }
 
-        private void UpdateTextBoxes(Calendar calendar)
+        private void UpdateValue(DateTime date)
         {
-            if (calendar.SelectedDate.HasValue)
-            {
-                var selectedDate = calendar.SelectedDate.Value;
-                NumericTBDay.Text = selectedDate.Day.ToString();
-                NumericTBMonth.Text = selectedDate.Month.ToString();
-                NumericTBYear.Text = selectedDate.Year.ToString();
-            }
+            Value = new DateTime(date.Year, date.Month, date.Day, Value.Hour, Value.Minute, Value.Second);
         }
 
         private void CalendarPopupOnClosed(object sender, EventArgs eventArgs)
