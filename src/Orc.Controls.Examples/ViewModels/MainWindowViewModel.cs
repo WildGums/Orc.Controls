@@ -8,6 +8,7 @@
 namespace Orc.Controls.Examples.ViewModels
 {
     using System;
+    using System.Windows.Media;
     using Catel.MVVM;
 
     public class MainWindowViewModel : ViewModelBase
@@ -15,6 +16,7 @@ namespace Orc.Controls.Examples.ViewModels
         #region Fields
         private TimeSpan _timeSpanValue;
         private DateTime _dateTimeValue;
+        private Brush _accentColorBrush;
         #endregion
 
         #region Constructors
@@ -22,6 +24,7 @@ namespace Orc.Controls.Examples.ViewModels
         {
             TimeSpanValue = new TimeSpan(10, 11, 12, 13);
             DateTimeValue = DateTime.Now;
+            AccentColorBrush = Brushes.Red;
         }
         #endregion
 
@@ -51,6 +54,20 @@ namespace Orc.Controls.Examples.ViewModels
                 }
                 _dateTimeValue = value;
                 RaisePropertyChanged(() => DateTimeValue);
+            }
+        }
+
+        public Brush AccentColorBrush
+        {
+            get { return _accentColorBrush; }
+            set
+            {
+                if (_accentColorBrush == value)
+                {
+                    return;
+                }
+                _accentColorBrush = value;
+                RaisePropertyChanged(() => AccentColorBrush);
             }
         }
         #endregion

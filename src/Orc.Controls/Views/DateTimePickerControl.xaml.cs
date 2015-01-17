@@ -13,6 +13,7 @@ namespace Orc.Controls
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
+    using System.Windows.Media;
     using Catel.MVVM.Views;
 
     /// <summary>
@@ -79,6 +80,16 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty EnableDatePickerProperty = DependencyProperty.Register("EnableDatePicker", typeof(bool), typeof(DateTimePickerControl),
             new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public Brush AccentColorBrush
+        {
+            get { return (Brush)GetValue(AccentColorBrushProperty); }
+            set { SetValue(AccentColorBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush), typeof(DateTimePickerControl),
+            new FrameworkPropertyMetadata(Brushes.Blue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
 
         #region Methods

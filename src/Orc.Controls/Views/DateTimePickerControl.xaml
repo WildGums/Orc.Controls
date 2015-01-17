@@ -34,7 +34,10 @@
             <Setter Property="Template" Value="{StaticResource DatePickerToogleButtonTemplate}"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="Orange"/>
+                    <Setter Property="BorderBrush" Value="{Binding HighlightColorBrush}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="BorderBrush" Value="{Binding AccentColorBrush}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -45,10 +48,10 @@
             <Setter Property="BorderBrush" Value="LightGray"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="Orange" />
+                    <Setter Property="BorderBrush" Value="{Binding HighlightColorBrush}" />
                 </Trigger>
                 <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                    <Setter Property="BorderBrush" Value="Orange" />
+                    <Setter Property="BorderBrush" Value="{Binding AccentColorBrush}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
