@@ -8,6 +8,7 @@
 namespace Orc.Controls.Examples.ViewModels
 {
     using System;
+    using System.Collections.Generic;
     using Catel.MVVM;
 
     public class MainWindowViewModel : ViewModelBase
@@ -15,6 +16,7 @@ namespace Orc.Controls.Examples.ViewModels
         #region Fields
         private TimeSpan _timeSpanValue;
         private DateTime _dateTimeValue;
+        private List<string> _filterSource;
         #endregion
 
         #region Constructors
@@ -22,7 +24,18 @@ namespace Orc.Controls.Examples.ViewModels
         {
             TimeSpanValue = new TimeSpan(10, 11, 12, 13);
             DateTimeValue = DateTime.Now;
+            FilterSource = new List<string>()
+            {
+                "abcd",
+                "afghj",
+                "basdf",
+                "bwerr",
+                "oiydd",
+                "klhhs",
+                "sdfhi",
+            };
         }
+
         #endregion
 
         #region Properties
@@ -51,6 +64,20 @@ namespace Orc.Controls.Examples.ViewModels
                 }
                 _dateTimeValue = value;
                 RaisePropertyChanged(() => DateTimeValue);
+            }
+        }
+
+        public List<string> FilterSource
+        {
+            get { return _filterSource; }
+            set
+            {
+                if (_filterSource == value)
+                {
+                    return;
+                }
+                _filterSource = value;
+                RaisePropertyChanged(() => FilterSource);
             }
         }
         #endregion
