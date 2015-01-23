@@ -17,6 +17,7 @@ namespace Orc.Controls.Examples.ViewModels
         private TimeSpan _timeSpanValue;
         private DateTime _dateTimeValue;
         private List<KeyValuePair<string, string>> _filterSource;
+        private string _filterText;
         #endregion
 
         #region Constructors
@@ -77,6 +78,20 @@ namespace Orc.Controls.Examples.ViewModels
                 }
                 _filterSource = value;
                 RaisePropertyChanged(() => FilterSource);
+            }
+        }
+
+        public string FilterText
+        {
+            get { return _filterText; }
+            set
+            {
+                if (_filterText == value)
+                {
+                    return;
+                }
+                _filterText = value;
+                RaisePropertyChanged(() => FilterText);
             }
         }
         #endregion

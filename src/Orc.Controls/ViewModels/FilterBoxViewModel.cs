@@ -14,13 +14,29 @@ namespace Orc.Controls.ViewModels
     {
         private IEnumerable _filterSource;
         private string _propertyName;
+        private string _text;
 
         public FilterBoxViewModel()
         {
             ClearFilter = new Command(OnClearFilterExecute, OnClearFilterCanExecute);
         }
 
-        public string Filter { get; set; }
+        public string Text
+        {
+            get { return _text; }
+            set
+            {
+                if (_text == value)
+                {
+                    return;
+                }
+
+                _text = value;
+
+                // Required for mappings
+                RaisePropertyChanged("Text");
+            }
+        }
 
         public IEnumerable FilterSource
         {
@@ -60,12 +76,12 @@ namespace Orc.Controls.ViewModels
 
         private bool OnClearFilterCanExecute()
         {
-            return !string.IsNullOrWhiteSpace(Filter);
+            return !string.IsNullOrWhiteSpace(Text);
         }
 
         private void OnClearFilterExecute()
         {
-            Filter = null;
+            Text = null;
         }
     }
 }

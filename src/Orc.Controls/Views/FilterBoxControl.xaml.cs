@@ -49,6 +49,16 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.Register("PropertyName", typeof(string), typeof(FilterBoxControl),
             new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public string Text
+        {
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
+        }
+
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(FilterBoxControl),
+            new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
     }
 }
