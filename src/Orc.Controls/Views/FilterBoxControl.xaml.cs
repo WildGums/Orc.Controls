@@ -7,6 +7,7 @@
 
 namespace Orc.Controls
 {
+    using System.Collections;
     using System.Collections.Generic;
     using System.Windows;
     using Catel.MVVM.Views;
@@ -30,14 +31,24 @@ namespace Orc.Controls
 
         #region Properties
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public List<string> FilterSource
+        public IEnumerable FilterSource
         {
-            get { return (List<string>)GetValue(FilterSourceProperty); }
+            get { return (IEnumerable)GetValue(FilterSourceProperty); }
             set { SetValue(FilterSourceProperty, value); }
         }
 
-        public static readonly DependencyProperty FilterSourceProperty = DependencyProperty.Register("FilterSource", typeof(List<string>), typeof(FilterBoxControl),
-            new FrameworkPropertyMetadata(new List<string>(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty FilterSourceProperty = DependencyProperty.Register("FilterSource", typeof(IEnumerable), typeof(FilterBoxControl),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public string PropertyName
+        {
+            get { return (string)GetValue(PropertyNameProperty); }
+            set { SetValue(PropertyNameProperty, value); }
+        }
+
+        public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.Register("PropertyName", typeof(string), typeof(FilterBoxControl),
+            new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
     }
 }

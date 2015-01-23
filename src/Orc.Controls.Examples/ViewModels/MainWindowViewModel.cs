@@ -16,7 +16,7 @@ namespace Orc.Controls.Examples.ViewModels
         #region Fields
         private TimeSpan _timeSpanValue;
         private DateTime _dateTimeValue;
-        private List<string> _filterSource;
+        private List<KeyValuePair<string, string>> _filterSource;
         #endregion
 
         #region Constructors
@@ -24,15 +24,14 @@ namespace Orc.Controls.Examples.ViewModels
         {
             TimeSpanValue = new TimeSpan(10, 11, 12, 13);
             DateTimeValue = DateTime.Now;
-            FilterSource = new List<string>()
+            FilterSource = new List<KeyValuePair<string, string>>()
             {
-                "abcd",
-                "afghj",
-                "basdf",
-                "bwerr",
-                "oiydd",
-                "klhhs",
-                "sdfhi",
+                new KeyValuePair<string, string>("1","abcd"),
+                new KeyValuePair<string, string>("2","basdf"),
+                new KeyValuePair<string, string>("3","bwerr"),
+                new KeyValuePair<string, string>("4","oiydd"),
+                new KeyValuePair<string, string>("5","klhhs"),
+                new KeyValuePair<string, string>("6","sdfhi"),
             };
         }
 
@@ -67,7 +66,7 @@ namespace Orc.Controls.Examples.ViewModels
             }
         }
 
-        public List<string> FilterSource
+        public List<KeyValuePair<string, string>> FilterSource
         {
             get { return _filterSource; }
             set

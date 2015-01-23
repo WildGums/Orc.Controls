@@ -34,7 +34,7 @@
                  HorizontalAlignment="Left"/>
 
         <TextBlock Grid.Column="0" Grid.Row="4" Text="Text Box" VerticalAlignment="Center"/>
-        <controls:FilterBoxControl Grid.Column="1" Grid.Row="4" Width="185" Margin="5" 
+        <controls:FilterBoxControl Grid.Column="1" Grid.Row="4" Width="185" Margin="5" PropertyName="Value"
                                    FilterSource="{Binding FilterSource}" HorizontalAlignment="Left"/>
     </Grid>
 

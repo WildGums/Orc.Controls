@@ -7,12 +7,13 @@
 
 namespace Orc.Controls.ViewModels
 {
-    using System.Collections.Generic;
+    using System.Collections;
     using Catel.MVVM;
 
     public class FilterBoxViewModel : ViewModelBase
     {
-        private List<string> _filterSource;
+        private IEnumerable _filterSource;
+        private string _propertyName;
 
         public FilterBoxViewModel()
         {
@@ -21,7 +22,7 @@ namespace Orc.Controls.ViewModels
 
         public string Filter { get; set; }
 
-        public List<string> FilterSource
+        public IEnumerable FilterSource
         {
             get { return _filterSource; }
             set
@@ -35,6 +36,23 @@ namespace Orc.Controls.ViewModels
 
                 // Required for mappings
                 RaisePropertyChanged("FilterSource");
+            }
+        }
+
+        public string PropertyName
+        {
+            get { return _propertyName; }
+            set
+            {
+                if (_propertyName == value)
+                {
+                    return;
+                }
+
+                _propertyName = value;
+
+                // Required for mappings
+                RaisePropertyChanged("PropertyName");
             }
         }
 

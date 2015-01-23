@@ -86,7 +86,7 @@
             <i:Interaction.Behaviors>
                 <catel:UpdateBindingOnTextChanged UpdateDelay="750" />
                 <catel:KeyPressToCommand Key="Escape" Command="{Binding ClearFilter}"/>
-                <catel:AutoCompletion ItemsSource="{Binding FilterSource}" />
+                <catel:AutoCompletion PropertyName ="{Binding PropertyName, Mode=OneWay}" ItemsSource="{Binding FilterSource}" />
             </i:Interaction.Behaviors>
         </TextBox>
     </Grid>
