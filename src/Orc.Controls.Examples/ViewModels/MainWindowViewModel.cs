@@ -8,6 +8,7 @@
 namespace Orc.Controls.Examples.ViewModels
 {
     using System;
+    using System.Collections.Generic;
     using Catel.MVVM;
 
     public class MainWindowViewModel : ViewModelBase
@@ -15,6 +16,8 @@ namespace Orc.Controls.Examples.ViewModels
         #region Fields
         private TimeSpan _timeSpanValue;
         private DateTime _dateTimeValue;
+        private List<KeyValuePair<string, string>> _filterSource;
+        private string _filterText;
         #endregion
 
         #region Constructors
@@ -22,7 +25,17 @@ namespace Orc.Controls.Examples.ViewModels
         {
             TimeSpanValue = new TimeSpan(10, 11, 12, 13);
             DateTimeValue = DateTime.Now;
+            FilterSource = new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string>("1","abcd"),
+                new KeyValuePair<string, string>("2","basdf"),
+                new KeyValuePair<string, string>("3","bwerr"),
+                new KeyValuePair<string, string>("4","oiydd"),
+                new KeyValuePair<string, string>("5","klhhs"),
+                new KeyValuePair<string, string>("6","sdfhi"),
+            };
         }
+
         #endregion
 
         #region Properties
@@ -51,6 +64,34 @@ namespace Orc.Controls.Examples.ViewModels
                 }
                 _dateTimeValue = value;
                 RaisePropertyChanged(() => DateTimeValue);
+            }
+        }
+
+        public List<KeyValuePair<string, string>> FilterSource
+        {
+            get { return _filterSource; }
+            set
+            {
+                if (_filterSource == value)
+                {
+                    return;
+                }
+                _filterSource = value;
+                RaisePropertyChanged(() => FilterSource);
+            }
+        }
+
+        public string FilterText
+        {
+            get { return _filterText; }
+            set
+            {
+                if (_filterText == value)
+                {
+                    return;
+                }
+                _filterText = value;
+                RaisePropertyChanged(() => FilterText);
             }
         }
         #endregion
