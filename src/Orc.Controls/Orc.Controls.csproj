@@ -89,6 +89,7 @@
     <Compile Include="Converters\TimeSpanToTotalStringConverter.cs" />
     <Compile Include="Enums\Extensions\DateTimePartExtensions.cs" />
     <Compile Include="Enums\Extensions\TimeSpanPartExtensions.cs" />
+    <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Helpers\DateTimePartHelper.cs" />
     <Compile Include="ModuleInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -124,9 +125,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
   </ItemGroup>

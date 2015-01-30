@@ -9,7 +9,16 @@
      
     <UserControl.Resources>
         <catel:BooleanToCollapsingVisibilityConverter x:Key="BooleanToCollapsingVisibilityConverter" />
-        
+        <Style TargetType="{x:Type ListBoxItem}">
+            <Style.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource HighlightColor}"/>
+            </Style.Resources>
+            <Style.Triggers>
+                <Trigger Property="ListBoxItem.IsSelected" Value="True" >
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <Style TargetType="{x:Type Button}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -20,10 +29,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="Chrome" Value="{Binding HighlightColorBrush}"/>
+                                <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource HighlightBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" TargetName="Chrome" Value="{Binding AccentColorBrush}"/>
+                                <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource AccentColorBrush}"/>
                                 <Setter Property="Fill" TargetName="Path" Value="White"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
@@ -61,10 +70,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="BorderBrush" TargetName="Bd" Value="{Binding AccentColorBrush}"/>
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource AccentColorBrush}"/>
                             </Trigger>
                             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                                <Setter Property="BorderBrush" TargetName="Bd" Value="{Binding AccentColorBrush}"/>
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource AccentColorBrush}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Foreground" Value="#FFADADAD"/>

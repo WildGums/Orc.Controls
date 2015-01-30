@@ -10,6 +10,7 @@ namespace Orc.Controls.ViewModels
     using System.Collections;
     using System.Windows.Media;
     using Catel.MVVM;
+    using Extensions;
 
     public class FilterBoxViewModel : ViewModelBase
     {
@@ -17,7 +18,6 @@ namespace Orc.Controls.ViewModels
         private string _propertyName;
         private string _text;
         private Brush _accentColorBrushProperty;
-        private Brush _highlightColorBrush;
 
         public FilterBoxViewModel()
         {
@@ -35,25 +35,9 @@ namespace Orc.Controls.ViewModels
                 }
 
                 _accentColorBrushProperty = value;
-                HighlightColorBrush = GetHighlightBrush(_accentColorBrushProperty);
-
+                var accentColor = ((SolidColorBrush) AccentColorBrush).Color;
+                accentColor.CreateAccentColorResourceDictionary();
                 RaisePropertyChanged("AccentColorBrush");
-            }
-        }
-
-        public Brush HighlightColorBrush
-        {
-            get { return _highlightColorBrush; }
-            set
-            {
-                if (_highlightColorBrush == value)
-                {
-                    return;
-                }
-
-                _highlightColorBrush = value;
-
-                RaisePropertyChanged("HighlightColorBrush");
             }
         }
 
@@ -118,12 +102,6 @@ namespace Orc.Controls.ViewModels
         private void OnClearFilterExecute()
         {
             Text = null;
-        }
-
-        private Brush GetHighlightBrush(Brush brush)
-        {
-            var color = ((SolidColorBrush)brush).Color;
-            return new SolidColorBrush(Color.FromArgb(51, color.R, color.G, color.B));
         }
     }
 }
