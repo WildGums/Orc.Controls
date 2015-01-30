@@ -11,7 +11,7 @@
         <catel:BooleanToCollapsingVisibilityConverter x:Key="BooleanToCollapsingVisibilityConverter" />
         <Style TargetType="{x:Type ListBoxItem}">
             <Style.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource HighlightColor}"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource FilterBoxHighlightColor}"/>
             </Style.Resources>
             <Style.Triggers>
                 <Trigger Property="ListBoxItem.IsSelected" Value="True" >
@@ -29,10 +29,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource HighlightBrush}"/>
+                                <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource FilterBoxHighlightBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource AccentColorBrush}"/>
+                                <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource FilterBoxAccentBrush}"/>
                                 <Setter Property="Fill" TargetName="Path" Value="White"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
@@ -70,10 +70,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource AccentColorBrush}"/>
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource FilterBoxAccentBrush}"/>
                             </Trigger>
                             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                                <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource AccentColorBrush}"/>
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource FilterBoxAccentBrush}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Foreground" Value="#FFADADAD"/>

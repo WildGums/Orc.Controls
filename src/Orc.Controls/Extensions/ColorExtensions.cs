@@ -12,22 +12,33 @@ namespace Orc.Controls.Extensions
 
     internal static class ColorExtensions
     {
+        #region Constants
+        private static ResourceDictionary _accentColorResourceDictionary;
+        #endregion
+
         #region Methods
         public static ResourceDictionary CreateAccentColorResourceDictionary(this Color color)
         {
+            if (_accentColorResourceDictionary != null)
+            {
+                return _accentColorResourceDictionary;
+            }
             var resourceDictionary = new ResourceDictionary();
 
-            resourceDictionary.Add("HighlightColor", color.CalculateHighlightColor());
-            resourceDictionary.Add("AccentColor", color);
+            resourceDictionary.Add("FilterBoxHighlightColor", color.CalculateHighlightColor());
+            resourceDictionary.Add("FilterBoxAccentColor", color);
 
-            resourceDictionary.Add("HighlightBrush", new SolidColorBrush((Color) resourceDictionary["HighlightColor"]));
-            resourceDictionary.Add("AccentColorBrush", new SolidColorBrush((Color) resourceDictionary["AccentColor"]));
+            resourceDictionary.Add("FilterBoxHighlightBrush", new SolidColorBrush((Color)resourceDictionary["FilterBoxHighlightColor"]));
+            resourceDictionary.Add("FilterBoxAccentBrush", new SolidColorBrush((Color)resourceDictionary["FilterBoxAccentColor"]));
 
             var application = Application.Current;
             var applicationResources = application.Resources;
             applicationResources.MergedDictionaries.Insert(0, resourceDictionary);
+
+            _accentColorResourceDictionary = resourceDictionary;
             return applicationResources;
         }
+
         private static Color CalculateHighlightColor(this Color color)
         {
             return Color.FromArgb(51, color.R, color.G, color.B);
