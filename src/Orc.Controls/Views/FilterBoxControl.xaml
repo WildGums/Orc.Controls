@@ -15,22 +15,16 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ButtonBase}">
                         <Border x:Name="Chrome" BorderThickness="0" Background="#FFF4F4F4" SnapsToDevicePixels="True">
-                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"
-                                                  ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  Margin="-1"
-                                                  RecognizesAccessKey="True"
-                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <Path x:Name="Path" Data="M0,1.05 L1.05,0 8.33,7.26 15.55,0.0 16.6,1.0 9.3,8.3 16.6,15.55 15.55,16.6 8.3,9.3 1,16.6 0,15.6 7.3,8.3 z" 
+                                  Fill="#575757" Margin="4" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="Chrome" Value="Orange"/>
-                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Background" TargetName="Chrome" Value="{Binding HighlightColorBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" TargetName="Chrome" Value="Orange"/>
-                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Background" TargetName="Chrome" Value="{Binding AccentColorBrush}"/>
+                                <Setter Property="Fill" TargetName="Path" Value="White"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Foreground" Value="#FFADADAD"/>
@@ -60,17 +54,17 @@
                                 SnapsToDevicePixels="true">
                             <DockPanel>
                                 <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                <Button HorizontalAlignment="Right" Width="18" Content="X" 
+                                <Button HorizontalAlignment="Right" Width="18"
                                         DockPanel.Dock="Right" Command="{Binding ClearFilter}"
                                         Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={StaticResource BooleanToCollapsingVisibilityConverter}}"/>
                             </DockPanel>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="BorderBrush" TargetName="Bd" Value="Orange"/>
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="{Binding AccentColorBrush}"/>
                             </Trigger>
                             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                                <Setter Property="BorderBrush" TargetName="Bd" Value="Orange"/>
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="{Binding AccentColorBrush}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Foreground" Value="#FFADADAD"/>

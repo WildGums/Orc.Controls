@@ -10,6 +10,7 @@ namespace Orc.Controls
     using System.Collections;
     using System.Collections.Generic;
     using System.Windows;
+    using System.Windows.Media;
     using Catel.MVVM.Views;
 
     /// <summary>
@@ -59,6 +60,16 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(FilterBoxControl),
             new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public Brush AccentColorBrush
+        {
+            get { return (Brush)GetValue(AccentColorBrushProperty); }
+            set { SetValue(AccentColorBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush), typeof(FilterBoxControl),
+            new FrameworkPropertyMetadata(Brushes.Blue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
     }
 }
