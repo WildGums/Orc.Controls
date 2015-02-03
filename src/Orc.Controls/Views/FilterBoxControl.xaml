@@ -48,6 +48,7 @@
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
             <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
             <Setter Property="BorderBrush" Value="LightGray"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="1"/>
             <Setter Property="AllowDrop" Value="true"/>
