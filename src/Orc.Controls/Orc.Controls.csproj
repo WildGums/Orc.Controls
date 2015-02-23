@@ -84,6 +84,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionAssemblyInfo.cs">
+      <Link>Properties\SolutionAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Controls\NumericTextBox.cs" />
     <Compile Include="Enums\DateTimePart.cs" />
     <Compile Include="Converters\TimeSpanToTotalStringConverter.cs" />
