@@ -7,7 +7,6 @@
 
 namespace Orc.Controls
 {
-    using System;
     using System.Collections;
     using System.Collections.Specialized;
     using System.ComponentModel;
@@ -20,6 +19,10 @@ namespace Orc.Controls
     /// </summary>
     public partial class LogViewerControl
     {
+        #region Fields
+        private INotifyCollectionChanged _previousLogRecords = null;
+        #endregion
+
         #region Constructors
         public LogViewerControl()
         {
@@ -27,7 +30,7 @@ namespace Orc.Controls
             textBox.Document.Blocks.Clear();
 
             DependencyPropertyDescriptor
-                .FromProperty(LogRecordsProperty, typeof(LogViewerControl))
+                .FromProperty(LogRecordsProperty, typeof (LogViewerControl))
                 .AddValueChanged(this, (sender, args) =>
                 {
                     UnSubscribeToDataContext();
@@ -35,7 +38,9 @@ namespace Orc.Controls
                     SubscribeToDataContext();
                 });
         }
+        #endregion
 
+        #region Methods
         private void UnSubscribeToDataContext()
         {
             if (_previousLogRecords != null)
@@ -81,7 +86,5 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty LogRecordsProperty = DependencyProperty.Register("LogRecords", typeof(IEnumerable), typeof(LogViewerControl),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-        private INotifyCollectionChanged _previousLogRecords = null;
     }
 }
