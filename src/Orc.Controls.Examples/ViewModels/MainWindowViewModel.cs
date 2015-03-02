@@ -11,7 +11,9 @@ namespace Orc.Controls.Examples.ViewModels
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Catel.Logging;
     using Catel.MVVM;
+    using Models;
 
     public class MainWindowViewModel : ViewModelBase
     {
@@ -20,7 +22,7 @@ namespace Orc.Controls.Examples.ViewModels
         private DateTime _dateTimeValue;
         private List<KeyValuePair<string, string>> _filterSource;
         private string _filterText;
-        private ObservableCollection<string> _logRecords;
+        private ObservableCollection<LogRecord> _logRecords;
         #endregion
 
         #region Constructors
@@ -37,11 +39,12 @@ namespace Orc.Controls.Examples.ViewModels
                 new KeyValuePair<string, string>("5","klhhs"),
                 new KeyValuePair<string, string>("6","sdfhi"),
             };
-            LogRecords = new ObservableCollection<string>()
+            LogRecords = new ObservableCollection<LogRecord>()
             {
-                "log record 1",
-                "log record 2",
-                "log record 3",
+                new LogRecord(){DateTime = DateTime.Now, LogEvent = LogEvent.Debug, Message = "log record 1"},
+                new LogRecord(){DateTime = DateTime.Now, LogEvent = LogEvent.Error, Message = "log record 2"},
+                new LogRecord(){DateTime = DateTime.Now, LogEvent = LogEvent.Info, Message = "log record 3"},
+                new LogRecord(){DateTime = DateTime.Now, LogEvent = LogEvent.Warning, Message = "log record 4"},
             };
             AddLogRecords = new Command(OnAddLogRecordsExecute);
         }
@@ -90,7 +93,7 @@ namespace Orc.Controls.Examples.ViewModels
             }
         }
 
-        public ObservableCollection<string> LogRecords
+        public ObservableCollection<LogRecord> LogRecords
         {
             get { return _logRecords; }
             set
@@ -122,7 +125,10 @@ namespace Orc.Controls.Examples.ViewModels
         public Command AddLogRecords { get; set; }
         private void OnAddLogRecordsExecute()
         {
-           LogRecords.Add(DateTime.Now.Ticks.ToString());
+           LogRecords.Add(new LogRecord()
+           {
+               DateTime = DateTime.Now, LogEvent = LogEvent.Warning, Message = "log record 4"
+           });
         }
     }
 }

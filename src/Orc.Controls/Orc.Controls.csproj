@@ -94,6 +94,7 @@
     <Compile Include="Enums\Extensions\TimeSpanPartExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Helpers\DateTimePartHelper.cs" />
+    <Compile Include="Models\LogRecord.cs" />
     <Compile Include="ModuleInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DateTimePickerViewModel.cs" />

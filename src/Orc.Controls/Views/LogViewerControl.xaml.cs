@@ -8,17 +8,26 @@
 namespace Orc.Controls
 {
     using System.Collections;
+    using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Net.Mime;
     using System.Windows;
     using System.Windows.Documents;
+    using System.Windows.Media;
+    using Catel.Logging;
     using Catel.MVVM.Views;
+    using Examples.Models;
 
     /// <summary>
     /// Interaction logic for LogViewerControl.xaml.
     /// </summary>
     public partial class LogViewerControl
     {
+        #region Constants
+        private static readonly Dictionary<LogEvent, Brush> ColorSets = new Dictionary<LogEvent, Brush>();
+        #endregion
+
         #region Fields
         private INotifyCollectionChanged _previousLogRecords = null;
         #endregion
@@ -28,6 +37,11 @@ namespace Orc.Controls
         {
             InitializeComponent();
             textBox.Document.Blocks.Clear();
+
+            ColorSets[LogEvent.Debug] = Brushes.Gray;
+            ColorSets[LogEvent.Info] = Brushes.Black;
+            ColorSets[LogEvent.Warning] = Brushes.DarkOrange;
+            ColorSets[LogEvent.Error] = Brushes.Red;
 
             DependencyPropertyDescriptor
                 .FromProperty(LogRecordsProperty, typeof (LogViewerControl))
@@ -70,7 +84,12 @@ namespace Orc.Controls
             foreach (var logRecord in LogRecords)
             {
                 var paragraph = new Paragraph();
-                paragraph.Inlines.Add(logRecord as string);
+
+                var record = (LogRecord)logRecord;
+                var text = string.Format("{0} {1}", record.DateTime, record.Message);
+
+                paragraph.Inlines.Add(text);
+                paragraph.Foreground = ColorSets[record.LogEvent];
                 textBox.Document.Blocks.Add(paragraph);
             }
             textBox.ScrollToEnd();
