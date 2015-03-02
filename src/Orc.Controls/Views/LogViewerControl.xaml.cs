@@ -7,6 +7,7 @@
 
 namespace Orc.Controls
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.Specialized;
@@ -36,12 +37,13 @@ namespace Orc.Controls
         public LogViewerControl()
         {
             InitializeComponent();
-            textBox.Document.Blocks.Clear();
 
             ColorSets[LogEvent.Debug] = Brushes.Gray;
             ColorSets[LogEvent.Info] = Brushes.Black;
             ColorSets[LogEvent.Warning] = Brushes.DarkOrange;
             ColorSets[LogEvent.Error] = Brushes.Red;
+
+            Clear();
 
             DependencyPropertyDescriptor
                 .FromProperty(LogRecordsProperty, typeof (LogViewerControl))
@@ -75,7 +77,7 @@ namespace Orc.Controls
 
         private void LogRecordsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
         {
-            textBox.Document.Blocks.Clear();
+            Clear();
             UpdateControl();
         }
 
@@ -85,7 +87,7 @@ namespace Orc.Controls
             {
                 var paragraph = new Paragraph();
 
-                var record = (LogRecord)logRecord;
+                var record = (LogRecord) logRecord;
                 var text = string.Format("{0} {1}", record.DateTime, record.Message);
 
                 paragraph.Inlines.Add(text);
@@ -93,6 +95,11 @@ namespace Orc.Controls
                 textBox.Document.Blocks.Add(paragraph);
             }
             textBox.ScrollToEnd();
+        }
+
+        public void Clear()
+        {
+            textBox.Document.Blocks.Clear();
         }
         #endregion
 
