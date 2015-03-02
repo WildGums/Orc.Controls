@@ -8,7 +8,9 @@
 namespace Orc.Controls.Examples.ViewModels
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using Catel.MVVM;
 
     public class MainWindowViewModel : ViewModelBase
@@ -18,6 +20,7 @@ namespace Orc.Controls.Examples.ViewModels
         private DateTime _dateTimeValue;
         private List<KeyValuePair<string, string>> _filterSource;
         private string _filterText;
+        private ObservableCollection<string> _logRecords;
         #endregion
 
         #region Constructors
@@ -34,8 +37,14 @@ namespace Orc.Controls.Examples.ViewModels
                 new KeyValuePair<string, string>("5","klhhs"),
                 new KeyValuePair<string, string>("6","sdfhi"),
             };
+            LogRecords = new ObservableCollection<string>()
+            {
+                "log record 1",
+                "log record 2",
+                "log record 3",
+            };
+            AddLogRecords = new Command(OnAddLogRecordsExecute);
         }
-
         #endregion
 
         #region Properties
@@ -81,6 +90,20 @@ namespace Orc.Controls.Examples.ViewModels
             }
         }
 
+        public ObservableCollection<string> LogRecords
+        {
+            get { return _logRecords; }
+            set
+            {
+                if (_logRecords == value)
+                {
+                    return;
+                }
+                _logRecords = value;
+                RaisePropertyChanged(() => LogRecords);
+            }
+        }
+
         public string FilterText
         {
             get { return _filterText; }
@@ -95,5 +118,11 @@ namespace Orc.Controls.Examples.ViewModels
             }
         }
         #endregion
+
+        public Command AddLogRecords { get; set; }
+        private void OnAddLogRecordsExecute()
+        {
+           LogRecords.Add(DateTime.Now.Ticks.ToString());
+        }
     }
 }

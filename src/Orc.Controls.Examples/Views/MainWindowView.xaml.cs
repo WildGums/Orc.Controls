@@ -7,6 +7,7 @@
 
 namespace Orc.Controls.Examples.Views
 {
+    using System.Windows;
     using ViewModels;
 
     /// <summary>

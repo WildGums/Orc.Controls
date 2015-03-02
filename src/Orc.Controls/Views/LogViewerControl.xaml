@@ -7,9 +7,11 @@
                    mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="120">
 
     <UserControl.Resources>
-        
+        <Style TargetType="{x:Type Paragraph}">
+            <Setter Property="Margin" Value="0"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
-        <RichTextBox x:Name="TextBox" HorizontalAlignment="Stretch" />
+        <RichTextBox x:Name="textBox" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" />
     </Grid>
 </catel:UserControl>

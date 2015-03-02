@@ -11,5 +11,6 @@ namespace Orc.Controls.ViewModels
 
     public class LogViewerViewModel : ViewModelBase
     {
+
     }
 }
