@@ -77,6 +77,7 @@ namespace Orc.Controls
 
         private void LogRecordsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
         {
+            //Todo: Do not remove existing items, only add new rows.
             Clear();
             UpdateControl();
         }
