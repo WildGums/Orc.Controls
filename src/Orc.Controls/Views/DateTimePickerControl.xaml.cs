@@ -131,13 +131,15 @@ namespace Orc.Controls
 
         private void DatePickerIcon_OnChecked(object sender, RoutedEventArgs e)
         {
-            var calendarPopup = CreateCalendarPopup(); 
+            // Todo:Show button popup
+
+            /*var calendarPopup = CreateCalendarPopup(); 
             calendarPopup.Closed += CalendarPopupOnClosed;
 
             var calendarPopupSource = CreateCalendarPopupSource();
             calendarPopup.Child = calendarPopupSource;
 
-            calendarPopupSource.Focus();
+            calendarPopupSource.Focus();*/
         }
 
         private Calendar CreateCalendarPopupSource()
@@ -208,6 +210,21 @@ namespace Orc.Controls
                 StaysOpen = false,
             };
             return popup;
+        }
+
+        private void TodayButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            DatePickerIcon.IsChecked = false;
+        }
+
+        private void NowButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            DatePickerIcon.IsChecked = false;
+        }
+
+        private void SelectDateButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            DatePickerIcon.IsChecked = false;
         }
     }
 }

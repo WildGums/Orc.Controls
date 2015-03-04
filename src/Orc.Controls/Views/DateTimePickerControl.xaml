@@ -34,7 +34,7 @@
             <Setter Property="Template" Value="{StaticResource DatePickerToogleButtonTemplate}"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="{Binding HighlightColorBrush}"/>
+                    <Setter Property="BorderBrush" Value="{Binding AccentColorBrush}"/>
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
                     <Setter Property="BorderBrush" Value="{Binding AccentColorBrush}"/>
@@ -48,7 +48,7 @@
             <Setter Property="BorderBrush" Value="LightGray"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="{Binding HighlightColorBrush}" />
+                    <Setter Property="BorderBrush" Value="{Binding AccentColorBrush}" />
                 </Trigger>
                 <Trigger Property="IsKeyboardFocusWithin" Value="True">
                     <Setter Property="BorderBrush" Value="{Binding AccentColorBrush}" />
@@ -125,6 +125,41 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="PopupButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ButtonBase}">
+                        <Border x:Name="Container" BorderBrush="Transparent" BorderThickness="3" Background="Transparent">
+                            <Border x:Name="Border" BorderBrush="LightGray" BorderThickness="0" Background="White" SnapsToDevicePixels="True">
+                                <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"
+                                                      ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      Margin="{TemplateBinding Padding}"
+                                                      RecognizesAccessKey="True"
+                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" TargetName="Container" Value="{Binding HighlightColorBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="Border" Value="{Binding HighlightColorBrush}"/>
+                                <Setter Property="BorderBrush" TargetName="Border" Value="{Binding AccentColorBrush}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#FFADADAD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
 
     <Grid x:Name="MainGrid">
@@ -180,9 +215,22 @@
                                   Checked="ToggleButton_OnChecked" Content="s" />
                 
                 </Grid>
-                <ToggleButton Grid.Column="1" x:Name="DatePickerIcon" DockPanel.Dock="Right" VerticalAlignment="Stretch"
+                <StackPanel Grid.Column="1">
+                    <ToggleButton x:Name="DatePickerIcon" DockPanel.Dock="Right" VerticalAlignment="Stretch"
                               Style="{StaticResource DatePickerToogleButtonStyle}" Checked="DatePickerIcon_OnChecked"
                               Visibility="{Binding EnableDatePicker, Converter={StaticResource BooleanToCollapsingVisibilityConverter}}"/>
+                    <Popup Placement="Bottom" VerticalOffset = "2"
+                           PlacementTarget="{Binding ElementName=DatePickerIcon}" 
+                           IsOpen="{Binding IsChecked, ElementName=DatePickerIcon}" >
+                        <Border BorderBrush="Gray" BorderThickness="1">
+                            <StackPanel Background="White">
+                                <Button x:Name="TodayButton" Content="Today" Click="TodayButton_OnClick" Style="{StaticResource PopupButtonStyle}"/>
+                                <Button x:Name="NowButton" Content="Now" Click="NowButton_OnClick" Style="{StaticResource PopupButtonStyle}"/>
+                                <Button x:Name="SelectDateButton" Content="Select date" Click="SelectDateButton_OnClick" Style="{StaticResource PopupButtonStyle}"/>
+                            </StackPanel>
+                        </Border>
+                    </Popup>
+                </StackPanel>
             </Grid>
         </Border>
     </Grid>

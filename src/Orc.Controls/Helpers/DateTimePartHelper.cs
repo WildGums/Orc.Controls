@@ -45,7 +45,7 @@ namespace Orc.Controls
                 Placement = PlacementMode.Bottom,
                 VerticalOffset = 2,
                 IsOpen = true,
-                StaysOpen = false
+                StaysOpen = false,
             };
 
             popup.Closed += PopupOnClosed;
