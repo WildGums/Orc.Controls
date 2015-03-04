@@ -27,9 +27,15 @@ namespace Orc.Controls.Extensions
 
             resourceDictionary.Add("FilterBoxHighlightColor", color.CalculateHighlightColor());
             resourceDictionary.Add("FilterBoxAccentColor", color);
+            //Todo: replace FilterBox colors with Controls colors
+            resourceDictionary.Add("ControlsHighlightColor", color.CalculateHighlightColor());
+            resourceDictionary.Add("ControlsAccentColor", color);
 
             resourceDictionary.Add("FilterBoxHighlightBrush", new SolidColorBrush((Color)resourceDictionary["FilterBoxHighlightColor"]));
             resourceDictionary.Add("FilterBoxAccentBrush", new SolidColorBrush((Color)resourceDictionary["FilterBoxAccentColor"]));
+            //Todo: replace FilterBox brushes with Controls brushes
+            resourceDictionary.Add("ControlsHighlightBrush", new SolidColorBrush((Color)resourceDictionary["ControlsHighlightColor"]));
+            resourceDictionary.Add("ControlsAccentBrush", new SolidColorBrush((Color)resourceDictionary["ControlsAccentColor"]));
 
             var application = Application.Current;
             var applicationResources = application.Resources;

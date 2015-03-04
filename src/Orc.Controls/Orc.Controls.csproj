@@ -96,6 +96,8 @@
     <Compile Include="Helpers\DateTimePartHelper.cs" />
     <Compile Include="ModuleInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Interfaces\ISuggestionListService.cs" />
+    <Compile Include="Services\SuggestionListService.cs" />
     <Compile Include="ViewModels\DateTimePickerViewModel.cs" />
     <Compile Include="ViewModels\FilterBoxViewModel.cs" />
     <Compile Include="ViewModels\TimeSpanViewModel.cs" />

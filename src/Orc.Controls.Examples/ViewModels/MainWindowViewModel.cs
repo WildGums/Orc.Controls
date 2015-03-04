@@ -9,6 +9,7 @@ namespace Orc.Controls.Examples.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Windows.Media;
     using Catel.MVVM;
 
     public class MainWindowViewModel : ViewModelBase
@@ -18,6 +19,7 @@ namespace Orc.Controls.Examples.ViewModels
         private DateTime _dateTimeValue;
         private List<KeyValuePair<string, string>> _filterSource;
         private string _filterText;
+        private Brush _accentColorBrush;
         #endregion
 
         #region Constructors
@@ -25,14 +27,16 @@ namespace Orc.Controls.Examples.ViewModels
         {
             TimeSpanValue = new TimeSpan(10, 11, 12, 13);
             DateTimeValue = DateTime.Now;
+            AccentColorBrush = Brushes.Red;
+
             FilterSource = new List<KeyValuePair<string, string>>()
             {
-                new KeyValuePair<string, string>("1","abcd"),
-                new KeyValuePair<string, string>("2","basdf"),
-                new KeyValuePair<string, string>("3","bwerr"),
-                new KeyValuePair<string, string>("4","oiydd"),
-                new KeyValuePair<string, string>("5","klhhs"),
-                new KeyValuePair<string, string>("6","sdfhi"),
+                new KeyValuePair<string, string>("1", "abcd"),
+                new KeyValuePair<string, string>("2", "basdf"),
+                new KeyValuePair<string, string>("3", "bwerr"),
+                new KeyValuePair<string, string>("4", "oiydd"),
+                new KeyValuePair<string, string>("5", "klhhs"),
+                new KeyValuePair<string, string>("6", "sdfhi"),
             };
         }
 
@@ -67,6 +71,20 @@ namespace Orc.Controls.Examples.ViewModels
             }
         }
 
+        public Brush AccentColorBrush
+        {
+            get { return _accentColorBrush; }
+            set
+            {
+                if (_accentColorBrush == value)
+                {
+                    return;
+                }
+                _accentColorBrush = value;
+                RaisePropertyChanged(() => AccentColorBrush);
+            }
+        }
+
         public List<KeyValuePair<string, string>> FilterSource
         {
             get { return _filterSource; }
@@ -94,6 +112,6 @@ namespace Orc.Controls.Examples.ViewModels
                 RaisePropertyChanged(() => FilterText);
             }
         }
-        #endregion
     }
+    #endregion
 }

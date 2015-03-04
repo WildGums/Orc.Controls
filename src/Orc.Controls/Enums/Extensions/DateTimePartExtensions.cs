@@ -8,31 +8,57 @@
 namespace Orc.Controls
 {
     using System;
-    using System.Collections.ObjectModel;
 
     public static class DateTimePartExtensions
     {
-        public static ObservableCollection<string> GetComboboxItemSource(this DateTimePart dateTimePart)
+        public static string GetDateTimePartName(this DateTimePart dateTimePart)
         {
             switch (dateTimePart)
             {
                 case DateTimePart.Day:
-                    return new ObservableCollection<string> { "1", "2" };
+                    return "NumericTBDay";
 
                 case DateTimePart.Month:
-                    return new ObservableCollection<string> { "3", "4" };
+                    return "NumericTBMonth";
 
                 case DateTimePart.Year:
-                    return new ObservableCollection<string> { "5", "6" };
+                    return "NumericTBYear";
 
                 case DateTimePart.Hour:
-                    return new ObservableCollection<string> { "7", "8" };
+                    return "NumericTBHour";
 
                 case DateTimePart.Minute:
-                    return new ObservableCollection<string> { "9", "10" };
+                    return "NumericTBMinute";
 
                 case DateTimePart.Second:
-                    return new ObservableCollection<string> { "11", "12" };
+                    return "NumericTBSecond";
+
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+
+        public static string GetDateTimePartToggleButtonName(this DateTimePart dateTimePart)
+        {
+            switch (dateTimePart)
+            {
+                case DateTimePart.Day:
+                    return "ToggleButtonD";
+
+                case DateTimePart.Month:
+                    return "ToggleButtonMo";
+
+                case DateTimePart.Year:
+                    return "ToggleButtonY";
+
+                case DateTimePart.Hour:
+                    return "ToggleButtonH";
+
+                case DateTimePart.Minute:
+                    return "ToggleButtonM";
+
+                case DateTimePart.Second:
+                    return "ToggleButtonS";
 
                 default:
                     throw new InvalidOperationException();

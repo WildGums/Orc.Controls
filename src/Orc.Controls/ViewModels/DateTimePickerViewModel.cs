@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DateTimePickerViewModel.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2014 Wild Gums. All rights reserved.
+//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -8,15 +8,69 @@
 namespace Orc.Controls
 {
     using System;
+    using System.Windows.Media;
     using Catel.MVVM;
+    using Extensions;
 
     public class DateTimePickerViewModel : ViewModelBase
     {
         #region Fields
+        private Brush _accentColorBrushProperty;
+        private bool _showOptionsButton;
+        private Brush _highlightColorBrush;
         private DateTime _value;
         #endregion
 
         #region Properties
+        public bool ShowOptionsButton
+        {
+            get { return _showOptionsButton; }
+            set
+            {
+                if (_showOptionsButton == value)
+                {
+                    return;
+                }
+
+                _showOptionsButton = value;
+
+                RaisePropertyChanged("ShowOptionsButton");
+            }
+        }
+
+        public Brush AccentColorBrush
+        {
+            get { return _accentColorBrushProperty; }
+            set
+            {
+                if (_accentColorBrushProperty == value)
+                {
+                    return;
+                }
+
+                _accentColorBrushProperty = value;
+                var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
+                accentColor.CreateAccentColorResourceDictionary();
+                RaisePropertyChanged("AccentColorBrush");
+            }
+        }
+
+        public Brush HighlightColorBrush
+        {
+            get { return _highlightColorBrush; }
+            set
+            {
+                if (_highlightColorBrush == value)
+                {
+                    return;
+                }
+
+                _highlightColorBrush = value;
+
+                RaisePropertyChanged("HighlightColorBrush");
+            }
+        }
+
         public DateTime Value
         {
             get { return _value; }
@@ -60,8 +114,14 @@ namespace Orc.Controls
                 {
                     return;
                 }
-
-                Value = new DateTime(Year, value, Day, Hour, Minute, Second);
+                var daysInMonth = DateTime.DaysInMonth(Year, value);
+                if (Day <= daysInMonth)
+                {
+                    Value = new DateTime(Year, value, Day, Hour, Minute, Second);
+                    return;
+                }
+                Day = daysInMonth;
+                Value = new DateTime(Year, value, daysInMonth, Hour, Minute, Second);
             }
         }
 
@@ -119,6 +179,14 @@ namespace Orc.Controls
 
                 Value = new DateTime(Year, Month, Day, Hour, Minute, value);
             }
+        }
+        #endregion
+
+        #region Methods
+        private Brush GetHighlightBrush(Brush brush)
+        {
+            var color = ((SolidColorBrush) brush).Color;
+            return new SolidColorBrush(Color.FromArgb(51, color.R, color.G, color.B));
         }
         #endregion
     }
