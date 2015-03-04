@@ -21,37 +21,46 @@
                     <Border Grid.Row="0" Background="{TemplateBinding BorderBrush}" Height="4" VerticalAlignment="Top"/>
                     <Ellipse Grid.Row="0" Width="3" Height="3" Fill="White" VerticalAlignment="Top"/>
                     <TextBlock Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat=' d '}"
-                               Margin="0 3 0 0" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                               Margin="0 3 0 0" FontSize="10" HorizontalAlignment="Center"
+                               VerticalAlignment="Center" Foreground="Gray"
                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                 </Grid>
             </Border>
         </ControlTemplate>
         <Style x:Key="DatePickerToogleButtonStyle" TargetType="{x:Type ToggleButton}">
-            <Setter Property="Width" Value="20"/>
+            <Setter Property="Width" Value="19"/>
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderBrush" Value="LightGray"/>
             <Setter Property="Margin" Value="1"/>
             <Setter Property="Template" Value="{StaticResource DatePickerToogleButtonTemplate}"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="{Binding AccentColorBrush}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ControlsAccentBrush}"/>
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="BorderBrush" Value="{Binding AccentColorBrush}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ControlsAccentBrush}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
         <Style TargetType="{x:Type ListBoxItem}">
             <Setter Property="Padding" Value="2 2 5 2" />
+            <Style.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource ControlsHighlightColor}"/>
+            </Style.Resources>
+            <Style.Triggers>
+                <Trigger Property="ListBoxItem.IsSelected" Value="True" >
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
         <Style TargetType="{x:Type Border}">
             <Setter Property="BorderBrush" Value="LightGray"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="{Binding AccentColorBrush}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource ControlsAccentBrush}" />
                 </Trigger>
                 <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                    <Setter Property="BorderBrush" Value="{Binding AccentColorBrush}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource ControlsAccentBrush}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -131,26 +140,23 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ButtonBase}">
-                        <Border x:Name="Container" BorderBrush="Transparent" BorderThickness="3" Background="Transparent">
-                            <Border x:Name="Border" BorderBrush="LightGray" BorderThickness="0" Background="White" SnapsToDevicePixels="True">
-                                <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"
-                                                      ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                      Margin="{TemplateBinding Padding}"
-                                                      RecognizesAccessKey="True"
-                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            </Border>
+                        <Border x:Name="Border" BorderThickness="0" Background="White" SnapsToDevicePixels="True">
+                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Margin="5 2 5 2"
+                                              Content="{TemplateBinding Content}"
+                                              ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              RecognizesAccessKey="True" 
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="BorderBrush" TargetName="Container" Value="{Binding HighlightColorBrush}"/>
+                                <Setter Property="Background" TargetName="Border" Value="{DynamicResource ControlsHighlightBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" TargetName="Border" Value="{Binding HighlightColorBrush}"/>
-                                <Setter Property="BorderBrush" TargetName="Border" Value="{Binding AccentColorBrush}"/>
-                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Background" TargetName="Border" Value="{DynamicResource ControlsHighlightBrush}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Foreground" Value="#FFADADAD"/>
@@ -219,7 +225,7 @@
                     <ToggleButton x:Name="DatePickerIcon" DockPanel.Dock="Right" VerticalAlignment="Stretch"
                               Style="{StaticResource DatePickerToogleButtonStyle}"
                               Visibility="{Binding ShowOptionsButton, Converter={StaticResource BooleanToCollapsingVisibilityConverter}}"/>
-                    <Popup Placement="Bottom" VerticalOffset = "2"
+                    <Popup Placement="Bottom" VerticalOffset="2" StaysOpen="False"
                            PlacementTarget="{Binding ElementName=DatePickerIcon}" 
                            IsOpen="{Binding IsChecked, ElementName=DatePickerIcon}" >
                         <Border BorderBrush="Gray" BorderThickness="1">

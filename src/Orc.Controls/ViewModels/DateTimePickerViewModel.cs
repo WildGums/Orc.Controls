@@ -10,6 +10,7 @@ namespace Orc.Controls
     using System;
     using System.Windows.Media;
     using Catel.MVVM;
+    using Extensions;
 
     public class DateTimePickerViewModel : ViewModelBase
     {
@@ -48,8 +49,8 @@ namespace Orc.Controls
                 }
 
                 _accentColorBrushProperty = value;
-                HighlightColorBrush = GetHighlightBrush(_accentColorBrushProperty);
-
+                var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
+                accentColor.CreateAccentColorResourceDictionary();
                 RaisePropertyChanged("AccentColorBrush");
             }
         }
