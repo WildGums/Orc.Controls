@@ -16,10 +16,10 @@
     <tags>csv orcomp orc</tags>
 
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <copyright>Copyright Orchestra team 2010 - 2014</copyright>
+    <copyright>Copyright Wild Gums 2010 - 2015</copyright>
 
 	<language>en-US</language>
-	<projectUrl>https://github.com/Orcomp/Orc.Controls</projectUrl>
+	<projectUrl>https://github.com/WildGums/Orc.Controls</projectUrl>
 	<!--<licenseUrl>http://catel.codeplex.com/license</licenseUrl>-->
 	<!--<iconUrl>http://www.catenalogic.com/catel.png</iconUrl>-->
     
