@@ -72,14 +72,14 @@ namespace Orc.Controls
             new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool EnableDatePicker
+        public bool ShowOptionsButton
         {
-            get { return (bool)GetValue(EnableDatePickerProperty); }
-            set { SetValue(EnableDatePickerProperty, value); }
+            get { return (bool)GetValue(ShowOptionsButtonProperty); }
+            set { SetValue(ShowOptionsButtonProperty, value); }
         }
 
-        public static readonly DependencyProperty EnableDatePickerProperty = DependencyProperty.Register("EnableDatePicker", typeof(bool), typeof(DateTimePickerControl),
-            new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register("ShowOptionsButton", typeof(bool), typeof(DateTimePickerControl),
+            new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public Brush AccentColorBrush

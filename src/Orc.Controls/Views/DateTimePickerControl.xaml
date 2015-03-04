@@ -218,7 +218,7 @@
                 <StackPanel Grid.Column="1">
                     <ToggleButton x:Name="DatePickerIcon" DockPanel.Dock="Right" VerticalAlignment="Stretch"
                               Style="{StaticResource DatePickerToogleButtonStyle}"
-                              Visibility="{Binding EnableDatePicker, Converter={StaticResource BooleanToCollapsingVisibilityConverter}}"/>
+                              Visibility="{Binding ShowOptionsButton, Converter={StaticResource BooleanToCollapsingVisibilityConverter}}"/>
                     <Popup Placement="Bottom" VerticalOffset = "2"
                            PlacementTarget="{Binding ElementName=DatePickerIcon}" 
                            IsOpen="{Binding IsChecked, ElementName=DatePickerIcon}" >

@@ -15,25 +15,25 @@ namespace Orc.Controls
     {
         #region Fields
         private Brush _accentColorBrushProperty;
-        private bool _enableDatePicker;
+        private bool _showOptionsButton;
         private Brush _highlightColorBrush;
         private DateTime _value;
         #endregion
 
         #region Properties
-        public bool EnableDatePicker
+        public bool ShowOptionsButton
         {
-            get { return _enableDatePicker; }
+            get { return _showOptionsButton; }
             set
             {
-                if (_enableDatePicker == value)
+                if (_showOptionsButton == value)
                 {
                     return;
                 }
 
-                _enableDatePicker = value;
+                _showOptionsButton = value;
 
-                RaisePropertyChanged("EnableDatePicker");
+                RaisePropertyChanged("ShowOptionsButton");
             }
         }
 
