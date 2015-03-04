@@ -78,8 +78,8 @@ namespace Orc.Controls
             set { SetValue(ShowOptionsButtonProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register("ShowOptionsButton", typeof(bool), typeof(DateTimePickerControl),
-            new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register("ShowOptionsButton", typeof(bool), 
+            typeof(DateTimePickerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public Brush AccentColorBrush
