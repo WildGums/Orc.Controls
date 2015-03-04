@@ -3,7 +3,7 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:controls="clr-namespace:Orc.Controls;assembly=Orc.Controls"
               xmlns:catel="http://catel.codeplex.com"
-              Height="350" Width="525">
+              Height="450" Width="525">
     
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -29,7 +29,7 @@
         <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding TimeSpanValue}" Width="120" Margin="5"
                  HorizontalAlignment="Left"/>
         
-        <TextBlock Grid.Column="0" Grid.Row="2" Text="DateTimePicker Control" VerticalAlignment="Center"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="DateTimePicker Control" VerticalAlignment="Top" Margin="0 7 0 0"/>
         <controls:DateTimePickerControl Grid.Column="1" Grid.Row="2" Width="185" Value="{Binding DateTimeValue}" 
                                         Margin="5" HorizontalAlignment="Left"/>
 
@@ -47,10 +47,14 @@
                  Margin="5" HorizontalAlignment="Left"/>
 
         <TextBlock Grid.Column="0" Grid.Row="6" Text="Log Viewer" VerticalAlignment="Top" />
-        <StackPanel Grid.Column="1" Grid.Row="6" Orientation="Horizontal">
+        <StackPanel Grid.Column="1" Grid.Row="6">
             <controls:LogViewerControl Width="250" Height="70" Margin="5 0 5 5" HorizontalAlignment="Left" 
-                                       LogRecords="{Binding LogRecords}" />
-            <Button Content="Add log record" Command="{Binding AddLogRecords}" Height="25" Width="100" VerticalAlignment="Top"/>
+                                       LogRecords="{Binding LogRecords}" LogRecordDoubleClick="LogViewerControlOnLogRecordDoubleClick" />
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="EventsTextBox" Width="145" Margin="5 5 5 0" Height="50" VerticalScrollBarVisibility="Auto" />
+                <Button Height="25" Width="100" Margin="0 5 5 0" VerticalAlignment="Top"
+                        Content="Add log record" Command="{Binding AddLogRecords}" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 

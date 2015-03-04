@@ -88,6 +88,7 @@
       <Link>Properties\SolutionAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Controls\NumericTextBox.cs" />
+    <Compile Include="Controls\RichTextBoxParagraph.cs" />
     <Compile Include="Enums\DateTimePart.cs" />
     <Compile Include="Converters\TimeSpanToTotalStringConverter.cs" />
     <Compile Include="Enums\Extensions\DateTimePartExtensions.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Views\FilterBoxControl.xaml.cs">
       <DependentUpon>FilterBoxControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EventArgs\LogRecordDoubleClickEventArgs.cs" />
     <Compile Include="Views\LogViewerControl.xaml.cs">
       <DependentUpon>LogViewerControl.xaml</DependentUpon>
     </Compile>

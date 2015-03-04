@@ -12,12 +12,13 @@ namespace Orc.Controls
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Net.Mime;
     using System.Windows;
-    using System.Windows.Documents;
+    using System.Windows.Controls;
     using System.Windows.Media;
+    using Catel;
     using Catel.Logging;
     using Catel.MVVM.Views;
+    using Controls;
     using Examples.Models;
 
     /// <summary>
@@ -86,12 +87,18 @@ namespace Orc.Controls
         {
             foreach (var logRecord in LogRecords)
             {
-                var paragraph = new Paragraph();
-
-                var record = (LogRecord) logRecord;
+                var record = (LogRecord)logRecord;
+                var paragraph = new RichTextBoxParagraph(record);
+                paragraph.MouseLeftButtonDown += (sender, args) =>
+                {
+                    if (args.ClickCount == 2)
+                    {
+                        LogRecordDoubleClick.SafeInvoke(this, new LogRecordDoubleClickEventArgs((sender as RichTextBoxParagraph).LogRecord));
+                    }
+                };
                 var text = string.Format("{0} {1}", record.DateTime, record.Message);
-
                 paragraph.Inlines.Add(text);
+
                 paragraph.Foreground = ColorSets[record.LogEvent];
                 textBox.Document.Blocks.Add(paragraph);
             }
@@ -113,5 +120,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty LogRecordsProperty = DependencyProperty.Register("LogRecords", typeof(IEnumerable), typeof(LogViewerControl),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public event EventHandler<LogRecordDoubleClickEventArgs> LogRecordDoubleClick;
     }
 }

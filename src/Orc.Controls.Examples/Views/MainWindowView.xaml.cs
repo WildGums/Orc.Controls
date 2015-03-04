@@ -7,6 +7,7 @@
 
 namespace Orc.Controls.Examples.Views
 {
+    using System;
     using System.Windows;
     using ViewModels;
 
@@ -22,5 +23,10 @@ namespace Orc.Controls.Examples.Views
             DataContext = new MainWindowViewModel();
         }
         #endregion
+
+        private void LogViewerControlOnLogRecordDoubleClick(object sender, LogRecordDoubleClickEventArgs e)
+        {
+            EventsTextBox.AppendText(e.LogRecord.Message + " clicked" + Environment.NewLine);
+        }
     }
 }
