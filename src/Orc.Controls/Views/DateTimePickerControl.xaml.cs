@@ -129,19 +129,6 @@ namespace Orc.Controls
             NumericTBDay.MaxValue = daysInMonth;
         }
 
-        private void DatePickerIcon_OnChecked(object sender, RoutedEventArgs e)
-        {
-            // Todo:Show button popup
-
-            /*var calendarPopup = CreateCalendarPopup(); 
-            calendarPopup.Closed += CalendarPopupOnClosed;
-
-            var calendarPopupSource = CreateCalendarPopupSource();
-            calendarPopup.Child = calendarPopupSource;
-
-            calendarPopupSource.Focus();*/
-        }
-
         private Calendar CreateCalendarPopupSource()
         {
             var calendar = new Calendar()
@@ -162,7 +149,7 @@ namespace Orc.Controls
             var calendar = (((Calendar)sender));
             if (calendar.SelectedDate.HasValue)
             {
-                UpdateValue(calendar.SelectedDate.Value);
+                UpdateDate(calendar.SelectedDate.Value);
             }
             ((Popup)calendar.Parent).IsOpen = false;
             
@@ -181,7 +168,7 @@ namespace Orc.Controls
             {
                 if (calendar.SelectedDate.HasValue)
                 {
-                    UpdateValue(calendar.SelectedDate.Value);
+                    UpdateDate(calendar.SelectedDate.Value);
                 }
                 ((Popup)calendar.Parent).IsOpen = false;
 
@@ -189,14 +176,14 @@ namespace Orc.Controls
             }
         }
 
-        private void UpdateValue(DateTime date)
+        private void UpdateDate(DateTime date)
         {
             Value = new DateTime(date.Year, date.Month, date.Day, Value.Hour, Value.Minute, Value.Second);
         }
 
-        private void CalendarPopupOnClosed(object sender, EventArgs eventArgs)
+        private void UpdateDateTime(DateTime date)
         {
-            DatePickerIcon.IsChecked = false;
+            Value = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
         }
 
         private Popup CreateCalendarPopup()
@@ -215,16 +202,24 @@ namespace Orc.Controls
         private void TodayButton_OnClick(object sender, RoutedEventArgs e)
         {
             DatePickerIcon.IsChecked = false;
+            UpdateDateTime(DateTime.Today.Date);
         }
 
         private void NowButton_OnClick(object sender, RoutedEventArgs e)
         {
             DatePickerIcon.IsChecked = false;
+            UpdateDateTime(DateTime.Now);
         }
 
         private void SelectDateButton_OnClick(object sender, RoutedEventArgs e)
         {
             DatePickerIcon.IsChecked = false;
+
+            var calendarPopup = CreateCalendarPopup();
+            var calendarPopupSource = CreateCalendarPopupSource();
+            calendarPopup.Child = calendarPopupSource;
+
+            calendarPopupSource.Focus();
         }
     }
 }
