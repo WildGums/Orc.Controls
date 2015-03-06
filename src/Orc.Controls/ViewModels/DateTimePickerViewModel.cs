@@ -181,13 +181,5 @@ namespace Orc.Controls
             }
         }
         #endregion
-
-        #region Methods
-        private Brush GetHighlightBrush(Brush brush)
-        {
-            var color = ((SolidColorBrush) brush).Color;
-            return new SolidColorBrush(Color.FromArgb(51, color.R, color.G, color.B));
-        }
-        #endregion
     }
 }
