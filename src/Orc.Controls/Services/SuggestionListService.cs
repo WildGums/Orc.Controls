@@ -25,7 +25,7 @@ namespace Orc.Controls.Services
                     for (var i = 1; i <= daysInMonth; i++)
                     {
                         var day = new DateTime(dateTime.Year, dateTime.Month, i).ToString("d ddd", CultureInfo.InvariantCulture);
-                        days.Add(AlignItem(i, day));
+                        days.Add(CreateItem(i.ToString(), day));
                     }
                     return days;
 
@@ -34,7 +34,7 @@ namespace Orc.Controls.Services
                     for (var i = 1; i <= 12; i++)
                     {
                         var month = new DateTime(dateTime.Year, i, 1).ToString("M MMM", CultureInfo.InvariantCulture);
-                        months.Add(AlignItem(i, month));
+                        months.Add(CreateItem(i.ToString(), month));
                     }
                     return months;
 
@@ -42,7 +42,7 @@ namespace Orc.Controls.Services
                     var hours = new List<KeyValuePair<string, string>>();
                     for (var i = 0; i < 24; i++)
                     {
-                        hours.Add(AlignItem(i, i.ToString()));
+                        hours.Add(i < 10 ? CreateItem(i.ToString(), ("  " + i)) : CreateItem(i.ToString(), i.ToString()));
                     }
                     return hours;
 
@@ -50,7 +50,7 @@ namespace Orc.Controls.Services
                     var minutes = new List<KeyValuePair<string, string>>();
                     for (var i = 0; i < 60; i++)
                     {
-                        minutes.Add(AlignItem(i, i.ToString()));
+                        minutes.Add(CreateItem(i.ToString("00"), i.ToString("00")));
                     }
                     return minutes;
 
@@ -58,7 +58,7 @@ namespace Orc.Controls.Services
                     var seconds = new List<KeyValuePair<string, string>>();
                     for (var i = 0; i < 60; i++)
                     {
-                        seconds.Add(AlignItem(i, i.ToString()));
+                        seconds.Add(CreateItem(i.ToString("00"), i.ToString("00")));
                     }
                     return seconds;
 
@@ -69,13 +69,9 @@ namespace Orc.Controls.Services
         #endregion
 
         #region Methods
-        private static KeyValuePair<string, string> AlignItem(int itemIndex, string item)
+        private static KeyValuePair<string, string> CreateItem(string itemIndex, string item)
         {
-            if (itemIndex < 10)
-            {
-                return new KeyValuePair<string, string>(itemIndex.ToString(), "  " + item);
-            }
-            return new KeyValuePair<string, string>(itemIndex.ToString(), item);
+            return new KeyValuePair<string, string>(itemIndex, item);
         }
         #endregion
     }

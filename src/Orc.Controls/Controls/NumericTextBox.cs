@@ -26,6 +26,10 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty MaxValueProperty =
             DependencyProperty.Register("MaxValue", typeof (double), typeof (NumericTextBox), new UIPropertyMetadata(double.MaxValue, OnMaxValueChanged));
+
+        public static readonly DependencyProperty DoubleZeroProperty =
+           DependencyProperty.Register("DoubleZero", typeof(bool), typeof(NumericTextBox), new UIPropertyMetadata(false, OnFormatChanged));
+
         #endregion
 
         #region Constructors
@@ -56,6 +60,12 @@ namespace Orc.Controls
             set { SetValue(MaxValueProperty, value); }
         }
 
+        public bool DoubleZero
+        {
+            get { return (bool)GetValue(DoubleZeroProperty); }
+            set { SetValue(DoubleZeroProperty, value); }
+        }
+
         public new string Text
         {
             get { return base.Text; }
@@ -68,6 +78,10 @@ namespace Orc.Controls
             set
             {
                 var format = "F0";
+                if (DoubleZero)
+                {
+                    format = "00";
+                }
                 if (AllowDecimal)
                 {
                     format = "0.#####";
@@ -283,6 +297,10 @@ namespace Orc.Controls
         }
 
         private static void OnMaxValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        private static void OnFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
         }
         #endregion

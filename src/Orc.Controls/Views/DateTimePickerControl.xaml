@@ -212,12 +212,14 @@
                     <ToggleButton Grid.Column="7" x:Name="ToggleButtonH" Tag="{x:Static controls:DateTimePart.Hour}"
                                   Checked="ToggleButton_OnChecked" Content="h" />
 
-                    <controls:NumericTextBox x:Name="NumericTBMinute" Grid.Column="8" Text="{Binding Minute}" MaxValue="59" MinValue="0"/>
+                    <controls:NumericTextBox x:Name="NumericTBMinute" Grid.Column="8" DoubleZero="True" MaxValue="59" MinValue="00"
+                                             Text="{Binding Minute, StringFormat={}{0:00}}"/>
                     <TextBlock Grid.Column="9" Text=":" Style="{StaticResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="9" x:Name="ToggleButtonM" Tag="{x:Static controls:DateTimePart.Minute}"
                                   Checked="ToggleButton_OnChecked" Content="m" />
 
-                    <controls:NumericTextBox x:Name="NumericTBSecond" Grid.Column="10" Text="{Binding Second}" MaxValue="59" MinValue="0"/>
+                    <controls:NumericTextBox x:Name="NumericTBSecond" Grid.Column="10" DoubleZero="True" MaxValue="59" MinValue="0"
+                                             Text="{Binding Second, StringFormat={}{0:00}}" />
                     <ToggleButton Grid.Column="11" x:Name="ToggleButtonS" Tag="{x:Static controls:DateTimePart.Second}"
                                   Checked="ToggleButton_OnChecked" Content="s" />
                 
