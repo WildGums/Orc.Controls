@@ -192,7 +192,7 @@ namespace Orc.Controls
             {
                 PlacementTarget = MainGrid,
                 Placement = PlacementMode.Bottom,
-                VerticalOffset = -5,
+                VerticalOffset = -4,
                 IsOpen = true,
                 StaysOpen = false,
             };

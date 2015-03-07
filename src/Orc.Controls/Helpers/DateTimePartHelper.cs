@@ -9,6 +9,7 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
+    using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
@@ -141,7 +142,8 @@ namespace Orc.Controls
             {
                 ItemsSource = source,
                 IsSynchronizedWithCurrentItem = false,
-                DisplayMemberPath = "Value"
+                DisplayMemberPath = "Value",
+                Margin = new Thickness(0, 0, 0, 0),
             };
             return listbox;
         }
