@@ -152,9 +152,16 @@ namespace Orc.Controls
 
         private void LogRecordsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
         {
-            //Todo: Do not remove existing items, only add new rows.
-            Clear();
-            UpdateControl();
+            var newRecords = notifyCollectionChangedEventArgs.NewItems;
+            if (newRecords == null)
+            {
+                return;
+            }
+            foreach (var newRecord in newRecords)
+            {
+                var record = (LogRecord) newRecord;
+                AddRecordToRichTextBox(record);
+            }
         }
 
         private void UpdateControl()
@@ -171,21 +178,27 @@ namespace Orc.Controls
                 {
                     continue;
                 }
-                var paragraph = new RichTextBoxParagraph(record);
-                paragraph.MouseLeftButtonDown += (sender, args) =>
-                {
-                    if (args.ClickCount == 2)
-                    {
-                        LogRecordDoubleClick.SafeInvoke(this, new LogRecordDoubleClickEventArgs((sender as RichTextBoxParagraph).LogRecord));
-                    }
-                };
-                var text = string.Format("{0} {1}", record.DateTime, record.Message);
-                paragraph.Inlines.Add(text);
 
-                paragraph.Foreground = ColorSets[record.LogEvent];
-                textBox.Document.Blocks.Add(paragraph);
+                AddRecordToRichTextBox(record);
             }
-            textBox.ScrollToEnd();
+            LogRecordsRichTextBox.ScrollToEnd();
+        }
+
+        private void AddRecordToRichTextBox(LogRecord record)
+        {
+            var paragraph = new RichTextBoxParagraph(record);
+            paragraph.MouseLeftButtonDown += (sender, args) =>
+            {
+                if (args.ClickCount == 2)
+                {
+                    LogRecordDoubleClick.SafeInvoke(this, new LogRecordDoubleClickEventArgs((sender as RichTextBoxParagraph).LogRecord));
+                }
+            };
+            var text = string.Format("{0} {1}", record.DateTime, record.Message);
+            paragraph.Inlines.Add(text);
+
+            paragraph.Foreground = ColorSets[record.LogEvent];
+            LogRecordsRichTextBox.Document.Blocks.Add(paragraph);
         }
 
         private bool IsAcceptable(LogEvent logEvent)
@@ -224,7 +237,7 @@ namespace Orc.Controls
 
         public void Clear()
         {
-            textBox.Document.Blocks.Clear();
+            LogRecordsRichTextBox.Document.Blocks.Clear();
         }
         #endregion
 

@@ -13,6 +13,6 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <RichTextBox x:Name="textBox" IsReadOnly="True" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" />
+        <RichTextBox x:Name="LogRecordsRichTextBox" IsReadOnly="True" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" />
     </Grid>
 </catel:UserControl>
