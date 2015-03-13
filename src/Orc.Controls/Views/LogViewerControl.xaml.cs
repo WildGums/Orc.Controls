@@ -13,7 +13,6 @@ namespace Orc.Controls
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Media;
     using Catel;
     using Catel.Logging;
@@ -28,6 +27,12 @@ namespace Orc.Controls
     {
         #region Constants
         private static readonly Dictionary<LogEvent, Brush> ColorSets = new Dictionary<LogEvent, Brush>();
+
+        public static readonly DependencyProperty LogRecordsProperty = DependencyProperty.Register("LogRecords", typeof (IEnumerable), typeof (LogViewerControl),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register("LogFilter", typeof (string), typeof (LogViewerControl),
+            new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
 
         #region Fields
@@ -54,6 +59,26 @@ namespace Orc.Controls
                     UpdateControl();
                     SubscribeToDataContext();
                 });
+
+            DependencyPropertyDescriptor
+                .FromProperty(LogFilterProperty, typeof (LogViewerControl))
+                .AddValueChanged(this, (sender, args) => { UpdateControl(); });
+        }
+        #endregion
+
+        #region Properties
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public IEnumerable LogRecords
+        {
+            get { return (IEnumerable) GetValue(LogRecordsProperty); }
+            set { SetValue(LogRecordsProperty, value); }
+        }
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public string LogFilter
+        {
+            get { return (string) GetValue(LogFilterProperty); }
+            set { SetValue(LogFilterProperty, value); }
         }
         #endregion
 
@@ -85,9 +110,14 @@ namespace Orc.Controls
 
         private void UpdateControl()
         {
+            Clear();
             foreach (var logRecord in LogRecords)
             {
-                var record = (LogRecord)logRecord;
+                var record = (LogRecord) logRecord;
+                if (!PassFilter(record))
+                {
+                    continue;
+                }
                 var paragraph = new RichTextBoxParagraph(record);
                 paragraph.MouseLeftButtonDown += (sender, args) =>
                 {
@@ -105,21 +135,25 @@ namespace Orc.Controls
             textBox.ScrollToEnd();
         }
 
+        private bool PassFilter(LogRecord record)
+        {
+            if (string.IsNullOrEmpty(LogFilter))
+            {
+                return true;
+            }
+
+            if (record.Message.Contains(LogFilter))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public void Clear()
         {
             textBox.Document.Blocks.Clear();
         }
         #endregion
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public IEnumerable LogRecords
-        {
-            get { return (IEnumerable)GetValue(LogRecordsProperty); }
-            set { SetValue(LogRecordsProperty, value); }
-        }
-
-        public static readonly DependencyProperty LogRecordsProperty = DependencyProperty.Register("LogRecords", typeof(IEnumerable), typeof(LogViewerControl),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public event EventHandler<LogRecordDoubleClickEventArgs> LogRecordDoubleClick;
     }
