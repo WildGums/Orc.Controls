@@ -3,6 +3,7 @@ using Catel.MVVM;
 using Orc.Controls;
 using Orc.Controls.Services;
 using Orc.Controls.Services.Interfaces;
+using Orc.Controls.ViewModels;
 
 /// <summary>
 /// Used by the ModuleInit. All code inside the Initialize method is ran as soon as the assembly is loaded.
@@ -20,5 +21,6 @@ public static class ModuleInitializer
         var viewModelLocator = serviceLocator.ResolveType<IViewModelLocator>();
         viewModelLocator.Register(typeof(DateTimePickerControl), typeof(DateTimePickerViewModel));
         viewModelLocator.Register(typeof(TimeSpanControl), typeof(TimeSpanViewModel));
+        viewModelLocator.Register(typeof(DropDownButton), typeof(DropDownButtonViewModel));
     }
 }
