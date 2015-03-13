@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DateTimePickerControl.xaml.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2014 Wild Gums. All rights reserved.
+//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -9,12 +9,11 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Data;
-    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
     using System.Windows.Input;
+    using System.Windows.Media;
     using Catel.MVVM.Views;
 
     /// <summary>
@@ -24,14 +23,13 @@ namespace Orc.Controls
     {
         #region Fields
         private readonly List<NumericTextBox> _numericTextBoxes;
-        private DateTimePart _activeTextBoxPart;
-        private bool _isInEditMode;
+        private DateTimePart _activeDateTimePart;
         #endregion
 
         #region Constructors
         static DateTimePickerControl()
         {
-            typeof(DateTimePickerControl).AutoDetectViewPropertiesToSubscribe();
+            typeof (DateTimePickerControl).AutoDetectViewPropertiesToSubscribe();
         }
 
         public DateTimePickerControl()
@@ -59,13 +57,6 @@ namespace Orc.Controls
             NumericTBHour.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
             NumericTBMinute.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
             NumericTBSecond.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
-
-            TextBlockD.MouseDown += TextBlock_MouseDown;
-            TextBlockMo.MouseDown += TextBlock_MouseDown;
-            TextBlockY.MouseDown += TextBlock_MouseDown;
-            TextBlockH.MouseDown += TextBlock_MouseDown;
-            TextBlockM.MouseDown += TextBlock_MouseDown;
-            TextBlockS.MouseDown += TextBlock_MouseDown;
         }
         #endregion
 
@@ -73,12 +64,32 @@ namespace Orc.Controls
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public DateTime Value
         {
-            get { return (DateTime)GetValue(ValueProperty); }
+            get { return (DateTime) GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
 
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(DateTime), typeof(DateTimePickerControl),
             new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool ShowOptionsButton
+        {
+            get { return (bool)GetValue(ShowOptionsButtonProperty); }
+            set { SetValue(ShowOptionsButtonProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register("ShowOptionsButton", typeof(bool), 
+            typeof(DateTimePickerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public Brush AccentColorBrush
+        {
+            get { return (Brush)GetValue(AccentColorBrushProperty); }
+            set { SetValue(AccentColorBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush), typeof(DateTimePickerControl),
+            new FrameworkPropertyMetadata(Brushes.Blue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
 
         #region Methods
@@ -100,48 +111,115 @@ namespace Orc.Controls
             nextTextBox.Focus();
         }
 
-        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
         {
-            RemoveCombobox();
+            _activeDateTimePart = (DateTimePart) ((ToggleButton) sender).Tag;
 
-            if (e.ClickCount == 2)
-            {
-                RemoveCombobox();
+            var activeNumericTextBox = (NumericTextBox)FindName(_activeDateTimePart.GetDateTimePartName());
+            var activeToggleButton = (ToggleButton)FindName(_activeDateTimePart.GetDateTimePartToggleButtonName());
 
-                _activeTextBoxPart = (DateTimePart) ((TextBlock) sender).Tag;
-                DateTimePartHelper.CreateCombobox(MainGrid, _activeTextBoxPart);
-
-                _isInEditMode = true;
-            }
-        }
-
-        private void RemoveCombobox()
-        {
-            var comboBox = MainGrid.Children.Cast<FrameworkElement>().FirstOrDefault(x => string.Equals(x.Name, "comboBox"));
-            if (comboBox != null)
-            {
-                MainGrid.Children.Remove(comboBox);
-            }
-        }
-
-        protected override void OnPreviewKeyDown(KeyEventArgs e)
-        {
-                base.OnPreviewKeyDown(e);
-
-            if (e.Key == Key.Escape && _isInEditMode)
-            {
-                RemoveCombobox();
-                _isInEditMode = false;
-                e.Handled = true;
-            }
-
-            if (e.Key == Key.Enter && _isInEditMode)
-            {
-                RemoveCombobox();
-                _isInEditMode = false;
-                e.Handled = true;
-            }
+            var dateTimePartHelper = new DateTimePartHelper(Value, _activeDateTimePart, activeNumericTextBox, activeToggleButton);
+            dateTimePartHelper.CreatePopup();
         }
         #endregion
+
+        private void NumericTBMonth_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var daysInMonth = DateTime.DaysInMonth(Value.Year, Value.Month);
+            NumericTBDay.MaxValue = daysInMonth;
+        }
+
+        private Calendar CreateCalendarPopupSource()
+        {
+            var calendar = new Calendar()
+            {
+                Margin = new Thickness(0, -3, 0, -3), 
+                DisplayDate = Value, 
+                SelectedDate = Value
+            };
+            
+            calendar.PreviewKeyDown += CalendarOnPreviewKeyDown;
+            calendar.SelectedDatesChanged += CalendarOnSelectedDatesChanged;
+
+            return calendar;
+        }
+
+        private void CalendarOnSelectedDatesChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
+        {
+            var calendar = (((Calendar)sender));
+            if (calendar.SelectedDate.HasValue)
+            {
+                UpdateDate(calendar.SelectedDate.Value);
+            }
+            ((Popup)calendar.Parent).IsOpen = false;
+            
+        }
+
+        private void CalendarOnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            var calendar = ((Calendar)sender);
+            if (e.Key == Key.Escape)
+            {
+                ((Popup)calendar.Parent).IsOpen = false;
+                NumericTBDay.Focus();
+                e.Handled = true;
+            }
+            if (e.Key == Key.Enter)
+            {
+                if (calendar.SelectedDate.HasValue)
+                {
+                    UpdateDate(calendar.SelectedDate.Value);
+                }
+                ((Popup)calendar.Parent).IsOpen = false;
+
+                e.Handled = true;
+            }
+        }
+
+        private void UpdateDate(DateTime date)
+        {
+            Value = new DateTime(date.Year, date.Month, date.Day, Value.Hour, Value.Minute, Value.Second);
+        }
+
+        private void UpdateDateTime(DateTime date)
+        {
+            Value = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
+        }
+
+        private Popup CreateCalendarPopup()
+        {
+            var popup = new Popup
+            {
+                PlacementTarget = MainGrid,
+                Placement = PlacementMode.Bottom,
+                VerticalOffset = -4,
+                IsOpen = true,
+                StaysOpen = false,
+            };
+            return popup;
+        }
+
+        private void TodayButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            DatePickerIcon.IsChecked = false;
+            UpdateDateTime(DateTime.Today.Date);
+        }
+
+        private void NowButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            DatePickerIcon.IsChecked = false;
+            UpdateDateTime(DateTime.Now);
+        }
+
+        private void SelectDateButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            DatePickerIcon.IsChecked = false;
+
+            var calendarPopup = CreateCalendarPopup();
+            var calendarPopupSource = CreateCalendarPopupSource();
+            calendarPopup.Child = calendarPopupSource;
+
+            calendarPopupSource.Focus();
+        }
     }
 }

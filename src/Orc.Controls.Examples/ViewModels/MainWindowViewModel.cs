@@ -14,6 +14,9 @@ namespace Orc.Controls.Examples.ViewModels
     using Catel.Logging;
     using Catel.MVVM;
     using Models;
+    using System.Collections.Generic;
+    using System.Windows.Media;
+    using Catel.MVVM;
 
     public class MainWindowViewModel : ViewModelBase
     {
@@ -23,6 +26,7 @@ namespace Orc.Controls.Examples.ViewModels
         private List<KeyValuePair<string, string>> _filterSource;
         private string _filterText;
         private ObservableCollection<LogRecord> _logRecords;
+        private Brush _accentColorBrush;
         #endregion
 
         #region Constructors
@@ -30,14 +34,16 @@ namespace Orc.Controls.Examples.ViewModels
         {
             TimeSpanValue = new TimeSpan(10, 11, 12, 13);
             DateTimeValue = DateTime.Now;
+            AccentColorBrush = Brushes.Red;
+
             FilterSource = new List<KeyValuePair<string, string>>()
             {
-                new KeyValuePair<string, string>("1","abcd"),
-                new KeyValuePair<string, string>("2","basdf"),
-                new KeyValuePair<string, string>("3","bwerr"),
-                new KeyValuePair<string, string>("4","oiydd"),
-                new KeyValuePair<string, string>("5","klhhs"),
-                new KeyValuePair<string, string>("6","sdfhi"),
+                new KeyValuePair<string, string>("1", "abcd"),
+                new KeyValuePair<string, string>("2", "basdf"),
+                new KeyValuePair<string, string>("3", "bwerr"),
+                new KeyValuePair<string, string>("4", "oiydd"),
+                new KeyValuePair<string, string>("5", "klhhs"),
+                new KeyValuePair<string, string>("6", "sdfhi"),
             };
             LogRecords = new ObservableCollection<LogRecord>()
             {
@@ -76,6 +82,20 @@ namespace Orc.Controls.Examples.ViewModels
                 }
                 _dateTimeValue = value;
                 RaisePropertyChanged(() => DateTimeValue);
+            }
+        }
+
+        public Brush AccentColorBrush
+        {
+            get { return _accentColorBrush; }
+            set
+            {
+                if (_accentColorBrush == value)
+                {
+                    return;
+                }
+                _accentColorBrush = value;
+                RaisePropertyChanged(() => AccentColorBrush);
             }
         }
 
