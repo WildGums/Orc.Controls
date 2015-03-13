@@ -9,6 +9,7 @@ namespace Orc.Controls.Examples.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Windows.Documents;
     using System.Windows.Media;
     using Catel.MVVM;
 
@@ -38,6 +39,9 @@ namespace Orc.Controls.Examples.ViewModels
                 new KeyValuePair<string, string>("5", "klhhs"),
                 new KeyValuePair<string, string>("6", "sdfhi"),
             };
+
+            FlowDoc = new FlowDocument();
+            FlowDoc.Foreground = _accentColorBrush.Clone();
         }
 
         #endregion
@@ -112,6 +116,8 @@ namespace Orc.Controls.Examples.ViewModels
                 RaisePropertyChanged(() => FilterText);
             }
         }
+
+        public FlowDocument FlowDoc { get; set; }
     }
     #endregion
 }
