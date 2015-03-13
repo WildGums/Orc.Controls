@@ -25,8 +25,8 @@ namespace Orc.Controls.Examples.ViewModels
         private DateTime _dateTimeValue;
         private List<KeyValuePair<string, string>> _filterSource;
         private string _filterText;
-        private ObservableCollection<LogRecord> _logRecords;
         private Brush _accentColorBrush;
+        private ObservableCollection<LogRecord> _logRecords;
         #endregion
 
         #region Constructors
@@ -113,6 +113,20 @@ namespace Orc.Controls.Examples.ViewModels
             }
         }
 
+        public string FilterText
+        {
+            get { return _filterText; }
+            set
+            {
+                if (_filterText == value)
+                {
+                    return;
+                }
+                _filterText = value;
+                RaisePropertyChanged(() => FilterText);
+            }
+        }
+
         public ObservableCollection<LogRecord> LogRecords
         {
             get { return _logRecords; }
@@ -127,19 +141,6 @@ namespace Orc.Controls.Examples.ViewModels
             }
         }
 
-        public string FilterText
-        {
-            get { return _filterText; }
-            set
-            {
-                if (_filterText == value)
-                {
-                    return;
-                }
-                _filterText = value;
-                RaisePropertyChanged(() => FilterText);
-            }
-        }
         #endregion
 
         public Command AddLogRecords { get; set; }

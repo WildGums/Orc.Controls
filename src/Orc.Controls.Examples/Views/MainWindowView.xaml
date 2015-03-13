@@ -50,9 +50,14 @@
                  Margin="5" HorizontalAlignment="Left"/>
 
         <TextBlock Grid.Column="0" Grid.Row="6" Text="Log Viewer" VerticalAlignment="Top" />
-        <controls:LogViewerControl Grid.Column="1" Grid.Row="6" Width="250" Height="70" Margin="5 0 5 5" HorizontalAlignment="Left" 
-                                    LogRecords="{Binding LogRecords}" LogFilter="{Binding Text, ElementName=FilterTextBox}"
-                                    LogRecordDoubleClick="LogViewerControlOnLogRecordDoubleClick" />
+        <controls:LogViewerControl Grid.Column="1" Grid.Row="6" Width="250" Height="70" Margin="5 0 5 5" HorizontalAlignment="Left"
+                                   LogRecords="{Binding LogRecords}" LogFilter="{Binding Text, ElementName=FilterTextBox}"
+                                   LogRecordDoubleClick="LogViewerControlOnLogRecordDoubleClick"
+                                   ShowDebug="{Binding IsChecked, ElementName=ShowDebugToggleButton}"
+                                   ShowInfo="{Binding IsChecked, ElementName=ShowInfoToggleButton}"
+                                   ShowWarning="{Binding IsChecked, ElementName=ShowWarningToggleButton}"
+                                   ShowError="{Binding IsChecked, ElementName=ShowErrorToggleButton}"
+                                   />
 
         <TextBlock Grid.Column="0" Grid.Row="7" Text="Log Viewer Events" VerticalAlignment="Top" />
         <StackPanel Grid.Column="1" Grid.Row="7" Orientation="Horizontal">
@@ -62,7 +67,11 @@
         </StackPanel>
         <TextBlock Grid.Column="0" Grid.Row="8" Text="Log Viewer Filter" VerticalAlignment="Top" />
         <StackPanel Grid.Column="1" Grid.Row="8" Orientation="Horizontal">
-            <TextBox x:Name="FilterTextBox" Width="145" Margin="5 5 5 0"/>
+            <TextBox x:Name="FilterTextBox" Width="145" Margin="5"/>
+            <ToggleButton x:Name="ShowDebugToggleButton" Height="25" Width="50" Margin="0 5 5 5" VerticalAlignment="Top" Content="Debug"  />
+            <ToggleButton x:Name="ShowInfoToggleButton" Height="25" Width="50" Margin="0 5 5 5" VerticalAlignment="Top" Content="Info"  />
+            <ToggleButton x:Name="ShowWarningToggleButton" Height="25" Width="50" Margin="0 5 5 5" VerticalAlignment="Top" Content="Warning"  />
+            <ToggleButton x:Name="ShowErrorToggleButton" Height="25" Width="50" Margin="0 5 5 5" VerticalAlignment="Top" Content="Error"  />
         </StackPanel>
     </Grid>
 

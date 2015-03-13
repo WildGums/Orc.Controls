@@ -16,7 +16,6 @@ namespace Orc.Controls
     using System.Windows.Media;
     using Catel;
     using Catel.Logging;
-    using Catel.MVVM.Views;
     using Controls;
     using Examples.Models;
 
@@ -33,6 +32,18 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register("LogFilter", typeof (string), typeof (LogViewerControl),
             new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public static readonly DependencyProperty ShowInfoProperty = DependencyProperty.Register("ShowInfo", typeof (bool), typeof (LogViewerControl),
+            new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public static readonly DependencyProperty ShowDebugProperty = DependencyProperty.Register("ShowDebug", typeof (bool), typeof (LogViewerControl),
+            new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public static readonly DependencyProperty ShowWarningProperty = DependencyProperty.Register("ShowWarning", typeof (bool), typeof (LogViewerControl),
+            new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public static readonly DependencyProperty ShowErrorProperty = DependencyProperty.Register("ShowError", typeof (bool), typeof (LogViewerControl),
+            new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
 
         #region Fields
@@ -63,22 +74,60 @@ namespace Orc.Controls
             DependencyPropertyDescriptor
                 .FromProperty(LogFilterProperty, typeof (LogViewerControl))
                 .AddValueChanged(this, (sender, args) => { UpdateControl(); });
+
+            DependencyPropertyDescriptor
+                .FromProperty(ShowInfoProperty, typeof (LogViewerControl))
+                .AddValueChanged(this, (sender, args) => { UpdateControl(); });
+            
+            DependencyPropertyDescriptor
+                .FromProperty(ShowDebugProperty, typeof(LogViewerControl))
+                .AddValueChanged(this, (sender, args) => { UpdateControl(); });
+
+            DependencyPropertyDescriptor
+                .FromProperty(ShowWarningProperty, typeof(LogViewerControl))
+                .AddValueChanged(this, (sender, args) => { UpdateControl(); });
+
+            DependencyPropertyDescriptor
+                .FromProperty(ShowErrorProperty, typeof(LogViewerControl))
+                .AddValueChanged(this, (sender, args) => { UpdateControl(); });
         }
         #endregion
 
         #region Properties
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public IEnumerable LogRecords
         {
             get { return (IEnumerable) GetValue(LogRecordsProperty); }
             set { SetValue(LogRecordsProperty, value); }
         }
 
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string LogFilter
         {
             get { return (string) GetValue(LogFilterProperty); }
             set { SetValue(LogFilterProperty, value); }
+        }
+
+        public bool ShowInfo
+        {
+            get { return (bool) GetValue(ShowInfoProperty); }
+            set { SetValue(ShowInfoProperty, value); }
+        }
+
+        public bool ShowWarning
+        {
+            get { return (bool) GetValue(ShowWarningProperty); }
+            set { SetValue(ShowWarningProperty, value); }
+        }
+
+        public bool ShowError
+        {
+            get { return (bool) GetValue(ShowErrorProperty); }
+            set { SetValue(ShowErrorProperty, value); }
+        }
+
+        public bool ShowDebug
+        {
+            get { return (bool) GetValue(ShowDebugProperty); }
+            set { SetValue(ShowDebugProperty, value); }
         }
         #endregion
 
@@ -118,6 +167,10 @@ namespace Orc.Controls
                 {
                     continue;
                 }
+                if (!IsAcceptable(record.LogEvent))
+                {
+                    continue;
+                }
                 var paragraph = new RichTextBoxParagraph(record);
                 paragraph.MouseLeftButtonDown += (sender, args) =>
                 {
@@ -133,6 +186,26 @@ namespace Orc.Controls
                 textBox.Document.Blocks.Add(paragraph);
             }
             textBox.ScrollToEnd();
+        }
+
+        private bool IsAcceptable(LogEvent logEvent)
+        {
+            switch (logEvent)
+            {
+                case LogEvent.Debug:
+                    return ShowDebug;
+
+                case LogEvent.Error:
+                    return ShowError;
+
+                case LogEvent.Info:
+                    return ShowInfo;
+
+                case LogEvent.Warning:
+                    return ShowWarning;
+            }
+
+            return false;
         }
 
         private bool PassFilter(LogRecord record)
