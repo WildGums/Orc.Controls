@@ -9,6 +9,7 @@ namespace Orc.Controls.Examples.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Windows.Documents;
     using System.Windows.Media;
     using Catel.Logging;
     using Catel.MVVM;
@@ -25,7 +26,7 @@ namespace Orc.Controls.Examples.ViewModels
         {
             TimeSpanValue = new TimeSpan(10, 11, 12, 13);
             DateTimeValue = DateTime.Now;
-            AccentColorBrush = Brushes.Red;
+            AccentColorBrush = Brushes.Orange;
 
             FilterSource = new List<KeyValuePair<string, string>>
             {
@@ -36,10 +37,13 @@ namespace Orc.Controls.Examples.ViewModels
                 new KeyValuePair<string, string>("5", "klhhs"),
                 new KeyValuePair<string, string>("6", "sdfhi"),
             };
+			
+			AddLogRecords = new Command(OnAddLogRecordsExecute);
 
-
-            AddLogRecords = new Command(OnAddLogRecordsExecute);
+            FlowDoc = new FlowDocument();
+            FlowDoc.Foreground = AccentColorBrush.Clone();
         }
+
         #endregion
 
         #region Properties
@@ -62,5 +66,6 @@ namespace Orc.Controls.Examples.ViewModels
             Log.Warning("log record 4");
         }
         #endregion
+        public FlowDocument FlowDoc { get; set; }
     }
 }

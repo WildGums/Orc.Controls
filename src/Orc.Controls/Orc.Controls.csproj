@@ -86,6 +86,7 @@
     <Compile Include="..\SolutionAssemblyInfo.cs">
       <Link>Properties\SolutionAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Controls\BindableRichTextBox.cs" />
     <Compile Include="Controls\NumericTextBox.cs" />
     <Compile Include="Controls\RichTextBoxParagraph.cs" />
     <Compile Include="Enums\DateTimePart.cs" />
@@ -94,6 +95,8 @@
     <Compile Include="Enums\Extensions\TimeSpanPartExtensions.cs" />
     <Compile Include="Extensions\LoggingExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
+    <Compile Include="Extensions\InlineExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\DateTimePartHelper.cs" />
     <Compile Include="Logging\LogViewerLogListener.cs" />
     <Compile Include="Models\LogRecord.cs" />

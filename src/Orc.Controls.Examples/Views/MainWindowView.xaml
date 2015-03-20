@@ -18,6 +18,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <Grid.ColumnDefinitions>
@@ -27,7 +28,7 @@
 
         <TextBlock Grid.Column="0" Grid.Row="0" Text="TimeSpan Control" VerticalAlignment="Center"/>
         <controls:TimeSpanControl Grid.Column="1" Grid.Row="0" Width="120" Value="{Binding TimeSpanValue}"
-                                  Margin="5" HorizontalAlignment="Left"/>
+                                  Margin="5" HorizontalAlignment="Left"  AccentColorBrush="{Binding AccentColorBrush}"/>
 
         <TextBlock Grid.Column="0" Grid.Row="1" Text="Text Box" VerticalAlignment="Center"/>
         <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding TimeSpanValue}" Width="120" Margin="5"
@@ -35,7 +36,8 @@
 
         <TextBlock Grid.Column="0" Grid.Row="2" Text="DateTimePicker Control" VerticalAlignment="Center"/>
         <controls:DateTimePickerControl Grid.Column="1" Grid.Row="2" Value="{Binding DateTimeValue}"
-                                        Margin="5" HorizontalAlignment="Left" AccentColorBrush="Orange" ShowOptionsButton="True" />
+                                        Margin="5" HorizontalAlignment="Left" AccentColorBrush="{Binding AccentColorBrush}"
+                                        ShowOptionsButton="True" />
 
         <TextBlock Grid.Column="0" Grid.Row="3" Text="Text Box" VerticalAlignment="Center"/>
         <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding DateTimeValue}" Width="120" Margin="5" 
@@ -44,12 +46,15 @@
         <TextBlock Grid.Column="0" Grid.Row="4" Text="Text Box" VerticalAlignment="Center"/>
         <controls:FilterBoxControl Grid.Column="1" Grid.Row="4" Width="185" Margin="5" HorizontalAlignment="Left"
                                    PropertyName="Value" FilterSource="{Binding FilterSource}" Text="{Binding FilterText}"
-                                   AccentColorBrush="#A3BF45"/>
+                                   AccentColorBrush="{Binding AccentColorBrush}"/>
 
         <TextBlock Grid.Column="0" Grid.Row="5" Text="Text Box" VerticalAlignment="Center" />
-        <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding FilterText}" VerticalAlignment="Center" Width="120"
-                 Margin="5" HorizontalAlignment="Left"/>
+        <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding FilterText}" VerticalAlignment="Center" Width="120" Margin="5"
+                 HorizontalAlignment="Left"/>
 
+        <TextBlock Grid.Column="0" Grid.Row="6" Text="BindableRichTextBox" VerticalAlignment="Center" />
+        <controls:BindableRichTextBox Grid.Column="1" Grid.Row="6" BindableDocument="{Binding FlowDoc}" Margin="5"/>
+        
         <TextBlock Grid.Column="0" Grid.Row="7" Text="Log Viewer" VerticalAlignment="Top" />
         <controls:LogViewerControl Grid.Column="1" Grid.Row="7" Width="250" Height="70" Margin="5 0 5 5" HorizontalAlignment="Left"
                                    LogFilter="{Binding Text, ElementName=FilterTextBox}"

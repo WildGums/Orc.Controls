@@ -88,8 +88,8 @@ namespace Orc.Controls
             set { SetValue(AccentColorBrushProperty, value); }
         }
 
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush), typeof(DateTimePickerControl),
-            new FrameworkPropertyMetadata(Brushes.Blue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush), 
+            typeof(DateTimePickerControl), new FrameworkPropertyMetadata(Brushes.LightGray, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
 
         #region Methods

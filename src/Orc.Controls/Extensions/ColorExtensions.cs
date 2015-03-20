@@ -23,6 +23,7 @@ namespace Orc.Controls.Extensions
             {
                 return _accentColorResourceDictionary;
             }
+
             var resourceDictionary = new ResourceDictionary();
 
             resourceDictionary.Add("FilterBoxHighlightColor", color.CalculateHighlightColor());
