@@ -17,6 +17,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <Grid.ColumnDefinitions>
@@ -49,8 +50,8 @@
         <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding FilterText}" VerticalAlignment="Center" Width="120"
                  Margin="5" HorizontalAlignment="Left"/>
 
-        <TextBlock Grid.Column="0" Grid.Row="6" Text="Log Viewer" VerticalAlignment="Top" />
-        <controls:LogViewerControl Grid.Column="1" Grid.Row="6" Width="250" Height="70" Margin="5 0 5 5" HorizontalAlignment="Left"
+        <TextBlock Grid.Column="0" Grid.Row="7" Text="Log Viewer" VerticalAlignment="Top" />
+        <controls:LogViewerControl Grid.Column="1" Grid.Row="7" Width="250" Height="70" Margin="5 0 5 5" HorizontalAlignment="Left"
                                    LogFilter="{Binding Text, ElementName=FilterTextBox}"
                                    LogEntryDoubleClick="LogViewerControlOnLogRecordDoubleClick"
                                    ShowDebug="{Binding IsChecked, ElementName=ShowDebugToggleButton}"
@@ -58,16 +59,16 @@
                                    ShowWarning="{Binding IsChecked, ElementName=ShowWarningToggleButton}"
                                    ShowError="{Binding IsChecked, ElementName=ShowErrorToggleButton}" />
 
-        <TextBlock Grid.Column="0" Grid.Row="7" Text="Log Viewer Events" VerticalAlignment="Top" />
-        <StackPanel Grid.Column="1" Grid.Row="7">
+        <TextBlock Grid.Column="0" Grid.Row="8" Text="Log Viewer Events" VerticalAlignment="Top" />
+        <StackPanel Grid.Column="1" Grid.Row="8">
             <TextBox x:Name="EventsTextBox" Width="250" Margin="5 5 5 0" Height="50" 
                      VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" />
             <Button Height="25" Width="250" Margin="5" VerticalAlignment="Top" HorizontalAlignment="Left"
                     Content="Add log record" Command="{Binding AddLogRecords}" />
         </StackPanel>
-        <TextBlock Grid.Column="0" Grid.Row="8" Text="Log Viewer Filter" VerticalAlignment="Top" />
-        <TextBox x:Name="FilterTextBox" Grid.Column="1" Grid.Row="8" Width="250" Margin="5" HorizontalAlignment="Left"/>
-        <StackPanel Grid.Column="1" Grid.Row="9" Orientation="Horizontal">
+        <TextBlock Grid.Column="0" Grid.Row="9" Text="Log Viewer Filter" VerticalAlignment="Top" />
+        <TextBox x:Name="FilterTextBox" Grid.Column="1" Grid.Row="9" Width="250" Margin="5" HorizontalAlignment="Left"/>
+        <StackPanel Grid.Column="1" Grid.Row="10" Orientation="Horizontal">
             <ToggleButton x:Name="ShowDebugToggleButton" Height="25" Width="60" Margin="4" VerticalAlignment="Top" Content="Debug"  />
             <ToggleButton x:Name="ShowInfoToggleButton" Height="25" Width="60" Margin="0 4 4 4" VerticalAlignment="Top" Content="Info"  />
             <ToggleButton x:Name="ShowWarningToggleButton" Height="25" Width="60" Margin="0 4 4 4" VerticalAlignment="Top" Content="Warning"  />

@@ -37,6 +37,7 @@ namespace Orc.Controls.Examples.ViewModels
                 new KeyValuePair<string, string>("6", "sdfhi"),
             };
 
+
             AddLogRecords = new Command(OnAddLogRecordsExecute);
         }
         #endregion
