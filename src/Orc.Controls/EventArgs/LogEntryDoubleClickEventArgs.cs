@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogRecordDoubleClickEventArgs.cs" company="Wild Gums">
+// <copyright file="LogEntryDoubleClickEventArgs.cs" company="Wild Gums">
 //   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -8,19 +8,19 @@
 namespace Orc.Controls
 {
     using System;
-    using Examples.Models;
+    using Catel.Logging;
 
-    public class LogRecordDoubleClickEventArgs : EventArgs
+    public class LogEntryDoubleClickEventArgs : EventArgs
     {
         #region Constructors
-        public LogRecordDoubleClickEventArgs(LogRecord logRecord)
+        public LogEntryDoubleClickEventArgs(LogEntry logEntry)
         {
-            LogRecord = logRecord;
+            LogEntry = logEntry;
         }
         #endregion
 
         #region Properties
-        public LogRecord LogRecord { get; private set; }
+        public LogEntry LogEntry { get; private set; }
         #endregion
     }
 }

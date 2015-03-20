@@ -8,16 +8,14 @@
 namespace Orc.Controls
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Collections.Specialized;
-    using System.ComponentModel;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Media;
     using Catel;
     using Catel.Logging;
-    using Controls;
-    using Examples.Models;
+    using Catel.MVVM.Views;
+    using ViewModels;
 
     /// <summary>
     /// Interaction logic for LogViewerControl.xaml.
@@ -26,31 +24,18 @@ namespace Orc.Controls
     {
         #region Constants
         private static readonly Dictionary<LogEvent, Brush> ColorSets = new Dictionary<LogEvent, Brush>();
-
-        public static readonly DependencyProperty LogRecordsProperty = DependencyProperty.Register("LogRecords", typeof (IEnumerable), typeof (LogViewerControl),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-        public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register("LogFilter", typeof (string), typeof (LogViewerControl),
-            new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-        public static readonly DependencyProperty ShowInfoProperty = DependencyProperty.Register("ShowInfo", typeof (bool), typeof (LogViewerControl),
-            new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-        public static readonly DependencyProperty ShowDebugProperty = DependencyProperty.Register("ShowDebug", typeof (bool), typeof (LogViewerControl),
-            new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-        public static readonly DependencyProperty ShowWarningProperty = DependencyProperty.Register("ShowWarning", typeof (bool), typeof (LogViewerControl),
-            new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-        public static readonly DependencyProperty ShowErrorProperty = DependencyProperty.Register("ShowError", typeof (bool), typeof (LogViewerControl),
-            new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
 
         #region Fields
-        private INotifyCollectionChanged _previousLogRecords = null;
+        private LogViewerViewModel _lastKnownViewModel;
         #endregion
 
         #region Constructors
+        static LogViewerControl()
+        {
+            typeof(LogViewerControl).AutoDetectViewPropertiesToSubscribe();
+        }
+
         public LogViewerControl()
         {
             InitializeComponent();
@@ -61,178 +46,151 @@ namespace Orc.Controls
             ColorSets[LogEvent.Error] = Brushes.Red;
 
             Clear();
-
-            DependencyPropertyDescriptor
-                .FromProperty(LogRecordsProperty, typeof (LogViewerControl))
-                .AddValueChanged(this, (sender, args) =>
-                {
-                    UnSubscribeToDataContext();
-                    UpdateControl();
-                    SubscribeToDataContext();
-                });
-
-            DependencyPropertyDescriptor
-                .FromProperty(LogFilterProperty, typeof (LogViewerControl))
-                .AddValueChanged(this, (sender, args) => { UpdateControl(); });
-
-            DependencyPropertyDescriptor
-                .FromProperty(ShowInfoProperty, typeof (LogViewerControl))
-                .AddValueChanged(this, (sender, args) => { UpdateControl(); });
-            
-            DependencyPropertyDescriptor
-                .FromProperty(ShowDebugProperty, typeof(LogViewerControl))
-                .AddValueChanged(this, (sender, args) => { UpdateControl(); });
-
-            DependencyPropertyDescriptor
-                .FromProperty(ShowWarningProperty, typeof(LogViewerControl))
-                .AddValueChanged(this, (sender, args) => { UpdateControl(); });
-
-            DependencyPropertyDescriptor
-                .FromProperty(ShowErrorProperty, typeof(LogViewerControl))
-                .AddValueChanged(this, (sender, args) => { UpdateControl(); });
         }
         #endregion
 
         #region Properties
-        public IEnumerable LogRecords
-        {
-            get { return (IEnumerable) GetValue(LogRecordsProperty); }
-            set { SetValue(LogRecordsProperty, value); }
-        }
-
+        [ViewToViewModel]
         public string LogFilter
         {
-            get { return (string) GetValue(LogFilterProperty); }
+            get { return (string)GetValue(LogFilterProperty); }
             set { SetValue(LogFilterProperty, value); }
         }
 
+        public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register("LogFilter", typeof(string), 
+            typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+
+        [ViewToViewModel]
+        public bool ShowDebug
+        {
+            get { return (bool)GetValue(ShowDebugProperty); }
+            set { SetValue(ShowDebugProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowDebugProperty = DependencyProperty.Register("ShowDebug", typeof(bool),
+            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+
+
+        [ViewToViewModel]
         public bool ShowInfo
         {
-            get { return (bool) GetValue(ShowInfoProperty); }
+            get { return (bool)GetValue(ShowInfoProperty); }
             set { SetValue(ShowInfoProperty, value); }
         }
 
+        public static readonly DependencyProperty ShowInfoProperty = DependencyProperty.Register("ShowInfo", typeof(bool),
+            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+
+        [ViewToViewModel]
         public bool ShowWarning
         {
-            get { return (bool) GetValue(ShowWarningProperty); }
+            get { return (bool)GetValue(ShowWarningProperty); }
             set { SetValue(ShowWarningProperty, value); }
         }
 
+        public static readonly DependencyProperty ShowWarningProperty = DependencyProperty.Register("ShowWarning", typeof(bool),
+            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+
+
+        [ViewToViewModel]
         public bool ShowError
         {
-            get { return (bool) GetValue(ShowErrorProperty); }
+            get { return (bool)GetValue(ShowErrorProperty); }
             set { SetValue(ShowErrorProperty, value); }
         }
 
-        public bool ShowDebug
-        {
-            get { return (bool) GetValue(ShowDebugProperty); }
-            set { SetValue(ShowDebugProperty, value); }
-        }
+        public static readonly DependencyProperty ShowErrorProperty = DependencyProperty.Register("ShowError", typeof(bool),
+            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+        #endregion
+
+        #region Events
+        public event EventHandler<LogEntryDoubleClickEventArgs> LogEntryDoubleClick;
         #endregion
 
         #region Methods
-        private void UnSubscribeToDataContext()
+        protected override void OnViewModelChanged()
         {
-            if (_previousLogRecords != null)
+            base.OnViewModelChanged();
+
+            if (_lastKnownViewModel != null)
             {
-                _previousLogRecords.CollectionChanged -= LogRecordsOnCollectionChanged;
-                _previousLogRecords = null;
+                _lastKnownViewModel.LogMessage -= OnViewModelLogMessage;
+                _lastKnownViewModel = null;
+            }
+
+            _lastKnownViewModel = ViewModel as LogViewerViewModel;
+            if (_lastKnownViewModel != null)
+            {
+                _lastKnownViewModel.LogMessage += OnViewModelLogMessage;
             }
         }
 
-        private void SubscribeToDataContext()
+        private void OnViewModelLogMessage(object sender, LogMessageEventArgs e)
         {
-            if (LogRecords is INotifyCollectionChanged)
-            {
-                _previousLogRecords = LogRecords as INotifyCollectionChanged;
-                _previousLogRecords.CollectionChanged += LogRecordsOnCollectionChanged;
-            }
-        }
+            var vm = (LogViewerViewModel) sender;
 
-        private void LogRecordsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
-        {
-            var newRecords = notifyCollectionChangedEventArgs.NewItems;
-            if (newRecords == null)
+            var logEntry = new LogEntry(e);
+            if (vm.IsValidLogEntry(logEntry))
             {
-                return;
-            }
-            foreach (var newRecord in newRecords)
-            {
-                var record = (LogRecord) newRecord;
-                AddRecordToRichTextBox(record);
+                AddLogEntry(logEntry);
+
+                ScrollToEnd();
             }
         }
 
         private void UpdateControl()
         {
             Clear();
-            foreach (var logRecord in LogRecords)
-            {
-                var record = (LogRecord) logRecord;
-                if (!PassFilter(record))
-                {
-                    continue;
-                }
-                if (!IsAcceptable(record.LogEvent))
-                {
-                    continue;
-                }
 
-                AddRecordToRichTextBox(record);
+            var vm = ViewModel as LogViewerViewModel;
+            if (vm != null)
+            {
+                var logEntries = vm.GetFilteredLogEntries();
+                foreach (var logEntry in logEntries)
+                {
+                    AddLogEntry(logEntry);
+                }
             }
-            LogRecordsRichTextBox.ScrollToEnd();
+
+            ScrollToEnd();
         }
 
-        private void AddRecordToRichTextBox(LogRecord record)
+        private void AddLogEntry(LogEntry logEntry)
         {
-            var paragraph = new RichTextBoxParagraph(record);
+            var vm = ViewModel as LogViewerViewModel;
+            if (vm == null)
+            {
+                return;
+            }
+
+            
+
+            var paragraph = new RichTextBoxParagraph(logEntry);
             paragraph.MouseLeftButtonDown += (sender, args) =>
             {
                 if (args.ClickCount == 2)
                 {
-                    LogRecordDoubleClick.SafeInvoke(this, new LogRecordDoubleClickEventArgs((sender as RichTextBoxParagraph).LogRecord));
+                    LogEntryDoubleClick.SafeInvoke(this, new LogEntryDoubleClickEventArgs(logEntry));
                 }
             };
-            var text = string.Format("{0} {1}", record.DateTime, record.Message);
+
+            var text = string.Format("{0} {1}", paragraph.LogEntry.Time, paragraph.LogEntry.Message);
             paragraph.Inlines.Add(text);
 
-            paragraph.Foreground = ColorSets[record.LogEvent];
+            paragraph.Foreground = ColorSets[logEntry.LogEvent];
             LogRecordsRichTextBox.Document.Blocks.Add(paragraph);
         }
 
-        private bool IsAcceptable(LogEvent logEvent)
+        private void ScrollToEnd()
         {
-            switch (logEvent)
-            {
-                case LogEvent.Debug:
-                    return ShowDebug;
+            // TODO: only scroll to end if user has not manually scrolled somewhere else, this code is already in Catel somewhere
 
-                case LogEvent.Error:
-                    return ShowError;
-
-                case LogEvent.Info:
-                    return ShowInfo;
-
-                case LogEvent.Warning:
-                    return ShowWarning;
-            }
-
-            return false;
-        }
-
-        private bool PassFilter(LogRecord record)
-        {
-            if (string.IsNullOrEmpty(LogFilter))
-            {
-                return true;
-            }
-
-            if (record.Message.Contains(LogFilter))
-            {
-                return true;
-            }
-            return false;
+            LogRecordsRichTextBox.ScrollToEnd();
         }
 
         public void Clear()
@@ -240,7 +198,5 @@ namespace Orc.Controls
             LogRecordsRichTextBox.Document.Blocks.Clear();
         }
         #endregion
-
-        public event EventHandler<LogRecordDoubleClickEventArgs> LogRecordDoubleClick;
     }
 }

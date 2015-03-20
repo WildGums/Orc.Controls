@@ -92,8 +92,10 @@
     <Compile Include="Converters\TimeSpanToTotalStringConverter.cs" />
     <Compile Include="Enums\Extensions\DateTimePartExtensions.cs" />
     <Compile Include="Enums\Extensions\TimeSpanPartExtensions.cs" />
+    <Compile Include="Extensions\LoggingExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Helpers\DateTimePartHelper.cs" />
+    <Compile Include="Logging\LogViewerLogListener.cs" />
     <Compile Include="Models\LogRecord.cs" />
     <Compile Include="ModuleInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -109,7 +111,7 @@
     <Compile Include="Views\FilterBoxControl.xaml.cs">
       <DependentUpon>FilterBoxControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EventArgs\LogRecordDoubleClickEventArgs.cs" />
+    <Compile Include="EventArgs\LogEntryDoubleClickEventArgs.cs" />
     <Compile Include="Views\LogViewerControl.xaml.cs">
       <DependentUpon>LogViewerControl.xaml</DependentUpon>
     </Compile>

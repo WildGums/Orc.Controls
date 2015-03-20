@@ -8,7 +8,6 @@
 namespace Orc.Controls
 {
     using System.Collections;
-    using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Media;
     using Catel.MVVM.Views;
@@ -38,8 +37,8 @@ namespace Orc.Controls
             set { SetValue(FilterSourceProperty, value); }
         }
 
-        public static readonly DependencyProperty FilterSourceProperty = DependencyProperty.Register("FilterSource", typeof(IEnumerable), typeof(FilterBoxControl),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty FilterSourceProperty = DependencyProperty.Register("FilterSource", typeof(IEnumerable), 
+            typeof(FilterBoxControl), new FrameworkPropertyMetadata(null));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string PropertyName
@@ -48,8 +47,8 @@ namespace Orc.Controls
             set { SetValue(PropertyNameProperty, value); }
         }
 
-        public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.Register("PropertyName", typeof(string), typeof(FilterBoxControl),
-            new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.Register("PropertyName", typeof(string), 
+            typeof(FilterBoxControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string Text
@@ -68,8 +67,8 @@ namespace Orc.Controls
             set { SetValue(AccentColorBrushProperty, value); }
         }
 
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush), typeof(FilterBoxControl),
-            new FrameworkPropertyMetadata(Brushes.Blue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush), 
+            typeof(FilterBoxControl), new FrameworkPropertyMetadata(Brushes.Blue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
     }
 }

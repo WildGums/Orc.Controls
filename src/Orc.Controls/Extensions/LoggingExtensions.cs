@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RichTextBoxParagraph.cs" company="Wild Gums">
+// <copyright file="LoggingExtensions.cs" company="Wild Gums">
 //   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -7,16 +7,15 @@
 
 namespace Orc.Controls
 {
-    using System.Windows.Documents;
+    using System.Collections.Generic;
+    using System.Linq;
     using Catel.Logging;
 
-    public class RichTextBoxParagraph: Paragraph
+    public static class LoggingExtensions
     {
-        public RichTextBoxParagraph(LogEntry logEntry)
+        public static IEnumerable<RichTextBoxParagraph> ConvertToParagraphs(this IEnumerable<LogEntry> logEntries)
         {
-            LogEntry = logEntry;
+            return logEntries.Select(x => new RichTextBoxParagraph(x));
         }
-
-        public LogEntry LogEntry { get; private set; }
     }
 }

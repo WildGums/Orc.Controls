@@ -4,14 +4,15 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:catel="http://catel.codeplex.com"
-                   xmlns:controls="clr-namespace:Orc.Controls.Controls"
+                   xmlns:localcontrols="clr-namespace:Orc.Controls"
                    mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="120">
 
     <UserControl.Resources>
-        <Style TargetType="{x:Type controls:RichTextBoxParagraph}">
+        <Style TargetType="{x:Type localcontrols:RichTextBoxParagraph}">
             <Setter Property="Margin" Value="0"/>
         </Style>
     </UserControl.Resources>
+    
     <Grid>
         <RichTextBox x:Name="LogRecordsRichTextBox" IsReadOnly="True" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" />
     </Grid>
