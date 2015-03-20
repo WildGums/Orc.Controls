@@ -3,7 +3,7 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:controls="clr-namespace:Orc.Controls;assembly=Orc.Controls"
               xmlns:catel="http://catel.codeplex.com"
-              Height="450" Width="525">
+              Height="650" Width="525">
     
     <Grid Margin="10">
         <Grid.RowDefinitions>

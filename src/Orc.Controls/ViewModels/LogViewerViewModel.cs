@@ -10,27 +10,43 @@ namespace Orc.Controls.ViewModels
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Catel;
+    using Catel.IoC;
     using Catel.Logging;
     using Catel.MVVM;
     using Logging;
 
     public class LogViewerViewModel : ViewModelBase
     {
+        private readonly ITypeFactory _typeFactory;
+
         #region Fields
-        private readonly LogViewerLogListener _logListener = new LogViewerLogListener();
+        private ILogListener _logListener;
+
+        private bool _isViewModelActive;
 
         private readonly List<LogEntry> _logEntries = new List<LogEntry>();
         #endregion
 
         #region Constructors
-        public LogViewerViewModel()
+        public LogViewerViewModel(ITypeFactory typeFactory)
         {
+            Argument.IsNotNull(() => typeFactory);
 
+            _typeFactory = typeFactory;
+
+            LogListenerType = typeof(LogViewerLogListener);
+            ShowDebug = true;
+            ShowInfo = true;
+            ShowWarning = true;
+            ShowError = true;
         }
         #endregion
 
         #region Properties
         public List<LogEntry> LogEntries { get { return _logEntries; } }
+
+        public Type LogListenerType { get; set; }
 
         public string LogFilter { get; set; }
 
@@ -49,18 +65,60 @@ namespace Orc.Controls.ViewModels
         {
             await base.Initialize();
 
-            _logListener.LogMessage += OnLogMessage;
+            _isViewModelActive = true;
 
-            LogManager.AddListener(_logListener);
+            SubscribeLogListener();
         }
 
         protected override async Task Close()
         {
+            UnsubscribeLogListener();
+
+            _isViewModelActive = false;
+
+            await base.Close();
+        }
+
+        private void OnLogListenerTypeChanged()
+        {
+            UnsubscribeLogListener();
+            SubscribeLogListener();
+        }
+
+        private void SubscribeLogListener()
+        {
+            if (!_isViewModelActive)
+            {
+                return;
+            }
+
+            var logListenerType = LogListenerType;
+            if (logListenerType == null)
+            {
+                return;
+            }
+
+            _logListener = _typeFactory.CreateInstance(logListenerType) as ILogListener;
+            if (_logListener != null)
+            {
+                _logListener.LogMessage += OnLogMessage;
+
+                LogManager.AddListener(_logListener);
+            }
+        }
+
+        private void UnsubscribeLogListener()
+        {
+            if (_logListener == null)
+            {
+                return;
+            }
+
             _logListener.LogMessage -= OnLogMessage;
 
             LogManager.RemoveListener(_logListener);
 
-            await base.Close();
+            _logListener = null;
         }
 
         public IEnumerable<LogEntry> GetFilteredLogEntries()

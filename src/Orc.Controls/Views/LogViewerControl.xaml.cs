@@ -15,6 +15,7 @@ namespace Orc.Controls
     using Catel;
     using Catel.Logging;
     using Catel.MVVM.Views;
+    using Logging;
     using ViewModels;
 
     /// <summary>
@@ -61,6 +62,18 @@ namespace Orc.Controls
             typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
+
+        [ViewToViewModel]
+        public Type LogListenerType
+        {
+            get { return (Type)GetValue(LogListenerTypeProperty); }
+            set { SetValue(LogListenerTypeProperty, value); }
+        }
+
+        public static readonly DependencyProperty LogListenerTypeProperty = DependencyProperty.Register("LogListenerType", typeof(Type), 
+            typeof(LogViewerControl), new PropertyMetadata(typeof(LogViewerLogListener)));
+
+
         [ViewToViewModel]
         public bool ShowDebug
         {
@@ -83,6 +96,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty ShowInfoProperty = DependencyProperty.Register("ShowInfo", typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+
 
         [ViewToViewModel]
         public bool ShowWarning
