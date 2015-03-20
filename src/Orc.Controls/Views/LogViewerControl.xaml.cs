@@ -12,6 +12,7 @@ namespace Orc.Controls
     using System.Linq;
     using System.Windows;
     using System.Windows.Media;
+    using System.Windows.Threading;
     using Catel;
     using Catel.Logging;
     using Catel.MVVM.Views;
@@ -159,19 +160,26 @@ namespace Orc.Controls
 
         private void UpdateControl()
         {
-            Clear();
+            // Using BeginInvoke in order to call properties mapping first. Otherwise filtering by buttons doesen't work.
+            // UpdateControl will be called *before* the properties mapping,
+            // but because we call BeginInvoke, it will be placed at the end of the execution stack
 
-            var vm = ViewModel as LogViewerViewModel;
-            if (vm != null)
+            Dispatcher.BeginInvoke(new Action(() =>
             {
-                var logEntries = vm.GetFilteredLogEntries();
-                foreach (var logEntry in logEntries)
-                {
-                    AddLogEntry(logEntry);
-                }
-            }
+                Clear();
 
-            ScrollToEnd();
+                var vm = ViewModel as LogViewerViewModel;
+                if (vm != null)
+                {
+                    IEnumerable<LogEntry> logEntries = vm.GetFilteredLogEntries();
+                    foreach (LogEntry logEntry in logEntries)
+                    {
+                        AddLogEntry(logEntry);
+                    }
+                }
+
+                ScrollToEnd();
+            }));
         }
 
         private void AddLogEntry(LogEntry logEntry)
