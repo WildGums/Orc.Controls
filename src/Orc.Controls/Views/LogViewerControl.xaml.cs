@@ -10,6 +10,7 @@ namespace Orc.Controls
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using System.Windows;
     using System.Windows.Media;
     using System.Windows.Threading;
@@ -209,11 +210,16 @@ namespace Orc.Controls
             };
 
             var timestamp = paragraph.LogEntry.Time.ToString();
+            var toolTip = new StringBuilder();
 
             if (!ShowTimestamp)
             {
+                toolTip.AppendLine("Time: " + timestamp);
                 timestamp = string.Empty;
             }
+
+            toolTip.Append("Log event: " + paragraph.LogEntry.Log.Tag);
+            paragraph.ToolTip = toolTip;
 
             var text = string.Format("{0} {1}", timestamp, paragraph.LogEntry.Message);
             paragraph.Inlines.Add(text);

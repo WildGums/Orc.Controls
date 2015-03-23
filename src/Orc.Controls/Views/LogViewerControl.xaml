@@ -14,6 +14,7 @@
     </UserControl.Resources>
     
     <Grid>
-        <RichTextBox x:Name="LogRecordsRichTextBox" IsReadOnly="True" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" />
+        <RichTextBox x:Name="LogRecordsRichTextBox" IsReadOnly="True" IsDocumentEnabled="True"
+                     HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" />
     </Grid>
 </catel:UserControl>
