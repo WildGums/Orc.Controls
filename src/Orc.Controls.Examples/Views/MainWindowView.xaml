@@ -59,6 +59,7 @@
         <controls:LogViewerControl Grid.Column="1" Grid.Row="7" Width="250" Height="70" Margin="5 0 5 5" HorizontalAlignment="Left"
                                    LogFilter="{Binding Text, ElementName=FilterTextBox}"
                                    LogEntryDoubleClick="LogViewerControlOnLogRecordDoubleClick"
+                                   ShowTimestamp="False"
                                    ShowDebug="{Binding IsChecked, ElementName=ShowDebugToggleButton}"
                                    ShowInfo="{Binding IsChecked, ElementName=ShowInfoToggleButton}"
                                    ShowWarning="{Binding IsChecked, ElementName=ShowWarningToggleButton}"

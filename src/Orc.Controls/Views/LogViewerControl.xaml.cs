@@ -52,6 +52,16 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
+        public bool ShowTimestamp
+        {
+            get { return (bool)GetValue(ShowTimestampProperty); }
+            set { SetValue(ShowTimestampProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowTimestampProperty = DependencyProperty.Register("ShowTimestamp", typeof(bool), 
+            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+
         [ViewToViewModel]
         public string LogFilter
         {
@@ -59,10 +69,9 @@ namespace Orc.Controls
             set { SetValue(LogFilterProperty, value); }
         }
 
-        public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register("LogFilter", typeof(string), 
+        public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register("LogFilter", typeof(string),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
 
         [ViewToViewModel]
         public Type LogListenerType
@@ -190,8 +199,6 @@ namespace Orc.Controls
                 return;
             }
 
-            
-
             var paragraph = new RichTextBoxParagraph(logEntry);
             paragraph.MouseLeftButtonDown += (sender, args) =>
             {
@@ -201,11 +208,19 @@ namespace Orc.Controls
                 }
             };
 
-            var text = string.Format("{0} {1}", paragraph.LogEntry.Time, paragraph.LogEntry.Message);
+            var timestamp = paragraph.LogEntry.Time.ToString();
+
+            if (!ShowTimestamp)
+            {
+                timestamp = string.Empty;
+            }
+
+            var text = string.Format("{0} {1}", timestamp, paragraph.LogEntry.Message);
             paragraph.Inlines.Add(text);
 
             paragraph.Foreground = ColorSets[logEntry.LogEvent];
             LogRecordsRichTextBox.Document.Blocks.Add(paragraph);
+
         }
 
         private void ScrollToEnd()
