@@ -193,6 +193,8 @@ namespace Orc.Controls.ViewModels
         {
             var logEntry = new LogEntry(e);
 
+            logEntry.Data["ThreadId"] = ThreadHelper.GetCurrentThreadId();
+
             lock (_logEntries)
             {
                 _logEntries.Add(logEntry);

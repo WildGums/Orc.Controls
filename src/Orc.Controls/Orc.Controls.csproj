@@ -97,6 +97,7 @@
     <Compile Include="Extensions\LoggingExtensions.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\InlineExtensions.cs" />
+    <Compile Include="Extensions\RichTextBoxParagraphExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\DateTimePartHelper.cs" />
     <Compile Include="Logging\LogViewerLogListener.cs" />

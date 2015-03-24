@@ -17,6 +17,7 @@ namespace Orc.Controls
     using Catel;
     using Catel.Logging;
     using Catel.MVVM.Views;
+    using Extensions;
     using Logging;
     using ViewModels;
 
@@ -209,20 +210,7 @@ namespace Orc.Controls
                 }
             };
 
-            var timestamp = paragraph.LogEntry.Time.ToString();
-            var toolTip = new StringBuilder();
-
-            if (!ShowTimestamp)
-            {
-                toolTip.AppendLine("Time: " + timestamp);
-                timestamp = string.Empty;
-            }
-
-            toolTip.Append("Log event: " + paragraph.LogEntry.Log.Tag);
-            paragraph.ToolTip = toolTip;
-
-            var text = string.Format("{0} {1}", timestamp, paragraph.LogEntry.Message);
-            paragraph.Inlines.Add(text);
+            paragraph.SetData(ShowTimestamp);
 
             paragraph.Foreground = ColorSets[logEntry.LogEvent];
             LogRecordsRichTextBox.Document.Blocks.Add(paragraph);
