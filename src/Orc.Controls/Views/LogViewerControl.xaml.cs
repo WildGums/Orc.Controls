@@ -181,15 +181,19 @@ namespace Orc.Controls
 
         private void OnViewModelLogMessage(object sender, LogMessageEventArgs e)
         {
-            var vm = (LogViewerViewModel) sender;
-
-            var logEntry = new LogEntry(e);
-            if (vm.IsValidLogEntry(logEntry))
+            Dispatcher.BeginInvoke(new Action(() =>
             {
-                AddLogEntry(logEntry);
+                var vm = (LogViewerViewModel) sender;
 
-                ScrollToEnd();
-            }
+                var logEntry = new LogEntry(e);
+                if (vm.IsValidLogEntry(logEntry))
+                {
+
+                    AddLogEntry(logEntry);
+
+                    ScrollToEnd();
+                }
+            }));
         }
 
         private void UpdateControl()
