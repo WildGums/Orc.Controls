@@ -67,6 +67,7 @@ namespace Orc.Controls
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
+
         public bool EnableIcons
         {
             get { return (bool)GetValue(EnableIconsProperty); }
@@ -76,6 +77,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty EnableIconsProperty = DependencyProperty.Register("EnableIcons", typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+
 
         public bool EnableTextColoring
         {
@@ -87,7 +89,8 @@ namespace Orc.Controls
             typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
-        [ViewToViewModel]
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string LogFilter
         {
             get { return (string)GetValue(LogFilterProperty); }
@@ -98,7 +101,7 @@ namespace Orc.Controls
             typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
-        [ViewToViewModel]
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public Type LogListenerType
         {
             get { return (Type)GetValue(LogListenerTypeProperty); }
@@ -109,7 +112,7 @@ namespace Orc.Controls
             typeof(LogViewerControl), new PropertyMetadata(typeof(LogViewerLogListener)));
 
 
-        [ViewToViewModel]
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowDebug
         {
             get { return (bool)GetValue(ShowDebugProperty); }
@@ -121,7 +124,7 @@ namespace Orc.Controls
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
 
-        [ViewToViewModel]
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowInfo
         {
             get { return (bool)GetValue(ShowInfoProperty); }
@@ -133,7 +136,7 @@ namespace Orc.Controls
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
 
-        [ViewToViewModel]
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowWarning
         {
             get { return (bool)GetValue(ShowWarningProperty); }
@@ -145,7 +148,7 @@ namespace Orc.Controls
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
 
-        [ViewToViewModel]
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowError
         {
             get { return (bool)GetValue(ShowErrorProperty); }
