@@ -22,7 +22,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Label}">
                         <Grid Margin="4 2 4 -2">
-                            <Viewbox x:Name="Viewbox" Height="10" Width="10">
+                            <Viewbox x:Name="Viewbox" Height="11" Width="11">
                                 <Path Data="{TemplateBinding Path.Data}"
                                         HorizontalAlignment="Center" Margin="0" 
                                         SnapsToDevicePixels="True" Stretch="Fill"
@@ -34,7 +34,7 @@
                                            HorizontalAlignment="Center"
                                            Margin="{TemplateBinding Padding}"
                                            VerticalAlignment="Center"
-                                           FontSize="10"
+                                           FontSize="9"
                                            Foreground="{TemplateBinding BorderBrush}" />
                         </Grid>
                         <ControlTemplate.Triggers>
@@ -42,29 +42,30 @@
                                 <Setter Property="BorderBrush" Value="RoyalBlue" />
                                 <Setter Property="Content" Value="i" />
                                 <Setter Property="Padding" Value="0 0 0 1" />
+                                <Setter Property="Path.Margin" Value="0 0 0 -0.2" />
                                 <Setter Property="Path.Data" Value="{StaticResource EllipseGeometry}" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding LogEvent}" Value="Error">
                                 <Setter Property="BorderBrush" Value="Red" />
                                 <Setter Property="Content" Value="!" />
                                 <Setter Property="Padding" Value="0 1 0 0" />
-                                <Setter Property="Path.Margin" Value="0 3 0 -1" />
+                                <Setter Property="Path.Margin" Value="0 0 0 -0.3" />
                                 <Setter Property="Path.Data" Value="{StaticResource TriangleGeometry}" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding LogEvent}" Value="Warning">
-                                <Setter Property="BorderBrush" Value="Orange" />
+                                <Setter Property="BorderBrush" Value="DarkOrange" />
                                 <Setter Property="Content" Value="w" />
                                 <Setter Property="Padding" Value="0 0 0 2" />
-                                <Setter Property="Path.Margin" Value="0 0 0 -1.5" />
+                                <Setter Property="Path.Margin" Value="0 0 0 -1" />
                                 <Setter Property="Path.Data" Value="{StaticResource RectngleGeometry}" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding LogEvent}" Value="Debug">
-                                <!--<Setter Property="Height" TargetName="Viewbox" Value="11"/>
-                                <Setter Property="Width" TargetName="Viewbox" Value="11"/>-->
+                                <Setter Property="Height" TargetName="Viewbox" Value="12"/>
+                                <Setter Property="Width" TargetName="Viewbox" Value="12"/>
                                 <Setter Property="BorderBrush" Value="DarkGray" />
                                 <Setter Property="Content" Value="d" />
-                                <Setter Property="Padding" Value="0 0 1 2" />
-                                <Setter Property="Path.Margin" Value="0 0 1 -1" />
+                                <Setter Property="Padding" Value="0 0 1.3 2" />
+                                <Setter Property="Path.Margin" Value="-1 0 1 -1" />
                                 <Setter Property="Path.Data" Value="{StaticResource HexagonGeometry}" />
                             </DataTrigger>
                         </ControlTemplate.Triggers>
