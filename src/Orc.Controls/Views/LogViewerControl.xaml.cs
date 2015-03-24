@@ -57,14 +57,34 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
-        public bool ShowTimestamp
+        public bool EnableTimestamp
         {
-            get { return (bool)GetValue(ShowTimestampProperty); }
-            set { SetValue(ShowTimestampProperty, value); }
+            get { return (bool)GetValue(EnableTimestampProperty); }
+            set { SetValue(EnableTimestampProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowTimestampProperty = DependencyProperty.Register("ShowTimestamp", typeof(bool), 
+        public static readonly DependencyProperty EnableTimestampProperty = DependencyProperty.Register("EnableTimestamp", typeof(bool), 
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+
+        public bool EnableIcons
+        {
+            get { return (bool)GetValue(EnableIconsProperty); }
+            set { SetValue(EnableIconsProperty, value); }
+        }
+
+        public static readonly DependencyProperty EnableIconsProperty = DependencyProperty.Register("ShowIcons", typeof(bool),
+            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+
+        public bool EnableTextColoring
+        {
+            get { return (bool)GetValue(EnableTextColoringProperty); }
+            set { SetValue(EnableTextColoringProperty, value); }
+        }
+
+        public static readonly DependencyProperty EnableTextColoringProperty = DependencyProperty.Register("EnableTextColoringProperty", typeof(bool),
+            typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
         [ViewToViewModel]
@@ -213,12 +233,19 @@ namespace Orc.Controls
                 }
             };
 
-            var image = new Label(){DataContext = logEntry};
-            paragraph.Inlines.Add(image);
+            if (EnableIcons)
+            {
+                var icon = new Label() { DataContext = logEntry };
+                paragraph.Inlines.Add(icon);
+            }
 
-            paragraph.SetData(ShowTimestamp);
+            if (EnableTextColoring)
+            {
+                paragraph.Foreground = ColorSets[logEntry.LogEvent];
+            }
 
-            paragraph.Foreground = ColorSets[logEntry.LogEvent];
+            paragraph.SetData(EnableTimestamp);
+
             LogRecordsRichTextBox.Document.Blocks.Add(paragraph);
 
         }

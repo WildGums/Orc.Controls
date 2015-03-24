@@ -62,7 +62,8 @@
                                    ShowDebug="{Binding IsChecked, ElementName=ShowDebugToggleButton}"
                                    ShowInfo="{Binding IsChecked, ElementName=ShowInfoToggleButton}"
                                    ShowWarning="{Binding IsChecked, ElementName=ShowWarningToggleButton}"
-                                   ShowError="{Binding IsChecked, ElementName=ShowErrorToggleButton}" />
+                                   ShowError="{Binding IsChecked, ElementName=ShowErrorToggleButton}"
+                                   EnableTimestamp="True" EnableTextColoring="True" />
 
         <TextBlock Grid.Column="0" Grid.Row="8" Text="Log Viewer Events" VerticalAlignment="Top" />
         <StackPanel Grid.Column="1" Grid.Row="8">
