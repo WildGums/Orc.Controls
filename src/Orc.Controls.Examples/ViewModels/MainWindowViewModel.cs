@@ -25,7 +25,6 @@ namespace Orc.Controls.Examples.ViewModels
         public MainWindowViewModel()
         {
             TimeSpanValue = new TimeSpan(10, 11, 12, 13);
-            DateTimeValue = DateTime.Now;
             AccentColorBrush = Brushes.Orange;
 
             FilterSource = new List<KeyValuePair<string, string>>
@@ -49,7 +48,6 @@ namespace Orc.Controls.Examples.ViewModels
         #region Properties
         public TimeSpan TimeSpanValue { get; set; }
 
-        public DateTime DateTimeValue { get; set; }
 
         public Brush AccentColorBrush { get; set; }
 
