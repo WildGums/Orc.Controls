@@ -9,6 +9,7 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Text;
     using System.Windows;
@@ -108,8 +109,9 @@ namespace Orc.Controls
             set { SetValue(LogListenerTypeProperty, value); }
         }
 
-        public static readonly DependencyProperty LogListenerTypeProperty = DependencyProperty.Register("LogListenerType", typeof(Type), 
-            typeof(LogViewerControl), new PropertyMetadata(typeof(LogViewerLogListener)));
+        public static readonly DependencyProperty LogListenerTypeProperty = DependencyProperty.Register("LogListenerType", typeof(Type),
+            typeof(LogViewerControl), new FrameworkPropertyMetadata(typeof(LogViewerLogListener), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, 
+                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -179,6 +181,16 @@ namespace Orc.Controls
             if (_lastKnownViewModel != null)
             {
                 _lastKnownViewModel.LogMessage += OnViewModelLogMessage;
+            }
+        }
+
+        protected override void OnViewModelPropertyChanged(PropertyChangedEventArgs e)
+        {
+            base.OnViewModelPropertyChanged(e);
+
+            if (string.Equals(e.PropertyName, "LogListenerType"))
+            {
+                UpdateControl();
             }
         }
 
