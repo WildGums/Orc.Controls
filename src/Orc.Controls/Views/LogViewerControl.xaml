@@ -11,6 +11,95 @@
         <Style TargetType="{x:Type localcontrols:RichTextBoxParagraph}">
             <Setter Property="Margin" Value="0"/>
         </Style>
+
+        <Geometry x:Key="HexagonGeometry">M5.26,17.9 L15.8,17.9 21.1,8.9 15.8,0 5.26,0 0,8.9200432 C0,8.9200432 5.26,17.9 5.26,17.9 z</Geometry>
+        <Geometry x:Key="RectngleGeometry">M0.5,0.5 L17.5,0.5 L17.5,17.5 L0.5,17.5 z</Geometry>
+        <Geometry x:Key="TriangleGeometry">M9.0,0.5 L17.5,17.5 L0.0,17.5 z</Geometry>
+        <Geometry x:Key="EllipseGeometry">M17.5,9 C17.5,13.69442 13.69442,17.5 9,17.5 C4.3055796,17.5 0.5,13.69442 0.5,9 C0.5,4.3055796 
+            4.3055796,0.5 9,0.5 C13.69442,0.5 17.5,4.3055796 17.5,9 z</Geometry>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Label}">
+                        <Grid Margin="4 2 4 -2">
+                            <Viewbox x:Name="Viewbox" Height="10" Width="10">
+                                <Path Data="{TemplateBinding Path.Data}"
+                                        HorizontalAlignment="Center" Margin="0" 
+                                        SnapsToDevicePixels="True" Stretch="Fill"
+                                        UseLayoutRounding="True"
+                                        Stroke="{TemplateBinding BorderBrush}"
+                                        StrokeThickness="1.3" VerticalAlignment="Center"/>
+                            </Viewbox>
+                            <TextBlock Text="{TemplateBinding Content}"
+                                           HorizontalAlignment="Center"
+                                           Margin="{TemplateBinding Padding}"
+                                           VerticalAlignment="Center"
+                                           FontSize="10"
+                                           Foreground="{TemplateBinding BorderBrush}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding LogEvent}" Value="Info">
+                                <Setter Property="BorderBrush" Value="RoyalBlue" />
+                                <Setter Property="Content" Value="i" />
+                                <Setter Property="Padding" Value="0 0 0 1" />
+                                <Setter Property="Path.Data" Value="{StaticResource EllipseGeometry}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding LogEvent}" Value="Error">
+                                <Setter Property="BorderBrush" Value="Red" />
+                                <Setter Property="Content" Value="!" />
+                                <Setter Property="Padding" Value="0 1 0 0" />
+                                <Setter Property="Path.Margin" Value="0 3 0 -1" />
+                                <Setter Property="Path.Data" Value="{StaticResource TriangleGeometry}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding LogEvent}" Value="Warning">
+                                <Setter Property="BorderBrush" Value="Orange" />
+                                <Setter Property="Content" Value="w" />
+                                <Setter Property="Padding" Value="0 0 0 2" />
+                                <Setter Property="Path.Margin" Value="0 0 0 -1.5" />
+                                <Setter Property="Path.Data" Value="{StaticResource RectngleGeometry}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding LogEvent}" Value="Debug">
+                                <!--<Setter Property="Height" TargetName="Viewbox" Value="11"/>
+                                <Setter Property="Width" TargetName="Viewbox" Value="11"/>-->
+                                <Setter Property="BorderBrush" Value="DarkGray" />
+                                <Setter Property="Content" Value="d" />
+                                <Setter Property="Padding" Value="0 0 1 2" />
+                                <Setter Property="Path.Margin" Value="0 0 1 -1" />
+                                <Setter Property="Path.Data" Value="{StaticResource HexagonGeometry}" />
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    
+        <Style x:Key="GreenCheckBoxStyle" TargetType="{x:Type CheckBox}">
+            <Setter Property="Padding" Value="5,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Viewbox x:Name="CheckMark" Width="16" Height="16">
+                            <Path x:Name="Checkmark" Stretch="Fill"
+                                        Data="M10,17L5,12L6.41,10.58L10,14.17L17.59,6.58L19,8M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"
+                                        Fill="LimeGreen" />
+                        </Viewbox>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="CheckMark" Property="Visibility" Value="Hidden"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Viewbox x:Key="CheckMark" Width="16" Height="16">
+            <Path x:Name="Checkmark" Stretch="Fill"
+                                        Data="M10,17L5,12L6.41,10.58L10,14.17L17.59,6.58L19,8M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"
+                                        Fill="LimeGreen" />
+        </Viewbox>
+        <Path x:Key="GreenPath" Stretch="Fill"
+                                        Data="M10,17L5,12L6.41,10.58L10,14.17L17.59,6.58L19,8M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"
+                                        Fill="LimeGreen" />
     </UserControl.Resources>
     
     <Grid>

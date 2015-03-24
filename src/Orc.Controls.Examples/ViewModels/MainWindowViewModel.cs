@@ -63,7 +63,10 @@ namespace Orc.Controls.Examples.ViewModels
 
         private void OnAddLogRecordsExecute()
         {
-            Log.Warning("log record 4");
+            Log.Debug("Debug");
+            Log.Warning("Warning");
+            Log.Error("Error");
+            Log.Info("Info");
         }
         #endregion
         public FlowDocument FlowDoc { get; set; }

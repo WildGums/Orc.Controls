@@ -12,14 +12,17 @@ namespace Orc.Controls
     using System.Linq;
     using System.Text;
     using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Threading;
     using Catel;
+    using Catel.IO;
     using Catel.Logging;
     using Catel.MVVM.Views;
     using Extensions;
     using Logging;
     using ViewModels;
+    using Path = System.Windows.Shapes.Path;
 
     /// <summary>
     /// Interaction logic for LogViewerControl.xaml.
@@ -209,6 +212,9 @@ namespace Orc.Controls
                     LogEntryDoubleClick.SafeInvoke(this, new LogEntryDoubleClickEventArgs(logEntry));
                 }
             };
+
+            var image = new Label(){DataContext = logEntry};
+            paragraph.Inlines.Add(image);
 
             paragraph.SetData(ShowTimestamp);
 
