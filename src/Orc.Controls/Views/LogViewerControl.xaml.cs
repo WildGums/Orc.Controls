@@ -73,7 +73,7 @@ namespace Orc.Controls
             set { SetValue(EnableIconsProperty, value); }
         }
 
-        public static readonly DependencyProperty EnableIconsProperty = DependencyProperty.Register("ShowIcons", typeof(bool),
+        public static readonly DependencyProperty EnableIconsProperty = DependencyProperty.Register("EnableIcons", typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
@@ -83,7 +83,7 @@ namespace Orc.Controls
             set { SetValue(EnableTextColoringProperty, value); }
         }
 
-        public static readonly DependencyProperty EnableTextColoringProperty = DependencyProperty.Register("EnableTextColoringProperty", typeof(bool),
+        public static readonly DependencyProperty EnableTextColoringProperty = DependencyProperty.Register("EnableTextColoring", typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
