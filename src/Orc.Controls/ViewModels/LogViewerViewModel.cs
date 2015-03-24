@@ -199,6 +199,8 @@ namespace Orc.Controls.ViewModels
             {
                 _logEntries.Add(logEntry);
             }
+
+            LogMessage.SafeInvoke(this, e);
         }
         #endregion
     }

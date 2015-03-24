@@ -56,10 +56,9 @@
         <controls:BindableRichTextBox Grid.Column="1" Grid.Row="6" BindableDocument="{Binding FlowDoc}" Margin="5"/>
         
         <TextBlock Grid.Column="0" Grid.Row="7" Text="Log Viewer" VerticalAlignment="Top" />
-        <controls:LogViewerControl Grid.Column="1" Grid.Row="7" Width="250" Height="70" Margin="5 0 5 5" HorizontalAlignment="Left"
+        <controls:LogViewerControl Grid.Column="1" Grid.Row="7" Height="200" Margin="5 0 5 5" HorizontalAlignment="Left"
                                    LogFilter="{Binding Text, ElementName=FilterTextBox}"
                                    LogEntryDoubleClick="LogViewerControlOnLogRecordDoubleClick"
-                                   ShowTimestamp="False"
                                    ShowDebug="{Binding IsChecked, ElementName=ShowDebugToggleButton}"
                                    ShowInfo="{Binding IsChecked, ElementName=ShowInfoToggleButton}"
                                    ShowWarning="{Binding IsChecked, ElementName=ShowWarningToggleButton}"
