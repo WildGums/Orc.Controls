@@ -95,8 +95,12 @@
     </ApplicationDefinition>
     <Compile Include="ViewModels\BindableRichTextBoxViewModel.cs" />
     <Compile Include="ViewModels\DateTimePickerViewModel.cs" />
+    <Compile Include="ViewModels\DropDownButtonViewModel.cs" />
     <Compile Include="ViewModels\FilterBoxViewModel.cs" />
     <Compile Include="ViewModels\LogViewerViewModel.cs" />
+    <Compile Include="Views\DropDownButtonView.xaml.cs">
+      <DependentUpon>DropDownButtonView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LogViewer.xaml.cs">
       <DependentUpon>LogViewer.xaml</DependentUpon>
     </Compile>
@@ -113,6 +117,10 @@
     <Compile Include="Views\TimeSpan.xaml.cs">
       <DependentUpon>TimeSpan.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\DropDownButtonView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LogViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
