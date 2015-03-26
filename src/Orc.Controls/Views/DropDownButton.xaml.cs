@@ -7,9 +7,10 @@
 
 namespace Orc.Controls
 {
-    using System.Collections.ObjectModel;
     using System.Windows;
-    using System.Windows.Forms;
+    using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
+    using System.Windows.Data;
     using Catel.MVVM.Views;
 
     /// <summary>
@@ -24,6 +25,8 @@ namespace Orc.Controls
         }
         #endregion
 
+        
+
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
         public string Header
         {
@@ -33,5 +36,14 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string),
             typeof(DropDownButton), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public ContextMenu DropDown
+        {
+            get { return (ContextMenu)this.GetValue(DropDownProperty); }
+            set { this.SetValue(DropDownProperty, value); }
+        }
+
+        public static readonly DependencyProperty DropDownProperty = DependencyProperty.Register("DropDown", typeof(ContextMenu),
+            typeof(DropDownButton), new UIPropertyMetadata(null));        
     }
 }

@@ -89,7 +89,9 @@
     <Compile Include="..\SolutionAssemblyInfo.cs">
       <Link>Properties\SolutionAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Behavior\DropDownButtonBehavior.cs" />
     <Compile Include="Controls\BindableRichTextBox.cs" />
+    <Compile Include="Controls\DropDownButton2.cs" />
     <Compile Include="Controls\NumericTextBox.cs" />
     <Compile Include="Controls\RichTextBoxParagraph.cs" />
     <Compile Include="Enums\DateTimePart.cs" />
@@ -157,9 +159,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
   </ItemGroup>

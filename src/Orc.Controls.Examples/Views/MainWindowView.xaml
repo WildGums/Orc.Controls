@@ -82,7 +82,16 @@
             <ToggleButton x:Name="ShowErrorToggleButton" Height="25" Width="60" Margin="0 4 4 4" VerticalAlignment="Top" Content="Error"  />
         </StackPanel>
 
-        <controls:DropDownButton Grid.Column="1" Grid.Row="11" Header="DropDownButton"/>
+        <controls:DropDownButton Grid.Column="1" Grid.Row="11" Header="DropDownButton">
+            <controls:DropDownButton.DropDown>
+                <ContextMenu>
+                    <MenuItem Header="Item 1"/>
+                    <MenuItem Header="Item 2"/>
+                    <Separator/>
+                    <MenuItem Header="Item 2"/>
+                </ContextMenu>
+            </controls:DropDownButton.DropDown>
+        </controls:DropDownButton>
     </Grid>
 
 </catel:Window>
