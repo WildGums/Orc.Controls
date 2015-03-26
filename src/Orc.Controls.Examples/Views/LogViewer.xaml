@@ -39,10 +39,14 @@
         <TextBlock Grid.Column="0" Grid.Row="2" Text="Log Viewer Filter" Margin="5" />
         <TextBox x:Name="FilterTextBox" Grid.Column="1" Grid.Row="2" Margin="5"/>
         <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
-            <ToggleButton x:Name="ShowDebugToggleButton" Height="25" Width="60" Margin="4" VerticalAlignment="Top" Content="Debug"  />
-            <ToggleButton x:Name="ShowInfoToggleButton" Height="25" Width="60" Margin="0 4 4 4" VerticalAlignment="Top" Content="Info"  />
-            <ToggleButton x:Name="ShowWarningToggleButton" Height="25" Width="60" Margin="0 4 4 4" VerticalAlignment="Top" Content="Warning"  />
-            <ToggleButton x:Name="ShowErrorToggleButton" Height="25" Width="60" Margin="0 4 4 4" VerticalAlignment="Top" Content="Error"  />
+            <ToggleButton x:Name="ShowDebugToggleButton" Height="25" Width="60" Margin="4" 
+                          VerticalAlignment="Top" Content="Debug" IsChecked="True" />
+            <ToggleButton x:Name="ShowInfoToggleButton" Height="25" Width="60" Margin="0 4 4 4"
+                          VerticalAlignment="Top" Content="Info" IsChecked="True" />
+            <ToggleButton x:Name="ShowWarningToggleButton" Height="25" Width="60" Margin="0 4 4 4"
+                          VerticalAlignment="Top" Content="Warning" IsChecked="True" />
+            <ToggleButton x:Name="ShowErrorToggleButton" Height="25" Width="60" Margin="0 4 4 4"
+                          VerticalAlignment="Top" Content="Error" IsChecked="True" />
         </StackPanel>
     </Grid>
 </catel:UserControl>
