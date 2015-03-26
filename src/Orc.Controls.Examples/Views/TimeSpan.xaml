@@ -11,12 +11,13 @@
     <!-- Content -->
     <StackPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" >
-            <TextBlock Text="TimeSpan Control" VerticalAlignment="Center" Width="100" />
+            <TextBlock Text="TimeSpan Control" VerticalAlignment="Center" Width="150" />
             <orc:TimeSpanControl Width="120" Value="{Binding TimeSpanValue}"
-                                    Margin="5" HorizontalAlignment="Left" AccentColorBrush="{Binding AccentColorBrush}"/>
+                                 Margin="5" HorizontalAlignment="Left"
+                                 AccentColorBrush="{Binding DataContext.AccentColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Text Box" VerticalAlignment="Center" Width="100"/>
+            <TextBlock Text="Text Box" VerticalAlignment="Center" Width="150"/>
             <TextBox Text="{Binding TimeSpanValue}" Width="120" Margin="5" HorizontalAlignment="Left"/>
         </StackPanel>
     </StackPanel>

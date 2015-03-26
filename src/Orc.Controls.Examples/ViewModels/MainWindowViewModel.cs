@@ -23,7 +23,5 @@ namespace Orc.Controls.Examples.ViewModels
         public Brush AccentColorBrush { get; set; }
         #endregion
 
-        #region Events
-        #endregion
     }
 }

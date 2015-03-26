@@ -14,7 +14,7 @@
             <TextBlock Text="FilterBox Control" VerticalAlignment="Center" Width="150"/>
             <orc:FilterBoxControl Width="200" Margin="5" HorizontalAlignment="Left" PropertyName="Value"
                                   FilterSource="{Binding FilterSource}" Text="{Binding FilterText}"
-                                  AccentColorBrush="{Binding AccentColorBrush}"/>
+                                  AccentColorBrush="{Binding DataContext.AccentColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Filtered Text" VerticalAlignment="Center" Width="150" />

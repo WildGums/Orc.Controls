@@ -23,7 +23,5 @@ namespace Orc.Controls.Examples.Views
             DataContext = new MainWindowViewModel();
         }
         #endregion
-
-        
     }
 }
