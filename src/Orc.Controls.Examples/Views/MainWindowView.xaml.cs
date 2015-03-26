@@ -24,9 +24,6 @@ namespace Orc.Controls.Examples.Views
         }
         #endregion
 
-        private void LogViewerControlOnLogRecordDoubleClick(object sender, LogEntryDoubleClickEventArgs e)
-        {
-            EventsTextBox.AppendText(e.LogEntry.Message + " clicked" + Environment.NewLine);
-        }
+        
     }
 }
