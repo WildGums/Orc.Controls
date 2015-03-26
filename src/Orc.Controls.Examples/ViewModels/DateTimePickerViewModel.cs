@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainWindowViewModel.cs" company="Wild Gums">
+// <copyright file="DateTimePickerViewModel.cs" company="Wild Gums">
 //   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -7,21 +7,20 @@
 
 namespace Orc.Controls.Examples.ViewModels
 {
-    using System.Windows.Media;
+    using System;
     using Catel.MVVM;
 
-    public class MainWindowViewModel : ViewModelBase
+    public class DateTimePickerViewModel : ViewModelBase
     {
         #region Constructors
-        public MainWindowViewModel()
+        public DateTimePickerViewModel()
         {
-            AccentColorBrush = Brushes.Orange;
+            DateTimeValue = DateTime.Now;
         }
         #endregion
 
         #region Properties
-        public Brush AccentColorBrush { get; set; }
+        public DateTime DateTimeValue { get; set; }
         #endregion
-
     }
 }

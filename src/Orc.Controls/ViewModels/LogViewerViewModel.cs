@@ -187,7 +187,9 @@ namespace Orc.Controls.ViewModels
                 return true;
             }
 
-            if (logEntry.Message.Contains(LogFilter))
+            var contains = logEntry.Message.IndexOf(LogFilter, StringComparison.OrdinalIgnoreCase) >= 0;
+
+            if (contains)
             {
                 return true;
             }

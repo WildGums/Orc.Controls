@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainWindowViewModel.cs" company="Wild Gums">
+// <copyright file="TimeSpanViewModel.cs" company="Wild Gums">
 //   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -7,21 +7,16 @@
 
 namespace Orc.Controls.Examples.ViewModels
 {
-    using System.Windows.Media;
+    using System;
     using Catel.MVVM;
 
-    public class MainWindowViewModel : ViewModelBase
+    public class TimeSpanViewModel : ViewModelBase
     {
-        #region Constructors
-        public MainWindowViewModel()
+        public TimeSpanViewModel()
         {
-            AccentColorBrush = Brushes.Orange;
+            TimeSpanValue = new TimeSpan(10, 11, 12, 13);
         }
-        #endregion
 
-        #region Properties
-        public Brush AccentColorBrush { get; set; }
-        #endregion
-
+        public TimeSpan TimeSpanValue { get; set; }
     }
 }
