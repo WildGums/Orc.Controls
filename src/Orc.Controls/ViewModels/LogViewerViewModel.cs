@@ -82,6 +82,12 @@ namespace Orc.Controls.ViewModels
         private void OnLogListenerTypeChanged()
         {
             UnsubscribeLogListener();
+
+            lock (_logEntries)
+            {
+                _logEntries.Clear();
+            }
+
             SubscribeLogListener();
         }
 

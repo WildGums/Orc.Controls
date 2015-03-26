@@ -9,6 +9,7 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Text;
     using System.Windows;
@@ -67,6 +68,7 @@ namespace Orc.Controls
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
+
         public bool EnableIcons
         {
             get { return (bool)GetValue(EnableIconsProperty); }
@@ -76,6 +78,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty EnableIconsProperty = DependencyProperty.Register("EnableIcons", typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+
 
         public bool EnableTextColoring
         {
@@ -87,7 +90,8 @@ namespace Orc.Controls
             typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
-        [ViewToViewModel]
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string LogFilter
         {
             get { return (string)GetValue(LogFilterProperty); }
@@ -98,18 +102,19 @@ namespace Orc.Controls
             typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
-        [ViewToViewModel]
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public Type LogListenerType
         {
             get { return (Type)GetValue(LogListenerTypeProperty); }
             set { SetValue(LogListenerTypeProperty, value); }
         }
 
-        public static readonly DependencyProperty LogListenerTypeProperty = DependencyProperty.Register("LogListenerType", typeof(Type), 
-            typeof(LogViewerControl), new PropertyMetadata(typeof(LogViewerLogListener)));
+        public static readonly DependencyProperty LogListenerTypeProperty = DependencyProperty.Register("LogListenerType", typeof(Type),
+            typeof(LogViewerControl), new FrameworkPropertyMetadata(typeof(LogViewerLogListener), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, 
+                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
 
-        [ViewToViewModel]
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowDebug
         {
             get { return (bool)GetValue(ShowDebugProperty); }
@@ -121,7 +126,7 @@ namespace Orc.Controls
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
 
-        [ViewToViewModel]
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowInfo
         {
             get { return (bool)GetValue(ShowInfoProperty); }
@@ -133,7 +138,7 @@ namespace Orc.Controls
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
 
-        [ViewToViewModel]
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowWarning
         {
             get { return (bool)GetValue(ShowWarningProperty); }
@@ -145,7 +150,7 @@ namespace Orc.Controls
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
 
-        [ViewToViewModel]
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowError
         {
             get { return (bool)GetValue(ShowErrorProperty); }
@@ -176,6 +181,16 @@ namespace Orc.Controls
             if (_lastKnownViewModel != null)
             {
                 _lastKnownViewModel.LogMessage += OnViewModelLogMessage;
+            }
+        }
+
+        protected override void OnViewModelPropertyChanged(PropertyChangedEventArgs e)
+        {
+            base.OnViewModelPropertyChanged(e);
+
+            if (string.Equals(e.PropertyName, "LogListenerType"))
+            {
+                UpdateControl();
             }
         }
 
