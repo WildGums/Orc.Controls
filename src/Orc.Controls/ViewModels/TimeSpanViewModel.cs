@@ -8,15 +8,53 @@
 namespace Orc.Controls
 {
     using System;
+    using System.Windows.Media;
     using Catel.MVVM;
+    using Extensions;
 
     public class TimeSpanViewModel : ViewModelBase
     {
         #region Fields
         private TimeSpan _value;
+        private Brush _accentColorBrushProperty;
+        private Brush _highlightColorBrush;
         #endregion
 
         #region Properties
+
+        public Brush AccentColorBrush
+        {
+            get { return _accentColorBrushProperty; }
+            set
+            {
+                if (_accentColorBrushProperty == value)
+                {
+                    return;
+                }
+
+                _accentColorBrushProperty = value;
+                var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
+                accentColor.CreateAccentColorResourceDictionary();
+                RaisePropertyChanged("AccentColorBrush");
+            }
+        }
+
+        public Brush HighlightColorBrush
+        {
+            get { return _highlightColorBrush; }
+            set
+            {
+                if (_highlightColorBrush == value)
+                {
+                    return;
+                }
+
+                _highlightColorBrush = value;
+
+                RaisePropertyChanged("HighlightColorBrush");
+            }
+        }
+
         public TimeSpan Value
         {
             get { return _value; }

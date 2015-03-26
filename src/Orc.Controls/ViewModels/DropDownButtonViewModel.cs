@@ -27,7 +27,7 @@ namespace Orc.Controls.ViewModels
             _dispatcherService = dispatcherService;
             Items = new List<string> {"asasddddddddddddddddddddddddddd", "asasd"};
             DropDown = new TaskCommand(OnDropDownExecute, OnDropDownCanExecute);
-            ComboBox
+            
         }
 
         

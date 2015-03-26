@@ -46,10 +46,10 @@
                     </Setter>
                 </MultiTrigger>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="Orange" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource ControlsAccentBrush}" />
                 </Trigger>
                 <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                    <Setter Property="BorderBrush" Value="Orange" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource ControlsAccentBrush}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -150,8 +150,9 @@
                            Tag="{x:Static controls:TimeSpanPart.Seconds}" Style="{StaticResource LettersStyle}" />
             </Grid>
         </Border>
-        
-        <Border x:Name="NumericTBEditorContainer" Grid.ColumnSpan="8" BorderBrush="Orange"  BorderThickness="1"
+
+        <Border x:Name="NumericTBEditorContainer" Grid.ColumnSpan="8"
+                BorderBrush="{DynamicResource ControlsAccentBrush}" BorderThickness="1"
                 Width="{Binding ActualWidth, ElementName=MainContainer}" Visibility="Collapsed"
                 Height="{Binding ActualHeight, ElementName=MainContainer}">
             <Grid HorizontalAlignment="Stretch" Background="White">

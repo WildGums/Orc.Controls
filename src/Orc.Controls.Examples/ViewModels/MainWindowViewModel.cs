@@ -9,17 +9,16 @@ namespace Orc.Controls.Examples.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Windows.Documents;
     using System.Windows.Media;
+    using Catel.Logging;
     using Catel.MVVM;
+    using Models;
 
     public class MainWindowViewModel : ViewModelBase
     {
         #region Fields
-        private TimeSpan _timeSpanValue;
-        private DateTime _dateTimeValue;
-        private List<KeyValuePair<string, string>> _filterSource;
-        private string _filterText;
-        private Brush _accentColorBrush;
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
         #endregion
 
         #region Constructors
@@ -27,9 +26,9 @@ namespace Orc.Controls.Examples.ViewModels
         {
             TimeSpanValue = new TimeSpan(10, 11, 12, 13);
             DateTimeValue = DateTime.Now;
-            AccentColorBrush = Brushes.Red;
+            AccentColorBrush = Brushes.Orange;
 
-            FilterSource = new List<KeyValuePair<string, string>>()
+            FilterSource = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("1", "abcd"),
                 new KeyValuePair<string, string>("2", "basdf"),
@@ -38,80 +37,38 @@ namespace Orc.Controls.Examples.ViewModels
                 new KeyValuePair<string, string>("5", "klhhs"),
                 new KeyValuePair<string, string>("6", "sdfhi"),
             };
+			
+			AddLogRecords = new Command(OnAddLogRecordsExecute);
+
+            FlowDoc = new FlowDocument();
+            FlowDoc.Foreground = AccentColorBrush.Clone();
         }
 
         #endregion
 
         #region Properties
-        public TimeSpan TimeSpanValue
-        {
-            get { return _timeSpanValue; }
-            set
-            {
-                if (_timeSpanValue == value)
-                {
-                    return;
-                }
-                _timeSpanValue = value;
-                RaisePropertyChanged(() => TimeSpanValue);
-            }
-        }
+        public TimeSpan TimeSpanValue { get; set; }
 
-        public DateTime DateTimeValue
-        {
-            get { return _dateTimeValue; }
-            set
-            {
-                if (_dateTimeValue == value)
-                {
-                    return;
-                }
-                _dateTimeValue = value;
-                RaisePropertyChanged(() => DateTimeValue);
-            }
-        }
+        public DateTime DateTimeValue { get; set; }
 
-        public Brush AccentColorBrush
-        {
-            get { return _accentColorBrush; }
-            set
-            {
-                if (_accentColorBrush == value)
-                {
-                    return;
-                }
-                _accentColorBrush = value;
-                RaisePropertyChanged(() => AccentColorBrush);
-            }
-        }
+        public Brush AccentColorBrush { get; set; }
 
-        public List<KeyValuePair<string, string>> FilterSource
-        {
-            get { return _filterSource; }
-            set
-            {
-                if (_filterSource == value)
-                {
-                    return;
-                }
-                _filterSource = value;
-                RaisePropertyChanged(() => FilterSource);
-            }
-        }
+        public List<KeyValuePair<string, string>> FilterSource { get; private set; }
 
-        public string FilterText
+        public string FilterText { get; set; }
+        #endregion
+
+        #region Events
+        public Command AddLogRecords { get; set; }
+
+        private void OnAddLogRecordsExecute()
         {
-            get { return _filterText; }
-            set
-            {
-                if (_filterText == value)
-                {
-                    return;
-                }
-                _filterText = value;
-                RaisePropertyChanged(() => FilterText);
-            }
+            Log.Debug("Debug");
+            Log.Warning("Warning");
+            Log.Error("Error");
+            Log.Info("Info");
         }
+        #endregion
+        public FlowDocument FlowDoc { get; set; }
     }
-    #endregion
 }
