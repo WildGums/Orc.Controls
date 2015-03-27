@@ -22,13 +22,25 @@ namespace Orc.Controls.Behavior
             AssociatedObject.SetBinding(ToggleButton.IsCheckedProperty, binding);
 
             AssociatedObject.ToggleButton.Click += OnClick;
+
+            if (AssociatedObject.DropDown == null)
+            {
+                return;
+            }
+
+            AssociatedObject.DropDown.Closed += OnDropDownClosed;
+        }
+
+        private void OnDropDownClosed(object sender, RoutedEventArgs e)
+        {
+            AssociatedObject.ToggleButton.IsChecked = AssociatedObject.DropDown.IsOpen;
         }
 
         private void OnClick(object sender, RoutedEventArgs e)
         {
             if (AssociatedObject.DropDown != null && (AssociatedObject.ToggleButton.IsChecked ?? false))
             {
-                AssociatedObject.DropDown.PlacementTarget = AssociatedObject.ToggleButton;
+                AssociatedObject.DropDown.PlacementTarget = AssociatedObject;
                 AssociatedObject.DropDown.Placement = PlacementMode.Bottom;
 
                 AssociatedObject.DropDown.IsOpen = true;
@@ -39,6 +51,13 @@ namespace Orc.Controls.Behavior
         {
             base.OnAssociatedObjectUnloaded();
             AssociatedObject.ToggleButton.Click -= OnClick;
+
+            if (AssociatedObject.DropDown == null)
+            {
+                return;
+            }
+
+            AssociatedObject.DropDown.Closed -= OnDropDownClosed;
         }
         #endregion
     }
