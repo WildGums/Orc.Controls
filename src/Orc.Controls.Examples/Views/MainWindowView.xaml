@@ -5,27 +5,30 @@
               xmlns:views="clr-namespace:Orc.Controls.Examples.Views"
               Height="650" Width="525">
 
-    <TabControl Padding="10">
+    <catel:TabControl Padding="10">
         <TabItem Header="TimeSpan">
             <views:TimeSpan/>
         </TabItem>
+        
         <TabItem Header="DateTimePicker">
             <views:DateTimePicker/>
         </TabItem>
+        
         <TabItem Header="FilterBox">
             <views:FilterBox/>
         </TabItem>
+        
         <TabItem Header="BindableRichTextBox">
             <views:BindableRichTextBox/>
         </TabItem>
+        
         <TabItem Header="LogViewer">
             <views:LogViewer/>
         </TabItem>
+        
         <TabItem Header="DropDownButton">
             <views:DropDownButtonView/>
         </TabItem>
-    </TabControl>
-        
-
-       <!-- -->
+    </catel:TabControl>
+    
 </catel:Window>
