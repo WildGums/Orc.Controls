@@ -11,6 +11,7 @@ namespace Orc.Controls
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
+    using System.Windows.Input;
     using Catel.MVVM.Views;
 
     /// <summary>
@@ -39,11 +40,20 @@ namespace Orc.Controls
 
         public ContextMenu DropDown
         {
-            get { return (ContextMenu)this.GetValue(DropDownProperty); }
-            set { this.SetValue(DropDownProperty, value); }
+            get { return (ContextMenu)GetValue(DropDownProperty); }
+            set { SetValue(DropDownProperty, value); }
         }
 
         public static readonly DependencyProperty DropDownProperty = DependencyProperty.Register("DropDown", typeof(ContextMenu),
-            typeof(DropDownButton), new UIPropertyMetadata(null));        
+            typeof(DropDownButton), new UIPropertyMetadata(null));
+
+        public ICommand Command
+        {
+            get { return (ICommand)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand),
+            typeof(DropDownButton), new UIPropertyMetadata(null));    
     }
 }
