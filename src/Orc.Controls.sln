@@ -23,7 +23,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{47
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{59924607-205A-4563-BD72-711312D8260A}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Orc.Controls.Shared", "Orc.Controls\Orc.Controls.Shared\Orc.Controls.Shared.shproj", "{3CE87518-5FFA-4048-A8F8-1C6B6A11C809}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Orc.Controls.Tests.Shared", "Orc.Controls.Tests\Orc.Controls.Tests.Shared\Orc.Controls.Tests.Shared.shproj", "{9265BE2C-C1E1-4D54-90DA-71F46198197E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.NET45", "Orc.Controls\Orc.Controls.NET45\Orc.Controls.NET45.csproj", "{094077C9-1F14-41CE-99FF-1AE61D13A1CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.Tests.NET45", "Orc.Controls.Tests\Orc.Controls.Tests.NET45\Orc.Controls.Tests.NET45.csproj", "{0AF8324A-CF4A-4629-8D06-95721ECB67FE}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Orc.Controls\Orc.Controls.Shared\Orc.Controls.Shared.projitems*{094077c9-1f14-41ce-99ff-1ae61d13a1cc}*SharedItemsImports = 4
+		Orc.Controls.Tests\Orc.Controls.Tests.Shared\Orc.Controls.Tests.Shared.projitems*{9265be2c-c1e1-4d54-90da-71f46198197e}*SharedItemsImports = 13
+		Orc.Controls\Orc.Controls.Shared\Orc.Controls.Shared.projitems*{e6ce2111-3d7c-4759-a886-e44ec77ce3aa}*SharedItemsImports = 4
+		Orc.Controls.Tests\Orc.Controls.Tests.Shared\Orc.Controls.Tests.Shared.projitems*{0af8324a-cf4a-4629-8d06-95721ecb67fe}*SharedItemsImports = 4
+		Orc.Controls.Tests\Orc.Controls.Tests.Shared\Orc.Controls.Tests.Shared.projitems*{9d4dd1a4-d63d-4766-ba11-29fc99c1cbef}*SharedItemsImports = 4
+		Orc.Controls\Orc.Controls.Shared\Orc.Controls.Shared.projitems*{3ce87518-5ffa-4048-a8f8-1c6b6a11c809}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -41,6 +57,14 @@ Global
 		{FC8A5188-FF86-4D47-B72C-834D12B20406}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC8A5188-FF86-4D47-B72C-834D12B20406}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC8A5188-FF86-4D47-B72C-834D12B20406}.Release|Any CPU.Build.0 = Release|Any CPU
+		{094077C9-1F14-41CE-99FF-1AE61D13A1CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{094077C9-1F14-41CE-99FF-1AE61D13A1CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{094077C9-1F14-41CE-99FF-1AE61D13A1CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{094077C9-1F14-41CE-99FF-1AE61D13A1CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AF8324A-CF4A-4629-8D06-95721ECB67FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AF8324A-CF4A-4629-8D06-95721ECB67FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AF8324A-CF4A-4629-8D06-95721ECB67FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AF8324A-CF4A-4629-8D06-95721ECB67FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,5 +76,9 @@ Global
 		{FB81E6B4-F47C-477E-8382-D83F6F870E0A} = {AAE2B7A4-D901-4DA2-97FD-F7127657C1A1}
 		{47F8C23D-D72A-45A5-8A10-38D22BC9AD15} = {AAE2B7A4-D901-4DA2-97FD-F7127657C1A1}
 		{59924607-205A-4563-BD72-711312D8260A} = {AAE2B7A4-D901-4DA2-97FD-F7127657C1A1}
+		{3CE87518-5FFA-4048-A8F8-1C6B6A11C809} = {FB81E6B4-F47C-477E-8382-D83F6F870E0A}
+		{9265BE2C-C1E1-4D54-90DA-71F46198197E} = {59924607-205A-4563-BD72-711312D8260A}
+		{094077C9-1F14-41CE-99FF-1AE61D13A1CC} = {FB81E6B4-F47C-477E-8382-D83F6F870E0A}
+		{0AF8324A-CF4A-4629-8D06-95721ECB67FE} = {59924607-205A-4563-BD72-711312D8260A}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>3ce87518-5ffa-4048-a8f8-1c6b6a11c809</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Orc.Controls.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behavior\DropDownButtonBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\NumericTextBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\RichTextBoxParagraph.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\TimeSpanToTotalStringConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\DateTimePart.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\Extensions\DateTimePartExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\Extensions\TimeSpanPartExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\TimeSpanPart.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventArgs\LogEntryDoubleClickEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ColorExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\InlineExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\LoggingExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\RichTextBoxParagraphExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimePartHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\LogViewerLogListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LogRecord.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\ISuggestionListService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestionListService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DateTimePickerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DropDownButtonViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FilterBoxViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LogViewerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\TimeSpanViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\DateTimePickerControl.xaml.cs">
+      <DependentUpon>DateTimePickerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\DropDownButton.xaml.cs">
+      <DependentUpon>DropDownButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\FilterBoxControl.xaml.cs">
+      <DependentUpon>FilterBoxControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\LogViewerControl.xaml.cs">
+      <DependentUpon>LogViewerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\TimeSpanControl.xaml.cs">
+      <DependentUpon>TimeSpanControl.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Views\DateTimePickerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\DropDownButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\FilterBoxControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\LogViewerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\TimeSpanControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>
