@@ -172,9 +172,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Orc.Controls\Orc.Controls.csproj">
+    <ProjectReference Include="..\Orc.Controls\Orc.Controls.NET40\Orc.Controls.NET40.csproj">
       <Project>{E6CE2111-3D7C-4759-A886-E44EC77CE3AA}</Project>
-      <Name>Orc.Controls</Name>
+      <Name>Orc.Controls.NET40</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
