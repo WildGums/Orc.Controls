@@ -7,8 +7,10 @@
              xmlns:orc="http://www.wildgums.net.au/orc"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <orc:DropDownButton Header="DropDownButtonView" Height="25" Width="200" 
+    
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" >
+        <TextBlock Text="DropDownButton" VerticalAlignment="Center" Width="150" />
+        <orc:DropDownButton Header="Action" Height="25" Width="200" 
                             AccentColorBrush="{Binding DataContext.AccentColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                             Command="{Binding DefaultAction}">
             <orc:DropDownButton.DropDown>
@@ -20,5 +22,5 @@
                 </ContextMenu>
             </orc:DropDownButton.DropDown>
         </orc:DropDownButton>
-    </Grid>
+    </StackPanel>
 </catel:UserControl>
