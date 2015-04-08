@@ -12,6 +12,7 @@ namespace Orc.Controls
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using System.Windows.Input;
+    using System.Windows.Media;
     using Catel.MVVM.Views;
 
     /// <summary>
@@ -25,8 +26,6 @@ namespace Orc.Controls
             InitializeComponent();
         }
         #endregion
-
-        
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
         public string Header
@@ -54,6 +53,16 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand),
-            typeof(DropDownButton), new UIPropertyMetadata(null));    
+            typeof(DropDownButton), new UIPropertyMetadata(null));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public Brush AccentColorBrush
+        {
+            get { return (Brush)GetValue(AccentColorBrushProperty); }
+            set { SetValue(AccentColorBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
+            typeof(DropDownButton), new FrameworkPropertyMetadata(Brushes.LightGray, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
     }
 }

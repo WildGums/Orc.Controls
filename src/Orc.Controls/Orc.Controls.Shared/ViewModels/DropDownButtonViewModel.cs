@@ -12,12 +12,15 @@ namespace Orc.Controls.ViewModels
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Windows.Controls;
+    using System.Windows.Media;
     using Catel;
     using Catel.MVVM;
     using Catel.Services;
+    using Extensions;
 
     public class DropDownButtonViewModel : ViewModelBase
     {
+        private Brush _accentColorBrushProperty;
         private readonly IDispatcherService _dispatcherService;
 
         public DropDownButtonViewModel(IDispatcherService dispatcherService)
@@ -30,13 +33,28 @@ namespace Orc.Controls.ViewModels
             
         }
 
-        
-
         public IList<string> Items { get; set; }
 
         public bool IsDropDownOpen { get; set; }
 
         public string Header { get; set; }
+
+        public Brush AccentColorBrush
+        {
+            get { return _accentColorBrushProperty; }
+            set
+            {
+                if (_accentColorBrushProperty == value)
+                {
+                    return;
+                }
+
+                _accentColorBrushProperty = value;
+                var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
+                accentColor.CreateAccentColorResourceDictionary();
+                RaisePropertyChanged("AccentColorBrush");
+            }
+        }
 
         #region Commands
         public TaskCommand DropDown { get; private set; }

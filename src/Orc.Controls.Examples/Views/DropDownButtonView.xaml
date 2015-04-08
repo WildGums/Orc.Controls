@@ -8,7 +8,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <orc:DropDownButton Header="DropDownButtonView" Height="25" Width="200" Command="{Binding DefaultAction}">
+        <orc:DropDownButton Header="DropDownButtonView" Height="25" Width="200" 
+                            AccentColorBrush="{Binding DataContext.AccentColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                            Command="{Binding DefaultAction}">
             <orc:DropDownButton.DropDown>
                 <ContextMenu>
                     <MenuItem Header="Item 1"/>
