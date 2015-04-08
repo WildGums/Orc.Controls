@@ -71,7 +71,7 @@
                                 <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Fill" TargetName="Arrow" Value="#FFAFAFAF"/>
+                                <Setter Property="Fill" TargetName="Arrow" Value="#FFAFAFAF" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
