@@ -10,11 +10,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <catel:UserControl.Resources>
-        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Padding" Value="4 0 4 0"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ButtonBase}">
-                        <Border x:Name="Chrome" BorderBrush="LightGray" BorderThickness="1" Background="#FFF4F4F4" SnapsToDevicePixels="True">
+                        <Border x:Name="Chrome" BorderBrush="LightGray" BorderThickness="1 1 0 1" Background="#FFF4F4F4"
+                                SnapsToDevicePixels="True">
                             <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
                                               Content="{TemplateBinding Content}"
                                               ContentStringFormat="{TemplateBinding ContentStringFormat}"
@@ -26,7 +28,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}"/>
+                                <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsHighlightBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}"/>
@@ -41,37 +43,49 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="{x:Type ToggleButton}">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="ClickMode" Value="Press"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="Chrome" BorderBrush="LightGray" BorderThickness="1" Background="#FFF4F4F4"
+                                SnapsToDevicePixels="True">
+                            <Grid x:Name="PathGrid" HorizontalAlignment="Right" Width="12">
+                                <Path x:Name="Arrow" Data="M0,0L3.5,4 7,0z" Fill="Black" 
+                                        HorizontalAlignment="Center" Margin="0,1,0,0" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsHighlightBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Background" TargetName="PathGrid" Value="{DynamicResource ControlsAccentBrush}" />
+                                <Setter Property="Background" TargetName="Chrome" Value="White" />
+                                <Setter Property="Fill" TargetName="Arrow" Value="White" />
+                                <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Fill" TargetName="Arrow" Value="#FFAFAFAF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </catel:UserControl.Resources>
     <i:Interaction.Behaviors>
         <behavior:DropDownButtonBehavior/>
     </i:Interaction.Behaviors>
     <Grid>
-        <Border>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Content="{Binding Header}" 
-                        Command="{Binding Command, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:DropDownButton}}}"/>
-                <Separator  Grid.Column="1" >
-                    <Separator.LayoutTransform>
-                        <TransformGroup>
-                            <TransformGroup.Children>
-                                <TransformCollection>
-                                    <RotateTransform Angle="90"/>
-                                </TransformCollection>
-                            </TransformGroup.Children>
-                        </TransformGroup>
-                    </Separator.LayoutTransform>                    
-                </Separator>
-                <ToggleButton Grid.Column="2" x:Name="ToggleButton" Width="15">
-                    <ToggleButton.Content>
-                        <Path VerticalAlignment="Center" Width="6" Fill="#FF527DB5" Stretch="Uniform" HorizontalAlignment="Right" Data="F1 M 301.14,-189.041L 311.57,-189.041L 306.355,-182.942L 301.14,-189.041 Z "/>
-                    </ToggleButton.Content>
-                </ToggleButton>
-            </Grid>
-        </Border>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="{Binding Header}"
+                    Command="{Binding Command, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:DropDownButton}}}"/>
+            <ToggleButton x:Name="ToggleButton" />
+        </StackPanel>
     </Grid>
 </catel:UserControl>
