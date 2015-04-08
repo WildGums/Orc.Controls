@@ -18,7 +18,7 @@ namespace Orc.Controls.Behavior
         protected override void OnAssociatedObjectLoaded()
         {
             base.OnAssociatedObjectLoaded();
-            var binding = new Binding("DropDown.IsOpen") {Source = AssociatedObject.ToggleButton, Mode = BindingMode.TwoWay};
+            var binding = new Binding("DropDown.IsOpen") {Source = AssociatedObject, Mode = BindingMode.TwoWay};
             AssociatedObject.SetBinding(ToggleButton.IsCheckedProperty, binding);
 
             AssociatedObject.ToggleButton.Click += OnClick;

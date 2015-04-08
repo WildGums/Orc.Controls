@@ -7,36 +7,22 @@
 
 namespace Orc.Controls.ViewModels
 {
-    using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using System.Windows.Controls;
     using System.Windows.Media;
-    using Catel;
     using Catel.MVVM;
-    using Catel.Services;
     using Extensions;
 
-    public class DropDownButtonViewModel : ViewModelBase
+    internal class DropDownButtonViewModel : ViewModelBase
     {
         private Brush _accentColorBrushProperty;
-        private readonly IDispatcherService _dispatcherService;
 
-        public DropDownButtonViewModel(IDispatcherService dispatcherService)
+        public DropDownButtonViewModel()
         {
-            Argument.IsNotNull(() => dispatcherService);
-
-            _dispatcherService = dispatcherService;
-            Items = new List<string> {"asasddddddddddddddddddddddddddd", "asasd"};
-            DropDown = new TaskCommand(OnDropDownExecute, OnDropDownCanExecute);
-            
+            Items = new List<string>();
         }
 
         public IList<string> Items { get; set; }
-
         public bool IsDropDownOpen { get; set; }
-
         public string Header { get; set; }
 
         public Brush AccentColorBrush
@@ -44,43 +30,16 @@ namespace Orc.Controls.ViewModels
             get { return _accentColorBrushProperty; }
             set
             {
-                if (_accentColorBrushProperty == value)
+                if (Equals(_accentColorBrushProperty, value))
                 {
                     return;
                 }
 
                 _accentColorBrushProperty = value;
-                var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
+                var accentColor = ((SolidColorBrush) AccentColorBrush).Color;
                 accentColor.CreateAccentColorResourceDictionary();
                 RaisePropertyChanged("AccentColorBrush");
             }
         }
-
-        #region Commands
-        public TaskCommand DropDown { get; private set; }
-
-        private bool OnDropDownCanExecute()
-        {
-            return true;
-        }
-
-        private async Task OnDropDownExecute()
-        {
-/*
-            try
-            {
-IsDropDownOpen = !IsDropDownOpen;
-            }
-            catch (Exception)
-            {
-                
-                throw;
-            }
-*/
-                
-           
-        }
-        #endregion
-        
     }
 }
