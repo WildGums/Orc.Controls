@@ -23,15 +23,7 @@ after that you can manage your `FlowDoc` property of type `FlowDocument` as you 
 
 ### DateTimePicker
 
-Advanced control, which allows user to pick *DateTime* value.
-
-#### How to use it
-
-Just put it in your .cs.xaml file in correct place. And use property *Value* for binding your *DateTime* value:
-
-    <orc:DateTimePickerControl Value="{Binding DateTimeValue}" />
-
-#### How it looks
+Advanced DateTimePicker control.
 
 ![DateTimePicker 01](doc/images/DateTimePicker%2001.png) ![DateTimePicker 02](doc/images/DateTimePicker%2002.png)
 
@@ -39,9 +31,17 @@ Just put it in your .cs.xaml file in correct place. And use property *Value* for
 
 ![DateTimePicker 05](doc/images/DateTimePicker%2005.png)
 
+#### How to use it
+
+Just put it in your .cs.xaml file in correct place. And use property *Value* for binding your *DateTime* value:
+
+    <orc:DateTimePickerControl Value="{Binding DateTimeValue}" />
+
 ### DropDownButton
 
 The control wich consists of two buttont. Fitsr one is works as ragular Button and the second one allows you to show customisable drop down menu under the control. 
+
+![DropDownButton 01](doc/images/DropDownButton%2001.png)
 
 #### How to use it
 
@@ -64,10 +64,6 @@ Example:
 		</orc:DropDownButton.DropDown>
 	</orc:DropDownButton>
 
-#### How it looks
-
-![DropDownButton 01](doc/images/DropDownButton%2001.png)
-
 ### FilterBox
 
 Looks like regular TextBox. But when you're starting to type the text into it, you can see the drop down list with the possible variants of text which you've started to write. And the list is dynamically changing while you're typing your text.
@@ -80,8 +76,6 @@ The control has two main bindable properties which can be used to configure the 
 * **PropertyName** => used for configure default action
 * **Text** => the ContextMenu
  
-
-#### How it looks
 
 ### LogViewer
 
