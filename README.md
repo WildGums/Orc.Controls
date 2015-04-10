@@ -33,7 +33,11 @@ Just put it in your .cs.xaml file in correct place. And use property *Value* for
 
 #### How it looks
 
+![DateTimePicker 01](doc/images/DateTimePicker%2001.png) ![DateTimePicker 02](doc/images/DateTimePicker%2002.png)
 
+![DateTimePicker 03](doc/images/DateTimePicker%2003.png) ![DateTimePicker 04](doc/images/DateTimePicker%2004.png) 
+
+![DateTimePicker 05](doc/images/DateTimePicker%2005.png)
 
 ### DropDownButton
 
@@ -62,6 +66,7 @@ Example:
 
 #### How it looks
 
+![DropDownButton 01](doc/images/DropDownButton%2001.png)
 
 ### FilterBox
 
