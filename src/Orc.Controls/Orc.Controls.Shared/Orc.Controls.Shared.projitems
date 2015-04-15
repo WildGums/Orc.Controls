@@ -11,7 +11,11 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behavior\DropDownButtonBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behavior\LinkLabelBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behavior\LinkLabelClickBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\BindableRun.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LinkLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\NumericTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\RichTextBoxParagraph.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\WatermarkTextBox.cs" />
@@ -56,6 +60,9 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Themes\LinkLabel.generic.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Themes\WatermarkTextBox.generic.xaml">
