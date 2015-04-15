@@ -3,9 +3,9 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:catel="http://catel.codeplex.com"
               xmlns:views="clr-namespace:Orc.Controls.Examples.Views"
-              Height="650" Width="525">
+              Height="650" Width="600">
 
-    <catel:TabControl Padding="10">
+    <catel:TabControl Padding="10" TabStripPlacement="Left">
         <TabItem Header="TimeSpan">
             <views:TimeSpan/>
         </TabItem>
@@ -32,6 +32,10 @@
 
         <TabItem Header="WatermarkTextBox">
             <views:Watermark/>
+        </TabItem>
+
+        <TabItem Header="LinkLabel">
+            <views:LinkLabel/>
         </TabItem>
     </catel:TabControl>
     

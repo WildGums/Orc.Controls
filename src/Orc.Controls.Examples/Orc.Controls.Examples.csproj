@@ -99,10 +99,14 @@
     <Compile Include="ViewModels\DateTimePickerViewModel.cs" />
     <Compile Include="ViewModels\DropDownButtonViewModel.cs" />
     <Compile Include="ViewModels\FilterBoxViewModel.cs" />
+    <Compile Include="ViewModels\LinkLabelViewModel.cs" />
     <Compile Include="ViewModels\LogViewerViewModel.cs" />
     <Compile Include="ViewModels\WatermarkViewModel.cs" />
     <Compile Include="Views\DropDownButtonView.xaml.cs">
       <DependentUpon>DropDownButtonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LinkLabel.xaml.cs">
+      <DependentUpon>LinkLabel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LogViewer.xaml.cs">
       <DependentUpon>LogViewer.xaml</DependentUpon>
@@ -124,6 +128,10 @@
       <DependentUpon>Watermark.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\DropDownButtonView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LinkLabel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
