@@ -31,7 +31,7 @@
         </TabItem>
 
         <TabItem Header="WatermarkTextBox">
-            <views:WatermarkTextBox/>
+            <views:Watermark/>
         </TabItem>
     </catel:TabControl>
     

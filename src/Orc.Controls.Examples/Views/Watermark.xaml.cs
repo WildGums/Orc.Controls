@@ -7,13 +7,14 @@
 
 namespace Orc.Controls.Examples.Views
 {
+
     /// <summary>
-    /// Interaction logic for WatermarkTextBox.xaml
+    /// Interaction logic for Watermark.xaml
     /// </summary>
-    public partial class WatermarkTextBox
+    public partial class Watermark
     {
         #region Constructors
-        public WatermarkTextBox()
+        public Watermark()
         {
             InitializeComponent();
         }

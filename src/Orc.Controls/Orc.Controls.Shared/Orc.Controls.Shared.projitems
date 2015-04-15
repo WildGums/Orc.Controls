@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\NumericTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\RichTextBoxParagraph.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\WatermarkTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\TimeSpanToTotalStringConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\DateTimePart.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Extensions\DateTimePartExtensions.cs" />
@@ -37,7 +38,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FilterBoxViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LogViewerViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\TimeSpanViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\WatermarkTextBoxViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\DateTimePickerControl.xaml.cs">
       <DependentUpon>DateTimePickerControl.xaml</DependentUpon>
     </Compile>
@@ -53,12 +53,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\TimeSpanControl.xaml.cs">
       <DependentUpon>TimeSpanControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\WatermarkTextBox.xaml.cs">
-      <DependentUpon>WatermarkTextBox.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Themes\WatermarkTextBox.generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\DateTimePickerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -76,10 +78,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\TimeSpanControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Views\WatermarkTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

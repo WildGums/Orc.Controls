@@ -1,17 +1,26 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WatermarkTextBox.xaml.cs" company="Wild Gums">
+// <copyright file="WatermarkTextBox.cs" company="Wild Gums">
 //   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
+#if NET
+
 namespace Orc.Controls
 {
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Input;
 
-    public partial class WatermarkTextBox
+#if NET
+    using System;
+    using System.Windows.Input;
+#endif
+
+    /// <summary>
+    /// WatermarkTextBox which is a simple <see cref="TextBox"/> that is able to show simple and complex watermarks.
+    /// </summary>
+    public class WatermarkTextBox : TextBox
     {
         #region Constructors
         /// <summary>
@@ -117,7 +126,7 @@ namespace Orc.Controls
 
             if (SelectAllOnGotFocus)
             {
-                //SelectAll();
+                SelectAll();
             }
         }
 
@@ -141,3 +150,4 @@ namespace Orc.Controls
     }
 }
 
+#endif

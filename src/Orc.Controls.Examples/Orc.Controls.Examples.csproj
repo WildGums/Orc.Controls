@@ -100,7 +100,7 @@
     <Compile Include="ViewModels\DropDownButtonViewModel.cs" />
     <Compile Include="ViewModels\FilterBoxViewModel.cs" />
     <Compile Include="ViewModels\LogViewerViewModel.cs" />
-    <Compile Include="ViewModels\WatermarkTextBoxViewModel.cs" />
+    <Compile Include="ViewModels\WatermarkViewModel.cs" />
     <Compile Include="Views\DropDownButtonView.xaml.cs">
       <DependentUpon>DropDownButtonView.xaml</DependentUpon>
     </Compile>
@@ -120,8 +120,8 @@
     <Compile Include="Views\TimeSpan.xaml.cs">
       <DependentUpon>TimeSpan.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\WatermarkTextBox.xaml.cs">
-      <DependentUpon>WatermarkTextBox.xaml</DependentUpon>
+    <Compile Include="Views\Watermark.xaml.cs">
+      <DependentUpon>Watermark.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\DropDownButtonView.xaml">
       <SubType>Designer</SubType>
@@ -164,7 +164,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\WatermarkTextBox.xaml">
+    <Page Include="Views\Watermark.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -190,6 +190,7 @@
       <SubType>Designer</SubType>
     </Resource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\lib\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\lib\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
