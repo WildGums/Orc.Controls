@@ -37,6 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FilterBoxViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LogViewerViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\TimeSpanViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\WatermarkTextBoxViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\DateTimePickerControl.xaml.cs">
       <DependentUpon>DateTimePickerControl.xaml</DependentUpon>
     </Compile>
@@ -51,6 +52,10 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\TimeSpanControl.xaml.cs">
       <DependentUpon>TimeSpanControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\WatermarkTextBox.xaml.cs">
+      <DependentUpon>WatermarkTextBox.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +76,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\TimeSpanControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\WatermarkTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

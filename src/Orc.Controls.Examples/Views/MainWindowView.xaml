@@ -29,6 +29,10 @@
         <TabItem Header="DropDownButton">
             <views:DropDownButtonView/>
         </TabItem>
+
+        <TabItem Header="WatermarkTextBox">
+            <views:WatermarkTextBox/>
+        </TabItem>
     </catel:TabControl>
     
 </catel:Window>

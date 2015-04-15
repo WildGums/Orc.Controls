@@ -100,6 +100,7 @@
     <Compile Include="ViewModels\DropDownButtonViewModel.cs" />
     <Compile Include="ViewModels\FilterBoxViewModel.cs" />
     <Compile Include="ViewModels\LogViewerViewModel.cs" />
+    <Compile Include="ViewModels\WatermarkTextBoxViewModel.cs" />
     <Compile Include="Views\DropDownButtonView.xaml.cs">
       <DependentUpon>DropDownButtonView.xaml</DependentUpon>
     </Compile>
@@ -118,6 +119,9 @@
     </Compile>
     <Compile Include="Views\TimeSpan.xaml.cs">
       <DependentUpon>TimeSpan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WatermarkTextBox.xaml.cs">
+      <DependentUpon>WatermarkTextBox.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\DropDownButtonView.xaml">
       <SubType>Designer</SubType>
@@ -159,6 +163,10 @@
     <Page Include="Views\TimeSpan.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\WatermarkTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
