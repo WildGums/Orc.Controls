@@ -1,31 +1,19 @@
-# Orc.Controls
+Orc.Controls
+===============
 
-The library of UI controls, which help you create user friendly interface.
+This library contains simple (yet useful) controls, which are:
 
-## Content of library
+- **DateTimePickerControl**
+- **TimeSpanControl**
+- **BindableRichTextBox**
+- **DropDownButton**
+- **FilterBoxControl**
+- **LogViewer**
 
-* **BindableRichTextBox**
-* **DateTimePickerControl**
-* **DropDownButton**
-* **FilterBoxControl**
-* **LogViewer**
-* **TimeSpanControl**
+DateTimePickerControl
+----------------------
 
-### BindableRichTextBox
-
-The control, used as well as regular [RichTextBox](https://msdn.microsoft.com/en-us/library/system.windows.controls.richtextbox(v=vs.110).aspx) but have one advantage. It could be used for binding [FlowDocument](https://msdn.microsoft.com/en-us/library/system.windows.documents.flowdocument(v=vs.110).aspx). It is very useful when you're depeloping you application using MVVM pattern.
-
-##### How to use BindableRichTextBox
-
-For binding data to the *BindableRichTextBox*, use property **BindableDocument** (the type is [FlowDocument](https://msdn.microsoft.com/en-us/library/system.windows.documents.flowdocument(v=vs.110).aspx)):
-
-    <orc:BindableRichTextBox BindableDocument="{Binding FlowDoc}" />
-
-after that you can manage binded property of type as you want. You may assign new value to it or change the layout of [FlowDocument](https://msdn.microsoft.com/en-us/library/system.windows.documents.flowdocument(v=vs.110).aspx). Everything will be displayed in your UI.
-
-### DateTimePickerControl
-
-Advanced DateTimePicker control.
+The DateTimePicker control was designed to edit data quickly.
 
 ![DateTimePicker 01](doc/images/DateTimePicker_01.png) ![DateTimePicker 02](doc/images/DateTimePicker_02.png)
 
@@ -33,42 +21,87 @@ Advanced DateTimePicker control.
 
 ![DateTimePicker 05](doc/images/DateTimePicker_05.png)
 
-##### How to use DateTimePickerControl
+### How to use DateTimePickerControl
 
-Just put it in your .cs.xaml file in correct place. And use property **Value** for binding your *DateTime* value:
+Bind a *DateTime* value to the **Value** property:
 
+```
     <orc:DateTimePickerControl Value="{Binding DateTimeValue}" />
+```
 
-### DropDownButton
+TimeSpanControl
+------------------
 
-The control wich consists of two buttont. Fitsr one is works as ragular Button and the second one allows you to show customisable drop down menu under the control. 
+This control is used to display and make it easy to edit TimeSpan values. 
+By default it will display the value using the following format format *dd.hh:mm:ss*
+
+![TimeSpan 01](doc/images/TimeSpan_01.png) ![TimeSpan 02](doc/images/TimeSpan_02.png)
+
+When hovering over the control, the tooltip will display the timespan in total number of days, hours and minutes.
+
+Double click on any of the *d*, *h*, *m* or *s* symbols, to edit the TimeSpan value with the specified unit of measure. (i.e. days, hours, minutes, seconds)
+
+![TimeSpan 03](doc/images/TimeSpan_03.png) ![TimeSpan 04](doc/images/TimeSpan_04.png) ![TimeSpan 05](doc/images/TimeSpan_05.png)
+
+### How to use TimeSpanControl
+
+Bind a *TimeSpan* value to the **Value** property:
+
+```
+	<orc:TimeSpanControl Value="{Binding TimeSpanValue}"/>
+```
+
+BindableRichTextBox
+---------------------
+
+The control can be used as a regular [RichTextBox](https://msdn.microsoft.com/en-us/library/system.windows.controls.richtextbox(v=vs.110).aspx) with one added advantage. It can be bound to a [FlowDocument](https://msdn.microsoft.com/en-us/library/system.windows.documents.flowdocument(v=vs.110).aspx). 
+
+It is very useful to use with the MVVM pattern.
+
+### How to use BindableRichTextBox
+
+For binding data to the *BindableRichTextBox*, use the **BindableDocument** property  (the type is [FlowDocument](https://msdn.microsoft.com/en-us/library/system.windows.documents.flowdocument(v=vs.110).aspx)):
+
+```
+    <orc:BindableRichTextBox BindableDocument="{Binding FlowDoc}" />
+```
+
+Once that is done you may assign a new value to it or change the layout of the  [FlowDocument](https://msdn.microsoft.com/en-us/library/system.windows.documents.flowdocument(v=vs.110).aspx). 
+
+Everything will automatically be displayed in your UI.
+
+DropDownButton
+---------------
+
+The control is made up of two buttons side by side. The First button works as a regular button and the second one will display a customisable drop down menu under the control. 
 
 ![DropDownButton 01](doc/images/DropDownButton_01.png)
 
-##### How to use DropDownButton
+### How to use DropDownButton
 
 The control has three main bindable properties which can be used to configure the DropDownButton behavior:
 
-* **Header** => caption of Button
-* **Command** => used for configure default action
-* **DropDown** => the ContextMenu
+- **Header** => caption of Button
+- **Command** => used to configure the default action
+- **DropDown** => the ContextMenu
 
-Example:
-    
-    <orc:DropDownButton Header="Action" Command="{Binding DefaultAction}">
+```    
+    	<orc:DropDownButton Header="Action" Command="{Binding DefaultAction}">
 		<orc:DropDownButton.DropDown>
 			<ContextMenu>
 				<MenuItem Header="Item 1"/>
-					<MenuItem Header="Item 2"/>
-					<Separator/>
-					<MenuItem Header="Item 2"/>
+				<MenuItem Header="Item 2"/>
+				<Separator/>
+				<MenuItem Header="Item 2"/>
 			</ContextMenu>
 		</orc:DropDownButton.DropDown>
 	</orc:DropDownButton>
+```
 
-### FilterBoxControl
+FilterBoxControl
+-----------------
 
-Looks like regular TextBox. 
+Looks like a regular TextBox. 
 
 ![FilterBox 01](doc/images/FilterBox_01.png)
 
@@ -77,55 +110,56 @@ But when you're starting to type the text into it, you can see the drop down lis
 
 ![FilterBox 02](doc/images/FilterBox_02.png)
 
-If you'll click the 'x' button, the text will be removed
+Clicking on the 'x' button will reset the text box.
 
 ![FilterBox 03](doc/images/FilterBox_03.png)
 
-##### How to use FilterBoxControl
+### How to use FilterBoxControl
 
-The main properties to configure the behavior of FilterBox:
+The bindable properties are:
 
-* **FilterSource** => The collection of items, which used to display string in drop down list
-* **PropertyName** => The name of property of item from **FilterSource**, which is used for filtering
-* **Text** => The text entered by user, which is also used as filter for getting values from **FilterSource**
+* **FilterSource** => The collection of items shown in the drop down list
+* **PropertyName** => The name of the property you want to use to filter the items in the collection with.
+* **Text** => The text entered by the user, which is used to filter the items in the **FilterSource** collection
 
-Example:
-
+```
     <orc:FilterBoxControl PropertyName="Value" 
-						FilterSource="{Binding FilterSource}" 
-						Text="{Binding FilterText}"/>
- 
+	 FilterSource="{Binding FilterSource}" 
+	 Text="{Binding FilterText}"/>
+```
 
-### LogViewer
+LogViewer
+----------
 
-The control for broadcsting log records of current application in real time. Control uses it's own LogListener, which is derived from [Catel.Logging.LogListenerBase](http://www.nudoq.org/#!/Packages/Catel.Core/Catel.Core/LogListenerBase). For displaying logrecods used [RichTextBox](https://msdn.microsoft.com/en-us/library/system.windows.controls.richtextbox(v=vs.110).aspx).
+This control is used to display log messages generated from an application in real time. The  Control uses it's own LogListener, which is derived from [Catel.Logging.LogListenerBase](http://www.nudoq.org/#!/Packages/Catel.Core/Catel.Core/LogListenerBase). 
+
+A [RichTextBox](https://msdn.microsoft.com/en-us/library/system.windows.controls.richtextbox(v=vs.110).aspx) is used to display the log messages.
 
 ![LogViewer 03](doc/images/LogViewer_01.png)
 
-##### How to use LogViewer
+### How to use LogViewer
 
-Here are the main properties, which is used to configure LogViewer:
+Here are the main properties, which are used to configure LogViewer:
 
 Filtering: 
 
-* **LogFilter** => string, which is used for filtering displayed log records 
-* **ShowDebug** => boolean value, indicates of show/hide Debug level log records
-* **ShowInfo** => boolean value, indicates of show/hide Info level log records
-* **ShowWarning** => boolean value, indicates of show/hide Warning level log records
-* **ShowError** => boolean value, indicates of show/hide Error level log records
+- **LogFilter** => string. Used for filtering the log records with a search term.
+- **ShowDebug** => boolean. Show debug log records if true.
+- **ShowInfo** => boolean. Show info log records if true.
+- **ShowWarning** => boolean. Show warning log records if true.
+- **ShowError** => boolean. Show error log records if true.
  
 Visualisation:
 
-* **EnableTimestamp** => Enabling/disabling of showing timestamp for log records
-* **EnableTextColoring** => Enabling/disabling of highlighting for log records depends of their level
-* **EnableIcons** => Enabling/disabling of showing icons for log records depends of their level
+- **EnableTimestamp** => boolean. Show timestamp for each log record if true.
+- **EnableTextColoring** => boolean. Show colors for each log record depending on its log level.
+- **EnableIcons** => boolean. Show the icon associated with each log record. The icon will change depending on the log level.
 
 Events:
 
-* **LogEntryDoubleClick** => helps to handle double clicking on row of LogViewer's text
+- **LogEntryDoubleClick** => Allow you to subscribe to a user double clicking on a record.
 
-
-Example:
+```
 	<orc:LogViewerControl LogEntryDoubleClick="LogViewerControlOnLogRecordDoubleClick
 				LogFilter="{Binding Text, ElementName=FilterTextBox}"
 				ShowDebug="{Binding IsChecked, ElementName=ShowDebugToggleButton}"
@@ -135,24 +169,4 @@ Example:
 				EnableTimestamp="{Binding IsChecked, ElementName=EnableTimestampCheckBox}"
 				EnableTextColoring="True" 
 				EnableIcons="True"/>
-
-### TimeSpanControl
-
-THe control for displaying and editing values of type TimeSpan. In inactive mode it shows TimeSpan value in format *dd.hh:mm:ss*
-
-![TimeSpan 01](doc/images/TimeSpan_01.png) ![TimeSpan 02](doc/images/TimeSpan_02.png)
-
-on double click on any of symbol *d*, *h*, *m* or *s*, you can edit value in different measure units (days, hours, minutes, seconds)
-
-![TimeSpan 03](doc/images/TimeSpan_03.png) ![TimeSpan 04](doc/images/TimeSpan_04.png) ![TimeSpan 05](doc/images/TimeSpan_05.png)
-
-
-##### How to use TimeSpanControl
-
-the usage of TimeSpanControl the same as usage of DateTimePickerControl, except one difference. the Value property is TimeSpan but not DateTime
-
-Example:
-
-	<orc:TimeSpanControl Value="{Binding TimeSpanValue}"/>
-
-
+```
