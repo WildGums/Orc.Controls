@@ -1,7 +1,7 @@
 Orc.Controls
 ===============
 
-This library contains simple (yet useful) controls, which are:
+This library contains simple (yet useful) controls for viewing and editing data, such as:
 
 - **DateTimePickerControl**
 - **TimeSpanControl**
@@ -13,13 +13,17 @@ This library contains simple (yet useful) controls, which are:
 DateTimePickerControl
 ----------------------
 
-The DateTimePicker control was designed to edit data quickly.
+This control is used to display and edit DateTime data quickly.
 
 ![DateTimePicker 01](doc/images/DateTimePicker_01.png) ![DateTimePicker 02](doc/images/DateTimePicker_02.png)
 
 ![DateTimePicker 03](doc/images/DateTimePicker_03.png) ![DateTimePicker 04](doc/images/DateTimePicker_04.png) 
 
 ![DateTimePicker 05](doc/images/DateTimePicker_05.png)
+
+Double click on any number to start editing. Press the "Tab" key to move to the next number.
+
+Double click on a letter to display a drop down list to choose from.
 
 ### How to use DateTimePickerControl
 
@@ -32,14 +36,14 @@ Bind a *DateTime* value to the **Value** property:
 TimeSpanControl
 ------------------
 
-This control is used to display and make it easy to edit TimeSpan values. 
-By default it will display the value using the following format format *dd.hh:mm:ss*
+This control is used to display and edit TimeSpan values. 
+By default it will display the value using the *dd.hh:mm:ss* format.
 
 ![TimeSpan 01](doc/images/TimeSpan_01.png) ![TimeSpan 02](doc/images/TimeSpan_02.png)
 
 When hovering over the control, the tooltip will display the timespan in total number of days, hours and minutes.
 
-Double click on any of the *d*, *h*, *m* or *s* symbols, to edit the TimeSpan value with the specified unit of measure. (i.e. days, hours, minutes, seconds)
+Double click on any of the *d*, *h*, *m* or *s* letters, to edit the TimeSpan value with the specified unit of measure. (i.e. days, hours, minutes, seconds)
 
 ![TimeSpan 03](doc/images/TimeSpan_03.png) ![TimeSpan 04](doc/images/TimeSpan_04.png) ![TimeSpan 05](doc/images/TimeSpan_05.png)
 
@@ -86,16 +90,16 @@ The control has three main bindable properties which can be used to configure th
 - **DropDown** => the ContextMenu
 
 ```    
-    	<orc:DropDownButton Header="Action" Command="{Binding DefaultAction}">
-		<orc:DropDownButton.DropDown>
-			<ContextMenu>
-				<MenuItem Header="Item 1"/>
-				<MenuItem Header="Item 2"/>
-				<Separator/>
-				<MenuItem Header="Item 2"/>
-			</ContextMenu>
-		</orc:DropDownButton.DropDown>
-	</orc:DropDownButton>
+<orc:DropDownButton Header="Action" Command="{Binding DefaultAction}">
+	<orc:DropDownButton.DropDown>
+		<ContextMenu>
+			<MenuItem Header="Item 1"/>
+			<MenuItem Header="Item 2"/>
+			<Separator/>
+			<MenuItem Header="Item 2"/>
+		</ContextMenu>
+	</orc:DropDownButton.DropDown>
+</orc:DropDownButton>
 ```
 
 FilterBoxControl
@@ -105,12 +109,11 @@ Looks like a regular TextBox.
 
 ![FilterBox 01](doc/images/FilterBox_01.png)
 
-But when you're starting to type the text into it, you can see the drop down list with the possible variants of text which you've started to write. And the list is dynamically changing while you're typing your text.
-
+Start typing and you will see a drop down list with possible matches. The drop down list will automatically update itself as you are typing.
 
 ![FilterBox 02](doc/images/FilterBox_02.png)
 
-Clicking on the 'x' button will reset the text box.
+Click on the 'x' button to reset the text box.
 
 ![FilterBox 03](doc/images/FilterBox_03.png)
 
@@ -123,9 +126,9 @@ The bindable properties are:
 * **Text** => The text entered by the user, which is used to filter the items in the **FilterSource** collection
 
 ```
-    <orc:FilterBoxControl PropertyName="Value" 
-	 FilterSource="{Binding FilterSource}" 
-	 Text="{Binding FilterText}"/>
+<orc:FilterBoxControl PropertyName="Value" 
+	              FilterSource="{Binding FilterSource}" 
+	              Text="{Binding FilterText}"/>
 ```
 
 LogViewer
@@ -139,7 +142,7 @@ A [RichTextBox](https://msdn.microsoft.com/en-us/library/system.windows.controls
 
 ### How to use LogViewer
 
-Here are the main properties, which are used to configure LogViewer:
+Here are the main properties, which are used to configure the LogViewer control:
 
 Filtering: 
 
@@ -160,13 +163,13 @@ Events:
 - **LogEntryDoubleClick** => Allow you to subscribe to a user double clicking on a record.
 
 ```
-	<orc:LogViewerControl LogEntryDoubleClick="LogViewerControlOnLogRecordDoubleClick
-				LogFilter="{Binding Text, ElementName=FilterTextBox}"
-				ShowDebug="{Binding IsChecked, ElementName=ShowDebugToggleButton}"
-				ShowInfo="{Binding IsChecked, ElementName=ShowInfoToggleButton}"
-				ShowWarning="{Binding IsChecked, ElementName=ShowWarningToggleButton}"
-				ShowError="{Binding IsChecked, ElementName=ShowErrorToggleButton}"
-				EnableTimestamp="{Binding IsChecked, ElementName=EnableTimestampCheckBox}"
-				EnableTextColoring="True" 
-				EnableIcons="True"/>
+<orc:LogViewerControl LogEntryDoubleClick="LogViewerControlOnLogRecordDoubleClick
+			LogFilter="{Binding Text, ElementName=FilterTextBox}"
+			ShowDebug="{Binding IsChecked, ElementName=ShowDebugToggleButton}"
+			ShowInfo="{Binding IsChecked, ElementName=ShowInfoToggleButton}"
+			ShowWarning="{Binding IsChecked, ElementName=ShowWarningToggleButton}"
+			ShowError="{Binding IsChecked, ElementName=ShowErrorToggleButton}"
+			EnableTimestamp="{Binding IsChecked, ElementName=EnableTimestampCheckBox}"
+			EnableTextColoring="True" 
+			EnableIcons="True"/>
 ```
