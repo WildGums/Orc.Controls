@@ -24,7 +24,7 @@ This control is used to display and edit DateTime data quickly.
 
 Double click on any number to start editing. Press the "Tab" key to move to the next number.
 
-Double click on a letter to display a drop down list to choose from.
+Click on a letter to display a drop down list to choose from.
 
 ### How to use DateTimePickerControl
 
@@ -176,27 +176,36 @@ Events:
 ```
 
 WatermarkTextBox
-----------
+---------------------
 
-The control allows to set a watermark on textboxes that do not yet have a value.
+This control will display a watermark in a textbox control when no value is assigned to it.
+As soon as the user starts typing in the textbox the watermark will disappear.
 
-A simple watermark is a watermark with text only.
+This control is useful to add hints.
+
+A watermark can cotain text or any other control such as images.
 
 ![WatermarkTextBox 01](doc/images/WatermarkTextBox_01.png)
-
-A complex watermark is a watermark that can contain any control, for example an image.
 
 ![WatermarkTextBox 02](doc/images/WatermarkTextBox_02.png)
 
 ### How to use WatermarkTextBox
+
 In order to use simple watermark just set a watermark value to the **Watermark** property: 
 
 ```
 <orc:WatermarkTextBox Watermark="Textbox with Watermark" />
 ```
 
-In order to use complex watermark you can define a watermark value like following: 
+In order to add controls or images to the watermark you can define a watermark value like this: 
 
 ```
-<orc:WatermarkTextBox>    <orc:WatermarkTextBox.Watermark>        <StackPanel Orientation="Horizontal">            <Image Source="/Resources/Images/email.png" />            <TextBlock Text="Enter the e-mail" />        </StackPanel>    </orc:WatermarkTextBox.Watermark></orc:WatermarkTextBox>
+<orc:WatermarkTextBox>
+    <orc:WatermarkTextBox.Watermark>
+        <StackPanel Orientation="Horizontal">
+            <Image Source="/Resources/Images/email.png" />
+            <TextBlock Text="Enter the e-mail" />
+        </StackPanel>
+    </orc:WatermarkTextBox.Watermark>
+</orc:WatermarkTextBox>
 ```
