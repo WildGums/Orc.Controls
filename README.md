@@ -185,8 +185,6 @@ This control is useful to add hints.
 
 A watermark can cotain text or any other control such as images.
 
-![WatermarkTextBox 01](doc/images/WatermarkTextBox_01.png)
-
 ![WatermarkTextBox 02](doc/images/WatermarkTextBox_02.png)
 
 ### How to use WatermarkTextBox
