@@ -189,7 +189,7 @@ A watermark can cotain text or any other control such as images.
 
 ### How to use WatermarkTextBox
 
-In order to use simple watermark just set a watermark value to the **Watermark** property: 
+In order to use the simple watermark just set a watermark value to the **Watermark** property: 
 
 ```
 <orc:WatermarkTextBox Watermark="Textbox with Watermark" />
