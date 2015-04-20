@@ -12,6 +12,10 @@ This library contains simple (yet useful) controls for viewing and editing data,
 - **WatermarkTextBox**
 - **LinkLabel**
 
+Run the demo project to see the controls in action:
+
+![Orc.Controls demo](doc/images/Orc.Controls.Demo.png)
+
 DateTimePickerControl
 ----------------------
 
