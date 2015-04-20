@@ -10,6 +10,7 @@ This library contains simple (yet useful) controls for viewing and editing data,
 - **FilterBoxControl**
 - **LogViewer**
 - **WatermarkTextBox**
+- **LinkLabel**
 
 DateTimePickerControl
 ----------------------
@@ -44,7 +45,8 @@ By default it will display the value using the *dd.hh:mm:ss* format.
 
 When hovering over the control, the tooltip will display the timespan in total number of days, hours and minutes.
 
-Double click on any of the *d*, *h*, *m* or *s* letters, to edit the TimeSpan value with the specified unit of measure. (i.e. days, hours, minutes, seconds)
+Double click on any of the *d*, *h*, *m* or *s* letters, to edit the TimeSpan value with the specified unit of measure. (i.e. days, 
+hours, minutes, seconds)
 
 ![TimeSpan 03](doc/images/TimeSpan_03.png) ![TimeSpan 04](doc/images/TimeSpan_04.png) ![TimeSpan 05](doc/images/TimeSpan_05.png)
 
@@ -59,26 +61,31 @@ Bind a *TimeSpan* value to the **Value** property:
 BindableRichTextBox
 ---------------------
 
-The control can be used as a regular [RichTextBox](https://msdn.microsoft.com/en-us/library/system.windows.controls.richtextbox(v=vs.110).aspx) with one added advantage. It can be bound to a [FlowDocument](https://msdn.microsoft.com/en-us/library/system.windows.documents.flowdocument(v=vs.110).aspx). 
+The control can be used as a regular [RichTextBox](https://msdn.microsoft.com/en-us/library/system.windows.controls.richtextbox
+(v=vs.110).aspx) with one added advantage. It can be bound to a [FlowDocument](https://msdn.microsoft.com/en-
+us/library/system.windows.documents.flowdocument(v=vs.110).aspx). 
 
 It is very useful to use with the MVVM pattern.
 
 ### How to use BindableRichTextBox
 
-For binding data to the *BindableRichTextBox*, use the **BindableDocument** property  (the type is [FlowDocument](https://msdn.microsoft.com/en-us/library/system.windows.documents.flowdocument(v=vs.110).aspx)):
+For binding data to the *BindableRichTextBox*, use the **BindableDocument** property  (the type is [FlowDocument]
+(https://msdn.microsoft.com/en-us/library/system.windows.documents.flowdocument(v=vs.110).aspx)):
 
 ```
     <orc:BindableRichTextBox BindableDocument="{Binding FlowDoc}" />
 ```
 
-Once that is done you may assign a new value to it or change the layout of the  [FlowDocument](https://msdn.microsoft.com/en-us/library/system.windows.documents.flowdocument(v=vs.110).aspx). 
+Once that is done you may assign a new value to it or change the layout of the  [FlowDocument](https://msdn.microsoft.com/en-
+us/library/system.windows.documents.flowdocument(v=vs.110).aspx). 
 
 Everything will automatically be displayed in your UI.
 
 DropDownButton
 ---------------
 
-The control is made up of two buttons side by side. The First button works as a regular button and the second one will display a customisable drop down menu under the control. 
+The control is made up of two buttons side by side. The First button works as a regular button and the second one will display a 
+customisable drop down menu under the control. 
 
 ![DropDownButton 01](doc/images/DropDownButton_01.png)
 
@@ -110,7 +117,8 @@ Looks like a regular TextBox.
 
 ![FilterBox 01](doc/images/FilterBox_01.png)
 
-Start typing and you will see a drop down list with possible matches. The drop down list will automatically update itself as you are typing.
+Start typing and you will see a drop down list with possible matches. The drop down list will automatically update itself as you are 
+typing.
 
 ![FilterBox 02](doc/images/FilterBox_02.png)
 
@@ -135,9 +143,11 @@ The bindable properties are:
 LogViewer
 ----------
 
-This control is used to display log messages generated from an application in real time. The  Control uses it's own LogListener, which is derived from [Catel.Logging.LogListenerBase](http://www.nudoq.org/#!/Packages/Catel.Core/Catel.Core/LogListenerBase). 
+This control is used to display log messages generated from an application in real time. The  Control uses it's own LogListener, 
+which is derived from [Catel.Logging.LogListenerBase](http://www.nudoq.org/#!/Packages/Catel.Core/Catel.Core/LogListenerBase). 
 
-A [RichTextBox](https://msdn.microsoft.com/en-us/library/system.windows.controls.richtextbox(v=vs.110).aspx) is used to display the log messages.
+A [RichTextBox](https://msdn.microsoft.com/en-us/library/system.windows.controls.richtextbox(v=vs.110).aspx) is used to display the 
+log messages.
 
 ![LogViewer 03](doc/images/LogViewer_01.png)
 
@@ -207,3 +217,29 @@ In order to add controls or images to the watermark you can define a watermark v
     </orc:WatermarkTextBox.Watermark>
 </orc:WatermarkTextBox>
 ```
+
+LinkLabel
+----------
+
+A label which looks like a hyperlink.
+
+![LinkLabel 01](doc/images/LinkLabel_01.png)
+
+###How to use LinkLabel
+
+```
+<orc:LinkLabel Content="Action" ToolTip="Action" Command="{Binding DefaultAction}"
+                       HoverForeground="Orange" Url="http://catelproject.com"
+                       ClickBehavior="OpenUrlInBrowser"/>
+```
+
+The bindable properties are:
+
+- **Url** => The URL.
+- **HyperlinkStyle** => The hyperlink style.
+- **HoverForeground** => The hover foreground. 
+- **LinkLabelBehavior** => The link label behavior. Can be SystemDefault, AlwaysUnderline, HoverUnderline, NeverUnderline.
+- **ClickBehavior** => The click behavior. Can be OpenUrlInBrowser or Undefined.
+- **Command** => The command.
+- **CommandParameter** => The command parameter.
+- **CommandTarget** => The command target.
