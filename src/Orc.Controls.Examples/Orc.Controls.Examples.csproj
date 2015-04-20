@@ -200,8 +200,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\email.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Images\phone.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

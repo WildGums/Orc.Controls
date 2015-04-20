@@ -12,6 +12,12 @@
             <Setter Property="Width" Value="200"/>
             <Setter Property="Margin" Value="0 2 0 4"/>
         </Style>
+
+        <Style TargetType="{x:Type Image}">
+            <Setter Property="Height" Value="10"/>
+            <Setter Property="Margin" Value="3 3 3 1"/>
+        </Style>
+
         <Style x:Key="HorizontalGridSplitterStyle" TargetType="{x:Type GridSplitter}">
             <Setter Property="VerticalAlignment" Value="Bottom" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -22,9 +28,7 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="5" >
             <TextBlock Text="Simple watermark" VerticalAlignment="Top" Width="160" Margin="0 4 0 0" />
-            <orc:WatermarkTextBox TextWrapping="Wrap" AcceptsReturn="True" Watermark="Textbox with Watermark"
-                                  Width="200" HorizontalAlignment="Stretch"/>
-            
+            <orc:WatermarkTextBox Watermark="Textbox with Watermark" />
         </StackPanel>
         
         <GridSplitter Style="{StaticResource HorizontalGridSplitterStyle}"/>
@@ -42,17 +46,17 @@
                 <orc:WatermarkTextBox>
                     <orc:WatermarkTextBox.Watermark>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/Resources/Images/phone.png" Width="20" />
+                            <Image Source="/Resources/Images/phone.png" />
                             <TextBlock Text="Enter the phone number" />
                         </StackPanel>
                     </orc:WatermarkTextBox.Watermark>
                 </orc:WatermarkTextBox>
 
                 <TextBlock Text="E-mail:"  />
-                <orc:WatermarkTextBox Width="200">
+                <orc:WatermarkTextBox>
                     <orc:WatermarkTextBox.Watermark>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/Resources/Images/email.png" Width="20" />
+                            <Image Source="/Resources/Images/email.png" />
                             <TextBlock Text="Enter the e-mail" />
                         </StackPanel>
                     </orc:WatermarkTextBox.Watermark>

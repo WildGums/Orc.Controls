@@ -9,6 +9,7 @@ This library contains simple (yet useful) controls for viewing and editing data,
 - **DropDownButton**
 - **FilterBoxControl**
 - **LogViewer**
+- **WatermarkTextBox**
 
 DateTimePickerControl
 ----------------------
@@ -172,4 +173,30 @@ Events:
 			EnableTimestamp="{Binding IsChecked, ElementName=EnableTimestampCheckBox}"
 			EnableTextColoring="True" 
 			EnableIcons="True"/>
+```
+
+WatermarkTextBox
+----------
+
+The control allows to set a watermark on textboxes that do not yet have a value.
+
+A simple watermark is a watermark with text only.
+
+![WatermarkTextBox 01](doc/images/WatermarkTextBox_01.png)
+
+A complex watermark is a watermark that can contain any control, for example an image.
+
+![WatermarkTextBox 02](doc/images/WatermarkTextBox_02.png)
+
+### How to use WatermarkTextBox
+In order to use simple watermark just set a watermark value to the **Watermark** property: 
+
+```
+<orc:WatermarkTextBox Watermark="Textbox with Watermark" />
+```
+
+In order to use complex watermark you can define a watermark value like following: 
+
+```
+<orc:WatermarkTextBox>    <orc:WatermarkTextBox.Watermark>        <StackPanel Orientation="Horizontal">            <Image Source="/Resources/Images/email.png" />            <TextBlock Text="Enter the e-mail" />        </StackPanel>    </orc:WatermarkTextBox.Watermark></orc:WatermarkTextBox>
 ```
