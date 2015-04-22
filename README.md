@@ -1,6 +1,8 @@
 Orc.Controls
 ===============
 
+[![Join the chat at https://gitter.im/WildGums/Orc.Controls](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/WildGums/Orc.Controls?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This library contains simple (yet useful) controls for viewing and editing data, such as:
 
 - **DateTimePickerControl**
