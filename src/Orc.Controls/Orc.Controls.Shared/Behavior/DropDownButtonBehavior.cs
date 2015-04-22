@@ -41,7 +41,8 @@ namespace Orc.Controls.Behavior
             if (AssociatedObject.DropDown != null && (AssociatedObject.ToggleButton.IsChecked ?? false))
             {
                 AssociatedObject.DropDown.PlacementTarget = AssociatedObject;
-                AssociatedObject.DropDown.Placement = PlacementMode.Bottom;
+                AssociatedObject.DropDown.VerticalOffset = AssociatedObject.Height;
+                AssociatedObject.DropDown.Placement = PlacementMode.RelativePoint;
 
                 AssociatedObject.DropDown.IsOpen = true;
             }
