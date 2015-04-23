@@ -11,11 +11,10 @@ namespace Orc.Controls.Behavior
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using Catel.Windows.Interactivity;
+    using Catel.Windows.Threading;
 
     public class DropDownButtonBehavior : BehaviorBase<DropDownButton>
     {
-        private bool _hasUpdatedPosition;
-
         #region Methods
         protected override void OnAssociatedObjectLoaded()
         {
@@ -61,15 +60,13 @@ namespace Orc.Controls.Behavior
             var dropDown = AssociatedObject.DropDown;
             if (dropDown != null && (AssociatedObject.ToggleButton.IsChecked ?? false))
             {
-                if (!_hasUpdatedPosition)
+                dropDown.Dispatcher.BeginInvoke(() =>
                 {
-                    _hasUpdatedPosition = true;
-
                     dropDown.PlacementTarget = AssociatedObject;
                     dropDown.Placement = PlacementMode.RelativePoint;
                     dropDown.VerticalOffset = AssociatedObject.ActualHeight;
-                    dropDown.HorizontalOffset = AssociatedObject.ActualWidth - dropDown.ActualWidth;
-                }
+                    dropDown.HorizontalOffset = AssociatedObject.ActualWidth;
+                });
 
                 dropDown.IsOpen = true;
             }
