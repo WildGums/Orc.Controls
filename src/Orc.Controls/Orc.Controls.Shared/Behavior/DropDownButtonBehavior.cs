@@ -7,6 +7,7 @@
 
 namespace Orc.Controls.Behavior
 {
+    using System.Reflection;
     using System.Windows;
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
@@ -62,10 +63,29 @@ namespace Orc.Controls.Behavior
             {
                 dropDown.Dispatcher.BeginInvoke(() =>
                 {
-                    dropDown.PlacementTarget = AssociatedObject;
-                    dropDown.Placement = PlacementMode.RelativePoint;
-                    dropDown.VerticalOffset = AssociatedObject.ActualHeight;
-                    dropDown.HorizontalOffset = AssociatedObject.ActualWidth;
+                    var isLeft = SystemParameters.MenuDropAlignment;
+                    var type = typeof(SystemParameters);
+                    var menuDropAlignment = type.GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
+
+                    if (isLeft && menuDropAlignment != null)
+                    {
+                        menuDropAlignment.SetValue(null, false);
+                    }
+
+                    try
+                    {
+                        dropDown.PlacementTarget = AssociatedObject;
+                        dropDown.Placement = PlacementMode.RelativePoint;
+                        dropDown.VerticalOffset = AssociatedObject.ActualHeight;
+                    }
+                    finally
+                    {
+                        if (isLeft && menuDropAlignment != null)
+                        {
+                            menuDropAlignment.SetValue(null, true);
+                        }
+                    }
+                    
                 });
 
                 dropDown.IsOpen = true;
