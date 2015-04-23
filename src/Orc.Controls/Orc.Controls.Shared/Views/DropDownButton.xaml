@@ -9,6 +9,7 @@
              xmlns:controls="clr-namespace:Orc.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+
     <catel:UserControl.Resources>
         <Style TargetType="{x:Type Button}">
             <Setter Property="Padding" Value="4 2 4 2"/>
@@ -43,7 +44,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style TargetType="{x:Type ToggleButton}">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="IsTabStop" Value="False"/>
@@ -78,10 +79,11 @@
                 </Setter.Value>
             </Setter>
         </Style>
-         <!--Menu styles-->
+
+        <!--Menu styles-->
         <Geometry x:Key="Checkmark">M1.0E-41,4.2 L0,2.1 2.5,4.5 6.7,4.4E-47 6.7,2.3 2.5,6.7 z</Geometry>
         <Geometry x:Key="RightArrow">M 0,0 L 4,3.5 L 0,7 Z</Geometry>
-        
+
         <SolidColorBrush x:Key="ForegroundBrush" Color="Black"/>
         <SolidColorBrush x:Key="MouseOverForegroundBrush" Color="Black"/>
         <SolidColorBrush x:Key="DisabledMenuForeground" Color="#FFAFAFAF"/>
@@ -157,6 +159,7 @@
                                Text="{TemplateBinding InputGestureText}"/>
                 </Grid>
             </Grid>
+
             <ControlTemplate.Triggers>
                 <Trigger Property="Icon" Value="{x:Null}">
                     <Setter Property="Visibility" TargetName="Icon" Value="Collapsed"/>
@@ -176,6 +179,7 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
+
         <Style x:Key="MenuScrollButton" BasedOn="{x:Null}" TargetType="{x:Type RepeatButton}">
             <Setter Property="ClickMode" Value="Hover"/>
             <Setter Property="MinWidth" Value="0"/>
@@ -195,7 +199,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
         <MenuScrollingVisibilityConverter x:Key="MenuScrollingVisibilityConverter"/>
+
         <Style x:Key="{ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}" BasedOn="{x:Null}" TargetType="{x:Type ScrollViewer}">
             <Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
             <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
@@ -241,6 +247,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
         <ControlTemplate x:Key="{ComponentResourceKey ResourceId=TopLevelHeaderTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
             <Grid SnapsToDevicePixels="true">
                 <Rectangle x:Name="Bg" 
@@ -270,10 +277,8 @@
                 <Popup x:Name="PART_Popup"
 						AllowsTransparency="true" 
 						Focusable="false" 
-						HorizontalOffset="1" 
 						IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
 						PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" 
-						Placement="Bottom" 
 						VerticalOffset="-1">
                     <Border x:Name="Shdw" Background="Transparent">
                         <Border x:Name="SubMenuBorder" 
@@ -477,6 +482,7 @@
                     </Border>
                 </Popup>
             </Grid>
+            
             <ControlTemplate.Triggers>
                 <Trigger Property="IsSuspendingPopupAnimation" Value="true">
                     <Setter Property="PopupAnimation" TargetName="PART_Popup" Value="None"/>
@@ -508,6 +514,7 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
+        
         <Style TargetType="{x:Type MenuItem}">
             <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"></Setter>
             <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
@@ -539,6 +546,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        
         <!-- Separator -->
         <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="{x:Type Separator}">
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
@@ -553,14 +561,19 @@
             </Setter>
         </Style>
     </catel:UserControl.Resources>
+
     <i:Interaction.Behaviors>
         <behavior:DropDownButtonBehavior/>
     </i:Interaction.Behaviors>
-    <Grid>
-        <StackPanel Orientation="Horizontal">
-            <Button Content="{Binding Header}"
-                    Command="{Binding Command, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:DropDownButton}}}"/>
-            <ToggleButton x:Name="ToggleButton" />
-        </StackPanel>
+
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Button Grid.Column="0" Content="{Binding Header}"
+                Command="{Binding Command, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:DropDownButton}}}" />
+        <ToggleButton Grid.Column="1" x:Name="ToggleButton" />
     </Grid>
 </catel:UserControl>

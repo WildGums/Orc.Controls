@@ -14,21 +14,41 @@ namespace Orc.Controls.Behavior
 
     public class DropDownButtonBehavior : BehaviorBase<DropDownButton>
     {
+        private bool _hasUpdatedPosition;
+
         #region Methods
         protected override void OnAssociatedObjectLoaded()
         {
             base.OnAssociatedObjectLoaded();
-            var binding = new Binding("DropDown.IsOpen") {Source = AssociatedObject, Mode = BindingMode.TwoWay};
+
+            var binding = new Binding("DropDown.IsOpen")
+            {
+                Source = AssociatedObject, 
+                Mode = BindingMode.TwoWay
+            };
+
             AssociatedObject.SetBinding(ToggleButton.IsCheckedProperty, binding);
 
             AssociatedObject.ToggleButton.Click += OnClick;
 
-            if (AssociatedObject.DropDown == null)
+            var dropDown = AssociatedObject.DropDown;
+            if (dropDown != null)
             {
-                return;
+                dropDown.Closed += OnDropDownClosed;
             }
+        }
 
-            AssociatedObject.DropDown.Closed += OnDropDownClosed;
+        protected override void OnAssociatedObjectUnloaded()
+        {
+            base.OnAssociatedObjectUnloaded();
+
+            AssociatedObject.ToggleButton.Click -= OnClick;
+
+            var dropDown = AssociatedObject.DropDown;
+            if (dropDown != null)
+            {
+                dropDown.Closed -= OnDropDownClosed;
+            }
         }
 
         private void OnDropDownClosed(object sender, RoutedEventArgs e)
@@ -38,27 +58,21 @@ namespace Orc.Controls.Behavior
 
         private void OnClick(object sender, RoutedEventArgs e)
         {
-            if (AssociatedObject.DropDown != null && (AssociatedObject.ToggleButton.IsChecked ?? false))
+            var dropDown = AssociatedObject.DropDown;
+            if (dropDown != null && (AssociatedObject.ToggleButton.IsChecked ?? false))
             {
-                AssociatedObject.DropDown.PlacementTarget = AssociatedObject;
-                AssociatedObject.DropDown.VerticalOffset = AssociatedObject.Height;
-                AssociatedObject.DropDown.Placement = PlacementMode.RelativePoint;
+                if (!_hasUpdatedPosition)
+                {
+                    _hasUpdatedPosition = true;
 
-                AssociatedObject.DropDown.IsOpen = true;
+                    dropDown.PlacementTarget = AssociatedObject;
+                    dropDown.Placement = PlacementMode.RelativePoint;
+                    dropDown.VerticalOffset = AssociatedObject.ActualHeight;
+                    dropDown.HorizontalOffset = AssociatedObject.ActualWidth - dropDown.ActualWidth;
+                }
+
+                dropDown.IsOpen = true;
             }
-        }
-
-        protected override void OnAssociatedObjectUnloaded()
-        {
-            base.OnAssociatedObjectUnloaded();
-            AssociatedObject.ToggleButton.Click -= OnClick;
-
-            if (AssociatedObject.DropDown == null)
-            {
-                return;
-            }
-
-            AssociatedObject.DropDown.Closed -= OnDropDownClosed;
         }
         #endregion
     }
