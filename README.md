@@ -97,7 +97,7 @@ DropDownButton
 
 The control is made up of two buttons side by side. The First button works as a regular button and the second one will display a 
 
-customisable drop down menu under the control. 
+customizable drop down menu under the control. 
 
 ![DropDownButton 01](doc/images/DropDownButton_01.png)
 
@@ -208,7 +208,7 @@ As soon as the user starts typing in the textbox the watermark will disappear.
 
 This control is useful to add hints.
 
-A watermark can cotain text or any other control such as images:
+A watermark can contain text or any other control such as images:
 
 ![WatermarkTextBox 02](doc/images/WatermarkTextBox_02.png)
 
