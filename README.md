@@ -78,7 +78,7 @@ It is very useful to use with the MVVM pattern.
 
 ### How to use BindableRichTextBox
 
-For binding data to the *BindableRichTextBox*, use the **BindableDocument** property  (the type is [FlowDocument]
+For binding data to the *BindableRichTextBox*, use the *BindableDocument* property  (the type is [FlowDocument]
 
 (https://msdn.microsoft.com/en-us/library/system.windows.documents.flowdocument(v=vs.110).aspx)):
 
@@ -145,7 +145,7 @@ The bindable properties are:
 
 * **FilterSource** => The collection of items shown in the drop down list
 * **PropertyName** => The name of the property you want to use to filter the items in the collection with.
-* **Text** => The text entered by the user, which is used to filter the items in the **FilterSource** collection
+* **Text** => The text entered by the user, which is used to filter the items in the *FilterSource* collection
 
 ```
 <orc:FilterBoxControl PropertyName="Value" 
@@ -214,7 +214,7 @@ A watermark can contain text or any other control such as images:
 
 ### How to use WatermarkTextBox
 
-In order to use the simple watermark just set a watermark value to the **Watermark** property: 
+In order to use the simple watermark just set a watermark value to the *Watermark* property: 
 
 ```
 <orc:WatermarkTextBox Watermark="Textbox with Watermark" />
