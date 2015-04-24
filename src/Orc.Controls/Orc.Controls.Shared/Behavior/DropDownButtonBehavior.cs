@@ -7,6 +7,7 @@
 
 namespace Orc.Controls.Behavior
 {
+    using System;
     using System.Reflection;
     using System.Windows;
     using System.Windows.Controls.Primitives;
@@ -63,33 +64,23 @@ namespace Orc.Controls.Behavior
             {
                 dropDown.Dispatcher.BeginInvoke(() =>
                 {
-                    var isLeft = SystemParameters.MenuDropAlignment;
-                    var type = typeof(SystemParameters);
-                    var menuDropAlignment = type.GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
-
-                    if (isLeft && menuDropAlignment != null)
-                    {
-                        menuDropAlignment.SetValue(null, false);
-                    }
-
-                    try
-                    {
-                        dropDown.PlacementTarget = AssociatedObject;
-                        dropDown.Placement = PlacementMode.RelativePoint;
-                        dropDown.VerticalOffset = AssociatedObject.ActualHeight;
-                    }
-                    finally
-                    {
-                        if (isLeft && menuDropAlignment != null)
-                        {
-                            menuDropAlignment.SetValue(null, true);
-                        }
-                    }
-                    
+                    dropDown.PlacementTarget = AssociatedObject;
+                    dropDown.Placement = PlacementMode.Custom;
+                    dropDown.CustomPopupPlacementCallback = CustomPopupPlacementCallback;
                 });
 
                 dropDown.IsOpen = true;
             }
+        }
+
+        private static CustomPopupPlacement[] CustomPopupPlacementCallback(Size popupSize, Size targetSize, Point offset)
+        {
+            var p = new Point { Y = targetSize.Height - offset.Y, X = -offset.X };
+
+            return new[]
+            {
+                new CustomPopupPlacement(p, PopupPrimaryAxis.Horizontal)
+            };
         }
         #endregion
     }
