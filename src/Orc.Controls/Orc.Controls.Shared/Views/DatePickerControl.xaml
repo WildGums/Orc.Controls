@@ -20,7 +20,7 @@
                 <Grid VerticalAlignment="Stretch">
                     <Border Grid.Row="0" Background="{TemplateBinding BorderBrush}" Height="4" VerticalAlignment="Top"/>
                     <Ellipse Grid.Row="0" Width="3" Height="3" Fill="White" VerticalAlignment="Top"/>
-                    <TextBlock Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat=' d '}"
+                    <TextBlock Text="{Binding Source={x:Static sys:DateTime.Today}, StringFormat=' d '}"
                                Margin="0 3 0 0" FontSize="10" HorizontalAlignment="Center"
                                VerticalAlignment="Center" Foreground="Gray"
                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />

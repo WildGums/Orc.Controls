@@ -111,10 +111,14 @@
             <views:TimeSpan/>
         </TabItem>
         
+        <TabItem Header="DatePicker">
+            <views:DatePicker/>
+        </TabItem>
+
         <TabItem Header="DateTimePicker">
             <views:DateTimePicker/>
         </TabItem>
-        
+
         <TabItem Header="FilterBox">
             <views:FilterBox/>
         </TabItem>
