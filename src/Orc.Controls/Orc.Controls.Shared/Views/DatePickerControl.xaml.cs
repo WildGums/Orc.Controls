@@ -129,7 +129,6 @@ namespace Orc.Controls
                 SelectedDate = Value
             };
             
-            calendar.PreviewKeyDown += CalendarOnPreviewKeyDown;
             calendar.SelectedDatesChanged += CalendarOnSelectedDatesChanged;
 
             return calendar;
@@ -144,27 +143,6 @@ namespace Orc.Controls
             }
             ((Popup)calendar.Parent).IsOpen = false;
             
-        }
-
-        private void CalendarOnPreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            var calendar = ((Calendar)sender);
-            if (e.Key == Key.Escape)
-            {
-                ((Popup)calendar.Parent).IsOpen = false;
-                NumericTBDay.Focus();
-                e.Handled = true;
-            }
-            if (e.Key == Key.Enter)
-            {
-                if (calendar.SelectedDate.HasValue)
-                {
-                    UpdateDate(calendar.SelectedDate.Value);
-                }
-                ((Popup)calendar.Parent).IsOpen = false;
-
-                e.Handled = true;
-            }
         }
 
         private void UpdateDate(DateTime date)
