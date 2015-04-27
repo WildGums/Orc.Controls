@@ -98,6 +98,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\BindableRichTextBoxViewModel.cs" />
+    <Compile Include="ViewModels\DatePickerViewModel.cs" />
+    <Compile Include="Views\DatePicker.xaml.cs">
+      <DependentUpon>DatePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\DateTimePickerViewModel.cs" />
     <Compile Include="ViewModels\DropDownButtonViewModel.cs" />
     <Compile Include="ViewModels\FilterBoxViewModel.cs" />
@@ -129,6 +133,10 @@
     <Compile Include="Views\Watermark.xaml.cs">
       <DependentUpon>Watermark.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\DatePicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\DropDownButtonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

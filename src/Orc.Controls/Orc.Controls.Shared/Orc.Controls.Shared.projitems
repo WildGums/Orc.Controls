@@ -37,11 +37,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\ISuggestionListService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestionListService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DatePickerViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DateTimePickerViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DropDownButtonViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FilterBoxViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LogViewerViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\TimeSpanViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\DatePickerControl.xaml.cs">
+      <DependentUpon>DatePickerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\DateTimePickerControl.xaml.cs">
       <DependentUpon>DateTimePickerControl.xaml</DependentUpon>
     </Compile>
@@ -67,6 +71,10 @@
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Themes\WatermarkTextBox.generic.xaml">
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\DatePickerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\DateTimePickerControl.xaml">
       <SubType>Designer</SubType>
