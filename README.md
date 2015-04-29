@@ -23,10 +23,10 @@ DatePickerControl
 ----------------------
 This control looks like a regular DatePicker but allows you to edit a date quickly.
 
-![DatePicker 01](doc/images/DatePicker_01.png)
-![DatePicker 02](doc/images/DatePicker_02.png)
-![DatePicker 03](doc/images/DatePicker_03.png)
-![DatePicker 04](doc/images/DatePicker_04.png)
+![DatePicker 01](doc/images/DatePicker_01.png)![DatePicker 02](doc/images/DatePicker_02.png)
+
+![DatePicker 03](doc/images/DatePicker_03.png)![DatePicker 04](doc/images/DatePicker_04.png)
+
 ![DatePicker 05](doc/images/DatePicker_05.png)
 
 Double click on any number to start editing. Press the “Tab” key to move to the next number.
