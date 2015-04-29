@@ -5,6 +5,7 @@ Orc.Controls
 
 This library contains simple (yet useful) controls for viewing and editing data, such as:
 
+- **DatePickerControl**
 - **DateTimePickerControl**
 - **TimeSpanControl**
 - **BindableRichTextBox**
@@ -17,6 +18,28 @@ This library contains simple (yet useful) controls for viewing and editing data,
 Run the demo project to see the controls in action:
 
 ![Orc.Controls demo](doc/images/Orc.Controls.Demo.png)
+
+DatePickerControl
+----------------------
+This control looks like a regular DatePicker but allows you to edit a date quickly.
+
+![DatePicker 01](doc/images/DatePicker_01.png)
+![DatePicker 02](doc/images/DatePicker_02.png)
+![DatePicker 03](doc/images/DatePicker_03.png)
+![DatePicker 04](doc/images/DatePicker_04.png)
+![DatePicker 05](doc/images/DatePicker_05.png)
+
+Double click on any number to start editing. Press the “Tab” key to move to the next number.
+
+Click on a letter to display a drop down list to choose from.
+
+### How to use DatePickerControl
+
+Bind a *DateTime* value to the **Value** property:
+
+```
+    <orc:DatePickerControl Value="{Binding DateValue}" />
+```
 
 DateTimePickerControl
 ----------------------
