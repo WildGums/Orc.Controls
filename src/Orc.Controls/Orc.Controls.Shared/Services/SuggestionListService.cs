@@ -10,7 +10,6 @@ namespace Orc.Controls.Services
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using Interfaces;
 
     public class SuggestionListService : ISuggestionListService
     {

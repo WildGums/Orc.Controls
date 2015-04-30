@@ -10,7 +10,6 @@ namespace Orc.Controls.ViewModels
     using System.Collections.Generic;
     using System.Windows.Media;
     using Catel.MVVM;
-    using Extensions;
 
     internal class DropDownButtonViewModel : ViewModelBase
     {

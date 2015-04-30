@@ -14,7 +14,7 @@ namespace Orc.Controls
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using Catel.IoC;
-    using Services.Interfaces;
+    using Services;
 
     public class DateTimePartHelper
     {

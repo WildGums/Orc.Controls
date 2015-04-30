@@ -10,7 +10,6 @@ namespace Orc.Controls.ViewModels
     using System.Collections;
     using System.Windows.Media;
     using Catel.MVVM;
-    using Extensions;
 
     public class FilterBoxViewModel : ViewModelBase
     {

@@ -2,7 +2,6 @@
 using Catel.MVVM;
 using Orc.Controls;
 using Orc.Controls.Services;
-using Orc.Controls.Services.Interfaces;
 using Orc.Controls.ViewModels;
 
 /// <summary>

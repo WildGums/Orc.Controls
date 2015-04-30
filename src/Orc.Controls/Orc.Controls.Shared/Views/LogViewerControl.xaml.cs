@@ -20,7 +20,6 @@ namespace Orc.Controls
     using Catel.IO;
     using Catel.Logging;
     using Catel.MVVM.Views;
-    using Extensions;
     using Logging;
     using ViewModels;
     using Path = System.Windows.Shapes.Path;
