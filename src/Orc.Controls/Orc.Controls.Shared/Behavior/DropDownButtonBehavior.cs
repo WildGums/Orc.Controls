@@ -66,6 +66,7 @@ namespace Orc.Controls.Behavior
                 {
                     dropDown.PlacementTarget = AssociatedObject;
                     dropDown.Placement = PlacementMode.Custom;
+                    dropDown.Width = AssociatedObject.ActualWidth;
                     dropDown.CustomPopupPlacementCallback = CustomPopupPlacementCallback;
                 });
 
@@ -75,7 +76,11 @@ namespace Orc.Controls.Behavior
 
         private static CustomPopupPlacement[] CustomPopupPlacementCallback(Size popupSize, Size targetSize, Point offset)
         {
-            var p = new Point { Y = targetSize.Height - offset.Y, X = -offset.X };
+            var p = new Point
+            {
+                Y = targetSize.Height - offset.Y, 
+                X = -offset.X
+            };
 
             return new[]
             {
