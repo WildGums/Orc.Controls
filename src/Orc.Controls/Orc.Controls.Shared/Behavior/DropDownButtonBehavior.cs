@@ -65,8 +65,7 @@ namespace Orc.Controls.Behavior
                 dropDown.Dispatcher.BeginInvoke(() =>
                 {
                     dropDown.PlacementTarget = AssociatedObject;
-                    dropDown.Placement = PlacementMode.Custom;
-                    dropDown.Width = AssociatedObject.ActualWidth;
+                    dropDown.Placement = PlacementMode.Custom;                    
                     dropDown.CustomPopupPlacementCallback = CustomPopupPlacementCallback;
                 });
 
