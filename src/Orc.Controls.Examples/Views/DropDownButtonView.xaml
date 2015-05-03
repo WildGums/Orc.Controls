@@ -15,7 +15,7 @@
                             Command="{Binding DefaultAction}">
             <orc:DropDownButton.DropDown>
                 <ContextMenu>
-                    <MenuItem Header="Item 1"/>
+                    <MenuItem Header="Item 1 veeeery looooooooooong"/>
                     <MenuItem Header="Item 2"/>
                     <Separator/>
                     <MenuItem Header="Item 2"/>
