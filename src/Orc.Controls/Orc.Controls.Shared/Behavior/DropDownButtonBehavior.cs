@@ -7,8 +7,6 @@
 
 namespace Orc.Controls.Behavior
 {
-    using System;
-    using System.Reflection;
     using System.Windows;
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
@@ -24,7 +22,7 @@ namespace Orc.Controls.Behavior
 
             var binding = new Binding("DropDown.IsOpen")
             {
-                Source = AssociatedObject, 
+                Source = AssociatedObject,
                 Mode = BindingMode.TwoWay
             };
 
@@ -65,7 +63,8 @@ namespace Orc.Controls.Behavior
                 dropDown.Dispatcher.BeginInvoke(() =>
                 {
                     dropDown.PlacementTarget = AssociatedObject;
-                    dropDown.Placement = PlacementMode.Custom;                    
+                    dropDown.Placement = PlacementMode.Custom;
+                    dropDown.MinWidth = AssociatedObject.ActualWidth;
                     dropDown.CustomPopupPlacementCallback = CustomPopupPlacementCallback;
                 });
 
@@ -77,7 +76,7 @@ namespace Orc.Controls.Behavior
         {
             var p = new Point
             {
-                Y = targetSize.Height - offset.Y, 
+                Y = targetSize.Height - offset.Y,
                 X = -offset.X
             };
 
