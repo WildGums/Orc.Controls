@@ -5,10 +5,37 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:catel="http://catel.codeplex.com"
                    xmlns:localcontrols="clr-namespace:Orc.Controls"
-                   mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="120">
+                   mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="500" d:DesignWidth="500">
 
+    <UserControl.Resources>
+        <Style TargetType="{x:Type ToggleButton}">
+            <Setter Property="Margin" Value="4 2 0 2"/>
+            <Setter Property="Padding" Value="4 2 4 2"/>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid>
-        <TextBlock Text="LogUserControl"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>  
+        
+        <StackPanel Orientation="Horizontal">
+            <ToggleButton x:Name="ShowDebugToggleButton" Content="Debug" IsChecked="True" />
+            <ToggleButton x:Name="ShowInfoToggleButton" Content="Info" IsChecked="True" />
+            <ToggleButton x:Name="ShowWarningToggleButton" Content="Warning" IsChecked="True" />
+            <ToggleButton x:Name="ShowErrorToggleButton" Content="Error" IsChecked="True" />
+        </StackPanel>
+        <localcontrols:LogViewerControl x:Name ="LogViewerControl" Grid.Row="1" Margin="4"
+                                        ShowDebug="{Binding IsChecked, ElementName=ShowDebugToggleButton}"
+                                        ShowInfo="{Binding IsChecked, ElementName=ShowInfoToggleButton}"
+                                        ShowWarning="{Binding IsChecked, ElementName=ShowWarningToggleButton}"
+                                        ShowError="{Binding IsChecked, ElementName=ShowErrorToggleButton}"
+                                        EnableTimestamp="True" EnableTextColoring="True" EnableIcons="True"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="2">
+            <Button Content="Clear Log" Click="ClearLog_OnClick" Margin="4 2 2 2"/>
+        </StackPanel>
     </Grid>
     
 </catel:UserControl>

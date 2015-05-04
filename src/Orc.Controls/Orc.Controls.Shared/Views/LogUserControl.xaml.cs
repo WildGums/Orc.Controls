@@ -7,6 +7,7 @@
 
 namespace Orc.Controls
 {
+    using System.Windows;
     using Catel.MVVM.Views;
 
     public partial class LogUserControl
@@ -19,6 +20,12 @@ namespace Orc.Controls
         public LogUserControl()
         {
             InitializeComponent();
+        }
+
+ 
+        private void ClearLog_OnClick(object sender, RoutedEventArgs e)
+        {
+            LogViewerControl.Clear();
         }
     }
 }
