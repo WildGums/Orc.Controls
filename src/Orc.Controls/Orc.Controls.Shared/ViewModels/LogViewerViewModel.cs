@@ -211,5 +211,10 @@ namespace Orc.Controls.ViewModels
             LogMessage.SafeInvoke(this, e);
         }
         #endregion
+
+        public void ClearEntries()
+        {
+            LogEntries.Clear();
+        }
     }
 }

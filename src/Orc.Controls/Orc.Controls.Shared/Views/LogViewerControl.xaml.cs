@@ -52,7 +52,7 @@ namespace Orc.Controls
             ColorSets[LogEvent.Warning] = Brushes.DarkOrange;
             ColorSets[LogEvent.Error] = Brushes.Red;
 
-            Clear();
+            //Clear();
         }
         #endregion
 
@@ -218,7 +218,7 @@ namespace Orc.Controls
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                Clear();
+                ClearScreen();
 
                 var vm = ViewModel as LogViewerViewModel;
                 if (vm != null)
@@ -275,9 +275,20 @@ namespace Orc.Controls
             LogRecordsRichTextBox.ScrollToEnd();
         }
 
-        public void Clear()
+        private void ClearScreen()
         {
             LogRecordsRichTextBox.Document.Blocks.Clear();
+        }
+
+        public void Clear()
+        {
+            var vm = ViewModel as LogViewerViewModel;
+            if (vm != null)
+            {
+                vm.ClearEntries();
+            }
+
+            ClearScreen();
         }
         #endregion
     }
