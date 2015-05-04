@@ -8,10 +8,7 @@
                    mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="500" d:DesignWidth="500">
 
     <UserControl.Resources>
-        <Style TargetType="{x:Type ToggleButton}">
-            <Setter Property="Margin" Value="4 2 0 2"/>
-            <Setter Property="Padding" Value="4 2 4 2"/>
-        </Style>
+            <ResourceDictionary Source="/Orc.Controls;component/Themes/LogUserControl.generic.xaml" />
     </UserControl.Resources>
     
     <Grid>
@@ -22,10 +19,30 @@
         </Grid.RowDefinitions>  
         
         <StackPanel Orientation="Horizontal">
-            <ToggleButton x:Name="ShowDebugToggleButton" Content="Debug" IsChecked="True" />
-            <ToggleButton x:Name="ShowInfoToggleButton" Content="Info" IsChecked="True" />
-            <ToggleButton x:Name="ShowWarningToggleButton" Content="Warning" IsChecked="True" />
-            <ToggleButton x:Name="ShowErrorToggleButton" Content="Error" IsChecked="True" />
+            <ToggleButton x:Name="ShowDebugToggleButton" IsChecked="True" Tag="Debug" Margin="2 0 0 0">
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="{Binding ElementName=LogViewerControl, Path=ViewModel.DebugEntriesCount}"/>
+                    <TextBlock Text="Debug"/>
+                </StackPanel>
+            </ToggleButton>
+            <ToggleButton x:Name="ShowInfoToggleButton" IsChecked="True" Tag="Info" Margin="2 0 0 0">
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="{Binding ElementName=LogViewerControl, Path=ViewModel.InfoEntriesCount}"/>
+                    <TextBlock Text="Info"/>
+                </StackPanel>
+            </ToggleButton>
+            <ToggleButton x:Name="ShowWarningToggleButton" IsChecked="True" Tag="Warning" Margin="2 0 0 0">
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="{Binding ElementName=LogViewerControl, Path=ViewModel.WarningEntriesCount}"/>
+                    <TextBlock Text="Warning"/>
+                </StackPanel>
+            </ToggleButton>
+            <ToggleButton x:Name="ShowErrorToggleButton" IsChecked="True" Tag="Error" Margin="2 0 0 0">
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="{Binding ElementName=LogViewerControl, Path=ViewModel.ErrorEntriesCount}"/>
+                    <TextBlock Text="Error"/>
+                </StackPanel>
+            </ToggleButton>
         </StackPanel>
         <localcontrols:LogViewerControl x:Name ="LogViewerControl" Grid.Row="1" Margin="4"
                                         ShowDebug="{Binding IsChecked, ElementName=ShowDebugToggleButton}"

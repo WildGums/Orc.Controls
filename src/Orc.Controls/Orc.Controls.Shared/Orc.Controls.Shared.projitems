@@ -76,6 +76,9 @@
     <Page Include="$(MSBuildThisFileDirectory)Themes\LinkLabel.generic.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Themes\LogUserControl.generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Themes\WatermarkTextBox.generic.xaml">
       <SubType>Designer</SubType>
     </Page>
