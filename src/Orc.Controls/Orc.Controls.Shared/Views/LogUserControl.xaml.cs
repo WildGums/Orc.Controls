@@ -13,9 +13,23 @@ namespace Orc.Controls
     using System.Security;
     using System.Windows;
     using Catel.MVVM.Views;
+    using Logging;
 
     public partial class LogUserControl
     {
+        #region Properties
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public Type LogListenerType
+        {
+            get { return (Type)GetValue(LogListenerTypeProperty); }
+            set { SetValue(LogListenerTypeProperty, value); }
+        }
+
+        public static readonly DependencyProperty LogListenerTypeProperty = DependencyProperty.Register("LogListenerType", typeof(Type),
+            typeof(LogUserControl), new FrameworkPropertyMetadata(typeof(LogViewerLogListener), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        #endregion
+
+        #region Constructors
         static LogUserControl()
         {
             typeof (LogUserControl).AutoDetectViewPropertiesToSubscribe();
@@ -25,6 +39,7 @@ namespace Orc.Controls
         {
             InitializeComponent();
         }
+        #endregion
 
         private void ClearLog_OnClick(object sender, RoutedEventArgs e)
         {
@@ -65,7 +80,7 @@ namespace Orc.Controls
             var dataObject = Clipboard.GetDataObject();
             if (dataObject == null)
             {
-               return string.Empty;
+                return string.Empty;
             }
 
             return dataObject.GetData(DataFormats.Text).ToString();

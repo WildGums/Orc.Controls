@@ -97,6 +97,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Logging\ExampleLogListener.cs" />
     <Compile Include="ViewModels\BindableRichTextBoxViewModel.cs" />
     <Compile Include="ViewModels\DatePickerViewModel.cs" />
     <Compile Include="ViewModels\LogUserControlViewModel.cs" />

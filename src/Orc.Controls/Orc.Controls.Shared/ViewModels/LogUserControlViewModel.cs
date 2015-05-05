@@ -7,23 +7,22 @@
 
 namespace Orc.Controls.ViewModels
 {
+    using System;
     using System.Threading.Tasks;
     using Catel.MVVM;
+    using Logging;
 
     public class LogUserControlViewModel : ViewModelBase
     {
+        #region Constructors
         public LogUserControlViewModel()
         {
         }
+        #endregion
 
-        public override string Title
-        {
-            get { return "View model title"; }
-        }
-
-        // TODO: Register models with the vmpropmodel codesnippet
-        // TODO: Register view model properties with the vmprop or vmpropviewmodeltomodel codesnippets
-        // TODO: Register commands with the vmcommand or vmcommandwithcanexecute codesnippets
+        #region Properties
+        public Type LogListenerType { get; set; }
+        #endregion
 
         protected override async Task Initialize()
         {

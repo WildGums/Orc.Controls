@@ -241,7 +241,7 @@ namespace Orc.Controls.ViewModels
 
         public void ClearEntries()
         {
-            LogEntries.Clear();
+            _logEntries.Clear();
             ResetEntriesCount();
         }
 
