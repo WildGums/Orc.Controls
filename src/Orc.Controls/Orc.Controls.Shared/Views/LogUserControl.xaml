@@ -55,9 +55,10 @@
                                         ShowError="{Binding IsChecked, ElementName=ShowErrorToggleButton}"
                                         EnableTimestamp="{Binding IsChecked, ElementName=EnableTimestampToggleButton}"
                                         EnableTextColoring="True" EnableIcons="True"/>
-        <StackPanel Orientation="Horizontal" Grid.Row="2">
-            <Button Content="Clear Log" Click="ClearLog_OnClick" Margin="4 2 2 2"/>
-        </StackPanel>
+        <DockPanel Grid.Row="2" LastChildFill="False">
+            <Button Content="Clear Log" Click="ClearLog_OnClick" DockPanel.Dock="Left" Margin="4 2 2 2" />
+            <Button Content="Copy" Click="CopyLog_OnClick" DockPanel.Dock="Right" Margin="2 2 4 2" />
+        </DockPanel>
     </Grid>
     
 </catel:UserControl>

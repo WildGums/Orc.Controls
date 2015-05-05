@@ -28,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ColorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\InlineExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\LoggingExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\RichTextBoxExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\RichTextBoxParagraphExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimePartHelper.cs" />

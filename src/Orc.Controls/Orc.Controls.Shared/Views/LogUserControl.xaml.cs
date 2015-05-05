@@ -22,10 +22,14 @@ namespace Orc.Controls
             InitializeComponent();
         }
 
- 
         private void ClearLog_OnClick(object sender, RoutedEventArgs e)
         {
             LogViewerControl.Clear();
+        }
+
+        private void CopyLog_OnClick(object sender, RoutedEventArgs e)
+        {
+            LogViewerControl.CopyToClipboard();
         }
     }
 }
