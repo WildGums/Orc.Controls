@@ -7,6 +7,10 @@
 
 namespace Orc.Controls
 {
+    using System;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Security;
     using System.Windows;
     using Catel.MVVM.Views;
 
@@ -30,6 +34,41 @@ namespace Orc.Controls
         private void CopyLog_OnClick(object sender, RoutedEventArgs e)
         {
             LogViewerControl.CopyToClipboard();
+        }
+
+        private void OpenInEditor_OnClick(object sender, RoutedEventArgs e)
+        {
+            var path = string.Empty;
+            try
+            {
+                path = Path.GetTempPath();
+            }
+            catch (SecurityException)
+            {
+                return;
+            }
+            var filePath = CreateLogFile(path);
+            Process.Start(filePath);
+        }
+
+        private string CreateLogFile(string path)
+        {
+            var filePath = Path.Combine(path, "log.txt");
+            File.WriteAllText(filePath, GetLog());
+            return filePath;
+        }
+
+        private string GetLog()
+        {
+            LogViewerControl.CopyToClipboard();
+
+            var dataObject = Clipboard.GetDataObject();
+            if (dataObject == null)
+            {
+               return string.Empty;
+            }
+
+            return dataObject.GetData(DataFormats.Text).ToString();
         }
     }
 }
