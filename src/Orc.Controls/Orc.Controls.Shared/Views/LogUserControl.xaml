@@ -18,7 +18,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>  
         
-        <StackPanel Orientation="Horizontal">
+        <DockPanel >
             <ToggleButton x:Name="ShowDebugToggleButton" IsChecked="True" Tag="Debug" Margin="2 0 0 0">
                 <StackPanel Orientation="Horizontal" >
                     <TextBlock Text="{Binding ElementName=LogViewerControl, Path=ViewModel.DebugEntriesCount}"/>
@@ -43,11 +43,12 @@
                     <TextBlock Text="Error"/>
                 </StackPanel>
             </ToggleButton>
-            <ToggleButton x:Name="EnableTimestampToggleButton" Margin="10 0 0 0"
+            <ToggleButton x:Name="EnableTimestampToggleButton" Margin="4 0 4 0"
                           Style="{StaticResource EnableTimestampToggleButtonStyle}"/>
 
-
-        </StackPanel>
+            <localcontrols:WatermarkTextBox x:Name="FilterTextBox" DockPanel.Dock="Right" Margin="4 2 4 2" MinWidth="150" 
+                                            Watermark="Search" VerticalContentAlignment="Center"/>
+        </DockPanel>
         <localcontrols:LogViewerControl x:Name ="LogViewerControl" Grid.Row="1" Margin="4"
                                         ShowDebug="{Binding IsChecked, ElementName=ShowDebugToggleButton}"
                                         ShowInfo="{Binding IsChecked, ElementName=ShowInfoToggleButton}"
@@ -56,6 +57,7 @@
                                         EnableTimestamp="{Binding IsChecked, ElementName=EnableTimestampToggleButton}"
                                         EnableTextColoring="True"
                                         EnableIcons="True"
+                                        LogFilter="{Binding Text, ElementName=FilterTextBox}"
                                         LogListenerType="{Binding LogListenerType}"/>
         <DockPanel Grid.Row="2" LastChildFill="False">
             <Button Content="Clear Log" Click="ClearLog_OnClick" DockPanel.Dock="Left" Margin="4 2 2 2" />
