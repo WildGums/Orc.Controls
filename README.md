@@ -281,3 +281,9 @@ The bindable properties are:
 - **Command** => The command.
 - **CommandParameter** => The command parameter.
 - **CommandTarget** => The command target.
+
+
+Other similar libraries
+========================
+
+- https://github.com/objorke/PropertyTools
