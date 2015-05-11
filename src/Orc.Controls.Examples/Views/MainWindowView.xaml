@@ -131,10 +131,6 @@
             <views:LogViewer/>
         </TabItem>
 
-        <TabItem Header="LogUserControl">
-            <views:LogUserControl/>
-        </TabItem>
-
         <TabItem Header="DropDownButton">
             <views:DropDownButtonView/>
         </TabItem>

@@ -43,9 +43,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DropDownButtonViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FilterBoxViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LogViewerViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LogUserControlViewModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\TimeSpanViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\DatePickerControl.xaml.cs">
       <DependentUpon>DatePickerControl.xaml</DependentUpon>
@@ -61,10 +58,6 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\LogViewerControl.xaml.cs">
       <DependentUpon>LogViewerControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\LogUserControl.xaml.cs">
-      <DependentUpon>LogUserControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\TimeSpanControl.xaml.cs">
       <DependentUpon>TimeSpanControl.xaml</DependentUpon>
@@ -100,10 +93,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\LogViewerControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Views\LogUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
