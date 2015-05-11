@@ -10,19 +10,14 @@ namespace Orc.Controls
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq;
-    using System.Text;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
-    using System.Windows.Threading;
     using Catel;
-    using Catel.IO;
     using Catel.Logging;
     using Catel.MVVM.Views;
     using Logging;
     using ViewModels;
-    using Path = System.Windows.Shapes.Path;
 
     /// <summary>
     /// Interaction logic for LogViewerControl.xaml.
@@ -37,10 +32,14 @@ namespace Orc.Controls
         private LogViewerViewModel _lastKnownViewModel;
         #endregion
 
+        #region Events
+        public event EventHandler<LogEntryDoubleClickEventArgs> LogEntryDoubleClick;
+        #endregion
+
         #region Constructors
         static LogViewerControl()
         {
-            typeof(LogViewerControl).AutoDetectViewPropertiesToSubscribe();
+            typeof (LogViewerControl).AutoDetectViewPropertiesToSubscribe();
         }
 
         public LogViewerControl()
@@ -52,117 +51,106 @@ namespace Orc.Controls
             ColorSets[LogEvent.Warning] = Brushes.DarkOrange;
             ColorSets[LogEvent.Error] = Brushes.Red;
 
-            Clear();
+            //Clear();
         }
         #endregion
 
         #region Properties
         public bool EnableTimestamp
         {
-            get { return (bool)GetValue(EnableTimestampProperty); }
+            get { return (bool) GetValue(EnableTimestampProperty); }
             set { SetValue(EnableTimestampProperty, value); }
         }
 
-        public static readonly DependencyProperty EnableTimestampProperty = DependencyProperty.Register("EnableTimestamp", typeof(bool), 
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
+        public static readonly DependencyProperty EnableTimestampProperty = DependencyProperty.Register("EnableTimestamp", typeof (bool),
+            typeof (LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl) sender).UpdateControl()));
 
         public bool EnableIcons
         {
-            get { return (bool)GetValue(EnableIconsProperty); }
+            get { return (bool) GetValue(EnableIconsProperty); }
             set { SetValue(EnableIconsProperty, value); }
         }
 
-        public static readonly DependencyProperty EnableIconsProperty = DependencyProperty.Register("EnableIcons", typeof(bool),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
+        public static readonly DependencyProperty EnableIconsProperty = DependencyProperty.Register("EnableIcons", typeof (bool),
+            typeof (LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl) sender).UpdateControl()));
 
         public bool EnableTextColoring
         {
-            get { return (bool)GetValue(EnableTextColoringProperty); }
+            get { return (bool) GetValue(EnableTextColoringProperty); }
             set { SetValue(EnableTextColoringProperty, value); }
         }
 
-        public static readonly DependencyProperty EnableTextColoringProperty = DependencyProperty.Register("EnableTextColoring", typeof(bool),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
+        public static readonly DependencyProperty EnableTextColoringProperty = DependencyProperty.Register("EnableTextColoring", typeof (bool),
+            typeof (LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl) sender).UpdateControl()));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string LogFilter
         {
-            get { return (string)GetValue(LogFilterProperty); }
+            get { return (string) GetValue(LogFilterProperty); }
             set { SetValue(LogFilterProperty, value); }
         }
 
-        public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register("LogFilter", typeof(string),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+        public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register("LogFilter", typeof (string),
+            typeof (LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl) sender).UpdateControl()));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public Type LogListenerType
         {
-            get { return (Type)GetValue(LogListenerTypeProperty); }
+            get { return (Type) GetValue(LogListenerTypeProperty); }
             set { SetValue(LogListenerTypeProperty, value); }
         }
 
-        public static readonly DependencyProperty LogListenerTypeProperty = DependencyProperty.Register("LogListenerType", typeof(Type),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(typeof(LogViewerLogListener), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, 
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
+        public static readonly DependencyProperty LogListenerTypeProperty = DependencyProperty.Register("LogListenerType", typeof (Type),
+            typeof (LogViewerControl), new FrameworkPropertyMetadata(typeof (LogViewerLogListener), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl) sender).UpdateControl()));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowDebug
         {
-            get { return (bool)GetValue(ShowDebugProperty); }
+            get { return (bool) GetValue(ShowDebugProperty); }
             set { SetValue(ShowDebugProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowDebugProperty = DependencyProperty.Register("ShowDebug", typeof(bool),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
+        public static readonly DependencyProperty ShowDebugProperty = DependencyProperty.Register("ShowDebug", typeof (bool),
+            typeof (LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl) sender).UpdateControl()));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowInfo
         {
-            get { return (bool)GetValue(ShowInfoProperty); }
+            get { return (bool) GetValue(ShowInfoProperty); }
             set { SetValue(ShowInfoProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowInfoProperty = DependencyProperty.Register("ShowInfo", typeof(bool),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
+        public static readonly DependencyProperty ShowInfoProperty = DependencyProperty.Register("ShowInfo", typeof (bool),
+            typeof (LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl) sender).UpdateControl()));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowWarning
         {
-            get { return (bool)GetValue(ShowWarningProperty); }
+            get { return (bool) GetValue(ShowWarningProperty); }
             set { SetValue(ShowWarningProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowWarningProperty = DependencyProperty.Register("ShowWarning", typeof(bool),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
+        public static readonly DependencyProperty ShowWarningProperty = DependencyProperty.Register("ShowWarning", typeof (bool),
+            typeof (LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl) sender).UpdateControl()));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowError
         {
-            get { return (bool)GetValue(ShowErrorProperty); }
+            get { return (bool) GetValue(ShowErrorProperty); }
             set { SetValue(ShowErrorProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowErrorProperty = DependencyProperty.Register("ShowError", typeof(bool),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-        #endregion
-
-        #region Events
-        public event EventHandler<LogEntryDoubleClickEventArgs> LogEntryDoubleClick;
+        public static readonly DependencyProperty ShowErrorProperty = DependencyProperty.Register("ShowError", typeof (bool),
+            typeof (LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl) sender).UpdateControl()));
         #endregion
 
         #region Methods
@@ -202,7 +190,6 @@ namespace Orc.Controls
                 var logEntry = new LogEntry(e);
                 if (vm.IsValidLogEntry(logEntry))
                 {
-
                     AddLogEntry(logEntry);
 
                     ScrollToEnd();
@@ -218,7 +205,7 @@ namespace Orc.Controls
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                Clear();
+                ClearScreen();
 
                 var vm = ViewModel as LogViewerViewModel;
                 if (vm != null)
@@ -253,7 +240,7 @@ namespace Orc.Controls
 
             if (EnableIcons)
             {
-                var icon = new Label() { DataContext = logEntry };
+                var icon = new Label() {DataContext = logEntry};
                 paragraph.Inlines.Add(icon);
             }
 
@@ -265,7 +252,6 @@ namespace Orc.Controls
             paragraph.SetData(EnableTimestamp);
 
             LogRecordsRichTextBox.Document.Blocks.Add(paragraph);
-
         }
 
         private void ScrollToEnd()
@@ -275,9 +261,26 @@ namespace Orc.Controls
             LogRecordsRichTextBox.ScrollToEnd();
         }
 
-        public void Clear()
+        private void ClearScreen()
         {
             LogRecordsRichTextBox.Document.Blocks.Clear();
+        }
+
+        public void Clear()
+        {
+            var vm = ViewModel as LogViewerViewModel;
+            if (vm != null)
+            {
+                vm.ClearEntries();
+            }
+
+            ClearScreen();
+        }
+
+        public void CopyToClipboard()
+        {
+            var text = LogRecordsRichTextBox.GetInlineText();
+            Clipboard.SetText(text);
         }
         #endregion
     }

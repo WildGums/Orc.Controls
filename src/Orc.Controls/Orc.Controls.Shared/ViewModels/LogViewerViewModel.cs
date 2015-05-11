@@ -19,7 +19,6 @@ namespace Orc.Controls.ViewModels
     public class LogViewerViewModel : ViewModelBase
     {
         private readonly ITypeFactory _typeFactory;
-
         #region Fields
         private ILogListener _logListener;
 
@@ -40,6 +39,8 @@ namespace Orc.Controls.ViewModels
             ShowInfo = true;
             ShowWarning = true;
             ShowError = true;
+
+            ResetEntriesCount();
         }
         #endregion
 
@@ -54,6 +55,11 @@ namespace Orc.Controls.ViewModels
         public bool ShowInfo { get; set; }
         public bool ShowWarning { get; set; }
         public bool ShowError { get; set; }
+
+        public int DebugEntriesCount { get; private set; }
+        public int InfoEntriesCount { get; private set; }
+        public int WarningEntriesCount { get; private set; }
+        public int ErrorEntriesCount { get; private set; }
         #endregion
 
         #region Events
@@ -83,11 +89,8 @@ namespace Orc.Controls.ViewModels
         {
             UnsubscribeLogListener();
 
-            lock (_logEntries)
-            {
-                _logEntries.Clear();
-            }
-
+            ClearEntries();
+            
             SubscribeLogListener();
         }
 
@@ -180,6 +183,25 @@ namespace Orc.Controls.ViewModels
             return false;
         }
 
+        private void UpdateEntriesCount(LogEntry logEvent)
+        {
+            switch (logEvent.LogEvent)
+            {
+                case LogEvent.Debug:
+                    DebugEntriesCount ++;
+                    break;
+                case LogEvent.Info:
+                    InfoEntriesCount ++;
+                    break;
+                case LogEvent.Warning:
+                    WarningEntriesCount ++;
+                    break;
+                case LogEvent.Error:
+                    ErrorEntriesCount ++;
+                    break;
+            }
+        }
+
         private bool PassFilter(LogEntry logEntry)
         {
             if (string.IsNullOrEmpty(LogFilter))
@@ -208,8 +230,28 @@ namespace Orc.Controls.ViewModels
                 _logEntries.Add(logEntry);
             }
 
+            UpdateEntriesCount(logEntry);
+
             LogMessage.SafeInvoke(this, e);
         }
         #endregion
+
+        public void ClearEntries()
+        {
+            lock (_logEntries)
+            {
+                _logEntries.Clear();
+            }
+
+            ResetEntriesCount();
+        }
+
+        private void ResetEntriesCount()
+        {
+            DebugEntriesCount = 0;
+            InfoEntriesCount = 0;
+            WarningEntriesCount = 0;
+            ErrorEntriesCount = 0;
+        }
     }
 }

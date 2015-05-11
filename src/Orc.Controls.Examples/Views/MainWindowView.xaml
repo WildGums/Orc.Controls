@@ -130,7 +130,7 @@
         <TabItem Header="LogViewer">
             <views:LogViewer/>
         </TabItem>
-        
+
         <TabItem Header="DropDownButton">
             <views:DropDownButtonView/>
         </TabItem>
