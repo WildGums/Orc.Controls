@@ -89,11 +89,8 @@ namespace Orc.Controls.ViewModels
         {
             UnsubscribeLogListener();
 
-            lock (_logEntries)
-            {
-                ClearEntries();
-            }
-
+            ClearEntries();
+            
             SubscribeLogListener();
         }
 
@@ -241,7 +238,11 @@ namespace Orc.Controls.ViewModels
 
         public void ClearEntries()
         {
-            _logEntries.Clear();
+            lock (_logEntries)
+            {
+                _logEntries.Clear();
+            }
+
             ResetEntriesCount();
         }
 
