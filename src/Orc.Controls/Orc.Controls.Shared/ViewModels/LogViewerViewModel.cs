@@ -9,10 +9,9 @@ namespace Orc.Controls.ViewModels
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Linq;
     using System.Threading.Tasks;
     using Catel;
+    using Catel.Collections;
     using Catel.IoC;
     using Catel.Logging;
     using Catel.MVVM;
@@ -20,13 +19,16 @@ namespace Orc.Controls.ViewModels
 
     public class LogViewerViewModel : ViewModelBase
     {
-        private readonly ITypeFactory _typeFactory;
         #region Fields
         private ILogListener _logListener;
 
         private bool _isViewModelActive;
 
+        private readonly ITypeFactory _typeFactory;
+
         private readonly List<LogEntry> _logEntries = new List<LogEntry>();
+
+        private bool _isClearingLog;
         #endregion
 
         #region Constructors
@@ -42,7 +44,7 @@ namespace Orc.Controls.ViewModels
             ShowWarning = true;
             ShowError = true;
 
-            TypeNames = new ObservableCollection<string>();
+            TypeNames = new FastObservableCollection<string>() { string.Empty };
 
             ResetEntriesCount();
         }
@@ -50,7 +52,7 @@ namespace Orc.Controls.ViewModels
 
         #region Properties
         public List<LogEntry> LogEntries { get { return _logEntries; } }
-        public ObservableCollection<string> TypeNames { get; set; }
+        public FastObservableCollection<string> TypeNames { get; private set; }
 
         public Type LogListenerType { get; set; }
 
@@ -249,6 +251,11 @@ namespace Orc.Controls.ViewModels
 
         private void OnLogMessage(object sender, LogMessageEventArgs e)
         {
+            if (_isClearingLog)
+            {
+                return;
+            }
+
             var logEntry = new LogEntry(e);
 
             logEntry.Data["ThreadId"] = ThreadHelper.GetCurrentThreadId();
@@ -256,6 +263,10 @@ namespace Orc.Controls.ViewModels
             lock (_logEntries)
             {
                 _logEntries.Add(logEntry);
+            }
+
+            lock (TypeNames)
+            {
                 if (!TypeNames.Contains(logEntry.Log.TargetType.Name))
                 {
                     TypeNames.Add(logEntry.Log.TargetType.Name);
@@ -270,16 +281,24 @@ namespace Orc.Controls.ViewModels
 
         public void ClearEntries()
         {
+            _isClearingLog = true;
+
             lock (_logEntries)
             {
                 _logEntries.Clear();
-                if (TypeNames != null)
+            }
+
+            if (TypeNames != null)
+            {
+                lock (TypeNames)
                 {
                     TypeNames.Clear();
                 }
             }
 
             ResetEntriesCount();
+
+            _isClearingLog = false;
         }
 
         private void ResetEntriesCount()

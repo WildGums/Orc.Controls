@@ -46,8 +46,8 @@
         
         <TextBlock Grid.Column="0" Grid.Row="3" Text="Type Name Filter" Margin="5" />
         <ComboBox x:Name="OriginComboBox" Grid.Column="1" Grid.Row="3"
-                  Margin="2" MinWidth="200" ItemsSource="{Binding ElementName=LogViewerControl, Path=ViewModel.TypeNames}">
-        </ComboBox>
+                  Margin="2" MinWidth="200" ItemsSource="{Binding ElementName=LogViewerControl, Path=ViewModel.TypeNames}"/>
+        
         <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
             <ToggleButton x:Name="ShowDebugToggleButton" Height="25" Width="60" Margin="4" 
                           VerticalAlignment="Top" Content="Debug" IsChecked="True" />
