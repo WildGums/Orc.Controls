@@ -50,8 +50,6 @@ namespace Orc.Controls
             ColorSets[LogEvent.Info] = Brushes.Black;
             ColorSets[LogEvent.Warning] = Brushes.DarkOrange;
             ColorSets[LogEvent.Error] = Brushes.Red;
-
-            //Clear();
         }
         #endregion
 
@@ -100,13 +98,13 @@ namespace Orc.Controls
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string TypeFilter
         {
-            get { return (string)GetValue(TypeFilterProperty); }
+            get { return (string) GetValue(TypeFilterProperty); }
             set { SetValue(TypeFilterProperty, value); }
         }
 
-        public static readonly DependencyProperty TypeFilterProperty = DependencyProperty.Register("TypeFilter", typeof(string),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+        public static readonly DependencyProperty TypeFilterProperty = DependencyProperty.Register("TypeFilter", typeof (string),
+            typeof (LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl) sender).UpdateControl()));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public Type LogListenerType

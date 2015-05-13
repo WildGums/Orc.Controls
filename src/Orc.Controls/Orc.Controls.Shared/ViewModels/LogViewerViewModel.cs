@@ -19,6 +19,60 @@ namespace Orc.Controls.ViewModels
 
     public class LogViewerViewModel : ViewModelBase
     {
+        #region Constructors
+        public LogViewerViewModel(ITypeFactory typeFactory)
+        {
+            Argument.IsNotNull(() => typeFactory);
+
+            _typeFactory = typeFactory;
+
+            LogListenerType = typeof (LogViewerLogListener);
+            ShowDebug = true;
+            ShowInfo = true;
+            ShowWarning = true;
+            ShowError = true;
+
+            TypeNames = new FastObservableCollection<string>() {string.Empty};
+
+            ResetEntriesCount();
+        }
+        #endregion
+
+        #region Events
+        public event EventHandler<LogMessageEventArgs> LogMessage;
+        #endregion
+
+        public void ClearEntries()
+        {
+            _isClearingLog = true;
+
+            lock (_logEntries)
+            {
+                _logEntries.Clear();
+            }
+
+            if (TypeNames != null)
+            {
+                lock (TypeNames)
+                {
+                    TypeNames.Clear();
+                    TypeNames.Add(string.Empty);
+                }
+            }
+
+            ResetEntriesCount();
+
+            _isClearingLog = false;
+        }
+
+        private void ResetEntriesCount()
+        {
+            DebugEntriesCount = 0;
+            InfoEntriesCount = 0;
+            WarningEntriesCount = 0;
+            ErrorEntriesCount = 0;
+        }
+
         #region Fields
         private ILogListener _logListener;
 
@@ -31,27 +85,12 @@ namespace Orc.Controls.ViewModels
         private bool _isClearingLog;
         #endregion
 
-        #region Constructors
-        public LogViewerViewModel(ITypeFactory typeFactory)
-        {
-            Argument.IsNotNull(() => typeFactory);
-
-            _typeFactory = typeFactory;
-
-            LogListenerType = typeof(LogViewerLogListener);
-            ShowDebug = true;
-            ShowInfo = true;
-            ShowWarning = true;
-            ShowError = true;
-
-            TypeNames = new FastObservableCollection<string>() { string.Empty };
-
-            ResetEntriesCount();
-        }
-        #endregion
-
         #region Properties
-        public List<LogEntry> LogEntries { get { return _logEntries; } }
+        public List<LogEntry> LogEntries
+        {
+            get { return _logEntries; }
+        }
+
         public FastObservableCollection<string> TypeNames { get; private set; }
 
         public Type LogListenerType { get; set; }
@@ -68,10 +107,6 @@ namespace Orc.Controls.ViewModels
         public int InfoEntriesCount { get; private set; }
         public int WarningEntriesCount { get; private set; }
         public int ErrorEntriesCount { get; private set; }
-        #endregion
-
-        #region Events
-        public event EventHandler<LogMessageEventArgs> LogMessage;
         #endregion
 
         #region Methods
@@ -98,7 +133,7 @@ namespace Orc.Controls.ViewModels
             UnsubscribeLogListener();
 
             ClearEntries();
-            
+
             SubscribeLogListener();
         }
 
@@ -278,35 +313,5 @@ namespace Orc.Controls.ViewModels
             LogMessage.SafeInvoke(this, e);
         }
         #endregion
-
-        public void ClearEntries()
-        {
-            _isClearingLog = true;
-
-            lock (_logEntries)
-            {
-                _logEntries.Clear();
-            }
-
-            if (TypeNames != null)
-            {
-                lock (TypeNames)
-                {
-                    TypeNames.Clear();
-                }
-            }
-
-            ResetEntriesCount();
-
-            _isClearingLog = false;
-        }
-
-        private void ResetEntriesCount()
-        {
-            DebugEntriesCount = 0;
-            InfoEntriesCount = 0;
-            WarningEntriesCount = 0;
-            ErrorEntriesCount = 0;
-        }
     }
 }
