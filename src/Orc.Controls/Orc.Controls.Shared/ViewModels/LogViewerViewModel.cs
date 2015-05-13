@@ -19,9 +19,10 @@ namespace Orc.Controls.ViewModels
 
     public class LogViewerViewModel : ViewModelBase
     {
-        #region
+        #region Constants 
         private const string defaultComboBoxItem = "-- Select type name --";
         #endregion
+
         #region Constructors
         public LogViewerViewModel(ITypeFactory typeFactory)
         {
@@ -255,7 +256,7 @@ namespace Orc.Controls.ViewModels
 
         private bool PassLogFilter(LogEntry logEntry)
         {
-            if (string.IsNullOrEmpty(LogFilter))
+            if (string.IsNullOrEmpty(LogFilter) || LogFilter.Equals(defaultComboBoxItem))
             {
                 return true;
             }
@@ -272,7 +273,7 @@ namespace Orc.Controls.ViewModels
 
         private bool PassTypeFilter(LogEntry logEntry)
         {
-            if (string.IsNullOrEmpty(TypeFilter))
+            if (string.IsNullOrEmpty(TypeFilter) || TypeFilter.Equals(defaultComboBoxItem))
             {
                 return true;
             }
