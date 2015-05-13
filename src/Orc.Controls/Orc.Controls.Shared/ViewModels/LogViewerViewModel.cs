@@ -19,6 +19,9 @@ namespace Orc.Controls.ViewModels
 
     public class LogViewerViewModel : ViewModelBase
     {
+        #region
+        private const string defaultComboBoxItem = "-- Select type name --";
+        #endregion
         #region Constructors
         public LogViewerViewModel(ITypeFactory typeFactory)
         {
@@ -32,7 +35,7 @@ namespace Orc.Controls.ViewModels
             ShowWarning = true;
             ShowError = true;
 
-            TypeNames = new FastObservableCollection<string>() {string.Empty};
+            TypeNames = new FastObservableCollection<string>() { defaultComboBoxItem };
 
             ResetEntriesCount();
         }
@@ -56,7 +59,7 @@ namespace Orc.Controls.ViewModels
                 lock (TypeNames)
                 {
                     TypeNames.Clear();
-                    TypeNames.Add(string.Empty);
+                    TypeNames.Add(defaultComboBoxItem);
                 }
             }
 
