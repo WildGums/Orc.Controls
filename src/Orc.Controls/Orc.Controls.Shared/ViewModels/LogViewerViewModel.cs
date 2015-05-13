@@ -9,6 +9,8 @@ namespace Orc.Controls.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Threading.Tasks;
     using Catel;
     using Catel.IoC;
@@ -40,16 +42,20 @@ namespace Orc.Controls.ViewModels
             ShowWarning = true;
             ShowError = true;
 
+            TypeNames = new ObservableCollection<string>();
+
             ResetEntriesCount();
         }
         #endregion
 
         #region Properties
         public List<LogEntry> LogEntries { get { return _logEntries; } }
+        public ObservableCollection<string> TypeNames { get; set; }
 
         public Type LogListenerType { get; set; }
 
         public string LogFilter { get; set; }
+        public string TypeFilter { get; set; }
 
         public bool ShowDebug { get; set; }
         public bool ShowInfo { get; set; }
@@ -150,7 +156,7 @@ namespace Orc.Controls.ViewModels
 
         public bool IsValidLogEntry(LogEntry logEntry)
         {
-            if (!PassFilter(logEntry))
+            if (!PassFilters(logEntry))
             {
                 return false;
             }
@@ -202,7 +208,12 @@ namespace Orc.Controls.ViewModels
             }
         }
 
-        private bool PassFilter(LogEntry logEntry)
+        private bool PassFilters(LogEntry logEntry)
+        {
+            return PassTypeFilter(logEntry) && PassLogFilter(logEntry);
+        }
+
+        private bool PassLogFilter(LogEntry logEntry)
         {
             if (string.IsNullOrEmpty(LogFilter))
             {
@@ -219,6 +230,23 @@ namespace Orc.Controls.ViewModels
             return false;
         }
 
+        private bool PassTypeFilter(LogEntry logEntry)
+        {
+            if (string.IsNullOrEmpty(TypeFilter))
+            {
+                return true;
+            }
+
+            var isOrigin = logEntry.Log.TargetType.Name.IndexOf(TypeFilter, StringComparison.OrdinalIgnoreCase) >= 0;
+
+            if (isOrigin)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private void OnLogMessage(object sender, LogMessageEventArgs e)
         {
             var logEntry = new LogEntry(e);
@@ -228,6 +256,10 @@ namespace Orc.Controls.ViewModels
             lock (_logEntries)
             {
                 _logEntries.Add(logEntry);
+                if (!TypeNames.Contains(logEntry.Log.TargetType.Name))
+                {
+                    TypeNames.Add(logEntry.Log.TargetType.Name);
+                }
             }
 
             UpdateEntriesCount(logEntry);
@@ -241,6 +273,10 @@ namespace Orc.Controls.ViewModels
             lock (_logEntries)
             {
                 _logEntries.Clear();
+                if (TypeNames != null)
+                {
+                    TypeNames.Clear();
+                }
             }
 
             ResetEntriesCount();

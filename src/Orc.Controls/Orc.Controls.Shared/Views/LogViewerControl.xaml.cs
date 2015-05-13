@@ -98,6 +98,17 @@ namespace Orc.Controls
                 (sender, e) => ((LogViewerControl) sender).UpdateControl()));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public string TypeFilter
+        {
+            get { return (string)GetValue(TypeFilterProperty); }
+            set { SetValue(TypeFilterProperty, value); }
+        }
+
+        public static readonly DependencyProperty TypeFilterProperty = DependencyProperty.Register("TypeFilter", typeof(string),
+            typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public Type LogListenerType
         {
             get { return (Type) GetValue(LogListenerTypeProperty); }
