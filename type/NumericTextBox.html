@@ -1,0 +1,1473 @@
+
+
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Orc.Controls - NumericTextBox</title>
+        <meta name="viewport" content="width=device-width">
+
+					<link rel="stylesheet" type="text/css" href="../assets/css/font.css?version=0.9.6.8" />
+			<link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.css?version=0.9.6.8" />
+			<link rel="stylesheet" type="text/css" href="../assets/css/style.css?version=0.9.6.8" />
+			
+			<!--[if IE 8]>
+				<script src="../assets/js/vendor.ie8.js?version=0.9.6.8"></script>
+			<![endif]-->
+			<![if !IE 8]>
+				<script src="../assets/js/vendor.js?version=0.9.6.8"></script>
+			<![endif]>
+
+			<script src="../assets/js/jquery.layout.min.js?version=0.9.6.8"></script>	
+			<script src="../assets/js/frame.js?version=0.9.6.8"></script>
+			<script src="../assets/js/iframe.js?version=0.9.6.8"></script>
+		
+		<script>hljs.initHighlightingOnLoad();</script>
+
+    </head>
+    <body>        
+        
+		<!-- DropDowns -->
+		<div id="dropdown-1" class="dropdown dropdown-tip">
+			<ul class="dropdown-menu">
+				
+					<li><a href="#AllowDecimalProperty"><img alt="Field-Icon" src="../assets/images/icons/field_public.png"> AllowDecimalProperty</a></li>
+
+				
+					<li><a href="#DoubleZeroProperty"><img alt="Field-Icon" src="../assets/images/icons/field_public.png"> DoubleZeroProperty</a></li>
+
+				
+					<li><a href="#MaxValueProperty"><img alt="Field-Icon" src="../assets/images/icons/field_public.png"> MaxValueProperty</a></li>
+
+				
+					<li><a href="#MinValueProperty"><img alt="Field-Icon" src="../assets/images/icons/field_public.png"> MinValueProperty</a></li>
+
+							</ul>
+		</div>
+
+		<div id="dropdown-2" class="dropdown dropdown-tip">
+			<ul class="dropdown-menu">
+				
+					<li><a href="#LeftBoundReached"><img alt="Event-Icon" src="../assets/images/icons/event_public.png"> LeftBoundReached</a></li>
+
+				
+					<li><a href="#RightBoundReached"><img alt="Event-Icon" src="../assets/images/icons/event_public.png"> RightBoundReached</a></li>
+
+							</ul>
+		</div>
+
+		<div id="dropdown-3" class="dropdown dropdown-tip">
+			<ul class="dropdown-menu">
+				
+					<li><a href="#NumericTextBox"><img alt="Method-Icon" src="../assets/images/icons/method_public.png"> NumericTextBox()</a></li>
+
+				
+				
+					<li><a href="#AllowDecimalChanged"><img alt="Method-Icon" src="../assets/images/icons/method_private.png"> AllowDecimalChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)</a></li>
+
+				
+					<li><a href="#GetNewValue"><img alt="Method-Icon" src="../assets/images/icons/method_private.png"> GetNewValue(Double oldValue, Int32 increment)</a></li>
+
+				
+					<li><a href="#GetText"><img alt="Method-Icon" src="../assets/images/icons/method_private.png"> GetText(String inputText)</a></li>
+
+				
+					<li><a href="#IsDigit"><img alt="Method-Icon" src="../assets/images/icons/method_public.png"> IsDigit(Char c)</a></li>
+
+				
+					<li><a href="#IsValidSymbol"><img alt="Method-Icon" src="../assets/images/icons/method_private.png"> IsValidSymbol(Char c)</a></li>
+
+				
+					<li><a href="#IsValidValue"><img alt="Method-Icon" src="../assets/images/icons/method_private.png"> IsValidValue(Double inputValue)</a></li>
+
+				
+					<li><a href="#LeaveOnlyNumbers"><img alt="Method-Icon" src="../assets/images/icons/method_private.png"> LeaveOnlyNumbers(String inputText)</a></li>
+
+				
+					<li><a href="#OnFormatChanged"><img alt="Method-Icon" src="../assets/images/icons/method_private.png"> OnFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)</a></li>
+
+				
+					<li><a href="#OnMaxValueChanged"><img alt="Method-Icon" src="../assets/images/icons/method_private.png"> OnMaxValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)</a></li>
+
+				
+					<li><a href="#OnMinValueChanged"><img alt="Method-Icon" src="../assets/images/icons/method_private.png"> OnMinValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)</a></li>
+
+				
+					<li><a href="#OnPreviewKeyDown"><img alt="Method-Icon" src="../assets/images/icons/method_protected.png"> OnPreviewKeyDown(KeyEventArgs e)</a></li>
+
+				
+					<li><a href="#OnPreviewTextInput"><img alt="Method-Icon" src="../assets/images/icons/method_protected.png"> OnPreviewTextInput(TextCompositionEventArgs e)</a></li>
+
+				
+					<li><a href="#OnUpDown"><img alt="Method-Icon" src="../assets/images/icons/method_private.png"> OnUpDown(Int32 increment)</a></li>
+
+				
+					<li><a href="#RaiseLeftBoundReachedEvent"><img alt="Method-Icon" src="../assets/images/icons/method_private.png"> RaiseLeftBoundReachedEvent()</a></li>
+
+				
+					<li><a href="#RaiseRightBoundReachedEvent"><img alt="Method-Icon" src="../assets/images/icons/method_private.png"> RaiseRightBoundReachedEvent()</a></li>
+
+				
+					<li><a href="#SelectAllText"><img alt="Method-Icon" src="../assets/images/icons/method_private.png"> SelectAllText(object sender, RoutedEventArgs e)</a></li>
+
+				
+					<li><a href="#SelectivelyIgnoreMouseButton"><img alt="Method-Icon" src="../assets/images/icons/method_private.png"> SelectivelyIgnoreMouseButton(object sender, MouseButtonEventArgs e)</a></li>
+
+							</ul>
+		</div>
+
+		<div id="dropdown-4" class="dropdown dropdown-tip">
+			<ul class="dropdown-menu">
+				
+					<li><a href="#AllowDecimal"><img alt="Property-Icon" src="../assets/images/icons/properties_public.png"> AllowDecimal</a></li>
+
+				
+					<li><a href="#AllTextSelected"><img alt="Property-Icon" src="../assets/images/icons/properties_private.png"> AllTextSelected</a></li>
+
+				
+					<li><a href="#CaretAtEnd"><img alt="Property-Icon" src="../assets/images/icons/properties_private.png"> CaretAtEnd</a></li>
+
+				
+					<li><a href="#CaretAtStart"><img alt="Property-Icon" src="../assets/images/icons/properties_private.png"> CaretAtStart</a></li>
+
+				
+					<li><a href="#DoubleZero"><img alt="Property-Icon" src="../assets/images/icons/properties_public.png"> DoubleZero</a></li>
+
+				
+					<li><a href="#MaxValue"><img alt="Property-Icon" src="../assets/images/icons/properties_public.png"> MaxValue</a></li>
+
+				
+					<li><a href="#MinValue"><img alt="Property-Icon" src="../assets/images/icons/properties_public.png"> MinValue</a></li>
+
+				
+					<li><a href="#Text"><img alt="Property-Icon" src="../assets/images/icons/properties_public.png"> Text</a></li>
+
+				
+					<li><a href="#Value"><img alt="Property-Icon" src="../assets/images/icons/properties_public.png"> Value</a></li>
+
+							</ul>
+		</div>
+		<!-- DropDowns Ende -->
+
+	    <div class="ui-layout-north">
+			<div class="toolbar">
+
+									<a href="#" data-dropdown="#dropdown-1" class="button"><img src="../assets/images/icons/field_public.png"/> Fields <span class="info">(4)</span> <i class="icon-caret-down"></i></a>
+									<a href="#" data-dropdown="#dropdown-2" class="button"><img src="../assets/images/icons/class_public.png"/> Events <span class="info">(2)</span> <i class="icon-caret-down"></i></a>
+									<a href="#" data-dropdown="#dropdown-3" class="button"><img src="../assets/images/icons/method_public.png"/> Methods <span class="info">(18)</span> <i class="icon-caret-down"></i></a>
+									<a href="#" data-dropdown="#dropdown-4" class="button"><img src="../assets/images/icons/properties_public.png"/> Properties <span class="info">(9)</span> <i class="icon-caret-down"></i></a>
+				
+				<div class="right">
+					<span class="toolbar-info"> Namespace: Orc.Controls</span>
+					<a href="#" id="expand-all-button" class="button"><i class="icon-align-justify" title="expand all"></i></a>
+					<a href="#" id="print-button" class="button"><i class="icon-print" title="print"></i></a>
+				</div>
+				<div style="clear:both;"></div>
+			</div>
+		</div>
+        
+		<div class="ui-layout-center">
+
+			<div>
+				<h3 class="box-title first-heading">Syntax</h3>					
+				<div class="syntax-box">
+					<pre class="wrap-pre"><code>public class NumericTextBox</code></pre>
+				</div>
+
+				
+				        
+				
+				
+				
+									<h3 class="box-title">Fields</h3>
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="AllowDecimalProperty" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/field_public.png"/> <p>AllowDecimalProperty</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>public readonly DependencyProperty AllowDecimalProperty</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="DoubleZeroProperty" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/field_public.png"/> <p>DoubleZeroProperty</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>public readonly DependencyProperty DoubleZeroProperty</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="MaxValueProperty" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/field_public.png"/> <p>MaxValueProperty</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>public readonly DependencyProperty MaxValueProperty</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="MinValueProperty" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/field_public.png"/> <p>MinValueProperty</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>public readonly DependencyProperty MinValueProperty</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+									
+									<h3 class="box-title">Events</h3>
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="LeftBoundReached" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/event_public.png"/> <p>LeftBoundReached</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>public LeftBoundReached</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="RightBoundReached" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/event_public.png"/> <p>RightBoundReached</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>public RightBoundReached</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+									
+									<h3 class="box-title">Methods</h3>
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="NumericTextBox" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_public.png"/> <p>NumericTextBox()</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>public void NumericTextBox()</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="AllowDecimalChanged" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_private.png"/> <p>AllowDecimalChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>private static void AllowDecimalChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="GetNewValue" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_private.png"/> <p>GetNewValue(Double oldValue, Int32 increment)</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>private Double GetNewValue(Double oldValue, Int32 increment)</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="GetText" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_private.png"/> <p>GetText(String inputText)</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>private String GetText(String inputText)</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="IsDigit" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_public.png"/> <p>IsDigit(Char c)</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>public Boolean IsDigit(Char c)</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="IsValidSymbol" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_private.png"/> <p>IsValidSymbol(Char c)</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>private Boolean IsValidSymbol(Char c)</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="IsValidValue" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_private.png"/> <p>IsValidValue(Double inputValue)</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>private Boolean IsValidValue(Double inputValue)</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="LeaveOnlyNumbers" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_private.png"/> <p>LeaveOnlyNumbers(String inputText)</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>private String LeaveOnlyNumbers(String inputText)</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="OnFormatChanged" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_private.png"/> <p>OnFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>private static void OnFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="OnMaxValueChanged" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_private.png"/> <p>OnMaxValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>private static void OnMaxValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="OnMinValueChanged" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_private.png"/> <p>OnMinValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>private static void OnMinValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="OnPreviewKeyDown" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_protected.png"/> <p>OnPreviewKeyDown(KeyEventArgs e)</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>protected void OnPreviewKeyDown(KeyEventArgs e)</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+			<div class="svg-diagram">
+				<div id="OnPreviewKeyDown-diagram" class="sd-sequence-diagram svgpan">
+					
+					<svg><g><rect height="35" width="197" x="0.55" y="10.50" fill="#FFFFFF" stroke="#979797" stroke-width="1" /><a xlink:href="../type/NumericTextBox.html" xmlns:xlink="xlink"><text x="15.50" y="32.00" fill="#1382CE" style="" text-anchor="" font-family="" font-size="12.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[Orc.Controls.NumericTextBox]]></text></a><a xlink:href="../type/NumericTextBox.html#OnPreviewKeyDown" xmlns:xlink="xlink"><text x="10.00" y="90.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="12.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[OnPreviewKeyDown]]></text></a><path d="M0.00,100.50L98.89,100.50" stroke="#979797" stroke-width="1" stroke-dasharray="" /><polygon points="98,100 93,95 93,105" fill="#979797" stroke="#979797" stroke-width="" /><text x="20.00" y="125.50" fill="" style="" text-anchor="" font-family="" font-size="10.00" onmouseover="" onmouseout=""><![CDATA[if (e.Key == Key.Right && (CaretAtEnd || CaretAtStart && AllTextSelected))]]></text><a xlink:href="../type/NumericTextBox.html#RaiseRightBoundReachedEvent" xmlns:xlink="xlink"><text x="108.89" y="145.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="12.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[RaiseRightBoundReachedEvent]]></text></a><path d="M98.89,145.50L88.89,145.50" stroke="#979797" stroke-width="1" stroke-dasharray="" /><path d="M88.89,145.50L88.89,155.50" stroke="#979797" stroke-width="1" stroke-dasharray="" /><path d="M88.89,155.50L98.89,155.50" stroke="#979797" stroke-width="1" stroke-dasharray="" /><polygon points="98,155 93,150 93,160" fill="#979797" stroke="#979797" stroke-width="" /><text x="20.00" y="170.50" fill="" style="" text-anchor="" font-family="" font-size="10.00" onmouseover="" onmouseout=""><![CDATA[end]]></text><text x="20.00" y="200.50" fill="" style="" text-anchor="" font-family="" font-size="10.00" onmouseover="" onmouseout=""><![CDATA[if (e.Key == Key.Left && CaretAtStart)]]></text><a xlink:href="../type/NumericTextBox.html#RaiseLeftBoundReachedEvent" xmlns:xlink="xlink"><text x="108.89" y="220.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="12.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[RaiseLeftBoundReachedEvent]]></text></a><path d="M98.89,220.50L88.89,220.50" stroke="#979797" stroke-width="1" stroke-dasharray="" /><path d="M88.89,220.50L88.89,230.50" stroke="#979797" stroke-width="1" stroke-dasharray="" /><path d="M88.89,230.50L98.89,230.50" stroke="#979797" stroke-width="1" stroke-dasharray="" /><polygon points="98,230 93,225 93,235" fill="#979797" stroke="#979797" stroke-width="" /><text x="20.00" y="245.50" fill="" style="" text-anchor="" font-family="" font-size="10.00" onmouseover="" onmouseout=""><![CDATA[end]]></text><text x="20.00" y="275.50" fill="" style="" text-anchor="" font-family="" font-size="10.00" onmouseover="" onmouseout=""><![CDATA[if (e.Key == Key.Up && AllTextSelected)]]></text><a xlink:href="../type/NumericTextBox.html#OnUpDown" xmlns:xlink="xlink"><text x="108.89" y="295.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="12.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[OnUpDown]]></text></a><path d="M98.89,295.50L88.89,295.50" stroke="#979797" stroke-width="1" stroke-dasharray="" /><path d="M88.89,295.50L88.89,305.50" stroke="#979797" stroke-width="1" stroke-dasharray="" /><path d="M88.89,305.50L98.89,305.50" stroke="#979797" stroke-width="1" stroke-dasharray="" /><polygon points="98,305 93,300 93,310" fill="#979797" stroke="#979797" stroke-width="" /><text x="20.00" y="320.50" fill="" style="" text-anchor="" font-family="" font-size="10.00" onmouseover="" onmouseout=""><![CDATA[end]]></text><text x="20.00" y="350.50" fill="" style="" text-anchor="" font-family="" font-size="10.00" onmouseover="" onmouseout=""><![CDATA[if (e.Key == Key.Down)]]></text><a xlink:href="../type/NumericTextBox.html#OnUpDown" xmlns:xlink="xlink"><text x="108.89" y="370.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="12.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[OnUpDown]]></text></a><path d="M98.89,370.50L88.89,370.50" stroke="#979797" stroke-width="1" stroke-dasharray="" /><path d="M88.89,370.50L88.89,380.50" stroke="#979797" stroke-width="1" stroke-dasharray="" /><path d="M88.89,380.50L98.89,380.50" stroke="#979797" stroke-width="1" stroke-dasharray="" /><polygon points="98,380 93,375 93,385" fill="#979797" stroke="#979797" stroke-width="" /><text x="20.00" y="395.50" fill="" style="" text-anchor="" font-family="" font-size="10.00" onmouseover="" onmouseout=""><![CDATA[end]]></text><path d="M98.59,45L98.59,415.55" stroke="#979797" stroke-width="1" stroke-dasharray="" /></g></svg>
+				</div>
+				<div class="legend">
+					<p class="save"><a href="#"><i class="icon-save"></i>save</a></p>
+					<p class="resetZoom"><a href="#"><i class="icon-refresh"></i>reset</a></p>
+					<p>Drag to pan - Use Mousewheel + Ctrl to zoom</p>
+				</div>
+			</div>
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="OnPreviewTextInput" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_protected.png"/> <p>OnPreviewTextInput(TextCompositionEventArgs e)</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>protected void OnPreviewTextInput(TextCompositionEventArgs e)</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="OnUpDown" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_private.png"/> <p>OnUpDown(Int32 increment)</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>private void OnUpDown(Int32 increment)</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="RaiseLeftBoundReachedEvent" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_private.png"/> <p>RaiseLeftBoundReachedEvent()</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>private void RaiseLeftBoundReachedEvent()</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="RaiseRightBoundReachedEvent" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_private.png"/> <p>RaiseRightBoundReachedEvent()</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>private void RaiseRightBoundReachedEvent()</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="SelectAllText" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_private.png"/> <p>SelectAllText(object sender, RoutedEventArgs e)</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>private static void SelectAllText(object sender, RoutedEventArgs e)</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="SelectivelyIgnoreMouseButton" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/method_private.png"/> <p>SelectivelyIgnoreMouseButton(object sender, MouseButtonEventArgs e)</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>private static void SelectivelyIgnoreMouseButton(object sender, MouseButtonEventArgs e)</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+									
+									<h3 class="box-title">Properties</h3>
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="AllowDecimal" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/properties_public.png"/> <p>AllowDecimal</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>public Boolean AllowDecimal { get; set; }</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="AllTextSelected" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/properties_private.png"/> <p>AllTextSelected</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>private Boolean AllTextSelected { get; }</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="CaretAtEnd" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/properties_private.png"/> <p>CaretAtEnd</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>private Boolean CaretAtEnd { get; }</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="CaretAtStart" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/properties_private.png"/> <p>CaretAtStart</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>private Boolean CaretAtStart { get; }</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="DoubleZero" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/properties_public.png"/> <p>DoubleZero</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>public Boolean DoubleZero { get; set; }</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="MaxValue" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/properties_public.png"/> <p>MaxValue</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>public Double MaxValue { get; set; }</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="MinValue" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/properties_public.png"/> <p>MinValue</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>public Double MinValue { get; set; }</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="Text" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/properties_public.png"/> <p>Text</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>public String Text { get; set; }</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+											
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="Value" class="member">
+	<div class="member-header">		
+		<a href="#"><i class="icon-caret-right"></i><img src="../assets/images/icons/properties_public.png"/> <p>Value</p></a>
+		
+	</div>
+
+	<div class="member-content">
+
+		<div class="syntax-box">
+			<pre class="wrap-pre"><code>public Double Value { get; set; }</code></pre>
+		</div>		
+        
+		
+
+		
+
+		
+
+	</div>
+</div>
+
+
+									
+									<div class="svg-diagram">
+						<h3 class="box-title">Class Diagram</h3>
+						<div id="sd-class-diagram" class="svgpan">
+														<svg><g transform="translate(0.00, 50.00)"><rect height="906" width="282" x="0.55" y="0.55" fill="#FFFFFF" stroke="#979797" stroke-width="1" /><text x="107.51" y="20.50" fill="" style="" text-anchor="" font-family="" font-size="11.00" onmouseover="" onmouseout=""><![CDATA[public  class]]></text><a xlink:href="../type/NumericTextBox.html" xmlns:xlink="xlink"><text x="84.25" y="35.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[NumericTextBox]]></text></a><path d="M0.5,45.50L282.00,45.50" stroke="#979797" stroke-width="1" stroke-dasharray="" /><image width="16.00" height="16.00" x="15.00" y="53.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAIdQTFRF/wD/0ub4fbLl5/H7zeP5eK/jir3uebDj3u360+f6ebDkkMT2mc3/jsLz0ub51ej7e7Lli8D0odD+ncnyKVqwfLPnkcPxnc/+n9D+stj7Hk6pADOZW5vYgrfqo9H+KFevfLTpr9b8NWO1+vv9XJvYvsvlv9jvWprXtcThwtnwxdvxrL3e////zYeNhAAAAAF0Uk5TAEDm2GYAAAABYktHRCy63XGrAAAACXBIWXMAAAsSAAALEgHS3X78AAAAY0lEQVQY042PRw6AIBREsTfsFT/2rve/n7qQgCtm914mmQxC0lFUTWDdMC2bY8f1sG8FjMMoxjhJMybyosQVqYEJ2pCWdMAJ2g8jAEyfmCl9EBbWWLdX7NzssYmM0AmX/Ktfbim3BoCVQkjeAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUyOjM3KzAyOjAww0o2dwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#AllowDecimalProperty" xmlns:xlink="xlink"><text x="40.00" y="65.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[AllowDecimalProperty]]></text></a><image width="16.00" height="16.00" x="15.00" y="78.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAIdQTFRF/wD/0ub4fbLl5/H7zeP5eK/jir3uebDj3u360+f6ebDkkMT2mc3/jsLz0ub51ej7e7Lli8D0odD+ncnyKVqwfLPnkcPxnc/+n9D+stj7Hk6pADOZW5vYgrfqo9H+KFevfLTpr9b8NWO1+vv9XJvYvsvlv9jvWprXtcThwtnwxdvxrL3e////zYeNhAAAAAF0Uk5TAEDm2GYAAAABYktHRCy63XGrAAAACXBIWXMAAAsSAAALEgHS3X78AAAAY0lEQVQY042PRw6AIBREsTfsFT/2rve/n7qQgCtm914mmQxC0lFUTWDdMC2bY8f1sG8FjMMoxjhJMybyosQVqYEJ2pCWdMAJ2g8jAEyfmCl9EBbWWLdX7NzssYmM0AmX/Ktfbim3BoCVQkjeAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUyOjM3KzAyOjAww0o2dwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#DoubleZeroProperty" xmlns:xlink="xlink"><text x="40.00" y="90.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[DoubleZeroProperty]]></text></a><image width="16.00" height="16.00" x="15.00" y="103.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAIdQTFRF/wD/0ub4fbLl5/H7zeP5eK/jir3uebDj3u360+f6ebDkkMT2mc3/jsLz0ub51ej7e7Lli8D0odD+ncnyKVqwfLPnkcPxnc/+n9D+stj7Hk6pADOZW5vYgrfqo9H+KFevfLTpr9b8NWO1+vv9XJvYvsvlv9jvWprXtcThwtnwxdvxrL3e////zYeNhAAAAAF0Uk5TAEDm2GYAAAABYktHRCy63XGrAAAACXBIWXMAAAsSAAALEgHS3X78AAAAY0lEQVQY042PRw6AIBREsTfsFT/2rve/n7qQgCtm914mmQxC0lFUTWDdMC2bY8f1sG8FjMMoxjhJMybyosQVqYEJ2pCWdMAJ2g8jAEyfmCl9EBbWWLdX7NzssYmM0AmX/Ktfbim3BoCVQkjeAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUyOjM3KzAyOjAww0o2dwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#MaxValueProperty" xmlns:xlink="xlink"><text x="40.00" y="115.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[MaxValueProperty]]></text></a><image width="16.00" height="16.00" x="15.00" y="128.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAIdQTFRF/wD/0ub4fbLl5/H7zeP5eK/jir3uebDj3u360+f6ebDkkMT2mc3/jsLz0ub51ej7e7Lli8D0odD+ncnyKVqwfLPnkcPxnc/+n9D+stj7Hk6pADOZW5vYgrfqo9H+KFevfLTpr9b8NWO1+vv9XJvYvsvlv9jvWprXtcThwtnwxdvxrL3e////zYeNhAAAAAF0Uk5TAEDm2GYAAAABYktHRCy63XGrAAAACXBIWXMAAAsSAAALEgHS3X78AAAAY0lEQVQY042PRw6AIBREsTfsFT/2rve/n7qQgCtm914mmQxC0lFUTWDdMC2bY8f1sG8FjMMoxjhJMybyosQVqYEJ2pCWdMAJ2g8jAEyfmCl9EBbWWLdX7NzssYmM0AmX/Ktfbim3BoCVQkjeAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUyOjM3KzAyOjAww0o2dwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#MinValueProperty" xmlns:xlink="xlink"><text x="40.00" y="140.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[MinValueProperty]]></text></a><path d="M0.5,155.50L282.00,155.50" stroke="#979797" stroke-width="1" stroke-dasharray="" /><image width="16.00" height="16.00" x="15.00" y="163.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAK5QTFRF/wD/+fTj3cyO59CJ5s+J3cWCyLJ4rJdqz8Gh58hZ/OSw/+R/7sKJ6KV84YeCWFNL9/f2+PPe/vLZ+tF26ap+amJI5uXi6rB/iHpK9u/T9cBuoItG29rU/f398syU772Q6aCBXkcw6eXfrpdgl4NTeWxGjIJca08p5eDX+/r4xriQjGgi3tjOyr6flW8f5eHa6+PU8MaSn3gd4t3VwLmkrYIg5+Pep5Rg6ebh////k3ZjpAAAAAF0Uk5TAEDm2GYAAAABYktHRDnXAJVAAAAACXBIWXMAAAsSAAALEgHS3X78AAAAcElEQVQY02NgIBcwMjGzsLKxc8AFOLm4eXj5+AVgfEFOIWERPlExJAXC4nwSCL4kp5AUn7SMLEIBN7ecvAKfohJMQFlFVU2YT10DYaumljCftg6SM3SF+fT0kfgGhnxGxsjuNJE3NUNxuIG5BW5fAQAwpAe0PokbbgAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxMi0wNy0yOVQxMTo1MjoxOCswMjowMHcnQeMAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTAtMDQtMDNUMDU6MTE6MjArMDI6MDAQy5Z4AAAAAElFTkSuQmCC" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#LeftBoundReached" xmlns:xlink="xlink"><text x="40.00" y="175.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[LeftBoundReached]]></text></a><image width="16.00" height="16.00" x="15.00" y="188.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAK5QTFRF/wD/+fTj3cyO59CJ5s+J3cWCyLJ4rJdqz8Gh58hZ/OSw/+R/7sKJ6KV84YeCWFNL9/f2+PPe/vLZ+tF26ap+amJI5uXi6rB/iHpK9u/T9cBuoItG29rU/f398syU772Q6aCBXkcw6eXfrpdgl4NTeWxGjIJca08p5eDX+/r4xriQjGgi3tjOyr6flW8f5eHa6+PU8MaSn3gd4t3VwLmkrYIg5+Pep5Rg6ebh////k3ZjpAAAAAF0Uk5TAEDm2GYAAAABYktHRDnXAJVAAAAACXBIWXMAAAsSAAALEgHS3X78AAAAcElEQVQY02NgIBcwMjGzsLKxc8AFOLm4eXj5+AVgfEFOIWERPlExJAXC4nwSCL4kp5AUn7SMLEIBN7ecvAKfohJMQFlFVU2YT10DYaumljCftg6SM3SF+fT0kfgGhnxGxsjuNJE3NUNxuIG5BW5fAQAwpAe0PokbbgAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxMi0wNy0yOVQxMTo1MjoxOCswMjowMHcnQeMAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTAtMDQtMDNUMDU6MTE6MjArMDI6MDAQy5Z4AAAAAElFTkSuQmCC" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#RightBoundReached" xmlns:xlink="xlink"><text x="40.00" y="200.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[RightBoundReached]]></text></a><path d="M0.5,215.50L282.00,215.50" stroke="#979797" stroke-width="1" stroke-dasharray="" /><image width="16.00" height="16.00" x="15.00" y="223.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAT5QTFRF/wD/8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0/Pz8plCnu2+87qXv+pv7+pn75pjnkE6R+vr66eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58qVKq0WrS1W/VvHC93ZjejkaPnDydfi5++ff58PL0ytHeuMDSsrvOrLfL09jb5MrkqFCp0mvT027UfjB/nzyfjTWOfC193+PqoKvC0tfieoqh6NHoqVCqy2fMlTiWeit78NXwmKe8vcbWb4CX7djtfzCAdSd169Hr4+bqkJ60ydDdZHaNZHaO7NLscSRy5szmvsfWY3WNu8PUQUtYXW+HyM7ZVWiBxMzauMHSq7fLT2J7dYWcbX+WZ3eQXnCJV2qCT2N8////nLrfiwAAAAF0Uk5TAEDm2GYAAAABYktHRGm8a8S0AAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NggANGJmYGZMDIxMLEisRnY2Ln4GTiArO5eXj5+JkEBIWEhJlEGEShKsTEJSSFpKRlGGS55XjkFRQZlJTFJVRU1dQZZKEqNDS1tHV09fQZDAyNjE1MzRjMLSytrG1s7RgYjOxNHRydGBicXVz13dw9GAwdPRkYvLwNGRh8LHz9/BkYAhwDg4KCQwKAxoSGhQPJIHsgcIyIhLswyj46OtrROAYuYGofGx0baxIHF3Awio9IMElMggsEJKekpqVnBMD4ALbeHpAzaZa1AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjA2KzAyOjAwBHBRHgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#AllowDecimalChanged" xmlns:xlink="xlink"><text x="40.00" y="235.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[AllowDecimalChanged]]></text></a><image width="16.00" height="16.00" x="15.00" y="248.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAT5QTFRF/wD/8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0/Pz8plCnu2+87qXv+pv7+pn75pjnkE6R+vr66eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58qVKq0WrS1W/VvHC93ZjejkaPnDydfi5++ff58PL0ytHeuMDSsrvOrLfL09jb5MrkqFCp0mvT027UfjB/nzyfjTWOfC193+PqoKvC0tfieoqh6NHoqVCqy2fMlTiWeit78NXwmKe8vcbWb4CX7djtfzCAdSd169Hr4+bqkJ60ydDdZHaNZHaO7NLscSRy5szmvsfWY3WNu8PUQUtYXW+HyM7ZVWiBxMzauMHSq7fLT2J7dYWcbX+WZ3eQXnCJV2qCT2N8////nLrfiwAAAAF0Uk5TAEDm2GYAAAABYktHRGm8a8S0AAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NggANGJmYGZMDIxMLEisRnY2Ln4GTiArO5eXj5+JkEBIWEhJlEGEShKsTEJSSFpKRlGGS55XjkFRQZlJTFJVRU1dQZZKEqNDS1tHV09fQZDAyNjE1MzRjMLSytrG1s7RgYjOxNHRydGBicXVz13dw9GAwdPRkYvLwNGRh8LHz9/BkYAhwDg4KCQwKAxoSGhQPJIHsgcIyIhLswyj46OtrROAYuYGofGx0baxIHF3Awio9IMElMggsEJKekpqVnBMD4ALbeHpAzaZa1AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjA2KzAyOjAwBHBRHgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#GetNewValue" xmlns:xlink="xlink"><text x="40.00" y="260.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[GetNewValue]]></text></a><image width="16.00" height="16.00" x="15.00" y="273.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAT5QTFRF/wD/8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0/Pz8plCnu2+87qXv+pv7+pn75pjnkE6R+vr66eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58qVKq0WrS1W/VvHC93ZjejkaPnDydfi5++ff58PL0ytHeuMDSsrvOrLfL09jb5MrkqFCp0mvT027UfjB/nzyfjTWOfC193+PqoKvC0tfieoqh6NHoqVCqy2fMlTiWeit78NXwmKe8vcbWb4CX7djtfzCAdSd169Hr4+bqkJ60ydDdZHaNZHaO7NLscSRy5szmvsfWY3WNu8PUQUtYXW+HyM7ZVWiBxMzauMHSq7fLT2J7dYWcbX+WZ3eQXnCJV2qCT2N8////nLrfiwAAAAF0Uk5TAEDm2GYAAAABYktHRGm8a8S0AAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NggANGJmYGZMDIxMLEisRnY2Ln4GTiArO5eXj5+JkEBIWEhJlEGEShKsTEJSSFpKRlGGS55XjkFRQZlJTFJVRU1dQZZKEqNDS1tHV09fQZDAyNjE1MzRjMLSytrG1s7RgYjOxNHRydGBicXVz13dw9GAwdPRkYvLwNGRh8LHz9/BkYAhwDg4KCQwKAxoSGhQPJIHsgcIyIhLswyj46OtrROAYuYGofGx0baxIHF3Awio9IMElMggsEJKekpqVnBMD4ALbeHpAzaZa1AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjA2KzAyOjAwBHBRHgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#GetText" xmlns:xlink="xlink"><text x="40.00" y="285.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[GetText]]></text></a><image width="16.00" height="16.00" x="15.00" y="298.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAANtQTFRF/wD//vv+8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0plCnu2+87qXv+pv7+pn75pjnkE6R6eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58qVKq0WrS1W/VvHC93ZjejkaPnDydfi5+5eKrzM6stbutnKeu5MrkqFCp0mvT027UfjB/nzyfjTWOfC196NHoqVCqy2fMlTiWeit78NXw7djtfzCAdSd169Hr7NLscSRy5szm////y4eOhgAAAAF0Uk5TAEDm2GYAAAABYktHREjwAtTqAAAACXBIWXMAAAsSAAALEgHS3X78AAAAeUlEQVQY02NgwAMY0fhMzCxofFZmNiQ+OzMHJxczN5jNw8vHL8AsKCQsLMIsClchJi4hKSwlLQOUl+WVk1dgUFQSl1BWUVWDq1DX0NTS1tHVAxmhb2BoxGBsYmpmbmFphbDG2sZWz87eAcliRxMnZxcUp7m6uTOQAwDo6wrtzia2FQAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxMi0wNy0yOVQxMTo1MzowNiswMjowMARwUR4AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTAtMDQtMDNUMDU6MTE6MjArMDI6MDAQy5Z4AAAAAElFTkSuQmCC" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#IsDigit" xmlns:xlink="xlink"><text x="40.00" y="310.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[IsDigit]]></text></a><image width="16.00" height="16.00" x="15.00" y="323.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAT5QTFRF/wD/8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0/Pz8plCnu2+87qXv+pv7+pn75pjnkE6R+vr66eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58qVKq0WrS1W/VvHC93ZjejkaPnDydfi5++ff58PL0ytHeuMDSsrvOrLfL09jb5MrkqFCp0mvT027UfjB/nzyfjTWOfC193+PqoKvC0tfieoqh6NHoqVCqy2fMlTiWeit78NXwmKe8vcbWb4CX7djtfzCAdSd169Hr4+bqkJ60ydDdZHaNZHaO7NLscSRy5szmvsfWY3WNu8PUQUtYXW+HyM7ZVWiBxMzauMHSq7fLT2J7dYWcbX+WZ3eQXnCJV2qCT2N8////nLrfiwAAAAF0Uk5TAEDm2GYAAAABYktHRGm8a8S0AAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NggANGJmYGZMDIxMLEisRnY2Ln4GTiArO5eXj5+JkEBIWEhJlEGEShKsTEJSSFpKRlGGS55XjkFRQZlJTFJVRU1dQZZKEqNDS1tHV09fQZDAyNjE1MzRjMLSytrG1s7RgYjOxNHRydGBicXVz13dw9GAwdPRkYvLwNGRh8LHz9/BkYAhwDg4KCQwKAxoSGhQPJIHsgcIyIhLswyj46OtrROAYuYGofGx0baxIHF3Awio9IMElMggsEJKekpqVnBMD4ALbeHpAzaZa1AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjA2KzAyOjAwBHBRHgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#IsValidSymbol" xmlns:xlink="xlink"><text x="40.00" y="335.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[IsValidSymbol]]></text></a><image width="16.00" height="16.00" x="15.00" y="348.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAT5QTFRF/wD/8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0/Pz8plCnu2+87qXv+pv7+pn75pjnkE6R+vr66eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58qVKq0WrS1W/VvHC93ZjejkaPnDydfi5++ff58PL0ytHeuMDSsrvOrLfL09jb5MrkqFCp0mvT027UfjB/nzyfjTWOfC193+PqoKvC0tfieoqh6NHoqVCqy2fMlTiWeit78NXwmKe8vcbWb4CX7djtfzCAdSd169Hr4+bqkJ60ydDdZHaNZHaO7NLscSRy5szmvsfWY3WNu8PUQUtYXW+HyM7ZVWiBxMzauMHSq7fLT2J7dYWcbX+WZ3eQXnCJV2qCT2N8////nLrfiwAAAAF0Uk5TAEDm2GYAAAABYktHRGm8a8S0AAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NggANGJmYGZMDIxMLEisRnY2Ln4GTiArO5eXj5+JkEBIWEhJlEGEShKsTEJSSFpKRlGGS55XjkFRQZlJTFJVRU1dQZZKEqNDS1tHV09fQZDAyNjE1MzRjMLSytrG1s7RgYjOxNHRydGBicXVz13dw9GAwdPRkYvLwNGRh8LHz9/BkYAhwDg4KCQwKAxoSGhQPJIHsgcIyIhLswyj46OtrROAYuYGofGx0baxIHF3Awio9IMElMggsEJKekpqVnBMD4ALbeHpAzaZa1AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjA2KzAyOjAwBHBRHgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#IsValidValue" xmlns:xlink="xlink"><text x="40.00" y="360.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[IsValidValue]]></text></a><image width="16.00" height="16.00" x="15.00" y="373.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAT5QTFRF/wD/8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0/Pz8plCnu2+87qXv+pv7+pn75pjnkE6R+vr66eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58qVKq0WrS1W/VvHC93ZjejkaPnDydfi5++ff58PL0ytHeuMDSsrvOrLfL09jb5MrkqFCp0mvT027UfjB/nzyfjTWOfC193+PqoKvC0tfieoqh6NHoqVCqy2fMlTiWeit78NXwmKe8vcbWb4CX7djtfzCAdSd169Hr4+bqkJ60ydDdZHaNZHaO7NLscSRy5szmvsfWY3WNu8PUQUtYXW+HyM7ZVWiBxMzauMHSq7fLT2J7dYWcbX+WZ3eQXnCJV2qCT2N8////nLrfiwAAAAF0Uk5TAEDm2GYAAAABYktHRGm8a8S0AAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NggANGJmYGZMDIxMLEisRnY2Ln4GTiArO5eXj5+JkEBIWEhJlEGEShKsTEJSSFpKRlGGS55XjkFRQZlJTFJVRU1dQZZKEqNDS1tHV09fQZDAyNjE1MzRjMLSytrG1s7RgYjOxNHRydGBicXVz13dw9GAwdPRkYvLwNGRh8LHz9/BkYAhwDg4KCQwKAxoSGhQPJIHsgcIyIhLswyj46OtrROAYuYGofGx0baxIHF3Awio9IMElMggsEJKekpqVnBMD4ALbeHpAzaZa1AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjA2KzAyOjAwBHBRHgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#LeaveOnlyNumbers" xmlns:xlink="xlink"><text x="40.00" y="385.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[LeaveOnlyNumbers]]></text></a><image width="16.00" height="16.00" x="15.00" y="398.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAT5QTFRF/wD/8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0/Pz8plCnu2+87qXv+pv7+pn75pjnkE6R+vr66eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58qVKq0WrS1W/VvHC93ZjejkaPnDydfi5++ff58PL0ytHeuMDSsrvOrLfL09jb5MrkqFCp0mvT027UfjB/nzyfjTWOfC193+PqoKvC0tfieoqh6NHoqVCqy2fMlTiWeit78NXwmKe8vcbWb4CX7djtfzCAdSd169Hr4+bqkJ60ydDdZHaNZHaO7NLscSRy5szmvsfWY3WNu8PUQUtYXW+HyM7ZVWiBxMzauMHSq7fLT2J7dYWcbX+WZ3eQXnCJV2qCT2N8////nLrfiwAAAAF0Uk5TAEDm2GYAAAABYktHRGm8a8S0AAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NggANGJmYGZMDIxMLEisRnY2Ln4GTiArO5eXj5+JkEBIWEhJlEGEShKsTEJSSFpKRlGGS55XjkFRQZlJTFJVRU1dQZZKEqNDS1tHV09fQZDAyNjE1MzRjMLSytrG1s7RgYjOxNHRydGBicXVz13dw9GAwdPRkYvLwNGRh8LHz9/BkYAhwDg4KCQwKAxoSGhQPJIHsgcIyIhLswyj46OtrROAYuYGofGx0baxIHF3Awio9IMElMggsEJKekpqVnBMD4ALbeHpAzaZa1AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjA2KzAyOjAwBHBRHgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#OnFormatChanged" xmlns:xlink="xlink"><text x="40.00" y="410.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[OnFormatChanged]]></text></a><image width="16.00" height="16.00" x="15.00" y="423.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAT5QTFRF/wD/8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0/Pz8plCnu2+87qXv+pv7+pn75pjnkE6R+vr66eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58qVKq0WrS1W/VvHC93ZjejkaPnDydfi5++ff58PL0ytHeuMDSsrvOrLfL09jb5MrkqFCp0mvT027UfjB/nzyfjTWOfC193+PqoKvC0tfieoqh6NHoqVCqy2fMlTiWeit78NXwmKe8vcbWb4CX7djtfzCAdSd169Hr4+bqkJ60ydDdZHaNZHaO7NLscSRy5szmvsfWY3WNu8PUQUtYXW+HyM7ZVWiBxMzauMHSq7fLT2J7dYWcbX+WZ3eQXnCJV2qCT2N8////nLrfiwAAAAF0Uk5TAEDm2GYAAAABYktHRGm8a8S0AAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NggANGJmYGZMDIxMLEisRnY2Ln4GTiArO5eXj5+JkEBIWEhJlEGEShKsTEJSSFpKRlGGS55XjkFRQZlJTFJVRU1dQZZKEqNDS1tHV09fQZDAyNjE1MzRjMLSytrG1s7RgYjOxNHRydGBicXVz13dw9GAwdPRkYvLwNGRh8LHz9/BkYAhwDg4KCQwKAxoSGhQPJIHsgcIyIhLswyj46OtrROAYuYGofGx0baxIHF3Awio9IMElMggsEJKekpqVnBMD4ALbeHpAzaZa1AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjA2KzAyOjAwBHBRHgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#OnMaxValueChanged" xmlns:xlink="xlink"><text x="40.00" y="435.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[OnMaxValueChanged]]></text></a><image width="16.00" height="16.00" x="15.00" y="448.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAT5QTFRF/wD/8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0/Pz8plCnu2+87qXv+pv7+pn75pjnkE6R+vr66eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58qVKq0WrS1W/VvHC93ZjejkaPnDydfi5++ff58PL0ytHeuMDSsrvOrLfL09jb5MrkqFCp0mvT027UfjB/nzyfjTWOfC193+PqoKvC0tfieoqh6NHoqVCqy2fMlTiWeit78NXwmKe8vcbWb4CX7djtfzCAdSd169Hr4+bqkJ60ydDdZHaNZHaO7NLscSRy5szmvsfWY3WNu8PUQUtYXW+HyM7ZVWiBxMzauMHSq7fLT2J7dYWcbX+WZ3eQXnCJV2qCT2N8////nLrfiwAAAAF0Uk5TAEDm2GYAAAABYktHRGm8a8S0AAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NggANGJmYGZMDIxMLEisRnY2Ln4GTiArO5eXj5+JkEBIWEhJlEGEShKsTEJSSFpKRlGGS55XjkFRQZlJTFJVRU1dQZZKEqNDS1tHV09fQZDAyNjE1MzRjMLSytrG1s7RgYjOxNHRydGBicXVz13dw9GAwdPRkYvLwNGRh8LHz9/BkYAhwDg4KCQwKAxoSGhQPJIHsgcIyIhLswyj46OtrROAYuYGofGx0baxIHF3Awio9IMElMggsEJKekpqVnBMD4ALbeHpAzaZa1AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjA2KzAyOjAwBHBRHgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#OnMinValueChanged" xmlns:xlink="xlink"><text x="40.00" y="460.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[OnMinValueChanged]]></text></a><image width="16.00" height="16.00" x="15.00" y="473.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAASNQTFRF/wD/8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0plCnu2+87qXv+pv7+pn75pjnkE6R/Pz86eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58+vr6qVKq0WrS1W/VvHC93ZjejkaPnDydfi5+7eLK07h/y691yKlfz7+T0NbZ5MrkqFCp0mvT027UfjB/nzyfjTWOfC196t7G9eyy+NhopoU459ez6NHoqVCqy2fMlTiWeit78NXw9euu/vWsjGsf3bxa/88yo4Au7djtfzCAdSd169Hr7tuW7sAv7NLscSRy5szm8OjW6+HN5NvG7ure6Mhdj24i8Ovf9vLp////QObm/wAAAAF0Uk5TAEDm2GYAAAABYktHRGDFt3wQAAAACXBIWXMAAAsSAAALEgHS3X78AAAAs0lEQVQY02NggANGJmYGZMDIxMLEisRnY2Ln4GTiArO5eXj5+JkEBIWEhJlE4CpExcQlhCSlpBlkuGV55OQVGBSVxMSVVVTVGNShKjQ0tbR1dPX0GdQNDI2MTUwZzMwtLK2sbWwZ7AztHRwcnRgYnF1c9d3cPRgMPb28fXz9gJr8zQMCgxgYDIMdfHxCQAIMoWHhQDLC2NchxC8SyYlRPg5+0Sie8HGA6EAIxMTGoQjEo/ABB3UZPUWDqOwAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTItMDctMjlUMTE6NTM6MDYrMDI6MDAEcFEeAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDEwLTA0LTAzVDA1OjExOjIwKzAyOjAwEMuWeAAAAABJRU5ErkJggg==" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#OnPreviewKeyDown" xmlns:xlink="xlink"><text x="40.00" y="485.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[OnPreviewKeyDown]]></text></a><image width="16.00" height="16.00" x="15.00" y="498.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAASNQTFRF/wD/8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0plCnu2+87qXv+pv7+pn75pjnkE6R/Pz86eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58+vr6qVKq0WrS1W/VvHC93ZjejkaPnDydfi5+7eLK07h/y691yKlfz7+T0NbZ5MrkqFCp0mvT027UfjB/nzyfjTWOfC196t7G9eyy+NhopoU459ez6NHoqVCqy2fMlTiWeit78NXw9euu/vWsjGsf3bxa/88yo4Au7djtfzCAdSd169Hr7tuW7sAv7NLscSRy5szm8OjW6+HN5NvG7ure6Mhdj24i8Ovf9vLp////QObm/wAAAAF0Uk5TAEDm2GYAAAABYktHRGDFt3wQAAAACXBIWXMAAAsSAAALEgHS3X78AAAAs0lEQVQY02NggANGJmYGZMDIxMLEisRnY2Ln4GTiArO5eXj5+JkEBIWEhJlE4CpExcQlhCSlpBlkuGV55OQVGBSVxMSVVVTVGNShKjQ0tbR1dPX0GdQNDI2MTUwZzMwtLK2sbWwZ7AztHRwcnRgYnF1c9d3cPRgMPb28fXz9gJr8zQMCgxgYDIMdfHxCQAIMoWHhQDLC2NchxC8SyYlRPg5+0Sie8HGA6EAIxMTGoQjEo/ABB3UZPUWDqOwAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTItMDctMjlUMTE6NTM6MDYrMDI6MDAEcFEeAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDEwLTA0LTAzVDA1OjExOjIwKzAyOjAwEMuWeAAAAABJRU5ErkJggg==" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#OnPreviewTextInput" xmlns:xlink="xlink"><text x="40.00" y="510.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[OnPreviewTextInput]]></text></a><image width="16.00" height="16.00" x="15.00" y="523.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAT5QTFRF/wD/8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0/Pz8plCnu2+87qXv+pv7+pn75pjnkE6R+vr66eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58qVKq0WrS1W/VvHC93ZjejkaPnDydfi5++ff58PL0ytHeuMDSsrvOrLfL09jb5MrkqFCp0mvT027UfjB/nzyfjTWOfC193+PqoKvC0tfieoqh6NHoqVCqy2fMlTiWeit78NXwmKe8vcbWb4CX7djtfzCAdSd169Hr4+bqkJ60ydDdZHaNZHaO7NLscSRy5szmvsfWY3WNu8PUQUtYXW+HyM7ZVWiBxMzauMHSq7fLT2J7dYWcbX+WZ3eQXnCJV2qCT2N8////nLrfiwAAAAF0Uk5TAEDm2GYAAAABYktHRGm8a8S0AAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NggANGJmYGZMDIxMLEisRnY2Ln4GTiArO5eXj5+JkEBIWEhJlEGEShKsTEJSSFpKRlGGS55XjkFRQZlJTFJVRU1dQZZKEqNDS1tHV09fQZDAyNjE1MzRjMLSytrG1s7RgYjOxNHRydGBicXVz13dw9GAwdPRkYvLwNGRh8LHz9/BkYAhwDg4KCQwKAxoSGhQPJIHsgcIyIhLswyj46OtrROAYuYGofGx0baxIHF3Awio9IMElMggsEJKekpqVnBMD4ALbeHpAzaZa1AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjA2KzAyOjAwBHBRHgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#OnUpDown" xmlns:xlink="xlink"><text x="40.00" y="535.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[OnUpDown]]></text></a><image width="16.00" height="16.00" x="15.00" y="548.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAT5QTFRF/wD/8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0/Pz8plCnu2+87qXv+pv7+pn75pjnkE6R+vr66eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58qVKq0WrS1W/VvHC93ZjejkaPnDydfi5++ff58PL0ytHeuMDSsrvOrLfL09jb5MrkqFCp0mvT027UfjB/nzyfjTWOfC193+PqoKvC0tfieoqh6NHoqVCqy2fMlTiWeit78NXwmKe8vcbWb4CX7djtfzCAdSd169Hr4+bqkJ60ydDdZHaNZHaO7NLscSRy5szmvsfWY3WNu8PUQUtYXW+HyM7ZVWiBxMzauMHSq7fLT2J7dYWcbX+WZ3eQXnCJV2qCT2N8////nLrfiwAAAAF0Uk5TAEDm2GYAAAABYktHRGm8a8S0AAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NggANGJmYGZMDIxMLEisRnY2Ln4GTiArO5eXj5+JkEBIWEhJlEGEShKsTEJSSFpKRlGGS55XjkFRQZlJTFJVRU1dQZZKEqNDS1tHV09fQZDAyNjE1MzRjMLSytrG1s7RgYjOxNHRydGBicXVz13dw9GAwdPRkYvLwNGRh8LHz9/BkYAhwDg4KCQwKAxoSGhQPJIHsgcIyIhLswyj46OtrROAYuYGofGx0baxIHF3Awio9IMElMggsEJKekpqVnBMD4ALbeHpAzaZa1AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjA2KzAyOjAwBHBRHgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#RaiseLeftBoundReachedEvent" xmlns:xlink="xlink"><text x="40.00" y="560.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[RaiseLeftBoundReachedEvent]]></text></a><image width="16.00" height="16.00" x="15.00" y="573.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAT5QTFRF/wD/8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0/Pz8plCnu2+87qXv+pv7+pn75pjnkE6R+vr66eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58qVKq0WrS1W/VvHC93ZjejkaPnDydfi5++ff58PL0ytHeuMDSsrvOrLfL09jb5MrkqFCp0mvT027UfjB/nzyfjTWOfC193+PqoKvC0tfieoqh6NHoqVCqy2fMlTiWeit78NXwmKe8vcbWb4CX7djtfzCAdSd169Hr4+bqkJ60ydDdZHaNZHaO7NLscSRy5szmvsfWY3WNu8PUQUtYXW+HyM7ZVWiBxMzauMHSq7fLT2J7dYWcbX+WZ3eQXnCJV2qCT2N8////nLrfiwAAAAF0Uk5TAEDm2GYAAAABYktHRGm8a8S0AAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NggANGJmYGZMDIxMLEisRnY2Ln4GTiArO5eXj5+JkEBIWEhJlEGEShKsTEJSSFpKRlGGS55XjkFRQZlJTFJVRU1dQZZKEqNDS1tHV09fQZDAyNjE1MzRjMLSytrG1s7RgYjOxNHRydGBicXVz13dw9GAwdPRkYvLwNGRh8LHz9/BkYAhwDg4KCQwKAxoSGhQPJIHsgcIyIhLswyj46OtrROAYuYGofGx0baxIHF3Awio9IMElMggsEJKekpqVnBMD4ALbeHpAzaZa1AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjA2KzAyOjAwBHBRHgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#RaiseRightBoundReachedEvent" xmlns:xlink="xlink"><text x="40.00" y="585.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[RaiseRightBoundReachedEvent]]></text></a><image width="16.00" height="16.00" x="15.00" y="598.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAT5QTFRF/wD/8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0/Pz8plCnu2+87qXv+pv7+pn75pjnkE6R+vr66eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58qVKq0WrS1W/VvHC93ZjejkaPnDydfi5++ff58PL0ytHeuMDSsrvOrLfL09jb5MrkqFCp0mvT027UfjB/nzyfjTWOfC193+PqoKvC0tfieoqh6NHoqVCqy2fMlTiWeit78NXwmKe8vcbWb4CX7djtfzCAdSd169Hr4+bqkJ60ydDdZHaNZHaO7NLscSRy5szmvsfWY3WNu8PUQUtYXW+HyM7ZVWiBxMzauMHSq7fLT2J7dYWcbX+WZ3eQXnCJV2qCT2N8////nLrfiwAAAAF0Uk5TAEDm2GYAAAABYktHRGm8a8S0AAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NggANGJmYGZMDIxMLEisRnY2Ln4GTiArO5eXj5+JkEBIWEhJlEGEShKsTEJSSFpKRlGGS55XjkFRQZlJTFJVRU1dQZZKEqNDS1tHV09fQZDAyNjE1MzRjMLSytrG1s7RgYjOxNHRydGBicXVz13dw9GAwdPRkYvLwNGRh8LHz9/BkYAhwDg4KCQwKAxoSGhQPJIHsgcIyIhLswyj46OtrROAYuYGofGx0baxIHF3Awio9IMElMggsEJKekpqVnBMD4ALbeHpAzaZa1AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjA2KzAyOjAwBHBRHgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#SelectAllText" xmlns:xlink="xlink"><text x="40.00" y="610.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[SelectAllText]]></text></a><image width="16.00" height="16.00" x="15.00" y="623.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAT5QTFRF/wD/8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0/Pz8plCnu2+87qXv+pv7+pn75pjnkE6R+vr66eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58qVKq0WrS1W/VvHC93ZjejkaPnDydfi5++ff58PL0ytHeuMDSsrvOrLfL09jb5MrkqFCp0mvT027UfjB/nzyfjTWOfC193+PqoKvC0tfieoqh6NHoqVCqy2fMlTiWeit78NXwmKe8vcbWb4CX7djtfzCAdSd169Hr4+bqkJ60ydDdZHaNZHaO7NLscSRy5szmvsfWY3WNu8PUQUtYXW+HyM7ZVWiBxMzauMHSq7fLT2J7dYWcbX+WZ3eQXnCJV2qCT2N8////nLrfiwAAAAF0Uk5TAEDm2GYAAAABYktHRGm8a8S0AAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NggANGJmYGZMDIxMLEisRnY2Ln4GTiArO5eXj5+JkEBIWEhJlEGEShKsTEJSSFpKRlGGS55XjkFRQZlJTFJVRU1dQZZKEqNDS1tHV09fQZDAyNjE1MzRjMLSytrG1s7RgYjOxNHRydGBicXVz13dw9GAwdPRkYvLwNGRh8LHz9/BkYAhwDg4KCQwKAxoSGhQPJIHsgcIyIhLswyj46OtrROAYuYGofGx0baxIHF3Awio9IMElMggsEJKekpqVnBMD4ALbeHpAzaZa1AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjA2KzAyOjAwBHBRHgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#SelectivelyIgnoreMouseButton" xmlns:xlink="xlink"><text x="40.00" y="635.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[SelectivelyIgnoreMouseButton]]></text></a><image width="16.00" height="16.00" x="15.00" y="648.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAANtQTFRF/wD//vv+8tvyz4jP8OPw46zj8+Pz8NTw7r7u+q7765Hs8uDz9/Cr1dWsrLSuipmu/f394q/i+qv7+pj76ZDq9Ob0plCnu2+87qXv+pv7+pn75pjnkE6R6eWrwcSsrLWtmKSup0+o0W3S+p/77p3vllKXfC58qVKq0WrS1W/VvHC93ZjejkaPnDydfi5+5eKrzM6stbutnKeu5MrkqFCp0mvT027UfjB/nzyfjTWOfC196NHoqVCqy2fMlTiWeit78NXw7djtfzCAdSd169Hr7NLscSRy5szm////y4eOhgAAAAF0Uk5TAEDm2GYAAAABYktHREjwAtTqAAAACXBIWXMAAAsSAAALEgHS3X78AAAAeUlEQVQY02NgwAMY0fhMzCxofFZmNiQ+OzMHJxczN5jNw8vHL8AsKCQsLMIsClchJi4hKSwlLQOUl+WVk1dgUFQSl1BWUVWDq1DX0NTS1tHVAxmhb2BoxGBsYmpmbmFphbDG2sZWz87eAcliRxMnZxcUp7m6uTOQAwDo6wrtzia2FQAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxMi0wNy0yOVQxMTo1MzowNiswMjowMARwUR4AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTAtMDQtMDNUMDU6MTE6MjArMDI6MDAQy5Z4AAAAAElFTkSuQmCC" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#NumericTextBox" xmlns:xlink="xlink"><text x="40.00" y="660.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[NumericTextBox]]></text></a><path d="M0.5,675.50L282.00,675.50" stroke="#979797" stroke-width="1" stroke-dasharray="" /><image width="16.00" height="16.00" x="15.00" y="683.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAXpQTFRF/wD/uKyjxLiV3dnUtaaBo5eAoJaAmY96k4VzgHFczci/nLiZpsGu0MjC+uuwf21b/+tu+uJy9Ndn3L1Ui3JRiZxphcyF7evngGtX/+1orphY+eFy991q8s9W7cdL+roipqJfU6xBfZ3fqrrarKSP+eN/lYRTTzow9ttp89JY7cNA6rsx7KgRjJBQQZ4ypMX/ucnl9uGDcGFL4s16Z2BSUD1B37IyyJkdxJMVjmIUUWZAP5cpt8rx5dOGiZKncGFK3sFhWU1X/9AfMycVCgcQLiECZVZPW3hZMowYwcjR////6enihHVe5eTfzsrC1qkuGxALYFxdlp2kp76kKWYc//37/P7+rK2wclxB09nj4+3/Rk5UwMfR/f7++Pv+8vb96PD83On/wsnToq/E/v//1uX/wcjS/P7/+Pr97/T75u773un60uL40OL/+fv/y979yM/Z9v//7Pn/4fD/1er/0ur/c3V8S0tOTU9UTVFWTFBTS09STE9SS05RJyP7MgAAAAF0Uk5TAEDm2GYAAAABYktHREoeDLXGAAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NgAAJGJmYWVjZ2Dk4ubh4Qn4GXj19AQEBQSFhEVAwsIC4hKSUgLSMrJ6+gyKCkpKSsoqomqa6hqaWto6vHoKRvoGJoZGwiaWpmbmFpZc2gZKNia2Rn7+Do5Ozi6ubuweDp5e3j6+Vn7x8QGMTAEBwCFAgN9fIKC4+IjIoG2xADEoiNi09ISIQIJHklJ6ckg0AqRCANqCI9IzMrOycXJpCcnAdWkQ8RKACqKCwsLCouKYUIlJVXVFRUVlXXVNdCBAgCAG+1MCPQVilsAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjQxKzAyOjAwRZ1hagAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#AllowDecimal" xmlns:xlink="xlink"><text x="40.00" y="695.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[AllowDecimal { get; set; }]]></text></a><image width="16.00" height="16.00" x="15.00" y="708.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAaFQTFRF/wD/7OvmrKSPqaGMpZyIoJaDmpB+lot6zci/nLiZpsGu9uGD9Nt38tJlz7JfmtOT////cltA78lQ67876bYpg6V2eMBdfZ3fqrracGFLc1k85LIn1qMcbpVkbLRTpMX/ucnl4s16b2FMcV1F37IyyJkds4gabVMfWIRPZKxMt8rx5dOGiZKncGFK3sFhMycVOiwQNSkXh4F5Q3Q9YadLkaC0/P786enihHVe5eTfzsrC1qkuRzUji46RQk9fq8GoTIJBi5uvwcvb0drlwcrcrK2wkYR1ytHeuMDSsbrNrLfL8PL09Pf0hZWq9/r78PX7wMjTmqe8kZ61vcbWeoqhf4+ljJuwhZSqkqG1wsnUxMzZi5uw7u/x3eDkb4CXeoqg7/X75u/61t/tsr3NsLnJZHaNZHaO4+bqdIWckqG2v8bTtr/O3+Pq0tfivsfWY3WN5Obn3OLn1Nzmy9bl3eTwqrTHQUtYXW+HanuTMkZgNUljjpmnnqq/yM7ZsrvOVWiBmqa9xMzauMHSq7fLT2J7dYWcbX+WZ3eQXnCJV2qCT2N8xL4vuQAAAAF0Uk5TAEDm2GYAAAABYktHRBCVsg0sAAAACXBIWXMAAAsSAAALEgHS3X78AAAA8ElEQVQY02NgAANGJmYWVjZ2Dk4uGJ+bm5uHl4+dix/EFQDyBYF8IWERUTEGcXFxCSZuSW4pIF9aRlaOQVxeAchXVOJVVlFVU9fQZBDXYtKW1NHVUxLRNzA0MjZhMDUzt7A0s9K1trG1Y2Cwd2BwNHNyNnNxcXVz9/D08mbwYfA1AwE/f/eAwKDgEKCdoWZh4X4RYZFR0TGxXnHeDAzxIPmExKTk8JSU1LR0BoYMoIqEzKzsHCDIzctnYIgzKygsKi4pzSkrK8v1KGdgqKisAoLqmpzastraunoGGGhwb8xrqmtugQukt7a1d3R2pTMAAGflNvO6n54wAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjQxKzAyOjAwRZ1hagAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#AllTextSelected" xmlns:xlink="xlink"><text x="40.00" y="720.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[AllTextSelected { get; }]]></text></a><image width="16.00" height="16.00" x="15.00" y="733.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAaFQTFRF/wD/7OvmrKSPqaGMpZyIoJaDmpB+lot6zci/nLiZpsGu9uGD9Nt38tJlz7JfmtOT////cltA78lQ67876bYpg6V2eMBdfZ3fqrracGFLc1k85LIn1qMcbpVkbLRTpMX/ucnl4s16b2FMcV1F37IyyJkds4gabVMfWIRPZKxMt8rx5dOGiZKncGFK3sFhMycVOiwQNSkXh4F5Q3Q9YadLkaC0/P786enihHVe5eTfzsrC1qkuRzUji46RQk9fq8GoTIJBi5uvwcvb0drlwcrcrK2wkYR1ytHeuMDSsbrNrLfL8PL09Pf0hZWq9/r78PX7wMjTmqe8kZ61vcbWeoqhf4+ljJuwhZSqkqG1wsnUxMzZi5uw7u/x3eDkb4CXeoqg7/X75u/61t/tsr3NsLnJZHaNZHaO4+bqdIWckqG2v8bTtr/O3+Pq0tfivsfWY3WN5Obn3OLn1Nzmy9bl3eTwqrTHQUtYXW+HanuTMkZgNUljjpmnnqq/yM7ZsrvOVWiBmqa9xMzauMHSq7fLT2J7dYWcbX+WZ3eQXnCJV2qCT2N8xL4vuQAAAAF0Uk5TAEDm2GYAAAABYktHRBCVsg0sAAAACXBIWXMAAAsSAAALEgHS3X78AAAA8ElEQVQY02NgAANGJmYWVjZ2Dk4uGJ+bm5uHl4+dix/EFQDyBYF8IWERUTEGcXFxCSZuSW4pIF9aRlaOQVxeAchXVOJVVlFVU9fQZBDXYtKW1NHVUxLRNzA0MjZhMDUzt7A0s9K1trG1Y2Cwd2BwNHNyNnNxcXVz9/D08mbwYfA1AwE/f/eAwKDgEKCdoWZh4X4RYZFR0TGxXnHeDAzxIPmExKTk8JSU1LR0BoYMoIqEzKzsHCDIzctnYIgzKygsKi4pzSkrK8v1KGdgqKisAoLqmpzastraunoGGGhwb8xrqmtugQukt7a1d3R2pTMAAGflNvO6n54wAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjQxKzAyOjAwRZ1hagAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#CaretAtEnd" xmlns:xlink="xlink"><text x="40.00" y="745.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[CaretAtEnd { get; }]]></text></a><image width="16.00" height="16.00" x="15.00" y="758.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAaFQTFRF/wD/7OvmrKSPqaGMpZyIoJaDmpB+lot6zci/nLiZpsGu9uGD9Nt38tJlz7JfmtOT////cltA78lQ67876bYpg6V2eMBdfZ3fqrracGFLc1k85LIn1qMcbpVkbLRTpMX/ucnl4s16b2FMcV1F37IyyJkds4gabVMfWIRPZKxMt8rx5dOGiZKncGFK3sFhMycVOiwQNSkXh4F5Q3Q9YadLkaC0/P786enihHVe5eTfzsrC1qkuRzUji46RQk9fq8GoTIJBi5uvwcvb0drlwcrcrK2wkYR1ytHeuMDSsbrNrLfL8PL09Pf0hZWq9/r78PX7wMjTmqe8kZ61vcbWeoqhf4+ljJuwhZSqkqG1wsnUxMzZi5uw7u/x3eDkb4CXeoqg7/X75u/61t/tsr3NsLnJZHaNZHaO4+bqdIWckqG2v8bTtr/O3+Pq0tfivsfWY3WN5Obn3OLn1Nzmy9bl3eTwqrTHQUtYXW+HanuTMkZgNUljjpmnnqq/yM7ZsrvOVWiBmqa9xMzauMHSq7fLT2J7dYWcbX+WZ3eQXnCJV2qCT2N8xL4vuQAAAAF0Uk5TAEDm2GYAAAABYktHRBCVsg0sAAAACXBIWXMAAAsSAAALEgHS3X78AAAA8ElEQVQY02NgAANGJmYWVjZ2Dk4uGJ+bm5uHl4+dix/EFQDyBYF8IWERUTEGcXFxCSZuSW4pIF9aRlaOQVxeAchXVOJVVlFVU9fQZBDXYtKW1NHVUxLRNzA0MjZhMDUzt7A0s9K1trG1Y2Cwd2BwNHNyNnNxcXVz9/D08mbwYfA1AwE/f/eAwKDgEKCdoWZh4X4RYZFR0TGxXnHeDAzxIPmExKTk8JSU1LR0BoYMoIqEzKzsHCDIzctnYIgzKygsKi4pzSkrK8v1KGdgqKisAoLqmpzastraunoGGGhwb8xrqmtugQukt7a1d3R2pTMAAGflNvO6n54wAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjQxKzAyOjAwRZ1hagAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#CaretAtStart" xmlns:xlink="xlink"><text x="40.00" y="770.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[CaretAtStart { get; }]]></text></a><image width="16.00" height="16.00" x="15.00" y="783.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAXpQTFRF/wD/uKyjxLiV3dnUtaaBo5eAoJaAmY96k4VzgHFczci/nLiZpsGu0MjC+uuwf21b/+tu+uJy9Ndn3L1Ui3JRiZxphcyF7evngGtX/+1orphY+eFy991q8s9W7cdL+roipqJfU6xBfZ3fqrrarKSP+eN/lYRTTzow9ttp89JY7cNA6rsx7KgRjJBQQZ4ypMX/ucnl9uGDcGFL4s16Z2BSUD1B37IyyJkdxJMVjmIUUWZAP5cpt8rx5dOGiZKncGFK3sFhWU1X/9AfMycVCgcQLiECZVZPW3hZMowYwcjR////6enihHVe5eTfzsrC1qkuGxALYFxdlp2kp76kKWYc//37/P7+rK2wclxB09nj4+3/Rk5UwMfR/f7++Pv+8vb96PD83On/wsnToq/E/v//1uX/wcjS/P7/+Pr97/T75u773un60uL40OL/+fv/y979yM/Z9v//7Pn/4fD/1er/0ur/c3V8S0tOTU9UTVFWTFBTS09STE9SS05RJyP7MgAAAAF0Uk5TAEDm2GYAAAABYktHREoeDLXGAAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NgAAJGJmYWVjZ2Dk4ubh4Qn4GXj19AQEBQSFhEVAwsIC4hKSUgLSMrJ6+gyKCkpKSsoqomqa6hqaWto6vHoKRvoGJoZGwiaWpmbmFpZc2gZKNia2Rn7+Do5Ozi6ubuweDp5e3j6+Vn7x8QGMTAEBwCFAgN9fIKC4+IjIoG2xADEoiNi09ISIQIJHklJ6ckg0AqRCANqCI9IzMrOycXJpCcnAdWkQ8RKACqKCwsLCouKYUIlJVXVFRUVlXXVNdCBAgCAG+1MCPQVilsAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjQxKzAyOjAwRZ1hagAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#DoubleZero" xmlns:xlink="xlink"><text x="40.00" y="795.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[DoubleZero { get; set; }]]></text></a><image width="16.00" height="16.00" x="15.00" y="808.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAXpQTFRF/wD/uKyjxLiV3dnUtaaBo5eAoJaAmY96k4VzgHFczci/nLiZpsGu0MjC+uuwf21b/+tu+uJy9Ndn3L1Ui3JRiZxphcyF7evngGtX/+1orphY+eFy991q8s9W7cdL+roipqJfU6xBfZ3fqrrarKSP+eN/lYRTTzow9ttp89JY7cNA6rsx7KgRjJBQQZ4ypMX/ucnl9uGDcGFL4s16Z2BSUD1B37IyyJkdxJMVjmIUUWZAP5cpt8rx5dOGiZKncGFK3sFhWU1X/9AfMycVCgcQLiECZVZPW3hZMowYwcjR////6enihHVe5eTfzsrC1qkuGxALYFxdlp2kp76kKWYc//37/P7+rK2wclxB09nj4+3/Rk5UwMfR/f7++Pv+8vb96PD83On/wsnToq/E/v//1uX/wcjS/P7/+Pr97/T75u773un60uL40OL/+fv/y979yM/Z9v//7Pn/4fD/1er/0ur/c3V8S0tOTU9UTVFWTFBTS09STE9SS05RJyP7MgAAAAF0Uk5TAEDm2GYAAAABYktHREoeDLXGAAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NgAAJGJmYWVjZ2Dk4ubh4Qn4GXj19AQEBQSFhEVAwsIC4hKSUgLSMrJ6+gyKCkpKSsoqomqa6hqaWto6vHoKRvoGJoZGwiaWpmbmFpZc2gZKNia2Rn7+Do5Ozi6ubuweDp5e3j6+Vn7x8QGMTAEBwCFAgN9fIKC4+IjIoG2xADEoiNi09ISIQIJHklJ6ckg0AqRCANqCI9IzMrOycXJpCcnAdWkQ8RKACqKCwsLCouKYUIlJVXVFRUVlXXVNdCBAgCAG+1MCPQVilsAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjQxKzAyOjAwRZ1hagAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#MaxValue" xmlns:xlink="xlink"><text x="40.00" y="820.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[MaxValue { get; set; }]]></text></a><image width="16.00" height="16.00" x="15.00" y="833.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAXpQTFRF/wD/uKyjxLiV3dnUtaaBo5eAoJaAmY96k4VzgHFczci/nLiZpsGu0MjC+uuwf21b/+tu+uJy9Ndn3L1Ui3JRiZxphcyF7evngGtX/+1orphY+eFy991q8s9W7cdL+roipqJfU6xBfZ3fqrrarKSP+eN/lYRTTzow9ttp89JY7cNA6rsx7KgRjJBQQZ4ypMX/ucnl9uGDcGFL4s16Z2BSUD1B37IyyJkdxJMVjmIUUWZAP5cpt8rx5dOGiZKncGFK3sFhWU1X/9AfMycVCgcQLiECZVZPW3hZMowYwcjR////6enihHVe5eTfzsrC1qkuGxALYFxdlp2kp76kKWYc//37/P7+rK2wclxB09nj4+3/Rk5UwMfR/f7++Pv+8vb96PD83On/wsnToq/E/v//1uX/wcjS/P7/+Pr97/T75u773un60uL40OL/+fv/y979yM/Z9v//7Pn/4fD/1er/0ur/c3V8S0tOTU9UTVFWTFBTS09STE9SS05RJyP7MgAAAAF0Uk5TAEDm2GYAAAABYktHREoeDLXGAAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NgAAJGJmYWVjZ2Dk4ubh4Qn4GXj19AQEBQSFhEVAwsIC4hKSUgLSMrJ6+gyKCkpKSsoqomqa6hqaWto6vHoKRvoGJoZGwiaWpmbmFpZc2gZKNia2Rn7+Do5Ozi6ubuweDp5e3j6+Vn7x8QGMTAEBwCFAgN9fIKC4+IjIoG2xADEoiNi09ISIQIJHklJ6ckg0AqRCANqCI9IzMrOycXJpCcnAdWkQ8RKACqKCwsLCouKYUIlJVXVFRUVlXXVNdCBAgCAG+1MCPQVilsAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjQxKzAyOjAwRZ1hagAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#MinValue" xmlns:xlink="xlink"><text x="40.00" y="845.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[MinValue { get; set; }]]></text></a><image width="16.00" height="16.00" x="15.00" y="858.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAXpQTFRF/wD/uKyjxLiV3dnUtaaBo5eAoJaAmY96k4VzgHFczci/nLiZpsGu0MjC+uuwf21b/+tu+uJy9Ndn3L1Ui3JRiZxphcyF7evngGtX/+1orphY+eFy991q8s9W7cdL+roipqJfU6xBfZ3fqrrarKSP+eN/lYRTTzow9ttp89JY7cNA6rsx7KgRjJBQQZ4ypMX/ucnl9uGDcGFL4s16Z2BSUD1B37IyyJkdxJMVjmIUUWZAP5cpt8rx5dOGiZKncGFK3sFhWU1X/9AfMycVCgcQLiECZVZPW3hZMowYwcjR////6enihHVe5eTfzsrC1qkuGxALYFxdlp2kp76kKWYc//37/P7+rK2wclxB09nj4+3/Rk5UwMfR/f7++Pv+8vb96PD83On/wsnToq/E/v//1uX/wcjS/P7/+Pr97/T75u773un60uL40OL/+fv/y979yM/Z9v//7Pn/4fD/1er/0ur/c3V8S0tOTU9UTVFWTFBTS09STE9SS05RJyP7MgAAAAF0Uk5TAEDm2GYAAAABYktHREoeDLXGAAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NgAAJGJmYWVjZ2Dk4ubh4Qn4GXj19AQEBQSFhEVAwsIC4hKSUgLSMrJ6+gyKCkpKSsoqomqa6hqaWto6vHoKRvoGJoZGwiaWpmbmFpZc2gZKNia2Rn7+Do5Ozi6ubuweDp5e3j6+Vn7x8QGMTAEBwCFAgN9fIKC4+IjIoG2xADEoiNi09ISIQIJHklJ6ckg0AqRCANqCI9IzMrOycXJpCcnAdWkQ8RKACqKCwsLCouKYUIlJVXVFRUVlXXVNdCBAgCAG+1MCPQVilsAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjQxKzAyOjAwRZ1hagAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#Text" xmlns:xlink="xlink"><text x="40.00" y="870.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[Text { get; set; }]]></text></a><image width="16.00" height="16.00" x="15.00" y="883.50" preserveAspectRatio="" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAXpQTFRF/wD/uKyjxLiV3dnUtaaBo5eAoJaAmY96k4VzgHFczci/nLiZpsGu0MjC+uuwf21b/+tu+uJy9Ndn3L1Ui3JRiZxphcyF7evngGtX/+1orphY+eFy991q8s9W7cdL+roipqJfU6xBfZ3fqrrarKSP+eN/lYRTTzow9ttp89JY7cNA6rsx7KgRjJBQQZ4ypMX/ucnl9uGDcGFL4s16Z2BSUD1B37IyyJkdxJMVjmIUUWZAP5cpt8rx5dOGiZKncGFK3sFhWU1X/9AfMycVCgcQLiECZVZPW3hZMowYwcjR////6enihHVe5eTfzsrC1qkuGxALYFxdlp2kp76kKWYc//37/P7+rK2wclxB09nj4+3/Rk5UwMfR/f7++Pv+8vb96PD83On/wsnToq/E/v//1uX/wcjS/P7/+Pr97/T75u773un60uL40OL/+fv/y979yM/Z9v//7Pn/4fD/1er/0ur/c3V8S0tOTU9UTVFWTFBTS09STE9SS05RJyP7MgAAAAF0Uk5TAEDm2GYAAAABYktHREoeDLXGAAAACXBIWXMAAAsSAAALEgHS3X78AAAAyUlEQVQY02NgAAJGJmYWVjZ2Dk4ubh4Qn4GXj19AQEBQSFhEVAwsIC4hKSUgLSMrJ6+gyKCkpKSsoqomqa6hqaWto6vHoKRvoGJoZGwiaWpmbmFpZc2gZKNia2Rn7+Do5Ozi6ubuweDp5e3j6+Vn7x8QGMTAEBwCFAgN9fIKC4+IjIoG2xADEoiNi09ISIQIJHklJ6ckg0AqRCANqCI9IzMrOycXJpCcnAdWkQ8RKACqKCwsLCouKYUIlJVXVFRUVlXXVNdCBAgCAG+1MCPQVilsAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEyLTA3LTI5VDExOjUzOjQxKzAyOjAwRZ1hagAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wNC0wM1QwNToxMToyMCswMjowMBDLlngAAAAASUVORK5CYII=" xmlns:xlink="xlink" /><a xlink:href="../type/NumericTextBox.html#Value" xmlns:xlink="xlink"><text x="40.00" y="895.50" fill="#1382CE" style="" text-anchor="" font-family="" font-size="14.00" onmouseover="this.setAttribute('fill', '#F58026')" onmouseout="this.setAttribute('fill', '#1382CE')"><![CDATA[Value { get; set; }]]></text></a></g></svg>
+						</div>
+						<div class="legend">
+							<p class="save"><a href="#"><i class="icon-save"></i>save</a></p>
+							<p class="resetZoom"><a href="#"><i class="icon-refresh"></i>reset</a></p>
+							<p>Drag to pan - Use Mousewheel + Ctrl to zoom</p>
+						</div>
+					</div>
+							</div>
+		</div>
+
+    </body>
+</html>
+
