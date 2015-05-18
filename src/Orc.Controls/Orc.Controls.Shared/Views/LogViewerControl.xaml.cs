@@ -12,10 +12,14 @@ namespace Orc.Controls
     using System.ComponentModel;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Input;
     using System.Windows.Media;
     using Catel;
+    using Catel.IoC;
     using Catel.Logging;
+    using Catel.MVVM;
     using Catel.MVVM.Views;
+    using Catel.Windows.Input;
     using Logging;
     using ViewModels;
 
@@ -29,6 +33,10 @@ namespace Orc.Controls
         #endregion
 
         #region Fields
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
+        private readonly ICommandManager _commandManager;
+
         private LogViewerViewModel _lastKnownViewModel;
         #endregion
 
@@ -45,6 +53,8 @@ namespace Orc.Controls
         public LogViewerControl()
         {
             InitializeComponent();
+
+            _commandManager = ServiceLocator.Default.ResolveType<ICommandManager>();
 
             ColorSets[LogEvent.Debug] = Brushes.Gray;
             ColorSets[LogEvent.Info] = Brushes.Black;
@@ -160,6 +170,15 @@ namespace Orc.Controls
         public static readonly DependencyProperty ShowErrorProperty = DependencyProperty.Register("ShowError", typeof (bool),
             typeof (LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl) sender).UpdateControl()));
+
+        public bool SupportCommandManager
+        {
+            get { return (bool)GetValue(SupportCommandManagerProperty); }
+            set { SetValue(SupportCommandManagerProperty, value); }
+        }
+
+        public static readonly DependencyProperty SupportCommandManagerProperty = DependencyProperty.Register("SupportCommandManager", typeof(bool), 
+            typeof(LogViewerControl), new PropertyMetadata(true));
         #endregion
 
         #region Methods
@@ -292,5 +311,52 @@ namespace Orc.Controls
             Clipboard.SetText(text);
         }
         #endregion
+
+        private void LogRecordsRichTextBox_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            // Some key down events are not fired by the RichTextBox, others are. To create a consistent
+            // behavior, we don't forward any key downs on the RTB. If a command from the ICommandManager
+            // is used, the PreviewKeyDown event will re-raise that event so the ICommandManager can
+            // respond to it
+            if (SupportCommandManager)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void LogRecordsRichTextBox_OnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (!SupportCommandManager)
+            {
+                return;
+            }
+
+            if (_commandManager == null)
+            {
+                return;
+            }
+
+            // This is required to support application-wide commands on the log viewer control, somehow the
+            // RichTextBox does not fire KeyDown events for combinations of keys (CTRL + [Key])
+            var commandNames = _commandManager.GetCommands();
+            foreach (var commandName in commandNames)
+            {
+                var inputGesture = _commandManager.GetInputGesture(commandName);
+                if (inputGesture != null)
+                {
+                    if (inputGesture.Matches(e))
+                    {
+                        var keyEventArgs = new KeyEventArgs(e.KeyboardDevice,
+                            PresentationSource.FromVisual(this), e.Timestamp, e.Key)
+                        {
+                            RoutedEvent = Keyboard.KeyDownEvent
+                        };
+
+                        RaiseEvent(keyEventArgs);
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

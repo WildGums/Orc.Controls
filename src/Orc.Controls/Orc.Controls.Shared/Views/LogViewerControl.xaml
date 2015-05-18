@@ -105,6 +105,8 @@
     
     <Grid>
         <RichTextBox x:Name="LogRecordsRichTextBox" IsReadOnly="True" IsDocumentEnabled="True"
-                     HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" />
+                     HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto"
+                     KeyDown="LogRecordsRichTextBox_OnKeyDown"
+                     PreviewKeyDown="LogRecordsRichTextBox_OnPreviewKeyDown" />
     </Grid>
 </catel:UserControl>
