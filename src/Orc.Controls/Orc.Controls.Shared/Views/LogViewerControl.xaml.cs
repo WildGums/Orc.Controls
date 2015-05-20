@@ -128,6 +128,17 @@ namespace Orc.Controls
                 (sender, e) => ((LogViewerControl) sender).UpdateControl()));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool IgnoreCatelLogging
+        {
+            get { return (bool)GetValue(IgnoreCatelLoggingProperty); }
+            set { SetValue(IgnoreCatelLoggingProperty, value); }
+        }
+
+        public static readonly DependencyProperty IgnoreCatelLoggingProperty = DependencyProperty.Register("IgnoreCatelLogging", typeof(bool),
+            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowDebug
         {
             get { return (bool) GetValue(ShowDebugProperty); }

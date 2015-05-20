@@ -102,6 +102,7 @@ namespace Orc.Controls.ViewModels
         public string LogFilter { get; set; }
         public string TypeFilter { get; set; }
 
+        public bool IgnoreCatelLogging { get; set; }
         public bool ShowDebug { get; set; }
         public bool ShowInfo { get; set; }
         public bool ShowWarning { get; set; }
@@ -132,6 +133,12 @@ namespace Orc.Controls.ViewModels
             await base.Close();
         }
 
+        private void OnIgnoreCatelLoggingChanged()
+        {
+            // As an exception, we completely disable Catel on the log listener for performance
+            _logListener.IgnoreCatelLogging = IgnoreCatelLogging;
+        }
+
         private void OnLogListenerTypeChanged()
         {
             UnsubscribeLogListener();
@@ -157,6 +164,7 @@ namespace Orc.Controls.ViewModels
             _logListener = _typeFactory.CreateInstance(logListenerType) as ILogListener;
             if (_logListener != null)
             {
+                _logListener.IgnoreCatelLogging = IgnoreCatelLogging;
                 _logListener.LogMessage += OnLogMessage;
 
                 LogManager.AddListener(_logListener);
@@ -237,12 +245,15 @@ namespace Orc.Controls.ViewModels
                 case LogEvent.Debug:
                     DebugEntriesCount ++;
                     break;
+
                 case LogEvent.Info:
                     InfoEntriesCount ++;
                     break;
+
                 case LogEvent.Warning:
                     WarningEntriesCount ++;
                     break;
+
                 case LogEvent.Error:
                     ErrorEntriesCount ++;
                     break;
@@ -273,13 +284,13 @@ namespace Orc.Controls.ViewModels
 
         private bool PassTypeFilter(LogEntry logEntry)
         {
-            if (string.IsNullOrEmpty(TypeFilter) || TypeFilter.Equals(defaultComboBoxItem))
+            var typeFilter = TypeFilter;
+            if (string.IsNullOrEmpty(typeFilter) || typeFilter.Equals(defaultComboBoxItem))
             {
                 return true;
             }
 
-            var isOrigin = logEntry.Log.TargetType.Name.IndexOf(TypeFilter, StringComparison.OrdinalIgnoreCase) >= 0;
-
+            var isOrigin = logEntry.Log.TargetType.Name.IndexOf(typeFilter, StringComparison.OrdinalIgnoreCase) >= 0;
             if (isOrigin)
             {
                 return true;
@@ -306,9 +317,10 @@ namespace Orc.Controls.ViewModels
 
             lock (TypeNames)
             {
-                if (!TypeNames.Contains(logEntry.Log.TargetType.Name))
+                var typeNames = TypeNames;
+                if (!typeNames.Contains(logEntry.Log.TargetType.Name))
                 {
-                    TypeNames.Add(logEntry.Log.TargetType.Name);
+                    typeNames.Add(logEntry.Log.TargetType.Name);
                 }
             }
 
