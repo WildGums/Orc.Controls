@@ -87,11 +87,12 @@
     </UserControl.Resources>
 
     <Grid>
-        <TextBox Text="{Binding Text}">
+        <TextBox x:Name="filterTextBox" Text="{Binding Text}">
             <i:Interaction.Behaviors>
                 <catel:UpdateBindingOnTextChanged UpdateDelay="750" />
                 <catel:KeyPressToCommand Key="Escape" Command="{Binding ClearFilter}"/>
                 <catel:AutoCompletion PropertyName ="{Binding PropertyName, Mode=OneWay}" ItemsSource="{Binding FilterSource}" />
+                <catel:SelectTextOnFocus />
             </i:Interaction.Behaviors>
         </TextBox>
     </Grid>

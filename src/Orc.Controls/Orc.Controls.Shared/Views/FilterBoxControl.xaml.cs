@@ -26,6 +26,8 @@ namespace Orc.Controls
         public FilterBoxControl()
         {
             InitializeComponent();
+
+            Focusable = true;
         }
         #endregion
 
@@ -69,6 +71,15 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush), 
             typeof(FilterBoxControl), new FrameworkPropertyMetadata(Brushes.Blue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        #endregion
+
+        #region Methods
+        protected override void OnGotFocus(RoutedEventArgs e)
+        {
+            base.OnGotFocus(e);
+
+            filterTextBox.Focus();
+        }
         #endregion
     }
 }
