@@ -23,6 +23,7 @@ namespace Orc.Controls.ViewModels
         public IList<string> Items { get; set; }
         public bool IsDropDownOpen { get; set; }
         public string Header { get; set; }
+        public bool ShowDefaultButton { get; set; }
 
         public Brush AccentColorBrush
         {

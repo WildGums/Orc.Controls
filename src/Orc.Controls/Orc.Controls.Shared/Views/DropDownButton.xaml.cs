@@ -64,5 +64,15 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
             typeof(DropDownButton), new FrameworkPropertyMetadata(Brushes.LightGray, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool ShowDefaultButton
+        {
+            get { return (bool)GetValue(ShowDefaultButtonProperty); }
+            set { SetValue(ShowDefaultButtonProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowDefaultButtonProperty = DependencyProperty.Register("ShowDefaultButton", typeof(bool),
+            typeof(DropDownButton), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
     }
 }

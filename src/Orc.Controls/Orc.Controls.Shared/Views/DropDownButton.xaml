@@ -56,19 +56,27 @@
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
                         <Border x:Name="Chrome" BorderBrush="LightGray" BorderThickness="1" Background="#FFF4F4F4"
                                 SnapsToDevicePixels="True">
-                            <Grid x:Name="PathGrid" HorizontalAlignment="Right" Width="12">
-                                <Path x:Name="Arrow" Data="M0,0L3.5,4 7,0z" Fill="Black" 
-                                        HorizontalAlignment="Center" Margin="0,1,0,0" VerticalAlignment="Center"/>
-                            </Grid>
+                            <DockPanel HorizontalAlignment="Stretch">
+                                <Grid x:Name="PathGrid" Width="12" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                                    <Path x:Name="Arrow" Data="M0,0L3.5,4 7,0z" Fill="Black" 
+                                          HorizontalAlignment="Center" Margin="0,1,0,0" VerticalAlignment="Center"/>
+                                </Grid>
+                                <TextBlock x:Name="ToggleButtonHeader" Text="{Binding Header}" Visibility="Collapsed"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6 4 6 4"/>
+                            </DockPanel>
                         </Border>
                         <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding ShowDefaultButton}" Value="False">
+                                <Setter Property="Visibility" TargetName="ToggleButtonHeader" Value="Visible" />
+                            </DataTrigger>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsHighlightBrush}" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="Background" TargetName="PathGrid" Value="{DynamicResource ControlsAccentBrush}" />
-                                <Setter Property="Background" TargetName="Chrome" Value="White" />
+                                <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}" />
                                 <Setter Property="Fill" TargetName="Arrow" Value="White" />
+                                <Setter Property="Foreground" TargetName="ToggleButtonHeader" Value="White" />
                                 <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
@@ -560,6 +568,24 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="DefaultButtonColumnStyle" TargetType="{x:Type ColumnDefinition}">
+            <Setter Property="Width" Value="*" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ShowDefaultButton}" Value="False">
+                    <Setter Property="Width" Value="Auto" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ToggleButtonColumnStyle" TargetType="{x:Type ColumnDefinition}">
+            <Setter Property="Width" Value="Auto" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ShowDefaultButton}" Value="False">
+                    <Setter Property="Width" Value="*" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </catel:UserControl.Resources>
 
     <i:Interaction.Behaviors>
@@ -568,12 +594,12 @@
 
     <Grid HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Style="{StaticResource DefaultButtonColumnStyle}"/>
+            <ColumnDefinition Style="{StaticResource ToggleButtonColumnStyle}"/>
         </Grid.ColumnDefinitions>
-
-        <Button Grid.Column="0" Content="{Binding Header}"
-                Command="{Binding Command, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:DropDownButton}}}" />
-        <ToggleButton Grid.Column="1" x:Name="ToggleButton" />
+        <Button Content="{Binding Header}"
+                Command="{Binding Command, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:DropDownButton}}}"
+                Visibility="{Binding ShowDefaultButton, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+        <ToggleButton Grid.Column="1" x:Name="ToggleButton" HorizontalAlignment="Stretch" />
     </Grid>
 </catel:UserControl>
