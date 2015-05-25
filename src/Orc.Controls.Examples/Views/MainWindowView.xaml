@@ -119,6 +119,10 @@
             <views:DateTimePicker/>
         </TabItem>
 
+        <TabItem Header="DirectoryPickerView">
+            <views:DirectoryPickerView/>
+        </TabItem>
+        
         <TabItem Header="FilterBox">
             <views:FilterBox/>
         </TabItem>

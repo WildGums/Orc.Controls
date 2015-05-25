@@ -99,6 +99,7 @@
     <Compile Include="Logging\ExampleLogListener.cs" />
     <Compile Include="ViewModels\BindableRichTextBoxViewModel.cs" />
     <Compile Include="ViewModels\DatePickerViewModel.cs" />
+    <Compile Include="ViewModels\DirectoryPickerViewModel.cs" />
     <Compile Include="Views\DatePicker.xaml.cs">
       <DependentUpon>DatePicker.xaml</DependentUpon>
     </Compile>
@@ -108,6 +109,9 @@
     <Compile Include="ViewModels\LinkLabelViewModel.cs" />
     <Compile Include="ViewModels\LogViewerViewModel.cs" />
     <Compile Include="ViewModels\WatermarkViewModel.cs" />
+    <Compile Include="Views\DirectoryPickerView.xaml.cs">
+      <DependentUpon>DirectoryPickerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DropDownButtonView.xaml.cs">
       <DependentUpon>DropDownButtonView.xaml</DependentUpon>
     </Compile>
@@ -136,6 +140,10 @@
     <Page Include="Views\DatePicker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DirectoryPickerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DropDownButtonView.xaml">
       <SubType>Designer</SubType>

@@ -1,0 +1,19 @@
+﻿<catel:UserControl x:Class="Orc.Controls.Examples.Views.DirectoryPickerView"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:catel="http://catel.codeplex.com"
+				   xmlns:orc="http://www.wildgums.net.au/orc">
+
+    <!-- Resources -->
+    <UserControl.Resources>
+    </UserControl.Resources>
+
+    <!-- Content -->
+    <StackPanel>
+        <DockPanel>
+            <TextBlock Text="DirectoryPicker control" VerticalAlignment="Center" Width="150" DockPanel.Dock="Left"/>
+            <orc:DirectoryPickerView/>
+        </DockPanel>
+    </StackPanel>
+    
+</catel:UserControl>
