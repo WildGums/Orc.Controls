@@ -40,6 +40,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestionListService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DatePickerViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DateTimePickerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DirectoryPickerViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DropDownButtonViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FilterBoxViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LogViewerViewModel.cs" />
@@ -49,6 +50,10 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\DateTimePickerControl.xaml.cs">
       <DependentUpon>DateTimePickerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\DirectoryPickerView.xaml.cs">
+      <DependentUpon>DirectoryPickerView.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\DropDownButton.xaml.cs">
       <DependentUpon>DropDownButton.xaml</DependentUpon>
@@ -78,6 +83,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\DateTimePickerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\DirectoryPickerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
