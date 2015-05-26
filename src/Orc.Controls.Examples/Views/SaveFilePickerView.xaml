@@ -16,7 +16,7 @@
 
     <!-- Content -->
     <StackPanel>
-        <orc:SaveFilePickerView Margin="0,4,6,4" LabelText="SaveFilePicker control" LabelWidth="150" />
+        <orc:SaveFilePickerView LabelText="SaveFilePicker control" LabelWidth="150" />
     </StackPanel>
 </catel:UserControl>
 

@@ -16,6 +16,6 @@
 
     <!-- Content -->
     <StackPanel>
-        <orc:OpenFilePickerView Margin="0,4,6,4" LabelText="OpenFilePicker control" LabelWidth="150" />
+        <orc:OpenFilePickerView LabelText="OpenFilePicker control" LabelWidth="150" />
     </StackPanel>
 </catel:UserControl>

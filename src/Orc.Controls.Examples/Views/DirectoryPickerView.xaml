@@ -16,6 +16,6 @@
 
     <!-- Content -->
     <StackPanel>
-        <orc:DirectoryPickerView Margin="0,4,6,4" LabelText="DirectoryPicker control" LabelWidth="150" />
+        <orc:DirectoryPickerView LabelText="DirectoryPicker control" LabelWidth="150" />
     </StackPanel>
 </catel:UserControl>

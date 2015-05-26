@@ -14,6 +14,9 @@ This library contains simple (yet useful) controls for viewing and editing data,
 - **LogViewer**
 - **WatermarkTextBox**
 - **LinkLabel**
+- **OpenFilePickerView**
+- **DirectoryPickerView**
+- **SaveFilePickerView**
 
 Run the demo project to see the controls in action:
 
@@ -118,9 +121,7 @@ Everything will automatically be displayed in your UI.
 DropDownButton
 ---------------
 
-The control is made up of two buttons side by side. The First button works as a regular button and the second one will display a 
-
-customizable drop down menu under the control. 
+The control is made up of two buttons side by side. The First button works as a regular button and the second one will display a customizable drop down menu under the control. 
 
 ![DropDownButton 01](doc/images/DropDownButton_01.png)
 
@@ -282,6 +283,63 @@ The bindable properties are:
 - **CommandParameter** => The command parameter.
 - **CommandTarget** => The command target.
 
+OpenFilePickerView
+----------
+
+This control allows user to choose an existing file directory.
+
+![OpenFilePicker 01](doc/images/OpenFilePicker_01.png)
+
+###How to use OpenFilePickerView
+
+```
+<orc:OpenFilePickerView LabelText="OpenFilePicker control" LabelWidth="150" />
+```
+
+The bindable properties are:
+
+- **LabelWidth** => The label width.
+- **LabelText** => The label content.
+- **SelectedFile** => The selected file path. 
+
+DirectoryPickerView
+----------
+
+This control allows users to choose a directory.
+
+![DirectoryPickerView 01](doc/images/DirectoryPicker_01.png)
+
+###How to use DirectoryPickerView
+
+```
+<orc:DirectoryPickerView LabelText="DirectoryPicker control" LabelWidth="150" />
+```
+
+The bindable properties are:
+
+- **LabelWidth** => The label width.
+- **LabelText** => The label content.
+- **SelectedDirectory** => The selected directory. 
+
+SaveFilePickerView
+----------
+
+This control allows user to choose a directory where a file will be saved.
+
+![SaveFilePickerView 01](doc/images/SaveFilePicker_01.png)
+
+###How to use SaveFilePickerView
+
+```
+<orc:SaveFilePickerView LabelText="SaveFilePicker control" LabelWidth="150" />
+```
+
+The bindable properties are:
+
+- **LabelWidth** => The label width.
+- **LabelText** => The label content.
+- **SelectedFile** => The selected file path.
+- **Filter** => The filter string that determines what types of files are displayed from the SaveFileDialog .
 
 Other similar libraries
 ========================
