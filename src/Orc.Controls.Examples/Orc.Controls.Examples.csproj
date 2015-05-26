@@ -100,6 +100,7 @@
     <Compile Include="ViewModels\BindableRichTextBoxViewModel.cs" />
     <Compile Include="ViewModels\DatePickerViewModel.cs" />
     <Compile Include="ViewModels\DirectoryPickerViewModel.cs" />
+    <Compile Include="ViewModels\SaveFilePickerViewModel.cs" />
     <Compile Include="Views\DatePicker.xaml.cs">
       <DependentUpon>DatePicker.xaml</DependentUpon>
     </Compile>
@@ -130,6 +131,9 @@
     <Compile Include="ViewModels\TimeSpanViewModel.cs" />
     <Compile Include="Views\FilterBox.xaml.cs">
       <DependentUpon>FilterBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SaveFilePickerView.xaml.cs">
+      <DependentUpon>SaveFilePickerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TimeSpan.xaml.cs">
       <DependentUpon>TimeSpan.xaml</DependentUpon>
@@ -186,6 +190,10 @@
       <DependentUpon>MainWindowView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\SaveFilePickerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TimeSpan.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
