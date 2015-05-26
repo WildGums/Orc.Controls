@@ -44,6 +44,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DropDownButtonViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FilterBoxViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LogViewerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\OpenFilePickerViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SaveFilePickerViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -66,6 +69,10 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\LogViewerControl.xaml.cs">
       <DependentUpon>LogViewerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\OpenFilePickerView.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>OpenFilePickerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\SaveFilePickerView.xaml.cs">
       <SubType>Code</SubType>
@@ -106,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\LogViewerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\OpenFilePickerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

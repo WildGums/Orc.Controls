@@ -140,6 +140,10 @@
             <views:LogViewer/>
         </TabItem>
 
+        <TabItem Header="OpenFilePickerView">
+            <views:OpenFilePickerView/>
+        </TabItem>
+        
         <TabItem Header="SaveFilePickerView">
             <views:SaveFilePickerView/>
         </TabItem>
