@@ -2,4 +2,11 @@
 <Weavers VerifyAssembly="true">
   <ModuleInit/>
   <Catel/>
+  <Costura>
+    <IncludeAssemblies>
+      Microsoft.WindowsAPICodePack
+      Microsoft.WindowsAPICodePack.Shell
+    </IncludeAssemblies>
+  </Costura>
+  <Costura/>
 </Weavers>

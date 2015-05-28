@@ -37,6 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\ISuggestionListService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\MicrosoftApiSelectDirectoryService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestionListService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DatePickerViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DateTimePickerViewModel.cs" />
