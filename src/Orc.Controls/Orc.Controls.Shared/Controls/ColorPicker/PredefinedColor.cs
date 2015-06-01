@@ -17,7 +17,6 @@ namespace Orc.Controls
     public class PredefinedColor
     {
         #region Static Fields
-
         /// <summary>
         /// The lock singleton.
         /// </summary>
@@ -37,11 +36,9 @@ namespace Orc.Controls
         /// The list theme colors.
         /// </summary>
         private static List<PredefinedColor> listThemeColors;
-
         #endregion
 
         #region Constructors and Destructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PredefinedColor"/> class.
         /// </summary>
@@ -84,11 +81,9 @@ namespace Orc.Controls
                 byte.Parse(rgb.Substring(4, 2), NumberStyles.HexNumber));
             this.Name = name;
         }
-
         #endregion
 
         #region Public Properties
-
         /// <summary>
         /// Gets the all.
         /// </summary>
@@ -124,11 +119,9 @@ namespace Orc.Controls
         /// Gets the value.
         /// </summary>
         public Color Value { get; private set; }
-
         #endregion
 
         #region Public Methods and Operators
-
         /// <summary>
         /// The get color name.
         /// </summary>
@@ -193,11 +186,9 @@ namespace Orc.Controls
             string code = color.ToString();
             return dictionaryColors.ContainsKey(code);
         }
-
         #endregion
 
         #region Methods
-
         /// <summary>
         /// The initialize.
         /// </summary>
@@ -642,7 +633,6 @@ namespace Orc.Controls
                 }
             }
         }
-
         #endregion
     }
 }
