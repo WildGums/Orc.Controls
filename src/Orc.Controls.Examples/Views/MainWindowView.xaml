@@ -104,14 +104,18 @@
                 </Setter.Value>
             </Setter>
         </Style>
-       
     </catel:Window.Resources>
+    
     <TabControl Padding="10" TabStripPlacement="Left" Background="White" BorderBrush="{StaticResource TabControlNormalBorderBrush}">
 
         <TabItem Header="BindableRichTextBox">
             <views:BindableRichTextBox/>
         </TabItem>
-        
+
+        <TabItem Header="ColorPicker">
+            <views:ColorPicker/>
+        </TabItem>
+
         <TabItem Header="DatePicker">
             <views:DatePicker/>
         </TabItem>
