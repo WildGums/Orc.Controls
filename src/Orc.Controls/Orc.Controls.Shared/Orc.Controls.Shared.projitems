@@ -15,6 +15,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Behavior\LinkLabelClickBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BindableRun.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\ColorBoard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\ColorChangedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\ColorHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\ColorPicker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\PredefinedColor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\PredefinedColorItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\WrapPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LinkLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\NumericTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\RichTextBoxParagraph.cs" />
@@ -88,6 +95,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Themes\LinkLabel.generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Themes\ColorPicker.generic.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Themes\WatermarkTextBox.generic.xaml">
