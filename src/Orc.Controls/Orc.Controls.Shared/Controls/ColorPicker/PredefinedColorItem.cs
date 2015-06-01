@@ -16,53 +16,25 @@ namespace Orc.Controls
     /// </summary>
     public class PredefinedColorItem : Control
     {
-        #region Public Methods and Operators
-        /// <summary>
-        /// The on apply template.
-        /// </summary>
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-        }
-        #endregion
-
-        #region Static Fields
-        /// <summary>
-        /// The color property.
-        /// </summary>
-        public static readonly DependencyProperty ColorProperty = DependencyProperty.RegisterAttached(
-            "Color", typeof (Color), typeof (PredefinedColorItem), new PropertyMetadata(Colors.White));
-
-        /// <summary>
-        /// The text property.
-        /// </summary>
-        public static readonly DependencyProperty TextProperty = DependencyProperty.RegisterAttached(
-            "Text", typeof (string), typeof (PredefinedColorItem), new PropertyMetadata(string.Empty));
-        #endregion
-
         #region Constructors and Destructors
         /// <summary>
         /// Initializes a new instance of the <see cref="PredefinedColorItem"/> class.
         /// </summary>
         public PredefinedColorItem()
         {
-            this.DefaultStyleKey = typeof (PredefinedColorItem);
+            DefaultStyleKey = typeof (PredefinedColorItem);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PredefinedColorItem"/> class.
+        /// Initializes a new instance of the <see cref="PredefinedColorItem" /> class.
         /// </summary>
-        /// <param name="color">
-        /// The color.
-        /// </param>
-        /// <param name="text">
-        /// The text.
-        /// </param>
+        /// <param name="color">The color.</param>
+        /// <param name="text">The text.</param>
         public PredefinedColorItem(Color color, string text)
             : this()
         {
-            this.Color = color;
-            this.Text = text;
+            Color = color;
+            Text = text;
         }
         #endregion
 
@@ -72,20 +44,30 @@ namespace Orc.Controls
         /// </summary>
         public Color Color
         {
-            get { return (Color) this.GetValue(ColorProperty); }
-
-            set { this.SetValue(ColorProperty, value); }
+            get { return (Color) GetValue(ColorProperty); }
+            set { SetValue(ColorProperty, value); }
         }
+
+        /// <summary>
+        /// The color property.
+        /// </summary>
+        public static readonly DependencyProperty ColorProperty = DependencyProperty.RegisterAttached(
+            "Color", typeof(Color), typeof(PredefinedColorItem), new PropertyMetadata(Colors.White));
 
         /// <summary>
         /// Gets or sets the text.
         /// </summary>
         public string Text
         {
-            get { return (string) this.GetValue(TextProperty); }
-
-            set { this.SetValue(TextProperty, value); }
+            get { return (string) GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
         }
+
+        /// <summary>
+        /// The text property.
+        /// </summary>
+        public static readonly DependencyProperty TextProperty = DependencyProperty.RegisterAttached(
+            "Text", typeof (string), typeof (PredefinedColorItem), new PropertyMetadata(string.Empty));
         #endregion
     }
 }

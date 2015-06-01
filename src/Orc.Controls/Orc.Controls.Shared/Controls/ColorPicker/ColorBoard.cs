@@ -27,7 +27,7 @@ namespace Orc.Controls
         /// </summary>
         public ColorBoard()
         {
-            this.DefaultStyleKey = typeof (ColorBoard);
+            DefaultStyleKey = typeof (ColorBoard);
         }
         #endregion
 
@@ -37,7 +37,7 @@ namespace Orc.Controls
         /// </summary>
         private bool Updating
         {
-            get { return this.isUpdating != 0; }
+            get { return _isUpdating != 0; }
         }
         #endregion
 
@@ -63,107 +63,107 @@ namespace Orc.Controls
         /// <summary>
         /// The brush color.
         /// </summary>
-        private SolidColorBrush brushColor;
+        private SolidColorBrush _brushColor;
 
         /// <summary>
         /// The button cancel.
         /// </summary>
-        private Button buttonCancel;
+        private Button _buttonCancel;
 
         /// <summary>
         /// The button done.
         /// </summary>
-        private Button buttonDone;
+        private Button _buttonDone;
 
         /// <summary>
         /// The canvas hsv.
         /// </summary>
-        private Canvas canvasHSV;
+        private Canvas _canvasHsv;
 
         /// <summary>
         /// The combo box color.
         /// </summary>
-        private ComboBox comboBoxColor;
+        private ComboBox _comboBoxColor;
 
         /// <summary>
         /// The dictionary color.
         /// </summary>
-        private Dictionary<Color, PredefinedColorItem> dictionaryColor;
+        private Dictionary<Color, PredefinedColorItem> _dictionaryColor;
 
         /// <summary>
         /// The ellipse hsv.
         /// </summary>
-        private Ellipse ellipseHSV;
+        private Ellipse _ellipseHsv;
 
         /// <summary>
         /// The gradient stop a 0.
         /// </summary>
-        private GradientStop gradientStopA0;
+        private GradientStop _gradientStopA0;
 
         /// <summary>
         /// The gradient stop a 1.
         /// </summary>
-        private GradientStop gradientStopA1;
+        private GradientStop _gradientStopA1;
 
         /// <summary>
         /// The gradient stop b 0.
         /// </summary>
-        private GradientStop gradientStopB0;
+        private GradientStop _gradientStopB0;
 
         /// <summary>
         /// The gradient stop b 1.
         /// </summary>
-        private GradientStop gradientStopB1;
+        private GradientStop _gradientStopB1;
 
         /// <summary>
         /// The gradient stop g 0.
         /// </summary>
-        private GradientStop gradientStopG0;
+        private GradientStop _gradientStopG0;
 
         /// <summary>
         /// The gradient stop g 1.
         /// </summary>
-        private GradientStop gradientStopG1;
+        private GradientStop _gradientStopG1;
 
         /// <summary>
         /// The gradient stop hsv color.
         /// </summary>
-        private GradientStop gradientStopHSVColor;
+        private GradientStop _gradientStopHsvColor;
 
         /// <summary>
         /// The gradient stop r 0.
         /// </summary>
-        private GradientStop gradientStopR0;
+        private GradientStop _gradientStopR0;
 
         /// <summary>
         /// The gradient stop r 1.
         /// </summary>
-        private GradientStop gradientStopR1;
+        private GradientStop _gradientStopR1;
 
         /// <summary>
         /// The is updating.
         /// </summary>
-        private int isUpdating;
+        private int _isUpdating;
 
         /// <summary>
         /// The recent colors grid.
         /// </summary>
-        private ListBox recentColorsGrid;
+        private ListBox _recentColorsGrid;
 
         /// <summary>
         /// The rectangle color.
         /// </summary>
-        private Rectangle rectangleColor;
+        private Rectangle _rectangleColor;
 
         /// <summary>
         /// The rectangle hsv.
         /// </summary>
-        private Rectangle rectangleHSV;
+        private Rectangle _rectangleHsv;
 
         /// <summary>
         /// The rectangle root hsv.
         /// </summary>
-        private Rectangle rectangleRootHSV;
+        private Rectangle _rectangleRootHsv;
 
         /// <summary>
         /// The root element.
@@ -173,67 +173,67 @@ namespace Orc.Controls
         /// <summary>
         /// The slider a.
         /// </summary>
-        private Slider sliderA;
+        private Slider _sliderA;
 
         /// <summary>
         /// The slider b.
         /// </summary>
-        private Slider sliderB;
+        private Slider _sliderB;
 
         /// <summary>
         /// The slider g.
         /// </summary>
-        private Slider sliderG;
+        private Slider _sliderG;
 
         /// <summary>
         /// The slider hsv.
         /// </summary>
-        private Slider sliderHSV;
+        private Slider _sliderHsv;
 
         /// <summary>
         /// The slider r.
         /// </summary>
-        private Slider sliderR;
+        private Slider _sliderR;
 
         /// <summary>
         /// The text box a.
         /// </summary>
-        private TextBox textBoxA;
+        private TextBox _textBoxA;
 
         /// <summary>
         /// The text box b.
         /// </summary>
-        private TextBox textBoxB;
+        private TextBox _textBoxB;
 
         /// <summary>
         /// The text box color.
         /// </summary>
-        private TextBox textBoxColor;
+        private TextBox _textBoxColor;
 
         /// <summary>
         /// The text box g.
         /// </summary>
-        private TextBox textBoxG;
+        private TextBox _textBoxG;
 
         /// <summary>
         /// The text box r.
         /// </summary>
-        private TextBox textBoxR;
+        private TextBox _textBoxR;
 
         /// <summary>
         /// The theme colors.
         /// </summary>
-        private Dictionary<Color, PredefinedColorItem> themeColors;
+        private Dictionary<Color, PredefinedColorItem> _themeColors;
 
         /// <summary>
         /// The theme colors grid.
         /// </summary>
-        private ListBox themeColorsGrid;
+        private ListBox _themeColorsGrid;
 
         /// <summary>
         /// The tracking hsv.
         /// </summary>
-        private bool trackingHSV;
+        private bool _trackingHsv;
         #endregion
 
         #region Public Events
@@ -254,9 +254,8 @@ namespace Orc.Controls
         /// </summary>
         public Color Color
         {
-            get { return (Color) this.GetValue(ColorProperty); }
-
-            set { this.SetValue(ColorProperty, value); }
+            get { return (Color) GetValue(ColorProperty); }
+            set { SetValue(ColorProperty, value); }
         }
 
         /// <summary>
@@ -264,9 +263,9 @@ namespace Orc.Controls
         /// </summary>
         public List<PredefinedColorItem> RecentColorItems
         {
-            get { return (List<PredefinedColorItem>) this.GetValue(RecentColorItemsProperty); }
+            get { return (List<PredefinedColorItem>) GetValue(RecentColorItemsProperty); }
 
-            set { this.SetValue(RecentColorItemsProperty, value); }
+            set { SetValue(RecentColorItemsProperty, value); }
         }
         #endregion
 
@@ -278,73 +277,73 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
-            this.rootElement = (FrameworkElement) this.GetTemplateChild("RootElement");
+            rootElement = (FrameworkElement) GetTemplateChild("RootElement");
 
-            this.canvasHSV = (Canvas) this.GetTemplateChild("CanvasHSV");
-            this.rectangleRootHSV = (Rectangle) this.GetTemplateChild("RectangleRootHSV");
-            this.gradientStopHSVColor = (GradientStop) this.GetTemplateChild("GradientStopHSVColor");
-            this.rectangleHSV = (Rectangle) this.GetTemplateChild("RectangleHSV");
-            this.ellipseHSV = (Ellipse) this.GetTemplateChild("EllipseHSV");
-            this.sliderHSV = (Slider) this.GetTemplateChild("SliderHSV");
+            _canvasHsv = (Canvas) GetTemplateChild("CanvasHSV");
+            _rectangleRootHsv = (Rectangle) GetTemplateChild("RectangleRootHSV");
+            _gradientStopHsvColor = (GradientStop) GetTemplateChild("GradientStopHSVColor");
+            _rectangleHsv = (Rectangle) GetTemplateChild("RectangleHSV");
+            _ellipseHsv = (Ellipse) GetTemplateChild("EllipseHSV");
+            _sliderHsv = (Slider) GetTemplateChild("SliderHSV");
 
-            this.sliderA = (Slider) this.GetTemplateChild("SliderA");
-            this.gradientStopA0 = (GradientStop) this.GetTemplateChild("GradientStopA0");
-            this.gradientStopA1 = (GradientStop) this.GetTemplateChild("GradientStopA1");
-            this.sliderR = (Slider) this.GetTemplateChild("SliderR");
-            this.gradientStopR0 = (GradientStop) this.GetTemplateChild("GradientStopR0");
-            this.gradientStopR1 = (GradientStop) this.GetTemplateChild("GradientStopR1");
-            this.sliderG = (Slider) this.GetTemplateChild("SliderG");
-            this.gradientStopG0 = (GradientStop) this.GetTemplateChild("GradientStopG0");
-            this.gradientStopG1 = (GradientStop) this.GetTemplateChild("GradientStopG1");
-            this.sliderB = (Slider) this.GetTemplateChild("SliderB");
-            this.gradientStopB0 = (GradientStop) this.GetTemplateChild("GradientStopB0");
-            this.gradientStopB1 = (GradientStop) this.GetTemplateChild("GradientStopB1");
+            _sliderA = (Slider) GetTemplateChild("SliderA");
+            _gradientStopA0 = (GradientStop) GetTemplateChild("GradientStopA0");
+            _gradientStopA1 = (GradientStop) GetTemplateChild("GradientStopA1");
+            _sliderR = (Slider) GetTemplateChild("SliderR");
+            _gradientStopR0 = (GradientStop) GetTemplateChild("GradientStopR0");
+            _gradientStopR1 = (GradientStop) GetTemplateChild("GradientStopR1");
+            _sliderG = (Slider) GetTemplateChild("SliderG");
+            _gradientStopG0 = (GradientStop) GetTemplateChild("GradientStopG0");
+            _gradientStopG1 = (GradientStop) GetTemplateChild("GradientStopG1");
+            _sliderB = (Slider) GetTemplateChild("SliderB");
+            _gradientStopB0 = (GradientStop) GetTemplateChild("GradientStopB0");
+            _gradientStopB1 = (GradientStop) GetTemplateChild("GradientStopB1");
 
-            this.textBoxA = (TextBox) this.GetTemplateChild("TextBoxA");
-            this.textBoxR = (TextBox) this.GetTemplateChild("TextBoxR");
-            this.textBoxG = (TextBox) this.GetTemplateChild("TextBoxG");
-            this.textBoxB = (TextBox) this.GetTemplateChild("TextBoxB");
+            _textBoxA = (TextBox) GetTemplateChild("TextBoxA");
+            _textBoxR = (TextBox) GetTemplateChild("TextBoxR");
+            _textBoxG = (TextBox) GetTemplateChild("TextBoxG");
+            _textBoxB = (TextBox) GetTemplateChild("TextBoxB");
 
-            this.comboBoxColor = (ComboBox) this.GetTemplateChild("ComboBoxColor");
-            this.rectangleColor = (Rectangle) this.GetTemplateChild("RectangleColor");
-            this.brushColor = (SolidColorBrush) this.GetTemplateChild("BrushColor");
-            this.textBoxColor = (TextBox) this.GetTemplateChild("TextBoxColor");
-            this.buttonDone = (Button) this.GetTemplateChild("ButtonDone");
-            this.buttonCancel = (Button) this.GetTemplateChild("ButtonCancel");
-            this.themeColorsGrid = (ListBox) this.GetTemplateChild("ThemeColorsGrid");
-            this.recentColorsGrid = (ListBox) this.GetTemplateChild("RecentColorsGrid");
+            _comboBoxColor = (ComboBox) GetTemplateChild("ComboBoxColor");
+            _rectangleColor = (Rectangle) GetTemplateChild("RectangleColor");
+            _brushColor = (SolidColorBrush) GetTemplateChild("BrushColor");
+            _textBoxColor = (TextBox) GetTemplateChild("TextBoxColor");
+            _buttonDone = (Button) GetTemplateChild("ButtonDone");
+            _buttonCancel = (Button) GetTemplateChild("ButtonCancel");
+            _themeColorsGrid = (ListBox) GetTemplateChild("ThemeColorsGrid");
+            _recentColorsGrid = (ListBox) GetTemplateChild("RecentColorsGrid");
 
-            this.themeColorsGrid.SelectionChanged += this.themeColorsGrid_SelectionChanged;
-            this.recentColorsGrid.SelectionChanged += this.recentColorsGrid_SelectionChanged;
+            _themeColorsGrid.SelectionChanged += themeColorsGrid_SelectionChanged;
+            _recentColorsGrid.SelectionChanged += recentColorsGrid_SelectionChanged;
 
-            this.rectangleHSV.MouseLeftButtonDown += this.HSV_MouseLeftButtonDown;
-            this.rectangleHSV.MouseMove += this.HSV_MouseMove;
-            this.rectangleHSV.MouseLeftButtonUp += this.HSV_MouseLeftButtonUp;
-            this.rectangleHSV.MouseLeave += this.HSV_MouseLeave;
+            _rectangleHsv.MouseLeftButtonDown += HSV_MouseLeftButtonDown;
+            _rectangleHsv.MouseMove += HSV_MouseMove;
+            _rectangleHsv.MouseLeftButtonUp += HSV_MouseLeftButtonUp;
+            _rectangleHsv.MouseLeave += HSV_MouseLeave;
 
-            this.sliderHSV.ValueChanged += this.sliderHSV_ValueChanged;
+            _sliderHsv.ValueChanged += sliderHSV_ValueChanged;
 
-            this.sliderA.ValueChanged += this.sliderA_ValueChanged;
-            this.sliderR.ValueChanged += this.sliderR_ValueChanged;
-            this.sliderG.ValueChanged += this.sliderG_ValueChanged;
-            this.sliderB.ValueChanged += this.sliderB_ValueChanged;
+            _sliderA.ValueChanged += sliderA_ValueChanged;
+            _sliderR.ValueChanged += sliderR_ValueChanged;
+            _sliderG.ValueChanged += sliderG_ValueChanged;
+            _sliderB.ValueChanged += sliderB_ValueChanged;
 
-            this.textBoxA.LostFocus += this.textBoxA_LostFocus;
-            this.textBoxR.LostFocus += this.textBoxR_LostFocus;
-            this.textBoxG.LostFocus += this.textBoxG_LostFocus;
-            this.textBoxB.LostFocus += this.textBoxB_LostFocus;
+            _textBoxA.LostFocus += textBoxA_LostFocus;
+            _textBoxR.LostFocus += textBoxR_LostFocus;
+            _textBoxG.LostFocus += textBoxG_LostFocus;
+            _textBoxB.LostFocus += textBoxB_LostFocus;
 
-            this.comboBoxColor.SelectionChanged += this.comboBoxColor_SelectionChanged;
-            this.textBoxColor.GotFocus += this.textBoxColor_GotFocus;
-            this.textBoxColor.LostFocus += this.textBoxColor_LostFocus;
-            this.buttonDone.Click += this.buttonDone_Click;
-            this.buttonCancel.Click += this.buttonCancel_Click;
+            _comboBoxColor.SelectionChanged += comboBoxColor_SelectionChanged;
+            _textBoxColor.GotFocus += textBoxColor_GotFocus;
+            _textBoxColor.LostFocus += textBoxColor_LostFocus;
+            _buttonDone.Click += buttonDone_Click;
+            _buttonCancel.Click += buttonCancel_Click;
 
-            this.InitializePredefined();
-            this.InitializeThemeColors();
-            this.UpdateControls(this.Color, true, true, true);
+            InitializePredefined();
+            InitializeThemeColors();
+            UpdateControls(Color, true, true, true);
 
-            this.KeyDown += this.ColorBoard_KeyDown;
+            KeyDown += ColorBoard_KeyDown;
         }
 
         /// <summary>
@@ -352,9 +351,9 @@ namespace Orc.Controls
         /// </summary>
         public void OnCancelClicked()
         {
-            if (this.CancelClicked != null)
+            if (CancelClicked != null)
             {
-                this.CancelClicked(this, new RoutedEventArgs());
+                CancelClicked(this, new RoutedEventArgs());
             }
         }
 
@@ -363,26 +362,26 @@ namespace Orc.Controls
         /// </summary>
         public void OnDoneClicked()
         {
-            var ci = new PredefinedColorItem(this.Color, this.Color.ToString());
+            var ci = new PredefinedColorItem(Color, Color.ToString());
 
-            if (this.RecentColorItems.Where(i => i.Color == ci.Color).Count() > 0)
+            if (RecentColorItems.Where(i => i.Color == ci.Color).Count() > 0)
             {
-                this.recentColorsGrid.Items.RemoveAt(
-                    this.recentColorsGrid.Items.IndexOf(this.RecentColorItems.First(i => i.Color == ci.Color)));
-                this.RecentColorItems.Remove(this.RecentColorItems.First(i => i.Color == ci.Color));
+                _recentColorsGrid.Items.RemoveAt(_recentColorsGrid.Items.IndexOf(RecentColorItems.First(i => i.Color == ci.Color)));
+                RecentColorItems.Remove(RecentColorItems.First(i => i.Color == ci.Color));
 
-                this.recentColorsGrid.Items.Insert(0, ci);
-                this.RecentColorItems.Insert(0, ci);
+                _recentColorsGrid.Items.Insert(0, ci);
+                RecentColorItems.Insert(0, ci);
             }
             else
             {
-                this.RecentColorItems.Insert(0, ci);
-                this.recentColorsGrid.Items.Insert(0, ci);
+                RecentColorItems.Insert(0, ci);
+                _recentColorsGrid.Items.Insert(0, ci);
             }
 
-            if (this.DoneClicked != null)
+            var doneClicked = DoneClicked;
+            if (doneClicked != null)
             {
-                this.DoneClicked(this, new RoutedEventArgs());
+                doneClicked(this, new RoutedEventArgs());
             }
         }
         #endregion
@@ -391,12 +390,8 @@ namespace Orc.Controls
         /// <summary>
         /// The on color property changed.
         /// </summary>
-        /// <param name="d">
-        /// The d.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The e.</param>
         private static void OnColorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as ColorBoard;
@@ -417,7 +412,7 @@ namespace Orc.Controls
         /// </summary>
         private void BeginUpdate()
         {
-            this.isUpdating++;
+            _isUpdating++;
         }
 
         /// <summary>
@@ -433,7 +428,7 @@ namespace Orc.Controls
         {
             if (e.Key == Key.Enter)
             {
-                this.OnDoneClicked();
+                OnDoneClicked();
             }
         }
 
@@ -442,23 +437,21 @@ namespace Orc.Controls
         /// </summary>
         private void EndUpdate()
         {
-            this.isUpdating--;
+            _isUpdating--;
         }
 
         /// <summary>
         /// The get hsv color.
         /// </summary>
-        /// <returns>
-        /// The <see cref="Color"/>.
-        /// </returns>
+        /// <returns>The <see cref="Color" />.</returns>
         private Color GetHSVColor()
         {
-            double h = this.sliderHSV.Value;
+            double h = _sliderHsv.Value;
 
-            double x = (double) this.ellipseHSV.GetValue(Canvas.LeftProperty) + this.ellipseHSV.ActualWidth/2;
-            double y = (double) this.ellipseHSV.GetValue(Canvas.TopProperty) + this.ellipseHSV.ActualHeight/2;
+            double x = (double) _ellipseHsv.GetValue(Canvas.LeftProperty) + _ellipseHsv.ActualWidth/2;
+            double y = (double) _ellipseHsv.GetValue(Canvas.TopProperty) + _ellipseHsv.ActualHeight/2;
 
-            double s = x/(this.rectangleHSV.ActualWidth - 1);
+            double s = x/(_rectangleHsv.ActualWidth - 1);
             if (s < 0d)
             {
                 s = 0d;
@@ -468,7 +461,7 @@ namespace Orc.Controls
                 s = 1d;
             }
 
-            double v = 1 - y/(this.rectangleHSV.ActualHeight - 1);
+            double v = 1 - y/(_rectangleHsv.ActualHeight - 1);
             if (v < 0d)
             {
                 v = 0d;
@@ -484,15 +477,13 @@ namespace Orc.Controls
         /// <summary>
         /// The get rgb color.
         /// </summary>
-        /// <returns>
-        /// The <see cref="Color"/>.
-        /// </returns>
+        /// <returns>The <see cref="Color" />.</returns>
         private Color GetRGBColor()
         {
-            var a = (byte) this.sliderA.Value;
-            var r = (byte) this.sliderR.Value;
-            var g = (byte) this.sliderG.Value;
-            var b = (byte) this.sliderB.Value;
+            var a = (byte) _sliderA.Value;
+            var r = (byte) _sliderR.Value;
+            var g = (byte) _sliderG.Value;
+            var b = (byte) _sliderB.Value;
 
             return Color.FromArgb(a, r, g, b);
         }
@@ -500,125 +491,109 @@ namespace Orc.Controls
         /// <summary>
         /// The hs v_ mouse leave.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void HSV_MouseLeave(object sender, MouseEventArgs e)
         {
-            this.trackingHSV = false;
-            this.rectangleHSV.ReleaseMouseCapture();
+            _trackingHsv = false;
+            _rectangleHsv.ReleaseMouseCapture();
         }
 
         /// <summary>
         /// The hs v_ mouse left button down.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void HSV_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
-            this.trackingHSV = this.rectangleHSV.CaptureMouse();
+            _trackingHsv = _rectangleHsv.CaptureMouse();
 
-            Point point = e.GetPosition(this.rectangleHSV);
+            Point point = e.GetPosition(_rectangleHsv);
 
-            Size size = this.ellipseHSV.RenderSize;
+            Size size = _ellipseHsv.RenderSize;
 
-            this.ellipseHSV.SetValue(Canvas.LeftProperty, point.X - this.ellipseHSV.ActualWidth/2);
-            this.ellipseHSV.SetValue(Canvas.TopProperty, point.Y - this.ellipseHSV.ActualHeight/2);
+            _ellipseHsv.SetValue(Canvas.LeftProperty, point.X - _ellipseHsv.ActualWidth/2);
+            _ellipseHsv.SetValue(Canvas.TopProperty, point.Y - _ellipseHsv.ActualHeight/2);
 
-            if (this.Updating)
+            if (Updating)
             {
                 return;
             }
 
-            Color color = this.GetHSVColor();
-            this.UpdateControls(color, false, true, true);
+            Color color = GetHSVColor();
+            UpdateControls(color, false, true, true);
         }
 
         /// <summary>
         /// The hs v_ mouse left button up.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void HSV_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
-            this.trackingHSV = false;
+            _trackingHsv = false;
 
-            this.rectangleHSV.ReleaseMouseCapture();
+            _rectangleHsv.ReleaseMouseCapture();
         }
 
         /// <summary>
         /// The hs v_ mouse move.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void HSV_MouseMove(object sender, MouseEventArgs e)
         {
-            if (this.trackingHSV)
+            if (_trackingHsv)
             {
-                Point point = e.GetPosition(this.rectangleHSV);
-                Size size = this.ellipseHSV.RenderSize;
+                Point point = e.GetPosition(_rectangleHsv);
+                Size size = _ellipseHsv.RenderSize;
 
                 double ellipseX = 0;
                 if (point.X < 0)
                 {
-                    ellipseX = 0 - this.ellipseHSV.ActualWidth/2;
+                    ellipseX = 0 - _ellipseHsv.ActualWidth/2;
                 }
                 else
                 {
-                    if (point.X > this.canvasHSV.ActualWidth)
+                    if (point.X > _canvasHsv.ActualWidth)
                     {
-                        ellipseX = this.canvasHSV.ActualWidth - this.ellipseHSV.ActualWidth/2;
+                        ellipseX = _canvasHsv.ActualWidth - _ellipseHsv.ActualWidth/2;
                     }
                     else
                     {
-                        ellipseX = point.X - this.ellipseHSV.ActualWidth/2;
+                        ellipseX = point.X - _ellipseHsv.ActualWidth/2;
                     }
                 }
 
                 double ellipseY = 0;
                 if (point.Y < 0)
                 {
-                    ellipseY = 0 - this.ellipseHSV.ActualHeight/2;
+                    ellipseY = 0 - _ellipseHsv.ActualHeight/2;
                 }
                 else
                 {
-                    if (point.Y > this.canvasHSV.ActualHeight)
+                    if (point.Y > _canvasHsv.ActualHeight)
                     {
-                        ellipseY = this.canvasHSV.ActualHeight - this.ellipseHSV.ActualHeight/2;
+                        ellipseY = _canvasHsv.ActualHeight - _ellipseHsv.ActualHeight/2;
                     }
                     else
                     {
-                        ellipseY = point.Y - this.ellipseHSV.ActualHeight/2;
+                        ellipseY = point.Y - _ellipseHsv.ActualHeight/2;
                     }
                 }
 
-                this.ellipseHSV.SetValue(Canvas.LeftProperty, ellipseX);
-                this.ellipseHSV.SetValue(Canvas.TopProperty, ellipseY);
+                _ellipseHsv.SetValue(Canvas.LeftProperty, ellipseX);
+                _ellipseHsv.SetValue(Canvas.TopProperty, ellipseY);
 
-                if (this.Updating)
+                if (Updating)
                 {
                     return;
                 }
 
-                Color color = this.GetHSVColor();
-                this.UpdateControls(color, false, true, true);
+                Color color = GetHSVColor();
+                UpdateControls(color, false, true, true);
             }
         }
 
@@ -627,21 +602,21 @@ namespace Orc.Controls
         /// </summary>
         private void InitializePredefined()
         {
-            if (this.dictionaryColor != null)
+            if (_dictionaryColor != null)
             {
                 return;
             }
 
             List<PredefinedColor> list = PredefinedColor.All;
-            this.dictionaryColor = new Dictionary<Color, PredefinedColorItem>();
+            _dictionaryColor = new Dictionary<Color, PredefinedColorItem>();
             foreach (PredefinedColor color in list)
             {
                 var item = new PredefinedColorItem(color.Value, color.Name);
-                this.comboBoxColor.Items.Add(item);
+                _comboBoxColor.Items.Add(item);
 
-                if (!this.dictionaryColor.ContainsKey(color.Value))
+                if (!_dictionaryColor.ContainsKey(color.Value))
                 {
-                    this.dictionaryColor.Add(color.Value, item);
+                    _dictionaryColor.Add(color.Value, item);
                 }
             }
         }
@@ -651,13 +626,13 @@ namespace Orc.Controls
         /// </summary>
         private void InitializeThemeColors()
         {
-            if (this.themeColors != null)
+            if (_themeColors != null)
             {
                 return;
             }
 
             List<PredefinedColor> list = PredefinedColor.AllThemeColors;
-            this.themeColors = new Dictionary<Color, PredefinedColorItem>();
+            _themeColors = new Dictionary<Color, PredefinedColorItem>();
             int r = 0;
             int c = 0;
             foreach (PredefinedColor color in list)
@@ -667,11 +642,11 @@ namespace Orc.Controls
                 item.SetValue(Grid.ColumnProperty, c);
 
                 // item.Style = themeColorsGrid.Resources["ThemeColorItemStyle"] as Style;
-                this.themeColorsGrid.Items.Add(item);
+                _themeColorsGrid.Items.Add(item);
 
-                if (!this.themeColors.ContainsKey(color.Value))
+                if (!_themeColors.ContainsKey(color.Value))
                 {
-                    this.themeColors.Add(color.Value, item);
+                    _themeColors.Add(color.Value, item);
                 }
 
                 if (r < 5)
@@ -689,28 +664,20 @@ namespace Orc.Controls
         /// <summary>
         /// The update controls.
         /// </summary>
-        /// <param name="color">
-        /// The color.
-        /// </param>
-        /// <param name="hsv">
-        /// The hsv.
-        /// </param>
-        /// <param name="rgb">
-        /// The rgb.
-        /// </param>
-        /// <param name="predifined">
-        /// The predifined.
-        /// </param>
+        /// <param name="color">The color.</param>
+        /// <param name="hsv">The hsv.</param>
+        /// <param name="rgb">The rgb.</param>
+        /// <param name="predifined">The predifined.</param>
         private void UpdateControls(Color color, bool hsv, bool rgb, bool predifined)
         {
-            if (this.Updating)
+            if (Updating)
             {
                 return;
             }
 
             try
             {
-                this.BeginUpdate();
+                BeginUpdate();
 
                 // HSV
                 if (hsv)
@@ -719,14 +686,14 @@ namespace Orc.Controls
                     double s = ColorHelper.GetHSV_S(color);
                     double v = ColorHelper.GetHSV_V(color);
 
-                    this.sliderHSV.Value = h;
-                    this.gradientStopHSVColor.Color = ColorHelper.HSV2RGB(h, 1d, 1d);
+                    _sliderHsv.Value = h;
+                    _gradientStopHsvColor.Color = ColorHelper.HSV2RGB(h, 1d, 1d);
 
-                    double x = s*(this.rectangleHSV.ActualWidth - 1);
-                    double y = (1 - v)*(this.rectangleHSV.ActualHeight - 1);
+                    double x = s*(_rectangleHsv.ActualWidth - 1);
+                    double y = (1 - v)*(_rectangleHsv.ActualHeight - 1);
 
-                    this.ellipseHSV.SetValue(Canvas.LeftProperty, x - this.ellipseHSV.ActualWidth/2);
-                    this.ellipseHSV.SetValue(Canvas.TopProperty, y - this.ellipseHSV.ActualHeight/2);
+                    _ellipseHsv.SetValue(Canvas.LeftProperty, x - _ellipseHsv.ActualWidth/2);
+                    _ellipseHsv.SetValue(Canvas.TopProperty, y - _ellipseHsv.ActualHeight/2);
                 }
 
                 if (rgb)
@@ -736,313 +703,261 @@ namespace Orc.Controls
                     byte g = color.G;
                     byte b = color.B;
 
-                    this.sliderA.Value = a;
-                    this.gradientStopA0.Color = Color.FromArgb(0, r, g, b);
-                    this.gradientStopA1.Color = Color.FromArgb(255, r, g, b);
-                    this.textBoxA.Text = a.ToString("X2");
+                    _sliderA.Value = a;
+                    _gradientStopA0.Color = Color.FromArgb(0, r, g, b);
+                    _gradientStopA1.Color = Color.FromArgb(255, r, g, b);
+                    _textBoxA.Text = a.ToString("X2");
 
-                    this.sliderR.Value = r;
-                    this.gradientStopR0.Color = Color.FromArgb(255, 0, g, b);
-                    this.gradientStopR1.Color = Color.FromArgb(255, 255, g, b);
-                    this.textBoxR.Text = r.ToString("X2");
+                    _sliderR.Value = r;
+                    _gradientStopR0.Color = Color.FromArgb(255, 0, g, b);
+                    _gradientStopR1.Color = Color.FromArgb(255, 255, g, b);
+                    _textBoxR.Text = r.ToString("X2");
 
-                    this.sliderG.Value = g;
-                    this.gradientStopG0.Color = Color.FromArgb(255, r, 0, b);
-                    this.gradientStopG1.Color = Color.FromArgb(255, r, 255, b);
-                    this.textBoxG.Text = g.ToString("X2");
+                    _sliderG.Value = g;
+                    _gradientStopG0.Color = Color.FromArgb(255, r, 0, b);
+                    _gradientStopG1.Color = Color.FromArgb(255, r, 255, b);
+                    _textBoxG.Text = g.ToString("X2");
 
-                    this.sliderB.Value = b;
-                    this.gradientStopB0.Color = Color.FromArgb(255, r, g, 0);
-                    this.gradientStopB1.Color = Color.FromArgb(255, r, g, 255);
-                    this.textBoxB.Text = b.ToString("X2");
+                    _sliderB.Value = b;
+                    _gradientStopB0.Color = Color.FromArgb(255, r, g, 0);
+                    _gradientStopB1.Color = Color.FromArgb(255, r, g, 255);
+                    _textBoxB.Text = b.ToString("X2");
                 }
 
                 if (predifined)
                 {
-                    this.brushColor.Color = color;
-                    if (this.dictionaryColor.ContainsKey(color))
+                    _brushColor.Color = color;
+                    if (_dictionaryColor.ContainsKey(color))
                     {
-                        this.comboBoxColor.SelectedItem = this.dictionaryColor[color];
-                        this.textBoxColor.Text = string.Empty;
+                        _comboBoxColor.SelectedItem = _dictionaryColor[color];
+                        _textBoxColor.Text = string.Empty;
                     }
                     else
                     {
-                        this.comboBoxColor.SelectedItem = null;
-                        this.textBoxColor.Text = color.ToString();
+                        _comboBoxColor.SelectedItem = null;
+                        _textBoxColor.Text = color.ToString();
                     }
                 }
 
-                this.Color = color;
+                Color = color;
             }
             finally
             {
-                this.EndUpdate();
+                EndUpdate();
             }
         }
 
         /// <summary>
         /// The button cancel_ click.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void buttonCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.OnCancelClicked();
+            OnCancelClicked();
         }
 
         /// <summary>
         /// The button done_ click.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void buttonDone_Click(object sender, RoutedEventArgs e)
         {
-            this.OnDoneClicked();
+            OnDoneClicked();
         }
 
         /// <summary>
         /// The combo box color_ selection changed.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void comboBoxColor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (this.Updating)
+            if (Updating)
             {
                 return;
             }
 
-            var coloritem = this.comboBoxColor.SelectedItem as PredefinedColorItem;
+            var coloritem = _comboBoxColor.SelectedItem as PredefinedColorItem;
             if (coloritem != null)
             {
-                this.Color = coloritem.Color;
+                Color = coloritem.Color;
             }
         }
 
         /// <summary>
         /// The recent colors grid_ selection changed.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void recentColorsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (this.recentColorsGrid.SelectedItems.Count == 1)
+            if (_recentColorsGrid.SelectedItems.Count == 1)
             {
-                Color c = ((PredefinedColorItem) this.recentColorsGrid.SelectedItem).Color;
-                this.UpdateControls(c, true, true, true);
+                Color c = ((PredefinedColorItem) _recentColorsGrid.SelectedItem).Color;
+                UpdateControls(c, true, true, true);
             }
         }
 
         /// <summary>
         /// The slider a_ value changed.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void sliderA_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (this.Updating)
+            if (Updating)
             {
                 return;
             }
 
-            Color color = this.GetRGBColor();
-            this.UpdateControls(color, true, true, true);
+            Color color = GetRGBColor();
+            UpdateControls(color, true, true, true);
         }
 
         /// <summary>
         /// The slider b_ value changed.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void sliderB_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (this.Updating)
+            if (Updating)
             {
                 return;
             }
 
-            Color color = this.GetRGBColor();
-            this.UpdateControls(color, true, true, true);
+            Color color = GetRGBColor();
+            UpdateControls(color, true, true, true);
         }
 
         /// <summary>
         /// The slider g_ value changed.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void sliderG_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (this.Updating)
+            if (Updating)
             {
                 return;
             }
 
-            Color color = this.GetRGBColor();
-            this.UpdateControls(color, true, true, true);
+            Color color = GetRGBColor();
+            UpdateControls(color, true, true, true);
         }
 
         /// <summary>
         /// The slider hs v_ value changed.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void sliderHSV_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (this.Updating)
+            if (Updating)
             {
                 return;
             }
 
-            this.gradientStopHSVColor.Color = ColorHelper.HSV2RGB(e.NewValue, 1d, 1d);
+            _gradientStopHsvColor.Color = ColorHelper.HSV2RGB(e.NewValue, 1d, 1d);
 
-            Color color = this.GetHSVColor();
-            this.UpdateControls(color, false, true, true);
+            Color color = GetHSVColor();
+            UpdateControls(color, false, true, true);
         }
 
         /// <summary>
         /// The slider r_ value changed.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void sliderR_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (this.Updating)
+            if (Updating)
             {
                 return;
             }
 
-            Color color = this.GetRGBColor();
-            this.UpdateControls(color, true, true, true);
+            Color color = GetRGBColor();
+            UpdateControls(color, true, true, true);
         }
 
         /// <summary>
         /// The text box a_ lost focus.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void textBoxA_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (this.Updating)
+            if (Updating)
             {
                 return;
             }
 
             int value = 0;
-            if (int.TryParse(this.textBoxA.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
+            if (int.TryParse(_textBoxA.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
             {
-                this.sliderA.Value = value;
+                _sliderA.Value = value;
             }
         }
 
         /// <summary>
         /// The text box b_ lost focus.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void textBoxB_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (this.Updating)
+            if (Updating)
             {
                 return;
             }
 
             int value = 0;
-            if (int.TryParse(this.textBoxB.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
+            if (int.TryParse(_textBoxB.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
             {
-                this.sliderB.Value = value;
+                _sliderB.Value = value;
             }
         }
 
         /// <summary>
         /// The text box color_ got focus.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void textBoxColor_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (this.Updating)
+            if (Updating)
             {
                 return;
             }
 
             try
             {
-                this.BeginUpdate();
+                BeginUpdate();
 
-                this.comboBoxColor.SelectedItem = null;
-                this.textBoxColor.Text = this.Color.ToString();
+                _comboBoxColor.SelectedItem = null;
+                _textBoxColor.Text = Color.ToString();
             }
             finally
             {
-                this.EndUpdate();
+                EndUpdate();
             }
         }
 
         /// <summary>
         /// The text box color_ lost focus.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void textBoxColor_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (this.Updating)
+            if (Updating)
             {
                 return;
             }
 
-            string text = this.textBoxColor.Text.TrimStart('#');
+            string text = _textBoxColor.Text.TrimStart('#');
             uint value = 0;
             if (uint.TryParse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
             {
@@ -1060,75 +975,63 @@ namespace Orc.Controls
                 }
 
                 Color color = Color.FromArgb(a, r, g, b);
-                this.Color = color;
+                Color = color;
             }
             else
             {
-                this.Color = Colors.White;
+                Color = Colors.White;
             }
         }
 
         /// <summary>
         /// The text box g_ lost focus.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void textBoxG_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (this.Updating)
+            if (Updating)
             {
                 return;
             }
 
             int value = 0;
-            if (int.TryParse(this.textBoxG.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
+            if (int.TryParse(_textBoxG.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
             {
-                this.sliderG.Value = value;
+                _sliderG.Value = value;
             }
         }
 
         /// <summary>
         /// The text box r_ lost focus.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void textBoxR_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (this.Updating)
+            if (Updating)
             {
                 return;
             }
 
             int value = 0;
-            if (int.TryParse(this.textBoxR.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
+            if (int.TryParse(_textBoxR.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
             {
-                this.sliderR.Value = value;
+                _sliderR.Value = value;
             }
         }
 
         /// <summary>
         /// The theme colors grid_ selection changed.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void themeColorsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (this.themeColorsGrid.SelectedItems.Count == 1)
+            if (_themeColorsGrid.SelectedItems.Count == 1)
             {
-                Color c = ((PredefinedColorItem) this.themeColorsGrid.SelectedItem).Color;
-                this.UpdateControls(c, true, true, true);
+                Color c = ((PredefinedColorItem) _themeColorsGrid.SelectedItem).Color;
+                UpdateControls(c, true, true, true);
             }
         }
         #endregion

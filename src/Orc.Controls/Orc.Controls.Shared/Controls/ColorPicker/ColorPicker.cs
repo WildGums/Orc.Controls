@@ -22,21 +22,31 @@ namespace Orc.Controls
     [TemplatePart(Name = "PART_ToggleDropDown", Type = typeof (ToggleButton))]
     public class ColorPicker : Control
     {
+        #region Fields
+        /// <summary>
+        /// The color board.
+        /// </summary>
+        private ColorBoard _colorBoard;
+
+        /// <summary>
+        /// The popup.
+        /// </summary>
+        private Popup _popup;
+
+        /// <summary>
+        /// The toggle drop down.
+        /// </summary>
+        private ToggleButton _toggleDropDown;
+        #endregion
+
         #region Constructors and Destructors
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorPicker"/> class.
         /// </summary>
         public ColorPicker()
         {
-            this.DefaultStyleKey = typeof (ColorPicker);
+            DefaultStyleKey = typeof (ColorPicker);
         }
-        #endregion
-
-        #region Public Events
-        /// <summary>
-        /// The color changed.
-        /// </summary>
-        public event EventHandler<ColorChangedEventArgs> ColorChanged;
         #endregion
 
         #region Public Methods and Operators
@@ -47,68 +57,22 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
-            this.popup = (Popup) this.GetTemplateChild("PART_Popup");
-            this.toggleDropDown = (ToggleButton) this.GetTemplateChild("PART_ToggleButton");
-            this.colorBoard = new ColorBoard();
-            this.colorBoard.Color = this.Color;
-            this.colorBoard.SizeChanged += this.colorBoard_SizeChanged;
-            this.popup.Child = this.colorBoard;
-            this.colorBoard.DoneClicked += this.colorBoard_DoneClicked;
-            this.colorBoard.CancelClicked += this.colorBoard_CancelClicked;
+            _popup = (Popup) GetTemplateChild("PART_Popup");
+            _toggleDropDown = (ToggleButton) GetTemplateChild("PART_ToggleButton");
+            _colorBoard = new ColorBoard();
+            _colorBoard.Color = Color;
+            _colorBoard.SizeChanged += colorBoard_SizeChanged;
+            _popup.Child = _colorBoard;
+            _colorBoard.DoneClicked += colorBoard_DoneClicked;
+            _colorBoard.CancelClicked += colorBoard_CancelClicked;
 
             var b = new Binding("Color");
             b.Mode = BindingMode.TwoWay;
-            b.Source = this.colorBoard;
-            this.SetBinding(CurrentColorProperty, b);
+            b.Source = _colorBoard;
+            SetBinding(CurrentColorProperty, b);
 
-            this.KeyDown += this.ColorPicker_KeyDown;
+            KeyDown += ColorPicker_KeyDown;
         }
-        #endregion
-
-        #region Static Fields
-        /// <summary>
-        /// The color property.
-        /// </summary>
-        public static readonly DependencyProperty ColorProperty = DependencyProperty.Register(
-            "Color", typeof (Color), typeof (ColorPicker), new PropertyMetadata(Colors.White, OnColorPropertyChaged));
-
-        /// <summary>
-        /// The current color property.
-        /// </summary>
-        public static readonly DependencyProperty CurrentColorProperty = DependencyProperty.Register(
-            "CurrentColor", typeof (Color), typeof (ColorPicker), new PropertyMetadata(Colors.White));
-
-        /// <summary>
-        /// The is drop down open property.
-        /// </summary>
-        public static readonly DependencyProperty IsDropDownOpenProperty = DependencyProperty.Register(
-            "IsDropDownOpen",
-            typeof (bool),
-            typeof (ColorPicker),
-            new PropertyMetadata(false, OnIsDropDownOpenPropertyChanged));
-
-        /// <summary>
-        /// The popup placement property.
-        /// </summary>
-        public static readonly DependencyProperty PopupPlacementProperty = DependencyProperty.Register(
-            "PopupPlacement", typeof (PlacementMode), typeof (ColorPicker), new PropertyMetadata(PlacementMode.Bottom));
-        #endregion
-
-        #region Fields
-        /// <summary>
-        /// The color board.
-        /// </summary>
-        private ColorBoard colorBoard;
-
-        /// <summary>
-        /// The popup.
-        /// </summary>
-        private Popup popup;
-
-        /// <summary>
-        /// The toggle drop down.
-        /// </summary>
-        private ToggleButton toggleDropDown;
         #endregion
 
         #region Public Properties
@@ -117,52 +81,79 @@ namespace Orc.Controls
         /// </summary>
         public Color Color
         {
-            get { return (Color) this.GetValue(ColorProperty); }
-
-            set { this.SetValue(ColorProperty, value); }
+            get { return (Color) GetValue(ColorProperty); }
+            set { SetValue(ColorProperty, value); }
         }
+
+        /// <summary>
+        /// The color property.
+        /// </summary>
+        public static readonly DependencyProperty ColorProperty = DependencyProperty.Register(
+            "Color", typeof(Color), typeof(ColorPicker), new PropertyMetadata(Colors.White, OnColorPropertyChaged));
+
 
         /// <summary>
         /// Gets or sets the current color.
         /// </summary>
         public Color CurrentColor
         {
-            get { return (Color) this.GetValue(CurrentColorProperty); }
-
-            set { this.SetValue(CurrentColorProperty, value); }
+            get { return (Color) GetValue(CurrentColorProperty); }
+            set { SetValue(CurrentColorProperty, value); }
         }
+
+        /// <summary>
+        /// The current color property.
+        /// </summary>
+        public static readonly DependencyProperty CurrentColorProperty = DependencyProperty.Register(
+            "CurrentColor", typeof(Color), typeof(ColorPicker), new PropertyMetadata(Colors.White));
 
         /// <summary>
         /// Gets or sets a value indicating whether is drop down open.
         /// </summary>
         public bool IsDropDownOpen
         {
-            get { return (bool) this.GetValue(IsDropDownOpenProperty); }
-
-            set { this.SetValue(IsDropDownOpenProperty, value); }
+            get { return (bool) GetValue(IsDropDownOpenProperty); }
+            set { SetValue(IsDropDownOpenProperty, value); }
         }
+
+        /// <summary>
+        /// The is drop down open property.
+        /// </summary>
+        public static readonly DependencyProperty IsDropDownOpenProperty = DependencyProperty.Register(
+            "IsDropDownOpen",
+            typeof(bool),
+            typeof(ColorPicker),
+            new PropertyMetadata(false, OnIsDropDownOpenPropertyChanged));
 
         /// <summary>
         /// Gets or sets the popup placement.
         /// </summary>
         public PlacementMode PopupPlacement
         {
-            get { return (PlacementMode) this.GetValue(PopupPlacementProperty); }
-
-            set { this.SetValue(PopupPlacementProperty, value); }
+            get { return (PlacementMode) GetValue(PopupPlacementProperty); }
+            set { SetValue(PopupPlacementProperty, value); }
         }
+
+        /// <summary>
+        /// The popup placement property.
+        /// </summary>
+        public static readonly DependencyProperty PopupPlacementProperty = DependencyProperty.Register(
+            "PopupPlacement", typeof(PlacementMode), typeof(ColorPicker), new PropertyMetadata(PlacementMode.Bottom));
+        #endregion
+
+        #region Public Events
+        /// <summary>
+        /// The color changed.
+        /// </summary>
+        public event EventHandler<ColorChangedEventArgs> ColorChanged;
         #endregion
 
         #region Methods
         /// <summary>
         /// The on color property chaged.
         /// </summary>
-        /// <param name="d">
-        /// The d.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The e.</param>
         private static void OnColorPropertyChaged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var cp = (ColorPicker) d;
@@ -177,12 +168,8 @@ namespace Orc.Controls
         /// <summary>
         /// The on is drop down open property changed.
         /// </summary>
-        /// <param name="d">
-        /// The d.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The e.</param>
         private static void OnIsDropDownOpenPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var cp = (ColorPicker) d;
@@ -195,96 +182,76 @@ namespace Orc.Controls
         /// <summary>
         /// The color picker_ key down.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void ColorPicker_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter && this.IsDropDownOpen)
+            if (e.Key == Key.Enter && IsDropDownOpen)
             {
-                this.colorBoard.OnDoneClicked();
+                _colorBoard.OnDoneClicked();
             }
         }
 
         /// <summary>
         /// The on color changed.
         /// </summary>
-        /// <param name="newColor">
-        /// The new color.
-        /// </param>
-        /// <param name="oldColor">
-        /// The old color.
-        /// </param>
+        /// <param name="newColor">The new color.</param>
+        /// <param name="oldColor">The old color.</param>
         private void OnColorChanged(Color newColor, Color oldColor)
         {
-            if (this.ColorChanged != null)
+            if (ColorChanged != null)
             {
-                this.ColorChanged(this, new ColorChangedEventArgs(newColor, oldColor));
+                ColorChanged(this, new ColorChangedEventArgs(newColor, oldColor));
             }
         }
 
         /// <summary>
         /// The color board_ done clicked.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void colorBoard_DoneClicked(object sender, RoutedEventArgs e)
         {
-            this.Color = this.colorBoard.Color;
-            this.popup.IsOpen = false;
+            Color = _colorBoard.Color;
+            _popup.IsOpen = false;
         }
 
         /// <summary>
         /// The color board_ cancel clicked.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void colorBoard_CancelClicked(object sender, RoutedEventArgs e)
         {
-            this.colorBoard.Color = this.CurrentColor = this.Color;
-            this.popup.IsOpen = false;
+            _colorBoard.Color = CurrentColor = Color;
+            _popup.IsOpen = false;
         }
 
         /// <summary>
         /// The color board_ size changed.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void colorBoard_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (this.PopupPlacement == PlacementMode.Bottom)
+            if (PopupPlacement == PlacementMode.Bottom)
             {
-                this.popup.VerticalOffset = this.ActualHeight;
+                _popup.VerticalOffset = ActualHeight;
             }
 
-            if (this.PopupPlacement == PlacementMode.Top)
+            if (PopupPlacement == PlacementMode.Top)
             {
-                this.popup.VerticalOffset = -1*this.colorBoard.ActualHeight;
+                _popup.VerticalOffset = -1*_colorBoard.ActualHeight;
             }
 
-            if (this.PopupPlacement == PlacementMode.Right)
+            if (PopupPlacement == PlacementMode.Right)
             {
-                this.popup.HorizontalOffset = this.ActualWidth;
+                _popup.HorizontalOffset = ActualWidth;
             }
 
-            if (this.PopupPlacement == PlacementMode.Left)
+            if (PopupPlacement == PlacementMode.Left)
             {
-                this.popup.HorizontalOffset = -1*this.colorBoard.ActualWidth;
+                _popup.HorizontalOffset = -1*_colorBoard.ActualWidth;
             }
         }
         #endregion

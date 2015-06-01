@@ -19,12 +19,8 @@ namespace Orc.Controls
         /// <summary>
         /// The get hs b_ b.
         /// </summary>
-        /// <param name="color">
-        /// The color.
-        /// </param>
-        /// <returns>
-        /// The <see cref="double"/>.
-        /// </returns>
+        /// <param name="color">The color.</param>
+        /// <returns>The <see cref="double" />.</returns>
         public static double GetHSB_B(Color color)
         {
             double r = color.R/255d;
@@ -40,12 +36,8 @@ namespace Orc.Controls
         /// <summary>
         /// The get hs b_ h.
         /// </summary>
-        /// <param name="color">
-        /// The color.
-        /// </param>
-        /// <returns>
-        /// The <see cref="double"/>.
-        /// </returns>
+        /// <param name="color">The color.</param>
+        /// <returns>The <see cref="double" />.</returns>
         public static double GetHSB_H(Color color)
         {
             return GetHue(color);
@@ -54,12 +46,8 @@ namespace Orc.Controls
         /// <summary>
         /// The get hs b_ s.
         /// </summary>
-        /// <param name="color">
-        /// The color.
-        /// </param>
-        /// <returns>
-        /// The <see cref="double"/>.
-        /// </returns>
+        /// <param name="color">The color.</param>
+        /// <returns>The <see cref="double" />.</returns>
         public static double GetHSB_S(Color color)
         {
             double r = color.R/255d;
@@ -87,12 +75,8 @@ namespace Orc.Controls
         /// <summary>
         /// The get hs v_ h.
         /// </summary>
-        /// <param name="color">
-        /// The color.
-        /// </param>
-        /// <returns>
-        /// The <see cref="double"/>.
-        /// </returns>
+        /// <param name="color">The color.</param>
+        /// <returns>The <see cref="double" />.</returns>
         public static double GetHSV_H(Color color)
         {
             return GetHue(color);
@@ -101,12 +85,8 @@ namespace Orc.Controls
         /// <summary>
         /// The get hs v_ s.
         /// </summary>
-        /// <param name="color">
-        /// The color.
-        /// </param>
-        /// <returns>
-        /// The <see cref="double"/>.
-        /// </returns>
+        /// <param name="color">The color.</param>
+        /// <returns>The <see cref="double" />.</returns>
         public static double GetHSV_S(Color color)
         {
             double r = color.R/255d;
@@ -127,12 +107,8 @@ namespace Orc.Controls
         /// <summary>
         /// The get hs v_ v.
         /// </summary>
-        /// <param name="color">
-        /// The color.
-        /// </param>
-        /// <returns>
-        /// The <see cref="double"/>.
-        /// </returns>
+        /// <param name="color">The color.</param>
+        /// <returns>The <see cref="double" />.</returns>
         public static double GetHSV_V(Color color)
         {
             double r = color.R/255d;
@@ -147,18 +123,10 @@ namespace Orc.Controls
         /// <summary>
         /// The hs b 2 rgb.
         /// </summary>
-        /// <param name="h">
-        /// The h.
-        /// </param>
-        /// <param name="s">
-        /// The s.
-        /// </param>
-        /// <param name="l">
-        /// The l.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Color"/>.
-        /// </returns>
+        /// <param name="h">The h.</param>
+        /// <param name="s">The s.</param>
+        /// <param name="l">The l.</param>
+        /// <returns>The <see cref="Color" />.</returns>
         public static Color HSB2RGB(double h, double s, double l)
         {
             double q = (l < 0.5f) ? (l*(1f + s)) : (l + s - l*s);
@@ -178,18 +146,10 @@ namespace Orc.Controls
         /// <summary>
         /// The hs v 2 rgb.
         /// </summary>
-        /// <param name="h">
-        /// The h.
-        /// </param>
-        /// <param name="s">
-        /// The s.
-        /// </param>
-        /// <param name="v">
-        /// The v.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Color"/>.
-        /// </returns>
+        /// <param name="h">The h.</param>
+        /// <param name="s">The s.</param>
+        /// <param name="v">The v.</param>
+        /// <returns>The <see cref="Color" />.</returns>
         public static Color HSV2RGB(double h, double s, double v)
         {
             double c = v*s;
@@ -257,18 +217,10 @@ namespace Orc.Controls
         /// <summary>
         /// The get color item.
         /// </summary>
-        /// <param name="q">
-        /// The q.
-        /// </param>
-        /// <param name="p">
-        /// The p.
-        /// </param>
-        /// <param name="t">
-        /// The t.
-        /// </param>
-        /// <returns>
-        /// The <see cref="byte"/>.
-        /// </returns>
+        /// <param name="q">The q.</param>
+        /// <param name="p">The p.</param>
+        /// <param name="t">The t.</param>
+        /// <returns>The <see cref="byte" />.</returns>
         private static byte GetColorItem(double q, double p, double t)
         {
             if (t < 0f)
@@ -308,12 +260,8 @@ namespace Orc.Controls
         /// <summary>
         /// The get hue.
         /// </summary>
-        /// <param name="color">
-        /// The color.
-        /// </param>
-        /// <returns>
-        /// The <see cref="double"/>.
-        /// </returns>
+        /// <param name="color">The color.</param>
+        /// <returns>The <see cref="double" />.</returns>
         private static double GetHue(Color color)
         {
             if (color.R == color.G && color.G == color.B)

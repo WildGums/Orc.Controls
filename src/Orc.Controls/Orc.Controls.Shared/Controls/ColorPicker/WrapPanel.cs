@@ -19,12 +19,8 @@ namespace Orc.Controls
         /// <summary>
         /// The arrange override.
         /// </summary>
-        /// <param name="finalSize">
-        /// The final size.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Size"/>.
-        /// </returns>
+        /// <param name="finalSize">The final size.</param>
+        /// <returns>The <see cref="Size" />.</returns>
         protected override Size ArrangeOverride(Size finalSize)
         {
             double rowX, rowY;
@@ -34,7 +30,7 @@ namespace Orc.Controls
 
             foreach (FrameworkElement child in this.Children)
             {
-                Size ds = child.DesiredSize;
+                var ds = child.DesiredSize;
                 y = rowY + ds.Height > y ? rowY + ds.Height : y;
 
                 child.Arrange(new Rect(rowX, rowY, ds.Width, ds.Height));
@@ -54,12 +50,8 @@ namespace Orc.Controls
         /// <summary>
         /// The measure override.
         /// </summary>
-        /// <param name="availableSize">
-        /// The available size.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Size"/>.
-        /// </returns>
+        /// <param name="availableSize">The available size.</param>
+        /// <returns>The <see cref="Size" />.</returns>
         protected override Size MeasureOverride(Size availableSize)
         {
             foreach (FrameworkElement child in this.Children)
@@ -76,7 +68,7 @@ namespace Orc.Controls
 
             foreach (FrameworkElement child in this.Children)
             {
-                Size ds = child.DesiredSize;
+                var ds = child.DesiredSize;
                 dsw = ds.Width;
                 dsh = ds.Height;
                 y = rowY + ds.Height > y ? rowY + ds.Height : y;

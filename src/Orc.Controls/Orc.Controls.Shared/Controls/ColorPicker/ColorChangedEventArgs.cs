@@ -17,18 +17,14 @@ namespace Orc.Controls
     {
         #region Constructors and Destructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="ColorChangedEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="ColorChangedEventArgs" /> class.
         /// </summary>
-        /// <param name="newColor">
-        /// The new color.
-        /// </param>
-        /// <param name="oldColor">
-        /// The old color.
-        /// </param>
+        /// <param name="newColor">The new color.</param>
+        /// <param name="oldColor">The old color.</param>
         public ColorChangedEventArgs(Color newColor, Color oldColor)
         {
-            this.NewColor = newColor;
-            this.OldColor = oldColor;
+            NewColor = newColor;
+            OldColor = oldColor;
         }
         #endregion
 
