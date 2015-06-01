@@ -3,6 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="Views/MainWindowView.xaml">
     <Application.Resources>
-        <ResourceDictionary Source="/Orc.Controls;component/Themes/Default/Controls/ColorPicker/ColorPicker.xaml"/>
+        <ResourceDictionary Source="/Orc.Controls;component/Themes/Generic.xaml" />
     </Application.Resources>
 </Application>
