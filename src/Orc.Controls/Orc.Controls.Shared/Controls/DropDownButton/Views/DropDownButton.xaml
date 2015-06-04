@@ -13,6 +13,7 @@
     <catel:UserControl.Resources>
         <Style TargetType="{x:Type Button}">
             <Setter Property="Padding" Value="4 2 4 2"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ButtonBase}">
@@ -46,6 +47,7 @@
         </Style>
 
         <Style TargetType="{x:Type ToggleButton}">
+            <Setter Property="Padding" Value="4 2 5 2"/>
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="IsTabStop" Value="False"/>
             <Setter Property="Focusable" Value="False"/>
@@ -54,8 +56,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Border x:Name="Chrome" BorderBrush="LightGray" BorderThickness="1" Background="#FFF4F4F4"
-                                SnapsToDevicePixels="True">
+                        <Border x:Name="Chrome" BorderBrush="LightGray" BorderThickness="1" Background="#FFF4F4F4" SnapsToDevicePixels="True">
                             <DockPanel HorizontalAlignment="Stretch">
                                 <Grid x:Name="PathGrid" Width="12" HorizontalAlignment="Right" DockPanel.Dock="Right">
                                     <Path x:Name="Arrow" Data="M0,0L3.5,4 7,0z" Fill="Black" 
@@ -63,7 +64,8 @@
                                 </Grid>
                                 <ContentPresenter x:Name="ToggleButtonContent" Content="{Binding Header}"
                                                   Visibility="Collapsed" HorizontalAlignment="Center"
-                                                  RecognizesAccessKey="True" VerticalAlignment="Center" Margin="6 4 6 4"/>
+                                                  RecognizesAccessKey="True" VerticalAlignment="Center" 
+                                                  Margin="{TemplateBinding Padding}"/>
                             </DockPanel>
                         </Border>
                         <ControlTemplate.Triggers>
