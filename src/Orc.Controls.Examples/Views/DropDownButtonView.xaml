@@ -24,11 +24,32 @@
                 </orc:DropDownButton.DropDown>
             </orc:DropDownButton>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" >
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0 0 0 20">
             <TextBlock Text="DropDownButton without default button" VerticalAlignment="Center" Width="230" />
             <orc:DropDownButton Header="Action" Height="25" Width="200" 
                                 AccentColorBrush="{Binding DataContext.AccentColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                 Command="{Binding DefaultAction}" ShowDefaultButton="False">
+                <orc:DropDownButton.DropDown>
+                    <ContextMenu>
+                        <MenuItem Header="Item 1 veeeery looooooooooong"/>
+                        <MenuItem Header="Item 2"/>
+                        <Separator/>
+                        <MenuItem Header="Item 2"/>
+                    </ContextMenu>
+                </orc:DropDownButton.DropDown>
+            </orc:DropDownButton>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" >
+            <TextBlock Text="DropDownButton without default button" VerticalAlignment="Center" Width="230" />
+            <orc:DropDownButton Height="30" Width="40" 
+                                AccentColorBrush="{Binding DataContext.AccentColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                Command="{Binding DefaultAction}" ShowDefaultButton="False">
+                <orc:DropDownButton.Header>
+                    <Grid Width="16" Height="16" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <Path  Data="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"
+                               Fill="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </orc:DropDownButton.Header>
                 <orc:DropDownButton.DropDown>
                     <ContextMenu>
                         <MenuItem Header="Item 1 veeeery looooooooooong"/>
