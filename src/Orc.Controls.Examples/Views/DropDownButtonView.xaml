@@ -61,9 +61,9 @@
                 </orc:DropDownButton.DropDown>
             </orc:DropDownButton>
 
-            <orc:DropDownButton Height="25" Width="40" Margin="10 0 0 0"
+            <orc:DropDownButton Height="25" Width="40" Margin="10 0 0 0" EnableTransparentBackground="True"
                                 AccentColorBrush="{Binding DataContext.AccentColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                Command="{Binding DefaultAction}" ShowDefaultButton="False">
+                                ShowDefaultButton="False">
                 <orc:DropDownButton.Header>
                     <Grid>
                         <Viewbox Height="15">

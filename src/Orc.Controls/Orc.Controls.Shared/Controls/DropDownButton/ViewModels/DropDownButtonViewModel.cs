@@ -24,6 +24,7 @@ namespace Orc.Controls.ViewModels
         public bool IsDropDownOpen { get; set; }
         public object Header { get; set; }
         public bool ShowDefaultButton { get; set; }
+        public bool EnableTransparentBackground { get; set; }
 
         public Brush AccentColorBrush
         {

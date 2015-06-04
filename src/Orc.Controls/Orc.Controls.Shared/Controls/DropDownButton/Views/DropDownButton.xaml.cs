@@ -72,5 +72,15 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty ShowDefaultButtonProperty = DependencyProperty.Register("ShowDefaultButton", typeof(bool),
             typeof(DropDownButton), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool EnableTransparentBackground
+        {
+            get { return (bool)GetValue(EnableTransparentBackgroundProperty); }
+            set { SetValue(EnableTransparentBackgroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty EnableTransparentBackgroundProperty = DependencyProperty.Register("EnableTransparentBackground", typeof(bool),
+            typeof(DropDownButton), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
     }
 }

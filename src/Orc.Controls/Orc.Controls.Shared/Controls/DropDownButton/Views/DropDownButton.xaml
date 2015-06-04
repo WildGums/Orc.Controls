@@ -46,6 +46,74 @@
             </Setter>
         </Style>
 
+        <ControlTemplate x:Key="ToggleButtonControlTemplate"  TargetType="{x:Type ToggleButton}">
+            <Border x:Name="Chrome" BorderBrush="LightGray" BorderThickness="1" Background="#FFF4F4F4" SnapsToDevicePixels="True">
+                <DockPanel HorizontalAlignment="Stretch">
+                    <Grid x:Name="PathGrid" Width="12" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                        <Path x:Name="Arrow" Data="M0,0L3.5,4 7,0z" Fill="Black" 
+                                          HorizontalAlignment="Center" Margin="0,1,0,0" VerticalAlignment="Center"/>
+                    </Grid>
+                    <ContentPresenter x:Name="ToggleButtonContent" Content="{Binding Header}"
+                                                  Visibility="Collapsed" HorizontalAlignment="Center"
+                                                  RecognizesAccessKey="True" VerticalAlignment="Center" 
+                                                  Margin="{TemplateBinding Padding}"/>
+                </DockPanel>
+            </Border>
+            <ControlTemplate.Triggers>
+                <DataTrigger Binding="{Binding ShowDefaultButton}" Value="False">
+                    <Setter Property="Visibility" TargetName="ToggleButtonContent" Value="Visible" />
+                </DataTrigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsHighlightBrush}" />
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background" TargetName="PathGrid" Value="{DynamicResource ControlsAccentBrush}" />
+                    <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}" />
+                    <Setter Property="Fill" TargetName="Arrow" Value="White" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Fill" TargetName="Arrow" Value="#FFAFAFAF" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="TransparentToggleButtonControlTemplate"  TargetType="{x:Type ToggleButton}">
+            <Border x:Name="Chrome" BorderBrush="Transparent" BorderThickness="1" Background="Transparent" SnapsToDevicePixels="True">
+                <DockPanel HorizontalAlignment="Stretch">
+                    <Grid x:Name="PathGrid" Width="12" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                        <Path x:Name="Arrow" Data="M0,0L3.5,4 7,0z" Fill="Black"
+                              HorizontalAlignment="Center" Margin="0,1,0,0" VerticalAlignment="Center"/>
+                    </Grid>
+                    <ContentPresenter x:Name="ToggleButtonContent" Content="{Binding Header}"
+                                      Visibility="Collapsed" HorizontalAlignment="Center"
+                                      RecognizesAccessKey="True" VerticalAlignment="Center" 
+                                      Margin="{TemplateBinding Padding}"/>
+                </DockPanel>
+            </Border>
+            <ControlTemplate.Triggers>
+                <DataTrigger Binding="{Binding ShowDefaultButton}" Value="False">
+                    <Setter Property="Visibility" TargetName="ToggleButtonContent" Value="Visible" />
+                </DataTrigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsHighlightBrush}" />
+                    <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource ControlsHighlightBrush}" />
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background" TargetName="PathGrid" Value="{DynamicResource ControlsAccentBrush}" />
+                    <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}" />
+                    <Setter Property="Fill" TargetName="Arrow" Value="White" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Fill" TargetName="Arrow" Value="#FFAFAFAF" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+
         <Style TargetType="{x:Type ToggleButton}">
             <Setter Property="Padding" Value="4 2 5 2"/>
             <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -53,42 +121,12 @@
             <Setter Property="Focusable" Value="False"/>
             <Setter Property="ClickMode" Value="Press"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Border x:Name="Chrome" BorderBrush="LightGray" BorderThickness="1" Background="#FFF4F4F4" SnapsToDevicePixels="True">
-                            <DockPanel HorizontalAlignment="Stretch">
-                                <Grid x:Name="PathGrid" Width="12" HorizontalAlignment="Right" DockPanel.Dock="Right">
-                                    <Path x:Name="Arrow" Data="M0,0L3.5,4 7,0z" Fill="Black" 
-                                          HorizontalAlignment="Center" Margin="0,1,0,0" VerticalAlignment="Center"/>
-                                </Grid>
-                                <ContentPresenter x:Name="ToggleButtonContent" Content="{Binding Header}"
-                                                  Visibility="Collapsed" HorizontalAlignment="Center"
-                                                  RecognizesAccessKey="True" VerticalAlignment="Center" 
-                                                  Margin="{TemplateBinding Padding}"/>
-                            </DockPanel>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <DataTrigger Binding="{Binding ShowDefaultButton}" Value="False">
-                                <Setter Property="Visibility" TargetName="ToggleButtonContent" Value="Visible" />
-                            </DataTrigger>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsHighlightBrush}" />
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Background" TargetName="PathGrid" Value="{DynamicResource ControlsAccentBrush}" />
-                                <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}" />
-                                <Setter Property="Fill" TargetName="Arrow" Value="White" />
-                                <Setter Property="Foreground" Value="White" />
-                                <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}" />
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Fill" TargetName="Arrow" Value="#FFAFAFAF" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Template" Value="{StaticResource ToggleButtonControlTemplate}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding EnableTransparentBackground}" Value="True">
+                    <Setter Property="Template" Value="{StaticResource TransparentToggleButtonControlTemplate}" />
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
 
         <!--Menu styles-->
