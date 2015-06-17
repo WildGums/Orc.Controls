@@ -10,6 +10,7 @@
     <UserControl.Resources>
         <Style TargetType="{x:Type localcontrols:RichTextBoxParagraph}">
             <Setter Property="Margin" Value="0"/>
+            <Setter Property="FontFamily" Value="pack://application:,,,/Orc.Controls;component/Resources/Fonts/#Consolas"/>
         </Style>
 
         <Geometry x:Key="OctagonGeometry">M15.73,3L21,8.27L21,15.73L15.73,21L8.27,21L3,15.73L3,8.27L8.27,3L15.73,3ZM14.9,5L9.1,5L5,9.1L5,14.9L9.1,19L14.9,19L19,14.9L19,9.1L14.9,5ZM11,17L13,17L13,11L11,11L11,17ZM11,9L13,9L13,7L11,7L11,9Z</Geometry>

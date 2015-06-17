@@ -101,6 +101,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="..\Orc.Controls.Shared\Resources\Fonts\Consolas.ttf">
+      <Link>Resources\Fonts\Consolas.ttf</Link>
+    </Resource>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>

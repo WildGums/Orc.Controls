@@ -79,6 +79,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="..\Orc.Controls.Shared\Resources\Fonts\Consolas.ttf">
+      <Link>Resources\Fonts\Consolas.ttf</Link>
+    </Resource>
     <None Include="packages.config" />
     <AppDesigner Include="Properties\" />
   </ItemGroup>
