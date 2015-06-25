@@ -9,6 +9,7 @@ namespace Orc.Controls.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Catel;
     using Catel.Collections;
@@ -19,8 +20,23 @@ namespace Orc.Controls.ViewModels
 
     public class LogViewerViewModel : ViewModelBase
     {
-        #region Constants 
+        #region Constants
         private const string defaultComboBoxItem = "-- Select type name --";
+        #endregion
+
+        #region Fields
+        private ILogListener _logListener;
+
+        private bool _isViewModelActive;
+
+        private readonly ITypeFactory _typeFactory;
+
+        private readonly List<LogEntry> _logEntries = new List<LogEntry>();
+
+        private bool _isClearingLog;
+        private bool _isUpdatingTypes;
+
+        private readonly object _lock = new object();
         #endregion
 
         #region Constructors
@@ -30,7 +46,7 @@ namespace Orc.Controls.ViewModels
 
             _typeFactory = typeFactory;
 
-            LogListenerType = typeof (LogViewerLogListener);
+            LogListenerType = typeof(LogViewerLogListener);
             ShowDebug = true;
             ShowInfo = true;
             ShowWarning = true;
@@ -50,17 +66,21 @@ namespace Orc.Controls.ViewModels
         {
             _isClearingLog = true;
 
-            lock (_logEntries)
+            lock (_lock)
             {
                 _logEntries.Clear();
-            }
 
-            if (TypeNames != null)
-            {
-                lock (TypeNames)
+                var typeNames = TypeNames;
+                if (typeNames != null)
                 {
-                    TypeNames.Clear();
-                    TypeNames.Add(defaultComboBoxItem);
+                    _isUpdatingTypes = true;
+
+                    using (typeNames.SuspendChangeNotifications())
+                    {
+                        typeNames.ReplaceRange(new[] {defaultComboBoxItem});
+                    }
+
+                    _isUpdatingTypes = false;
                 }
             }
 
@@ -77,22 +97,17 @@ namespace Orc.Controls.ViewModels
             ErrorEntriesCount = 0;
         }
 
-        #region Fields
-        private ILogListener _logListener;
-
-        private bool _isViewModelActive;
-
-        private readonly ITypeFactory _typeFactory;
-
-        private readonly List<LogEntry> _logEntries = new List<LogEntry>();
-
-        private bool _isClearingLog;
-        #endregion
-
         #region Properties
         public List<LogEntry> LogEntries
         {
-            get { return _logEntries; }
+            get
+            {
+                lock (_lock)
+                {
+                    // Return a copy, don't mess with our internal list
+                    return _logEntries.ToList();
+                }
+            }
         }
 
         public FastObservableCollection<string> TypeNames { get; private set; }
@@ -189,7 +204,7 @@ namespace Orc.Controls.ViewModels
         {
             var entries = new List<LogEntry>();
 
-            lock (_logEntries)
+            lock (_lock)
             {
                 foreach (var entry in _logEntries)
                 {
@@ -243,19 +258,19 @@ namespace Orc.Controls.ViewModels
             switch (logEvent.LogEvent)
             {
                 case LogEvent.Debug:
-                    DebugEntriesCount ++;
+                    DebugEntriesCount++;
                     break;
 
                 case LogEvent.Info:
-                    InfoEntriesCount ++;
+                    InfoEntriesCount++;
                     break;
 
                 case LogEvent.Warning:
-                    WarningEntriesCount ++;
+                    WarningEntriesCount++;
                     break;
 
                 case LogEvent.Error:
-                    ErrorEntriesCount ++;
+                    ErrorEntriesCount++;
                     break;
             }
         }
@@ -273,7 +288,6 @@ namespace Orc.Controls.ViewModels
             }
 
             var contains = logEntry.Message.IndexOf(LogFilter, StringComparison.OrdinalIgnoreCase) >= 0;
-
             if (contains)
             {
                 return true;
@@ -310,17 +324,28 @@ namespace Orc.Controls.ViewModels
 
             logEntry.Data["ThreadId"] = ThreadHelper.GetCurrentThreadId();
 
-            lock (_logEntries)
+            lock (_lock)
             {
                 _logEntries.Add(logEntry);
-            }
 
-            lock (TypeNames)
-            {
-                var typeNames = TypeNames;
-                if (!typeNames.Contains(logEntry.Log.TargetType.Name))
+                if (!_isUpdatingTypes)
                 {
-                    typeNames.Add(logEntry.Log.TargetType.Name);
+                    var typeNames = TypeNames;
+                    if (!typeNames.Contains(logEntry.Log.TargetType.Name))
+                    {
+                        _isUpdatingTypes = true;
+
+                        try
+                        {
+                            typeNames.Add(logEntry.Log.TargetType.Name);
+                        }
+                        catch (System.Exception)
+                        {
+                            // we don't have time for this, let it go...
+                        }
+
+                        _isUpdatingTypes = false;
+                    }
                 }
             }
 
