@@ -23,6 +23,8 @@ namespace Orc.Controls.ViewModels
             ClearFilter = new Command(OnClearFilterExecute, OnClearFilterCanExecute);
         }
 
+        public string Watermark { get; set; }
+
         public Brush AccentColorBrush
         {
             get { return _accentColorBrushProperty; }

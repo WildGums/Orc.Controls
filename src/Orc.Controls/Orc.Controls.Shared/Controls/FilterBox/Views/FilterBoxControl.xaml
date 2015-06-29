@@ -64,6 +64,15 @@
                                 SnapsToDevicePixels="true">
                             <DockPanel>
                                 <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                <TextBlock x:Name="PART_Watermark"
+                                           Margin="{TemplateBinding Padding}"
+                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                           Text="{Binding Watermark}"
+                                           IsHitTestVisible="False"
+                                           Visibility="Collapsed"
+                                           Focusable="False" 
+                                           Foreground="Gray" />
                                 <Button HorizontalAlignment="Right" Width="18"
                                         DockPanel.Dock="Right" Command="{Binding ClearFilter}"
                                         Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={StaticResource BooleanToCollapsingVisibilityConverter}}"/>
@@ -79,6 +88,15 @@
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Foreground" Value="#FFADADAD"/>
                             </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsFocused" Value="False" />
+                                    <Condition Property="Text" Value="" />
+                                </MultiTrigger.Conditions>
+                                <MultiTrigger.Setters>
+                                    <Setter TargetName="PART_Watermark" Property="Visibility" Value="Visible" />
+                                </MultiTrigger.Setters>
+                            </MultiTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
