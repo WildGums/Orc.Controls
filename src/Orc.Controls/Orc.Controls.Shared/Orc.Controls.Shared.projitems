@@ -34,7 +34,6 @@
       <DependentUpon>DirectoryPickerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DropDownButton\Behaviors\DropDownButtonBehavior.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\DropDownButton\ViewModels\DropDownButtonViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DropDownButton\Views\DropDownButton.xaml.cs">
       <DependentUpon>DropDownButton.xaml</DependentUpon>
     </Compile>

@@ -25,7 +25,6 @@ namespace Orc.Controls
         }
         #endregion
 
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
         public object Header
         {
             get { return (object)GetValue(HeaderProperty); }
@@ -33,7 +32,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(object),
-            typeof(DropDownButton), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            typeof(DropDownButton), new FrameworkPropertyMetadata(string.Empty));
 
         public ContextMenu DropDown
         {
@@ -53,7 +52,6 @@ namespace Orc.Controls
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand),
             typeof(DropDownButton), new UIPropertyMetadata(null));
 
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public Brush AccentColorBrush
         {
             get { return (Brush)GetValue(AccentColorBrushProperty); }
@@ -61,9 +59,8 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
-            typeof(DropDownButton), new FrameworkPropertyMetadata(Brushes.LightGray, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            typeof(DropDownButton), new PropertyMetadata(Brushes.LightGray, (sender, e) => ((DropDownButton)sender).OnAccentColorBrushedChanged()));
 
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowDefaultButton
         {
             get { return (bool)GetValue(ShowDefaultButtonProperty); }
@@ -73,7 +70,6 @@ namespace Orc.Controls
         public static readonly DependencyProperty ShowDefaultButtonProperty = DependencyProperty.Register("ShowDefaultButton", typeof(bool),
             typeof(DropDownButton), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool EnableTransparentBackground
         {
             get { return (bool)GetValue(EnableTransparentBackgroundProperty); }
@@ -82,5 +78,15 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty EnableTransparentBackgroundProperty = DependencyProperty.Register("EnableTransparentBackground", typeof(bool),
             typeof(DropDownButton), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        private void OnAccentColorBrushedChanged()
+        {
+            var solidColorBrush = AccentColorBrush as SolidColorBrush;
+            if (solidColorBrush != null)
+            {
+                var accentColor = ((SolidColorBrush) AccentColorBrush).Color;
+                accentColor.CreateAccentColorResourceDictionary();
+            }
+        }
     }
 }

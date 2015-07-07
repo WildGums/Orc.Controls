@@ -1,4 +1,4 @@
-﻿<catel:UserControl x:Class="Orc.Controls.DropDownButton"
+﻿<UserControl x:Class="Orc.Controls.DropDownButton"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,7 +10,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <catel:UserControl.Resources>
+    <UserControl.Resources>
         <Style TargetType="{x:Type Button}">
             <Setter Property="Padding" Value="4 2 4 2"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -53,7 +53,7 @@
                         <Path x:Name="Arrow" Data="M0,0L3.5,4 7,0z" Fill="Black" 
                                           HorizontalAlignment="Center" Margin="0,1,0,0" VerticalAlignment="Center"/>
                     </Grid>
-                    <ContentPresenter x:Name="ToggleButtonContent" Content="{Binding Header}"
+                    <ContentPresenter x:Name="ToggleButtonContent" Content="{Binding Header, RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}}"
                                                   Visibility="Collapsed" HorizontalAlignment="Center"
                                                   RecognizesAccessKey="True" VerticalAlignment="Center" 
                                                   Margin="{TemplateBinding Padding}"/>
@@ -86,7 +86,7 @@
                         <Path x:Name="Arrow" Data="M0,0L3.5,4 7,0z" Fill="Black"
                               HorizontalAlignment="Center" Margin="0,1,0,0" VerticalAlignment="Center"/>
                     </Grid>
-                    <ContentPresenter x:Name="ToggleButtonContent" Content="{Binding Header}"
+                    <ContentPresenter x:Name="ToggleButtonContent" Content="{Binding Header, RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}}"
                                       Visibility="Collapsed" HorizontalAlignment="Center"
                                       RecognizesAccessKey="True" VerticalAlignment="Center" 
                                       Margin="{TemplateBinding Padding}"/>
@@ -627,7 +627,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-    </catel:UserControl.Resources>
+    </UserControl.Resources>
 
     <i:Interaction.Behaviors>
         <behavior:DropDownButtonBehavior/>
@@ -640,8 +640,8 @@
         </Grid.ColumnDefinitions>
         <Button Command="{Binding Command, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:DropDownButton}}}"
                 Visibility="{Binding ShowDefaultButton, Converter={catel:BooleanToCollapsingVisibilityConverter}}" >
-            <ContentPresenter Content="{Binding Header}"/>
+            <ContentPresenter Content="{Binding Header, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:DropDownButton}}}"/>
         </Button>
         <ToggleButton Grid.Column="1" x:Name="ToggleButton" HorizontalAlignment="Stretch" />
     </Grid>
-</catel:UserControl>
+</UserControl>

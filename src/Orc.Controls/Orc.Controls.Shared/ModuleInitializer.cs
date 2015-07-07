@@ -24,6 +24,5 @@ public static class ModuleInitializer
         var viewModelLocator = serviceLocator.ResolveType<IViewModelLocator>();
         viewModelLocator.Register(typeof(DateTimePickerControl), typeof(DateTimePickerViewModel));
         viewModelLocator.Register(typeof(TimeSpanControl), typeof(TimeSpanViewModel));
-        viewModelLocator.Register(typeof(DropDownButton), typeof(DropDownButtonViewModel));
     }
 }
