@@ -60,7 +60,7 @@
                 </DockPanel>
             </Border>
             <ControlTemplate.Triggers>
-                <DataTrigger Binding="{Binding ShowDefaultButton}" Value="False">
+                <DataTrigger Binding="{Binding ShowDefaultButton, RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}}" Value="False">
                     <Setter Property="Visibility" TargetName="ToggleButtonContent" Value="Visible" />
                 </DataTrigger>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -93,7 +93,7 @@
                 </DockPanel>
             </Border>
             <ControlTemplate.Triggers>
-                <DataTrigger Binding="{Binding ShowDefaultButton}" Value="False">
+                <DataTrigger Binding="{Binding ShowDefaultButton,RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}}" Value="False">
                     <Setter Property="Visibility" TargetName="ToggleButtonContent" Value="Visible" />
                 </DataTrigger>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -123,7 +123,7 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Template" Value="{StaticResource ToggleButtonControlTemplate}" />
             <Style.Triggers>
-                <DataTrigger Binding="{Binding EnableTransparentBackground}" Value="True">
+                <DataTrigger Binding="{Binding EnableTransparentBackground, RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}}" Value="True">
                     <Setter Property="Template" Value="{StaticResource TransparentToggleButtonControlTemplate}" />
                 </DataTrigger>
             </Style.Triggers>
@@ -613,7 +613,7 @@
         <Style x:Key="DefaultButtonColumnStyle" TargetType="{x:Type ColumnDefinition}">
             <Setter Property="Width" Value="*" />
             <Style.Triggers>
-                <DataTrigger Binding="{Binding ShowDefaultButton}" Value="False">
+                <DataTrigger Binding="{Binding ShowDefaultButton, RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}}" Value="False">
                     <Setter Property="Width" Value="Auto" />
                 </DataTrigger>
             </Style.Triggers>
@@ -622,7 +622,7 @@
         <Style x:Key="ToggleButtonColumnStyle" TargetType="{x:Type ColumnDefinition}">
             <Setter Property="Width" Value="Auto" />
             <Style.Triggers>
-                <DataTrigger Binding="{Binding ShowDefaultButton}" Value="False">
+                <DataTrigger Binding="{Binding ShowDefaultButton, RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}}" Value="False">
                     <Setter Property="Width" Value="*" />
                 </DataTrigger>
             </Style.Triggers>
@@ -639,7 +639,7 @@
             <ColumnDefinition Style="{StaticResource ToggleButtonColumnStyle}"/>
         </Grid.ColumnDefinitions>
         <Button Command="{Binding Command, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:DropDownButton}}}"
-                Visibility="{Binding ShowDefaultButton, Converter={catel:BooleanToCollapsingVisibilityConverter}}" >
+                Visibility="{Binding ShowDefaultButton, RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}, Converter={catel:BooleanToCollapsingVisibilityConverter}}" >
             <ContentPresenter Content="{Binding Header, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:DropDownButton}}}"/>
         </Button>
         <ToggleButton Grid.Column="1" x:Name="ToggleButton" HorizontalAlignment="Stretch" />
