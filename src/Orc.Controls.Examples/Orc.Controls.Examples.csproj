@@ -102,6 +102,7 @@
     <Compile Include="ViewModels\DatePickerViewModel.cs" />
     <Compile Include="ViewModels\DirectoryPickerViewModel.cs" />
     <Compile Include="ViewModels\OpenFilePickerViewModel.cs" />
+    <Compile Include="ViewModels\PinnableToolTipViewModel.cs" />
     <Compile Include="Views\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
@@ -139,6 +140,9 @@
     <Compile Include="ViewModels\TimeSpanViewModel.cs" />
     <Compile Include="Views\FilterBox.xaml.cs">
       <DependentUpon>FilterBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PinnableToolTipView.xaml.cs">
+      <DependentUpon>PinnableToolTipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SaveFilePickerView.xaml.cs">
       <DependentUpon>SaveFilePickerView.xaml</DependentUpon>
@@ -205,6 +209,10 @@
       <DependentUpon>MainWindowView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\PinnableToolTipView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SaveFilePickerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

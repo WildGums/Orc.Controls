@@ -151,7 +151,11 @@
         <TabItem Header="OpenFilePickerView">
             <views:OpenFilePickerView/>
         </TabItem>
-        
+
+        <TabItem Header="PinnableToolTip">
+            <views:PinnableToolTip/>
+        </TabItem>
+
         <TabItem Header="SaveFilePickerView">
             <views:SaveFilePickerView/>
         </TabItem>

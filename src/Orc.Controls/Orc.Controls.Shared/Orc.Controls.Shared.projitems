@@ -158,6 +158,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Themes\PinnableToolTip.xaml" />
+    <Page Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Themes\PinnableToolTip.xaml" />
   </ItemGroup>
 </Project>

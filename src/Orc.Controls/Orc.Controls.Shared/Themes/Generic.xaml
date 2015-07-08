@@ -4,8 +4,10 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorPicker/Themes/ColorPicker.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorPicker/Themes/ColorPicker.xaml" />
         
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/LinkLabel/Themes/LinkLabel.generic.xaml" />        
-        
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/LinkLabel/Themes/LinkLabel.generic.xaml" />
+
         <ResourceDictionary Source="/Orc.Controls;component/Controls/WatermarkTextBox/Themes/WatermarkTextBox.generic.xaml" />
+        
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/PinnableToolTips/Themes/PinnableToolTip.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
