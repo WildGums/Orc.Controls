@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Controls.Controls.PinnableToolTips.Adorners
+namespace Orc.Controls
 {
     using System.Windows;
     using System.Windows.Controls.Primitives;
