@@ -67,6 +67,16 @@
       <SubType>Code</SubType>
       <DependentUpon>OpenFilePickerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Adorners\ControlAdorner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Adorners\ControlAdornerDragDrop.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Adorners\Interfaces\IControlAdornerChild.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Adorners\PopupDragDrop.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Controls\PinnableToolTip.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Models\LinkToolTipItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Models\OrdinalToolTipItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Services\PinnableToolTipService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\TemplateSelectors\PinnableItemTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\ToolTipTimer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\ViewModels\SaveFilePickerViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -86,6 +96,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\TimeSpanPart.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ColorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimePartHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ScreenHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -145,5 +156,8 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\Extensions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Themes\PinnableToolTip.xaml" />
   </ItemGroup>
 </Project>
