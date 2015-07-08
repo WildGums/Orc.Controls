@@ -4,29 +4,22 @@
                    xmlns:catel="http://catel.codeplex.com"
                    xmlns:orc="http://www.wildgums.net.au/orc">
 
-    <StackPanel>
-        <Border BorderBrush="LightSeaGreen" BorderThickness="1" Margin="4,8,4,8" Width="100">
-            <TextBlock Text="PinnableToolTip" Width="210" Margin="5" HorizontalAlignment="Left"/>
-            <orc:PinnableToolTipService.ToolTip>
-                <orc:PinnableToolTip>
-                    <StackPanel>
-                        <Label Content="Border color" />
-                        <Border Margin="5" Width="50" Height="50" Background="LightSeaGreen" />
-                    </StackPanel>
-                </orc:PinnableToolTip>
-            </orc:PinnableToolTipService.ToolTip>
-        </Border>
-        <Border BorderBrush="Orange" BorderThickness="1" Margin="4,8,4,8" Width="100">
-            <TextBlock Text="PinnableToolTip" Width="210" Margin="5" HorizontalAlignment="Left"/>
-            <orc:PinnableToolTipService.ToolTip>
-                <orc:PinnableToolTip>
-                    <StackPanel>
-                        <Label Content="Border color" />
-                        <Border Margin="5" Width="50" Height="50" Background="Orange" />
-                    </StackPanel>
-                </orc:PinnableToolTip>
-            </orc:PinnableToolTipService.ToolTip>
-        </Border>
-    </StackPanel>
-    
+    <ItemsControl ItemsSource="{Binding ColorList}">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <Border BorderBrush="{Binding}" BorderThickness="1" Margin="4,8,4,8" Width="150" HorizontalAlignment="Left">
+                    <TextBlock Text="{Binding}" Margin="5"/>
+                    <orc:PinnableToolTipService.ToolTip>
+                        <orc:PinnableToolTip>
+                            <StackPanel>
+                                <Label Content="{Binding}" />
+                                <Border Margin="5" Width="50" Height="50" Background="{Binding}" />
+                            </StackPanel>
+                        </orc:PinnableToolTip>
+                    </orc:PinnableToolTipService.ToolTip>
+                </Border>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+
 </catel:UserControl>
