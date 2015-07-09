@@ -1,0 +1,690 @@
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ExtendColorLegend.cs" company="Wild Gums">
+//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+namespace Orc.Controls
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
+    using System.Windows.Data;
+    using System.Windows.Media;
+    using Catel.MVVM;
+
+    /// <summary>
+    /// Control to show color legend with checkboxes for each color.
+    /// </summary>
+    [TemplatePart(Name = "PART_List", Type = typeof(ListBox))]
+    [TemplatePart(Name = "PART_Popup_Color_Board", Type = typeof(Popup))]
+    [TemplatePart(Name = "PART_UnselectAll", Type = typeof(ButtonBase))]
+    [TemplatePart(Name = "PART_All_Visible", Type = typeof(CheckBox))]
+    [TemplatePart(Name = "PART_Settings_Button", Type = typeof(DropDownButton))]
+    public class ColorLegend : HeaderedContentControl
+    {
+        #region Fields
+        private ColorBoard _colorBoard;
+
+        private ListBox _listBox;
+
+        private Popup _popup;
+
+        private ButtonBase _button;
+
+        private CheckBox _checkBox;
+
+        private IColorProvider _currentColorProvider;
+
+        private bool _manualBindingReady;
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ColorLegend" /> class.
+        /// </summary>
+        public ColorLegend()
+        {
+            DefaultStyleKey = typeof(ColorLegend);
+
+            ClearFilter = new Command(OnClearFilterExecute);
+            ChangeColor = new Command<IColorProvider>(OnChangeColorExecute, OnChangeColorCanExecute);
+        }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Gets or sets the operation color attribute.
+        /// </summary>
+        public string OperationColorAttribute
+        {
+            get { return (string)GetValue(OperationColorAttributeProperty); }
+            set { SetValue(OperationColorAttributeProperty, value); }
+        }
+
+        /// <summary>
+        /// The operation color attribute property.
+        /// </summary>
+        public static readonly DependencyProperty OperationColorAttributeProperty = DependencyProperty.Register("OperationColorAttribute",
+            typeof(string), typeof(ColorLegend), new PropertyMetadata(string.Empty));
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether color can be edited or not.
+        /// </summary>
+        public bool AllowColorEditing
+        {
+            get { return (bool)GetValue(AllowColorEditingProperty); }
+            set { SetValue(AllowColorEditingProperty, value); }
+        }
+
+        /// <summary>
+        /// Property indicating whether color can be edited or not
+        /// </summary>
+        public static readonly DependencyProperty AllowColorEditingProperty = DependencyProperty.Register("AllowColorEditing",
+            typeof(bool), typeof(ColorLegend), new PropertyMetadata(true, (sender, e) => ((ColorLegend)sender).OnAllowColorEditingChanged()));
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether search box is shown or not.
+        /// </summary>
+        public bool ShowSearchBox
+        {
+            get { return (bool)GetValue(ShowSearchBoxProperty); }
+            set { SetValue(ShowSearchBoxProperty, value); }
+        }
+
+        /// <summary>
+        /// Property indicating whether search box is shown or not.
+        /// </summary>
+        public static readonly DependencyProperty ShowSearchBoxProperty = DependencyProperty.Register("ShowSearchBox",
+            typeof(bool), typeof(ColorLegend), new PropertyMetadata(true));
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether tool box is shown or not.
+        /// </summary>
+        public bool ShowToolBox
+        {
+            get { return (bool)GetValue(ShowToolBoxProperty); }
+            set { SetValue(ShowToolBoxProperty, value); }
+        }
+
+        /// <summary>
+        /// Property indicating whethertop toolbox is shown or not.
+        /// </summary>
+        public static readonly DependencyProperty ShowToolBoxProperty = DependencyProperty.Register("ShowToolBox",
+            typeof(bool), typeof(ColorLegend), new PropertyMetadata(true));
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether tool box is shown or not.
+        /// </summary>
+        public bool ShowBottomToolBox
+        {
+            get { return (bool)GetValue(ShowBottomToolBoxProperty); }
+            set { SetValue(ShowBottomToolBoxProperty, value); }
+        }
+
+        /// <summary>
+        /// Property indicating whether bottom tool box is shown or not.
+        /// </summary>
+        public static readonly DependencyProperty ShowBottomToolBoxProperty = DependencyProperty.Register("ShowBottomToolBox",
+            typeof(bool), typeof(ColorLegend), new PropertyMetadata(true));
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether settings button is shown or not.
+        /// </summary>
+        public bool ShowSettings
+        {
+            get { return (bool)GetValue(ShowSettingsProperty); }
+            set { SetValue(ShowSettingsProperty, value); }
+        }
+
+        /// <summary>
+        /// Property indicating whether search box is shown or not.
+        /// </summary>
+        public static readonly DependencyProperty ShowSettingsProperty = DependencyProperty.Register("ShowSettingsBox",
+            typeof(bool), typeof(ColorLegend), new PropertyMetadata(true));
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether settings button is shown or not.
+        /// </summary>
+        public bool ShowColorVisibilityControls
+        {
+            get { return (bool)GetValue(ShowColorVisibilityControlsProperty); }
+            set { SetValue(ShowColorVisibilityControlsProperty, value); }
+        }
+
+        /// <summary>
+        /// Property indicating whether search box is shown or not.
+        /// </summary>
+        public static readonly DependencyProperty ShowColorVisibilityControlsProperty = DependencyProperty.Register("ShowColorVisibilityControls",
+            typeof(bool), typeof(ColorLegend), new PropertyMetadata(true, (sender, e) => ((ColorLegend)sender).OnShowColorVisibilityControlsChanged()));
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether user editing current color.
+        /// </summary>
+        public bool IsColorSelecting
+        {
+            get { return (bool)GetValue(IsColorSelectingProperty); }
+            set { SetValue(IsColorSelectingProperty, value); }
+        }
+
+        /// <summary>
+        /// The is drop down open property.
+        /// </summary>
+        public static readonly DependencyProperty IsColorSelectingProperty = DependencyProperty.Register("IsColorSelecting",
+            typeof(bool), typeof(ColorLegend), new PropertyMetadata(false, (sender, e) => ((ColorLegend)sender).OnIsColorSelectingPropertyChanged()));
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether regex is used when search is performed.
+        /// </summary>
+        public bool UseRegexFiltering
+        {
+            get { return (bool)GetValue(UseRegexFilteringProperty); }
+            set { SetValue(UseRegexFilteringProperty, value); }
+        }
+
+        /// <summary>
+        /// Property indicating whether search is performing using regex or not.
+        /// </summary>
+        public static readonly DependencyProperty UseRegexFilteringProperty = DependencyProperty.Register("UseRegexFiltering",
+            typeof(bool), typeof(ColorLegend), new PropertyMetadata(true));
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether user editing current color.
+        /// </summary>
+        public Color EditingColor
+        {
+            get { return (Color)GetValue(EditingColorProperty); }
+            set { SetValue(EditingColorProperty, value); }
+        }
+
+        /// <summary>
+        /// The current color property.
+        /// </summary>
+        public static readonly DependencyProperty EditingColorProperty = DependencyProperty.Register("EditingColor", typeof(Color),
+            typeof(ColorLegend), new PropertyMetadata(Colors.White, (sender, e) => ((ColorLegend)sender).OnEditingColorChanged()));
+
+
+        /// <summary>
+        /// Gets or sets filter for list of color.
+        /// </summary>
+        public string Filter
+        {
+            get { return (string)GetValue(FilterProperty); }
+            set { SetValue(FilterProperty, value); }
+        }
+
+        /// <summary>
+        /// Expose filter property.
+        /// </summary>
+        public static readonly DependencyProperty FilterProperty = DependencyProperty.Register("Filter",
+            typeof(string), typeof(ColorLegend), new PropertyMetadata(null, (sender, e) => ((ColorLegend)sender).OnFilterChanged()));
+
+
+        /// <summary>
+        /// Gets or sets source for color items.
+        /// </summary>
+        public IEnumerable<IColorProvider> ItemsSource
+        {
+            get { return (IEnumerable<IColorProvider>)GetValue(ItemsSourceProperty); }
+            set { SetValue(ItemsSourceProperty, value); }
+        }
+
+        /// <summary>
+        /// Property for colors list.
+        /// </summary>
+        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register("ItemsSource",
+            typeof(IEnumerable<IColorProvider>), typeof(ColorLegend), new PropertyMetadata(null, (sender, e) => ((ColorLegend)sender).OnItemsSourceChanged()));
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether is all visible.
+        /// </summary>
+        public bool IsAllVisible
+        {
+            get { return (bool)GetValue(IsAllVisibleProperty); }
+            set { SetValue(IsAllVisibleProperty, value); }
+        }
+
+        /// <summary>
+        /// The is all visible property.
+        /// </summary>
+        public static readonly DependencyProperty IsAllVisibleProperty = DependencyProperty.Register("IsAllVisible",
+            typeof(bool), typeof(ColorLegend), new PropertyMetadata(false));
+
+
+        /// <summary>
+        /// Gets or sets a source for color items respecting current filter value.
+        /// </summary>
+        public IEnumerable<IColorProvider> FilteredItemsSource
+        {
+            get { return (IEnumerable<IColorProvider>)GetValue(FilteredItemsSourceProperty); }
+            set { SetValue(FilteredItemsSourceProperty, value); }
+        }
+
+        /// <summary>
+        /// Property for colors list.
+        /// </summary>
+        public static readonly DependencyProperty FilteredItemsSourceProperty = DependencyProperty.Register("FilteredItemsSource",
+            typeof(IEnumerable<IColorProvider>), typeof(ColorLegend), new PropertyMetadata(null));
+
+
+        /// <summary>
+        /// Gets or sets the filtered items ids.
+        /// </summary>
+        public IEnumerable<string> FilteredItemsIds
+        {
+            get { return (IEnumerable<string>)GetValue(FilteredItemsIdsProperty); }
+            set { SetValue(FilteredItemsIdsProperty, value); }
+        }
+
+        /// <summary>
+        /// Property to store all visible now ids.
+        /// </summary>
+        public static readonly DependencyProperty FilteredItemsIdsProperty = DependencyProperty.Register("FilteredItemsIds",
+            typeof(IEnumerable<string>), typeof(ColorLegend), new PropertyMetadata(null));
+
+
+        /// <summary>
+        /// Gets or sets filter watermark string we use in search textbox.
+        /// </summary>
+        public string FilterWatermark
+        {
+            get { return (string)GetValue(FilterWatermarkProperty); }
+            set { SetValue(FilterWatermarkProperty, value); }
+        }
+
+        /// <summary>
+        /// Property for filter watermark.
+        /// </summary>
+        public static readonly DependencyProperty FilterWatermarkProperty = DependencyProperty.Register("FilterWatermark",
+            typeof(string), typeof(ColorLegend), new PropertyMetadata("Search"));
+
+
+        /// <summary>
+        /// Gets or sets list of selected items.
+        /// </summary>
+        public IEnumerable<IColorProvider> SelectedColorItems
+        {
+            get { return (IEnumerable<IColorProvider>)GetValue(SelectedColorItemsProperty); }
+            set { SetValue(SelectedColorItemsProperty, value); }
+        }
+
+        /// <summary>
+        /// The selected items property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedColorItemsProperty = DependencyProperty.RegisterAttached("SelectedColorItems",
+            typeof(IEnumerable<IColorProvider>), typeof(ColorLegend), new PropertyMetadata(null, (sender, e) => ((ColorLegend)sender).OnSelectedColorItemsChanged()));
+        #endregion
+
+        #region Commands
+        public Command ClearFilter { get; private set; }
+
+        private void OnClearFilterExecute()
+        {
+            Filter = string.Empty;
+        }
+
+        public Command<IColorProvider> ChangeColor { get; private set; }
+
+        private bool OnChangeColorCanExecute(IColorProvider colorProvider)
+        {
+            if (colorProvider == null)
+            {
+                return false;
+            }
+
+            if (!AllowColorEditing)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private void OnChangeColorExecute(IColorProvider colorProvider)
+        {
+            _currentColorProvider = colorProvider;
+            EditingColor = colorProvider.Color;
+            IsColorSelecting = true;
+        }
+        #endregion
+
+        #region Events
+        /// <summary>
+        /// Selection changed event.
+        /// </summary>
+        public event EventHandler<EventArgs> SelectionChanged;
+        #endregion
+
+        #region Methods
+        private void OnItemsSourceChanged()
+        {
+            FilteredItemsSource = GetFilteredItems();
+            FilteredItemsIds = FilteredItemsSource == null ? null : FilteredItemsSource.Select(cp => cp.Id);
+        }
+
+        private void OnSelectedColorItemsChanged()
+        {
+            SetSelectedList(SelectedColorItems);
+        }
+
+        private void OnShowColorVisibilityControlsChanged()
+        {
+            UpdateVisibilityControlsVisibility();
+        }
+
+        private void OnAllowColorEditingChanged()
+        {
+            UpdateColorEditingControlsVisibility();
+        }
+
+        private void OnEditingColorChanged()
+        {
+            var currentColorProvider = _currentColorProvider;
+            if (currentColorProvider != null)
+            {
+                currentColorProvider.Color = (Color)EditingColor;
+            }
+        }
+
+        private void OnFilterChanged()
+        {
+            FilteredItemsSource = GetFilteredItems();
+            FilteredItemsIds = FilteredItemsSource == null ? null : FilteredItemsSource.Select(cp => cp.Id);
+        }
+
+        private void OnIsColorSelectingPropertyChanged()
+        {
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            _listBox = (ListBox)GetTemplateChild("PART_List");
+            _popup = (Popup)GetTemplateChild("PART_Popup_Color_Board");
+            _button = (ButtonBase)GetTemplateChild("PART_UnselectAll");
+            _checkBox = (CheckBox)GetTemplateChild("PART_All_Visible");
+
+            var settingsButton = (DropDownButton)GetTemplateChild("PART_Settings_Button");
+            if (settingsButton != null)
+            {
+                settingsButton.ContentLayoutUpdated += (sender, args) =>
+                    {
+                        if (_manualBindingReady)
+                        {
+                            return;
+                        }
+
+                        if (sender is ContentControl)
+                        {
+                            var settingsContent = sender as ContentControl;
+                            ContentPresenter contentPresenter = FindVisualChild<ContentPresenter>(settingsContent);
+                            if (contentPresenter == null)
+                            {
+                                return;
+                            }
+
+                            var content = contentPresenter.Content;
+                            if (content == null)
+                            {
+                                return;
+                            }
+
+                            var qryAllChecks = (content as DependencyObject).Descendents().OfType<CheckBox>();
+
+                            var allChecks = qryAllChecks as CheckBox[] ?? qryAllChecks.ToArray();
+                            var cbVisibilitySetting = allChecks.First(cb => cb.Name == "cbVisibilitySetting");
+                            if (cbVisibilitySetting != null)
+                            {
+                                cbVisibilitySetting.IsChecked = ShowColorVisibilityControls;
+                                cbVisibilitySetting.Checked += (o, e) => ShowColorVisibilityControls = true;
+                                cbVisibilitySetting.Unchecked += (o, e) => ShowColorVisibilityControls = false;
+                            }
+
+                            var cbColorEditingSetting = allChecks.First(cb => cb.Name == "cbColorEditingSetting");
+                            if (cbColorEditingSetting != null)
+                            {
+                                cbColorEditingSetting.IsChecked = AllowColorEditing;
+                                cbColorEditingSetting.Checked += (o, e) => AllowColorEditing = true;
+                                cbColorEditingSetting.Unchecked += (o, e) => AllowColorEditing = false;
+                            }
+
+                            var cbUseRegexSetting = allChecks.First(cb => cb.Name == "cbUseRegexSetting");
+                            if (cbUseRegexSetting != null)
+                            {
+                                cbUseRegexSetting.IsChecked = UseRegexFiltering;
+                                cbUseRegexSetting.Checked += (o, e) => UseRegexFiltering = true;
+                                cbUseRegexSetting.Unchecked += (o, e) => UseRegexFiltering = false;
+                            }
+
+                            _manualBindingReady = true;
+                        }
+                    };
+            }
+
+            if (_listBox != null)
+            {
+                _listBox.SelectionChanged += (sender, args) =>
+                {
+                    SelectedColorItems = GetSelectedList();
+                    var handler = SelectionChanged;
+                    if (handler != null)
+                    {
+                        handler(sender, args);
+                    }
+                };
+
+                _listBox.SelectionMode = SelectionMode.Extended;
+
+                _listBox.LayoutUpdated += (sender, args) =>
+                {
+                    UpdateVisibilityControlsVisibility();
+                    UpdateColorEditingControlsVisibility();
+                };
+            }
+
+            if (_button != null)
+            {
+                _button.Click += (s, e) =>
+                {
+                    if (_listBox != null)
+                    {
+                        _listBox.SelectedIndex = -1;
+                    }
+                };
+            }
+
+            if (_checkBox != null)
+            {
+                _checkBox.Checked += (sender, args) => IsAllVisible = true;
+                _checkBox.Unchecked += (sender, args) => IsAllVisible = false;
+            }
+
+            _colorBoard = new ColorBoard();
+            if (_popup != null)
+            {
+                _popup.Child = _colorBoard;
+            }
+
+            var b = new Binding("Color")
+            {
+                Mode = BindingMode.TwoWay,
+                Source = _colorBoard
+            };
+
+            SetBinding(EditingColorProperty, b);
+
+            _colorBoard.DoneClicked += ColorBoardDoneClicked;
+            _colorBoard.CancelClicked += ColorBoardCancelClicked;
+        }
+
+        public void UpdateVisibilityControlsVisibility()
+        {
+            if (_listBox == null)
+            {
+                return;
+            }
+
+            var qryAllChecks = _listBox.Descendents().OfType<CheckBox>();
+
+            foreach (CheckBox check in qryAllChecks)
+            {
+                check.Visibility = ShowColorVisibilityControls ? Visibility.Visible : Visibility.Collapsed;
+            }
+
+            _checkBox.Visibility = ShowColorVisibilityControls ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public void UpdateColorEditingControlsVisibility()
+        {
+            if (_listBox == null)
+            {
+                return;
+            }
+
+            var qryAllArrows = _listBox.Descendents().OfType<System.Windows.Shapes.Path>().Where(p => p.Name == "arrow");
+            foreach (System.Windows.Shapes.Path path in qryAllArrows)
+            {
+                path.Visibility = AllowColorEditing ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        public IEnumerable<IColorProvider> GetSelectedList()
+        {
+            var result = new ObservableCollection<IColorProvider>();
+
+            foreach (object item in _listBox.SelectedItems)
+            {
+                result.Add(item as IColorProvider);
+            }
+
+            return result;
+        }
+
+        public void SetSelectedList(IEnumerable<IColorProvider> selectedList)
+        {
+            if (_listBox == null || selectedList == null)
+            {
+                return;
+            }
+
+            var colorProviders = selectedList as IList<IColorProvider> ?? selectedList.ToList();
+            if (AreCollectionsTheSame(GetSelectedList(), colorProviders))
+            {
+                return;
+            }
+
+            _listBox.SelectedItems.Clear();
+            if (colorProviders != null)
+            {
+                foreach (var colorProvider in colorProviders)
+                {
+                    _listBox.SelectedItems.Add(colorProvider);
+                }
+            }
+        }
+
+        // TODO: Replace by catel methods
+        private bool AreCollectionsTheSame(IEnumerable<IColorProvider> collection1, IEnumerable<IColorProvider> collection2)
+        {
+            if ((collection1 == null) || (collection2 == null))
+            {
+                return collection1 == collection2;
+            }
+
+            var list1 = collection1.ToList();
+            var list2 = collection2.ToList();
+
+            if (list1.Count() != list2.Count())
+            {
+                return false;
+            }
+
+            if (list1.Any(colorProvider => list2.All(cp => cp.Id != colorProvider.Id)))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        // TODO: Replace by catel methods
+        private TChildItem FindVisualChild<TChildItem>(DependencyObject obj)
+                where TChildItem : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child is TChildItem)
+                {
+                    return (TChildItem)child;
+                }
+
+                TChildItem childOfChild = FindVisualChild<TChildItem>(child);
+                if (childOfChild != null)
+                {
+                    return childOfChild;
+                }
+            }
+
+            return null;
+        }
+
+        private string ConstructWildcardRegex(string pattern)
+        {
+            // Always add a wildcard at the end of the pattern
+            pattern = pattern.TrimEnd('*') + "*";
+
+            // Make it case insensitive by default
+            return "(?i)^" + Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".") + "$";
+        }
+
+        protected IEnumerable<IColorProvider> GetFilteredItems()
+        {
+            var items = (IEnumerable<IColorProvider>)GetValue(ItemsSourceProperty);
+            var filter = (string)GetValue(FilterProperty);
+
+            if ((items == null) || string.IsNullOrEmpty(filter))
+            {
+                return items;
+            }
+
+            try
+            {
+                Regex regex = UseRegexFiltering ? new Regex(filter) : new Regex(ConstructWildcardRegex(filter));
+                return items.Where(cp => regex.IsMatch(cp.Description));
+            }
+            catch (Exception)
+            {
+                return items;
+            }
+        }
+
+        private void ColorBoardDoneClicked(object sender, RoutedEventArgs e)
+        {
+            EditingColor = _colorBoard.Color;
+            _popup.IsOpen = false;
+        }
+
+        private void ColorBoardCancelClicked(object sender, RoutedEventArgs e)
+        {
+            _popup.IsOpen = false;
+        }
+        #endregion
+    }
+}

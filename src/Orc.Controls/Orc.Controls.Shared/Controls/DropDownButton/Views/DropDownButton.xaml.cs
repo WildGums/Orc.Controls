@@ -7,11 +7,14 @@
 
 namespace Orc.Controls
 {
+    using System;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
+    using Catel;
     using Catel.MVVM.Views;
+    using Microsoft.WindowsAPICodePack.Shell;
 
     /// <summary>
     /// Interaction logic for DropDownButton.xaml
@@ -22,9 +25,12 @@ namespace Orc.Controls
         public DropDownButton()
         {
             InitializeComponent();
+
+            LayoutUpdated += OnLayoutUpdated;
         }
         #endregion
 
+        #region Properties
         public object Header
         {
             get { return (object)GetValue(HeaderProperty); }
@@ -78,7 +84,13 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty EnableTransparentBackgroundProperty = DependencyProperty.Register("EnableTransparentBackground", typeof(bool),
             typeof(DropDownButton), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        #endregion
 
+        #region Events
+        public event EventHandler<EventArgs> ContentLayoutUpdated;
+        #endregion
+
+        #region Methods
         private void OnAccentColorBrushedChanged()
         {
             var solidColorBrush = AccentColorBrush as SolidColorBrush;
@@ -88,5 +100,11 @@ namespace Orc.Controls
                 accentColor.CreateAccentColorResourceDictionary();
             }
         }
+
+        private void OnLayoutUpdated(object sender, EventArgs e)
+        {
+            ContentLayoutUpdated.SafeInvoke(this, e);
+        }
+        #endregion
     }
 }
