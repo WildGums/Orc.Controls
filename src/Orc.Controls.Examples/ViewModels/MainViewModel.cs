@@ -10,10 +10,10 @@ namespace Orc.Controls.Examples.ViewModels
     using System.Windows.Media;
     using Catel.MVVM;
 
-    public class MainWindowViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase
     {
         #region Constructors
-        public MainWindowViewModel()
+        public MainViewModel()
         {
             AccentColorBrush = Brushes.Orange;
         }

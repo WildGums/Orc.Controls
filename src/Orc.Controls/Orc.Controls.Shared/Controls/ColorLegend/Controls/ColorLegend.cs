@@ -415,6 +415,7 @@ namespace Orc.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
             _listBox = (ListBox)GetTemplateChild("PART_List");
             _popup = (Popup)GetTemplateChild("PART_Popup_Color_Board");
             _button = (ButtonBase)GetTemplateChild("PART_UnselectAll");

@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorLegend/Themes/ColorLegend.xaml" />
+        
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorPicker/Themes/ColorPicker.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorPicker/Themes/ColorPicker.xaml" />
         

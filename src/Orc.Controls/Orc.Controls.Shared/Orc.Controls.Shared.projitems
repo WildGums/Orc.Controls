@@ -12,8 +12,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\BindableRichTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\BindableRun.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\ColorLegend.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Interfaces\IColorProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Controls\ColorLegend.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Models\ColorLegendItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Models\Interfaces\IColorProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Serialization\ColorLegendItemSerializerModifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\ColorBoard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\ColorChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\ColorHelper.cs" />
@@ -104,6 +106,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Themes\ColorLegend.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\Themes\ColorPicker.generic.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -158,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\Extensions\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Resources\Images\" />
     <Folder Include="$(MSBuildThisFileDirectory)Resources\" />
   </ItemGroup>
   <ItemGroup>

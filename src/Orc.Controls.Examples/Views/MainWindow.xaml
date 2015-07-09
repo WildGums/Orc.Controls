@@ -1,4 +1,4 @@
-﻿<catel:Window x:Class="Orc.Controls.Examples.Views.MainWindowView"
+﻿<catel:Window x:Class="Orc.Controls.Examples.Views.MainWindow"
               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:catel="http://catel.codeplex.com"
@@ -105,11 +105,15 @@
             </Setter>
         </Style>
     </catel:Window.Resources>
-    
+
     <TabControl Padding="10" TabStripPlacement="Left" Background="White" BorderBrush="{StaticResource TabControlNormalBorderBrush}">
 
         <TabItem Header="BindableRichTextBox">
-            <views:BindableRichTextBox/>
+            <views:BindableRichTextBox />
+        </TabItem>
+
+        <TabItem Header="ColorLegend">
+            <views:ColorLegendView />
         </TabItem>
 
         <TabItem Header="ColorPicker">
@@ -121,52 +125,52 @@
         </TabItem>
 
         <TabItem Header="DatePicker">
-            <views:DatePicker/>
+            <views:DatePicker />
         </TabItem>
 
         <TabItem Header="DateTimePicker">
-            <views:DateTimePicker/>
+            <views:DateTimePicker />
         </TabItem>
 
         <TabItem Header="DirectoryPickerView">
-            <views:DirectoryPickerView/>
+            <views:DirectoryPickerView />
         </TabItem>
 
         <TabItem Header="DropDownButton">
-            <views:DropDownButtonView/>
+            <views:DropDownButtonView />
         </TabItem>
 
         <TabItem Header="FilterBox">
-            <views:FilterBox/>
+            <views:FilterBox />
         </TabItem>
 
         <TabItem Header="LinkLabel">
-            <views:LinkLabel/>
+            <views:LinkLabel />
         </TabItem>
-        
+
         <TabItem Header="LogViewer">
-            <views:LogViewer/>
+            <views:LogViewer />
         </TabItem>
 
         <TabItem Header="OpenFilePickerView">
-            <views:OpenFilePickerView/>
+            <views:OpenFilePickerView />
         </TabItem>
 
         <TabItem Header="PinnableToolTip">
-            <views:PinnableToolTip/>
+            <views:PinnableToolTip />
         </TabItem>
 
         <TabItem Header="SaveFilePickerView">
-            <views:SaveFilePickerView/>
+            <views:SaveFilePickerView />
         </TabItem>
-        
+
         <TabItem Header="TimeSpan">
-            <views:TimeSpan/>
+            <views:TimeSpan />
         </TabItem>
-        
+
         <TabItem Header="WatermarkTextBox">
-            <views:Watermark/>
+            <views:Watermark />
         </TabItem>
-        
+
     </TabControl>
 </catel:Window>
