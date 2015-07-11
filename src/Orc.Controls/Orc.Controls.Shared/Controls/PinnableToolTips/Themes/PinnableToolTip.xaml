@@ -1,7 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:Orc.Controls">
+                    xmlns:controls="clr-namespace:Orc.Controls"
+                    xmlns:catel="http://catel.codeplex.com">
 
+    <Geometry x:Key="CloseGeometry">M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z</Geometry>
     <Geometry x:Key="PinnedGeometry">M323.779,263.243L444.221,263.243C445.702,272.817 434.588,284.499 420.216,287.139L420.216,350.104C442.875,355.867 451.438,374.943 450.434,386.229L394.295,385.979L394.038,470.689L384,504.757L384,504.757C384,504.757 373.962,470.689 373.962,470.689L373.705,385.979L317.566,386.229C316.562,374.943 325.125,355.867 347.784,350.104L347.784,287.139C333.412,284.499 322.298,272.817 323.779,263.243Z</Geometry>
     <Geometry x:Key="UnpinnedGeometry">M504.757,323.779L504.757,444.221C495.183,445.702 483.501,434.588 480.861,420.216L417.896,420.216C412.133,442.875 393.057,451.438 381.771,450.434L382.021,394.295L297.311,394.038L263.243,384L263.243,384C263.243,384 297.312,373.962 297.312,373.962L382.021,373.705L381.771,317.566C393.057,316.562 412.133,325.125 417.896,347.784L480.861,347.784C483.501,333.412 495.183,322.298 504.757,323.779Z</Geometry>
 
@@ -35,6 +37,26 @@
             </TextBlock>
         </Grid>
     </DataTemplate>
+
+    <Style x:Key="CloseButton" TargetType="{x:Type Button}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="MinHeight" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid x:Name="BorderButton" Background="Transparent">
+                        <Viewbox x:Name="Viewbox" Height="9" Width="9">
+                            <Path x:Name="Path" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" 
+                                  UseLayoutRounding="True" Margin="0" SnapsToDevicePixels="True"
+                                  Data="{StaticResource CloseGeometry}" Fill="#575757" >
+                            </Path>
+                        </Viewbox>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style x:Key="Pin_ToggleButton" TargetType="{x:Type ToggleButton}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -92,8 +114,9 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                
+
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
@@ -124,7 +147,10 @@
                                 <ToggleButton x:Name="PinButton" Content="x" Grid.Column="1" Style="{StaticResource Pin_ToggleButton}" Margin="1"
                                           IsChecked="{Binding IsPinned, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
 
-                                <ContentPresenter Grid.Row="1" Grid.ColumnSpan="2"
+                                <Button x:Name="CloseButton" Content="x" Grid.Column="2" Style="{StaticResource CloseButton}" Margin="1"
+                                        Visibility="{Binding AllowCloseByUser, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+
+                                <ContentPresenter Grid.Row="1" Grid.ColumnSpan="3"
                                                   Content="{TemplateBinding Content}"
                                                   ContentTemplate="{TemplateBinding ContentTemplate}"
                                                   Cursor="{TemplateBinding Cursor}"

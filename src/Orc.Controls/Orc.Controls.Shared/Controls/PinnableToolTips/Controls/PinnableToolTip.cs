@@ -24,6 +24,7 @@ namespace Orc.Controls
     /// The pinnable toolTip control.
     /// </summary>
     [TemplatePart(Name = "PinButton", Type = typeof(ToggleButton))]
+    [TemplatePart(Name = "CloseButton", Type = typeof(Button))]
     [TemplatePart(Name = "DragGrip", Type = typeof(FrameworkElement))]
     [TemplatePart(Name = "GripDrawing", Type = typeof(GeometryDrawing))]
     public class PinnableToolTip : ContentControl, IControlAdornerChild
@@ -64,6 +65,8 @@ namespace Orc.Controls
         private static readonly ConcurrentDictionary<UIElement, List<int>> OnFrontIdDictionary = new ConcurrentDictionary<UIElement, List<int>>();
 
         private readonly int _id;
+
+        private Button _closeButton;
 
         private FrameworkElement _dragGrip;
 
@@ -114,6 +117,16 @@ namespace Orc.Controls
             }
         }
 
+        public bool AllowCloseByUser
+        {
+            get { return (bool)GetValue(AllowCloseByUserProperty); }
+            set { SetValue(AllowCloseByUserProperty, value); }
+        }
+
+        public static readonly DependencyProperty AllowCloseByUserProperty = DependencyProperty.Register("AllowCloseByUser", typeof(bool),
+            typeof(PinnableToolTip), new PropertyMetadata(false));
+
+
         public double HorizontalOffset
         {
             get { return (double)GetValue(HorizontalOffsetProperty); }
@@ -122,6 +135,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.Register("HorizontalOffset", typeof(double),
             typeof(PinnableToolTip), new PropertyMetadata((sender, e) => ((PinnableToolTip)sender).OnHorizontalOffsetChanged()));
+
 
         public bool IsPinned
         {
@@ -132,6 +146,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty IsPinnedProperty = DependencyProperty.Register("IsPinned", typeof(bool), typeof(PinnableToolTip),
             new PropertyMetadata(false, (sender, e) => ((PinnableToolTip)sender).OnIsPinnedChanged()));
 
+
         public Color GripColor
         {
             get { return (Color)GetValue(GripColorProperty); }
@@ -141,6 +156,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty GripColorProperty = DependencyProperty.Register("GripColor", typeof(Color), typeof(PinnableToolTip),
             new PropertyMetadata(Color.FromRgb(204, 204, 204), (sender, e) => ((PinnableToolTip)sender).OnGripColorChanged()));
 
+
         public double VerticalOffset
         {
             get { return (double)GetValue(VerticalOffsetProperty); }
@@ -149,6 +165,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.Register("VerticalOffset", typeof(double),
             typeof(PinnableToolTip), new PropertyMetadata((sender, e) => ((PinnableToolTip)sender).OnVerticalOffsetChanged()));
+
 
         public ICommand OpenLinkCommand
         {
@@ -164,6 +181,10 @@ namespace Orc.Controls
         public event EventHandler<EventArgs> IsOpenChanged;
 
         public event EventHandler<EventArgs> IsPinnedChanged;
+        #endregion
+
+        #region Commands
+
         #endregion
 
         #region Public Methods and Operators
@@ -352,13 +373,19 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
-            _dragGrip = (FrameworkElement)GetTemplateChild("DragGrip");
+            _closeButton = GetTemplateChild("CloseButton") as Button;
+            if (_closeButton != null)
+            {
+                _closeButton.Click += OnCloseButtonClick;
+            }
+
+            _dragGrip = GetTemplateChild("DragGrip") as FrameworkElement;
             if (_dragGrip != null)
             {
                 _dragGrip.PreviewMouseLeftButtonDown += OnDragGripPreviewMouseLeftButtonDown;
             }
 
-            _gripDrawing = (GeometryDrawing)GetTemplateChild("GripDrawing");
+            _gripDrawing = GetTemplateChild("GripDrawing") as GeometryDrawing;
         }
         #endregion
 
@@ -659,6 +686,11 @@ namespace Orc.Controls
             }
 
             return placement;
+        }
+
+        private void OnCloseButtonClick(object sender, RoutedEventArgs e)
+        {
+            Hide();
         }
 
         private void OnDragGripPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

@@ -10,7 +10,7 @@
                 <Border BorderBrush="{Binding}" BorderThickness="1" Margin="4,8,4,8" Width="150" HorizontalAlignment="Left">
                     <TextBlock Text="{Binding}" Margin="5"/>
                     <orc:PinnableToolTipService.ToolTip>
-                        <orc:PinnableToolTip>
+                        <orc:PinnableToolTip AllowCloseByUser="True">
                             <StackPanel>
                                 <Label Content="{Binding}" />
                                 <Border Margin="5" Width="50" Height="50" Background="{Binding}" />
