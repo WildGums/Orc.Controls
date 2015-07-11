@@ -22,18 +22,18 @@ namespace Orc.Controls
     /// <summary>
     /// The pinnable toolTip control.
     /// </summary>
-    [TemplatePart(Name = "PinButton", Type = typeof (ToggleButton))]
-    [TemplatePart(Name = "DragGrip", Type = typeof (FrameworkElement))]
-    [TemplatePart(Name = "GripDrawing", Type = typeof (GeometryDrawing))]
+    [TemplatePart(Name = "PinButton", Type = typeof(ToggleButton))]
+    [TemplatePart(Name = "DragGrip", Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = "GripDrawing", Type = typeof(GeometryDrawing))]
     public class PinnableToolTip : ContentControl, IControlAdornerChild
     {
         #region Constructors and Destructors
         /// <summary>
-        ///     Initializes a new instance of the <see cref="PinnableToolTip" /> class.
+        /// Initializes a new instance of the <see cref="PinnableToolTip" /> class.
         /// </summary>
         public PinnableToolTip()
         {
-            DefaultStyleKey = typeof (PinnableToolTip);
+            DefaultStyleKey = typeof(PinnableToolTip);
             _id = System.Threading.Interlocked.Increment(ref _counter);
 
             SizeChanged += OnSizeChanged;
@@ -45,7 +45,7 @@ namespace Orc.Controls
 
         #region Properties
         /// <summary>
-        ///     Gets a value indicating whether is timer enabled.
+        /// Gets a value indicating whether is timer enabled.
         /// </summary>
         internal bool IsTimerEnabled
         {
@@ -116,48 +116,48 @@ namespace Orc.Controls
 
         public double HorizontalOffset
         {
-            get { return (double) GetValue(HorizontalOffsetProperty); }
+            get { return (double)GetValue(HorizontalOffsetProperty); }
             set { SetValue(HorizontalOffsetProperty, value); }
         }
 
         public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.Register("HorizontalOffset",
-            typeof (double), typeof (PinnableToolTip), new PropertyMetadata(OnHorizontalOffsetPropertyChanged));
+            typeof(double), typeof(PinnableToolTip), new PropertyMetadata(OnHorizontalOffsetPropertyChanged));
 
         public bool IsPinned
         {
-            get { return (bool) GetValue(IsPinnedProperty); }
+            get { return (bool)GetValue(IsPinnedProperty); }
             set { SetValue(IsPinnedProperty, value); }
         }
 
         public static readonly DependencyProperty IsPinnedProperty = DependencyProperty.Register("IsPinned",
-            typeof (bool), typeof (PinnableToolTip), new PropertyMetadata(false, OnIsPinnedPropertyChanged));
+            typeof(bool), typeof(PinnableToolTip), new PropertyMetadata(false, OnIsPinnedPropertyChanged));
 
         public Color GripColor
         {
-            get { return (Color) GetValue(GripColorProperty); }
+            get { return (Color)GetValue(GripColorProperty); }
             set { SetValue(GripColorProperty, value); }
         }
 
         public static readonly DependencyProperty GripColorProperty = DependencyProperty.Register("GripColor",
-            typeof (Color), typeof (PinnableToolTip), new PropertyMetadata(Color.FromRgb(204, 204, 204), OnGripColorChanged));
+            typeof(Color), typeof(PinnableToolTip), new PropertyMetadata(Color.FromRgb(204, 204, 204), OnGripColorChanged));
 
         public double VerticalOffset
         {
-            get { return (double) GetValue(VerticalOffsetProperty); }
+            get { return (double)GetValue(VerticalOffsetProperty); }
             set { SetValue(VerticalOffsetProperty, value); }
         }
 
         public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.Register("VerticalOffset",
-            typeof (double), typeof (PinnableToolTip), new PropertyMetadata(OnVerticalOffsetPropertyChanged));
+            typeof(double), typeof(PinnableToolTip), new PropertyMetadata(OnVerticalOffsetPropertyChanged));
 
         public ICommand OpenLinkCommand
         {
-            get { return (ICommand) GetValue(OpenLinkCommandProperty); }
+            get { return (ICommand)GetValue(OpenLinkCommandProperty); }
             set { SetValue(OpenLinkCommandProperty, value); }
         }
 
         public static readonly DependencyProperty OpenLinkCommandProperty = DependencyProperty.Register("OpenLinkCommand",
-            typeof (ICommand), typeof (PinnableToolTip), new PropertyMetadata(null));
+            typeof(ICommand), typeof(PinnableToolTip), new PropertyMetadata(null));
         #endregion
 
         #region Public Methods and Operators
@@ -327,7 +327,7 @@ namespace Orc.Controls
                 case PlacementMode.Top:
                     var windowSize = ScreenHelper.GetWindowSize(null);
                     var plugin = new Rect(0.0, 0.0, windowSize.Width, windowSize.Height);
-                    var translatedPoints = GetTranslatedPoints((FrameworkElement) placementTarget);
+                    var translatedPoints = GetTranslatedPoints((FrameworkElement)placementTarget);
                     var toolTipPoints = GetTranslatedPoints(this);
                     var popupLocation = PlacePopup(plugin, translatedPoints, toolTipPoints, placementMode);
 
@@ -346,13 +346,13 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
-            _dragGrip = (FrameworkElement) GetTemplateChild("DragGrip");
+            _dragGrip = (FrameworkElement)GetTemplateChild("DragGrip");
             if (_dragGrip != null)
             {
                 _dragGrip.PreviewMouseLeftButtonDown += OnDragGripPreviewMouseLeftButtonDown;
             }
 
-            _gripDrawing = (GeometryDrawing) GetTemplateChild("GripDrawing");
+            _gripDrawing = (GeometryDrawing)GetTemplateChild("GripDrawing");
         }
         #endregion
 
@@ -370,7 +370,7 @@ namespace Orc.Controls
                         && ((Math.Abs((y + height) - target[0].Y) > Epsilon)
                             && (Math.Abs((y + height) - target[1].Y) > Epsilon)))
                     {
-                        var num18 = bounds.Top + (bounds.Height/2.0);
+                        var num18 = bounds.Top + (bounds.Height / 2.0);
                         if ((num18 > 0.0) && ((num18 - 0.0) > (plugin.Height - num18)))
                         {
                             y = plugin.Height - height;
@@ -385,7 +385,7 @@ namespace Orc.Controls
                          && (((Math.Abs(x - target[0].X) > 0.0001) && (Math.Abs(x - target[1].X) > 0.0001))
                              && ((Math.Abs((x + width) - target[0].X) > 0.0001) && (Math.Abs((x + width) - target[1].X) > 0.0001))))
                 {
-                    var num19 = bounds.Left + (bounds.Width/2.0);
+                    var num19 = bounds.Left + (bounds.Width / 2.0);
                     if ((num19 > 0.0) && ((num19 - 0.0) > (plugin.Width - num19)))
                     {
                         x = plugin.Width - width;
@@ -436,14 +436,14 @@ namespace Orc.Controls
 
         private static int GetIndex(Rect plugin, double width, double height, IList<Point> pointArray)
         {
-            var num13 = width*height;
+            var num13 = width * height;
             var index = 0;
             var num15 = 0.0;
             for (var i = 0; i < pointArray.Count; i++)
             {
                 var rect3 = new Rect(pointArray[i].X, pointArray[i].Y, width, height);
                 rect3.Intersect(plugin);
-                var d = rect3.Width*rect3.Height;
+                var d = rect3.Width * rect3.Height;
                 if (double.IsInfinity(d))
                 {
                     index = pointArray.Count - 1;
@@ -513,7 +513,7 @@ namespace Orc.Controls
                     break;
 
                 default:
-                    pointArray = new[] {new Point(0.0, 0.0)};
+                    pointArray = new[] { new Point(0.0, 0.0) };
                     break;
             }
 
@@ -543,7 +543,7 @@ namespace Orc.Controls
 
         private static void OnHorizontalOffsetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var toolTip = (PinnableToolTip) d;
+            var toolTip = (PinnableToolTip)d;
             if (toolTip.IsOpen)
             {
                 toolTip.PerformPlacement();
@@ -552,12 +552,12 @@ namespace Orc.Controls
 
         private static void OnIsPinnedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var toolTip = (PinnableToolTip) d;
-            if ((bool) e.NewValue)
+            var toolTip = (PinnableToolTip)d;
+            if ((bool)e.NewValue)
             {
                 if (toolTip._adornerDragDrop == null && toolTip._adorner != null)
                 {
-                    toolTip._adornerDragDrop = ControlAdornerDragDrop.Attach(toolTip._adorner);
+                    toolTip._adornerDragDrop = ControlAdornerDragDrop.Attach(toolTip._adorner, toolTip._dragGrip);
                 }
 
                 if (toolTip.IsTimerEnabled)
@@ -579,7 +579,7 @@ namespace Orc.Controls
 
         private static void OnVerticalOffsetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var toolTip = (PinnableToolTip) d;
+            var toolTip = (PinnableToolTip)d;
             if (toolTip.IsOpen)
             {
                 toolTip.PerformPlacement();
@@ -588,7 +588,7 @@ namespace Orc.Controls
 
         private static void OnGripColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var toolTip = (PinnableToolTip) d;
+            var toolTip = (PinnableToolTip)d;
             if (toolTip._gripDrawing != null)
             {
                 toolTip._gripDrawing.Brush = new SolidColorBrush(toolTip.GripColor);
@@ -611,8 +611,7 @@ namespace Orc.Controls
             return point;
         }
 
-        private static PlacementMode ValidatePlacement(
-            IList<Point> target, PlacementMode placement, Rect plugin, double width, double height)
+        private static PlacementMode ValidatePlacement(IList<Point> target, PlacementMode placement, Rect plugin, double width, double height)
         {
             switch (placement)
             {
@@ -735,7 +734,7 @@ namespace Orc.Controls
 
                 if (IsPinned && _adornerDragDrop == null)
                 {
-                    _adornerDragDrop = ControlAdornerDragDrop.Attach(_adorner);
+                    _adornerDragDrop = ControlAdornerDragDrop.Attach(_adorner, _dragGrip);
                 }
 
                 RegisterBeingInFront();
@@ -818,7 +817,7 @@ namespace Orc.Controls
             }
 
             _isPositionCalculated = false;
-            var ad = new ControlAdorner(adornedElement) {Child = this, Focusable = false};
+            var ad = new ControlAdorner(adornedElement) { Child = this, Focusable = false };
             KeyboardNavigation.SetTabNavigation(ad, KeyboardNavigationMode.None);
             layer.Add(ad);
             _adorner = ad;
@@ -826,7 +825,7 @@ namespace Orc.Controls
 
             if (IsPinned && _adornerDragDrop == null)
             {
-                _adornerDragDrop = ControlAdornerDragDrop.Attach(_adorner);
+                _adornerDragDrop = ControlAdornerDragDrop.Attach(_adorner, _dragGrip);
             }
 
             RegisterBeingInFront();

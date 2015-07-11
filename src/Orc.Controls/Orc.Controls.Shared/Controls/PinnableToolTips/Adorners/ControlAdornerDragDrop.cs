@@ -27,6 +27,8 @@ namespace Orc.Controls
         #region Fields
         private ControlAdorner _adorner;
 
+        private UIElement _element;
+
         private bool _mouseCaptured;
 
         private double _mouseX;
@@ -35,7 +37,7 @@ namespace Orc.Controls
         #endregion
 
         #region Public Methods and Operators
-        public static ControlAdornerDragDrop Attach(ControlAdorner adorner)
+        public static ControlAdornerDragDrop Attach(ControlAdorner adorner, UIElement element)
         {
             if (adorner == null || adorner.Child == null)
             {
@@ -44,7 +46,8 @@ namespace Orc.Controls
 
             var dd = new ControlAdornerDragDrop
             {
-                _adorner = adorner
+                _adorner = adorner,
+                _element = element
             };
 
             dd._adorner.Child.MouseLeftButtonDown += dd.MouseLeftButtonDown;
@@ -61,6 +64,7 @@ namespace Orc.Controls
                 return;
             }
 
+            dd._element = null;
             dd._adorner.Child.MouseLeftButtonDown -= dd.MouseLeftButtonDown;
             dd._adorner.Child.MouseLeftButtonUp -= dd.MouseLeftButtonUp;
             dd._adorner.Child.MouseMove -= dd.MouseMove;
@@ -70,6 +74,14 @@ namespace Orc.Controls
         #region Methods
         private void MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (_element != null)
+            {
+                if (!_element.IsMouseOver)
+                {
+                    return;
+                }
+            }
+
             _adorner.Child.CaptureMouse();
             _mouseCaptured = true;
             _mouseY = e.GetPosition(null).Y;
