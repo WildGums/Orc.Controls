@@ -359,15 +359,8 @@ namespace Orc.Controls
             var initialShowDelay = GetInitialShowDelay(currentElement);
             var showDuration = GetShowDuration(currentElement);
 
-            if (initialShowDelay == 0)
-            {
-                toolTip.Show();
-            }
-            else
-            {
-                toolTip.SetupTimer(initialShowDelay, showDuration);
-                toolTip.StartTimer();
-            }
+            toolTip.SetupTimer(initialShowDelay, showDuration);
+            toolTip.StartTimer();
         }
 
         /// <summary>
