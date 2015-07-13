@@ -175,6 +175,15 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty OpenLinkCommandProperty = DependencyProperty.Register("OpenLinkCommand",
             typeof(ICommand), typeof(PinnableToolTip), new PropertyMetadata(null));
+
+        public Brush AccentColorBrush
+        {
+            get { return (Brush)GetValue(AccentColorBrushProperty); }
+            set { SetValue(AccentColorBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
+            typeof(PinnableToolTip), new PropertyMetadata(Brushes.LightGray, (sender, e) => ((PinnableToolTip)sender).OnAccentColorBrushedChanged()));
         #endregion
 
         #region Events
@@ -967,6 +976,16 @@ namespace Orc.Controls
         private bool IsInFront()
         {
             return GetInFrontId() == _id;
+        }
+
+        private void OnAccentColorBrushedChanged()
+        {
+            var solidColorBrush = AccentColorBrush as SolidColorBrush;
+            if (solidColorBrush != null)
+            {
+                var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
+                accentColor.CreateAccentColorResourceDictionary();
+            }
         }
         #endregion
     }

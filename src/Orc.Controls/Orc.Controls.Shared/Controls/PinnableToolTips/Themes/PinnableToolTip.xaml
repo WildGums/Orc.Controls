@@ -3,9 +3,9 @@
                     xmlns:controls="clr-namespace:Orc.Controls"
                     xmlns:catel="http://catel.codeplex.com">
 
-    <Geometry x:Key="CloseGeometry">M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z</Geometry>
-    <Geometry x:Key="PinnedGeometry">M323.779,263.243L444.221,263.243C445.702,272.817 434.588,284.499 420.216,287.139L420.216,350.104C442.875,355.867 451.438,374.943 450.434,386.229L394.295,385.979L394.038,470.689L384,504.757L384,504.757C384,504.757 373.962,470.689 373.962,470.689L373.705,385.979L317.566,386.229C316.562,374.943 325.125,355.867 347.784,350.104L347.784,287.139C333.412,284.499 322.298,272.817 323.779,263.243Z</Geometry>
-    <Geometry x:Key="UnpinnedGeometry">M504.757,323.779L504.757,444.221C495.183,445.702 483.501,434.588 480.861,420.216L417.896,420.216C412.133,442.875 393.057,451.438 381.771,450.434L382.021,394.295L297.311,394.038L263.243,384L263.243,384C263.243,384 297.312,373.962 297.312,373.962L382.021,373.705L381.771,317.566C393.057,316.562 412.133,325.125 417.896,347.784L480.861,347.784C483.501,333.412 495.183,322.298 504.757,323.779Z</Geometry>
+    <Geometry x:Key="CloseGeometry">M384,415.819L248.839,550.98L217.02,519.161L352.181,384L217.02,248.839L248.839,217.02L384,352.181L519.161,217.02L550.98,248.839L415.819,384L550.98,519.161L519.161,550.98L384,415.819Z</Geometry>
+    <Geometry x:Key="PinnedGeometry">M271.481,217.02L496.519,217.02C498.998,233.046 480.395,252.6 456.338,257.019L461.359,337.306C499.288,346.952 513.621,378.883 511.94,397.774L401.232,397.356L400.802,493.955L384,550.98L367.198,493.953L366.768,397.356L256.06,397.774C254.379,378.883 268.712,346.952 306.641,337.306L311.662,257.019C287.605,252.6 269.002,233.046 271.481,217.02Z</Geometry>
+    <Geometry x:Key="UnpinnedGeometry">M550.98,271.481L550.98,496.519C534.954,498.998 515.4,480.395 510.981,456.338L430.694,461.359C421.048,499.288 389.117,513.621 370.226,511.94L370.644,401.232L274.045,400.802L217.02,384L274.047,367.198L370.644,366.768L370.226,256.06C389.117,254.379 421.048,268.712 430.694,306.641L510.981,311.662C515.4,287.605 534.954,269.002 550.98,271.481Z</Geometry>
 
     <controls:PinnableItemTemplateSelector x:Key="PinnableItemTemplateSelector" />
 
@@ -41,11 +41,10 @@
     <Style x:Key="CloseButton" TargetType="{x:Type Button}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="MinHeight" Value="14"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Grid x:Name="BorderButton" Background="Transparent">
+                    <Grid x:Name="BorderButton" Background="Transparent" Height="14" Width="14">
                         <Viewbox x:Name="Viewbox" Height="9" Width="9">
                             <Path x:Name="Path" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" 
                                   UseLayoutRounding="True" Margin="0" SnapsToDevicePixels="True"
@@ -53,6 +52,18 @@
                             </Path>
                         </Viewbox>
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="BorderButton" Value="{DynamicResource ControlsHighlightBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="BorderButton" Value="{DynamicResource ControlsAccentBrush}"/>
+                            <Setter Property="Fill" TargetName="Path" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Fill" TargetName="Path" Value="#FFADADAD"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -61,13 +72,11 @@
     <Style x:Key="Pin_ToggleButton" TargetType="{x:Type ToggleButton}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="MinHeight" Value="14"/>
-        <Setter Property="MinWidth" Value="14"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Grid x:Name="BorderButton" Background="Transparent">
-                        <Viewbox x:Name="Viewbox" Height="13" Width="13">
+                    <Grid x:Name="BorderButton" Background="Transparent" Height="14" Width="14">
+                        <Viewbox x:Name="Viewbox" Height="9" Width="9">
                             <Path x:Name="Path"  HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" 
                                   UseLayoutRounding="True" Margin="0" SnapsToDevicePixels="True"
                                   Data="{StaticResource UnpinnedGeometry}" Fill="#575757" >
@@ -77,6 +86,16 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="Path" Property="Data" Value="{StaticResource PinnedGeometry}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="BorderButton" Value="{DynamicResource ControlsHighlightBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="BorderButton" Value="{DynamicResource ControlsAccentBrush}"/>
+                            <Setter Property="Fill" TargetName="Path" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Fill" TargetName="Path" Value="#FFADADAD"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
