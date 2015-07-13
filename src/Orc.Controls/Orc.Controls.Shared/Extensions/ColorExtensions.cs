@@ -21,29 +21,6 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-        public static ResourceDictionary CreateAccentColorResourceDictionary(this Color color)
-        {
-            if (_accentColorResourceDictionary != null)
-            {
-                return _accentColorResourceDictionary;
-            }
-
-            var resourceDictionary = new ResourceDictionary();
-
-            resourceDictionary.Add("ControlsHighlightColor", color.CalculateHighlightColor());
-            resourceDictionary.Add("ControlsAccentColor", color);
-
-            resourceDictionary.Add("ControlsHighlightBrush", new SolidColorBrush((Color) resourceDictionary["ControlsHighlightColor"]));
-            resourceDictionary.Add("ControlsAccentBrush", new SolidColorBrush((Color) resourceDictionary["ControlsAccentColor"]));
-
-            var application = Application.Current;
-            var applicationResources = application.Resources;
-            applicationResources.MergedDictionaries.Insert(0, resourceDictionary);
-
-            _accentColorResourceDictionary = resourceDictionary;
-            return applicationResources;
-        }
-
         public static void CreateAccentColorResourceDictionary(this Color color, string controlName)
         {
             var accentColor = Application.Current.TryFindResource(controlName.GetAccentBrushName()) as SolidColorBrush;
