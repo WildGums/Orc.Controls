@@ -30,12 +30,12 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsHighlightBrush}"/>
+                                <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource DropDownButtonHighlightBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}"/>
+                                <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource DropDownButtonAccentBrush}"/>
                                 <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}"/>
+                                <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource DropDownButtonAccentBrush}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Foreground" Value="#FFADADAD"/>
@@ -64,14 +64,14 @@
                     <Setter Property="Visibility" TargetName="ToggleButtonContent" Value="Visible" />
                 </DataTrigger>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsHighlightBrush}" />
+                    <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource DropDownButtonHighlightBrush}" />
                 </Trigger>
                 <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="Background" TargetName="PathGrid" Value="{DynamicResource ControlsAccentBrush}" />
-                    <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}" />
+                    <Setter Property="Background" TargetName="PathGrid" Value="{DynamicResource DropDownButtonAccentBrush}" />
+                    <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource DropDownButtonAccentBrush}" />
                     <Setter Property="Fill" TargetName="Arrow" Value="White" />
                     <Setter Property="Foreground" Value="White" />
-                    <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}" />
+                    <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource DropDownButtonAccentBrush}" />
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="Fill" TargetName="Arrow" Value="#FFAFAFAF" />
@@ -97,15 +97,15 @@
                     <Setter Property="Visibility" TargetName="ToggleButtonContent" Value="Visible" />
                 </DataTrigger>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsHighlightBrush}" />
-                    <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource ControlsHighlightBrush}" />
+                    <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource DropDownButtonHighlightBrush}" />
+                    <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource DropDownButtonHighlightBrush}" />
                 </Trigger>
                 <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="Background" TargetName="PathGrid" Value="{DynamicResource ControlsAccentBrush}" />
-                    <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}" />
+                    <Setter Property="Background" TargetName="PathGrid" Value="{DynamicResource DropDownButtonAccentBrush}" />
+                    <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource DropDownButtonAccentBrush}" />
                     <Setter Property="Fill" TargetName="Arrow" Value="White" />
                     <Setter Property="Foreground" Value="White" />
-                    <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource ControlsAccentBrush}" />
+                    <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource DropDownButtonAccentBrush}" />
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="Fill" TargetName="Arrow" Value="#FFAFAFAF" />
@@ -136,9 +136,9 @@
         <SolidColorBrush x:Key="ForegroundBrush" Color="Black"/>
         <SolidColorBrush x:Key="MouseOverForegroundBrush" Color="Black"/>
         <SolidColorBrush x:Key="DisabledMenuForeground" Color="#FFAFAFAF"/>
-        <SolidColorBrush x:Key="MenuItemSelectionFill" Color="{DynamicResource ControlsHighlightColor}"/>
+        <SolidColorBrush x:Key="MenuItemSelectionFill" Color="{DynamicResource DropDownButtonHighlightColor}"/>
         <SolidColorBrush x:Key="SubMenuBackgroundBrush" Color="White"/>
-        <SolidColorBrush x:Key="MenuItemPressedFill" Color="{DynamicResource ControlsAccentColor}"/>
+        <SolidColorBrush x:Key="MenuItemPressedFill" Color="{DynamicResource DropDownButtonAccentColor}"/>
         <SolidColorBrush x:Key="SubMenuBorderBrush" Color="Gray"/>
         <SolidColorBrush x:Key="SubMenuRepeatButtonBrush" Color="Gray"/>
         <SolidColorBrush x:Key="SubMenuHoverRepeatButtonBrush" Color="Gray"/>

@@ -97,13 +97,20 @@ namespace Orc.Controls
             if (solidColorBrush != null)
             {
                 var accentColor = ((SolidColorBrush) AccentColorBrush).Color;
-                accentColor.CreateAccentColorResourceDictionary();
+                accentColor.CreateAccentColorResourceDictionary("DropDownButton");
             }
         }
 
         private void OnLayoutUpdated(object sender, EventArgs e)
         {
             ContentLayoutUpdated.SafeInvoke(this, e);
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
         }
         #endregion
     }

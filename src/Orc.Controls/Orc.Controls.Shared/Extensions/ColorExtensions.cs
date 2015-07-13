@@ -52,9 +52,9 @@ namespace Orc.Controls
 
         public static void CreateAccentColorResourceDictionary(this Color color, string controlName)
         {
-            var accentColorResource = Application.Current.TryFindResource(controlName.GetAccentBrushName()) as SolidColorBrush;
+            var accentColor = Application.Current.TryFindResource(controlName.GetAccentColorName()) as SolidColorBrush;
 
-            if (accentColorResource != null )
+            if (accentColor != null )
             {
                 return;
             }
