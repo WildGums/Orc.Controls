@@ -35,17 +35,17 @@
             <Setter Property="Template" Value="{StaticResource DateTimePickerToggleButtonTemplate}"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="{DynamicResource ControlsAccentBrush}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource DateTimePickerControlAccentBrush}"/>
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="BorderBrush" Value="{DynamicResource ControlsAccentBrush}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource DateTimePickerControlAccentBrush}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
         <Style TargetType="{x:Type ListBoxItem}">
             <Setter Property="Padding" Value="2 2 5 2" />
             <Style.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource ControlsHighlightColor}"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource DateTimePickerControlHighlightColor}"/>
             </Style.Resources>
             <Style.Triggers>
                 <Trigger Property="ListBoxItem.IsSelected" Value="True" >
@@ -57,10 +57,10 @@
             <Setter Property="BorderBrush" Value="LightGray"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="{DynamicResource ControlsAccentBrush}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource DateTimePickerControlAccentBrush}" />
                 </Trigger>
                 <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                    <Setter Property="BorderBrush" Value="{DynamicResource ControlsAccentBrush}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource DateTimePickerControlAccentBrush}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -153,10 +153,10 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="Border" Value="{DynamicResource ControlsHighlightBrush}"/>
+                                <Setter Property="Background" TargetName="Border" Value="{DynamicResource DateTimePickerControlHighlightBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" TargetName="Border" Value="{DynamicResource ControlsHighlightBrush}"/>
+                                <Setter Property="Background" TargetName="Border" Value="{DynamicResource DateTimePickerControlHighlightBrush}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Foreground" Value="#FFADADAD"/>

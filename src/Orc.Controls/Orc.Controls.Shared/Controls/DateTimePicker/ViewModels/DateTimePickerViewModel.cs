@@ -8,15 +8,12 @@
 namespace Orc.Controls
 {
     using System;
-    using System.Windows.Media;
     using Catel.MVVM;
 
     public class DateTimePickerViewModel : ViewModelBase
     {
         #region Fields
-        private Brush _accentColorBrushProperty;
         private bool _showOptionsButton;
-        private Brush _highlightColorBrush;
         private DateTime _value;
         #endregion
 
@@ -34,39 +31,6 @@ namespace Orc.Controls
                 _showOptionsButton = value;
 
                 RaisePropertyChanged("ShowOptionsButton");
-            }
-        }
-
-        public Brush AccentColorBrush
-        {
-            get { return _accentColorBrushProperty; }
-            set
-            {
-                if (_accentColorBrushProperty == value)
-                {
-                    return;
-                }
-
-                _accentColorBrushProperty = value;
-                var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
-                accentColor.CreateAccentColorResourceDictionary();
-                RaisePropertyChanged("AccentColorBrush");
-            }
-        }
-
-        public Brush HighlightColorBrush
-        {
-            get { return _highlightColorBrush; }
-            set
-            {
-                if (_highlightColorBrush == value)
-                {
-                    return;
-                }
-
-                _highlightColorBrush = value;
-
-                RaisePropertyChanged("HighlightColorBrush");
             }
         }
 
