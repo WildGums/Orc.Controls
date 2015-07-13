@@ -12,7 +12,7 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="DatePicker Control" VerticalAlignment="Center" Width="150"/>
-            <orc:DatePickerControl Value="{Binding DateValue}" Width="120" Margin="5" HorizontalAlignment="Left"/>
+            <orc:DatePickerControl Value="{Binding DateValue}" Width="120" Margin="5" HorizontalAlignment="Left" />
         </StackPanel>
     </StackPanel>
 </catel:UserControl>

@@ -185,7 +185,7 @@ namespace Orc.Controls
             if (solidColorBrush != null)
             {
                 var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
-                accentColor.CreateAccentColorResourceDictionary("DatePickerControl");
+                accentColor.CreateAccentColorResourceDictionary("DatePicker");
             }
         }
 

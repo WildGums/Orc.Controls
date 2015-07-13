@@ -12,9 +12,7 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="DateTimePicker Control" VerticalAlignment="Center" Width="150"/>
-            <orc:DateTimePickerControl Value="{Binding DateTimeValue}" Width="210" 
-                                       Margin="5" HorizontalAlignment="Left"
-                                       AccentColorBrush="{Binding DataContext.AccentColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+            <orc:DateTimePickerControl Value="{Binding DateTimeValue}" Width="210" Margin="5" HorizontalAlignment="Left"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Selected DateTime" VerticalAlignment="Center" Width="150"/>

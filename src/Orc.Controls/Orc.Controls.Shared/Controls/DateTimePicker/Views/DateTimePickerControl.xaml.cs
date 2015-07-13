@@ -226,7 +226,7 @@ namespace Orc.Controls
             if (solidColorBrush != null)
             {
                 var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
-                accentColor.CreateAccentColorResourceDictionary("DateTimePickerControl");
+                accentColor.CreateAccentColorResourceDictionary("DateTimePicker");
             }
         }
 
