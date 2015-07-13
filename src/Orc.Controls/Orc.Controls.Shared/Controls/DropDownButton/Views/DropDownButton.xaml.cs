@@ -65,7 +65,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
-            typeof(DropDownButton), new PropertyMetadata(Brushes.LightGray, (sender, e) => ((DropDownButton)sender).OnAccentColorBrushedChanged()));
+            typeof(DropDownButton), new PropertyMetadata(Brushes.LightGray, (sender, e) => ((DropDownButton)sender).OnAccentColorBrushChanged()));
 
         public bool ShowDefaultButton
         {
@@ -91,7 +91,7 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-        private void OnAccentColorBrushedChanged()
+        private void OnAccentColorBrushChanged()
         {
             var solidColorBrush = AccentColorBrush as SolidColorBrush;
             if (solidColorBrush != null)

@@ -8,7 +8,6 @@
 namespace Orc.Controls.ViewModels
 {
     using System.Collections;
-    using System.Windows.Media;
     using Catel.MVVM;
 
     public class FilterBoxViewModel : ViewModelBase
@@ -16,31 +15,12 @@ namespace Orc.Controls.ViewModels
         private IEnumerable _filterSource;
         private string _propertyName;
         private string _text;
-        private Brush _accentColorBrushProperty;
-
         public FilterBoxViewModel()
         {
             ClearFilter = new Command(OnClearFilterExecute, OnClearFilterCanExecute);
         }
 
         public string Watermark { get; set; }
-
-        public Brush AccentColorBrush
-        {
-            get { return _accentColorBrushProperty; }
-            set
-            {
-                if (_accentColorBrushProperty == value)
-                {
-                    return;
-                }
-
-                _accentColorBrushProperty = value;
-                var accentColor = ((SolidColorBrush) AccentColorBrush).Color;
-                accentColor.CreateAccentColorResourceDictionary();
-                RaisePropertyChanged("AccentColorBrush");
-            }
-        }
 
         public string Text
         {

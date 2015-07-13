@@ -30,15 +30,9 @@ namespace Orc.Controls
 
             var resourceDictionary = new ResourceDictionary();
 
-            resourceDictionary.Add("FilterBoxHighlightColor", color.CalculateHighlightColor());
-            resourceDictionary.Add("FilterBoxAccentColor", color);
-            //Todo: replace FilterBox colors with Controls colors
             resourceDictionary.Add("ControlsHighlightColor", color.CalculateHighlightColor());
             resourceDictionary.Add("ControlsAccentColor", color);
 
-            resourceDictionary.Add("FilterBoxHighlightBrush", new SolidColorBrush((Color) resourceDictionary["FilterBoxHighlightColor"]));
-            resourceDictionary.Add("FilterBoxAccentBrush", new SolidColorBrush((Color) resourceDictionary["FilterBoxAccentColor"]));
-            //Todo: replace FilterBox brushes with Controls brushes
             resourceDictionary.Add("ControlsHighlightBrush", new SolidColorBrush((Color) resourceDictionary["ControlsHighlightColor"]));
             resourceDictionary.Add("ControlsAccentBrush", new SolidColorBrush((Color) resourceDictionary["ControlsAccentColor"]));
 
@@ -52,7 +46,7 @@ namespace Orc.Controls
 
         public static void CreateAccentColorResourceDictionary(this Color color, string controlName)
         {
-            var accentColor = Application.Current.TryFindResource(controlName.GetAccentColorName()) as SolidColorBrush;
+            var accentColor = Application.Current.TryFindResource(controlName.GetAccentBrushName()) as SolidColorBrush;
 
             if (accentColor != null )
             {

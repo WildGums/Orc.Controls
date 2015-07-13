@@ -79,7 +79,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
-            typeof(DatePickerControl), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((DatePickerControl)sender).OnAccentColorBrushedChanged()));
+            typeof(DatePickerControl), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((DatePickerControl)sender).OnAccentColorBrushChanged()));
         #endregion
 
         #region Methods
@@ -179,7 +179,7 @@ namespace Orc.Controls
             calendarPopupSource.Focus();
         }
 
-        private void OnAccentColorBrushedChanged()
+        private void OnAccentColorBrushChanged()
         {
             var solidColorBrush = AccentColorBrush as SolidColorBrush;
             if (solidColorBrush != null)

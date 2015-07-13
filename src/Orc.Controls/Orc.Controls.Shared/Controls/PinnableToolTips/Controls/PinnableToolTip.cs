@@ -183,7 +183,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
-            typeof(PinnableToolTip), new PropertyMetadata(Brushes.LightGray, (sender, e) => ((PinnableToolTip)sender).OnAccentColorBrushedChanged()));
+            typeof(PinnableToolTip), new PropertyMetadata(Brushes.LightGray, (sender, e) => ((PinnableToolTip)sender).OnAccentColorBrushChanged()));
         #endregion
 
         #region Events
@@ -980,7 +980,7 @@ namespace Orc.Controls
             return GetInFrontId() == _id;
         }
 
-        private void OnAccentColorBrushedChanged()
+        private void OnAccentColorBrushChanged()
         {
             var solidColorBrush = AccentColorBrush as SolidColorBrush;
             if (solidColorBrush != null)
