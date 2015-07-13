@@ -382,6 +382,8 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
+            AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
+
             _closeButton = GetTemplateChild("CloseButton") as Button;
             if (_closeButton != null)
             {
