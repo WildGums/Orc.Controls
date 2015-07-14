@@ -351,7 +351,7 @@ namespace Orc.Controls
                 SetRootVisual();
             }
 
-            if (toolTip == null || toolTip.Content == null || toolTip.IsTimerEnabled || toolTip.IsOpen)
+            if (toolTip == null || (toolTip.Content == null && toolTip.ContentTemplate == null) || toolTip.IsTimerEnabled || toolTip.IsOpen)
             {
                 return;
             }
@@ -543,10 +543,6 @@ namespace Orc.Controls
             if (element != null)
             {
                 element.Unloaded += FrameworkElementUnloaded;
-                if (toolTip != null)
-                {
-                    toolTip.DataContext = element.DataContext;
-                }
             }
 
             owner.MouseEnter += OnElementMouseEnter;

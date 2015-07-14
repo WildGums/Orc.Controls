@@ -833,13 +833,24 @@ namespace Orc.Controls
 
         public void Show()
         {
-            var binding = new Binding
+            if (ContentTemplate != null)
             {
-                Source = Owner,
-                Path = new PropertyPath("DataContext")
-            };
+                var owner = Owner as FrameworkElement;
+                if (owner != null)
+                {
+                    Content = owner.DataContext;
+                }
+            }
+            else
+            {
+                var binding = new Binding
+                {
+                    Source = Owner,
+                    Path = new PropertyPath("DataContext")
+                };
 
-            SetBinding(PinnableToolTip.DataContextProperty, binding);
+                SetBinding(DataContextProperty, binding);
+            }
 
             IsOpen = true;
         }
@@ -848,7 +859,7 @@ namespace Orc.Controls
         {
             IsOpen = false;
 
-            BindingOperations.ClearBinding(this, PinnableToolTip.DataContextProperty);
+            BindingOperations.ClearBinding(this, DataContextProperty);
             //SetOwner(null);
             _lastPosition = new Point(0, 0);
         }
