@@ -105,37 +105,35 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <controls:DropDownButton Header="Settings" Grid.Column="0" Margin="0 0 5 0" 
-                                                      Visibility="{Binding ShowSettings, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
-                                    <Border>
-                                        <ContentPresenter>
-                                            <ContentPresenter.ContentTemplate>
-                                                <DataTemplate>
-                                                    <Border Background="White" BorderBrush="Black" BorderThickness="1" Width="150">
-                                                        <Grid Margin="5 5 5 5">
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="30"/>
-                                                                <RowDefinition Height="30"/>
-                                                                <RowDefinition Height="30"/>
-                                                                <RowDefinition Height="30"/>
-                                                            </Grid.RowDefinitions>
+                                <controls:DropDownButton Header="Settings" Grid.Column="0" Margin="0 0 5 0" ShowDefaultButton="False"
+                                                         Visibility="{Binding ShowSettings, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+                                    <controls:DropDownButton.DropDown>
+                                        <ContextMenu>
+                                            <ContextMenu.Resources>
+                                                <Style TargetType="MenuItem">
+                                                    <Setter Property="Margin" Value="-16 0 0 0" />
+                                                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                                                    <Setter Property="Height" Value="24" />
+                                                </Style>
+                                            </ContextMenu.Resources>
 
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                                <ColumnDefinition Width="15"/>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                            </Grid.ColumnDefinitions>
-
-                                                            <CheckBox Grid.Row="0" Grid.ColumnSpan="3" Content="Show Visibility Column" IsChecked="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:ColorLegend}}}" />
-                                                            <CheckBox Grid.Row="1" Grid.ColumnSpan="3" Content="Allow Color Edit" IsChecked="{Binding AllowColorEditing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:ColorLegend}}}" />
-                                                            <CheckBox Grid.Row="2" Grid.ColumnSpan="3" Content="Use Regex search" IsChecked="{Binding UseRegexFiltering, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:ColorLegend}}}" />
-                                                        </Grid>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </ContentPresenter.ContentTemplate>
-                                        </ContentPresenter>
-                                    </Border>
-
+                                            <MenuItem>
+                                                <MenuItem.Header>
+                                                    <CheckBox Content="Show Visibility Column" IsChecked="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:ColorLegend}}}" />
+                                                </MenuItem.Header>
+                                            </MenuItem>
+                                            <MenuItem>
+                                                <MenuItem.Header>
+                                                    <CheckBox Content="Allow Color Edit" IsChecked="{Binding AllowColorEditing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:ColorLegend}}}" />
+                                                </MenuItem.Header>
+                                            </MenuItem>
+                                            <MenuItem>
+                                                <MenuItem.Header>
+                                                    <CheckBox Content="Use Regex search" IsChecked="{Binding UseRegexFiltering, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:ColorLegend}}}" />
+                                                </MenuItem.Header>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </controls:DropDownButton.DropDown>
                                 </controls:DropDownButton>
 
                                 <Border x:Name="searchBoxContainer" 
