@@ -9,69 +9,36 @@
     <Color x:Key="Color_Highlight_1">#707070</Color>
     <SolidColorBrush x:Key="Brush_Highlight_1" Color="{StaticResource Color_Highlight_1}"/>
 
-    <SolidColorBrush x:Key="MouseOverBorderBrush" Color="#FFFFB700" />
-    <LinearGradientBrush x:Key="MouseOverBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Offset="0" Color="#FFFEFBF4" />
-        <GradientStop Offset="0.19" Color="#FFFDE7CE" />
-        <GradientStop Offset="0.39" Color="#FFFDDEB8" />
-        <GradientStop Offset="0.39" Color="#FFFFCE6B" />
-        <GradientStop Offset="0.79" Color="#FFFFDE9A" />
-        <GradientStop Offset="1" Color="#FFFFEBAA" />
-    </LinearGradientBrush>
-
-    <SolidColorBrush x:Key="PressedBorderBrush" Color="#FFC29B29" />
-    <LinearGradientBrush x:Key="PressedBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Offset="0" Color="#FFE3C085" />
-        <GradientStop Offset="0.19" Color="#FFF4CC89" />
-        <GradientStop Offset="0.36" Color="#FFF5C777" />
-        <GradientStop Offset="0.36" Color="#FFF5BB56" />
-        <GradientStop Offset="0.79" Color="#FFF4CE9A" />
-        <GradientStop Offset="1" Color="#FFF3E28D" />
-    </LinearGradientBrush>
+    <Style x:Key="SearchBoxBorderStyle"  TargetType="{x:Type Border}">
+        <Setter Property="Border.BorderBrush" Value="LightGray"/>
+        <Style.Triggers>
+            <Trigger Property="Border.IsMouseOver" Value="True">
+                <Setter Property="Border.BorderBrush" Value="{DynamicResource ColorLegendAccentBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
     <Style x:Key="ClearFilterButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Height" Value="22" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="ToolTipService.InitialShowDelay" Value="900" />
         <Setter Property="ToolTipService.ShowDuration" Value="20000" />
         <Setter Property="ToolTipService.BetweenShowDelay" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Grid SnapsToDevicePixels="True">
-                        <Border x:Name="OuterBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="2" />
-                        <Border x:Name="MiddleBorder" BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" CornerRadius="2">
-                            <Border x:Name="InnerBorder" BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" CornerRadius="2" Padding="{TemplateBinding Padding}">
-                                <StackPanel x:Name="StackPanel" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
-                                    <ContentPresenter x:Name="Content"
-                                             Content="{TemplateBinding Content}"
-                                             Margin="1"
-                                             RenderOptions.BitmapScalingMode="NearestNeighbor"
-                                             VerticalAlignment="Center"
-                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
-                                </StackPanel>
-                            </Border>
-                        </Border>
-                    </Grid>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <Border x:Name="Chrome" BorderThickness="0" Background="#FFF4F4F4" SnapsToDevicePixels="True">
+                        <Path x:Name="Path" Data="M0,1.05 L1.05,0 8.33,7.26 15.55,0.0 16.6,1.0 9.3,8.3 16.6,15.55 15.55,16.6 8.3,9.3 1,16.6 0,15.6 7.3,8.3 z"
+                              Fill="#575757" Margin="6" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="OuterBorder" Value="{StaticResource MouseOverBackgroundBrush}" />
-                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{StaticResource MouseOverBorderBrush}" />
-                            <Setter Property="BorderBrush" TargetName="InnerBorder" Value="#80FFFFFF" />
+                            <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ColorLegendHighlightBrush}"/>
                         </Trigger>
-
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" TargetName="Content" Value="0.5" />
-                            <Setter Property="TextElement.Foreground" TargetName="OuterBorder" Value="#FF9E9E9E" />
-                        </Trigger>
-
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="OuterBorder" Value="{StaticResource PressedBackgroundBrush}" />
-                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{StaticResource PressedBorderBrush}" />
-                            <Setter Property="BorderBrush" TargetName="InnerBorder" Value="Transparent" />
+                            <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ColorLegendAccentBrush}"/>
+                            <Setter Property="Fill" TargetName="Path" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="#FFADADAD"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -193,9 +160,10 @@
                                         </controls:DropDownButton.DropDown>
                                     </controls:DropDownButton>
 
-                                    <Border x:Name="searchBoxContainer" Grid.Column="1" Background="Transparent" BorderBrush="Gray" BorderThickness="1"
-                                            Visibility="{Binding ShowSearchBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
-                                        <Grid Background="White">
+                                   <Border x:Name="searchBoxContainer" Grid.Column="1" Background="Transparent" BorderThickness="1"
+                                           Style="{StaticResource SearchBoxBorderStyle}"
+                                           Visibility="{Binding ShowSearchBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+                                      <Grid Background="White">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>
@@ -206,21 +174,14 @@
                                                 <controls:WatermarkTextBox.Style>
                                                     <Style TargetType="Control">
                                                         <Setter Property="BorderThickness" Value="0" />
-                                                        <Style.Triggers>
-                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter Property="BorderThickness" Value="1" />
-                                                            </Trigger>
-                                                        </Style.Triggers>
                                                     </Style>
                                                 </controls:WatermarkTextBox.Style>
                                             </controls:WatermarkTextBox>
                                             <Button Grid.Column="1" Style="{StaticResource ClearFilterButtonStyle}" 
-                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:ColorLegend}}, Path=ClearFilter}">
-                                                <Image Width="16" Height="16" Source="/Orc.Controls;component/Controls/ColorLegend/Resources/Images/ClearFilter16.png" />
-                                            </Button>
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:ColorLegend}}, Path=ClearFilter}"/>
                                         </Grid>
                                     </Border>
-                                </Grid>
+                                   </Grid>
                             </Border>
                             <ListBox Grid.Row="2" ItemsSource="{Binding FilteredItemsSource, RelativeSource={RelativeSource TemplatedParent}}" BorderThickness="0" x:Name="PART_List" HorizontalContentAlignment="Stretch">
                                 <ListBox.ItemTemplate>
@@ -272,8 +233,6 @@
                                                         </Grid>
                                                     </ControlTemplate>
                                                 </Button.Template>
-
-
                                             </Button>
 
                                             <TextBlock Text="{Binding Description}" Grid.Column="2"/>
