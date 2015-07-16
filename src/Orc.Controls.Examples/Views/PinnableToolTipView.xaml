@@ -11,10 +11,15 @@
                     <TextBlock Text="{Binding}" Margin="5"/>
                     <orc:PinnableToolTipService.ToolTip>
                         <orc:PinnableToolTip AllowCloseByUser="True">
-                            <StackPanel>
-                                <Label Content="{Binding}" />
-                                <Border Margin="5" Width="50" Height="50" Background="{Binding}" />
-                            </StackPanel>
+                            <!-- Using a content template allows to delay loading of the inner visual tree, which is much faster -->
+                            <orc:PinnableToolTip.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Label Content="{Binding}" />
+                                        <Border Margin="5" Width="50" Height="50" Background="{Binding}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </orc:PinnableToolTip.ContentTemplate>
                         </orc:PinnableToolTip>
                     </orc:PinnableToolTipService.ToolTip>
                 </Border>
