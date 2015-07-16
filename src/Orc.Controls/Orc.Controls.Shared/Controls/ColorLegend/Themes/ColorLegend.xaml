@@ -9,6 +9,16 @@
     <Color x:Key="Color_Highlight_1">#707070</Color>
     <SolidColorBrush x:Key="Brush_Highlight_1" Color="{StaticResource Color_Highlight_1}"/>
 
+    <Geometry x:Key="SettingsGeometry">M391.731,618.796C380.8,657.999 344.804,686.796 302.135,686.796C259.467,686.796 223.471,657.999 212.54,618.796L34.704,618.796L34.704,568.796L212.54,568.796C223.471,
+        529.594 259.467,500.796 302.135,500.796C344.804,500.796 380.8,529.594 391.731,568.796L734.704,568.796L734.704,618.796L391.731,618.796ZM302.135,547.296C327.799,547.296 348.635,
+        568.132 348.635,593.796C348.635,619.46 327.799,640.296 302.135,640.296C276.471,640.296 255.635,619.46 255.635,593.796C255.635,568.132 276.471,547.296 302.135,547.296ZM653.045,
+        411.63C642.115,450.832 606.119,479.63 563.45,479.63C520.781,479.63 484.786,450.832 473.855,411.63L33.296,411.63L33.296,361.63L473.855,361.63C484.786,322.427 520.781,293.63 563.45,
+        293.63C606.119,293.63 642.115,322.427 653.045,361.63L733.296,361.63L733.296,411.63L653.045,411.63ZM563.45,340.13C589.114,340.13 609.95,360.966 609.95,386.63C609.95,412.294 589.114,
+        433.13 563.45,433.13C537.786,433.13 516.95,412.294 516.95,386.63C516.95,360.966 537.786,340.13 563.45,340.13ZM309.205,199.292C298.244,238.45 262.271,267.204 219.634,267.204C176.998,
+        267.204 141.024,238.45 130.064,199.292L33.296,199.292L33.296,149.292L130.014,149.292C140.916,110.044 176.934,81.204 219.634,81.204C262.335,81.204 298.353,110.044 309.254,149.292L733.296,
+        149.292L733.296,199.292L309.205,199.292ZM219.634,127.704C245.298,127.704 266.134,148.54 266.134,174.204C266.134,199.868 245.298,220.704 219.634,220.704C193.97,220.704 173.134,199.868 173.134,
+        174.204C173.134,148.54 193.97,127.704 219.634,127.704Z</Geometry>
+    
     <Style x:Key="SearchBoxBorderStyle"  TargetType="{x:Type Border}">
         <Setter Property="BorderBrush" Value="LightGray"/>
         <Style.Triggers>
@@ -158,13 +168,22 @@
                                 <Grid x:Name="toolsContainer" Margin="4" Height="24" 
                                       Visibility="{Binding ShowToolBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="75"/>
+                                        <ColumnDefinition Width="45"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <controls:DropDownButton Header="Settings" Grid.Column="0" Margin="0 0 5 0" ShowDefaultButton="False"
+                                    <controls:DropDownButton Grid.Column="0" Margin="0 0 5 0" Width="40" ShowDefaultButton="False" EnableTransparentBackground="True"
                                                              AccentColorBrush="{DynamicResource ColorLegendAccentBrush}"
                                                              Visibility="{Binding ShowSettings, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+                                        <controls:DropDownButton.Header>
+                                            <Grid>
+                                                <Viewbox Height="15">
+                                                    <Path Data="{StaticResource SettingsGeometry}"
+                                                          Fill="#575757" HorizontalAlignment="Center" Margin="0" SnapsToDevicePixels="True"
+                                                          Stretch="Fill" UseLayoutRounding="True" VerticalAlignment="Center"/>
+                                                </Viewbox>
+                                            </Grid>
+                                        </controls:DropDownButton.Header>
                                         <controls:DropDownButton.DropDown>
                                             <ContextMenu>
                                                 <ContextMenu.Resources>
