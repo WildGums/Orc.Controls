@@ -10,15 +10,49 @@
     <SolidColorBrush x:Key="Brush_Highlight_1" Color="{StaticResource Color_Highlight_1}"/>
 
     <Style x:Key="SearchBoxBorderStyle"  TargetType="{x:Type Border}">
-        <Setter Property="Border.BorderBrush" Value="LightGray"/>
+        <Setter Property="BorderBrush" Value="LightGray"/>
         <Style.Triggers>
-            <Trigger Property="Border.IsMouseOver" Value="True">
-                <Setter Property="Border.BorderBrush" Value="{DynamicResource ColorLegendAccentBrush}" />
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource ColorLegendAccentBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="ClearFilterButtonStyle" TargetType="{x:Type Button}">
+    <Style TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <Border x:Name="Chrome" BorderBrush="LightGray" BorderThickness="1" Background="#FFF4F4F4" SnapsToDevicePixels="True">
+                        <Grid>
+                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"
+                                              ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <Grid x:Name="Filter" Background="Transparent" Opacity="0.7"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ColorLegendHighlightBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ColorLegendAccentBrush}"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource ColorLegendAccentBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" TargetName="Filter" Value="WhiteSmoke"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="ClearButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="ToolTipService.InitialShowDelay" Value="900" />
         <Setter Property="ToolTipService.ShowDuration" Value="20000" />
         <Setter Property="ToolTipService.BetweenShowDelay" Value="0" />
@@ -177,7 +211,7 @@
                                                     </Style>
                                                 </controls:WatermarkTextBox.Style>
                                             </controls:WatermarkTextBox>
-                                            <Button Grid.Column="1" Style="{StaticResource ClearFilterButtonStyle}" 
+                                            <Button Grid.Column="1" Style="{StaticResource ClearButtonStyle}" 
                                                     Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:ColorLegend}}, Path=ClearFilter}"/>
                                         </Grid>
                                     </Border>
@@ -257,56 +291,18 @@
                                         <ColumnDefinition Width="5"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <CheckBox Content="Check all" VerticalAlignment="Center" x:Name="PART_All_Visible"
-                                              Margin="5 0"
+                                    <CheckBox x:Name="PART_All_Visible" Content="Check all" VerticalAlignment="Center" Margin="4 0"
                                               IsChecked="{Binding IsAllVisible, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
-                                              Visibility="{Binding ShowColorVisibilityControls, 
-                                                                        RelativeSource={RelativeSource AncestorType={x:Type controls:ColorLegend}}, 
-                                                                        Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
-                                    <Border Background="Transparent" Grid.Column="2" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center"
-                                        Margin="4 0" BorderThickness="1" BorderBrush="Gray">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition  MinWidth="100" Width="*"/>
-                                                <ColumnDefinition Width="20"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Margin="4 2" Foreground="Gray" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedItems.Count, ElementName=PART_List, StringFormat='Selected Items: {0}'}"/>
-                                            <Button x:Name="PART_UnselectAll" Grid.Column="1">
-                                                <Button.Template>
-                                                    <ControlTemplate TargetType="{x:Type Button}">
-                                                        <Grid Background="Transparent">
-                                                            <VisualStateManager.VisualStateGroups>
-                                                                <VisualStateGroup x:Name="CommonStates">
-                                                                    <VisualState x:Name="Normal" />
-                                                                    <VisualState x:Name="MouseOver" >
-                                                                        <Storyboard>
-                                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="hover" Storyboard.TargetProperty="Visibility">
-                                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-                                                                            </ObjectAnimationUsingKeyFrames>
-                                                                        </Storyboard>
-                                                                    </VisualState>
-                                                                    <VisualState x:Name="Pressed">
-                                                                        <Storyboard>
-                                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="press" Storyboard.TargetProperty="Visibility">
-                                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-                                                                            </ObjectAnimationUsingKeyFrames>
-                                                                        </Storyboard>
-                                                                    </VisualState>
-                                                                    <VisualState x:Name="Disabled">
-
-                                                                    </VisualState>
-                                                                </VisualStateGroup>
-                                                            </VisualStateManager.VisualStateGroups>
-                                                            <Border x:Name="hover" Background="{StaticResource Brush_Control_1}" Visibility="Collapsed"/>
-                                                            <Border x:Name="press" Background="{StaticResource Brush_Highlight_1}" Visibility="Collapsed"/>
-                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                        </Grid>
-                                                    </ControlTemplate>
-                                                </Button.Template>
-                                                <Path Width="8" Height="8" Stroke="Gray" StrokeThickness="2" Data="M0,0 L8,8 M8,0 L0,8"/>
-                                            </Button>
-                                        </Grid>
-                                    </Border>
+                                              Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type controls:ColorLegend}}, 
+                                                            Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+                                    <Grid Grid.Column="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition  MinWidth="100" Width="*"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Margin="4" Foreground="Gray" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedItems.Count, ElementName=PART_List, StringFormat='Selected Items: {0}'}"/>
+                                        <Button x:Name="PART_UnselectAll" Grid.Column="1" Margin="2" Width="110" Content="Clear selection" />
+                                    </Grid>
                                 </Grid>
                             </Border>
                             <Popup Placement="Right" 
