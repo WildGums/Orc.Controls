@@ -79,6 +79,59 @@
         </Setter>
     </Style>
 
+    <Style TargetType="{x:Type CheckBox}">
+        <Setter Property="Padding" Value="5,0,0,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <BulletDecorator Background="Transparent" SnapsToDevicePixels="true">
+                        <BulletDecorator.Bullet>
+                            <Border x:Name="CheckBoxBorder"
+                                        Height="12"
+										Width="12"
+										BorderBrush="LightGray" 
+										BorderThickness="1"
+										Background="White">
+                                <Path x:Name="CheckMark"  
+                                            Data="M7.2,5 L5.5,7.16 4.16,6.3 3.5,6.7 5.5,8.4 8.6,5.25 C8.6,5.25 8,4.7 7.22,5" 
+											Height="Auto" 
+											Width="Auto" 
+											Stretch="Fill" 
+											Fill="Black"
+											Margin="1,1.007,1,1"/>
+                            </Border>
+                        </BulletDecorator.Bullet>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+												Margin="{TemplateBinding Padding}" 
+												RecognizesAccessKey="True" 
+												SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </BulletDecorator>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="#FFADADAD"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="CheckBoxBorder" Value="{DynamicResource ColorLegendHighlightBrush}"/>
+                            <Setter Property="BorderBrush" TargetName="CheckBoxBorder" Value="{DynamicResource ColorLegendAccentBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ListBoxItem}">
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Background" Value="Transparent" />
+        <Style.Resources>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource ColorLegendHighlightColor}"/>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+        </Style.Resources>
+    </Style>
 
     <Style TargetType="{x:Type controls:ColorLegend}">
         <Setter Property="Background" Value="White" />
@@ -109,6 +162,7 @@
                                     </Grid.ColumnDefinitions>
 
                                     <controls:DropDownButton Header="Settings" Grid.Column="0" Margin="0 0 5 0" ShowDefaultButton="False"
+                                                             AccentColorBrush="{DynamicResource ColorLegendAccentBrush}"
                                                              Visibility="{Binding ShowSettings, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
                                         <controls:DropDownButton.DropDown>
                                             <ContextMenu>
@@ -168,10 +222,10 @@
                                     </Border>
                                 </Grid>
                             </Border>
-                            <ListBox Grid.Row="2" Padding="8 4 8 4" ItemsSource="{Binding FilteredItemsSource, RelativeSource={RelativeSource TemplatedParent}}" BorderThickness="0" x:Name="PART_List" HorizontalContentAlignment="Stretch">
+                            <ListBox Grid.Row="2" ItemsSource="{Binding FilteredItemsSource, RelativeSource={RelativeSource TemplatedParent}}" BorderThickness="0" x:Name="PART_List" HorizontalContentAlignment="Stretch">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate DataType="controls:IColorProvider">
-                                        <Grid HorizontalAlignment="Stretch">
+                                        <Grid HorizontalAlignment="Stretch" Margin="6 2 2 2">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition x:Name="visibilityCheckColumn" Width="15"/>
                                                 <ColumnDefinition Width="24"/>
@@ -179,8 +233,7 @@
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
                                             <CheckBox x:Name="visibilityCheckbox" Grid.Column="0" IsChecked="{Binding IsVisible}" VerticalAlignment="Center"
-                                                      Visibility="{Binding ShowColorVisibilityControls, 
-                                                                    RelativeSource={RelativeSource AncestorType={x:Type controls:ColorLegend}}, 
+                                                      Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type controls:ColorLegend}}, 
                                                                     Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
                                             <Button x:Name="PART_ButtonColorChange" Height="14" VerticalAlignment="Center" Grid.Column="1"
                                                     Command="{Binding ChangeColor, RelativeSource={RelativeSource AncestorType=controls:ColorLegend}}"

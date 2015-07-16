@@ -329,6 +329,15 @@ namespace Orc.Controls
         /// </summary>
         public static readonly DependencyProperty SelectedColorItemsProperty = DependencyProperty.RegisterAttached("SelectedColorItems",
             typeof(IEnumerable<IColorProvider>), typeof(ColorLegend), new PropertyMetadata(null, (sender, e) => ((ColorLegend)sender).OnSelectedColorItemsChanged()));
+
+        public Brush AccentColorBrush
+        {
+            get { return (Brush)GetValue(AccentColorBrushProperty); }
+            set { SetValue(AccentColorBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
+            typeof(ColorLegend), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((ColorLegend)sender).OnAccentColorBrushChanged()));
         #endregion
 
         #region Commands
@@ -415,6 +424,8 @@ namespace Orc.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
+            AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
 
             _listBox = (ListBox)GetTemplateChild("PART_List");
             _popup = (Popup)GetTemplateChild("PART_Popup_Color_Board");
@@ -685,6 +696,16 @@ namespace Orc.Controls
         private void ColorBoardCancelClicked(object sender, RoutedEventArgs e)
         {
             _popup.IsOpen = false;
+        }
+
+        private void OnAccentColorBrushChanged()
+        {
+            var solidColorBrush = AccentColorBrush as SolidColorBrush;
+            if (solidColorBrush != null)
+            {
+                var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
+                accentColor.CreateAccentColorResourceDictionary("ColorLegend");
+            }
         }
         #endregion
     }
