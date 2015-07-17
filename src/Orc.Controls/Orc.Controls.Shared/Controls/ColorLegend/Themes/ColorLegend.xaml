@@ -187,13 +187,11 @@
                                         <controls:DropDownButton.DropDown>
                                             <ContextMenu>
                                                 <ContextMenu.Resources>
-                                                    <Style TargetType="MenuItem">
-                                                        <Setter Property="Margin" Value="-16 0 0 0" />
-                                                        <Setter Property="VerticalContentAlignment" Value="Center" />
-                                                        <Setter Property="Height" Value="24" />
+                                                    <Style TargetType="{x:Type MenuItem}">
+                                                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
                                                     </Style>
                                                 </ContextMenu.Resources>
-
                                                 <MenuItem>
                                                     <MenuItem.Header>
                                                         <CheckBox Content="Show Visibility Column" IsChecked="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:ColorLegend}}}" />
