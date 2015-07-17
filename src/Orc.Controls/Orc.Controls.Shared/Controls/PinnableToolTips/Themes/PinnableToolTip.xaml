@@ -127,13 +127,13 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                 
-                                    <Border x:Name="DragGrip" Margin="4 0 4 0" Height="8" VerticalAlignment="Center">
+                                    <Border x:Name="DragGrip" Margin="6 0 3 0" Height="8" Padding="2" VerticalAlignment="Center">
                                         <Border.Background>
                                             <DrawingBrush TileMode="Tile" Viewport="0 0 3 3" ViewportUnits="Absolute"
                                                         Viewbox="0 0 3 3" ViewboxUnits="Absolute">
                                                 <DrawingBrush.Drawing>
                                                     <DrawingGroup >
-                                                        <GeometryDrawing x:Name="GripDrawing" Brush="#575757">
+                                                        <GeometryDrawing x:Name="GripDrawing" Brush="LightGray">
                                                             <GeometryDrawing.Geometry>
                                                                 <RectangleGeometry Rect="0 0 1 1"/>
                                                             </GeometryDrawing.Geometry>
