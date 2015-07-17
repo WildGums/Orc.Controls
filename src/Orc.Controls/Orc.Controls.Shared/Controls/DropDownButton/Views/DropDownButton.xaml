@@ -161,6 +161,13 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Style.Resources>
+                <Style TargetType="{x:Type MenuItem}">
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                    <Setter Property="Padding" Value="4"/>
+                </Style>
+            </Style.Resources>
         </Style>
 
         <ControlTemplate x:Key="{ComponentResourceKey ResourceId=SubmenuItemTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
@@ -460,23 +467,16 @@
             <Setter Property="Template" Value="{DynamicResource {ComponentResourceKey ResourceId=SubmenuItemTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}"/>
             <Style.Triggers>
                 <Trigger Property="Role" Value="TopLevelHeader">
-                    <Setter Property="Height" Value="25"/>
-                    <Setter Property="Padding" Value="7,6,8,3"/>
                     <Setter Property="Template" Value="{DynamicResource {ComponentResourceKey ResourceId=TopLevelHeaderTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}"/>
                 </Trigger>
                 <Trigger Property="Role" Value="TopLevelItem">
-                    <Setter Property="Height" Value="25"/>
-                    <Setter Property="Padding" Value="7,6,8,3"/>
                     <Setter Property="Template" Value="{DynamicResource {ComponentResourceKey ResourceId=TopLevelItemTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}"/>
                 </Trigger>
                 <Trigger Property="Role" Value="SubmenuHeader">
-                    <Setter Property="Height" Value="21"/>
-                    <Setter Property="Padding" Value="2,4,2,2"/>
                     <Setter Property="Template" Value="{DynamicResource {ComponentResourceKey ResourceId=SubmenuHeaderTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}"/>
                 </Trigger>
                 <Trigger Property="Role" Value="SubmenuItem">
-                    <Setter Property="Height" Value="21"/>
-                    <Setter Property="Padding" Value="2,4,2,2"/>
+                    <Setter Property="Template" Value="{DynamicResource {ComponentResourceKey ResourceId=SubmenuItemTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
