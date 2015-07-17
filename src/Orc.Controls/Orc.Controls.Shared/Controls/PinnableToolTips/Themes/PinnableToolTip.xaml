@@ -105,79 +105,59 @@
 
     <Style TargetType="controls:PinnableToolTip">
         <Setter Property="Padding" Value="0"/>
-        <Setter Property="Background" Value="#FFF7F8FA" />
+        <Setter Property="Background" Value="White" />
         <Setter Property="BorderThickness" Value="1" />
-
-        <Setter Property="BorderBrush">
-            <Setter.Value>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFA3AEB9" Offset="0" />
-                    <GradientStop Color="#FF8399A9" Offset="0.375" />
-                    <GradientStop Color="#FF718597" Offset="0.375" />
-                    <GradientStop Color="#FF617584" Offset="1" />
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="BorderBrush" Value="LightGray"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:PinnableToolTip">
-                    <Border x:Name="Root" CornerRadius="2" BorderThickness="{TemplateBinding BorderThickness}" Background="#FFFFFFFF"
+                    <Border x:Name="Root" BorderThickness="{TemplateBinding BorderThickness}" Background="White"
                             BorderBrush="{TemplateBinding BorderBrush}">
-                        <Border BorderBrush="#FFFFFFFF" BorderThickness="1" CornerRadius="1" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
-                            <Border.Resources>
-                                <Storyboard x:Key="Visible State" />
-                                <Storyboard x:Key="Normal State" />
-                            </Border.Resources>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            
+                            <Border BorderThickness="0 0 0 1" BorderBrush="LightGray" Background="WhiteSmoke">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                
+                                    <Border x:Name="DragGrip" Margin="4 0 4 0" Height="8" VerticalAlignment="Center">
+                                        <Border.Background>
+                                            <DrawingBrush TileMode="Tile" Viewport="0 0 3 3" ViewportUnits="Absolute"
+                                                        Viewbox="0 0 3 3" ViewboxUnits="Absolute">
+                                                <DrawingBrush.Drawing>
+                                                    <DrawingGroup >
+                                                        <GeometryDrawing x:Name="GripDrawing" Brush="#575757">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry Rect="0 0 1 1"/>
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                    </DrawingGroup>
+                                                </DrawingBrush.Drawing>
+                                            </DrawingBrush>
+                                        </Border.Background>
+                                    </Border>
 
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                                    <ToggleButton x:Name="PinButton" Content="x" Grid.Column="1" Style="{StaticResource Pin_ToggleButton}" Margin="1"
+                                                IsChecked="{Binding IsPinned, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-
-                                <Border x:Name="DragGrip" Margin="5 0 5 0" Height="10" VerticalAlignment="Center">
-                                    <Border.Background>
-                                        <DrawingBrush TileMode="Tile" Viewport="0 0 3 3" ViewportUnits="Absolute"
-                                                      Viewbox="0,0,4,4" ViewboxUnits="Absolute">
-                                            <DrawingBrush.Drawing>
-                                                <DrawingGroup >
-                                                    <GeometryDrawing Brush="#fff">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry Rect="1 1 3 3"/>
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                    <GeometryDrawing x:Name="GripDrawing" Brush="#ccc">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry Rect="0 0 2 2"/>
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                </DrawingGroup>
-                                            </DrawingBrush.Drawing>
-                                        </DrawingBrush>
-                                    </Border.Background>
-                                </Border>
-
-                                <ToggleButton x:Name="PinButton" Content="x" Grid.Column="1" Style="{StaticResource Pin_ToggleButton}" Margin="1"
-                                          IsChecked="{Binding IsPinned, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
-
-                                <Button x:Name="CloseButton" Content="x" Grid.Column="2" Style="{StaticResource CloseButton}" Margin="1"
-                                        Visibility="{Binding AllowCloseByUser, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
-
-                                <ContentPresenter Grid.Row="1" Grid.ColumnSpan="3"
-                                                  Content="{TemplateBinding Content}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  Cursor="{TemplateBinding Cursor}"
-                                                  Margin="{TemplateBinding Padding}" />
-                            </Grid>
-                        </Border>
+                                    <Button x:Name="CloseButton" Content="x" Grid.Column="2" Style="{StaticResource CloseButton}" Margin="1"
+                                            Visibility="{Binding AllowCloseByUser, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+                                </Grid>
+                            </Border>
+                            <ContentPresenter Grid.Row="1"
+                                                Content="{TemplateBinding Content}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                Cursor="{TemplateBinding Cursor}"
+                                                Margin="{TemplateBinding Padding}" />
+                        </Grid>
                     </Border>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
