@@ -10,7 +10,7 @@ namespace Orc.Controls
     using System.Windows;
     using System.Windows.Media;
 
-    internal static class ColorExtensions
+    public static class ColorExtensions
     {
         #region Constants
         private const string AccentBrush = "AccentBrush";
