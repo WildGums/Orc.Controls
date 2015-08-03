@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Weavers VerifyAssembly="true">
-  <Catel />
-  <ModuleInit />
+  <ModuleInit/>
   <Costura>
     <IncludeAssemblies>
       Microsoft.WindowsAPICodePack
       Microsoft.WindowsAPICodePack.Shell
     </IncludeAssemblies>
   </Costura>
+  <Catel/>
 </Weavers>
