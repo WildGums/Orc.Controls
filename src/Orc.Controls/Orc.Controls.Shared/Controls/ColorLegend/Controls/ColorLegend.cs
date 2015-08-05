@@ -10,6 +10,7 @@ namespace Orc.Controls
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows;
@@ -17,6 +18,7 @@ namespace Orc.Controls
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using System.Windows.Media;
+    using Catel.Data;
     using Catel.MVVM;
 
     /// <summary>
@@ -43,6 +45,10 @@ namespace Orc.Controls
         private IColorProvider _currentColorProvider;
 
         private bool _manualBindingReady;
+
+        private bool _isUpdatingAllVisible;
+
+        private ChangeNotificationWrapper _changeNotificationWrapper;
         #endregion
 
         #region Constructors
@@ -248,15 +254,15 @@ namespace Orc.Controls
         /// Property for colors list.
         /// </summary>
         public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register("ItemsSource",
-            typeof(IEnumerable<IColorProvider>), typeof(ColorLegend), new PropertyMetadata(null, (sender, e) => ((ColorLegend)sender).OnItemsSourceChanged()));
-
+            typeof(IEnumerable<IColorProvider>), typeof(ColorLegend), new FrameworkPropertyMetadata(null,
+                (sender, e) => ((ColorLegend)sender).OnItemsSourceChanged(e.OldValue as IEnumerable<IColorProvider>, e.NewValue as IEnumerable<IColorProvider>)));
 
         /// <summary>
         /// Gets or sets a value indicating whether is all visible.
         /// </summary>
-        public bool IsAllVisible
+        public bool? IsAllVisible
         {
-            get { return (bool)GetValue(IsAllVisibleProperty); }
+            get { return (bool?)GetValue(IsAllVisibleProperty); }
             set { SetValue(IsAllVisibleProperty, value); }
         }
 
@@ -264,8 +270,7 @@ namespace Orc.Controls
         /// The is all visible property.
         /// </summary>
         public static readonly DependencyProperty IsAllVisibleProperty = DependencyProperty.Register("IsAllVisible",
-            typeof(bool), typeof(ColorLegend), new PropertyMetadata(false));
-
+            typeof(bool?), typeof(ColorLegend), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((ColorLegend)sender).OnIsAllVisibleChanged()));
 
         /// <summary>
         /// Gets or sets a source for color items respecting current filter value.
@@ -381,10 +386,86 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-        private void OnItemsSourceChanged()
+        private void OnItemsSourceChanged(IEnumerable<IColorProvider> oldValue, IEnumerable<IColorProvider> newValue)
         {
+            if (_changeNotificationWrapper != null)
+            {
+                _changeNotificationWrapper.CollectionItemPropertyChanged -= OnColorProviderPropertyChanged;
+                _changeNotificationWrapper.UnsubscribeFromAllEvents();
+                _changeNotificationWrapper = null;
+            }
+
             FilteredItemsSource = GetFilteredItems();
             FilteredItemsIds = FilteredItemsSource == null ? null : FilteredItemsSource.Select(cp => cp.Id);
+
+            if (newValue != null)
+            {
+                _changeNotificationWrapper = new ChangeNotificationWrapper(newValue);
+                _changeNotificationWrapper.CollectionItemPropertyChanged += OnColorProviderPropertyChanged;
+            }
+
+            UpdateIsAllVisible();
+        }
+
+        private void OnColorProviderPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.HasPropertyChanged("IsVisible"))
+            {
+                UpdateIsAllVisible();
+            }
+        }
+
+        private void UpdateIsAllVisible()
+        {
+            _isUpdatingAllVisible = true;
+
+            var allChecked = true;
+            var allUnchecked = true;
+
+            var filteredItems = GetFilteredItems();
+            if (filteredItems != null)
+            {
+                foreach (var filteredItem in filteredItems)
+                {
+                    if (filteredItem.IsVisible)
+                    {
+                        allUnchecked = false;
+                    }
+                    else
+                    {
+                        allChecked = false;
+                    }
+                }
+            }
+
+            IsAllVisible = (allChecked ? true : allUnchecked ? false : (bool?)null);
+
+            _isUpdatingAllVisible = false;
+        }
+
+        private void OnIsAllVisibleChanged()
+        {
+            if (_isUpdatingAllVisible)
+            {
+                return;
+            }
+
+            var isAllVisible = IsAllVisible;
+            if (!isAllVisible.HasValue)
+            {
+                // Don't allow a user to manually pick null, false is next in "line" (it's true => null => false)
+                IsAllVisible = false;
+                return;
+            }
+
+            var filteredItems = GetFilteredItems();
+            if (filteredItems != null)
+            {
+                foreach (var filteredItem in filteredItems)
+                {
+                    filteredItem.IsVisible = isAllVisible.Value;
+                }
+            }
         }
 
         private void OnSelectedColorItemsChanged()

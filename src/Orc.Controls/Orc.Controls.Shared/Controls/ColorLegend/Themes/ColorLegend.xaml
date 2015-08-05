@@ -97,26 +97,16 @@
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <BulletDecorator Background="Transparent" SnapsToDevicePixels="true">
                         <BulletDecorator.Bullet>
-                            <Border x:Name="CheckBoxBorder"
-                                        Height="12"
-										Width="12"
-										BorderBrush="LightGray" 
-										BorderThickness="1"
-										Background="White">
-                                <Path x:Name="CheckMark"  
-                                            Data="M7.2,5 L5.5,7.16 4.16,6.3 3.5,6.7 5.5,8.4 8.6,5.25 C8.6,5.25 8,4.7 7.22,5" 
-											Height="Auto" 
-											Width="Auto" 
-											Stretch="Fill" 
-											Fill="Black"
-											Margin="1,1.007,1,1"/>
+                            <Border x:Name="CheckBoxBorder" Height="12" Width="12" BorderBrush="LightGray"
+                                    BorderThickness="1" Background="White">
+                                <Path x:Name="CheckMark" Data="M7.2,5 L5.5,7.16 4.16,6.3 3.5,6.7 5.5,8.4 8.6,5.25 C8.6,5.25 8,4.7 7.22,5" 
+                                      Height="Auto" Width="Auto" Stretch="Fill" Fill="Black" Margin="1,1.007,1,1"/>
                             </Border>
                         </BulletDecorator.Bullet>
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-												Margin="{TemplateBinding Padding}" 
-												RecognizesAccessKey="True" 
-												SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                          Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" 
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </BulletDecorator>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
@@ -281,14 +271,14 @@
                                             </Button>
 
                                             <TextBlock Text="{Binding Description}" Grid.Column="2"/>
-                                            <TextBlock Text="{Binding AdditionalData}" Grid.Column="3" Margin="0 0 10 0"></TextBlock>
+                                            <TextBlock Text="{Binding AdditionalData}" Grid.Column="3" Margin="0 0 10 0"/>
                                         </Grid>
                                         <DataTemplate.Triggers>
                                             <MultiTrigger>
                                                 <MultiTrigger.Conditions>
-                                                    <Condition SourceName="visibilityCheckbox" Property="Visibility" Value="Collapsed"></Condition>
+                                                    <Condition SourceName="visibilityCheckbox" Property="Visibility" Value="Collapsed"/>
                                                 </MultiTrigger.Conditions>
-                                                <Setter TargetName="visibilityCheckColumn" Property="Width" Value="0"></Setter>
+                                                <Setter TargetName="visibilityCheckColumn" Property="Width" Value="0"/>
                                             </MultiTrigger>
                                         </DataTemplate.Triggers>
                                     </DataTemplate>
@@ -302,7 +292,7 @@
                                         <ColumnDefinition Width="5"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <CheckBox x:Name="PART_All_Visible" Content="Check all" VerticalAlignment="Center" Margin="4 0"
+                                    <CheckBox x:Name="PART_All_Visible" Content="Check all" VerticalAlignment="Center" Margin="4 0" IsThreeState="True"
                                               IsChecked="{Binding IsAllVisible, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                               Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type controls:ColorLegend}}, 
                                                             Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
