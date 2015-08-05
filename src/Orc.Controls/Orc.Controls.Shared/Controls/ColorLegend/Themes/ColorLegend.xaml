@@ -103,7 +103,7 @@
                                     <Path x:Name="CheckMark" Data="M7.2,5 L5.5,7.16 4.16,6.3 3.5,6.7 5.5,8.4 8.6,5.25 C8.6,5.25 8,4.7 7.22,5" 
                                       Height="Auto" Width="Auto" Stretch="Fill" Fill="Black" Margin="1,1.007,1,1"/>
                                     <Border x:Name="ThreeStateCheckMark" BorderThickness="0" Margin="1" CornerRadius="1"
-                                            Visibility="Hidden" Background="{DynamicResource ColorLegendHighlightBrush}" />
+                                            Visibility="Hidden" Background="{DynamicResource ColorLegendDarkHighlightBrush}" />
                                 </Grid>
                             </Border>
                         </BulletDecorator.Bullet>

@@ -15,8 +15,12 @@ namespace Orc.Controls
         #region Constants
         private const string AccentBrush = "AccentBrush";
         private const string AccentColor = "AccentColor";
+
         private const string HighlightBrush = "HighlightBrush";
         private const string HighlightColor = "HighlightColor";
+
+        private const string DarkHighlightBrush = "DarkHighlightBrush";
+        private const string DarkHighlightColor = "DarkHighlightColor";
         private static ResourceDictionary _accentColorResourceDictionary;
         #endregion
 
@@ -47,9 +51,11 @@ namespace Orc.Controls
 
         private static void AddResources(this ResourceDictionary resourceDictionary, Color color, string name)
         {
+            resourceDictionary.Add(name.GetDarkHighlightColorName(), color.CalculateDarkHighlightColor());
             resourceDictionary.Add(name.GetHighlightColorName(), color.CalculateHighlightColor());
             resourceDictionary.Add(name.GetAccentColorName(), color);
 
+            resourceDictionary.Add(name.GetDarkHighlightBrushName(), new SolidColorBrush((Color)resourceDictionary[name.GetDarkHighlightColorName()]));
             resourceDictionary.Add(name.GetHighlightBrushName(), new SolidColorBrush((Color)resourceDictionary[name.GetHighlightColorName()]));
             resourceDictionary.Add(name.GetAccentBrushName(), new SolidColorBrush((Color)resourceDictionary[name.GetAccentColorName()]));
         }
@@ -74,9 +80,24 @@ namespace Orc.Controls
             return controlName + HighlightColor;
         }
 
+        private static string GetDarkHighlightBrushName(this string controlName)
+        {
+            return controlName + DarkHighlightBrush;
+        }
+
+        private static string GetDarkHighlightColorName(this string controlName)
+        {
+            return controlName + DarkHighlightColor;
+        }
+
         private static Color CalculateHighlightColor(this Color color)
         {
             return Color.FromArgb(51, color.R, color.G, color.B);
+        }
+
+        private static Color CalculateDarkHighlightColor(this Color color)
+        {
+            return Color.FromArgb(102, color.R, color.G, color.B);
         }
         #endregion
     }
