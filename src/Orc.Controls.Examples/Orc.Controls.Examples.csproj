@@ -98,6 +98,7 @@
     </ApplicationDefinition>
     <Compile Include="Logging\ExampleLogListener.cs" />
     <Compile Include="ModuleInitializer.cs" />
+    <Compile Include="ViewModels\AnimatedGifViewModel.cs" />
     <Compile Include="ViewModels\BindableRichTextBoxViewModel.cs" />
     <Compile Include="ViewModels\ColorLegendViewModel.cs" />
     <Compile Include="ViewModels\ColorPickerViewModel.cs" />
@@ -105,6 +106,9 @@
     <Compile Include="ViewModels\DirectoryPickerViewModel.cs" />
     <Compile Include="ViewModels\OpenFilePickerViewModel.cs" />
     <Compile Include="ViewModels\PinnableToolTipViewModel.cs" />
+    <Compile Include="Views\AnimatedGif.xaml.cs">
+      <DependentUpon>AnimatedGif.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ColorLegendView.xaml.cs">
       <DependentUpon>ColorLegendView.xaml</DependentUpon>
     </Compile>
@@ -158,6 +162,10 @@
     <Compile Include="Views\Watermark.xaml.cs">
       <DependentUpon>Watermark.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\AnimatedGif.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ColorLegendView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -262,6 +270,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Loading.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\lib\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\lib\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

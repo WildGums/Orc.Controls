@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\AnimatedGif\AnimatedGif.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\BindableRichTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\BindableRun.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Controls\ColorLegend.cs" />

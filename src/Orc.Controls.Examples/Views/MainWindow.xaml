@@ -108,6 +108,10 @@
 
     <TabControl Padding="10" TabStripPlacement="Left" Background="White" BorderBrush="{StaticResource TabControlNormalBorderBrush}">
 
+        <TabItem Header="AnimatedGif">
+            <views:AnimatedGif />
+        </TabItem>
+        
         <TabItem Header="BindableRichTextBox">
             <views:BindableRichTextBox />
         </TabItem>
