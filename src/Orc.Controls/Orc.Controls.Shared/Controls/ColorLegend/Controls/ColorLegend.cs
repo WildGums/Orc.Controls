@@ -49,6 +49,8 @@ namespace Orc.Controls
         private bool _isUpdatingAllVisible;
 
         private ChangeNotificationWrapper _changeNotificationWrapper;
+
+        private Color _previousColor;
         #endregion
 
         #region Constructors
@@ -60,7 +62,7 @@ namespace Orc.Controls
             DefaultStyleKey = typeof(ColorLegend);
 
             ClearFilter = new Command(OnClearFilterExecute);
-            ChangeColor = new Command<IColorProvider>(OnChangeColorExecute, OnChangeColorCanExecute);
+            ChangeColor = new Command<object>(OnChangeColorExecute, OnChangeColorCanExecute);
         }
         #endregion
 
@@ -353,10 +355,13 @@ namespace Orc.Controls
             Filter = string.Empty;
         }
 
-        public Command<IColorProvider> ChangeColor { get; private set; }
+        public Command<object> ChangeColor { get; private set; }
 
-        private bool OnChangeColorCanExecute(IColorProvider colorProvider)
+        private bool OnChangeColorCanExecute(object parameter)
         {
+            var values = (object[])parameter;
+            var colorProvider = (IColorProvider)values[1];
+
             if (colorProvider == null)
             {
                 return false;
@@ -370,10 +375,17 @@ namespace Orc.Controls
             return true;
         }
 
-        private void OnChangeColorExecute(IColorProvider colorProvider)
+        private void OnChangeColorExecute(object parameter)
         {
+            var parameterValues = (object[])parameter;
+
+            var currentButton = parameterValues[0];
+            var colorProvider = (IColorProvider)parameterValues[1];
+
             _currentColorProvider = colorProvider;
-            EditingColor = colorProvider.Color;
+            _popup.PlacementTarget = (Button)currentButton;
+
+            _previousColor = EditingColor = colorProvider.Color;
             IsColorSelecting = true;
         }
         #endregion
@@ -776,6 +788,7 @@ namespace Orc.Controls
 
         private void ColorBoardCancelClicked(object sender, RoutedEventArgs e)
         {
+            _colorBoard.Color = _previousColor;
             _popup.IsOpen = false;
         }
 

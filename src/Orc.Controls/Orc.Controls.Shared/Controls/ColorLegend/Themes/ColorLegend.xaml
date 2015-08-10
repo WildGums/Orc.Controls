@@ -3,6 +3,7 @@
                     xmlns:controls="clr-namespace:Orc.Controls"
                     xmlns:catel="http://catel.codeplex.com">
 
+    <controls:MultipleCommandParameterConverter x:Key="MultipleCommandParametersConverter"/>
     <Color x:Key="Color_Control_1">#eeeeee</Color>
     <SolidColorBrush x:Key="Brush_Control_1" Color="{StaticResource Color_Control_1}"/>
 
@@ -240,8 +241,13 @@
                                                       Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type controls:ColorLegend}}, 
                                                                     Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
                                             <Button x:Name="PART_ButtonColorChange" Height="14" VerticalAlignment="Center" Grid.Column="1"
-                                                    Command="{Binding ChangeColor, RelativeSource={RelativeSource AncestorType=controls:ColorLegend}}"
-                                                    CommandParameter="{Binding}">
+                                                    Command="{Binding ChangeColor, RelativeSource={RelativeSource AncestorType=controls:ColorLegend}}">
+                                                <Button.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource MultipleCommandParametersConverter}">
+                                                        <Binding ElementName="PART_ButtonColorChange" />
+                                                        <Binding />
+                                                    </MultiBinding>
+                                                </Button.CommandParameter>
                                                 <Button.Template>
                                                     <ControlTemplate TargetType="{x:Type Button}">
                                                         <Grid Background="Transparent">
@@ -314,10 +320,9 @@
                                     </Grid>
                                 </Grid>
                             </Border>
-                            <Popup Placement="Right" 
-                                   x:Name="PART_Popup_Color_Board" 
+                            <Popup x:Name="PART_Popup_Color_Board" 
                                    IsOpen="{Binding Path=IsColorSelecting, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
-                                   Focusable="False"/>
+                                   Focusable="False" VerticalOffset="2"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
