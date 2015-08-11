@@ -15,8 +15,10 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/DatePicker/Themes/DatePickerControl.generic.xaml" />
 
         <ResourceDictionary Source="/Orc.Controls;component/Controls/DateTimePicker/Themes/DateTimePickerControl.generic.xaml" />
-        
+
         <ResourceDictionary Source="/Orc.Controls;component/Controls/DropDownButton/Themes/DropDownButton.generic.xaml" />
+
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/FilterBox/Themes/FilterBoxControl.generic.xaml" />
 
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

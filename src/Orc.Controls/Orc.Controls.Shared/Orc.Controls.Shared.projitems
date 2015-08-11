@@ -144,6 +144,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Themes\FilterBoxControl.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Views\FilterBoxControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
