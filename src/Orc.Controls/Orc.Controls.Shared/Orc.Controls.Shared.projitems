@@ -145,7 +145,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Themes\FilterBoxControl.generic.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Themes\FilterBox.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -155,6 +155,10 @@
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\Themes\LinkLabel.generic.xaml">
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Themes\LogViewer.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Views\LogViewerControl.xaml">
       <SubType>Designer</SubType>
