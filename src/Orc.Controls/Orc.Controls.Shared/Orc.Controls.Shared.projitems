@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Controls\ColorLegend.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Models\ColorLegendItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Models\Interfaces\IColorProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\MultipleCommandParameterConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Serialization\ColorLegendItemSerializerModifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\ColorBoard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\ColorChangedEventArgs.cs" />
