@@ -22,5 +22,7 @@
 
         <ResourceDictionary Source="/Orc.Controls;component/Controls/LogViewer/Themes/LogViewer.generic.xaml" />
 
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/TimeSpan/Themes/TimeSpan.generic.xaml" />
+
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
