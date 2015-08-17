@@ -130,22 +130,22 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <controls:NumericTextBox x:Name="NumericTBDays" Text="{Binding Days}" MinValue="0" MaxValue="100" />
+                <controls:NumericTextBox x:Name="NumericTBDays" Value="{Binding Days}" MinValue="0" MaxValue="100" />
                 <TextBlock Grid.Column="1" Text="." Style="{StaticResource RatioSignStyle}" />
                 <TextBlock x:Name="TextBlockD" Grid.Column="1" Text="d"
                            Tag="{x:Static controls:TimeSpanPart.Days}" Style="{StaticResource LettersStyle}" />
-            
-                <controls:NumericTextBox x:Name="NumericTBHours" Grid.Column="2" Text="{Binding Hours}" MaxValue="23" MinValue="0" />
+
+                <controls:NumericTextBox x:Name="NumericTBHours" Grid.Column="2" Value="{Binding Hours}" MaxValue="23" MinValue="0" />
                 <TextBlock Grid.Column="3" Text=":" Style="{StaticResource RatioSignStyle}" />
                 <TextBlock x:Name="TextBlockH" Grid.Column="3" Text="h" 
                            Tag="{x:Static controls:TimeSpanPart.Hours}" Style="{StaticResource LettersStyle}" />
-            
-                <controls:NumericTextBox x:Name="NumericTBMinutes" Grid.Column="4" Text="{Binding Minutes}" MaxValue="59" MinValue="0"/>
+
+                <controls:NumericTextBox x:Name="NumericTBMinutes" Grid.Column="4" Value="{Binding Minutes}" MaxValue="59" MinValue="0"/>
                 <TextBlock Grid.Column="5" Text=":" Style="{StaticResource RatioSignStyle}" />
                 <TextBlock x:Name="TextBlockM" Grid.Column="5" Text="m" 
                            Tag="{x:Static controls:TimeSpanPart.Minutes}" Style="{StaticResource LettersStyle}" />
-            
-                <controls:NumericTextBox x:Name="NumericTBSeconds" Grid.Column="6" Text="{Binding Seconds}" MaxValue="59" MinValue="0"/>
+
+                <controls:NumericTextBox x:Name="NumericTBSeconds" Grid.Column="6" Value="{Binding Seconds}" MaxValue="59" MinValue="0"/>
                 <TextBlock x:Name="TextBlockS" Grid.Column="7" Text="s" 
                            Tag="{x:Static controls:TimeSpanPart.Seconds}" Style="{StaticResource LettersStyle}" />
             </Grid>
@@ -162,7 +162,7 @@
                 </Grid.ColumnDefinitions>
                 
                 <controls:NumericTextBox x:Name="NumericTBEditor" Grid.Column="0"
-                                         MinValue="0" AllowDecimal="True" Margin="2 0 2 0" 
+                                         MinValue="0" Format="0.#####"  Margin="2 0 2 0" 
                                          HorizontalContentAlignment="Left"
                                          VerticalContentAlignment="Center" 
                                          IsKeyboardFocusWithinChanged="NumericTBEditor_OnIsKeyboardFocusWithinChanged" 

@@ -129,7 +129,8 @@ namespace Orc.Controls
 
         private void UpdateTextBox(KeyValuePair<string, string> selectedItem)
         {
-            _textBox.Text = selectedItem.Key;
+            var value = Convert.ToDouble(selectedItem.Key);
+            _textBox.Value = value;
         }
 
         private ListBox CreatePopupSource()

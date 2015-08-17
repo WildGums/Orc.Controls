@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="NumericTextBox.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2014 Wild Gums. All rights reserved.
+//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -8,7 +8,6 @@
 namespace Orc.Controls
 {
     using System;
-    using System.Globalization;
     using System.Text;
     using System.Windows;
     using System.Windows.Controls;
@@ -17,37 +16,57 @@ namespace Orc.Controls
 
     public class NumericTextBox : TextBox
     {
-        #region Constants
-        public static readonly DependencyProperty AllowDecimalProperty =
-            DependencyProperty.Register("AllowDecimal", typeof (bool), typeof (NumericTextBox), new UIPropertyMetadata(false, AllowDecimalChanged));
-
-        public static readonly DependencyProperty MinValueProperty =
-            DependencyProperty.Register("MinValue", typeof (double), typeof (NumericTextBox), new UIPropertyMetadata(0.0, OnMinValueChanged));
-
-        public static readonly DependencyProperty MaxValueProperty =
-            DependencyProperty.Register("MaxValue", typeof (double), typeof (NumericTextBox), new UIPropertyMetadata(double.MaxValue, OnMaxValueChanged));
-
-        public static readonly DependencyProperty DoubleZeroProperty =
-           DependencyProperty.Register("DoubleZero", typeof(bool), typeof(NumericTextBox), new UIPropertyMetadata(false, OnFormatChanged));
-
-        #endregion
-
         #region Constructors
         public NumericTextBox()
         {
             AddHandler(PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(SelectivelyIgnoreMouseButton), true);
             AddHandler(GotKeyboardFocusEvent, new RoutedEventHandler(SelectAllText), true);
             AddHandler(MouseDoubleClickEvent, new RoutedEventHandler(SelectAllText), true);
+            this.TextChanged += NumericTextBox_TextChanged;
+            this.LostFocus += NumericTextBox_LostFocus;
+        }
+
+        private void NumericTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            Value = GetDoubleValue(Text);
+            UpdateText();
+        }
+
+        private void NumericTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _textChangingIsInProgress = true;
+            Value = GetDoubleValue(Text);
+            _textChangingIsInProgress = false;
+        }
+
+        private double GetDoubleValue(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return MinValue;
+            }
+
+            return Convert.ToDouble(text);
         }
         #endregion
 
-        #region Properties
-        public bool AllowDecimal
-        {
-            get { return (bool) GetValue(AllowDecimalProperty); }
-            set { SetValue(AllowDecimalProperty, value); }
-        }
+        #region Constants
+        public static readonly DependencyProperty MinValueProperty = DependencyProperty.Register("MinValue", typeof (double),
+            typeof (NumericTextBox), new UIPropertyMetadata(0.0));
 
+        public static readonly DependencyProperty MaxValueProperty = DependencyProperty.Register("MaxValue", typeof (double),
+            typeof (NumericTextBox), new UIPropertyMetadata(double.MaxValue));
+
+        public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof (string),
+            typeof (NumericTextBox), new UIPropertyMetadata("F0"));
+
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof (double),
+            typeof (NumericTextBox), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((NumericTextBox) sender).OnValueChanged()));
+
+        private bool _textChangingIsInProgress = false;
+        #endregion
+
+        #region Properties
         public double MinValue
         {
             get { return (double) GetValue(MinValueProperty); }
@@ -60,34 +79,16 @@ namespace Orc.Controls
             set { SetValue(MaxValueProperty, value); }
         }
 
-        public bool DoubleZero
+        public string Format
         {
-            get { return (bool)GetValue(DoubleZeroProperty); }
-            set { SetValue(DoubleZeroProperty, value); }
-        }
-
-        public new string Text
-        {
-            get { return base.Text; }
-            set { base.Text = LeaveOnlyNumbers(value); }
+            get { return (string) GetValue(FormatProperty); }
+            set { SetValue(FormatProperty, value); }
         }
 
         public double Value
         {
-            get { return Convert.ToDouble(base.Text); }
-            set
-            {
-                var format = "F0";
-                if (DoubleZero)
-                {
-                    format = "00";
-                }
-                if (AllowDecimal)
-                {
-                    format = "0.#####";
-                }
-                base.Text = value.ToString(format);
-            }
+            get { return (double) GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
         }
         #endregion
 
@@ -97,41 +98,9 @@ namespace Orc.Controls
         #endregion
 
         #region Functions
-        private string LeaveOnlyNumbers(string inputText)
-        {
-            var validText = inputText;
-            foreach (var c in inputText)
-            {
-                if (!IsValidSymbol(c))
-                {
-                    validText = validText.Replace(c.ToString(), string.Empty);
-                }
-            }
-            return validText;
-        }
-
-        private bool IsValidSymbol(char c)
-        {
-            if (IsDigit(c))
-            {
-                return true;
-            }
-            var symbol = c.ToString();
-            if (AllowDecimal && symbol == CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator)
-            {
-                return true;
-            }
-            return false;
-        }
-
         private bool IsValidValue(double inputValue)
         {
             return inputValue <= MaxValue && inputValue >= MinValue;
-        }
-
-        public bool IsDigit(char c)
-        {
-            return c >= '0' && c <= '9';
         }
         #endregion
 
@@ -247,7 +216,7 @@ namespace Orc.Controls
 
         private string GetText(string inputText)
         {
-            var text = new StringBuilder(Text);
+            var text = new StringBuilder(base.Text);
             if (!string.IsNullOrEmpty(SelectedText))
             {
                 text.Remove(CaretIndex, SelectedText.Length);
@@ -288,20 +257,18 @@ namespace Orc.Controls
             }
         }
 
-        private static void AllowDecimalChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        private void OnValueChanged()
         {
+            if (_textChangingIsInProgress)
+            {
+                return;
+            }
+            UpdateText();
         }
 
-        private static void OnMinValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        private void UpdateText()
         {
-        }
-
-        private static void OnMaxValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-        }
-
-        private static void OnFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
+            base.Text = Value.ToString(Format);
         }
         #endregion
     }
