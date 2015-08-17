@@ -9,10 +9,10 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
-    using System.Windows.Input;
     using System.Windows.Media;
     using Catel.MVVM.Views;
 
@@ -43,11 +43,25 @@ namespace Orc.Controls
                 NumericTBYear,
             };
 
-            NumericTBDay.RightBoundReached += NumericTextBoxOnRightBoundReached;
-            NumericTBMonth.RightBoundReached += NumericTextBoxOnRightBoundReached;
+            SubscribeNumericTextBoxes();
+        }
 
-            NumericTBYear.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
-            NumericTBMonth.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
+        private void SubscribeNumericTextBoxes()
+        {
+            _numericTextBoxes[0].RightBoundReached += NumericTextBoxOnRightBoundReached;
+            _numericTextBoxes[1].RightBoundReached += NumericTextBoxOnRightBoundReached;
+
+            _numericTextBoxes[2].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
+            _numericTextBoxes[1].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
+        }
+
+        private void UnsubscribeNumericTextBoxes()
+        {
+            _numericTextBoxes[0].RightBoundReached -= NumericTextBoxOnRightBoundReached;
+            _numericTextBoxes[1].RightBoundReached -= NumericTextBoxOnRightBoundReached;
+
+            _numericTextBoxes[2].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
+            _numericTextBoxes[1].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
         }
         #endregion
 
@@ -80,6 +94,16 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
             typeof(DatePickerControl), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((DatePickerControl)sender).OnAccentColorBrushChanged()));
+
+        public string Format
+        {
+            get { return (string)GetValue(FormatProperty); }
+            set { SetValue(FormatProperty, value); }
+        }
+
+        public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof(string),
+            typeof(DatePickerControl), new FrameworkPropertyMetadata(string.Empty, (sender, e) => ((DatePickerControl)sender).OnFormatChanged()));
+
         #endregion
 
         #region Methods
@@ -194,6 +218,74 @@ namespace Orc.Controls
             base.OnApplyTemplate();
 
             AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
+        }
+
+        private void OnFormatChanged()
+        {
+            UpdateFormat();
+        }
+
+        private void UpdateFormat()
+        {
+            var dayFormat = Format.Count(x => x == 'd');
+            var monthFormat = Format.Count(x => x == 'M');
+            var yearFormat = Format.Count(x => x == 'y');
+
+            NumericTBDay.Format = GetFormat(dayFormat);
+            NumericTBMonth.Format = GetFormat(monthFormat);
+            NumericTBYear.Format = GetFormat(yearFormat);
+
+            UpdatePosition();
+        }
+
+        private void UpdatePosition()
+        {
+            int? dayPosition = null;
+            int? monthPosition = null;
+            int? yearPosition = null;
+
+            var current = 0;
+            foreach (var c in Format)
+            {
+                if (c == 'd' && dayPosition == null)
+                {
+                    dayPosition = current++;
+                }
+                else if (c == 'M' && monthPosition == null)
+                {
+                    monthPosition = current++;
+                }
+                else if (c == 'y' && yearPosition == null)
+                {
+                    yearPosition = current++;
+                }
+            }
+
+            UnsubscribeNumericTextBoxes();
+
+            Grid.SetColumn(NumericTBDay, GetPosition(dayPosition.Value));
+            Grid.SetColumn(NumericTBMonth, GetPosition(monthPosition.Value));
+            Grid.SetColumn(NumericTBYear, GetPosition(yearPosition.Value));
+
+            Grid.SetColumn(ToggleButtonD, GetPosition(dayPosition.Value) + 1);
+            Grid.SetColumn(ToggleButtonMo, GetPosition(monthPosition.Value) + 1);
+            Grid.SetColumn(ToggleButtonY, GetPosition(yearPosition.Value) + 1);
+
+            _numericTextBoxes[dayPosition.Value] = NumericTBDay;
+            _numericTextBoxes[monthPosition.Value] = NumericTBMonth;
+            _numericTextBoxes[yearPosition.Value] = NumericTBYear;
+
+            SubscribeNumericTextBoxes();
+        }
+
+        private int GetPosition(int index)
+        {
+            return index*2;
+        }
+
+        private string GetFormat(int digits)
+        {
+            return new string(Enumerable.Repeat('0', digits).ToArray());
         }
         #endregion
     }
