@@ -58,12 +58,6 @@ namespace Orc.Controls
                 return false;
             }
 
-            // Don't allow users to write text that they can "invoke" via our software
-            if (!Directory.Exists(SelectedDirectory))
-            {
-                return false;
-            }
-
             return true;
         }
 
@@ -72,8 +66,11 @@ namespace Orc.Controls
         /// </summary>
         private void OnOpenDirectoryExecute()
         {
-            var fullPath = Path.GetFullPath(SelectedDirectory);
-            _processService.StartProcess(fullPath);
+            if (Directory.Exists(SelectedDirectory))
+            {
+                var fullPath = Path.GetFullPath(SelectedDirectory);
+                _processService.StartProcess(fullPath);
+            }
         }
 
         /// <summary>
