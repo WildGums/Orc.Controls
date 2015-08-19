@@ -9,12 +9,14 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Media;
     using Catel.MVVM.Views;
+    using Calendar = System.Windows.Controls.Calendar;
 
     /// <summary>
     /// Interaction logic for TimeSpanControl.xaml
@@ -44,6 +46,8 @@ namespace Orc.Controls
             };
 
             SubscribeNumericTextBoxes();
+
+            UpdateSeparators();
         }
 
         private void SubscribeNumericTextBoxes()
@@ -223,6 +227,8 @@ namespace Orc.Controls
         private void OnFormatChanged()
         {
             UpdateFormat();
+            UpdatePosition();
+            UpdateSeparators();
         }
 
         private void UpdateFormat()
@@ -234,8 +240,6 @@ namespace Orc.Controls
             NumericTBDay.Format = GetFormat(dayFormat);
             NumericTBMonth.Format = GetFormat(monthFormat);
             NumericTBYear.Format = GetFormat(yearFormat);
-
-            UpdatePosition();
         }
 
         private void UpdatePosition()
@@ -261,8 +265,13 @@ namespace Orc.Controls
                 }
             }
 
-            UnsubscribeNumericTextBoxes();
+            if (dayPosition == null || monthPosition == null || yearPosition == null)
+            {
+                throw new FormatException("Format string is incorrect. Day, month and year fields are mandatory");
+            }
 
+            UnsubscribeNumericTextBoxes();
+            
             Grid.SetColumn(NumericTBDay, GetPosition(dayPosition.Value));
             Grid.SetColumn(NumericTBMonth, GetPosition(monthPosition.Value));
             Grid.SetColumn(NumericTBYear, GetPosition(yearPosition.Value));
@@ -286,6 +295,12 @@ namespace Orc.Controls
         private string GetFormat(int digits)
         {
             return new string(Enumerable.Repeat('0', digits).ToArray());
+        }
+
+        private void UpdateSeparators()
+        {
+            var separator = CultureInfo.InvariantCulture.DateTimeFormat.DateSeparator;
+            Separator1.Text = Separator2.Text = separator;
         }
         #endregion
     }

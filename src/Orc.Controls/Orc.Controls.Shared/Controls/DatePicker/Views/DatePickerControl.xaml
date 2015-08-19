@@ -27,13 +27,13 @@
                     </Grid.ColumnDefinitions>
 
                     <controls:NumericTextBox x:Name="NumericTBDay" Grid.Column="0" Value="{Binding Day}" MinValue="1" />
-                    <TextBlock Grid.Column="1" Text="/" Style="{DynamicResource RatioSignStyle}" />
+                    <TextBlock Grid.Column="1" x:Name="Separator1" Text="/" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="1" x:Name="ToggleButtonD" Tag="{x:Static controls:DateTimePart.Day}"
                                   Checked="ToggleButton_OnChecked" Content="d" />
 
                     <controls:NumericTextBox x:Name="NumericTBMonth" Grid.Column="2" Value="{Binding Month, UpdateSourceTrigger=PropertyChanged}" 
                                              MinValue="1" MaxValue="12" TextChanged="NumericTBMonth_OnTextChanged"/>
-                    <TextBlock Grid.Column="3" Text="/" Style="{DynamicResource RatioSignStyle}" />
+                    <TextBlock Grid.Column="3" x:Name="Separator2" Text="/" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="3" x:Name="ToggleButtonMo" Tag="{x:Static controls:DateTimePart.Month}"
                                   Checked="ToggleButton_OnChecked" Content="m" />
 
