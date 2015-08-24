@@ -28,7 +28,7 @@ namespace Orc.Controls.Examples.ViewModels
 
         private void OnDefaultActionExecute()
         {
-            _messageService.ShowInformation("Default action has been executed");
+            _messageService.ShowInformationAsync("Default action has been executed");
         }
         #endregion
     }
