@@ -59,7 +59,7 @@ namespace Orc.Controls.ViewModels
         #endregion
 
         #region Events
-        public event EventHandler<LogMessageEventArgs> LogMessage;
+        public event EventHandler<LogEntryEventArgs> LogMessage;
         #endregion
 
         public void ClearEntries()
@@ -193,9 +193,8 @@ namespace Orc.Controls.ViewModels
                 return;
             }
 
-            _logListener.LogMessage -= OnLogMessage;
-
             LogManager.RemoveListener(_logListener);
+            _logListener.LogMessage -= OnLogMessage;
 
             _logListener = null;
         }
@@ -351,7 +350,7 @@ namespace Orc.Controls.ViewModels
 
             UpdateEntriesCount(logEntry);
 
-            LogMessage.SafeInvoke(this, e);
+            LogMessage.SafeInvoke(this, new LogEntryEventArgs(logEntry));
         }
         #endregion
     }

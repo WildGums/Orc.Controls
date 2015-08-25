@@ -11,7 +11,7 @@ namespace Orc.Controls
 
     public static class RichTextBoxParagraphExtensions
     {
-        public static void SetData(this RichTextBoxParagraph paragraph, bool showTimestamp)
+        public static void SetData(this RichTextBoxParagraph paragraph, bool showTimestamp = true, bool showThreadId = true)
         {
             var timestamp = string.Format("{0} ", paragraph.LogEntry.Time);
             var toolTip = new StringBuilder();
@@ -27,7 +27,7 @@ namespace Orc.Controls
 
             var threadId = string.Empty;
             var data = paragraph.LogEntry.Data;
-            if (data.ContainsKey("ThreadId"))
+            if (showThreadId && data.ContainsKey("ThreadId"))
             {
                 threadId = string.Format("[{0}] ", data["ThreadId"]);
             }
