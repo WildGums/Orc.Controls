@@ -34,6 +34,3 @@ using System.Resources;
 
 [assembly: AssemblyVersion("1.0")]
 [assembly: AssemblyInformationalVersion("1.0, manually built in Visual Studio")]
-
-// CLS compliant
-[assembly: CLSCompliant(true)]
