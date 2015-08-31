@@ -4,8 +4,7 @@
                    xmlns:orc="http://www.wildgums.net.au/orc"
                    xmlns:catel="http://catel.codeplex.com">
 
-    <orc:Expander Margin="5" Style="{DynamicResource ExpanderToLeft}" Header="Expander" ExpandDirection="Left">
+    <orc:Expander Style="{DynamicResource ExpandLeftStyle}" Header="Expander" ExpandDirection="Down">
         <TextBlock Text="Expander" VerticalAlignment="Center"/>
     </orc:Expander>
-
 </catel:UserControl>

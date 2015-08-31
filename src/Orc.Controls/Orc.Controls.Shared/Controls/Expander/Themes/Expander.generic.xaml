@@ -47,11 +47,11 @@
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Grid Background="White" Margin="{TemplateBinding Padding}">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
                             <RowDefinition Height="4"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <ContentPresenter Margin="2"/>
-                        <Border x:Name="line" Grid.Row="1" Background="LightGray"/>
+                        <Border x:Name="line" Grid.Row="0" Background="LightGray"/>
+                        <ContentPresenter Grid.Row="1" Margin="2"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -66,7 +66,7 @@
         </Setter>
     </Style>
     
-    <Style x:Key="ExpanderToLeft" TargetType="{x:Type local:Expander}">
+    <Style x:Key="ExpandLeftStyle" TargetType="{x:Type local:Expander}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Template">
@@ -75,34 +75,35 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition  Width="auto"/>
+                            <ColumnDefinition  Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <Border x:Name="HeaderBorder" Background="White" Grid.Column="1">
+                        <Border x:Name="HeaderBorder" Grid.Column="1" Background="White">
                             <ToggleButton VerticalAlignment="Top" Margin="1" Content="{TemplateBinding Header}"
-                                        Style="{StaticResource Header_ToggleButton}" MinWidth="20" MinHeight="20"
-                                    IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                          Style="{StaticResource Header_ToggleButton}" MinWidth="20" MinHeight="20"
+                                          IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                 <ToggleButton.LayoutTransform>
-                                    <RotateTransform Angle="-90"/>
+                                    <RotateTransform Angle="90"/>
                                 </ToggleButton.LayoutTransform>
                             </ToggleButton>
                         </Border>
 
                         <Grid x:Name="ContentPresenterGrid" Visibility="Collapsed">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition  Width="auto"/>
+                                <ColumnDefinition  Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <Border Margin="0 0 0 1" Grid.ColumnSpan="2" Background="White"/>
-                            <ContentControl Content="{TemplateBinding Header}" Margin="2" FontWeight="Bold"
-                                        HorizontalAlignment="Left" VerticalContentAlignment="Center"/>
-                            <ToggleButton Content="x" Grid.Column="1" Style="{StaticResource Pin_ToggleButton}" Margin="1"
-                                        IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <Border Margin="0" Grid.ColumnSpan="2" BorderBrush="LightGray"
+                                    BorderThickness="1" Background="WhiteSmoke"/>
+                            <ContentControl Content="{TemplateBinding Header}" FontWeight="Medium" Margin="4"
+                                            HorizontalAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+                            <ToggleButton Grid.Column="1" Style="{StaticResource Pin_ToggleButton}" Margin="4"
+                                          IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                             <ContentPresenter x:Name="contentPresenter" Grid.Row="1" Grid.ColumnSpan="2"/>
                         </Grid>
 
