@@ -9,6 +9,7 @@ namespace Orc.Controls
 {
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Media;
 
     public enum ExpandDirection
     {
@@ -20,16 +21,6 @@ namespace Orc.Controls
 
     public class Expander : HeaderedContentControl
     {
-        public static readonly DependencyProperty IsExpandedProperty =
-            DependencyProperty.Register("IsExpanded", typeof (bool), typeof (Expander), new PropertyMetadata(false,
-                OnIsExpandedPropertyChanged));
-
-        public static readonly DependencyProperty ExpandDirectionProperty =
-            DependencyProperty.Register("ExpandDirection", typeof (ExpandDirection), typeof (Expander), new PropertyMetadata(ExpandDirection.Left));
-
-        public static readonly DependencyProperty AutoResizeGridProperty =
-            DependencyProperty.Register("AutoResizeGrid", typeof (bool), typeof (Expander), new PropertyMetadata(false));
-
         #region Fields
         private GridLength _previousValue;
         #endregion
@@ -48,17 +39,31 @@ namespace Orc.Controls
             set { SetValue(IsExpandedProperty, value); }
         }
 
+        public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register("IsExpanded", typeof (bool), typeof (Expander), new PropertyMetadata(false, OnIsExpandedPropertyChanged));
+
         public ExpandDirection ExpandDirection
         {
             get { return (ExpandDirection) GetValue(ExpandDirectionProperty); }
             set { SetValue(ExpandDirectionProperty, value); }
         }
 
+        public static readonly DependencyProperty ExpandDirectionProperty = DependencyProperty.Register("ExpandDirection", typeof (ExpandDirection), typeof (Expander), new PropertyMetadata(ExpandDirection.Left));
+
         public bool AutoResizeGrid
         {
             get { return (bool) GetValue(AutoResizeGridProperty); }
             set { SetValue(AutoResizeGridProperty, value); }
         }
+
+        public static readonly DependencyProperty AutoResizeGridProperty = DependencyProperty.Register("AutoResizeGrid", typeof (bool), typeof (Expander), new PropertyMetadata(false));
+
+        public Brush AccentColorBrush
+        {
+            get { return (Brush) GetValue(AccentColorBrushProperty); }
+            set { SetValue(AccentColorBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof (Brush), typeof (Expander), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((Expander) sender).OnAccentColorBrushChanged()));
         #endregion
 
         #region Methods
@@ -170,6 +175,23 @@ namespace Orc.Controls
                     }
                 }
             }
+        }
+
+        private void OnAccentColorBrushChanged()
+        {
+            var solidColorBrush = AccentColorBrush as SolidColorBrush;
+            if (solidColorBrush != null)
+            {
+                var accentColor = ((SolidColorBrush) AccentColorBrush).Color;
+                accentColor.CreateAccentColorResourceDictionary("Expander");
+            }
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
         }
         #endregion
     }

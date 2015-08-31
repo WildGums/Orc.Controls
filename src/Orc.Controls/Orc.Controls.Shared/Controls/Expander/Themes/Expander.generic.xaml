@@ -2,16 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Orc.Controls">
 
-    <Color x:Key="Color_Control_1">#eeeeee</Color>
-    <SolidColorBrush x:Key="Brush_Control_1" Color="{StaticResource Color_Control_1}"/>
-    <Color x:Key="Color_Control_2">#cccccc</Color>
-    <SolidColorBrush x:Key="Brush_Control_2" Color="{StaticResource Color_Control_2}"/>
-    <Color x:Key="Color_Font_2">#303030</Color>
-    <SolidColorBrush x:Key="Brush_Font_2" Color="{StaticResource Color_Font_2}"/>
-    <Color x:Key="Color_Highlight_1">#707070</Color>
-    <SolidColorBrush x:Key="Brush_Highlight_1" Color="{StaticResource Color_Highlight_1}"/>
-    
-
     <Geometry x:Key="PinnedGeometry">M271.481,217.02L496.519,217.02C498.998,233.046 480.395,252.6 456.338,257.019L461.359,337.306C499.288,346.952 513.621,378.883 511.94,397.774L401.232,397.356L400.802,493.955L384,550.98L367.198,493.953L366.768,397.356L256.06,397.774C254.379,378.883 268.712,346.952 306.641,337.306L311.662,257.019C287.605,252.6 269.002,233.046 271.481,217.02Z</Geometry>
     <Geometry x:Key="UnpinnedGeometry">M550.98,271.481L550.98,496.519C534.954,498.998 515.4,480.395 510.981,456.338L430.694,461.359C421.048,499.288 389.117,513.621 370.226,511.94L370.644,401.232L274.045,400.802L217.02,384L274.047,367.198L370.644,366.768L370.226,256.06C389.117,254.379 421.048,268.712 430.694,306.641L510.981,311.662C515.4,287.605 534.954,269.002 550.98,271.481Z</Geometry>
 
@@ -34,10 +24,10 @@
                             <Setter TargetName="Path" Property="Data" Value="{StaticResource PinnedGeometry}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="BorderButton" Value="WhiteSmoke"/>
+                            <Setter Property="Background" TargetName="BorderButton" Value="{DynamicResource ExpanderHighlightBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="BorderButton" Value="WhiteSmoke"/>
+                            <Setter Property="Background" TargetName="BorderButton" Value="{DynamicResource ExpanderAccentBrush}"/>
                             <Setter Property="Fill" TargetName="Path" Value="White"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
@@ -52,37 +42,25 @@
     <Style x:Key="Header_ToggleButton" TargetType="{x:Type ToggleButton}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="Foreground" Value="{StaticResource Brush_Font_2}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Grid Background="Transparent" Margin="{TemplateBinding Padding}">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup Name="CommonStates">
-                                <VisualState Name="Normal"/>
-                                <VisualState Name="MouseOver">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="lineHover"
-                                                                       Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="lineNormal"
-                                                                       Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
+                    <Grid Background="White" Margin="{TemplateBinding Padding}">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="4"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="4"/>
                         </Grid.RowDefinitions>
-
-                        <Border x:Name="lineHover" Background="{StaticResource Brush_Highlight_1}" Visibility="Hidden"/>
-                        <Border x:Name="lineNormal" Background="{StaticResource Brush_Control_2}" Visibility="Visible"/>
-                        <ContentPresenter Grid.Row="1" Margin="2 -2 2 2"/>
+                        <ContentPresenter Margin="2"/>
+                        <Border x:Name="line" Grid.Row="1" Background="LightGray"/>
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="line" Property="Background" Value="{DynamicResource ExpanderDarkHighlightBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="line" Property="Background" Value="{DynamicResource ExpanderAccentBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -100,7 +78,7 @@
                             <ColumnDefinition  Width="auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <Border x:Name="HeaderBorder" Background="{StaticResource Brush_Control_1}" Grid.Column="1">
+                        <Border x:Name="HeaderBorder" Background="White" Grid.Column="1">
                             <ToggleButton VerticalAlignment="Top" Margin="1" Content="{TemplateBinding Header}"
                                         Style="{StaticResource Header_ToggleButton}" MinWidth="20" MinHeight="20"
                                     IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
@@ -120,7 +98,7 @@
                                 <ColumnDefinition  Width="auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <Border Margin="0 0 0 1" Grid.ColumnSpan="2" Background="{StaticResource Brush_Control_1}"/>
+                            <Border Margin="0 0 0 1" Grid.ColumnSpan="2" Background="White"/>
                             <ContentControl Content="{TemplateBinding Header}" Margin="2" FontWeight="Bold"
                                         HorizontalAlignment="Left" VerticalContentAlignment="Center"/>
                             <ToggleButton Content="x" Grid.Column="1" Style="{StaticResource Pin_ToggleButton}" Margin="1"
