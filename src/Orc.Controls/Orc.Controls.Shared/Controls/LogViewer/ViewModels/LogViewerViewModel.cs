@@ -16,6 +16,7 @@ namespace Orc.Controls.ViewModels
     using Catel.IoC;
     using Catel.Logging;
     using Catel.MVVM;
+    using Catel.Services;
     using Logging;
 
     public class LogViewerViewModel : ViewModelBase
@@ -30,6 +31,7 @@ namespace Orc.Controls.ViewModels
         private bool _isViewModelActive;
 
         private readonly ITypeFactory _typeFactory;
+        private readonly IDispatcherService _dispatcherService;
 
         private readonly List<LogEntry> _logEntries = new List<LogEntry>();
 
@@ -40,11 +42,13 @@ namespace Orc.Controls.ViewModels
         #endregion
 
         #region Constructors
-        public LogViewerViewModel(ITypeFactory typeFactory)
+        public LogViewerViewModel(ITypeFactory typeFactory, IDispatcherService dispatcherService)
         {
             Argument.IsNotNull(() => typeFactory);
+            Argument.IsNotNull(() => dispatcherService);
 
             _typeFactory = typeFactory;
+            _dispatcherService = dispatcherService;
 
             LogListenerType = typeof(LogViewerLogListener);
             ShowDebug = true;
@@ -52,7 +56,12 @@ namespace Orc.Controls.ViewModels
             ShowWarning = true;
             ShowError = true;
 
-            TypeNames = new FastObservableCollection<string>() { defaultComboBoxItem };
+            var typeNames = new FastObservableCollection<string>
+            {
+                defaultComboBoxItem
+            };
+
+            TypeNames = typeNames;
 
             ResetEntriesCount();
         }
@@ -66,27 +75,33 @@ namespace Orc.Controls.ViewModels
         {
             _isClearingLog = true;
 
-            lock (_lock)
+            // Note: we need to dispatch because the FastObservableCollection automatically dispatches (which is a good thing
+            // when coming from a background thread). However... the ReplaceRange will be executed *outside* the lock
+            // which is not good. So the lock is inside the dispatcher handler, and we manually dispatcher here.
+            _dispatcherService.BeginInvoke(() =>
             {
-                _logEntries.Clear();
-
-                var typeNames = TypeNames;
-                if (typeNames != null)
+                lock (_lock)
                 {
-                    _isUpdatingTypes = true;
+                    _logEntries.Clear();
 
-                    using (typeNames.SuspendChangeNotifications())
+                    var typeNames = TypeNames;
+                    if (typeNames != null)
                     {
-                        typeNames.ReplaceRange(new[] {defaultComboBoxItem});
+                        _isUpdatingTypes = true;
+
+                        using (typeNames.SuspendChangeNotifications())
+                        {
+                            typeNames.ReplaceRange(new[] {defaultComboBoxItem});
+                        }
+
+                        _isUpdatingTypes = false;
                     }
-
-                    _isUpdatingTypes = false;
                 }
-            }
 
-            ResetEntriesCount();
+                ResetEntriesCount();
 
-            _isClearingLog = false;
+                _isClearingLog = false;
+            });
         }
 
         private void ResetEntriesCount()
