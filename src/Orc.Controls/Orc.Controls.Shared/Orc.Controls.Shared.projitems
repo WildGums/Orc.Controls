@@ -43,6 +43,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DropDownButton\Views\DropDownButton.xaml.cs">
       <DependentUpon>DropDownButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Expander\Expander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Services\Interfaces\ISuggestionListService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Services\SuggestionListService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\ViewModels\FilterBoxViewModel.cs" />
@@ -143,6 +144,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\DropDownButton\Views\DropDownButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\Expander\Themes\Expander.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

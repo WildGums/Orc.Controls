@@ -102,6 +102,7 @@
     <Compile Include="ViewModels\ColorPickerViewModel.cs" />
     <Compile Include="ViewModels\DatePickerViewModel.cs" />
     <Compile Include="ViewModels\DirectoryPickerViewModel.cs" />
+    <Compile Include="ViewModels\ExpanderViewModel.cs" />
     <Compile Include="ViewModels\OpenFilePickerViewModel.cs" />
     <Compile Include="ViewModels\PinnableToolTipViewModel.cs" />
     <Compile Include="Views\AnimatedGif.xaml.cs">
@@ -112,6 +113,9 @@
     </Compile>
     <Compile Include="Views\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Expander.xaml.cs">
+      <DependentUpon>Expander.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OpenFilePickerView.xaml.cs">
       <DependentUpon>OpenFilePickerView.xaml</DependentUpon>
@@ -171,6 +175,10 @@
     <Page Include="Views\ColorPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Expander.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\OpenFilePickerView.xaml">
       <SubType>Designer</SubType>

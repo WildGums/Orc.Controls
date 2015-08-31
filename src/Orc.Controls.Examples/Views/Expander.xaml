@@ -1,0 +1,11 @@
+﻿<catel:UserControl x:Class="Orc.Controls.Examples.Views.Expander"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:orc="http://www.wildgums.net.au/orc"
+                   xmlns:catel="http://catel.codeplex.com">
+
+    <orc:Expander Margin="5" Style="{DynamicResource ExpanderToLeft}" Header="Expander" ExpandDirection="Left">
+        <TextBlock Text="Expander" VerticalAlignment="Center"/>
+    </orc:Expander>
+
+</catel:UserControl>

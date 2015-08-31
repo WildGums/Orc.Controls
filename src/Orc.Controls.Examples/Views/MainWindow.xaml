@@ -144,6 +144,10 @@
             <views:DropDownButtonView />
         </TabItem>
 
+        <TabItem Header="Expander">
+            <views:Expander />
+        </TabItem>
+
         <TabItem Header="FilterBox">
             <views:FilterBox />
         </TabItem>
