@@ -5,6 +5,17 @@
 
     <Style TargetType="{x:Type local:FilterBoxControl}">
         <Style.Resources>
+            <Style TargetType="{x:Type ListBoxItem}">
+                <Style.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource FilterBoxHighlightColor}"/>
+                </Style.Resources>
+                <Style.Triggers>
+                    <Trigger Property="ListBoxItem.IsSelected" Value="True" >
+                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            
             <Style TargetType="{x:Type Button}">
                 <Setter Property="Template">
                     <Setter.Value>

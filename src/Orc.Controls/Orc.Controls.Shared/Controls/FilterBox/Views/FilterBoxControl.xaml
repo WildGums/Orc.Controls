@@ -6,18 +6,7 @@
                     xmlns:catel="http://catel.codeplex.com"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     mc:Ignorable="d" d:DesignHeight="22" d:DesignWidth="120">
-    <UserControl.Resources>
-        <Style TargetType="{x:Type ListBoxItem}">
-            <Style.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource FilterBoxHighlightColor}"/>
-            </Style.Resources>
-            <Style.Triggers>
-                <Trigger Property="ListBoxItem.IsSelected" Value="True" >
-                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Resources>
+
     <Grid>
         <TextBox x:Name="filterTextBox" Text="{Binding Text}">
             <i:Interaction.Behaviors>
