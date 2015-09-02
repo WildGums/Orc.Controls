@@ -210,27 +210,10 @@
                                         </controls:DropDownButton.DropDown>
                                     </controls:DropDownButton>
 
-                                   <Border x:Name="searchBoxContainer" Grid.Column="1" Background="Transparent" BorderThickness="1"
-                                           Style="{StaticResource SearchBoxBorderStyle}"
-                                           Visibility="{Binding ShowSearchBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
-                                      <Grid Background="White">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <controls:WatermarkTextBox x:Name="filterTextBox" Background="Transparent"
-                                                                    Text="{Binding Filter, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
-                                                                    Watermark="{TemplateBinding FilterWatermark}">
-                                                <controls:WatermarkTextBox.Style>
-                                                    <Style TargetType="Control">
-                                                        <Setter Property="BorderThickness" Value="0" />
-                                                    </Style>
-                                                </controls:WatermarkTextBox.Style>
-                                            </controls:WatermarkTextBox>
-                                            <Button Grid.Column="1" Style="{StaticResource ClearButtonStyle}" 
-                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:ColorLegend}}, Path=ClearFilter}"/>
-                                        </Grid>
-                                    </Border>
+                                    <controls:FilterBoxControl Grid.Column="1" Watermark="{TemplateBinding FilterWatermark}"
+                                                               Visibility="{Binding ShowSearchBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}"
+                                                               FilterSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}}" 
+                                                               Text="{Binding Filter, RelativeSource={RelativeSource TemplatedParent}}"/>
                                    </Grid>
                             </Border>
                             <ListBox Grid.Row="2" ItemsSource="{Binding FilteredItemsSource, RelativeSource={RelativeSource TemplatedParent}}" BorderThickness="0" x:Name="PART_List" HorizontalContentAlignment="Stretch">
@@ -327,7 +310,7 @@
                                 </Grid>
                             </Border>
                             <Popup x:Name="PART_Popup_Color_Board" 
-                                   IsOpen="{Binding Path=IsColorSelecting, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                   IsOpen="{Binding IsColorSelecting, RelativeSource={RelativeSource TemplatedParent}}" 
                                    Focusable="False" VerticalOffset="2"/>
                         </Grid>
                     </Border>

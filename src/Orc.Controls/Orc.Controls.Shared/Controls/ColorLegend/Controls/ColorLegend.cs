@@ -61,7 +61,6 @@ namespace Orc.Controls
         {
             DefaultStyleKey = typeof(ColorLegend);
 
-            ClearFilter = new Command(OnClearFilterExecute);
             ChangeColor = new Command<object>(OnChangeColorExecute, OnChangeColorCanExecute);
         }
         #endregion
@@ -348,13 +347,6 @@ namespace Orc.Controls
         #endregion
 
         #region Commands
-        public Command ClearFilter { get; private set; }
-
-        private void OnClearFilterExecute()
-        {
-            Filter = string.Empty;
-        }
-
         public Command<object> ChangeColor { get; private set; }
 
         private bool OnChangeColorCanExecute(object parameter)
