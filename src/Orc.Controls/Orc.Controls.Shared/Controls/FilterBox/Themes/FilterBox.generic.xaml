@@ -5,17 +5,57 @@
 
     <Style TargetType="{x:Type local:FilterBoxControl}">
         <Style.Resources>
-            <Style TargetType="{x:Type ListBoxItem}">
-                <Style.Resources>
-                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource FilterBoxHighlightColor}"/>
-                </Style.Resources>
-                <Style.Triggers>
-                    <Trigger Property="ListBoxItem.IsSelected" Value="True" >
-                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-                    </Trigger>
-                </Style.Triggers>
+           <Style TargetType="{x:Type ListBoxItem}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <Border Name="Bd" 
+                                    BorderThickness="{TemplateBinding Border.BorderThickness}"
+                                    Padding="{TemplateBinding Control.Padding}"
+                                    BorderBrush="{TemplateBinding Border.BorderBrush}"
+                                    Background="{TemplateBinding Panel.Background}"
+                                    SnapsToDevicePixels="True">   
+                                <ContentPresenter Content="{TemplateBinding ContentControl.Content}"
+                                                  ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                                  ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
+                                                  HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                                                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="Selector.IsSelectionActive" Value="False"/>
+                                        <Condition Property="Selector.IsSelected" Value="True"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Panel.Background" TargetName="Bd" Value="Transparent"/>
+                                    <Setter Property="Border.BorderBrush" TargetName="Bd" Value ="LightGray"/>
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="Selector.IsSelectionActive" Value="True"/>
+                                        <Condition Property="Selector.IsSelected" Value="True"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Panel.Background" TargetName="Bd" Value="{DynamicResource FilterBoxDarkHighlightBrush}"/>
+                                    <Setter Property="Border.BorderBrush" TargetName="Bd" Value="{DynamicResource FilterBoxDarkHighlightBrush}"/>
+                                </MultiTrigger>
+                                <Trigger Property="UIElement.IsMouseOver" Value="True">
+                                    <Setter Property="Panel.Background" TargetName="Bd" Value="{DynamicResource FilterBoxHighlightBrush}"/>
+                                    <Setter Property="Border.BorderBrush" TargetName="Bd" Value="{DynamicResource FilterBoxHighlightBrush}"/>
+                                </Trigger>
+                                <Trigger Property="UIElement.IsEnabled" Value="False">
+                                    <Setter Property="TextElement.Foreground" TargetName="Bd">
+                                        <Setter.Value>
+                                            <DynamicResource ResourceKey="{x:Static SystemColors.GrayTextBrushKey}" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
-            
+
             <Style TargetType="{x:Type Button}">
                 <Setter Property="Template">
                     <Setter.Value>
