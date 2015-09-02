@@ -1,0 +1,63 @@
+﻿<catel:UserControl x:Class="Orc.Controls.DatePickerControl"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:controls="clr-namespace:Orc.Controls"
+                   xmlns:catel="http://catel.codeplex.com"
+                   xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                   mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="190">
+    
+    <Grid x:Name="MainGrid">
+        <Border BorderThickness="1" Height="22" >
+            <Grid Background="White" MinWidth="115">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid Margin="0 0 4 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <controls:NumericTextBox x:Name="NumericTBDay" Grid.Column="0" Value="{Binding Day}" MinValue="1" />
+                    <TextBlock Grid.Column="1" x:Name="Separator1" Text="/" Style="{DynamicResource RatioSignStyle}" />
+                    <ToggleButton Grid.Column="1" x:Name="ToggleButtonD" Tag="{x:Static controls:DateTimePart.Day}"
+                                  Checked="ToggleButton_OnChecked" Content="d" />
+
+                    <controls:NumericTextBox x:Name="NumericTBMonth" Grid.Column="2" Value="{Binding Month, UpdateSourceTrigger=PropertyChanged}" 
+                                             MinValue="1" MaxValue="12" TextChanged="NumericTBMonth_OnTextChanged"/>
+                    <TextBlock Grid.Column="3" x:Name="Separator2" Text="/" Style="{DynamicResource RatioSignStyle}" />
+                    <ToggleButton Grid.Column="3" x:Name="ToggleButtonMo" Tag="{x:Static controls:DateTimePart.Month}"
+                                  Checked="ToggleButton_OnChecked" Content="m" />
+
+                    <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Value="{Binding Year}" MinValue="0" MaxValue="3000" />
+                    <TextBlock Grid.Column="5" Text="" Style="{DynamicResource RatioSignStyle}" />
+                    <ToggleButton Grid.Column="5" x:Name="ToggleButtonY" Tag="{x:Static controls:DateTimePart.Year}" Content="y" />
+                
+                </Grid>
+                <StackPanel Grid.Column="1">
+                    <ToggleButton x:Name="DatePickerIcon" DockPanel.Dock="Right" VerticalAlignment="Stretch"
+                              Style="{DynamicResource DateTimePickerToggleButtonStyle}"
+                              Visibility="{Binding ShowOptionsButton, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+                    <Popup Placement="Bottom" VerticalOffset="2" StaysOpen="False"
+                           PlacementTarget="{Binding ElementName=DatePickerIcon}" 
+                           IsOpen="{Binding IsChecked, ElementName=DatePickerIcon}" >
+                        <Border BorderBrush="Gray" BorderThickness="1">
+                            <StackPanel Background="White">
+                                <Button x:Name="TodayButton" Content="Today" Click="TodayButton_OnClick" Style="{DynamicResource PopupButtonStyle}"/>
+                                <Button x:Name="SelectDateButton" Content="Select date" Click="SelectDateButton_OnClick" Style="{DynamicResource PopupButtonStyle}"/>
+                            </StackPanel>
+                        </Border>
+                    </Popup>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</catel:UserControl>

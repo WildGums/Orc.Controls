@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>3ce87518-5ffa-4048-a8f8-1c6b6a11c809</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Orc.Controls</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\AnimatedGif\AnimatedGif.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\BindableRichTextBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\BindableRun.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Controls\ColorLegend.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Models\ColorLegendItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Models\Interfaces\IColorProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\MultipleCommandParameterConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Serialization\ColorLegendItemSerializerModifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\ColorBoard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\ColorChangedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\ColorHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\ColorPicker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\PredefinedColor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\PredefinedColorItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\WrapPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DatePicker\ViewModels\DatePickerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DatePicker\Views\DatePickerControl.xaml.cs">
+      <DependentUpon>DatePickerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\ViewModels\DateTimePickerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\Views\DateTimePickerControl.xaml.cs">
+      <DependentUpon>DateTimePickerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Services\MicrosoftApiSelectDirectoryService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\ViewModels\DirectoryPickerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPickerView.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>DirectoryPickerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DropDownButton\Behaviors\DropDownButtonBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DropDownButton\Views\DropDownButton.xaml.cs">
+      <DependentUpon>DropDownButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Expander\Expander.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Services\Interfaces\ISuggestionListService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Services\SuggestionListService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\ViewModels\FilterBoxViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Views\FilterBoxControl.xaml.cs">
+      <DependentUpon>FilterBoxControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\Behaviors\LinkLabelBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\Behaviors\LinkLabelClickBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\LinkLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\EventArgs\LogEntryDoubleClickEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\EventArgs\LogEntryEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Extensions\InlineExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Extensions\LoggingExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Extensions\RichTextBoxExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Extensions\RichTextBoxParagraphExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Extensions\StringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Logging\LogViewerLogListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Models\LogRecord.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\ViewModels\LogViewerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Views\LogViewerControl.xaml.cs">
+      <DependentUpon>LogViewerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\NumericTextBox\NumericTextBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\RichTextBoxParagraph.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\ViewModels\OpenFilePickerViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePickerView.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>OpenFilePickerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Adorners\ControlAdorner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Adorners\ControlAdornerDragDrop.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Adorners\Interfaces\IControlAdornerChild.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Adorners\PopupDragDrop.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Controls\PinnableToolTip.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Models\LinkToolTipItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Models\OrdinalToolTipItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Services\PinnableToolTipService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\TemplateSelectors\PinnableItemTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\ToolTipTimer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\ViewModels\SaveFilePickerViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\Views\SaveFilePickerView.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>SaveFilePickerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\ViewModels\TimeSpanViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\Views\TimeSpanControl.xaml.cs">
+      <DependentUpon>TimeSpanControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\WatermarkTextBox\WatermarkTextBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\TimeSpanToTotalStringConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\DateTimePart.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\Extensions\DateTimePartExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\Extensions\TimeSpanPartExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\TimeSpanPart.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ColorExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DependencyObjectExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimePartHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ScreenHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Themes\ColorLegend.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\Themes\ColorPicker.generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\Themes\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DatePicker\Themes\DatePickerControl.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DatePicker\Views\DatePickerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\Themes\DateTimePickerControl.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\Views\DateTimePickerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPickerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DropDownButton\Themes\DropDownButton.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DropDownButton\Views\DropDownButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\Expander\Themes\Expander.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Themes\FilterBox.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Views\FilterBoxControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\Themes\LinkLabel.generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Themes\LogViewer.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Views\LogViewerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePickerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\Views\SaveFilePickerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\Themes\TimeSpan.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\Views\TimeSpanControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\WatermarkTextBox\Themes\WatermarkTextBox.generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\Extensions\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Resources\Images\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Themes\PinnableToolTip.xaml" />
+  </ItemGroup>
+</Project>

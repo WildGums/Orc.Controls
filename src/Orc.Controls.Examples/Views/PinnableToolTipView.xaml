@@ -1,0 +1,30 @@
+﻿<catel:UserControl x:Class="Orc.Controls.Examples.Views.PinnableToolTip"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:catel="http://catel.codeplex.com"
+                   xmlns:orc="http://www.wildgums.net.au/orc">
+
+    <ItemsControl ItemsSource="{Binding ColorList}">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <Border BorderBrush="{Binding}" BorderThickness="1" Margin="4,8,4,8" Width="150" HorizontalAlignment="Left">
+                    <TextBlock Text="{Binding}" Margin="5"/>
+                    <orc:PinnableToolTipService.ToolTip>
+                        <orc:PinnableToolTip AllowCloseByUser="True">
+                            <!-- Using a content template allows to delay loading of the inner visual tree, which is much faster -->
+                            <orc:PinnableToolTip.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Label Content="{Binding}" />
+                                        <Border Margin="5" Width="50" Height="50" Background="{Binding}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </orc:PinnableToolTip.ContentTemplate>
+                        </orc:PinnableToolTip>
+                    </orc:PinnableToolTipService.ToolTip>
+                </Border>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+
+</catel:UserControl>

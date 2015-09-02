@@ -1,0 +1,31 @@
+﻿<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Orc.Controls</id>
+    <version>[VERSION]</version>
+    <title>Orc.Controls</title>
+    <authors>OrchestraDevs</authors>
+    <owners>OrchestraDevs</owners>
+
+	<description>
+        Timespan and DateTime controls.
+	</description>
+	<summary>
+	</summary>
+
+    <tags>csv orcomp orc</tags>
+
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>Copyright Wild Gums 2010 - 2015</copyright>
+
+	<language>en-US</language>
+	<projectUrl>https://github.com/WildGums/Orc.Controls</projectUrl>
+	<!--<licenseUrl>http://catel.codeplex.com/license</licenseUrl>-->
+	<!--<iconUrl>http://www.catenalogic.com/catel.png</iconUrl>-->
+    
+    <dependencies>
+      <dependency id="Catel.Core" version="[replaced]" />
+      <dependency id="Catel.MVVM" version="[replaced]" />
+    </dependencies>    
+  </metadata>
+</package>

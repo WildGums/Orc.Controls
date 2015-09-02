@@ -1,0 +1,85 @@
+﻿<catel:UserControl x:Class="Orc.Controls.DateTimePickerControl"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:controls="clr-namespace:Orc.Controls"
+                   xmlns:catel="http://catel.codeplex.com"
+                   mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="190">
+    
+    <Grid x:Name="MainGrid">
+        <Border BorderThickness="1" Height="22" >
+            <Grid Background="White" MinWidth="200">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid Margin="0 0 4 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <controls:NumericTextBox x:Name="NumericTBDay" Grid.Column="0" Value="{Binding Day}" MinValue="1" />
+                    <TextBlock Grid.Column="1" Text="/" Style="{DynamicResource RatioSignStyle}" />
+                    <ToggleButton Grid.Column="1" x:Name="ToggleButtonD" Tag="{x:Static controls:DateTimePart.Day}"
+                                  Checked="ToggleButton_OnChecked" Content="d" />
+
+                    <controls:NumericTextBox x:Name="NumericTBMonth" Grid.Column="2" Value="{Binding Month, UpdateSourceTrigger=PropertyChanged}" 
+                                             MinValue="1" MaxValue="12" TextChanged="NumericTBMonth_OnTextChanged"/>
+                    <TextBlock Grid.Column="3" Text="/" Style="{DynamicResource RatioSignStyle}" />
+                    <ToggleButton Grid.Column="3" x:Name="ToggleButtonMo" Tag="{x:Static controls:DateTimePart.Month}"
+                                  Checked="ToggleButton_OnChecked" Content="m" />
+                
+                    <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Value="{Binding Year}" MinValue="0" />
+                    <TextBlock Grid.Column="5" Text="" Style="{DynamicResource RatioSignStyle}" />
+                    <ToggleButton Grid.Column="5" x:Name="ToggleButtonY" Tag="{x:Static controls:DateTimePart.Year}" Content="y" />
+
+                    <controls:NumericTextBox x:Name="NumericTBHour" Grid.Column="6" Value="{Binding Hour}" MaxValue="23" MinValue="0" />
+                    <TextBlock Grid.Column="7" Text=":" Style="{DynamicResource RatioSignStyle}" />
+                    <ToggleButton Grid.Column="7" x:Name="ToggleButtonH" Tag="{x:Static controls:DateTimePart.Hour}"
+                                  Checked="ToggleButton_OnChecked" Content="h" />
+
+                    <controls:NumericTextBox x:Name="NumericTBMinute" Grid.Column="8" Format="00" MaxValue="59" MinValue="00"
+                                             Value="{Binding Minute}"/>
+                    <TextBlock Grid.Column="9" Text=":" Style="{DynamicResource RatioSignStyle}" />
+                    <ToggleButton Grid.Column="9" x:Name="ToggleButtonM" Tag="{x:Static controls:DateTimePart.Minute}"
+                                  Checked="ToggleButton_OnChecked" Content="m" />
+
+                    <controls:NumericTextBox x:Name="NumericTBSecond" Grid.Column="10" Format="00" MaxValue="59" MinValue="0"
+                                             Value="{Binding Second}" />
+                    <ToggleButton Grid.Column="11" x:Name="ToggleButtonS" Tag="{x:Static controls:DateTimePart.Second}"
+                                  Checked="ToggleButton_OnChecked" Content="s" />
+                
+                </Grid>
+                <StackPanel Grid.Column="1">
+                    <ToggleButton x:Name="DatePickerIcon" DockPanel.Dock="Right" VerticalAlignment="Stretch"
+                              Style="{DynamicResource DateTimePickerToggleButtonStyle}"
+                              Visibility="{Binding ShowOptionsButton, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+                    <Popup Placement="Bottom" VerticalOffset="2" StaysOpen="False"
+                           PlacementTarget="{Binding ElementName=DatePickerIcon}" 
+                           IsOpen="{Binding IsChecked, ElementName=DatePickerIcon}" >
+                        <Border BorderBrush="Gray" BorderThickness="1">
+                            <StackPanel Background="White">
+                                <Button x:Name="TodayButton" Content="Today" Click="TodayButton_OnClick" Style="{DynamicResource PopupButtonStyle}"/>
+                                <Button x:Name="NowButton" Content="Now" Click="NowButton_OnClick" Style="{DynamicResource PopupButtonStyle}"/>
+                                <Button x:Name="SelectDateButton" Content="Select date" Click="SelectDateButton_OnClick" Style="{DynamicResource PopupButtonStyle}"/>
+                            </StackPanel>
+                        </Border>
+                    </Popup>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</catel:UserControl>

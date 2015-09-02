@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FC8A5188-FF86-4D47-B72C-834D12B20406}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Orc.Controls.Examples</RootNamespace>
+    <AssemblyName>Orc.Controls.Examples</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>4afcd1b6</NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\output\debug\Orc.Controls.Examples\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\output\release\Orc.Controls.Examples\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Catel.Core">
+      <HintPath>..\..\lib\Catel.Core.4.2.0-unstable0291\lib\net40\Catel.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Catel.Extensions.Controls">
+      <HintPath>..\..\lib\Catel.Extensions.Controls.4.2.0-unstable0291\lib\net40\Catel.Extensions.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Catel.Fody.Attributes, Version=2.8.0.0, Culture=neutral, PublicKeyToken=1c8163524cbe02e6, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Catel.Fody.2.8.0\lib\portable-net4+sl4+wp7+win8+wpa81+MonoAndroid14+MonoTouch40\Catel.Fody.Attributes.dll</HintPath>
+    </Reference>
+    <Reference Include="Catel.MVVM">
+      <HintPath>..\..\lib\Catel.MVVM.4.2.0-unstable0291\lib\net40\Catel.MVVM.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.IO">
+      <HintPath>..\..\lib\Microsoft.Bcl.1.1.10\lib\net40\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Runtime">
+      <HintPath>..\..\lib\Microsoft.Bcl.1.1.10\lib\net40\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\..\lib\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\lib\Catel.MVVM.4.2.0-unstable0291\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Logging\ExampleLogListener.cs" />
+    <Compile Include="ModuleInitializer.cs" />
+    <Compile Include="ViewModels\AnimatedGifViewModel.cs" />
+    <Compile Include="ViewModels\BindableRichTextBoxViewModel.cs" />
+    <Compile Include="ViewModels\ColorLegendViewModel.cs" />
+    <Compile Include="ViewModels\ColorPickerViewModel.cs" />
+    <Compile Include="ViewModels\DatePickerViewModel.cs" />
+    <Compile Include="ViewModels\DirectoryPickerViewModel.cs" />
+    <Compile Include="ViewModels\ExpanderViewModel.cs" />
+    <Compile Include="ViewModels\OpenFilePickerViewModel.cs" />
+    <Compile Include="ViewModels\PinnableToolTipViewModel.cs" />
+    <Compile Include="Views\AnimatedGif.xaml.cs">
+      <DependentUpon>AnimatedGif.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ColorLegendView.xaml.cs">
+      <DependentUpon>ColorLegendView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ColorPicker.xaml.cs">
+      <DependentUpon>ColorPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Expander.xaml.cs">
+      <DependentUpon>Expander.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OpenFilePickerView.xaml.cs">
+      <DependentUpon>OpenFilePickerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\SaveFilePickerViewModel.cs" />
+    <Compile Include="Views\DatePicker.xaml.cs">
+      <DependentUpon>DatePicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\DateTimePickerViewModel.cs" />
+    <Compile Include="ViewModels\DropDownButtonViewModel.cs" />
+    <Compile Include="ViewModels\FilterBoxViewModel.cs" />
+    <Compile Include="ViewModels\LinkLabelViewModel.cs" />
+    <Compile Include="ViewModels\LogViewerViewModel.cs" />
+    <Compile Include="ViewModels\WatermarkViewModel.cs" />
+    <Compile Include="Views\DirectoryPickerView.xaml.cs">
+      <DependentUpon>DirectoryPickerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DropDownButtonView.xaml.cs">
+      <DependentUpon>DropDownButtonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LinkLabel.xaml.cs">
+      <DependentUpon>LinkLabel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LogViewer.xaml.cs">
+      <DependentUpon>LogViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BindableRichTextBox.xaml.cs">
+      <DependentUpon>BindableRichTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DateTimePicker.xaml.cs">
+      <DependentUpon>DateTimePicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\TimeSpanViewModel.cs" />
+    <Compile Include="Views\FilterBox.xaml.cs">
+      <DependentUpon>FilterBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PinnableToolTipView.xaml.cs">
+      <DependentUpon>PinnableToolTipView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SaveFilePickerView.xaml.cs">
+      <DependentUpon>SaveFilePickerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TimeSpan.xaml.cs">
+      <DependentUpon>TimeSpan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Watermark.xaml.cs">
+      <DependentUpon>Watermark.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\AnimatedGif.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ColorLegendView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Expander.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\OpenFilePickerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DatePicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DirectoryPickerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DropDownButtonView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LinkLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LogViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BindableRichTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DateTimePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FilterBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="..\SolutionAssemblyInfo.cs">
+      <Link>Properties\SolutionAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Views\PinnableToolTipView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SaveFilePickerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TimeSpan.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Watermark.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <None Include="packages.config" />
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orc.Controls\Orc.Controls.NET40\Orc.Controls.NET40.csproj">
+      <Project>{E6CE2111-3D7C-4759-A886-E44EC77CE3AA}</Project>
+      <Name>Orc.Controls.NET40</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FodyWeavers.xml">
+      <SubType>Designer</SubType>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\email.png" />
+    <Resource Include="Resources\Images\phone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Loading.gif" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\lib\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\lib\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\lib\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\lib\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+    <Error Condition="!Exists('..\..\lib\Fody.1.29.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\lib\Fody.1.29.0\build\Fody.targets'))" />
+  </Target>
+  <Import Project="..\..\lib\Fody.1.29.0\build\Fody.targets" Condition="Exists('..\..\lib\Fody.1.29.0\build\Fody.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

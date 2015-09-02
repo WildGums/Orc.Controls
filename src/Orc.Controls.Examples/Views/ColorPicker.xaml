@@ -1,0 +1,27 @@
+﻿<catel:UserControl x:Class="Orc.Controls.Examples.Views.ColorPicker"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:catel="http://catel.codeplex.com"
+                   xmlns:orc="http://www.wildgums.net.au/orc">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="250"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="5" >
+            <TextBlock Text="ColorPicker" VerticalAlignment="Center" Width="160" />
+
+            <orc:ColorPicker Width="50" x:Name="colorPicker" Color="Orange" HorizontalAlignment="Center" 
+                          VerticalAlignment="Center" PopupPlacement="Bottom"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.Background>
+                <SolidColorBrush Color="{Binding Color, ElementName=colorPicker}"/>
+            </Grid.Background>
+        </Grid>
+    </Grid>
+
+</catel:UserControl>

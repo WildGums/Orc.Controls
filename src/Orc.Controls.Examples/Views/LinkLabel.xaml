@@ -1,0 +1,16 @@
+﻿<catel:UserControl x:Class="Orc.Controls.Examples.Views.LinkLabel"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:catel="http://catel.codeplex.com"
+                   xmlns:orc="http://www.wildgums.net.au/orc"
+                   mc:Ignorable="d" >
+
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="5" >
+        <TextBlock Text="LinkLabel" VerticalAlignment="Center" Width="160" />
+        <orc:LinkLabel Content="Action" ToolTip="Action" Command="{Binding DefaultAction}"
+                       HoverForeground="Orange" Url="http://catelproject.com"
+                       ClickBehavior="OpenUrlInBrowser"/>
+    </StackPanel>
+</catel:UserControl>
