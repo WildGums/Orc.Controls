@@ -780,6 +780,7 @@ namespace Orc.Controls
                 }
 
                 _adornerLayer.Add(_adorner);
+                BringFluentRibbonBackstageToFront(_adornerLayer, adornedElement);
 
                 if (IsPinned && _adornerDragDrop == null)
                 {
@@ -887,6 +888,9 @@ namespace Orc.Controls
             var ad = new ControlAdorner(adornedElement) { Child = this, Focusable = false };
             KeyboardNavigation.SetTabNavigation(ad, KeyboardNavigationMode.None);
             layer.Add(ad);
+
+            BringFluentRibbonBackstageToFront(layer, adornedElement);
+
             _adorner = ad;
             _adornerLayer = layer;
 
@@ -896,6 +900,26 @@ namespace Orc.Controls
             }
 
             RegisterBeingInFront();
+        }
+
+        private static void BringFluentRibbonBackstageToFront(AdornerLayer layer, UIElement adornedElement)
+        {
+            // This is a little bit dirty way to keep the ribbon backstage the topmost.
+            // I couldn't find a better way to reorder elements within AdornerLayers
+            var adorners = layer.GetAdorners(adornedElement);
+            if (adorners != null)
+            {
+                const string FLUENT_RIBBON_TYPE_NAME = "Fluent.BackstageAdorner";
+                foreach (var adorner in adorners)
+                {
+                    if (adorner.GetType().FullName.Equals(FLUENT_RIBBON_TYPE_NAME))
+                    {
+                        layer.Remove(adorner);
+                        layer.Add(adorner);
+                        break;
+                    }
+                }
+            }
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
