@@ -16,7 +16,6 @@ namespace Orc.Controls
     using System.Windows;
     using System.Windows.Interop;
     using System.Windows.Media.Imaging;
-    using System.Windows.Resources;
     using System.Windows.Threading;
     using Catel.Logging;
 
