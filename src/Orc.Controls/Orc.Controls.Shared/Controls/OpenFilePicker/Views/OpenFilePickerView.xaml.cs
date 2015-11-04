@@ -69,7 +69,7 @@ namespace Orc.Controls
             set { SetValue(FilterProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for SelectedFile.  This enables animation, styling, binding, etc...
+        // Using a DependencyProperty as the backing store for Filter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FilterProperty = DependencyProperty.Register("Filter", typeof(string),
             typeof(OpenFilePickerView), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
