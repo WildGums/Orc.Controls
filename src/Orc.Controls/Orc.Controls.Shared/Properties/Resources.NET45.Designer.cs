@@ -70,6 +70,15 @@ namespace Orc.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Browse for folder.
+        /// </summary>
+        internal static string BrowseForFolder {
+            get {
+                return ResourceManager.GetString("BrowseForFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open folder.
         /// </summary>
         internal static string OpenFolder {

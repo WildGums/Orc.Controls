@@ -120,6 +120,9 @@
   <data name="BrowseForFile" xml:space="preserve">
     <value>Browse for file</value>
   </data>
+  <data name="BrowseForFolder" xml:space="preserve">
+    <value>Browse for folder</value>
+  </data>
   <data name="OpenFolder" xml:space="preserve">
     <value>Open folder</value>
   </data>

@@ -120,6 +120,9 @@
   <data name="BrowseForFile" xml:space="preserve">
     <value>Zoek bestand</value>
   </data>
+  <data name="BrowseForFolder" xml:space="preserve">
+    <value>Zoek map</value>
+  </data>
   <data name="OpenFolder" xml:space="preserve">
     <value>Open map</value>
   </data>
