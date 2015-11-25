@@ -1,6 +1,7 @@
 ﻿using Catel.IoC;
 using Catel.MVVM;
 using Catel.Services;
+using Catel.Services.Models;
 using Orc.Controls;
 using Orc.Controls.Services;
 using Orc.Controls.ViewModels;
@@ -24,5 +25,8 @@ public static class ModuleInitializer
         var viewModelLocator = serviceLocator.ResolveType<IViewModelLocator>();
         viewModelLocator.Register(typeof(DateTimePickerControl), typeof(DateTimePickerViewModel));
         viewModelLocator.Register(typeof(TimeSpanControl), typeof(TimeSpanViewModel));
+
+        var languageService = serviceLocator.ResolveType<ILanguageService>();
+        languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Controls", "Orc.Controls.Properties", "Resources"));
     }
 }

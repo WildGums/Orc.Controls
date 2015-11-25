@@ -3,7 +3,7 @@
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 				   xmlns:catel="http://catel.codeplex.com"
 				   xmlns:orc="http://www.wildgums.net.au/orc">
-    
+
     <!-- Resources -->
     <UserControl.Resources>
     </UserControl.Resources>
@@ -40,14 +40,14 @@
             <Button Height="25" Margin="5" Content="Add log records" Command="{Binding AddLogRecords}" />
             <Button Content="Clear Log" Click="ClearLog_OnClick" Margin="4 2 2 2" />
         </StackPanel>
-        
+
         <TextBlock Grid.Column="0" Grid.Row="2" Text="Log Viewer Filter" Margin="5" />
         <TextBox x:Name="FilterTextBox" Grid.Column="1" Grid.Row="2" Margin="5"/>
-        
+
         <TextBlock Grid.Column="0" Grid.Row="3" Text="Type Name Filter" Margin="5" />
         <ComboBox x:Name="OriginComboBox" Grid.Column="1" Grid.Row="3" SelectedIndex="0"
                   Margin="2" MinWidth="200" ItemsSource="{Binding ElementName=LogViewerControl, Path=ViewModel.TypeNames}"/>
-        
+
         <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
             <ToggleButton x:Name="ShowDebugToggleButton" Height="25" Width="60" Margin="4" 
                           VerticalAlignment="Top" Content="Debug" IsChecked="True" />
