@@ -43,6 +43,10 @@ namespace Orc.Controls
         #endregion
 
         #region Constructors
+        public AnimatedGif()
+        {
+            Focusable = false;
+        }
         #endregion
 
         #region Properties
