@@ -7,9 +7,11 @@
 
 namespace Orc.Controls.Logging
 {
+    using System;
+    using Catel;
     using Catel.Logging;
 
-    public class LogViewerLogListener : LogListenerBase
+    public class LogViewerLogListener : RollingInMemoryLogListener
     {
     }
 }

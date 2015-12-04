@@ -1,10 +1,12 @@
-﻿using Catel.IoC;
+﻿using System.Linq;
+using Catel.IoC;
+using Catel.Logging;
 using Catel.MVVM;
 using Catel.Services;
 using Catel.Services.Models;
 using Orc.Controls;
+using Orc.Controls.Logging;
 using Orc.Controls.Services;
-using Orc.Controls.ViewModels;
 
 /// <summary>
 /// Used by the ModuleInit. All code inside the Initialize method is ran as soon as the assembly is loaded.
@@ -17,6 +19,26 @@ public static class ModuleInitializer
     public static void Initialize()
     {
         var serviceLocator = ServiceLocator.Default;
+
+        var logListener = (from x in LogManager.GetListeners()
+                           where x is LogViewerLogListener
+                           select (LogViewerLogListener)x).FirstOrDefault();
+        if (logListener == null)
+        {
+            logListener = new LogViewerLogListener
+            {
+                IgnoreCatelLogging = true,
+                IsDebugEnabled = true,
+                IsInfoEnabled = true,
+                IsWarningEnabled = true,
+                IsErrorEnabled = true
+            };
+
+            LogManager.AddListener(logListener);
+        }
+
+        serviceLocator.RegisterInstance<LogViewerLogListener>(logListener);
+
         serviceLocator.RegisterType<ISuggestionListService, SuggestionListService>();
 
         // Override Catel.SelectDirectoryService with Orchestra.Services.SelectDirectoryService

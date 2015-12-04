@@ -11,13 +11,17 @@ namespace Orc.Controls.Examples
     using System.Threading;
     using System.Windows;
     using Catel.IoC;
+    using Catel.Logging;
     using Catel.Services;
+    using Logging;
 
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
         protected override void OnStartup(StartupEventArgs e)
         {
             var languageService = ServiceLocator.Default.ResolveType<ILanguageService>();
@@ -27,6 +31,12 @@ namespace Orc.Controls.Examples
             // we use .CurrentCulture for the sake of the demo
             languageService.PreferredCulture = CultureInfo.CurrentCulture;
             languageService.FallbackCulture = new CultureInfo("en-US");
+
+            // Some test logging, but important to load the assembly first
+            var externalTypeToForceAssemblyLoad = typeof (LogViewerLogListener);
+
+            Log.Info("Starting application");
+            Log.Info("This log message should show up as debug");
 
             base.OnStartup(e);
         }

@@ -8,15 +8,16 @@
 namespace Orc.Controls
 {
     using System;
+    using System.Collections.Generic;
     using Catel.Logging;
 
     public class LogEntryEventArgs : EventArgs
     {
-        public LogEntryEventArgs(LogEntry logEntry)
+        public LogEntryEventArgs(IEnumerable<LogEntry> logEntries)
         {
-            LogEntry = logEntry;
+            LogEntries = new List<LogEntry>(logEntries);
         }
 
-        public LogEntry LogEntry { get; private set; }
+        public List<LogEntry> LogEntries { get; private set; }
     }
 }

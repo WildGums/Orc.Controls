@@ -32,9 +32,11 @@ namespace Orc.Controls.ViewModels
 
         private readonly ITypeFactory _typeFactory;
         private readonly IDispatcherService _dispatcherService;
+        private readonly LogViewerLogListener _logViewerLogListener;
 
         private readonly List<LogEntry> _logEntries = new List<LogEntry>();
 
+        private bool _hasInitializedFirstLogListener;
         private bool _isClearingLog;
         private bool _isUpdatingTypes;
 
@@ -42,13 +44,15 @@ namespace Orc.Controls.ViewModels
         #endregion
 
         #region Constructors
-        public LogViewerViewModel(ITypeFactory typeFactory, IDispatcherService dispatcherService)
+        public LogViewerViewModel(ITypeFactory typeFactory, IDispatcherService dispatcherService, LogViewerLogListener logViewerLogListener)
         {
             Argument.IsNotNull(() => typeFactory);
             Argument.IsNotNull(() => dispatcherService);
+            Argument.IsNotNull(() => logViewerLogListener);
 
             _typeFactory = typeFactory;
             _dispatcherService = dispatcherService;
+            _logViewerLogListener = logViewerLogListener;
 
             LogListenerType = typeof(LogViewerLogListener);
             ShowDebug = true;
@@ -91,7 +95,7 @@ namespace Orc.Controls.ViewModels
 
                         using (typeNames.SuspendChangeNotifications())
                         {
-                            typeNames.ReplaceRange(new[] {defaultComboBoxItem});
+                            typeNames.ReplaceRange(new[] { defaultComboBoxItem });
                         }
 
                         _isUpdatingTypes = false;
@@ -173,7 +177,12 @@ namespace Orc.Controls.ViewModels
         {
             UnsubscribeLogListener();
 
-            ClearEntries();
+            if (_hasInitializedFirstLogListener)
+            {
+                ClearEntries();
+            }
+
+            _hasInitializedFirstLogListener = true;
 
             SubscribeLogListener();
         }
@@ -191,13 +200,25 @@ namespace Orc.Controls.ViewModels
                 return;
             }
 
-            _logListener = _typeFactory.CreateInstance(logListenerType) as ILogListener;
+            if (logListenerType == typeof(LogViewerLogListener))
+            {
+                _logListener = _logViewerLogListener;
+
+                AddLogEntries(_logViewerLogListener.GetLogEntries(), true);
+            }
+            else
+            {
+                _logListener = _typeFactory.CreateInstance(logListenerType) as ILogListener;
+                if (_logListener != null)
+                {
+                    LogManager.AddListener(_logListener);
+                }
+            }
+
             if (_logListener != null)
             {
                 _logListener.IgnoreCatelLogging = IgnoreCatelLogging;
                 _logListener.LogMessage += OnLogMessage;
-
-                LogManager.AddListener(_logListener);
             }
         }
 
@@ -208,9 +229,12 @@ namespace Orc.Controls.ViewModels
                 return;
             }
 
-            LogManager.RemoveListener(_logListener);
-            _logListener.LogMessage -= OnLogMessage;
+            if (!(_logListener is LogViewerLogListener))
+            {
+                LogManager.RemoveListener(_logListener);
+            }
 
+            _logListener.LogMessage -= OnLogMessage;
             _logListener = null;
         }
 
@@ -327,45 +351,60 @@ namespace Orc.Controls.ViewModels
             return false;
         }
 
-        private void OnLogMessage(object sender, LogMessageEventArgs e)
+        private void AddLogEntries(IEnumerable<LogEntry> entries, bool bypassClearingLog = false)
         {
-            if (_isClearingLog)
+            if (!bypassClearingLog && _isClearingLog)
             {
                 return;
             }
 
-            var logEntry = new LogEntry(e);
-
-            logEntry.Data["ThreadId"] = ThreadHelper.GetCurrentThreadId();
-
             lock (_lock)
             {
-                _logEntries.Add(logEntry);
+                LeanAndMeanModel = true;
 
-                if (!_isUpdatingTypes)
+                foreach (var entry in entries)
                 {
-                    var typeNames = TypeNames;
-                    if (!typeNames.Contains(logEntry.Log.TargetType.Name))
+                    _logEntries.Add(entry);
+
+                    if (!_isUpdatingTypes)
                     {
-                        _isUpdatingTypes = true;
-
-                        try
+                        var typeNames = TypeNames;
+                        if (!typeNames.Contains(entry.Log.TargetType.Name))
                         {
-                            typeNames.Add(logEntry.Log.TargetType.Name);
-                        }
-                        catch (System.Exception)
-                        {
-                            // we don't have time for this, let it go...
-                        }
+                            _isUpdatingTypes = true;
 
-                        _isUpdatingTypes = false;
+                            try
+                            {
+                                typeNames.Add(entry.Log.TargetType.Name);
+                            }
+                            catch (Exception)
+                            {
+                                // we don't have time for this, let it go...
+                            }
+
+                            _isUpdatingTypes = false;
+                        }
                     }
+
+                    UpdateEntriesCount(entry);
                 }
+
+                LeanAndMeanModel = false;
+                RaisePropertyChanged(string.Empty);
             }
 
-            UpdateEntriesCount(logEntry);
+            LogMessage.SafeInvoke(this, new LogEntryEventArgs(entries));
+        }
 
-            LogMessage.SafeInvoke(this, new LogEntryEventArgs(logEntry));
+        private void OnLogMessage(object sender, LogMessageEventArgs e)
+        {
+            var logEntry = new LogEntry(e);
+            if (!logEntry.Data.ContainsKey("ThreadId"))
+            {
+                logEntry.Data["ThreadId"] = ThreadHelper.GetCurrentThreadId();
+            }
+
+            AddLogEntries(new[] { logEntry });
         }
         #endregion
     }
