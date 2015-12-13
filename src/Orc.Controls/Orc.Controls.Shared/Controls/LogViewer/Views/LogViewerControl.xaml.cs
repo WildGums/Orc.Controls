@@ -239,50 +239,53 @@ namespace Orc.Controls
             {
                 var vm = (LogViewerViewModel)sender;
 
-                var logEntry = e.LogEntry;
-                if (vm.IsValidLogEntry(logEntry))
+                var logEntries = e.LogEntries;
+                foreach (var logEntry in logEntries)
                 {
-                    var document = LogRecordsRichTextBox.Document;
-                    var lastLogMessage = (DateTime)document.Tag;
+                    if (vm.IsValidLogEntry(logEntry))
+                    {
+                        var document = LogRecordsRichTextBox.Document;
+                        var lastLogMessage = (DateTime) document.Tag;
 
-                    if (logEntry.Time < lastLogMessage)
-                    {
-                        // Always ignore, old message
-                        return;
-                    }
-                    else if (logEntry.Time == lastLogMessage)
-                    {
-                        // This looks like hurting for performance, but there aren't many messages on exactly the same time
-                        for (int i = document.Blocks.Count - 1; i >= 0; i--)
+                        if (logEntry.Time < lastLogMessage)
                         {
-                            var existingParagraph = document.Blocks.ElementAt(i) as RichTextBoxParagraph;
-                            if (existingParagraph != null)
+                            // Always ignore, old message
+                            return;
+                        }
+                        else if (logEntry.Time == lastLogMessage)
+                        {
+                            // This looks like hurting for performance, but there aren't many messages on exactly the same time
+                            for (int i = document.Blocks.Count - 1; i >= 0; i--)
                             {
-                                var paragraphLogEntry = existingParagraph.LogEntry;
-                                if (paragraphLogEntry.Time < logEntry.Time)
+                                var existingParagraph = document.Blocks.ElementAt(i) as RichTextBoxParagraph;
+                                if (existingParagraph != null)
                                 {
-                                    // We hit an older one, the message is not yet added
-                                    break;
-                                }
+                                    var paragraphLogEntry = existingParagraph.LogEntry;
+                                    if (paragraphLogEntry.Time < logEntry.Time)
+                                    {
+                                        // We hit an older one, the message is not yet added
+                                        break;
+                                    }
 
-                                if (ReferenceEquals(paragraphLogEntry, logEntry))
-                                {
-                                    // Already added, ignore
-                                    return;
+                                    if (ReferenceEquals(paragraphLogEntry, logEntry))
+                                    {
+                                        // Already added, ignore
+                                        return;
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    var paragraph = CreateLogEntryParagraph(logEntry);
-                    if (paragraph != null)
-                    {
-                        document.Blocks.Add(paragraph);
-                        document.Tag = logEntry.Time;
-
-                        ScrollToEnd();
+                        var paragraph = CreateLogEntryParagraph(logEntry);
+                        if (paragraph != null)
+                        {
+                            document.Blocks.Add(paragraph);
+                            document.Tag = logEntry.Time;
+                        }
                     }
                 }
+
+                ScrollToEnd();
             }));
         }
 

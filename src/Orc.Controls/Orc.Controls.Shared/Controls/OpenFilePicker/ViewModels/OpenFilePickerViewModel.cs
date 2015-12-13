@@ -38,6 +38,8 @@ namespace Orc.Controls
 
         public string LabelText { get; set; }
 
+        public string Filter { get; set; }
+
         public string SelectedFile { get; set; }
         #endregion
 
@@ -90,6 +92,11 @@ namespace Orc.Controls
             if (!string.IsNullOrEmpty(SelectedFile))
             {
                 _selectFileService.InitialDirectory = Path.GetFullPath(SelectedFile);
+            }
+
+            if (!string.IsNullOrEmpty(Filter))
+            {
+                _selectFileService.Filter = Filter;
             }
 
             if (_selectFileService.DetermineFile())

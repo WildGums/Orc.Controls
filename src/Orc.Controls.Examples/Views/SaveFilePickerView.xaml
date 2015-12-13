@@ -16,7 +16,8 @@
 
     <!-- Content -->
     <StackPanel>
-        <orc:SaveFilePickerView LabelText="SaveFilePicker control" LabelWidth="150" />
+        <orc:SaveFilePickerView LabelText="SaveFilePicker control" LabelWidth="150"
+                                Filter="Image files (*.bmp, *.jpg)|*.bmp;*.jpg|All files (*.*)|*.*"/>
     </StackPanel>
 </catel:UserControl>
 

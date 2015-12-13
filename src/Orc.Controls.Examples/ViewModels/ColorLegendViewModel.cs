@@ -54,7 +54,8 @@ namespace Orc.Controls.Examples.ViewModels
                     Color = color,
                     Description = color.ToString(),
                     IsVisible = true,
-                    Id = color.ToString()
+                    Id = color.ToString(),
+                    AdditionalData = "(1)"
                 });
             }
 

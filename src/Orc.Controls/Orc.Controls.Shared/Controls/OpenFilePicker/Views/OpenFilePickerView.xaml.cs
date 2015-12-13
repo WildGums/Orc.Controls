@@ -61,6 +61,17 @@ namespace Orc.Controls
         // Using a DependencyProperty as the backing store for SelectedFile.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedFileProperty = DependencyProperty.Register("SelectedFile", typeof (string),
             typeof (OpenFilePickerView), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public string Filter
+        {
+            get { return (string)GetValue(FilterProperty); }
+            set { SetValue(FilterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Filter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty FilterProperty = DependencyProperty.Register("Filter", typeof(string),
+            typeof(OpenFilePickerView), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
     }
 }

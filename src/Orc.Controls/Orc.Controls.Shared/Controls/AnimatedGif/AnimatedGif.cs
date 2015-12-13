@@ -16,8 +16,8 @@ namespace Orc.Controls
     using System.Windows;
     using System.Windows.Interop;
     using System.Windows.Media.Imaging;
-    using System.Windows.Resources;
     using System.Windows.Threading;
+    using Catel.Logging;
 
     /// <summary>
     /// User control supporting animated gif.
@@ -25,6 +25,8 @@ namespace Orc.Controls
     public class AnimatedGif : System.Windows.Controls.Image
     {
         #region Fields
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
         private Bitmap _bitmap;
         #endregion
 
@@ -41,6 +43,10 @@ namespace Orc.Controls
         #endregion
 
         #region Constructors
+        public AnimatedGif()
+        {
+            Focusable = false;
+        }
         #endregion
 
         #region Properties
@@ -48,7 +54,7 @@ namespace Orc.Controls
         /// Gets or sets a value indicating whether this instance is animating.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this instance is animating; otherwise, <c>false</c>.
+        /// <c>true</c> if this instance is animating; otherwise, <c>false</c>.
         /// </value>
         private bool IsAnimating { get; set; }
 
@@ -74,7 +80,7 @@ namespace Orc.Controls
         /// DependencyProperty definition as the backing store for GifSource.
         /// </summary>
         public static readonly DependencyProperty GifSourceProperty = DependencyProperty.Register("GifSource", typeof (string),
-            typeof (AnimatedGif), new UIPropertyMetadata(string.Empty, GifSource_Changed));
+            typeof (AnimatedGif), new UIPropertyMetadata(string.Empty, OnGifSourceChanged));
         #endregion
 
         #region Methods
@@ -83,10 +89,10 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The object that contains the dependency property.</param>
         /// <param name="e">The event data.</param>
-        [DebuggerStepperBoundary()]
-        private static void GifSource_Changed(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        [DebuggerStepperBoundary]
+        private static void OnGifSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            AnimatedGif typedSender = sender as AnimatedGif;
+            var typedSender = sender as AnimatedGif;
             if (typedSender != null)
             {
                 typedSender.SetImageGifSource();
@@ -136,14 +142,17 @@ namespace Orc.Controls
                         _bitmap = GetBitmapResourceFromAssembly(assemblyToSearch);
                         if (_bitmap == null)
                         {
-                            throw new FileNotFoundException("Gif source was not found", GifSource);
+                            throw Log.ErrorAndCreateException<FileNotFoundException>("Gif source '{0}' was not found", GifSource);
                         }
                     }
                 }
             }
 
-            // Start animating
-            ImageAnimator.Animate(_bitmap, OnFrameChanged);
+            if (_bitmap != null)
+            {
+                // Start animating
+                ImageAnimator.Animate(_bitmap, OnFrameChanged);
+            }
         }
 
         /// <summary>
@@ -151,14 +160,14 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="assemblyToSearch">The assembly to search.</param>
         /// <returns><see cref="Bitmap"/> or null if resource is not found.</returns>
-        [DebuggerStepperBoundary()]
+        [DebuggerStepperBoundary]
         private Bitmap GetBitmapResourceFromAssembly(Assembly assemblyToSearch)
         {
             // Loop through all resources
-            if (null != assemblyToSearch.FullName)
+            if (assemblyToSearch.FullName != null)
             {
                 // Get stream resource info
-                StreamResourceInfo streamResourceInfo = Application.GetResourceStream(new Uri(GifSource, UriKind.RelativeOrAbsolute));
+                var streamResourceInfo = Application.GetResourceStream(new Uri(GifSource, UriKind.RelativeOrAbsolute));
                 if (streamResourceInfo != null)
                 {
                     return (Bitmap) Image.FromStream(streamResourceInfo.Stream);
@@ -173,7 +182,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        [DebuggerStepperBoundary()]
+        [DebuggerStepperBoundary]
         private void OnFrameChanged(object sender, EventArgs e)
         {
             // Dispatch the frame changed
@@ -183,7 +192,7 @@ namespace Orc.Controls
         /// <summary>
         /// Called when a frame changed in the main thread.
         /// </summary>
-        [DebuggerStepperBoundary()]
+        [DebuggerStepperBoundary]
         private void OnFrameChangedInMainThread()
         {
             // Update the frames
@@ -201,14 +210,14 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="gdiBitmap">The GDI bitmap.</param>
         /// <returns></returns>
-        [DebuggerStepperBoundary()]
+        [DebuggerStepperBoundary]
         private static BitmapSource GetBitmapSource(Bitmap gdiBitmap)
         {
             // Get the bitmap
-            IntPtr hBitmap = gdiBitmap.GetHbitmap();
+            var hBitmap = gdiBitmap.GetHbitmap();
 
             // Create the bitmap
-            BitmapSource bitmapSource = Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            var bitmapSource = Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 
             // Delete bitmap pointer
             DeleteObject(hBitmap);
