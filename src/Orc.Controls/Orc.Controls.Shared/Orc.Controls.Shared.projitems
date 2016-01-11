@@ -25,6 +25,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\PredefinedColor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\PredefinedColorItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\WrapPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\CulturePicker\ViewModels\CulturePickerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\CulturePicker\Views\CulturePicker.xaml.cs">
+      <DependentUpon>CulturePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DatePicker\ViewModels\DatePickerViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DatePicker\Views\DatePickerControl.xaml.cs">
       <DependentUpon>DatePickerControl.xaml</DependentUpon>
@@ -118,6 +122,10 @@
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\Themes\ColorPicker.xaml">
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\CulturePicker\Views\CulturePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\DatePicker\Themes\DatePickerControl.generic.xaml">
       <SubType>Designer</SubType>
