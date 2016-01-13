@@ -20,7 +20,7 @@ namespace Orc.Controls
 
         public CulturePicker()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #region Dependency properties

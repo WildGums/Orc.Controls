@@ -10,9 +10,7 @@ namespace Orc.Controls
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Threading.Tasks;
     using Catel.MVVM;
-    using Catel.Threading;
 
     internal class CulturePickerViewModel : ViewModelBase
     {
@@ -20,11 +18,13 @@ namespace Orc.Controls
 
         public CulturePickerViewModel()
         {
-            AvailableCultures = new List<CultureInfo>();
+            AvailableCultures = CultureInfo.GetCultures(CultureTypes.AllCultures)
+                .Where(culture => !string.IsNullOrEmpty(culture.Name) && !string.IsNullOrEmpty(culture.Parent.Name))
+                .OrderBy(culture => culture.DisplayName).ToList();
         }
 
         public CultureInfo SelectedCulture { get; set; }
-        public List<CultureInfo> AvailableCultures { get; set; }
+        public List<CultureInfo> AvailableCultures { get; private set; }
         public int SelectedIndex { get; set; }
 
         private void OnSelectedCultureChanged()
@@ -47,15 +47,6 @@ namespace Orc.Controls
             }
 
             SelectedCulture = AvailableCultures[selectedIndex];
-        }
-
-        protected override Task InitializeAsync()
-        {
-            AvailableCultures = CultureInfo.GetCultures(CultureTypes.AllCultures)
-                .Where(culture => !string.IsNullOrEmpty(culture.Name) && !string.IsNullOrEmpty(culture.Parent.Name))
-                .OrderBy(culture => culture.DisplayName).ToList();
-
-            return TaskHelper.Completed;
         }
 
         private void SetSelectedIndex(int index)
