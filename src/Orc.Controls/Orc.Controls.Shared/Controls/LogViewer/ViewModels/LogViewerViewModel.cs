@@ -9,6 +9,7 @@ namespace Orc.Controls.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Threading.Tasks;
     using Catel;
@@ -34,7 +35,7 @@ namespace Orc.Controls.ViewModels
         private readonly IDispatcherService _dispatcherService;
         private readonly LogViewerLogListener _logViewerLogListener;
 
-        private readonly List<LogEntry> _logEntries = new List<LogEntry>();
+        private readonly FastObservableCollection<LogEntry> _logEntries = new FastObservableCollection<LogEntry>();
 
         private bool _hasInitializedFirstLogListener;
         private bool _isClearingLog;
@@ -86,19 +87,22 @@ namespace Orc.Controls.ViewModels
             {
                 lock (_lock)
                 {
-                    _logEntries.Clear();
-
-                    var typeNames = TypeNames;
-                    if (typeNames != null)
+                    using (_logEntries.SuspendChangeNotifications())
                     {
-                        _isUpdatingTypes = true;
+                        _logEntries.Clear();
 
-                        using (typeNames.SuspendChangeNotifications())
+                        var typeNames = TypeNames;
+                        if (typeNames != null)
                         {
-                            typeNames.ReplaceRange(new[] { defaultComboBoxItem });
-                        }
+                            _isUpdatingTypes = true;
 
-                        _isUpdatingTypes = false;
+                            using (typeNames.SuspendChangeNotifications())
+                            {
+                                typeNames.ReplaceRange(new[] { defaultComboBoxItem });
+                            }
+
+                            _isUpdatingTypes = false;
+                        }
                     }
                 }
 
@@ -117,14 +121,15 @@ namespace Orc.Controls.ViewModels
         }
 
         #region Properties
-        public List<LogEntry> LogEntries
+        public ObservableCollection<LogEntry> LogEntries
         {
             get
             {
                 lock (_lock)
                 {
-                    // Return a copy, don't mess with our internal list
-                    return _logEntries.ToList();
+                    // We should return a copy, but for performance we return the original collection. Another
+                    // solution would be to hold 2 collections in memory, but that goes bit too far
+                    return _logEntries;
                 }
             }
         }
@@ -362,31 +367,34 @@ namespace Orc.Controls.ViewModels
             {
                 LeanAndMeanModel = true;
 
-                foreach (var entry in entries)
+                using (_logEntries.SuspendChangeNotifications())
                 {
-                    _logEntries.Add(entry);
-
-                    if (!_isUpdatingTypes)
+                    foreach (var entry in entries)
                     {
-                        var typeNames = TypeNames;
-                        if (!typeNames.Contains(entry.Log.TargetType.Name))
+                        _logEntries.Add(entry);
+
+                        if (!_isUpdatingTypes)
                         {
-                            _isUpdatingTypes = true;
-
-                            try
+                            var typeNames = TypeNames;
+                            if (!typeNames.Contains(entry.Log.TargetType.Name))
                             {
-                                typeNames.Add(entry.Log.TargetType.Name);
-                            }
-                            catch (Exception)
-                            {
-                                // we don't have time for this, let it go...
-                            }
+                                _isUpdatingTypes = true;
 
-                            _isUpdatingTypes = false;
+                                try
+                                {
+                                    typeNames.Add(entry.Log.TargetType.Name);
+                                }
+                                catch (Exception)
+                                {
+                                    // we don't have time for this, let it go...
+                                }
+
+                                _isUpdatingTypes = false;
+                            }
                         }
-                    }
 
-                    UpdateEntriesCount(entry);
+                        UpdateEntriesCount(entry);
+                    }
                 }
 
                 LeanAndMeanModel = false;

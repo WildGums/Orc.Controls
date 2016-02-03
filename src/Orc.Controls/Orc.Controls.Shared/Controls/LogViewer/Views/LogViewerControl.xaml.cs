@@ -252,7 +252,8 @@ namespace Orc.Controls
                             // Always ignore, old message
                             return;
                         }
-                        else if (logEntry.Time == lastLogMessage)
+
+                        if (logEntry.Time == lastLogMessage)
                         {
                             // This looks like hurting for performance, but there aren't many messages on exactly the same time
                             for (int i = document.Blocks.Count - 1; i >= 0; i--)
@@ -308,7 +309,7 @@ namespace Orc.Controls
                     };
 
                     var logEntries = vm.GetFilteredLogEntries();
-                    foreach (LogEntry logEntry in logEntries)
+                    foreach (var logEntry in logEntries)
                     {
                         var paragraph = CreateLogEntryParagraph(logEntry);
                         if (paragraph != null)
