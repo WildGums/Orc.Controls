@@ -4,8 +4,8 @@
     <id>Orc.Controls</id>
     <version>[VERSION]</version>
     <title>Orc.Controls</title>
-    <authors>OrchestraDevs</authors>
-    <owners>OrchestraDevs</owners>
+    <authors>WildGums</authors>
+    <owners>WildGums</owners>
 
 	<description>
         Timespan and DateTime controls.
@@ -16,7 +16,7 @@
     <tags>csv orcomp orc</tags>
 
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <copyright>Copyright Wild Gums 2010 - 2015</copyright>
+    <copyright>Copyright WildGums 2010 - 2015</copyright>
 
 	<language>en-US</language>
 	<projectUrl>https://github.com/WildGums/Orc.Controls</projectUrl>
