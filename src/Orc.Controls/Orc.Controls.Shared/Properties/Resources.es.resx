@@ -117,13 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BrowseForFile" xml:space="preserve">
+  <data name="Controls_BrowseForFile" xml:space="preserve">
     <value>Browse for file</value>
   </data>
-  <data name="BrowseForFolder" xml:space="preserve">
+  <data name="Controls_BrowseForFolder" xml:space="preserve">
     <value>Browse for folder</value>
   </data>
-  <data name="OpenFolder" xml:space="preserve">
+  <data name="Controls_OpenFolder" xml:space="preserve">
     <value>Open folder</value>
   </data>
 </root>

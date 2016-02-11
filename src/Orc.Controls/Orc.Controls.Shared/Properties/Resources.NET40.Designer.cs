@@ -63,27 +63,27 @@ namespace Orc.Controls.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Browse for file.
         /// </summary>
-        internal static string BrowseForFile {
+        internal static string Controls_BrowseForFile {
             get {
-                return ResourceManager.GetString("BrowseForFile", resourceCulture);
+                return ResourceManager.GetString("Controls_BrowseForFile", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Browse for folder.
         /// </summary>
-        internal static string BrowseForFolder {
+        internal static string Controls_BrowseForFolder {
             get {
-                return ResourceManager.GetString("BrowseForFolder", resourceCulture);
+                return ResourceManager.GetString("Controls_BrowseForFolder", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Open folder.
         /// </summary>
-        internal static string OpenFolder {
+        internal static string Controls_OpenFolder {
             get {
-                return ResourceManager.GetString("OpenFolder", resourceCulture);
+                return ResourceManager.GetString("Controls_OpenFolder", resourceCulture);
             }
         }
     }
