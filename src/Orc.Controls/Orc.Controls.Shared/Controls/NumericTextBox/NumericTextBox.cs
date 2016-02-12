@@ -169,7 +169,7 @@ namespace Orc.Controls
                 e.Handled = true;
             }
 
-            if (e.Key == Key.Down && !IsReadOnly)
+            if (e.Key == Key.Down && AllTextSelected && !IsReadOnly)
             {
                 OnUpDown(-1);
                 e.Handled = true;
