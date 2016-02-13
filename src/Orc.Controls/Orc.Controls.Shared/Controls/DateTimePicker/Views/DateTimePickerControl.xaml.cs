@@ -9,15 +9,18 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Media;
     using Catel.MVVM.Views;
+    using Calendar = System.Windows.Controls.Calendar;
 
     /// <summary>
-    /// Interaction logic for TimeSpanControl.xaml
+    /// Interaction logic for DateTimePickerControl.xaml
     /// </summary>
     public partial class DateTimePickerControl
     {
@@ -29,7 +32,7 @@ namespace Orc.Controls
         #region Constructors
         static DateTimePickerControl()
         {
-            typeof (DateTimePickerControl).AutoDetectViewPropertiesToSubscribe();
+            typeof(DateTimePickerControl).AutoDetectViewPropertiesToSubscribe();
         }
 
         public DateTimePickerControl()
@@ -46,17 +49,39 @@ namespace Orc.Controls
                 NumericTBSecond,
             };
 
-            NumericTBDay.RightBoundReached += NumericTextBoxOnRightBoundReached;
-            NumericTBMonth.RightBoundReached += NumericTextBoxOnRightBoundReached;
-            NumericTBYear.RightBoundReached += NumericTextBoxOnRightBoundReached;
-            NumericTBHour.RightBoundReached += NumericTextBoxOnRightBoundReached;
-            NumericTBMinute.RightBoundReached += NumericTextBoxOnRightBoundReached;
+            SubscribeNumericTextBoxes();
 
-            NumericTBYear.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
-            NumericTBMonth.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
-            NumericTBHour.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
-            NumericTBMinute.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
-            NumericTBSecond.LeftBoundReached += NumericTextBoxOnLeftBoundReached;
+            ApplyFormat();
+        }
+
+        private void SubscribeNumericTextBoxes()
+        {
+            _numericTextBoxes[0].RightBoundReached += NumericTextBoxOnRightBoundReached;
+            _numericTextBoxes[1].RightBoundReached += NumericTextBoxOnRightBoundReached;
+            _numericTextBoxes[2].RightBoundReached += NumericTextBoxOnRightBoundReached;
+            _numericTextBoxes[3].RightBoundReached += NumericTextBoxOnRightBoundReached;
+            _numericTextBoxes[4].RightBoundReached += NumericTextBoxOnRightBoundReached;
+
+            _numericTextBoxes[5].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
+            _numericTextBoxes[4].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
+            _numericTextBoxes[3].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
+            _numericTextBoxes[2].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
+            _numericTextBoxes[1].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
+        }
+
+        private void UnsubscribeNumericTextBoxes()
+        {
+            _numericTextBoxes[0].RightBoundReached -= NumericTextBoxOnRightBoundReached;
+            _numericTextBoxes[1].RightBoundReached -= NumericTextBoxOnRightBoundReached;
+            _numericTextBoxes[2].RightBoundReached -= NumericTextBoxOnRightBoundReached;
+            _numericTextBoxes[3].RightBoundReached -= NumericTextBoxOnRightBoundReached;
+            _numericTextBoxes[4].RightBoundReached -= NumericTextBoxOnRightBoundReached;
+
+            _numericTextBoxes[5].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
+            _numericTextBoxes[4].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
+            _numericTextBoxes[3].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
+            _numericTextBoxes[2].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
+            _numericTextBoxes[1].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
         }
         #endregion
 
@@ -64,7 +89,7 @@ namespace Orc.Controls
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public DateTime Value
         {
-            get { return (DateTime) GetValue(ValueProperty); }
+            get { return (DateTime)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
 
@@ -78,7 +103,7 @@ namespace Orc.Controls
             set { SetValue(ShowOptionsButtonProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register("ShowOptionsButton", typeof(bool), 
+        public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register("ShowOptionsButton", typeof(bool),
             typeof(DateTimePickerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public Brush AccentColorBrush
@@ -98,6 +123,15 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register("IsReadOnly", typeof(bool),
             typeof(DateTimePickerControl), new PropertyMetadata(false));
+
+        public string Format
+        {
+            get { return (string)GetValue(FormatProperty); }
+            set { SetValue(FormatProperty, value); }
+        }
+
+        public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof(string),
+            typeof(DateTimePickerControl), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern, (sender, e) => ((DateTimePickerControl)sender).OnFormatChanged()));
 
         #endregion
 
@@ -122,7 +156,7 @@ namespace Orc.Controls
 
         private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
         {
-            _activeDateTimePart = (DateTimePart) ((ToggleButton) sender).Tag;
+            _activeDateTimePart = (DateTimePart)((ToggleButton)sender).Tag;
 
             var activeNumericTextBox = (NumericTextBox)FindName(_activeDateTimePart.GetDateTimePartName());
             var activeToggleButton = (ToggleButton)FindName(_activeDateTimePart.GetDateTimePartToggleButtonName());
@@ -130,7 +164,7 @@ namespace Orc.Controls
             var dateTimePartHelper = new DateTimePartHelper(Value, _activeDateTimePart, activeNumericTextBox, activeToggleButton);
             dateTimePartHelper.CreatePopup();
         }
-  
+
         private void NumericTBMonth_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             var daysInMonth = DateTime.DaysInMonth(Value.Year, Value.Month);
@@ -141,11 +175,11 @@ namespace Orc.Controls
         {
             var calendar = new Calendar()
             {
-                Margin = new Thickness(0, -3, 0, -3), 
-                DisplayDate = Value, 
+                Margin = new Thickness(0, -3, 0, -3),
+                DisplayDate = Value,
                 SelectedDate = Value
             };
-            
+
             calendar.PreviewKeyDown += CalendarOnPreviewKeyDown;
             calendar.SelectedDatesChanged += CalendarOnSelectedDatesChanged;
 
@@ -160,7 +194,7 @@ namespace Orc.Controls
                 UpdateDate(calendar.SelectedDate.Value);
             }
             ((Popup)calendar.Parent).IsOpen = false;
-            
+
         }
 
         private void CalendarOnPreviewKeyDown(object sender, KeyEventArgs e)
@@ -245,6 +279,133 @@ namespace Orc.Controls
             base.OnApplyTemplate();
 
             AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
+        }
+
+        private void OnFormatChanged()
+        {
+            ApplyFormat();
+        }
+
+        private void ApplyFormat()
+        {
+            var dayFormat = Format.Count(x => x == 'd');
+            var monthFormat = Format.Count(x => x == 'M');
+            var yearFormat = Format.Count(x => x == 'y');
+            var hour12Format = Format.Count(x => x == 'h');
+            var hour24Format = Format.Count(x => x == 'H');
+            if(hour12Format > 0 && hour24Format > 0)
+            {
+                throw new FormatException("Format string is incorrect. Hour field must be in 12-hour or 24-hour format, but no both");
+            }
+            var hourFormat = Math.Max(hour12Format, hour24Format);
+            var minuteFormat = Format.Count(x => x == 'm');
+            var secondFormat = Format.Count(x => x == 's');
+
+            int? dayPosition = null;
+            int? monthPosition = null;
+            int? yearPosition = null;
+            int? hourPosition = null;
+            int? minutePosition = null;
+            int? secondPosition = null;
+
+            string separator1 = string.Empty;
+            string separator2 = string.Empty;
+            string separator3 = string.Empty;
+            string separator4 = string.Empty;
+            string separator5 = string.Empty;
+            string separator6 = string.Empty;
+
+            var current = 0;
+            foreach (var c in Format)
+            {
+                if (c == 'd' && dayPosition == null)
+                {
+                    dayPosition = current++;
+                }
+                else if (c == 'M' && monthPosition == null)
+                {
+                    monthPosition = current++;
+                }
+                else if (c == 'y' && yearPosition == null)
+                {
+                    yearPosition = current++;
+                }
+                else if ((c == 'H' || c == 'h') && hourPosition == null)
+                {
+                    hourPosition = current++;
+                }
+                else if (c == 'm' && minutePosition == null)
+                {
+                    minutePosition = current++;
+                }
+                else if (c == 's' && secondPosition == null)
+                {
+                    secondPosition = current++;
+                }
+                else if (!(c == 'y' || c == 'M' || c == 'd' || c == 'H' || c == 'h' || c == 'm' || c == 's'))
+                {
+                    if (current == 1) separator1 += c;
+                    else if (current == 2) separator2 += c;
+                    else if (current == 3) separator3 += c;
+                    else if (current == 4) separator4 += c;
+                    else if (current == 5) separator5 += c;
+                    else if (current == 6) separator6 += c;
+                }
+            }
+
+            if (dayPosition == null || monthPosition == null || yearPosition == null || hourPosition == null || minutePosition == null || secondPosition == null)
+            {
+                throw new FormatException("Format string is incorrect. Day, month, year, hour, minute and second fields are mandatory");
+            }
+
+            UnsubscribeNumericTextBoxes();
+
+            Grid.SetColumn(NumericTBDay, GetPosition(dayPosition.Value));
+            Grid.SetColumn(NumericTBMonth, GetPosition(monthPosition.Value));
+            Grid.SetColumn(NumericTBYear, GetPosition(yearPosition.Value));
+            Grid.SetColumn(NumericTBHour, GetPosition(hourPosition.Value));
+            Grid.SetColumn(NumericTBMinute, GetPosition(minutePosition.Value));
+            Grid.SetColumn(NumericTBSecond, GetPosition(secondPosition.Value));
+
+            Grid.SetColumn(ToggleButtonD, GetPosition(dayPosition.Value) + 1);
+            Grid.SetColumn(ToggleButtonMo, GetPosition(monthPosition.Value) + 1);
+            Grid.SetColumn(ToggleButtonY, GetPosition(yearPosition.Value) + 1);
+            Grid.SetColumn(ToggleButtonH, GetPosition(hourPosition.Value) + 1);
+            Grid.SetColumn(ToggleButtonM, GetPosition(minutePosition.Value) + 1);
+            Grid.SetColumn(ToggleButtonS, GetPosition(secondPosition.Value) + 1);
+
+            _numericTextBoxes[dayPosition.Value] = NumericTBDay;
+            _numericTextBoxes[monthPosition.Value] = NumericTBMonth;
+            _numericTextBoxes[yearPosition.Value] = NumericTBYear;
+            _numericTextBoxes[hourPosition.Value] = NumericTBHour;
+            _numericTextBoxes[minutePosition.Value] = NumericTBMinute;
+            _numericTextBoxes[secondPosition.Value] = NumericTBSecond;
+
+            SubscribeNumericTextBoxes();
+
+            NumericTBDay.Format = GetFormat(dayFormat);
+            NumericTBMonth.Format = GetFormat(monthFormat);
+            NumericTBYear.Format = GetFormat(yearFormat);
+            NumericTBHour.Format = GetFormat(hourFormat);
+            NumericTBMinute.Format = GetFormat(minuteFormat);
+            NumericTBSecond.Format = GetFormat(secondFormat);
+
+            Separator1.Text = separator1;
+            Separator2.Text = separator2;
+            Separator3.Text = separator3;
+            Separator4.Text = separator4;
+            Separator5.Text = separator5;
+            Separator6.Text = separator6;
+        }
+
+        private int GetPosition(int index)
+        {
+            return index * 2;
+        }
+
+        private string GetFormat(int digits)
+        {
+            return new string(Enumerable.Repeat('0', digits).ToArray());
         }
         #endregion
     }
