@@ -47,7 +47,7 @@ namespace Orc.Controls
 
             SubscribeNumericTextBoxes();
 
-            UpdateSeparators();
+            OnFormatChanged();
         }
 
         private void SubscribeNumericTextBoxes()
@@ -115,7 +115,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof(string),
-            typeof(DatePickerControl), new FrameworkPropertyMetadata(string.Empty, (sender, e) => ((DatePickerControl)sender).OnFormatChanged()));
+            typeof(DatePickerControl), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern, (sender, e) => ((DatePickerControl)sender).OnFormatChanged()));
 
         #endregion
 
@@ -236,8 +236,7 @@ namespace Orc.Controls
         private void OnFormatChanged()
         {
             UpdateFormat();
-            UpdatePosition();
-            UpdateSeparators();
+            UpdatePositionsAndSeparators();
         }
 
         private void UpdateFormat()
@@ -251,11 +250,15 @@ namespace Orc.Controls
             NumericTBYear.Format = GetFormat(yearFormat);
         }
 
-        private void UpdatePosition()
+        private void UpdatePositionsAndSeparators()
         {
             int? dayPosition = null;
             int? monthPosition = null;
             int? yearPosition = null;
+
+            string separator1 = string.Empty;
+            string separator2 = string.Empty;
+            string separator3 = string.Empty;
 
             var current = 0;
             foreach (var c in Format)
@@ -271,6 +274,12 @@ namespace Orc.Controls
                 else if (c == 'y' && yearPosition == null)
                 {
                     yearPosition = current++;
+                }
+                else if (!(c == 'y' || c == 'M' || c == 'd'))
+                {
+                    if (current == 1) separator1 += c;
+                    else if (current == 2) separator2 += c;
+                    else if (current == 3) separator3 += c;
                 }
             }
 
@@ -294,6 +303,10 @@ namespace Orc.Controls
             _numericTextBoxes[yearPosition.Value] = NumericTBYear;
 
             SubscribeNumericTextBoxes();
+
+            Separator1.Text = separator1;
+            Separator2.Text = separator2;
+            Separator3.Text = separator3;
         }
 
         private int GetPosition(int index)
@@ -304,12 +317,6 @@ namespace Orc.Controls
         private string GetFormat(int digits)
         {
             return new string(Enumerable.Repeat('0', digits).ToArray());
-        }
-
-        private void UpdateSeparators()
-        {
-            var separator = CultureInfo.InvariantCulture.DateTimeFormat.DateSeparator;
-            Separator1.Text = Separator2.Text = separator;
         }
         #endregion
     }

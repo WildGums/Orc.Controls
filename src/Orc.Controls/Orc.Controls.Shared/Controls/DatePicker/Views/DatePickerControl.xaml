@@ -43,7 +43,7 @@
 
                     <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Value="{Binding Year}" MinValue="0" MaxValue="3000"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
-                    <TextBlock Grid.Column="5" Text="" Style="{DynamicResource RatioSignStyle}" />
+                    <TextBlock Grid.Column="5" x:Name="Separator3" Text="" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="5" x:Name="ToggleButtonY" Tag="{x:Static controls:DateTimePart.Year}" Content="y"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
 
