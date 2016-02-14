@@ -13,6 +13,7 @@ namespace Orc.Controls
         Month,
         Year,
         Hour,
+        Hour12,
         Minute,
         Second,
     }

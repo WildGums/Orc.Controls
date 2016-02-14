@@ -8,8 +8,10 @@
 namespace Orc.Controls
 {
     using System;
+    using System.Globalization;
+    using Catel.Data;
     using Catel.MVVM;
-
+    
     public class DateTimePickerViewModel : ViewModelBase
     {
         #region Fields
@@ -141,6 +143,24 @@ namespace Orc.Controls
                 }
 
                 Value = new DateTime(Year, Month, Day, Hour, Minute, value);
+            }
+        }
+
+        public string AmPm
+        {
+            get;
+            private set;
+        }
+        #endregion
+
+        #region Properties
+        protected override void OnPropertyChanged(AdvancedPropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+
+            if (e.PropertyName == "Value")
+            {
+                AmPm = ((DateTime)e.NewValue).ToString("tt", CultureInfo.InvariantCulture);
             }
         }
         #endregion

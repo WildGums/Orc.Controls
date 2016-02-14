@@ -21,6 +21,16 @@
                     </Grid>
                 </Border>
             </ControlTemplate>
+            <Style x:Key="DateTimePickerInnerGridStyle" TargetType="{x:Type Grid}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:DateTimePickerControl}}, Path=IsHour12Format}" Value="False">
+                        <Setter Property="MinWidth" Value="200"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:DateTimePickerControl}}, Path=IsHour12Format}" Value="True">
+                        <Setter Property="MinWidth" Value="225"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
             <Style x:Key="DateTimePickerToggleButtonStyle" TargetType="{x:Type ToggleButton}">
                 <Setter Property="Width" Value="19"/>
                 <Setter Property="Background" Value="White"/>
@@ -69,6 +79,12 @@
                         <Setter Property="Visibility" Value="Hidden"/>
                     </DataTrigger>
                 </Style.Triggers>
+            </Style>
+            <Style x:Key="AmPmStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="2 0 0 0"/>
+                <Setter Property="Padding" Value="0"/>
             </Style>
             <Style x:Key="LettersStyle" TargetType="{x:Type TextBlock}" >
                 <Setter Property="TextAlignment" Value="Center"/>

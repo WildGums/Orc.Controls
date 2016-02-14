@@ -27,6 +27,9 @@ namespace Orc.Controls
                 case DateTimePart.Hour:
                     return "NumericTBHour";
 
+                case DateTimePart.Hour12:
+                    return "NumericTBHour";
+
                 case DateTimePart.Minute:
                     return "NumericTBMinute";
 
@@ -52,6 +55,9 @@ namespace Orc.Controls
                     return "ToggleButtonY";
 
                 case DateTimePart.Hour:
+                    return "ToggleButtonH";
+
+                case DateTimePart.Hour12:
                     return "ToggleButtonH";
 
                 case DateTimePart.Minute:

@@ -101,6 +101,7 @@
       <DependentUpon>TimeSpanControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\WatermarkTextBox\WatermarkTextBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\Hour24ToHour12Converter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\TimeSpanToTotalStringConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\DateTimePart.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Extensions\DateTimePartExtensions.cs" />

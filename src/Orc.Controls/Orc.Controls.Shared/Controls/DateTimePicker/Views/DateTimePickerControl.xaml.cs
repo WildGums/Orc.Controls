@@ -9,15 +9,19 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
+    using System.Windows.Data;
     using System.Windows.Input;
     using System.Windows.Media;
+    using Catel.Data;
     using Catel.MVVM.Views;
     using Calendar = System.Windows.Controls.Calendar;
+    using Converters;
 
     /// <summary>
     /// Interaction logic for DateTimePickerControl.xaml
@@ -93,8 +97,8 @@ namespace Orc.Controls
             set { SetValue(ValueProperty, value); }
         }
 
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(DateTime), typeof(DateTimePickerControl),
-            new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(DateTime),
+            typeof(DateTimePickerControl), new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowOptionsButton
@@ -132,6 +136,17 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof(string),
             typeof(DateTimePickerControl), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern, (sender, e) => ((DateTimePickerControl)sender).OnFormatChanged()));
+
+        public bool IsHour12Format
+        {
+            get { return (bool)GetValue(IsHour12FormatProperty); }
+            private set { SetValue(IsHour12FormatKey, value); }
+        }
+
+        private static readonly DependencyPropertyKey IsHour12FormatKey = DependencyProperty.RegisterReadOnly("IsHour12Format", typeof(bool),
+            typeof(DateTimePickerControl), new PropertyMetadata(false));
+
+        public static readonly DependencyProperty IsHour12FormatProperty = IsHour12FormatKey.DependencyProperty;
 
         #endregion
 
@@ -279,6 +294,8 @@ namespace Orc.Controls
             base.OnApplyTemplate();
 
             AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
+
+            EnableOrDisableHourConverterDependingOnFormat();
         }
 
         private void OnFormatChanged()
@@ -291,15 +308,38 @@ namespace Orc.Controls
             var dayFormat = Format.Count(x => x == 'd');
             var monthFormat = Format.Count(x => x == 'M');
             var yearFormat = Format.Count(x => x == 'y');
+            var hourFormat = 0;
             var hour12Format = Format.Count(x => x == 'h');
             var hour24Format = Format.Count(x => x == 'H');
-            if(hour12Format > 0 && hour24Format > 0)
-            {
-                throw new FormatException("Format string is incorrect. Hour field must be in 12-hour or 24-hour format, but no both");
-            }
-            var hourFormat = Math.Max(hour12Format, hour24Format);
             var minuteFormat = Format.Count(x => x == 'm');
             var secondFormat = Format.Count(x => x == 's');
+
+            if (hour12Format > 0 && hour24Format > 0)
+            {
+                throw new FormatException("Format string is incorrect. Hour field must be 12-hour or 24-hour format, but no both");
+            }
+            if (hour12Format > 0)
+            {
+                IsHour12Format = true;
+                NumericTBHour.MinValue = 1;
+                NumericTBHour.MaxValue = 12;
+                ToggleButtonH.Tag = DateTimePart.Hour12;
+
+                EnableOrDisableHourConverterDependingOnFormat();
+
+                hourFormat = hour12Format;
+            }
+            else
+            {
+                IsHour12Format = false;
+                NumericTBHour.MinValue = 0;
+                NumericTBHour.MaxValue = 23;
+                ToggleButtonH.Tag = DateTimePart.Hour;
+
+                EnableOrDisableHourConverterDependingOnFormat();
+
+                hourFormat = hour24Format;
+            }
 
             int? dayPosition = null;
             int? monthPosition = null;
@@ -307,6 +347,7 @@ namespace Orc.Controls
             int? hourPosition = null;
             int? minutePosition = null;
             int? secondPosition = null;
+            int? amPmPosition = null;
 
             string separator1 = string.Empty;
             string separator2 = string.Empty;
@@ -314,6 +355,7 @@ namespace Orc.Controls
             string separator4 = string.Empty;
             string separator5 = string.Empty;
             string separator6 = string.Empty;
+            string separator7 = string.Empty;
 
             var current = 0;
             foreach (var c in Format)
@@ -342,7 +384,11 @@ namespace Orc.Controls
                 {
                     secondPosition = current++;
                 }
-                else if (!(c == 'y' || c == 'M' || c == 'd' || c == 'H' || c == 'h' || c == 'm' || c == 's'))
+                else if (c == 't' && amPmPosition == null)
+                {
+                    amPmPosition = current++;
+                }
+                else if (!(c == 'y' || c == 'M' || c == 'd' || c == 'H' || c == 'h' || c == 'm' || c == 's' || c == 't'))
                 {
                     if (current == 1) separator1 += c;
                     else if (current == 2) separator2 += c;
@@ -350,6 +396,7 @@ namespace Orc.Controls
                     else if (current == 4) separator4 += c;
                     else if (current == 5) separator5 += c;
                     else if (current == 6) separator6 += c;
+                    else if (current == 7) separator7 += c;
                 }
             }
 
@@ -366,6 +413,7 @@ namespace Orc.Controls
             Grid.SetColumn(NumericTBHour, GetPosition(hourPosition.Value));
             Grid.SetColumn(NumericTBMinute, GetPosition(minutePosition.Value));
             Grid.SetColumn(NumericTBSecond, GetPosition(secondPosition.Value));
+            if (amPmPosition.HasValue) Grid.SetColumn(TextTBAmPm, GetPosition(amPmPosition.Value));
 
             Grid.SetColumn(ToggleButtonD, GetPosition(dayPosition.Value) + 1);
             Grid.SetColumn(ToggleButtonMo, GetPosition(monthPosition.Value) + 1);
@@ -373,13 +421,19 @@ namespace Orc.Controls
             Grid.SetColumn(ToggleButtonH, GetPosition(hourPosition.Value) + 1);
             Grid.SetColumn(ToggleButtonM, GetPosition(minutePosition.Value) + 1);
             Grid.SetColumn(ToggleButtonS, GetPosition(secondPosition.Value) + 1);
+            if (amPmPosition.HasValue) Grid.SetColumn(ToggleButtonT, GetPosition(amPmPosition.Value) + 1);
 
-            _numericTextBoxes[dayPosition.Value] = NumericTBDay;
-            _numericTextBoxes[monthPosition.Value] = NumericTBMonth;
-            _numericTextBoxes[yearPosition.Value] = NumericTBYear;
-            _numericTextBoxes[hourPosition.Value] = NumericTBHour;
-            _numericTextBoxes[minutePosition.Value] = NumericTBMinute;
-            _numericTextBoxes[secondPosition.Value] = NumericTBSecond;
+            // Fix positions which could be broken, because of AM/PM textblock.
+            int dayPos = dayPosition.Value, monthPos = monthPosition.Value, yearPos = yearPosition.Value,
+                hourPos = hourPosition.Value, minutePos = minutePosition.Value, secondPos = secondPosition.Value;
+            FixNumericTextBoxesPositions(ref dayPos, ref monthPos, ref yearPos, ref hourPos, ref minutePos, ref secondPos);
+
+            _numericTextBoxes[dayPos] = NumericTBDay;
+            _numericTextBoxes[monthPos] = NumericTBMonth;
+            _numericTextBoxes[yearPos] = NumericTBYear;
+            _numericTextBoxes[hourPos] = NumericTBHour;
+            _numericTextBoxes[minutePos] = NumericTBMinute;
+            _numericTextBoxes[secondPos] = NumericTBSecond;
 
             SubscribeNumericTextBoxes();
 
@@ -396,6 +450,7 @@ namespace Orc.Controls
             Separator4.Text = separator4;
             Separator5.Text = separator5;
             Separator6.Text = separator6;
+            Separator7.Text = separator7;
         }
 
         private int GetPosition(int index)
@@ -406,6 +461,42 @@ namespace Orc.Controls
         private string GetFormat(int digits)
         {
             return new string(Enumerable.Repeat('0', digits).ToArray());
+        }
+
+        private void EnableOrDisableHourConverterDependingOnFormat()
+        {
+            var converter = TryFindResource("_hourConverter") as Hour24ToHour12Converter;
+            if (converter != null)
+            {
+                converter.IsEnabled = IsHour12Format;
+                BindingOperations.GetBindingExpression(NumericTBHour, NumericTextBox.ValueProperty).UpdateTarget();
+            }
+        }
+
+        private void FixNumericTextBoxesPositions(ref int dayPosition, ref int monthPosition, ref int yearPosition, ref int hourPosition, ref int minutePosition, ref int secondPosition)
+        {
+            Dictionary<string, int> dict = new Dictionary<string, int>()
+            {
+                { "dayPosition", dayPosition },
+                { "monthPosition", monthPosition },
+                { "yearPosition", yearPosition },
+                { "hourPosition", hourPosition },
+                { "minutePosition", minutePosition },
+                { "secondPosition", secondPosition }
+            };
+
+            var current = 0;
+            foreach (var entry in dict.OrderBy(x => x.Value))
+            {
+                dict[entry.Key] = current++;
+            }
+
+            dayPosition = dict["dayPosition"];
+            monthPosition = dict["monthPosition"];
+            yearPosition = dict["yearPosition"];
+            hourPosition = dict["hourPosition"];
+            minutePosition = dict["minutePosition"];
+            secondPosition = dict["secondPosition"];
         }
         #endregion
     }
