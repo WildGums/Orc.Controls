@@ -58,7 +58,7 @@ namespace Orc.Controls
             typeof (NumericTextBox), new UIPropertyMetadata(double.MaxValue));
 
         public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof (string),
-            typeof (NumericTextBox), new UIPropertyMetadata("F0"));
+            typeof (NumericTextBox), new UIPropertyMetadata("F0", (sender, e) => ((NumericTextBox)sender).OnFormatChanged()));
 
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof (double),
             typeof (NumericTextBox), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((NumericTextBox) sender).OnValueChanged()));
@@ -263,6 +263,11 @@ namespace Orc.Controls
             {
                 return;
             }
+            UpdateText();
+        }
+
+        private void OnFormatChanged()
+        {
             UpdateText();
         }
 
