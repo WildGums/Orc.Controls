@@ -13,8 +13,8 @@
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" >
             <TextBlock Text="TimeSpan Control" VerticalAlignment="Center" Width="150" />
             <orc:TimeSpanControl Width="120" Value="{Binding TimeSpanValue}"
-                                 Margin="5" HorizontalAlignment="Left" IsReadOnly="{Binding IsChecked, ElementName=_readOnlyCheckbox}" />
-            <CheckBox x:Name="_readOnlyCheckbox" Content="Read only" IsChecked="False" Margin="15 9 8 8"/>
+                                 Margin="5" HorizontalAlignment="Left" IsReadOnly="{Binding IsChecked, ElementName=readOnlyCheckbox}" />
+            <CheckBox x:Name="readOnlyCheckbox" Content="Read only" IsChecked="False" Margin="15 9 8 8"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Text Box" VerticalAlignment="Center" Width="150"/>
