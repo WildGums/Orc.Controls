@@ -25,8 +25,8 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="DateTimePicker Control" VerticalAlignment="Center" Width="150"/>
-            <orc:DateTimePickerControl Value="{Binding DateTimeValue}" Width="225" Format="{Binding SelectedFormat.FormatValue}" Margin="5" HorizontalAlignment="Left" IsReadOnly="{Binding IsChecked, ElementName=_readOnlyCheckbox}" />
-            <CheckBox x:Name="_readOnlyCheckbox" Content="Read only" IsChecked="False" Margin="15 9 8 8"/>
+            <orc:DateTimePickerControl Value="{Binding DateTimeValue}" Width="210" Margin="5" HorizontalAlignment="Left" IsReadOnly="{Binding IsChecked, ElementName=readOnlyCheckbox}" />
+            <CheckBox x:Name="readOnlyCheckbox" Content="Read only" IsChecked="False" Margin="15 9 8 8"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Selected DateTime" VerticalAlignment="Center" Width="150"/>
