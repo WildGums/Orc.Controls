@@ -19,6 +19,7 @@ namespace Orc.Controls.Examples.ViewModels
         #region Constructors
         public DatePickerViewModel()
         {
+            AvailableFormats = new FastObservableCollection<object>();
             DateValue = DateTime.Today;
         }
         #endregion
@@ -34,7 +35,6 @@ namespace Orc.Controls.Examples.ViewModels
         {
             await base.InitializeAsync();
 
-            AvailableFormats = new FastObservableCollection<object>();
             using (AvailableFormats.SuspendChangeNotifications())
             {
                 foreach (var cultureInfo in CultureInfo.GetCultures(CultureTypes.AllCultures))
@@ -52,8 +52,6 @@ namespace Orc.Controls.Examples.ViewModels
                     }
                 }
             }
-
-            await TaskHelper.Completed;
         }
         #endregion
     }
