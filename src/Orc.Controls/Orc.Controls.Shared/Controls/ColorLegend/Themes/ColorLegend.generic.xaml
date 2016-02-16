@@ -19,7 +19,7 @@
         267.204 141.024,238.45 130.064,199.292L33.296,199.292L33.296,149.292L130.014,149.292C140.916,110.044 176.934,81.204 219.634,81.204C262.335,81.204 298.353,110.044 309.254,149.292L733.296,
         149.292L733.296,199.292L309.205,199.292ZM219.634,127.704C245.298,127.704 266.134,148.54 266.134,174.204C266.134,199.868 245.298,220.704 219.634,220.704C193.97,220.704 173.134,199.868 173.134,
         174.204C173.134,148.54 193.97,127.704 219.634,127.704Z</Geometry>
-    
+
     <Style x:Key="SearchBoxBorderStyle"  TargetType="{x:Type Border}">
         <Setter Property="BorderBrush" Value="LightGray"/>
         <Style.Triggers>
@@ -63,7 +63,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="ClearButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="ToolTipService.InitialShowDelay" Value="900" />
         <Setter Property="ToolTipService.ShowDuration" Value="20000" />
@@ -160,17 +160,21 @@
                             BorderThickness="1">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition x:Name="toolsContainerRow" Height="34" />
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
-                            <Border BorderBrush="LightGray" BorderThickness="0" Background="WhiteSmoke">
-                                <TextBlock FontWeight="Medium" FontSize="14" Margin="4" TextAlignment="Left"
-                                           Text="{Binding Path=OperationColorAttribute, RelativeSource={RelativeSource TemplatedParent}, StringFormat=Legend {0}}">
-                                </TextBlock>
-                            </Border>
-                            <Border BorderBrush="LightGray" BorderThickness="0 1 0 1" Grid.Row="1">
+
+                            <ContentControl Content="{TemplateBinding Header}"
+                                            Visibility="{TemplateBinding Header, Converter={catel:ReferenceToCollapsingVisibilityConverter}}" />
+
+                            <!-- Filler border in case we are showing a legend -->
+                            <Border BorderBrush="LightGray" BorderThickness="0 0 0 1" Grid.Row="1" 
+                                    Visibility="{TemplateBinding Header, Converter={catel:ReferenceToCollapsingVisibilityConverter}}" />
+
+                             <Border BorderBrush="LightGray" BorderThickness="0 0 0 1" Grid.Row="2">
                                 <Grid x:Name="toolsContainer" Margin="4" Height="24" 
                                       Visibility="{Binding ShowToolBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
                                     <Grid.ColumnDefinitions>
@@ -215,9 +219,10 @@
                                                                Visibility="{Binding ShowSearchBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}"
                                                                FilterSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}}" 
                                                                Text="{Binding Filter, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                   </Grid>
+                                </Grid>
                             </Border>
-                            <ListBox Grid.Row="2" ItemsSource="{Binding FilteredItemsSource, RelativeSource={RelativeSource TemplatedParent}}" BorderThickness="0" x:Name="PART_List" HorizontalContentAlignment="Stretch">
+                            
+                            <ListBox Grid.Row="3" ItemsSource="{Binding FilteredItemsSource, RelativeSource={RelativeSource TemplatedParent}}" BorderThickness="0" x:Name="PART_List" HorizontalContentAlignment="Stretch">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate DataType="controls:IColorProvider">
                                         <Grid HorizontalAlignment="Stretch" Margin="2">
@@ -289,7 +294,7 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
 
-                            <Border Grid.Row="3" BorderBrush="LightGray" BorderThickness="0 1 0 0">
+                            <Border Grid.Row="4" BorderBrush="LightGray" BorderThickness="0 1 0 0">
                                 <Grid Visibility="{Binding ShowBottomToolBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
@@ -310,6 +315,7 @@
                                     </Grid>
                                 </Grid>
                             </Border>
+                            
                             <Popup x:Name="PART_Popup_Color_Board" 
                                    IsOpen="{Binding IsColorSelecting, RelativeSource={RelativeSource TemplatedParent}}" 
                                    Focusable="False" VerticalOffset="2"/>

@@ -54,6 +54,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Views\FilterBoxControl.xaml.cs">
       <DependentUpon>FilterBoxControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\HeaderBar\HeaderBar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\Behaviors\LinkLabelBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\Behaviors\LinkLabelClickBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\LinkLabel.cs" />
@@ -114,7 +115,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Themes\ColorLegend.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Themes\ColorLegend.generic.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\Themes\ColorPicker.generic.xaml">
@@ -164,6 +165,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Views\FilterBoxControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\HeaderBar\Themes\HeaderBar.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

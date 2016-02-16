@@ -59,8 +59,6 @@ namespace Orc.Controls
         /// </summary>
         public ColorLegend()
         {
-            DefaultStyleKey = typeof(ColorLegend);
-
             ChangeColor = new Command<object>(OnChangeColorExecute, OnChangeColorCanExecute);
         }
         #endregion
@@ -69,6 +67,7 @@ namespace Orc.Controls
         /// <summary>
         /// Gets or sets the operation color attribute.
         /// </summary>
+        [ObsoleteEx(Message = "No longer required, legend now respects the Header property", TreatAsErrorFromVersion = "1.3", RemoveInVersion = "2.0")]
         public string OperationColorAttribute
         {
             get { return (string)GetValue(OperationColorAttributeProperty); }

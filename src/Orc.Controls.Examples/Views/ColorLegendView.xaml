@@ -6,9 +6,21 @@
                    xmlns:catel="http://catel.codeplex.com"
                    xmlns:orc="http://www.wildgums.net.au/orc"
                    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
-    
+
     <Grid>
-        <orc:ColorLegend ItemsSource="{Binding CalendarStateLegend}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="6" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <orc:ColorLegend Grid.Row="0" ItemsSource="{Binding CalendarStateLegend}">
+            <orc:ColorLegend.Header>
+                <orc:HeaderBar Header="Color legend" />
+            </orc:ColorLegend.Header>
+        </orc:ColorLegend>
+
+        <orc:ColorLegend Grid.Row="2" ItemsSource="{Binding CalendarStateLegend}" />
     </Grid>
-    
+
 </catel:UserControl>
