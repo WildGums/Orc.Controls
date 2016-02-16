@@ -165,10 +165,12 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
+                            
                             <Border BorderBrush="LightGray" BorderThickness="0" Background="WhiteSmoke">
-                                <TextBlock FontWeight="Medium" FontSize="14" Margin="4" TextAlignment="Left"
+                                <ContentControl Content="{TemplateBinding Header}"/>
+                                <!--<TextBlock FontWeight="Medium" FontSize="14" Margin="4" TextAlignment="Left"
                                            Text="{Binding Path=OperationColorAttribute, RelativeSource={RelativeSource TemplatedParent}, StringFormat=Legend {0}}">
-                                </TextBlock>
+                                </TextBlock>-->
                             </Border>
                             <Border BorderBrush="LightGray" BorderThickness="0 1 0 1" Grid.Row="1">
                                 <Grid x:Name="toolsContainer" Margin="4" Height="24" 
