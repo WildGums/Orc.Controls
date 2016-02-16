@@ -67,22 +67,6 @@ namespace Orc.Controls
 
         #region Properties
         /// <summary>
-        /// Gets or sets the operation color attribute.
-        /// </summary>
-        public string OperationColorAttribute
-        {
-            get { return (string)GetValue(OperationColorAttributeProperty); }
-            set { SetValue(OperationColorAttributeProperty, value); }
-        }
-
-        /// <summary>
-        /// The operation color attribute property.
-        /// </summary>
-        public static readonly DependencyProperty OperationColorAttributeProperty = DependencyProperty.Register("OperationColorAttribute",
-            typeof(string), typeof(ColorLegend), new PropertyMetadata(string.Empty));
-
-
-        /// <summary>
         /// Gets or sets a value indicating whether color can be edited or not.
         /// </summary>
         public bool AllowColorEditing
