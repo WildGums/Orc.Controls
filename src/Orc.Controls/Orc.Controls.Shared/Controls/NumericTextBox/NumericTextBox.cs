@@ -163,13 +163,13 @@ namespace Orc.Controls
                 e.Handled = true;
             }
 
-            if (e.Key == Key.Up && AllTextSelected)
+            if (e.Key == Key.Up && AllTextSelected && !IsReadOnly)
             {
                 OnUpDown(1);
                 e.Handled = true;
             }
 
-            if (e.Key == Key.Down)
+            if (e.Key == Key.Down && AllTextSelected && !IsReadOnly)
             {
                 OnUpDown(-1);
                 e.Handled = true;
