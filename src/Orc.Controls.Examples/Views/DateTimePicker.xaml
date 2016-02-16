@@ -12,7 +12,7 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Select format" VerticalAlignment="Center" Width="150"/>
-            <ComboBox x:Name="_comboBoxAvailableFormats" Margin="5" MinWidth="225" ItemsSource="{Binding AvailableFormats}" SelectedItem="{Binding SelectedFormat}">
+            <ComboBox Margin="5" MinWidth="225" ItemsSource="{Binding AvailableFormats}" SelectedItem="{Binding SelectedFormat}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -25,7 +25,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="DateTimePicker Control" VerticalAlignment="Center" Width="150"/>
-            <orc:DateTimePickerControl Value="{Binding DateTimeValue}" Width="210" Margin="5" HorizontalAlignment="Left" IsReadOnly="{Binding IsChecked, ElementName=readOnlyCheckbox}" />
+            <orc:DateTimePickerControl Value="{Binding DateTimeValue}" Width="225" Margin="5" Format="{Binding SelectedFormat.FormatValue}" HorizontalAlignment="Left" IsReadOnly="{Binding IsChecked, ElementName=readOnlyCheckbox}" />
             <CheckBox x:Name="readOnlyCheckbox" Content="Read only" IsChecked="False" Margin="15 9 8 8"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
