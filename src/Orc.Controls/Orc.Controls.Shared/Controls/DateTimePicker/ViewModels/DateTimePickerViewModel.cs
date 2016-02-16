@@ -158,7 +158,7 @@ namespace Orc.Controls
         {
             base.OnPropertyChanged(e);
 
-            if (e.PropertyName == "Value")
+            if (string.Equals(e.PropertyName, "Value"))
             {
                 AmPm = ((DateTime)e.NewValue).ToString("tt", CultureInfo.InvariantCulture);
             }
