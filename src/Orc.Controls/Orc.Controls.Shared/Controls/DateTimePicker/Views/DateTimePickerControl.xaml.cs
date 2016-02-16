@@ -465,7 +465,7 @@ namespace Orc.Controls
 
         private void EnableOrDisableHourConverterDependingOnFormat()
         {
-            var converter = TryFindResource("_hourConverter") as Hour24ToHour12Converter;
+            var converter = TryFindResource("HourConverter") as Hour24ToHour12Converter;
             if (converter != null)
             {
                 converter.IsEnabled = IsHour12Format;

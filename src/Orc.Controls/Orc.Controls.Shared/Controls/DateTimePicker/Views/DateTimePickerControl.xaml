@@ -9,7 +9,7 @@
                    mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="190">
 
     <catel:UserControl.Resources>
-        <converters:Hour24ToHour12Converter x:Key="_hourConverter" />
+        <converters:Hour24ToHour12Converter x:Key="HourConverter" />
     </catel:UserControl.Resources>
 
     <Grid x:Name="MainGrid">
@@ -61,7 +61,7 @@
                     <ToggleButton Grid.Column="5" x:Name="ToggleButtonY" Tag="{x:Static controls:DateTimePart.Year}" Content="y"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
 
-                    <controls:NumericTextBox x:Name="NumericTBHour" Grid.Column="6" Value="{Binding Hour, Converter={StaticResource _hourConverter}}" Format="00" MaxValue="23" MinValue="0"
+                    <controls:NumericTextBox x:Name="NumericTBHour" Grid.Column="6" Value="{Binding Hour, Converter={StaticResource HourConverter}}" Format="00" MaxValue="23" MinValue="0"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
                     <TextBlock Grid.Column="7" x:Name="Separator4" Text=":" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="7" x:Name="ToggleButtonH" Tag="{x:Static controls:DateTimePart.Hour}"
