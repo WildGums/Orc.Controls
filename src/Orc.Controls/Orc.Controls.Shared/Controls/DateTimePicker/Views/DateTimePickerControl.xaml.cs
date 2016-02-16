@@ -144,7 +144,7 @@ namespace Orc.Controls
         }
 
         private static readonly DependencyPropertyKey IsHour12FormatKey = DependencyProperty.RegisterReadOnly("IsHour12Format", typeof(bool),
-            typeof(DateTimePickerControl), new PropertyMetadata(false));
+            typeof(DateTimePickerControl), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern.Contains("h") ? true : false));
 
         public static readonly DependencyProperty IsHour12FormatProperty = IsHour12FormatKey.DependencyProperty;
 
