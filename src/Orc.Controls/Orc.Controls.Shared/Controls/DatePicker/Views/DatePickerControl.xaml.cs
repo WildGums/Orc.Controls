@@ -19,7 +19,7 @@ namespace Orc.Controls
     using Calendar = System.Windows.Controls.Calendar;
 
     /// <summary>
-    /// Interaction logic for TimeSpanControl.xaml
+    /// Interaction logic for DatePickerControl.xaml
     /// </summary>
     public partial class DatePickerControl
     {
@@ -31,7 +31,7 @@ namespace Orc.Controls
         #region Constructors
         static DatePickerControl()
         {
-            typeof (DatePickerControl).AutoDetectViewPropertiesToSubscribe();
+            typeof(DatePickerControl).AutoDetectViewPropertiesToSubscribe();
         }
 
         public DatePickerControl()
@@ -47,7 +47,7 @@ namespace Orc.Controls
 
             SubscribeNumericTextBoxes();
 
-            OnFormatChanged();
+            ApplyFormat();
         }
 
         private void SubscribeNumericTextBoxes()
@@ -73,7 +73,7 @@ namespace Orc.Controls
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public DateTime Value
         {
-            get { return (DateTime) GetValue(ValueProperty); }
+            get { return (DateTime)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
 
@@ -87,7 +87,7 @@ namespace Orc.Controls
             set { SetValue(ShowOptionsButtonProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register("ShowOptionsButton", typeof(bool), 
+        public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register("ShowOptionsButton", typeof(bool),
             typeof(DatePickerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public Brush AccentColorBrush
@@ -140,7 +140,7 @@ namespace Orc.Controls
 
         private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
         {
-            _activeDateTimePart = (DateTimePart) ((ToggleButton) sender).Tag;
+            _activeDateTimePart = (DateTimePart)((ToggleButton)sender).Tag;
 
             var activeNumericTextBox = (NumericTextBox)FindName(_activeDateTimePart.GetDateTimePartName());
             var activeToggleButton = (ToggleButton)FindName(_activeDateTimePart.GetDateTimePartToggleButtonName());
@@ -159,11 +159,11 @@ namespace Orc.Controls
         {
             var calendar = new Calendar()
             {
-                Margin = new Thickness(0, -3, 0, -3), 
-                DisplayDate = Value, 
+                Margin = new Thickness(0, -3, 0, -3),
+                DisplayDate = Value,
                 SelectedDate = Value
             };
-            
+
             calendar.SelectedDatesChanged += CalendarOnSelectedDatesChanged;
 
             return calendar;
@@ -177,7 +177,7 @@ namespace Orc.Controls
                 UpdateDate(calendar.SelectedDate.Value);
             }
             ((Popup)calendar.Parent).IsOpen = false;
-            
+
         }
 
         private void UpdateDate(DateTime date)
@@ -235,83 +235,41 @@ namespace Orc.Controls
 
         private void OnFormatChanged()
         {
-            UpdateFormat();
-            UpdatePositionsAndSeparators();
+            ApplyFormat();
         }
 
-        private void UpdateFormat()
+        private void ApplyFormat()
         {
-            var dayFormat = Format.Count(x => x == 'd');
-            var monthFormat = Format.Count(x => x == 'M');
-            var yearFormat = Format.Count(x => x == 'y');
+            var formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format, true);
 
-            NumericTBDay.Format = GetFormat(dayFormat);
-            NumericTBMonth.Format = GetFormat(monthFormat);
-            NumericTBYear.Format = GetFormat(yearFormat);
-        }
-
-        private void UpdatePositionsAndSeparators()
-        {
-            int? dayPosition = null;
-            int? monthPosition = null;
-            int? yearPosition = null;
-
-            string separator1 = string.Empty;
-            string separator2 = string.Empty;
-            string separator3 = string.Empty;
-
-            var current = 0;
-            foreach (var c in Format)
-            {
-                if (c == 'd' && dayPosition == null)
-                {
-                    dayPosition = current++;
-                }
-                else if (c == 'M' && monthPosition == null)
-                {
-                    monthPosition = current++;
-                }
-                else if (c == 'y' && yearPosition == null)
-                {
-                    yearPosition = current++;
-                }
-                else if (!(c == 'y' || c == 'M' || c == 'd'))
-                {
-                    if (current == 1) separator1 += c;
-                    else if (current == 2) separator2 += c;
-                    else if (current == 3) separator3 += c;
-                }
-            }
-
-            if (dayPosition == null || monthPosition == null || yearPosition == null)
-            {
-                throw new FormatException("Format string is incorrect. Day, month and year fields are mandatory");
-            }
+            NumericTBDay.Format = GetFormat(formatInfo.DayFormat.Length);
+            NumericTBMonth.Format = GetFormat(formatInfo.MonthFormat.Length);
+            NumericTBYear.Format = GetFormat(formatInfo.YearFormat.Length);
 
             UnsubscribeNumericTextBoxes();
-            
-            Grid.SetColumn(NumericTBDay, GetPosition(dayPosition.Value));
-            Grid.SetColumn(NumericTBMonth, GetPosition(monthPosition.Value));
-            Grid.SetColumn(NumericTBYear, GetPosition(yearPosition.Value));
 
-            Grid.SetColumn(ToggleButtonD, GetPosition(dayPosition.Value) + 1);
-            Grid.SetColumn(ToggleButtonMo, GetPosition(monthPosition.Value) + 1);
-            Grid.SetColumn(ToggleButtonY, GetPosition(yearPosition.Value) + 1);
+            Grid.SetColumn(NumericTBDay, GetPosition(formatInfo.DayPosition));
+            Grid.SetColumn(NumericTBMonth, GetPosition(formatInfo.MonthPosition));
+            Grid.SetColumn(NumericTBYear, GetPosition(formatInfo.YearPosition));
 
-            _numericTextBoxes[dayPosition.Value] = NumericTBDay;
-            _numericTextBoxes[monthPosition.Value] = NumericTBMonth;
-            _numericTextBoxes[yearPosition.Value] = NumericTBYear;
+            Grid.SetColumn(ToggleButtonD, GetPosition(formatInfo.DayPosition) + 1);
+            Grid.SetColumn(ToggleButtonMo, GetPosition(formatInfo.MonthPosition) + 1);
+            Grid.SetColumn(ToggleButtonY, GetPosition(formatInfo.YearPosition) + 1);
+
+            _numericTextBoxes[formatInfo.DayPosition] = NumericTBDay;
+            _numericTextBoxes[formatInfo.MonthPosition] = NumericTBMonth;
+            _numericTextBoxes[formatInfo.YearPosition] = NumericTBYear;
 
             SubscribeNumericTextBoxes();
 
-            Separator1.Text = separator1;
-            Separator2.Text = separator2;
-            Separator3.Text = separator3;
+            Separator1.Text = formatInfo.Separator1;
+            Separator2.Text = formatInfo.Separator2;
+            Separator3.Text = formatInfo.Separator3;
         }
 
         private int GetPosition(int index)
         {
-            return index*2;
+            return index * 2;
         }
 
         private string GetFormat(int digits)

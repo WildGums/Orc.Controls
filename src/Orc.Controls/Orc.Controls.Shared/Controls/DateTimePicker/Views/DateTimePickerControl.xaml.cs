@@ -9,7 +9,6 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
     using System.Windows;
@@ -18,7 +17,6 @@ namespace Orc.Controls
     using System.Windows.Data;
     using System.Windows.Input;
     using System.Windows.Media;
-    using Catel.Data;
     using Catel.MVVM.Views;
     using Calendar = System.Windows.Controls.Calendar;
     using Converters;
@@ -305,127 +303,43 @@ namespace Orc.Controls
 
         private void ApplyFormat()
         {
-            var dayFormat = Format.Count(x => x == 'd');
-            var monthFormat = Format.Count(x => x == 'M');
-            var yearFormat = Format.Count(x => x == 'y');
-            var hourFormat = 0;
-            var hour12Format = Format.Count(x => x == 'h');
-            var hour24Format = Format.Count(x => x == 'H');
-            var minuteFormat = Format.Count(x => x == 'm');
-            var secondFormat = Format.Count(x => x == 's');
+            var formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format, false);
 
-            if (hour12Format > 0 && hour24Format > 0)
-            {
-                throw new FormatException("Format string is incorrect. Hour field must be 12-hour or 24-hour format, but no both");
-            }
-            if (hour12Format > 0)
-            {
-                IsHour12Format = true;
-                NumericTBHour.MinValue = 1;
-                NumericTBHour.MaxValue = 12;
-                ToggleButtonH.Tag = DateTimePart.Hour12;
+            IsHour12Format = formatInfo.IsHour12Format.Value;
+            NumericTBHour.MinValue = formatInfo.IsHour12Format.Value == true ? 1 : 0;
+            NumericTBHour.MaxValue = formatInfo.IsHour12Format.Value == true ? 12 : 23;
+            ToggleButtonH.Tag = formatInfo.IsHour12Format.Value == true ? DateTimePart.Hour12 : DateTimePart.Hour;
 
-                EnableOrDisableHourConverterDependingOnFormat();
+            EnableOrDisableHourConverterDependingOnFormat();
 
-                hourFormat = hour12Format;
-            }
-            else
-            {
-                IsHour12Format = false;
-                NumericTBHour.MinValue = 0;
-                NumericTBHour.MaxValue = 23;
-                ToggleButtonH.Tag = DateTimePart.Hour;
-
-                EnableOrDisableHourConverterDependingOnFormat();
-
-                hourFormat = hour24Format;
-            }
-
-            int? dayPosition = null;
-            int? monthPosition = null;
-            int? yearPosition = null;
-            int? hourPosition = null;
-            int? minutePosition = null;
-            int? secondPosition = null;
-            int? amPmPosition = null;
-
-            string separator1 = string.Empty;
-            string separator2 = string.Empty;
-            string separator3 = string.Empty;
-            string separator4 = string.Empty;
-            string separator5 = string.Empty;
-            string separator6 = string.Empty;
-            string separator7 = string.Empty;
-
-            var current = 0;
-            foreach (var c in Format)
-            {
-                if (c == 'd' && dayPosition == null)
-                {
-                    dayPosition = current++;
-                }
-                else if (c == 'M' && monthPosition == null)
-                {
-                    monthPosition = current++;
-                }
-                else if (c == 'y' && yearPosition == null)
-                {
-                    yearPosition = current++;
-                }
-                else if ((c == 'H' || c == 'h') && hourPosition == null)
-                {
-                    hourPosition = current++;
-                }
-                else if (c == 'm' && minutePosition == null)
-                {
-                    minutePosition = current++;
-                }
-                else if (c == 's' && secondPosition == null)
-                {
-                    secondPosition = current++;
-                }
-                else if (c == 't' && amPmPosition == null)
-                {
-                    amPmPosition = current++;
-                }
-                else if (!(c == 'y' || c == 'M' || c == 'd' || c == 'H' || c == 'h' || c == 'm' || c == 's' || c == 't'))
-                {
-                    if (current == 1) separator1 += c;
-                    else if (current == 2) separator2 += c;
-                    else if (current == 3) separator3 += c;
-                    else if (current == 4) separator4 += c;
-                    else if (current == 5) separator5 += c;
-                    else if (current == 6) separator6 += c;
-                    else if (current == 7) separator7 += c;
-                }
-            }
-
-            if (dayPosition == null || monthPosition == null || yearPosition == null || hourPosition == null || minutePosition == null || secondPosition == null)
-            {
-                throw new FormatException("Format string is incorrect. Day, month, year, hour, minute and second fields are mandatory");
-            }
+            NumericTBDay.Format = GetFormat(formatInfo.DayFormat.Length);
+            NumericTBMonth.Format = GetFormat(formatInfo.MonthFormat.Length);
+            NumericTBYear.Format = GetFormat(formatInfo.YearFormat.Length);
+            NumericTBHour.Format = GetFormat(formatInfo.HourFormat.Length);
+            NumericTBMinute.Format = GetFormat(formatInfo.MinuteFormat.Length);
+            NumericTBSecond.Format = GetFormat(formatInfo.SecondFormat.Length);
 
             UnsubscribeNumericTextBoxes();
 
-            Grid.SetColumn(NumericTBDay, GetPosition(dayPosition.Value));
-            Grid.SetColumn(NumericTBMonth, GetPosition(monthPosition.Value));
-            Grid.SetColumn(NumericTBYear, GetPosition(yearPosition.Value));
-            Grid.SetColumn(NumericTBHour, GetPosition(hourPosition.Value));
-            Grid.SetColumn(NumericTBMinute, GetPosition(minutePosition.Value));
-            Grid.SetColumn(NumericTBSecond, GetPosition(secondPosition.Value));
-            if (amPmPosition.HasValue) Grid.SetColumn(TextTBAmPm, GetPosition(amPmPosition.Value));
+            Grid.SetColumn(NumericTBDay, GetPosition(formatInfo.DayPosition));
+            Grid.SetColumn(NumericTBMonth, GetPosition(formatInfo.MonthPosition));
+            Grid.SetColumn(NumericTBYear, GetPosition(formatInfo.YearPosition));
+            Grid.SetColumn(NumericTBHour, GetPosition(formatInfo.HourPosition.Value));
+            Grid.SetColumn(NumericTBMinute, GetPosition(formatInfo.MinutePosition.Value));
+            Grid.SetColumn(NumericTBSecond, GetPosition(formatInfo.SecondPosition.Value));
+            Grid.SetColumn(TextTBAmPm, GetPosition(formatInfo.AmPmPosition.HasValue == false ? 6 : formatInfo.AmPmPosition.Value));
 
-            Grid.SetColumn(ToggleButtonD, GetPosition(dayPosition.Value) + 1);
-            Grid.SetColumn(ToggleButtonMo, GetPosition(monthPosition.Value) + 1);
-            Grid.SetColumn(ToggleButtonY, GetPosition(yearPosition.Value) + 1);
-            Grid.SetColumn(ToggleButtonH, GetPosition(hourPosition.Value) + 1);
-            Grid.SetColumn(ToggleButtonM, GetPosition(minutePosition.Value) + 1);
-            Grid.SetColumn(ToggleButtonS, GetPosition(secondPosition.Value) + 1);
-            if (amPmPosition.HasValue) Grid.SetColumn(ToggleButtonT, GetPosition(amPmPosition.Value) + 1);
+            Grid.SetColumn(ToggleButtonD, GetPosition(formatInfo.DayPosition) + 1);
+            Grid.SetColumn(ToggleButtonMo, GetPosition(formatInfo.MonthPosition) + 1);
+            Grid.SetColumn(ToggleButtonY, GetPosition(formatInfo.YearPosition) + 1);
+            Grid.SetColumn(ToggleButtonH, GetPosition(formatInfo.HourPosition.Value) + 1);
+            Grid.SetColumn(ToggleButtonM, GetPosition(formatInfo.MinutePosition.Value) + 1);
+            Grid.SetColumn(ToggleButtonS, GetPosition(formatInfo.SecondPosition.Value) + 1);
+            Grid.SetColumn(ToggleButtonT, GetPosition(formatInfo.AmPmPosition.HasValue == false ? 6 : formatInfo.AmPmPosition.Value) + 1);
 
             // Fix positions which could be broken, because of AM/PM textblock.
-            int dayPos = dayPosition.Value, monthPos = monthPosition.Value, yearPos = yearPosition.Value,
-                hourPos = hourPosition.Value, minutePos = minutePosition.Value, secondPos = secondPosition.Value;
+            int dayPos = formatInfo.DayPosition, monthPos = formatInfo.MonthPosition, yearPos = formatInfo.YearPosition,
+                hourPos = formatInfo.HourPosition.Value, minutePos = formatInfo.MinutePosition.Value, secondPos = formatInfo.SecondPosition.Value;
             FixNumericTextBoxesPositions(ref dayPos, ref monthPos, ref yearPos, ref hourPos, ref minutePos, ref secondPos);
 
             _numericTextBoxes[dayPos] = NumericTBDay;
@@ -437,20 +351,13 @@ namespace Orc.Controls
 
             SubscribeNumericTextBoxes();
 
-            NumericTBDay.Format = GetFormat(dayFormat);
-            NumericTBMonth.Format = GetFormat(monthFormat);
-            NumericTBYear.Format = GetFormat(yearFormat);
-            NumericTBHour.Format = GetFormat(hourFormat);
-            NumericTBMinute.Format = GetFormat(minuteFormat);
-            NumericTBSecond.Format = GetFormat(secondFormat);
-
-            Separator1.Text = separator1;
-            Separator2.Text = separator2;
-            Separator3.Text = separator3;
-            Separator4.Text = separator4;
-            Separator5.Text = separator5;
-            Separator6.Text = separator6;
-            Separator7.Text = separator7;
+            Separator1.Text = formatInfo.Separator1;
+            Separator2.Text = formatInfo.Separator2;
+            Separator3.Text = formatInfo.Separator3;
+            Separator4.Text = formatInfo.Separator4;
+            Separator5.Text = formatInfo.Separator5;
+            Separator6.Text = formatInfo.Separator6;
+            Separator7.Text = formatInfo.Separator7;
         }
 
         private int GetPosition(int index)
