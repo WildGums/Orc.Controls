@@ -76,6 +76,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Orc.Controls\Orc.Controls.NET45\Orc.Controls.NET45.csproj">
+      <Project>{094077c9-1f14-41ce-99ff-1ae61d13a1cc}</Project>
+      <Name>Orc.Controls.NET45</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DateTimePartHelper.cs" company="WildGums">
+// <copyright file="DateTimeFormatHelper.cs" company="WildGums">
 //   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -60,7 +60,7 @@ namespace Orc.Controls
                 if (part.Contains('d'))
                 {
                     if (result.DayFormat != null) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Day field can not be specified more than once");
-                    if (part.Length < 1 || part.Length > 2) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Day field must be in one of formats: 'd' or 'dd'");
+                    if (part.Length > 2) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Day field must be in one of formats: 'd' or 'dd'");
 
                     result.DayFormat = part;
                     result.DayPosition = current++;
@@ -68,7 +68,7 @@ namespace Orc.Controls
                 else if (part.Contains('M'))
                 {
                     if (result.MonthFormat != null) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Month field can not be specified more than once");
-                    if (part.Length < 1 || part.Length > 2) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Month field must be in one of formats: 'M' or 'MM'");
+                    if (part.Length > 2) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Month field must be in one of formats: 'M' or 'MM'");
 
                     result.MonthFormat = part;
                     result.MonthPosition = current++;
@@ -76,7 +76,7 @@ namespace Orc.Controls
                 else if (part.Contains('y'))
                 {
                     if (result.YearFormat != null) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Year field can not be specified more than once");
-                    if (part.Length < 1 || part.Length > 5) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Year field must be in one of formats: 'y' or 'yy' or 'yyy' or 'yyyy' or 'yyyyy'");
+                    if (part.Length > 5) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Year field must be in one of formats: 'y' or 'yy' or 'yyy' or 'yyyy' or 'yyyyy'");
 
                     result.YearFormat = part;
                     result.YearPosition = current++;
@@ -86,7 +86,7 @@ namespace Orc.Controls
                     if (isDateOnly) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrent. Time fields are not expected");
                     if (hourFormat != null) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Hour field must be 12 hour or 24 hour format, but no both");
                     if (hour12Format != null) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Hour field can not be specified more than once");
-                    if (part.Length < 1 || part.Length > 2) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Hour field must be in one of formats: 'h' or 'H' or 'hh' or 'HH'");
+                    if (part.Length > 2) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Hour field must be in one of formats: 'h' or 'H' or 'hh' or 'HH'");
 
                     hour12Format = part;
                     result.HourPosition = current++;
@@ -96,7 +96,7 @@ namespace Orc.Controls
                     if (isDateOnly) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrent. Time fields are not expected");
                     if (hour12Format != null) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Hour field must be 12 hour or 24 hour format, but no both");
                     if (hourFormat != null) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Hour field can not be specified more than once");
-                    if (part.Length < 1 || part.Length > 2) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Hour field must be in one of formats: 'h' or 'H' or 'hh' or 'HH'");
+                    if (part.Length > 2) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Hour field must be in one of formats: 'h' or 'H' or 'hh' or 'HH'");
 
                     hourFormat = part;
                     result.HourPosition = current++;
@@ -105,7 +105,7 @@ namespace Orc.Controls
                 {
                     if (isDateOnly) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrent. Time fields are not expected");
                     if (result.MinuteFormat != null) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Minute field can not be specified more than once");
-                    if (part.Length < 1 || part.Length > 2) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Minute field must be in one of formats: 'm' or 'mm'");
+                    if (part.Length > 2) throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Minute field must be in one of formats: 'm' or 'mm'");
 
                     result.MinuteFormat = part;
                     result.MinutePosition = current++;
@@ -152,8 +152,11 @@ namespace Orc.Controls
             }
 
             result.IsYearShortFormat = result.YearFormat.Length < 3;
-            result.IsHour12Format = !isDateOnly && result.HourFormat.Contains('h');
-            result.IsAmPmShortFormat = !isDateOnly && result.AmPmFormat != null && result.AmPmFormat.Length < 2;
+            if (!isDateOnly)
+            {
+                result.IsHour12Format = result.HourFormat.Contains('h');
+                result.IsAmPmShortFormat = result.AmPmFormat != null && result.AmPmFormat.Length < 2;
+            }
 
             return result;
         }

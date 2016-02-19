@@ -93,6 +93,12 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Orc.Controls\Orc.Controls.NET40\Orc.Controls.NET40.csproj">
+      <Project>{e6ce2111-3d7c-4759-a886-e44ec77ce3aa}</Project>
+      <Name>Orc.Controls.NET40</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\Orc.Controls.Tests.Shared\Orc.Controls.Tests.Shared.projitems" Label="Shared" Condition="Exists('..\Orc.Controls.Tests.Shared\Orc.Controls.Tests.Shared.projitems')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
