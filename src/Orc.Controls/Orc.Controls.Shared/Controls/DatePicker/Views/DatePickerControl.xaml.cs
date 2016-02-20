@@ -46,10 +46,6 @@ namespace Orc.Controls
                 NumericTBMonth,
                 NumericTBYear,
             };
-
-            SubscribeNumericTextBoxes();
-
-            ApplyFormat();
         }
 
         private void SubscribeNumericTextBoxes()
@@ -129,7 +125,6 @@ namespace Orc.Controls
             typeof(DatePickerControl), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.Count(x => x == 'y') < 3 ? true : false));
 
         public static readonly DependencyProperty IsYearShortFormatProperty = IsYearShortFormatKey.DependencyProperty;
-
         #endregion
 
         #region Methods
@@ -244,8 +239,21 @@ namespace Orc.Controls
             base.OnApplyTemplate();
 
             AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
+        }
 
-            EnableOrDisableYearConverterDependingOnFormat();
+        protected override void OnLoaded(EventArgs e)
+        {
+            // Ensure that we have a template.
+            ApplyTemplate();
+
+            ApplyFormat();
+            base.OnLoaded(e);
+        }
+
+        protected override void OnUnloaded(EventArgs e)
+        {
+            base.OnUnloaded(e);
+            UnsubscribeNumericTextBoxes();
         }
 
         private void OnFormatChanged()

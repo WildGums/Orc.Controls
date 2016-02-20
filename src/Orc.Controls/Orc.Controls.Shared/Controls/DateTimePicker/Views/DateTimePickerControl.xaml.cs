@@ -50,10 +50,6 @@ namespace Orc.Controls
                 NumericTBMinute,
                 NumericTBSecond,
             };
-
-            SubscribeNumericTextBoxes();
-
-            ApplyFormat();
         }
 
         private void SubscribeNumericTextBoxes()
@@ -167,7 +163,6 @@ namespace Orc.Controls
             typeof(DateTimePickerControl), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern.Count(x => x == 't') < 2 ? true : false));
 
         public static readonly DependencyProperty IsAmPmShortFormatProperty = IsAmPmShortFormatKey.DependencyProperty;
-
         #endregion
 
         #region Methods
@@ -314,10 +309,21 @@ namespace Orc.Controls
             base.OnApplyTemplate();
 
             AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
+        }
 
-            EnableOrDisableYearConverterDependingOnFormat();
-            EnableOrDisableHourConverterDependingOnFormat();
-            EnableOrDisableAmPmConverterDependingOnFormat();
+        protected override void OnLoaded(EventArgs e)
+        {
+            // Ensure that we have a template.
+            ApplyTemplate();
+
+            ApplyFormat();
+            base.OnLoaded(e);
+        }
+
+        protected override void OnUnloaded(EventArgs e)
+        {
+            base.OnUnloaded(e);
+            UnsubscribeNumericTextBoxes();
         }
 
         private void OnFormatChanged()
