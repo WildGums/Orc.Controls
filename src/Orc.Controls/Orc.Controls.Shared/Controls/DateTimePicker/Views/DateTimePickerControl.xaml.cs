@@ -157,6 +157,17 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty IsHour12FormatProperty = IsHour12FormatKey.DependencyProperty;
 
+        public bool IsAmPmShortFormat
+        {
+            get { return (bool)GetValue(IsAmPmShortFormatProperty); }
+            private set { SetValue(IsAmPmShortFormatKey, value); }
+        }
+
+        private static readonly DependencyPropertyKey IsAmPmShortFormatKey = DependencyProperty.RegisterReadOnly("IsAmPmShortFormat", typeof(bool),
+            typeof(DateTimePickerControl), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern.Count(x => x == 't') < 2 ? true : false));
+
+        public static readonly DependencyProperty IsAmPmShortFormatProperty = IsAmPmShortFormatKey.DependencyProperty;
+
         #endregion
 
         #region Methods
@@ -306,6 +317,7 @@ namespace Orc.Controls
 
             EnableOrDisableYearConverterDependingOnFormat();
             EnableOrDisableHourConverterDependingOnFormat();
+            EnableOrDisableAmPmConverterDependingOnFormat();
         }
 
         private void OnFormatChanged()
@@ -317,17 +329,20 @@ namespace Orc.Controls
         {
             var formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format, false);
 
+            IsYearShortFormat = formatInfo.IsYearShortFormat;
+            NumericTBYear.MinValue = formatInfo.IsYearShortFormat == true ? 0 : 1;
+            NumericTBYear.MaxValue = formatInfo.IsYearShortFormat == true ? 99 : 3000;
+
             IsHour12Format = formatInfo.IsHour12Format.Value;
             NumericTBHour.MinValue = formatInfo.IsHour12Format.Value == true ? 1 : 0;
             NumericTBHour.MaxValue = formatInfo.IsHour12Format.Value == true ? 12 : 23;
             ToggleButtonH.Tag = formatInfo.IsHour12Format.Value == true ? DateTimePart.Hour12 : DateTimePart.Hour;
 
-            IsYearShortFormat = formatInfo.IsYearShortFormat;
-            NumericTBYear.MinValue = formatInfo.IsYearShortFormat == true ? 0 : 1;
-            NumericTBYear.MaxValue = formatInfo.IsYearShortFormat == true ? 99 : 3000;
+            IsAmPmShortFormat = formatInfo.IsAmPmShortFormat.Value;
 
             EnableOrDisableYearConverterDependingOnFormat();
             EnableOrDisableHourConverterDependingOnFormat();
+            EnableOrDisableAmPmConverterDependingOnFormat();
 
             NumericTBDay.Format = GetFormat(formatInfo.DayFormat.Length);
             NumericTBMonth.Format = GetFormat(formatInfo.MonthFormat.Length);
@@ -394,6 +409,16 @@ namespace Orc.Controls
             {
                 converter.IsEnabled = IsHour12Format;
                 BindingOperations.GetBindingExpression(NumericTBHour, NumericTextBox.ValueProperty).UpdateTarget();
+            }
+        }
+
+        private void EnableOrDisableAmPmConverterDependingOnFormat()
+        {
+            var converter = TryFindResource("AmPmConverter") as AmPmLongToAmPmShortConverter;
+            if (converter != null)
+            {
+                converter.IsEnabled = IsAmPmShortFormat;
+                BindingOperations.GetBindingExpression(TextTBAmPm, TextBlock.TextProperty).UpdateTarget();
             }
         }
 

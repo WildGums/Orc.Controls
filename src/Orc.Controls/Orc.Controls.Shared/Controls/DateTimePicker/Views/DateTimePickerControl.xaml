@@ -11,6 +11,7 @@
     <catel:UserControl.Resources>
         <converters:YearLongToYearShortConverter x:Key="YearConverter" />
         <converters:Hour24ToHour12Converter x:Key="HourConverter" />
+        <converters:AmPmLongToAmPmShortConverter x:Key="AmPmConverter" />
     </catel:UserControl.Resources>
 
     <Grid x:Name="MainGrid">
@@ -87,7 +88,7 @@
 
                     <TextBlock x:Name="TextTBAmPm" Grid.Column="12"
                                Style="{DynamicResource AmPmStyle}"
-                               Text="{Binding AmPm}"
+                               Text="{Binding AmPm, Converter={StaticResource AmPmConverter}}"
                                Visibility="{Binding IsHour12Format, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}" />
                     <TextBlock Grid.Column="14" x:Name="Separator7" Text="" Style="{DynamicResource RatioSignStyle}"
                                Visibility="{Binding IsHour12Format, Converter={catel:BooleanToHidingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}" />
