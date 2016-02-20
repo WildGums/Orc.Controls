@@ -9,6 +9,7 @@
                    mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="190">
 
     <catel:UserControl.Resources>
+        <converters:YearLongToYearShortConverter x:Key="YearConverter" />
         <converters:Hour24ToHour12Converter x:Key="HourConverter" />
     </catel:UserControl.Resources>
 
@@ -55,7 +56,7 @@
                                   Checked="ToggleButton_OnChecked" Content="m"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
 
-                    <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Value="{Binding Year}" MinValue="0"
+                    <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Value="{Binding Year, Converter={StaticResource YearConverter}}" MinValue="1" MaxValue="3000"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
                     <TextBlock Grid.Column="5" x:Name="Separator3" Text="" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="5" x:Name="ToggleButtonY" Tag="{x:Static controls:DateTimePart.Year}" Content="y"

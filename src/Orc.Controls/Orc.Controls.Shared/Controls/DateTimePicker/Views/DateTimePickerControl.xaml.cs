@@ -135,6 +135,17 @@ namespace Orc.Controls
         public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof(string),
             typeof(DateTimePickerControl), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern, (sender, e) => ((DateTimePickerControl)sender).OnFormatChanged()));
 
+        public bool IsYearShortFormat
+        {
+            get { return (bool)GetValue(IsYearShortFormatProperty); }
+            private set { SetValue(IsYearShortFormatKey, value); }
+        }
+
+        private static readonly DependencyPropertyKey IsYearShortFormatKey = DependencyProperty.RegisterReadOnly("IsYearShortFormat", typeof(bool),
+            typeof(DateTimePickerControl), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.Count(x => x == 'y') < 3 ? true : false));
+
+        public static readonly DependencyProperty IsYearShortFormatProperty = IsYearShortFormatKey.DependencyProperty;
+
         public bool IsHour12Format
         {
             get { return (bool)GetValue(IsHour12FormatProperty); }
@@ -293,6 +304,7 @@ namespace Orc.Controls
 
             AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
 
+            EnableOrDisableYearConverterDependingOnFormat();
             EnableOrDisableHourConverterDependingOnFormat();
         }
 
@@ -310,6 +322,11 @@ namespace Orc.Controls
             NumericTBHour.MaxValue = formatInfo.IsHour12Format.Value == true ? 12 : 23;
             ToggleButtonH.Tag = formatInfo.IsHour12Format.Value == true ? DateTimePart.Hour12 : DateTimePart.Hour;
 
+            IsYearShortFormat = formatInfo.IsYearShortFormat;
+            NumericTBYear.MinValue = formatInfo.IsYearShortFormat == true ? 0 : 1;
+            NumericTBYear.MaxValue = formatInfo.IsYearShortFormat == true ? 99 : 3000;
+
+            EnableOrDisableYearConverterDependingOnFormat();
             EnableOrDisableHourConverterDependingOnFormat();
 
             NumericTBDay.Format = GetFormat(formatInfo.DayFormat.Length);
@@ -377,6 +394,16 @@ namespace Orc.Controls
             {
                 converter.IsEnabled = IsHour12Format;
                 BindingOperations.GetBindingExpression(NumericTBHour, NumericTextBox.ValueProperty).UpdateTarget();
+            }
+        }
+
+        private void EnableOrDisableYearConverterDependingOnFormat()
+        {
+            var converter = TryFindResource("YearConverter") as YearLongToYearShortConverter;
+            if (converter != null)
+            {
+                converter.IsEnabled = IsYearShortFormat;
+                BindingOperations.GetBindingExpression(NumericTBYear, NumericTextBox.ValueProperty).UpdateTarget();
             }
         }
 

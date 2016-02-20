@@ -4,10 +4,15 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:controls="clr-namespace:Orc.Controls"
+                   xmlns:converters="clr-namespace:Orc.Controls.Converters"
                    xmlns:catel="http://catel.codeplex.com"
                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                    mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="190">
 
+    <catel:UserControl.Resources>
+        <converters:YearLongToYearShortConverter x:Key="YearConverter" />
+    </catel:UserControl.Resources>
+    
     <Grid x:Name="MainGrid">
         <Border BorderThickness="1" Height="22" >
             <Grid Background="White" MinWidth="115">
@@ -41,7 +46,7 @@
                                   Checked="ToggleButton_OnChecked" Content="m"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
 
-                    <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Value="{Binding Year}" MinValue="0" MaxValue="3000"
+                    <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Value="{Binding Year, Converter={StaticResource YearConverter}}" MinValue="1" MaxValue="3000"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
                     <TextBlock Grid.Column="5" x:Name="Separator3" Text="" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="5" x:Name="ToggleButtonY" Tag="{x:Static controls:DateTimePart.Year}" Content="y"

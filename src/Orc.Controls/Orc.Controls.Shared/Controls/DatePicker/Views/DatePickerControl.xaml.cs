@@ -14,9 +14,11 @@ namespace Orc.Controls
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
+    using System.Windows.Data;
     using System.Windows.Media;
     using Catel.MVVM.Views;
     using Calendar = System.Windows.Controls.Calendar;
+    using Converters;
 
     /// <summary>
     /// Interaction logic for DatePickerControl.xaml
@@ -116,6 +118,17 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof(string),
             typeof(DatePickerControl), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern, (sender, e) => ((DatePickerControl)sender).OnFormatChanged()));
+
+        public bool IsYearShortFormat
+        {
+            get { return (bool)GetValue(IsYearShortFormatProperty); }
+            private set { SetValue(IsYearShortFormatKey, value); }
+        }
+
+        private static readonly DependencyPropertyKey IsYearShortFormatKey = DependencyProperty.RegisterReadOnly("IsYearShortFormat", typeof(bool),
+            typeof(DatePickerControl), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.Count(x => x == 'y') < 3 ? true : false));
+
+        public static readonly DependencyProperty IsYearShortFormatProperty = IsYearShortFormatKey.DependencyProperty;
 
         #endregion
 
@@ -231,6 +244,8 @@ namespace Orc.Controls
             base.OnApplyTemplate();
 
             AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
+
+            EnableOrDisableYearConverterDependingOnFormat();
         }
 
         private void OnFormatChanged()
@@ -241,6 +256,12 @@ namespace Orc.Controls
         private void ApplyFormat()
         {
             var formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format, true);
+
+            IsYearShortFormat = formatInfo.IsYearShortFormat;
+            NumericTBYear.MinValue = formatInfo.IsYearShortFormat == true ? 0 : 1;
+            NumericTBYear.MaxValue = formatInfo.IsYearShortFormat == true ? 99 : 3000;
+
+            EnableOrDisableYearConverterDependingOnFormat();
 
             NumericTBDay.Format = GetFormat(formatInfo.DayFormat.Length);
             NumericTBMonth.Format = GetFormat(formatInfo.MonthFormat.Length);
@@ -275,6 +296,16 @@ namespace Orc.Controls
         private string GetFormat(int digits)
         {
             return new string(Enumerable.Repeat('0', digits).ToArray());
+        }
+
+        private void EnableOrDisableYearConverterDependingOnFormat()
+        {
+            var converter = TryFindResource("YearConverter") as YearLongToYearShortConverter;
+            if (converter != null)
+            {
+                converter.IsEnabled = IsYearShortFormat;
+                BindingOperations.GetBindingExpression(NumericTBYear, NumericTextBox.ValueProperty).UpdateTarget();
+            }
         }
         #endregion
     }
