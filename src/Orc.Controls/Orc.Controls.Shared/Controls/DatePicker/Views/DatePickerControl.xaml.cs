@@ -14,12 +14,14 @@ namespace Orc.Controls
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
+    using System.Windows.Data;
     using System.Windows.Media;
     using Catel.MVVM.Views;
     using Calendar = System.Windows.Controls.Calendar;
+    using Converters;
 
     /// <summary>
-    /// Interaction logic for TimeSpanControl.xaml
+    /// Interaction logic for DatePickerControl.xaml
     /// </summary>
     public partial class DatePickerControl
     {
@@ -31,7 +33,7 @@ namespace Orc.Controls
         #region Constructors
         static DatePickerControl()
         {
-            typeof (DatePickerControl).AutoDetectViewPropertiesToSubscribe();
+            typeof(DatePickerControl).AutoDetectViewPropertiesToSubscribe();
         }
 
         public DatePickerControl()
@@ -44,26 +46,30 @@ namespace Orc.Controls
                 NumericTBMonth,
                 NumericTBYear,
             };
-
-            SubscribeNumericTextBoxes();
-
-            UpdateSeparators();
         }
 
         private void SubscribeNumericTextBoxes()
         {
+            // Enable support for switching between numeric textboxes, 
+            // 0-1 because we can't switch to right on last numeric textbox.
             _numericTextBoxes[0].RightBoundReached += NumericTextBoxOnRightBoundReached;
             _numericTextBoxes[1].RightBoundReached += NumericTextBoxOnRightBoundReached;
 
+            // Enable support for switching between numeric textboxes, 
+            // 2-1 because we can't switch to left on first numeric textbox.
             _numericTextBoxes[2].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
             _numericTextBoxes[1].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
         }
 
         private void UnsubscribeNumericTextBoxes()
         {
+            // Disable support for switching between numeric textboxes, 
+            // 0-1 because we can't switch to right on last numeric textbox.
             _numericTextBoxes[0].RightBoundReached -= NumericTextBoxOnRightBoundReached;
             _numericTextBoxes[1].RightBoundReached -= NumericTextBoxOnRightBoundReached;
 
+            // Disable support for switching between numeric textboxes, 
+            // 2-1 because we can't switch to left on first numeric textbox.
             _numericTextBoxes[2].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
             _numericTextBoxes[1].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
         }
@@ -73,7 +79,7 @@ namespace Orc.Controls
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public DateTime Value
         {
-            get { return (DateTime) GetValue(ValueProperty); }
+            get { return (DateTime)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
 
@@ -87,7 +93,7 @@ namespace Orc.Controls
             set { SetValue(ShowOptionsButtonProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register("ShowOptionsButton", typeof(bool), 
+        public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register("ShowOptionsButton", typeof(bool),
             typeof(DatePickerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public Brush AccentColorBrush
@@ -115,8 +121,18 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof(string),
-            typeof(DatePickerControl), new FrameworkPropertyMetadata(string.Empty, (sender, e) => ((DatePickerControl)sender).OnFormatChanged()));
+            typeof(DatePickerControl), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern, (sender, e) => ((DatePickerControl)sender).OnFormatChanged()));
 
+        public bool IsYearShortFormat
+        {
+            get { return (bool)GetValue(IsYearShortFormatProperty); }
+            private set { SetValue(IsYearShortFormatKey, value); }
+        }
+
+        private static readonly DependencyPropertyKey IsYearShortFormatKey = DependencyProperty.RegisterReadOnly("IsYearShortFormat", typeof(bool),
+            typeof(DatePickerControl), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.Count(x => x == 'y') < 3 ? true : false));
+
+        public static readonly DependencyProperty IsYearShortFormatProperty = IsYearShortFormatKey.DependencyProperty;
         #endregion
 
         #region Methods
@@ -140,7 +156,7 @@ namespace Orc.Controls
 
         private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
         {
-            _activeDateTimePart = (DateTimePart) ((ToggleButton) sender).Tag;
+            _activeDateTimePart = (DateTimePart)((ToggleButton)sender).Tag;
 
             var activeNumericTextBox = (NumericTextBox)FindName(_activeDateTimePart.GetDateTimePartName());
             var activeToggleButton = (ToggleButton)FindName(_activeDateTimePart.GetDateTimePartToggleButtonName());
@@ -159,11 +175,11 @@ namespace Orc.Controls
         {
             var calendar = new Calendar()
             {
-                Margin = new Thickness(0, -3, 0, -3), 
-                DisplayDate = Value, 
+                Margin = new Thickness(0, -3, 0, -3),
+                DisplayDate = Value,
                 SelectedDate = Value
             };
-            
+
             calendar.SelectedDatesChanged += CalendarOnSelectedDatesChanged;
 
             return calendar;
@@ -177,7 +193,7 @@ namespace Orc.Controls
                 UpdateDate(calendar.SelectedDate.Value);
             }
             ((Popup)calendar.Parent).IsOpen = false;
-            
+
         }
 
         private void UpdateDate(DateTime date)
@@ -233,72 +249,64 @@ namespace Orc.Controls
             AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
         }
 
+        protected override void OnLoaded(EventArgs e)
+        {
+            // Ensure that we have a template.
+            ApplyTemplate();
+
+            ApplyFormat();
+            base.OnLoaded(e);
+        }
+
+        protected override void OnUnloaded(EventArgs e)
+        {
+            base.OnUnloaded(e);
+            UnsubscribeNumericTextBoxes();
+        }
+
         private void OnFormatChanged()
         {
-            UpdateFormat();
-            UpdatePosition();
-            UpdateSeparators();
+            ApplyFormat();
         }
 
-        private void UpdateFormat()
+        private void ApplyFormat()
         {
-            var dayFormat = Format.Count(x => x == 'd');
-            var monthFormat = Format.Count(x => x == 'M');
-            var yearFormat = Format.Count(x => x == 'y');
+            var formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format, true);
 
-            NumericTBDay.Format = GetFormat(dayFormat);
-            NumericTBMonth.Format = GetFormat(monthFormat);
-            NumericTBYear.Format = GetFormat(yearFormat);
-        }
+            IsYearShortFormat = formatInfo.IsYearShortFormat;
+            NumericTBYear.MinValue = formatInfo.IsYearShortFormat == true ? 0 : 1;
+            NumericTBYear.MaxValue = formatInfo.IsYearShortFormat == true ? 99 : 3000;
 
-        private void UpdatePosition()
-        {
-            int? dayPosition = null;
-            int? monthPosition = null;
-            int? yearPosition = null;
+            EnableOrDisableYearConverterDependingOnFormat();
 
-            var current = 0;
-            foreach (var c in Format)
-            {
-                if (c == 'd' && dayPosition == null)
-                {
-                    dayPosition = current++;
-                }
-                else if (c == 'M' && monthPosition == null)
-                {
-                    monthPosition = current++;
-                }
-                else if (c == 'y' && yearPosition == null)
-                {
-                    yearPosition = current++;
-                }
-            }
-
-            if (dayPosition == null || monthPosition == null || yearPosition == null)
-            {
-                throw new FormatException("Format string is incorrect. Day, month and year fields are mandatory");
-            }
+            NumericTBDay.Format = GetFormat(formatInfo.DayFormat.Length);
+            NumericTBMonth.Format = GetFormat(formatInfo.MonthFormat.Length);
+            NumericTBYear.Format = GetFormat(formatInfo.YearFormat.Length);
 
             UnsubscribeNumericTextBoxes();
-            
-            Grid.SetColumn(NumericTBDay, GetPosition(dayPosition.Value));
-            Grid.SetColumn(NumericTBMonth, GetPosition(monthPosition.Value));
-            Grid.SetColumn(NumericTBYear, GetPosition(yearPosition.Value));
 
-            Grid.SetColumn(ToggleButtonD, GetPosition(dayPosition.Value) + 1);
-            Grid.SetColumn(ToggleButtonMo, GetPosition(monthPosition.Value) + 1);
-            Grid.SetColumn(ToggleButtonY, GetPosition(yearPosition.Value) + 1);
+            Grid.SetColumn(NumericTBDay, GetPosition(formatInfo.DayPosition));
+            Grid.SetColumn(NumericTBMonth, GetPosition(formatInfo.MonthPosition));
+            Grid.SetColumn(NumericTBYear, GetPosition(formatInfo.YearPosition));
 
-            _numericTextBoxes[dayPosition.Value] = NumericTBDay;
-            _numericTextBoxes[monthPosition.Value] = NumericTBMonth;
-            _numericTextBoxes[yearPosition.Value] = NumericTBYear;
+            Grid.SetColumn(ToggleButtonD, GetPosition(formatInfo.DayPosition) + 1);
+            Grid.SetColumn(ToggleButtonMo, GetPosition(formatInfo.MonthPosition) + 1);
+            Grid.SetColumn(ToggleButtonY, GetPosition(formatInfo.YearPosition) + 1);
+
+            _numericTextBoxes[formatInfo.DayPosition] = NumericTBDay;
+            _numericTextBoxes[formatInfo.MonthPosition] = NumericTBMonth;
+            _numericTextBoxes[formatInfo.YearPosition] = NumericTBYear;
 
             SubscribeNumericTextBoxes();
+
+            Separator1.Text = formatInfo.Separator1;
+            Separator2.Text = formatInfo.Separator2;
+            Separator3.Text = formatInfo.Separator3;
         }
 
         private int GetPosition(int index)
         {
-            return index*2;
+            return index * 2;
         }
 
         private string GetFormat(int digits)
@@ -306,10 +314,14 @@ namespace Orc.Controls
             return new string(Enumerable.Repeat('0', digits).ToArray());
         }
 
-        private void UpdateSeparators()
+        private void EnableOrDisableYearConverterDependingOnFormat()
         {
-            var separator = CultureInfo.InvariantCulture.DateTimeFormat.DateSeparator;
-            Separator1.Text = Separator2.Text = separator;
+            var converter = TryFindResource("YearLongToYearShortConverter") as YearLongToYearShortConverter;
+            if (converter != null)
+            {
+                converter.IsEnabled = IsYearShortFormat;
+                BindingOperations.GetBindingExpression(NumericTBYear, NumericTextBox.ValueProperty).UpdateTarget();
+            }
         }
         #endregion
     }

@@ -4,12 +4,19 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:controls="clr-namespace:Orc.Controls"
+                   xmlns:converters="clr-namespace:Orc.Controls.Converters"
                    xmlns:catel="http://catel.codeplex.com"
                    mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="190">
 
+    <catel:UserControl.Resources>
+        <converters:YearLongToYearShortConverter x:Key="YearLongToYearShortConverter" />
+        <converters:Hour24ToHour12Converter x:Key="Hour24ToHour12Converter" />
+        <converters:AmPmLongToAmPmShortConverter x:Key="AmPmLongToAmPmShortConverter" />
+    </catel:UserControl.Resources>
+
     <Grid x:Name="MainGrid">
         <Border BorderThickness="1" Height="22" >
-            <Grid Background="White" MinWidth="200">
+            <Grid Background="White" Style="{DynamicResource DateTimePickerInnerGridStyle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto"/>
@@ -28,12 +35,16 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <controls:NumericTextBox x:Name="NumericTBDay" Grid.Column="0" Value="{Binding Day}" MinValue="1"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
-                    <TextBlock Grid.Column="1" Text="/" Style="{DynamicResource RatioSignStyle}" />
+                    <TextBlock Grid.Column="1" x:Name="Separator1" Text="/" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="1" x:Name="ToggleButtonD" Tag="{x:Static controls:DateTimePart.Day}"
                                   Checked="ToggleButton_OnChecked" Content="d"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
@@ -41,20 +52,20 @@
                     <controls:NumericTextBox x:Name="NumericTBMonth" Grid.Column="2" Value="{Binding Month, UpdateSourceTrigger=PropertyChanged}" 
                                              MinValue="1" MaxValue="12" TextChanged="NumericTBMonth_OnTextChanged"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
-                    <TextBlock Grid.Column="3" Text="/" Style="{DynamicResource RatioSignStyle}" />
+                    <TextBlock Grid.Column="3" x:Name="Separator2" Text="/" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="3" x:Name="ToggleButtonMo" Tag="{x:Static controls:DateTimePart.Month}"
                                   Checked="ToggleButton_OnChecked" Content="m"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
 
-                    <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Value="{Binding Year}" MinValue="0"
+                    <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Value="{Binding Year, Converter={StaticResource YearLongToYearShortConverter}}" MinValue="1" MaxValue="3000"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
-                    <TextBlock Grid.Column="5" Text="" Style="{DynamicResource RatioSignStyle}" />
+                    <TextBlock Grid.Column="5" x:Name="Separator3" Text="" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="5" x:Name="ToggleButtonY" Tag="{x:Static controls:DateTimePart.Year}" Content="y"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
 
-                    <controls:NumericTextBox x:Name="NumericTBHour" Grid.Column="6" Value="{Binding Hour}" MaxValue="23" MinValue="0"
+                    <controls:NumericTextBox x:Name="NumericTBHour" Grid.Column="6" Value="{Binding Hour, Converter={StaticResource Hour24ToHour12Converter}}" Format="00" MaxValue="23" MinValue="0"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
-                    <TextBlock Grid.Column="7" Text=":" Style="{DynamicResource RatioSignStyle}" />
+                    <TextBlock Grid.Column="7" x:Name="Separator4" Text=":" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="7" x:Name="ToggleButtonH" Tag="{x:Static controls:DateTimePart.Hour}"
                                   Checked="ToggleButton_OnChecked" Content="h"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
@@ -62,7 +73,7 @@
                     <controls:NumericTextBox x:Name="NumericTBMinute" Grid.Column="8" Format="00" MaxValue="59" MinValue="00"
                                              Value="{Binding Minute}"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
-                    <TextBlock Grid.Column="9" Text=":" Style="{DynamicResource RatioSignStyle}" />
+                    <TextBlock Grid.Column="9" x:Name="Separator5" Text=":" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="9" x:Name="ToggleButtonM" Tag="{x:Static controls:DateTimePart.Minute}"
                                   Checked="ToggleButton_OnChecked" Content="m"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
@@ -70,9 +81,21 @@
                     <controls:NumericTextBox x:Name="NumericTBSecond" Grid.Column="10" Format="00" MaxValue="59" MinValue="0"
                                              Value="{Binding Second}"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
+                    <TextBlock Grid.Column="11" x:Name="Separator6" Text="" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="11" x:Name="ToggleButtonS" Tag="{x:Static controls:DateTimePart.Second}"
                                   Checked="ToggleButton_OnChecked" Content="s"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
+
+                    <TextBlock x:Name="TextTBAmPm" Grid.Column="12"
+                               Style="{DynamicResource AmPmStyle}"
+                               Text="{Binding AmPm, Converter={StaticResource AmPmLongToAmPmShortConverter}}"
+                               Visibility="{Binding IsHour12Format, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}" />
+                    <TextBlock Grid.Column="14" x:Name="Separator7" Text="" Style="{DynamicResource RatioSignStyle}"
+                               Visibility="{Binding IsHour12Format, Converter={catel:BooleanToHidingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}" />
+                    <ToggleButton Grid.Column="14" x:Name="ToggleButtonT"
+                                  IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"
+                                  Content="t"
+                                  Visibility="Collapsed" />
 
                 </Grid>
                 <StackPanel Grid.Column="1">

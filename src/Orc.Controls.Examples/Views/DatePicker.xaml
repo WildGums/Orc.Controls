@@ -11,8 +11,21 @@
     <!-- Content -->
     <StackPanel>
         <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Select format" VerticalAlignment="Center" Width="150"/>
+            <ComboBox Margin="5" MinWidth="225" ItemsSource="{Binding AvailableFormats}" SelectedItem="{Binding SelectedFormat}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding CultureCode}" Margin="2 2 5 2" />
+                            <TextBlock Text="{Binding FormatValue}" Margin="2" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
             <TextBlock Text="DatePicker Control" VerticalAlignment="Center" Width="150"/>
-            <orc:DatePickerControl Value="{Binding DateValue}" Width="120" Margin="5" Format="yyyy/MM/dd" HorizontalAlignment="Left" IsReadOnly="{Binding IsChecked, ElementName=readOnlyCheckbox}" />
+            <orc:DatePickerControl Value="{Binding DateValue}" Width="120" Margin="5" Format="{Binding SelectedFormat.FormatValue}" HorizontalAlignment="Left" IsReadOnly="{Binding IsChecked, ElementName=readOnlyCheckbox}" />
             <CheckBox x:Name="readOnlyCheckbox" Content="Read only" IsChecked="False" Margin="15 9 8 8"/>
         </StackPanel>
     </StackPanel>

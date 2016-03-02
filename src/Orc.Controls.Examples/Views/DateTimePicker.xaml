@@ -11,13 +11,26 @@
     <!-- Content -->
     <StackPanel>
         <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Select format" VerticalAlignment="Center" Width="150"/>
+            <ComboBox Margin="5" MinWidth="225" ItemsSource="{Binding AvailableFormats}" SelectedItem="{Binding SelectedFormat}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding CultureCode}" Margin="2 2 5 2" />
+                            <TextBlock Text="{Binding FormatValue}" Margin="2" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
             <TextBlock Text="DateTimePicker Control" VerticalAlignment="Center" Width="150"/>
-            <orc:DateTimePickerControl Value="{Binding DateTimeValue}" Width="210" Margin="5" HorizontalAlignment="Left" IsReadOnly="{Binding IsChecked, ElementName=readOnlyCheckbox}" />
+            <orc:DateTimePickerControl Value="{Binding DateTimeValue}" Width="225" Margin="5" Format="{Binding SelectedFormat.FormatValue}" HorizontalAlignment="Left" IsReadOnly="{Binding IsChecked, ElementName=readOnlyCheckbox}" />
             <CheckBox x:Name="readOnlyCheckbox" Content="Read only" IsChecked="False" Margin="15 9 8 8"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Selected DateTime" VerticalAlignment="Center" Width="150"/>
-            <TextBox Text="{Binding DateTimeValue}" Width="210" Margin="5" 
+            <TextBox Text="{Binding DateTimeValue}" Width="225" Margin="5" 
                  HorizontalAlignment="Left"/>
         </StackPanel>
     </StackPanel>
