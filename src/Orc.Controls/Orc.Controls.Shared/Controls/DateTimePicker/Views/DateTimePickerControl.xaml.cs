@@ -54,12 +54,16 @@ namespace Orc.Controls
 
         private void SubscribeNumericTextBoxes()
         {
+            // Enable support for switching between numeric textboxes, 
+            // 0-4 because we can't switch to right on last numeric textbox.
             _numericTextBoxes[0].RightBoundReached += NumericTextBoxOnRightBoundReached;
             _numericTextBoxes[1].RightBoundReached += NumericTextBoxOnRightBoundReached;
             _numericTextBoxes[2].RightBoundReached += NumericTextBoxOnRightBoundReached;
             _numericTextBoxes[3].RightBoundReached += NumericTextBoxOnRightBoundReached;
             _numericTextBoxes[4].RightBoundReached += NumericTextBoxOnRightBoundReached;
 
+            // Enable support for switching between numeric textboxes, 
+            // 5-1 because we can't switch to left on first numeric textbox.
             _numericTextBoxes[5].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
             _numericTextBoxes[4].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
             _numericTextBoxes[3].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
@@ -69,12 +73,16 @@ namespace Orc.Controls
 
         private void UnsubscribeNumericTextBoxes()
         {
+            // Disable support for switching between numeric textboxes, 
+            // 0-4 because we can't switch to right on last numeric textbox.
             _numericTextBoxes[0].RightBoundReached -= NumericTextBoxOnRightBoundReached;
             _numericTextBoxes[1].RightBoundReached -= NumericTextBoxOnRightBoundReached;
             _numericTextBoxes[2].RightBoundReached -= NumericTextBoxOnRightBoundReached;
             _numericTextBoxes[3].RightBoundReached -= NumericTextBoxOnRightBoundReached;
             _numericTextBoxes[4].RightBoundReached -= NumericTextBoxOnRightBoundReached;
 
+            // Disable support for switching between numeric textboxes, 
+            // 5-1 because we can't switch to left on first numeric textbox.
             _numericTextBoxes[5].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
             _numericTextBoxes[4].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
             _numericTextBoxes[3].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
@@ -410,7 +418,7 @@ namespace Orc.Controls
 
         private void EnableOrDisableHourConverterDependingOnFormat()
         {
-            var converter = TryFindResource("HourConverter") as Hour24ToHour12Converter;
+            var converter = TryFindResource("Hour24ToHour12Converter") as Hour24ToHour12Converter;
             if (converter != null)
             {
                 converter.IsEnabled = IsHour12Format;
@@ -420,7 +428,7 @@ namespace Orc.Controls
 
         private void EnableOrDisableAmPmConverterDependingOnFormat()
         {
-            var converter = TryFindResource("AmPmConverter") as AmPmLongToAmPmShortConverter;
+            var converter = TryFindResource("AmPmLongToAmPmShortConverter") as AmPmLongToAmPmShortConverter;
             if (converter != null)
             {
                 converter.IsEnabled = IsAmPmShortFormat;
@@ -430,7 +438,7 @@ namespace Orc.Controls
 
         private void EnableOrDisableYearConverterDependingOnFormat()
         {
-            var converter = TryFindResource("YearConverter") as YearLongToYearShortConverter;
+            var converter = TryFindResource("YearLongToYearShortConverter") as YearLongToYearShortConverter;
             if (converter != null)
             {
                 converter.IsEnabled = IsYearShortFormat;

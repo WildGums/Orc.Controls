@@ -422,7 +422,7 @@ namespace Orc.Controls
             {
                 ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true), x =>
                 {
-                    return string.Equals(x.Message, "Format string is incorrent. Time fields are not expected");
+                    return string.Equals(x.Message, "Format string is incorrect. Time fields are not expected");
                 });
             }
 

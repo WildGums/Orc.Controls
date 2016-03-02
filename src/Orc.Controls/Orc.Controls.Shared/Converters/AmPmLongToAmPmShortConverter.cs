@@ -32,6 +32,7 @@ namespace Orc.Controls.Converters
                 {
                     return "A";
                 }
+
                 if(string.Equals(value, "PM"))
                 {
                     return "P";

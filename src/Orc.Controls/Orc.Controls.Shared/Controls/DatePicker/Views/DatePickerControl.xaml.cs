@@ -50,18 +50,26 @@ namespace Orc.Controls
 
         private void SubscribeNumericTextBoxes()
         {
+            // Enable support for switching between numeric textboxes, 
+            // 0-1 because we can't switch to right on last numeric textbox.
             _numericTextBoxes[0].RightBoundReached += NumericTextBoxOnRightBoundReached;
             _numericTextBoxes[1].RightBoundReached += NumericTextBoxOnRightBoundReached;
 
+            // Enable support for switching between numeric textboxes, 
+            // 2-1 because we can't switch to left on first numeric textbox.
             _numericTextBoxes[2].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
             _numericTextBoxes[1].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
         }
 
         private void UnsubscribeNumericTextBoxes()
         {
+            // Disable support for switching between numeric textboxes, 
+            // 0-1 because we can't switch to right on last numeric textbox.
             _numericTextBoxes[0].RightBoundReached -= NumericTextBoxOnRightBoundReached;
             _numericTextBoxes[1].RightBoundReached -= NumericTextBoxOnRightBoundReached;
 
+            // Disable support for switching between numeric textboxes, 
+            // 2-1 because we can't switch to left on first numeric textbox.
             _numericTextBoxes[2].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
             _numericTextBoxes[1].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
         }
@@ -308,7 +316,7 @@ namespace Orc.Controls
 
         private void EnableOrDisableYearConverterDependingOnFormat()
         {
-            var converter = TryFindResource("YearConverter") as YearLongToYearShortConverter;
+            var converter = TryFindResource("YearLongToYearShortConverter") as YearLongToYearShortConverter;
             if (converter != null)
             {
                 converter.IsEnabled = IsYearShortFormat;
