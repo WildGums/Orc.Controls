@@ -115,6 +115,7 @@
     <Compile Include="ViewModels\ExpanderViewModel.cs" />
     <Compile Include="ViewModels\OpenFilePickerViewModel.cs" />
     <Compile Include="ViewModels\PinnableToolTipViewModel.cs" />
+    <Compile Include="ViewModels\ValidationContextDisplayViewModel.cs" />
     <Compile Include="Views\AnimatedGif.xaml.cs">
       <DependentUpon>AnimatedGif.xaml</DependentUpon>
     </Compile>
@@ -173,6 +174,9 @@
     </Compile>
     <Compile Include="Views\TimeSpan.xaml.cs">
       <DependentUpon>TimeSpan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ValidationContextDisplay.xaml.cs">
+      <DependentUpon>ValidationContextDisplay.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Watermark.xaml.cs">
       <DependentUpon>Watermark.xaml</DependentUpon>
@@ -258,6 +262,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TimeSpan.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ValidationContextDisplay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

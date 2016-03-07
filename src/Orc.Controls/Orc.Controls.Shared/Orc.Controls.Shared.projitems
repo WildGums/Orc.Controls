@@ -101,6 +101,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\Views\TimeSpanControl.xaml.cs">
       <DependentUpon>TimeSpanControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\ValidationResultGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\ValidationRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\ViewModels\ValidationContextDisplayViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Views\ValidationContextDisplay.xaml.cs">
+      <DependentUpon>ValidationContextDisplay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\WatermarkTextBox\WatermarkTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\AmPmLongToAmPmShortConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\Hour24ToHour12Converter.cs" />
@@ -201,6 +207,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\Views\TimeSpanControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Views\ValidationContextDisplay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
