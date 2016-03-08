@@ -18,19 +18,19 @@
 
                 <HierarchicalDataTemplate DataType="{x:Type controls:ValidationRule}" ItemsSource="{Binding ResultGroups}">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" Margin="0" >
-                        <TextBlock Text="{Binding Summary}" FontWeight="Bold" Margin="5,0,0,0" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Summary}" Margin="5,0,0,0" VerticalAlignment="Center" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType="{x:Type controls:ValidationResultGroup}" ItemsSource="{Binding ValidationResults}">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" Margin="0" >
-                        <TextBlock Text="{Binding ResultType}" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="red"/>
+                        <TextBlock Text="{Binding ResultType}" Margin="5,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
                 
                 <HierarchicalDataTemplate DataType="{x:Type data:ValidationResult}" >
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" Margin="0" >
-                        <TextBlock Text="{Binding Message}" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="Orange"/>
+                        <TextBlock Text="{Binding Message}" Margin="5,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
