@@ -13,26 +13,24 @@ namespace Orc.Controls
 
     public class ValidationRule : ModelBase
     {
-        public ValidationRule(string name, ValidationContext validationContext)
+        
+        public ValidationRule(string name)
         {
             DisplayName = name;
-            ValidationContext = validationContext;
+            ResultGroups = new List<ValidationResultGroup>();
         }
 
-        public string DisplayName { get; set; }
-        public ValidationContext ValidationContext { get; set; }
-        public IList<ValidationResultGroup> ResultGroups { get; set; }
+        public string DisplayName { get; private set; }
 
-        private void OnValidationContextChanged()
+        public IList<ValidationResultGroup> ResultGroups { get; private set; }
+
+        public string Summary { get; private set; }
+
+        public void SetSummary()
         {
-            var groups = new List<ValidationResultGroup>();
-            if (ValidationContext.HasErrors)
-            {
-                var errors = new ValidationResultGroup(ValidationResultType.Error);
-                groups.Add(errors);
-
-                errors.ValidationResults = ValidationContext.GetBusinessRuleErrors().Cast<IValidationResult>().ToList();
-            }
+            var errorCount = ResultGroups.Where(x => x.ResultType == ValidationResultType.Error).SelectMany(x => x.ValidationResults).Count();
+            var warningCount = ResultGroups.Where(x => x.ResultType == ValidationResultType.Warning).SelectMany(x => x.ValidationResults).Count();
+            Summary = $"{DisplayName} (Errors: {errorCount}, Warnings: {warningCount})";
         }
     }
 }

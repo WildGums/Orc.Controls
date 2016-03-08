@@ -18,7 +18,7 @@
 
                 <HierarchicalDataTemplate DataType="{x:Type controls:ValidationRule}" ItemsSource="{Binding ResultGroups}">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" Margin="0" >
-                        <TextBlock Text="{Binding DisplayName}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Summary}" Margin="5,0,0,0" VerticalAlignment="Center" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
@@ -28,7 +28,7 @@
                     </StackPanel>
                 </HierarchicalDataTemplate>
                 
-                <HierarchicalDataTemplate DataType="{x:Type data:IValidationResult}" >
+                <HierarchicalDataTemplate DataType="{x:Type data:ValidationResult}" >
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" Margin="0" >
                         <TextBlock Text="{Binding Message}" Margin="5,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
