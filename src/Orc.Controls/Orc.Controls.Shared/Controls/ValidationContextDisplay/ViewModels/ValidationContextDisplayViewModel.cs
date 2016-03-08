@@ -33,10 +33,15 @@ namespace Orc.Controls
             var result3 = BusinessRuleValidationResult.CreateErrorWithTag("Error2 message", "Rule2");
             var result4 = BusinessRuleValidationResult.CreateErrorWithTag("Error3 message", "Rule2");
 
+            var result5 = BusinessRuleValidationResult.CreateWarning("Warning2 message"); // No tags
+            var result6 = BusinessRuleValidationResult.CreateError("Error4 message"); // No tags
+
             context.AddBusinessRuleValidationResult(result1);
             context.AddBusinessRuleValidationResult(result2);
             context.AddBusinessRuleValidationResult(result3);
             context.AddBusinessRuleValidationResult(result4);
+            context.AddBusinessRuleValidationResult(result5);
+            context.AddBusinessRuleValidationResult(result6);
 
             var validationResultsByTag = context.GetBusinessRuleValidations().GroupBy(x => x.Tag);
 
@@ -45,7 +50,7 @@ namespace Orc.Controls
                 var errors = context.GetBusinessRuleErrors(group.Key);
                 var warnings = context.GetBusinessRuleWarnings(group.Key);
 
-                var ruleName = string.Empty;
+                var ruleName = "Misc";
 
                 if (group.Key is string)
                 {
