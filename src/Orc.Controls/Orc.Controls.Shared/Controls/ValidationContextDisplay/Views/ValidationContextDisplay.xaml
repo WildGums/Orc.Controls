@@ -14,6 +14,8 @@
     <UserControl.Resources>
         <converters:TreeViewItemToLeftMarginValueConverter Length="15" x:Key="LengthConverter" />
         
+        <converters:ValidationResultTypeToColorConverter DefaultColor="Black" ErrorColor="Red" WarningColor="DarkOrange" x:Key="ResultTypeToColorConverter" />
+        
         <SolidColorBrush x:Key="TreeViewDisabledForegroundBrush" Color="DarkGray"/>
         
         <PathGeometry x:Key="TreeArrow" Figures="M0,0 L0,6 L6,0 z"/>
@@ -155,7 +157,7 @@
 
                 <HierarchicalDataTemplate DataType="{x:Type controls:ValidationContextTreeNodeBase}" ItemsSource="{Binding Children}">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" Margin="0" >
-                        <TextBlock Text="{Binding DisplayName}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding DisplayName}" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="{Binding ResultType, Converter={StaticResource ResultTypeToColorConverter}}"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>

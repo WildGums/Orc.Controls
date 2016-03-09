@@ -101,6 +101,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\Views\TimeSpanControl.xaml.cs">
       <DependentUpon>TimeSpanControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Converters\ValidationResultTypeToColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\Base\ValidationContextTreeNodeBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\ValidationResultNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\ValidationResultTypeNode.cs" />
