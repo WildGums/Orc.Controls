@@ -10,13 +10,17 @@ namespace Orc.Controls
     using System.Collections.Specialized;
     using System.Linq;
     using Catel.Data;
+    using Catel.Reflection;
 
-    internal class ValidationResultTagNode : ValidationContextTreeNodeBase
+    internal class ValidationResultTagNode : ValidationContextTreeNode
     {
-        public ValidationResultTagNode(string tagName)
+        public ValidationResultTagNode(object tag)
         {
-            TagName = tagName;
+            Tag = tag;
+            TagName = ExtractRuleName(tag);
         }
+
+        public object Tag { get; }
 
         public string TagName { get; private set; }
 
@@ -39,6 +43,29 @@ namespace Orc.Controls
             base.OnPropertyObjectCollectionChanged(sender, e);
         }
 
+        private static string ExtractRuleName(object value)
+        {
+            if (ReferenceEquals(value, null))
+            {
+                return string.Empty;
+            }
+
+            var stringValue = value as string;
+            if (!string.IsNullOrWhiteSpace(stringValue))
+            {
+                return stringValue;
+            }
+
+            var type = value.GetType();
+            var nameProperty = type.GetPropertyEx("Name");
+            if (nameProperty != null)
+            {
+                return (string) nameProperty.GetValue(value, new object[0]);
+            }
+
+            return value.ToString();
+        }
+
         private void UpdateDisplayName()
         {
             var errorCount = Children.OfType<ValidationResultTypeNode>().Where(x => x.ResultType == ValidationResultType.Error)
@@ -48,6 +75,13 @@ namespace Orc.Controls
                 .SelectMany(x => x.Children).Count();
 
             DisplayName = $"{TagName} (Errors: {errorCount}, Warnings: {warningCount})";
+        }
+
+        public override void ApplyFilter(bool showErrors, bool showWarnings, string filter)
+        {
+            base.ApplyFilter(showErrors, showWarnings, filter);
+
+            IsVisible = Children.Any(x => x.IsVisible);
         }
     }
 }

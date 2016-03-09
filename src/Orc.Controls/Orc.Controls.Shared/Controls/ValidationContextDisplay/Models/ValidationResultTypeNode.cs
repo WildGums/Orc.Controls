@@ -12,7 +12,7 @@ namespace Orc.Controls
     using Catel.Collections;
     using Catel.Data;
 
-    internal class ValidationResultTypeNode : ValidationContextTreeNodeBase
+    internal class ValidationResultTypeNode : ValidationContextTreeNode
     {
         public ValidationResultTypeNode(ValidationResultType resultType, IEnumerable<IValidationResult> validationResults)
         {
@@ -34,6 +34,25 @@ namespace Orc.Controls
                     DisplayName = "Warnings";
                     break;                    
             }
+        }
+
+        public override void ApplyFilter(bool showErrors, bool showWarnings, string filter)
+        {
+            base.ApplyFilter(showErrors, showWarnings, filter);
+
+            if (showErrors && ResultType != null && ResultType.Value == ValidationResultType.Error)
+            {
+                IsVisible = Children.Any(x => x.IsVisible);
+                return;
+            }
+
+            if (showWarnings && ResultType != null && ResultType.Value == ValidationResultType.Warning)
+            {
+                IsVisible = Children.Any(x => x.IsVisible);
+                return;
+            }
+
+            IsVisible = false;
         }
     }
 }

@@ -17,6 +17,7 @@ namespace Orc.Controls.Examples.ViewModels
 
         public bool ShowErrors { get; set; }
         public bool ShowWarnings { get; set; }
+        public string Filter { get; set; }
 
         protected override Task InitializeAsync()
         {

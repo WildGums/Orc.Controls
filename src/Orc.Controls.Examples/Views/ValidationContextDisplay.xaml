@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -24,15 +25,21 @@
                                       Grid.ColumnSpan="2"
                                       ValidationContext="{Binding ValidationContext}"
                                       ShowErrors="{Binding ShowErrors}"
-                                      ShowWarnings="{Binding ShowWarnings}" />
+                                      ShowWarnings="{Binding ShowWarnings}"
+                                      Filter="{Binding Filter}"/>
 
-        <ToggleButton Grid.Row="1"
+        <TextBox Grid.Row="1"
+                 Grid.Column="0"
+                 Grid.ColumnSpan="2"
+                 Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}"/>
+        
+        <ToggleButton Grid.Row="2"
                       Grid.Column="0"
                       Margin="4"
                       Content="Show Errors"
                       IsChecked="{Binding ShowErrors}" />
         
-        <ToggleButton Grid.Row="1"
+        <ToggleButton Grid.Row="2"
                       Grid.Column="1"
                       Margin="4"
                       Content="Show Warnings"

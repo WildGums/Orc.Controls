@@ -11,7 +11,6 @@ namespace Orc.Controls
     using Catel.Collections;
     using Catel.Data;
     using Catel.MVVM;
-    using Catel.Reflection;
 
     internal class ValidationContextDisplayViewModel : ViewModelBase
     {
@@ -20,92 +19,71 @@ namespace Orc.Controls
             ValidationRules = new FastObservableCollection<ValidationResultTagNode>();
         }
 
+        private void OnValidationContextChanged()
+        {
+            Update();
+            ApplyFilter();
+        }        
+
+        private void OnShowWarningsChanged()
+        {
+            ApplyFilter();
+        }
+
+        private void OnShowErrorsChanged()
+        {
+            ApplyFilter();
+        }
+
+        private void OnFilterChanged()
+        {
+            ApplyFilter();
+        }
+
+        private void Update()
+        {
+            ValidationRules.Clear();
+
+            var validationContext = ValidationContext;
+            if (validationContext == null)
+            {                
+                return;
+            }
+
+            var validationResults = validationContext
+                .GetBusinessRuleValidations()
+                .Select(x => x.Tag).Distinct()
+                .Select(tag => new ValidationResultTagNode(tag))
+                .OrderBy(x => x.TagName);
+
+            foreach (var validationRule in validationResults)
+            {
+                validationRule.AddValidationResultTypeNode(validationContext, ValidationResultType.Error);
+
+                validationRule.AddValidationResultTypeNode(validationContext, ValidationResultType.Warning);
+
+                ValidationRules.Add(validationRule);
+            }            
+        }
+
+        private void ApplyFilter()
+        {
+            foreach (var rules in ValidationRules)
+            {
+                rules.ApplyFilter(ShowErrors, ShowWarnings, Filter);
+            }
+        }
+
         #region Properties
+        public string Filter { get; set; }
+
         public ValidationContext ValidationContext { get; set; }
 
         public bool ShowWarnings { get; set; }
 
         public bool ShowErrors { get; set; }
 
-        public FastObservableCollection<ValidationResultTagNode> ValidationRules { get; }        
+        public FastObservableCollection<ValidationResultTagNode> ValidationRules { get; }
         #endregion
-
-        private void OnValidationContextChanged()
-        {
-            Update();
-        }
-
-        private void OnShowWarningsChanged()
-        {
-            Update();
-        }
-
-        private void OnShowErrorsChanged()
-        {
-            Update();
-        }
-
-        private void Update()
-        {
-            var validationContext = ValidationContext;
-            if (validationContext == null)
-            {
-                return;
-            }
-
-
-            using (ValidationRules.SuspendChangeNotifications())
-            {
-                ValidationRules.Clear();
-
-                var validationResultsByTag = validationContext.GetBusinessRuleValidations().GroupBy(x => x.Tag);
-                foreach (var group in validationResultsByTag)
-                {
-                    var tag = @group.Key;
-                    var ruleName = ExtractRuleName(tag);
-
-                    var validationRule = new ValidationResultTagNode(ruleName);
-
-                    if (ShowErrors)
-                    {
-                        var errors = validationContext.GetBusinessRuleErrors(tag);
-                        var errorGroup = new ValidationResultTypeNode(ValidationResultType.Error, errors);
-                        validationRule.Children.Add(errorGroup);
-                    }
-
-                    if (ShowWarnings)
-                    {
-                        var warnings = validationContext.GetBusinessRuleWarnings(tag);
-                        var warningGroup = new ValidationResultTypeNode(ValidationResultType.Warning, warnings);
-                        validationRule.Children.Add(warningGroup);
-                    }
-
-                    ValidationRules.Add(validationRule);
-                }
-            }
-        }
-
-        private static string ExtractRuleName(object value)
-        {
-            if (ReferenceEquals(value, null))
-            {
-                return string.Empty;
-            }
-
-            var stringValue = value as string;
-            if (!string.IsNullOrWhiteSpace(stringValue))
-            {
-                return stringValue;
-            }
-
-            var type = value.GetType();
-            var nameProperty = type.GetPropertyEx("Name");
-            if (nameProperty != null)
-            {
-                return (string)nameProperty.GetValue(value, new object[0]);
-            }
-            
-            return value.ToString();
-        }
     }
 }

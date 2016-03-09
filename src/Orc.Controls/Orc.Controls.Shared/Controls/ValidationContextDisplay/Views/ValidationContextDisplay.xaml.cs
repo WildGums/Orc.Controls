@@ -66,6 +66,16 @@ namespace Orc.Controls
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(
             "AccentColorBrush", typeof(Brush), typeof(ValidationContextDisplay), new PropertyMetadata(Brushes.LightGray,
                 (sender, e) => ((ValidationContextDisplay)sender).OnAccentColorBrushChanged()));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
+        public string Filter
+        {
+            get { return (string) GetValue(FilterProperty); }
+            set { SetValue(FilterProperty, value); }
+        }
+
+        public static readonly DependencyProperty FilterProperty = DependencyProperty.Register(
+            "Filter", typeof (string), typeof (ValidationContextDisplay), new PropertyMetadata(default(string)));
         #endregion
 
         public override void OnApplyTemplate()
