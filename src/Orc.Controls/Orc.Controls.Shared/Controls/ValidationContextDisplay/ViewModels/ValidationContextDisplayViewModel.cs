@@ -7,6 +7,7 @@
 
 namespace Orc.Controls
 {
+    using System.Collections.Generic;
     using System.Linq;
     using Catel.Collections;
     using Catel.Data;
@@ -19,11 +20,25 @@ namespace Orc.Controls
             ValidationRules = new FastObservableCollection<ValidationResultTagNode>();
         }
 
+        #region Properties
+        public string Filter { get; set; }
+
+        public ValidationContext ValidationContext { get; set; }
+
+        public bool ShowWarnings { get; set; }
+
+        public bool ShowErrors { get; set; }
+
+        public FastObservableCollection<ValidationResultTagNode> ValidationRules { get; }
+
+        public IEnumerable<IValidationContextTreeNode> Nodes => ValidationRules.OfType<IValidationContextTreeNode>();
+        #endregion
+
         private void OnValidationContextChanged()
         {
             Update();
             ApplyFilter();
-        }        
+        }
 
         private void OnShowWarningsChanged()
         {
@@ -46,7 +61,7 @@ namespace Orc.Controls
 
             var validationContext = ValidationContext;
             if (validationContext == null)
-            {                
+            {
                 return;
             }
 
@@ -63,7 +78,7 @@ namespace Orc.Controls
                 validationRule.AddValidationResultTypeNode(validationContext, ValidationResultType.Warning);
 
                 ValidationRules.Add(validationRule);
-            }            
+            }
         }
 
         private void ApplyFilter()
@@ -72,18 +87,6 @@ namespace Orc.Controls
             {
                 rules.ApplyFilter(ShowErrors, ShowWarnings, Filter);
             }
-        }
-
-        #region Properties
-        public string Filter { get; set; }
-
-        public ValidationContext ValidationContext { get; set; }
-
-        public bool ShowWarnings { get; set; }
-
-        public bool ShowErrors { get; set; }
-
-        public FastObservableCollection<ValidationResultTagNode> ValidationRules { get; }
-        #endregion
+        }        
     }
 }

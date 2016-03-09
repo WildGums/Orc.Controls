@@ -7,10 +7,12 @@
 
 namespace Orc.Controls
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Catel.Collections;
     using Catel.Data;
 
-    public class ValidationContextTreeNode : ModelBase
+    internal class ValidationContextTreeNode : ModelBase, IValidationContextTreeNode
     {
         protected ValidationContextTreeNode()
         {
@@ -26,6 +28,8 @@ namespace Orc.Controls
         public bool IsVisible { get; set; }
 
         public ValidationResultType? ResultType { get; set; }
+
+        IEnumerable<IValidationContextTreeNode> IValidationContextTreeNode.Children => Children.OfType<IValidationContextTreeNode>();
 
         public virtual void ApplyFilter(bool showErrors, bool showWarnings,  string filter)
         {

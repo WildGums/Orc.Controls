@@ -76,6 +76,16 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty FilterProperty = DependencyProperty.Register(
             "Filter", typeof (string), typeof (ValidationContextDisplay), new PropertyMetadata(default(string)));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewModelToView)]
+        public IEnumerable<IValidationContextTreeNode> Nodes
+        {
+            get { return (IEnumerable<IValidationContextTreeNode>) GetValue(NodesProperty); }
+            set { SetValue(NodesProperty, value); }
+        }
+
+        public static readonly DependencyProperty NodesProperty = DependencyProperty.Register(
+            "Nodes", typeof (IEnumerable<IValidationContextTreeNode>), typeof (ValidationContextDisplay), new PropertyMetadata(default(IEnumerable<IValidationContextTreeNode>)));
         #endregion
 
         public override void OnApplyTemplate()

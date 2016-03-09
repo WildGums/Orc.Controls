@@ -13,6 +13,7 @@
             <RowDefinition />
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -26,7 +27,8 @@
                                       ValidationContext="{Binding ValidationContext}"
                                       ShowErrors="{Binding ShowErrors}"
                                       ShowWarnings="{Binding ShowWarnings}"
-                                      Filter="{Binding Filter}"/>
+                                      Filter="{Binding Filter}"
+                                      Nodes="{Binding Nodes, Mode=OneWayToSource}"/>
 
         <TextBox Grid.Row="1"
                  Grid.Column="0"
@@ -44,5 +46,10 @@
                       Margin="4"
                       Content="Show Warnings"
                       IsChecked="{Binding ShowWarnings}" />
+        
+        <Button Grid.Row="3"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Command="{Binding CollapseExpand}" Content="Collapse / Expand"/>
     </Grid>
 </catel:UserControl>

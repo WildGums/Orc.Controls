@@ -103,6 +103,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Converters\ValidationResultTypeToColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Extensions\ValidationResultTagNodeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\Interfaces\IValidationContextTreeNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\ValidationContextTreeNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\ValidationResultNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\ValidationResultTypeNode.cs" />
