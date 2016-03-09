@@ -8,7 +8,34 @@
                    mc:Ignorable="d"
                    d:DesignHeight="300"
                    d:DesignWidth="300">
-    <Grid >
-        <orc:ValidationContextDisplay/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <orc:ValidationContextDisplay Grid.Row="0"
+                                      Grid.Column="0"
+                                      Grid.ColumnSpan="2"
+                                      ValidationContext="{Binding ValidationContext}"
+                                      ShowErrors="{Binding ShowErrors}"
+                                      ShowWarnings="{Binding ShowWarnings}" />
+
+        <ToggleButton Grid.Row="1"
+                      Grid.Column="0"
+                      Margin="4"
+                      Content="Show Errors"
+                      IsChecked="{Binding ShowErrors}" />
+        
+        <ToggleButton Grid.Row="1"
+                      Grid.Column="1"
+                      Margin="4"
+                      Content="Show Warnings"
+                      IsChecked="{Binding ShowWarnings}" />
     </Grid>
 </catel:UserControl>

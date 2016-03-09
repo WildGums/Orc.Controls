@@ -101,8 +101,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\Views\TimeSpanControl.xaml.cs">
       <DependentUpon>TimeSpanControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\ValidationResultGroup.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\ValidationRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\Base\ValidationContextTreeNodeBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\ValidationResultNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\ValidationResultTypeNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\ValidationResultTagNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\ViewModels\ValidationContextDisplayViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Views\ValidationContextDisplay.xaml.cs">
       <DependentUpon>ValidationContextDisplay.xaml</DependentUpon>
@@ -110,6 +112,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\WatermarkTextBox\WatermarkTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\AmPmLongToAmPmShortConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\Hour24ToHour12Converter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\TreeViewItemToLeftMarginValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\TimeSpanToTotalStringConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\YearLongToYearShortConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\DateTimePart.cs" />
@@ -118,6 +121,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\TimeSpanPart.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ColorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DependencyObjectExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TreeViewItemExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimeFormatHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimePartHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ScreenHelper.cs" />
