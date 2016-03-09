@@ -10,7 +10,7 @@ namespace Orc.Controls
     using Catel.Collections;
     using Catel.Data;
 
-    internal abstract class ValidationContextTreeNodeBase : ModelBase
+    public abstract class ValidationContextTreeNodeBase : ModelBase
     {
         protected ValidationContextTreeNodeBase()
         {

@@ -11,6 +11,7 @@ namespace Orc.Controls
     using Catel.Collections;
     using Catel.Data;
     using Catel.MVVM;
+    using Catel.Reflection;
 
     internal class ValidationContextDisplayViewModel : ViewModelBase
     {
@@ -60,33 +61,21 @@ namespace Orc.Controls
                 var validationResultsByTag = validationContext.GetBusinessRuleValidations().GroupBy(x => x.Tag);
                 foreach (var group in validationResultsByTag)
                 {
-                    var ruleName = string.Empty;
-
-                    if (group.Key is string)
-                    {
-                        ruleName = group.Key.ToString();
-                    }
-                    else
-                    {
-                        // TODO: reflfect on the object to get the "Name" value.
-                        // First check that a "Name" property exists.
-
-                        // We have an object and we need to retreive the "Name" property which we assume is a string.
-                        // Need to use reflrection to get the value of group.key.Name
-                    }
+                    var tag = @group.Key;
+                    var ruleName = ExtractRuleName(tag);
 
                     var validationRule = new ValidationResultTagNode(ruleName);
 
                     if (ShowErrors)
                     {
-                        var errors = validationContext.GetBusinessRuleErrors(group.Key);
+                        var errors = validationContext.GetBusinessRuleErrors(tag);
                         var errorGroup = new ValidationResultTypeNode(ValidationResultType.Error, errors);
                         validationRule.Children.Add(errorGroup);
                     }
 
                     if (ShowWarnings)
                     {
-                        var warnings = validationContext.GetBusinessRuleWarnings(group.Key);
+                        var warnings = validationContext.GetBusinessRuleWarnings(tag);
                         var warningGroup = new ValidationResultTypeNode(ValidationResultType.Warning, warnings);
                         validationRule.Children.Add(warningGroup);
                     }
@@ -94,6 +83,29 @@ namespace Orc.Controls
                     ValidationRules.Add(validationRule);
                 }
             }
+        }
+
+        private static string ExtractRuleName(object value)
+        {
+            if (ReferenceEquals(value, null))
+            {
+                return string.Empty;
+            }
+
+            var stringValue = value as string;
+            if (!string.IsNullOrWhiteSpace(stringValue))
+            {
+                return stringValue;
+            }
+
+            var type = value.GetType();
+            var nameProperty = type.GetPropertyEx("Name");
+            if (nameProperty != null)
+            {
+                return (string)nameProperty.GetValue(value, new object[0]);
+            }
+            
+            return value.ToString();
         }
     }
 }
