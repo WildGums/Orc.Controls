@@ -45,23 +45,23 @@
                                 <Setter Property="Stroke" TargetName="ExpandPath" Value="Black"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Stroke" TargetName="ExpandPath" Value="{StaticResource AccentColorBrush}"/>
-                                <Setter Property="Fill" TargetName="ExpandPath" Value="{StaticResource AccentColorBrush}"/>
+                                <Setter Property="Stroke" TargetName="ExpandPath" Value="{DynamicResource ValidationContextDisplayAccentBrush}"/>
+                                <Setter Property="Fill" TargetName="ExpandPath" Value="{DynamicResource ValidationContextDisplayAccentBrush}"/>
                             </Trigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
                                     <Condition Property="IsMouseOver" Value="True"/>
                                     <Condition Property="IsChecked" Value="True"/>
                                 </MultiTrigger.Conditions>
-                                <Setter Property="Stroke" TargetName="ExpandPath" Value="{StaticResource AccentColorBrush}"/>
-                                <Setter Property="Fill" TargetName="ExpandPath" Value="{StaticResource AccentColorBrush}"/>
+                                <Setter Property="Stroke" TargetName="ExpandPath" Value="{DynamicResource ValidationContextDisplayAccentBrush}"/>
+                                <Setter Property="Fill" TargetName="ExpandPath" Value="{DynamicResource ValidationContextDisplayAccentBrush}"/>
                             </MultiTrigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
                                     <Condition Property="IsMouseOver" Value="True"/>
                                     <Condition Property="IsChecked" Value="False"/>
                                 </MultiTrigger.Conditions>
-                                <Setter Property="Stroke" TargetName="ExpandPath" Value="{StaticResource AccentColorBrush}"/>
+                                <Setter Property="Stroke" TargetName="ExpandPath" Value="{DynamicResource ValidationContextDisplayAccentBrush}"/>
                                 <Setter Property="Fill" TargetName="ExpandPath" Value="Transparent"/>
                             </MultiTrigger>
                         </ControlTemplate.Triggers>
@@ -125,8 +125,7 @@
                                 <Setter TargetName="PART_Header" Property="MinHeight" Value="21"/>
                             </MultiTrigger>
                             <Trigger Property="IsSelected" Value="true">
-                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource AccentColorBrush4}"/>
-                                <Setter Property="Style" TargetName="Expander" Value="{DynamicResource TreeViewSelectedToggleButtonStyle}"/>
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource ValidationContextDisplayHighlightBrush}"/>
                             </Trigger>
                             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.IsActive}" Value="True" >
                                 <Setter TargetName="Bd" Property="Background" Value="WhiteSmoke"/>
@@ -136,7 +135,7 @@
                                     <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.IsActive}" Value="True"/>
                                     <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsSelected}" Value="True"/>
                                 </MultiDataTrigger.Conditions>
-                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource AccentColorBrush4}"/>
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource ValidationContextDisplayHighlightBrush}"/>
                             </MultiDataTrigger>
                             <Trigger Property="IsEnabled" Value="false">
                                 <Setter Property="Foreground" Value="{StaticResource TreeViewDisabledForegroundBrush}"/>

@@ -8,6 +8,7 @@
 namespace Orc.Controls
 {
     using System.Windows;
+    using System.Windows.Media;
     using Catel.Data;
     using Catel.MVVM.Views;
 
@@ -52,7 +53,34 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ShowWarningsProperty = DependencyProperty.Register(
-            "ShowWarnings", typeof(bool), typeof(ValidationContextDisplay), new PropertyMetadata(true));
+            "ShowWarnings", typeof(bool), typeof(ValidationContextDisplay), new PropertyMetadata(true));        
+
+        public Brush AccentColorBrush
+        {
+            get { return (Brush) GetValue(AccentColorBrushProperty); }
+            set { SetValue(AccentColorBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(
+            "AccentColorBrush", typeof(Brush), typeof(ValidationContextDisplay), new PropertyMetadata(Brushes.LightGray,
+                (sender, e) => ((ValidationContextDisplay)sender).OnAccentColorBrushChanged()));
         #endregion
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
+        }
+
+        private void OnAccentColorBrushChanged()
+        {
+            var solidColorBrush = AccentColorBrush as SolidColorBrush;
+            if (solidColorBrush != null)
+            {
+                var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
+                accentColor.CreateAccentColorResourceDictionary("ValidationContextDisplay");
+            }
+        }
     }
 }
