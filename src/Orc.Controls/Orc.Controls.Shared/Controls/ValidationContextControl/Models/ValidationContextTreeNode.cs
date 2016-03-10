@@ -8,6 +8,7 @@
 namespace Orc.Controls
 {
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using Catel.Collections;
     using Catel.Data;
@@ -23,6 +24,7 @@ namespace Orc.Controls
 
         public string DisplayName { get; protected set; }
 
+        [DefaultValue(true)]
         public bool IsExpanded { get; set; }
 
         public bool IsVisible { get; set; }

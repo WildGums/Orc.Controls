@@ -27,6 +27,10 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/TimeSpan/Themes/TimeSpan.generic.xaml" />
         
         <ResourceDictionary Source="/Orc.Controls;component/Controls/Expander/Themes/Expander.generic.xaml" />
+        
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/ValidationContextControl/Themes/ValidationContextControl.generic.xaml" />
+        
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/ValidationContextControlEx/Themes/ValidationContextControlEx.generic.xaml" />
 
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
