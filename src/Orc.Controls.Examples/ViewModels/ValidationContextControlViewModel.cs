@@ -7,43 +7,13 @@
 
 namespace Orc.Controls.Examples.ViewModels
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Catel.Data;
     using Catel.MVVM;
 
     public class ValidationContextControlViewModel : ViewModelBase
     {
-        public ValidationContextControlViewModel()
-        {
-            CollapseExpand = new Command(OnCollapseExpandExecuted);
-        }
-
         public IValidationContext ValidationContext { get; set; }
-
-        public bool ShowErrors { get; set; }
-        public bool ShowWarnings { get; set; }
-        public string Filter { get; set; }
-        public IEnumerable<IValidationContextTreeNode> Nodes { get; set; }
-
-        public Command CollapseExpand { get; set; }
-
-        private bool _expanded;
-        public void OnCollapseExpandExecuted()
-        {
-            var nodes = Nodes;
-            _expanded = !_expanded;
-            CollapseOrExpand(nodes, _expanded);          
-        }
-
-        private static void CollapseOrExpand(IEnumerable<IValidationContextTreeNode> nodes, bool isExpanded)
-        {
-            foreach (var validationContextTreeNode in nodes)
-            {
-                validationContextTreeNode.IsExpanded = isExpanded;
-                CollapseOrExpand(validationContextTreeNode.Children, isExpanded);
-            }
-        }
 
         protected override Task InitializeAsync()
         {

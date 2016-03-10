@@ -179,13 +179,9 @@
         <TabItem Header="TimeSpan">
             <views:TimeSpan />
         </TabItem>
-        
-        <TabItem Header="ValidationContextControl">
+               
+        <TabItem Header="AdvancedValidationContextTree">
             <views:ValidationContextControlView />
-        </TabItem>
-        
-        <TabItem Header="AdvancedValidationContextControl">
-            <views:AdvancedValidationContextControlView />
         </TabItem>
 
         <TabItem Header="WatermarkTextBox">

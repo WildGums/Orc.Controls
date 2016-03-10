@@ -7,7 +7,6 @@
 
 namespace Orc.Controls
 {
-    using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Media;
     using Catel.Data;
@@ -17,7 +16,7 @@ namespace Orc.Controls
     {
         static ValidationContextControl()
         {
-            typeof (ValidationContextControl).AutoDetectViewPropertiesToSubscribe();
+            typeof(ValidationContextControl).AutoDetectViewPropertiesToSubscribe();
         }
 
         public ValidationContextControl()
@@ -34,57 +33,27 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ValidationContextProperty = DependencyProperty.Register(
-            "ValidationContext", typeof(IValidationContext), typeof(ValidationContextControl), new PropertyMetadata(null));        
+            "ValidationContext", typeof (IValidationContext), typeof (ValidationContextControl), new PropertyMetadata(null));
 
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
-        public bool ShowErrors
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool ShowFilterBox
         {
-            get { return (bool) GetValue(ShowErrorsProperty); }
-            set { SetValue(ShowErrorsProperty, value); }
+            get { return (bool) GetValue(ShowFilterBoxProperty); }
+            set { SetValue(ShowFilterBoxProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowErrorsProperty = DependencyProperty.Register(
-            "ShowErrors", typeof(bool), typeof(ValidationContextControl), new PropertyMetadata(true));
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
-        public bool ShowWarnings
-        {
-            get { return (bool) GetValue(ShowWarningsProperty); }
-            set { SetValue(ShowWarningsProperty, value); }
-        }
-
-        public static readonly DependencyProperty ShowWarningsProperty = DependencyProperty.Register(
-            "ShowWarnings", typeof(bool), typeof(ValidationContextControl), new PropertyMetadata(true));        
+        public static readonly DependencyProperty ShowFilterBoxProperty = DependencyProperty.Register(
+            "ShowFilterBox", typeof (bool), typeof (ValidationContextControl), new PropertyMetadata(true));
 
         public Brush AccentColorBrush
         {
-            get { return (Brush) GetValue(AccentColorBrushProperty); }
+            get { return (Brush)GetValue(AccentColorBrushProperty); }
             set { SetValue(AccentColorBrushProperty, value); }
         }
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(
             "AccentColorBrush", typeof(Brush), typeof(ValidationContextControl), new PropertyMetadata(Brushes.LightGray,
                 (sender, e) => ((ValidationContextControl)sender).OnAccentColorBrushChanged()));
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
-        public string Filter
-        {
-            get { return (string) GetValue(FilterProperty); }
-            set { SetValue(FilterProperty, value); }
-        }
-
-        public static readonly DependencyProperty FilterProperty = DependencyProperty.Register(
-            "Filter", typeof (string), typeof (ValidationContextControl), new PropertyMetadata(default(string)));
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewModelToView)]
-        public IEnumerable<IValidationContextTreeNode> Nodes
-        {
-            get { return (IEnumerable<IValidationContextTreeNode>) GetValue(NodesProperty); }
-            set { SetValue(NodesProperty, value); }
-        }
-
-        public static readonly DependencyProperty NodesProperty = DependencyProperty.Register(
-            "Nodes", typeof (IEnumerable<IValidationContextTreeNode>), typeof (ValidationContextControl), new PropertyMetadata(default(IEnumerable<IValidationContextTreeNode>)));
         #endregion
 
         public override void OnApplyTemplate()

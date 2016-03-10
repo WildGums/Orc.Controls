@@ -28,9 +28,9 @@
         
         <ResourceDictionary Source="/Orc.Controls;component/Controls/Expander/Themes/Expander.generic.xaml" />
         
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/ValidationContextControl/Themes/ValidationContextControl.generic.xaml" />
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/ValidationContextControl/Themes/ValidationContextTree.generic.xaml" />
         
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/AdvancedValidationContextControl/Themes/AdvancedValidationContextControl.generic.xaml" />
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/ValidationContextControl/Themes/ValidationContextControl.generic.xaml" />
 
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

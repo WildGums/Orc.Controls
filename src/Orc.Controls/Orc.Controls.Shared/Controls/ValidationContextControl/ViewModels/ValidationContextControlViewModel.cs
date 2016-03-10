@@ -8,85 +8,106 @@
 namespace Orc.Controls
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
-    using Catel.Collections;
+    using System.Security;
+    using System.Windows;
+    using Catel;
     using Catel.Data;
     using Catel.MVVM;
+    using Catel.Services;
 
     internal class ValidationContextControlViewModel : ViewModelBase
     {
-        public ValidationContextControlViewModel()
-        {
-            ValidationRules = new FastObservableCollection<ValidationResultTagNode>();
-        }
+        private readonly IProcessService _processService;
 
-        #region Properties
-        public string Filter { get; set; }
+        public ValidationContextControlViewModel(IProcessService processService)
+        {
+            Argument.IsNotNull(() => processService);
+
+            _processService = processService;
+
+            ExpandAll = new Command(OnExpandAllExecute);
+            CollapseAll = new Command(OnCollapseAllExecute);
+            Copy = new Command(OnCopyExecute, OnCopyCanExecute);
+            Open = new Command(OnOpenExecute);
+
+            InvalidateCommandsOnPropertyChanged = true;
+        }
 
         public IValidationContext ValidationContext { get; set; }
+        public bool ShowErrors { get; set; } = true;
+        public bool ShowWarnings { get; set; } = true;
+        public int ErrorsCount { get; private set; }
+        public int WarningsCount { get; private set; }
+        public List<IValidationResult> ValidationResults { get; private set; }
+        public bool ShowFilterBox { get; set; }
+        public string Filter { get; set; }
+        public IEnumerable<IValidationContextTreeNode> Nodes { get; set; }
 
-        public bool ShowWarnings { get; set; }
+        #region Commands
+        public Command ExpandAll { get; }
 
-        public bool ShowErrors { get; set; }
-
-        public FastObservableCollection<ValidationResultTagNode> ValidationRules { get; }
-
-        public IEnumerable<IValidationContextTreeNode> Nodes => ValidationRules.OfType<IValidationContextTreeNode>();
-        #endregion
-
-        private void OnValidationContextChanged()
+        private void OnExpandAllExecute()
         {
-            Update();
-            ApplyFilter();
+            Nodes.ExpandAll();
         }
 
-        private void OnShowWarningsChanged()
+        public Command CollapseAll { get; }
+
+        private void OnCollapseAllExecute()
         {
-            ApplyFilter();
+            Nodes.CollapseAll();
         }
 
-        private void OnShowErrorsChanged()
+        public Command Copy { get; }
+
+        private bool OnCopyCanExecute()
         {
-            ApplyFilter();
+            return Nodes != null && Nodes.Any(x => x.IsVisible);
         }
 
-        private void OnFilterChanged()
+        private void OnCopyExecute()
         {
-            ApplyFilter();
+            var text = Nodes.ToText();
+
+            Clipboard.SetText(text);
         }
 
-        private void Update()
-        {
-            ValidationRules.Clear();
+        public Command Open { get; }
 
-            var validationContext = ValidationContext;
-            if (validationContext == null)
+        private void OnOpenExecute()
+        {
+            var path = string.Empty;
+
+            try
+            {
+                path = Path.GetTempPath();
+            }
+            catch (SecurityException)
             {
                 return;
             }
 
-            var validationResults = validationContext
-                .GetBusinessRuleValidations()
-                .Select(x => x.Tag).Distinct()
-                .Select(tag => new ValidationResultTagNode(tag))
-                .OrderBy(x => x.TagName);
+            var filePath = CreateValidationContextFile(path);
+            _processService.StartProcess(filePath);
+        }
+        #endregion
 
-            foreach (var validationRule in validationResults)
-            {
-                validationRule.AddValidationResultTypeNode(validationContext, ValidationResultType.Error);
-
-                validationRule.AddValidationResultTypeNode(validationContext, ValidationResultType.Warning);
-
-                ValidationRules.Add(validationRule);
-            }
+        private string CreateValidationContextFile(string path)
+        {
+            var filePath = Path.Combine(path, "ValidationContext.txt");
+            File.WriteAllText(filePath, Nodes.ToText());
+            return filePath;
         }
 
-        private void ApplyFilter()
+        private void OnValidationContextChanged()
         {
-            foreach (var rules in ValidationRules)
-            {
-                rules.ApplyFilter(ShowErrors, ShowWarnings, Filter);
-            }
-        }       
+            var validationContext = ValidationContext;
+            ErrorsCount = validationContext.GetErrorCount();
+            WarningsCount = validationContext.GetWarningCount();
+
+            ValidationResults = validationContext.GetValidations();
+        }
     }
 }
