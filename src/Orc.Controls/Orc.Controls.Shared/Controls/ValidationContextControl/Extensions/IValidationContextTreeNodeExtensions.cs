@@ -34,11 +34,41 @@ namespace Orc.Controls
                 var nexLevel = node.Level + 1;
                 foreach (var subNode in node.Value.Children.Where(x => x.IsVisible))
                 {
-                    stack.Push(new Node { Level = nexLevel, Value = subNode});
+                    stack.Push(new Node {Level = nexLevel, Value = subNode});
                 }
             }
 
             return result;
+        }
+
+        public static void ExpandAll(this IEnumerable<IValidationContextTreeNode> nodes)
+        {
+            foreach (var node in nodes)
+            {
+                node.IsExpanded = true;
+
+                node.Children.ExpandAll();
+            }
+        }
+
+        public static void CollapseAll(this IEnumerable<IValidationContextTreeNode> nodes)
+        {
+            foreach (var node in nodes)
+            {
+                node.IsExpanded = false;
+
+                node.Children.CollapseAll();
+            }
+        }
+
+        public static bool HasAnyCollapsed(this IEnumerable<IValidationContextTreeNode> nodes)
+        {
+            return nodes?.Any(x => !x.IsExpanded || HasAnyCollapsed(x.Children)) ?? false;
+        }
+
+        public static bool HasAnyExpanded(this IEnumerable<IValidationContextTreeNode> nodes)
+        {
+            return nodes?.Any(x => x.IsExpanded || HasAnyExpanded(x.Children)) ?? false;
         }
     }
 }

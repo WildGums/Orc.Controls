@@ -27,8 +27,12 @@ namespace Orc.Controls
 
             _processService = processService;
 
-            Copy = new Command(OnCopyExecute);
+            ExpandAll = new Command(OnExpandAllExecute);
+            CollapseAll = new Command(OnCollapseAllExecute);
+            Copy = new Command(OnCopyExecute, OnCopyCanExecute);
             Open = new Command(OnOpenExecute);
+
+            InvalidateCommandsOnPropertyChanged = true;
         }
 
         public IValidationContext ValidationContext { get; set; }
@@ -42,7 +46,21 @@ namespace Orc.Controls
         public IEnumerable<IValidationContextTreeNode> Nodes { get; set; }
 
         #region Commands
-        public Command Copy { get; private set; }
+        public Command ExpandAll { get; }
+
+        private void OnExpandAllExecute()
+        {
+            Nodes.ExpandAll();
+        }
+
+        public Command CollapseAll { get; }
+
+        private void OnCollapseAllExecute()
+        {
+            Nodes.CollapseAll();
+        }
+
+        public Command Copy { get; }
 
         private bool OnCopyCanExecute()
         {
@@ -56,7 +74,7 @@ namespace Orc.Controls
             Clipboard.SetText(text);
         }
 
-        public Command Open { get; private set; }
+        public Command Open { get; }
 
         private void OnOpenExecute()
         {

@@ -13,7 +13,8 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" MinHeight="24" />
+            <RowDefinition Height="Auto"
+                           MinHeight="24" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -22,10 +23,10 @@
             <ToggleButton Margin="0"
                           Tag="Error"
                           IsChecked="{Binding ShowErrors}"
-                          Style="{StaticResource ValidationResultTypeToggleButtonStyle}">
+                          Style="{StaticResource ValidationContextToggleButtonStyle}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{Binding ErrorsCount}" />
-                    
+
                     <TextBlock Text="Error" />
                 </StackPanel>
             </ToggleButton>
@@ -33,13 +34,23 @@
             <ToggleButton Margin="0"
                           Tag="Warning"
                           IsChecked="{Binding ShowWarnings}"
-                          Style="{StaticResource ValidationResultTypeToggleButtonStyle}">
+                          Style="{StaticResource ValidationContextToggleButtonStyle}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{Binding WarningsCount}" />
-                    
+
                     <TextBlock Text="Warning" />
                 </StackPanel>
             </ToggleButton>
+
+            <Button Style="{StaticResource ValidationContextButtonWithIconStyle}"
+                    Tag="ExpandAll"
+                    ToolTip="Expand All"
+                    Command="{Binding ExpandAll}"/>
+
+            <Button Style="{StaticResource ValidationContextButtonWithIconStyle}"
+                    Tag="CollapseAll"
+                    ToolTip="Collapse All" 
+                    Command="{Binding CollapseAll}"/>
 
             <StackPanel Orientation="Horizontal"
                         DockPanel.Dock="Right">
@@ -61,11 +72,11 @@
 
         <controls:ValidationContextControl Grid.Row="1"
                                            Margin="4"
-                                           ValidationContext="{Binding ValidationContext}" 
+                                           ValidationContext="{Binding ValidationContext}"
                                            ShowErrors="{Binding ShowErrors}"
                                            ShowWarnings="{Binding ShowWarnings}"
                                            Filter="{Binding Filter}"
-                                           Nodes="{Binding Nodes, Mode=OneWayToSource}"/>
+                                           Nodes="{Binding Nodes, Mode=OneWayToSource}" />
 
         <DockPanel Grid.Row="2"
                    LastChildFill="False">
@@ -75,7 +86,7 @@
                     Margin="2 2 4 2"
                     Width="80"
                     Padding="2" />
-            
+
             <Button Content="Open"
                     Command="{Binding Open}"
                     DockPanel.Dock="Right"
