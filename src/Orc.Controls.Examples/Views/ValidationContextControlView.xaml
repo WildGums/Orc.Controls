@@ -1,4 +1,4 @@
-﻿<catel:UserControl x:Class="Orc.Controls.Examples.Views.ValidationContextDisplay"
+﻿<catel:UserControl x:Class="Orc.Controls.Examples.Views.ValidationContextControlView"
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -21,7 +21,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <orc:ValidationContextDisplay Grid.Row="0"
+        <orc:ValidationContextControl Grid.Row="0"
                                       Grid.Column="0"
                                       Grid.ColumnSpan="2"
                                       ValidationContext="{Binding ValidationContext}"

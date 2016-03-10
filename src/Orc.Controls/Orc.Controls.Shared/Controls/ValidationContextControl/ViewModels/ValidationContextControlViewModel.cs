@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationContextDisplayViewModel.cs" company="WildGums">
+// <copyright file="ValidationContextControlViewModel.cs" company="WildGums">
 //   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -13,9 +13,9 @@ namespace Orc.Controls
     using Catel.Data;
     using Catel.MVVM;
 
-    internal class ValidationContextDisplayViewModel : ViewModelBase
+    internal class ValidationContextControlViewModel : ViewModelBase
     {
-        public ValidationContextDisplayViewModel()
+        public ValidationContextControlViewModel()
         {
             ValidationRules = new FastObservableCollection<ValidationResultTagNode>();
         }
@@ -87,6 +87,6 @@ namespace Orc.Controls
             {
                 rules.ApplyFilter(ShowErrors, ShowWarnings, Filter);
             }
-        }        
+        }       
     }
 }

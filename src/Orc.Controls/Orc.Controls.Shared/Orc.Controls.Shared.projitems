@@ -101,16 +101,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\Views\TimeSpanControl.xaml.cs">
       <DependentUpon>TimeSpanControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Converters\ValidationResultTypeToColorConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Extensions\ValidationResultTagNodeExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\Interfaces\IValidationContextTreeNode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\ValidationContextTreeNode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\ValidationResultNode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\ValidationResultTypeNode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Models\ValidationResultTagNode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\ViewModels\ValidationContextDisplayViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Views\ValidationContextDisplay.xaml.cs">
-      <DependentUpon>ValidationContextDisplay.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Converters\ValidationResultTypeToColorConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Extensions\ValidationResultTagNodeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Models\Interfaces\IValidationContextTreeNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Models\ValidationContextTreeNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Models\ValidationResultNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Models\ValidationResultTypeNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Models\ValidationResultTagNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\ViewModels\ValidationContextControlViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Views\ValidationContextControl.xaml.cs">
+      <DependentUpon>ValidationContextControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\WatermarkTextBox\WatermarkTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\AmPmLongToAmPmShortConverter.cs" />
@@ -217,7 +217,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\ValidationContextDisplay\Views\ValidationContextDisplay.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Views\ValidationContextControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

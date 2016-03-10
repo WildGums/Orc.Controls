@@ -5,7 +5,7 @@
 *.suo
 *.user
 *.sln.docstates
-*. scgdat
+*.scgdat
 
 # Build results
 [Bb]in/

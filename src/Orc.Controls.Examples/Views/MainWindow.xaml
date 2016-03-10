@@ -180,8 +180,8 @@
             <views:TimeSpan />
         </TabItem>
         
-        <TabItem Header="ValidationContextDisplay">
-            <views:ValidationContextDisplay />
+        <TabItem Header="ValidationContextControl">
+            <views:ValidationContextControlView />
         </TabItem>
 
         <TabItem Header="WatermarkTextBox">

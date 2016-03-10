@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationContextDisplay.xaml.cs" company="WildGums">
+// <copyright file="ValidationContextControl.xaml.cs" company="WildGums">
 //   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -8,20 +8,19 @@
 namespace Orc.Controls
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Windows;
     using System.Windows.Media;
     using Catel.Data;
     using Catel.MVVM.Views;
 
-    public sealed partial class ValidationContextDisplay
+    public sealed partial class ValidationContextControl
     {
-        static ValidationContextDisplay()
+        static ValidationContextControl()
         {
-            typeof (ValidationContextDisplay).AutoDetectViewPropertiesToSubscribe();
+            typeof (ValidationContextControl).AutoDetectViewPropertiesToSubscribe();
         }
 
-        public ValidationContextDisplay()
+        public ValidationContextControl()
         {
             this.InitializeComponent();
         }
@@ -35,7 +34,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ValidationContextProperty = DependencyProperty.Register(
-            "ValidationContext", typeof(ValidationContext), typeof(ValidationContextDisplay), new PropertyMetadata(default(ValidationContext)));        
+            "ValidationContext", typeof(ValidationContext), typeof(ValidationContextControl), new PropertyMetadata(default(ValidationContext)));        
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
         public bool ShowErrors
@@ -45,7 +44,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ShowErrorsProperty = DependencyProperty.Register(
-            "ShowErrors", typeof(bool), typeof(ValidationContextDisplay), new PropertyMetadata(true));
+            "ShowErrors", typeof(bool), typeof(ValidationContextControl), new PropertyMetadata(true));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
         public bool ShowWarnings
@@ -55,7 +54,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ShowWarningsProperty = DependencyProperty.Register(
-            "ShowWarnings", typeof(bool), typeof(ValidationContextDisplay), new PropertyMetadata(true));        
+            "ShowWarnings", typeof(bool), typeof(ValidationContextControl), new PropertyMetadata(true));        
 
         public Brush AccentColorBrush
         {
@@ -64,8 +63,8 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(
-            "AccentColorBrush", typeof(Brush), typeof(ValidationContextDisplay), new PropertyMetadata(Brushes.LightGray,
-                (sender, e) => ((ValidationContextDisplay)sender).OnAccentColorBrushChanged()));
+            "AccentColorBrush", typeof(Brush), typeof(ValidationContextControl), new PropertyMetadata(Brushes.LightGray,
+                (sender, e) => ((ValidationContextControl)sender).OnAccentColorBrushChanged()));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
         public string Filter
@@ -75,7 +74,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty FilterProperty = DependencyProperty.Register(
-            "Filter", typeof (string), typeof (ValidationContextDisplay), new PropertyMetadata(default(string)));
+            "Filter", typeof (string), typeof (ValidationContextControl), new PropertyMetadata(default(string)));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewModelToView)]
         public IEnumerable<IValidationContextTreeNode> Nodes
@@ -85,7 +84,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty NodesProperty = DependencyProperty.Register(
-            "Nodes", typeof (IEnumerable<IValidationContextTreeNode>), typeof (ValidationContextDisplay), new PropertyMetadata(default(IEnumerable<IValidationContextTreeNode>)));
+            "Nodes", typeof (IEnumerable<IValidationContextTreeNode>), typeof (ValidationContextControl), new PropertyMetadata(default(IEnumerable<IValidationContextTreeNode>)));
         #endregion
 
         public override void OnApplyTemplate()
@@ -101,7 +100,7 @@ namespace Orc.Controls
             if (solidColorBrush != null)
             {
                 var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
-                accentColor.CreateAccentColorResourceDictionary("ValidationContextDisplay");
+                accentColor.CreateAccentColorResourceDictionary("ValidationContextControl");
             }
         }
     }
