@@ -184,8 +184,8 @@
             <views:ValidationContextControlView />
         </TabItem>
         
-        <TabItem Header="ValidationContextControlEx">
-            <views:ValidationContextControlExView />
+        <TabItem Header="AdvancedValidationContextControl">
+            <views:AdvancedValidationContextControlView />
         </TabItem>
 
         <TabItem Header="WatermarkTextBox">

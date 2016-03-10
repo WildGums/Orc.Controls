@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationContextControlExView.xaml.cs" company="WildGums">
+// <copyright file="AdvancedValidationContextControlView.xaml.cs" company="WildGums">
 //   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -7,9 +7,9 @@
 
 namespace Orc.Controls.Examples.Views
 {
-    public partial class ValidationContextControlExView
+    public partial class AdvancedValidationContextControlView
     {
-        public ValidationContextControlExView()
+        public AdvancedValidationContextControlView()
         {
             InitializeComponent();
         }

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationContextControlExViewModel.cs" company="WildGums">
+// <copyright file="AdvancedValidationContextControlViewModel.cs" company="WildGums">
 //   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -11,7 +11,7 @@ namespace Orc.Controls.Examples.ViewModels
     using Catel.Data;
     using Catel.MVVM;
 
-    public class ValidationContextControlExViewModel : ViewModelBase
+    public class AdvancedValidationContextControlViewModel : ViewModelBase
     {
         public ValidationContext ValidationContext { get; set; }
 

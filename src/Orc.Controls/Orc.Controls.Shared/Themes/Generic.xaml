@@ -30,7 +30,7 @@
         
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ValidationContextControl/Themes/ValidationContextControl.generic.xaml" />
         
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/ValidationContextControlEx/Themes/ValidationContextControlEx.generic.xaml" />
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/AdvancedValidationContextControl/Themes/AdvancedValidationContextControl.generic.xaml" />
 
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

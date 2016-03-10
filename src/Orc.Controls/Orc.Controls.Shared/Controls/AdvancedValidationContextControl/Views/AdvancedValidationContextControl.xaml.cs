@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationContextControlEx.xaml.cs" company="WildGums">
+// <copyright file="AdvancedValidationContextControl.xaml.cs" company="WildGums">
 //   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -11,19 +11,19 @@ namespace Orc.Controls
     using Catel.Data;
     using Catel.MVVM.Views;
 
-    public sealed partial class ValidationContextControlEx
+    public sealed partial class AdvancedValidationContextControl
     {
-        static ValidationContextControlEx()
+        static AdvancedValidationContextControl()
         {
-            typeof(ValidationContextControlEx).AutoDetectViewPropertiesToSubscribe();
+            typeof(AdvancedValidationContextControl).AutoDetectViewPropertiesToSubscribe();
         }
 
-        public ValidationContextControlEx()
+        public AdvancedValidationContextControl()
         {
             this.InitializeComponent();
         }
 
-        #region Dependency properies
+        #region Dependency properties
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
         public ValidationContext ValidationContext
         {
@@ -32,7 +32,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ValidationContextProperty = DependencyProperty.Register(
-            "ValidationContext", typeof (ValidationContext), typeof (ValidationContextControlEx), new PropertyMetadata(default(ValidationContext)));
+            "ValidationContext", typeof (ValidationContext), typeof (AdvancedValidationContextControl), new PropertyMetadata(default(ValidationContext)));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowFilterBox
@@ -42,7 +42,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ShowFilterBoxProperty = DependencyProperty.Register(
-            "ShowFilterBox", typeof (bool), typeof (ValidationContextControlEx), new PropertyMetadata(true));
+            "ShowFilterBox", typeof (bool), typeof (AdvancedValidationContextControl), new PropertyMetadata(true));
         #endregion
     }
 }

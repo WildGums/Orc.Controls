@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationContextControlExViewModel.cs" company="WildGums">
+// <copyright file="AdvancedValidationContextControlViewModel.cs" company="WildGums">
 //   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -17,11 +17,11 @@ namespace Orc.Controls
     using Catel.MVVM;
     using Catel.Services;
 
-    internal class ValidationContextControlExViewModel : ViewModelBase
+    internal class AdvancedValidationContextControlViewModel : ViewModelBase
     {
         private readonly IProcessService _processService;
 
-        public ValidationContextControlExViewModel(IProcessService processService)
+        public AdvancedValidationContextControlViewModel(IProcessService processService)
         {
             Argument.IsNotNull(() => processService);
 

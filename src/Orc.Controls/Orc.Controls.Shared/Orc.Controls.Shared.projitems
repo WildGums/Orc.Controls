@@ -101,9 +101,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\Views\TimeSpanControl.xaml.cs">
       <DependentUpon>TimeSpanControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControlEx\ViewModels\ValidationContextControlExViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControlEx\Views\ValidationContextControlEx.xaml.cs">
-      <DependentUpon>ValidationContextControlEx.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\AdvancedValidationContextControl\ViewModels\AdvancedValidationContextControlViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\AdvancedValidationContextControl\Views\AdvancedValidationContextControl.xaml.cs">
+      <DependentUpon>AdvancedValidationContextControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Converters\ValidationResultTypeToColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Extensions\IValidationContextTreeNodeExtensions.cs" />
@@ -222,11 +222,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControlEx\Themes\ValidationContextControlEx.generic.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\AdvancedValidationContextControl\Themes\AdvancedValidationContextControl.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControlEx\Views\ValidationContextControlEx.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\AdvancedValidationContextControl\Views\AdvancedValidationContextControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
