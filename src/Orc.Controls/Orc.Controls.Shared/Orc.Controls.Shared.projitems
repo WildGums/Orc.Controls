@@ -106,6 +106,7 @@
       <DependentUpon>ValidationContextControlEx.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Converters\ValidationResultTypeToColorConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Extensions\IValidationContextTreeNodeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Extensions\ValidationResultTagNodeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Models\Interfaces\IValidationContextTreeNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Models\ValidationContextTreeNode.cs" />

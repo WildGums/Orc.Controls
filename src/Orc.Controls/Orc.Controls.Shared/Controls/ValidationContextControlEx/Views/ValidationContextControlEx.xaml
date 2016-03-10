@@ -19,8 +19,7 @@
         </Grid.RowDefinitions>
 
         <DockPanel LastChildFill="False">
-            <ToggleButton x:Name="ShowErrorToggleButton"
-                          Margin="0"
+            <ToggleButton Margin="0"
                           Tag="Error"
                           IsChecked="{Binding ShowErrors}"
                           Style="{StaticResource ValidationResultTypeToggleButtonStyle}">
@@ -31,8 +30,7 @@
                 </StackPanel>
             </ToggleButton>
 
-            <ToggleButton x:Name="ShowWarningToggleButton"
-                          Margin="0"
+            <ToggleButton Margin="0"
                           Tag="Warning"
                           IsChecked="{Binding ShowWarnings}"
                           Style="{StaticResource ValidationResultTypeToggleButtonStyle}">
@@ -66,25 +64,24 @@
                                            ValidationContext="{Binding ValidationContext}" 
                                            ShowErrors="{Binding ShowErrors}"
                                            ShowWarnings="{Binding ShowWarnings}"
-                                           Filter="{Binding Filter}"/>
+                                           Filter="{Binding Filter}"
+                                           Nodes="{Binding Nodes, Mode=OneWayToSource}"/>
 
         <DockPanel Grid.Row="2"
                    LastChildFill="False">
-            <!--<Button x:Name="CopyButton"
-                    Content="Copy"
+            <Button Content="Copy"
                     Command="{Binding Copy}"
                     DockPanel.Dock="Right"
                     Margin="2 2 4 2"
                     Width="80"
                     Padding="2" />
             
-            <Button x:Name="OpenButton"
-                    Content="Open"
+            <Button Content="Open"
                     Command="{Binding Open}"
                     DockPanel.Dock="Right"
                     Margin="2 2 4 2"
                     Width="80"
-                    Padding="2" />-->
+                    Padding="2" />
         </DockPanel>
     </Grid>
 </catel:UserControl>

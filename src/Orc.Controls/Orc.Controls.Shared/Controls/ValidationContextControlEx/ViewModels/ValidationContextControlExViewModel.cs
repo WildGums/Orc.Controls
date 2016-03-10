@@ -8,13 +8,25 @@
 namespace Orc.Controls
 {
     using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Security;
+    using System.Windows;
+    using Catel;
     using Catel.Data;
     using Catel.MVVM;
+    using Catel.Services;
 
     internal class ValidationContextControlExViewModel : ViewModelBase
     {
-        public ValidationContextControlExViewModel()
+        private readonly IProcessService _processService;
+
+        public ValidationContextControlExViewModel(IProcessService processService)
         {
+            Argument.IsNotNull(() => processService);
+
+            _processService = processService;
+
             Copy = new Command(OnCopyExecute);
             Open = new Command(OnOpenExecute);
         }
@@ -27,22 +39,49 @@ namespace Orc.Controls
         public List<IValidationResult> ValidationResults { get; private set; }
         public bool ShowFilterBox { get; set; }
         public string Filter { get; set; }
+        public IEnumerable<IValidationContextTreeNode> Nodes { get; set; }
 
         #region Commands
         public Command Copy { get; private set; }
 
+        private bool OnCopyCanExecute()
+        {
+            return Nodes != null && Nodes.Any(x => x.IsVisible);
+        }
+
         private void OnCopyExecute()
         {
-            
+            var text = Nodes.ToText();
+
+            Clipboard.SetText(text);
         }
 
         public Command Open { get; private set; }
 
         private void OnOpenExecute()
         {
-            
+            var path = string.Empty;
+
+            try
+            {
+                path = Path.GetTempPath();
+            }
+            catch (SecurityException)
+            {
+                return;
+            }
+
+            var filePath = CreateValidationContextFile(path);
+            _processService.StartProcess(filePath);
         }
         #endregion
+
+        private string CreateValidationContextFile(string path)
+        {
+            var filePath = Path.Combine(path, "ValidationContext.txt");
+            File.WriteAllText(filePath, Nodes.ToText());
+            return filePath;
+        }
 
         private void OnValidationContextChanged()
         {
