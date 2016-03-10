@@ -15,7 +15,7 @@ namespace Orc.Controls
 
     internal static class ValidationResultTagNodeExtensions
     {
-        public static void AddValidationResultTypeNode(this ValidationResultTagNode validationRule, ValidationContext validationContext, 
+        public static void AddValidationResultTypeNode(this ValidationResultTagNode validationRule, IValidationContext validationContext, 
             ValidationResultType validationResultType, string filter = null)
         {
             Argument.IsNotNull(() => validationRule);

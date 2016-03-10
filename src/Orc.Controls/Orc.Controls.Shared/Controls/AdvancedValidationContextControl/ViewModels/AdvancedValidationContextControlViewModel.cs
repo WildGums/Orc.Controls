@@ -31,7 +31,7 @@ namespace Orc.Controls
             Open = new Command(OnOpenExecute);
         }
 
-        public ValidationContext ValidationContext { get; set; }
+        public IValidationContext ValidationContext { get; set; }
         public bool ShowErrors { get; set; } = true;
         public bool ShowWarnings { get; set; } = true;
         public int ErrorsCount { get; private set; }

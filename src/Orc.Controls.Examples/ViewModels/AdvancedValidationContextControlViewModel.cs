@@ -13,7 +13,7 @@ namespace Orc.Controls.Examples.ViewModels
 
     public class AdvancedValidationContextControlViewModel : ViewModelBase
     {
-        public ValidationContext ValidationContext { get; set; }
+        public IValidationContext ValidationContext { get; set; }
 
         protected override Task InitializeAsync()
         {

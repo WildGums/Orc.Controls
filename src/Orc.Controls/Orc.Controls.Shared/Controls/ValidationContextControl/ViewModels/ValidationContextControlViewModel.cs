@@ -23,7 +23,7 @@ namespace Orc.Controls
         #region Properties
         public string Filter { get; set; }
 
-        public ValidationContext ValidationContext { get; set; }
+        public IValidationContext ValidationContext { get; set; }
 
         public bool ShowWarnings { get; set; }
 

@@ -25,14 +25,14 @@ namespace Orc.Controls
 
         #region Dependency properties
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
-        public ValidationContext ValidationContext
+        public IValidationContext ValidationContext
         {
-            get { return (ValidationContext) GetValue(ValidationContextProperty); }
+            get { return (IValidationContext) GetValue(ValidationContextProperty); }
             set { SetValue(ValidationContextProperty, value); }
         }
 
         public static readonly DependencyProperty ValidationContextProperty = DependencyProperty.Register(
-            "ValidationContext", typeof (ValidationContext), typeof (AdvancedValidationContextControl), new PropertyMetadata(default(ValidationContext)));
+            "ValidationContext", typeof (IValidationContext), typeof (AdvancedValidationContextControl), new PropertyMetadata(null));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowFilterBox

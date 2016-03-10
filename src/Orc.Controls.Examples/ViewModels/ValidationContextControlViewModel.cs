@@ -19,7 +19,7 @@ namespace Orc.Controls.Examples.ViewModels
             CollapseExpand = new Command(OnCollapseExpandExecuted);
         }
 
-        public ValidationContext ValidationContext { get; set; }
+        public IValidationContext ValidationContext { get; set; }
 
         public bool ShowErrors { get; set; }
         public bool ShowWarnings { get; set; }
