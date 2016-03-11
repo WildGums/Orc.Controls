@@ -14,7 +14,16 @@ namespace Orc.Controls
     {
         public ValidationResultNode(IValidationResult validationResult)
         {
-            DisplayName = validationResult.Message;
+            var fieldValidationResult = validationResult as FieldValidationResult;
+            if (string.IsNullOrEmpty(fieldValidationResult?.PropertyName))
+            {
+                DisplayName = validationResult.Message;
+            }
+            else
+            {
+                DisplayName = $"{fieldValidationResult.PropertyName}: {fieldValidationResult.Message}";
+            }
+            
             ResultType = validationResult.ValidationResultType;
         }
 
