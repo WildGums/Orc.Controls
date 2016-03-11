@@ -24,7 +24,7 @@ namespace Orc.Controls
 
         public string DisplayName { get; protected set; }
 
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool IsExpanded { get; set; }
 
         public bool IsVisible { get; set; }

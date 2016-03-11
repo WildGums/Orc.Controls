@@ -22,7 +22,7 @@ namespace Orc.Controls
 
         public object Tag { get; }
 
-        public string TagName { get; private set; }
+        public string TagName { get; }
 
         protected override void OnPropertyChanged(AdvancedPropertyChangedEventArgs e)
         {
