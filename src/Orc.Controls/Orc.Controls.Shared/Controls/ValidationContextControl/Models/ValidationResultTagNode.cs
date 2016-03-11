@@ -8,7 +8,9 @@
 namespace Orc.Controls
 {
     using System.Collections.Specialized;
+    using System.Globalization;
     using System.Linq;
+    using Catel;
     using Catel.Data;
     using Catel.Reflection;
 
@@ -47,7 +49,7 @@ namespace Orc.Controls
         {
             if (ReferenceEquals(value, null))
             {
-                return string.Empty;
+                return "Misc";
             }
 
             var stringValue = value as string;
@@ -82,6 +84,24 @@ namespace Orc.Controls
             base.ApplyFilter(showErrors, showWarnings, filter);
 
             IsVisible = Children.Any(x => x.IsVisible);
+        }
+
+        public override int CompareTo(ValidationContextTreeNode nodeToCompare)
+        {
+            Argument.IsNotNull(() => nodeToCompare);
+
+            var node = (ValidationResultTagNode) nodeToCompare;
+            if (string.Equals(TagName, "Misc") || !string.Equals(node.TagName, "Misc"))
+            {
+                return 1;
+            }
+
+            if (!string.Equals(TagName, "Misc") || string.Equals(node.TagName, "Misc"))
+            {
+                return -1;
+            }
+            
+            return CultureInfo.InstalledUICulture.CompareInfo.Compare(TagName, node.TagName);
         }
     }
 }

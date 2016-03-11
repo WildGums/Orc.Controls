@@ -25,7 +25,7 @@ namespace Orc.Controls
             var validationResults = validationContext.GetBusinessRuleValidations(validationRule.Tag).Where(x => x.ValidationResultType == validationResultType);
             if (!string.IsNullOrEmpty(filter))
             {
-                validationResults = validationResults.Where(x => culture.CompareInfo.IndexOf(x.Message, filter, CompareOptions.IgnoreCase) >= 0).ToList();
+                validationResults = validationResults.Where(x => culture.CompareInfo.IndexOf(x.Message, filter, CompareOptions.IgnoreCase) >= 0).OrderBy(x => x.Message).ToList();
             }
 
             var validationResultsList = validationResults as IList<IBusinessRuleValidationResult> ?? validationResults.ToList();

@@ -7,13 +7,17 @@
 
 namespace Orc.Controls
 {
+    using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Globalization;
     using System.Linq;
+    using Catel;
     using Catel.Collections;
     using Catel.Data;
 
-    internal class ValidationContextTreeNode : ModelBase, IValidationContextTreeNode
+    internal class ValidationContextTreeNode : ModelBase, IValidationContextTreeNode, IComparable
     {
         protected ValidationContextTreeNode()
         {
@@ -39,6 +43,18 @@ namespace Orc.Controls
             {
                 validationContextTreeNode.ApplyFilter(showErrors, showWarnings, filter);
             }
+        }
+
+        public virtual int CompareTo(ValidationContextTreeNode nodeToCompare)
+        {
+            Argument.IsNotNull(() => nodeToCompare);
+
+            return CultureInfo.InstalledUICulture.CompareInfo.Compare(nodeToCompare.DisplayName, DisplayName);
+        }
+
+        public int CompareTo(object obj)
+        {
+            return CompareTo((ValidationContextTreeNode)obj);
         }
     }
 }
