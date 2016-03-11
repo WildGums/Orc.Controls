@@ -20,6 +20,7 @@ namespace Orc.Controls
     using System.Windows.Media;
     using Catel.Data;
     using Catel.MVVM;
+    using Catel.Windows;
 
     /// <summary>
     /// Control to show color legend with checkboxes for each color.
@@ -529,7 +530,12 @@ namespace Orc.Controls
                         if (sender is ContentControl)
                         {
                             var settingsContent = sender as ContentControl;
-                            ContentPresenter contentPresenter = FindVisualChild<ContentPresenter>(settingsContent);
+                            if (settingsContent == null)
+                            {
+                                return;
+                            }
+
+                            var contentPresenter = FindVisualChild<ContentPresenter>(settingsContent);
                             if (contentPresenter == null)
                             {
                                 return;
@@ -541,31 +547,35 @@ namespace Orc.Controls
                                 return;
                             }
 
-                            var qryAllChecks = (content as DependencyObject).Descendents().OfType<CheckBox>();
-
-                            var allChecks = qryAllChecks as CheckBox[] ?? qryAllChecks.ToArray();
-                            var cbVisibilitySetting = allChecks.First(cb => cb.Name == "cbVisibilitySetting");
-                            if (cbVisibilitySetting != null)
+                            var dependencyObject = content as DependencyObject;
+                            if (dependencyObject != null)
                             {
-                                cbVisibilitySetting.IsChecked = ShowColorVisibilityControls;
-                                cbVisibilitySetting.Checked += (o, e) => ShowColorVisibilityControls = true;
-                                cbVisibilitySetting.Unchecked += (o, e) => ShowColorVisibilityControls = false;
-                            }
+                                var qryAllChecks = dependencyObject.Descendents().OfType<CheckBox>();
 
-                            var cbColorEditingSetting = allChecks.First(cb => cb.Name == "cbColorEditingSetting");
-                            if (cbColorEditingSetting != null)
-                            {
-                                cbColorEditingSetting.IsChecked = AllowColorEditing;
-                                cbColorEditingSetting.Checked += (o, e) => AllowColorEditing = true;
-                                cbColorEditingSetting.Unchecked += (o, e) => AllowColorEditing = false;
-                            }
+                                var allChecks = qryAllChecks as CheckBox[] ?? qryAllChecks.ToArray();
+                                var cbVisibilitySetting = allChecks.First(cb => cb.Name == "cbVisibilitySetting");
+                                if (cbVisibilitySetting != null)
+                                {
+                                    cbVisibilitySetting.IsChecked = ShowColorVisibilityControls;
+                                    cbVisibilitySetting.Checked += (o, e) => ShowColorVisibilityControls = true;
+                                    cbVisibilitySetting.Unchecked += (o, e) => ShowColorVisibilityControls = false;
+                                }
 
-                            var cbUseRegexSetting = allChecks.First(cb => cb.Name == "cbUseRegexSetting");
-                            if (cbUseRegexSetting != null)
-                            {
-                                cbUseRegexSetting.IsChecked = UseRegexFiltering;
-                                cbUseRegexSetting.Checked += (o, e) => UseRegexFiltering = true;
-                                cbUseRegexSetting.Unchecked += (o, e) => UseRegexFiltering = false;
+                                var cbColorEditingSetting = allChecks.First(cb => cb.Name == "cbColorEditingSetting");
+                                if (cbColorEditingSetting != null)
+                                {
+                                    cbColorEditingSetting.IsChecked = AllowColorEditing;
+                                    cbColorEditingSetting.Checked += (o, e) => AllowColorEditing = true;
+                                    cbColorEditingSetting.Unchecked += (o, e) => AllowColorEditing = false;
+                                }
+
+                                var cbUseRegexSetting = allChecks.First(cb => cb.Name == "cbUseRegexSetting");
+                                if (cbUseRegexSetting != null)
+                                {
+                                    cbUseRegexSetting.IsChecked = UseRegexFiltering;
+                                    cbUseRegexSetting.Checked += (o, e) => UseRegexFiltering = true;
+                                    cbUseRegexSetting.Unchecked += (o, e) => UseRegexFiltering = false;
+                                }
                             }
 
                             _manualBindingReady = true;
