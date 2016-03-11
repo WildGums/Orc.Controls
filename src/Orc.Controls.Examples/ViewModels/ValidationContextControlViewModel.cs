@@ -25,10 +25,15 @@ namespace Orc.Controls.Examples.ViewModels
             var result3 = BusinessRuleValidationResult.CreateErrorWithTag("Error2 message", "Rule2");
             var result4 = BusinessRuleValidationResult.CreateErrorWithTag("Error3 message", "Rule2");
 
+            var result5 = BusinessRuleValidationResult.CreateError("Error2 message");
+            var result6 = BusinessRuleValidationResult.CreateError("Error3 message");
+
             context.AddBusinessRuleValidationResult(result1);
             context.AddBusinessRuleValidationResult(result2);
             context.AddBusinessRuleValidationResult(result3);
             context.AddBusinessRuleValidationResult(result4);
+            context.AddBusinessRuleValidationResult(result5);
+            context.AddBusinessRuleValidationResult(result6);
 
             ValidationContext = context;
 

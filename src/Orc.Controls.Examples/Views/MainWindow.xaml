@@ -180,7 +180,7 @@
             <views:TimeSpan />
         </TabItem>
                
-        <TabItem Header="AdvancedValidationContextTree">
+        <TabItem Header="ValidationContextControl">
             <views:ValidationContextControlView />
         </TabItem>
 
