@@ -18,10 +18,11 @@ namespace Orc.Controls
             public IValidationContextTreeNode Value;
         }
 
-        public static string ToText(this IEnumerable<IValidationContextTreeNode> nodes)
+        public static string ToText(this IEnumerable<IValidationContextTreeNode> validationContextTreeNodes)
         {
             var result = string.Empty;
-            var stack = new Stack<Node>(nodes.Where(x => x.IsVisible).Select(x => new Node {Level = 0, Value = x}));
+            var nodes = validationContextTreeNodes.Where(x => x.IsVisible).OrderBy(x => x.DisplayName).Select(x => new Node {Level = 0, Value = x});
+            var stack = new Stack<Node>(nodes);
             while (stack.Any())
             {
                 var node = stack.Pop();
@@ -32,7 +33,7 @@ namespace Orc.Controls
 
                 result += (node.Value.DisplayName + System.Environment.NewLine);
                 var nexLevel = node.Level + 1;
-                foreach (var subNode in node.Value.Children.Where(x => x.IsVisible))
+                foreach (var subNode in node.Value.Children.Where(x => x.IsVisible).OrderBy(x => x.DisplayName))
                 {
                     stack.Push(new Node {Level = nexLevel, Value = subNode});
                 }
