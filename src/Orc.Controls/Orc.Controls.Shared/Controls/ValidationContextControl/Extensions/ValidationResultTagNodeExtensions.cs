@@ -22,13 +22,13 @@ namespace Orc.Controls
             Argument.IsNotNull(() => validationContext);
 
             var culture = CultureInfo.InvariantCulture;
-            var validationResults = validationContext.GetBusinessRuleValidations(validationRule.Tag).Where(x => x.ValidationResultType == validationResultType);
+            var validationResults = validationContext.GetValidations(validationRule.Tag).Where(x => x.ValidationResultType == validationResultType);
             if (!string.IsNullOrEmpty(filter))
             {
                 validationResults = validationResults.Where(x => culture.CompareInfo.IndexOf(x.Message, filter, CompareOptions.IgnoreCase) >= 0).OrderBy(x => x.Message).ToList();
             }
 
-            var validationResultsList = validationResults as IList<IBusinessRuleValidationResult> ?? validationResults.ToList();
+            var validationResultsList = validationResults as IList<IValidationResult> ?? validationResults.ToList();
             if (!validationResultsList.Any())
             {
                 return;

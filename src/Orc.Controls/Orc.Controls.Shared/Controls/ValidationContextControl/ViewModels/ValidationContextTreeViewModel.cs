@@ -66,7 +66,7 @@ namespace Orc.Controls
             }
 
             var validationResults = validationContext
-                .GetBusinessRuleValidations()
+                .GetValidations()
                 .Select(x => x.Tag).Distinct()
                 .Select(tag => new ValidationResultTagNode(tag))
                 .OrderBy(x => x);
