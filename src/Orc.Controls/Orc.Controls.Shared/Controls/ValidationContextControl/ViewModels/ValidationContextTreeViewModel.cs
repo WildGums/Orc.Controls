@@ -17,7 +17,7 @@ namespace Orc.Controls
     {
         public ValidationContextTreeViewModel()
         {
-            ValidationRules = new FastObservableCollection<ValidationResultTagNode>();
+            ValidationResultTags = new FastObservableCollection<ValidationResultTagNode>();
         }
 
         #region Properties
@@ -29,9 +29,9 @@ namespace Orc.Controls
 
         public bool ShowErrors { get; set; }
 
-        public FastObservableCollection<ValidationResultTagNode> ValidationRules { get; }
+        public FastObservableCollection<ValidationResultTagNode> ValidationResultTags { get; }
 
-        public IEnumerable<IValidationContextTreeNode> Nodes => ValidationRules.OfType<IValidationContextTreeNode>();
+        public IEnumerable<IValidationContextTreeNode> Nodes => ValidationResultTags.OfType<IValidationContextTreeNode>();
         #endregion
 
         private void OnValidationContextChanged()
@@ -57,7 +57,7 @@ namespace Orc.Controls
 
         private void Update()
         {
-            ValidationRules.Clear();
+            ValidationResultTags.Clear();
 
             var validationContext = ValidationContext;
             if (validationContext == null)
@@ -65,27 +65,27 @@ namespace Orc.Controls
                 return;
             }
 
-            var validationResults = validationContext
+            var resultTagNodes = validationContext
                 .GetValidations()
                 .Select(x => x.Tag).Distinct()
                 .Select(tag => new ValidationResultTagNode(tag))
                 .OrderBy(x => x);
 
-            foreach (var validationRule in validationResults)
+            foreach (var tagNode in resultTagNodes)
             {
-                validationRule.AddValidationResultTypeNode(validationContext, ValidationResultType.Error);
+                tagNode.AddValidationResultTypeNode(validationContext, ValidationResultType.Error);
 
-                validationRule.AddValidationResultTypeNode(validationContext, ValidationResultType.Warning);
+                tagNode.AddValidationResultTypeNode(validationContext, ValidationResultType.Warning);
 
-                ValidationRules.Add(validationRule);
+                ValidationResultTags.Add(tagNode);
             }
         }
 
         private void ApplyFilter()
         {
-            foreach (var rules in ValidationRules)
+            foreach (var tagNode in ValidationResultTags)
             {
-                rules.ApplyFilter(ShowErrors, ShowWarnings, Filter);
+                tagNode.ApplyFilter(ShowErrors, ShowWarnings, Filter);
             }
         }       
     }

@@ -19,7 +19,7 @@ namespace Orc.Controls
         public ValidationResultTagNode(object tag)
         {
             Tag = tag;
-            TagName = ExtractRuleName(tag);
+            TagName = ExtractTagName(tag);
         }
 
         public object Tag { get; }
@@ -45,7 +45,7 @@ namespace Orc.Controls
             base.OnPropertyObjectCollectionChanged(sender, e);
         }
 
-        private static string ExtractRuleName(object value)
+        private static string ExtractTagName(object value)
         {
             if (ReferenceEquals(value, null))
             {
