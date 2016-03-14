@@ -45,12 +45,12 @@
             <Button Style="{StaticResource ValidationContextButtonWithIconStyle}"
                     Tag="ExpandAll"
                     ToolTip="Expand All"
-                    Command="{Binding ExpandAll}"/>
+                    Command="{Binding ExpandAll}" />
 
             <Button Style="{StaticResource ValidationContextButtonWithIconStyle}"
                     Tag="CollapseAll"
-                    ToolTip="Collapse All" 
-                    Command="{Binding CollapseAll}"/>
+                    ToolTip="Collapse All"
+                    Command="{Binding CollapseAll}" />
 
             <StackPanel Orientation="Horizontal"
                         DockPanel.Dock="Right">
@@ -71,12 +71,13 @@
         </DockPanel>
 
         <controls:ValidationContextTree Grid.Row="1"
-                                           Margin="4"
-                                           ValidationContext="{Binding ValidationContext}"
-                                           ShowErrors="{Binding ShowErrors}"
-                                           ShowWarnings="{Binding ShowWarnings}"
-                                           Filter="{Binding Filter}"
-                                           Nodes="{Binding Nodes, Mode=OneWayToSource}" />
+                                        Margin="4"
+                                        ValidationContext="{Binding ValidationContext}"
+                                        ShowErrors="{Binding ShowErrors}"
+                                        ShowWarnings="{Binding ShowWarnings}"
+                                        Filter="{Binding Filter}"
+                                        Nodes="{Binding Nodes, Mode=OneWayToSource}"
+                                        NamesAdapter="{Binding NamesAdapter, Mode=OneWayToSource}" />
 
         <DockPanel Grid.Row="2"
                    LastChildFill="False">

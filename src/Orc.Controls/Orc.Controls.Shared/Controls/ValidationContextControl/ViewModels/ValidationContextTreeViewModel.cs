@@ -9,15 +9,30 @@ namespace Orc.Controls
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Catel;
     using Catel.Collections;
     using Catel.Data;
     using Catel.MVVM;
 
     internal class ValidationContextTreeViewModel : ViewModelBase
     {
-        public ValidationContextTreeViewModel()
+        private readonly IValidationResultNamesAdapter _resultNamesAdapter;
+
+        public ValidationContextTreeViewModel(IValidationResultNamesAdapter resultNamesAdapter)
         {
-            ValidationResultTags = new FastObservableCollection<ValidationResultTagNode>();
+            Argument.IsNotNull(() => resultNamesAdapter);
+
+            _resultNamesAdapter = resultNamesAdapter;
+            
+            if (ValidationResultTags == null)
+            {
+                ValidationResultTags = new FastObservableCollection<ValidationResultTagNode>();
+            }
+
+            if (NamesAdapter == null)
+            {
+                NamesAdapter = resultNamesAdapter;
+            }
         }
 
         #region Properties
@@ -32,6 +47,8 @@ namespace Orc.Controls
         public FastObservableCollection<ValidationResultTagNode> ValidationResultTags { get; }
 
         public IEnumerable<IValidationContextTreeNode> Nodes => ValidationResultTags.OfType<IValidationContextTreeNode>();
+
+        public IValidationResultNamesAdapter NamesAdapter { get; set; }
         #endregion
 
         private void OnValidationContextChanged()
@@ -67,15 +84,15 @@ namespace Orc.Controls
 
             var resultTagNodes = validationContext
                 .GetValidations()
-                .Select(x => x.Tag).Distinct()
-                .Select(tag => new ValidationResultTagNode(tag))
+                .Select(x => _resultNamesAdapter.GetTagName(x)).Distinct()
+                .Select(tagName => new ValidationResultTagNode(tagName))
                 .OrderBy(x => x);
 
             foreach (var tagNode in resultTagNodes)
             {
-                tagNode.AddValidationResultTypeNode(validationContext, ValidationResultType.Error);
+                tagNode.AddValidationResultTypeNode(validationContext, ValidationResultType.Error, NamesAdapter);
 
-                tagNode.AddValidationResultTypeNode(validationContext, ValidationResultType.Warning);
+                tagNode.AddValidationResultTypeNode(validationContext, ValidationResultType.Warning, NamesAdapter);
 
                 ValidationResultTags.Add(tagNode);
             }

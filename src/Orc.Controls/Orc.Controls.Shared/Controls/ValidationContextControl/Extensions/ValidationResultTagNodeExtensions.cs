@@ -8,25 +8,20 @@
 namespace Orc.Controls
 {
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using Catel;
     using Catel.Data;
 
     internal static class ValidationResultTagNodeExtensions
     {
-        public static void AddValidationResultTypeNode(this ValidationResultTagNode validationResultTagNode, IValidationContext validationContext, 
-            ValidationResultType validationResultType, string filter = null)
+        public static void AddValidationResultTypeNode(this ValidationResultTagNode validationResultTagNode, IValidationContext validationContext,
+            ValidationResultType validationResultType, IValidationResultNamesAdapter resultNamesAdapter)
         {
             Argument.IsNotNull(() => validationResultTagNode);
             Argument.IsNotNull(() => validationContext);
+            Argument.IsNotNull(() => resultNamesAdapter);
 
-            var culture = CultureInfo.InvariantCulture;
-            var validationResults = validationContext.GetValidations(validationResultTagNode.Tag).Where(x => x.ValidationResultType == validationResultType);
-            if (!string.IsNullOrEmpty(filter))
-            {
-                validationResults = validationResults.Where(x => culture.CompareInfo.IndexOf(x.Message, filter, CompareOptions.IgnoreCase) >= 0).OrderBy(x => x.Message).ToList();
-            }
+            var validationResults = resultNamesAdapter.GetCachedResultsByTagName(validationResultTagNode.TagName).Where(x => x.ValidationResultType == validationResultType);
 
             var validationResultsList = validationResults as IList<IValidationResult> ?? validationResults.ToList();
             if (!validationResultsList.Any())
@@ -34,7 +29,7 @@ namespace Orc.Controls
                 return;
             }
 
-            var resultTypeNode = new ValidationResultTypeNode(validationResultType, validationResultsList);
+            var resultTypeNode = new ValidationResultTypeNode(validationResultType, validationResultsList, resultNamesAdapter);
             validationResultTagNode.Children.Add(resultTypeNode);
         }
     }

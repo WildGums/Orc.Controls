@@ -12,17 +12,14 @@ namespace Orc.Controls
     using System.Linq;
     using Catel;
     using Catel.Data;
-    using Catel.Reflection;
 
     internal class ValidationResultTagNode : ValidationContextTreeNode
     {
-        public ValidationResultTagNode(object tag)
-        {
-            Tag = tag;
-            TagName = ExtractTagName(tag);
-        }
 
-        public object Tag { get; }
+        public ValidationResultTagNode(string tagName)
+        {
+            TagName = tagName;
+        }
 
         public string TagName { get; }
 
@@ -43,29 +40,6 @@ namespace Orc.Controls
             UpdateDisplayName();
 
             base.OnPropertyObjectCollectionChanged(sender, e);
-        }
-
-        private static string ExtractTagName(object value)
-        {
-            if (ReferenceEquals(value, null))
-            {
-                return "Misc";
-            }
-
-            var stringValue = value as string;
-            if (!string.IsNullOrWhiteSpace(stringValue))
-            {
-                return stringValue;
-            }
-
-            var type = value.GetType();
-            var nameProperty = type.GetPropertyEx("Name");
-            if (nameProperty != null)
-            {
-                return (string) nameProperty.GetValue(value, new object[0]);
-            }
-
-            return value.ToString();
         }
 
         private void UpdateDisplayName()

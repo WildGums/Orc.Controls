@@ -23,7 +23,7 @@ namespace Orc.Controls
 
         public ValidationContextControlViewModel(IProcessService processService)
         {
-            Argument.IsNotNull(() => processService);
+            Argument.IsNotNull(() => processService);            
 
             _processService = processService;
 
@@ -32,7 +32,7 @@ namespace Orc.Controls
             Copy = new Command(OnCopyExecute, OnCopyCanExecute);
             Open = new Command(OnOpenExecute);
 
-            InvalidateCommandsOnPropertyChanged = true;
+            InvalidateCommandsOnPropertyChanged = true;            
         }
 
         public IValidationContext ValidationContext { get; set; }
@@ -44,6 +44,7 @@ namespace Orc.Controls
         public bool ShowFilterBox { get; set; }
         public string Filter { get; set; }
         public IEnumerable<IValidationContextTreeNode> Nodes { get; set; }
+        public IValidationResultNamesAdapter NamesAdapter { get; set; }
 
         #region Commands
         public Command ExpandAll { get; }

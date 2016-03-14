@@ -74,6 +74,16 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty NodesProperty = DependencyProperty.Register(
             "Nodes", typeof (IEnumerable<IValidationContextTreeNode>), typeof (ValidationContextTree), new PropertyMetadata(default(IEnumerable<IValidationContextTreeNode>)));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewModelToView)]
+        public IValidationResultNamesAdapter NamesAdapter
+        {
+            get { return (IValidationResultNamesAdapter) GetValue(NamesAdapterProperty); }
+            set { SetValue(NamesAdapterProperty, value); }
+        }
+
+        public static readonly DependencyProperty NamesAdapterProperty = DependencyProperty.Register(
+            "NamesAdapter", typeof (IValidationResultNamesAdapter), typeof (ValidationContextTree), new PropertyMetadata(default(IValidationResultNamesAdapter)));
         #endregion        
     }
 }

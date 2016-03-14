@@ -40,6 +40,7 @@ public static class ModuleInitializer
         serviceLocator.RegisterInstance<LogViewerLogListener>(logListener);
 
         serviceLocator.RegisterType<ISuggestionListService, SuggestionListService>();
+        serviceLocator.RegisterType<IValidationResultNamesAdapter, ValidationResultNamesAdapter>();
 
         // Override Catel.SelectDirectoryService with Orchestra.Services.SelectDirectoryService
         serviceLocator.RegisterType<ISelectDirectoryService, MicrosoftApiSelectDirectoryService>();

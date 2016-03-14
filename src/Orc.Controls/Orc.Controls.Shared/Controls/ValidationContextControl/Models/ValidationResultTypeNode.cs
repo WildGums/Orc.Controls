@@ -9,15 +9,20 @@ namespace Orc.Controls
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Catel;
     using Catel.Collections;
     using Catel.Data;
 
     internal class ValidationResultTypeNode : ValidationContextTreeNode
     {
-        public ValidationResultTypeNode(ValidationResultType resultType, IEnumerable<IValidationResult> validationResults)
+        public ValidationResultTypeNode(ValidationResultType resultType, IEnumerable<IValidationResult> validationResults,
+            IValidationResultNamesAdapter resultNamesAdapter)
         {
+            Argument.IsNotNull(() => validationResults);
+            Argument.IsNotNull(() => resultNamesAdapter);
+
             ResultType = resultType;            
-            Children.ReplaceRange(validationResults.Select(x => new ValidationResultNode(x)));
+            Children.ReplaceRange(validationResults.Select(x => new ValidationResultNode(x, resultNamesAdapter)));
 
             UpdateDisplayName();
         }

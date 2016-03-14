@@ -8,21 +8,18 @@
 namespace Orc.Controls
 {
     using System.Globalization;
+    using Catel;
     using Catel.Data;
 
     internal class ValidationResultNode : ValidationContextTreeNode
     {
-        public ValidationResultNode(IValidationResult validationResult)
+        public ValidationResultNode(IValidationResult validationResult, IValidationResultNamesAdapter resultNamesAdapter)
         {
-            var fieldValidationResult = validationResult as FieldValidationResult;
-            if (string.IsNullOrEmpty(fieldValidationResult?.PropertyName))
-            {
-                DisplayName = validationResult.Message;
-            }
-            else
-            {
-                DisplayName = $"{fieldValidationResult.PropertyName}: {fieldValidationResult.Message}";
-            }
+            Argument.IsNotNull(() => validationResult);
+            Argument.IsNotNull(() => resultNamesAdapter);
+
+            DisplayName = resultNamesAdapter.GetDisplayName(validationResult);
+            var fieldValidationResult = validationResult as FieldValidationResult;            
             
             ResultType = validationResult.ValidationResultType;
         }

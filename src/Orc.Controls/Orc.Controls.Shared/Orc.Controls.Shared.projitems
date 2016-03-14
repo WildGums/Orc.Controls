@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Adapters\Interfaces\IValidationResultNamesAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Converters\ValidationResultTypeToColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Extensions\IValidationContextTreeNodeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Extensions\ValidationResultTagNodeExtensions.cs" />
@@ -18,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Models\ValidationResultNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Models\ValidationResultTagNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Models\ValidationResultTypeNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Adapters\ValidationResultNamesAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\ViewModels\ValidationContextTreeViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Views\ValidationContextTree.xaml.cs">
       <DependentUpon>ValidationContextTree.xaml</DependentUpon>
