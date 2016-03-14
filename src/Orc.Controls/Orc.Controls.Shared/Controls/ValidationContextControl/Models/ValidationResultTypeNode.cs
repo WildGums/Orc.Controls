@@ -40,24 +40,5 @@ namespace Orc.Controls
                     break;                    
             }
         }
-
-        public override void ApplyFilter(bool showErrors, bool showWarnings, string filter)
-        {
-            base.ApplyFilter(showErrors, showWarnings, filter);
-
-            if (showErrors && ResultType != null && ResultType.Value == ValidationResultType.Error)
-            {
-                IsVisible = Children.Any(x => x.IsVisible);
-                return;
-            }
-
-            if (showWarnings && ResultType != null && ResultType.Value == ValidationResultType.Warning)
-            {
-                IsVisible = Children.Any(x => x.IsVisible);
-                return;
-            }
-
-            IsVisible = false;
-        }
     }
 }

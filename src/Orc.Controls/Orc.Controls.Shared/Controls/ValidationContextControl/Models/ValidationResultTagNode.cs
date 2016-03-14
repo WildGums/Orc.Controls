@@ -53,13 +53,6 @@ namespace Orc.Controls
             DisplayName = $"{TagName} (Errors: {errorCount}, Warnings: {warningCount})";
         }
 
-        public override void ApplyFilter(bool showErrors, bool showWarnings, string filter)
-        {
-            base.ApplyFilter(showErrors, showWarnings, filter);
-
-            IsVisible = Children.Any(x => x.IsVisible);
-        }
-
         public override int CompareTo(ValidationContextTreeNode nodeToCompare)
         {
             Argument.IsNotNull(() => nodeToCompare);
