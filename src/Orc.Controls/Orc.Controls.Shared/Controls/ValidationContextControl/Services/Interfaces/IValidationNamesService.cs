@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IValidationResultNamesAdapter.cs" company="WildGums">
+// <copyright file="IValidationNamesService.cs" company="WildGums">
 //   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -10,7 +10,7 @@ namespace Orc.Controls
     using System.Collections.Generic;
     using Catel.Data;
 
-    public interface IValidationResultNamesAdapter
+    public interface IValidationNamesService
     {
         string GetDisplayName(IValidationResult validationResult);
         string GetTagName(IValidationResult validationResult);

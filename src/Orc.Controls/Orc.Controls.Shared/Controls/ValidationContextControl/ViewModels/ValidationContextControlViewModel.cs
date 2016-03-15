@@ -44,8 +44,6 @@ namespace Orc.Controls
         public bool ShowFilterBox { get; set; }
         public string Filter { get; set; }
         public IEnumerable<IValidationContextTreeNode> Nodes { get; set; }
-        public IValidationResultNamesAdapter NamesAdapter { get; set; }
-
         #region Commands
         public Command ExpandAll { get; }
 

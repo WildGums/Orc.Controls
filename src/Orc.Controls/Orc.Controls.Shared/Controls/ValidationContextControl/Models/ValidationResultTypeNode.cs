@@ -16,13 +16,13 @@ namespace Orc.Controls
     internal class ValidationResultTypeNode : ValidationContextTreeNode
     {
         public ValidationResultTypeNode(ValidationResultType resultType, IEnumerable<IValidationResult> validationResults,
-            IValidationResultNamesAdapter resultNamesAdapter)
+            IValidationNamesService validationNamesService)
         {
             Argument.IsNotNull(() => validationResults);
-            Argument.IsNotNull(() => resultNamesAdapter);
+            Argument.IsNotNull(() => validationNamesService);
 
             ResultType = resultType;            
-            Children.ReplaceRange(validationResults.Select(x => new ValidationResultNode(x, resultNamesAdapter)));
+            Children.ReplaceRange(validationResults.Select(x => new ValidationResultNode(x, validationNamesService)));
 
             UpdateDisplayName();
         }

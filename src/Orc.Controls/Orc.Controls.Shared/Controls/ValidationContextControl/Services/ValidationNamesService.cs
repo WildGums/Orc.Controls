@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationResultNamesAdapter.cs" company="WildGums">
+// <copyright file="ValidationNamesService.cs" company="WildGums">
 //   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -12,7 +12,7 @@ namespace Orc.Controls
     using Catel.Data;
     using Catel.Reflection;
 
-    public class ValidationResultNamesAdapter : IValidationResultNamesAdapter
+    public class ValidationNamesService : IValidationNamesService
     {
         private readonly IDictionary<string, List<IValidationResult>> _cache = new Dictionary<string, List<IValidationResult>>();
 

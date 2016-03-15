@@ -76,8 +76,7 @@
                                         ShowErrors="{Binding ShowErrors}"
                                         ShowWarnings="{Binding ShowWarnings}"
                                         Filter="{Binding Filter}"
-                                        Nodes="{Binding Nodes, Mode=OneWayToSource}"
-                                        NamesAdapter="{Binding NamesAdapter, Mode=OneWayToSource}" />
+                                        Nodes="{Binding Nodes, Mode=OneWayToSource}" />
 
         <DockPanel Grid.Row="2"
                    LastChildFill="False">

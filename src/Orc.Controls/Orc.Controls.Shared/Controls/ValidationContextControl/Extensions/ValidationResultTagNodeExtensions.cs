@@ -15,13 +15,13 @@ namespace Orc.Controls
     internal static class ValidationResultTagNodeExtensions
     {
         public static void AddValidationResultTypeNode(this ValidationResultTagNode validationResultTagNode, IValidationContext validationContext,
-            ValidationResultType validationResultType, IValidationResultNamesAdapter resultNamesAdapter)
+            ValidationResultType validationResultType, IValidationNamesService validationNamesService)
         {
             Argument.IsNotNull(() => validationResultTagNode);
             Argument.IsNotNull(() => validationContext);
-            Argument.IsNotNull(() => resultNamesAdapter);
+            Argument.IsNotNull(() => validationNamesService);
 
-            var validationResults = resultNamesAdapter.GetCachedResultsByTagName(validationResultTagNode.TagName).Where(x => x.ValidationResultType == validationResultType);
+            var validationResults = validationNamesService.GetCachedResultsByTagName(validationResultTagNode.TagName).Where(x => x.ValidationResultType == validationResultType);
 
             var validationResultsList = validationResults as IList<IValidationResult> ?? validationResults.ToList();
             if (!validationResultsList.Any())
@@ -29,7 +29,7 @@ namespace Orc.Controls
                 return;
             }
 
-            var resultTypeNode = new ValidationResultTypeNode(validationResultType, validationResultsList, resultNamesAdapter);
+            var resultTypeNode = new ValidationResultTypeNode(validationResultType, validationResultsList, validationNamesService);
             validationResultTagNode.Children.Add(resultTypeNode);
         }
     }
