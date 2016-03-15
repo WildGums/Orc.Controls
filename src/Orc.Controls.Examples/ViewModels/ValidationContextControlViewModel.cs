@@ -19,12 +19,12 @@ namespace Orc.Controls.Examples.ViewModels
         {
             var context = new ValidationContext();
 
-            var result1 = BusinessRuleValidationResult.CreateErrorWithTag("Error1 message", "Rule1");
-            var result2 = BusinessRuleValidationResult.CreateWarningWithTag("Warning1 message", "Rule1");
-            var result3 = FieldValidationResult.CreateWarningWithTag("Property1","Warning2 message", "Rule1");
+            var result1 = BusinessRuleValidationResult.CreateErrorWithTag("Error1 message", "A");
+            var result2 = BusinessRuleValidationResult.CreateWarningWithTag("Warning1 message", "B");
+            var result3 = FieldValidationResult.CreateWarningWithTag("Property1","Warning2 message", "C");
 
-            var result4 = BusinessRuleValidationResult.CreateErrorWithTag("Error2 message", "Rule2");
-            var result5 = BusinessRuleValidationResult.CreateErrorWithTag("Error3 message", "Rule2");
+            var result4 = BusinessRuleValidationResult.CreateErrorWithTag("Error2 message", "A");
+            var result5 = BusinessRuleValidationResult.CreateErrorWithTag("Error3 message", "B");
 
             var result6 = BusinessRuleValidationResult.CreateError("Error3 message");
             var result7 = BusinessRuleValidationResult.CreateError("Error4 message");

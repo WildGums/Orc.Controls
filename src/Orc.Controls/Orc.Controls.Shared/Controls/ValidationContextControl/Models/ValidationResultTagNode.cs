@@ -58,12 +58,12 @@ namespace Orc.Controls
             Argument.IsNotNull(() => nodeToCompare);
 
             var node = (ValidationResultTagNode) nodeToCompare;
-            if (string.Equals(TagName, "Misc") || !string.Equals(node.TagName, "Misc"))
+            if (string.Equals(TagName, "Misc") && !string.Equals(node.TagName, "Misc"))
             {
                 return 1;
             }
 
-            if (!string.Equals(TagName, "Misc") || string.Equals(node.TagName, "Misc"))
+            if (!string.Equals(TagName, "Misc") && string.Equals(node.TagName, "Misc"))
             {
                 return -1;
             }
