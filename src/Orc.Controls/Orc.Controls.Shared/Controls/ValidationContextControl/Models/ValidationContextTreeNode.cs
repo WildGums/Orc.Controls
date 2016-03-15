@@ -78,11 +78,11 @@ namespace Orc.Controls
             IsVisible = culture.CompareInfo.IndexOf(DisplayName, filter, CompareOptions.IgnoreCase) >= 0;
         }
 
-        public virtual int CompareTo(ValidationContextTreeNode nodeToCompare)
+        public virtual int CompareTo(ValidationContextTreeNode node)
         {
-            Argument.IsNotNull(() => nodeToCompare);
+            Argument.IsNotNull(() => node);
 
-            return CultureInfo.InstalledUICulture.CompareInfo.Compare(nodeToCompare.DisplayName, DisplayName);
+            return CultureInfo.InstalledUICulture.CompareInfo.Compare(DisplayName, node.DisplayName);
         }
 
         public int CompareTo(object obj)

@@ -22,7 +22,8 @@ namespace Orc.Controls
             Argument.IsNotNull(() => validationNamesService);
 
             ResultType = resultType;            
-            Children.ReplaceRange(validationResults.Select(x => new ValidationResultNode(x, validationNamesService)));
+            Children.ReplaceRange(validationResults.Select(x => new ValidationResultNode(x, validationNamesService))
+                .OrderBy(x => x));
 
             UpdateDisplayName();
         }
