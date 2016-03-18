@@ -83,7 +83,8 @@ namespace Orc.Controls.ViewModels
             // Note: we need to dispatch because the FastObservableCollection automatically dispatches (which is a good thing
             // when coming from a background thread). However... the ReplaceRange will be executed *outside* the lock
             // which is not good. So the lock is inside the dispatcher handler, and we manually dispatcher here.
-            _dispatcherService.BeginInvoke(() =>
+            // Note: don't use BeginInvoke here because we need to wait until action will be processed
+            _dispatcherService.Invoke(() =>
             {
                 lock (_lock)
                 {
@@ -109,7 +110,7 @@ namespace Orc.Controls.ViewModels
                 ResetEntriesCount();
 
                 _isClearingLog = false;
-            });
+            }, false);
         }
 
         private void ResetEntriesCount()
