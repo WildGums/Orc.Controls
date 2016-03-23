@@ -20,7 +20,7 @@
 
     <Grid>
         <TreeView ItemsSource="{Binding ValidationResultTags}"
-                  ItemContainerStyle="{StaticResource TreeViewItemStyle}">
+                  ItemContainerStyle="{StaticResource ValidationContextTreeViewItemStyle}">
             <TreeView.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                                  Color="#EBDFEC" />

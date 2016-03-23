@@ -1,18 +1,17 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="using:Orc.Controls.Controls.ValidationContextControl.Themes"
                     xmlns:converters="clr-namespace:Orc.Controls.Converters"
                     xmlns:catel="http://catel.codeplex.com">
 
     <converters:TreeViewItemToLeftMarginValueConverter Length="15"
                                                        x:Key="LengthConverter" />
-    <SolidColorBrush x:Key="TreeViewDisabledForegroundBrush"
+    <SolidColorBrush x:Key="ValidationContextTreeViewDisabledForegroundBrush"
                      Color="DarkGray" />
 
     <PathGeometry x:Key="TreeArrow"
                   Figures="M0,0 L0,6 L6,0 z" />
 
-    <Style x:Key="ExpandCollapseToggleStyle"
+    <Style x:Key="ValidationContextExpandCollapseToggleStyle"
            TargetType="{x:Type ToggleButton}">
         <Setter Property="Focusable"
                 Value="False" />
@@ -109,7 +108,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="TreeViewItemFocusVisual">
+    <Style x:Key="ValidationContextTreeViewItemFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
@@ -119,7 +118,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="TreeViewItemStyle"
+    <Style x:Key="ValidationContextTreeViewItemStyle"
            TargetType="{x:Type TreeViewItem}">
         <Setter Property="IsExpanded"
                 Value="{Binding IsExpanded, Mode=TwoWay}" />
@@ -143,7 +142,7 @@
                 Value="2" />
 
         <Setter Property="FocusVisualStyle"
-                Value="{StaticResource TreeViewItemFocusVisual}" />
+                Value="{StaticResource ValidationContextTreeViewItemFocusVisual}" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -160,7 +159,7 @@
 
                                 <ToggleButton x:Name="Expander"
                                               Grid.Column="0"
-                                              Style="{DynamicResource ExpandCollapseToggleStyle}"
+                                              Style="{DynamicResource ValidationContextExpandCollapseToggleStyle}"
                                               IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" />
 
                                 <ContentPresenter x:Name="PART_Header"
@@ -233,7 +232,7 @@
                         <Trigger Property="IsEnabled"
                                  Value="false">
                             <Setter Property="Foreground"
-                                    Value="{StaticResource TreeViewDisabledForegroundBrush}" />
+                                    Value="{StaticResource ValidationContextTreeViewDisabledForegroundBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -1,7 +1,5 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Orc.Controls.Controls.AdvancedValidationContextControl.Themes">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Geometry x:Key="RectangleGeometry">M4,2L20,2C21.1,2 22,2.9 22,4L22,20C22,21.1 21.1,22 20,22L4,22C2.9,22 2,21.1 2,20L2,4C2,2.9 2.9,2 4,2ZM4,4L4,20L20,20L20,4L4,4ZM13,15L11,15L11,17L13,17L13,15ZM13,7L11,7L11,13L13,13L13,7Z</Geometry>
     <Geometry x:Key="TriangleGeometry">M2,21.9997L12,2.00026L20.6247,19.2199L20.6291,19.2199L22,21.9997L22,21.9997L22,21.9997L2,21.9997ZM5.0287,19.9997L18.9638,19.9997L12,6.11526L5.0287,19.9997ZM12.9376,16.5456L11.2947,16.5456L11.2947,18.2081L12.9376,18.2081L12.9376,16.5456ZM12.9376,11.5581L11.2947,11.5581L11.2947,14.8831L12.9376,14.8831L12.9376,11.5581Z</Geometry>
