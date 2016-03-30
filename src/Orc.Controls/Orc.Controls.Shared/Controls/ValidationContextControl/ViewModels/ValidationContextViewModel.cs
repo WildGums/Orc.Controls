@@ -18,7 +18,7 @@ namespace Orc.Controls
     using Catel.MVVM;
     using Catel.Services;
 
-    internal class ValidationContextViewModel : ViewModelBase
+    public class ValidationContextViewModel : ViewModelBase
     {
         private readonly IProcessService _processService;
         private readonly IValidationContext _injectedValidationContext;

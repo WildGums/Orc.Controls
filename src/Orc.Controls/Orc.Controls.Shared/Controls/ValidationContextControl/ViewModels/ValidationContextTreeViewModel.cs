@@ -14,7 +14,7 @@ namespace Orc.Controls
     using Catel.Data;
     using Catel.MVVM;
 
-    internal class ValidationContextTreeViewModel : ViewModelBase
+    public class ValidationContextTreeViewModel : ViewModelBase
     {
         private readonly IValidationNamesService _validationNamesService;
 
