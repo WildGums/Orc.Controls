@@ -17,7 +17,7 @@ namespace Orc.Controls
     using Catel.Collections;
     using Catel.Data;
 
-    internal class ValidationContextTreeNode : ModelBase, IValidationContextTreeNode, IComparable
+    public class ValidationContextTreeNode : ModelBase, IValidationContextTreeNode, IComparable
     {
         protected ValidationContextTreeNode()
         {

@@ -50,7 +50,7 @@ public static class ModuleInitializer
         viewModelLocator.Register(typeof(TimeSpanControl), typeof(TimeSpanViewModel));
         viewModelLocator.Register(typeof(CulturePicker), typeof(CulturePickerViewModel));
         viewModelLocator.Register(typeof(ValidationContextTree), typeof(ValidationContextTreeViewModel));
-        viewModelLocator.Register(typeof(ValidationContextControl), typeof(ValidationContextControlViewModel));
+        viewModelLocator.Register(typeof(ValidationContextView), typeof(ValidationContextViewModel));
 
         var languageService = serviceLocator.ResolveType<ILanguageService>();
         languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Controls", "Orc.Controls.Properties", "Resources"));

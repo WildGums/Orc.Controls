@@ -181,7 +181,7 @@
         </TabItem>
                
         <TabItem Header="ValidationContextControl">
-            <views:ValidationContextControlView />
+            <views:ValidationContextView />
         </TabItem>
 
         <TabItem Header="WatermarkTextBox">

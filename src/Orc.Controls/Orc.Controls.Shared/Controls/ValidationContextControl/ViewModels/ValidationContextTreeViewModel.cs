@@ -23,7 +23,7 @@ namespace Orc.Controls
             Argument.IsNotNull(() => validationNamesService);
 
             _validationNamesService = validationNamesService;
-            
+
             if (ValidationResultTags == null)
             {
                 ValidationResultTags = new FastObservableCollection<ValidationResultTagNode>();
@@ -84,7 +84,6 @@ namespace Orc.Controls
             foreach (var tagNode in resultTagNodes)
             {
                 tagNode.AddValidationResultTypeNode(validationContext, ValidationResultType.Error, _validationNamesService);
-
                 tagNode.AddValidationResultTypeNode(validationContext, ValidationResultType.Warning, _validationNamesService);
 
                 ValidationResultTags.Add(tagNode);
@@ -97,6 +96,6 @@ namespace Orc.Controls
             {
                 tagNode.ApplyFilter(ShowErrors, ShowWarnings, Filter);
             }
-        }       
+        }
     }
 }

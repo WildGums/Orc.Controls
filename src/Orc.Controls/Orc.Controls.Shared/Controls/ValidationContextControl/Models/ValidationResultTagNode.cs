@@ -13,9 +13,8 @@ namespace Orc.Controls
     using Catel;
     using Catel.Data;
 
-    internal class ValidationResultTagNode : ValidationContextTreeNode
+    public class ValidationResultTagNode : ValidationContextTreeNode
     {
-
         public ValidationResultTagNode(string tagName)
         {
             TagName = tagName;
@@ -50,20 +49,22 @@ namespace Orc.Controls
             var warningCount = Children.OfType<ValidationResultTypeNode>().Where(x => x.ResultType == ValidationResultType.Warning)
                 .SelectMany(x => x.Children).Count();
 
-            DisplayName = $"{TagName} (Errors: {errorCount}, Warnings: {warningCount})";
+            DisplayName = $"{TagName} ({LanguageHelper.GetString("Controls_ValidationContextControl_Errors")}: {errorCount}, {LanguageHelper.GetString("Controls_ValidationContextControl_Warnings")}: {warningCount})";
         }
 
         public override int CompareTo(ValidationContextTreeNode nodeToCompare)
         {
             Argument.IsNotNull(() => nodeToCompare);
 
+            var misc = LanguageHelper.GetString("Controls_ValidationContextControl_Misc");
+
             var node = (ValidationResultTagNode) nodeToCompare;
-            if (string.Equals(TagName, "Misc") && !string.Equals(node.TagName, "Misc"))
+            if (TagName.EqualsIgnoreCase(misc) && !node.TagName.EqualsIgnoreCase(misc))
             {
                 return 1;
             }
 
-            if (!string.Equals(TagName, "Misc") && string.Equals(node.TagName, "Misc"))
+            if (!TagName.EqualsIgnoreCase(misc) && node.TagName.EqualsIgnoreCase(misc))
             {
                 return -1;
             }

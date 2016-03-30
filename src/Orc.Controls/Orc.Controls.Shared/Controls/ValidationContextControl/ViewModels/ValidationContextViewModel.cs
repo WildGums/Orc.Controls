@@ -17,13 +17,13 @@ namespace Orc.Controls
     using Catel.MVVM;
     using Catel.Services;
 
-    internal class ValidationContextControlViewModel : ViewModelBase
+    internal class ValidationContextViewModel : ViewModelBase
     {
         private readonly IProcessService _processService;
 
-        public ValidationContextControlViewModel(IProcessService processService)
+        public ValidationContextViewModel(IProcessService processService)
         {
-            Argument.IsNotNull(() => processService);            
+            Argument.IsNotNull(() => processService);
 
             _processService = processService;
 
@@ -32,7 +32,13 @@ namespace Orc.Controls
             Copy = new Command(OnCopyExecute, OnCopyCanExecute);
             Open = new Command(OnOpenExecute);
 
-            InvalidateCommandsOnPropertyChanged = true;            
+            InvalidateCommandsOnPropertyChanged = true;
+        }
+
+        public ValidationContextViewModel(ValidationContext validationContext, IProcessService processService)
+            : this(processService)
+        {
+            ValidationContext = validationContext;
         }
 
         public IValidationContext ValidationContext { get; set; }
@@ -44,6 +50,7 @@ namespace Orc.Controls
         public bool ShowFilterBox { get; set; }
         public string Filter { get; set; }
         public IEnumerable<IValidationContextTreeNode> Nodes { get; set; }
+
         #region Commands
         public Command ExpandAll { get; }
 

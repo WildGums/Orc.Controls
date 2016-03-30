@@ -12,20 +12,20 @@ namespace Orc.Controls
     using Catel.Data;
     using Catel.MVVM.Views;
 
-    public sealed partial class ValidationContextControl
+    public sealed partial class ValidationContextView
     {
-        static ValidationContextControl()
+        static ValidationContextView()
         {
-            typeof(ValidationContextControl).AutoDetectViewPropertiesToSubscribe();
+            typeof(ValidationContextView).AutoDetectViewPropertiesToSubscribe();
         }
 
-        public ValidationContextControl()
+        public ValidationContextView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #region Dependency properties
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayDoNothing)]
         public IValidationContext ValidationContext
         {
             get { return (IValidationContext) GetValue(ValidationContextProperty); }
@@ -33,7 +33,8 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ValidationContextProperty = DependencyProperty.Register(
-            "ValidationContext", typeof (IValidationContext), typeof (ValidationContextControl), new PropertyMetadata(null));
+            "ValidationContext", typeof (IValidationContext), typeof (ValidationContextView), new PropertyMetadata(null));
+
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowFilterBox
@@ -43,7 +44,8 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ShowFilterBoxProperty = DependencyProperty.Register(
-            "ShowFilterBox", typeof (bool), typeof (ValidationContextControl), new PropertyMetadata(true));
+            "ShowFilterBox", typeof (bool), typeof (ValidationContextView), new PropertyMetadata(true));
+
 
         public Brush AccentColorBrush
         {
@@ -52,8 +54,18 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(
-            "AccentColorBrush", typeof(Brush), typeof(ValidationContextControl), new PropertyMetadata(Brushes.LightGray,
-                (sender, e) => ((ValidationContextControl)sender).OnAccentColorBrushChanged()));
+            "AccentColorBrush", typeof(Brush), typeof(ValidationContextView), new PropertyMetadata(Brushes.LightGray,
+                (sender, e) => ((ValidationContextView)sender).OnAccentColorBrushChanged()));
+
+
+        public bool ShowButtons
+        {
+            get { return (bool)GetValue(ShowButtonsProperty); }
+            set { SetValue(ShowButtonsProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowButtonsProperty = DependencyProperty.Register("ShowButtons", 
+            typeof(bool), typeof(ValidationContextView), new PropertyMetadata(true));
         #endregion
 
         public override void OnApplyTemplate()

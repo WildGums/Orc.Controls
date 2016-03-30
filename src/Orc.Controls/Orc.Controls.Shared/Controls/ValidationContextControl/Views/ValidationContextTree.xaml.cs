@@ -16,64 +16,68 @@ namespace Orc.Controls
     {
         static ValidationContextTree()
         {
-            typeof (ValidationContextTree).AutoDetectViewPropertiesToSubscribe();
+            typeof(ValidationContextTree).AutoDetectViewPropertiesToSubscribe();
         }
 
         public ValidationContextTree()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #region Dependency properties
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
         public IValidationContext ValidationContext
         {
-            get { return (IValidationContext) GetValue(ValidationContextProperty); }
+            get { return (IValidationContext)GetValue(ValidationContextProperty); }
             set { SetValue(ValidationContextProperty, value); }
         }
 
         public static readonly DependencyProperty ValidationContextProperty = DependencyProperty.Register(
-            "ValidationContext", typeof(IValidationContext), typeof(ValidationContextTree), new PropertyMetadata(null));        
+            "ValidationContext", typeof(IValidationContext), typeof(ValidationContextTree), new PropertyMetadata(null));
+
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
         public bool ShowErrors
         {
-            get { return (bool) GetValue(ShowErrorsProperty); }
+            get { return (bool)GetValue(ShowErrorsProperty); }
             set { SetValue(ShowErrorsProperty, value); }
         }
 
         public static readonly DependencyProperty ShowErrorsProperty = DependencyProperty.Register(
             "ShowErrors", typeof(bool), typeof(ValidationContextTree), new PropertyMetadata(true));
 
+
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
         public bool ShowWarnings
         {
-            get { return (bool) GetValue(ShowWarningsProperty); }
+            get { return (bool)GetValue(ShowWarningsProperty); }
             set { SetValue(ShowWarningsProperty, value); }
         }
 
         public static readonly DependencyProperty ShowWarningsProperty = DependencyProperty.Register(
-            "ShowWarnings", typeof(bool), typeof(ValidationContextTree), new PropertyMetadata(true));        
+            "ShowWarnings", typeof(bool), typeof(ValidationContextTree), new PropertyMetadata(true));
+
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
         public string Filter
         {
-            get { return (string) GetValue(FilterProperty); }
+            get { return (string)GetValue(FilterProperty); }
             set { SetValue(FilterProperty, value); }
         }
 
         public static readonly DependencyProperty FilterProperty = DependencyProperty.Register(
-            "Filter", typeof (string), typeof (ValidationContextTree), new PropertyMetadata(default(string)));
+            "Filter", typeof(string), typeof(ValidationContextTree), new PropertyMetadata(default(string)));
+
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewModelToView)]
         public IEnumerable<IValidationContextTreeNode> Nodes
         {
-            get { return (IEnumerable<IValidationContextTreeNode>) GetValue(NodesProperty); }
+            get { return (IEnumerable<IValidationContextTreeNode>)GetValue(NodesProperty); }
             set { SetValue(NodesProperty, value); }
         }
 
         public static readonly DependencyProperty NodesProperty = DependencyProperty.Register(
-            "Nodes", typeof (IEnumerable<IValidationContextTreeNode>), typeof (ValidationContextTree), new PropertyMetadata(default(IEnumerable<IValidationContextTreeNode>)));
+            "Nodes", typeof(IEnumerable<IValidationContextTreeNode>), typeof(ValidationContextTree), new PropertyMetadata(default(IEnumerable<IValidationContextTreeNode>)));
         #endregion        
     }
 }

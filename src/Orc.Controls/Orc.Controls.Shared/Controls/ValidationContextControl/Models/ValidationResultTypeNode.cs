@@ -13,7 +13,7 @@ namespace Orc.Controls
     using Catel.Collections;
     using Catel.Data;
 
-    internal class ValidationResultTypeNode : ValidationContextTreeNode
+    public class ValidationResultTypeNode : ValidationContextTreeNode
     {
         public ValidationResultTypeNode(ValidationResultType resultType, IEnumerable<IValidationResult> validationResults,
             IValidationNamesService validationNamesService)
@@ -21,7 +21,7 @@ namespace Orc.Controls
             Argument.IsNotNull(() => validationResults);
             Argument.IsNotNull(() => validationNamesService);
 
-            ResultType = resultType;            
+            ResultType = resultType;
             Children.ReplaceRange(validationResults.Select(x => new ValidationResultNode(x, validationNamesService))
                 .OrderBy(x => x));
 
@@ -33,12 +33,12 @@ namespace Orc.Controls
             switch (ResultType)
             {
                 case ValidationResultType.Error:
-                    DisplayName = "Errors";
+                    DisplayName = LanguageHelper.GetString("Controls_ValidationContextControl_Errors");
                     break;
-                    
+
                 case ValidationResultType.Warning:
-                    DisplayName = "Warnings";
-                    break;                    
+                    DisplayName = LanguageHelper.GetString("Controls_ValidationContextControl_Warnings");
+                    break;
             }
         }
     }

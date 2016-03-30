@@ -11,9 +11,9 @@ namespace Orc.Controls.Examples.ViewModels
     using Catel.Data;
     using Catel.MVVM;
 
-    public class ValidationContextControlViewModel : ViewModelBase
+    public class ValidationContextViewModel : ViewModelBase
     {
-        public IValidationContext ValidationContext { get; set; }
+        public IValidationContext ValidationContext { get; private set; }
 
         protected override Task InitializeAsync()
         {
@@ -38,7 +38,6 @@ namespace Orc.Controls.Examples.ViewModels
             context.AddBusinessRuleValidationResult(result6);
             context.AddBusinessRuleValidationResult(result7);
             context.AddFieldValidationResult(result8);
-
 
             ValidationContext = context;
 

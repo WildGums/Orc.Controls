@@ -7,11 +7,10 @@
 
 namespace Orc.Controls
 {
-    using System.Globalization;
     using Catel;
     using Catel.Data;
 
-    internal class ValidationResultNode : ValidationContextTreeNode
+    public class ValidationResultNode : ValidationContextTreeNode
     {
         public ValidationResultNode(IValidationResult validationResult, IValidationNamesService validationNamesService)
         {
@@ -19,8 +18,8 @@ namespace Orc.Controls
             Argument.IsNotNull(() => validationNamesService);
 
             DisplayName = validationNamesService.GetDisplayName(validationResult);
-            var fieldValidationResult = validationResult as FieldValidationResult;            
-            
+            //var fieldValidationResult = validationResult as FieldValidationResult;
+
             ResultType = validationResult.ValidationResultType;
         }
     }

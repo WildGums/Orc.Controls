@@ -9,12 +9,22 @@ namespace Orc.Controls
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Catel;
     using Catel.Data;
     using Catel.Reflection;
+    using Catel.Services;
 
     public class ValidationNamesService : IValidationNamesService
     {
+        private readonly ILanguageService _languageService;
         private readonly IDictionary<string, List<IValidationResult>> _cache = new Dictionary<string, List<IValidationResult>>();
+
+        public ValidationNamesService(ILanguageService languageService)
+        {
+            Argument.IsNotNull(() => languageService);
+
+            _languageService = languageService;
+        }
 
         public virtual string GetDisplayName(IValidationResult validationResult)
         {
@@ -58,7 +68,7 @@ namespace Orc.Controls
             var tag = validationResult.Tag;
             if (ReferenceEquals(tag, null))
             {
-                return "Misc";
+                return _languageService.GetString("Controls_ValidationContextControl_Misc");
             }
 
             var stringValue = tag as string;

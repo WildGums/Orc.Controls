@@ -115,9 +115,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\Views\TimeSpanControl.xaml.cs">
       <DependentUpon>TimeSpanControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\ViewModels\ValidationContextControlViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Views\ValidationContextControl.xaml.cs">
-      <DependentUpon>ValidationContextControl.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\ViewModels\ValidationContextViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Views\ValidationContextView.xaml.cs">
+      <DependentUpon>ValidationContextView.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\WatermarkTextBox\WatermarkTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\AmPmLongToAmPmShortConverter.cs" />
@@ -236,7 +236,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Views\ValidationContextControl.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Views\ValidationContextView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -250,6 +250,7 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\Extensions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Resources\Images\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Commands\" />
     <Folder Include="$(MSBuildThisFileDirectory)Resources\" />
   </ItemGroup>
   <ItemGroup>

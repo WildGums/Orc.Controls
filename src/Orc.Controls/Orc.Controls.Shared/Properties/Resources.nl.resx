@@ -126,4 +126,28 @@
   <data name="Controls_OpenFolder" xml:space="preserve">
     <value>Open map</value>
   </data>
+  <data name="Controls_ValidationContextControl_CollapseAll" xml:space="preserve">
+    <value>Alles inklappen</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Copy" xml:space="preserve">
+    <value>Kopiëren</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Errors" xml:space="preserve">
+    <value>Fouten</value>
+  </data>
+  <data name="Controls_ValidationContextControl_ExpandAll" xml:space="preserve">
+    <value>Alles uitklappen</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Misc" xml:space="preserve">
+    <value>Versch.</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Open" xml:space="preserve">
+    <value>Openen</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Warnings" xml:space="preserve">
+    <value>Waarschuwingen</value>
+  </data>
 </root>

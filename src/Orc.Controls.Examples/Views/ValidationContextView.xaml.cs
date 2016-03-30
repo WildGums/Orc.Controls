@@ -7,9 +7,9 @@
 
 namespace Orc.Controls.Examples.Views
 {
-    public partial class ValidationContextControlView
+    public partial class ValidationContextView
     {
-        public ValidationContextControlView()
+        public ValidationContextView()
         {
             InitializeComponent();
         }

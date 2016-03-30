@@ -5,17 +5,16 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:catel="http://catel.codeplex.com"
                    xmlns:controls="clr-namespace:Orc.Controls"
-                   xmlns:converters="clr-namespace:Orc.Controls.Converters"
                    mc:Ignorable="d"
                    d:DesignHeight="300"
                    d:DesignWidth="400"
                    x:ClassModifier="internal">
 
     <UserControl.Resources>
-        <converters:ValidationResultTypeToColorConverter DefaultColor="Black"
-                                                         ErrorColor="Red"
-                                                         WarningColor="DarkOrange"
-                                                         x:Key="ResultTypeToColorConverter" />
+        <controls:ValidationResultTypeToColorConverter DefaultColor="Black"
+                                                       ErrorColor="Red"
+                                                       WarningColor="DarkOrange"
+                                                       x:Key="ResultTypeToColorConverter" />
     </UserControl.Resources>
 
     <Grid>

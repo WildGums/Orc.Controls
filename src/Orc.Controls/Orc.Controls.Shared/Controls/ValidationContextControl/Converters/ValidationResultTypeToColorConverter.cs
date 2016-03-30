@@ -5,14 +5,14 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Controls.Converters
+namespace Orc.Controls
 {
     using System;
     using System.Windows.Media;
     using Catel.Data;
     using Catel.MVVM.Converters;
 
-    class ValidationResultTypeToColorConverter : ValueConverterBase
+    public class ValidationResultTypeToColorConverter : ValueConverterBase
     {
         public Color DefaultColor { get; set; }
 

@@ -126,4 +126,28 @@
   <data name="Controls_OpenFolder" xml:space="preserve">
     <value>Open folder</value>
   </data>
+  <data name="Controls_ValidationContextControl_CollapseAll" xml:space="preserve">
+    <value>Collapse all</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Errors" xml:space="preserve">
+    <value>Errors</value>
+  </data>
+  <data name="Controls_ValidationContextControl_ExpandAll" xml:space="preserve">
+    <value>Expand all</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Misc" xml:space="preserve">
+    <value>Misc</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Warnings" xml:space="preserve">
+    <value>Warnings</value>
+  </data>
 </root>
