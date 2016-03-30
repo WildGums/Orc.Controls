@@ -25,7 +25,7 @@ namespace Orc.Controls
         }
 
         #region Dependency properties
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayDoNothing)]
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public IValidationContext ValidationContext
         {
             get { return (IValidationContext) GetValue(ValidationContextProperty); }

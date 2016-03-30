@@ -11,6 +11,7 @@ namespace Orc.Controls
     using System.IO;
     using System.Linq;
     using System.Security;
+    using System.Threading.Tasks;
     using System.Windows;
     using Catel;
     using Catel.Data;
@@ -20,6 +21,8 @@ namespace Orc.Controls
     internal class ValidationContextViewModel : ViewModelBase
     {
         private readonly IProcessService _processService;
+        private readonly IValidationContext _injectedValidationContext;
+        private readonly IDispatcherService _dispatcherService;
 
         public ValidationContextViewModel(IProcessService processService)
         {
@@ -35,10 +38,13 @@ namespace Orc.Controls
             InvalidateCommandsOnPropertyChanged = true;
         }
 
-        public ValidationContextViewModel(ValidationContext validationContext, IProcessService processService)
+        public ValidationContextViewModel(ValidationContext validationContext, IProcessService processService, IDispatcherService dispatcherService)
             : this(processService)
         {
-            ValidationContext = validationContext;
+            Argument.IsNotNull(() => dispatcherService);
+
+            _injectedValidationContext = validationContext;
+            _dispatcherService = dispatcherService;
         }
 
         public IValidationContext ValidationContext { get; set; }
@@ -114,6 +120,16 @@ namespace Orc.Controls
             WarningsCount = validationContext.GetWarningCount();
 
             ValidationResults = validationContext.GetValidations();
+        }
+
+        protected override async Task InitializeAsync()
+        {
+            await base.InitializeAsync();
+
+            if (_injectedValidationContext != null)
+            {
+                _dispatcherService.BeginInvoke(() => ValidationContext = _injectedValidationContext);
+            }
         }
     }
 }
