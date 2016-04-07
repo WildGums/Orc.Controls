@@ -17,10 +17,10 @@ using System.Resources;
 ////[assembly: AssemblyDescription("DEFINED IN ACTUAL ASSEMBLYINFO")]
 
 [assembly: AssemblyCompany("WildGums")]
-[assembly: AssemblyCopyright("Copyright © WildGums 2010 - 2015")]
+[assembly: AssemblyCopyright("Copyright © WildGums 2010 - 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: NeutralResourcesLanguage("en-AU")]
+[assembly: NeutralResourcesLanguage("en-US")]
 
 // Version information for an assembly consists of the following four values:
 //
