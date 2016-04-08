@@ -43,7 +43,7 @@ namespace Orc.Controls
 
         private CheckBox _checkBox;
 
-        private IColorProvider _currentColorProvider;
+        private IColorLegendItem _currentColorLegendItem;
 
         private bool _manualBindingReady;
 
@@ -245,9 +245,9 @@ namespace Orc.Controls
         /// <summary>
         /// Gets or sets source for color items.
         /// </summary>
-        public IEnumerable<IColorProvider> ItemsSource
+        public IEnumerable<IColorLegendItem> ItemsSource
         {
-            get { return (IEnumerable<IColorProvider>)GetValue(ItemsSourceProperty); }
+            get { return (IEnumerable<IColorLegendItem>)GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
 
@@ -255,8 +255,8 @@ namespace Orc.Controls
         /// Property for colors list.
         /// </summary>
         public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register("ItemsSource",
-            typeof(IEnumerable<IColorProvider>), typeof(ColorLegend), new FrameworkPropertyMetadata(null,
-                (sender, e) => ((ColorLegend)sender).OnItemsSourceChanged(e.OldValue as IEnumerable<IColorProvider>, e.NewValue as IEnumerable<IColorProvider>)));
+            typeof(IEnumerable<IColorLegendItem>), typeof(ColorLegend), new FrameworkPropertyMetadata(null,
+                (sender, e) => ((ColorLegend)sender).OnItemsSourceChanged(e.OldValue as IEnumerable<IColorLegendItem>, e.NewValue as IEnumerable<IColorLegendItem>)));
 
         /// <summary>
         /// Gets or sets a value indicating whether is all visible.
@@ -276,9 +276,9 @@ namespace Orc.Controls
         /// <summary>
         /// Gets or sets a source for color items respecting current filter value.
         /// </summary>
-        public IEnumerable<IColorProvider> FilteredItemsSource
+        public IEnumerable<IColorLegendItem> FilteredItemsSource
         {
-            get { return (IEnumerable<IColorProvider>)GetValue(FilteredItemsSourceProperty); }
+            get { return (IEnumerable<IColorLegendItem>)GetValue(FilteredItemsSourceProperty); }
             set { SetValue(FilteredItemsSourceProperty, value); }
         }
 
@@ -286,7 +286,7 @@ namespace Orc.Controls
         /// Property for colors list.
         /// </summary>
         public static readonly DependencyProperty FilteredItemsSourceProperty = DependencyProperty.Register("FilteredItemsSource",
-            typeof(IEnumerable<IColorProvider>), typeof(ColorLegend), new PropertyMetadata(null));
+            typeof(IEnumerable<IColorLegendItem>), typeof(ColorLegend), new PropertyMetadata(null));
 
 
         /// <summary>
@@ -324,9 +324,9 @@ namespace Orc.Controls
         /// <summary>
         /// Gets or sets list of selected items.
         /// </summary>
-        public IEnumerable<IColorProvider> SelectedColorItems
+        public IEnumerable<IColorLegendItem> SelectedColorItems
         {
-            get { return (IEnumerable<IColorProvider>)GetValue(SelectedColorItemsProperty); }
+            get { return (IEnumerable<IColorLegendItem>)GetValue(SelectedColorItemsProperty); }
             set { SetValue(SelectedColorItemsProperty, value); }
         }
 
@@ -334,7 +334,7 @@ namespace Orc.Controls
         /// The selected items property.
         /// </summary>
         public static readonly DependencyProperty SelectedColorItemsProperty = DependencyProperty.RegisterAttached("SelectedColorItems",
-            typeof(IEnumerable<IColorProvider>), typeof(ColorLegend), new PropertyMetadata(null, (sender, e) => ((ColorLegend)sender).OnSelectedColorItemsChanged()));
+            typeof(IEnumerable<IColorLegendItem>), typeof(ColorLegend), new PropertyMetadata(null, (sender, e) => ((ColorLegend)sender).OnSelectedColorItemsChanged()));
 
         public Brush AccentColorBrush
         {
@@ -352,7 +352,7 @@ namespace Orc.Controls
         private bool OnChangeColorCanExecute(object parameter)
         {
             var values = (object[])parameter;
-            var colorProvider = (IColorProvider)values[1];
+            var colorProvider = (IColorLegendItem)values[1];
 
             if (colorProvider == null)
             {
@@ -372,12 +372,12 @@ namespace Orc.Controls
             var parameterValues = (object[])parameter;
 
             var currentButton = parameterValues[0];
-            var colorProvider = (IColorProvider)parameterValues[1];
+            var colorLegendItem = (IColorLegendItem)parameterValues[1];
 
-            _currentColorProvider = colorProvider;
+            _currentColorLegendItem = colorLegendItem;
             _popup.PlacementTarget = (Button)currentButton;
 
-            _previousColor = EditingColor = colorProvider.Color;
+            _previousColor = EditingColor = colorLegendItem.Color;
             IsColorSelecting = true;
         }
         #endregion
@@ -390,7 +390,7 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-        private void OnItemsSourceChanged(IEnumerable<IColorProvider> oldValue, IEnumerable<IColorProvider> newValue)
+        private void OnItemsSourceChanged(IEnumerable<IColorLegendItem> oldValue, IEnumerable<IColorLegendItem> newValue)
         {
             if (_changeNotificationWrapper != null)
             {
@@ -413,7 +413,7 @@ namespace Orc.Controls
 
         private void OnColorProviderPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.HasPropertyChanged("IsVisible"))
+            if (e.HasPropertyChanged("IsChecked"))
             {
                 UpdateIsAllVisible();
             }
@@ -431,7 +431,7 @@ namespace Orc.Controls
             {
                 foreach (var filteredItem in filteredItems)
                 {
-                    if (filteredItem.IsVisible)
+                    if (filteredItem.IsChecked)
                     {
                         allUnchecked = false;
                     }
@@ -467,7 +467,7 @@ namespace Orc.Controls
             {
                 foreach (var filteredItem in filteredItems)
                 {
-                    filteredItem.IsVisible = isAllVisible.Value;
+                    filteredItem.IsChecked = isAllVisible.Value;
                 }
             }
         }
@@ -489,10 +489,10 @@ namespace Orc.Controls
 
         private void OnEditingColorChanged()
         {
-            var currentColorProvider = _currentColorProvider;
-            if (currentColorProvider != null)
+            var currentColorLegendItem = _currentColorLegendItem;
+            if (currentColorLegendItem != null)
             {
-                currentColorProvider.Color = (Color)EditingColor;
+                currentColorLegendItem.Color = EditingColor;
             }
         }
 
@@ -670,43 +670,51 @@ namespace Orc.Controls
             }
         }
 
-        public IEnumerable<IColorProvider> GetSelectedList()
+        public IEnumerable<IColorLegendItem> GetSelectedList()
         {
-            var result = new ObservableCollection<IColorProvider>();
-
-            foreach (object item in _listBox.SelectedItems)
-            {
-                result.Add(item as IColorProvider);
-            }
-
-            return result;
+            return from object item in _listBox.SelectedItems select item as IColorLegendItem;
         }
 
-        public void SetSelectedList(IEnumerable<IColorProvider> selectedList)
+        private bool _settingSelectedList;
+        public void SetSelectedList(IEnumerable<IColorLegendItem> selectedList)
         {
-            if (_listBox == null || selectedList == null)
+            if (_listBox == null || selectedList == null || _settingSelectedList)
             {
                 return;
             }
 
-            var colorProviders = selectedList as IList<IColorProvider> ?? selectedList.ToList();
-            if (AreCollectionsTheSame(GetSelectedList(), colorProviders))
-            {
-                return;
-            }
+            _settingSelectedList = true;
 
-            _listBox.SelectedItems.Clear();
-            if (colorProviders != null)
+            try
             {
-                foreach (var colorProvider in colorProviders)
+                var colorLegendItems = selectedList as IList<IColorLegendItem> ?? selectedList.ToList();
+
+                _listBox.SelectedItems.Clear();
+                var itemsSource = ItemsSource;
+                if (itemsSource == null)
                 {
-                    _listBox.SelectedItems.Add(colorProvider);
+                    return;
                 }
+
+                foreach (var legendItem in itemsSource)
+                {
+                    legendItem.IsSelected = false;
+                }
+
+                foreach (var legendItem in colorLegendItems)
+                {
+                    legendItem.IsSelected = true;
+                    _listBox.SelectedItems.Add(legendItem);
+                }
+            }
+            finally
+            {
+                _settingSelectedList = false;
             }
         }
 
         // TODO: Replace by catel methods
-        private bool AreCollectionsTheSame(IEnumerable<IColorProvider> collection1, IEnumerable<IColorProvider> collection2)
+        private bool AreCollectionsTheSame(IEnumerable<IColorLegendItem> collection1, IEnumerable<IColorLegendItem> collection2)
         {
             if ((collection1 == null) || (collection2 == null))
             {
@@ -760,9 +768,9 @@ namespace Orc.Controls
             return "(?i)^" + Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".") + "$";
         }
 
-        protected IEnumerable<IColorProvider> GetFilteredItems()
+        protected IEnumerable<IColorLegendItem> GetFilteredItems()
         {
-            var items = (IEnumerable<IColorProvider>)GetValue(ItemsSourceProperty);
+            var items = (IEnumerable<IColorLegendItem>)GetValue(ItemsSourceProperty);
             var filter = (string)GetValue(FilterProperty);
 
             if ((items == null) || string.IsNullOrEmpty(filter))

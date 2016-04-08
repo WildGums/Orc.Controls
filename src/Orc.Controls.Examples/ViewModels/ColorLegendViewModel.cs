@@ -21,13 +21,13 @@ namespace Orc.Controls.Examples.ViewModels
         /// </summary>
         public ColorLegendViewModel()
         {
-            CalendarStateLegend = new ObservableCollection<IColorProvider>();
+            CalendarStateLegend = new ObservableCollection<IColorLegendItem>();
         }
 
         /// <summary>
         /// Gets or sets the calendar state legend.
         /// </summary>
-        public ObservableCollection<IColorProvider> CalendarStateLegend { get; private set; }
+        public ObservableCollection<IColorLegendItem> CalendarStateLegend { get; private set; }
 
         protected override async Task InitializeAsync()
         {
@@ -45,7 +45,7 @@ namespace Orc.Controls.Examples.ViewModels
             colors.Add(Colors.Orange);
             colors.Add(Colors.Gray);
 
-            var items = new List<IColorProvider>();
+            var items = new List<IColorLegendItem>();
 
             foreach (var color in colors)
             {
@@ -53,7 +53,7 @@ namespace Orc.Controls.Examples.ViewModels
                 {
                     Color = color,
                     Description = color.ToString(),
-                    IsVisible = true,
+                    IsChecked = true,
                     Id = color.ToString(),
                     AdditionalData = "(1)"
                 });

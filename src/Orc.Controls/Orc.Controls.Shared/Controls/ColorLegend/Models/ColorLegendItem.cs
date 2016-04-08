@@ -16,7 +16,7 @@ namespace Orc.Controls
     /// The color legend item.
     /// </summary>
     [SerializerModifier(typeof(ColorLegendItemSerializerModifier))]
-    public class ColorLegendItem : ModelBase, IColorProvider
+    public class ColorLegendItem : ModelBase, IColorLegendItem
     {
         /// <summary>
         /// Gets or sets the id.
@@ -26,7 +26,9 @@ namespace Orc.Controls
         /// <summary>
         /// Gets or sets the property value.
         /// </summary>
-        public bool IsVisible { get; set; }
+        public bool IsChecked { get; set; }
+
+        public bool IsSelected { get; set; }
 
         /// <summary>
         /// Gets or sets the property value.
