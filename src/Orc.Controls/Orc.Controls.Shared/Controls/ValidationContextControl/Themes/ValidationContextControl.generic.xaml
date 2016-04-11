@@ -122,8 +122,8 @@
             </Setter.Value>
         </Setter>
     </Style>
-   
-    <Style TargetType="{x:Type TextBlock}">
-        <Setter Property="Margin" Value="4 0 0 0"/>
+
+    <Style x:Key="ValidationContextTextBlock" TargetType="{x:Type TextBlock}">
+        <Setter Property="Margin" Value="4,0,0,0"/>
     </Style>
 </ResourceDictionary>
