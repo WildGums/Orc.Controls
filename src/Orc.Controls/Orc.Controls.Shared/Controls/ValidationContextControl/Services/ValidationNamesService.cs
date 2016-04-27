@@ -40,6 +40,7 @@ namespace Orc.Controls
         public string GetTagName(IValidationResult validationResult)
         {
             var tagName = ExtractTagName(validationResult);
+
             List<IValidationResult> results;
             if (!_cache.TryGetValue(tagName, out results))
             {
@@ -47,7 +48,15 @@ namespace Orc.Controls
                 _cache.Add(tagName, results);
             }
 
-            results.Add(validationResult);
+            var exists = (from result in results
+                          where result.Message.EqualsIgnoreCase(validationResult.Message) &&
+                                result.ValidationResultType == validationResult.ValidationResultType &&
+                                ObjectHelper.AreEqual(result.Tag, validationResult.Tag)
+                          select result).Any();
+            if (!exists)
+            {
+                results.Add(validationResult);
+            }
 
             return tagName;
         }
@@ -81,7 +90,7 @@ namespace Orc.Controls
             var nameProperty = type.GetPropertyEx("Name");
             if (nameProperty != null)
             {
-                return (string) nameProperty.GetValue(tag, new object[0]);
+                return (string)nameProperty.GetValue(tag, new object[0]);
             }
 
             return tag.ToString();

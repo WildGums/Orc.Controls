@@ -21,15 +21,14 @@ namespace Orc.Controls
             Argument.IsNotNull(() => validationContext);
             Argument.IsNotNull(() => validationNamesService);
 
-            var validationResults = validationNamesService.GetCachedResultsByTagName(validationResultTagNode.TagName).Where(x => x.ValidationResultType == validationResultType);
-
-            var validationResultsList = validationResults as IList<IValidationResult> ?? validationResults.ToList();
-            if (!validationResultsList.Any())
+            var validationResults = validationNamesService.GetCachedResultsByTagName(validationResultTagNode.TagName)
+                .Where(x => x.ValidationResultType == validationResultType).ToList();
+            if (!validationResults.Any())
             {
                 return;
             }
 
-            var resultTypeNode = new ValidationResultTypeNode(validationResultType, validationResultsList, validationNamesService);
+            var resultTypeNode = new ValidationResultTypeNode(validationResultType, validationResults, validationNamesService);
             validationResultTagNode.Children.Add(resultTypeNode);
         }
     }
