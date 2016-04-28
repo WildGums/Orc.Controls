@@ -16,8 +16,9 @@ namespace Orc.Controls
 
     public class ValidationNamesService : IValidationNamesService
     {
-        private readonly ILanguageService _languageService;
         private readonly IDictionary<string, List<IValidationResult>> _cache = new Dictionary<string, List<IValidationResult>>();
+
+        private readonly ILanguageService _languageService;
 
         public ValidationNamesService(ILanguageService languageService)
         {
@@ -35,6 +36,11 @@ namespace Orc.Controls
             }
 
             return $"{fieldValidationResult.PropertyName}: {fieldValidationResult.Message}";
+        }
+
+        public void Clear()
+        {
+            _cache.Clear();
         }
 
         public string GetTagName(IValidationResult validationResult)

@@ -9,6 +9,7 @@ namespace Orc.Controls
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using Catel;
     using Catel.Collections;
     using Catel.Data;
@@ -43,6 +44,20 @@ namespace Orc.Controls
 
         public IEnumerable<IValidationContextTreeNode> Nodes => ValidationResultTags.OfType<IValidationContextTreeNode>();
         #endregion
+
+        protected override async Task InitializeAsync()
+        {
+            await base.InitializeAsync();
+
+            _validationNamesService.Clear();
+        }
+
+        protected override Task CloseAsync()
+        {
+            _validationNamesService.Clear();
+
+            return base.CloseAsync();
+        }
 
         private void OnValidationContextChanged()
         {
