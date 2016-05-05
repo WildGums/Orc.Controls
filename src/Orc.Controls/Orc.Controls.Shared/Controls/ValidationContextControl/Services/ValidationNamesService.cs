@@ -105,27 +105,21 @@ namespace Orc.Controls
 
         protected virtual int? ExtractTagLine(IValidationResult validationResult)
         {
-            int? lineNumber = null;
-
             var tag = validationResult.Tag;
             if (ReferenceEquals(tag, null))
             {
-                return lineNumber;
+                return null;
             }
 
             if (tag is string)
             {
-                return lineNumber;
+                return null;
             }
 
             var type = tag.GetType();
-            var nameProperty = type.GetPropertyEx("Line");
-            if (nameProperty != null)
-            {
-                lineNumber = (int?) nameProperty.GetValue(tag, new object[0]);
-            }
+            var lineProperty = type.GetPropertyEx("Line");
 
-            return lineNumber;
+            return lineProperty?.GetValue(tag, new object[0]) as int?;
         }
     }
 }
