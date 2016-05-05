@@ -29,13 +29,14 @@ namespace Orc.Controls
 
         public virtual string GetDisplayName(IValidationResult validationResult)
         {
-            var fieldValidationResult = validationResult as FieldValidationResult;
-            if (string.IsNullOrEmpty(fieldValidationResult?.PropertyName))
+            var line = ExtractTagLine(validationResult);
+
+            if (line.HasValue)
             {
-                return validationResult.Message;
+                return $"Row {line}: {validationResult.Message}";
             }
 
-            return $"{fieldValidationResult.PropertyName}: {fieldValidationResult.Message}";
+            return validationResult.Message;
         }
 
         public void Clear()
@@ -96,10 +97,35 @@ namespace Orc.Controls
             var nameProperty = type.GetPropertyEx("Name");
             if (nameProperty != null)
             {
-                return (string)nameProperty.GetValue(tag, new object[0]);
+                return (string) nameProperty.GetValue(tag, new object[0]);
             }
 
             return tag.ToString();
+        }
+
+        protected virtual int? ExtractTagLine(IValidationResult validationResult)
+        {
+            int? lineNumber = null;
+
+            var tag = validationResult.Tag;
+            if (ReferenceEquals(tag, null))
+            {
+                return lineNumber;
+            }
+
+            if (tag is string)
+            {
+                return lineNumber;
+            }
+
+            var type = tag.GetType();
+            var nameProperty = type.GetPropertyEx("Line");
+            if (nameProperty != null)
+            {
+                lineNumber = (int?) nameProperty.GetValue(tag, new object[0]);
+            }
+
+            return lineNumber;
         }
     }
 }

@@ -18,7 +18,6 @@ namespace Orc.Controls
             Argument.IsNotNull(() => validationNamesService);
 
             DisplayName = validationNamesService.GetDisplayName(validationResult);
-            //var fieldValidationResult = validationResult as FieldValidationResult;
 
             ResultType = validationResult.ValidationResultType;
         }
