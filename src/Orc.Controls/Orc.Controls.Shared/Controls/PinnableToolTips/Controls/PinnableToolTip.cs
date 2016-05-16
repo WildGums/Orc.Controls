@@ -212,7 +212,8 @@ namespace Orc.Controls
             {
                 mousePosition = Mouse.GetPosition(_userDefinedAdorner);
 
-                if ((_userDefinedAdorner as FrameworkElement) == null)
+                var userDefinedAdorner = _userDefinedAdorner as FrameworkElement;
+                if (userDefinedAdorner == null)
                 {
                     rootVisual = System.Windows.Interop.BrowserInteropHelper.IsBrowserHosted
                         ? null
@@ -222,7 +223,7 @@ namespace Orc.Controls
                 }
                 else
                 {
-                    rootVisual = _userDefinedAdorner as FrameworkElement;
+                    rootVisual = userDefinedAdorner;
                 }
 
                 if (rootVisual == null)
@@ -307,7 +308,10 @@ namespace Orc.Controls
                     }
 
                     var offsetX = mousePosition.X + horizontalOffset;
-                    var offsetY = mousePosition.Y + new TextBlock().FontSize + verticalOffset;
+
+                    //var fontSize = new TextBlock().FontSize;
+                    var fontSize = 0;
+                    var offsetY = mousePosition.Y + fontSize + verticalOffset;
 
                     offsetX = Math.Max(2.0, offsetX);
                     offsetY = Math.Max(2.0, offsetY);
@@ -512,8 +516,7 @@ namespace Orc.Controls
             return index;
         }
 
-        private static Point[] GetPointArray(
-            IList<Point> target, PlacementMode placement, Rect plugin, double width, double height)
+        private static Point[] GetPointArray(IList<Point> target, PlacementMode placement, Rect plugin, double width, double height)
         {
             Point[] pointArray;
             switch (placement)
@@ -885,7 +888,13 @@ namespace Orc.Controls
             }
 
             _isPositionCalculated = false;
-            var ad = new ControlAdorner(adornedElement) { Child = this, Focusable = false };
+
+            var ad = new ControlAdorner(adornedElement)
+            {
+                Child = this,
+                Focusable = false
+            };
+
             KeyboardNavigation.SetTabNavigation(ad, KeyboardNavigationMode.None);
             layer.Add(ad);
 
