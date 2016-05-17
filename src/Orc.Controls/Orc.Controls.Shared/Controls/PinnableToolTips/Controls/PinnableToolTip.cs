@@ -410,6 +410,7 @@ namespace Orc.Controls
         {
             var x = pointArray[index].X;
             var y = pointArray[index].Y;
+
             if (index > 1)
             {
                 if ((placement == PlacementMode.Left) || (placement == PlacementMode.Right))
@@ -543,8 +544,7 @@ namespace Orc.Controls
                     pointArray = new[]
                     {
                         new Point(Math.Min(plugin.Width, target[0].X) - width, target[1].Y),
-                        new Point(
-                            Math.Min(plugin.Width, target[2].X) - width, (target[3].Y - height) + 1.0),
+                        new Point(Math.Min(plugin.Width, target[2].X) - width, (target[3].Y - height) + 1.0),
                         new Point(Math.Min(plugin.Width, target[0].X) - width, 0.0)
                     };
                     break;
@@ -553,8 +553,7 @@ namespace Orc.Controls
                     pointArray = new[]
                     {
                         new Point(target[0].X, Math.Min(target[0].Y, plugin.Height) - height),
-                        new Point(
-                            (target[1].X - width) + 1.0, Math.Min(target[0].Y, plugin.Height) - height),
+                        new Point((target[1].X - width) + 1.0, Math.Min(target[0].Y, plugin.Height) - height),
                         new Point(0.0, Math.Min(target[0].Y, plugin.Height) - height)
                     };
                     break;
@@ -575,6 +574,7 @@ namespace Orc.Controls
             if (toolTip == null || toolTip.IsOpen)
             {
                 var generalTransform = frameworkElement.TransformToVisual(toolTip != null ? toolTip._adornerLayer : PinnableToolTipService.RootVisual);
+
                 pointArray[0] = generalTransform.Transform(new Point(0.0, 0.0));
                 pointArray[1] = generalTransform.Transform(new Point(frameworkElement.ActualWidth, 0.0));
                 pointArray[1].X--;
