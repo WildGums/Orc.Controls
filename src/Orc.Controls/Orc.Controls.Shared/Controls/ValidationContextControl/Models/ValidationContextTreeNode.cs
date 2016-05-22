@@ -22,6 +22,7 @@ namespace Orc.Controls
         protected ValidationContextTreeNode()
         {
             Children = new FastObservableCollection<ValidationContextTreeNode>();
+            IsExpanded = true;
         }
 
         public FastObservableCollection<ValidationContextTreeNode> Children { get; }

@@ -45,12 +45,14 @@
             <Button Style="{StaticResource ValidationContextButtonWithIconStyle}"
                     Tag="ExpandAll"
                     ToolTip="{catel:LanguageBinding Controls_ValidationContextControl_ExpandAll}"
-                    Command="{Binding ExpandAll}" />
+                    Command="{Binding ExpandAll}"
+                    Visibility="{Binding IsCollapsed, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
 
             <Button Style="{StaticResource ValidationContextButtonWithIconStyle}"
                     Tag="CollapseAll"
                     ToolTip="{catel:LanguageBinding Controls_ValidationContextControl_CollapseAll}"
-                    Command="{Binding CollapseAll}" />
+                    Command="{Binding CollapseAll}"
+                    Visibility="{Binding IsExpanded, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
 
             <StackPanel Orientation="Horizontal"
                         DockPanel.Dock="Right">
@@ -76,7 +78,8 @@
                                         ShowErrors="{Binding ShowErrors}"
                                         ShowWarnings="{Binding ShowWarnings}"
                                         Filter="{Binding Filter}"
-                                        Nodes="{Binding Nodes, Mode=OneWayToSource}" />
+                                        Nodes="{Binding Nodes, Mode=OneWayToSource}" 
+                                        />
 
         <DockPanel Grid.Row="2" LastChildFill="False" 
                    Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:ValidationContextView}}, Path=ShowButtons, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
