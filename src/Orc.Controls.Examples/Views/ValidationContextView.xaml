@@ -21,7 +21,7 @@
 
         <orc:ValidationContextView x:Name="validationContextView" 
                                    ValidationContext="{Binding ValidationContext}"
-                                   ExpandAllOnStartup="True" />
+                                   IsExpandedAllOnStartup="True" />
     </catel:StackGrid>
 
 </catel:UserControl>

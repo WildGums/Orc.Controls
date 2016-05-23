@@ -80,14 +80,14 @@ namespace Orc.Controls
             "Nodes", typeof(IEnumerable<IValidationContextTreeNode>), typeof(ValidationContextTree), new PropertyMetadata(default(IEnumerable<IValidationContextTreeNode>)));        
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
-        public bool ExpandedByDefault
+        public bool IsExpandedByDefault
         {
-            get { return (bool) GetValue(ExpandedByDefaultProperty); }
-            set { SetValue(ExpandedByDefaultProperty, value); }
+            get { return (bool) GetValue(IsExpandedByDefaultProperty); }
+            set { SetValue(IsExpandedByDefaultProperty, value); }
         }
 
-        public static readonly DependencyProperty ExpandedByDefaultProperty = DependencyProperty.Register(
-            "ExpandedByDefault", typeof(bool), typeof(ValidationContextTree), new PropertyMetadata(true));
+        public static readonly DependencyProperty IsExpandedByDefaultProperty = DependencyProperty.Register(
+            "IsExpandedByDefault", typeof(bool), typeof(ValidationContextTree), new PropertyMetadata(true));
         #endregion        
     }
 }

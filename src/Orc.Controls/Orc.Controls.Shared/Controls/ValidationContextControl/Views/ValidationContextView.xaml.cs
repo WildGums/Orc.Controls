@@ -68,14 +68,14 @@ namespace Orc.Controls
             typeof(bool), typeof(ValidationContextView), new PropertyMetadata(true));        
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool ExpandAllOnStartup
+        public bool IsExpandedAllOnStartup
         {
-            get { return (bool) GetValue(ExpandAllOnStartupProperty); }
-            set { SetValue(ExpandAllOnStartupProperty, value); }
+            get { return (bool) GetValue(IsExpandedAllOnStartupProperty); }
+            set { SetValue(IsExpandedAllOnStartupProperty, value); }
         }
 
-        public static readonly DependencyProperty ExpandAllOnStartupProperty = DependencyProperty.Register(
-            "ExpandAllOnStartup", typeof(bool), typeof(ValidationContextView), new PropertyMetadata(default(bool)));
+        public static readonly DependencyProperty IsExpandedAllOnStartupProperty = DependencyProperty.Register(
+            "IsExpandedAllOnStartup", typeof(bool), typeof(ValidationContextView), new PropertyMetadata(true));
         #endregion
 
         public override void OnApplyTemplate()

@@ -47,7 +47,7 @@ namespace Orc.Controls
             _dispatcherService = dispatcherService;
         }
 
-        public bool ExpandAllOnStartup { get; set; }
+        public bool IsExpandedAllOnStartup { get; set; }
         public IValidationContext ValidationContext { get; set; }
         public bool ShowErrors { get; set; } = true;
         public bool ShowWarnings { get; set; } = true;
@@ -109,6 +109,12 @@ namespace Orc.Controls
             _processService.StartProcess(filePath);
         }
         #endregion
+
+        private void OnIsExpandedAllOnStartupChanged()
+        {
+            IsExpanded = IsExpandedAllOnStartup;
+        }
+
         private void OnIsExpandedChanged()
         {
             UpdateNodesExpandedingState();
@@ -116,6 +122,11 @@ namespace Orc.Controls
 
         private void UpdateNodesExpandedingState()
         {
+            if (Nodes == null)
+            {
+                return;
+            }
+
             if (IsExpanded)
             {
                 Nodes.ExpandAll();

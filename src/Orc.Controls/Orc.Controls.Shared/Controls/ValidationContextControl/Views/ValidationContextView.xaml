@@ -79,7 +79,7 @@
                                         ShowWarnings="{Binding ShowWarnings}"
                                         Filter="{Binding Filter}"
                                         Nodes="{Binding Nodes, Mode=OneWayToSource}" 
-                                        ExpandedByDefault="{Binding ExpandAllOnStartup}"/>
+                                        IsExpandedByDefault="{Binding IsExpandedAllOnStartup}"/>
 
         <DockPanel Grid.Row="2" LastChildFill="False" 
                    Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:ValidationContextView}}, Path=ShowButtons, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
