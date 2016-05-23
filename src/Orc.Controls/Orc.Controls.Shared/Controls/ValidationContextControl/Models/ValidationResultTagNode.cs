@@ -15,7 +15,8 @@ namespace Orc.Controls
 
     public class ValidationResultTagNode : ValidationContextTreeNode
     {
-        public ValidationResultTagNode(string tagName)
+        public ValidationResultTagNode(string tagName, bool isExpanded)
+            : base(isExpanded)
         {
             TagName = tagName;
         }

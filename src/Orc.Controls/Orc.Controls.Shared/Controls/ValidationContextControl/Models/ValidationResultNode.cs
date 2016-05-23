@@ -12,7 +12,8 @@ namespace Orc.Controls
 
     public class ValidationResultNode : ValidationContextTreeNode
     {
-        public ValidationResultNode(IValidationResult validationResult, IValidationNamesService validationNamesService)
+        public ValidationResultNode(IValidationResult validationResult, IValidationNamesService validationNamesService, bool isExpanded)
+            : base(isExpanded)
         {
             Argument.IsNotNull(() => validationResult);
             Argument.IsNotNull(() => validationNamesService);

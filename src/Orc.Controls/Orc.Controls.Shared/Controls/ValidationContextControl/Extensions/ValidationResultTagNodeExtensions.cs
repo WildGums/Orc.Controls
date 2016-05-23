@@ -7,7 +7,6 @@
 
 namespace Orc.Controls
 {
-    using System.Collections.Generic;
     using System.Linq;
     using Catel;
     using Catel.Data;
@@ -15,7 +14,7 @@ namespace Orc.Controls
     internal static class ValidationResultTagNodeExtensions
     {
         public static void AddValidationResultTypeNode(this ValidationResultTagNode validationResultTagNode, IValidationContext validationContext,
-            ValidationResultType validationResultType, IValidationNamesService validationNamesService)
+            ValidationResultType validationResultType, IValidationNamesService validationNamesService, bool isExpanded)
         {
             Argument.IsNotNull(() => validationResultTagNode);
             Argument.IsNotNull(() => validationContext);
@@ -28,7 +27,8 @@ namespace Orc.Controls
                 return;
             }
 
-            var resultTypeNode = new ValidationResultTypeNode(validationResultType, validationResults, validationNamesService);
+            var resultTypeNode = new ValidationResultTypeNode(validationResultType, validationResults, validationNamesService, isExpanded);
+
             validationResultTagNode.Children.Add(resultTypeNode);
         }
     }

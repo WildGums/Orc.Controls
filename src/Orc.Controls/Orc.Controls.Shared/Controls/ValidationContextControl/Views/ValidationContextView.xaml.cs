@@ -65,7 +65,17 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ShowButtonsProperty = DependencyProperty.Register("ShowButtons", 
-            typeof(bool), typeof(ValidationContextView), new PropertyMetadata(true));
+            typeof(bool), typeof(ValidationContextView), new PropertyMetadata(true));        
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool ExpandAllOnStartup
+        {
+            get { return (bool) GetValue(ExpandAllOnStartupProperty); }
+            set { SetValue(ExpandAllOnStartupProperty, value); }
+        }
+
+        public static readonly DependencyProperty ExpandAllOnStartupProperty = DependencyProperty.Register(
+            "ExpandAllOnStartup", typeof(bool), typeof(ValidationContextView), new PropertyMetadata(default(bool)));
         #endregion
 
         public override void OnApplyTemplate()

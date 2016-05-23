@@ -36,8 +36,6 @@ namespace Orc.Controls
             Open = new Command(OnOpenExecute);
 
             InvalidateCommandsOnPropertyChanged = true;
-
-            IsExpanded = true;
         }
 
         public ValidationContextViewModel(ValidationContext validationContext, IProcessService processService, IDispatcherService dispatcherService)
@@ -49,6 +47,7 @@ namespace Orc.Controls
             _dispatcherService = dispatcherService;
         }
 
+        public bool ExpandAllOnStartup { get; set; }
         public IValidationContext ValidationContext { get; set; }
         public bool ShowErrors { get; set; } = true;
         public bool ShowWarnings { get; set; } = true;
@@ -60,13 +59,13 @@ namespace Orc.Controls
         public IEnumerable<IValidationContextTreeNode> Nodes { get; set; }
 
         public bool IsExpanded { get; private set; }
-        public bool IsCollapsed { get { return !IsExpanded; } }
+        public bool IsCollapsed => !IsExpanded;
+
         #region Commands
         public Command ExpandAll { get; }
 
         private void OnExpandAllExecute()
         {
-            Nodes.ExpandAll();
             IsExpanded = true;
         }
 
@@ -74,7 +73,6 @@ namespace Orc.Controls
 
         private void OnCollapseAllExecute()
         {
-            Nodes.CollapseAll();
             IsExpanded = false;
         }
 
@@ -111,6 +109,22 @@ namespace Orc.Controls
             _processService.StartProcess(filePath);
         }
         #endregion
+        private void OnIsExpandedChanged()
+        {
+            UpdateNodesExpandedingState();
+        }
+
+        private void UpdateNodesExpandedingState()
+        {
+            if (IsExpanded)
+            {
+                Nodes.ExpandAll();
+            }
+            else
+            {
+                Nodes.CollapseAll();
+            }
+        }
 
         private string CreateValidationContextFile(string path)
         {

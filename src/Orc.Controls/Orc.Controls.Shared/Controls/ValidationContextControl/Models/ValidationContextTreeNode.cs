@@ -8,9 +8,7 @@
 namespace Orc.Controls
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
     using Catel;
@@ -19,17 +17,21 @@ namespace Orc.Controls
 
     public class ValidationContextTreeNode : ModelBase, IValidationContextTreeNode, IComparable
     {
-        protected ValidationContextTreeNode()
+        protected ValidationContextTreeNode(bool isExpanded)
         {
             Children = new FastObservableCollection<ValidationContextTreeNode>();
-            IsExpanded = true;
+            IsExpanded = isExpanded;
         }
 
         public FastObservableCollection<ValidationContextTreeNode> Children { get; }
 
+        public int CompareTo(object obj)
+        {
+            return CompareTo((ValidationContextTreeNode) obj);
+        }
+
         public string DisplayName { get; protected set; }
 
-        [DefaultValue(false)]
         public bool IsExpanded { get; set; }
 
         public bool IsVisible { get; set; }
@@ -38,7 +40,7 @@ namespace Orc.Controls
 
         IEnumerable<IValidationContextTreeNode> IValidationContextTreeNode.Children => Children.OfType<IValidationContextTreeNode>();
 
-        public void ApplyFilter(bool showErrors, bool showWarnings,  string filter)
+        public void ApplyFilter(bool showErrors, bool showWarnings, string filter)
         {
             foreach (var validationContextTreeNode in Children)
             {
@@ -84,11 +86,6 @@ namespace Orc.Controls
             Argument.IsNotNull(() => node);
 
             return CultureInfo.InstalledUICulture.CompareInfo.Compare(DisplayName, node.DisplayName);
-        }
-
-        public int CompareTo(object obj)
-        {
-            return CompareTo((ValidationContextTreeNode)obj);
         }
     }
 }

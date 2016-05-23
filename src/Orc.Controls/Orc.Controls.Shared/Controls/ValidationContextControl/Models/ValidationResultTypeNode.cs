@@ -16,14 +16,15 @@ namespace Orc.Controls
     public class ValidationResultTypeNode : ValidationContextTreeNode
     {
         public ValidationResultTypeNode(ValidationResultType resultType, IEnumerable<IValidationResult> validationResults,
-            IValidationNamesService validationNamesService)
+            IValidationNamesService validationNamesService, bool isExpanded)
+            : base(isExpanded)
         {
             Argument.IsNotNull(() => validationResults);
             Argument.IsNotNull(() => validationNamesService);
 
             ResultType = resultType;
 
-            var children = validationResults.Select(x => new ValidationResultNode(x, validationNamesService)).OrderBy(x => x).ToList();
+            var children = validationResults.Select(x => new ValidationResultNode(x, validationNamesService, isExpanded)).OrderBy(x => x).ToList();
             Children.ReplaceRange(children);
 
             UpdateDisplayName();

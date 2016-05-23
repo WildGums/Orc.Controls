@@ -77,7 +77,17 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty NodesProperty = DependencyProperty.Register(
-            "Nodes", typeof(IEnumerable<IValidationContextTreeNode>), typeof(ValidationContextTree), new PropertyMetadata(default(IEnumerable<IValidationContextTreeNode>)));
+            "Nodes", typeof(IEnumerable<IValidationContextTreeNode>), typeof(ValidationContextTree), new PropertyMetadata(default(IEnumerable<IValidationContextTreeNode>)));        
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
+        public bool ExpandedByDefault
+        {
+            get { return (bool) GetValue(ExpandedByDefaultProperty); }
+            set { SetValue(ExpandedByDefaultProperty, value); }
+        }
+
+        public static readonly DependencyProperty ExpandedByDefaultProperty = DependencyProperty.Register(
+            "ExpandedByDefault", typeof(bool), typeof(ValidationContextTree), new PropertyMetadata(true));
         #endregion        
     }
 }

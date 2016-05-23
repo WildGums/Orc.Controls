@@ -19,7 +19,9 @@
             </StackPanel>
         </GroupBox>
 
-        <orc:ValidationContextView x:Name="validationContextView" ValidationContext="{Binding ValidationContext}" />
+        <orc:ValidationContextView x:Name="validationContextView" 
+                                   ValidationContext="{Binding ValidationContext}"
+                                   ExpandAllOnStartup="True" />
     </catel:StackGrid>
 
 </catel:UserControl>

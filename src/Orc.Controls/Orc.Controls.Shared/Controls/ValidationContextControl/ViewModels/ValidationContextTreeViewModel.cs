@@ -32,6 +32,8 @@ namespace Orc.Controls
         }
 
         #region Properties
+        public bool ExpandedByDefault { get; set; }
+
         public string Filter { get; set; }
 
         public IValidationContext ValidationContext { get; set; }
@@ -93,13 +95,15 @@ namespace Orc.Controls
             var resultTagNodes = validationContext
                 .GetValidations()
                 .Select(x => _validationNamesService.GetTagName(x)).Distinct()
-                .Select(tagName => new ValidationResultTagNode(tagName))
+                .Select(tagName => new ValidationResultTagNode(tagName, ExpandedByDefault))
                 .OrderBy(x => x);
 
             foreach (var tagNode in resultTagNodes)
             {
-                tagNode.AddValidationResultTypeNode(validationContext, ValidationResultType.Error, _validationNamesService);
-                tagNode.AddValidationResultTypeNode(validationContext, ValidationResultType.Warning, _validationNamesService);
+                tagNode.IsExpanded = ExpandedByDefault;
+
+                tagNode.AddValidationResultTypeNode(validationContext, ValidationResultType.Error, _validationNamesService, ExpandedByDefault);
+                tagNode.AddValidationResultTypeNode(validationContext, ValidationResultType.Warning, _validationNamesService, ExpandedByDefault);
 
                 ValidationResultTags.Add(tagNode);
             }
