@@ -16,7 +16,8 @@
 [Pp]ackages*/
 bin
 obj
-[Ll]ib/
+[Ll]ib/*
+![Ll]ib/repositories.config
 *_i.c
 *_p.c
 *.ilk
