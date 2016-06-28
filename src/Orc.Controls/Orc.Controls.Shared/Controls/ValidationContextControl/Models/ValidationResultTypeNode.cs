@@ -24,7 +24,8 @@ namespace Orc.Controls
 
             ResultType = resultType;
 
-            var children = validationResults.Select(x => new ValidationResultNode(x, validationNamesService, isExpanded)).OrderBy(x => x).ToList();
+            var children = validationResults.Select(x => new ValidationResultNode(x, validationNamesService, isExpanded))
+                .OrderBy(x => x.LineNumber).ThenBy(x => x.DisplayName).ToList();
             Children.ReplaceRange(children);
 
             UpdateDisplayName();

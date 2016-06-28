@@ -16,6 +16,7 @@ namespace Orc.Controls.Examples.ViewModels
     {
         public IValidationContext ValidationContext { get; private set; }
 
+
         protected override Task InitializeAsync()
         {
             var context = new ValidationContext();
@@ -31,7 +32,13 @@ namespace Orc.Controls.Examples.ViewModels
 
             var result6 = BusinessRuleValidationResult.CreateError("Error3 message");
             var result7 = BusinessRuleValidationResult.CreateError("Error4 message");
-            var result8 = FieldValidationResult.CreateWarning("Property2", "Warning3 message");
+            var result8 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning3 message", new { Name = "A", Line = new Nullable<int>(1) });
+            var result9 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning4 message", new { Name = "A", Line = new Nullable<int>(2) });
+            var result10 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning5 message", new { Name = "A", Line = new Nullable<int>(3) });
+            var result11= FieldValidationResult.CreateWarningWithTag("Property2", "Warning6 message", new { Name = "A", Line = new Nullable<int>(20) });
+            var result12 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning7 message", new { Name = "A", Line = new Nullable<int>(12) });
+            var result13 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning8 message", new { Name = "A", Line = new Nullable<int>(10) });
+            var result14 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning9 message", new { Name = "A", Line = new Nullable<int>(24) });
 
             context.AddBusinessRuleValidationResult(result1);
             context.AddBusinessRuleValidationResult(result2);
@@ -41,6 +48,12 @@ namespace Orc.Controls.Examples.ViewModels
             context.AddBusinessRuleValidationResult(result6);
             context.AddBusinessRuleValidationResult(result7);
             context.AddFieldValidationResult(result8);
+            context.AddFieldValidationResult(result9);
+            context.AddFieldValidationResult(result10);
+            context.AddFieldValidationResult(result11);
+            context.AddFieldValidationResult(result12);
+            context.AddFieldValidationResult(result13);
+            context.AddFieldValidationResult(result14);
 
             ValidationContext = context;
 

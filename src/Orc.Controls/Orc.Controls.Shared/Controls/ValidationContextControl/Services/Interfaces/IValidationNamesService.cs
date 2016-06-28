@@ -14,6 +14,7 @@ namespace Orc.Controls
     {
         string GetDisplayName(IValidationResult validationResult);
         string GetTagName(IValidationResult validationResult);
+        int? GetLineNumber(IValidationResult validationResult);
         IEnumerable<IValidationResult> GetCachedResultsByTagName(string tagName);
         void Clear();
     }

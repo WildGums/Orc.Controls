@@ -21,6 +21,10 @@ namespace Orc.Controls
             DisplayName = validationNamesService.GetDisplayName(validationResult);
 
             ResultType = validationResult.ValidationResultType;
+
+            LineNumber = validationNamesService.GetLineNumber(validationResult);
         }
+
+        public int? LineNumber { get; private set; }
     }
 }

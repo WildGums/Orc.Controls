@@ -68,6 +68,11 @@ namespace Orc.Controls
             return tagName;
         }
 
+        public int? GetLineNumber(IValidationResult validationResult)
+        {
+            return ExtractTagLine(validationResult);
+        }
+
         public virtual IEnumerable<IValidationResult> GetCachedResultsByTagName(string tagName)
         {
             List<IValidationResult> results;
