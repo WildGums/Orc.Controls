@@ -9,6 +9,7 @@ namespace Orc.Controls
 {
     using System.Windows;
     using System.Windows.Input;
+    using Catel.Reflection;
 
     /// <summary>
     /// A class that makes ControlAdorner moveable.
@@ -144,7 +145,12 @@ namespace Orc.Controls
                 offset.X = maxX - _adorner.ChildPosition.X;
             }
 
-            _adorner.Offset = offset;
+            var adornerChild = _adorner.Child;
+            if (adornerChild != null)
+            {
+                PropertyHelper.TrySetPropertyValue(adornerChild, "HorizontalOffset", offset.X, false);
+                PropertyHelper.TrySetPropertyValue(adornerChild, "VerticalOffset", offset.Y, false);
+            }
 
             _mouseY = e.GetPosition(null).Y;
             _mouseX = e.GetPosition(null).X;

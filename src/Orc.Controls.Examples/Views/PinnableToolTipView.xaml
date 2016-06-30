@@ -10,7 +10,7 @@
                 <Border BorderBrush="{Binding}" BorderThickness="1" Margin="4,8,4,8" Width="150" HorizontalAlignment="Left">
                     <TextBlock Text="{Binding}" Margin="5"/>
                     <orc:PinnableToolTipService.ToolTip>
-                        <orc:PinnableToolTip AllowCloseByUser="True">
+                        <orc:PinnableToolTip AllowCloseByUser="True" ResizeMode="CanResize">
                             <!-- Using a content template allows to delay loading of the inner visual tree, which is much faster -->
                             <orc:PinnableToolTip.ContentTemplate>
                                 <DataTemplate>

@@ -12,6 +12,7 @@ namespace Orc.Controls
     using System.Windows.Documents;
     using System.Windows.Media;
     using Catel;
+    using Catel.Reflection;
 
     /// <summary>
     /// An adorner class that contains a control as only child.
@@ -45,11 +46,6 @@ namespace Orc.Controls
         /// The child.
         /// </summary>
         private Control _child;
-
-        /// <summary>
-        /// The offset.
-        /// </summary>
-        private Point _offset;
         #endregion
 
         #region Public Properties
@@ -76,29 +72,9 @@ namespace Orc.Controls
             }
         }
 
-        /// <summary>
-        /// Gets the child position.
-        /// </summary>
         public Point ChildPosition { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the horizontal offset.
-        /// </summary>
-        public int HorizontalOffset { get; set; }
-
-        /// <summary>
-        /// Gets or sets the offset.
-        /// </summary>
-        public Point Offset
-        {
-            get { return _offset; }
-
-            set
-            {
-                _offset = value;
-                InvalidateArrange();
-            }
-        }
+        public Point Offset { get; private set; }
         #endregion
 
         #region Methods
@@ -106,6 +82,14 @@ namespace Orc.Controls
         {
             var c = _child as IControlAdornerChild;
             Rect rect;
+
+            var horizontalOffset = 0d;
+            PropertyHelper.TryGetPropertyValue(c, "HorizontalOffset", out horizontalOffset);
+
+            var verticalOffset = 0d;
+            PropertyHelper.TryGetPropertyValue(c, "VerticalOffset", out verticalOffset);
+
+            Offset = new Point(horizontalOffset, verticalOffset);
 
             if (Offset.X != 0 || Offset.Y != 0)
             {
@@ -122,7 +106,7 @@ namespace Orc.Controls
             }
             else
             {
-                rect = new Rect(_offset.X, _offset.Y, finalSize.Width, finalSize.Height);
+                rect = new Rect(Offset.X, Offset.Y, finalSize.Width, finalSize.Height);
             }
 
             _child.Arrange(rect);
@@ -140,6 +124,7 @@ namespace Orc.Controls
         protected override Size MeasureOverride(Size constraint)
         {
             _child.Measure(constraint);
+
             return _child.DesiredSize;
         }
         #endregion

@@ -10,6 +10,7 @@ namespace Orc.Controls
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
@@ -29,6 +30,44 @@ namespace Orc.Controls
     [TemplatePart(Name = "GripDrawing", Type = typeof(GeometryDrawing))]
     public class PinnableToolTip : ContentControl, IControlAdornerChild
     {
+        #region Constants
+        private const double Epsilon = 1E-7;
+
+        private static int _counter = 0;
+        #endregion
+
+        #region Fields
+        private static readonly ConcurrentDictionary<UIElement, List<int>> OnFrontIdDictionary = new ConcurrentDictionary<UIElement, List<int>>();
+
+        private readonly int _id;
+
+        private Button _closeButton;
+
+        private FrameworkElement _dragGrip;
+
+        private GeometryDrawing _gripDrawing;
+
+        private ControlAdorner _adorner;
+
+        private ControlAdornerDragDrop _adornerDragDrop;
+
+        private ResizingAdorner _adornerResizing;
+
+        private AdornerLayer _adornerLayer;
+
+        private bool _isPositionCalculated;
+
+        private Point _lastPosition;
+
+        private Size _lastSize;
+
+        private UIElement _owner;
+
+        private UIElement _userDefinedAdorner;
+
+        private ToolTipTimer _timer;
+        #endregion
+
         #region Constructors and Destructors
         /// <summary>
         /// Initializes a new instance of the <see cref="PinnableToolTip" /> class.
@@ -55,42 +94,6 @@ namespace Orc.Controls
         }
         #endregion
 
-        #region Constants
-        private const double Epsilon = 1E-7;
-
-        private static int _counter = 0;
-        #endregion
-
-        #region Fields
-        private static readonly ConcurrentDictionary<UIElement, List<int>> OnFrontIdDictionary = new ConcurrentDictionary<UIElement, List<int>>();
-
-        private readonly int _id;
-
-        private Button _closeButton;
-
-        private FrameworkElement _dragGrip;
-
-        private GeometryDrawing _gripDrawing;
-
-        private ControlAdorner _adorner;
-
-        private ControlAdornerDragDrop _adornerDragDrop;
-
-        private AdornerLayer _adornerLayer;
-
-        private bool _isPositionCalculated;
-
-        private Point _lastPosition;
-
-        private Size _lastSize;
-
-        private UIElement _owner;
-
-        private UIElement _userDefinedAdorner;
-
-        private ToolTipTimer _timer;
-        #endregion
-
         #region Properties
         public UIElement Owner
         {
@@ -111,6 +114,10 @@ namespace Orc.Controls
                 {
                     RemoveAdorner();
                     StopTimer();
+
+                    // Clear horizontal / vertical offset because it's used by the resizing adorner
+                    HorizontalOffset = 0d;
+                    VerticalOffset = 0d;
                 }
 
                 OnIsOpenChanged();
@@ -176,6 +183,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty OpenLinkCommandProperty = DependencyProperty.Register("OpenLinkCommand",
             typeof(ICommand), typeof(PinnableToolTip), new PropertyMetadata(null));
 
+
         public Brush AccentColorBrush
         {
             get { return (Brush)GetValue(AccentColorBrushProperty); }
@@ -184,6 +192,16 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
             typeof(PinnableToolTip), new PropertyMetadata(Brushes.LightGray, (sender, e) => ((PinnableToolTip)sender).OnAccentColorBrushChanged()));
+
+
+        public ResizeMode ResizeMode
+        {
+            get { return (ResizeMode)GetValue(ResizeModeProperty); }
+            set { SetValue(ResizeModeProperty, value); }
+        }
+
+        public static readonly DependencyProperty ResizeModeProperty = DependencyProperty.Register("ResizeMode", typeof(ResizeMode),
+            typeof(PinnableToolTip), new PropertyMetadata(ResizeMode.NoResize, (sender, e) => ((PinnableToolTip)sender).OnResizeModeChanged()));
         #endregion
 
         #region Events
@@ -204,8 +222,14 @@ namespace Orc.Controls
             var mousePosition = PinnableToolTipService.MousePosition;
             var rootVisual = PinnableToolTipService.RootVisual;
 
-            var horizontalOffset = HorizontalOffset;
-            var verticalOffset = VerticalOffset;
+            var fixedOffset = 0d;
+            if (ResizeMode == ResizeMode.CanResize || ResizeMode == ResizeMode.CanResizeWithGrip)
+            {
+                fixedOffset = 3d;
+            }
+
+            var horizontalOffset = HorizontalOffset + fixedOffset;
+            var verticalOffset = VerticalOffset + fixedOffset;
 
             //using this code for non UIElements
             if (_owner == null)
@@ -598,6 +622,8 @@ namespace Orc.Controls
 
         private void OnIsOpenChanged()
         {
+            UpdateResizingAdorner();
+
             IsOpenChanged.SafeInvoke(this);
         }
 
@@ -933,6 +959,8 @@ namespace Orc.Controls
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
+            //Debug.WriteLine($"Size changed to '{e.NewSize}'");
+
             _lastSize = e.NewSize;
         }
 
@@ -968,6 +996,12 @@ namespace Orc.Controls
             {
                 ControlAdornerDragDrop.Detach(_adornerDragDrop);
                 _adornerDragDrop = null;
+            }
+
+            if (_adornerResizing != null)
+            {
+                ResizingAdorner.Detach(_adornerResizing);
+                _adornerResizing = null;
             }
 
             _adornerLayer.Remove(_adorner);
@@ -1031,6 +1065,30 @@ namespace Orc.Controls
             {
                 var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
                 accentColor.CreateAccentColorResourceDictionary("PinnableToolTip");
+            }
+        }
+
+        private void OnResizeModeChanged()
+        {
+            UpdateResizingAdorner();
+        }
+
+        private void UpdateResizingAdorner()
+        {
+            if (IsOpen && (ResizeMode == ResizeMode.CanResize || ResizeMode == ResizeMode.CanResizeWithGrip))
+            {
+                if (_adornerResizing == null && _adorner != null)
+                {
+                    _adornerResizing = ResizingAdorner.Attach(this);
+                }
+            }
+            else
+            {
+                if (_adornerResizing != null)
+                {
+                    ResizingAdorner.Detach(_adornerResizing);
+                    _adornerResizing = null;
+                }
             }
         }
         #endregion
