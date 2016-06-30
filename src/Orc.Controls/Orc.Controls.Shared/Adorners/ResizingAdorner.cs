@@ -191,7 +191,7 @@ namespace Orc.Controls
                     var newValue = oldLeft + left.Value;
                     PropertyHelper.SetPropertyValue(adornedElement, HorizontalOffsetProperty, newValue, false);
 
-                    adornedElement.Width += left.Value * -1;
+                    UpdateWidth(adornedElement.Width + left.Value * -1);
                 }
             }
 
@@ -211,7 +211,7 @@ namespace Orc.Controls
                     var newValue = oldTop + top.Value;
                     PropertyHelper.SetPropertyValue(adornedElement, VerticalOffsetProperty, newValue, false);
 
-                    adornedElement.Height += top.Value * -1;
+                    UpdateHeight(adornedElement.Height + top.Value * -1);
                 }
             }
 
@@ -227,7 +227,7 @@ namespace Orc.Controls
                 }
                 else
                 {
-                    adornedElement.Width += right.Value;
+                    UpdateWidth(adornedElement.Width + right.Value);
                 }
             }
 
@@ -243,7 +243,7 @@ namespace Orc.Controls
                 }
                 else
                 {
-                    adornedElement.Height += bottom.Value;
+                    UpdateHeight(adornedElement.Height + bottom.Value);
                 }
             }
 
@@ -251,14 +251,14 @@ namespace Orc.Controls
             {
                 var difference = Math.Abs(Canvas.GetRight(adornedElement) - Canvas.GetLeft(adornedElement));
 
-                adornedElement.Width = difference;
+                UpdateWidth(difference);
             }
 
             if (updateHeightViaCanvas)
             {
                 var difference = Math.Abs(Canvas.GetBottom(adornedElement) - Canvas.GetTop(adornedElement));
 
-                adornedElement.Height = difference;
+                UpdateHeight(difference);
             }
         }
 
@@ -322,6 +322,44 @@ namespace Orc.Controls
 
             _top.IsEnabled = enableTop;
             _topLeft.IsEnabled = enableLeft && enableTop;
+        }
+
+        private void UpdateWidth(double width)
+        {
+            var adornedElement = AdornedElement as FrameworkElement;
+            if (adornedElement == null)
+            {
+                return;
+            }
+
+            if (!double.IsNaN(adornedElement.MinWidth))
+            {
+                if (adornedElement.MinWidth > width)
+                {
+                    width = adornedElement.MinWidth;
+                }
+            }
+
+            adornedElement.Width = width;
+        }
+
+        private void UpdateHeight(double height)
+        {
+            var adornedElement = AdornedElement as FrameworkElement;
+            if (adornedElement == null)
+            {
+                return;
+            }
+
+            if (!double.IsNaN(adornedElement.MinHeight))
+            {
+                if (adornedElement.MinHeight > height)
+                {
+                    height = adornedElement.MinHeight;
+                }
+            }
+
+            adornedElement.Height = height;
         }
 
         private void UpdateSizeAndPosition(Thumb thumb, double left, double right, double width, double height)
