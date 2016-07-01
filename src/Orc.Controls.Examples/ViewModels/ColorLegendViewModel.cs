@@ -59,7 +59,7 @@ namespace Orc.Controls.Examples.ViewModels
                 });
             }
 
-            CalendarStateLegend.ReplaceRange(items);
+            ((ICollection<IColorLegendItem>) CalendarStateLegend).ReplaceRange(items);
         }
     }
 }

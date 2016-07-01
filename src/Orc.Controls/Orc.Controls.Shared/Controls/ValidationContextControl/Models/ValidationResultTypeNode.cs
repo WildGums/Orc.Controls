@@ -26,7 +26,8 @@ namespace Orc.Controls
 
             var children = validationResults.Select(x => new ValidationResultNode(x, validationNamesService, isExpanded))
                 .OrderBy(x => x.LineNumber).ThenBy(x => x.DisplayName).ToList();
-            Children.ReplaceRange(children);
+
+            ((ICollection<ValidationContextTreeNode>)Children).ReplaceRange(children);
 
             UpdateDisplayName();
         }

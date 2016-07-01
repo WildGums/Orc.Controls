@@ -99,7 +99,7 @@ namespace Orc.Controls.ViewModels
 
                             using (typeNames.SuspendChangeNotifications())
                             {
-                                typeNames.ReplaceRange(new[] { defaultComboBoxItem });
+                                ((ICollection<string>)typeNames).ReplaceRange(new[] { defaultComboBoxItem });
                             }
 
                             _isUpdatingTypes = false;
