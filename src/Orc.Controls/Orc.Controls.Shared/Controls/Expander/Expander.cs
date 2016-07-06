@@ -1,12 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Expander.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
 namespace Orc.Controls
 {
+    using System;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
@@ -23,6 +24,7 @@ namespace Orc.Controls
     {
         #region Fields
         private GridLength? _expandDistance;
+        private GridLength _collapsedDistance = GridLength.Auto;
         #endregion
 
         #region Constructors
@@ -87,39 +89,41 @@ namespace Orc.Controls
                 return;
             }
 
-            if (Parent is Grid)
+            if (!(Parent is Grid))
             {
-                var grid = Parent as Grid;
-                switch (ExpandDirection)
+                return;
+            }
+
+            var grid = (Grid) Parent;
+            switch (ExpandDirection)
+            {
+                case ExpandDirection.Left:
                 {
-                    case ExpandDirection.Left:
-                    {
-                        var column = Grid.GetColumn(this);
-                        _expandDistance = grid.ColumnDefinitions[column].Width;
-                        grid.ColumnDefinitions[column].Width = GridLength.Auto;
-                        break;
-                    }
-                    case ExpandDirection.Right:
-                    {
-                        var column = Grid.GetColumn(this);
-                        _expandDistance = grid.ColumnDefinitions[column].Width;
-                        grid.ColumnDefinitions[column].Width = GridLength.Auto;
-                        break;
-                    }
-                    case ExpandDirection.Up:
-                    {
-                        var row = Grid.GetRow(this);
-                        _expandDistance = grid.RowDefinitions[row].Height;
-                        grid.RowDefinitions[row].Height = GridLength.Auto;
-                        break;
-                    }
-                    case ExpandDirection.Down:
-                    {
-                        var row = Grid.GetRow(this);
-                        _expandDistance = grid.RowDefinitions[row].Height;
-                        grid.RowDefinitions[row].Height = GridLength.Auto;
-                        break;
-                    }
+                    var column = Grid.GetColumn(this);
+                    _expandDistance = grid.ColumnDefinitions[column].Width;
+                    grid.ColumnDefinitions[column].Width = _collapsedDistance;
+                    break;
+                }
+                case ExpandDirection.Right:
+                {
+                    var column = Grid.GetColumn(this);
+                    _expandDistance = grid.ColumnDefinitions[column].Width;
+                    grid.ColumnDefinitions[column].Width = _collapsedDistance;
+                    break;
+                }
+                case ExpandDirection.Up:
+                {
+                    var row = Grid.GetRow(this);
+                    _expandDistance = grid.RowDefinitions[row].Height;
+                    grid.RowDefinitions[row].Height = _collapsedDistance;
+                    break;
+                }
+                case ExpandDirection.Down:
+                {
+                    var row = Grid.GetRow(this);
+                    _expandDistance = grid.RowDefinitions[row].Height;
+                    grid.RowDefinitions[row].Height = _collapsedDistance;
+                    break;
                 }
             }
         }
@@ -131,49 +135,59 @@ namespace Orc.Controls
                 return;
             }
 
-            if (Parent is Grid)
+            if (!(Parent is Grid))
             {
-                var grid = Parent as Grid;
+                return;
+            }
 
-                switch (ExpandDirection)
+            var grid = (Grid) Parent;
+            var header = Header as FrameworkElement;
+
+            switch (ExpandDirection)
+            {
+                case ExpandDirection.Left:
                 {
-                    case ExpandDirection.Left:
+                    _collapsedDistance = HasHeader ? new GridLength(header?.ActualWidth ?? 0, GridUnitType.Pixel) : GridLength.Auto;
+                    if (_expandDistance.HasValue)
                     {
                         var column = Grid.GetColumn(this);
-                        if (_expandDistance.HasValue)
-                        {
-                            grid.ColumnDefinitions[column].Width = _expandDistance.Value;
-                        }
-                        break;
+                        grid.ColumnDefinitions[column].Width = _expandDistance.Value;
                     }
-                    case ExpandDirection.Right:
-                    {
-                        var column = Grid.GetColumn(this);
-                        if (_expandDistance.HasValue)
-                        {
-                            grid.ColumnDefinitions[column].Width = _expandDistance.Value;
-                        }
-                        break;
-                    }
-                    case ExpandDirection.Up:
-                    {
-                        var row = Grid.GetRow(this);
-                        if (_expandDistance.HasValue)
-                        {
-                            grid.RowDefinitions[row].Height = _expandDistance.Value;
-                        }
-                        break;
-                    }
-                    case ExpandDirection.Down:
-                    {
-                        var row = Grid.GetRow(this);
-                        if (_expandDistance.HasValue)
-                        {
-                            grid.RowDefinitions[row].Height = _expandDistance.Value;
-                        }
-                        break;
-                    }
+                    break;
                 }
+                case ExpandDirection.Right:
+                {
+                    _collapsedDistance = HasHeader ? new GridLength(header?.ActualWidth ?? 0, GridUnitType.Pixel) : GridLength.Auto;
+                    if (_expandDistance.HasValue)
+                    {
+                        var column = Grid.GetColumn(this);
+                        grid.ColumnDefinitions[column].Width = _expandDistance.Value;
+                    }
+                    break;
+                }
+                case ExpandDirection.Up:
+                {
+                    _collapsedDistance = HasHeader ? new GridLength(header?.ActualHeight ?? 0, GridUnitType.Pixel) : GridLength.Auto;
+                    if (_expandDistance.HasValue)
+                    {
+                        var row = Grid.GetRow(this);
+                        grid.RowDefinitions[row].Height = _expandDistance.Value;
+                    }
+                    break;
+                }
+                case ExpandDirection.Down:
+                {
+                    _collapsedDistance = HasHeader ? new GridLength(header?.ActualHeight ?? 0, GridUnitType.Pixel) : GridLength.Auto;
+                    if (_expandDistance.HasValue)
+                    {
+                        var row = Grid.GetRow(this);
+                        grid.RowDefinitions[row].Height = _expandDistance.Value;
+                    }
+                    break;
+                }
+
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
