@@ -516,14 +516,9 @@ namespace Orc.Controls
                         return;
                     }
 
-                    if (sender is ContentControl)
-                    {
-                        var settingsContent = sender as ContentControl;
-                        if (settingsContent == null)
-                        {
-                            return;
-                        }
-
+                    var settingsContent = sender as ContentControl;
+                    if(settingsContent != null)
+                    { 
                         var contentPresenter = FindVisualChild<ContentPresenter>(settingsContent);
                         if (contentPresenter == null)
                         {
@@ -701,52 +696,6 @@ namespace Orc.Controls
             {
                 _settingSelectedList = false;
             }
-        }
-
-        // TODO: Replace by catel methods
-        private bool AreCollectionsTheSame(IEnumerable<IColorLegendItem> collection1, IEnumerable<IColorLegendItem> collection2)
-        {
-            if ((collection1 == null) || (collection2 == null))
-            {
-                return collection1 == collection2;
-            }
-
-            var list1 = collection1.ToList();
-            var list2 = collection2.ToList();
-
-            if (list1.Count() != list2.Count())
-            {
-                return false;
-            }
-
-            if (list1.Any(colorProvider => list2.All(cp => cp.Id != colorProvider.Id)))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        // TODO: Replace by catel methods
-        private TChildItem FindVisualChild<TChildItem>(DependencyObject obj)
-            where TChildItem : DependencyObject
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-                if (child is TChildItem)
-                {
-                    return (TChildItem) child;
-                }
-
-                TChildItem childOfChild = FindVisualChild<TChildItem>(child);
-                if (childOfChild != null)
-                {
-                    return childOfChild;
-                }
-            }
-
-            return null;
         }
 
         private string ConstructWildcardRegex(string pattern)
