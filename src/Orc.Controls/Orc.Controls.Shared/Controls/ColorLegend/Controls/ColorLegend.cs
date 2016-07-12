@@ -19,6 +19,7 @@ namespace Orc.Controls
     using System.Windows.Media;
     using Catel.Data;
     using Catel.MVVM;
+    using Catel.Windows;
 
     /// <summary>
     /// Control to show color legend with checkboxes for each color.
@@ -518,8 +519,8 @@ namespace Orc.Controls
 
                     var settingsContent = sender as ContentControl;
                     if(settingsContent != null)
-                    { 
-                        var contentPresenter = FindVisualChild<ContentPresenter>(settingsContent);
+                    {
+                        var contentPresenter = settingsContent.FindVisualDescendantByType<ContentPresenter>();
                         if (contentPresenter == null)
                         {
                             return;
