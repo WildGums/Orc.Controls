@@ -205,7 +205,9 @@ namespace Orc.Controls.ViewModels
             {
                 _logListener = _logViewerLogListener;
 
-                AddLogEntries(_logViewerLogListener.GetLogEntries(), true);
+                _dispatcherService.Invoke(() =>
+                    AddLogEntries(_logViewerLogListener.GetLogEntries(), true),
+                    true);
             }
             else
             {
@@ -415,7 +417,7 @@ namespace Orc.Controls.ViewModels
                 logEntry.Data["ThreadId"] = ThreadHelper.GetCurrentThreadId();
             }
 
-            AddLogEntries(new[] { logEntry });
+            _dispatcherService.Invoke(() => AddLogEntries(new[] { logEntry }), true);
         }
         #endregion
     }
