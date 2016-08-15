@@ -417,7 +417,7 @@ namespace Orc.Controls.ViewModels
                 logEntry.Data["ThreadId"] = ThreadHelper.GetCurrentThreadId();
             }
 
-            _dispatcherService.Invoke(() => AddLogEntries(new[] { logEntry }), true);
+            _dispatcherService.BeginInvoke(() => AddLogEntries(new[] { logEntry }), true);
         }
         #endregion
     }
