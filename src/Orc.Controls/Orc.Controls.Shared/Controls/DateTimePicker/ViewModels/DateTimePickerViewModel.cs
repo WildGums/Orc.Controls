@@ -17,6 +17,7 @@ namespace Orc.Controls
     {
         #region Fields
         private bool _showOptionsButton;
+        private bool _hideSeconds;
         private DateTime _value;
         #endregion
 
@@ -34,6 +35,22 @@ namespace Orc.Controls
                 _showOptionsButton = value;
 
                 RaisePropertyChanged("ShowOptionsButton");
+            }
+        }
+
+        public bool HideSeconds
+        {
+            get { return _hideSeconds; }
+            set
+            {
+                if (_hideSeconds == value)
+                {
+                    return;
+                }
+
+                _hideSeconds = value;
+
+                RaisePropertyChanged("HideSeconds");
             }
         }
 

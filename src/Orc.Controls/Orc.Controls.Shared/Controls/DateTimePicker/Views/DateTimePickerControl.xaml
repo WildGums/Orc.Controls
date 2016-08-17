@@ -80,11 +80,14 @@
 
                     <controls:NumericTextBox x:Name="NumericTBSecond" Grid.Column="10" Format="00" MaxValue="59" MinValue="0"
                                              Value="{Binding Second}"
-                                             IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
-                    <TextBlock Grid.Column="11" x:Name="Separator6" Text="" Style="{DynamicResource RatioSignStyle}" />
+                                             IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"
+                                             Visibility="{Binding HideSeconds, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
+                    <TextBlock Grid.Column="11" x:Name="Separator6" Text="" Style="{DynamicResource RatioSignStyle}"
+                               Visibility="{Binding HideSeconds, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
                     <ToggleButton Grid.Column="11" x:Name="ToggleButtonS" Tag="{x:Static controls:DateTimePart.Second}"
                                   Checked="ToggleButton_OnChecked" Content="s"
-                                  IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
+                                  IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"
+                                  Visibility="{Binding HideSeconds, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
 
                     <TextBlock x:Name="TextTBAmPm" Grid.Column="12"
                                Style="{DynamicResource AmPmStyle}"

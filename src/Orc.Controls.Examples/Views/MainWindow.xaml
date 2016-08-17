@@ -3,7 +3,7 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:catel="http://catel.codeplex.com"
               xmlns:views="clr-namespace:Orc.Controls.Examples.Views"
-              Height="650" Width="800">
+              Height="650" Width="920">
 
     <catel:Window.Resources>
         <SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#D4D4D4"/>

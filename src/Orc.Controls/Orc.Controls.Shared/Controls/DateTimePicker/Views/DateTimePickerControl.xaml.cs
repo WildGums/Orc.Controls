@@ -121,6 +121,16 @@ namespace Orc.Controls
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
             typeof(DateTimePickerControl), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((DateTimePickerControl)sender).OnAccentColorBrushChanged()));
 
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool HideSeconds
+        {
+            get { return (bool)GetValue(HideSecondsProperty); }
+            set { SetValue(HideSecondsProperty, value); }
+        }
+
+        public static readonly DependencyProperty HideSecondsProperty = DependencyProperty.Register("HideSeconds", typeof(bool),
+            typeof(DateTimePickerControl), new FrameworkPropertyMetadata(false, (sender, e) => ((DateTimePickerControl)sender).OnHideSecondsChanged()));
+
         public bool IsReadOnly
         {
             get { return (bool)GetValue(IsReadOnlyProperty); }
@@ -339,6 +349,11 @@ namespace Orc.Controls
             ApplyFormat();
         }
 
+        private void OnHideSecondsChanged()
+        {
+            ApplyFormat();
+        }
+
         private void ApplyFormat()
         {
             var formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format, false);
@@ -401,7 +416,7 @@ namespace Orc.Controls
             Separator2.Text = formatInfo.Separator2;
             Separator3.Text = formatInfo.Separator3;
             Separator4.Text = formatInfo.Separator4;
-            Separator5.Text = formatInfo.Separator5;
+            Separator5.Text = HideSeconds ? string.Empty : formatInfo.Separator5;
             Separator6.Text = formatInfo.Separator6;
             Separator7.Text = formatInfo.Separator7;
         }
