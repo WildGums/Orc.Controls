@@ -83,26 +83,32 @@ namespace Orc.Controls
             var c = _child as IControlAdornerChild;
             Rect rect;
 
-            var horizontalOffset = 0d;
-            PropertyHelper.TryGetPropertyValue(c, "HorizontalOffset", out horizontalOffset);
+            var childHorizontalOffset = 0d;
+            PropertyHelper.TryGetPropertyValue(c, "HorizontalOffset", out childHorizontalOffset);
 
-            var verticalOffset = 0d;
-            PropertyHelper.TryGetPropertyValue(c, "VerticalOffset", out verticalOffset);
+            var childVerticalOffset = 0d;
+            PropertyHelper.TryGetPropertyValue(c, "VerticalOffset", out childVerticalOffset);
+             
+            Offset = new Point(childHorizontalOffset, childVerticalOffset);
 
-            Offset = new Point(horizontalOffset, verticalOffset);
-
-            if (Offset.X != 0 || Offset.Y != 0)
+            //if (Offset.X != 0 || Offset.Y != 0)
+            //{
+            //    rect = new Rect(
+            //        ChildPosition.X + Offset.X,
+            //        ChildPosition.Y + Offset.Y,
+            //        finalSize.Width,
+            //        finalSize.Height);
+            //}
+            //else if (c != null)
+            if (c != null)
             {
-                rect = new Rect(
-                    ChildPosition.X + Offset.X,
-                    ChildPosition.Y + Offset.Y,
-                    finalSize.Width,
-                    finalSize.Height);
-            }
-            else if (c != null)
-            {
-                ChildPosition = c.GetPosition();
-                rect = new Rect(ChildPosition.X, ChildPosition.Y, finalSize.Width, finalSize.Height);
+                var childPosition = c.GetPosition();
+                ChildPosition = childPosition;
+
+                var finalPosition = new Point(childPosition.X + childHorizontalOffset,
+                    childPosition.Y + childVerticalOffset);
+
+                rect = new Rect(finalPosition.X, finalPosition.Y, finalSize.Width, finalSize.Height);
             }
             else
             {
