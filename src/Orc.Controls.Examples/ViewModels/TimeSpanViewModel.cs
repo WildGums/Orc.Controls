@@ -15,8 +15,16 @@ namespace Orc.Controls.Examples.ViewModels
         public TimeSpanViewModel()
         {
             TimeSpanValue = new TimeSpan(10, 11, 12, 13);
+            SetNull = new Command(OnSetNullExecute);
         }
 
-        public TimeSpan TimeSpanValue { get; set; }
+        public Command SetNull { get; private set; }
+
+        public TimeSpan? TimeSpanValue { get; set; }
+
+        private void OnSetNullExecute()
+        {
+            TimeSpanValue = null;
+        }
     }
 }

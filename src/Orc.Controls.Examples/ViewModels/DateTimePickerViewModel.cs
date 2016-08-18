@@ -22,13 +22,17 @@ namespace Orc.Controls.Examples.ViewModels
         {
             AvailableFormats = new FastObservableCollection<object>();
             DateTimeValue = DateTime.Now;
+
+            SetNull = new Command(() => DateTimeValue = null);
         }
         #endregion
 
         #region Properties
-        public DateTime DateTimeValue { get; set; }
+        public DateTime? DateTimeValue { get; set; }
         public FastObservableCollection<object> AvailableFormats { get; private set; }
         public object SelectedFormat { get; set; }
+
+        public Command SetNull { get; private set; }
         #endregion
 
         #region Methods

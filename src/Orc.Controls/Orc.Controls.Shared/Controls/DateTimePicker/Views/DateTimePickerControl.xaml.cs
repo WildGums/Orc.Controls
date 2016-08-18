@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DateTimePickerControl.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -18,6 +18,7 @@ namespace Orc.Controls
     using System.Windows.Input;
     using System.Windows.Media;
     using Catel.MVVM.Views;
+    using Catel.Windows.Threading;
     using Calendar = System.Windows.Controls.Calendar;
     using Converters;
 
@@ -29,6 +30,7 @@ namespace Orc.Controls
         #region Fields
         private readonly List<NumericTextBox> _numericTextBoxes;
         private DateTimePart _activeDateTimePart;
+        private DateTime _cdtValue;
         #endregion
 
         #region Constructors
@@ -50,6 +52,9 @@ namespace Orc.Controls
                 NumericTBMinute,
                 NumericTBSecond,
             };
+
+            DateTime now = DateTime.Now;
+            _cdtValue = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
         }
 
         private void SubscribeNumericTextBoxes()
@@ -93,14 +98,14 @@ namespace Orc.Controls
 
         #region Properties
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public DateTime Value
+        public DateTime? Value
         {
-            get { return (DateTime)GetValue(ValueProperty); }
+            get { return (DateTime?)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
 
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(DateTime),
-            typeof(DateTimePickerControl), new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(DateTime?),
+            typeof(DateTimePickerControl), new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((DateTimePickerControl)sender).OnValueChanged(e.OldValue, e.NewValue)));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowOptionsButton
@@ -120,6 +125,15 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
             typeof(DateTimePickerControl), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((DateTimePickerControl)sender).OnAccentColorBrushChanged()));
+
+        public bool AllowNull
+        {
+            get { return (bool)GetValue(AllowNullProperty); }
+            set { SetValue(AllowNullProperty, value); }
+        }
+
+        public static readonly DependencyProperty AllowNullProperty = DependencyProperty.Register("AllowNull", typeof(bool),
+            typeof(DateTimePickerControl), new PropertyMetadata(false));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool HideSeconds
@@ -209,22 +223,25 @@ namespace Orc.Controls
             var activeNumericTextBox = (NumericTextBox)FindName(_activeDateTimePart.GetDateTimePartName());
             var activeToggleButton = (ToggleButton)FindName(_activeDateTimePart.GetDateTimePartToggleButtonName());
 
-            var dateTimePartHelper = new DateTimePartHelper(Value, _activeDateTimePart, activeNumericTextBox, activeToggleButton);
+            var dateTime = Value == null ? _cdtValue : Value.Value;
+            var dateTimePartHelper = new DateTimePartHelper(dateTime, _activeDateTimePart, activeNumericTextBox, activeToggleButton);
             dateTimePartHelper.CreatePopup();
         }
 
         private void NumericTBMonth_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            var daysInMonth = DateTime.DaysInMonth(Value.Year, Value.Month);
+            var dateTime = Value == null ? _cdtValue : Value.Value;
+            var daysInMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
             NumericTBDay.MaxValue = daysInMonth;
         }
 
         private Calendar CreateCalendarPopupSource()
         {
+            var dateTime = Value == null ? _cdtValue : Value.Value;
             var calendar = new Calendar()
             {
                 Margin = new Thickness(0, -3, 0, -3),
-                DisplayDate = Value,
+                DisplayDate = dateTime,
                 SelectedDate = Value
             };
 
@@ -242,7 +259,6 @@ namespace Orc.Controls
                 UpdateDate(calendar.SelectedDate.Value);
             }
             ((Popup)calendar.Parent).IsOpen = false;
-
         }
 
         private void CalendarOnPreviewKeyDown(object sender, KeyEventArgs e)
@@ -268,12 +284,20 @@ namespace Orc.Controls
 
         private void UpdateDate(DateTime date)
         {
-            Value = new DateTime(date.Year, date.Month, date.Day, Value.Hour, Value.Minute, Value.Second);
+            var dateTime = Value == null ? _cdtValue : Value.Value;
+            Value = new DateTime(date.Year, date.Month, date.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
         }
 
-        private void UpdateDateTime(DateTime date)
+        private void UpdateDateTime(DateTime? dateTime)
         {
-            Value = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
+            if (dateTime == null)
+            {
+                Value = null;
+            }
+            else
+            {
+                Value = new DateTime(dateTime.Value.Year, dateTime.Value.Month, dateTime.Value.Day, dateTime.Value.Hour, dateTime.Value.Minute, dateTime.Value.Second);
+            }
         }
 
         private Popup CreateCalendarPopup()
@@ -312,6 +336,12 @@ namespace Orc.Controls
             calendarPopupSource.Focus();
         }
 
+        private void OnClearButtonClick(object sender, RoutedEventArgs e)
+        {
+            DatePickerIcon.IsChecked = false;
+            UpdateDateTime(null);
+        }
+
         private void OnAccentColorBrushChanged()
         {
             var solidColorBrush = AccentColorBrush as SolidColorBrush;
@@ -347,6 +377,29 @@ namespace Orc.Controls
         private void OnFormatChanged()
         {
             ApplyFormat();
+        }
+
+        private void OnValueChanged(object oldValue, object newValue)
+        {
+            var ov = oldValue as DateTime?;
+            var nv = newValue as DateTime?;
+
+            if (!AllowNull && newValue == null)
+            {
+                var dateTime = DateTime.Now;
+                nv = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
+            }
+
+            if ((ov == null && nv != null)
+                || (ov != null && nv == null))
+            {
+                ApplyFormat();
+            }
+
+            if (newValue == null && nv != null)
+            {
+                Dispatcher.BeginInvoke(() => Value = nv);
+            }
         }
 
         private void OnHideSecondsChanged()
@@ -412,13 +465,13 @@ namespace Orc.Controls
 
             SubscribeNumericTextBoxes();
 
-            Separator1.Text = formatInfo.Separator1;
-            Separator2.Text = formatInfo.Separator2;
-            Separator3.Text = formatInfo.Separator3;
-            Separator4.Text = formatInfo.Separator4;
-            Separator5.Text = HideSeconds ? string.Empty : formatInfo.Separator5;
-            Separator6.Text = formatInfo.Separator6;
-            Separator7.Text = formatInfo.Separator7;
+            Separator1.Text = Value == null ? string.Empty : formatInfo.Separator1;
+            Separator2.Text = Value == null ? string.Empty : formatInfo.Separator2;
+            Separator3.Text = Value == null ? string.Empty : formatInfo.Separator3;
+            Separator4.Text = Value == null ? string.Empty : formatInfo.Separator4;
+            Separator5.Text = Value == null || HideSeconds ? string.Empty : formatInfo.Separator5;
+            Separator6.Text = Value == null ? string.Empty : formatInfo.Separator6;
+            Separator7.Text = Value == null ? string.Empty : formatInfo.Separator7;
         }
 
         private int GetPosition(int index)
