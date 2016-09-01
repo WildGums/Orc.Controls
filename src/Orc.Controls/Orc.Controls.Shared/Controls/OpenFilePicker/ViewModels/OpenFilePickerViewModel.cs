@@ -7,13 +7,20 @@
 
 namespace Orc.Controls
 {
+    using System;
     using System.IO;
     using Catel;
     using Catel.MVVM;
     using Catel.Services;
+    using Path = Catel.IO.Path;
 
     public class OpenFilePickerViewModel : ViewModelBase
     {
+        #region Fields
+        private readonly IProcessService _processService;
+        private readonly IOpenFileService _selectFileService;
+        #endregion
+
         #region Constructors
         public OpenFilePickerViewModel(IOpenFileService selectFileService, IProcessService processService)
         {
@@ -28,11 +35,6 @@ namespace Orc.Controls
         }
         #endregion
 
-        #region Fields
-        private readonly IProcessService _processService;
-        private readonly IOpenFileService _selectFileService;
-        #endregion
-
         #region Properties
         public double LabelWidth { get; set; }
 
@@ -41,6 +43,10 @@ namespace Orc.Controls
         public string Filter { get; set; }
 
         public string SelectedFile { get; set; }
+
+        public string BaseDirectory { get; set; }
+
+        public string SelectedFileDisplayName { get; private set; }
         #endregion
 
         #region Commands
@@ -55,19 +61,8 @@ namespace Orc.Controls
         /// <returns><c>true</c> if the command can be executed; otherwise <c>false</c></returns>
         private bool OnOpenDirectoryCanExecute()
         {
-            if (string.IsNullOrWhiteSpace(SelectedFile))
-            {
-                return false;
-            }
-
-            var directory = Directory.GetParent(SelectedFile);
-            // Don't allow users to write text that they can "invoke" via our software
-            if (!directory.Exists)
-            {
-                return false;
-            }
-
-            return true;
+            var initialDirectory = GetInitialDirectory();
+            return !string.IsNullOrWhiteSpace(initialDirectory);
         }
 
         /// <summary>
@@ -75,8 +70,11 @@ namespace Orc.Controls
         /// </summary>
         private void OnOpenDirectoryExecute()
         {
-            var directory = Directory.GetParent(SelectedFile);
-            _processService.StartProcess(directory.FullName);
+            var initialDirectory = GetInitialDirectory();
+            if(!string.IsNullOrWhiteSpace(initialDirectory))
+            {
+                _processService.StartProcess(initialDirectory);
+            }
         }
 
         /// <summary>
@@ -89,9 +87,10 @@ namespace Orc.Controls
         /// </summary>
         private void OnSelectFileExecute()
         {
-            if (!string.IsNullOrEmpty(SelectedFile))
+            var initialDirectory = GetInitialDirectory();
+            if (!string.IsNullOrEmpty(initialDirectory))
             {
-                _selectFileService.InitialDirectory = Path.GetFullPath(SelectedFile);
+                _selectFileService.InitialDirectory = initialDirectory;
             }
 
             if (!string.IsNullOrEmpty(Filter))
@@ -105,5 +104,67 @@ namespace Orc.Controls
             }
         }
         #endregion
+
+        private void OnBaseDirectoryChanged()
+        {
+            UpdateSelectedFileDisplayName();
+        }
+
+        private void OnSelectedFileChanged()
+        {
+            UpdateSelectedFileDisplayName();
+        }
+
+        private void UpdateSelectedFileDisplayName()
+        {
+            var selectedFile = SelectedFile;
+            if(string.IsNullOrWhiteSpace(selectedFile) || !System.IO.Path.IsPathRooted(selectedFile))
+            {
+                SelectedFileDisplayName = string.Empty;
+                return;
+            }
+
+            var baseDirectory = BaseDirectory;
+            if(string.IsNullOrWhiteSpace(baseDirectory) || !Directory.Exists(baseDirectory))
+            {
+                SelectedFileDisplayName = selectedFile;
+                return;
+            }
+
+            var selectedFileRoot = System.IO.Path.GetPathRoot(selectedFile);
+            var baseDirectoryRoot = System.IO.Path.GetPathRoot(baseDirectory);
+            if(!string.Equals(selectedFileRoot, baseDirectoryRoot, StringComparison.OrdinalIgnoreCase))
+            {
+                SelectedFileDisplayName = selectedFile;
+                return;
+            }
+
+            SelectedFileDisplayName = Path.GetRelativePath(selectedFile, baseDirectory);
+        }
+
+        private string GetInitialDirectory()
+        {
+            var selectedFile = SelectedFile;
+            var isSelectedRootedPath = !string.IsNullOrWhiteSpace(selectedFile) && System.IO.Path.IsPathRooted(selectedFile);
+
+            string result = null;
+            if(isSelectedRootedPath)
+            {
+                result = Path.GetParentDirectory(selectedFile);
+            }
+
+            if(!string.IsNullOrWhiteSpace(result) && Directory.Exists(result))
+            {
+                return result;
+            }
+
+            result = BaseDirectory;
+            if (!string.IsNullOrWhiteSpace(result) && Directory.Exists(result))
+            {
+                return result;
+            }
+
+            return string.Empty;
+        }
     }
 }
