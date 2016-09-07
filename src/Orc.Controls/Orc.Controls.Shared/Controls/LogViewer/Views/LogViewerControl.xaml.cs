@@ -424,7 +424,7 @@ namespace Orc.Controls
         public void CopyToClipboard()
         {
             var text = LogRecordsRichTextBox.GetInlineText();
-            Clipboard.SetText(text);
+            Clipboard.SetDataObject(text);
         }
         #endregion
 
