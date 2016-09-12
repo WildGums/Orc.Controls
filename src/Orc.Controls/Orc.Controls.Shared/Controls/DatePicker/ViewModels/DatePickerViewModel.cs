@@ -15,14 +15,14 @@ namespace Orc.Controls
         #region Fields
         private bool _showOptionsButton;
         private DateTime? _value;
-        private DateTime _cdValue;
+        private DateTime _todayValue;
         #endregion
 
         #region Constructors
         public DatePickerViewModel()
         {
             DateTime now = DateTime.Now;
-            _cdValue = new DateTime(now.Year, now.Month, now.Day);
+            _todayValue = new DateTime(now.Year, now.Month, now.Day);
         }
         #endregion
 
@@ -59,12 +59,12 @@ namespace Orc.Controls
                 RaisePropertyChanged(string.Empty);
 
                 // Note: For some reason we need to notify that Year, Month, Day properties changed.
-                RaisePropertyChanged("Year");
-                RaisePropertyChanged("Month");
-                RaisePropertyChanged("Day");
+                RaisePropertyChanged(nameof(Year));
+                RaisePropertyChanged(nameof(Month));
+                RaisePropertyChanged(nameof(Day));
 
                 // Required for mappings
-                RaisePropertyChanged("Value");
+                RaisePropertyChanged(nameof(Value));
             }
         }
 
@@ -80,7 +80,7 @@ namespace Orc.Controls
 
                 if (_value == null)
                 {
-                    Value = new DateTime(value.Value, _cdValue.Month, _cdValue.Day);
+                    Value = new DateTime(value.Value, _todayValue.Month, _todayValue.Day);
                 }
                 else
                 {
@@ -106,7 +106,7 @@ namespace Orc.Controls
 
                 if (_value == null)
                 {
-                    Value = new DateTime(_cdValue.Year, value.Value, _cdValue.Day);
+                    Value = new DateTime(_todayValue.Year, value.Value, _todayValue.Day);
                 }
                 else
                 {
@@ -138,7 +138,7 @@ namespace Orc.Controls
 
                 if (_value == null)
                 {
-                    Value = new DateTime(_cdValue.Year, _cdValue.Month, value.Value);
+                    Value = new DateTime(_todayValue.Year, _todayValue.Month, value.Value);
                 }
                 else
                 {

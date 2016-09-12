@@ -29,7 +29,7 @@ namespace Orc.Controls
         #region Fields
         private readonly List<NumericTextBox> _numericTextBoxes;
         private DateTimePart _activeDateTimePart;
-        private DateTime _cdValue;
+        private DateTime _todayValue;
         #endregion
 
         #region Constructors
@@ -50,7 +50,7 @@ namespace Orc.Controls
             };
 
             DateTime now = DateTime.Now;
-            _cdValue = new DateTime(now.Year, now.Month, now.Day);
+            _todayValue = new DateTime(now.Year, now.Month, now.Day);
         }
 
         private void SubscribeNumericTextBoxes()
@@ -175,21 +175,21 @@ namespace Orc.Controls
             var activeNumericTextBox = (NumericTextBox)FindName(_activeDateTimePart.GetDateTimePartName());
             var activeToggleButton = (ToggleButton)FindName(_activeDateTimePart.GetDateTimePartToggleButtonName());
 
-            var dateTime = Value == null ? _cdValue : Value.Value;
+            var dateTime = Value == null ? _todayValue : Value.Value;
             var dateTimePartHelper = new DateTimePartHelper(dateTime, _activeDateTimePart, activeNumericTextBox, activeToggleButton);
             dateTimePartHelper.CreatePopup();
         }
 
         private void NumericTBMonth_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            var dateTime = Value == null ? _cdValue : Value.Value;
+            var dateTime = Value == null ? _todayValue : Value.Value;
             var daysInMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
             NumericTBDay.MaxValue = daysInMonth;
         }
 
         private Calendar CreateCalendarPopupSource()
         {
-            var dateTime = Value == null ? _cdValue : Value.Value;
+            var dateTime = Value == null ? _todayValue : Value.Value;
             var calendar = new Calendar()
             {
                 Margin = new Thickness(0, -3, 0, -3),
@@ -237,13 +237,13 @@ namespace Orc.Controls
             return popup;
         }
 
-        private void TodayButton_OnClick(object sender, RoutedEventArgs e)
+        private void OnTodayButtonClick(object sender, RoutedEventArgs e)
         {
             DatePickerIcon.IsChecked = false;
             UpdateDate(DateTime.Today.Date);
         }
 
-        private void SelectDateButton_OnClick(object sender, RoutedEventArgs e)
+        private void OnSelectDateButtonClick(object sender, RoutedEventArgs e)
         {
             DatePickerIcon.IsChecked = false;
 

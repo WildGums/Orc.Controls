@@ -19,14 +19,14 @@ namespace Orc.Controls
         private bool _showOptionsButton;
         private bool _hideSeconds;
         private DateTime? _value;
-        private DateTime _cdtValue;
+        private DateTime _todayValue;
         #endregion
 
         #region Constructors
         public DateTimePickerViewModel()
         {
             DateTime now = DateTime.Now;
-            _cdtValue = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
+            _todayValue = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
         }
         #endregion
 
@@ -79,16 +79,16 @@ namespace Orc.Controls
                 RaisePropertyChanged(string.Empty);
 
                 // Note: For some reason we need to notify that Year, Month, Day, Hour, Minute, Second, AmPm properties changed.
-                RaisePropertyChanged("Year");
-                RaisePropertyChanged("Month");
-                RaisePropertyChanged("Day");
-                RaisePropertyChanged("Hour");
-                RaisePropertyChanged("Minute");
-                RaisePropertyChanged("Second");
-                RaisePropertyChanged("AmPm");
+                RaisePropertyChanged(nameof(Year));
+                RaisePropertyChanged(nameof(Month));
+                RaisePropertyChanged(nameof(Day));
+                RaisePropertyChanged(nameof(Hour));
+                RaisePropertyChanged(nameof(Minute));
+                RaisePropertyChanged(nameof(Second));
+                RaisePropertyChanged(nameof(AmPm));
 
                 // Required for mappings
-                RaisePropertyChanged("Value");
+                RaisePropertyChanged(nameof(Value));
             }
         }
 
@@ -104,7 +104,7 @@ namespace Orc.Controls
 
                 if (_value == null)
                 {
-                    Value = new DateTime(value.Value, _cdtValue.Month, _cdtValue.Day, _cdtValue.Hour, _cdtValue.Minute, _cdtValue.Second);
+                    Value = new DateTime(value.Value, _todayValue.Month, _todayValue.Day, _todayValue.Hour, _todayValue.Minute, _todayValue.Second);
                 }
                 else
                 {
@@ -130,7 +130,7 @@ namespace Orc.Controls
 
                 if (_value == null)
                 {
-                    Value = new DateTime(_cdtValue.Year, value.Value, _cdtValue.Day, _cdtValue.Hour, _cdtValue.Minute, _cdtValue.Second);
+                    Value = new DateTime(_todayValue.Year, value.Value, _todayValue.Day, _todayValue.Hour, _todayValue.Minute, _todayValue.Second);
                 }
                 else
                 {
@@ -162,7 +162,7 @@ namespace Orc.Controls
 
                 if (_value == null)
                 {
-                    Value = new DateTime(_cdtValue.Year, _cdtValue.Month, value.Value, _cdtValue.Hour, _cdtValue.Minute, _cdtValue.Second);
+                    Value = new DateTime(_todayValue.Year, _todayValue.Month, value.Value, _todayValue.Hour, _todayValue.Minute, _todayValue.Second);
                 }
                 else
                 {
@@ -188,7 +188,7 @@ namespace Orc.Controls
 
                 if (_value == null)
                 {
-                    Value = new DateTime(_cdtValue.Year, _cdtValue.Month, _cdtValue.Day, value.Value, _cdtValue.Minute, _cdtValue.Second);
+                    Value = new DateTime(_todayValue.Year, _todayValue.Month, _todayValue.Day, value.Value, _todayValue.Minute, _todayValue.Second);
                 }
                 else
                 {
@@ -214,7 +214,7 @@ namespace Orc.Controls
 
                 if (_value == null)
                 {
-                    Value = new DateTime(_cdtValue.Year, _cdtValue.Month, _cdtValue.Day, _cdtValue.Hour, value.Value, _cdtValue.Second);
+                    Value = new DateTime(_todayValue.Year, _todayValue.Month, _todayValue.Day, _todayValue.Hour, value.Value, _todayValue.Second);
                 }
                 else
                 {
@@ -240,7 +240,7 @@ namespace Orc.Controls
 
                 if (_value == null)
                 {
-                    Value = new DateTime(_cdtValue.Year, _cdtValue.Month, _cdtValue.Day, _cdtValue.Hour, _cdtValue.Minute, value.Value);
+                    Value = new DateTime(_todayValue.Year, _todayValue.Month, _todayValue.Day, _todayValue.Hour, _todayValue.Minute, value.Value);
                 }
                 else
                 {

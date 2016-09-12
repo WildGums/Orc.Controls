@@ -112,9 +112,9 @@
                            IsOpen="{Binding IsChecked, ElementName=DatePickerIcon}" >
                         <Border BorderBrush="Gray" BorderThickness="1">
                             <StackPanel Background="White">
-                                <Button x:Name="TodayButton" Content="Today" Click="TodayButton_OnClick" Style="{DynamicResource PopupButtonStyle}"/>
-                                <Button x:Name="NowButton" Content="Now" Click="NowButton_OnClick" Style="{DynamicResource PopupButtonStyle}"/>
-                                <Button x:Name="SelectDateButton" Content="Select date" Click="SelectDateButton_OnClick" Style="{DynamicResource PopupButtonStyle}"/>
+                                <Button x:Name="TodayButton" Content="Today" Click="OnTodayButtonClick" Style="{DynamicResource PopupButtonStyle}"/>
+                                <Button x:Name="NowButton" Content="Now" Click="OnNowButtonClick" Style="{DynamicResource PopupButtonStyle}"/>
+                                <Button x:Name="SelectDateButton" Content="Select date" Click="OnSelectDateButtonClick" Style="{DynamicResource PopupButtonStyle}"/>
                                 <Separator Visibility="{Binding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
                                 <Button x:Name="ClearButton" Content="Clear" Click="OnClearButtonClick" Style="{DynamicResource PopupButtonStyle}"
                                         Visibility="{Binding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>

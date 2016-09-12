@@ -30,7 +30,7 @@ namespace Orc.Controls
         #region Fields
         private readonly List<NumericTextBox> _numericTextBoxes;
         private DateTimePart _activeDateTimePart;
-        private DateTime _cdtValue;
+        private DateTime _todayValue;
         #endregion
 
         #region Constructors
@@ -54,7 +54,7 @@ namespace Orc.Controls
             };
 
             DateTime now = DateTime.Now;
-            _cdtValue = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
+            _todayValue = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
         }
 
         private void SubscribeNumericTextBoxes()
@@ -223,21 +223,21 @@ namespace Orc.Controls
             var activeNumericTextBox = (NumericTextBox)FindName(_activeDateTimePart.GetDateTimePartName());
             var activeToggleButton = (ToggleButton)FindName(_activeDateTimePart.GetDateTimePartToggleButtonName());
 
-            var dateTime = Value == null ? _cdtValue : Value.Value;
+            var dateTime = Value == null ? _todayValue : Value.Value;
             var dateTimePartHelper = new DateTimePartHelper(dateTime, _activeDateTimePart, activeNumericTextBox, activeToggleButton);
             dateTimePartHelper.CreatePopup();
         }
 
         private void NumericTBMonth_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            var dateTime = Value == null ? _cdtValue : Value.Value;
+            var dateTime = Value == null ? _todayValue : Value.Value;
             var daysInMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
             NumericTBDay.MaxValue = daysInMonth;
         }
 
         private Calendar CreateCalendarPopupSource()
         {
-            var dateTime = Value == null ? _cdtValue : Value.Value;
+            var dateTime = Value == null ? _todayValue : Value.Value;
             var calendar = new Calendar()
             {
                 Margin = new Thickness(0, -3, 0, -3),
@@ -284,7 +284,7 @@ namespace Orc.Controls
 
         private void UpdateDate(DateTime date)
         {
-            var dateTime = Value == null ? _cdtValue : Value.Value;
+            var dateTime = Value == null ? _todayValue : Value.Value;
             Value = new DateTime(date.Year, date.Month, date.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
         }
 
@@ -313,19 +313,19 @@ namespace Orc.Controls
             return popup;
         }
 
-        private void TodayButton_OnClick(object sender, RoutedEventArgs e)
+        private void OnTodayButtonClick(object sender, RoutedEventArgs e)
         {
             DatePickerIcon.IsChecked = false;
             UpdateDateTime(DateTime.Today.Date);
         }
 
-        private void NowButton_OnClick(object sender, RoutedEventArgs e)
+        private void OnNowButtonClick(object sender, RoutedEventArgs e)
         {
             DatePickerIcon.IsChecked = false;
             UpdateDateTime(DateTime.Now);
         }
 
-        private void SelectDateButton_OnClick(object sender, RoutedEventArgs e)
+        private void OnSelectDateButtonClick(object sender, RoutedEventArgs e)
         {
             DatePickerIcon.IsChecked = false;
 
