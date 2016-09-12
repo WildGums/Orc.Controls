@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DateTimePickerViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,7 +17,17 @@ namespace Orc.Controls
     {
         #region Fields
         private bool _showOptionsButton;
-        private DateTime _value;
+        private bool _hideSeconds;
+        private DateTime? _value;
+        private DateTime _todayValue;
+        #endregion
+
+        #region Constructors
+        public DateTimePickerViewModel()
+        {
+            DateTime now = DateTime.Now;
+            _todayValue = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
+        }
         #endregion
 
         #region Properties
@@ -37,7 +47,23 @@ namespace Orc.Controls
             }
         }
 
-        public DateTime Value
+        public bool HideSeconds
+        {
+            get { return _hideSeconds; }
+            set
+            {
+                if (_hideSeconds == value)
+                {
+                    return;
+                }
+
+                _hideSeconds = value;
+
+                RaisePropertyChanged("HideSeconds");
+            }
+        }
+
+        public DateTime? Value
         {
             get { return _value; }
             set
@@ -52,98 +78,179 @@ namespace Orc.Controls
                 // Raise all property changed
                 RaisePropertyChanged(string.Empty);
 
+                // Note: For some reason we need to notify that Year, Month, Day, Hour, Minute, Second, AmPm properties changed.
+                RaisePropertyChanged(nameof(Year));
+                RaisePropertyChanged(nameof(Month));
+                RaisePropertyChanged(nameof(Day));
+                RaisePropertyChanged(nameof(Hour));
+                RaisePropertyChanged(nameof(Minute));
+                RaisePropertyChanged(nameof(Second));
+                RaisePropertyChanged(nameof(AmPm));
+
                 // Required for mappings
-                RaisePropertyChanged("Value");
+                RaisePropertyChanged(nameof(Value));
             }
         }
 
-        public int Year
+        public int? Year
         {
-            get { return _value.Year; }
+            get { return _value == null ? (int?)null : _value.Value.Year; }
             set
             {
-                if (_value.Year == value)
+                if (value == null)
                 {
                     return;
                 }
 
-                Value = new DateTime(value, Month, Day, Hour, Minute, Second);
+                if (_value == null)
+                {
+                    Value = new DateTime(value.Value, _todayValue.Month, _todayValue.Day, _todayValue.Hour, _todayValue.Minute, _todayValue.Second);
+                }
+                else
+                {
+                    if (_value.Value.Year == value)
+                    {
+                        return;
+                    }
+
+                    Value = new DateTime(value.Value, Month.Value, Day.Value, Hour.Value, Minute.Value, Second.Value);
+                }
             }
         }
 
-        public int Month
+        public int? Month
         {
-            get { return _value.Month; }
+            get { return _value == null ? (int?)null : _value.Value.Month; }
             set
             {
-                if (_value.Month == value)
+                if (value == null)
                 {
                     return;
                 }
-                var daysInMonth = DateTime.DaysInMonth(Year, value);
-                if (Day <= daysInMonth)
+
+                if (_value == null)
                 {
-                    Value = new DateTime(Year, value, Day, Hour, Minute, Second);
-                    return;
+                    Value = new DateTime(_todayValue.Year, value.Value, _todayValue.Day, _todayValue.Hour, _todayValue.Minute, _todayValue.Second);
                 }
-                Day = daysInMonth;
-                Value = new DateTime(Year, value, daysInMonth, Hour, Minute, Second);
+                else
+                {
+                    if (_value.Value.Month == value)
+                    {
+                        return;
+                    }
+                    var daysInMonth = DateTime.DaysInMonth(Year.Value, value.Value);
+                    if (Day <= daysInMonth)
+                    {
+                        Value = new DateTime(Year.Value, value.Value, Day.Value, Hour.Value, Minute.Value, Second.Value);
+                        return;
+                    }
+                    Day = daysInMonth;
+                    Value = new DateTime(Year.Value, value.Value, daysInMonth, Hour.Value, Minute.Value, Second.Value);
+                }
             }
         }
 
-        public int Day
+        public int? Day
         {
-            get { return _value.Day; }
+            get { return _value == null ? (int?)null : _value.Value.Day; }
             set
             {
-                if (_value.Day == value)
+                if (value == null)
                 {
                     return;
                 }
 
-                Value = new DateTime(Year, Month, value, Hour, Minute, Second);
+                if (_value == null)
+                {
+                    Value = new DateTime(_todayValue.Year, _todayValue.Month, value.Value, _todayValue.Hour, _todayValue.Minute, _todayValue.Second);
+                }
+                else
+                {
+                    if (_value.Value.Day == value)
+                    {
+                        return;
+                    }
+
+                    Value = new DateTime(Year.Value, Month.Value, value.Value, Hour.Value, Minute.Value, Second.Value);
+                }
             }
         }
 
-        public int Hour
+        public int? Hour
         {
-            get { return _value.Hour; }
+            get { return _value == null ? (int?)null : _value.Value.Hour; }
             set
             {
-                if (_value.Hour == value)
+                if (value == null)
                 {
                     return;
                 }
 
-                Value = new DateTime(Year, Month, Day, value, Minute, Second);
+                if (_value == null)
+                {
+                    Value = new DateTime(_todayValue.Year, _todayValue.Month, _todayValue.Day, value.Value, _todayValue.Minute, _todayValue.Second);
+                }
+                else
+                {
+                    if (_value.Value.Hour == value)
+                    {
+                        return;
+                    }
+
+                    Value = new DateTime(Year.Value, Month.Value, Day.Value, value.Value, Minute.Value, Second.Value);
+                }
             }
         }
 
-        public int Minute
+        public int? Minute
         {
-            get { return _value.Minute; }
+            get { return _value == null ? (int?)null : _value.Value.Minute; }
             set
             {
-                if (_value.Minute == value)
+                if (value == null)
                 {
                     return;
                 }
 
-                Value = new DateTime(Year, Month, Day, Hour, value, Second);
+                if (_value == null)
+                {
+                    Value = new DateTime(_todayValue.Year, _todayValue.Month, _todayValue.Day, _todayValue.Hour, value.Value, _todayValue.Second);
+                }
+                else
+                {
+                    if (_value.Value.Minute == value)
+                    {
+                        return;
+                    }
+
+                    Value = new DateTime(Year.Value, Month.Value, Day.Value, Hour.Value, value.Value, Second.Value);
+                }
             }
         }
 
-        public int Second
+        public int? Second
         {
-            get { return _value.Second; }
+            get { return _value == null ? (int?)null : _value.Value.Second; }
             set
             {
-                if (_value.Second == value)
+                if (value == null)
                 {
                     return;
                 }
 
-                Value = new DateTime(Year, Month, Day, Hour, Minute, value);
+                if (_value == null)
+                {
+                    Value = new DateTime(_todayValue.Year, _todayValue.Month, _todayValue.Day, _todayValue.Hour, _todayValue.Minute, value.Value);
+                }
+                else
+                {
+                    if (_value.Value.Second == value)
+                    {
+                        return;
+                    }
+
+                    Value = new DateTime(Year.Value, Month.Value, Day.Value, Hour.Value, Minute.Value, value.Value);
+                }
             }
         }
 
@@ -161,7 +268,8 @@ namespace Orc.Controls
 
             if (e.HasPropertyChanged("Value"))
             {
-                AmPm = ((DateTime)e.NewValue).ToString("tt", CultureInfo.InvariantCulture);
+                var newValue = e.NewValue as DateTime?;
+                AmPm = newValue == null ? null : newValue.Value.ToString("tt", CultureInfo.InvariantCulture);
             }
         }
         #endregion

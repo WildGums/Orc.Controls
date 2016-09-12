@@ -21,13 +21,17 @@ namespace Orc.Controls.Examples.ViewModels
         {
             AvailableFormats = new FastObservableCollection<object>();
             DateValue = DateTime.Today;
+
+            SetNull = new Command(OnSetNullExecute);
         }
         #endregion
 
         #region Properties
-        public DateTime DateValue { get; set; }
+        public DateTime? DateValue { get; set; }
         public FastObservableCollection<object> AvailableFormats { get; private set; }
         public object SelectedFormat { get; set; }
+
+        public Command SetNull { get; private set; }
         #endregion
 
         #region Methods
@@ -52,6 +56,11 @@ namespace Orc.Controls.Examples.ViewModels
                     }
                 }
             }
+        }
+
+        private void OnSetNullExecute()
+        {
+            DateValue = null;
         }
         #endregion
     }

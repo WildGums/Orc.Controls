@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DatePickerControl.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,6 +17,7 @@ namespace Orc.Controls
     using System.Windows.Data;
     using System.Windows.Media;
     using Catel.MVVM.Views;
+    using Catel.Windows.Threading;
     using Calendar = System.Windows.Controls.Calendar;
     using Converters;
 
@@ -28,6 +29,7 @@ namespace Orc.Controls
         #region Fields
         private readonly List<NumericTextBox> _numericTextBoxes;
         private DateTimePart _activeDateTimePart;
+        private DateTime _todayValue;
         #endregion
 
         #region Constructors
@@ -46,6 +48,9 @@ namespace Orc.Controls
                 NumericTBMonth,
                 NumericTBYear,
             };
+
+            DateTime now = DateTime.Now;
+            _todayValue = new DateTime(now.Year, now.Month, now.Day);
         }
 
         private void SubscribeNumericTextBoxes()
@@ -77,14 +82,14 @@ namespace Orc.Controls
 
         #region Properties
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public DateTime Value
+        public DateTime? Value
         {
-            get { return (DateTime)GetValue(ValueProperty); }
+            get { return (DateTime?)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
 
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(DateTime), typeof(DatePickerControl),
-            new FrameworkPropertyMetadata(DateTime.Today, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(DateTime?), typeof(DatePickerControl),
+            new FrameworkPropertyMetadata(DateTime.Today, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((DatePickerControl)sender).OnValueChanged(e.OldValue, e.NewValue)));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowOptionsButton
@@ -104,6 +109,15 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
             typeof(DatePickerControl), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((DatePickerControl)sender).OnAccentColorBrushChanged()));
+
+        public bool AllowNull
+        {
+            get { return (bool)GetValue(AllowNullProperty); }
+            set { SetValue(AllowNullProperty, value); }
+        }
+
+        public static readonly DependencyProperty AllowNullProperty = DependencyProperty.Register("AllowNull", typeof(bool),
+            typeof(DatePickerControl), new PropertyMetadata(false));
 
         public bool IsReadOnly
         {
@@ -161,22 +175,25 @@ namespace Orc.Controls
             var activeNumericTextBox = (NumericTextBox)FindName(_activeDateTimePart.GetDateTimePartName());
             var activeToggleButton = (ToggleButton)FindName(_activeDateTimePart.GetDateTimePartToggleButtonName());
 
-            var dateTimePartHelper = new DateTimePartHelper(Value, _activeDateTimePart, activeNumericTextBox, activeToggleButton);
+            var dateTime = Value == null ? _todayValue : Value.Value;
+            var dateTimePartHelper = new DateTimePartHelper(dateTime, _activeDateTimePart, activeNumericTextBox, activeToggleButton);
             dateTimePartHelper.CreatePopup();
         }
 
         private void NumericTBMonth_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            var daysInMonth = DateTime.DaysInMonth(Value.Year, Value.Month);
+            var dateTime = Value == null ? _todayValue : Value.Value;
+            var daysInMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
             NumericTBDay.MaxValue = daysInMonth;
         }
 
         private Calendar CreateCalendarPopupSource()
         {
+            var dateTime = Value == null ? _todayValue : Value.Value;
             var calendar = new Calendar()
             {
                 Margin = new Thickness(0, -3, 0, -3),
-                DisplayDate = Value,
+                DisplayDate = dateTime,
                 SelectedDate = Value
             };
 
@@ -193,12 +210,18 @@ namespace Orc.Controls
                 UpdateDate(calendar.SelectedDate.Value);
             }
             ((Popup)calendar.Parent).IsOpen = false;
-
         }
 
-        private void UpdateDate(DateTime date)
+        private void UpdateDate(DateTime? date)
         {
-            Value = new DateTime(date.Year, date.Month, date.Day);
+            if (date == null)
+            {
+                Value = null;
+            }
+            else
+            {
+                Value = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day);
+            }
         }
 
         private Popup CreateCalendarPopup()
@@ -214,14 +237,13 @@ namespace Orc.Controls
             return popup;
         }
 
-        private void TodayButton_OnClick(object sender, RoutedEventArgs e)
+        private void OnTodayButtonClick(object sender, RoutedEventArgs e)
         {
             DatePickerIcon.IsChecked = false;
             UpdateDate(DateTime.Today.Date);
         }
 
-
-        private void SelectDateButton_OnClick(object sender, RoutedEventArgs e)
+        private void OnSelectDateButtonClick(object sender, RoutedEventArgs e)
         {
             DatePickerIcon.IsChecked = false;
 
@@ -230,6 +252,12 @@ namespace Orc.Controls
             calendarPopup.Child = calendarPopupSource;
 
             calendarPopupSource.Focus();
+        }
+
+        private void OnClearButtonClick(object sender, RoutedEventArgs e)
+        {
+            DatePickerIcon.IsChecked = false;
+            UpdateDate(null);
         }
 
         private void OnAccentColorBrushChanged()
@@ -269,6 +297,29 @@ namespace Orc.Controls
             ApplyFormat();
         }
 
+        private void OnValueChanged(object oldValue, object newValue)
+        {
+            var ov = oldValue as DateTime?;
+            var nv = newValue as DateTime?;
+
+            if (!AllowNull && newValue == null)
+            {
+                var date = DateTime.Now.Date;
+                nv = new DateTime(date.Year, date.Month, date.Day);
+            }
+
+            if ((ov == null && nv != null)
+                || (ov != null && nv == null))
+            {
+                ApplyFormat();
+            }
+
+            if (newValue == null && nv != null)
+            {
+                Dispatcher.BeginInvoke(() => Value = nv);
+            }
+        }
+
         private void ApplyFormat()
         {
             var formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format, true);
@@ -299,9 +350,9 @@ namespace Orc.Controls
 
             SubscribeNumericTextBoxes();
 
-            Separator1.Text = formatInfo.Separator1;
-            Separator2.Text = formatInfo.Separator2;
-            Separator3.Text = formatInfo.Separator3;
+            Separator1.Text = Value == null ? string.Empty : formatInfo.Separator1;
+            Separator2.Text = Value == null ? string.Empty : formatInfo.Separator2;
+            Separator3.Text = Value == null ? string.Empty : formatInfo.Separator3;
         }
 
         private int GetPosition(int index)

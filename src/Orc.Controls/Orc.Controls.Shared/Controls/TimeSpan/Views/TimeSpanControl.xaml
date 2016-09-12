@@ -5,6 +5,7 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:controls="clr-namespace:Orc.Controls"
                    xmlns:catel="http://catel.codeplex.com"
+                   xmlns:sys="clr-namespace:System;assembly=mscorlib"
                    mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="120">
     
     <UserControl.Resources>
@@ -24,25 +25,25 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <controls:NumericTextBox x:Name="NumericTBDays" Value="{Binding Days}" MinValue="0" MaxValue="100"
+                <controls:NumericTextBox x:Name="NumericTBDays" Value="{Binding Days, TargetNullValue={x:Static sys:String.Empty}}" MinValue="0" MaxValue="100"
                                          IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanControl}}}"/>
-                <TextBlock Grid.Column="1" Text="." Style="{StaticResource RatioSignStyle}" />
+                <TextBlock x:Name="Separator1" Grid.Column="1" Text="." Style="{StaticResource RatioSignStyle}" />
                 <TextBlock x:Name="TextBlockD" Grid.Column="1" Text="d"
                            Tag="{x:Static controls:TimeSpanPart.Days}" Style="{StaticResource LettersStyle}" />
 
-                <controls:NumericTextBox x:Name="NumericTBHours" Grid.Column="2" Value="{Binding Hours}" MaxValue="23" MinValue="0"
+                <controls:NumericTextBox x:Name="NumericTBHours" Grid.Column="2" Value="{Binding Hours, TargetNullValue={x:Static sys:String.Empty}}" MaxValue="23" MinValue="0"
                                          IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanControl}}}"/>
-                <TextBlock Grid.Column="3" Text=":" Style="{StaticResource RatioSignStyle}" />
+                <TextBlock x:Name="Separator2" Grid.Column="3" Text=":" Style="{StaticResource RatioSignStyle}" />
                 <TextBlock x:Name="TextBlockH" Grid.Column="3" Text="h" 
                            Tag="{x:Static controls:TimeSpanPart.Hours}" Style="{StaticResource LettersStyle}" />
 
-                <controls:NumericTextBox x:Name="NumericTBMinutes" Grid.Column="4" Value="{Binding Minutes}" MaxValue="59" MinValue="0"
+                <controls:NumericTextBox x:Name="NumericTBMinutes" Grid.Column="4" Value="{Binding Minutes, TargetNullValue={x:Static sys:String.Empty}}" MaxValue="59" MinValue="0"
                                          IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanControl}}}"/>
-                <TextBlock Grid.Column="5" Text=":" Style="{StaticResource RatioSignStyle}" />
+                <TextBlock x:Name="Separator3" Grid.Column="5" Text=":" Style="{StaticResource RatioSignStyle}" />
                 <TextBlock x:Name="TextBlockM" Grid.Column="5" Text="m" 
                            Tag="{x:Static controls:TimeSpanPart.Minutes}" Style="{StaticResource LettersStyle}" />
 
-                <controls:NumericTextBox x:Name="NumericTBSeconds" Grid.Column="6" Value="{Binding Seconds}" MaxValue="59" MinValue="0"
+                <controls:NumericTextBox x:Name="NumericTBSeconds" Grid.Column="6" Value="{Binding Seconds, TargetNullValue={x:Static sys:String.Empty}}" MaxValue="59" MinValue="0"
                                          IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanControl}}}"/>
                 <TextBlock x:Name="TextBlockS" Grid.Column="7" Text="s" 
                            Tag="{x:Static controls:TimeSpanPart.Seconds}" Style="{StaticResource LettersStyle}" />
