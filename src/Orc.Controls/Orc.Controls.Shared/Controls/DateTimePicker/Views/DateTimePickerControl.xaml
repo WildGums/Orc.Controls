@@ -105,19 +105,28 @@
                 <StackPanel Grid.Column="1">
                     <ToggleButton x:Name="DatePickerIcon" DockPanel.Dock="Right" VerticalAlignment="Stretch"
                                   Style="{DynamicResource DateTimePickerToggleButtonStyle}"
-                                  Visibility="{Binding ShowOptionsButton, Converter={catel:BooleanToCollapsingVisibilityConverter}}"
-                                  IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
+                                  Visibility="{Binding ShowOptionsButton, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
                     <Popup Placement="Bottom" VerticalOffset="2" StaysOpen="False"
                            PlacementTarget="{Binding ElementName=DatePickerIcon}" 
                            IsOpen="{Binding IsChecked, ElementName=DatePickerIcon}" >
                         <Border BorderBrush="Gray" BorderThickness="1">
                             <StackPanel Background="White">
-                                <Button x:Name="TodayButton" Content="Today" Click="OnTodayButtonClick" Style="{DynamicResource PopupButtonStyle}"/>
-                                <Button x:Name="NowButton" Content="Now" Click="OnNowButtonClick" Style="{DynamicResource PopupButtonStyle}"/>
-                                <Button x:Name="SelectDateButton" Content="Select date" Click="OnSelectDateButtonClick" Style="{DynamicResource PopupButtonStyle}"/>
+                                <Button x:Name="TodayButton" Content="Today" Click="OnTodayButtonClick" Style="{DynamicResource PopupButtonStyle}"
+                                        IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
+                                <Button x:Name="NowButton" Content="Now" Click="OnNowButtonClick" Style="{DynamicResource PopupButtonStyle}"
+                                        IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
+                                <Button x:Name="SelectDateButton" Content="Select date" Click="OnSelectDateButtonClick" Style="{DynamicResource PopupButtonStyle}"
+                                        IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
                                 <Separator Visibility="{Binding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
                                 <Button x:Name="ClearButton" Content="Clear" Click="OnClearButtonClick" Style="{DynamicResource PopupButtonStyle}"
+                                        IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"
                                         Visibility="{Binding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
+                                <Separator Visibility="{Binding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
+                                <Button x:Name="CopyButton" Content="Copy" Click="OnCopyButtonClick" Style="{DynamicResource PopupButtonStyle}"
+                                        Visibility="{Binding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
+                                <Button x:Name="PasteButton" Content="Paste" Click="OnPasteButtonClick" Style="{DynamicResource PopupButtonStyle}"
+                                        IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"
+                                        Visibility="{Binding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
                             </StackPanel>
                         </Border>
                     </Popup>

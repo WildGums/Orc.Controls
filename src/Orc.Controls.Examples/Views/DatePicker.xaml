@@ -28,11 +28,13 @@
             <orc:DatePickerControl Value="{Binding DateValue}" Width="120" Margin="5"
                                    Format="{Binding SelectedFormat.FormatValue}" HorizontalAlignment="Left"
                                    AllowNull="{Binding IsChecked, ElementName=allowNullCheckbox}"
+                                   AllowCopyPaste="{Binding IsChecked, ElementName=allowCopyPasteCheckbox}"
                                    IsReadOnly="{Binding IsChecked, ElementName=readOnlyCheckbox}"
                                    ShowOptionsButton="{Binding IsChecked, ElementName=showOptionsButtonCheckbox}" />
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <CheckBox x:Name="allowNullCheckbox" Content="Allow null" IsChecked="True" Margin="0 5 5 5"/>
+            <CheckBox x:Name="allowCopyPasteCheckbox" Content="Allow copy/paste" IsChecked="True" Margin="10 5 5 5"/>
             <CheckBox x:Name="readOnlyCheckbox" Content="Read only" IsChecked="False" Margin="10 5 5 5"/>
             <CheckBox x:Name="showOptionsButtonCheckbox" Content="Show options button" IsChecked="True" Margin="10 5 5 5"/>
         </StackPanel>

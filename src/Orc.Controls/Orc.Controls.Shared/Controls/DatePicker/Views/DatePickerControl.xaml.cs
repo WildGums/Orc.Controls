@@ -119,6 +119,15 @@ namespace Orc.Controls
         public static readonly DependencyProperty AllowNullProperty = DependencyProperty.Register("AllowNull", typeof(bool),
             typeof(DatePickerControl), new PropertyMetadata(false));
 
+        public bool AllowCopyPaste
+        {
+            get { return (bool)GetValue(AllowCopyPasteProperty); }
+            set { SetValue(AllowCopyPasteProperty, value); }
+        }
+
+        public static readonly DependencyProperty AllowCopyPasteProperty = DependencyProperty.Register("AllowCopyPaste", typeof(bool),
+            typeof(DatePickerControl), new PropertyMetadata(true));
+
         public bool IsReadOnly
         {
             get { return (bool)GetValue(IsReadOnlyProperty); }
@@ -258,6 +267,34 @@ namespace Orc.Controls
         {
             DatePickerIcon.IsChecked = false;
             UpdateDate(null);
+        }
+
+        private void OnCopyButtonClick(object sender, RoutedEventArgs e)
+        {
+            DatePickerIcon.IsChecked = false;
+
+            if (Value != null)
+            {
+                Clipboard.SetText(Value.Value.ToString(Format), TextDataFormat.Text);
+            }
+        }
+
+        private void OnPasteButtonClick(object sender, RoutedEventArgs e)
+        {
+            DatePickerIcon.IsChecked = false;
+
+            if (Clipboard.ContainsData(DataFormats.Text))
+            {
+                string text = Clipboard.GetText(TextDataFormat.Text);
+                DateTime value = DateTime.MinValue;
+                if (!string.IsNullOrEmpty(text)
+                    && (DateTime.TryParseExact(text, Format, null, DateTimeStyles.None, out value)
+                        || DateTime.TryParseExact(text, CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern, null, DateTimeStyles.None, out value)
+                        || DateTime.TryParseExact(text, CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern, null, DateTimeStyles.None, out value)))
+                {
+                    Value = new DateTime(value.Year, value.Month, value.Day);
+                }
+            }
         }
 
         private void OnAccentColorBrushChanged()
