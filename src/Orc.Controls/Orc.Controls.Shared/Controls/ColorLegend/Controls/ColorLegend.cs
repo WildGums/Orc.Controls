@@ -702,7 +702,7 @@ namespace Orc.Controls
         private string ConstructWildcardRegex(string pattern)
         {
             // Always add a wildcard at the end of the pattern
-            pattern = pattern.TrimEnd('*') + "*";
+            pattern = "*" + pattern.Trim('*') + "*";
 
             // Make it case insensitive by default
             return "(?i)^" + Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".") + "$";
