@@ -241,13 +241,13 @@
                                 <Grid x:Name="toolsContainer" Margin="4" Height="24" 
                                       Visibility="{Binding ShowToolBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="45"/>
+                                        <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
                                     <controls:DropDownButton Grid.Column="0" Margin="0 0 5 0" Width="40" ShowDefaultButton="False" EnableTransparentBackground="True"
                                                              AccentColorBrush="{DynamicResource ColorLegendAccentBrush}"
-                                                             Visibility="{Binding ShowSettings, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+                                                             Visibility="{Binding ShowSettingsBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
                                         <controls:DropDownButton.Header>
                                             <Grid>
                                                 <Viewbox Height="15">
