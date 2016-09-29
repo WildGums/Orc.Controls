@@ -225,21 +225,21 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition x:Name="toolsContainerRow" Height="34" />
+                                <RowDefinition x:Name="toolsContainerRow" Height="Auto" />
                                 <RowDefinition Height="*" />
-                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
                             <ContentControl Content="{TemplateBinding Header}"
                                             Visibility="{TemplateBinding Header, Converter={catel:ReferenceToCollapsingVisibilityConverter}}" />
 
                             <!-- Filler border in case we are showing a legend -->
-                            <Border BorderBrush="LightGray" BorderThickness="0 0 0 1" Grid.Row="1" 
+                            <Border Grid.Row="1" BorderBrush="LightGray" BorderThickness="0 0 0 1" 
                                     Visibility="{TemplateBinding Header, Converter={catel:ReferenceToCollapsingVisibilityConverter}}" />
 
-                             <Border BorderBrush="LightGray" BorderThickness="0 0 0 1" Grid.Row="2">
-                                <Grid x:Name="toolsContainer" Margin="4" Height="24" 
-                                      Visibility="{Binding ShowToolBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+                            <Border Grid.Row="2" BorderBrush="LightGray" BorderThickness="0 0 0 1" Height="34"
+                                    Visibility="{Binding ShowToolBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+                                <Grid x:Name="toolsContainer" Margin="4" Height="24">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
@@ -357,8 +357,12 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
 
-                            <Border Grid.Row="4" BorderBrush="LightGray" BorderThickness="0 1 0 0">
-                                <Grid Visibility="{Binding ShowBottomToolBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+                            <Border Grid.Row="4"
+                                    BorderBrush="LightGray"
+                                    BorderThickness="0 1 0 0"
+                                    Height="30"
+                                    Visibility="{Binding ShowBottomToolBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+                                <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="5"/>

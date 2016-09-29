@@ -9,18 +9,36 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height ="Auto"/>
+            <RowDefinition Height="6" />
+            <RowDefinition Height ="Auto"/>
+            <RowDefinition Height="6" />
             <RowDefinition Height="*" />
             <RowDefinition Height="6" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
+        <TextBlock Text="Configure color legend appearance" FontWeight="Bold"/>
         
-        <orc:ColorLegend Grid.Row="0" ItemsSource="{Binding CalendarStateLegend}">
+        <UniformGrid Grid.Row="2" >
+            <CheckBox x:Name="ShowToolBox" Content="Show tool box" IsChecked="True"/>
+            <CheckBox x:Name="ShowSettingsBox" Content="Show settings box" IsChecked="True"/>
+            <CheckBox x:Name="ShowBottomToolBox" Content="Show bottom tool box" IsChecked="True"/>
+            <CheckBox x:Name="ShowSearchBox" Content="Show search box" IsChecked="True"/>
+        </UniformGrid>
+        
+        <orc:ColorLegend Grid.Row="4"
+                         ItemsSource="{Binding CalendarStateLegend}"
+                         ShowBottomToolBox="{Binding ElementName=ShowBottomToolBox, Path=IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         ShowSettingsBox="{Binding ElementName=ShowSettingsBox, Path=IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         ShowSearchBox="{Binding ElementName=ShowSearchBox, Path=IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         ShowToolBox="{Binding ElementName=ShowToolBox, Path=IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <orc:ColorLegend.Header>
                 <orc:HeaderBar Header="Color legend" />
             </orc:ColorLegend.Header>
         </orc:ColorLegend>
 
-        <orc:ColorLegend Grid.Row="2" ItemsSource="{Binding CalendarStateLegend}" />
+        <orc:ColorLegend Grid.Row="6" ItemsSource="{Binding CalendarStateLegend}" />
     </Grid>
 
 </catel:UserControl>
