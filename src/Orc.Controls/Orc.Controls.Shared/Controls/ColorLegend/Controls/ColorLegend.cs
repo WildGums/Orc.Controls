@@ -155,6 +155,22 @@ namespace Orc.Controls
         /// <summary>
         /// Gets or sets a value indicating whether settings button is shown or not.
         /// </summary>
+        [ObsoleteEx(Message= "No longer required due to consistency, use ShowSettingsBox instead", ReplacementTypeOrMember = "ShowSettingsBox", TreatAsErrorFromVersion = "1.3", RemoveInVersion = "2.0")]
+        public bool ShowSettings
+        {
+            get { return (bool)GetValue(ShowSettingsProperty); }
+            set { SetValue(ShowSettingsProperty, value); }
+        }
+
+        /// <summary>
+        /// Property indicating whether search box is shown or not.
+        /// </summary>
+        public static readonly DependencyProperty ShowSettingsProperty = DependencyProperty.Register("ShowSettings",
+            typeof(bool), typeof(ColorLegend), new PropertyMetadata(true));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether settings button is shown or not.
+        /// </summary>
         public bool ShowSettingsBox
         {
             get { return (bool) GetValue(ShowSettingsBoxProperty); }
