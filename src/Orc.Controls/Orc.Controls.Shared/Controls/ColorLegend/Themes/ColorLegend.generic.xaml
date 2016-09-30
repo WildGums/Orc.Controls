@@ -278,7 +278,9 @@
                                         </controls:DropDownButton.DropDown>
                                     </controls:DropDownButton>
 
-                                    <controls:FilterBoxControl Grid.Column="1" Watermark="{TemplateBinding FilterWatermark}" PropertyName="Color"
+                                    <controls:FilterBoxControl Grid.Column="1" 
+                                                               Watermark="{TemplateBinding FilterWatermark}" 
+                                                               PropertyName="Description"
                                                                Visibility="{Binding ShowSearchBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}"
                                                                FilterSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}}" 
                                                                Text="{Binding Filter, RelativeSource={RelativeSource TemplatedParent}}"/>

@@ -52,7 +52,7 @@ namespace Orc.Controls.Examples.ViewModels
                 items.Add(new ColorLegendItem
                 {
                     Color = color,
-                    Description = color.ToString(),
+                    Description = string.Format("this color is {0}", color),
                     IsChecked = true,
                     Id = color.ToString(),
                     AdditionalData = "(1)"
