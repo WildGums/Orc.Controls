@@ -51,8 +51,6 @@ namespace Orc.Controls
 
         private IColorLegendItem _currentColorLegendItem;
 
-        private bool _manualBindingReady;
-
         private bool _isUpdatingAllVisible;
 
         private ChangeNotificationWrapper _changeNotificationWrapper;
@@ -522,67 +520,6 @@ namespace Orc.Controls
             _popup = (Popup) GetTemplateChild("PART_Popup_Color_Board");
             _button = (ButtonBase) GetTemplateChild("PART_UnselectAll");
             _checkBox = (CheckBox) GetTemplateChild("PART_All_Visible");
-
-            var settingsButton = (DropDownButton) GetTemplateChild("PART_Settings_Button");
-            if (settingsButton != null)
-            {
-                settingsButton.ContentLayoutUpdated += (sender, args) =>
-                {
-                    if (_manualBindingReady)
-                    {
-                        return;
-                    }
-
-                    var settingsContent = sender as ContentControl;
-                    if(settingsContent != null)
-                    {
-                        var contentPresenter = settingsContent.FindVisualDescendantByType<ContentPresenter>();
-                        if (contentPresenter == null)
-                        {
-                            return;
-                        }
-
-                        var content = contentPresenter.Content;
-                        if (content == null)
-                        {
-                            return;
-                        }
-
-                        var dependencyObject = content as DependencyObject;
-                        if (dependencyObject != null)
-                        {
-                            var qryAllChecks = dependencyObject.Descendents().OfType<CheckBox>();
-
-                            var allChecks = qryAllChecks as CheckBox[] ?? qryAllChecks.ToArray();
-                            var cbVisibilitySetting = allChecks.First(cb => cb.Name == "cbVisibilitySetting");
-                            if (cbVisibilitySetting != null)
-                            {
-                                cbVisibilitySetting.IsChecked = ShowColorVisibilityControls;
-                                cbVisibilitySetting.Checked += (o, e) => ShowColorVisibilityControls = true;
-                                cbVisibilitySetting.Unchecked += (o, e) => ShowColorVisibilityControls = false;
-                            }
-
-                            var cbColorEditingSetting = allChecks.First(cb => cb.Name == "cbColorEditingSetting");
-                            if (cbColorEditingSetting != null)
-                            {
-                                cbColorEditingSetting.IsChecked = AllowColorEditing;
-                                cbColorEditingSetting.Checked += (o, e) => AllowColorEditing = true;
-                                cbColorEditingSetting.Unchecked += (o, e) => AllowColorEditing = false;
-                            }
-
-                            var cbUseRegexSetting = allChecks.First(cb => cb.Name == "cbUseRegexSetting");
-                            if (cbUseRegexSetting != null)
-                            {
-                                cbUseRegexSetting.IsChecked = UseRegexFiltering;
-                                cbUseRegexSetting.Checked += (o, e) => UseRegexFiltering = true;
-                                cbUseRegexSetting.Unchecked += (o, e) => UseRegexFiltering = false;
-                            }
-                        }
-
-                        _manualBindingReady = true;
-                    }
-                };
-            }
 
             if (_listBox != null)
             {
