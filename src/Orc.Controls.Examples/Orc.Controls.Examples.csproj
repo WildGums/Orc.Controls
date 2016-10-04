@@ -181,6 +181,10 @@
     <Compile Include="Views\Watermark.xaml.cs">
       <DependentUpon>Watermark.xaml</DependentUpon>
     </Compile>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AnimatedGif.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
