@@ -336,6 +336,7 @@
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
+           
             <ControlTemplate x:Key="{ComponentResourceKey ResourceId=TopLevelItemTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
                 <Grid SnapsToDevicePixels="true">
                     <Rectangle x:Name="Bg"

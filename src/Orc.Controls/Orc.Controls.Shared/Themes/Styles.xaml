@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Orc.Controls">
+
+    <Style x:Key="DefaultDateTimePickerControlStyle" TargetType="{x:Type controls:DateTimePickerControl}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="4,6,4,6"/>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="DefaultDatePickerControlStyle" TargetType="{x:Type controls:DatePickerControl}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="4,6,4,6"/>
+        </Style.Setters>
+    </Style>
+
+</ResourceDictionary>
