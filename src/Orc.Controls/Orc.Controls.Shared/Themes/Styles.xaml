@@ -2,15 +2,23 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Orc.Controls">
 
+    <Thickness x:Key="DefaultThickness" Left="4" Top="6" Right="4" Bottom="6"/>
+    
     <Style x:Key="DefaultDateTimePickerControlStyle" TargetType="{x:Type controls:DateTimePickerControl}">
         <Style.Setters>
-            <Setter Property="Margin" Value="4,6,4,6"/>
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
         </Style.Setters>
     </Style>
 
     <Style x:Key="DefaultDatePickerControlStyle" TargetType="{x:Type controls:DatePickerControl}">
         <Style.Setters>
-            <Setter Property="Margin" Value="4,6,4,6"/>
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="DefaultAnimatedGifStyle" TargetType="{x:Type controls:AnimatedGif}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
         </Style.Setters>
     </Style>
 
