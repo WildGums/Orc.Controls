@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Expander.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="Expander.cs" company="WildGums">
+//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -22,7 +22,7 @@ namespace Orc.Controls
     public class Expander : HeaderedContentControl
     {
         #region Fields
-        private GridLength _previousValue;
+        private GridLength? _expandDistance;
         #endregion
 
         #region Constructors
@@ -87,39 +87,41 @@ namespace Orc.Controls
                 return;
             }
 
-            if (Parent is Grid)
+            var grid = Parent as Grid;
+            if (grid == null)
             {
-                var grid = Parent as Grid;
-                switch (ExpandDirection)
+                return;
+            }
+
+            switch (ExpandDirection)
+            {
+                case ExpandDirection.Left:
                 {
-                    case ExpandDirection.Left:
-                    {
-                        var column = Grid.GetColumn(this);
-                        _previousValue = grid.ColumnDefinitions[column].Width;
-                        grid.ColumnDefinitions[column].Width = GridLength.Auto;
-                        break;
-                    }
-                    case ExpandDirection.Right:
-                    {
-                        var column = Grid.GetColumn(this);
-                        _previousValue = grid.ColumnDefinitions[column].Width;
-                        grid.ColumnDefinitions[column].Width = GridLength.Auto;
-                        break;
-                    }
-                    case ExpandDirection.Up:
-                    {
-                        var row = Grid.GetRow(this);
-                        _previousValue = grid.RowDefinitions[row].Height;
-                        grid.RowDefinitions[row].Height = GridLength.Auto;
-                        break;
-                    }
-                    case ExpandDirection.Down:
-                    {
-                        var row = Grid.GetRow(this);
-                        _previousValue = grid.RowDefinitions[row].Height;
-                        grid.RowDefinitions[row].Height = GridLength.Auto;
-                        break;
-                    }
+                    var column = Grid.GetColumn(this);
+                    _expandDistance = grid.ColumnDefinitions[column].Width;
+                    grid.ColumnDefinitions[column].Width = GridLength.Auto;
+                    break;
+                }
+                case ExpandDirection.Right:
+                {
+                    var column = Grid.GetColumn(this);
+                    _expandDistance = grid.ColumnDefinitions[column].Width;
+                    grid.ColumnDefinitions[column].Width = GridLength.Auto;
+                    break;
+                }
+                case ExpandDirection.Up:
+                {
+                    var row = Grid.GetRow(this);
+                    _expandDistance = grid.RowDefinitions[row].Height;
+                    grid.RowDefinitions[row].Height = GridLength.Auto;
+                    break;
+                }
+                case ExpandDirection.Down:
+                {
+                    var row = Grid.GetRow(this);
+                    _expandDistance = grid.RowDefinitions[row].Height;
+                    grid.RowDefinitions[row].Height = GridLength.Auto;
+                    break;
                 }
             }
         }
@@ -131,48 +133,49 @@ namespace Orc.Controls
                 return;
             }
 
-            if (Parent is Grid)
+            var grid = Parent as Grid;
+            if (grid == null)
             {
-                var grid = Parent as Grid;
+                return;
+            }
 
-                switch (ExpandDirection)
+            switch (ExpandDirection)
+            {
+                case ExpandDirection.Left:
                 {
-                    case ExpandDirection.Left:
+                    var column = Grid.GetColumn(this);
+                    if (_expandDistance.HasValue)
                     {
-                        var column = Grid.GetColumn(this);
-                        if (_previousValue != null)
-                        {
-                            grid.ColumnDefinitions[column].Width = _previousValue;
-                        }
-                        break;
+                        grid.ColumnDefinitions[column].Width = _expandDistance.Value;
                     }
-                    case ExpandDirection.Right:
+                    break;
+                }
+                case ExpandDirection.Right:
+                {
+                    var column = Grid.GetColumn(this);
+                    if (_expandDistance.HasValue)
                     {
-                        var column = Grid.GetColumn(this);
-                        if (_previousValue != null)
-                        {
-                            grid.ColumnDefinitions[column].Width = _previousValue;
-                        }
-                        break;
+                        grid.ColumnDefinitions[column].Width = _expandDistance.Value;
                     }
-                    case ExpandDirection.Up:
+                    break;
+                }
+                case ExpandDirection.Up:
+                {
+                    var row = Grid.GetRow(this);
+                    if (_expandDistance.HasValue)
                     {
-                        var row = Grid.GetRow(this);
-                        if (_previousValue != null)
-                        {
-                            grid.RowDefinitions[row].Height = _previousValue;
-                        }
-                        break;
+                        grid.RowDefinitions[row].Height = _expandDistance.Value;
                     }
-                    case ExpandDirection.Down:
+                    break;
+                }
+                case ExpandDirection.Down:
+                {
+                    var row = Grid.GetRow(this);
+                    if (_expandDistance.HasValue)
                     {
-                        var row = Grid.GetRow(this);
-                        if (_previousValue != null)
-                        {
-                            grid.RowDefinitions[row].Height = _previousValue;
-                        }
-                        break;
+                        grid.RowDefinitions[row].Height = _expandDistance.Value;
                     }
+                    break;
                 }
             }
         }

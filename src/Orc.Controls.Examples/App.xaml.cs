@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="App.xaml.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="App.xaml.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -8,11 +8,11 @@
 namespace Orc.Controls.Examples
 {
     using System.Globalization;
-    using System.Threading;
     using System.Windows;
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Services;
+    using Catel.Windows;
     using Logging;
 
     /// <summary>
@@ -37,6 +37,8 @@ namespace Orc.Controls.Examples
 
             Log.Info("Starting application");
             Log.Info("This log message should show up as debug");
+
+            StyleHelper.CreateStyleForwardersForDefaultStyles();
 
             base.OnStartup(e);
         }

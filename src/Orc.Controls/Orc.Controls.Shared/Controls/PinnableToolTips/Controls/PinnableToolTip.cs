@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PinnableToolTip.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="PinnableToolTip.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -10,6 +10,7 @@ namespace Orc.Controls
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
@@ -29,6 +30,44 @@ namespace Orc.Controls
     [TemplatePart(Name = "GripDrawing", Type = typeof(GeometryDrawing))]
     public class PinnableToolTip : ContentControl, IControlAdornerChild
     {
+        #region Constants
+        private const double Epsilon = 1E-7;
+
+        private static int _counter = 0;
+        #endregion
+
+        #region Fields
+        private static readonly ConcurrentDictionary<UIElement, List<int>> OnFrontIdDictionary = new ConcurrentDictionary<UIElement, List<int>>();
+
+        private readonly int _id;
+
+        private Button _closeButton;
+
+        private FrameworkElement _dragGrip;
+
+        private GeometryDrawing _gripDrawing;
+
+        private ControlAdorner _adorner;
+
+        private ControlAdornerDragDrop _adornerDragDrop;
+
+        private ResizingAdorner _adornerResizing;
+
+        private AdornerLayer _adornerLayer;
+
+        private bool _isPositionCalculated;
+
+        private Point _lastPosition;
+
+        private Size _lastSize;
+
+        private UIElement _owner;
+
+        private UIElement _userDefinedAdorner;
+
+        private ToolTipTimer _timer;
+        #endregion
+
         #region Constructors and Destructors
         /// <summary>
         /// Initializes a new instance of the <see cref="PinnableToolTip" /> class.
@@ -55,42 +94,6 @@ namespace Orc.Controls
         }
         #endregion
 
-        #region Constants
-        private const double Epsilon = 1E-7;
-
-        private static int _counter = 0;
-        #endregion
-
-        #region Fields
-        private static readonly ConcurrentDictionary<UIElement, List<int>> OnFrontIdDictionary = new ConcurrentDictionary<UIElement, List<int>>();
-
-        private readonly int _id;
-
-        private Button _closeButton;
-
-        private FrameworkElement _dragGrip;
-
-        private GeometryDrawing _gripDrawing;
-
-        private ControlAdorner _adorner;
-
-        private ControlAdornerDragDrop _adornerDragDrop;
-
-        private AdornerLayer _adornerLayer;
-
-        private bool _isPositionCalculated;
-
-        private Point _lastPosition;
-
-        private Size _lastSize;
-
-        private UIElement _owner;
-
-        private UIElement _userDefinedAdorner;
-
-        private ToolTipTimer _timer;
-        #endregion
-
         #region Properties
         public UIElement Owner
         {
@@ -111,6 +114,10 @@ namespace Orc.Controls
                 {
                     RemoveAdorner();
                     StopTimer();
+
+                    // Clear horizontal / vertical offset because it's used by the resizing adorner
+                    HorizontalOffset = 0d;
+                    VerticalOffset = 0d;
                 }
 
                 OnIsOpenChanged();
@@ -176,6 +183,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty OpenLinkCommandProperty = DependencyProperty.Register("OpenLinkCommand",
             typeof(ICommand), typeof(PinnableToolTip), new PropertyMetadata(null));
 
+
         public Brush AccentColorBrush
         {
             get { return (Brush)GetValue(AccentColorBrushProperty); }
@@ -184,6 +192,16 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
             typeof(PinnableToolTip), new PropertyMetadata(Brushes.LightGray, (sender, e) => ((PinnableToolTip)sender).OnAccentColorBrushChanged()));
+
+
+        public ResizeMode ResizeMode
+        {
+            get { return (ResizeMode)GetValue(ResizeModeProperty); }
+            set { SetValue(ResizeModeProperty, value); }
+        }
+
+        public static readonly DependencyProperty ResizeModeProperty = DependencyProperty.Register("ResizeMode", typeof(ResizeMode),
+            typeof(PinnableToolTip), new PropertyMetadata(ResizeMode.NoResize, (sender, e) => ((PinnableToolTip)sender).OnResizeModeChanged()));
         #endregion
 
         #region Events
@@ -204,15 +222,22 @@ namespace Orc.Controls
             var mousePosition = PinnableToolTipService.MousePosition;
             var rootVisual = PinnableToolTipService.RootVisual;
 
-            var horizontalOffset = HorizontalOffset;
-            var verticalOffset = VerticalOffset;
+            var fixedOffset = 0d;
+            if (ResizeMode == ResizeMode.CanResize || ResizeMode == ResizeMode.CanResizeWithGrip)
+            {
+                fixedOffset = 3d;
+            }
+
+            var horizontalOffset = HorizontalOffset + fixedOffset;
+            var verticalOffset = VerticalOffset + fixedOffset;
 
             //using this code for non UIElements
             if (_owner == null)
             {
                 mousePosition = Mouse.GetPosition(_userDefinedAdorner);
 
-                if ((_userDefinedAdorner as FrameworkElement) == null)
+                var userDefinedAdorner = _userDefinedAdorner as FrameworkElement;
+                if (userDefinedAdorner == null)
                 {
                     rootVisual = System.Windows.Interop.BrowserInteropHelper.IsBrowserHosted
                         ? null
@@ -222,7 +247,7 @@ namespace Orc.Controls
                 }
                 else
                 {
-                    rootVisual = _userDefinedAdorner as FrameworkElement;
+                    rootVisual = userDefinedAdorner;
                 }
 
                 if (rootVisual == null)
@@ -307,7 +332,10 @@ namespace Orc.Controls
                     }
 
                     var offsetX = mousePosition.X + horizontalOffset;
-                    var offsetY = mousePosition.Y + new TextBlock().FontSize + verticalOffset;
+
+                    //var fontSize = new TextBlock().FontSize;
+                    var fontSize = 0;
+                    var offsetY = mousePosition.Y + fontSize + verticalOffset;
 
                     offsetX = Math.Max(2.0, offsetX);
                     offsetY = Math.Max(2.0, offsetY);
@@ -406,6 +434,7 @@ namespace Orc.Controls
         {
             var x = pointArray[index].X;
             var y = pointArray[index].Y;
+
             if (index > 1)
             {
                 if ((placement == PlacementMode.Left) || (placement == PlacementMode.Right))
@@ -512,8 +541,7 @@ namespace Orc.Controls
             return index;
         }
 
-        private static Point[] GetPointArray(
-            IList<Point> target, PlacementMode placement, Rect plugin, double width, double height)
+        private static Point[] GetPointArray(IList<Point> target, PlacementMode placement, Rect plugin, double width, double height)
         {
             Point[] pointArray;
             switch (placement)
@@ -540,8 +568,7 @@ namespace Orc.Controls
                     pointArray = new[]
                     {
                         new Point(Math.Min(plugin.Width, target[0].X) - width, target[1].Y),
-                        new Point(
-                            Math.Min(plugin.Width, target[2].X) - width, (target[3].Y - height) + 1.0),
+                        new Point(Math.Min(plugin.Width, target[2].X) - width, (target[3].Y - height) + 1.0),
                         new Point(Math.Min(plugin.Width, target[0].X) - width, 0.0)
                     };
                     break;
@@ -550,8 +577,7 @@ namespace Orc.Controls
                     pointArray = new[]
                     {
                         new Point(target[0].X, Math.Min(target[0].Y, plugin.Height) - height),
-                        new Point(
-                            (target[1].X - width) + 1.0, Math.Min(target[0].Y, plugin.Height) - height),
+                        new Point((target[1].X - width) + 1.0, Math.Min(target[0].Y, plugin.Height) - height),
                         new Point(0.0, Math.Min(target[0].Y, plugin.Height) - height)
                     };
                     break;
@@ -572,6 +598,7 @@ namespace Orc.Controls
             if (toolTip == null || toolTip.IsOpen)
             {
                 var generalTransform = frameworkElement.TransformToVisual(toolTip != null ? toolTip._adornerLayer : PinnableToolTipService.RootVisual);
+
                 pointArray[0] = generalTransform.Transform(new Point(0.0, 0.0));
                 pointArray[1] = generalTransform.Transform(new Point(frameworkElement.ActualWidth, 0.0));
                 pointArray[1].X--;
@@ -595,6 +622,8 @@ namespace Orc.Controls
 
         private void OnIsOpenChanged()
         {
+            UpdateResizingAdorner();
+
             IsOpenChanged.SafeInvoke(this);
         }
 
@@ -885,7 +914,13 @@ namespace Orc.Controls
             }
 
             _isPositionCalculated = false;
-            var ad = new ControlAdorner(adornedElement) { Child = this, Focusable = false };
+
+            var ad = new ControlAdorner(adornedElement)
+            {
+                Child = this,
+                Focusable = false
+            };
+
             KeyboardNavigation.SetTabNavigation(ad, KeyboardNavigationMode.None);
             layer.Add(ad);
 
@@ -924,6 +959,8 @@ namespace Orc.Controls
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
+            //Debug.WriteLine($"Size changed to '{e.NewSize}'");
+
             _lastSize = e.NewSize;
         }
 
@@ -959,6 +996,12 @@ namespace Orc.Controls
             {
                 ControlAdornerDragDrop.Detach(_adornerDragDrop);
                 _adornerDragDrop = null;
+            }
+
+            if (_adornerResizing != null)
+            {
+                ResizingAdorner.Detach(_adornerResizing);
+                _adornerResizing = null;
             }
 
             _adornerLayer.Remove(_adorner);
@@ -1022,6 +1065,30 @@ namespace Orc.Controls
             {
                 var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
                 accentColor.CreateAccentColorResourceDictionary("PinnableToolTip");
+            }
+        }
+
+        private void OnResizeModeChanged()
+        {
+            UpdateResizingAdorner();
+        }
+
+        private void UpdateResizingAdorner()
+        {
+            if (IsOpen && (ResizeMode == ResizeMode.CanResize || ResizeMode == ResizeMode.CanResizeWithGrip))
+            {
+                if (_adornerResizing == null && _adorner != null)
+                {
+                    _adornerResizing = ResizingAdorner.Attach(this);
+                }
+            }
+            else
+            {
+                if (_adornerResizing != null)
+                {
+                    ResizingAdorner.Detach(_adornerResizing);
+                    _adornerResizing = null;
+                }
             }
         }
         #endregion

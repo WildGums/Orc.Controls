@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IColorProvider.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="IColorLegendItem.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,13 +13,15 @@ namespace Orc.Controls
     /// <summary>
     /// The ColorProvider interface.
     /// </summary>
-    public interface IColorProvider : INotifyPropertyChanged
+    public interface IColorLegendItem : INotifyPropertyChanged
     {
         #region Public Properties
         /// <summary>
         /// Gets or sets a value indicating whether color is visible or not
         /// </summary>
-        bool IsVisible { get; set; }
+        bool IsChecked { get; set; }
+
+        bool IsSelected { get; set; }
 
         /// <summary>
         /// Gets or sets the color.

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogViewerControl.xaml.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="LogViewerControl.xaml.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -245,6 +245,11 @@ namespace Orc.Controls
                     if (vm.IsValidLogEntry(logEntry))
                     {
                         var document = LogRecordsRichTextBox.Document;
+                        if (document == null)
+                        {
+                            return;
+                        }
+
                         var lastLogMessage = (DateTime) document.Tag;
 
                         if (logEntry.Time < lastLogMessage)
@@ -252,7 +257,8 @@ namespace Orc.Controls
                             // Always ignore, old message
                             return;
                         }
-                        else if (logEntry.Time == lastLogMessage)
+
+                        if (logEntry.Time == lastLogMessage)
                         {
                             // This looks like hurting for performance, but there aren't many messages on exactly the same time
                             for (int i = document.Blocks.Count - 1; i >= 0; i--)
@@ -308,7 +314,7 @@ namespace Orc.Controls
                     };
 
                     var logEntries = vm.GetFilteredLogEntries();
-                    foreach (LogEntry logEntry in logEntries)
+                    foreach (var logEntry in logEntries)
                     {
                         var paragraph = CreateLogEntryParagraph(logEntry);
                         if (paragraph != null)
@@ -418,7 +424,7 @@ namespace Orc.Controls
         public void CopyToClipboard()
         {
             var text = LogRecordsRichTextBox.GetInlineText();
-            Clipboard.SetText(text);
+            Clipboard.SetDataObject(text);
         }
         #endregion
 

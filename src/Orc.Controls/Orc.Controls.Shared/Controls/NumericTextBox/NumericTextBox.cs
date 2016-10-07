@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NumericTextBox.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="NumericTextBox.cs" company="WildGums">
+//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -58,10 +58,10 @@ namespace Orc.Controls
             typeof (NumericTextBox), new UIPropertyMetadata(double.MaxValue));
 
         public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof (string),
-            typeof (NumericTextBox), new UIPropertyMetadata("F0"));
+            typeof (NumericTextBox), new UIPropertyMetadata("F0", (sender, e) => ((NumericTextBox)sender).OnFormatChanged()));
 
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof (double),
-            typeof (NumericTextBox), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((NumericTextBox) sender).OnValueChanged()));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof (double?),
+            typeof (NumericTextBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((NumericTextBox) sender).OnValueChanged()));
 
         private bool _textChangingIsInProgress = false;
         #endregion
@@ -85,9 +85,9 @@ namespace Orc.Controls
             set { SetValue(FormatProperty, value); }
         }
 
-        public double Value
+        public double? Value
         {
-            get { return (double) GetValue(ValueProperty); }
+            get { return (double?) GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
         #endregion
@@ -163,13 +163,13 @@ namespace Orc.Controls
                 e.Handled = true;
             }
 
-            if (e.Key == Key.Up && AllTextSelected)
+            if (e.Key == Key.Up && AllTextSelected && !IsReadOnly)
             {
                 OnUpDown(1);
                 e.Handled = true;
             }
 
-            if (e.Key == Key.Down)
+            if (e.Key == Key.Down && AllTextSelected && !IsReadOnly)
             {
                 OnUpDown(-1);
                 e.Handled = true;
@@ -178,7 +178,14 @@ namespace Orc.Controls
 
         private void OnUpDown(int increment)
         {
-            Value = GetNewValue(Value, increment);
+            if (Value == null)
+            {
+                Value = MinValue;
+            }
+            else
+            {
+                Value = GetNewValue(Value.Value, increment);
+            }
             SelectAll();
         }
 
@@ -198,20 +205,12 @@ namespace Orc.Controls
 
         private void RaiseRightBoundReachedEvent()
         {
-            var eventCall = RightBoundReached;
-            if (eventCall != null)
-            {
-                eventCall(this, EventArgs.Empty);
-            }
+            RightBoundReached?.Invoke(this, EventArgs.Empty);
         }
 
         private void RaiseLeftBoundReachedEvent()
         {
-            var eventCall = LeftBoundReached;
-            if (eventCall != null)
-            {
-                eventCall(this, EventArgs.Empty);
-            }
+            LeftBoundReached?.Invoke(this, EventArgs.Empty);
         }
 
         private string GetText(string inputText)
@@ -266,9 +265,14 @@ namespace Orc.Controls
             UpdateText();
         }
 
+        private void OnFormatChanged()
+        {
+            UpdateText();
+        }
+
         private void UpdateText()
         {
-            base.Text = Value.ToString(Format);
+            base.Text = Value == null ? string.Empty : Value.Value.ToString(Format);
         }
         #endregion
     }

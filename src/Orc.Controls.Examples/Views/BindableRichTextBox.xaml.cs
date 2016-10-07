@@ -1,15 +1,14 @@
-﻿namespace Orc.Controls.Examples.Views
-{
-    using Catel.Windows.Controls;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="BindableRichTextBox.xaml.cs" company="WildGums">
+//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
-    /// <summary>
-    /// Interaction logic for BindableRichTextBox.xaml.
-    /// </summary>
-    public partial class BindableRichTextBox : UserControl
+
+namespace Orc.Controls.Examples.Views
+{
+    public partial class BindableRichTextBox
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BindableRichTextBox"/> class.
-        /// </summary>
         public BindableRichTextBox()
         {
             InitializeComponent();

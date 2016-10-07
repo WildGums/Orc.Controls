@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TimeSpanControl.xaml.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2014 Wild Gums. All rights reserved.
+// <copyright file="TimeSpanControl.xaml.cs" company="WildGums">
+//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -61,14 +61,14 @@ namespace Orc.Controls
 
         #region Properties
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public TimeSpan Value
+        public TimeSpan? Value
         {
-            get { return (TimeSpan) GetValue(ValueProperty); }
+            get { return (TimeSpan?)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
 
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(TimeSpan), typeof(TimeSpanControl), 
-            new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(TimeSpan?), typeof(TimeSpanControl),
+            new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((TimeSpanControl)sender).OnValueChanged(e.OldValue, e.NewValue)));
 
         public Brush AccentColorBrush
         {
@@ -78,7 +78,16 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
             typeof(TimeSpanControl), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((TimeSpanControl)sender).OnAccentColorBrushChanged()));
-        
+
+        public bool IsReadOnly
+        {
+            get { return (bool)GetValue(IsReadOnlyProperty); }
+            set { SetValue(IsReadOnlyProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register("IsReadOnly", typeof(bool),
+            typeof(TimeSpanControl), new PropertyMetadata(false));
+
         #endregion
 
         #region Methods
@@ -102,7 +111,7 @@ namespace Orc.Controls
         {
             if (e.ClickCount == 2)
             {
-                _activeTextBoxPart = (TimeSpanPart) ((TextBlock)sender).Tag;
+                _activeTextBoxPart = (TimeSpanPart)((TextBlock)sender).Tag;
                 NumericTBEditorContainer.Visibility = Visibility.Visible;
                 _isInEditMode = true;
             }
@@ -123,7 +132,11 @@ namespace Orc.Controls
             {
                 NumericTBEditorContainer.Visibility = Visibility.Collapsed;
                 _isInEditMode = false;
-                Value = RoundTimeSpan(_activeTextBoxPart.CreateTimeSpan(NumericTBEditor.Value));
+                if (!IsReadOnly)
+                {
+                    var value = NumericTBEditor.Value == null ? NumericTBEditor.MinValue : NumericTBEditor.Value.Value;
+                    Value = RoundTimeSpan(_activeTextBoxPart.CreateTimeSpan(value));
+                }
                 e.Handled = true;
             }
         }
@@ -142,9 +155,10 @@ namespace Orc.Controls
 
         private void NumericTBEditor_OnIsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            TimeSpan timeSpan = Value == null ? TimeSpan.Zero : Value.Value;
             if (IsKeyboardFocusWithin)
             {
-                NumericTBEditor.Value = Value.GetTimeSpanPartValue(_activeTextBoxPart);
+                NumericTBEditor.Value = timeSpan.GetTimeSpanPartValue(_activeTextBoxPart);
                 return;
             }
 
@@ -167,6 +181,14 @@ namespace Orc.Controls
 
             AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
         }
+
+        private void OnValueChanged(object oldValue, object newValue)
+        {
+            Separator1.Text = newValue == null ? string.Empty : ".";
+            Separator2.Text = newValue == null ? string.Empty : ":";
+            Separator3.Text = newValue == null ? string.Empty : ":";
+        }
+
         #endregion
     }
 }

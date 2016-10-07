@@ -10,12 +10,27 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Adorners\ResizingAdorner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Services\Interfaces\IValidationNamesService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Converters\ValidationResultTypeToColorConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Extensions\IValidationContextTreeNodeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Extensions\ValidationResultTagNodeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Models\Interfaces\IValidationContextTreeNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Models\ValidationContextTreeNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Models\ValidationResultNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Models\ValidationResultTagNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Models\ValidationResultTypeNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Services\ValidationNamesService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\ViewModels\ValidationContextTreeViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Views\ValidationContextTree.xaml.cs">
+      <DependentUpon>ValidationContextTree.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\AnimatedGif\AnimatedGif.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\BindableRichTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\BindableRun.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Controls\ColorLegend.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Models\ColorLegendItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Models\Interfaces\IColorProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Models\Interfaces\IColorLegendItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\MultipleCommandParameterConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Serialization\ColorLegendItemSerializerModifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\ColorBoard.cs" />
@@ -25,6 +40,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\PredefinedColor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\PredefinedColorItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\WrapPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\CulturePicker\ViewModels\CulturePickerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\CulturePicker\Views\CulturePicker.xaml.cs">
+      <DependentUpon>CulturePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DatePicker\ViewModels\DatePickerViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DatePicker\Views\DatePickerControl.xaml.cs">
       <DependentUpon>DatePickerControl.xaml</DependentUpon>
@@ -50,6 +69,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Views\FilterBoxControl.xaml.cs">
       <DependentUpon>FilterBoxControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\HeaderBar\HeaderBar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\Behaviors\LinkLabelBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\Behaviors\LinkLabelClickBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\LinkLabel.cs" />
@@ -78,7 +98,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Adorners\ControlAdorner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Adorners\ControlAdornerDragDrop.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Adorners\Interfaces\IControlAdornerChild.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Adorners\PopupDragDrop.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Controls\PinnableToolTip.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Models\LinkToolTipItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Models\OrdinalToolTipItem.cs" />
@@ -96,21 +115,40 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\Views\TimeSpanControl.xaml.cs">
       <DependentUpon>TimeSpanControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\ViewModels\ValidationContextViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Views\ValidationContextView.xaml.cs">
+      <DependentUpon>ValidationContextView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\WatermarkTextBox\WatermarkTextBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\AmPmLongToAmPmShortConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\Hour24ToHour12Converter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\TreeViewItemToLeftMarginValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\TimeSpanToTotalStringConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\YearLongToYearShortConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\DateTimePart.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Extensions\DateTimePartExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Extensions\TimeSpanPartExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\TimeSpanPart.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ColorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DependencyObjectExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TreeViewItemExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimeFormatHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimePartHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ScreenHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\DateTimeFormatInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Themes\ColorLegend.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Themes\ValidationContextTree.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Views\ValidationContextTree.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Themes\ColorLegend.generic.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\Themes\ColorPicker.generic.xaml">
@@ -118,6 +156,10 @@
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\Themes\ColorPicker.xaml">
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\CulturePicker\Views\CulturePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\DatePicker\Themes\DatePickerControl.generic.xaml">
       <SubType>Designer</SubType>
@@ -159,6 +201,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\HeaderBar\Themes\HeaderBar.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\Themes\LinkLabel.generic.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -186,19 +232,33 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Themes\ValidationContextControl.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Views\ValidationContextView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\WatermarkTextBox\Themes\WatermarkTextBox.generic.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Themes\Styles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\Extensions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Resources\Images\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Commands\" />
     <Folder Include="$(MSBuildThisFileDirectory)Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Themes\PinnableToolTip.xaml" />
+    <Page Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Themes\PinnableToolTip.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 </Project>

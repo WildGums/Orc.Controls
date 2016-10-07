@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DateTimePartExtensions.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2014 Wild Gums. All rights reserved.
+// <copyright file="DateTimePartExtensions.cs" company="WildGums">
+//   Copyright (c) 2008 - 2014 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -25,6 +25,9 @@ namespace Orc.Controls
                     return "NumericTBYear";
 
                 case DateTimePart.Hour:
+                    return "NumericTBHour";
+
+                case DateTimePart.Hour12:
                     return "NumericTBHour";
 
                 case DateTimePart.Minute:
@@ -52,6 +55,9 @@ namespace Orc.Controls
                     return "ToggleButtonY";
 
                 case DateTimePart.Hour:
+                    return "ToggleButtonH";
+
+                case DateTimePart.Hour12:
                     return "ToggleButtonH";
 
                 case DateTimePart.Minute:

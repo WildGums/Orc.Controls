@@ -127,7 +127,7 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                 
-                                    <Border x:Name="DragGrip" Margin="6 0 3 0" Height="8" Padding="2" VerticalAlignment="Center">
+                                    <Border x:Name="DragGrip" Margin="3 2 2 0" Height="12" Padding="2" VerticalAlignment="Center">
                                         <Border.Background>
                                             <DrawingBrush TileMode="Tile" Viewport="0 0 3 3" ViewportUnits="Absolute"
                                                         Viewbox="0 0 3 3" ViewboxUnits="Absolute">

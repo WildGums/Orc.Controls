@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="OpenFilePickerView.xaml.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="OpenFilePickerView.xaml.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -72,6 +72,16 @@ namespace Orc.Controls
         // Using a DependencyProperty as the backing store for Filter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FilterProperty = DependencyProperty.Register("Filter", typeof(string),
             typeof(OpenFilePickerView), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public string BaseDirectory
+        {
+            get { return (string)GetValue(BaseDirectoryProperty); }
+            set { SetValue(BaseDirectoryProperty, value); }
+        }
+
+        public static readonly DependencyProperty BaseDirectoryProperty = DependencyProperty.Register(
+            "BaseDirectory", typeof(string), typeof(OpenFilePickerView), new PropertyMetadata(string.Empty));
         #endregion
     }
 }

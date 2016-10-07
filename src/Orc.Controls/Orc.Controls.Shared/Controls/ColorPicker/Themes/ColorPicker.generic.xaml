@@ -455,8 +455,13 @@
                                     </TabItem>
                                 </TabControl>
 
-                                <Grid Grid.Row="1" Grid.ColumnSpan="2" Height="20" Margin="2 0 2 2" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                                    <ComboBox x:Name="ComboBoxColor" Height="20" VerticalAlignment="Center" HorizontalAlignment="Stretch" Padding="6 3"/>
+                                <Grid Grid.Row="1" Grid.ColumnSpan="2" Height="25" Margin="2 0 2 2" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                    <ComboBox x:Name="ComboBoxColor" 
+                                              Height="25"
+                                              HorizontalContentAlignment="Left"
+                                              VerticalAlignment="Center" 
+                                              HorizontalAlignment="Stretch" 
+                                              Padding="0 3 3 3"/>
                                     <StackPanel Orientation="Horizontal" Margin="6,0,0,0" HorizontalAlignment="Stretch">
                                         <Rectangle x:Name="RectangleColor" Width="22" Height="12" Stroke="Black" StrokeThickness="1">
                                             <Rectangle.Fill>

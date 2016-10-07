@@ -117,13 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BrowseForFile" xml:space="preserve">
+  <data name="Controls_BrowseForFile" xml:space="preserve">
     <value>Browse for file</value>
   </data>
-  <data name="BrowseForFolder" xml:space="preserve">
+  <data name="Controls_BrowseForFolder" xml:space="preserve">
     <value>Browse for folder</value>
   </data>
-  <data name="OpenFolder" xml:space="preserve">
+  <data name="Controls_OpenFolder" xml:space="preserve">
     <value>Open folder</value>
+  </data>
+  <data name="Controls_ValidationContextControl_CollapseAll" xml:space="preserve">
+    <value>Collapse all</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Errors" xml:space="preserve">
+    <value>Errors</value>
+  </data>
+  <data name="Controls_ValidationContextControl_ExpandAll" xml:space="preserve">
+    <value>Expand all</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Misc" xml:space="preserve">
+    <value>Misc</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Warnings" xml:space="preserve">
+    <value>Warnings</value>
   </data>
 </root>

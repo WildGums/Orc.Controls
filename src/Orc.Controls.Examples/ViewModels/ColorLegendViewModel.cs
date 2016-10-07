@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ColorLegendViewModel.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="ColorLegendViewModel.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -21,13 +21,13 @@ namespace Orc.Controls.Examples.ViewModels
         /// </summary>
         public ColorLegendViewModel()
         {
-            CalendarStateLegend = new ObservableCollection<IColorProvider>();
+            CalendarStateLegend = new ObservableCollection<IColorLegendItem>();
         }
 
         /// <summary>
         /// Gets or sets the calendar state legend.
         /// </summary>
-        public ObservableCollection<IColorProvider> CalendarStateLegend { get; private set; }
+        public ObservableCollection<IColorLegendItem> CalendarStateLegend { get; private set; }
 
         protected override async Task InitializeAsync()
         {
@@ -45,21 +45,21 @@ namespace Orc.Controls.Examples.ViewModels
             colors.Add(Colors.Orange);
             colors.Add(Colors.Gray);
 
-            var items = new List<IColorProvider>();
+            var items = new List<IColorLegendItem>();
 
             foreach (var color in colors)
             {
                 items.Add(new ColorLegendItem
                 {
                     Color = color,
-                    Description = color.ToString(),
-                    IsVisible = true,
+                    Description = string.Format("this color is {0}", color),
+                    IsChecked = true,
                     Id = color.ToString(),
                     AdditionalData = "(1)"
                 });
             }
 
-            CalendarStateLegend.ReplaceRange(items);
+            ((ICollection<IColorLegendItem>) CalendarStateLegend).ReplaceRange(items);
         }
     }
 }

@@ -128,6 +128,10 @@
             </views:ColorPicker>
         </TabItem>
 
+        <TabItem Header="CulturePicker">
+            <views:CulturePickerView/>
+        </TabItem>
+        
         <TabItem Header="DatePicker">
             <views:DatePicker />
         </TabItem>
@@ -174,6 +178,10 @@
 
         <TabItem Header="TimeSpan">
             <views:TimeSpan />
+        </TabItem>
+               
+        <TabItem Header="ValidationContextControl">
+            <views:ValidationContextView />
         </TabItem>
 
         <TabItem Header="WatermarkTextBox">

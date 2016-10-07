@@ -63,27 +63,99 @@ namespace Orc.Controls.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Browse for file.
         /// </summary>
-        internal static string BrowseForFile {
+        internal static string Controls_BrowseForFile {
             get {
-                return ResourceManager.GetString("BrowseForFile", resourceCulture);
+                return ResourceManager.GetString("Controls_BrowseForFile", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Browse for folder.
         /// </summary>
-        internal static string BrowseForFolder {
+        internal static string Controls_BrowseForFolder {
             get {
-                return ResourceManager.GetString("BrowseForFolder", resourceCulture);
+                return ResourceManager.GetString("Controls_BrowseForFolder", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Open folder.
         /// </summary>
-        internal static string OpenFolder {
+        internal static string Controls_OpenFolder {
             get {
-                return ResourceManager.GetString("OpenFolder", resourceCulture);
+                return ResourceManager.GetString("Controls_OpenFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Collapse all.
+        /// </summary>
+        internal static string Controls_ValidationContextControl_CollapseAll {
+            get {
+                return ResourceManager.GetString("Controls_ValidationContextControl_CollapseAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        internal static string Controls_ValidationContextControl_Copy {
+            get {
+                return ResourceManager.GetString("Controls_ValidationContextControl_Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Errors.
+        /// </summary>
+        internal static string Controls_ValidationContextControl_Errors {
+            get {
+                return ResourceManager.GetString("Controls_ValidationContextControl_Errors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expand all.
+        /// </summary>
+        internal static string Controls_ValidationContextControl_ExpandAll {
+            get {
+                return ResourceManager.GetString("Controls_ValidationContextControl_ExpandAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        internal static string Controls_ValidationContextControl_Filter {
+            get {
+                return ResourceManager.GetString("Controls_ValidationContextControl_Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Misc.
+        /// </summary>
+        internal static string Controls_ValidationContextControl_Misc {
+            get {
+                return ResourceManager.GetString("Controls_ValidationContextControl_Misc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open.
+        /// </summary>
+        internal static string Controls_ValidationContextControl_Open {
+            get {
+                return ResourceManager.GetString("Controls_ValidationContextControl_Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warnings.
+        /// </summary>
+        internal static string Controls_ValidationContextControl_Warnings {
+            get {
+                return ResourceManager.GetString("Controls_ValidationContextControl_Warnings", resourceCulture);
             }
         }
     }

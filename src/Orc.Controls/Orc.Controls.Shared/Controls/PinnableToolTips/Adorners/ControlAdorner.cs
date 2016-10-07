@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ControlAdorner.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="ControlAdorner.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,6 +12,7 @@ namespace Orc.Controls
     using System.Windows.Documents;
     using System.Windows.Media;
     using Catel;
+    using Catel.Reflection;
 
     /// <summary>
     /// An adorner class that contains a control as only child.
@@ -45,11 +46,6 @@ namespace Orc.Controls
         /// The child.
         /// </summary>
         private Control _child;
-
-        /// <summary>
-        /// The offset.
-        /// </summary>
-        private Point _offset;
         #endregion
 
         #region Public Properties
@@ -76,29 +72,9 @@ namespace Orc.Controls
             }
         }
 
-        /// <summary>
-        /// Gets the child position.
-        /// </summary>
         public Point ChildPosition { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the horizontal offset.
-        /// </summary>
-        public int HorizontalOffset { get; set; }
-
-        /// <summary>
-        /// Gets or sets the offset.
-        /// </summary>
-        public Point Offset
-        {
-            get { return _offset; }
-
-            set
-            {
-                _offset = value;
-                InvalidateArrange();
-            }
-        }
+        public Point Offset { get; private set; }
         #endregion
 
         #region Methods
@@ -107,22 +83,36 @@ namespace Orc.Controls
             var c = _child as IControlAdornerChild;
             Rect rect;
 
-            if (Offset.X != 0 || Offset.Y != 0)
+            var childHorizontalOffset = 0d;
+            PropertyHelper.TryGetPropertyValue(c, "HorizontalOffset", out childHorizontalOffset);
+
+            var childVerticalOffset = 0d;
+            PropertyHelper.TryGetPropertyValue(c, "VerticalOffset", out childVerticalOffset);
+             
+            Offset = new Point(childHorizontalOffset, childVerticalOffset);
+
+            //if (Offset.X != 0 || Offset.Y != 0)
+            //{
+            //    rect = new Rect(
+            //        ChildPosition.X + Offset.X,
+            //        ChildPosition.Y + Offset.Y,
+            //        finalSize.Width,
+            //        finalSize.Height);
+            //}
+            //else if (c != null)
+            if (c != null)
             {
-                rect = new Rect(
-                    ChildPosition.X + Offset.X,
-                    ChildPosition.Y + Offset.Y,
-                    finalSize.Width,
-                    finalSize.Height);
-            }
-            else if (c != null)
-            {
-                ChildPosition = c.GetPosition();
-                rect = new Rect(ChildPosition.X, ChildPosition.Y, finalSize.Width, finalSize.Height);
+                var childPosition = c.GetPosition();
+                ChildPosition = childPosition;
+
+                var finalPosition = new Point(childPosition.X + childHorizontalOffset,
+                    childPosition.Y + childVerticalOffset);
+
+                rect = new Rect(finalPosition.X, finalPosition.Y, finalSize.Width, finalSize.Height);
             }
             else
             {
-                rect = new Rect(_offset.X, _offset.Y, finalSize.Width, finalSize.Height);
+                rect = new Rect(Offset.X, Offset.Y, finalSize.Width, finalSize.Height);
             }
 
             _child.Arrange(rect);
@@ -140,6 +130,7 @@ namespace Orc.Controls
         protected override Size MeasureOverride(Size constraint)
         {
             _child.Measure(constraint);
+
             return _child.DesiredSize;
         }
         #endregion

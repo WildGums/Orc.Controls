@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ColorBoard.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="ColorBoard.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -15,6 +15,7 @@ namespace Orc.Controls
     using System.Windows.Input;
     using System.Windows.Media;
     using System.Windows.Shapes;
+    using Catel.Collections;
 
     /// <summary>
     /// The color board.
@@ -362,21 +363,23 @@ namespace Orc.Controls
         /// </summary>
         public void OnDoneClicked()
         {
-            var ci = new PredefinedColorItem(Color, Color.ToString());
+            var selectedColor = Color;
+            var recentColorItems = RecentColorItems;
+            var recentColorsGridItems = _recentColorsGrid.Items;
 
-            if (RecentColorItems.Where(i => i.Color == ci.Color).Count() > 0)
+            var mostRecentColorItem = recentColorItems.FirstOrDefault(i => i.Color == selectedColor);
+            if (mostRecentColorItem != null)
             {
-                _recentColorsGrid.Items.RemoveAt(_recentColorsGrid.Items.IndexOf(RecentColorItems.First(i => i.Color == ci.Color)));
-                RecentColorItems.Remove(RecentColorItems.First(i => i.Color == ci.Color));
-
-                _recentColorsGrid.Items.Insert(0, ci);
-                RecentColorItems.Insert(0, ci);
+                recentColorsGridItems.Remove(mostRecentColorItem);
+                recentColorItems.Remove(mostRecentColorItem);
             }
             else
             {
-                RecentColorItems.Insert(0, ci);
-                _recentColorsGrid.Items.Insert(0, ci);
+                mostRecentColorItem = new PredefinedColorItem(selectedColor, selectedColor.ToString());
             }
+
+            recentColorItems.Insert(0, mostRecentColorItem);
+            recentColorsGridItems.Insert(0, mostRecentColorItem);
 
             var doneClicked = DoneClicked;
             if (doneClicked != null)

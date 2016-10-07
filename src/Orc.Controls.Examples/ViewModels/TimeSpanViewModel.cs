@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TimeSpanViewModel.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="TimeSpanViewModel.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -15,8 +15,16 @@ namespace Orc.Controls.Examples.ViewModels
         public TimeSpanViewModel()
         {
             TimeSpanValue = new TimeSpan(10, 11, 12, 13);
+            SetNull = new Command(OnSetNullExecute);
         }
 
-        public TimeSpan TimeSpanValue { get; set; }
+        public Command SetNull { get; private set; }
+
+        public TimeSpan? TimeSpanValue { get; set; }
+
+        private void OnSetNullExecute()
+        {
+            TimeSpanValue = null;
+        }
     }
 }

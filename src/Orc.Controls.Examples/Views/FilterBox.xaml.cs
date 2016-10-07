@@ -1,15 +1,14 @@
-﻿namespace Orc.Controls.Examples.Views
-{
-    using Catel.Windows.Controls;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FilterBox.xaml.cs" company="WildGums">
+//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
-    /// <summary>
-    /// Interaction logic for FilterBox.xaml.
-    /// </summary>
-    public partial class FilterBox : UserControl
+
+namespace Orc.Controls.Examples.Views
+{
+    public partial class FilterBox
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FilterBox"/> class.
-        /// </summary>
         public FilterBox()
         {
             InitializeComponent();

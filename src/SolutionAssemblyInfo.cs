@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SolutionAssemblyInfo.cs" company="Simulation Modelling Services">
-//   Copyright (c) 2008 - 2015 Simulation Modelling Services. All rights reserved.
+// <copyright file="SolutionAssemblyInfo.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -16,11 +16,11 @@ using System.Resources;
 ////[assembly: AssemblyProduct("DEFINED IN ACTUAL ASSEMBLYINFO")]
 ////[assembly: AssemblyDescription("DEFINED IN ACTUAL ASSEMBLYINFO")]
 
-[assembly: AssemblyCompany("Wild Gums")]
-[assembly: AssemblyCopyright("Copyright © Wild Gums 2010 - 2015")]
+[assembly: AssemblyCompany("WildGums")]
+[assembly: AssemblyCopyright("Copyright © WildGums 2010 - 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: NeutralResourcesLanguage("en-AU")]
+[assembly: NeutralResourcesLanguage("en-US")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.NET40", "Orc.Controls\Orc.Controls.NET40\Orc.Controls.NET40.csproj", "{E6CE2111-3D7C-4759-A886-E44EC77CE3AA}"
 EndProject
@@ -31,13 +31,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.NET45", "Orc.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.Tests.NET45", "Orc.Controls.Tests\Orc.Controls.Tests.NET45\Orc.Controls.Tests.NET45.csproj", "{0AF8324A-CF4A-4629-8D06-95721ECB67FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.NET46", "Orc.Controls\Orc.Controls.NET46\Orc.Controls.NET46.csproj", "{069D8A6F-4A08-452E-A3C0-D6F826438D75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.Tests.NET46", "Orc.Controls.Tests\Orc.Controls.Tests.NET46\Orc.Controls.Tests.NET46.csproj", "{35A96BB2-4995-447D-9103-1AB04D236DC1}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Orc.Controls\Orc.Controls.Shared\Orc.Controls.Shared.projitems*{069d8a6f-4a08-452e-a3c0-d6f826438d75}*SharedItemsImports = 4
 		Orc.Controls\Orc.Controls.Shared\Orc.Controls.Shared.projitems*{094077c9-1f14-41ce-99ff-1ae61d13a1cc}*SharedItemsImports = 4
 		Orc.Controls.Tests\Orc.Controls.Tests.Shared\Orc.Controls.Tests.Shared.projitems*{9265be2c-c1e1-4d54-90da-71f46198197e}*SharedItemsImports = 13
 		Orc.Controls\Orc.Controls.Shared\Orc.Controls.Shared.projitems*{e6ce2111-3d7c-4759-a886-e44ec77ce3aa}*SharedItemsImports = 4
 		Orc.Controls.Tests\Orc.Controls.Tests.Shared\Orc.Controls.Tests.Shared.projitems*{0af8324a-cf4a-4629-8d06-95721ecb67fe}*SharedItemsImports = 4
 		Orc.Controls.Tests\Orc.Controls.Tests.Shared\Orc.Controls.Tests.Shared.projitems*{9d4dd1a4-d63d-4766-ba11-29fc99c1cbef}*SharedItemsImports = 4
+		Orc.Controls.Tests\Orc.Controls.Tests.Shared\Orc.Controls.Tests.Shared.projitems*{35a96bb2-4995-447d-9103-1ab04d236dc1}*SharedItemsImports = 4
 		Orc.Controls\Orc.Controls.Shared\Orc.Controls.Shared.projitems*{3ce87518-5ffa-4048-a8f8-1c6b6a11c809}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +71,14 @@ Global
 		{0AF8324A-CF4A-4629-8D06-95721ECB67FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AF8324A-CF4A-4629-8D06-95721ECB67FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AF8324A-CF4A-4629-8D06-95721ECB67FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{069D8A6F-4A08-452E-A3C0-D6F826438D75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{069D8A6F-4A08-452E-A3C0-D6F826438D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{069D8A6F-4A08-452E-A3C0-D6F826438D75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{069D8A6F-4A08-452E-A3C0-D6F826438D75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35A96BB2-4995-447D-9103-1AB04D236DC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35A96BB2-4995-447D-9103-1AB04D236DC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35A96BB2-4995-447D-9103-1AB04D236DC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35A96BB2-4995-447D-9103-1AB04D236DC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,5 +94,7 @@ Global
 		{9265BE2C-C1E1-4D54-90DA-71F46198197E} = {59924607-205A-4563-BD72-711312D8260A}
 		{094077C9-1F14-41CE-99FF-1AE61D13A1CC} = {FB81E6B4-F47C-477E-8382-D83F6F870E0A}
 		{0AF8324A-CF4A-4629-8D06-95721ECB67FE} = {59924607-205A-4563-BD72-711312D8260A}
+		{069D8A6F-4A08-452E-A3C0-D6F826438D75} = {FB81E6B4-F47C-477E-8382-D83F6F870E0A}
+		{35A96BB2-4995-447D-9103-1AB04D236DC1} = {59924607-205A-4563-BD72-711312D8260A}
 	EndGlobalSection
 EndGlobal

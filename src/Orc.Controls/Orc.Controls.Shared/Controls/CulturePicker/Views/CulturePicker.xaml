@@ -1,0 +1,19 @@
+﻿<catel:UserControl x:Class="Orc.Controls.CulturePicker"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:catel="http://catel.codeplex.com"
+                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
+
+    <Grid>
+        <ComboBox ItemsSource="{Binding AvailableCultures}" SelectedIndex="{Binding SelectedIndex}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding EnglishName}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </Grid>
+    
+</catel:UserControl>

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SuggestionListService.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="SuggestionListService.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -44,6 +44,14 @@ namespace Orc.Controls.Services
                         hours.Add(i < 10 ? CreateItem(i.ToString(), ("  " + i)) : CreateItem(i.ToString(), i.ToString()));
                     }
                     return hours;
+
+                case DateTimePart.Hour12:
+                    var hours12 = new List<KeyValuePair<string, string>>();
+                    for (var i = 1; i <= 12; i++)
+                    {
+                        hours12.Add(i < 10 ? CreateItem(i.ToString(), ("  " + i)) : CreateItem(i.ToString(), i.ToString()));
+                    }
+                    return hours12;
 
                 case DateTimePart.Minute:
                     var minutes = new List<KeyValuePair<string, string>>();
