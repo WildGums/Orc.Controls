@@ -8,9 +8,7 @@
 namespace Orc.Controls.Examples
 {
     using System.Globalization;
-    using System.Threading;
     using System.Windows;
-    using Catel;
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Services;
