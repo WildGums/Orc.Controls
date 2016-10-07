@@ -1,15 +1,14 @@
-﻿namespace Orc.Controls.Examples.Views
-{
-    using Catel.Windows.Controls;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DatePicker.xaml.cs" company="WildGums">
+//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
-    /// <summary>
-    /// Interaction logic for DateTimePicker.xaml.
-    /// </summary>
-    public partial class DatePicker : UserControl
+
+namespace Orc.Controls.Examples.Views
+{
+    public partial class DatePicker
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DatePicker"/> class.
-        /// </summary>
         public DatePicker()
         {
             InitializeComponent();

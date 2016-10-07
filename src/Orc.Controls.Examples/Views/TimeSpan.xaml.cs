@@ -1,15 +1,14 @@
-﻿namespace Orc.Controls.Examples.Views
-{
-    using Catel.Windows.Controls;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TimeSpan.xaml.cs" company="WildGums">
+//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
-    /// <summary>
-    /// Interaction logic for TimeSpan.xaml.
-    /// </summary>
-    public partial class TimeSpan : UserControl
+
+namespace Orc.Controls.Examples.Views
+{
+    public partial class TimeSpan
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TimeSpan"/> class.
-        /// </summary>
         public TimeSpan()
         {
             InitializeComponent();

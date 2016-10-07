@@ -9,9 +9,6 @@ namespace Orc.Controls.Examples.Views
 {
     public partial class DateTimePicker
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DateTimePicker"/> class.
-        /// </summary>
         public DateTimePicker()
         {
             InitializeComponent();

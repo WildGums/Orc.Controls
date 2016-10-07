@@ -10,12 +10,12 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="FilterBox Control" VerticalAlignment="Center" Width="150"/>
-            <orc:FilterBoxControl Width="200" Margin="5" HorizontalAlignment="Left" PropertyName="Value"
+            <orc:FilterBoxControl Width="200" HorizontalAlignment="Left" PropertyName="Value"
                                   FilterSource="{Binding FilterSource}" Text="{Binding FilterText}" Watermark="Filter"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Filtered Text" VerticalAlignment="Center" Width="150" />
-            <TextBox Text="{Binding FilterText}" VerticalAlignment="Center" Width="200" Margin="5" HorizontalAlignment="Left"/>
+            <TextBox Text="{Binding FilterText}" VerticalAlignment="Center" Width="200" HorizontalAlignment="Left"/>
         </StackPanel>
     </StackPanel>
 </catel:UserControl>

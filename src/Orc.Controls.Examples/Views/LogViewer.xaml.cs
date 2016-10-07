@@ -1,17 +1,17 @@
-﻿namespace Orc.Controls.Examples.Views
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LogViewer.xaml.cs" company="WildGums">
+//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+namespace Orc.Controls.Examples.Views
 {
     using System;
     using System.Windows;
-    using Catel.Windows.Controls;
 
-    /// <summary>
-    /// Interaction logic for LogViewer.xaml.
-    /// </summary>
-    public partial class LogViewer : UserControl
+    public partial class LogViewer
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LogViewer"/> class.
-        /// </summary>
         public LogViewer()
         {
             InitializeComponent();

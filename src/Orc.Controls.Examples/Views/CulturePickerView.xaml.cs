@@ -7,9 +7,6 @@
 
 namespace Orc.Controls.Examples.Views
 {
-    /// <summary>
-    /// Interaction logic for CulturePickerView.xaml
-    /// </summary>
     public partial class CulturePickerView
     {
         public CulturePickerView()
