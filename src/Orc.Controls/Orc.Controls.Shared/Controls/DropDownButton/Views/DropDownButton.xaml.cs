@@ -110,7 +110,7 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
-            AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
+            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
         }
         #endregion
     }

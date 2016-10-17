@@ -306,6 +306,13 @@
   <ItemGroup>
     <Resource Include="Resources\Images\Loading.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\lib\AsyncUsageAnalyzers.1.0.0-alpha003\analyzers\dotnet\AsyncUsageAnalyzers.dll" />
+    <Analyzer Include="..\..\lib\PublicApiAnalyzer.1.0.0-alpha001\analyzers\dotnet\cs\PublicApiAnalyzer.CodeFixes.dll" />
+    <Analyzer Include="..\..\lib\PublicApiAnalyzer.1.0.0-alpha001\analyzers\dotnet\cs\PublicApiAnalyzer.dll" />
+    <Analyzer Include="..\..\lib\WpfAnalyzers.0.2.3.2-dev\analyzers\dotnet\cs\WpfAnalyzers.Analyzers.dll" />
+    <Analyzer Include="..\..\lib\WpfAnalyzers.0.2.3.2-dev\analyzers\dotnet\cs\WpfAnalyzers.CodeFixes.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\lib\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\lib\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

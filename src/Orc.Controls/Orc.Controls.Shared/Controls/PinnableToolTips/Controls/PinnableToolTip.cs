@@ -116,8 +116,8 @@ namespace Orc.Controls
                     StopTimer();
 
                     // Clear horizontal / vertical offset because it's used by the resizing adorner
-                    HorizontalOffset = 0d;
-                    VerticalOffset = 0d;
+                    SetCurrentValue(HorizontalOffsetProperty, 0d);
+                    SetCurrentValue(VerticalOffsetProperty, 0d);
                 }
 
                 OnIsOpenChanged();
@@ -410,7 +410,7 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
-            AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
+            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
 
             _closeButton = GetTemplateChild("CloseButton") as Button;
             if (_closeButton != null)
@@ -664,7 +664,7 @@ namespace Orc.Controls
         {
             if (_gripDrawing != null)
             {
-                _gripDrawing.Brush = new SolidColorBrush(GripColor);
+                _gripDrawing.SetCurrentValue(GeometryDrawing.BrushProperty, new SolidColorBrush(GripColor));
             }
         }
 
@@ -737,7 +737,7 @@ namespace Orc.Controls
         {
             if (!IsPinned)
             {
-                IsPinned = true;
+                SetCurrentValue(IsPinnedProperty, true);
             }
 
             BringToFront();
@@ -868,7 +868,7 @@ namespace Orc.Controls
                 var owner = Owner as FrameworkElement;
                 if (owner != null)
                 {
-                    Content = owner.DataContext;
+                    SetCurrentValue(ContentProperty, owner.DataContext);
                 }
             }
             else

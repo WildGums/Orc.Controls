@@ -175,35 +175,35 @@ namespace Orc.Controls
         public bool IsYearShortFormat
         {
             get { return (bool)GetValue(IsYearShortFormatProperty); }
-            private set { SetValue(IsYearShortFormatKey, value); }
+            private set { SetValue(IsYearShortFormatPropertyKey, value); }
         }
 
-        private static readonly DependencyPropertyKey IsYearShortFormatKey = DependencyProperty.RegisterReadOnly("IsYearShortFormat", typeof(bool),
+        private static readonly DependencyPropertyKey IsYearShortFormatPropertyKey = DependencyProperty.RegisterReadOnly("IsYearShortFormat", typeof(bool),
             typeof(DateTimePickerControl), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.Count(x => x == 'y') < 3 ? true : false));
 
-        public static readonly DependencyProperty IsYearShortFormatProperty = IsYearShortFormatKey.DependencyProperty;
+        public static readonly DependencyProperty IsYearShortFormatProperty = IsYearShortFormatPropertyKey.DependencyProperty;
 
         public bool IsHour12Format
         {
             get { return (bool)GetValue(IsHour12FormatProperty); }
-            private set { SetValue(IsHour12FormatKey, value); }
+            private set { SetValue(IsHour12FormatPropertyKey, value); }
         }
 
-        private static readonly DependencyPropertyKey IsHour12FormatKey = DependencyProperty.RegisterReadOnly("IsHour12Format", typeof(bool),
+        private static readonly DependencyPropertyKey IsHour12FormatPropertyKey = DependencyProperty.RegisterReadOnly("IsHour12Format", typeof(bool),
             typeof(DateTimePickerControl), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern.Contains("h") ? true : false));
 
-        public static readonly DependencyProperty IsHour12FormatProperty = IsHour12FormatKey.DependencyProperty;
+        public static readonly DependencyProperty IsHour12FormatProperty = IsHour12FormatPropertyKey.DependencyProperty;
 
         public bool IsAmPmShortFormat
         {
             get { return (bool)GetValue(IsAmPmShortFormatProperty); }
-            private set { SetValue(IsAmPmShortFormatKey, value); }
+            private set { SetValue(IsAmPmShortFormatPropertyKey, value); }
         }
 
-        private static readonly DependencyPropertyKey IsAmPmShortFormatKey = DependencyProperty.RegisterReadOnly("IsAmPmShortFormat", typeof(bool),
+        private static readonly DependencyPropertyKey IsAmPmShortFormatPropertyKey = DependencyProperty.RegisterReadOnly("IsAmPmShortFormat", typeof(bool),
             typeof(DateTimePickerControl), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern.Count(x => x == 't') < 2 ? true : false));
 
-        public static readonly DependencyProperty IsAmPmShortFormatProperty = IsAmPmShortFormatKey.DependencyProperty;
+        public static readonly DependencyProperty IsAmPmShortFormatProperty = IsAmPmShortFormatPropertyKey.DependencyProperty;
         #endregion
 
         #region Methods
@@ -241,7 +241,7 @@ namespace Orc.Controls
         {
             var dateTime = Value == null ? _todayValue : Value.Value;
             var daysInMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
-            NumericTBDay.MaxValue = daysInMonth;
+            NumericTBDay.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)daysInMonth);
         }
 
         private Calendar CreateCalendarPopupSource()
@@ -267,7 +267,8 @@ namespace Orc.Controls
             {
                 UpdateDate(calendar.SelectedDate.Value);
             }
-            ((Popup)calendar.Parent).IsOpen = false;
+
+            ((Popup)calendar.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
         }
 
         private void CalendarOnPreviewKeyDown(object sender, KeyEventArgs e)
@@ -275,17 +276,19 @@ namespace Orc.Controls
             var calendar = ((Calendar)sender);
             if (e.Key == Key.Escape)
             {
-                ((Popup)calendar.Parent).IsOpen = false;
+                ((Popup)calendar.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
                 NumericTBDay.Focus();
                 e.Handled = true;
             }
+
             if (e.Key == Key.Enter)
             {
                 if (calendar.SelectedDate.HasValue)
                 {
                     UpdateDate(calendar.SelectedDate.Value);
                 }
-                ((Popup)calendar.Parent).IsOpen = false;
+
+                ((Popup)calendar.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
 
                 e.Handled = true;
             }
@@ -294,19 +297,18 @@ namespace Orc.Controls
         private void UpdateDate(DateTime date)
         {
             var dateTime = Value == null ? _todayValue : Value.Value;
-            Value = new DateTime(date.Year, date.Month, date.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
+            SetCurrentValue(ValueProperty, new DateTime(date.Year, date.Month, date.Day, dateTime.Hour, dateTime.Minute, dateTime.Second));
         }
 
         private void UpdateDateTime(DateTime? dateTime)
         {
-            if (dateTime == null)
+            var value = dateTime;
+            if (dateTime != null)
             {
-                Value = null;
+                value = new DateTime(dateTime.Value.Year, dateTime.Value.Month, dateTime.Value.Day, dateTime.Value.Hour, dateTime.Value.Minute, dateTime.Value.Second);
             }
-            else
-            {
-                Value = new DateTime(dateTime.Value.Year, dateTime.Value.Month, dateTime.Value.Day, dateTime.Value.Hour, dateTime.Value.Minute, dateTime.Value.Second);
-            }
+
+            SetCurrentValue(ValueProperty, value);
         }
 
         private Popup CreateCalendarPopup()
@@ -319,62 +321,64 @@ namespace Orc.Controls
                 IsOpen = true,
                 StaysOpen = false,
             };
+
             return popup;
         }
 
         private void OnTodayButtonClick(object sender, RoutedEventArgs e)
         {
-            DatePickerIcon.IsChecked = false;
+            DatePickerIcon.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
             UpdateDateTime(DateTime.Today.Date);
         }
 
         private void OnNowButtonClick(object sender, RoutedEventArgs e)
         {
-            DatePickerIcon.IsChecked = false;
+            DatePickerIcon.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
             UpdateDateTime(DateTime.Now);
         }
 
         private void OnSelectDateButtonClick(object sender, RoutedEventArgs e)
         {
-            DatePickerIcon.IsChecked = false;
+            DatePickerIcon.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
 
             var calendarPopup = CreateCalendarPopup();
             var calendarPopupSource = CreateCalendarPopupSource();
-            calendarPopup.Child = calendarPopupSource;
+            calendarPopup.SetCurrentValue(Popup.ChildProperty, calendarPopupSource);
 
             calendarPopupSource.Focus();
         }
 
         private void OnClearButtonClick(object sender, RoutedEventArgs e)
         {
-            DatePickerIcon.IsChecked = false;
+            DatePickerIcon.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
             UpdateDateTime(null);
         }
 
         private void OnCopyButtonClick(object sender, RoutedEventArgs e)
         {
-            DatePickerIcon.IsChecked = false;
+            DatePickerIcon.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
 
-            if (Value != null)
+            var value = Value;
+            if (value != null)
             {
-                Clipboard.SetText(Value.Value.ToString(Format), TextDataFormat.Text);
+                Clipboard.SetText(value.Value.ToString(Format), TextDataFormat.Text);
             }
         }
 
         private void OnPasteButtonClick(object sender, RoutedEventArgs e)
         {
-            DatePickerIcon.IsChecked = false;
+            DatePickerIcon.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
 
             if (Clipboard.ContainsData(DataFormats.Text))
             {
-                string text = Clipboard.GetText(TextDataFormat.Text);
-                DateTime value = DateTime.MinValue;
+                var text = Clipboard.GetText(TextDataFormat.Text);
+                var value = DateTime.MinValue;
                 if (!string.IsNullOrEmpty(text)
                     && (DateTime.TryParseExact(text, Format, null, DateTimeStyles.None, out value)
                         || DateTime.TryParseExact(text, CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern, null, DateTimeStyles.None, out value)
                         || DateTime.TryParseExact(text, CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.InvariantCulture.DateTimeFormat.LongTimePattern, null, DateTimeStyles.None, out value)))
                 {
-                    Value = new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second);
+                    SetCurrentValue(ValueProperty, new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second));
                 }
             }
         }
@@ -393,7 +397,7 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
-            AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
+            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
         }
 
         protected override void OnLoaded(EventArgs e)
@@ -435,7 +439,7 @@ namespace Orc.Controls
 
             if (newValue == null && nv != null)
             {
-                Dispatcher.BeginInvoke(() => Value = nv);
+                Dispatcher.BeginInvoke(() => SetCurrentValue(ValueProperty, nv));
             }
         }
 
@@ -449,13 +453,13 @@ namespace Orc.Controls
             var formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format, false);
 
             IsYearShortFormat = formatInfo.IsYearShortFormat;
-            NumericTBYear.MinValue = formatInfo.IsYearShortFormat == true ? 0 : 1;
-            NumericTBYear.MaxValue = formatInfo.IsYearShortFormat == true ? 99 : 3000;
+            NumericTBYear.SetCurrentValue(NumericTextBox.MinValueProperty, (double)(formatInfo.IsYearShortFormat ? 0 : 1));
+            NumericTBYear.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)(formatInfo.IsYearShortFormat ? 99 : 3000));
 
             IsHour12Format = formatInfo.IsHour12Format.Value;
-            NumericTBHour.MinValue = formatInfo.IsHour12Format.Value == true ? 1 : 0;
-            NumericTBHour.MaxValue = formatInfo.IsHour12Format.Value == true ? 12 : 23;
-            ToggleButtonH.Tag = formatInfo.IsHour12Format.Value == true ? DateTimePart.Hour12 : DateTimePart.Hour;
+            NumericTBHour.SetCurrentValue(NumericTextBox.MinValueProperty, (double)(formatInfo.IsHour12Format.Value ? 1 : 0));
+            NumericTBHour.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)(formatInfo.IsHour12Format.Value ? 12 : 23));
+            ToggleButtonH.SetCurrentValue(TagProperty, formatInfo.IsHour12Format.Value ? DateTimePart.Hour12 : DateTimePart.Hour);
 
             IsAmPmShortFormat = formatInfo.IsAmPmShortFormat.Value;
 
@@ -463,12 +467,12 @@ namespace Orc.Controls
             EnableOrDisableHourConverterDependingOnFormat();
             EnableOrDisableAmPmConverterDependingOnFormat();
 
-            NumericTBDay.Format = GetFormat(formatInfo.DayFormat.Length);
-            NumericTBMonth.Format = GetFormat(formatInfo.MonthFormat.Length);
-            NumericTBYear.Format = GetFormat(formatInfo.YearFormat.Length);
-            NumericTBHour.Format = GetFormat(formatInfo.HourFormat.Length);
-            NumericTBMinute.Format = GetFormat(formatInfo.MinuteFormat.Length);
-            NumericTBSecond.Format = GetFormat(formatInfo.SecondFormat.Length);
+            NumericTBDay.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(formatInfo.DayFormat.Length));
+            NumericTBMonth.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(formatInfo.MonthFormat.Length));
+            NumericTBYear.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(formatInfo.YearFormat.Length));
+            NumericTBHour.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(formatInfo.HourFormat.Length));
+            NumericTBMinute.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(formatInfo.MinuteFormat.Length));
+            NumericTBSecond.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(formatInfo.SecondFormat.Length));
 
             UnsubscribeNumericTextBoxes();
 
@@ -502,13 +506,13 @@ namespace Orc.Controls
 
             SubscribeNumericTextBoxes();
 
-            Separator1.Text = Value == null ? string.Empty : formatInfo.Separator1;
-            Separator2.Text = Value == null ? string.Empty : formatInfo.Separator2;
-            Separator3.Text = Value == null ? string.Empty : formatInfo.Separator3;
-            Separator4.Text = Value == null ? string.Empty : formatInfo.Separator4;
-            Separator5.Text = Value == null || HideSeconds ? string.Empty : formatInfo.Separator5;
-            Separator6.Text = Value == null ? string.Empty : formatInfo.Separator6;
-            Separator7.Text = Value == null ? string.Empty : formatInfo.Separator7;
+            Separator1.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : formatInfo.Separator1);
+            Separator2.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : formatInfo.Separator2);
+            Separator3.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : formatInfo.Separator3);
+            Separator4.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : formatInfo.Separator4);
+            Separator5.SetCurrentValue(TextBlock.TextProperty, Value == null || HideSeconds ? string.Empty : formatInfo.Separator5);
+            Separator6.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : formatInfo.Separator6);
+            Separator7.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : formatInfo.Separator7);
         }
 
         private int GetPosition(int index)

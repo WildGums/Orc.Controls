@@ -13,7 +13,7 @@ namespace Orc.Controls
     {
         public static void SetData(this RichTextBoxParagraph paragraph, bool showTimestamp = true, bool showThreadId = true)
         {
-            var timestamp = string.Format("{0} ", paragraph.LogEntry.Time);
+            var timestamp = $"{paragraph.LogEntry.Time} ";
             var toolTip = new StringBuilder();
 
             if (!showTimestamp)
@@ -23,16 +23,16 @@ namespace Orc.Controls
             }
 
             toolTip.Append("Log event: " + paragraph.LogEntry.Log.Tag);
-            paragraph.ToolTip = toolTip;
+            paragraph.SetCurrentValue(System.Windows.FrameworkContentElement.ToolTipProperty, toolTip);
 
             var threadId = string.Empty;
             var data = paragraph.LogEntry.Data;
             if (showThreadId && data.ContainsKey("ThreadId"))
             {
-                threadId = string.Format("[{0}] ", data["ThreadId"]);
+                threadId = $"[{data["ThreadId"]}] ";
             }
 
-            var text = string.Format("{0}{1}{2}", timestamp, threadId, paragraph.LogEntry.Message);
+            var text = $"{timestamp}{threadId}{paragraph.LogEntry.Message}";
             paragraph.Inlines.Add(text);
         }
     }

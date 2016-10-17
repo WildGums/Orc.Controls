@@ -17,6 +17,7 @@ namespace Orc.Controls
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using System.Windows.Media;
+    using Catel;
     using Catel.Data;
     using Catel.MVVM;
     using Catel.Windows;
@@ -386,10 +387,12 @@ namespace Orc.Controls
             var colorLegendItem = (IColorLegendItem) parameterValues[1];
 
             _currentColorLegendItem = colorLegendItem;
-            _popup.PlacementTarget = (Button) currentButton;
+            _popup.SetCurrentValue(Popup.PlacementTargetProperty, (Button) currentButton);
 
-            _previousColor = EditingColor = colorLegendItem.Color;
-            IsColorSelecting = true;
+            var color = colorLegendItem.Color;
+            SetCurrentValue(EditingColorProperty, color);
+            _previousColor = color;
+            SetCurrentValue(IsColorSelectingProperty, true);
         }
         #endregion
 
@@ -403,8 +406,8 @@ namespace Orc.Controls
                 _changeNotificationWrapper = null;
             }
 
-            FilteredItemsSource = GetFilteredItems();
-            FilteredItemsIds = FilteredItemsSource == null ? null : FilteredItemsSource.Select(cp => cp.Id);
+            SetCurrentValue(FilteredItemsSourceProperty, GetFilteredItems());
+            SetCurrentValue(FilteredItemsIdsProperty, FilteredItemsSource == null ? null : FilteredItemsSource.Select(cp => cp.Id));
 
             if (newValue != null)
             {
@@ -446,7 +449,7 @@ namespace Orc.Controls
                 }
             }
 
-            IsAllVisible = (allChecked ? true : allUnchecked ? false : (bool?) null);
+            SetCurrentValue(IsAllVisibleProperty, (allChecked ? true : allUnchecked ? false : (bool?) null));
 
             _isUpdatingAllVisible = false;
         }
@@ -461,8 +464,7 @@ namespace Orc.Controls
             var isAllVisible = IsAllVisible;
             if (!isAllVisible.HasValue)
             {
-                // Don't allow a user to manually pick null, false is next in "line" (it's true => null => false)
-                IsAllVisible = false;
+                SetCurrentValue(IsAllVisibleProperty, false);
                 return;
             }
 
@@ -502,8 +504,8 @@ namespace Orc.Controls
 
         private void OnFilterChanged()
         {
-            FilteredItemsSource = GetFilteredItems();
-            FilteredItemsIds = FilteredItemsSource == null ? null : FilteredItemsSource.Select(cp => cp.Id);
+            SetCurrentValue(FilteredItemsSourceProperty, GetFilteredItems());
+            SetCurrentValue(FilteredItemsIdsProperty, FilteredItemsSource == null ? null : FilteredItemsSource.Select(cp => cp.Id));
         }
 
         private void OnIsColorSelectingPropertyChanged()
@@ -513,8 +515,7 @@ namespace Orc.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-
-            AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
+            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
 
             _listBox = (ListBox) GetTemplateChild("PART_List");
             _popup = (Popup) GetTemplateChild("PART_Popup_Color_Board");
@@ -525,15 +526,11 @@ namespace Orc.Controls
             {
                 _listBox.SelectionChanged += (sender, args) =>
                 {
-                    SelectedColorItems = GetSelectedList();
-                    var handler = SelectionChanged;
-                    if (handler != null)
-                    {
-                        handler(sender, args);
-                    }
+                    SetCurrentValue(SelectedColorItemsProperty, GetSelectedList());
+                    SelectionChanged.SafeInvoke(sender, args);
                 };
 
-                _listBox.SelectionMode = SelectionMode.Extended;
+                _listBox.SetCurrentValue(ListBox.SelectionModeProperty, SelectionMode.Extended);
 
                 _listBox.LayoutUpdated += (sender, args) =>
                 {
@@ -548,21 +545,22 @@ namespace Orc.Controls
                 {
                     if (_listBox != null)
                     {
-                        _listBox.SelectedIndex = -1;
+                        _listBox.SetCurrentValue(Selector.SelectedIndexProperty, -1);
                     }
                 };
             }
 
             if (_checkBox != null)
             {
-                _checkBox.Checked += (sender, args) => IsAllVisible = true;
-                _checkBox.Unchecked += (sender, args) => IsAllVisible = false;
+                _checkBox.Checked += (sender, args) => SetCurrentValue(IsAllVisibleProperty, true);
+                _checkBox.Unchecked += (sender, args) => SetCurrentValue(IsAllVisibleProperty, false);
             }
 
             _colorBoard = new ColorBoard();
+
             if (_popup != null)
             {
-                _popup.Child = _colorBoard;
+                _popup.SetCurrentValue(Popup.ChildProperty, _colorBoard);
             }
 
             var b = new Binding("Color")
@@ -583,15 +581,15 @@ namespace Orc.Controls
             {
                 return;
             }
-
+            
             var qryAllChecks = _listBox.Descendents().OfType<CheckBox>();
 
-            foreach (CheckBox check in qryAllChecks)
+            foreach (var check in qryAllChecks)
             {
-                check.Visibility = ShowColorVisibilityControls ? Visibility.Visible : Visibility.Collapsed;
+                check.SetCurrentValue(VisibilityProperty, ShowColorVisibilityControls ? Visibility.Visible : Visibility.Collapsed);
             }
 
-            _checkBox.Visibility = ShowColorVisibilityControls ? Visibility.Visible : Visibility.Collapsed;
+            _checkBox.SetCurrentValue(VisibilityProperty, ShowColorVisibilityControls ? Visibility.Visible : Visibility.Collapsed);
         }
 
         public void UpdateColorEditingControlsVisibility()
@@ -602,9 +600,9 @@ namespace Orc.Controls
             }
 
             var qryAllArrows = _listBox.Descendents().OfType<System.Windows.Shapes.Path>().Where(p => p.Name == "arrow");
-            foreach (System.Windows.Shapes.Path path in qryAllArrows)
+            foreach (var path in qryAllArrows)
             {
-                path.Visibility = AllowColorEditing ? Visibility.Visible : Visibility.Collapsed;
+                path.SetCurrentValue(VisibilityProperty, AllowColorEditing ? Visibility.Visible : Visibility.Collapsed);
             }
         }
 
@@ -684,14 +682,14 @@ namespace Orc.Controls
 
         private void ColorBoardDoneClicked(object sender, RoutedEventArgs e)
         {
-            EditingColor = _colorBoard.Color;
-            _popup.IsOpen = false;
+            SetCurrentValue(EditingColorProperty, _colorBoard.Color);
+            _popup.SetCurrentValue(Popup.IsOpenProperty, false);
         }
 
         private void ColorBoardCancelClicked(object sender, RoutedEventArgs e)
         {
-            _colorBoard.Color = _previousColor;
-            _popup.IsOpen = false;
+            _colorBoard.SetCurrentValue(ColorBoard.ColorProperty, _previousColor);
+            _popup.SetCurrentValue(Popup.IsOpenProperty, false);
         }
 
         private void OnAccentColorBrushChanged()

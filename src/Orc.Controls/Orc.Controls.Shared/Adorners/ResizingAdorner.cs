@@ -303,8 +303,8 @@ namespace Orc.Controls
                 enableLeft = true;
             }
 
-            _bottomLeft.IsEnabled = enableLeft;
-            _left.IsEnabled = enableLeft;
+            _bottomLeft.SetCurrentValue(IsEnabledProperty, enableLeft);
+            _left.SetCurrentValue(IsEnabledProperty, enableLeft);
 
             var enableTop = false;
 
@@ -320,8 +320,8 @@ namespace Orc.Controls
                 enableTop = true;
             }
 
-            _top.IsEnabled = enableTop;
-            _topLeft.IsEnabled = enableLeft && enableTop;
+            _top.SetCurrentValue(IsEnabledProperty, enableTop);
+            _topLeft.SetCurrentValue(IsEnabledProperty, enableLeft && enableTop);
         }
 
         private void UpdateWidth(double width)
@@ -340,7 +340,7 @@ namespace Orc.Controls
                 }
             }
 
-            adornedElement.Width = width;
+            adornedElement.SetCurrentValue(WidthProperty, width);
         }
 
         private void UpdateHeight(double height)
@@ -359,7 +359,7 @@ namespace Orc.Controls
                 }
             }
 
-            adornedElement.Height = height;
+            adornedElement.SetCurrentValue(HeightProperty, height);
         }
 
         private void UpdateSizeAndPosition(Thumb thumb, double left, double right, double width, double height)
@@ -374,8 +374,9 @@ namespace Orc.Controls
                 height = 0d;
             }
 
-            thumb.Width = width;
-            thumb.Height = height;
+            thumb.SetCurrentValue(WidthProperty, width);
+            thumb.SetCurrentValue(HeightProperty, height);
+
             thumb.Arrange(new Rect(left, right, thumb.Width, thumb.Height));
         }
 
@@ -393,9 +394,9 @@ namespace Orc.Controls
                 BorderThickness = new Thickness(0d),
                 Cursor = customizedCursor,
                 //Opacity = 0.40d,
+                Width = CornerSize,
+                Height = CornerSize
             };
-
-            thumb.Height = thumb.Width = CornerSize;
 
             _visualChildren.Add(thumb);
         }
@@ -404,12 +405,12 @@ namespace Orc.Controls
         {
             if (adornedElement.Width.Equals(double.NaN))
             {
-                adornedElement.Width = adornedElement.DesiredSize.Width;
+                adornedElement.SetCurrentValue(WidthProperty, adornedElement.DesiredSize.Width);
             }
 
             if (adornedElement.Height.Equals(double.NaN))
             {
-                adornedElement.Height = adornedElement.DesiredSize.Height;
+                adornedElement.SetCurrentValue(HeightProperty, adornedElement.DesiredSize.Height);
             }
 
             if (double.IsNaN(Canvas.GetLeft(adornedElement)))
@@ -435,8 +436,8 @@ namespace Orc.Controls
             var parent = adornedElement.Parent as FrameworkElement;
             if (parent != null)
             {
-                adornedElement.MaxHeight = parent.ActualHeight;
-                adornedElement.MaxWidth = parent.ActualWidth;
+                adornedElement.SetCurrentValue(MaxHeightProperty, parent.ActualHeight);
+                adornedElement.SetCurrentValue(MaxWidthProperty, parent.ActualWidth);
             }
         }
 

@@ -22,31 +22,9 @@ namespace Orc.Controls
             AddHandler(PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(SelectivelyIgnoreMouseButton), true);
             AddHandler(GotKeyboardFocusEvent, new RoutedEventHandler(SelectAllText), true);
             AddHandler(MouseDoubleClickEvent, new RoutedEventHandler(SelectAllText), true);
-            this.TextChanged += NumericTextBox_TextChanged;
-            this.LostFocus += NumericTextBox_LostFocus;
-        }
 
-        private void NumericTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            Value = GetDoubleValue(Text);
-            UpdateText();
-        }
-
-        private void NumericTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            _textChangingIsInProgress = true;
-            Value = GetDoubleValue(Text);
-            _textChangingIsInProgress = false;
-        }
-
-        private double GetDoubleValue(string text)
-        {
-            if (string.IsNullOrEmpty(text))
-            {
-                return MinValue;
-            }
-
-            return Convert.ToDouble(text);
+            TextChanged += OnTextChanged;
+            LostFocus += OnLostFocus;
         }
         #endregion
 
@@ -124,6 +102,29 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
+        private void OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            SetCurrentValue(ValueProperty, GetDoubleValue(Text));
+            UpdateText();
+        }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            _textChangingIsInProgress = true;
+            SetCurrentValue(ValueProperty, GetDoubleValue(Text));
+            _textChangingIsInProgress = false;
+        }
+
+        private double GetDoubleValue(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return MinValue;
+            }
+
+            return Convert.ToDouble(text);
+        }
+
         protected override void OnPreviewTextInput(TextCompositionEventArgs e)
         {
             base.OnPreviewTextInput(e);
@@ -178,14 +179,20 @@ namespace Orc.Controls
 
         private void OnUpDown(int increment)
         {
-            if (Value == null)
+            var value = Value;
+            var newValue = value;
+
+            if (value == null)
             {
-                Value = MinValue;
+                newValue = MinValue;
             }
             else
             {
-                Value = GetNewValue(Value.Value, increment);
+                newValue = GetNewValue(Value.Value, increment);
             }
+
+            SetCurrentValue(ValueProperty, newValue);
+
             SelectAll();
         }
 
@@ -272,7 +279,7 @@ namespace Orc.Controls
 
         private void UpdateText()
         {
-            base.Text = Value == null ? string.Empty : Value.Value.ToString(Format);
+            SetCurrentValue(TextProperty, Value == null ? string.Empty : Value.Value.ToString(Format));
         }
         #endregion
     }

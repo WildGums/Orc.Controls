@@ -67,7 +67,7 @@ namespace Orc.Controls
             var listbox = ((ListBox)sender);
             UpdateTextBox((KeyValuePair<string, string>)listbox.SelectedItems[0]);
 
-            ((Popup)listbox.Parent).IsOpen = false;
+            ((Popup)listbox.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
             _textBox.Focus();
         }
 
@@ -83,6 +83,7 @@ namespace Orc.Controls
                     e.Handled = true;
                 }
             }
+
             if (e.Key == Key.Up)
             {
                 if (listbox.SelectedIndex > 0)
@@ -92,16 +93,18 @@ namespace Orc.Controls
                     e.Handled = true;
                 }
             }
+
             if (e.Key == Key.Escape)
             {
-                ((Popup) listbox.Parent).IsOpen = false;
+                ((Popup) listbox.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
                 _textBox.Focus();
                 e.Handled = true;
             }
+
             if (e.Key == Key.Enter)
             {
                 UpdateTextBox((KeyValuePair<string, string>)listbox.SelectedItems[0]);
-                ((Popup) listbox.Parent).IsOpen = false;
+                ((Popup) listbox.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
                 _textBox.Focus();
                 e.Handled = true;
             }
@@ -113,7 +116,7 @@ namespace Orc.Controls
             {
                 if ((((KeyValuePair<string, string>)item).Key) == _textBox.Text)
                 {
-                    listBox.SelectedItem = item;
+                    listBox.SetCurrentValue(Selector.SelectedItemProperty, item);
                     listBox.ScrollIntoView(listBox.SelectedItem);
                     listBox.Focus();
 
@@ -124,13 +127,13 @@ namespace Orc.Controls
 
         private void PopupOnClosed(object sender, EventArgs eventArgs)
         {
-            _toggleButton.IsChecked = false;
+            _toggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
         }
 
         private void UpdateTextBox(KeyValuePair<string, string> selectedItem)
         {
             var value = Convert.ToDouble(selectedItem.Key);
-            _textBox.Value = value;
+            _textBox.SetCurrentValue(NumericTextBox.ValueProperty, value);
         }
 
         private ListBox CreatePopupSource()
@@ -139,13 +142,14 @@ namespace Orc.Controls
             var suggestionListService = serviceLocator.ResolveType<ISuggestionListService>();
             var source = suggestionListService.GetSuggestionList(_dateTime, _dateTimePart);
 
-            var listbox = new ListBox()
+            var listbox = new ListBox
             {
                 ItemsSource = source,
                 IsSynchronizedWithCurrentItem = false,
                 DisplayMemberPath = "Value",
                 Margin = new Thickness(0, 0, 0, 0),
             };
+
             return listbox;
         }
         #endregion

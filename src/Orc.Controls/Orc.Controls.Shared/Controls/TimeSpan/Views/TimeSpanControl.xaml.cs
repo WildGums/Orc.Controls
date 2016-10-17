@@ -112,7 +112,7 @@ namespace Orc.Controls
             if (e.ClickCount == 2)
             {
                 _activeTextBoxPart = (TimeSpanPart)((TextBlock)sender).Tag;
-                NumericTBEditorContainer.Visibility = Visibility.Visible;
+                NumericTBEditorContainer.SetCurrentValue(VisibilityProperty, Visibility.Visible);
                 _isInEditMode = true;
             }
         }
@@ -123,20 +123,22 @@ namespace Orc.Controls
 
             if (e.Key == Key.Escape && _isInEditMode)
             {
-                NumericTBEditorContainer.Visibility = Visibility.Collapsed;
+                NumericTBEditorContainer.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
                 _isInEditMode = false;
                 e.Handled = true;
             }
 
             if (e.Key == Key.Enter && _isInEditMode)
             {
-                NumericTBEditorContainer.Visibility = Visibility.Collapsed;
+                NumericTBEditorContainer.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
                 _isInEditMode = false;
+
                 if (!IsReadOnly)
                 {
                     var value = NumericTBEditor.Value == null ? NumericTBEditor.MinValue : NumericTBEditor.Value.Value;
-                    Value = RoundTimeSpan(_activeTextBoxPart.CreateTimeSpan(value));
+                    SetCurrentValue(ValueProperty, RoundTimeSpan(_activeTextBoxPart.CreateTimeSpan(value)));
                 }
+
                 e.Handled = true;
             }
         }
@@ -149,20 +151,20 @@ namespace Orc.Controls
 
         private void NumericTBEditor_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            NumericTBEditorUnit.Text = _activeTextBoxPart.GetTimeSpanPartName();
+            NumericTBEditorUnit.SetCurrentValue(TextBlock.TextProperty, _activeTextBoxPart.GetTimeSpanPartName());
             NumericTBEditor.Focus();
         }
 
         private void NumericTBEditor_OnIsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            TimeSpan timeSpan = Value == null ? TimeSpan.Zero : Value.Value;
+            var timeSpan = Value == null ? TimeSpan.Zero : Value.Value;
             if (IsKeyboardFocusWithin)
             {
-                NumericTBEditor.Value = timeSpan.GetTimeSpanPartValue(_activeTextBoxPart);
+                NumericTBEditor.SetCurrentValue(NumericTextBox.ValueProperty, timeSpan.GetTimeSpanPartValue(_activeTextBoxPart));
                 return;
             }
 
-            NumericTBEditorContainer.Visibility = Visibility.Collapsed;
+            NumericTBEditorContainer.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
         }
 
         private void OnAccentColorBrushChanged()
@@ -179,14 +181,14 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
-            AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
+            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
         }
 
         private void OnValueChanged(object oldValue, object newValue)
         {
-            Separator1.Text = newValue == null ? string.Empty : ".";
-            Separator2.Text = newValue == null ? string.Empty : ":";
-            Separator3.Text = newValue == null ? string.Empty : ":";
+            Separator1.SetCurrentValue(TextBlock.TextProperty, newValue == null ? string.Empty : ".");
+            Separator2.SetCurrentValue(TextBlock.TextProperty, newValue == null ? string.Empty : ":");
+            Separator3.SetCurrentValue(TextBlock.TextProperty, newValue == null ? string.Empty : ":");
         }
 
         #endregion

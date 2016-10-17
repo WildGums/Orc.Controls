@@ -113,7 +113,7 @@ namespace Orc.Controls
 
             if (string.IsNullOrEmpty(GifSource))
             {
-                Source = null;
+                SetCurrentValue(SourceProperty, null);
 
                 InvalidateVisual();
 
@@ -199,7 +199,8 @@ namespace Orc.Controls
             ImageAnimator.UpdateFrames(_bitmap);
 
             // Get bitmap source
-            Source = GetBitmapSource(_bitmap);
+            var bitmapSource = GetBitmapSource(_bitmap);
+            SetCurrentValue(SourceProperty, bitmapSource);
 
             // Invalidate visual
             InvalidateVisual();
