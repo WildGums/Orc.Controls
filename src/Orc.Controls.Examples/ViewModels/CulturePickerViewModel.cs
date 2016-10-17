@@ -43,14 +43,16 @@ namespace Orc.Controls.Examples.ViewModels
             return TaskHelper.Completed;
         }
 
+#pragma warning disable AvoidAsyncVoid
         private async void OnCultureChanged()
+#pragma warning restore AvoidAsyncVoid
         {
             if (_isInitializing)
             {
                 return;
             }
 
-            await _messageService.ShowAsync(string.Format("Selected culture {0}", Culture.EnglishName));
+            await _messageService.ShowAsync($"Selected culture {Culture.EnglishName}");
         }
     }
 }
