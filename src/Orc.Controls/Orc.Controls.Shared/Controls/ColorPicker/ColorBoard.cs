@@ -343,7 +343,7 @@ namespace Orc.Controls
             InitializeThemeColors();
             UpdateControls(Color, true, true, true);
 
-            KeyDown += ColorBoard_KeyDown;
+            KeyDown += OnColorBoardKeyDown;
         }
 
         /// <summary>
@@ -420,13 +420,9 @@ namespace Orc.Controls
         /// <summary>
         /// The color board_ key down.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void ColorBoard_KeyDown(object sender, KeyEventArgs e)
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
+        private void OnColorBoardKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -549,8 +545,8 @@ namespace Orc.Controls
         {
             if (_trackingHsv)
             {
-                Point point = e.GetPosition(_rectangleHsv);
-                Size size = _ellipseHsv.RenderSize;
+                var point = e.GetPosition(_rectangleHsv);
+                var size = _ellipseHsv.RenderSize;
 
                 double ellipseX = 0;
                 if (point.X < 0)
@@ -594,7 +590,7 @@ namespace Orc.Controls
                     return;
                 }
 
-                Color color = GetHSVColor();
+                var color = GetHSVColor();
                 UpdateControls(color, false, true, true);
             }
         }
@@ -609,9 +605,9 @@ namespace Orc.Controls
                 return;
             }
 
-            List<PredefinedColor> list = PredefinedColor.All;
+            var list = PredefinedColor.All;
             _dictionaryColor = new Dictionary<Color, PredefinedColorItem>();
-            foreach (PredefinedColor color in list)
+            foreach (var color in list)
             {
                 var item = new PredefinedColorItem(color.Value, color.Name);
                 _comboBoxColor.Items.Add(item);
@@ -633,11 +629,12 @@ namespace Orc.Controls
                 return;
             }
 
-            List<PredefinedColor> list = PredefinedColor.AllThemeColors;
+            var list = PredefinedColor.AllThemeColors;
             _themeColors = new Dictionary<Color, PredefinedColorItem>();
             int r = 0;
             int c = 0;
-            foreach (PredefinedColor color in list)
+
+            foreach (var color in list)
             {
                 var item = new PredefinedColorItem(color.Value, color.Name);
                 item.SetValue(Grid.RowProperty, r);
