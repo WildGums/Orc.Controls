@@ -353,7 +353,7 @@ namespace Orc.Controls
 
             if (newValue == null && nv != null)
             {
-                Dispatcher.BeginInvoke(() => Value = nv);
+                Dispatcher.Invoke(() => Value = nv);
             }
         }
 
