@@ -5,7 +5,7 @@
                     xmlns:converters="clr-namespace:Orc.Controls.Converters">
 
     <converters:TimeSpanToTotalStringConverter x:Key="TimeSpanToTotalConverter" />
-    
+
     <Style x:Key="RatioSignStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
