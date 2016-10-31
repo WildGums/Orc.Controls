@@ -1,0 +1,129 @@
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FilterBoxControl.cs" company="WildGums">
+//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+namespace Orc.Controls
+{
+    using System.Collections;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Media;
+    using Catel.MVVM;
+
+    [TemplatePart(Name = "PART_FilterTextBox", Type = typeof (TextBox))]
+    [TemplatePart(Name = "PART_ClearButton", Type = typeof (Button))]
+    [TemplatePart(Name = "PART_Watermark", Type = typeof (TextBlock))]
+    public class FilterBoxControl : ContentControl
+    {
+        private Button _clearButton;
+        private TextBox _filterTextBox;
+        private TextBlock _waterMarkTextBlock;
+
+        public FilterBoxControl()
+        {
+            ClearFilter = new Command(OnClear, CanClear);
+        }
+
+        public Command ClearFilter { get; private set; }
+
+        #region Properties
+        public IEnumerable FilterSource
+        {
+            get { return (IEnumerable) GetValue(FilterSourceProperty); }
+            set { SetValue(FilterSourceProperty, value); }
+        }
+
+        public static readonly DependencyProperty FilterSourceProperty = DependencyProperty.Register("FilterSource", typeof (IEnumerable),
+            typeof (FilterBoxControl), new FrameworkPropertyMetadata(null));
+
+        public string PropertyName
+        {
+            get { return (string) GetValue(PropertyNameProperty); }
+            set { SetValue(PropertyNameProperty, value); }
+        }
+
+        public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.Register("PropertyName", typeof (string),
+            typeof (FilterBoxControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public string Text
+        {
+            get { return (string) GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
+        }
+
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof (string), typeof (FilterBoxControl),
+            new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((FilterBoxControl) sender).OnTextChanged(sender, e)));
+
+        public Brush AccentColorBrush
+        {
+            get { return (Brush) GetValue(AccentColorBrushProperty); }
+            set { SetValue(AccentColorBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof (Brush),
+            typeof (FilterBoxControl), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((FilterBoxControl) sender).OnAccentColorBrushChanged()));
+
+        public string Watermark
+        {
+            get { return (string) GetValue(WatermarkProperty); }
+            set { SetValue(WatermarkProperty, value); }
+        }
+
+        public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof (string),
+            typeof (FilterBoxControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        #endregion
+
+        #region Methods
+        protected override void OnGotFocus(RoutedEventArgs e)
+        {
+            base.OnGotFocus(e);
+
+            _filterTextBox?.Focus();
+        }
+
+        private void OnAccentColorBrushChanged()
+        {
+            var solidColorBrush = AccentColorBrush as SolidColorBrush;
+            if (solidColorBrush != null)
+            {
+                var accentColor = ((SolidColorBrush) AccentColorBrush).Color;
+                accentColor.CreateAccentColorResourceDictionary("FilterBox");
+            }
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
+
+            if (_clearButton != null)
+            {
+                _clearButton.Command = null;
+            }
+
+            _clearButton = (Button) GetTemplateChild("PART_ClearButton");
+            _filterTextBox = (TextBox) GetTemplateChild("PART_FilterTextBox");
+            _waterMarkTextBlock = (TextBlock) GetTemplateChild("PART_Watermark");
+        }
+
+        private void OnClear()
+        {
+            Text = null;
+        }
+
+        private bool CanClear()
+        {
+            return !string.IsNullOrWhiteSpace(Text);
+        }
+
+        private void OnTextChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            ClearFilter.RaiseCanExecuteChanged();
+        }
+        #endregion
+    }
+}
