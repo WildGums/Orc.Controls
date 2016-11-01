@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adorners\ResizingAdorner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Controls\FilterBoxControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Services\Interfaces\IValidationNamesService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Converters\ValidationResultTypeToColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Extensions\IValidationContextTreeNodeExtensions.cs" />
@@ -65,10 +66,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Expander\Expander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Services\Interfaces\ISuggestionListService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Services\SuggestionListService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\ViewModels\FilterBoxViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Views\FilterBoxControl.xaml.cs">
-      <DependentUpon>FilterBoxControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\HeaderBar\HeaderBar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\Behaviors\LinkLabelBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\Behaviors\LinkLabelClickBehavior.cs" />
@@ -194,10 +191,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Themes\FilterBox.generic.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Views\FilterBoxControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
