@@ -124,7 +124,6 @@
                                      Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Text, Mode=TwoWay}">
                                 <i:Interaction.Behaviors>
                                     <catel:UpdateBindingOnTextChanged UpdateDelay="750" />
-                                    <catel:KeyPressToCommand Key="Escape" Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ClearFilter}"/>
                                     <catel:AutoCompletion PropertyName ="{Binding PropertyName, Mode=OneWay}" ItemsSource="{Binding FilterSource}" />
                                     <catel:SelectTextOnFocus />
                                 </i:Interaction.Behaviors>
@@ -144,7 +143,6 @@
                                     Grid.Column="1"
                                     Width="18"
                                     DockPanel.Dock="Right"
-                                    Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ClearFilter}"
                                     Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
                         </Grid>
                     </Border>

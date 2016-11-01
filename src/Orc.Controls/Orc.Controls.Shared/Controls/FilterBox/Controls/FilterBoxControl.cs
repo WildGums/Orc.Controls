@@ -10,6 +10,7 @@ namespace Orc.Controls
     using System.Collections;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Input;
     using System.Windows.Media;
     using Catel.MVVM;
 
@@ -18,16 +19,15 @@ namespace Orc.Controls
     [TemplatePart(Name = "PART_Watermark", Type = typeof (TextBlock))]
     public class FilterBoxControl : ContentControl
     {
+        private readonly Command _clearFilter;
         private Button _clearButton;
         private TextBox _filterTextBox;
         private TextBlock _waterMarkTextBlock;
 
         public FilterBoxControl()
         {
-            ClearFilter = new Command(OnClear, CanClear);
+            _clearFilter = new Command(OnClearFilter, CanClearFilter);
         }
-
-        public Command ClearFilter { get; private set; }
 
         #region Properties
         public IEnumerable FilterSource
@@ -106,23 +106,39 @@ namespace Orc.Controls
             }
 
             _clearButton = (Button) GetTemplateChild("PART_ClearButton");
+            if (_clearButton != null)
+            {
+                _clearButton.Command = _clearFilter;
+            }
+
             _filterTextBox = (TextBox) GetTemplateChild("PART_FilterTextBox");
             _waterMarkTextBlock = (TextBlock) GetTemplateChild("PART_Watermark");
         }
 
-        private void OnClear()
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if (!IsEnabled || e.Handled || (e.Key != Key.Escape || !CanClearFilter()))
+            {
+                return;
+            }
+
+            OnClearFilter();
+            e.Handled = true;
+        }
+
+        private void OnClearFilter()
         {
             Text = null;
         }
 
-        private bool CanClear()
+        private bool CanClearFilter()
         {
             return !string.IsNullOrWhiteSpace(Text);
         }
 
         private void OnTextChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
-            ClearFilter.RaiseCanExecuteChanged();
+            _clearFilter.RaiseCanExecuteChanged();
         }
         #endregion
     }
