@@ -145,6 +145,8 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBox x:Name="PART_FilterTextBox" 
+                                     Padding="4,0,0,0"
+                                     VerticalAlignment="Center"
                                      Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Text, Mode=TwoWay}">
                                 <i:Interaction.Behaviors>
                                     <catel:UpdateBindingOnTextChanged UpdateDelay="750" />
