@@ -16,13 +16,11 @@ namespace Orc.Controls
 
     [TemplatePart(Name = "PART_FilterTextBox", Type = typeof (TextBox))]
     [TemplatePart(Name = "PART_ClearButton", Type = typeof (Button))]
-    [TemplatePart(Name = "PART_Watermark", Type = typeof (TextBlock))]
     public class FilterBoxControl : ContentControl
     {
         private readonly Command _clearFilter;
         private Button _clearButton;
         private TextBox _filterTextBox;
-        private TextBlock _waterMarkTextBlock;
 
         public FilterBoxControl()
         {
@@ -112,7 +110,6 @@ namespace Orc.Controls
             }
 
             _filterTextBox = (TextBox) GetTemplateChild("PART_FilterTextBox");
-            _waterMarkTextBlock = (TextBlock) GetTemplateChild("PART_Watermark");
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -128,7 +125,7 @@ namespace Orc.Controls
 
         private void OnClearFilter()
         {
-            SetCurrentValue(TextProperty, null);
+            SetCurrentValue(TextProperty, string.Empty);
         }
 
         private bool CanClearFilter()
