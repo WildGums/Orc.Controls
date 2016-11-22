@@ -11,10 +11,14 @@
 
     <catel:UserControl.Resources>
         <converters:YearLongToYearShortConverter x:Key="YearLongToYearShortConverter" />
+
+        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource DatePickerListBoxItemStyle}"/>
+        <Style TargetType="{x:Type controls:NumericTextBox}" BasedOn="{StaticResource DatePickerNumericTextBoxStyle}"/>
     </catel:UserControl.Resources>
     
     <Grid x:Name="MainGrid">
-        <Border BorderThickness="1" Height="22" >
+        <Border BorderThickness="1" Height="22"
+                Style="{DynamicResource DatePickerBorderStyle}">
             <Grid Background="White" MinWidth="115">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -35,6 +39,7 @@
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
                     <TextBlock Grid.Column="1" x:Name="Separator1" Text="/" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="1" x:Name="ToggleButtonD" Tag="{x:Static controls:DateTimePart.Day}"
+                                  Style="{DynamicResource DatePickerLetterToggleButtonStyle}"
                                   Checked="ToggleButton_OnChecked" Content="d"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
 
@@ -43,6 +48,7 @@
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
                     <TextBlock Grid.Column="3" x:Name="Separator2" Text="/" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="3" x:Name="ToggleButtonMo" Tag="{x:Static controls:DateTimePart.Month}"
+                                  Style="{DynamicResource DatePickerLetterToggleButtonStyle}"
                                   Checked="ToggleButton_OnChecked" Content="m"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
 
@@ -50,17 +56,19 @@
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
                     <TextBlock Grid.Column="5" x:Name="Separator3" Text="" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="5" x:Name="ToggleButtonY" Tag="{x:Static controls:DateTimePart.Year}" Content="y"
+                                  Style="{DynamicResource DatePickerLetterToggleButtonStyle}"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
 
                 </Grid>
                 <StackPanel Grid.Column="1">
                     <ToggleButton x:Name="DatePickerIcon" DockPanel.Dock="Right" VerticalAlignment="Stretch"
-                                  Style="{DynamicResource DateTimePickerToggleButtonStyle}"
+                                  Style="{DynamicResource DatePickerToggleButtonStyle}"
                                   Visibility="{Binding ShowOptionsButton, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
                     <Popup Placement="Bottom" VerticalOffset="2" StaysOpen="False"
                            PlacementTarget="{Binding ElementName=DatePickerIcon}" 
                            IsOpen="{Binding IsChecked, ElementName=DatePickerIcon}" >
-                        <Border BorderBrush="Gray" BorderThickness="1">
+                        <Border BorderBrush="Gray" BorderThickness="1"
+                                Style="{DynamicResource DatePickerBorderStyle}">
                             <StackPanel Background="White">
                                 <Button x:Name="TodayButton" Content="Today" Click="OnTodayButtonClick" Style="{DynamicResource PopupButtonStyle}"
                                         IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
