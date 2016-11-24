@@ -52,7 +52,7 @@ namespace Orc.Controls.Behavior
 
         private void OnDropDownClosed(object sender, RoutedEventArgs e)
         {
-            AssociatedObject.ToggleButton.IsChecked = AssociatedObject.DropDown.IsOpen;
+            AssociatedObject.ToggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, AssociatedObject.DropDown.IsOpen);
         }
 
         private void OnClick(object sender, RoutedEventArgs e)
@@ -62,13 +62,13 @@ namespace Orc.Controls.Behavior
             {
                 dropDown.Dispatcher.BeginInvoke(() =>
                 {
-                    dropDown.PlacementTarget = AssociatedObject;
-                    dropDown.Placement = PlacementMode.Custom;
-                    dropDown.MinWidth = AssociatedObject.ActualWidth;
-                    dropDown.CustomPopupPlacementCallback = CustomPopupPlacementCallback;
+                    dropDown.SetCurrentValue(System.Windows.Controls.ContextMenu.PlacementTargetProperty, AssociatedObject);
+                    dropDown.SetCurrentValue(System.Windows.Controls.ContextMenu.PlacementProperty, PlacementMode.Custom);
+                    dropDown.SetCurrentValue(FrameworkElement.MinWidthProperty, AssociatedObject.ActualWidth);
+                    dropDown.SetCurrentValue(System.Windows.Controls.ContextMenu.CustomPopupPlacementCallbackProperty, (System.Windows.Controls.Primitives.CustomPopupPlacementCallback)CustomPopupPlacementCallback);
                 });
 
-                dropDown.IsOpen = true;
+                dropDown.SetCurrentValue(System.Windows.Controls.ContextMenu.IsOpenProperty, true);
             }
         }
 

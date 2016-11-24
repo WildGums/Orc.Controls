@@ -29,7 +29,7 @@ namespace Orc.Controls
             var typedSender = sender as BindableRun;
             if (typedSender != null)
             {
-                typedSender.Text = e.NewValue as string;
+                typedSender.SetCurrentValue(BindableRun.TextProperty, e.NewValue as string);
             }
         }
         #endregion

@@ -149,13 +149,13 @@ namespace Orc.Controls
         public bool IsYearShortFormat
         {
             get { return (bool)GetValue(IsYearShortFormatProperty); }
-            private set { SetValue(IsYearShortFormatKey, value); }
+            private set { SetValue(IsYearShortFormatPropertyKey, value); }
         }
 
-        private static readonly DependencyPropertyKey IsYearShortFormatKey = DependencyProperty.RegisterReadOnly("IsYearShortFormat", typeof(bool),
+        private static readonly DependencyPropertyKey IsYearShortFormatPropertyKey = DependencyProperty.RegisterReadOnly("IsYearShortFormat", typeof(bool),
             typeof(DatePickerControl), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.Count(x => x == 'y') < 3 ? true : false));
 
-        public static readonly DependencyProperty IsYearShortFormatProperty = IsYearShortFormatKey.DependencyProperty;
+        public static readonly DependencyProperty IsYearShortFormatProperty = IsYearShortFormatPropertyKey.DependencyProperty;
         #endregion
 
         #region Methods
@@ -193,7 +193,7 @@ namespace Orc.Controls
         {
             var dateTime = Value == null ? _todayValue : Value.Value;
             var daysInMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
-            NumericTBDay.MaxValue = daysInMonth;
+            NumericTBDay.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)daysInMonth);
         }
 
         private Calendar CreateCalendarPopupSource()
@@ -218,19 +218,20 @@ namespace Orc.Controls
             {
                 UpdateDate(calendar.SelectedDate.Value);
             }
-            ((Popup)calendar.Parent).IsOpen = false;
+
+            ((Popup)calendar.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
         }
 
         private void UpdateDate(DateTime? date)
         {
-            if (date == null)
+            DateTime? value = null;
+
+            if (date != null)
             {
-                Value = null;
+                value = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day);
             }
-            else
-            {
-                Value = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day);
-            }
+
+            SetCurrentValue(ValueProperty, value);
         }
 
         private Popup CreateCalendarPopup()
@@ -248,30 +249,30 @@ namespace Orc.Controls
 
         private void OnTodayButtonClick(object sender, RoutedEventArgs e)
         {
-            DatePickerIcon.IsChecked = false;
+            DatePickerIcon.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
             UpdateDate(DateTime.Today.Date);
         }
 
         private void OnSelectDateButtonClick(object sender, RoutedEventArgs e)
         {
-            DatePickerIcon.IsChecked = false;
+            DatePickerIcon.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
 
             var calendarPopup = CreateCalendarPopup();
             var calendarPopupSource = CreateCalendarPopupSource();
-            calendarPopup.Child = calendarPopupSource;
+            calendarPopup.SetCurrentValue(Popup.ChildProperty, calendarPopupSource);
 
             calendarPopupSource.Focus();
         }
 
         private void OnClearButtonClick(object sender, RoutedEventArgs e)
         {
-            DatePickerIcon.IsChecked = false;
+            DatePickerIcon.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
             UpdateDate(null);
         }
 
         private void OnCopyButtonClick(object sender, RoutedEventArgs e)
         {
-            DatePickerIcon.IsChecked = false;
+            DatePickerIcon.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
 
             if (Value != null)
             {
@@ -281,18 +282,18 @@ namespace Orc.Controls
 
         private void OnPasteButtonClick(object sender, RoutedEventArgs e)
         {
-            DatePickerIcon.IsChecked = false;
+            DatePickerIcon.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
 
             if (Clipboard.ContainsData(DataFormats.Text))
             {
-                string text = Clipboard.GetText(TextDataFormat.Text);
-                DateTime value = DateTime.MinValue;
+                var text = Clipboard.GetText(TextDataFormat.Text);
+                var value = DateTime.MinValue;
                 if (!string.IsNullOrEmpty(text)
                     && (DateTime.TryParseExact(text, Format, null, DateTimeStyles.None, out value)
                         || DateTime.TryParseExact(text, CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern, null, DateTimeStyles.None, out value)
                         || DateTime.TryParseExact(text, CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern, null, DateTimeStyles.None, out value)))
                 {
-                    Value = new DateTime(value.Year, value.Month, value.Day);
+                    SetCurrentValue(ValueProperty, new DateTime(value.Year, value.Month, value.Day));
                 }
             }
         }
@@ -311,7 +312,7 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
-            AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
+            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
         }
 
         protected override void OnLoaded(EventArgs e)
@@ -353,7 +354,7 @@ namespace Orc.Controls
 
             if (newValue == null && nv != null)
             {
-                Dispatcher.Invoke(() => Value = nv);
+                Dispatcher.Invoke(() => SetCurrentValue(ValueProperty, nv));
             }
         }
 
@@ -362,14 +363,14 @@ namespace Orc.Controls
             var formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format, true);
 
             IsYearShortFormat = formatInfo.IsYearShortFormat;
-            NumericTBYear.MinValue = formatInfo.IsYearShortFormat == true ? 0 : 1;
-            NumericTBYear.MaxValue = formatInfo.IsYearShortFormat == true ? 99 : 3000;
+            NumericTBYear.SetCurrentValue(NumericTextBox.MinValueProperty, (double)(formatInfo.IsYearShortFormat ? 0 : 1));
+            NumericTBYear.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)(formatInfo.IsYearShortFormat ? 99 : 3000));
 
             EnableOrDisableYearConverterDependingOnFormat();
 
-            NumericTBDay.Format = GetFormat(formatInfo.DayFormat.Length);
-            NumericTBMonth.Format = GetFormat(formatInfo.MonthFormat.Length);
-            NumericTBYear.Format = GetFormat(formatInfo.YearFormat.Length);
+            NumericTBDay.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(formatInfo.DayFormat.Length));
+            NumericTBMonth.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(formatInfo.MonthFormat.Length));
+            NumericTBYear.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(formatInfo.YearFormat.Length));
 
             UnsubscribeNumericTextBoxes();
 
@@ -387,9 +388,9 @@ namespace Orc.Controls
 
             SubscribeNumericTextBoxes();
 
-            Separator1.Text = Value == null ? string.Empty : formatInfo.Separator1;
-            Separator2.Text = Value == null ? string.Empty : formatInfo.Separator2;
-            Separator3.Text = Value == null ? string.Empty : formatInfo.Separator3;
+            Separator1.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : formatInfo.Separator1);
+            Separator2.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : formatInfo.Separator2);
+            Separator3.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : formatInfo.Separator3);
         }
 
         private int GetPosition(int index)
@@ -408,7 +409,7 @@ namespace Orc.Controls
             if (converter != null)
             {
                 converter.IsEnabled = IsYearShortFormat;
-                BindingOperations.GetBindingExpression(NumericTBYear, NumericTextBox.ValueProperty).UpdateTarget();
+                BindingOperations.GetBindingExpression(NumericTBYear, NumericTextBox.ValueProperty)?.UpdateTarget();
             }
         }
         #endregion

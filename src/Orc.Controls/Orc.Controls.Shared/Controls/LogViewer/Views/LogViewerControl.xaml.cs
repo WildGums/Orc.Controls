@@ -286,7 +286,8 @@ namespace Orc.Controls
                         if (paragraph != null)
                         {
                             document.Blocks.Add(paragraph);
-                            document.Tag = logEntry.Time;
+
+                            document.SetCurrentValue(FrameworkContentElement.TagProperty, logEntry.Time);
                         }
                     }
                 }

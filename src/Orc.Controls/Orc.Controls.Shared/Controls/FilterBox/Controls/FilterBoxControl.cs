@@ -96,17 +96,17 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
-            AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
+            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
 
             if (_clearButton != null)
             {
-                _clearButton.Command = null;
+                _clearButton.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, null);
             }
 
             _clearButton = (Button) GetTemplateChild("PART_ClearButton");
             if (_clearButton != null)
             {
-                _clearButton.Command = _clearFilter;
+                _clearButton.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, _clearFilter);
             }
 
             _filterTextBox = (TextBox) GetTemplateChild("PART_FilterTextBox");
@@ -125,7 +125,7 @@ namespace Orc.Controls
 
         private void OnClearFilter()
         {
-            Text = string.Empty;
+            SetCurrentValue(TextProperty, string.Empty);
         }
 
         private bool CanClearFilter()

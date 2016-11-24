@@ -70,7 +70,7 @@ namespace Orc.Controls
         /// <summary>
         /// The show duration property.
         /// </summary>
-        public static readonly DependencyProperty ShowDurationProperty = DependencyProperty.RegisterAttached("ShowDurartion",
+        public static readonly DependencyProperty ShowDurationProperty = DependencyProperty.RegisterAttached("ShowDuration",
             typeof (int), typeof (PinnableToolTipService), new PropertyMetadata(DefaultShowDuration));
 
         /// <summary>
@@ -620,7 +620,7 @@ namespace Orc.Controls
                         element.Unloaded -= FrameworkElementUnloaded;
                         if (toolTip != null)
                         {
-                            toolTip.DataContext = null;
+                            toolTip.SetCurrentValue(FrameworkElement.DataContextProperty, null);
                         }
                     }
 

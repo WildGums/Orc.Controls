@@ -99,28 +99,28 @@ namespace Orc.Controls
                 {
                     var column = Grid.GetColumn(this);
                     _expandDistance = grid.ColumnDefinitions[column].Width;
-                    grid.ColumnDefinitions[column].Width = GridLength.Auto;
+                    grid.ColumnDefinitions[column].SetCurrentValue(ColumnDefinition.WidthProperty, GridLength.Auto);
                     break;
                 }
                 case ExpandDirection.Right:
                 {
                     var column = Grid.GetColumn(this);
                     _expandDistance = grid.ColumnDefinitions[column].Width;
-                    grid.ColumnDefinitions[column].Width = GridLength.Auto;
+                    grid.ColumnDefinitions[column].SetCurrentValue(ColumnDefinition.WidthProperty, GridLength.Auto);
                     break;
                 }
                 case ExpandDirection.Up:
                 {
                     var row = Grid.GetRow(this);
                     _expandDistance = grid.RowDefinitions[row].Height;
-                    grid.RowDefinitions[row].Height = GridLength.Auto;
+                    grid.RowDefinitions[row].SetCurrentValue(RowDefinition.HeightProperty, GridLength.Auto);
                     break;
                 }
                 case ExpandDirection.Down:
                 {
                     var row = Grid.GetRow(this);
                     _expandDistance = grid.RowDefinitions[row].Height;
-                    grid.RowDefinitions[row].Height = GridLength.Auto;
+                    grid.RowDefinitions[row].SetCurrentValue(RowDefinition.HeightProperty, GridLength.Auto);
                     break;
                 }
             }
@@ -146,34 +146,37 @@ namespace Orc.Controls
                     var column = Grid.GetColumn(this);
                     if (_expandDistance.HasValue)
                     {
-                        grid.ColumnDefinitions[column].Width = _expandDistance.Value;
+                        grid.ColumnDefinitions[column].SetCurrentValue(ColumnDefinition.WidthProperty, _expandDistance.Value);
                     }
                     break;
                 }
+
                 case ExpandDirection.Right:
                 {
                     var column = Grid.GetColumn(this);
                     if (_expandDistance.HasValue)
                     {
-                        grid.ColumnDefinitions[column].Width = _expandDistance.Value;
+                        grid.ColumnDefinitions[column].SetCurrentValue(ColumnDefinition.WidthProperty, _expandDistance.Value);
                     }
                     break;
                 }
+
                 case ExpandDirection.Up:
                 {
                     var row = Grid.GetRow(this);
                     if (_expandDistance.HasValue)
                     {
-                        grid.RowDefinitions[row].Height = _expandDistance.Value;
+                        grid.RowDefinitions[row].SetCurrentValue(RowDefinition.HeightProperty, _expandDistance.Value);
                     }
                     break;
                 }
+
                 case ExpandDirection.Down:
                 {
                     var row = Grid.GetRow(this);
                     if (_expandDistance.HasValue)
                     {
-                        grid.RowDefinitions[row].Height = _expandDistance.Value;
+                        grid.RowDefinitions[row].SetCurrentValue(RowDefinition.HeightProperty, _expandDistance.Value);
                     }
                     break;
                 }
@@ -194,7 +197,7 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
-            AccentColorBrush = TryFindResource("AccentColorBrush") as SolidColorBrush;
+            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
         }
         #endregion
     }

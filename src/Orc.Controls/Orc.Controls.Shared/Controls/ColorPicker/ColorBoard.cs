@@ -12,10 +12,10 @@ namespace Orc.Controls
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Media;
     using System.Windows.Shapes;
-    using Catel.Collections;
 
     /// <summary>
     /// The color board.
@@ -29,6 +29,9 @@ namespace Orc.Controls
         public ColorBoard()
         {
             DefaultStyleKey = typeof (ColorBoard);
+
+            var items = new List<PredefinedColorItem>(10);
+            SetCurrentValue(RecentColorItemsProperty, items);
         }
         #endregion
 
@@ -52,12 +55,8 @@ namespace Orc.Controls
         /// <summary>
         /// The recent color items property.
         /// </summary>
-        public static readonly DependencyProperty RecentColorItemsProperty =
-            DependencyProperty.Register(
-                "RecentColorItems",
-                typeof (List<PredefinedColorItem>),
-                typeof (ColorBoard),
-                new PropertyMetadata(new List<PredefinedColorItem>(10)));
+        public static readonly DependencyProperty RecentColorItemsProperty = DependencyProperty.Register("RecentColorItems", 
+            typeof (List<PredefinedColorItem>), typeof (ColorBoard), new PropertyMetadata());
         #endregion
 
         #region Fields
@@ -344,7 +343,7 @@ namespace Orc.Controls
             InitializeThemeColors();
             UpdateControls(Color, true, true, true);
 
-            KeyDown += ColorBoard_KeyDown;
+            KeyDown += OnColorBoardKeyDown;
         }
 
         /// <summary>
@@ -421,13 +420,9 @@ namespace Orc.Controls
         /// <summary>
         /// The color board_ key down.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void ColorBoard_KeyDown(object sender, KeyEventArgs e)
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
+        private void OnColorBoardKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -516,8 +511,8 @@ namespace Orc.Controls
 
             Size size = _ellipseHsv.RenderSize;
 
-            _ellipseHsv.SetValue(Canvas.LeftProperty, point.X - _ellipseHsv.ActualWidth/2);
-            _ellipseHsv.SetValue(Canvas.TopProperty, point.Y - _ellipseHsv.ActualHeight/2);
+            _ellipseHsv.SetCurrentValue(Canvas.LeftProperty, point.X - _ellipseHsv.ActualWidth/2);
+            _ellipseHsv.SetCurrentValue(Canvas.TopProperty, point.Y - _ellipseHsv.ActualHeight/2);
 
             if (Updating)
             {
@@ -550,8 +545,8 @@ namespace Orc.Controls
         {
             if (_trackingHsv)
             {
-                Point point = e.GetPosition(_rectangleHsv);
-                Size size = _ellipseHsv.RenderSize;
+                var point = e.GetPosition(_rectangleHsv);
+                var size = _ellipseHsv.RenderSize;
 
                 double ellipseX = 0;
                 if (point.X < 0)
@@ -587,15 +582,15 @@ namespace Orc.Controls
                     }
                 }
 
-                _ellipseHsv.SetValue(Canvas.LeftProperty, ellipseX);
-                _ellipseHsv.SetValue(Canvas.TopProperty, ellipseY);
+                _ellipseHsv.SetCurrentValue(Canvas.LeftProperty, ellipseX);
+                _ellipseHsv.SetCurrentValue(Canvas.TopProperty, ellipseY);
 
                 if (Updating)
                 {
                     return;
                 }
 
-                Color color = GetHSVColor();
+                var color = GetHSVColor();
                 UpdateControls(color, false, true, true);
             }
         }
@@ -610,9 +605,9 @@ namespace Orc.Controls
                 return;
             }
 
-            List<PredefinedColor> list = PredefinedColor.All;
+            var list = PredefinedColor.All;
             _dictionaryColor = new Dictionary<Color, PredefinedColorItem>();
-            foreach (PredefinedColor color in list)
+            foreach (var color in list)
             {
                 var item = new PredefinedColorItem(color.Value, color.Name);
                 _comboBoxColor.Items.Add(item);
@@ -634,11 +629,12 @@ namespace Orc.Controls
                 return;
             }
 
-            List<PredefinedColor> list = PredefinedColor.AllThemeColors;
+            var list = PredefinedColor.AllThemeColors;
             _themeColors = new Dictionary<Color, PredefinedColorItem>();
             int r = 0;
             int c = 0;
-            foreach (PredefinedColor color in list)
+
+            foreach (var color in list)
             {
                 var item = new PredefinedColorItem(color.Value, color.Name);
                 item.SetValue(Grid.RowProperty, r);
@@ -685,64 +681,64 @@ namespace Orc.Controls
                 // HSV
                 if (hsv)
                 {
-                    double h = ColorHelper.GetHSV_H(color);
-                    double s = ColorHelper.GetHSV_S(color);
-                    double v = ColorHelper.GetHSV_V(color);
+                    var h = ColorHelper.GetHSV_H(color);
+                    var s = ColorHelper.GetHSV_S(color);
+                    var v = ColorHelper.GetHSV_V(color);
 
-                    _sliderHsv.Value = h;
-                    _gradientStopHsvColor.Color = ColorHelper.HSV2RGB(h, 1d, 1d);
+                    _sliderHsv.SetCurrentValue(Slider.ValueProperty, h);
+                    _gradientStopHsvColor.SetCurrentValue(GradientStop.ColorProperty, ColorHelper.HSV2RGB(h, 1d, 1d));
 
-                    double x = s*(_rectangleHsv.ActualWidth - 1);
-                    double y = (1 - v)*(_rectangleHsv.ActualHeight - 1);
+                    var x = s*(_rectangleHsv.ActualWidth - 1);
+                    var y = (1 - v)*(_rectangleHsv.ActualHeight - 1);
 
-                    _ellipseHsv.SetValue(Canvas.LeftProperty, x - _ellipseHsv.ActualWidth/2);
-                    _ellipseHsv.SetValue(Canvas.TopProperty, y - _ellipseHsv.ActualHeight/2);
+                    _ellipseHsv.SetCurrentValue(Canvas.LeftProperty, x - _ellipseHsv.ActualWidth/2);
+                    _ellipseHsv.SetCurrentValue(Canvas.TopProperty, y - _ellipseHsv.ActualHeight/2);
                 }
 
                 if (rgb)
                 {
-                    byte a = color.A;
-                    byte r = color.R;
-                    byte g = color.G;
-                    byte b = color.B;
+                    var a = color.A;
+                    var r = color.R;
+                    var g = color.G;
+                    var b = color.B;
 
-                    _sliderA.Value = a;
-                    _gradientStopA0.Color = Color.FromArgb(0, r, g, b);
-                    _gradientStopA1.Color = Color.FromArgb(255, r, g, b);
-                    _textBoxA.Text = a.ToString("X2");
+                    _sliderA.SetCurrentValue(RangeBase.ValueProperty, (double)a);
+                    _gradientStopA0.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(0, r, g, b));
+                    _gradientStopA1.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, r, g, b));
+                    _textBoxA.SetCurrentValue(TextBox.TextProperty, a.ToString("X2"));
 
-                    _sliderR.Value = r;
-                    _gradientStopR0.Color = Color.FromArgb(255, 0, g, b);
-                    _gradientStopR1.Color = Color.FromArgb(255, 255, g, b);
-                    _textBoxR.Text = r.ToString("X2");
+                    _sliderR.SetCurrentValue(RangeBase.ValueProperty, (double)r);
+                    _gradientStopR0.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, 0, g, b));
+                    _gradientStopR1.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, 255, g, b));
+                    _textBoxR.SetCurrentValue(TextBox.TextProperty, r.ToString("X2"));
 
-                    _sliderG.Value = g;
-                    _gradientStopG0.Color = Color.FromArgb(255, r, 0, b);
-                    _gradientStopG1.Color = Color.FromArgb(255, r, 255, b);
-                    _textBoxG.Text = g.ToString("X2");
+                    _sliderG.SetCurrentValue(RangeBase.ValueProperty, (double)g);
+                    _gradientStopG0.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, r, 0, b));
+                    _gradientStopG1.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, r, 255, b));
+                    _textBoxG.SetCurrentValue(TextBox.TextProperty, g.ToString("X2"));
 
-                    _sliderB.Value = b;
-                    _gradientStopB0.Color = Color.FromArgb(255, r, g, 0);
-                    _gradientStopB1.Color = Color.FromArgb(255, r, g, 255);
-                    _textBoxB.Text = b.ToString("X2");
+                    _sliderB.SetCurrentValue(RangeBase.ValueProperty, (double)b);
+                    _gradientStopB0.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, r, g, 0));
+                    _gradientStopB1.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, r, g, 255));
+                    _textBoxB.SetCurrentValue(TextBox.TextProperty, b.ToString("X2"));
                 }
 
                 if (predifined)
                 {
-                    _brushColor.Color = color;
+                    _brushColor.SetCurrentValue(SolidColorBrush.ColorProperty, color);
                     if (_dictionaryColor.ContainsKey(color))
                     {
-                        _comboBoxColor.SelectedItem = _dictionaryColor[color];
-                        _textBoxColor.Text = string.Empty;
+                        _comboBoxColor.SetCurrentValue(Selector.SelectedItemProperty, _dictionaryColor[color]);
+                        _textBoxColor.SetCurrentValue(TextBox.TextProperty, string.Empty);
                     }
                     else
                     {
-                        _comboBoxColor.SelectedItem = null;
-                        _textBoxColor.Text = color.ToString();
+                        _comboBoxColor.SetCurrentValue(Selector.SelectedItemProperty, null);
+                        _textBoxColor.SetCurrentValue(TextBox.TextProperty, color.ToString());
                     }
                 }
 
-                Color = color;
+                SetCurrentValue(ColorProperty, color);
             }
             finally
             {
@@ -785,7 +781,7 @@ namespace Orc.Controls
             var coloritem = _comboBoxColor.SelectedItem as PredefinedColorItem;
             if (coloritem != null)
             {
-                Color = coloritem.Color;
+                SetCurrentValue(ColorProperty, coloritem.Color);
             }
         }
 
@@ -863,9 +859,9 @@ namespace Orc.Controls
                 return;
             }
 
-            _gradientStopHsvColor.Color = ColorHelper.HSV2RGB(e.NewValue, 1d, 1d);
+            _gradientStopHsvColor.SetCurrentValue(GradientStop.ColorProperty, ColorHelper.HSV2RGB(e.NewValue, 1d, 1d));
 
-            Color color = GetHSVColor();
+            var color = GetHSVColor();
             UpdateControls(color, false, true, true);
         }
 
@@ -881,7 +877,7 @@ namespace Orc.Controls
                 return;
             }
 
-            Color color = GetRGBColor();
+            var color = GetRGBColor();
             UpdateControls(color, true, true, true);
         }
 
@@ -897,10 +893,10 @@ namespace Orc.Controls
                 return;
             }
 
-            int value = 0;
+            var value = 0;
             if (int.TryParse(_textBoxA.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
             {
-                _sliderA.Value = value;
+                _sliderA.SetCurrentValue(RangeBase.ValueProperty, (double)value);
             }
         }
 
@@ -916,10 +912,10 @@ namespace Orc.Controls
                 return;
             }
 
-            int value = 0;
+            var value = 0;
             if (int.TryParse(_textBoxB.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
             {
-                _sliderB.Value = value;
+                _sliderB.SetCurrentValue(RangeBase.ValueProperty, (double)value);
             }
         }
 
@@ -939,8 +935,8 @@ namespace Orc.Controls
             {
                 BeginUpdate();
 
-                _comboBoxColor.SelectedItem = null;
-                _textBoxColor.Text = Color.ToString();
+                _comboBoxColor.SetCurrentValue(Selector.SelectedItemProperty, null);
+                _textBoxColor.SetCurrentValue(TextBox.TextProperty, Color.ToString());
             }
             finally
             {
@@ -960,7 +956,7 @@ namespace Orc.Controls
                 return;
             }
 
-            string text = _textBoxColor.Text.TrimStart('#');
+            var text = _textBoxColor.Text.TrimStart('#');
             uint value = 0;
             if (uint.TryParse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
             {
@@ -977,12 +973,12 @@ namespace Orc.Controls
                     a = 0xFF;
                 }
 
-                Color color = Color.FromArgb(a, r, g, b);
-                Color = color;
+                var color = Color.FromArgb(a, r, g, b);
+                SetCurrentValue(ColorProperty, color);
             }
             else
             {
-                Color = Colors.White;
+                SetCurrentValue(ColorProperty, Colors.White);
             }
         }
 
@@ -998,10 +994,10 @@ namespace Orc.Controls
                 return;
             }
 
-            int value = 0;
+            var value = 0;
             if (int.TryParse(_textBoxG.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
             {
-                _sliderG.Value = value;
+                _sliderG.SetCurrentValue(RangeBase.ValueProperty, (double)value);
             }
         }
 
@@ -1017,10 +1013,10 @@ namespace Orc.Controls
                 return;
             }
 
-            int value = 0;
+            var value = 0;
             if (int.TryParse(_textBoxR.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
             {
-                _sliderR.Value = value;
+                _sliderR.SetCurrentValue(RangeBase.ValueProperty, (double)value);
             }
         }
 
@@ -1033,7 +1029,7 @@ namespace Orc.Controls
         {
             if (_themeColorsGrid.SelectedItems.Count == 1)
             {
-                Color c = ((PredefinedColorItem) _themeColorsGrid.SelectedItem).Color;
+                var c = ((PredefinedColorItem) _themeColorsGrid.SelectedItem).Color;
                 UpdateControls(c, true, true, true);
             }
         }

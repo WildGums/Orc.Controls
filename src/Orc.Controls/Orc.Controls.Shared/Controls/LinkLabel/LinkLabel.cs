@@ -260,8 +260,9 @@ namespace Orc.Controls
             if (typedSender != null)
             {
                 var url = args.NewValue as Uri;
-                typedSender.HasUrl = url != null && !String.IsNullOrEmpty(url.OriginalString);
-                typedSender.IsEnabled = typedSender.HasUrl;
+
+                typedSender.SetCurrentValue(HasUrlProperty, url != null && !String.IsNullOrEmpty(url.OriginalString));
+                typedSender.SetCurrentValue(IsEnabledProperty, typedSender.HasUrl);
             }
         }
 

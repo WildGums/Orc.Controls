@@ -59,10 +59,12 @@ namespace Orc.Controls
 
             _popup = (Popup) GetTemplateChild("PART_Popup");
             _toggleDropDown = (ToggleButton) GetTemplateChild("PART_ToggleButton");
+
             _colorBoard = new ColorBoard();
-            _colorBoard.Color = Color;
+            _colorBoard.SetCurrentValue(ColorBoard.ColorProperty, Color);
             _colorBoard.SizeChanged += colorBoard_SizeChanged;
-            _popup.Child = _colorBoard;
+
+            _popup.SetCurrentValue(Popup.ChildProperty, _colorBoard);
             _colorBoard.DoneClicked += colorBoard_DoneClicked;
             _colorBoard.CancelClicked += colorBoard_CancelClicked;
 
@@ -212,8 +214,8 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private void colorBoard_DoneClicked(object sender, RoutedEventArgs e)
         {
-            Color = _colorBoard.Color;
-            _popup.IsOpen = false;
+            SetCurrentValue(ColorProperty, _colorBoard.Color);
+            _popup.SetCurrentValue(Popup.IsOpenProperty, false);
         }
 
         /// <summary>
@@ -223,8 +225,11 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private void colorBoard_CancelClicked(object sender, RoutedEventArgs e)
         {
-            _colorBoard.Color = CurrentColor = Color;
-            _popup.IsOpen = false;
+            var color = Color;
+
+            SetCurrentValue(CurrentColorProperty, color);
+            _colorBoard.SetCurrentValue(ColorBoard.ColorProperty, color);
+            _popup.SetCurrentValue(Popup.IsOpenProperty, false);
         }
 
         /// <summary>
@@ -236,22 +241,22 @@ namespace Orc.Controls
         {
             if (PopupPlacement == PlacementMode.Bottom)
             {
-                _popup.VerticalOffset = ActualHeight;
+                _popup.SetCurrentValue(Popup.VerticalOffsetProperty, ActualHeight);
             }
 
             if (PopupPlacement == PlacementMode.Top)
             {
-                _popup.VerticalOffset = -1*_colorBoard.ActualHeight;
+                _popup.SetCurrentValue(Popup.VerticalOffsetProperty, -1*_colorBoard.ActualHeight);
             }
 
             if (PopupPlacement == PlacementMode.Right)
             {
-                _popup.HorizontalOffset = ActualWidth;
+                _popup.SetCurrentValue(Popup.HorizontalOffsetProperty, ActualWidth);
             }
 
             if (PopupPlacement == PlacementMode.Left)
             {
-                _popup.HorizontalOffset = -1*_colorBoard.ActualWidth;
+                _popup.SetCurrentValue(Popup.HorizontalOffsetProperty, -1*_colorBoard.ActualWidth);
             }
         }
         #endregion
