@@ -21,8 +21,7 @@
     </ControlTemplate>
 
     <!-- Dummy base style -->
-    <Style TargetType="{x:Type local:DateTimePickerControl}">
-    </Style>
+    <Style TargetType="{x:Type local:DateTimePickerControl}"/>
 
     <Style x:Key="DateTimePickerInnerGridStyle" TargetType="{x:Type Grid}">
         <Style.Triggers>
@@ -50,8 +49,8 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
-    <Style TargetType="{x:Type ListBoxItem}">
+
+    <Style x:Key="DateTimePickerListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="Padding" Value="2 2 5 2" />
         <Style.Resources>
             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource DateTimePickerHighlightColor}"/>
@@ -62,8 +61,8 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
-    <Style TargetType="{x:Type Border}">
+
+    <Style x:Key="DateTimePickerBorderStyle" TargetType="{x:Type Border}">
         <Setter Property="BorderBrush" Value="LightGray"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
@@ -109,21 +108,21 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    
-    <Style BasedOn="{x:Null}" TargetType="{x:Type ToggleButton}">
+
+    <Style x:Key="DateTimePickerLettersToggleButtonStyle" BasedOn="{x:Null}" TargetType="{x:Type ToggleButton}">
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <TextBlock Style="{StaticResource LettersStyle}">
-                                <ContentPresenter/>
+                        <ContentPresenter/>
                     </TextBlock>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
-    <Style BasedOn="{x:Null}" TargetType="{x:Type local:NumericTextBox}">
+
+    <Style x:Key="DateTimePickerNumericTextBoxStyle" BasedOn="{x:Null}" TargetType="{x:Type local:NumericTextBox}">
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="Margin" Value="2 0 0 0"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
