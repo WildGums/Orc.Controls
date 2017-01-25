@@ -50,7 +50,7 @@ namespace Orc.Controls
         /// The color property.
         /// </summary>
         public static readonly DependencyProperty ColorProperty = DependencyProperty.RegisterAttached(
-            "Color", typeof (Color), typeof (ColorBoard), new PropertyMetadata(OnColorPropertyChanged));
+            "Color", typeof (Color), typeof (ColorBoard), new PropertyMetadata(OnColorChanged));
 
         /// <summary>
         /// The recent color items property.
@@ -394,7 +394,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="d">The d.</param>
         /// <param name="e">The e.</param>
-        private static void OnColorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as ColorBoard;
             if (control != null && control.rootElement != null)

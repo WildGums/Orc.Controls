@@ -420,7 +420,9 @@ namespace Orc.Controls
 
         private void OnColorProviderPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+#pragma warning disable WPF1014
             if (e.HasPropertyChanged("IsChecked"))
+#pragma warning restore WPF1014
             {
                 UpdateIsAllVisible();
             }

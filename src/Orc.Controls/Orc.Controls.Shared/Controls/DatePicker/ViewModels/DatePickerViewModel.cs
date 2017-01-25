@@ -39,7 +39,7 @@ namespace Orc.Controls
 
                 _showOptionsButton = value;
 
-                RaisePropertyChanged("ShowOptionsButton");
+                RaisePropertyChanged(nameof(ShowOptionsButton));
             }
         }
 

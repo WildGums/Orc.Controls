@@ -15,7 +15,7 @@ namespace Orc.Controls
     {
         #region Properties
         public static readonly DependencyProperty BindableDocumentProperty = DependencyProperty.Register("BindableDocument",
-            typeof(FlowDocument), typeof(BindableRichTextBox), new PropertyMetadata(OnDocumentChanged));
+            typeof(FlowDocument), typeof(BindableRichTextBox), new PropertyMetadata(OnBindableDocumentChanged));
 
         public FlowDocument BindableDocument
         {
@@ -25,7 +25,7 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-        private static void OnDocumentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnBindableDocumentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var thisControl = (RichTextBox) d;
 
