@@ -567,6 +567,11 @@ namespace Orc.Controls
 
         private void OnListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (_handlingListBoxSelectionChanged)
+            {
+                return;
+            }
+
             _handlingListBoxSelectionChanged = true;
 
             try
