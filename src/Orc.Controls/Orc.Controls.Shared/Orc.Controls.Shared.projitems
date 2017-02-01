@@ -10,7 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
-	<Compile Include="$(MSBuildThisFileDirectory)..\..\GlobalSuppressions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GlobalSuppressions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adorners\ResizingAdorner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Controls\FilterBoxControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Services\Interfaces\IValidationNamesService.cs" />
@@ -130,9 +130,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ColorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\TreeViewItemExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\WindowExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimeFormatHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimePartHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ScreenHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DateTimeFormatInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />

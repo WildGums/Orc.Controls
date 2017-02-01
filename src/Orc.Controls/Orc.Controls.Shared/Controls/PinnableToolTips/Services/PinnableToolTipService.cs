@@ -15,6 +15,7 @@ namespace Orc.Controls
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Interop;
+    using Catel.Windows;
 
     /// <summary>
     /// The pinnable toolTip service.
@@ -455,7 +456,7 @@ namespace Orc.Controls
             {
                 foreach (var toolTip in ElementsAndToolTips.Values.Where(toolTip => toolTip != null && !toolTip.IsPinned))
                 {
-                    if (ScreenHelper.IsParentOf(toolTip, e.OriginalSource as DependencyObject))
+                    if(toolTip.FindLogicalAncestor(x => ReferenceEquals(x, e.OriginalSource)) != null)
                     {
                         continue;
                     }

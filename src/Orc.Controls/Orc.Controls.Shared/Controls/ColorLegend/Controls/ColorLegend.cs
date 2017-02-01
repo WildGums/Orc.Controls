@@ -584,7 +584,7 @@ namespace Orc.Controls
                 return;
             }
             
-            var qryAllChecks = _listBox.Descendents().OfType<CheckBox>();
+            var qryAllChecks = _listBox.GetDescendents().OfType<CheckBox>();
 
             foreach (var check in qryAllChecks)
             {
@@ -601,7 +601,7 @@ namespace Orc.Controls
                 return;
             }
 
-            var qryAllArrows = _listBox.Descendents().OfType<System.Windows.Shapes.Path>().Where(p => p.Name == "arrow");
+            var qryAllArrows = _listBox.GetDescendents().OfType<System.Windows.Shapes.Path>().Where(p => p.Name == "arrow");
             foreach (var path in qryAllArrows)
             {
                 path.SetCurrentValue(VisibilityProperty, AllowColorEditing ? Visibility.Visible : Visibility.Collapsed);
