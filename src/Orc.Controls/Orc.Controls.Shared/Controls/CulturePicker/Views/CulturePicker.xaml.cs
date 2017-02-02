@@ -28,7 +28,7 @@ namespace Orc.Controls
             "SelectedCulture", typeof (CultureInfo), typeof (CulturePicker), 
             new FrameworkPropertyMetadata(default(CultureInfo), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewModelWins)]
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public CultureInfo SelectedCulture
         {
             get { return (CultureInfo) GetValue(SelectedCultureProperty); }
