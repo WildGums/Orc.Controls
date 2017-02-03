@@ -41,22 +41,16 @@ namespace Orc.Controls
 
         #region Fields
         private ColorBoard _colorBoard;
-
         private ListBox _listBox;
-
         private Popup _popup;
-
         private ButtonBase _button;
-
         private CheckBox _checkBox;
-
         private IColorLegendItem _currentColorLegendItem;
-
         private bool _isUpdatingAllVisible;
-
         private ChangeNotificationWrapper _changeNotificationWrapper;
-
         private Color _previousColor;
+        private bool _handlingListBoxSelectionChanged;
+        private bool _settingSelectedList;
         #endregion
 
         #region Constructors
@@ -524,11 +518,7 @@ namespace Orc.Controls
 
             if (_listBox != null)
             {
-                _listBox.SelectionChanged += (sender, args) =>
-                {
-                    SetCurrentValue(SelectedColorItemsProperty, GetSelectedList());
-                    SelectionChanged.SafeInvoke(sender, args);
-                };
+                _listBox.SelectionChanged += OnListBoxSelectionChanged;
 
                 _listBox.SetCurrentValue(ListBox.SelectionModeProperty, SelectionMode.Extended);
 
@@ -575,6 +565,26 @@ namespace Orc.Controls
             _colorBoard.CancelClicked += ColorBoardCancelClicked;
         }
 
+        private void OnListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_handlingListBoxSelectionChanged)
+            {
+                return;
+            }
+
+            _handlingListBoxSelectionChanged = true;
+
+            try
+            {
+                SetCurrentValue(SelectedColorItemsProperty, GetSelectedList());
+                SelectionChanged.SafeInvoke(sender, e);
+            }
+            finally
+            {
+                _handlingListBoxSelectionChanged = false;
+            }
+        }
+
         public void UpdateVisibilityControlsVisibility()
         {
             if (_listBox == null)
@@ -609,9 +619,7 @@ namespace Orc.Controls
         public IEnumerable<IColorLegendItem> GetSelectedList()
         {
             return from object item in _listBox.SelectedItems select item as IColorLegendItem;
-        }
-
-        private bool _settingSelectedList;
+        }        
 
         public void SetSelectedList(IEnumerable<IColorLegendItem> selectedList)
         {
@@ -626,7 +634,11 @@ namespace Orc.Controls
             {
                 var colorLegendItems = selectedList as IList<IColorLegendItem> ?? selectedList.ToList();
 
-                _listBox.SelectedItems.Clear();
+                if (!_handlingListBoxSelectionChanged)
+                {
+                    _listBox.SelectedItems.Clear();
+                }
+
                 var itemsSource = ItemsSource;
                 if (itemsSource == null)
                 {
@@ -641,7 +653,11 @@ namespace Orc.Controls
                 foreach (var legendItem in colorLegendItems)
                 {
                     legendItem.IsSelected = true;
-                    _listBox.SelectedItems.Add(legendItem);
+
+                    if (!_handlingListBoxSelectionChanged)
+                    {
+                        _listBox.SelectedItems.Add(legendItem);
+                    }
                 }
             }
             finally
