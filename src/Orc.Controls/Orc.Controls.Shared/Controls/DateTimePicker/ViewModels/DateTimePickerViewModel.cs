@@ -256,20 +256,31 @@ namespace Orc.Controls
 
         public string AmPm
         {
-            get;
-            private set;
-        }
-        #endregion
-
-        #region Properties
-        protected override void OnPropertyChanged(AdvancedPropertyChangedEventArgs e)
-        {
-            base.OnPropertyChanged(e);
-
-            if (e.HasPropertyChanged("Value"))
+            get { return _value == null ? null : (_value.Value >= _value.Value.Date.AddHours(12)) ? Meridiems.LongPM : Meridiems.LongAM; }
+            set
             {
-                var newValue = e.NewValue as DateTime?;
-                AmPm = newValue == null ? null : newValue.Value.ToString("tt", CultureInfo.InvariantCulture);
+                if (!Meridiems.LongAM.Equals(value) && !Meridiems.LongPM.Equals(value))
+                {
+                    return;
+                }
+
+                if (_value == null)
+                {
+                    Value = new DateTime(_todayValue.Year, _todayValue.Month, _todayValue.Day, _todayValue.Hour, _todayValue.Minute, _todayValue.Second);
+                }
+                else
+                {
+                    if (_value.Value.Hour >= 12 && Meridiems.LongPM.Equals(value)
+                        || _value.Value.Hour < 12 && Meridiems.LongAM.Equals(value))
+                    {
+                        return;
+                    }
+
+                    var newValue = new DateTime(Year.Value, Month.Value, Day.Value, Hour.Value, Minute.Value, Second.Value);
+                    newValue = newValue.AddHours(Meridiems.LongAM.Equals(value) ? -12 : 12);
+
+                    Value = newValue;
+                }
             }
         }
         #endregion

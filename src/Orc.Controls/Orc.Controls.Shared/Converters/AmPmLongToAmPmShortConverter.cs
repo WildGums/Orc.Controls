@@ -28,14 +28,31 @@ namespace Orc.Controls.Converters
         {
             if (IsEnabled && value != null)
             {
-                if(string.Equals(value, "AM"))
+                if (string.Equals(value, Meridiems.LongAM))
                 {
-                    return "A";
+                    return Meridiems.ShortAM;
                 }
 
-                if(string.Equals(value, "PM"))
+                if (string.Equals(value, Meridiems.LongPM))
                 {
-                    return "P";
+                    return Meridiems.ShortPM;
+                }
+            }
+            return value;
+        }
+
+        protected override object ConvertBack(object value, Type targetType, object parameter)
+        {
+            if (IsEnabled && value != null)
+            {
+                if (string.Equals(value, Meridiems.ShortAM))
+                {
+                    return Meridiems.LongAM;
+                }
+
+                if (string.Equals(value, Meridiems.ShortPM))
+                {
+                    return Meridiems.LongPM;
                 }
             }
             return value;

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DateTimePickerControl.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -18,6 +18,7 @@ namespace Orc.Controls
     using System.Windows.Input;
     using System.Windows.Media;
     using Catel.MVVM.Views;
+    using Catel.Reflection;
     using Catel.Windows.Threading;
     using Calendar = System.Windows.Controls.Calendar;
     using Converters;
@@ -28,9 +29,10 @@ namespace Orc.Controls
     public partial class DateTimePickerControl
     {
         #region Fields
-        private readonly List<NumericTextBox> _numericTextBoxes;
+        private readonly List<TextBox> _textBoxes;
         private DateTimePart _activeDateTimePart;
         private DateTime _todayValue;
+        private DateTimeFormatInfo _formatInfo;
         #endregion
 
         #region Constructors
@@ -43,7 +45,9 @@ namespace Orc.Controls
         {
             InitializeComponent();
 
-            _numericTextBoxes = new List<NumericTextBox>()
+            KeyboardNavigation.TabNavigationProperty.OverrideMetadata(typeof(DateTimePickerControl), new FrameworkPropertyMetadata(KeyboardNavigationMode.Local));
+
+            _textBoxes = new List<TextBox>()
             {
                 NumericTBDay,
                 NumericTBMonth,
@@ -51,6 +55,7 @@ namespace Orc.Controls
                 NumericTBHour,
                 NumericTBMinute,
                 NumericTBSecond,
+                ListTBAmPm
             };
 
             DateTime now = DateTime.Now;
@@ -59,40 +64,36 @@ namespace Orc.Controls
 
         private void SubscribeNumericTextBoxes()
         {
-            // Enable support for switching between numeric textboxes, 
-            // 0-4 because we can't switch to right on last numeric textbox.
-            _numericTextBoxes[0].RightBoundReached += NumericTextBoxOnRightBoundReached;
-            _numericTextBoxes[1].RightBoundReached += NumericTextBoxOnRightBoundReached;
-            _numericTextBoxes[2].RightBoundReached += NumericTextBoxOnRightBoundReached;
-            _numericTextBoxes[3].RightBoundReached += NumericTextBoxOnRightBoundReached;
-            _numericTextBoxes[4].RightBoundReached += NumericTextBoxOnRightBoundReached;
+            // Enable support for switching between textboxes,
+            // 0-5 because we can't switch to right on last textbox.
+            for (int i = 0; i <= 5; i++)
+            {
+                _textBoxes[i].SubscribeToOnRightBoundReachedEvent(TextBoxOnRightBoundReached);
+            }
 
-            // Enable support for switching between numeric textboxes, 
-            // 5-1 because we can't switch to left on first numeric textbox.
-            _numericTextBoxes[5].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
-            _numericTextBoxes[4].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
-            _numericTextBoxes[3].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
-            _numericTextBoxes[2].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
-            _numericTextBoxes[1].LeftBoundReached += NumericTextBoxOnLeftBoundReached;
+            // Enable support for switching between textboxes,
+            // 5-1 because we can't switch to left on first textbox.
+            for (int i = 6; i >= 1; i--)
+            {
+                _textBoxes[i].SubscribeToOnLeftBoundReachedEvent(TextBoxOnLeftBoundReached);
+            }
         }
 
         private void UnsubscribeNumericTextBoxes()
         {
-            // Disable support for switching between numeric textboxes, 
-            // 0-4 because we can't switch to right on last numeric textbox.
-            _numericTextBoxes[0].RightBoundReached -= NumericTextBoxOnRightBoundReached;
-            _numericTextBoxes[1].RightBoundReached -= NumericTextBoxOnRightBoundReached;
-            _numericTextBoxes[2].RightBoundReached -= NumericTextBoxOnRightBoundReached;
-            _numericTextBoxes[3].RightBoundReached -= NumericTextBoxOnRightBoundReached;
-            _numericTextBoxes[4].RightBoundReached -= NumericTextBoxOnRightBoundReached;
+            // Disable support for switching between textboxes,
+            // 0-4 because we can't switch to right on last textbox.
+            for (int i = 0; i <= 5; i++)
+            {
+                _textBoxes[i].UnsubscribeFromOnRightBoundReachedEvent(TextBoxOnRightBoundReached);
+            }
 
-            // Disable support for switching between numeric textboxes, 
-            // 5-1 because we can't switch to left on first numeric textbox.
-            _numericTextBoxes[5].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
-            _numericTextBoxes[4].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
-            _numericTextBoxes[3].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
-            _numericTextBoxes[2].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
-            _numericTextBoxes[1].LeftBoundReached -= NumericTextBoxOnLeftBoundReached;
+            // Disable support for switching between textboxes,
+            // 5-1 because we can't switch to left on first textbox.
+            for (int i = 6; i >= 1; i--)
+            {
+                _textBoxes[i].UnsubscribeFromOnLeftBoundReachedEvent(TextBoxOnLeftBoundReached);
+            }
         }
         #endregion
 
@@ -207,19 +208,19 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-        private void NumericTextBoxOnLeftBoundReached(object sender, EventArgs e)
+        private void TextBoxOnLeftBoundReached(object sender, EventArgs e)
         {
-            var currentTextBoxIndex = _numericTextBoxes.IndexOf(sender as NumericTextBox);
-            var prevTextBox = _numericTextBoxes[currentTextBoxIndex - 1];
+            var currentTextBoxIndex = _textBoxes.IndexOf(sender as TextBox);
+            var prevTextBox = _textBoxes[currentTextBoxIndex - 1];
 
             prevTextBox.CaretIndex = prevTextBox.Text.Length;
             prevTextBox.Focus();
         }
 
-        private void NumericTextBoxOnRightBoundReached(object sender, EventArgs eventArgs)
+        private void TextBoxOnRightBoundReached(object sender, EventArgs eventArgs)
         {
-            var currentTextBoxIndex = _numericTextBoxes.IndexOf(sender as NumericTextBox);
-            var nextTextBox = _numericTextBoxes[currentTextBoxIndex + 1];
+            var currentTextBoxIndex = _textBoxes.IndexOf(sender as TextBox);
+            var nextTextBox = _textBoxes[currentTextBoxIndex + 1];
 
             nextTextBox.CaretIndex = 0;
             nextTextBox.Focus();
@@ -229,11 +230,11 @@ namespace Orc.Controls
         {
             _activeDateTimePart = (DateTimePart)((ToggleButton)sender).Tag;
 
-            var activeNumericTextBox = (NumericTextBox)FindName(_activeDateTimePart.GetDateTimePartName());
+            var activeTextBox = (TextBox)FindName(_activeDateTimePart.GetDateTimePartName());
             var activeToggleButton = (ToggleButton)FindName(_activeDateTimePart.GetDateTimePartToggleButtonName());
 
             var dateTime = Value == null ? _todayValue : Value.Value;
-            var dateTimePartHelper = new DateTimePartHelper(dateTime, _activeDateTimePart, activeNumericTextBox, activeToggleButton);
+            var dateTimePartHelper = new DateTimePartHelper(dateTime, _activeDateTimePart, _formatInfo, activeTextBox, activeToggleButton);
             dateTimePartHelper.CreatePopup();
         }
 
@@ -450,69 +451,87 @@ namespace Orc.Controls
 
         private void ApplyFormat()
         {
-            var formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format, false);
+            _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format, false);
 
-            IsYearShortFormat = formatInfo.IsYearShortFormat;
-            NumericTBYear.SetCurrentValue(NumericTextBox.MinValueProperty, (double)(formatInfo.IsYearShortFormat ? 0 : 1));
-            NumericTBYear.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)(formatInfo.IsYearShortFormat ? 99 : 3000));
+            IsYearShortFormat = _formatInfo.IsYearShortFormat;
+            NumericTBYear.SetCurrentValue(NumericTextBox.MinValueProperty, (double)(_formatInfo.IsYearShortFormat ? 0 : 1));
+            NumericTBYear.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)(_formatInfo.IsYearShortFormat ? 99 : 3000));
 
-            IsHour12Format = formatInfo.IsHour12Format.Value;
-            NumericTBHour.SetCurrentValue(NumericTextBox.MinValueProperty, (double)(formatInfo.IsHour12Format.Value ? 1 : 0));
-            NumericTBHour.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)(formatInfo.IsHour12Format.Value ? 12 : 23));
-            ToggleButtonH.SetCurrentValue(TagProperty, formatInfo.IsHour12Format.Value ? DateTimePart.Hour12 : DateTimePart.Hour);
+            IsHour12Format = _formatInfo.IsHour12Format.Value;
+            NumericTBHour.SetCurrentValue(NumericTextBox.MinValueProperty, (double)(_formatInfo.IsHour12Format.Value ? 1 : 0));
+            NumericTBHour.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)(_formatInfo.IsHour12Format.Value ? 12 : 23));
+            ToggleButtonH.SetCurrentValue(TagProperty, _formatInfo.IsHour12Format.Value ? DateTimePart.Hour12 : DateTimePart.Hour);
 
-            IsAmPmShortFormat = formatInfo.IsAmPmShortFormat.Value;
+            IsAmPmShortFormat = _formatInfo.IsAmPmShortFormat.Value;
 
             EnableOrDisableYearConverterDependingOnFormat();
             EnableOrDisableHourConverterDependingOnFormat();
             EnableOrDisableAmPmConverterDependingOnFormat();
 
-            NumericTBDay.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(formatInfo.DayFormat.Length));
-            NumericTBMonth.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(formatInfo.MonthFormat.Length));
-            NumericTBYear.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(formatInfo.YearFormat.Length));
-            NumericTBHour.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(formatInfo.HourFormat.Length));
-            NumericTBMinute.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(formatInfo.MinuteFormat.Length));
-            NumericTBSecond.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(formatInfo.SecondFormat.Length));
+            ListTBAmPm.SetCurrentValue(ListTextBox.ListOfValuesProperty, new List<string>()
+            {
+                Meridiems.GetAmForFormat(_formatInfo),
+                Meridiems.GetPmForFormat(_formatInfo)
+            });
+
+            NumericTBDay.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(_formatInfo.DayFormat.Length));
+            NumericTBMonth.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(_formatInfo.MonthFormat.Length));
+            NumericTBYear.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(_formatInfo.YearFormat.Length));
+            NumericTBHour.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(_formatInfo.HourFormat.Length));
+            NumericTBMinute.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(_formatInfo.MinuteFormat.Length));
+            NumericTBSecond.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(_formatInfo.SecondFormat.Length));
 
             UnsubscribeNumericTextBoxes();
 
-            Grid.SetColumn(NumericTBDay, GetPosition(formatInfo.DayPosition));
-            Grid.SetColumn(NumericTBMonth, GetPosition(formatInfo.MonthPosition));
-            Grid.SetColumn(NumericTBYear, GetPosition(formatInfo.YearPosition));
-            Grid.SetColumn(NumericTBHour, GetPosition(formatInfo.HourPosition.Value));
-            Grid.SetColumn(NumericTBMinute, GetPosition(formatInfo.MinutePosition.Value));
-            Grid.SetColumn(NumericTBSecond, GetPosition(formatInfo.SecondPosition.Value));
-            Grid.SetColumn(TextTBAmPm, GetPosition(formatInfo.AmPmPosition.HasValue == false ? 6 : formatInfo.AmPmPosition.Value));
+            Grid.SetColumn(NumericTBDay, GetPosition(_formatInfo.DayPosition));
+            Grid.SetColumn(NumericTBMonth, GetPosition(_formatInfo.MonthPosition));
+            Grid.SetColumn(NumericTBYear, GetPosition(_formatInfo.YearPosition));
+            Grid.SetColumn(NumericTBHour, GetPosition(_formatInfo.HourPosition.Value));
+            Grid.SetColumn(NumericTBMinute, GetPosition(_formatInfo.MinutePosition.Value));
+            Grid.SetColumn(NumericTBSecond, GetPosition(_formatInfo.SecondPosition.Value));
+            Grid.SetColumn(ListTBAmPm, GetPosition(_formatInfo.AmPmPosition.HasValue == false ? 6 : _formatInfo.AmPmPosition.Value));
 
-            Grid.SetColumn(ToggleButtonD, GetPosition(formatInfo.DayPosition) + 1);
-            Grid.SetColumn(ToggleButtonMo, GetPosition(formatInfo.MonthPosition) + 1);
-            Grid.SetColumn(ToggleButtonY, GetPosition(formatInfo.YearPosition) + 1);
-            Grid.SetColumn(ToggleButtonH, GetPosition(formatInfo.HourPosition.Value) + 1);
-            Grid.SetColumn(ToggleButtonM, GetPosition(formatInfo.MinutePosition.Value) + 1);
-            Grid.SetColumn(ToggleButtonS, GetPosition(formatInfo.SecondPosition.Value) + 1);
-            Grid.SetColumn(ToggleButtonT, GetPosition(formatInfo.AmPmPosition.HasValue == false ? 6 : formatInfo.AmPmPosition.Value) + 1);
+            Grid.SetColumn(ToggleButtonD, GetPosition(_formatInfo.DayPosition) + 1);
+            Grid.SetColumn(ToggleButtonMo, GetPosition(_formatInfo.MonthPosition) + 1);
+            Grid.SetColumn(ToggleButtonY, GetPosition(_formatInfo.YearPosition) + 1);
+            Grid.SetColumn(ToggleButtonH, GetPosition(_formatInfo.HourPosition.Value) + 1);
+            Grid.SetColumn(ToggleButtonM, GetPosition(_formatInfo.MinutePosition.Value) + 1);
+            Grid.SetColumn(ToggleButtonS, GetPosition(_formatInfo.SecondPosition.Value) + 1);
+            Grid.SetColumn(ToggleButtonT, GetPosition(_formatInfo.AmPmPosition.HasValue == false ? 6 : _formatInfo.AmPmPosition.Value) + 1);
 
             // Fix positions which could be broken, because of AM/PM textblock.
-            int dayPos = formatInfo.DayPosition, monthPos = formatInfo.MonthPosition, yearPos = formatInfo.YearPosition,
-                hourPos = formatInfo.HourPosition.Value, minutePos = formatInfo.MinutePosition.Value, secondPos = formatInfo.SecondPosition.Value;
-            FixNumericTextBoxesPositions(ref dayPos, ref monthPos, ref yearPos, ref hourPos, ref minutePos, ref secondPos);
+            int dayPos = _formatInfo.DayPosition, monthPos = _formatInfo.MonthPosition, yearPos = _formatInfo.YearPosition,
+                hourPos = _formatInfo.HourPosition.Value, minutePos = _formatInfo.MinutePosition.Value, secondPos = _formatInfo.SecondPosition.Value,
+                amPmPos = _formatInfo.AmPmPosition.HasValue == false ? 6 : _formatInfo.AmPmPosition.Value;
+            FixNumericTextBoxesPositions(ref dayPos, ref monthPos, ref yearPos, ref hourPos, ref minutePos, ref secondPos, ref amPmPos);
 
-            _numericTextBoxes[dayPos] = NumericTBDay;
-            _numericTextBoxes[monthPos] = NumericTBMonth;
-            _numericTextBoxes[yearPos] = NumericTBYear;
-            _numericTextBoxes[hourPos] = NumericTBHour;
-            _numericTextBoxes[minutePos] = NumericTBMinute;
-            _numericTextBoxes[secondPos] = NumericTBSecond;
+            _textBoxes[dayPos] = NumericTBDay;
+            _textBoxes[monthPos] = NumericTBMonth;
+            _textBoxes[yearPos] = NumericTBYear;
+            _textBoxes[hourPos] = NumericTBHour;
+            _textBoxes[minutePos] = NumericTBMinute;
+            _textBoxes[secondPos] = NumericTBSecond;
+            _textBoxes[amPmPos] = ListTBAmPm;
+
+            // Fix tab order inside control.
+            NumericTBDay.SetCurrentValue(TabIndexProperty, dayPos);
+            NumericTBMonth.SetCurrentValue(TabIndexProperty, monthPos);
+            NumericTBYear.SetCurrentValue(TabIndexProperty, yearPos);
+            NumericTBHour.SetCurrentValue(TabIndexProperty, hourPos);
+            NumericTBMinute.SetCurrentValue(TabIndexProperty, minutePos);
+            NumericTBSecond.SetCurrentValue(TabIndexProperty, secondPos);
+            ListTBAmPm.SetCurrentValue(TabIndexProperty, amPmPos);
+            DatePickerIcon.SetCurrentValue(TabIndexProperty, Int32.MaxValue);
 
             SubscribeNumericTextBoxes();
 
-            Separator1.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : formatInfo.Separator1);
-            Separator2.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : formatInfo.Separator2);
-            Separator3.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : formatInfo.Separator3);
-            Separator4.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : formatInfo.Separator4);
-            Separator5.SetCurrentValue(TextBlock.TextProperty, Value == null || HideSeconds ? string.Empty : formatInfo.Separator5);
-            Separator6.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : formatInfo.Separator6);
-            Separator7.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : formatInfo.Separator7);
+            Separator1.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator1);
+            Separator2.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator2);
+            Separator3.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator3);
+            Separator4.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator4);
+            Separator5.SetCurrentValue(TextBlock.TextProperty, Value == null || HideSeconds ? string.Empty : _formatInfo.Separator5);
+            Separator6.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator6);
+            Separator7.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator7);
         }
 
         private int GetPosition(int index)
@@ -541,7 +560,7 @@ namespace Orc.Controls
             if (converter != null)
             {
                 converter.IsEnabled = IsAmPmShortFormat;
-                BindingOperations.GetBindingExpression(TextTBAmPm, TextBlock.TextProperty).UpdateTarget();
+                BindingOperations.GetBindingExpression(ListTBAmPm, ListTextBox.ValueProperty).UpdateTarget();
             }
         }
 
@@ -555,7 +574,7 @@ namespace Orc.Controls
             }
         }
 
-        private void FixNumericTextBoxesPositions(ref int dayPosition, ref int monthPosition, ref int yearPosition, ref int hourPosition, ref int minutePosition, ref int secondPosition)
+        private void FixNumericTextBoxesPositions(ref int dayPosition, ref int monthPosition, ref int yearPosition, ref int hourPosition, ref int minutePosition, ref int secondPosition, ref int amPmPosition)
         {
             Dictionary<string, int> dict = new Dictionary<string, int>()
             {
@@ -564,7 +583,8 @@ namespace Orc.Controls
                 { "yearPosition", yearPosition },
                 { "hourPosition", hourPosition },
                 { "minutePosition", minutePosition },
-                { "secondPosition", secondPosition }
+                { "secondPosition", secondPosition },
+                { "amPmPosition", amPmPosition }
             };
 
             var current = 0;
@@ -579,6 +599,7 @@ namespace Orc.Controls
             hourPosition = dict["hourPosition"];
             minutePosition = dict["minutePosition"];
             secondPosition = dict["secondPosition"];
+            amPmPosition = dict["amPmPosition"];
         }
         #endregion
     }

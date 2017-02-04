@@ -122,7 +122,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DateTimePickerNumericTextBoxStyle" BasedOn="{x:Null}" TargetType="{x:Type local:NumericTextBox}">
+    <Style x:Key="DateTimePickerInnerTextBoxStyle" BasedOn="{x:Null}" TargetType="{x:Type TextBox}">
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="Margin" Value="2 0 0 0"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -154,7 +154,11 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <Style x:Key="DateTimePickerNumericTextBoxStyle" BasedOn="{StaticResource DateTimePickerInnerTextBoxStyle}" TargetType="{x:Type local:NumericTextBox}"/>
+
+    <Style x:Key="DateTimePickerListTextBoxStyle" BasedOn="{StaticResource DateTimePickerInnerTextBoxStyle}" TargetType="{x:Type local:ListTextBox}"/>
+
     <Style x:Key="PopupButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="Template">

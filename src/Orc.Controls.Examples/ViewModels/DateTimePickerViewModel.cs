@@ -14,6 +14,7 @@ namespace Orc.Controls.Examples.ViewModels
     using System.Threading.Tasks;
     using Catel.MVVM;
     using Catel.Threading;
+    using System.Collections.Generic;
 
     public class DateTimePickerViewModel : ViewModelBase
     {

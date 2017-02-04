@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="SuggestionListService.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,7 +14,7 @@ namespace Orc.Controls.Services
     public class SuggestionListService : ISuggestionListService
     {
         #region ISuggestionListService Members
-        public List<KeyValuePair<string, string>> GetSuggestionList(DateTime dateTime, DateTimePart editablePart)
+        public List<KeyValuePair<string, string>> GetSuggestionList(DateTime dateTime, DateTimePart editablePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo)
         {
             switch (editablePart)
             {
@@ -68,6 +68,12 @@ namespace Orc.Controls.Services
                         seconds.Add(CreateItem(i.ToString("00"), i.ToString("00")));
                     }
                     return seconds;
+
+                case DateTimePart.AmPmDesignator:
+                    var meridiems = new List<KeyValuePair<string, string>>();
+                    meridiems.Add(CreateItem(Meridiems.LongAM, Meridiems.GetAmForFormat(dateTimeFormatInfo)));
+                    meridiems.Add(CreateItem(Meridiems.LongPM, Meridiems.GetPmForFormat(dateTimeFormatInfo)));
+                    return meridiems;
 
                 default:
                     throw new InvalidOperationException();
