@@ -68,14 +68,14 @@ namespace Orc.Controls
             // 0-5 because we can't switch to right on last textbox.
             for (int i = 0; i <= 5; i++)
             {
-                _textBoxes[i].SubscribeToOnRightBoundReachedEvent(TextBoxOnRightBoundReached);
+                _textBoxes[i].SubscribeToOnRightBoundReachedEvent(OnTextBoxRightBoundReached);
             }
 
             // Enable support for switching between textboxes,
             // 5-1 because we can't switch to left on first textbox.
             for (int i = 6; i >= 1; i--)
             {
-                _textBoxes[i].SubscribeToOnLeftBoundReachedEvent(TextBoxOnLeftBoundReached);
+                _textBoxes[i].SubscribeToOnLeftBoundReachedEvent(OnTextBoxLeftBoundReached);
             }
         }
 
@@ -85,14 +85,14 @@ namespace Orc.Controls
             // 0-4 because we can't switch to right on last textbox.
             for (int i = 0; i <= 5; i++)
             {
-                _textBoxes[i].UnsubscribeFromOnRightBoundReachedEvent(TextBoxOnRightBoundReached);
+                _textBoxes[i].UnsubscribeFromOnRightBoundReachedEvent(OnTextBoxRightBoundReached);
             }
 
             // Disable support for switching between textboxes,
             // 5-1 because we can't switch to left on first textbox.
             for (int i = 6; i >= 1; i--)
             {
-                _textBoxes[i].UnsubscribeFromOnLeftBoundReachedEvent(TextBoxOnLeftBoundReached);
+                _textBoxes[i].UnsubscribeFromOnLeftBoundReachedEvent(OnTextBoxLeftBoundReached);
             }
         }
         #endregion
@@ -208,18 +208,18 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-        private void TextBoxOnLeftBoundReached(object sender, EventArgs e)
+        private void OnTextBoxLeftBoundReached(object sender, EventArgs e)
         {
-            var currentTextBoxIndex = _textBoxes.IndexOf(sender as TextBox);
+            var currentTextBoxIndex = _textBoxes.IndexOf((TextBox)sender);
             var prevTextBox = _textBoxes[currentTextBoxIndex - 1];
 
             prevTextBox.CaretIndex = prevTextBox.Text.Length;
             prevTextBox.Focus();
         }
 
-        private void TextBoxOnRightBoundReached(object sender, EventArgs eventArgs)
+        private void OnTextBoxRightBoundReached(object sender, EventArgs eventArgs)
         {
-            var currentTextBoxIndex = _textBoxes.IndexOf(sender as TextBox);
+            var currentTextBoxIndex = _textBoxes.IndexOf((TextBox)sender);
             var nextTextBox = _textBoxes[currentTextBoxIndex + 1];
 
             nextTextBox.CaretIndex = 0;

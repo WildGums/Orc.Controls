@@ -1,9 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Meridiems.cs" company="WildGums">
+//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
 
 namespace Orc.Controls
 {
+    using System;
+
     internal static class Meridiems
     {
         #region Constants

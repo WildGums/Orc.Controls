@@ -35,23 +35,23 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
-        public static readonly DependencyProperty ListOfValuesProperty = DependencyProperty.Register("ListOfValues", typeof(IList<string>),
-            typeof(ListTextBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(string),
-            typeof(ListTextBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((ListTextBox)sender).OnValueChanged()));
-
         public IList<string> ListOfValues
         {
             get { return (IList<string>)GetValue(ListOfValuesProperty); }
             set { SetValue(ListOfValuesProperty, value); }
         }
 
+        public static readonly DependencyProperty ListOfValuesProperty = DependencyProperty.Register("ListOfValues", typeof(IList<string>),
+            typeof(ListTextBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
         public string Value
         {
             get { return (string)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
+
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(string),
+            typeof(ListTextBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((ListTextBox)sender).OnValueChanged()));
 
         private bool AllTextSelected
         {
@@ -85,25 +85,30 @@ namespace Orc.Controls
         {
             base.OnPreviewKeyDown(e);
 
-            if (e.Key == Key.Right && (CaretAtEnd || CaretAtStart && AllTextSelected))
+            var allTextSelected = AllTextSelected;
+            var caretAtEnd = CaretAtEnd;
+            var caretAtStart = CaretAtStart;
+            var isReadOnly = IsReadOnly;
+
+            if (e.Key == Key.Right && (caretAtEnd || caretAtStart && allTextSelected))
             {
                 RaiseRightBoundReachedEvent();
                 e.Handled = true;
             }
 
-            if (e.Key == Key.Left && CaretAtStart)
+            if (e.Key == Key.Left && caretAtStart)
             {
                 RaiseLeftBoundReachedEvent();
                 e.Handled = true;
             }
 
-            if (e.Key == Key.Up && AllTextSelected && !IsReadOnly)
+            if (e.Key == Key.Up && allTextSelected && !isReadOnly)
             {
                 OnUpDown(1);
                 e.Handled = true;
             }
 
-            if (e.Key == Key.Down && AllTextSelected && !IsReadOnly)
+            if (e.Key == Key.Down && allTextSelected && !isReadOnly)
             {
                 OnUpDown(-1);
                 e.Handled = true;
@@ -114,15 +119,18 @@ namespace Orc.Controls
         {
             base.OnPreviewTextInput(e);
 
-            if (ListOfValues != null && ListOfValues.Count > 0 && !IsReadOnly)
+            var listOfValues = ListOfValues;
+            var isReadOnly = IsReadOnly;
+
+            if (listOfValues != null && listOfValues.Count > 0 && !isReadOnly)
             {
                 var text = GetText(e.Text);
                 if (text.Length > 0)
                 {
-                    var value = ListOfValues.FirstOrDefault(x => x.StartsWith(text, StringComparison.CurrentCultureIgnoreCase));
+                    var value = listOfValues.FirstOrDefault(x => x.StartsWith(text, StringComparison.CurrentCultureIgnoreCase));
                     if (value != null)
                     {
-                        var index = ListOfValues.IndexOf(value);
+                        var index = listOfValues.IndexOf(value);
                         if (index >= 0)
                         {
                             _currentIndex = index >= 0 ? index : 0;
@@ -141,22 +149,24 @@ namespace Orc.Controls
 
         private void OnUpDown(int increment)
         {
-            if (ListOfValues == null || ListOfValues.Count == 0)
+            var listOfValues = ListOfValues;
+
+            if (listOfValues == null || listOfValues.Count == 0)
             {
                 return;
             }
 
             _currentIndex = _currentIndex + increment;
-            if (_currentIndex >= ListOfValues.Count)
+            if (_currentIndex >= listOfValues.Count)
             {
                 _currentIndex = 0;
             }
             else if (_currentIndex < 0)
             {
-                _currentIndex = ListOfValues.Count - 1;
+                _currentIndex = listOfValues.Count - 1;
             }
 
-            SetCurrentValue(ValueProperty, ListOfValues[_currentIndex]);
+            SetCurrentValue(ValueProperty, listOfValues[_currentIndex]);
 
             SelectAll();
         }
@@ -217,14 +227,16 @@ namespace Orc.Controls
                 return;
             }
 
+            var listOfValues = ListOfValues;
+
             if (Value != null)
             {
-                if (ListOfValues != null && ListOfValues.Count > 0)
+                if (listOfValues != null && listOfValues.Count > 0)
                 {
-                    var item = ListOfValues.FirstOrDefault(x => string.Equals(x, Value, StringComparison.CurrentCultureIgnoreCase));
+                    var item = listOfValues.FirstOrDefault(x => string.Equals(x, Value, StringComparison.CurrentCultureIgnoreCase));
                     if (item != null)
                     {
-                        var index = ListOfValues.IndexOf(item);
+                        var index = listOfValues.IndexOf(item);
                         _currentIndex = index;
 
                         SetCurrentValue(ValueProperty, item);

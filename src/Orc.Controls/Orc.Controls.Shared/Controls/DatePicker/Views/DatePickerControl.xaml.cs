@@ -61,26 +61,26 @@ namespace Orc.Controls
         {
             // Enable support for switching between textboxes,
             // 0-1 because we can't switch to right on last textbox.
-            _textBoxes[0].SubscribeToOnRightBoundReachedEvent(TextBoxOnRightBoundReached);
-            _textBoxes[1].SubscribeToOnRightBoundReachedEvent(TextBoxOnRightBoundReached);
+            _textBoxes[0].SubscribeToOnRightBoundReachedEvent(OnTextBoxRightBoundReached);
+            _textBoxes[1].SubscribeToOnRightBoundReachedEvent(OnTextBoxRightBoundReached);
 
             // Enable support for switching between textboxes,
             // 2-1 because we can't switch to left on first textbox.
-            _textBoxes[2].SubscribeToOnLeftBoundReachedEvent(TextBoxOnLeftBoundReached);
-            _textBoxes[1].SubscribeToOnLeftBoundReachedEvent(TextBoxOnLeftBoundReached);
+            _textBoxes[2].SubscribeToOnLeftBoundReachedEvent(OnTextBoxLeftBoundReached);
+            _textBoxes[1].SubscribeToOnLeftBoundReachedEvent(OnTextBoxLeftBoundReached);
         }
 
         private void UnsubscribeNumericTextBoxes()
         {
             // Disable support for switching between textboxes,
             // 0-1 because we can't switch to right on last textbox.
-            _textBoxes[0].UnsubscribeFromOnRightBoundReachedEvent(TextBoxOnRightBoundReached);
-            _textBoxes[1].UnsubscribeFromOnRightBoundReachedEvent(TextBoxOnRightBoundReached);
+            _textBoxes[0].UnsubscribeFromOnRightBoundReachedEvent(OnTextBoxRightBoundReached);
+            _textBoxes[1].UnsubscribeFromOnRightBoundReachedEvent(OnTextBoxRightBoundReached);
 
             // Disable support for switching between textboxes,
             // 2-1 because we can't switch to left on first textbox.
-            _textBoxes[2].UnsubscribeFromOnLeftBoundReachedEvent(TextBoxOnLeftBoundReached);
-            _textBoxes[1].UnsubscribeFromOnLeftBoundReachedEvent(TextBoxOnLeftBoundReached);
+            _textBoxes[2].UnsubscribeFromOnLeftBoundReachedEvent(OnTextBoxLeftBoundReached);
+            _textBoxes[1].UnsubscribeFromOnLeftBoundReachedEvent(OnTextBoxLeftBoundReached);
         }
         #endregion
 
@@ -163,18 +163,18 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-        private void TextBoxOnLeftBoundReached(object sender, EventArgs e)
+        private void OnTextBoxLeftBoundReached(object sender, EventArgs e)
         {
-            var currentTextBoxIndex = _textBoxes.IndexOf(sender as TextBox);
+            var currentTextBoxIndex = _textBoxes.IndexOf((TextBox)sender);
             var prevTextBox = _textBoxes[currentTextBoxIndex - 1];
 
             prevTextBox.CaretIndex = prevTextBox.Text.Length;
             prevTextBox.Focus();
         }
 
-        private void TextBoxOnRightBoundReached(object sender, EventArgs eventArgs)
+        private void OnTextBoxRightBoundReached(object sender, EventArgs eventArgs)
         {
-            var currentTextBoxIndex = _textBoxes.IndexOf(sender as TextBox);
+            var currentTextBoxIndex = _textBoxes.IndexOf((TextBox)sender);
             var nextTextBox = _textBoxes[currentTextBoxIndex + 1];
 
             nextTextBox.CaretIndex = 0;
