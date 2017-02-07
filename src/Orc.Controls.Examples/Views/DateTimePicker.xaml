@@ -12,7 +12,7 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Select format" VerticalAlignment="Center" Width="150"/>
-            <ComboBox MinWidth="225" ItemsSource="{Binding AvailableFormats}" SelectedItem="{Binding SelectedFormat}">
+            <ComboBox MinWidth="250" ItemsSource="{Binding AvailableFormats}" SelectedItem="{Binding SelectedFormat}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -26,7 +26,7 @@
         
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="DateTimePicker Control" VerticalAlignment="Center" Width="150"/>
-            <orc:DateTimePickerControl Value="{Binding DateTimeValue}" Width="225"
+            <orc:DateTimePickerControl Value="{Binding DateTimeValue}" Width="300"
                                        Format="{Binding SelectedFormat.FormatValue}" HorizontalAlignment="Left"
                                        AllowNull="{Binding IsChecked, ElementName=allowNullCheckbox}"
                                        AllowCopyPaste="{Binding IsChecked, ElementName=allowCopyPasteCheckbox}"
@@ -45,9 +45,9 @@
         
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Selected DateTime" VerticalAlignment="Center" Width="150"/>
-            <TextBox Text="{Binding DateTimeValue}" Width="225" HorizontalAlignment="Left"/>
+            <TextBox Text="{Binding DateTimeValue}" Width="300" HorizontalAlignment="Left"/>
         </StackPanel>
-        
+
         <Button Content="Set value to null" Command="{Binding SetNull}" HorizontalAlignment="Left" Width="150"/>
     </StackPanel>
 </catel:UserControl>
