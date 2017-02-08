@@ -38,13 +38,13 @@ namespace Orc.Controls
         static DatePickerControl()
         {
             typeof(DatePickerControl).AutoDetectViewPropertiesToSubscribe();
+
+            KeyboardNavigation.TabNavigationProperty.OverrideMetadata(typeof(DatePickerControl), new FrameworkPropertyMetadata(KeyboardNavigationMode.Local));
         }
 
         public DatePickerControl()
         {
             InitializeComponent();
-
-            KeyboardNavigation.TabNavigationProperty.OverrideMetadata(typeof(DatePickerControl), new FrameworkPropertyMetadata(KeyboardNavigationMode.Local));
 
             _textBoxes = new List<TextBox>()
             {
