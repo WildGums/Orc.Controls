@@ -362,7 +362,7 @@ namespace Orc.Controls
             var value = Value;
             if (value != null)
             {
-                Clipboard.SetText(value.Value.ToString(Format), TextDataFormat.Text);
+                Clipboard.SetText(DateTimeFormatter.Format(value.Value, _formatInfo), TextDataFormat.Text);
             }
         }
 
@@ -375,7 +375,8 @@ namespace Orc.Controls
                 var text = Clipboard.GetText(TextDataFormat.Text);
                 var value = DateTime.MinValue;
                 if (!string.IsNullOrEmpty(text)
-                    && (DateTime.TryParseExact(text, Format, null, DateTimeStyles.None, out value)
+                    && (DateTimeParser.TryParse(text, _formatInfo, out value)
+                        || DateTime.TryParseExact(text, Format, null, DateTimeStyles.None, out value)
                         || DateTime.TryParseExact(text, CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern, null, DateTimeStyles.None, out value)
                         || DateTime.TryParseExact(text, CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.InvariantCulture.DateTimeFormat.LongTimePattern, null, DateTimeStyles.None, out value)))
                 {
@@ -474,12 +475,12 @@ namespace Orc.Controls
                 Meridiems.GetPmForFormat(_formatInfo)
             });
 
-            NumericTBDay.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(_formatInfo.DayFormat.Length));
-            NumericTBMonth.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(_formatInfo.MonthFormat.Length));
-            NumericTBYear.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(_formatInfo.YearFormat.Length));
-            NumericTBHour.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(_formatInfo.HourFormat.Length));
-            NumericTBMinute.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(_formatInfo.MinuteFormat.Length));
-            NumericTBSecond.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(_formatInfo.SecondFormat.Length));
+            NumericTBDay.SetCurrentValue(NumericTextBox.FormatProperty, NumerFormatHelper.GetFormat(_formatInfo.DayFormat.Length));
+            NumericTBMonth.SetCurrentValue(NumericTextBox.FormatProperty, NumerFormatHelper.GetFormat(_formatInfo.MonthFormat.Length));
+            NumericTBYear.SetCurrentValue(NumericTextBox.FormatProperty, NumerFormatHelper.GetFormat(_formatInfo.YearFormat.Length));
+            NumericTBHour.SetCurrentValue(NumericTextBox.FormatProperty, NumerFormatHelper.GetFormat(_formatInfo.HourFormat.Length));
+            NumericTBMinute.SetCurrentValue(NumericTextBox.FormatProperty, NumerFormatHelper.GetFormat(_formatInfo.MinuteFormat.Length));
+            NumericTBSecond.SetCurrentValue(NumericTextBox.FormatProperty, NumerFormatHelper.GetFormat(_formatInfo.SecondFormat.Length));
 
             UnsubscribeNumericTextBoxes();
 
@@ -537,11 +538,6 @@ namespace Orc.Controls
         private int GetPosition(int index)
         {
             return index * 2;
-        }
-
-        private string GetFormat(int digits)
-        {
-            return new string(Enumerable.Repeat('0', digits).ToArray());
         }
 
         private void EnableOrDisableHourConverterDependingOnFormat()
