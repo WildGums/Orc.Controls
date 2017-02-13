@@ -9,6 +9,7 @@ namespace Orc.Controls
 {
     using System.Globalization;
     using System.Windows;
+    using Catel.MVVM.Views;
 
     public sealed partial class CulturePicker
     {
