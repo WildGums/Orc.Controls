@@ -278,9 +278,10 @@ namespace Orc.Controls
         {
             DatePickerIcon.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
 
-            if (Value != null)
+            var value = Value;
+            if (value != null)
             {
-                Clipboard.SetText(Value.Value.ToString(Format), TextDataFormat.Text);
+                Clipboard.SetText(DateTimeFormatter.Format(value.Value, _formatInfo), TextDataFormat.Text);
             }
         }
 
@@ -293,7 +294,8 @@ namespace Orc.Controls
                 var text = Clipboard.GetText(TextDataFormat.Text);
                 var value = DateTime.MinValue;
                 if (!string.IsNullOrEmpty(text)
-                    && (DateTime.TryParseExact(text, Format, null, DateTimeStyles.None, out value)
+                    && (DateTimeParser.TryParse(text, _formatInfo, out value)
+                        || DateTime.TryParseExact(text, Format, null, DateTimeStyles.None, out value)
                         || DateTime.TryParseExact(text, CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern, null, DateTimeStyles.None, out value)
                         || DateTime.TryParseExact(text, CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern, null, DateTimeStyles.None, out value)))
                 {
@@ -372,9 +374,9 @@ namespace Orc.Controls
 
             EnableOrDisableYearConverterDependingOnFormat();
 
-            NumericTBDay.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(_formatInfo.DayFormat.Length));
-            NumericTBMonth.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(_formatInfo.MonthFormat.Length));
-            NumericTBYear.SetCurrentValue(NumericTextBox.FormatProperty, GetFormat(_formatInfo.YearFormat.Length));
+            NumericTBDay.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.DayFormat.Length));
+            NumericTBMonth.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.MonthFormat.Length));
+            NumericTBYear.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.YearFormat.Length));
 
             UnsubscribeNumericTextBoxes();
 
@@ -406,11 +408,6 @@ namespace Orc.Controls
         private int GetPosition(int index)
         {
             return index * 2;
-        }
-
-        private string GetFormat(int digits)
-        {
-            return new string(Enumerable.Repeat('0', digits).ToArray());
         }
 
         private void EnableOrDisableYearConverterDependingOnFormat()

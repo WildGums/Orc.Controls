@@ -135,7 +135,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\TreeViewItemExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\WindowExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimeFormatHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimeFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimeParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimePartHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\NumberFormatHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DateTimeFormatInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
