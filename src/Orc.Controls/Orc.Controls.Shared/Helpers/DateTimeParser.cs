@@ -78,7 +78,7 @@ namespace Orc.Controls
                 {
                     if (!input.StartsWith(separator))
                     {
-                        return ThrowOnError<FormatException>("Invalid value. Value does not match to format");
+                        return ThrowOnError<FormatException>("Invalid value. Value does not match to format", null, throwOnError);
                     }
                     input = input.Substring(separator.Length);
                 }
@@ -89,23 +89,23 @@ namespace Orc.Controls
 
                     if (formatInfo.YearFormat.Length == 1 && (partValue.Length < 1 || partValue.Length > 2)) // 'y'
                     {
-                        return ThrowOnError<FormatException>("Invalid year value. Year must contain 1 or 2 digits");
+                        return ThrowOnError<FormatException>("Invalid year value. Year must contain 1 or 2 digits", null, throwOnError);
                     }
                     else if (formatInfo.YearFormat.Length == 2 && partValue.Length != 2) // 'yy'
                     {
-                        return ThrowOnError<FormatException>("Invalid year value. Year must contain 2 digits");
+                        return ThrowOnError<FormatException>("Invalid year value. Year must contain 2 digits", null, throwOnError);
                     }
                     else if (formatInfo.YearFormat.Length == 3 && (partValue.Length < 3 || partValue.Length > 5)) // 'yyy'
                     {
-                        return ThrowOnError<FormatException>("Invalid year value. Year must contain 3 or 4 or 5 digits");
+                        return ThrowOnError<FormatException>("Invalid year value. Year must contain 3 or 4 or 5 digits", null, throwOnError);
                     }
                     else if (formatInfo.YearFormat.Length == 4 && (partValue.Length < 4 || partValue.Length > 5)) // 'yyyy'
                     {
-                        return ThrowOnError<FormatException>("Invalid year value. Year must contain 4 or 5 digits");
+                        return ThrowOnError<FormatException>("Invalid year value. Year must contain 4 or 5 digits", null, throwOnError);
                     }
                     else if (formatInfo.YearFormat.Length == 5 && partValue.Length != 5) // 'yyyyy'
                     {
-                        return ThrowOnError<FormatException>("Invalid year value. Year must contain 5 digits");
+                        return ThrowOnError<FormatException>("Invalid year value. Year must contain 5 digits", null, throwOnError);
                     }
 
                     year = int.Parse(partValue); // There is no reason to fail.
@@ -120,11 +120,11 @@ namespace Orc.Controls
 
                     if (formatInfo.MonthFormat.Length == 1 && (partValue.Length < 1 || partValue.Length > 2)) // 'M'
                     {
-                        return ThrowOnError<FormatException>("Invalid month value. Month must contain 1 or 2 digits");
+                        return ThrowOnError<FormatException>("Invalid month value. Month must contain 1 or 2 digits", null, throwOnError);
                     }
                     else if (formatInfo.MonthFormat.Length == 2 && partValue.Length != 2) // 'MM'
                     {
-                        return ThrowOnError<FormatException>("Invalid month value. Month must contain 2 digits");
+                        return ThrowOnError<FormatException>("Invalid month value. Month must contain 2 digits", null, throwOnError);
                     }
 
                     month = int.Parse(partValue); // There is no reason to fail.
@@ -137,11 +137,11 @@ namespace Orc.Controls
 
                     if (formatInfo.DayFormat.Length == 1 && (partValue.Length < 1 || partValue.Length > 2)) // 'd'
                     {
-                        return ThrowOnError<FormatException>("Invalid day value. Day must contain 1 or 2 digits");
+                        return ThrowOnError<FormatException>("Invalid day value. Day must contain 1 or 2 digits", null, throwOnError);
                     }
                     else if (formatInfo.DayFormat.Length == 2 && partValue.Length != 2) // 'dd'
                     {
-                        return ThrowOnError<FormatException>("Invalid day value. Day must contain 2 digits");
+                        return ThrowOnError<FormatException>("Invalid day value. Day must contain 2 digits", null, throwOnError);
                     }
 
                     day = int.Parse(partValue); // There is no reason to fail.
@@ -154,18 +154,18 @@ namespace Orc.Controls
 
                     if (formatInfo.HourFormat.Length == 1 && (partValue.Length < 1 || partValue.Length > 2)) // 'h' or 'H'
                     {
-                        return ThrowOnError<FormatException>("Invalid hour value. Hour must contain 1 or 2 digits");
+                        return ThrowOnError<FormatException>("Invalid hour value. Hour must contain 1 or 2 digits", null, throwOnError);
                     }
                     else if (formatInfo.HourFormat.Length == 2 && partValue.Length != 2) // 'hh' or 'HH'
                     {
-                        return ThrowOnError<FormatException>("Invalid hour value. Hour must contain 2 digits");
+                        return ThrowOnError<FormatException>("Invalid hour value. Hour must contain 2 digits", null, throwOnError);
                     }
 
                     hour = int.Parse(partValue); // There is no reason to fail.
 
                     if (formatInfo.IsHour12Format == true && (hour > 12 || hour < 1))
                     {
-                        return ThrowOnError<FormatException>("Invalid hour value. Hour must be in range <1,12> for short format");
+                        return ThrowOnError<FormatException>("Invalid hour value. Hour must be in range <1,12> for short format", null, throwOnError);
                     }
 
                     input = input.Substring(partValue.Length);
@@ -176,11 +176,11 @@ namespace Orc.Controls
 
                     if (formatInfo.MinuteFormat.Length == 1 && (partValue.Length < 1 || partValue.Length > 2)) // 'm'
                     {
-                        return ThrowOnError<FormatException>("Invalid minute value. Minute must contain 1 or 2 digits");
+                        return ThrowOnError<FormatException>("Invalid minute value. Minute must contain 1 or 2 digits", null, throwOnError);
                     }
                     else if (formatInfo.MinuteFormat.Length == 2 && partValue.Length != 2) // 'mm'
                     {
-                        return ThrowOnError<FormatException>("Invalid minute value. Minute must contain 2 digits");
+                        return ThrowOnError<FormatException>("Invalid minute value. Minute must contain 2 digits", null, throwOnError);
                     }
 
                     minute = int.Parse(partValue); // There is no reason to fail.
@@ -193,11 +193,11 @@ namespace Orc.Controls
 
                     if (formatInfo.SecondFormat.Length == 1 && (partValue.Length < 1 || partValue.Length > 2))
                     {
-                        return ThrowOnError<FormatException>("Invalid second value. Second must contain 1 or 2 digits"); // 's'
+                        return ThrowOnError<FormatException>("Invalid second value. Second must contain 1 or 2 digits", null, throwOnError); // 's'
                     }
                     else if (formatInfo.SecondFormat.Length == 2 && partValue.Length != 2) // 'ss'
                     {
-                        return ThrowOnError<FormatException>("Invalid second value. Second must contain 2 digits");
+                        return ThrowOnError<FormatException>("Invalid second value. Second must contain 2 digits", null, throwOnError);
                     }
 
                     second = int.Parse(partValue); // There is no reason to fail.
@@ -210,11 +210,11 @@ namespace Orc.Controls
 
                     if (formatInfo.IsAmPmShortFormat == true && !(Meridiems.IsShortAm(partValue) || Meridiems.IsShortPm(partValue)))
                     {
-                        return ThrowOnError<FormatException>("Invalid AM/PM designator value");
+                        return ThrowOnError<FormatException>("Invalid AM/PM designator value", null, throwOnError);
                     }
                     else if (formatInfo.IsAmPmShortFormat == false && !(Meridiems.IsLongAm(partValue) || Meridiems.IsLongPm(partValue)))
                     {
-                        return ThrowOnError<FormatException>("Invalid AM/PM designator value");
+                        return ThrowOnError<FormatException>("Invalid AM/PM designator value", null, throwOnError);
                     }
 
                     amPm = partValue;
@@ -230,7 +230,7 @@ namespace Orc.Controls
             {
                 if (!input.StartsWith(separator))
                 {
-                    return ThrowOnError<FormatException>("Invalid value. Value does not match to format");
+                    return ThrowOnError<FormatException>("Invalid value. Value does not match to format", null, throwOnError);
                 }
             }
 
@@ -240,7 +240,7 @@ namespace Orc.Controls
             }
             catch (Exception exc)
             {
-                return ThrowOnError<FormatException>("Invalid value. It's not possible to build new DateTime object", exc);
+                return ThrowOnError<FormatException>("Invalid value. It's not possible to build new DateTime object", exc, throwOnError);
             }
         }
 
@@ -250,9 +250,11 @@ namespace Orc.Controls
             if (throwOnError)
             {
                 throw innerException == null ?
-                    (TException)Activator.CreateInstance(typeof(TException), new object[] { exceptionMessage }) :
-                    (TException)Activator.CreateInstance(typeof(TException), new object[] { exceptionMessage, innerException });
+                    Log.ErrorAndCreateException<TException>(exceptionMessage) :
+                    Log.ErrorAndCreateException<TException>(innerException, exceptionMessage);
             }
+
+            Log.Warning(exceptionMessage);
 
             return null;
         }

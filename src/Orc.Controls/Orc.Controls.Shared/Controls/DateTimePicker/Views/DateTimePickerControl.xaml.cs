@@ -475,12 +475,12 @@ namespace Orc.Controls
                 Meridiems.GetPmForFormat(_formatInfo)
             });
 
-            NumericTBDay.SetCurrentValue(NumericTextBox.FormatProperty, NumerFormatHelper.GetFormat(_formatInfo.DayFormat.Length));
-            NumericTBMonth.SetCurrentValue(NumericTextBox.FormatProperty, NumerFormatHelper.GetFormat(_formatInfo.MonthFormat.Length));
-            NumericTBYear.SetCurrentValue(NumericTextBox.FormatProperty, NumerFormatHelper.GetFormat(_formatInfo.YearFormat.Length));
-            NumericTBHour.SetCurrentValue(NumericTextBox.FormatProperty, NumerFormatHelper.GetFormat(_formatInfo.HourFormat.Length));
-            NumericTBMinute.SetCurrentValue(NumericTextBox.FormatProperty, NumerFormatHelper.GetFormat(_formatInfo.MinuteFormat.Length));
-            NumericTBSecond.SetCurrentValue(NumericTextBox.FormatProperty, NumerFormatHelper.GetFormat(_formatInfo.SecondFormat.Length));
+            NumericTBDay.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.DayFormat.Length));
+            NumericTBMonth.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.MonthFormat.Length));
+            NumericTBYear.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.YearFormat.Length));
+            NumericTBHour.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.HourFormat.Length));
+            NumericTBMinute.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.MinuteFormat.Length));
+            NumericTBSecond.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.SecondFormat.Length));
 
             UnsubscribeNumericTextBoxes();
 

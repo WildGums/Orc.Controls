@@ -31,30 +31,30 @@ namespace Orc.Controls
             Argument.IsNotNull(() => formatInfo);
 
             var parts = new List<KeyValuePair<int, string>>();
-            parts.Add(new KeyValuePair<int, string>(formatInfo.DayPosition, dateTime.Day.ToString(NumerFormatHelper.GetFormat(formatInfo.DayFormat.Length))));
-            parts.Add(new KeyValuePair<int, string>(formatInfo.MonthPosition, dateTime.Month.ToString(NumerFormatHelper.GetFormat(formatInfo.MonthFormat.Length))));
+            parts.Add(new KeyValuePair<int, string>(formatInfo.DayPosition, dateTime.Day.ToString(NumberFormatHelper.GetFormat(formatInfo.DayFormat.Length))));
+            parts.Add(new KeyValuePair<int, string>(formatInfo.MonthPosition, dateTime.Month.ToString(NumberFormatHelper.GetFormat(formatInfo.MonthFormat.Length))));
             if (formatInfo.IsYearShortFormat)
             {
                 var yearShort = dateTime.Year - (dateTime.Year - dateTime.Year % 100);
-                parts.Add(new KeyValuePair<int, string>(formatInfo.YearPosition, yearShort.ToString(NumerFormatHelper.GetFormat(formatInfo.YearFormat.Length))));
+                parts.Add(new KeyValuePair<int, string>(formatInfo.YearPosition, yearShort.ToString(NumberFormatHelper.GetFormat(formatInfo.YearFormat.Length))));
             }
             else
             {
-                parts.Add(new KeyValuePair<int, string>(formatInfo.YearPosition, dateTime.Year.ToString(NumerFormatHelper.GetFormat(formatInfo.YearFormat.Length))));
+                parts.Add(new KeyValuePair<int, string>(formatInfo.YearPosition, dateTime.Year.ToString(NumberFormatHelper.GetFormat(formatInfo.YearFormat.Length))));
             }
             if (!formatInfo.IsDateOnly)
             {
                 if (formatInfo.IsHour12Format == true)
                 {
                     var hour12 = dateTime.Hour % 12 > 0 ? dateTime.Hour % 12 : 12;
-                    parts.Add(new KeyValuePair<int, string>(formatInfo.HourPosition.Value, hour12.ToString(NumerFormatHelper.GetFormat(formatInfo.HourFormat.Length))));
+                    parts.Add(new KeyValuePair<int, string>(formatInfo.HourPosition.Value, hour12.ToString(NumberFormatHelper.GetFormat(formatInfo.HourFormat.Length))));
                 }
                 else
                 {
-                    parts.Add(new KeyValuePair<int, string>(formatInfo.HourPosition.Value, dateTime.Hour.ToString(NumerFormatHelper.GetFormat(formatInfo.HourFormat.Length))));
+                    parts.Add(new KeyValuePair<int, string>(formatInfo.HourPosition.Value, dateTime.Hour.ToString(NumberFormatHelper.GetFormat(formatInfo.HourFormat.Length))));
                 }
-                parts.Add(new KeyValuePair<int, string>(formatInfo.MinutePosition.Value, dateTime.Minute.ToString(NumerFormatHelper.GetFormat(formatInfo.MinuteFormat.Length))));
-                parts.Add(new KeyValuePair<int, string>(formatInfo.SecondPosition.Value, dateTime.Second.ToString(NumerFormatHelper.GetFormat(formatInfo.SecondFormat.Length))));
+                parts.Add(new KeyValuePair<int, string>(formatInfo.MinutePosition.Value, dateTime.Minute.ToString(NumberFormatHelper.GetFormat(formatInfo.MinuteFormat.Length))));
+                parts.Add(new KeyValuePair<int, string>(formatInfo.SecondPosition.Value, dateTime.Second.ToString(NumberFormatHelper.GetFormat(formatInfo.SecondFormat.Length))));
                 if (formatInfo.AmPmPosition.HasValue)
                 {
                     parts.Add(new KeyValuePair<int, string>(formatInfo.AmPmPosition.Value, dateTime.Hour >= 12 ? Meridiems.GetPmForFormat(formatInfo) : Meridiems.GetAmForFormat(formatInfo)));

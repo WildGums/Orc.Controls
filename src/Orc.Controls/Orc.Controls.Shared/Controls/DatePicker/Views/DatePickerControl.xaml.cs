@@ -374,9 +374,9 @@ namespace Orc.Controls
 
             EnableOrDisableYearConverterDependingOnFormat();
 
-            NumericTBDay.SetCurrentValue(NumericTextBox.FormatProperty, NumerFormatHelper.GetFormat(_formatInfo.DayFormat.Length));
-            NumericTBMonth.SetCurrentValue(NumericTextBox.FormatProperty, NumerFormatHelper.GetFormat(_formatInfo.MonthFormat.Length));
-            NumericTBYear.SetCurrentValue(NumericTextBox.FormatProperty, NumerFormatHelper.GetFormat(_formatInfo.YearFormat.Length));
+            NumericTBDay.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.DayFormat.Length));
+            NumericTBMonth.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.MonthFormat.Length));
+            NumericTBYear.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.YearFormat.Length));
 
             UnsubscribeNumericTextBoxes();
 

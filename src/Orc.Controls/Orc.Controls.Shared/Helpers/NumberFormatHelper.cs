@@ -13,7 +13,7 @@ namespace Orc.Controls
     using System.Collections.Generic;
     using System.Linq;
 
-    public static class NumerFormatHelper
+    public static class NumberFormatHelper
     {
         public static string GetFormat(int digits)
         {
