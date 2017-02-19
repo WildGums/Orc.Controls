@@ -71,16 +71,38 @@ namespace Orc.Controls
 
             var i = 0;
             var partValue = default(string);
+
             for (i = 0; i < 7; i++)
             {
                 separator = formatInfo.GetSeparator(i);
-                if (separator != null && separator.Length > 0)
+
+                if (separator != null && separator.Length > 0 && input.Length > 0)
                 {
                     if (!input.StartsWith(separator))
                     {
-                        return ThrowOnError<FormatException>("Invalid value. Value does not match to format", null, throwOnError);
+                        return ThrowOnError<FormatException>("Invalid value. Value does not match format", null, throwOnError);
                     }
+
                     input = input.Substring(separator.Length);
+                }
+
+                if (separator == null && i == (formatInfo.MaxPosition + 1) && input.Length > 0)
+                {
+                    // We have come to the end of format but there is still some characters left in the input.
+                    // They are probably AM/PM values even though the format is 24 hours. We will try and parse them correctly
+
+                    formatInfo.AmPmPosition = i;
+
+                    input = input.Trim();
+
+                    if (input.Length == 2)
+                    { 
+                        formatInfo.AmPmFormat = "tt";
+                    }
+                    else if (input.Length == 1)
+                    {
+                        formatInfo.AmPmFormat = "t";
+                    }
                 }
 
                 if (i == formatInfo.YearPosition)
@@ -163,9 +185,9 @@ namespace Orc.Controls
 
                     hour = int.Parse(partValue); // There is no reason to fail.
 
-                    if (formatInfo.IsHour12Format == true && (hour > 12 || hour < 1))
+                    if ( hour < 0 && hour >= 24)
                     {
-                        return ThrowOnError<FormatException>("Invalid hour value. Hour must be in range <1,12> for short format", null, throwOnError);
+                        return ThrowOnError<FormatException>("Invalid hour value. Hour must be in range <0, 24> for short format", null, throwOnError);
                     }
 
                     input = input.Substring(partValue.Length);
@@ -208,6 +230,12 @@ namespace Orc.Controls
                 {
                     partValue = new string(input.Take(formatInfo.AmPmFormat.Length).ToArray());
 
+                    if (partValue.Length <= 0)
+                    {
+                        // We allow the input string to not have AM/PM even if the format specifies them
+                        continue;
+                    }
+
                     if (formatInfo.IsAmPmShortFormat == true && !(Meridiems.IsShortAm(partValue) || Meridiems.IsShortPm(partValue)))
                     {
                         return ThrowOnError<FormatException>("Invalid AM/PM designator value", null, throwOnError);
@@ -219,7 +247,8 @@ namespace Orc.Controls
 
                     amPm = partValue;
 
-                    hour += Meridiems.IsPm(amPm) ? 12 : 0;
+                    // We need to make sure hour is less than 12, because we could accept values like: 05/02/2017 16:41:24 PM
+                    hour += (Meridiems.IsPm(amPm) && hour < 12) ? 12 : 0;
 
                     input = input.Substring(partValue.Length);
                 }

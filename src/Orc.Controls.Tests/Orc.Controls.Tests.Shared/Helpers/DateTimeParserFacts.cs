@@ -83,6 +83,26 @@ namespace Orc.Controls
                     "yyyy-MM-dd",
                     new DateTime(2017, 2, 1, 0, 0, 0)
                 },
+
+                // Accept bad formats
+                new object []
+                {
+                    "2017-02-01",
+                    "-yyyy-MM-dd",
+                    new DateTime(2017, 2, 1, 0, 0, 0)
+                },
+                new object []
+                {
+                    "2017-02-01",
+                    "-yyyy-MM-dd-",
+                    new DateTime(2017, 2, 1, 0, 0, 0)
+                },
+                new object []
+                {
+                    "2017-02-01",
+                    "yyyy-MM-dd-",
+                    new DateTime(2017, 2, 1, 0, 0, 0)
+                },
             };
 
             private object[][] parseDateTimeTestCases = new object[][]
@@ -191,6 +211,39 @@ namespace Orc.Controls
                     new DateTime(2017, 2, 1, 14, 17, 31)
                 },
 
+                // More tolerant with hours
+                new object []
+                {
+                    "2017-02-01 13:17:31 PM",
+                    "yyyy-MM-dd hh:mm:ss tt",
+                    new DateTime(2017, 2, 1, 13, 17, 31)
+                },
+                new object []
+                {
+                    "2017-02-01 16:17:31",
+                    "yyyy-MM-dd hh:mm:ss tt",
+                    new DateTime(2017, 2, 1, 16, 17, 31)
+                },
+                new object []
+                {
+                    "2017-02-01 08:17:31 PM",
+                    "yyyy-MM-dd hh:mm:ss",
+                    new DateTime(2017, 2, 1, 20, 17, 31)
+                },
+                new object []
+                {
+                    "2017-02-01 08:17:31 AM",
+                    "yyyy-MM-dd hh:mm:ss",
+                    new DateTime(2017, 2, 1, 08, 17, 31)
+                },
+                new object []
+                {
+                    "2017-02-01 08:17:31 am",
+                    "yyyy-MM-dd hh:mm:ss",
+                    new DateTime(2017, 2, 1, 08, 17, 31)
+                },
+
+
                 // Minutes
                 new object []
                 {
@@ -268,6 +321,26 @@ namespace Orc.Controls
                     "yyyy-MM-dd hh:mm:ss tt",
                     new DateTime(2017, 2, 1, 14, 9, 6)
                 },
+
+                // Accept bad formats
+                new object []
+                {
+                    "2017-02-01 02:09:06 pm",
+                    "yyyy-MM-dd hh:mm:ss tt-",
+                    new DateTime(2017, 2, 1, 14, 9, 6)
+                },
+                new object []
+                {
+                    "2017-02-01 02:09:06 pm",
+                    "-yyyy-MM-dd hh:mm:ss tt-",
+                    new DateTime(2017, 2, 1, 14, 9, 6)
+                },
+                new object []
+                {
+                    "2017-02-01 02:09:06 pm",
+                    "-yyyy-MM-dd hh:mm:ss tt",
+                    new DateTime(2017, 2, 1, 14, 9, 6)
+                },
             };
 
             [Test]
@@ -335,8 +408,6 @@ namespace Orc.Controls
             [TestCase("2017-02-01 1:40:01", "yyyy-MM-dd HH:mm:ss", "Invalid hour value. Hour must contain 2 digits")]
             [TestCase("2017-02-01 001:40:01", "yyyy-MM-dd h:mm:ss", "Invalid hour value. Hour must contain 1 or 2 digits")]
             [TestCase("2017-02-01 1:40:01", "yyyy-MM-dd hh:mm:ss", "Invalid hour value. Hour must contain 2 digits")]
-            [TestCase("2017-02-01 14:40:01", "yyyy-MM-dd h:mm:ss", "Invalid hour value. Hour must be in range <1,12> for short format")]
-            [TestCase("2017-02-01 14:40:01", "yyyy-MM-dd hh:mm:ss", "Invalid hour value. Hour must be in range <1,12> for short format")]
             public void ThrowsFormatExceptionWhenHourPartValueIsIncorrect(string input, string format, string expectedMessage)
             {
                 ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeParser.Parse(input, format, false), x =>
@@ -377,23 +448,19 @@ namespace Orc.Controls
                 });
             }
 
-            [TestCase("2017-02-01 01:04:01 AM", "-yyyy-MM-dd hh:mm:ss tt", false)]
-            [TestCase("2017-02-01", "-yyyy-MM-dd", true)]
             [TestCase("2017/02-01 01:04:01 AM", "yyyy-MM-dd hh:mm:ss tt", false)]
             [TestCase("2017/02-01", "yyyy-MM-dd", true)]
             [TestCase("2017-02/01 01:04:01 AM", "yyyy-MM-dd hh:mm:ss tt", false)]
             [TestCase("2017-02/01", "yyyy-MM-dd", true)]
             [TestCase("2017-02-01/01:04:01 AM", "yyyy-MM-dd hh:mm:ss tt", false)]
-            [TestCase("2017-02-01", "yyyy-MM-dd-", true)]
             [TestCase("2017-02-01 01/04:01 AM", "yyyy-MM-dd hh:mm:ss tt", false)]
             [TestCase("2017-02-01 01:04/01 AM", "yyyy-MM-dd hh:mm:ss tt", false)]
             [TestCase("2017-02-01 01:04:01/AM", "yyyy-MM-dd hh:mm:ss tt", false)]
-            [TestCase("2017-02-01 01:04:01 AM", "yyyy-MM-dd hh:mm:ss tt-", false)]
             public void ThrowsFormatExceptionWhenSeparatorIsInvalid(string input, string format, bool isDateOnly)
             {
                 ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeParser.Parse(input, format, isDateOnly), x =>
                 {
-                    return string.Equals(x.Message, "Invalid value. Value does not match to format");
+                    return string.Equals(x.Message, "Invalid value. Value does not match format");
                 });
             }
 

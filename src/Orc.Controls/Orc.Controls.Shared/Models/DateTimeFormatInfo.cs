@@ -51,6 +51,7 @@ namespace Orc.Controls
         public bool IsYearShortFormat { get; set; }
         public bool? IsHour12Format { get; set; }
         public bool? IsAmPmShortFormat { get; set; }
+        public int MaxPosition { get; set; }
         #endregion
 
         #region Methods
