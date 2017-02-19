@@ -105,6 +105,7 @@
       <Link>Properties\GlobalSuppressions.cs</Link>
     </Compile>
     <Compile Include="Logging\ExampleLogListener.cs" />
+    <Compile Include="Models\CultureFormat.cs" />
     <Compile Include="ModuleInitializer.cs" />
     <Compile Include="ViewModels\AnimatedGifViewModel.cs" />
     <Compile Include="ViewModels\BindableRichTextBoxViewModel.cs" />
@@ -304,9 +305,7 @@
     <Resource Include="Resources\Images\email.png" />
     <Resource Include="Resources\Images\phone.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\Images\Loading.gif" />
   </ItemGroup>

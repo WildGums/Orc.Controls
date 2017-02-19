@@ -45,7 +45,7 @@
         
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Selected DateTime" VerticalAlignment="Center" Width="150"/>
-            <TextBox Text="{Binding DateTimeValue}" Width="300" HorizontalAlignment="Left"/>
+            <TextBox Text="{Binding DateTimeValueString}"  IsReadOnly="True" Width="300" HorizontalAlignment="Left"/>
         </StackPanel>
 
         <Button Content="Set value to null" Command="{Binding SetNull}" HorizontalAlignment="Left" Width="150"/>
