@@ -16,5 +16,6 @@ namespace Orc.Controls
         Hour12,
         Minute,
         Second,
+        AmPmDesignator
     }
 }

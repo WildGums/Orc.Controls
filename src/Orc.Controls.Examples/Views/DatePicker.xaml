@@ -43,7 +43,7 @@
         
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Selected Date" VerticalAlignment="Center" Width="150"/>
-            <TextBox Text="{Binding DateValue}" Width="225" HorizontalAlignment="Left"/>
+            <TextBox Text="{Binding DateValueString}" IsReadOnly="True"  Width="225" HorizontalAlignment="Left"/>
         </StackPanel>
         
         <Button Content="Set value to null" Command="{Binding SetNull}" HorizontalAlignment="Left" Width="150"/>

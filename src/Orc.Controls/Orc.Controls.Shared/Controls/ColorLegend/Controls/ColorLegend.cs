@@ -414,7 +414,9 @@ namespace Orc.Controls
 
         private void OnColorProviderPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+#pragma warning disable WPF1014
             if (e.HasPropertyChanged("IsChecked"))
+#pragma warning restore WPF1014
             {
                 UpdateIsAllVisible();
             }
@@ -592,7 +594,7 @@ namespace Orc.Controls
                 return;
             }
             
-            var qryAllChecks = _listBox.Descendents().OfType<CheckBox>();
+            var qryAllChecks = _listBox.GetDescendents().OfType<CheckBox>();
 
             foreach (var check in qryAllChecks)
             {
@@ -609,7 +611,7 @@ namespace Orc.Controls
                 return;
             }
 
-            var qryAllArrows = _listBox.Descendents().OfType<System.Windows.Shapes.Path>().Where(p => p.Name == "arrow");
+            var qryAllArrows = _listBox.GetDescendents().OfType<System.Windows.Shapes.Path>().Where(p => p.Name == "arrow");
             foreach (var path in qryAllArrows)
             {
                 path.SetCurrentValue(VisibilityProperty, AllowColorEditing ? Visibility.Visible : Visibility.Collapsed);

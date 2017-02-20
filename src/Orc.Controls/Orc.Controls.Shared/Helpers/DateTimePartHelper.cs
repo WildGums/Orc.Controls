@@ -15,23 +15,26 @@ namespace Orc.Controls
     using System.Windows.Input;
     using Catel.IoC;
     using Services;
+    using Catel.Reflection;
 
     public class DateTimePartHelper
     {
         #region Fields
         private readonly DateTime _dateTime;
         private readonly DateTimePart _dateTimePart;
-        private readonly NumericTextBox _textBox;
+        private readonly DateTimeFormatInfo _dateTimeFormatInfo;
+        private readonly TextBox _textBox;
         private readonly ToggleButton _toggleButton;
         #endregion
 
         #region Constructors
-        public DateTimePartHelper(DateTime dateTime, DateTimePart dateTimePart, NumericTextBox textBox, ToggleButton activeToggleButton)
+        public DateTimePartHelper(DateTime dateTime, DateTimePart dateTimePart, DateTimeFormatInfo dateTimeFormatInfo, TextBox textBox, ToggleButton activeToggleButton)
         {
             _dateTime = dateTime;
             _textBox = textBox;
             _toggleButton = activeToggleButton;
             _dateTimePart = dateTimePart;
+            _dateTimeFormatInfo = dateTimeFormatInfo;
         }
         #endregion
 
@@ -58,7 +61,7 @@ namespace Orc.Controls
             popup.Child = popupSource;
             SelectItem(popupSource);
             popupSource.Focus();
-            
+
             return popup;
         }
 
@@ -73,7 +76,7 @@ namespace Orc.Controls
 
         private void popupSource_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            var listbox = ((ListBox) sender);
+            var listbox = ((ListBox)sender);
             if (e.Key == Key.Down)
             {
                 if (listbox.SelectedIndex < listbox.Items.Count)
@@ -96,7 +99,7 @@ namespace Orc.Controls
 
             if (e.Key == Key.Escape)
             {
-                ((Popup) listbox.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
+                ((Popup)listbox.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
                 _textBox.Focus();
                 e.Handled = true;
             }
@@ -104,7 +107,7 @@ namespace Orc.Controls
             if (e.Key == Key.Enter)
             {
                 UpdateTextBox((KeyValuePair<string, string>)listbox.SelectedItems[0]);
-                ((Popup) listbox.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
+                ((Popup)listbox.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
                 _textBox.Focus();
                 e.Handled = true;
             }
@@ -132,15 +135,14 @@ namespace Orc.Controls
 
         private void UpdateTextBox(KeyValuePair<string, string> selectedItem)
         {
-            var value = Convert.ToDouble(selectedItem.Key);
-            _textBox.SetCurrentValue(NumericTextBox.ValueProperty, value);
+            _textBox.UpdateValue(selectedItem.Key);
         }
 
         private ListBox CreatePopupSource()
         {
             var serviceLocator = ServiceLocator.Default;
             var suggestionListService = serviceLocator.ResolveType<ISuggestionListService>();
-            var source = suggestionListService.GetSuggestionList(_dateTime, _dateTimePart);
+            var source = suggestionListService.GetSuggestionList(_dateTime, _dateTimePart, _dateTimeFormatInfo);
 
             var listbox = new ListBox
             {

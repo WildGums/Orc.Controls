@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26020.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.NET40", "Orc.Controls\Orc.Controls.NET40\Orc.Controls.NET40.csproj", "{E6CE2111-3D7C-4759-A886-E44EC77CE3AA}"
 EndProject
@@ -11,6 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.Examples", "Or
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{197B99D4-F329-4377-A097-0B40424D8D05}"
 	ProjectSection(SolutionItems) = preProject
+		GlobalSuppressions.cs = GlobalSuppressions.cs
 		Orc.Controls.sln.DotSettings = Orc.Controls.sln.DotSettings
 		SolutionAssemblyInfo.cs = SolutionAssemblyInfo.cs
 	EndProjectSection
@@ -39,12 +40,12 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Orc.Controls\Orc.Controls.Shared\Orc.Controls.Shared.projitems*{069d8a6f-4a08-452e-a3c0-d6f826438d75}*SharedItemsImports = 4
 		Orc.Controls\Orc.Controls.Shared\Orc.Controls.Shared.projitems*{094077c9-1f14-41ce-99ff-1ae61d13a1cc}*SharedItemsImports = 4
-		Orc.Controls.Tests\Orc.Controls.Tests.Shared\Orc.Controls.Tests.Shared.projitems*{9265be2c-c1e1-4d54-90da-71f46198197e}*SharedItemsImports = 13
-		Orc.Controls\Orc.Controls.Shared\Orc.Controls.Shared.projitems*{e6ce2111-3d7c-4759-a886-e44ec77ce3aa}*SharedItemsImports = 4
 		Orc.Controls.Tests\Orc.Controls.Tests.Shared\Orc.Controls.Tests.Shared.projitems*{0af8324a-cf4a-4629-8d06-95721ecb67fe}*SharedItemsImports = 4
-		Orc.Controls.Tests\Orc.Controls.Tests.Shared\Orc.Controls.Tests.Shared.projitems*{9d4dd1a4-d63d-4766-ba11-29fc99c1cbef}*SharedItemsImports = 4
 		Orc.Controls.Tests\Orc.Controls.Tests.Shared\Orc.Controls.Tests.Shared.projitems*{35a96bb2-4995-447d-9103-1ab04d236dc1}*SharedItemsImports = 4
 		Orc.Controls\Orc.Controls.Shared\Orc.Controls.Shared.projitems*{3ce87518-5ffa-4048-a8f8-1c6b6a11c809}*SharedItemsImports = 13
+		Orc.Controls.Tests\Orc.Controls.Tests.Shared\Orc.Controls.Tests.Shared.projitems*{9265be2c-c1e1-4d54-90da-71f46198197e}*SharedItemsImports = 13
+		Orc.Controls.Tests\Orc.Controls.Tests.Shared\Orc.Controls.Tests.Shared.projitems*{9d4dd1a4-d63d-4766-ba11-29fc99c1cbef}*SharedItemsImports = 4
+		Orc.Controls\Orc.Controls.Shared\Orc.Controls.Shared.projitems*{e6ce2111-3d7c-4759-a886-e44ec77ce3aa}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

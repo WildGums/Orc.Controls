@@ -16,7 +16,8 @@
 
         <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource DateTimePickerListBoxItemStyle}"/>
         <Style TargetType="{x:Type controls:NumericTextBox}" BasedOn="{StaticResource DateTimePickerNumericTextBoxStyle}"/>
-        
+        <Style TargetType="{x:Type controls:ListTextBox}" BasedOn="{StaticResource DateTimePickerListTextBoxStyle}"/>
+
     </catel:UserControl.Resources>
 
     <Grid x:Name="MainGrid">
@@ -100,17 +101,17 @@
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"
                                   Visibility="{Binding HideSeconds, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
 
-                    <TextBlock x:Name="TextTBAmPm" Grid.Column="12"
-                               Style="{DynamicResource AmPmStyle}"
-                               Text="{Binding AmPm, Converter={StaticResource AmPmLongToAmPmShortConverter}}"
+                    <controls:ListTextBox x:Name="ListTBAmPm" Grid.Column="12"
+                               Value="{Binding AmPm, Converter={StaticResource AmPmLongToAmPmShortConverter}, TargetNullValue={x:Static sys:String.Empty}, Mode=TwoWay}"
+                               IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"
                                Visibility="{Binding IsHour12Format, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}" />
                     <TextBlock Grid.Column="14" x:Name="Separator7" Text="" Style="{DynamicResource RatioSignStyle}"
                                Visibility="{Binding IsHour12Format, Converter={catel:BooleanToHidingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}" />
-                    <ToggleButton Grid.Column="14" x:Name="ToggleButtonT"
+                    <ToggleButton Grid.Column="14" x:Name="ToggleButtonT" Tag="{x:Static controls:DateTimePart.AmPmDesignator}"
                                   Style="{DynamicResource DateTimePickerLettersToggleButtonStyle}"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"
-                                  Content="t"
-                                  Visibility="Collapsed" />
+                                  Checked="ToggleButton_OnChecked" Content="t"
+                                  Visibility="{Binding IsHour12Format, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}" />
 
                 </Grid>
                 <StackPanel Grid.Column="1">
@@ -128,11 +129,13 @@
                                         IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
                                 <Button x:Name="SelectDateButton" Content="Select date" Click="OnSelectDateButtonClick" Style="{DynamicResource PopupButtonStyle}"
                                         IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
-                                <Separator Visibility="{Binding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
+                                <Separator Style="{x:Null}"
+                                    Visibility="{Binding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
                                 <Button x:Name="ClearButton" Content="Clear" Click="OnClearButtonClick" Style="{DynamicResource PopupButtonStyle}"
                                         IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"
                                         Visibility="{Binding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
-                                <Separator Visibility="{Binding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
+                                <Separator Style="{x:Null}"
+                                           Visibility="{Binding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
                                 <Button x:Name="CopyButton" Content="Copy" Click="OnCopyButtonClick" Style="{DynamicResource PopupButtonStyle}"
                                         Visibility="{Binding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePickerControl}}}"/>
                                 <Button x:Name="PasteButton" Content="Paste" Click="OnPasteButtonClick" Style="{DynamicResource PopupButtonStyle}"

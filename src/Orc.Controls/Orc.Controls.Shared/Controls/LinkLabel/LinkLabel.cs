@@ -60,7 +60,7 @@ namespace Orc.Controls
         /// DependencyProperty definition as the backing store for Url
         /// </summary>
         public static readonly DependencyProperty UrlProperty =
-            DependencyProperty.Register("Url", typeof (Uri), typeof (LinkLabel), new UIPropertyMetadata(OnUrlPropertyChanged));
+            DependencyProperty.Register("Url", typeof (Uri), typeof (LinkLabel), new UIPropertyMetadata(OnUrlChanged));
 
         /// <summary>
         /// Gets or sets the URL.
@@ -254,7 +254,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">A sender.</param>
         /// <param name="args">Event args.</param>
-        private static void OnUrlPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        private static void OnUrlChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             var typedSender = sender as LinkLabel;
             if (typedSender != null)

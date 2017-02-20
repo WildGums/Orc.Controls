@@ -36,6 +36,9 @@ namespace Orc.Controls
                 case DateTimePart.Second:
                     return "NumericTBSecond";
 
+                case DateTimePart.AmPmDesignator:
+                    return "ListTBAmPm";
+
                 default:
                     throw new InvalidOperationException();
             }
@@ -65,6 +68,9 @@ namespace Orc.Controls
 
                 case DateTimePart.Second:
                     return "ToggleButtonS";
+
+                case DateTimePart.AmPmDesignator:
+                    return "ToggleButtonT";
 
                 default:
                     throw new InvalidOperationException();

@@ -15,6 +15,7 @@ namespace Orc.Controls
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Interop;
+    using Catel.Windows;
 
     /// <summary>
     /// The pinnable toolTip service.
@@ -59,13 +60,13 @@ namespace Orc.Controls
         /// The placement property.
         /// </summary>
         public static readonly DependencyProperty PlacementProperty = DependencyProperty.RegisterAttached("Placement",
-            typeof (PlacementMode), typeof (PinnableToolTipService), new PropertyMetadata(PlacementMode.Mouse, OnPlacementPropertyChanged));
+            typeof (PlacementMode), typeof (PinnableToolTipService), new PropertyMetadata(PlacementMode.Mouse, OnPlacementChanged));
 
         /// <summary>
         /// The placement target property.
         /// </summary>
         public static readonly DependencyProperty PlacementTargetProperty = DependencyProperty.RegisterAttached("PlacementTarget",
-            typeof (UIElement), typeof (PinnableToolTipService), new PropertyMetadata(OnPlacementTargetPropertyChanged));
+            typeof (UIElement), typeof (PinnableToolTipService), new PropertyMetadata(OnPlacementTargetChanged));
 
         /// <summary>
         /// The show duration property.
@@ -77,13 +78,13 @@ namespace Orc.Controls
         /// The toolTip property.
         /// </summary>
         public static readonly DependencyProperty ToolTipProperty = DependencyProperty.RegisterAttached("ToolTip",
-            typeof (object), typeof (PinnableToolTipService), new PropertyMetadata(OnToolTipPropertyChanged));
+            typeof (object), typeof (PinnableToolTipService), new PropertyMetadata(OnToolTipChanged));
 
         /// <summary>
         /// The toolTip owner property.
         /// </summary>
         public static readonly DependencyProperty IsToolTipOwnerProperty = DependencyProperty.RegisterAttached("IsToolTipOwner",
-            typeof (bool), typeof (PinnableToolTipService), new PropertyMetadata(OnIsToolTipOwnerPropertyChanged));
+            typeof (bool), typeof (PinnableToolTipService), new PropertyMetadata(OnIsToolTipOwnerChanged));
 
         /// <summary>
         /// The elements and tool tips.
@@ -401,7 +402,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="d">The d.</param>
         /// <param name="e">The e.</param>
-        private static void OnPlacementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnPlacementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var element = (UIElement) d;
 
@@ -425,7 +426,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="d">The d.</param>
         /// <param name="e">The e.</param>
-        private static void OnPlacementTargetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnPlacementTargetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var element = (UIElement) d;
 
@@ -455,7 +456,7 @@ namespace Orc.Controls
             {
                 foreach (var toolTip in ElementsAndToolTips.Values.Where(toolTip => toolTip != null && !toolTip.IsPinned))
                 {
-                    if (ScreenHelper.IsParentOf(toolTip, e.OriginalSource as DependencyObject))
+                    if(toolTip.FindLogicalAncestor(x => ReferenceEquals(x, e.OriginalSource)) != null)
                     {
                         continue;
                     }
@@ -480,7 +481,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="d">The d.</param>
         /// <param name="e">The e.</param>
-        private static void OnIsToolTipOwnerPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnIsToolTipOwnerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != null)
             {
@@ -498,7 +499,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="d">The d.</param>
         /// <param name="e">The e.</param>
-        private static void OnToolTipPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnToolTipChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != null)
             {
@@ -620,7 +621,7 @@ namespace Orc.Controls
                         element.Unloaded -= FrameworkElementUnloaded;
                         if (toolTip != null)
                         {
-                            toolTip.SetCurrentValue(FrameworkElement.DataContextProperty, null);
+                            toolTip.SetValue(FrameworkElement.DataContextProperty, null);
                         }
                     }
 

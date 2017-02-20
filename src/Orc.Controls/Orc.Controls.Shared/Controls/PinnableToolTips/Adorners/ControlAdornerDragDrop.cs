@@ -126,7 +126,7 @@ namespace Orc.Controls
                 offset.X = -_adorner.ChildPosition.X;
             }
 
-            var boundariesSize = ScreenHelper.GetWindowSize(null);
+            var boundariesSize = Application.Current.MainWindow.GetSize();
             var adornedElement = _adorner.AdornedElement as FrameworkElement;
             if (adornedElement != null)
             {

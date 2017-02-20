@@ -389,7 +389,7 @@ namespace Orc.Controls
                 case PlacementMode.Right:
                 case PlacementMode.Left:
                 case PlacementMode.Top:
-                    var windowSize = ScreenHelper.GetWindowSize(null);
+                    var windowSize = Application.Current.MainWindow.GetSize();
                     var plugin = new Rect(0.0, 0.0, windowSize.Width, windowSize.Height);
                     var translatedPoints = GetTranslatedPoints((FrameworkElement)placementTarget);
                     var toolTipPoints = GetTranslatedPoints(this);

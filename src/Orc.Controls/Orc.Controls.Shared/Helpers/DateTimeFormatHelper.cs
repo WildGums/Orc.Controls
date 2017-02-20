@@ -63,9 +63,21 @@ namespace Orc.Controls
             var parts = Split(format, new char[] { 'y', 'M', 'd', 'H', 'h', 'm', 's', 't' });
 
             var current = 0;
+            var count = 0;
+
             string hourFormat = null, hour12Format = null;
             foreach (string part in parts)
             {
+                count++;
+
+                if (count == 1 || count == parts.Length)
+                {
+                    if (!part.All(x => char.IsLetter(x)))
+                    {
+                        continue;
+                    }
+                }
+
                 if (part.Contains('d'))
                 {
                     if (result.DayFormat != null)
@@ -276,6 +288,8 @@ namespace Orc.Controls
                 result.IsHour12Format = result.HourFormat.Contains('h');
                 result.IsAmPmShortFormat = result.AmPmFormat != null && result.AmPmFormat.Length < 2;
             }
+
+            result.MaxPosition = current - 1;
 
             return result;
         }

@@ -7,8 +7,16 @@
 
 namespace Orc.Controls
 {
+    using Catel;
+    using Catel.Logging;
+    using System;
+
     public class DateTimeFormatInfo
     {
+        #region Fields
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        #endregion
+
         #region Constructors
         public DateTimeFormatInfo()
         {
@@ -39,9 +47,31 @@ namespace Orc.Controls
         public string Separator5 { get; set; }
         public string Separator6 { get; set; }
         public string Separator7 { get; set; }
+        public bool IsDateOnly { get { return HourPosition == null && MinutePosition == null && SecondPosition == null && AmPmPosition == null; } }
         public bool IsYearShortFormat { get; set; }
         public bool? IsHour12Format { get; set; }
         public bool? IsAmPmShortFormat { get; set; }
+        public int MaxPosition { get; set; }
+        #endregion
+
+        #region Methods
+        public string GetSeparator(int position)
+        {
+            Argument.IsNotOutOfRange(() => position, 0, 7);
+
+            switch (position)
+            {
+                case 0: return Separator0;
+                case 1: return Separator1;
+                case 2: return Separator2;
+                case 3: return Separator3;
+                case 4: return Separator4;
+                case 5: return Separator5;
+                case 6: return Separator6;
+                case 7: return Separator7;
+                default: return null;
+            }
+        }
         #endregion
     }
 }

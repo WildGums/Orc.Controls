@@ -39,7 +39,7 @@ namespace Orc.Controls
             set { SetValue(IsExpandedProperty, value); }
         }
 
-        public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register("IsExpanded", typeof (bool), typeof (Expander), new PropertyMetadata(false, OnIsExpandedPropertyChanged));
+        public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register("IsExpanded", typeof (bool), typeof (Expander), new PropertyMetadata(false, OnIsExpandedChanged));
 
         public ExpandDirection ExpandDirection
         {
@@ -67,7 +67,7 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-        private static void OnIsExpandedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnIsExpandedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var expander = d as Expander;
             if ((bool) e.NewValue)
