@@ -250,7 +250,7 @@ namespace Orc.Controls
                             return;
                         }
 
-                        var lastLogMessage = (DateTime) document.Tag;
+                        var lastLogMessage = (DateTime?) document.Tag;
 
                         if (logEntry.Time < lastLogMessage)
                         {
