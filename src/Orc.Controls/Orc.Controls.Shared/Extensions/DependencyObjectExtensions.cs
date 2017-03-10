@@ -27,5 +27,19 @@ namespace Orc.Controls
                 }
             }
         }
+
+        public static DependencyObject GetVisualRoot(this DependencyObject dependencyObject)
+        {
+            DependencyObject root;
+            var parent = dependencyObject;
+
+            do
+            {
+                root = parent;
+                parent = VisualTreeHelper.GetParent(root);
+            } while (parent != null);
+  
+            return root;
+        }
     }
 }

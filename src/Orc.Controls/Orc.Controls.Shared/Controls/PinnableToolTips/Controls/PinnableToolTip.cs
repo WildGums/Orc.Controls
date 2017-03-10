@@ -274,10 +274,7 @@ namespace Orc.Controls
 
                 var offsetX = mousePosition.X + horizontalOffset;
                 var offsetY = mousePosition.Y + verticalOffset;
-
-                //offsetX = Math.Max(2.0, offsetX);
-                //offsetY = Math.Max(2.0, offsetY);
-
+               
                 var actualHeight = rootVisual.ActualHeight;
                 var actualWidth = rootVisual.ActualWidth;
                 var lastHeight = _lastSize.Height;
@@ -333,15 +330,13 @@ namespace Orc.Controls
 
                     var offsetX = mousePosition.X + horizontalOffset;
 
-                    //var fontSize = new TextBlock().FontSize;
                     var fontSize = 0;
                     var offsetY = mousePosition.Y + fontSize + verticalOffset;
 
                     offsetX = Math.Max(2.0, offsetX);
                     offsetY = Math.Max(2.0, offsetY);
-
-                    var actualHeight = rootVisual.ActualHeight;
-                    var actualWidth = rootVisual.ActualWidth;
+                    var actualHeight = ((FrameworkElement)_owner).ActualHeight;
+                    var actualWidth = ((FrameworkElement)_owner).ActualWidth;
                     var lastHeight = _lastSize.Height;
                     var lastWidth = _lastSize.Width;
 
@@ -662,10 +657,7 @@ namespace Orc.Controls
 
         private void OnGripColorChanged()
         {
-            if (_gripDrawing != null)
-            {
-                _gripDrawing.SetCurrentValue(GeometryDrawing.BrushProperty, new SolidColorBrush(GripColor));
-            }
+            _gripDrawing?.SetCurrentValue(GeometryDrawing.BrushProperty, new SolidColorBrush(GripColor));
         }
 
         private static Point PlacePopup(Rect plugin, Point[] target, Point[] toolTip, PlacementMode placement)
@@ -1014,7 +1006,17 @@ namespace Orc.Controls
 
         private UIElement GetAdornerElement()
         {
-            return _userDefinedAdorner ?? Application.Current.MainWindow.Content as UIElement;
+            if (_userDefinedAdorner != null)
+            {
+                return _userDefinedAdorner;
+            }
+
+            var root = Owner.GetVisualRoot() as ContentControl;
+
+            return root?.Content as FrameworkElement
+                   ?? root
+                   ?? Application.Current.MainWindow.Content as FrameworkElement
+                   ?? Application.Current.MainWindow;
         }
 
         private List<int> GetCurrentAdornersLayers()
