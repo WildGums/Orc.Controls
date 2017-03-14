@@ -219,7 +219,7 @@ namespace Orc.Controls
         {
             var position = new Point();
 
-            var mousePosition = PinnableToolTipService.MousePosition;
+            var mousePosition = Mouse.GetPosition(_userDefinedAdorner);
             var rootVisual = PinnableToolTipService.RootVisual;
 
             var fixedOffset = 0d;
@@ -231,11 +231,12 @@ namespace Orc.Controls
             var horizontalOffset = HorizontalOffset + fixedOffset;
             var verticalOffset = VerticalOffset + fixedOffset;
 
+            var mousePositionX = mousePosition.X;
+            var mousePositionY = mousePosition.Y;
+
             //using this code for non UIElements
             if (_owner == null)
             {
-                mousePosition = Mouse.GetPosition(_userDefinedAdorner);
-
                 var userDefinedAdorner = _userDefinedAdorner as FrameworkElement;
                 if (userDefinedAdorner == null)
                 {
@@ -272,8 +273,8 @@ namespace Orc.Controls
                     return position;
                 }
 
-                var offsetX = mousePosition.X + horizontalOffset;
-                var offsetY = mousePosition.Y + verticalOffset;
+                var offsetX = mousePositionX + horizontalOffset;
+                var offsetY = mousePositionY + verticalOffset;
                
                 var actualHeight = rootVisual.ActualHeight;
                 var actualWidth = rootVisual.ActualWidth;
@@ -328,10 +329,10 @@ namespace Orc.Controls
                         return position;
                     }
 
-                    var offsetX = mousePosition.X + horizontalOffset;
+                    var offsetX = mousePositionX + horizontalOffset;
 
                     var fontSize = 0;
-                    var offsetY = mousePosition.Y + fontSize + verticalOffset;
+                    var offsetY = mousePositionY + fontSize + verticalOffset;
 
                     offsetX = Math.Max(2.0, offsetX);
                     offsetY = Math.Max(2.0, offsetY);
