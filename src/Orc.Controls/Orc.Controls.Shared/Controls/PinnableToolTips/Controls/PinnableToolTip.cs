@@ -219,7 +219,7 @@ namespace Orc.Controls
         {
             var position = new Point();
 
-            var mousePosition = PinnableToolTipService.MousePosition;
+            var mousePosition = Mouse.GetPosition(_userDefinedAdorner);
             var rootVisual = PinnableToolTipService.RootVisual;
 
             var fixedOffset = 0d;
@@ -231,11 +231,15 @@ namespace Orc.Controls
             var horizontalOffset = HorizontalOffset + fixedOffset;
             var verticalOffset = VerticalOffset + fixedOffset;
 
+            var mousePositionX = mousePosition.X;
+            var mousePositionY = mousePosition.Y;
+
+            double offsetX, offsetY, actualHeight, actualWidth, lastHeight, lastWidth;
+            Rect lastRectangle, actualRectangle;
+
             //using this code for non UIElements
             if (_owner == null)
             {
-                mousePosition = Mouse.GetPosition(_userDefinedAdorner);
-
                 var userDefinedAdorner = _userDefinedAdorner as FrameworkElement;
                 if (userDefinedAdorner == null)
                 {
@@ -272,19 +276,16 @@ namespace Orc.Controls
                     return position;
                 }
 
-                var offsetX = mousePosition.X + horizontalOffset;
-                var offsetY = mousePosition.Y + verticalOffset;
+                offsetX = mousePositionX + horizontalOffset;
+                offsetY = mousePositionY + verticalOffset;
+               
+                actualHeight = rootVisual.ActualHeight;
+                actualWidth = rootVisual.ActualWidth;
+                lastHeight = _lastSize.Height;
+                lastWidth = _lastSize.Width;
 
-                //offsetX = Math.Max(2.0, offsetX);
-                //offsetY = Math.Max(2.0, offsetY);
-
-                var actualHeight = rootVisual.ActualHeight;
-                var actualWidth = rootVisual.ActualWidth;
-                var lastHeight = _lastSize.Height;
-                var lastWidth = _lastSize.Width;
-
-                var lastRectangle = new Rect(offsetX, offsetY, lastWidth, lastHeight);
-                var actualRectangle = new Rect(0.0, 0.0, actualWidth, actualHeight);
+                lastRectangle = new Rect(offsetX, offsetY, lastWidth, lastHeight);
+                actualRectangle = new Rect(0.0, 0.0, actualWidth, actualHeight);
                 actualRectangle.Intersect(lastRectangle);
 
                 if ((offsetY + DesiredSize.Height) > actualHeight)
@@ -319,7 +320,7 @@ namespace Orc.Controls
                 return position;
             }
 
-            var placementMode = PinnableToolTipService.GetPlacement(_owner);
+           var placementMode = PinnableToolTipService.GetPlacement(_owner);
             var placementTarget = PinnableToolTipService.GetPlacementTarget(_owner) ?? _owner;
 
             switch (placementMode)
@@ -331,22 +332,26 @@ namespace Orc.Controls
                         return position;
                     }
 
-                    var offsetX = mousePosition.X + horizontalOffset;
+                    offsetX = mousePositionX + horizontalOffset;
 
-                    //var fontSize = new TextBlock().FontSize;
                     var fontSize = 0;
-                    var offsetY = mousePosition.Y + fontSize + verticalOffset;
+                    offsetY = mousePositionY + fontSize + verticalOffset;
 
                     offsetX = Math.Max(2.0, offsetX);
                     offsetY = Math.Max(2.0, offsetY);
 
-                    var actualHeight = rootVisual.ActualHeight;
-                    var actualWidth = rootVisual.ActualWidth;
-                    var lastHeight = _lastSize.Height;
-                    var lastWidth = _lastSize.Width;
+                    if (rootVisual == null)
+                    {
+                        rootVisual = (FrameworkElement)_owner.GetVisualRoot();
+                    }
 
-                    var lastRectangle = new Rect(offsetX, offsetY, lastWidth, lastHeight);
-                    var actualRectangle = new Rect(0.0, 0.0, actualWidth, actualHeight);
+                    actualHeight = rootVisual.ActualHeight;
+                    actualWidth = rootVisual.ActualWidth;
+                    lastHeight = _lastSize.Height;
+                    lastWidth = _lastSize.Width;
+
+                    lastRectangle = new Rect(offsetX, offsetY, lastWidth, lastHeight);
+                    actualRectangle = new Rect(0.0, 0.0, actualWidth, actualHeight);
                     actualRectangle.Intersect(lastRectangle);
 
                     if ((Math.Abs(actualRectangle.Width - lastRectangle.Width) < 2.0)
@@ -662,10 +667,7 @@ namespace Orc.Controls
 
         private void OnGripColorChanged()
         {
-            if (_gripDrawing != null)
-            {
-                _gripDrawing.SetCurrentValue(GeometryDrawing.BrushProperty, new SolidColorBrush(GripColor));
-            }
+            _gripDrawing?.SetCurrentValue(GeometryDrawing.BrushProperty, new SolidColorBrush(GripColor));
         }
 
         private static Point PlacePopup(Rect plugin, Point[] target, Point[] toolTip, PlacementMode placement)
@@ -1014,7 +1016,17 @@ namespace Orc.Controls
 
         private UIElement GetAdornerElement()
         {
-            return _userDefinedAdorner ?? Application.Current.MainWindow.Content as UIElement;
+            if (_userDefinedAdorner != null)
+            {
+                return _userDefinedAdorner;
+            }
+
+            var root = Owner.GetVisualRoot() as ContentControl;
+
+            return root?.Content as FrameworkElement
+                   ?? root
+                   ?? Application.Current.MainWindow.Content as FrameworkElement
+                   ?? Application.Current.MainWindow;
         }
 
         private List<int> GetCurrentAdornersLayers()
