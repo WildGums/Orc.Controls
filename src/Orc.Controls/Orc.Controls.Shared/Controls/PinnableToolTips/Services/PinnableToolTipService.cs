@@ -158,7 +158,7 @@ namespace Orc.Controls
         /// <returns>The <see cref="PlacementMode" />.</returns>
         public static PlacementMode GetPlacement(DependencyObject element)
         {
-            return (PlacementMode) element.GetValue(PlacementProperty);
+            return (PlacementMode?)element?.GetValue(PlacementProperty) ?? PlacementMode.Mouse;
         }
 
         /// <summary>
@@ -388,6 +388,8 @@ namespace Orc.Controls
                 }
             }
 
+            RootVisual = null;
+
             if (toolTip == null)
             {
                 return;
@@ -571,15 +573,17 @@ namespace Orc.Controls
         {
             lock (Locker)
             {
-                if (RootVisual != null || Application.Current == null)
+                if (Application.Current == null)
                 {
                     return;
                 }
 
-                var rootWindow = frameworkElement.GetVisualRoot() as ContentControl;
+                if (RootVisual != null)
+                {
+                    RootVisual.MouseMove -= OnRootVisualMouseMove;
+                }
 
-                RootVisual = rootWindow?.Content as FrameworkElement 
-                    ?? rootWindow 
+                RootVisual = frameworkElement.GetVisualRoot() as FrameworkElement 
                     ?? Application.Current.MainWindow.Content as FrameworkElement
                     ?? Application.Current.MainWindow;
 

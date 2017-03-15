@@ -234,6 +234,9 @@ namespace Orc.Controls
             var mousePositionX = mousePosition.X;
             var mousePositionY = mousePosition.Y;
 
+            double offsetX, offsetY, actualHeight, actualWidth, lastHeight, lastWidth;
+            Rect lastRectangle, actualRectangle;
+
             //using this code for non UIElements
             if (_owner == null)
             {
@@ -273,16 +276,16 @@ namespace Orc.Controls
                     return position;
                 }
 
-                var offsetX = mousePositionX + horizontalOffset;
-                var offsetY = mousePositionY + verticalOffset;
+                offsetX = mousePositionX + horizontalOffset;
+                offsetY = mousePositionY + verticalOffset;
                
-                var actualHeight = rootVisual.ActualHeight;
-                var actualWidth = rootVisual.ActualWidth;
-                var lastHeight = _lastSize.Height;
-                var lastWidth = _lastSize.Width;
+                actualHeight = rootVisual.ActualHeight;
+                actualWidth = rootVisual.ActualWidth;
+                lastHeight = _lastSize.Height;
+                lastWidth = _lastSize.Width;
 
-                var lastRectangle = new Rect(offsetX, offsetY, lastWidth, lastHeight);
-                var actualRectangle = new Rect(0.0, 0.0, actualWidth, actualHeight);
+                lastRectangle = new Rect(offsetX, offsetY, lastWidth, lastHeight);
+                actualRectangle = new Rect(0.0, 0.0, actualWidth, actualHeight);
                 actualRectangle.Intersect(lastRectangle);
 
                 if ((offsetY + DesiredSize.Height) > actualHeight)
@@ -317,7 +320,7 @@ namespace Orc.Controls
                 return position;
             }
 
-            var placementMode = PinnableToolTipService.GetPlacement(_owner);
+           var placementMode = PinnableToolTipService.GetPlacement(_owner);
             var placementTarget = PinnableToolTipService.GetPlacementTarget(_owner) ?? _owner;
 
             switch (placementMode)
@@ -329,20 +332,26 @@ namespace Orc.Controls
                         return position;
                     }
 
-                    var offsetX = mousePositionX + horizontalOffset;
+                    offsetX = mousePositionX + horizontalOffset;
 
                     var fontSize = 0;
-                    var offsetY = mousePositionY + fontSize + verticalOffset;
+                    offsetY = mousePositionY + fontSize + verticalOffset;
 
                     offsetX = Math.Max(2.0, offsetX);
                     offsetY = Math.Max(2.0, offsetY);
-                    var actualHeight = ((FrameworkElement)_owner).ActualHeight;
-                    var actualWidth = ((FrameworkElement)_owner).ActualWidth;
-                    var lastHeight = _lastSize.Height;
-                    var lastWidth = _lastSize.Width;
 
-                    var lastRectangle = new Rect(offsetX, offsetY, lastWidth, lastHeight);
-                    var actualRectangle = new Rect(0.0, 0.0, actualWidth, actualHeight);
+                    if (rootVisual == null)
+                    {
+                        rootVisual = (FrameworkElement)_owner.GetVisualRoot();
+                    }
+
+                    actualHeight = rootVisual.ActualHeight;
+                    actualWidth = rootVisual.ActualWidth;
+                    lastHeight = _lastSize.Height;
+                    lastWidth = _lastSize.Width;
+
+                    lastRectangle = new Rect(offsetX, offsetY, lastWidth, lastHeight);
+                    actualRectangle = new Rect(0.0, 0.0, actualWidth, actualHeight);
                     actualRectangle.Intersect(lastRectangle);
 
                     if ((Math.Abs(actualRectangle.Width - lastRectangle.Width) < 2.0)
