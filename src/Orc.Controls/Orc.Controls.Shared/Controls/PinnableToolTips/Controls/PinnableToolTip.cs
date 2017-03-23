@@ -61,6 +61,8 @@ namespace Orc.Controls
 
         private Size _lastSize;
 
+        private bool _ignoreTimerStartupWhenMouseLeave;
+
         private UIElement _owner;
 
         private UIElement _userDefinedAdorner;
@@ -215,6 +217,19 @@ namespace Orc.Controls
         #endregion
 
         #region Public Methods and Operators
+        public void IgnoreTimerStartupWhenMouseLeave(bool value)
+        {
+            _ignoreTimerStartupWhenMouseLeave = value;
+
+            if (!_ignoreTimerStartupWhenMouseLeave
+                && !IsMouseOver
+                && !IsPinned
+                && IsOpen)
+            {
+                StartTimer();
+            }
+        }
+
         public Point GetPosition()
         {
             var position = new Point();
@@ -278,7 +293,7 @@ namespace Orc.Controls
 
                 offsetX = mousePositionX + horizontalOffset;
                 offsetY = mousePositionY + verticalOffset;
-               
+
                 actualHeight = rootVisual.ActualHeight;
                 actualWidth = rootVisual.ActualWidth;
                 lastHeight = _lastSize.Height;
@@ -320,7 +335,7 @@ namespace Orc.Controls
                 return position;
             }
 
-           var placementMode = PinnableToolTipService.GetPlacement(_owner);
+            var placementMode = PinnableToolTipService.GetPlacement(_owner);
             var placementTarget = PinnableToolTipService.GetPlacementTarget(_owner) ?? _owner;
 
             switch (placementMode)
@@ -752,6 +767,11 @@ namespace Orc.Controls
 
         private void OnPinnableToolTipMouseLeave(object sender, MouseEventArgs e)
         {
+            if (_ignoreTimerStartupWhenMouseLeave)
+            {
+                return;
+            }
+
             if (IsOpen && !IsPinned)
             {
                 StartTimer();
