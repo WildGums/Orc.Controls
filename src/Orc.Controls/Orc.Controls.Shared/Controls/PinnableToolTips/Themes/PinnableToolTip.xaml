@@ -103,7 +103,8 @@
         </Setter>
     </Style>
 
-    <Style TargetType="controls:PinnableToolTip">
+    <Style x:Key="{x:Type controls:PinnableToolTip}"
+           TargetType="{x:Type controls:PinnableToolTip}">
         <Setter Property="Padding" Value="0"/>
         <Setter Property="Background" Value="White" />
         <Setter Property="BorderThickness" Value="1" />

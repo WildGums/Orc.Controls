@@ -21,7 +21,8 @@
     </ControlTemplate>
 
     <!-- Dummy base style -->
-    <Style TargetType="{x:Type local:DateTimePickerControl}"/>
+    <Style x:Key="{x:Type local:DateTimePickerControl}"
+           TargetType="{x:Type local:DateTimePickerControl}"/>
 
     <Style x:Key="DateTimePickerInnerGridStyle" TargetType="{x:Type Grid}">
         <Style.Triggers>
