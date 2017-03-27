@@ -29,7 +29,8 @@
                         Foreground="Gray" />
     </DataTemplate>
 
-    <Style TargetType="{x:Type controls:WatermarkTextBox}">
+    <Style x:Key="{x:Type controls:WatermarkTextBox}"
+           TargetType="{x:Type controls:WatermarkTextBox}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
         <Setter Property="BorderBrush" Value="{StaticResource TextBoxBorder}" />

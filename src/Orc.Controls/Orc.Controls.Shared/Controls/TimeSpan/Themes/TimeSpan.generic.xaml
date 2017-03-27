@@ -34,7 +34,8 @@
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="{x:Type local:TimeSpanControl}">
+    <Style x:Key="{x:Type local:TimeSpanControl}"
+           TargetType="{x:Type local:TimeSpanControl}">
         <Style.Resources>
             <Style TargetType="{x:Type Border}">
                 <Setter Property="BorderBrush" Value="LightGray"/>

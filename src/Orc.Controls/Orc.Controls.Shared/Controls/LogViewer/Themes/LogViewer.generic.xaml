@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Orc.Controls">
 
-    <Style TargetType="{x:Type local:LogViewerControl}">
+    <Style x:Key="{x:Type local:LogViewerControl}"
+           TargetType="{x:Type local:LogViewerControl}">
         <Style.Resources>
             <Style TargetType="{x:Type local:RichTextBoxParagraph}">
                 <Setter Property="Margin" Value="0"/>

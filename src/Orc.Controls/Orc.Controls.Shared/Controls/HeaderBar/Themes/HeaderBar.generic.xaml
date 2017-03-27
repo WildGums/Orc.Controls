@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Orc.Controls">
 
-    <Style TargetType="{x:Type controls:HeaderBar}">
+    <Style x:Key="{x:Type controls:HeaderBar}"
+           TargetType="{x:Type controls:HeaderBar}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
