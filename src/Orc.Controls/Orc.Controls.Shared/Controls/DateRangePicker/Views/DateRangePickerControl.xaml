@@ -1,0 +1,55 @@
+﻿<catel:UserControl x:Class="Orc.Controls.DateRangePickerControl"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:controls="clr-namespace:Orc.Controls"
+                   xmlns:converters="clr-namespace:Orc.Controls.Converters"
+                   xmlns:catel="http://catel.codeplex.com"
+                   xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                   mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="190">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Content="{catel:LanguageBinding ResourceName=Controls_DateRangePicker_Start_Lbl}"/>
+        <controls:DateTimePickerControl Grid.Row="0" Grid.Column="1" 
+            Value="{Binding DateStart}"
+            AllowNull="False"
+            AllowCopyPaste="{Binding DateTimePickerAllowCopyPaste, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePickerControl}}}"
+            HideSeconds="{Binding DateTimePickerHideSeconds, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePickerControl}}}"
+            IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePickerControl}}}"
+            ShowOptionsButton="{Binding DateTimePickerShowOptionsButton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePickerControl}}}"/>
+
+        <ComboBox Grid.Row="0" Grid.Column="2"
+            IsEditable="False"
+            IsReadOnly="True"
+            ItemsSource="{Binding Ranges}"
+            DisplayMemberPath="Name"
+            SelectedValuePath="Name"
+            SelectedItem="{Binding SelectedRange, Mode=TwoWay}"
+            IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePickerControl}}}"/>
+
+        <Label Grid.Row="1" Grid.Column="0" Content="{catel:LanguageBinding ResourceName=Controls_DateRangePicker_End_Lbl}"/>
+        <controls:DateTimePickerControl Grid.Row="2" Grid.Column="1"
+            Value="{Binding DateEnd}"
+            AllowNull="False"
+            AllowCopyPaste="{Binding DateTimePickerAllowCopyPaste, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePickerControl}}}"
+            HideSeconds="{Binding DateTimePickerHideSeconds, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePickerControl}}}"
+            IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePickerControl}}}"
+            ShowOptionsButton="{Binding DateTimePickerShowOptionsButton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePickerControl}}}"/>
+
+        <controls:TimeSpanControl Grid.Row="1" Grid.Column="2"
+            Value="{Binding Value}"
+            IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePickerControl}}}"/>
+
+    </Grid>
+</catel:UserControl>

@@ -113,6 +113,7 @@
     <Compile Include="ViewModels\ColorPickerViewModel.cs" />
     <Compile Include="ViewModels\CulturePickerViewModel.cs" />
     <Compile Include="ViewModels\DatePickerViewModel.cs" />
+    <Compile Include="ViewModels\DateRangePickerViewModel.cs" />
     <Compile Include="ViewModels\DirectoryPickerViewModel.cs" />
     <Compile Include="ViewModels\ExpanderViewModel.cs" />
     <Compile Include="ViewModels\OpenFilePickerViewModel.cs" />
@@ -129,6 +130,9 @@
     </Compile>
     <Compile Include="Views\CulturePickerView.xaml.cs">
       <DependentUpon>CulturePickerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DateRangePicker.xaml.cs">
+      <DependentUpon>DateRangePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Expander.xaml.cs">
       <DependentUpon>Expander.xaml</DependentUpon>
@@ -200,6 +204,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CulturePickerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DateRangePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,41 @@
+﻿<catel:UserControl x:Class="Orc.Controls.Examples.Views.DateRangePicker"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				   xmlns:catel="http://catel.codeplex.com"
+				   xmlns:orc="http://www.wildgums.net.au/orc">
+
+    <!-- Resources -->
+    <UserControl.Resources>
+    </UserControl.Resources>
+
+    <!-- Content -->
+    <StackPanel>
+        <StackPanel>
+            <TextBlock Text="DateRangePicker Control" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150"/>
+            <orc:DateRangePickerControl HorizontalAlignment="Left"
+                Value="{Binding Duration}"
+                DateStart="{Binding DateStart}"
+                DateEnd="{Binding DateEnd}"
+                Ranges="{Binding Ranges}"
+                SelectedRange="{Binding SelectedRange}"
+                DateTimePickerAllowCopyPaste="{Binding IsChecked, ElementName=allowCopyPasteCheckbox}"
+                DateTimePickerHideSeconds="{Binding IsChecked, ElementName=hideSecondsCheckbox}"
+                DateTimePickerShowOptionsButton="{Binding IsChecked, ElementName=showOptionsButtonCheckbox}"
+                IsReadOnly="{Binding IsChecked, ElementName=isReadOnlyCheckbox}"/>
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock Text="DateRangePicker Options" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150"/>
+            <CheckBox x:Name="isReadOnlyCheckbox" Content="Read only" IsChecked="False" />
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock Text="DateTimePicker Options" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150"/>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox x:Name="allowCopyPasteCheckbox" Content="Allow copy/paste" IsChecked="True" />
+                <CheckBox x:Name="hideSecondsCheckbox" Content="Hide seconds" IsChecked="False" />
+                <CheckBox x:Name="showOptionsButtonCheckbox" Content="Show options button" IsChecked="True"/>
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</catel:UserControl>

@@ -79,6 +79,87 @@ namespace Orc.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom.
+        /// </summary>
+        internal static string Controls_DateRangePicker_Custom {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_Custom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End:.
+        /// </summary>
+        internal static string Controls_DateRangePicker_End_Lbl {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_End_Lbl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last month.
+        /// </summary>
+        internal static string Controls_DateRangePicker_LastMonth {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_LastMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last week.
+        /// </summary>
+        internal static string Controls_DateRangePicker_LastWeek {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_LastWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start:.
+        /// </summary>
+        internal static string Controls_DateRangePicker_Start_Lbl {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_Start_Lbl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This month.
+        /// </summary>
+        internal static string Controls_DateRangePicker_ThisMonth {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_ThisMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This week.
+        /// </summary>
+        internal static string Controls_DateRangePicker_ThisWeek {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_ThisWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Today.
+        /// </summary>
+        internal static string Controls_DateRangePicker_Today {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_Today", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yesterday.
+        /// </summary>
+        internal static string Controls_DateRangePicker_Yesterday {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_Yesterday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open folder.
         /// </summary>
         internal static string Controls_OpenFolder {

@@ -7,12 +7,14 @@
                    xmlns:catel="http://catel.codeplex.com"
                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                    mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="120">
-    
-    <UserControl.Resources>
-    </UserControl.Resources>
+
+    <catel:UserControl.Resources>
+        <Style TargetType="{x:Type controls:NumericTextBox}" BasedOn="{StaticResource TimeSpanNumericTextBoxStyle}"/>
+    </catel:UserControl.Resources>
 
     <Grid>
-        <Border x:Name="MainContainer" BorderThickness="1" MinWidth="115" Height="22" >
+        <Border x:Name="MainContainer" BorderThickness="1" MinWidth="115" Height="22"
+                Style="{DynamicResource TimeSpanBorderStyle}">
             <Grid  Background="White" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
