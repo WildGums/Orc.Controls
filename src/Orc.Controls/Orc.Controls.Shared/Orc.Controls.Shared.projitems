@@ -16,9 +16,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\Models\DateRange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\PredefinedDateRanges.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\ViewModels\DateRangePickerViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\Views\DateRangePickerControl.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\Views\DateRangePicker.xaml.cs">
       <SubType>Code</SubType>
-      <DependentUpon>DateRangePickerControl.xaml</DependentUpon>
+      <DependentUpon>DateRangePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Controls\FilterBoxControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ListTextBox\ListTextBox.cs" />
@@ -227,7 +227,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\Views\DateRangePickerControl.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\Views\DateRangePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

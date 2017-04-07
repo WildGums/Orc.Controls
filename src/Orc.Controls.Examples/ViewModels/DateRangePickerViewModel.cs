@@ -30,10 +30,9 @@ namespace Orc.Controls.Examples.ViewModels
         #region Properties
         public FastObservableCollection<DateRange> Ranges { get; set; }
         public DateRange SelectedRange { get; set; }
-        public DateTime DateStart { get; set; }
-        public DateTime DateEnd { get; set; }
-        public TimeSpan Duration { get; set; }
-        public string DurationString { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public TimeSpan Span { get; set; }
         #endregion
 
         #region Methods
@@ -53,24 +52,10 @@ namespace Orc.Controls.Examples.ViewModels
             }
 
             Ranges = ranges;
-            DateStart = ranges[0].Start;
-            DateEnd = ranges[0].End;
-            Duration = ranges[0].Duration;
+            StartDate = ranges[0].Start;
+            EndDate = ranges[0].End;
+            Span = ranges[0].Duration;
             SelectedRange = ranges[0];
-        }
-
-        protected override void OnPropertyChanged(AdvancedPropertyChangedEventArgs e)
-        {
-            base.OnPropertyChanged(e);
-
-            if (Duration != null && !string.IsNullOrEmpty(e.PropertyName) && e.HasPropertyChanged(e.PropertyName))
-            {
-                DurationString = Duration.ToString();
-            }
-            else
-            {
-                DurationString = string.Empty;
-            }
         }
         #endregion
     }

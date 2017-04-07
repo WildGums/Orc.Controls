@@ -21,9 +21,9 @@ namespace Orc.Controls
         #region Fields
         private ObservableCollection<DateRange> _ranges;
         private DateRange _selectedRange;
-        private DateTime _dateStart;
-        private DateTime _dateEnd;
-        private TimeSpan _value;
+        private DateTime _startDate;
+        private DateTime _endDate;
+        private TimeSpan _span;
         #endregion
 
         #region Constructors
@@ -62,38 +62,38 @@ namespace Orc.Controls
             }
         }
 
-        public DateTime DateStart
+        public DateTime StartDate
         {
-            get { return _dateStart; }
+            get { return _startDate; }
             set
             {
-                if (UpdateDateStart(_dateStart, new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second)))
+                if (UpdateStartDate(_startDate, new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second)))
                 {
-                    OnDateStartChanged();
+                    OnStartDateChanged();
                 }
             }
         }
 
-        public DateTime DateEnd
+        public DateTime EndDate
         {
-            get { return _dateEnd; }
+            get { return _endDate; }
             set
             {
-                if (UpdateDateEnd(_dateEnd, new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second)))
+                if (UpdateEndDate(_endDate, new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second)))
                 {
-                    OnDateEndChanged();
+                    OnEndDateChanged();
                 }
             }
         }
 
-        public TimeSpan Value
+        public TimeSpan Span
         {
-            get { return _value; }
+            get { return _span; }
             set
             {
-                if (UpdateValue(_value, value))
+                if (UpdateSpan(_span, value))
                 {
-                    OnValueChanged();
+                    OnSpanChanged();
                 }
             }
         }
@@ -106,27 +106,27 @@ namespace Orc.Controls
 
             if (_selectedRange != null)
             {
-                var currentDateStart = _dateStart;
-                var currentDateEnd = _dateEnd;
-                var currentValue = _value;
-                var newDateStart = _selectedRange.Start;
-                var newDateEnd = _selectedRange.End;
-                var newValue = newDateEnd.Subtract(newDateStart);
+                var currentStartDate = _startDate;
+                var currentEndDate = _endDate;
+                var currentSpan = _span;
+                var newStartDate = _selectedRange.Start;
+                var newEndDate = _selectedRange.End;
+                var newSpan = newEndDate.Subtract(newStartDate);
 
-                UpdateDateStart(currentDateStart, newDateStart);
-                UpdateDateEnd(currentDateEnd, newDateEnd);
-                UpdateValue(currentValue, newValue);
+                UpdateStartDate(currentStartDate, newStartDate);
+                UpdateEndDate(currentEndDate, newEndDate);
+                UpdateSpan(currentSpan, newSpan);
             }
         }
 
-        private void OnDateStartChanged()
+        private void OnStartDateChanged()
         {
             RemoveTemporaryRanges();
 
-            var currentValue = _value;
-            var newValue = _dateEnd.Subtract(_dateStart);
+            var currentSpan = _span;
+            var newSpan = _endDate.Subtract(_startDate);
 
-            UpdateValue(currentValue, newValue);
+            UpdateSpan(currentSpan, newSpan);
 
             var currentSelectedDateRange = _selectedRange;
             var newSelectedDateRange = AddTemporaryRange();
@@ -134,14 +134,14 @@ namespace Orc.Controls
             UpdateSelectedRange(currentSelectedDateRange, newSelectedDateRange);
         }
 
-        private void OnDateEndChanged()
+        private void OnEndDateChanged()
         {
             RemoveTemporaryRanges();
 
-            var currentValue = _value;
-            var newValue = _dateEnd.Subtract(_dateStart);
+            var currentSpan = _span;
+            var newSpan = _endDate.Subtract(_startDate);
 
-            UpdateValue(currentValue, newValue);
+            UpdateSpan(currentSpan, newSpan);
 
             var currentSelectedDateRange = _selectedRange;
             var newSelectedDateRange = AddTemporaryRange();
@@ -149,14 +149,14 @@ namespace Orc.Controls
             UpdateSelectedRange(currentSelectedDateRange, newSelectedDateRange);
         }
 
-        private void OnValueChanged()
+        private void OnSpanChanged()
         {
             RemoveTemporaryRanges();
 
-            var currentDateEnd = _dateEnd;
-            var newDateEnd = _dateStart.Add(_value);
+            var currentEndDate = _endDate;
+            var newEndDate = _startDate.Add(_span);
 
-            UpdateDateEnd(currentDateEnd, newDateEnd);
+            UpdateEndDate(currentEndDate, newEndDate);
 
             var currentSelectedDateRange = _selectedRange;
             var newSelectedDateRange = AddTemporaryRange();
@@ -177,12 +177,12 @@ namespace Orc.Controls
             return false;
         }
 
-        private bool UpdateDateStart(DateTime currentDateStart, DateTime newDateStart)
+        private bool UpdateStartDate(DateTime currentStartDate, DateTime newStartDate)
         {
-            if (currentDateStart != newDateStart)
+            if (currentStartDate != newStartDate)
             {
-                _dateStart = newDateStart;
-                RaisePropertyChanged(nameof(DateStart));
+                _startDate = newStartDate;
+                RaisePropertyChanged(nameof(StartDate));
 
                 return true;
             }
@@ -190,12 +190,12 @@ namespace Orc.Controls
             return false;
         }
 
-        private bool UpdateDateEnd(DateTime currentDateEnd, DateTime newDateEnd)
+        private bool UpdateEndDate(DateTime currentEndDate, DateTime newEndDate)
         {
-            if (currentDateEnd != newDateEnd)
+            if (currentEndDate != newEndDate)
             {
-                _dateEnd = newDateEnd;
-                RaisePropertyChanged(nameof(DateEnd));
+                _endDate = newEndDate;
+                RaisePropertyChanged(nameof(EndDate));
 
                 return true;
             }
@@ -203,12 +203,12 @@ namespace Orc.Controls
             return false;
         }
 
-        private bool UpdateValue(TimeSpan currentValue, TimeSpan newValue)
+        private bool UpdateSpan(TimeSpan currentSpan, TimeSpan newSpan)
         {
-            if (currentValue != newValue)
+            if (currentSpan != newSpan)
             {
-                _value = newValue;
-                RaisePropertyChanged(nameof(Value));
+                _span = newSpan;
+                RaisePropertyChanged(nameof(Span));
 
                 return true;
             }
@@ -223,8 +223,8 @@ namespace Orc.Controls
                 var temporaryRange = new DateRange()
                 {
                     Name = LanguageHelper.GetString("Controls_DateRangePicker_Custom"),
-                    Start = _dateStart,
-                    End = _dateEnd,
+                    Start = _startDate,
+                    End = _endDate,
                     IsTemporary = true
                 };
 
