@@ -34,87 +34,82 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="{x:Type local:TimeSpanControl}"
-           TargetType="{x:Type local:TimeSpanControl}">
-        <Style.Resources>
-            <Style TargetType="{x:Type Border}">
-                <Setter Property="BorderBrush" Value="LightGray"/>
-                <Style.Triggers>
-                    <MultiDataTrigger>
-                        <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
-                            <Condition Binding="{Binding Name, RelativeSource={RelativeSource Self}}" Value="MainContainer" />
-                            <Condition Binding="{Binding Value, Converter={catel:ReferenceToBooleanConverter}}" Value="True" />
-                        </MultiDataTrigger.Conditions>
-                        <Setter Property="ToolTip">
-                            <Setter.Value>
-                                <Grid Margin="5 2 5 2">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Total:" HorizontalAlignment="Left"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Days" HorizontalAlignment="Left" Margin="10 0 10 0"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Hours" HorizontalAlignment="Left" Margin="10 0 10 0"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Minutes" HorizontalAlignment="Left" Margin="10 0 10 0"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"
-                                           Text="{Binding Value, Converter={StaticResource TimeSpanToTotalConverter}, ConverterParameter=Days}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"
-                                           Text="{Binding Value, Converter={StaticResource TimeSpanToTotalConverter}, ConverterParameter=Hours}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left"
-                                           Text="{Binding Value, Converter={StaticResource TimeSpanToTotalConverter}, ConverterParameter=Minutes}"/>
-                                </Grid>
-                            </Setter.Value>
-                        </Setter>
-                    </MultiDataTrigger>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="BorderBrush" Value="{DynamicResource TimeSpanAccentBrush}" />
-                    </Trigger>
-                    <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                        <Setter Property="BorderBrush" Value="{DynamicResource TimeSpanAccentBrush}" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-
-            <Style BasedOn="{x:Null}" TargetType="{x:Type local:NumericTextBox}">
-                <Setter Property="TextAlignment" Value="Center"/>
-                <Setter Property="Margin" Value="2 0 0 0"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="AllowDrop" Value="true"/>
-                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-                <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-                <Setter Property="Template">
+    <Style x:Key="TimeSpanBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="BorderBrush" Value="LightGray"/>
+        <Style.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
+                    <Condition Binding="{Binding Name, RelativeSource={RelativeSource Self}}" Value="MainContainer" />
+                    <Condition Binding="{Binding Value, Converter={catel:ReferenceToBooleanConverter}}" Value="True" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="ToolTip">
                     <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type TextBox}">
-                            <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}"
+                        <Grid Margin="5 2 5 2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Total:" HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Column="0" Grid.Row="1" Text="Days" HorizontalAlignment="Left" Margin="10 0 10 0"/>
+                            <TextBlock Grid.Column="0" Grid.Row="2" Text="Hours" HorizontalAlignment="Left" Margin="10 0 10 0"/>
+                            <TextBlock Grid.Column="0" Grid.Row="3" Text="Minutes" HorizontalAlignment="Left" Margin="10 0 10 0"/>
+                            <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"
+                                           Text="{Binding Value, Converter={StaticResource TimeSpanToTotalConverter}, ConverterParameter=Days}"/>
+                            <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"
+                                           Text="{Binding Value, Converter={StaticResource TimeSpanToTotalConverter}, ConverterParameter=Hours}"/>
+                            <TextBlock Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left"
+                                           Text="{Binding Value, Converter={StaticResource TimeSpanToTotalConverter}, ConverterParameter=Minutes}"/>
+                        </Grid>
+                    </Setter.Value>
+                </Setter>
+            </MultiDataTrigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource TimeSpanAccentBrush}" />
+            </Trigger>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource TimeSpanAccentBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="TimeSpanNumericTextBoxStyle" BasedOn="{x:Null}" TargetType="{x:Type local:NumericTextBox}">
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="2 0 0 0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="AllowDrop" Value="true"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}"
                                 SnapsToDevicePixels="true">
-                                <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsEnabled" Value="false">
-                                    <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </Style.Resources>
+                        <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
-    
+
 </ResourceDictionary>

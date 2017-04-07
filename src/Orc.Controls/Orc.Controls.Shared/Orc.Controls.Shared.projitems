@@ -13,6 +13,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)..\..\GlobalSuppressions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adorners\ResizingAdorner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\Meridiems.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\Models\DateRange.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\PredefinedDateRanges.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\ViewModels\DateRangePickerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\Views\DateRangePicker.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>DateRangePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Controls\FilterBoxControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ListTextBox\ListTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Services\Interfaces\IValidationNamesService.cs" />
@@ -217,6 +224,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePickerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\Views\DateRangePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -140,6 +140,10 @@
             <views:DateTimePicker />
         </TabItem>
 
+        <TabItem Header="DateRangePicker">
+            <views:DateRangePicker />
+        </TabItem>
+
         <TabItem Header="DirectoryPickerView">
             <views:DirectoryPickerView />
         </TabItem>
