@@ -13,5 +13,9 @@ namespace Orc.Controls.Logging
 
     public class LogViewerLogListener : RollingInMemoryLogListener
     {
+        public LogViewerLogListener()
+        {
+            MaximumNumberOfLogEntries = 500;
+        }
     }
 }

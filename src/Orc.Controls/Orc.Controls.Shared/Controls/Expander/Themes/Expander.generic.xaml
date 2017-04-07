@@ -6,9 +6,9 @@
     <Geometry x:Key="UnpinnedGeometry">M550.98,271.481L550.98,496.519C534.954,498.998 515.4,480.395 510.981,456.338L430.694,461.359C421.048,499.288 389.117,513.621 370.226,511.94L370.644,401.232L274.045,400.802L217.02,384L274.047,367.198L370.644,366.768L370.226,256.06C389.117,254.379 421.048,268.712 430.694,306.641L510.981,311.662C515.4,287.605 534.954,269.002 550.98,271.481Z</Geometry>
 
     <!-- Dummy base style -->
-    <Style TargetType="{x:Type local:Expander}">
-    </Style>    
-    
+    <Style x:Key="{x:Type local:Expander}"
+           TargetType="{x:Type local:Expander}"/>
+
     <Style x:Key="Pin_ToggleButton" TargetType="{x:Type ToggleButton}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>

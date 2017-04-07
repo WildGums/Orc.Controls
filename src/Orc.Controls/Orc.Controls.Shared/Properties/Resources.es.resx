@@ -123,6 +123,33 @@
   <data name="Controls_BrowseForFolder" xml:space="preserve">
     <value>Browse for folder</value>
   </data>
+  <data name="Controls_DateRangePicker_Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="Controls_DateRangePicker_End_Lbl" xml:space="preserve">
+    <value>End:</value>
+  </data>
+  <data name="Controls_DateRangePicker_LastMonth" xml:space="preserve">
+    <value>Last month</value>
+  </data>
+  <data name="Controls_DateRangePicker_LastWeek" xml:space="preserve">
+    <value>Last week</value>
+  </data>
+  <data name="Controls_DateRangePicker_Start_Lbl" xml:space="preserve">
+    <value>Start:</value>
+  </data>
+  <data name="Controls_DateRangePicker_ThisMonth" xml:space="preserve">
+    <value>This month</value>
+  </data>
+  <data name="Controls_DateRangePicker_ThisWeek" xml:space="preserve">
+    <value>This week</value>
+  </data>
+  <data name="Controls_DateRangePicker_Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="Controls_DateRangePicker_Yesterday" xml:space="preserve">
+    <value>Yesterday</value>
+  </data>
   <data name="Controls_OpenFolder" xml:space="preserve">
     <value>Open folder</value>
   </data>

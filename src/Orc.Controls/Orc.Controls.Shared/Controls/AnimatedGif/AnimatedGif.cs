@@ -72,15 +72,15 @@ namespace Orc.Controls
         /// </remarks>
         public string GifSource
         {
-            get { return (string) GetValue(GifSourceProperty); }
+            get { return (string)GetValue(GifSourceProperty); }
             set { SetValue(GifSourceProperty, value); }
         }
 
         /// <summary>
         /// DependencyProperty definition as the backing store for GifSource.
         /// </summary>
-        public static readonly DependencyProperty GifSourceProperty = DependencyProperty.Register("GifSource", typeof (string),
-            typeof (AnimatedGif), new UIPropertyMetadata(string.Empty, OnGifSourceChanged));
+        public static readonly DependencyProperty GifSourceProperty = DependencyProperty.Register("GifSource", typeof(string),
+            typeof(AnimatedGif), new UIPropertyMetadata(string.Empty, OnGifSourceChanged));
         #endregion
 
         #region Methods
@@ -123,7 +123,7 @@ namespace Orc.Controls
             // Check if this is a file
             if (File.Exists(GifSource))
             {
-                _bitmap = (Bitmap) Image.FromFile(GifSource);
+                _bitmap = (Bitmap)Image.FromFile(GifSource);
             }
             else
             {
@@ -166,11 +166,19 @@ namespace Orc.Controls
             // Loop through all resources
             if (assemblyToSearch.FullName != null)
             {
-                // Get stream resource info
-                var streamResourceInfo = Application.GetResourceStream(new Uri(GifSource, UriKind.RelativeOrAbsolute));
-                if (streamResourceInfo != null)
+                try
                 {
-                    return (Bitmap) Image.FromStream(streamResourceInfo.Stream);
+                    // Get stream resource info
+                    var streamResourceInfo = Application.GetResourceStream(new Uri(GifSource, UriKind.RelativeOrAbsolute));
+                    if (streamResourceInfo != null)
+                    {
+                        return (Bitmap)Image.FromStream(streamResourceInfo.Stream);
+                    }
+                }
+                catch (IOException)
+                {
+                    // IOException when not existent URI path.
+                    return null;
                 }
             }
 
@@ -195,12 +203,22 @@ namespace Orc.Controls
         [DebuggerStepperBoundary]
         private void OnFrameChangedInMainThread()
         {
-            // Update the frames
-            ImageAnimator.UpdateFrames(_bitmap);
+            // _bitmap should never be null
+            if (_bitmap != null)
+            {
+                // Update the frames
+                ImageAnimator.UpdateFrames(_bitmap);
 
-            // Get bitmap source
-            var bitmapSource = GetBitmapSource(_bitmap);
-            SetCurrentValue(SourceProperty, bitmapSource);
+                // Get bitmap source
+                var bitmapSource = GetBitmapSource(_bitmap);
+                SetCurrentValue(SourceProperty, bitmapSource);
+            }
+            else
+            {
+                Log.Debug("Bitmap is NULL while animating");
+
+                SetCurrentValue(SourceProperty, null);
+            }
 
             // Invalidate visual
             InvalidateVisual();

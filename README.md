@@ -4,7 +4,6 @@ Orc.Controls
 [![Join the chat at https://gitter.im/WildGums/Orc.Controls](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/WildGums/Orc.Controls?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ![License](https://img.shields.io/github/license/wildgums/orc.controls.svg)
-![NuGet downloads](https://img.shields.io/nuget/dt/orc.controls.svg)
 ![Version](https://img.shields.io/nuget/v/orc.controls.svg)
 ![Pre-release version](https://img.shields.io/nuget/vpre/orc.controls.svg)
 
@@ -333,7 +332,7 @@ This control allows user to choose a directory where a file will be saved.
 
 ![SaveFilePickerView 01](doc/images/SaveFilePicker_01.png)
 
-###How to use SaveFilePickerView
+### How to use SaveFilePickerView
 
 ```
 <orc:SaveFilePickerView LabelText="SaveFilePicker control" LabelWidth="150" />
@@ -346,7 +345,7 @@ The bindable properties are:
 - **SelectedFile** => The selected file path.
 - **Filter** => The filter string that determines what types of files are displayed from the SaveFileDialog .
 
-Other similar libraries
-========================
+## Links
 
-- https://github.com/objorke/PropertyTools
+- Orc.Controls is part of the [Orchestra](https://github.com/WildGums/Orchestra) family of controls.
+- Other similar open source controls can be found [here](https://github.com/objorke/PropertyTools)

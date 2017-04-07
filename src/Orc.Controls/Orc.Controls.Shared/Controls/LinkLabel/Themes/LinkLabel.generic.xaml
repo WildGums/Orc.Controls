@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:controls="clr-namespace:Orc.Controls">
 
-    <Style TargetType="{x:Type controls:LinkLabel}" BasedOn="{StaticResource {x:Type Label}}">
+    <Style x:Key="{x:Type controls:LinkLabel}" TargetType="{x:Type controls:LinkLabel}" BasedOn="{StaticResource {x:Type Label}}">
         <Setter Property="Foreground" Value="Blue"/>
         <Setter Property="HoverForeground" Value="Red"/>
 

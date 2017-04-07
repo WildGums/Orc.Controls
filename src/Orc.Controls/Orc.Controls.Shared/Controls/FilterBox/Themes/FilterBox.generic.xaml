@@ -4,7 +4,8 @@
                     xmlns:catel="http://catel.codeplex.com"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
 
-    <Style TargetType="{x:Type local:FilterBoxControl}">
+    <Style x:Key="{x:Type local:FilterBoxControl}"
+           TargetType="{x:Type local:FilterBoxControl}">
         <Style.Resources>
            <Style TargetType="{x:Type ListBoxItem}">
                 <Setter Property="Template">

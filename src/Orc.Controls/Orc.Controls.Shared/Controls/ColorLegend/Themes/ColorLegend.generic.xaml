@@ -207,7 +207,8 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type controls:ColorLegend}">
+    <Style x:Key="{x:Type controls:ColorLegend}"
+           TargetType="{x:Type controls:ColorLegend}">
         <Style.Resources>
             <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource ColorLegendCheckBoxStyle}"/>
             <Style TargetType="{x:Type TabItem}" BasedOn="{x:Null}"/>

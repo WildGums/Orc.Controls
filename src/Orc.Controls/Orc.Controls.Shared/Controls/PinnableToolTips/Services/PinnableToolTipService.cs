@@ -15,6 +15,7 @@ namespace Orc.Controls
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Interop;
+    using System.Windows.Media;
     using Catel.Windows;
 
     /// <summary>
@@ -157,7 +158,7 @@ namespace Orc.Controls
         /// <returns>The <see cref="PlacementMode" />.</returns>
         public static PlacementMode GetPlacement(DependencyObject element)
         {
-            return (PlacementMode) element.GetValue(PlacementProperty);
+            return (PlacementMode?)element?.GetValue(PlacementProperty) ?? PlacementMode.Mouse;
         }
 
         /// <summary>
@@ -330,12 +331,12 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private static void OnElementMouseEnter(object sender, MouseEventArgs e)
         {
-            UIElement currentElement;
+            FrameworkElement currentElement;
             PinnableToolTip toolTip = null;
 
             lock (Locker)
             {
-                currentElement = sender as UIElement;
+                currentElement = sender as FrameworkElement;
                 if (currentElement != null)
                 {
                     if (ElementsAndToolTips.ContainsKey(currentElement))
@@ -349,7 +350,7 @@ namespace Orc.Controls
                 }
 
                 MousePosition = e.GetPosition(null);
-                SetRootVisual();
+                SetRootVisual(currentElement);
             }
 
             if (toolTip == null || (toolTip.Content == null && toolTip.ContentTemplate == null) || toolTip.IsTimerEnabled || toolTip.IsOpen)
@@ -360,6 +361,7 @@ namespace Orc.Controls
             var initialShowDelay = GetInitialShowDelay(currentElement);
             var showDuration = GetShowDuration(currentElement);
 
+            toolTip.Owner = (FrameworkElement) sender;
             toolTip.SetupTimer(initialShowDelay, showDuration);
             toolTip.StartTimer();
         }
@@ -385,6 +387,8 @@ namespace Orc.Controls
                     return;
                 }
             }
+
+            RootVisual = null;
 
             if (toolTip == null)
             {
@@ -564,18 +568,24 @@ namespace Orc.Controls
         /// <summary>
         ///     The set root visual.
         /// </summary>
-        private static void SetRootVisual()
+        /// <param name="frameworkElement"></param>
+        private static void SetRootVisual(FrameworkElement frameworkElement)
         {
             lock (Locker)
             {
-                if ((RootVisual != null) || (Application.Current == null))
+                if (Application.Current == null)
                 {
                     return;
                 }
 
-                RootVisual = BrowserInteropHelper.IsBrowserHosted ? null :
-                    (Application.Current.MainWindow.Content as FrameworkElement) != null ?
-                        Application.Current.MainWindow.Content as FrameworkElement : Application.Current.MainWindow;
+                if (RootVisual != null)
+                {
+                    RootVisual.MouseMove -= OnRootVisualMouseMove;
+                }
+
+                RootVisual = frameworkElement.GetVisualRoot() as FrameworkElement 
+                    ?? Application.Current.MainWindow.Content as FrameworkElement
+                    ?? Application.Current.MainWindow;
 
                 if (RootVisual == null)
                 {
