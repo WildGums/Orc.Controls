@@ -12,7 +12,20 @@
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)..\..\GlobalSuppressions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adorners\ResizingAdorner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\PasswordBindBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\Meridiems.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Model\ConnectionState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Model\SqlConnectionString.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Services\ConnectionStringBuilderService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Services\Interfaces\IConnectionStringBuilderService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\ViewModel\ConnectionStringBuilderViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\ViewModel\ConnectionStringEditViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringBuilder.xaml.cs">
+      <DependentUpon>ConnectionStringBuilder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringEditWindow.xaml.cs">
+      <DependentUpon>ConnectionStringEditWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\Models\DateRange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\PredefinedDateRanges.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\ViewModels\DateRangePickerViewModel.cs" />
@@ -151,6 +164,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringBuilder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Themes\ValidationContextTree.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -265,11 +286,18 @@
     <Folder Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\Extensions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Resources\Images\" />
     <Folder Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Commands\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Resources\" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Themes\PinnableToolTip.xaml">
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\Fonts\Consolas.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Resources\Images\Folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Images\Loading.gif" />
+    <None Include="$(MSBuildThisFileDirectory)Resources\Images\Thumbs.db" />
   </ItemGroup>
 </Project>

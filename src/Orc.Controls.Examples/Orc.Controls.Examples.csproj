@@ -111,6 +111,7 @@
     <Compile Include="ViewModels\BindableRichTextBoxViewModel.cs" />
     <Compile Include="ViewModels\ColorLegendViewModel.cs" />
     <Compile Include="ViewModels\ColorPickerViewModel.cs" />
+    <Compile Include="ViewModels\ConnectionStringBuilderViewModel.cs" />
     <Compile Include="ViewModels\CulturePickerViewModel.cs" />
     <Compile Include="ViewModels\DatePickerViewModel.cs" />
     <Compile Include="ViewModels\DateRangePickerViewModel.cs" />
@@ -127,6 +128,9 @@
     </Compile>
     <Compile Include="Views\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConnectionStringBuilderView.xaml.cs">
+      <DependentUpon>ConnectionStringBuilderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CulturePickerView.xaml.cs">
       <DependentUpon>CulturePickerView.xaml</DependentUpon>
@@ -200,6 +204,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConnectionStringBuilderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

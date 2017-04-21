@@ -41,6 +41,7 @@ public static class ModuleInitializer
 
         serviceLocator.RegisterType<ISuggestionListService, SuggestionListService>();
         serviceLocator.RegisterType<IValidationNamesService, ValidationNamesService>();
+        serviceLocator.RegisterType<IConnectionStringBuilderService, ConnectionStringBuilderService>();
 
         // Override Catel.SelectDirectoryService with Orchestra.Services.SelectDirectoryService
         serviceLocator.RegisterType<ISelectDirectoryService, MicrosoftApiSelectDirectoryService>();
@@ -51,6 +52,8 @@ public static class ModuleInitializer
         viewModelLocator.Register(typeof(CulturePicker), typeof(CulturePickerViewModel));
         viewModelLocator.Register(typeof(ValidationContextTree), typeof(ValidationContextTreeViewModel));
         viewModelLocator.Register(typeof(ValidationContextView), typeof(ValidationContextViewModel));
+        viewModelLocator.Register(typeof(ConnectionStringBuilder), typeof(ConnectionStringBuilderViewModel));
+        viewModelLocator.Register(typeof(ConnectionStringEditWindow), typeof(ConnectionStringEditViewModel));
 
         var languageService = serviceLocator.ResolveType<ILanguageService>();
         languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Controls", "Orc.Controls.Properties", "Resources"));
