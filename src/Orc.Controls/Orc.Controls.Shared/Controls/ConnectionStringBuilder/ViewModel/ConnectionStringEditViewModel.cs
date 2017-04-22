@@ -9,38 +9,68 @@ namespace Orc.Controls
 {
     using System.Data.SqlClient;
     using System.Threading.Tasks;
+    using System.Windows.Data;
     using Catel;
     using Catel.Collections;
+    using Catel.IoC;
     using Catel.MVVM;
+    using Catel.Services;
     using Catel.Threading;
 
     public class ConnectionStringEditViewModel : ViewModelBase
     {
         private readonly IConnectionStringBuilderService _connectionStringBuilderService;
+        private readonly IUIVisualizerService _uiVisualizerService;
+        private readonly ITypeFactory _typeFactory;
 
         private bool _isServersInitialized = false;
         private bool _isDatabasesInitialized = false;
 
         public ConnectionStringEditViewModel(string connectionString,
-            IConnectionStringBuilderService connectionStringBuilderService)
+            IConnectionStringBuilderService connectionStringBuilderService, IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory)
         {
             Argument.IsNotNull(() => connectionStringBuilderService);
+            Argument.IsNotNull(() => uiVisualizerService);
+            Argument.IsNotNull(() => typeFactory);
 
             _connectionStringBuilderService = connectionStringBuilderService;
+            _uiVisualizerService = uiVisualizerService;
+            _typeFactory = typeFactory;
 
             ConnectionStringBuiler = new SqlConnectionStringBuilder(connectionString);
 
             InitServers = new Command(() => InitServersAsync(), () => !IsServersRefreshing);
             RefreshServers = new Command(() => RefreshServersAsync(), () => !IsServersRefreshing);
-
+            
             InitDatabases = new Command(() => InitDatabasesAsync(), () => !IsDatabasesRefreshing);
             RefreshDatabases = new Command(() => RefreshDatabasesAsync(), CanInitDatabases);
+
+            TestConnection = new Command(OnTestConnection);
+            ShowAdvancedOptions = new Command(OnShowAdvancedOptions);
         }
+
+        public bool IsServerListVisible { get; set; } = false;
+        public bool IsDatabaseListVisible { get; set; } = false;
+
+        public override string Title => "Connection properties";
+        public SqlConnectionStringBuilder ConnectionStringBuiler { get; }
         public Command RefreshServers { get; }
         public Command InitServers { get; }
         public bool IsServersRefreshing { get; private set; } = false;
 
-        public string SelectedServer { get; set; }
+        public Command TestConnection { get; }
+        public Command ShowAdvancedOptions { get; }
+        
+        private void OnShowAdvancedOptions()
+        {
+            var advancedOptionsViewModel = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<ConnectionStringAdvancedOptionsViewModel>();
+
+            _uiVisualizerService.ShowDialog(advancedOptionsViewModel);
+        }
+        private void OnTestConnection()
+        {
+            
+        }
 
         private void OnSelectedServerChaged()
         {
@@ -50,24 +80,23 @@ namespace Orc.Controls
 
         public bool CanInitDatabases()
         {
-            return SelectedServer != null && !IsDatabasesRefreshing;
+            return !IsDatabasesRefreshing;
         }
 
         public Command RefreshDatabases { get; }
         public Command InitDatabases { get; }
         public bool IsDatabasesRefreshing { get; private set; } = false;
 
-        public override string Title => "Connection properties";
-        public SqlConnectionStringBuilder ConnectionStringBuiler { get; }
+        public FastObservableCollection<string> Servers { get; } = new FastObservableCollection<string>();
+        public FastObservableCollection<string> Databases { get; } = new FastObservableCollection<string>();
+
         public string ConnectionString { get; private set; }
         
         public string DataSource { get; set; }
+        public bool UseSqlServerAuthentication { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        public bool UseSqlServerAuthentication { get; set; }
-
-        public FastObservableCollection<string> Servers { get; } = new FastObservableCollection<string>();
-        public FastObservableCollection<string> Databases { get; } = new FastObservableCollection<string>();
+        public string Database { get; set; }
 
         private Task InitServersAsync()
         {
@@ -92,6 +121,7 @@ namespace Orc.Controls
 
                 IsServersRefreshing = false;
                 _isServersInitialized = true;
+                IsServerListVisible = true;
             });
         }
 
@@ -102,7 +132,7 @@ namespace Orc.Controls
                 return TaskHelper.Completed;
             }
 
-            return RefreshDatabasesAsync();
+            return RefreshDatabasesAsync();            
         }
 
         private Task RefreshDatabasesAsync()
@@ -110,7 +140,7 @@ namespace Orc.Controls
             IsDatabasesRefreshing = true;
 
             Databases.Clear();
-
+            
             if (UseSqlServerAuthentication)
             {
                 ConnectionStringBuiler.Password = Password;
@@ -118,7 +148,6 @@ namespace Orc.Controls
             }
 
             ConnectionStringBuiler.IntegratedSecurity = !UseSqlServerAuthentication;
-            ConnectionStringBuiler.DataSource = SelectedServer;
 
             var connectionString = ConnectionStringBuiler.ToString();
 
@@ -129,6 +158,7 @@ namespace Orc.Controls
 
                 IsDatabasesRefreshing = false;
                 _isDatabasesInitialized = true;
+                IsDatabaseListVisible = true;
             });
         }
 

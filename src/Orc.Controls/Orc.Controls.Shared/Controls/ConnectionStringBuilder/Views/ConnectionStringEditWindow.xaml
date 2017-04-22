@@ -36,6 +36,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </catel:StackGrid.RowDefinitions>
 
         <catel:StackGrid>
@@ -47,8 +48,9 @@
 
             <TextBlock Text="Server:"/>
             <ComboBox IsEditable="True"
+                      IsDropDownOpen="{Binding IsServerListVisible}"
                       ItemsSource="{Binding Servers, IsAsync=True}"
-                      Text="{Binding SelectedServer, UpdateSourceTrigger=LostFocus}" >
+                      Text="{Binding ConnectionStringBuiler.DataSource, UpdateSourceTrigger=PropertyChanged}" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DropDownOpened">
                         <catel:EventToCommand Command="{Binding InitServers}" DisableAssociatedObjectOnCannotExecute="True"/>
@@ -60,7 +62,6 @@
                     Content="Refresh"
                     Command="{Binding RefreshServers}" 
                     IsEnabled="{Binding IsServersRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
-             
 
         </catel:StackGrid>
 
@@ -112,11 +113,13 @@
 
             <TextBlock Text="Database:"/>
             <ComboBox IsEditable="True"
+                      IsDropDownOpen="{Binding IsDatabaseListVisible}"
                       ItemsSource="{Binding Databases, IsAsync=True}"
-                      Text="{Binding ConnectionStringBuiler.Database, UpdateSourceTrigger=PropertyChanged}" >
+                      Text="{Binding ConnectionStringBuiler.InitialCatalog, UpdateSourceTrigger=PropertyChanged}" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DropDownOpened">
-                        <catel:EventToCommand Command="{Binding InitDataBases}" DisableAssociatedObjectOnCannotExecute="True"/>
+                        <catel:EventToCommand Command="{Binding InitDatabases}"
+                                              DisableAssociatedObjectOnCannotExecute="True"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
@@ -127,6 +130,11 @@
                     IsEnabled="{Binding IsDatabasesRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
         </catel:StackGrid>
+
+        <Grid>
+            <Button Content="Test connection" Command="{Binding TestConnection}" HorizontalAlignment="Left"/>
+            <Button Content="Advanced Options" Command="{Binding ShowAdvancedOptions}" HorizontalAlignment="Right"/>
+        </Grid>
 
     </catel:StackGrid>
 </catel:DataWindow>

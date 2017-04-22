@@ -18,8 +18,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Model\SqlConnectionString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Services\ConnectionStringBuilderService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Services\Interfaces\IConnectionStringBuilderService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\ViewModel\ConnectionStringAdvancedOptionsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\ViewModel\ConnectionStringBuilderViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\ViewModel\ConnectionStringEditViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringAdvancedOptionsWindow.xaml.cs">
+      <DependentUpon>ConnectionStringAdvancedOptionsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringBuilder.xaml.cs">
       <DependentUpon>ConnectionStringBuilder.xaml</DependentUpon>
     </Compile>
@@ -164,6 +168,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringAdvancedOptionsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringBuilder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
