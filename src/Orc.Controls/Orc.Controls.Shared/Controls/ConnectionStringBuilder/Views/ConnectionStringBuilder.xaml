@@ -14,24 +14,9 @@
             <ColumnDefinition Width="Auto"/>
         </catel:StackGrid.ColumnDefinitions>
         
-        <TextBox IsReadOnly="True" Text="{Binding ConnectionString}"/>
-        <Button Content="..." Command="{Binding Edit}" />
-        <Button Command="{Binding Test}" Background="Gray">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-                    <Style.Setters>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Ellipse Fill="{TemplateBinding Background}" Width="16" Height="16"/>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style.Setters>
-                </Style>
-            </Button.Style>
-        </Button>
-        <Button Content="x" Command="{Binding Clear}"/>
+        <TextBox IsReadOnly="True" Text="{Binding ConnectionString}" Margin="0"/>
+        <Button Margin="0" Content="..." Command="{Binding Edit}" ToolTip="Edit connection string"/>
+        <Button Content="x" Margin="0" Command="{Binding Clear}" ToolTip="Clear"/>
     </catel:StackGrid>
 </catel:UserControl>
  

@@ -37,7 +37,10 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </catel:StackGrid.RowDefinitions>
+
+        <controls:DbProviderControl DbProvider="{Binding DbProvider}"/>
 
         <catel:StackGrid>
             <catel:StackGrid.ColumnDefinitions>

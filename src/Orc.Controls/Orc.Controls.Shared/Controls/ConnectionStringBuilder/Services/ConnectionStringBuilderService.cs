@@ -10,6 +10,7 @@ namespace Orc.Controls
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.Data.Common;
     using System.Data.Sql;
     using System.Data.SqlClient;
     using System.Globalization;
@@ -19,6 +20,19 @@ namespace Orc.Controls
     public class ConnectionStringBuilderService : IConnectionStringBuilderService
     {
         private const string MicrosoftSqlServerRegPath = @"SOFTWARE\Microsoft\Microsoft SQL Server";
+
+        public IList<DbProvider> GetDataProviders()
+        {
+            var table = DbProviderFactories.GetFactoryClasses();
+
+            return table.Rows.OfType<DataRow>().Select(x => new DbProvider
+            {
+                Name = x["Name"]?.ToString(),
+                Description = x["Description"]?.ToString(),
+                InvariantName = x["InvariantName"]?.ToString(),
+            })
+            .ToList();
+        }
 
         public IList<string> GetSqlServers()
         {

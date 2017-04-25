@@ -7,9 +7,10 @@
 
 namespace Orc.Controls
 {
+    using System.Data.Common;
     using System.Data.SqlClient;
+    using System.Diagnostics;
     using System.Threading.Tasks;
-    using System.Windows.Data;
     using Catel;
     using Catel.Collections;
     using Catel.IoC;
@@ -37,6 +38,8 @@ namespace Orc.Controls
             _uiVisualizerService = uiVisualizerService;
             _typeFactory = typeFactory;
 
+            var providers = connectionStringBuilderService.GetDataProviders();
+
             ConnectionStringBuiler = new SqlConnectionStringBuilder(connectionString);
 
             InitServers = new Command(() => InitServersAsync(), () => !IsServersRefreshing);
@@ -54,6 +57,14 @@ namespace Orc.Controls
 
         public override string Title => "Connection properties";
         public SqlConnectionStringBuilder ConnectionStringBuiler { get; }
+
+        public DbProvider DbProvider { get; set; }
+
+        private void OnDbProviderChanged()
+        {
+            
+        }
+
         public Command RefreshServers { get; }
         public Command InitServers { get; }
         public bool IsServersRefreshing { get; private set; } = false;
@@ -67,6 +78,7 @@ namespace Orc.Controls
 
             _uiVisualizerService.ShowDialog(advancedOptionsViewModel);
         }
+
         private void OnTestConnection()
         {
             

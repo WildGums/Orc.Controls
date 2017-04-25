@@ -37,6 +37,15 @@
       <SubType>Code</SubType>
       <DependentUpon>DateRangePicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\Model\DbProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\ViewModels\DbConnectionProviderListViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\ViewModels\DbProviderControlViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\Views\DbConnectionProviderListWindow.xaml.cs">
+      <DependentUpon>DbConnectionProviderListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\Views\DbProviderControl.xaml.cs">
+      <DependentUpon>DbProviderControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Controls\FilterBoxControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ListTextBox\ListTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Services\Interfaces\IValidationNamesService.cs" />
@@ -177,6 +186,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\Views\DbConnectionProviderListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\Views\DbProviderControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

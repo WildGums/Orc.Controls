@@ -1,18 +1,16 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IConnectionStringBuilderService.cs" company="WildGums">
+// <copyright file="DbConnectionProviderWindow.xaml.cs" company="WildGums">
 //   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-
 namespace Orc.Controls
 {
-    using System.Collections.Generic;
-
-    public interface IConnectionStringBuilderService
+    public sealed partial class DbConnectionProviderListWindow
     {
-        IList<DbProvider> GetDataProviders();
-        IList<string> GetSqlServers();
-        IList<string> GetDatabases(string connectionString);
+        public DbConnectionProviderListWindow()
+        {
+            this.InitializeComponent();
+        }
     }
 }
