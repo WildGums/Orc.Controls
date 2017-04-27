@@ -95,7 +95,7 @@
                 <RadioButton x:Name="UseSqlServerAuthenticationRadioButton"
                              Content="Use SQL Server Authentication"
                              Visibility="{Binding IntegratedSecurity, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"
-                             IsChecked="{Binding UseSqlServerAuthentication}"/>
+                             IsChecked="{Binding IntegratedSecurity.Value, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
                 <catel:StackGrid Margin="25 0 0 0"
                                  IsEnabled="{Binding ElementName=UseSqlServerAuthenticationRadioButton, Path=IsChecked}">

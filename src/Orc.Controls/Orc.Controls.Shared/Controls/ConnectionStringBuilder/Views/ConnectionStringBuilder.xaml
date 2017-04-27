@@ -13,8 +13,8 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </catel:StackGrid.ColumnDefinitions>
-        
-        <TextBox IsReadOnly="True" Text="{Binding ConnectionStringStr, Mode=OneWay}" Margin="0"/>
+
+        <TextBox IsReadOnly="True" Text="{Binding DisplayConnectionString, Mode=OneWay}" Margin="0"/>
         <Button Margin="0" Content="..." Command="{Binding Edit}" ToolTip="Edit connection string"/>
         <Button Content="x" Margin="0" Command="{Binding Clear}" ToolTip="Clear"/>
     </catel:StackGrid>

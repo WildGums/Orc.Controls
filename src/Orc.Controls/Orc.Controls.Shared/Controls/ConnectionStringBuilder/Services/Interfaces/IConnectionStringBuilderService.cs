@@ -13,7 +13,7 @@ namespace Orc.Controls
     public interface IConnectionStringBuilderService
     {
         ConnectionState GetConnectionState(SqlConnectionString connectionString);
-        SqlConnectionString GetConnectionString(DbProvider dbProvider);
+        SqlConnectionString CreateConnectionString(DbProvider dbProvider, string connectionString = "");
         IList<string> GetSqlServers();
         IList<string> GetDatabases(SqlConnectionString connectionString);
     }

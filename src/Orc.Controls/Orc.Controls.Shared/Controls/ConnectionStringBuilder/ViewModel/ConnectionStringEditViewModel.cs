@@ -25,7 +25,7 @@ namespace Orc.Controls
         private bool _isDatabasesInitialized = false;
         private bool _isServersInitialized = false;
 
-        public ConnectionStringEditViewModel(SqlConnectionString connectionString, IMessageService messageService,
+        public ConnectionStringEditViewModel(string connectionString, DbProvider provider, IMessageService messageService,
             IConnectionStringBuilderService connectionStringBuilderService, IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory)
         {
             Argument.IsNotNull(() => connectionStringBuilderService);
@@ -38,8 +38,8 @@ namespace Orc.Controls
             _uiVisualizerService = uiVisualizerService;
             _typeFactory = typeFactory;
 
-            ConnectionString = connectionString;
-            DbProvider = connectionString?.DbProvider;
+            DbProvider = provider;
+            ConnectionString = provider != null ? _connectionStringBuilderService.CreateConnectionString(provider, connectionString) : null;            
 
             InitServers = new Command(() => InitServersAsync(), () => !IsServersRefreshing);
             RefreshServers = new Command(() => RefreshServersAsync(), () => !IsServersRefreshing);
@@ -84,13 +84,12 @@ namespace Orc.Controls
                 return;
             }
 
-            ConnectionString = _connectionStringBuilderService.GetConnectionString(dbProvider);
+            ConnectionString = _connectionStringBuilderService.CreateConnectionString(dbProvider);
         }
 
         private void OnShowAdvancedOptions()
         {
             var advancedOptionsViewModel = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<ConnectionStringAdvancedOptionsViewModel>(ConnectionString);
-
             _uiVisualizerService.ShowDialog(advancedOptionsViewModel);
         }
 

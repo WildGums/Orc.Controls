@@ -57,12 +57,17 @@ namespace Orc.Controls
             return ConnectionState.Tested;
         }
 
-        public SqlConnectionString GetConnectionString(DbProvider dbProvider)
+        public SqlConnectionString CreateConnectionString(DbProvider dbProvider, string connectionString = "")
         {
             Argument.IsNotNull(() => dbProvider);
 
             var factory = DbProviderFactories.GetFactory(dbProvider.InvariantName);
             var connectionStringBuilder = factory.CreateConnectionStringBuilder();
+            if(!string.IsNullOrWhiteSpace(connectionString))
+            {
+                connectionStringBuilder.ConnectionString = connectionString;
+            }
+            
             return new SqlConnectionString(connectionStringBuilder, dbProvider);
         }
 

@@ -17,16 +17,21 @@ namespace Orc.Controls
         #region Поля
         private readonly IUIVisualizerService _uiVisualizerService;
         private readonly ITypeFactory _typeFactory;
+        private readonly IConnectionStringBuilderService _connectionStringBuilderService;
+        private DbProvider _dbProvider;
         #endregion
 
         #region Конструкторы
-        public ConnectionStringBuilderViewModel(IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory)
+        public ConnectionStringBuilderViewModel(IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory, 
+            IConnectionStringBuilderService connectionStringBuilderService)
         {
             Argument.IsNotNull(() => uiVisualizerService);
             Argument.IsNotNull(() => typeFactory);
+            Argument.IsNotNull(() => connectionStringBuilderService);
 
             _uiVisualizerService = uiVisualizerService;
             _typeFactory = typeFactory;
+            _connectionStringBuilderService = connectionStringBuilderService;
 
             Clear = new Command(OnClear, CanClear);
             Edit = new Command(OnEdit);
@@ -35,9 +40,9 @@ namespace Orc.Controls
 
         #region Свойства
         public override string Title => "";
-        public SqlConnectionString ConnectionString { get; set; }
-        public string ConnectionStringStr => ConnectionString?.ToDisplayString();
         public ConnectionState ConnectionState { get; set; } = ConnectionState.NotTested;
+        public string ConnectionString { get; private set; }
+        public string DisplayConnectionString { get; private set; }
 
         public Command Edit { get; }
         public Command Test { get; }
@@ -47,10 +52,14 @@ namespace Orc.Controls
         #region Методы
         private void OnEdit()
         {
-            var connectionStringEditViewModel = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<ConnectionStringEditViewModel>(ConnectionString);
+            var connectionStringEditViewModel = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<ConnectionStringEditViewModel>(ConnectionString, _dbProvider);
             if (_uiVisualizerService.ShowDialog(connectionStringEditViewModel) ?? false)
             {
-                ConnectionString = connectionStringEditViewModel.ConnectionString;
+                _dbProvider = connectionStringEditViewModel.DbProvider;
+                var connectionString = connectionStringEditViewModel.ConnectionString;
+                
+                ConnectionString = connectionString?.ToString();
+                DisplayConnectionString = connectionString?.ToDisplayString();
                 ConnectionState = connectionStringEditViewModel.ConnectionState;
             }
         }
@@ -63,6 +72,7 @@ namespace Orc.Controls
         private void OnClear()
         {
             ConnectionString = null;
+            DisplayConnectionString = null;
             ConnectionState = ConnectionState.NotTested;
         }
         #endregion
