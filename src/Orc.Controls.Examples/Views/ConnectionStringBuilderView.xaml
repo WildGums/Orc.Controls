@@ -4,11 +4,14 @@
                    xmlns:catel="http://catel.codeplex.com"
                    xmlns:orc="http://www.wildgums.net.au/orc">
 
-    <Grid>
-        <Grid.RowDefinitions>
+    <catel:StackGrid>
+        <catel:StackGrid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </catel:StackGrid.RowDefinitions>
+        
         <orc:ConnectionStringBuilder/>
-    </Grid>
+        <orc:ConnectionStringBuilder/>
+    </catel:StackGrid>
     
 </catel:UserControl>

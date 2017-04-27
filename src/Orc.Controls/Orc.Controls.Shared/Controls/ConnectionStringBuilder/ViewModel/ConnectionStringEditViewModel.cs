@@ -7,6 +7,7 @@
 
 namespace Orc.Controls
 {
+    using System;
     using System.Threading.Tasks;
     using Catel;
     using Catel.Collections;
@@ -55,11 +56,11 @@ namespace Orc.Controls
             ShowAdvancedOptions = new Command(OnShowAdvancedOptions);
         }
 
-        public ConnectionStringProperty DataSource => ConnectionString?.Properties["Data Source"];
-        public ConnectionStringProperty UserId => ConnectionString?.Properties["User ID"];
-        public ConnectionStringProperty Password => ConnectionString?.Properties["Password"];
-        public ConnectionStringProperty IntegratedSecurity => ConnectionString?.Properties["Integrated Security"];
-        public ConnectionStringProperty InitialCatalog => ConnectionString?.Properties["Initial Catalog"];
+        public ConnectionStringProperty DataSource => ConnectionString.TryGetProperty("Data Source");
+        public ConnectionStringProperty UserId => ConnectionString.TryGetProperty("User ID");
+        public ConnectionStringProperty Password => ConnectionString.TryGetProperty("Password");
+        public ConnectionStringProperty IntegratedSecurity => ConnectionString.TryGetProperty("Integrated Security");
+        public ConnectionStringProperty InitialCatalog => ConnectionString.TryGetProperty("Initial Catalog");
         public bool CanLogOnToServer => Password != null || UserId != null;
 
         public bool IsServerListVisible { get; set; } = false;
@@ -88,8 +89,15 @@ namespace Orc.Controls
                 return;
             }
 
-            ConnectionString = _connectionStringBuilderService.CreateConnectionString(dbProvider);
-            SetIntegratedSecurityToDefault();
+            try
+            {
+                ConnectionString = _connectionStringBuilderService.CreateConnectionString(dbProvider);
+                SetIntegratedSecurityToDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void SetIntegratedSecurityToDefault()
