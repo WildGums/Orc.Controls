@@ -42,6 +42,7 @@ namespace Orc.Controls
             _typeFactory = typeFactory;
 
             ConnectionString = connectionString;
+            DbProvider = connectionString?.DbProvider;
 
             InitServers = new Command(() => InitServersAsync(), () => !IsServersRefreshing);
             RefreshServers = new Command(() => RefreshServersAsync(), () => !IsServersRefreshing);
