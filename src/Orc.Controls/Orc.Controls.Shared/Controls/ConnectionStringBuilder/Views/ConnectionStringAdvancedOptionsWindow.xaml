@@ -4,7 +4,6 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:catel="http://catel.codeplex.com"
-                   ResizeMode="CanResizeWithGrip"
                    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
     <Grid Width="400" MaxHeight="500">
         <DataGrid ItemsSource="{Binding ConnectionStringProperties}"
