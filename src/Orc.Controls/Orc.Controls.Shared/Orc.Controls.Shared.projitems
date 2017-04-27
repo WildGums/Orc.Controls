@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Adorners\ResizingAdorner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\PasswordBindBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\Meridiems.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Converters\ConnectionStateToColorBrushValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Initializers\ConnectionStringBuilderServiceInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Initializers\Interfaces\IConnectionStringBuilderServiceInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Model\ConnectionState.cs" />

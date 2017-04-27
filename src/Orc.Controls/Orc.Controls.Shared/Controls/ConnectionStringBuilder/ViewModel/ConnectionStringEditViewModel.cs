@@ -66,7 +66,7 @@ namespace Orc.Controls
         public bool IsDatabaseListVisible { get; set; } = false;
         public bool IsServersRefreshing { get; private set; } = false;
         public bool IsDatabasesRefreshing { get; private set; } = false;
-        public ConnectionState ConnectionState { get; private set; } = ConnectionState.NotTested;
+        public ConnectionState ConnectionState { get; private set; } = ConnectionState.Undefined;
         public override string Title => "Connection properties";
         public SqlConnectionString ConnectionString { get; private set; }
         public DbProvider DbProvider { get; set; }

@@ -54,7 +54,7 @@ namespace Orc.Controls
                 connection.Dispose();
             }
 
-            return ConnectionState.Good;
+            return ConnectionState.Valid;
         }
 
         public SqlConnectionString CreateConnectionString(DbProvider dbProvider, string connectionString = "")

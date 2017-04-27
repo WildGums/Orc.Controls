@@ -9,8 +9,8 @@ namespace Orc.Controls
 {
     public enum ConnectionState
     {
-        NotTested,
-        Good,
+        Undefined,
+        Valid,
         Invalid
     }
 }

@@ -38,6 +38,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </catel:StackGrid.RowDefinitions>
 
         <catel:StackGrid>
@@ -50,7 +51,6 @@
             <controls:DbProviderControl DbProvider="{Binding DbProvider, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
         </catel:StackGrid>
-
 
         <catel:StackGrid Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
             <catel:StackGrid.ColumnDefinitions>
@@ -149,10 +149,13 @@
         </catel:StackGrid>
 
         <Grid>
-            <Button Content="Test connection" Command="{Binding TestConnection}" HorizontalAlignment="Left"/>
+            <Button Content="Test connection"
+                    BorderBrush ="{Binding ConnectionState, Converter={controls:ConnectionStateToColorBrushValueConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    Command="{Binding TestConnection}" 
+                    ToolTip="{Binding ConnectionState, Mode=OneWay}"
+                    HorizontalAlignment="Left"/>
             <Button Content="Advanced Options" Command="{Binding ShowAdvancedOptions}" HorizontalAlignment="Right"/>
         </Grid>
-
     </catel:StackGrid>
 </catel:DataWindow>
 

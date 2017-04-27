@@ -14,14 +14,11 @@ namespace Orc.Controls
 
     public class ConnectionStringBuilderViewModel : ViewModelBase
     {
-        #region Поля
         private readonly IUIVisualizerService _uiVisualizerService;
         private readonly ITypeFactory _typeFactory;
         private readonly IConnectionStringBuilderService _connectionStringBuilderService;
         private DbProvider _dbProvider;
-        #endregion
 
-        #region Конструкторы
         public ConnectionStringBuilderViewModel(IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory, 
             IConnectionStringBuilderService connectionStringBuilderService)
         {
@@ -36,20 +33,16 @@ namespace Orc.Controls
             Clear = new Command(OnClear, CanClear);
             Edit = new Command(OnEdit);
         }
-        #endregion
 
-        #region Свойства
         public override string Title => "";
-        public ConnectionState ConnectionState { get; set; } = ConnectionState.NotTested;
+        public ConnectionState ConnectionState { get; set; } = ConnectionState.Undefined;
         public string ConnectionString { get; private set; }
         public string DisplayConnectionString { get; private set; }
 
         public Command Edit { get; }
         public Command Test { get; }
         public Command Clear { get; }
-        #endregion
 
-        #region Методы
         private void OnEdit()
         {
             var connectionStringEditViewModel = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<ConnectionStringEditViewModel>(ConnectionString, _dbProvider);
@@ -73,8 +66,7 @@ namespace Orc.Controls
         {
             ConnectionString = null;
             DisplayConnectionString = null;
-            ConnectionState = ConnectionState.NotTested;
+            ConnectionState = ConnectionState.Undefined;
         }
-        #endregion
     }
 }
