@@ -98,7 +98,7 @@
                              IsChecked="{Binding IntegratedSecurity.Value, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
                 <catel:StackGrid Margin="25 0 0 0"
-                                 IsEnabled="{Binding ElementName=UseSqlServerAuthenticationRadioButton, Path=IsChecked}">
+                                 IsEnabled="{Binding IsLogOnToServerEnabled}">
                     <catel:StackGrid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -108,10 +108,12 @@
                         <ColumnDefinition Width="*"/>
                     </catel:StackGrid.ColumnDefinitions>
 
-                    <TextBlock Text="User name" Visibility="{Binding UserId, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
-                    <TextBox Text="{Binding UserId.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBlock Text="User name" 
+                               Visibility="{Binding UserId, UpdateSourceTrigger=PropertyChanged, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
+                    <TextBox Text="{Binding UserId.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                             Visibility="{Binding UserId, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
 
-                    <TextBlock Text="Password" Visibility="{Binding Password, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
+                    <TextBlock Text="Password" Visibility="{Binding Password, UpdateSourceTrigger=PropertyChanged, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
                     <PasswordBox Visibility="{Binding Password, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
                         <i:Interaction.Behaviors>
                             <controls:PasswordBindBehavior Password="{Binding Password.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>

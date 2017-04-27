@@ -62,6 +62,7 @@ namespace Orc.Controls
         public ConnectionStringProperty IntegratedSecurity => ConnectionString.TryGetProperty("Integrated Security");
         public ConnectionStringProperty InitialCatalog => ConnectionString.TryGetProperty("Initial Catalog");
         public bool CanLogOnToServer => Password != null || UserId != null;
+        public bool IsLogOnToServerEnabled => CanLogOnToServer && IntegratedSecurity == null || CanLogOnToServer && !(bool)IntegratedSecurity.Value;
 
         public bool IsServerListVisible { get; set; } = false;
         public bool IsDatabaseListVisible { get; set; } = false;

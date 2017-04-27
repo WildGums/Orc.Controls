@@ -16,25 +16,19 @@ namespace Orc.Controls
     {
         private readonly IUIVisualizerService _uiVisualizerService;
         private readonly ITypeFactory _typeFactory;
-        private readonly IConnectionStringBuilderService _connectionStringBuilderService;
         private DbProvider _dbProvider;
 
-        public ConnectionStringBuilderViewModel(IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory, 
-            IConnectionStringBuilderService connectionStringBuilderService)
+        public ConnectionStringBuilderViewModel(IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory)
         {
             Argument.IsNotNull(() => uiVisualizerService);
             Argument.IsNotNull(() => typeFactory);
-            Argument.IsNotNull(() => connectionStringBuilderService);
 
             _uiVisualizerService = uiVisualizerService;
             _typeFactory = typeFactory;
-            _connectionStringBuilderService = connectionStringBuilderService;
 
             Clear = new Command(OnClear, CanClear);
             Edit = new Command(OnEdit);
         }
-
-        public override string Title => "";
         public ConnectionState ConnectionState { get; set; } = ConnectionState.Undefined;
         public string ConnectionString { get; private set; }
         public string DisplayConnectionString { get; private set; }
@@ -67,6 +61,7 @@ namespace Orc.Controls
             ConnectionString = null;
             DisplayConnectionString = null;
             ConnectionState = ConnectionState.Undefined;
+            _dbProvider = null;
         }
     }
 }
