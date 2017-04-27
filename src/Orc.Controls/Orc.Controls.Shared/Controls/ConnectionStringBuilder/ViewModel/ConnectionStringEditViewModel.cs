@@ -60,9 +60,29 @@ namespace Orc.Controls
         public ConnectionStringProperty UserId => ConnectionString.TryGetProperty("User ID");
         public ConnectionStringProperty Password => ConnectionString.TryGetProperty("Password");
         public ConnectionStringProperty IntegratedSecurity => ConnectionString.TryGetProperty("Integrated Security");
+
+        public bool? IntegratedSecurityValue
+        {
+            get { return (bool?)IntegratedSecurity?.Value; }
+            set
+            {
+                if (IntegratedSecurity == null)
+                {
+                    return;
+                }
+
+                if ((bool)IntegratedSecurity.Value == value)
+                {
+                    return;
+                }
+
+                IntegratedSecurity.Value = value;
+                RaisePropertyChanged(nameof(IntegratedSecurityValue));
+            }
+        } 
         public ConnectionStringProperty InitialCatalog => ConnectionString.TryGetProperty("Initial Catalog");
         public bool CanLogOnToServer => Password != null || UserId != null;
-        public bool IsLogOnToServerEnabled => CanLogOnToServer && IntegratedSecurity == null || CanLogOnToServer && !(bool)IntegratedSecurity.Value;
+        public bool IsLogOnEnabled => CanLogOnToServer && !(IntegratedSecurityValue ?? false);
 
         public bool IsServerListVisible { get; set; } = false;
         public bool IsDatabaseListVisible { get; set; } = false;
@@ -89,16 +109,9 @@ namespace Orc.Controls
             {
                 return;
             }
-
-            try
-            {
-                ConnectionString = _connectionStringBuilderService.CreateConnectionString(dbProvider);
-                SetIntegratedSecurityToDefault();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            
+            ConnectionString = _connectionStringBuilderService.CreateConnectionString(dbProvider);
+            SetIntegratedSecurityToDefault();
         }
 
         private void SetIntegratedSecurityToDefault()
@@ -123,7 +136,7 @@ namespace Orc.Controls
         {
             ConnectionState = _connectionStringBuilderService.GetConnectionState(ConnectionString);
 
-            _messageService.ShowAsync(ConnectionState.ToString());
+            _messageService.ShowAsync($"{ConnectionState} connection", "Connection test result");
         }
 
         private void OnSelectedServerChaged()
