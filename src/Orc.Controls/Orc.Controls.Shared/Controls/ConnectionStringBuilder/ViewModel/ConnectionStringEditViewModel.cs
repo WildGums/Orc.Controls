@@ -38,8 +38,12 @@ namespace Orc.Controls
             _uiVisualizerService = uiVisualizerService;
             _typeFactory = typeFactory;
 
-            DbProvider = provider;
-            ConnectionString = provider != null ? _connectionStringBuilderService.CreateConnectionString(provider, connectionString) : null;            
+            using (SuspendChangeNotifications())
+            {
+                DbProvider = provider;
+            }
+
+            ConnectionString = provider != null ? _connectionStringBuilderService.CreateConnectionString(provider, connectionString) : null;
 
             InitServers = new Command(() => InitServersAsync(), () => !IsServersRefreshing);
             RefreshServers = new Command(() => RefreshServersAsync(), () => !IsServersRefreshing);
@@ -85,6 +89,19 @@ namespace Orc.Controls
             }
 
             ConnectionString = _connectionStringBuilderService.CreateConnectionString(dbProvider);
+            SetIntegratedSecurityToDefault();
+        }
+
+        private void SetIntegratedSecurityToDefault()
+        {
+            var integratedSecurityProperty = IntegratedSecurity;
+            if (integratedSecurityProperty == null)
+            {
+                return;
+            }
+
+            integratedSecurityProperty.Value = true;
+            RaisePropertyChanged(nameof(IntegratedSecurity));
         }
 
         private void OnShowAdvancedOptions()
@@ -148,7 +165,6 @@ namespace Orc.Controls
             var connectionString = ConnectionString;
             if (string.IsNullOrWhiteSpace(connectionString?.ToString()))
             {
-
                 return TaskHelper.Completed;
             }
 
