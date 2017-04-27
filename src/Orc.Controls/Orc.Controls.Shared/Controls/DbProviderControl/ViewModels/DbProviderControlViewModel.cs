@@ -29,6 +29,7 @@ namespace Orc.Controls
         }
 
         public DbProvider DbProvider { get; set; }
+
         public Command ChangeDbProvider { get; }
 
         private void OnChangeDbProvider()

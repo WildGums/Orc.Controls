@@ -40,9 +40,19 @@
             <RowDefinition Height="Auto" />
         </catel:StackGrid.RowDefinitions>
 
-        <controls:DbProviderControl DbProvider="{Binding DbProvider}"/>
-
         <catel:StackGrid>
+            <catel:StackGrid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </catel:StackGrid.ColumnDefinitions>
+
+            <TextBlock Text="Provider:"/>
+            <controls:DbProviderControl DbProvider="{Binding DbProvider, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+
+        </catel:StackGrid>
+
+
+        <catel:StackGrid Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
             <catel:StackGrid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -53,7 +63,7 @@
             <ComboBox IsEditable="True"
                       IsDropDownOpen="{Binding IsServerListVisible}"
                       ItemsSource="{Binding Servers, IsAsync=True}"
-                      Text="{Binding ConnectionStringBuiler.DataSource, UpdateSourceTrigger=PropertyChanged}" >
+                      Text="{Binding DataSource.Value, UpdateSourceTrigger=PropertyChanged}" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DropDownOpened">
                         <catel:EventToCommand Command="{Binding InitServers}" DisableAssociatedObjectOnCannotExecute="True"/>
@@ -68,7 +78,8 @@
 
         </catel:StackGrid>
 
-        <GroupBox Header="Log on to the server">
+        <GroupBox Header="Log on to the server"
+                  Visibility="{Binding CanLogOnToServer, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
             <catel:StackGrid>
                 <catel:StackGrid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -78,13 +89,16 @@
                 </catel:StackGrid.RowDefinitions>
 
                 <RadioButton Content="Use Windows Authentication"
-                             IsChecked="True"/>
+                             Visibility="{Binding IntegratedSecurity, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"
+                             IsChecked="{Binding IntegratedSecurity.Value}"/>
+                
                 <RadioButton x:Name="UseSqlServerAuthenticationRadioButton"
                              Content="Use SQL Server Authentication"
+                             Visibility="{Binding IntegratedSecurity, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"
                              IsChecked="{Binding UseSqlServerAuthentication}"/>
 
                 <catel:StackGrid Margin="25 0 0 0"
-                            IsEnabled="{Binding UseSqlServerAuthentication}">
+                                 IsEnabled="{Binding UseSqlServerAuthentication}">
                     <catel:StackGrid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -94,20 +108,20 @@
                         <ColumnDefinition Width="*"/>
                     </catel:StackGrid.ColumnDefinitions>
 
-                    <TextBlock Text="User name"/>
-                    <TextBox Text="{Binding UserName}"/>
+                    <TextBlock Text="User name" Visibility="{Binding UserId, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
+                    <TextBox Text="{Binding UserId.Value}"/>
 
-                    <TextBlock Text="Password"/>
-                    <PasswordBox>
+                    <TextBlock Text="Password" Visibility="{Binding Password, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
+                    <PasswordBox Visibility="{Binding Password, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
                         <i:Interaction.Behaviors>
-                            <controls:PasswordBindBehavior Password="{Binding Password}"/>
+                            <controls:PasswordBindBehavior Password="{Binding Password.Value}"/>
                         </i:Interaction.Behaviors>
                     </PasswordBox>
                 </catel:StackGrid>
             </catel:StackGrid>
         </GroupBox>
 
-        <catel:StackGrid>
+        <catel:StackGrid Visibility="{Binding InitialCatalog, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
             <catel:StackGrid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -118,7 +132,7 @@
             <ComboBox IsEditable="True"
                       IsDropDownOpen="{Binding IsDatabaseListVisible}"
                       ItemsSource="{Binding Databases, IsAsync=True}"
-                      Text="{Binding ConnectionStringBuiler.InitialCatalog, UpdateSourceTrigger=PropertyChanged}" >
+                      Text="{Binding InitialCatalog.Value, UpdateSourceTrigger=PropertyChanged}" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DropDownOpened">
                         <catel:EventToCommand Command="{Binding InitDatabases}"

@@ -12,25 +12,44 @@
             <RowDefinition Height="Auto"/>
         </catel:StackGrid.RowDefinitions>
 
-        <UniformGrid Columns="2">
-            <ListView ItemsSource="{Binding DbProviders}"
-                     SelectedItem="{Binding DbProvider, Mode=TwoWay}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+        <UniformGrid Columns="2" Width="600">
 
-            <TextBox Text="{Binding DbProvider.Description}"
+            <catel:StackGrid>
+                <catel:StackGrid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                </catel:StackGrid.RowDefinitions>
+                <TextBlock Text="Database providers"/>
+                
+                <ListView ItemsSource="{Binding DbProviders}"
+                     SelectedItem="{Binding DbProvider, Mode=TwoWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </catel:StackGrid>
+
+            <catel:StackGrid>
+                <catel:StackGrid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </catel:StackGrid.RowDefinitions>
+                <TextBlock Text="Description"/>
+
+                <TextBox Text="{Binding DbProvider.Description}"
                      IsReadOnly="True"
                      AcceptsReturn="True" 
                      TextWrapping="Wrap"
                      HorizontalAlignment="Stretch" 
                      VerticalAlignment="Stretch"/>
+            </catel:StackGrid>
         </UniformGrid>
         
         <Button Command="{Binding Refresh}" Content="Refresh" HorizontalAlignment="Right"/>
     </catel:StackGrid>
 </catel:DataWindow>
+ 
+
  

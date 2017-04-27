@@ -25,6 +25,8 @@ namespace Orc.Controls
             Refresh = new Command(OnRefresh);
         }
 
+        public override string Title => "Select provider";
+
         public DbProvider DbProvider { get; set; }
         public IList<DbProvider> DbProviders { get; private set; }
         public Command Refresh { get; }

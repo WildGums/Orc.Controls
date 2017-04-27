@@ -20,6 +20,7 @@ namespace Orc.Controls
 
     public class ConnectionStringEditViewModel : ViewModelBase
     {
+        private readonly IMessageService _messageService;
         private readonly IConnectionStringBuilderService _connectionStringBuilderService;
         private readonly IUIVisualizerService _uiVisualizerService;
         private readonly ITypeFactory _typeFactory;
@@ -27,20 +28,20 @@ namespace Orc.Controls
         private bool _isServersInitialized = false;
         private bool _isDatabasesInitialized = false;
 
-        public ConnectionStringEditViewModel(string connectionString,
+        public ConnectionStringEditViewModel(SqlConnectionString connectionString, IMessageService messageService,
             IConnectionStringBuilderService connectionStringBuilderService, IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory)
         {
             Argument.IsNotNull(() => connectionStringBuilderService);
             Argument.IsNotNull(() => uiVisualizerService);
             Argument.IsNotNull(() => typeFactory);
+            Argument.IsNotNull(() => messageService);
 
+            _messageService = messageService;
             _connectionStringBuilderService = connectionStringBuilderService;
             _uiVisualizerService = uiVisualizerService;
             _typeFactory = typeFactory;
 
-            var providers = connectionStringBuilderService.GetDataProviders();
-
-            ConnectionStringBuiler = new SqlConnectionStringBuilder(connectionString);
+            ConnectionString = connectionString;
 
             InitServers = new Command(() => InitServersAsync(), () => !IsServersRefreshing);
             RefreshServers = new Command(() => RefreshServersAsync(), () => !IsServersRefreshing);
@@ -52,17 +53,29 @@ namespace Orc.Controls
             ShowAdvancedOptions = new Command(OnShowAdvancedOptions);
         }
 
+        public ConnectionStringProperty DataSource => ConnectionString?.Properties["Data Source"];
+        public ConnectionStringProperty UserId => ConnectionString?.Properties["User ID"];
+        public ConnectionStringProperty Password => ConnectionString?.Properties["Password"];
+        public ConnectionStringProperty IntegratedSecurity => ConnectionString?.Properties["Integrated Security"];
+        public ConnectionStringProperty InitialCatalog => ConnectionString?.Properties["Initial Catalog"];
+
+        public bool CanLogOnToServer => Password != null || UserId != null;
+
         public bool IsServerListVisible { get; set; } = false;
         public bool IsDatabaseListVisible { get; set; } = false;
-
         public override string Title => "Connection properties";
-        public SqlConnectionStringBuilder ConnectionStringBuiler { get; }
-
+        public SqlConnectionString ConnectionString { get; private set; }
         public DbProvider DbProvider { get; set; }
 
         private void OnDbProviderChanged()
         {
-            
+            var dbProvider = DbProvider;
+            if (dbProvider == null)
+            {
+                return;
+            }
+
+            ConnectionString = _connectionStringBuilderService.GetConnectionString(dbProvider);
         }
 
         public Command RefreshServers { get; }
@@ -79,11 +92,15 @@ namespace Orc.Controls
             _uiVisualizerService.ShowDialog(advancedOptionsViewModel);
         }
 
+        public ConnectionState ConnectionState { get; private set; } = ConnectionState.NotTested;
+
         private void OnTestConnection()
         {
-            
-        }
+            ConnectionState = _connectionStringBuilderService.GetConnectionState(ConnectionString);
 
+            _messageService.ShowAsync(ConnectionState.ToString());
+        }
+        
         private void OnSelectedServerChaged()
         {
             _isDatabasesInitialized = false;
@@ -101,14 +118,8 @@ namespace Orc.Controls
 
         public FastObservableCollection<string> Servers { get; } = new FastObservableCollection<string>();
         public FastObservableCollection<string> Databases { get; } = new FastObservableCollection<string>();
-
-        public string ConnectionString { get; private set; }
-        
-        public string DataSource { get; set; }
+       
         public bool UseSqlServerAuthentication { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string Database { get; set; }
 
         private Task InitServersAsync()
         {
@@ -155,30 +166,22 @@ namespace Orc.Controls
             
             if (UseSqlServerAuthentication)
             {
-                ConnectionStringBuiler.Password = Password;
-                ConnectionStringBuiler.UserID = UserName;
+                
+         //       ConnectionStringBuiler.Password = Password;
+         //    ConnectionStringBuiler.UserID = UserName;
             }
 
-            ConnectionStringBuiler.IntegratedSecurity = !UseSqlServerAuthentication;
-
-            var connectionString = ConnectionStringBuiler.ToString();
+         //   ConnectionStringBuiler..IntegratedSecurity = !UseSqlServerAuthentication;
 
             return TaskHelper.RunAndWaitAsync(() =>
             {
-                var databases = _connectionStringBuilderService.GetDatabases(connectionString);
+                var databases = _connectionStringBuilderService.GetDatabases(ConnectionString);
                 Databases.AddItems(databases);
 
                 IsDatabasesRefreshing = false;
                 _isDatabasesInitialized = true;
                 IsDatabaseListVisible = true;
             });
-        }
-
-        protected override Task<bool> SaveAsync()
-        {
-            ConnectionString = ConnectionStringBuiler.ToString();
-
-            return base.SaveAsync();
         }
     }
 }

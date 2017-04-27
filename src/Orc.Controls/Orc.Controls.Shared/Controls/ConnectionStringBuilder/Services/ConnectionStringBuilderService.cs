@@ -15,6 +15,7 @@ namespace Orc.Controls
     using System.Data.SqlClient;
     using System.Globalization;
     using System.Linq;
+    using Catel;
     using Microsoft.Win32;
 
     public class ConnectionStringBuilderService : IConnectionStringBuilderService
@@ -34,6 +35,49 @@ namespace Orc.Controls
             .ToList();
         }
 
+        public ConnectionState GetConnectionState(SqlConnectionString connectionString)
+        {
+            var connectionStringStr = connectionString?.ToString();
+
+            if (string.IsNullOrWhiteSpace(connectionStringStr))
+            {
+                return ConnectionState.BadConnection;
+            }
+
+            var factory = DbProviderFactories.GetFactory(connectionString.DbProvider.InvariantName);
+            var connection = factory.CreateConnection();
+            if (connection == null)
+            {
+                return ConnectionState.BadConnection;
+            }
+
+            // Try to open it
+            try
+            {
+                connection.ConnectionString = connectionStringStr;
+                connection.Open();
+            }
+            catch
+            {
+                return ConnectionState.BadConnection;
+            }
+            finally
+            {
+                connection.Dispose();
+            }
+
+            return ConnectionState.Tested;
+        }
+
+        public SqlConnectionString GetConnectionString(DbProvider dbProvider)
+        {
+            Argument.IsNotNull(() => dbProvider);
+
+            var factory = DbProviderFactories.GetFactory(dbProvider.InvariantName);
+            var connectionStringBuilder = factory.CreateConnectionStringBuilder();
+            return new SqlConnectionString(connectionStringBuilder, dbProvider);
+        }
+
         public IList<string> GetSqlServers()
         {
             var localServers = GetLocalSqlServerInstances();
@@ -45,23 +89,25 @@ namespace Orc.Controls
                 .ToList();
         }
 
-        public IList<string> GetDatabases(string connectionString)
+        public IList<string> GetDatabases(SqlConnectionString connectionString)
         {
+            var factory = DbProviderFactories.GetFactory(connectionString.DbProvider.InvariantName);
             var databases = new List<string>();
-            using (var sqlConnection = new SqlConnection(connectionString))
-            {
-                sqlConnection.Open();
-                using (var cmd = new SqlCommand("SELECT name from sys.databases", sqlConnection))
-                {
-                    using (IDataReader dataReader = cmd.ExecuteReader())
-                    {
-                        while (dataReader.Read())
-                        {
-                            databases.Add(dataReader[0].ToString());
-                        }
-                    }
-                }
-            }
+            
+            //using (var connection = factory.CreateConnection())
+            //{
+            //    connection.Open();
+            //    using (var cmd = new SqlCommand("SELECT name from sys.databases", connection))
+            //    {
+            //        using (IDataReader dataReader = cmd.ExecuteReader())
+            //        {
+            //            while (dataReader.Read())
+            //            {
+            //                databases.Add(dataReader[0].ToString());
+            //            }
+            //        }
+            //    }
+            //}
             return databases;
         }
 

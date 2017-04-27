@@ -35,7 +35,7 @@ namespace Orc.Controls
 
         #region Свойства
         public override string Title => "";
-        public string ConnectionString { get; set; }
+        public SqlConnectionString ConnectionString { get; set; }
         public ConnectionState ConnectionState { get; set; } = ConnectionState.NotTested;
 
         public Command Edit { get; }
@@ -49,18 +49,19 @@ namespace Orc.Controls
             var connectionStringEditViewModel = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<ConnectionStringEditViewModel>(ConnectionString);
             if (_uiVisualizerService.ShowDialog(connectionStringEditViewModel) ?? false)
             {
-                ConnectionString = connectionStringEditViewModel.ConnectionStringBuiler.ToString();
+                ConnectionString = connectionStringEditViewModel.ConnectionString;
+                ConnectionState = connectionStringEditViewModel.ConnectionState;
             }
         }
 
         private bool CanClear()
         {
-            return !string.IsNullOrWhiteSpace(ConnectionString);
+            return ConnectionString != null;
         }
 
         private void OnClear()
         {
-            ConnectionString = string.Empty;
+            ConnectionString = null;
             ConnectionState = ConnectionState.NotTested;
         }
         #endregion
