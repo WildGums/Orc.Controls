@@ -29,17 +29,17 @@ namespace Orc.Controls
 
             if (string.IsNullOrWhiteSpace(connectionStringStr))
             {
-                return ConnectionState.BadConnection;
+                return ConnectionState.Invalid;
             }
 
             var factory = DbProviderFactories.GetFactory(connectionString.DbProvider.InvariantName);
             var connection = factory.CreateConnection();
             if (connection == null)
             {
-                return ConnectionState.BadConnection;
+                return ConnectionState.Invalid;
             }
 
-            // Try to open it
+            // Try to open
             try
             {
                 connection.ConnectionString = connectionStringStr;
@@ -47,14 +47,14 @@ namespace Orc.Controls
             }
             catch
             {
-                return ConnectionState.BadConnection;
+                return ConnectionState.Invalid;
             }
             finally
             {
                 connection.Dispose();
             }
 
-            return ConnectionState.Tested;
+            return ConnectionState.Good;
         }
 
         public SqlConnectionString CreateConnectionString(DbProvider dbProvider, string connectionString = "")
@@ -102,29 +102,6 @@ namespace Orc.Controls
             
             return databases;
         }
-
-        //public IList<string> GetDatabases(SqlConnectionString connectionString)
-        //{
-        //    var factory = DbProviderFactories.GetFactory(connectionString.DbProvider.InvariantName);
-        //    var databases = new List<string>();
-            
-        //    using (var connection = factory.CreateConnection())
-        //    {
-        //        connection.Open();
-        //        var db = connection.Database;
-        //        //using (var cmd = new SqlCommand("SELECT name from sys.databases", connection))
-        //        //{
-        //        //    using (IDataReader dataReader = cmd.ExecuteReader())
-        //        //    {
-        //        //        while (dataReader.Read())
-        //        //        {
-        //        //            databases.Add(dataReader[0].ToString());
-        //        //        }
-        //        //    }
-        //        //}
-        //    }
-        //    return databases;
-        //}
 
         private IEnumerable<string> GetLocalSqlServerInstances()
         {
