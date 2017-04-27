@@ -12,7 +12,7 @@ namespace Orc.Controls
 
     public sealed partial class ConnectionStringBuilder
     {
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewModelToView)]
+        [ViewToViewModel("ConnectionStringStr", MappingType = ViewToViewModelMappingType.TwoWayViewModelWins, )]
         public string ConnectionString
         {
             get { return (string)GetValue(ConnectionStringProperty); }
