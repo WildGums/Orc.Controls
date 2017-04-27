@@ -63,11 +63,16 @@ namespace Orc.Controls
 
             var factory = DbProviderFactories.GetFactory(dbProvider.InvariantName);
             var connectionStringBuilder = factory.CreateConnectionStringBuilder();
+            if (connectionStringBuilder == null)
+            {
+                return null;
+            }
+
             if(!string.IsNullOrWhiteSpace(connectionString))
             {
                 connectionStringBuilder.ConnectionString = connectionString;
             }
-            
+
             return new SqlConnectionString(connectionStringBuilder, dbProvider);
         }
 
@@ -84,13 +89,36 @@ namespace Orc.Controls
 
         public IList<string> GetDatabases(SqlConnectionString connectionString)
         {
-            var databases = new List<string>();
-            using (var sqlConnection = new SqlConnection(connectionString.ToString()))
+            var dbProvider = connectionString.DbProvider?.InvariantName;
+            if (string.IsNullOrWhiteSpace(dbProvider))
             {
-                sqlConnection.Open();
-                using (var cmd = new SqlCommand("SELECT name from sys.databases", sqlConnection))
+                return new List<string>();
+            }
+
+            var factory = DbProviderFactories.GetFactory(dbProvider);           
+
+            var databases = new List<string>();
+            using (var sqlConnection = factory.CreateConnection())
+            {
+                if (sqlConnection == null)
                 {
-                    using (IDataReader dataReader = cmd.ExecuteReader())
+                    return new List<string>();
+                }
+
+                sqlConnection.ConnectionString = connectionString.ToString();
+                sqlConnection.Open();
+
+                using (var command = factory.CreateCommand())
+                {
+                    if (command == null)
+                    {
+                        return new List<string>();
+                    }
+
+                    command.Connection = sqlConnection;
+                    command.CommandText = "SELECT name from sys.databases";
+                    command.CommandType = CommandType.Text;
+                    using (IDataReader dataReader = command.ExecuteReader())
                     {
                         while (dataReader.Read())
                         {
