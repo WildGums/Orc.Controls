@@ -109,7 +109,7 @@
                     </catel:StackGrid.ColumnDefinitions>
 
                     <TextBlock Text="User name" Visibility="{Binding UserId, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
-                    <TextBox Text="{Binding UserId.Value}"/>
+                    <TextBox Text="{Binding UserId.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
                     <TextBlock Text="Password" Visibility="{Binding Password, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
                     <PasswordBox Visibility="{Binding Password, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
