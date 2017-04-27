@@ -22,19 +22,6 @@ namespace Orc.Controls
     {
         private const string MicrosoftSqlServerRegPath = @"SOFTWARE\Microsoft\Microsoft SQL Server";
 
-        public IList<DbProvider> GetDataProviders()
-        {
-            var table = DbProviderFactories.GetFactoryClasses();
-
-            return table.Rows.OfType<DataRow>().Select(x => new DbProvider
-            {
-                Name = x["Name"]?.ToString(),
-                Description = x["Description"]?.ToString(),
-                InvariantName = x["InvariantName"]?.ToString(),
-            })
-            .ToList();
-        }
-
         public ConnectionState GetConnectionState(SqlConnectionString connectionString)
         {
             var connectionStringStr = connectionString?.ToString();
@@ -94,20 +81,21 @@ namespace Orc.Controls
             var factory = DbProviderFactories.GetFactory(connectionString.DbProvider.InvariantName);
             var databases = new List<string>();
             
-            //using (var connection = factory.CreateConnection())
-            //{
-            //    connection.Open();
-            //    using (var cmd = new SqlCommand("SELECT name from sys.databases", connection))
-            //    {
-            //        using (IDataReader dataReader = cmd.ExecuteReader())
-            //        {
-            //            while (dataReader.Read())
-            //            {
-            //                databases.Add(dataReader[0].ToString());
-            //            }
-            //        }
-            //    }
-            //}
+            using (var connection = factory.CreateConnection())
+            {
+                connection.Open();
+                var db = connection.Database;
+                //using (var cmd = new SqlCommand("SELECT name from sys.databases", connection))
+                //{
+                //    using (IDataReader dataReader = cmd.ExecuteReader())
+                //    {
+                //        while (dataReader.Read())
+                //        {
+                //            databases.Add(dataReader[0].ToString());
+                //        }
+                //    }
+                //}
+            }
             return databases;
         }
 

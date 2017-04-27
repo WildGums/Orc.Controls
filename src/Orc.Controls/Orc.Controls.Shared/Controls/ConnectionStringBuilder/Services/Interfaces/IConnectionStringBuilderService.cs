@@ -14,9 +14,6 @@ namespace Orc.Controls
     {
         ConnectionState GetConnectionState(SqlConnectionString connectionString);
         SqlConnectionString GetConnectionString(DbProvider dbProvider);
-
-
-        IList<DbProvider> GetDataProviders();
         IList<string> GetSqlServers();
         IList<string> GetDatabases(SqlConnectionString connectionString);
     }
