@@ -13,14 +13,14 @@ namespace Orc.Controls
 
     public class PasswordBindBehavior : BehaviorBase<PasswordBox>
     {
-        public string Password
-        {
-            get { return (string)GetValue(PasswordProperty); }
-            set { SetValue(PasswordProperty, value); }
-        }
-
         public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register(
             "Password", typeof (string), typeof (PasswordBindBehavior), new PropertyMetadata(default(string)));
+
+        public string Password
+        {
+            get { return (string) GetValue(PasswordProperty); }
+            set { SetValue(PasswordProperty, value); }
+        }
 
         protected override void OnAssociatedObjectLoaded()
         {
@@ -31,7 +31,7 @@ namespace Orc.Controls
 
         protected override void OnAssociatedObjectUnloaded()
         {
-            AssociatedObject.PasswordChanged += OnPasswordChanged;
+            AssociatedObject.PasswordChanged -= OnPasswordChanged;
 
             base.OnAssociatedObjectUnloaded();
         }

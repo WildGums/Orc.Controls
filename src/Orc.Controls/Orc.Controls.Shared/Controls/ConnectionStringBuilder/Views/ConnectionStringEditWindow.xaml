@@ -98,7 +98,7 @@
                              IsChecked="{Binding UseSqlServerAuthentication}"/>
 
                 <catel:StackGrid Margin="25 0 0 0"
-                                 IsEnabled="{Binding UseSqlServerAuthentication}">
+                                 IsEnabled="{Binding ElementName=UseSqlServerAuthenticationRadioButton, Path=IsChecked}">
                     <catel:StackGrid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -114,7 +114,7 @@
                     <TextBlock Text="Password" Visibility="{Binding Password, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
                     <PasswordBox Visibility="{Binding Password, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
                         <i:Interaction.Behaviors>
-                            <controls:PasswordBindBehavior Password="{Binding Password.Value}"/>
+                            <controls:PasswordBindBehavior Password="{Binding Password.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         </i:Interaction.Behaviors>
                     </PasswordBox>
                 </catel:StackGrid>

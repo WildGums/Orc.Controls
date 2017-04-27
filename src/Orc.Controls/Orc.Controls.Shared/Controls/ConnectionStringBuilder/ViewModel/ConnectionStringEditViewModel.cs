@@ -21,8 +21,8 @@ namespace Orc.Controls
         private readonly IMessageService _messageService;
         private readonly ITypeFactory _typeFactory;
         private readonly IUIVisualizerService _uiVisualizerService;
-        private bool _isDatabasesInitialized = false;
 
+        private bool _isDatabasesInitialized = false;
         private bool _isServersInitialized = false;
 
         public ConnectionStringEditViewModel(SqlConnectionString connectionString, IMessageService messageService,

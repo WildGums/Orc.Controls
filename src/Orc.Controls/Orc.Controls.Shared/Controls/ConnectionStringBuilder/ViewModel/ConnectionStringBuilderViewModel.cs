@@ -36,7 +36,7 @@ namespace Orc.Controls
         #region Свойства
         public override string Title => "";
         public SqlConnectionString ConnectionString { get; set; }
-        public string ConnectionStringStr => ConnectionString?.ToString();
+        public string ConnectionStringStr => ConnectionString?.ToDisplayString();
         public ConnectionState ConnectionState { get; set; } = ConnectionState.NotTested;
 
         public Command Edit { get; }

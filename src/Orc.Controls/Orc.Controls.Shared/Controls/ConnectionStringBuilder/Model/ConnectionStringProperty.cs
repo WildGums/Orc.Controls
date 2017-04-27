@@ -15,14 +15,16 @@ namespace Orc.Controls
     {
         private readonly DbConnectionStringBuilder _dbConnectionStringBuilder;
 
-        public ConnectionStringProperty(string name, DbConnectionStringBuilder dbConnectionStringBuilder)
+        public ConnectionStringProperty(string name, bool isSensitive, DbConnectionStringBuilder dbConnectionStringBuilder)
         {
             Argument.IsNotNull(() => dbConnectionStringBuilder);
 
             _dbConnectionStringBuilder = dbConnectionStringBuilder;
             Name = name;
+            IsSensitive = isSensitive;
         }
 
+        public bool IsSensitive { get; }
         public string Name { get; }
 
         public object Value

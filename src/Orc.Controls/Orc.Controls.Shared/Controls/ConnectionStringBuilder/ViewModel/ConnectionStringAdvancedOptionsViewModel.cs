@@ -30,7 +30,9 @@ namespace Orc.Controls
 
         protected override Task InitializeAsync()
         {
-            ConnectionStringProperties = ConnectionString.Properties.Values.OrderBy(x => x.Name).ToList();
+            ConnectionStringProperties = ConnectionString.Properties.Values.Where(x => !x.IsSensitive)
+                .OrderBy(x => x.Name)
+                .ToList();
 
             return base.InitializeAsync();
         }
