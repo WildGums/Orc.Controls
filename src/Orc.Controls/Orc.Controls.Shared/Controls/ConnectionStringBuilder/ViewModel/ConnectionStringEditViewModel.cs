@@ -129,7 +129,7 @@ namespace Orc.Controls
 
             return TaskHelper.RunAndWaitAsync(() =>
             {
-                var servers = _connectionStringBuilderService.GetSqlServers();
+                var servers = _connectionStringBuilderService.GetDataSources(ConnectionString);
                 Servers.AddItems(servers);
 
                 IsServersRefreshing = false;

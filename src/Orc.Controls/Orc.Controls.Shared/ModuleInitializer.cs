@@ -41,6 +41,7 @@ public static class ModuleInitializer
 
         serviceLocator.RegisterType<ISuggestionListService, SuggestionListService>();
         serviceLocator.RegisterType<IValidationNamesService, ValidationNamesService>();
+        serviceLocator.RegisterTypeIfNotYetRegistered<IConnectionStringBuilderServiceInitializer, ConnectionStringBuilderServiceInitializer>();
         serviceLocator.RegisterType<IConnectionStringBuilderService, ConnectionStringBuilderService>();
 
         // Override Catel.SelectDirectoryService with Orchestra.Services.SelectDirectoryService

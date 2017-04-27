@@ -7,21 +7,21 @@
 
 namespace Orc.Controls
 {
-    using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Data;
     using System.Data.Common;
-    using System.Data.Sql;
-    using System.Data.SqlClient;
-    using System.Globalization;
-    using System.Linq;
     using Catel;
-    using Microsoft.Win32;
 
     public class ConnectionStringBuilderService : IConnectionStringBuilderService
     {
-        private const string MicrosoftSqlServerRegPath = @"SOFTWARE\Microsoft\Microsoft SQL Server";
+        private readonly Dictionary<string, IDataSourceProvider> _providers = new Dictionary<string, IDataSourceProvider>();
+
+        public ConnectionStringBuilderService(IConnectionStringBuilderServiceInitializer connectionStringBuilderServiceInitializer)
+        {
+            Argument.IsNotNull(() => connectionStringBuilderServiceInitializer);
+
+            connectionStringBuilderServiceInitializer.Initialize(this);
+        }
 
         public ConnectionState GetConnectionState(SqlConnectionString connectionString)
         {
@@ -68,23 +68,12 @@ namespace Orc.Controls
                 return null;
             }
 
-            if(!string.IsNullOrWhiteSpace(connectionString))
+            if (!string.IsNullOrWhiteSpace(connectionString))
             {
                 connectionStringBuilder.ConnectionString = connectionString;
             }
 
             return new SqlConnectionString(connectionStringBuilder, dbProvider);
-        }
-
-        public IList<string> GetSqlServers()
-        {
-            var localServers = GetLocalSqlServerInstances();
-            var remoteServers = GetRemoteSqlServerInstances();
-
-            return localServers.Union(remoteServers)
-                .Distinct()
-                .OrderBy(x => x)
-                .ToList();
         }
 
         public IList<string> GetDatabases(SqlConnectionString connectionString)
@@ -95,7 +84,14 @@ namespace Orc.Controls
                 return new List<string>();
             }
 
-            var factory = DbProviderFactories.GetFactory(dbProvider);           
+            IDataSourceProvider provider = null;
+            _providers.TryGetValue(dbProvider, out provider);
+            if (provider == null)
+            {
+                return new List<string>();
+            }
+
+            var factory = DbProviderFactories.GetFactory(dbProvider);
 
             var databases = new List<string>();
             using (var sqlConnection = factory.CreateConnection())
@@ -116,7 +112,7 @@ namespace Orc.Controls
                     }
 
                     command.Connection = sqlConnection;
-                    command.CommandText = "SELECT name from sys.databases";
+                    command.CommandText = provider.GetAllDataSourceBasesQuery;
                     command.CommandType = CommandType.Text;
                     using (IDataReader dataReader = command.ExecuteReader())
                     {
@@ -127,57 +123,31 @@ namespace Orc.Controls
                     }
                 }
             }
-            
+
             return databases;
         }
 
-        private IEnumerable<string> GetLocalSqlServerInstances()
+        public void AddDataSourceProvider(string invariantName, IDataSourceProvider provider)
         {
-            var machineName = Environment.MachineName;
+            if (_providers.ContainsKey(invariantName))
+            {
+                return;
+            }
 
-            var localSqlInstances32 = GetInstalledInstancesInRegistryView(RegistryView.Registry32);
-            var localSqlInstances64 = GetInstalledInstancesInRegistryView(RegistryView.Registry64);
-
-            return localSqlInstances32.Union(localSqlInstances64)
-                .Select(x => $"{machineName}\\{x}");
+            _providers.Add(invariantName, provider);
         }
 
-        private IList<string> GetInstalledInstancesInRegistryView(RegistryView registryView)
+        public IList<string> GetDataSources(SqlConnectionString connectionString)
         {
-            var regView = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, registryView);
-            using (var sqlServNode = regView.OpenSubKey(MicrosoftSqlServerRegPath, false))
+            var dbProvider = connectionString.DbProvider?.InvariantName;
+            if (string.IsNullOrWhiteSpace(dbProvider))
             {
-                return sqlServNode?.GetValue("InstalledInstances") as IList<string> ?? new List<string>();
-            }
-        }
-
-        private IList<string> GetRemoteSqlServerInstances()
-        {
-            DataTable dataTable;
-            try
-            {
-                dataTable = SqlDataSourceEnumerator.Instance.GetDataSources();
-            }
-            catch
-            {
-                dataTable = new DataTable {Locale = CultureInfo.InvariantCulture};
+                return new List<string>();
             }
 
-            var serversCount = dataTable.Rows.Count;
-            var servers = new List<string>(serversCount);
-            for (var i = 0; i < serversCount; i++)
-            {
-                var name = dataTable.Rows[i]["ServerName"].ToString();
-                var instance = dataTable.Rows[i]["InstanceName"].ToString();
-
-                servers[i] = name;
-                if (instance.Any())
-                {
-                    servers[i] += "\\" + instance;
-                }
-            }
-
-            return servers;
+            IDataSourceProvider provider = null;
+            _providers.TryGetValue(dbProvider, out provider);
+            return provider != null ? provider.GetDataSources() : new List<string>();
         }
     }
 }

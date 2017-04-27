@@ -8,13 +8,13 @@
 namespace Orc.Controls
 {
     using System.Collections.Generic;
-    using System.Data.Common;
 
     public interface IConnectionStringBuilderService
     {
+        void AddDataSourceProvider(string invariantName, IDataSourceProvider provider);
         SqlConnectionString CreateConnectionString(DbProvider dbProvider, string connectionString = "");
         ConnectionState GetConnectionState(SqlConnectionString connectionString);
-        IList<string> GetSqlServers();
+        IList<string> GetDataSources(SqlConnectionString connectionString);
         IList<string> GetDatabases(SqlConnectionString connectionString);
     }
 }
