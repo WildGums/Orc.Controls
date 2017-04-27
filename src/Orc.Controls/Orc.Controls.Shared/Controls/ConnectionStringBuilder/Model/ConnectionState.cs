@@ -10,7 +10,7 @@ namespace Orc.Controls
     public enum ConnectionState
     {
         NotTested,
-        Tested,
-        BadConnection
+        Good,
+        Invalid
     }
 }
