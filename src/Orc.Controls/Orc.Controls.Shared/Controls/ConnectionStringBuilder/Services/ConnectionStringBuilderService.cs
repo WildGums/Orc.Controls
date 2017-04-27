@@ -78,26 +78,47 @@ namespace Orc.Controls
 
         public IList<string> GetDatabases(SqlConnectionString connectionString)
         {
-            var factory = DbProviderFactories.GetFactory(connectionString.DbProvider.InvariantName);
             var databases = new List<string>();
-            
-            using (var connection = factory.CreateConnection())
+            using (var sqlConnection = new SqlConnection(connectionString.ToString()))
             {
-                connection.Open();
-                var db = connection.Database;
-                //using (var cmd = new SqlCommand("SELECT name from sys.databases", connection))
-                //{
-                //    using (IDataReader dataReader = cmd.ExecuteReader())
-                //    {
-                //        while (dataReader.Read())
-                //        {
-                //            databases.Add(dataReader[0].ToString());
-                //        }
-                //    }
-                //}
+                sqlConnection.Open();
+                using (var cmd = new SqlCommand("SELECT name from sys.databases", sqlConnection))
+                {
+                    using (IDataReader dataReader = cmd.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            databases.Add(dataReader[0].ToString());
+                        }
+                    }
+                }
             }
+            
             return databases;
         }
+
+        //public IList<string> GetDatabases(SqlConnectionString connectionString)
+        //{
+        //    var factory = DbProviderFactories.GetFactory(connectionString.DbProvider.InvariantName);
+        //    var databases = new List<string>();
+            
+        //    using (var connection = factory.CreateConnection())
+        //    {
+        //        connection.Open();
+        //        var db = connection.Database;
+        //        //using (var cmd = new SqlCommand("SELECT name from sys.databases", connection))
+        //        //{
+        //        //    using (IDataReader dataReader = cmd.ExecuteReader())
+        //        //    {
+        //        //        while (dataReader.Read())
+        //        //        {
+        //        //            databases.Add(dataReader[0].ToString());
+        //        //        }
+        //        //    }
+        //        //}
+        //    }
+        //    return databases;
+        //}
 
         private IEnumerable<string> GetLocalSqlServerInstances()
         {

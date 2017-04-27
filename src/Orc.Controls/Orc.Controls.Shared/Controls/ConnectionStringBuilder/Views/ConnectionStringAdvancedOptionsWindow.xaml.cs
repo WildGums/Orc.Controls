@@ -5,13 +5,14 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
- // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Orc.Controls
 {
+    using Catel.Windows;
+
     public sealed partial class ConnectionStringAdvancedOptionsWindow
     {
         public ConnectionStringAdvancedOptionsWindow()
+            :base(DataWindowMode.Close)
         {
             this.InitializeComponent();
         }

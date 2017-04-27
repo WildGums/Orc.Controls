@@ -60,20 +60,19 @@ namespace Orc.Controls
 
         public bool IsServerListVisible { get; set; } = false;
         public bool IsDatabaseListVisible { get; set; } = false;
+        public bool IsServersRefreshing { get; private set; } = false;
+        public bool IsDatabasesRefreshing { get; private set; } = false;
+        public ConnectionState ConnectionState { get; private set; } = ConnectionState.NotTested;
         public override string Title => "Connection properties";
         public SqlConnectionString ConnectionString { get; private set; }
         public DbProvider DbProvider { get; set; }
-
         public Command RefreshServers { get; }
         public Command InitServers { get; }
-        public bool IsServersRefreshing { get; private set; } = false;
         public Command TestConnection { get; }
         public Command ShowAdvancedOptions { get; }
-
-        public ConnectionState ConnectionState { get; private set; } = ConnectionState.NotTested;
         public Command RefreshDatabases { get; }
         public Command InitDatabases { get; }
-        public bool IsDatabasesRefreshing { get; private set; } = false;
+
         public FastObservableCollection<string> Servers { get; } = new FastObservableCollection<string>();
         public FastObservableCollection<string> Databases { get; } = new FastObservableCollection<string>();
 
@@ -90,7 +89,7 @@ namespace Orc.Controls
 
         private void OnShowAdvancedOptions()
         {
-            var advancedOptionsViewModel = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<ConnectionStringAdvancedOptionsViewModel>();
+            var advancedOptionsViewModel = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<ConnectionStringAdvancedOptionsViewModel>(ConnectionString);
 
             _uiVisualizerService.ShowDialog(advancedOptionsViewModel);
         }
@@ -147,13 +146,20 @@ namespace Orc.Controls
 
         private Task RefreshDatabasesAsync()
         {
+            var connectionString = ConnectionString;
+            if (string.IsNullOrWhiteSpace(connectionString?.ToString()))
+            {
+
+                return TaskHelper.Completed;
+            }
+
             IsDatabasesRefreshing = true;
 
             Databases.Clear();
 
             return TaskHelper.RunAndWaitAsync(() =>
             {
-                var databases = _connectionStringBuilderService.GetDatabases(ConnectionString);
+                var databases = _connectionStringBuilderService.GetDatabases(connectionString);
                 Databases.AddItems(databases);
 
                 IsDatabasesRefreshing = false;

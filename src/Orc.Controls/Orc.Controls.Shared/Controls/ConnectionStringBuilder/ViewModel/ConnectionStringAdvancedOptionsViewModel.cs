@@ -7,12 +7,32 @@
 
 namespace Orc.Controls
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Catel;
     using Catel.MVVM;
 
     public class ConnectionStringAdvancedOptionsViewModel : ViewModelBase
     {
+        public ConnectionStringAdvancedOptionsViewModel(SqlConnectionString connectionString)
+        {
+            Argument.IsNotNull(() => connectionString);
+
+            ConnectionString = connectionString;
+        }
+
         public override string Title => "Advanced options";
 
+        public IList<ConnectionStringProperty> ConnectionStringProperties { get; private set; }
 
+        public SqlConnectionString ConnectionString { get; }
+
+        protected override Task InitializeAsync()
+        {
+            ConnectionStringProperties = ConnectionString.Properties.Values.OrderBy(x => x.Name).ToList();
+
+            return base.InitializeAsync();
+        }
     }
 }

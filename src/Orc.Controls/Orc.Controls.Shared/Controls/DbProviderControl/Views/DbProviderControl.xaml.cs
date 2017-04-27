@@ -15,7 +15,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty DbProviderProperty = DependencyProperty.Register(
             "DbProvider", typeof (DbProvider), typeof (DbProviderControl), new PropertyMetadata(default(DbProvider)));
 
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewModelToView)]
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewModelWins)]
         public DbProvider DbProvider
         {
             get { return (DbProvider) GetValue(DbProviderProperty); }
