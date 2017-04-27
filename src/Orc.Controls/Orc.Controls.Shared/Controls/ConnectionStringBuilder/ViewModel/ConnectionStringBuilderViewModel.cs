@@ -14,8 +14,8 @@ namespace Orc.Controls
 
     public class ConnectionStringBuilderViewModel : ViewModelBase
     {
-        private readonly IUIVisualizerService _uiVisualizerService;
         private readonly ITypeFactory _typeFactory;
+        private readonly IUIVisualizerService _uiVisualizerService;
         private DbProvider _dbProvider;
 
         public ConnectionStringBuilderViewModel(IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory)
@@ -29,6 +29,7 @@ namespace Orc.Controls
             Clear = new Command(OnClear, CanClear);
             Edit = new Command(OnEdit);
         }
+
         public ConnectionState ConnectionState { get; set; } = ConnectionState.Undefined;
         public string ConnectionString { get; private set; }
         public string DisplayConnectionString { get; private set; }
@@ -44,7 +45,7 @@ namespace Orc.Controls
             {
                 _dbProvider = connectionStringEditViewModel.DbProvider;
                 var connectionString = connectionStringEditViewModel.ConnectionString;
-                
+
                 ConnectionString = connectionString?.ToString();
                 DisplayConnectionString = connectionString?.ToDisplayString();
                 ConnectionState = connectionStringEditViewModel.ConnectionState;

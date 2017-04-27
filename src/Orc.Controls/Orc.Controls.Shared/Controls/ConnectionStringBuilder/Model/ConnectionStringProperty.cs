@@ -24,9 +24,8 @@ namespace Orc.Controls
             IsSensitive = isSensitive;
         }
 
-        public bool IsSensitive { get; }
         public string Name { get; }
-
+        public bool IsSensitive { get; }
         public object Value
         {
             get { return _dbConnectionStringBuilder[Name]; }

@@ -31,6 +31,10 @@ namespace Orc.Controls
             UpdateProperties();
         }
 
+        public Dictionary<string, ConnectionStringProperty> Properties { get; private set; }
+
+        public DbProvider DbProvider { get; }
+
         private void UpdateProperties()
         {
             if (_connectionStringBuilder == null)
@@ -39,7 +43,7 @@ namespace Orc.Controls
                 return;
             }
 
-            var sensitiveProperties = TypeDescriptor.GetProperties(_connectionStringBuilder, new Attribute[] { PasswordPropertyTextAttribute.Yes })
+            var sensitiveProperties = TypeDescriptor.GetProperties(_connectionStringBuilder, new Attribute[] {PasswordPropertyTextAttribute.Yes})
                 .OfType<PropertyDescriptor>()
                 .Select(x => x.DisplayName);
 
@@ -53,10 +57,6 @@ namespace Orc.Controls
                     return new ConnectionStringProperty(x, isSensitive, _connectionStringBuilder);
                 });
         }
-
-        public Dictionary<string, ConnectionStringProperty> Properties { get; private set; }
-
-        public DbProvider DbProvider { get; }
 
         public virtual string ToDisplayString()
         {

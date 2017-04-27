@@ -136,7 +136,7 @@ namespace Orc.Controls
         {
             ConnectionState = _connectionStringBuilderService.GetConnectionState(ConnectionString);
 
-            _messageService.ShowAsync($"{ConnectionState} connection", "Connection test result");
+            _messageService.ShowAsync($"{ConnectionState} connection!", "Connection test result");
         }
 
         private void OnSelectedServerChaged()

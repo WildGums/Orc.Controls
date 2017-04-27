@@ -11,7 +11,7 @@ namespace Orc.Controls
 
     public interface IDataSourceProvider
     {
-        string GetAllDataSourceBasesQuery { get; }
+        string DataBasesQuery { get; }
         IList<string> GetDataSources();
     }
 }

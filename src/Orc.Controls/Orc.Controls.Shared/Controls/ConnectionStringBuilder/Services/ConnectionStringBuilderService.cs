@@ -112,7 +112,7 @@ namespace Orc.Controls
                     }
 
                     command.Connection = sqlConnection;
-                    command.CommandText = provider.GetAllDataSourceBasesQuery;
+                    command.CommandText = provider.DataBasesQuery;
                     command.CommandType = CommandType.Text;
                     using (IDataReader dataReader = command.ExecuteReader())
                     {

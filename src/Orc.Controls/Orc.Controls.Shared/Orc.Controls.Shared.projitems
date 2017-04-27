@@ -19,7 +19,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Initializers\Interfaces\IConnectionStringBuilderServiceInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Model\ConnectionState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Model\ConnectionStringProperty.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Model\ConnectionStrings\ConnectionStringBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Model\SqlConnectionString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Providers\Interfaces\IDataSourceProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Providers\MsSqlDataSourceProvider.cs" />

@@ -19,7 +19,7 @@ namespace Orc.Controls
     {
         private const string MicrosoftSqlServerRegPath = @"SOFTWARE\Microsoft\Microsoft SQL Server";
 
-        public string GetAllDataSourceBasesQuery => "SELECT name from sys.databases";
+        public string DataBasesQuery => "SELECT name from sys.databases";
 
         public IList<string> GetDataSources()
         {

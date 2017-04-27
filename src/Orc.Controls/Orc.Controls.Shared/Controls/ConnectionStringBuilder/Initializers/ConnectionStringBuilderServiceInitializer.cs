@@ -25,7 +25,8 @@ namespace Orc.Controls
         {
             Argument.IsNotNull(() => connectionStringBuilderService);
 
-            connectionStringBuilderService.AddDataSourceProvider("System.Data.SqlClient", new MsSqlDataSourceProvider());
+            var msSqlDataProvider = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<MsSqlDataSourceProvider>();
+            connectionStringBuilderService.AddDataSourceProvider("System.Data.SqlClient", msSqlDataProvider);
         }
     }
 }
