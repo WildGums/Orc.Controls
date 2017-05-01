@@ -16,7 +16,7 @@ namespace Orc.Controls
         [TestFixture]
         public class TheSplitMethod
         {
-            private object[][] splitTestCases = new object[][]
+            private static object[][] splitTestCases = new object[][]
             {
                 new object []
                 {
@@ -57,7 +57,7 @@ namespace Orc.Controls
         [TestFixture]
         public class TheGetDateTimeFormatInfoMethod
         {
-            private object[][] getDateTimeFormatInfoForDateFormatTestCases = new object[][]
+            private static object[][] getDateTimeFormatInfoForDateFormatTestCases = new object[][]
             {
                 new object []
                 {
@@ -97,7 +97,7 @@ namespace Orc.Controls
                 }
             };
 
-            private object[][] getDateTimeFormatInfoForDateTimeFormatTestCases = new object[][]
+            private static object[][] getDateTimeFormatInfoForDateTimeFormatTestCases = new object[][]
             {
                 new object []
                 {
