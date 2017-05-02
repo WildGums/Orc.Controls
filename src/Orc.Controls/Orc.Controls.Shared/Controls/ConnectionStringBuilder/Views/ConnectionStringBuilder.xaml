@@ -5,6 +5,7 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:catel="http://catel.codeplex.com"
                    xmlns:controls="clr-namespace:Orc.Controls"
+                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
     
     <catel:StackGrid>
@@ -14,13 +15,34 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </catel:StackGrid.ColumnDefinitions>
-
-        <TextBox IsReadOnly="True" 
-                 Text="{Binding DisplayConnectionString, Mode=OneWay}" Margin="0"
-                 BorderBrush ="{Binding ConnectionState, Converter={controls:ConnectionStateToColorBrushValueConverter}, UpdateSourceTrigger=PropertyChanged}"/>
-        <Button Margin="0" Content="..." Command="{Binding Edit}" ToolTip="Edit connection string"/>
-        <Button Content="x" Margin="0" Command="{Binding Clear}" ToolTip="Clear"
-                Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+    
+        <TextBox Text="{Binding DisplayConnectionString, Mode=OneWay}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <catel:EventToCommand Command="{Binding Edit}" 
+                                          PassEventArgsToCommand="False"
+                                          PreventInvocationIfAssociatedObjectIsDisabled="True" 
+                                          DisableAssociatedObjectOnCannotExecute="False" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
+        <Button Margin="0"
+                Command="{Binding Edit}" 
+                ToolTip="Edit" >
+            <Button.Content>
+                ...
+            </Button.Content>
+        </Button>
+        <Button Margin="0"
+                Command="{Binding Clear}"
+                ToolTip="Clear" 
+                Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+            <Button.Content>
+                <Path Data="M0,1.05 L1.05,0 8.33,7.26 15.55,0.0 16.6,1.0 9.3,8.3 16.6,15.55 15.55,16.6 8.3,9.3 1,16.6 0,15.6 7.3,8.3 z" 
+                      Fill="#575757" Margin="4" Stretch="Uniform" />
+            </Button.Content>
+        </Button>
     </catel:StackGrid>
+
 </catel:UserControl>
  

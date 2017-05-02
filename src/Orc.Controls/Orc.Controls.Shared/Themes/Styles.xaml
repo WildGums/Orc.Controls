@@ -28,10 +28,11 @@
         </Style.Setters>
     </Style>
 
-    <Style x:Key="DefaultConnectionStringBuilderStyle" TargetType="{x:Type controls:ConnectionStringBuilder}">
+    <!--<Style x:Key="DefaultConnectionStringBuilderStyle"
+           TargetType="{x:Type controls:ConnectionStringBuilder}">
         <Style.Setters>
             <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
         </Style.Setters>
-    </Style>
+    </Style>-->
 
 </ResourceDictionary>

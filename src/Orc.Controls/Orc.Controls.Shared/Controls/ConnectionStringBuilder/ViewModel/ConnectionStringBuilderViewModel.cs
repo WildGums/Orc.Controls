@@ -33,13 +33,15 @@ namespace Orc.Controls
         public ConnectionState ConnectionState { get; set; } = ConnectionState.Undefined;
         public string ConnectionString { get; private set; }
         public string DisplayConnectionString { get; private set; }
+        public bool IsInEditMode { get; set; }
 
         public Command Edit { get; }
-        public Command Test { get; }
         public Command Clear { get; }
 
         private void OnEdit()
         {
+            IsInEditMode = true;
+
             var connectionStringEditViewModel = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<ConnectionStringEditViewModel>(ConnectionString, _dbProvider);
             if (_uiVisualizerService.ShowDialog(connectionStringEditViewModel) ?? false)
             {
@@ -50,6 +52,8 @@ namespace Orc.Controls
                 DisplayConnectionString = connectionString?.ToDisplayString();
                 ConnectionState = connectionStringEditViewModel.ConnectionState;
             }
+
+            IsInEditMode = false;
         }
 
         private void OnClear()

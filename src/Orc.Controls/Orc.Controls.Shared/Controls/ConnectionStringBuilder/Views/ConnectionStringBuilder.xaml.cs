@@ -8,6 +8,7 @@
 namespace Orc.Controls
 {
     using System.Windows;
+    using System.Windows.Media;
     using Catel.MVVM.Views;
 
     public sealed partial class ConnectionStringBuilder
@@ -22,6 +23,36 @@ namespace Orc.Controls
         public static readonly DependencyProperty ConnectionStringProperty = DependencyProperty.Register(
             "ConnectionString", typeof (string), typeof (ConnectionStringBuilder), new PropertyMetadata(default(string)));
 
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewModelToView)]
+        public bool IsInEditMode
+        {
+            get { return (bool) GetValue(IsInEditModeProperty); }
+            set { SetValue(IsInEditModeProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsInEditModeProperty = DependencyProperty.Register(
+            "IsInEditMode", typeof(bool), typeof(ConnectionStringBuilder), new PropertyMetadata(default(bool)));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewModelToView)]
+        public ConnectionState ConnectionState
+        {
+            get { return (ConnectionState) GetValue(ConnectionStateProperty); }
+            set { SetValue(ConnectionStateProperty, value); }
+        }
+
+        public static readonly DependencyProperty ConnectionStateProperty = DependencyProperty.Register(
+            "ConnectionState", typeof(ConnectionState), typeof(ConnectionStringBuilder), new PropertyMetadata(default(ConnectionState)));
+
+        public Brush AccentColorBrush
+        {
+            get { return (Brush)GetValue(AccentColorBrushProperty); }
+            set { SetValue(AccentColorBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
+            typeof(ConnectionStringBuilder), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((ConnectionStringBuilder)sender).OnAccentColorBrushChanged()));
+
+
         static ConnectionStringBuilder()
         {
             typeof (ConnectionStringBuilder).AutoDetectViewPropertiesToSubscribe();
@@ -29,7 +60,23 @@ namespace Orc.Controls
 
         public ConnectionStringBuilder()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
+        }
+
+        private void OnAccentColorBrushChanged()
+        {
+            var solidColorBrush = AccentColorBrush as SolidColorBrush;
+            if (solidColorBrush != null)
+            {
+                var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
+                accentColor.CreateAccentColorResourceDictionary("ConnectionStringBuilder");
+            }
         }
     }
 }

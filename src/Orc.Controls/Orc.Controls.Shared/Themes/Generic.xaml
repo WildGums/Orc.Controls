@@ -9,6 +9,8 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorPicker/Themes/ColorPicker.generic.xaml" />
 
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorPicker/Themes/ColorPicker.xaml" />
+        
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/ConnectionStringBuilder/Themes/ConnectionStringBuilder.generic.xaml" />
 
         <ResourceDictionary Source="/Orc.Controls;component/Controls/LinkLabel/Themes/LinkLabel.generic.xaml" />
 
