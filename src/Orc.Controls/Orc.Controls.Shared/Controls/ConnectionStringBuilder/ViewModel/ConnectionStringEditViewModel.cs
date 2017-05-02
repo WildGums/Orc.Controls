@@ -196,11 +196,15 @@ namespace Orc.Controls
 
             return TaskHelper.RunAndWaitAsync(() =>
             {
-                ConnectionState = _connectionStringBuilderService.GetConnectionState(ConnectionString);
-                if (ConnectionState != ConnectionState.Invalid)
+                var connectionState = _connectionStringBuilderService.GetConnectionState(ConnectionString);
+                if (connectionState != ConnectionState.Invalid)
                 {
                     var databases = _connectionStringBuilderService.GetDatabases(connectionString);
                     Databases.AddItems(databases);
+                }
+                else
+                {
+                    ConnectionState = connectionState;
                 }
 
                 IsDatabasesRefreshing = false;
