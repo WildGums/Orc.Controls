@@ -8,10 +8,24 @@
         <catel:StackGrid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </catel:StackGrid.RowDefinitions>
-        
-        <orc:ConnectionStringBuilder/>
-        <orc:ConnectionStringBuilder/>
+
+        <catel:StackGrid>
+            <catel:StackGrid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </catel:StackGrid.ColumnDefinitions>
+
+            <TextBlock Text="Connection string:"/>
+            <orc:ConnectionStringBuilder x:Name="ConnectionStringBuilderControl"/>
+
+        </catel:StackGrid>
+
+        <TextBlock Text="Result:" Margin="0 10 0 0" FontWeight="Bold"/>
+        <GridSplitter Height="1" HorizontalAlignment="Stretch" Background="Black" Margin="0 0 0 2" BorderBrush="Black" BorderThickness="1"/>
+        <TextBlock TextWrapping="Wrap" Text="{Binding ElementName=ConnectionStringBuilderControl, Path=ConnectionString}"/>
+
     </catel:StackGrid>
-    
 </catel:UserControl>
