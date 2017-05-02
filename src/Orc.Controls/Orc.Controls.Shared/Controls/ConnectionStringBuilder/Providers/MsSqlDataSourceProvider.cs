@@ -65,7 +65,7 @@ namespace Orc.Controls
             }
 
             var serversCount = dataTable.Rows.Count;
-            var servers = new List<string>(serversCount);
+            var servers = new string[serversCount];
             for (var i = 0; i < serversCount; i++)
             {
                 var name = dataTable.Rows[i]["ServerName"].ToString();
