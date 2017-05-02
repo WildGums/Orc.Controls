@@ -21,7 +21,13 @@
       <DependentUpon>DateRangePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Controls\FilterBoxControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\FrameRateCounter\FrameRateCounter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ListTextBox\ListTextBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\StackGrid\EmptyCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\StackGrid\EmptyColumn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\StackGrid\EmptyRow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\StackGrid\StackGrid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TabControl\TabControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Services\Interfaces\IValidationNamesService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Converters\ValidationResultTypeToColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Extensions\IValidationContextTreeNodeExtensions.cs" />
@@ -151,6 +157,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\TabControl\Themes\TabControl.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Themes\ValidationContextTree.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -264,6 +274,7 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\Extensions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Resources\Images\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Controls\TabControl\Themes\" />
     <Folder Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Commands\" />
     <Folder Include="$(MSBuildThisFileDirectory)Resources\" />
   </ItemGroup>

@@ -26,6 +26,8 @@
 
         <ResourceDictionary Source="/Orc.Controls;component/Controls/LogViewer/Themes/LogViewer.generic.xaml" />
 
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/TabControl/Themes/TabControl.generic.xaml" />
+        
         <ResourceDictionary Source="/Orc.Controls;component/Controls/TimeSpan/Themes/TimeSpan.generic.xaml" />
 
         <ResourceDictionary Source="/Orc.Controls;component/Controls/Expander/Themes/Expander.generic.xaml" />
