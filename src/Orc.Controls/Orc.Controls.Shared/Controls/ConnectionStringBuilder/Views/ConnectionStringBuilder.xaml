@@ -19,7 +19,8 @@
                  Text="{Binding DisplayConnectionString, Mode=OneWay}" Margin="0"
                  BorderBrush ="{Binding ConnectionState, Converter={controls:ConnectionStateToColorBrushValueConverter}, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Margin="0" Content="..." Command="{Binding Edit}" ToolTip="Edit connection string"/>
-        <Button Content="x" Margin="0" Command="{Binding Clear}" ToolTip="Clear"/>
+        <Button Content="x" Margin="0" Command="{Binding Clear}" ToolTip="Clear"
+                Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
     </catel:StackGrid>
 </catel:UserControl>
  

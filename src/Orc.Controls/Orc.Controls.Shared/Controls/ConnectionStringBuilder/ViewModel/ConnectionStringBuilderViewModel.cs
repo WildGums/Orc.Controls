@@ -26,7 +26,7 @@ namespace Orc.Controls
             _uiVisualizerService = uiVisualizerService;
             _typeFactory = typeFactory;
 
-            Clear = new Command(OnClear, CanClear);
+            Clear = new Command(OnClear, () => ConnectionString != null);
             Edit = new Command(OnEdit);
         }
 
@@ -50,11 +50,6 @@ namespace Orc.Controls
                 DisplayConnectionString = connectionString?.ToDisplayString();
                 ConnectionState = connectionStringEditViewModel.ConnectionState;
             }
-        }
-
-        private bool CanClear()
-        {
-            return ConnectionString != null;
         }
 
         private void OnClear()
