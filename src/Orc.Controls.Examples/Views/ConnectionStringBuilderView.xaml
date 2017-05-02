@@ -18,7 +18,7 @@
                 <ColumnDefinition Width="*"/>
             </catel:StackGrid.ColumnDefinitions>
 
-            <TextBlock Text="Connection string:"/>
+            <TextBlock Text="Connection string"/>
             <orc:ConnectionStringBuilder x:Name="ConnectionStringBuilderControl"/>
 
         </catel:StackGrid>
