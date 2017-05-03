@@ -45,9 +45,6 @@
     <Reference Include="Catel.Core, Version=4.5.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\lib\Catel.Core.4.5.4\lib\net40\Catel.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Catel.Extensions.Controls, Version=4.5.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\lib\Catel.Extensions.Controls.4.5.4\lib\net40\Catel.Extensions.Controls.dll</HintPath>
-    </Reference>
     <Reference Include="Catel.Fody.Attributes, Version=2.16.2.0, Culture=neutral, PublicKeyToken=1c8163524cbe02e6, processorArchitecture=MSIL">
       <HintPath>..\..\lib\Catel.Fody.2.16.2\lib\portable-net4+sl4+wp7+win8+wpa81+MonoAndroid14+MonoTouch40\Catel.Fody.Attributes.dll</HintPath>
     </Reference>
@@ -65,6 +62,15 @@
     <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Orc.Controls, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\lib\Orc.Controls.1.6.0-unstable0006\lib\net40\Orc.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Orc.FileSystem, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\lib\Orc.FileSystem.1.2.6\lib\net40\Orc.FileSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Orchestra.Core, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\lib\Orchestra.Core.2.7.0-unstable0010\lib\net40\Orchestra.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -295,12 +301,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Orc.Controls\Orc.Controls.NET40\Orc.Controls.NET40.csproj">
-      <Project>{E6CE2111-3D7C-4759-A886-E44EC77CE3AA}</Project>
-      <Name>Orc.Controls.NET40</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml">

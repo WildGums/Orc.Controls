@@ -12,7 +12,7 @@ namespace Orc.Controls.Examples
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Services;
-    using Catel.Windows;
+    using Orchestra;
     using Logging;
 
     /// <summary>
@@ -38,7 +38,7 @@ namespace Orc.Controls.Examples
             Log.Info("Starting application");
             Log.Info("This log message should show up as debug");
 
-            StyleHelper.CreateStyleForwardersForDefaultStyles();
+            this.ApplyTheme();
 
             base.OnStartup(e);
         }
