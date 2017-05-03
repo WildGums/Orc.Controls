@@ -29,11 +29,41 @@ namespace Orc.Controls
 
         public virtual string GetDisplayName(IValidationResult validationResult)
         {
-            var line = ExtractTagLine(validationResult);
+            var tagData = ExtractTagData(validationResult);
 
-            if (line.HasValue)
+            var line = tagData.Line;
+            var columnName  = tagData.ColumnName;
+            var columnIndex = tagData.ColumnIndex;
+
+            var messagePrefix = string.Empty;
+
+            var hasLine = line.HasValue;
+            var hasColumnIndex = columnIndex.HasValue;
+            var hasColumnName = !string.IsNullOrWhiteSpace(columnName);
+
+            if (hasLine)
             {
-                return $"Row {line}: {validationResult.Message}";
+                messagePrefix += $"Row {line}";
+            }
+            
+            if (hasLine && (hasColumnIndex || hasColumnName))
+            {
+                messagePrefix += ", Column ";
+            }
+
+            if (hasColumnName)
+            {
+                messagePrefix += $"'{columnName}' ";
+            }
+
+            if (hasColumnIndex)
+            {
+                messagePrefix += $"({columnIndex}) ";
+            }
+
+            if (!string.IsNullOrWhiteSpace(messagePrefix))
+            {
+                return $"{messagePrefix} : { validationResult.Message}";
             }
 
             return validationResult.Message;
@@ -70,7 +100,7 @@ namespace Orc.Controls
 
         public int? GetLineNumber(IValidationResult validationResult)
         {
-            return ExtractTagLine(validationResult);
+            return ExtractTagData(validationResult).Line;
         }
 
         public virtual IEnumerable<IValidationResult> GetCachedResultsByTagName(string tagName)
@@ -108,23 +138,31 @@ namespace Orc.Controls
             return tag.ToString();
         }
 
-        protected virtual int? ExtractTagLine(IValidationResult validationResult)
+        protected virtual (int? Line, string ColumnName, int? ColumnIndex) ExtractTagData(IValidationResult validationResult)
         {
             var tag = validationResult.Tag;
             if (ReferenceEquals(tag, null))
             {
-                return null;
+                return ((int?) null, string.Empty, (int?) null );
             }
 
             if (tag is string)
             {
-                return null;
+                return ((int?)null, string.Empty, (int?)null);
             }
 
             var type = tag.GetType();
-            var lineProperty = type.GetPropertyEx("Line");
 
-            return lineProperty?.GetValue(tag, new object[0]) as int?;
+            var lineProperty = type.GetPropertyEx("Line");
+            var line = lineProperty?.GetValue(tag, new object[0]) as int?;
+
+            var columnNameProperty = type.GetPropertyEx("ColumnName");
+            var columnName = columnNameProperty?.GetValue(tag, new object[0]) as string;
+
+            var columnIndexProperty = type.GetPropertyEx("ColumnIndex");
+            var columnIndex = columnIndexProperty?.GetValue(tag, new object[0]) as int?;
+
+            return (line, columnName, columnIndex);
         }
     }
 }
