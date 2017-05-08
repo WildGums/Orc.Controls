@@ -5,11 +5,14 @@
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                   xmlns:catel="http://catel.codeplex.com"
                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                  ResizeMode="CanResizeWithGrip"
+                  MinHeight="300"
+                  MinWidth="300"
                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
     
     <catel:StackGrid>
         <catel:StackGrid.RowDefinitions>
-            <RowDefinition MaxHeight="300" Height="*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </catel:StackGrid.RowDefinitions>
 

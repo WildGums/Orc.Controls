@@ -1,16 +1,18 @@
 ﻿<catel:DataWindow x:Class="Orc.Controls.ConnectionStringEditWindow"
-                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                   xmlns:catel="http://catel.codeplex.com"
-                   xmlns:controls="clr-namespace:Orc.Controls"
-                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                   ResizeMode="NoResize"
-                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
-    
-    <catel:StackGrid MinWidth="300">
-        <catel:StackGrid.Resources>
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:catel="http://catel.codeplex.com"
+                  xmlns:controls="clr-namespace:Orc.Controls"
+                  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                  MinWidth="439" 
+                  MinHeight="379" 
+                  ResizeMode="CanResizeWithGrip"
+                  mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
+
+    <DockPanel LastChildFill="True">
+        <DockPanel.Resources>
             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
                 <Style.Setters>
                     <Setter Property="Margin" Value="{DynamicResource DefaultThickness}"/>
@@ -49,137 +51,145 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-        </catel:StackGrid.Resources>
-        
-        <catel:StackGrid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </catel:StackGrid.RowDefinitions>
+        </DockPanel.Resources>
 
-        <catel:StackGrid>
-            <catel:StackGrid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </catel:StackGrid.ColumnDefinitions>
-
+        <catel:StackGrid  DockPanel.Dock="Top">
             <catel:StackGrid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </catel:StackGrid.RowDefinitions>
 
-            <TextBlock Text="Provider:"/>
-            <controls:DbProviderControl DbProvider="{Binding DbProvider, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-
-            <TextBlock Text="Server:" Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
-            <catel:StackGrid Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
+            <catel:StackGrid>
                 <catel:StackGrid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </catel:StackGrid.ColumnDefinitions>
+
+                <catel:StackGrid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </catel:StackGrid.RowDefinitions>
+
+                <TextBlock Text="Provider:"/>
+                <controls:DbProviderControl DbProvider="{Binding DbProvider, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+
+                <TextBlock Text="Server:" Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
+                <catel:StackGrid Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
+                    <catel:StackGrid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </catel:StackGrid.ColumnDefinitions>
+
+                    <ComboBox IsEditable="True"
+                      IsDropDownOpen="{Binding IsServerListVisible}"
+                      ItemsSource="{Binding Servers, IsAsync=True}"
+                      Text="{Binding DataSource.Value, UpdateSourceTrigger=PropertyChanged}" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="DropDownOpened">
+                                <catel:EventToCommand Command="{Binding InitServers}" DisableAssociatedObjectOnCannotExecute="True"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+
+                    <Button Style="{StaticResource RefreshButtonStyle}"
+                    Content="Refresh"
+                    Command="{Binding RefreshServers}" 
+                    IsEnabled="{Binding IsServersRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
+
+                </catel:StackGrid>
+            </catel:StackGrid>
+
+            <GroupBox Header="Log on to the server"
+                  Visibility="{Binding CanLogOnToServer, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+                <catel:StackGrid>
+                    <catel:StackGrid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </catel:StackGrid.RowDefinitions>
+
+                    <StackPanel Orientation="Vertical" Visibility="{Binding IntegratedSecurity, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
+                        <RadioButton x:Name="UseWindowsAuthenticationRadioButton"
+                             Content="Use Windows Authentication"
+                             IsChecked="{Binding IntegratedSecurityValue}"/>
+
+                        <RadioButton x:Name="UseSqlServerAuthenticationRadioButton"
+                             Content="Use SQL Server Authentication"
+                             IsChecked="{Binding IntegratedSecurityValue, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
+                    </StackPanel>
+
+                    <catel:StackGrid Margin="25 0 0 0" IsEnabled="{Binding IsLogOnEnabled}">
+                        <catel:StackGrid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </catel:StackGrid.RowDefinitions>
+                        <catel:StackGrid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </catel:StackGrid.ColumnDefinitions>
+
+                        <TextBlock Text="User name" 
+                               Visibility="{Binding UserId, UpdateSourceTrigger=PropertyChanged, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
+                        <TextBox Text="{Binding UserId.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                             Visibility="{Binding UserId, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
+
+                        <TextBlock Text="Password" Visibility="{Binding Password, UpdateSourceTrigger=PropertyChanged, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
+                        <PasswordBox Visibility="{Binding Password, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
+                            <i:Interaction.Behaviors>
+                                <controls:PasswordBindBehavior Password="{Binding Password.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                            </i:Interaction.Behaviors>
+                        </PasswordBox>
+                    </catel:StackGrid>
+                </catel:StackGrid>
+            </GroupBox>
+
+            <catel:StackGrid Visibility="{Binding InitialCatalog, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
+                <catel:StackGrid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </catel:StackGrid.ColumnDefinitions>
 
+                <TextBlock Text="Database:"/>
                 <ComboBox IsEditable="True"
-                      IsDropDownOpen="{Binding IsServerListVisible}"
-                      ItemsSource="{Binding Servers, IsAsync=True}"
-                      Text="{Binding DataSource.Value, UpdateSourceTrigger=PropertyChanged}" >
+                      IsDropDownOpen="{Binding IsDatabaseListVisible}"
+                      ItemsSource="{Binding Databases, IsAsync=True}"
+                      Text="{Binding InitialCatalog.Value, UpdateSourceTrigger=PropertyChanged}" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DropDownOpened">
-                            <catel:EventToCommand Command="{Binding InitServers}" DisableAssociatedObjectOnCannotExecute="True"/>
+                            <catel:EventToCommand Command="{Binding InitDatabases}"
+                                              DisableAssociatedObjectOnCannotExecute="True"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ComboBox>
 
                 <Button Style="{StaticResource RefreshButtonStyle}"
                     Content="Refresh"
-                    Command="{Binding RefreshServers}" 
-                    IsEnabled="{Binding IsServersRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
-
-            </catel:StackGrid>
-        </catel:StackGrid>
-
-        <GroupBox Header="Log on to the server"
-                  Visibility="{Binding CanLogOnToServer, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
-            <catel:StackGrid>
-                <catel:StackGrid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </catel:StackGrid.RowDefinitions>
-
-                <StackPanel Orientation="Vertical" Visibility="{Binding IntegratedSecurity, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
-                    <RadioButton x:Name="UseWindowsAuthenticationRadioButton"
-                             Content="Use Windows Authentication"
-                             IsChecked="{Binding IntegratedSecurityValue}"/>
-
-                    <RadioButton x:Name="UseSqlServerAuthenticationRadioButton"
-                             Content="Use SQL Server Authentication"
-                             IsChecked="{Binding IntegratedSecurityValue, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
-                </StackPanel>
-                
-                <catel:StackGrid Margin="25 0 0 0" IsEnabled="{Binding IsLogOnEnabled}">
-                    <catel:StackGrid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </catel:StackGrid.RowDefinitions>
-                    <catel:StackGrid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </catel:StackGrid.ColumnDefinitions>
-
-                    <TextBlock Text="User name" 
-                               Visibility="{Binding UserId, UpdateSourceTrigger=PropertyChanged, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
-                    <TextBox Text="{Binding UserId.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                             Visibility="{Binding UserId, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
-
-                    <TextBlock Text="Password" Visibility="{Binding Password, UpdateSourceTrigger=PropertyChanged, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
-                    <PasswordBox Visibility="{Binding Password, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
-                        <i:Interaction.Behaviors>
-                            <controls:PasswordBindBehavior Password="{Binding Password.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                        </i:Interaction.Behaviors>
-                    </PasswordBox>
-                </catel:StackGrid>
-            </catel:StackGrid>
-        </GroupBox>
-
-        <catel:StackGrid Visibility="{Binding InitialCatalog, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
-            <catel:StackGrid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </catel:StackGrid.ColumnDefinitions>
-
-            <TextBlock Text="Database:"/>
-            <ComboBox IsEditable="True"
-                      IsDropDownOpen="{Binding IsDatabaseListVisible}"
-                      ItemsSource="{Binding Databases, IsAsync=True}"
-                      Text="{Binding InitialCatalog.Value, UpdateSourceTrigger=PropertyChanged}" >
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="DropDownOpened">
-                        <catel:EventToCommand Command="{Binding InitDatabases}"
-                                              DisableAssociatedObjectOnCannotExecute="True"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </ComboBox>
-
-            <Button Style="{StaticResource RefreshButtonStyle}"
-                    Content="Refresh"
                     Command="{Binding RefreshDatabases}" 
                     IsEnabled="{Binding IsDatabasesRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
+            </catel:StackGrid>
         </catel:StackGrid>
 
-        <Grid>
+        <Grid VerticalAlignment="Bottom"
+              DockPanel.Dock="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
             <Button Content="Test connection"
                     BorderBrush ="{Binding ConnectionState, Converter={controls:ConnectionStateToColorBrushValueConverter}, UpdateSourceTrigger=PropertyChanged}"
                     Command="{Binding TestConnection}" 
                     ToolTip="{Binding ConnectionState, Mode=OneWay}"
                     HorizontalAlignment="Left"/>
-            <Button Content="Advanced..." Command="{Binding ShowAdvancedOptions}" HorizontalAlignment="Right"/>
+            
+            <Button Content="Advanced..."
+                    Command="{Binding ShowAdvancedOptions}"
+                    HorizontalAlignment="Right"/>
         </Grid>
-    </catel:StackGrid>
+    </DockPanel>
+    
 </catel:DataWindow>
 
  
