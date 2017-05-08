@@ -12,13 +12,45 @@
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)..\..\GlobalSuppressions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adorners\ResizingAdorner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\PasswordBindBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\Meridiems.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Converters\ConnectionStateToColorBrushValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Initializers\ConnectionStringBuilderServiceInitializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Initializers\Interfaces\IConnectionStringBuilderServiceInitializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Model\ConnectionState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Model\ConnectionStringProperty.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Model\SqlConnectionString.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Providers\Interfaces\IDataSourceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Providers\MsSqlDataSourceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Services\ConnectionStringBuilderService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Services\Interfaces\IConnectionStringBuilderService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\ViewModel\ConnectionStringAdvancedOptionsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\ViewModel\ConnectionStringBuilderViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\ViewModel\ConnectionStringEditViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringAdvancedOptionsWindow.xaml.cs">
+      <DependentUpon>ConnectionStringAdvancedOptionsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringBuilder.xaml.cs">
+      <DependentUpon>ConnectionStringBuilder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringEditWindow.xaml.cs">
+      <DependentUpon>ConnectionStringEditWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\Models\DateRange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\PredefinedDateRanges.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\ViewModels\DateRangePickerViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\Views\DateRangePicker.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>DateRangePicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\Model\DbProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\ViewModels\DbConnectionProviderListViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\ViewModels\DbProviderControlViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\Views\DbConnectionProviderListWindow.xaml.cs">
+      <DependentUpon>DbConnectionProviderListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\Views\DbProviderControl.xaml.cs">
+      <DependentUpon>DbProviderControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Controls\FilterBoxControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FrameRateCounter\FrameRateCounter.cs" />
@@ -144,6 +176,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\TimeSpanPart.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ColorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DependencyObjectExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\SqlConnectionStringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\TextBoxExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\TreeViewItemExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\WindowExtensions.cs" />
@@ -158,6 +191,34 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Controls\TabControl\Themes\TabControl.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Themes\ConnectionStringBuilder.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringAdvancedOptionsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringBuilder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\Views\DbConnectionProviderListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\Views\DbProviderControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Themes\FilterBox.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -211,10 +272,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\Expander\Themes\Expander.generic.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Themes\FilterBox.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -276,11 +333,18 @@
     <Folder Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Resources\Images\" />
     <Folder Include="$(MSBuildThisFileDirectory)Controls\TabControl\Themes\" />
     <Folder Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Commands\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Resources\" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Themes\PinnableToolTip.xaml">
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\Fonts\Consolas.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Resources\Images\Folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Images\Loading.gif" />
+    <None Include="$(MSBuildThisFileDirectory)Resources\Images\Thumbs.db" />
   </ItemGroup>
 </Project>
