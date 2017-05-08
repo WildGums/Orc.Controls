@@ -4,6 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:catel="http://catel.codeplex.com"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
     
     <catel:StackGrid>
@@ -12,7 +13,16 @@
             <ColumnDefinition Width="Auto"/>
         </catel:StackGrid.ColumnDefinitions>
         
-        <TextBox Text="{Binding DbProvider.Name}" IsReadOnly="True"/>
+        <TextBox Text="{Binding DbProvider.Name}" IsReadOnly="True">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <catel:EventToCommand Command="{Binding ChangeDbProvider}" 
+                                          PassEventArgsToCommand="False"
+                                          PreventInvocationIfAssociatedObjectIsDisabled="True" 
+                                          DisableAssociatedObjectOnCannotExecute="False" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
         <Button Command="{Binding ChangeDbProvider}" Content="Change..."/>
     </catel:StackGrid>
 </catel:UserControl>

@@ -6,32 +6,51 @@
                    xmlns:catel="http://catel.codeplex.com"
                    xmlns:controls="clr-namespace:Orc.Controls"
                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                  
-                  ResizeMode="CanResizeWithGrip"
+                   ResizeMode="NoResize"
                    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
     
-    <catel:DataWindow.Resources>
-        <Style x:Key="RefreshButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-            <Style.Triggers>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Trigger.Setters>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <controls:AnimatedGif Width="16" 
-                                                                      Height="16"
-                                                                      HorizontalAlignment="Center"
-                                                                      GifSource="/Resources/Images/Loading.gif" Margin="5" />
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Trigger.Setters>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </catel:DataWindow.Resources>
-
     <catel:StackGrid MinWidth="300">
+        <catel:StackGrid.Resources>
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                <Style.Setters>
+                    <Setter Property="Margin" Value="{DynamicResource DefaultThickness}"/>
+                    <Setter Property="MinWidth" Value="100"/>
+                    <Setter Property="MinHeight" Value="23"/>
+                </Style.Setters>
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                <Style.Setters>
+                    <Setter Property="Margin" Value="{DynamicResource DefaultThickness}"/>
+                </Style.Setters>
+            </Style>
+
+            <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource {x:Type GroupBox}}">
+                <Style.Setters>
+                    <Setter Property="Margin" Value="{DynamicResource DefaultThickness}"/>
+                </Style.Setters>
+            </Style>
+
+            <Style x:Key="RefreshButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Trigger.Setters>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <controls:AnimatedGif Width="16" 
+                                                              Height="16"
+                                                              HorizontalAlignment="Center"
+                                                              GifSource="/Resources/Images/Loading.gif" Margin="5" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger.Setters>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </catel:StackGrid.Resources>
+        
         <catel:StackGrid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -47,35 +66,38 @@
                 <ColumnDefinition Width="*"/>
             </catel:StackGrid.ColumnDefinitions>
 
+            <catel:StackGrid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </catel:StackGrid.RowDefinitions>
+
             <TextBlock Text="Provider:"/>
             <controls:DbProviderControl DbProvider="{Binding DbProvider, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
-        </catel:StackGrid>
+            <TextBlock Text="Server:" Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
+            <catel:StackGrid Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
+                <catel:StackGrid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </catel:StackGrid.ColumnDefinitions>
 
-        <catel:StackGrid Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
-            <catel:StackGrid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </catel:StackGrid.ColumnDefinitions>
-
-            <TextBlock Text="Server:"/>
-            <ComboBox IsEditable="True"
+                <ComboBox IsEditable="True"
                       IsDropDownOpen="{Binding IsServerListVisible}"
                       ItemsSource="{Binding Servers, IsAsync=True}"
                       Text="{Binding DataSource.Value, UpdateSourceTrigger=PropertyChanged}" >
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="DropDownOpened">
-                        <catel:EventToCommand Command="{Binding InitServers}" DisableAssociatedObjectOnCannotExecute="True"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </ComboBox>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="DropDownOpened">
+                            <catel:EventToCommand Command="{Binding InitServers}" DisableAssociatedObjectOnCannotExecute="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
 
-            <Button Style="{StaticResource RefreshButtonStyle}"
+                <Button Style="{StaticResource RefreshButtonStyle}"
                     Content="Refresh"
                     Command="{Binding RefreshServers}" 
                     IsEnabled="{Binding IsServersRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
+            </catel:StackGrid>
         </catel:StackGrid>
 
         <GroupBox Header="Log on to the server"
@@ -97,7 +119,6 @@
                              IsChecked="{Binding IntegratedSecurityValue, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
                 </StackPanel>
                 
-
                 <catel:StackGrid Margin="25 0 0 0" IsEnabled="{Binding IsLogOnEnabled}">
                     <catel:StackGrid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -156,7 +177,7 @@
                     Command="{Binding TestConnection}" 
                     ToolTip="{Binding ConnectionState, Mode=OneWay}"
                     HorizontalAlignment="Left"/>
-            <Button Content="Advanced Options" Command="{Binding ShowAdvancedOptions}" HorizontalAlignment="Right"/>
+            <Button Content="Advanced..." Command="{Binding ShowAdvancedOptions}" HorizontalAlignment="Right"/>
         </Grid>
     </catel:StackGrid>
 </catel:DataWindow>

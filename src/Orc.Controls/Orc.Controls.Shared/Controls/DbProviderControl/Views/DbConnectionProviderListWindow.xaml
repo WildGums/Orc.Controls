@@ -4,50 +4,43 @@
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                   xmlns:catel="http://catel.codeplex.com"
+                  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
     
     <catel:StackGrid>
         <catel:StackGrid.RowDefinitions>
-            <RowDefinition Height="300"/>
+            <RowDefinition MaxHeight="300" Height="*"/>
             <RowDefinition Height="Auto"/>
         </catel:StackGrid.RowDefinitions>
 
-        <UniformGrid Columns="2" Width="600">
+         <ListView ItemsSource="{Binding DbProviders}"
+                   SelectedItem="{Binding DbProvider, Mode=TwoWay}">
+             <i:Interaction.Triggers>
+                 <i:EventTrigger EventName="MouseDoubleClick">
+                     <catel:EventToCommand Command="{Binding Open}" 
+                                           DisableAssociatedObjectOnCannotExecute="False" />
+                 </i:EventTrigger>
+             </i:Interaction.Triggers>
+             
+             <ListView.ItemContainerStyle>
+                 <Style TargetType="{x:Type ListViewItem}">
+                     <Style.Setters>
+                         <Setter Property="ToolTip" Value="{Binding Description}"/>
+                     </Style.Setters>
+                 </Style>
+             </ListView.ItemContainerStyle>
 
-            <catel:StackGrid>
-                <catel:StackGrid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                </catel:StackGrid.RowDefinitions>
-                <TextBlock Text="Database providers"/>
-                
-                <ListView ItemsSource="{Binding DbProviders}"
-                     SelectedItem="{Binding DbProvider, Mode=TwoWay}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}"/>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </catel:StackGrid>
+             <ListView.ItemTemplate>
+                 <DataTemplate>
+                     <TextBlock Text="{Binding Name}"/>
+                 </DataTemplate>
+             </ListView.ItemTemplate>
+         </ListView>
 
-            <catel:StackGrid>
-                <catel:StackGrid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </catel:StackGrid.RowDefinitions>
-                <TextBlock Text="Description"/>
-
-                <TextBox Text="{Binding DbProvider.Description}"
-                     IsReadOnly="True"
-                     AcceptsReturn="True" 
-                     TextWrapping="Wrap"
-                     HorizontalAlignment="Stretch" 
-                     VerticalAlignment="Stretch"/>
-            </catel:StackGrid>
-        </UniformGrid>
-        
-        <Button Command="{Binding Refresh}" Content="Refresh" HorizontalAlignment="Right"/>
+        <Button Command="{Binding Refresh}" 
+                Width="100"
+                Content="Refresh" 
+                HorizontalAlignment="Right"/>
     </catel:StackGrid>
 </catel:DataWindow>
  

@@ -13,6 +13,7 @@ namespace Orc.Controls
     using System.Linq;
     using System.Threading.Tasks;
     using Catel.MVVM;
+    using Catel.Threading;
 
     public class DbConnectionProviderListViewModel : ViewModelBase
     {
@@ -22,6 +23,7 @@ namespace Orc.Controls
         {
             _selectedProvider = selectedProvider;
 
+            Open = new Command(OnOpen);
             Refresh = new Command(OnRefresh);
         }
 
@@ -30,12 +32,23 @@ namespace Orc.Controls
         public DbProvider DbProvider { get; set; }
         public IList<DbProvider> DbProviders { get; private set; }
         public Command Refresh { get; }
+        public Command Open { get; }
 
         protected override Task InitializeAsync()
         {
             OnRefresh();
 
             return base.InitializeAsync();
+        }
+
+        private void OnOpen()
+        {
+            if (DbProvider == null)
+            {
+                return;
+            }
+
+            TaskHelper.RunAndWaitAsync(async () => await CloseViewModelAsync(true));
         }
 
         private void OnRefresh()
