@@ -10,7 +10,7 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="FilterBox Control" VerticalAlignment="Center" Width="150"/>
-            <orc:FilterBoxControl Width="200" HorizontalAlignment="Left" PropertyName="Value"
+            <orc:FilterBoxControl Width="200" HorizontalAlignment="Left" PropertyName="Value" Margin="6,4,6,4"
                                   FilterSource="{Binding FilterSource}" Text="{Binding FilterText}" Watermark="Filter"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
