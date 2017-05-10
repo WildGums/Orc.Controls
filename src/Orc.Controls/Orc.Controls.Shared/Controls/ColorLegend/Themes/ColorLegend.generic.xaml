@@ -270,11 +270,6 @@
                                                         <CheckBox Content="Allow Color Edit" IsChecked="{Binding Path=AllowColorEditing, RelativeSource={RelativeSource TemplatedParent}}" />
                                                     </MenuItem.Header>
                                                 </MenuItem>
-                                                <MenuItem>
-                                                    <MenuItem.Header>
-                                                        <CheckBox Content="Use Regex search" IsChecked="{Binding Path=UseRegexFiltering, RelativeSource={RelativeSource TemplatedParent}}" />
-                                                    </MenuItem.Header>
-                                                </MenuItem>
                                             </ContextMenu>
                                         </controls:DropDownButton.DropDown>
                                     </controls:DropDownButton>
