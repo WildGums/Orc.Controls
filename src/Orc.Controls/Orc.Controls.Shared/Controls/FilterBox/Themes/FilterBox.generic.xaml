@@ -148,10 +148,10 @@
                             <TextBox x:Name="PART_FilterTextBox" 
                                      Padding="4,0,0,0"
                                      VerticalAlignment="Center"
-                                     Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Text, Mode=TwoWay}">
+                                     Text="{Binding Path=Text, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBoxControl}}}">
                                 <i:Interaction.Behaviors>
                                     <catel:UpdateBindingOnTextChanged UpdateDelay="750" />
-                                    <catel:AutoCompletion PropertyName ="{Binding PropertyName, Mode=OneWay}" ItemsSource="{Binding FilterSource}" />
+                                    <catel:AutoCompletion PropertyName ="{Binding PropertyName, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBoxControl}}}" ItemsSource="{Binding FilterSource}" />
                                     <catel:SelectTextOnFocus />
                                 </i:Interaction.Behaviors>
                             </TextBox>
@@ -160,7 +160,7 @@
                                     Grid.Column="1"
                                     Width="18"
                                     DockPanel.Dock="Right"
-                                    Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+                                    Visibility="{Binding Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBoxControl}}}"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
