@@ -60,7 +60,7 @@ namespace Orc.Controls
         public ConnectionStringProperty UserId => ConnectionString.TryGetProperty("User ID");
         public ConnectionStringProperty Password => ConnectionString.TryGetProperty("Password");
         public ConnectionStringProperty IntegratedSecurity => ConnectionString.TryGetProperty("Integrated Security");
-
+        
         public bool? IntegratedSecurityValue
         {
             get { return (bool?)IntegratedSecurity?.Value; }
@@ -145,7 +145,7 @@ namespace Orc.Controls
             _messageService.ShowAsync($"{ConnectionState} connection!", "Connection test result");
         }
 
-        private void OnSelectedServerChaged()
+        private void OnDataSourceChanged()
         {
             _isDatabasesInitialized = false;
             InitDatabases.RaiseCanExecuteChanged();

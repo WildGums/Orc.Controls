@@ -7,7 +7,7 @@
                   xmlns:controls="clr-namespace:Orc.Controls"
                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                   MinWidth="439" 
-                  MinHeight="379" 
+                  MinHeight="390" 
                   ResizeMode="CanResizeWithGrip"
                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
 
@@ -21,7 +21,7 @@
                 </Style.Setters>
             </Style>
 
-            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+            <Style TargetType="{x:Type Label}" BasedOn="{StaticResource {x:Type Label}}">
                 <Style.Setters>
                     <Setter Property="Margin" Value="{DynamicResource DefaultThickness}"/>
                 </Style.Setters>
@@ -71,10 +71,12 @@
                     <RowDefinition Height="Auto" />
                 </controls:StackGrid.RowDefinitions>
 
-                <TextBlock Text="Provider:"/>
-                <controls:DbProviderControl DbProvider="{Binding DbProvider, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <Label Content="Provider:"
+                       IsEnabled="{Binding IsServersRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
+                <controls:DbProviderControl DbProvider="{Binding DbProvider, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                            IsEnabled="{Binding IsServersRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
-                <TextBlock Text="Server:" Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
+                <Label Content="Server:" Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
                 <controls:StackGrid Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
                     <controls:StackGrid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -82,9 +84,9 @@
                     </controls:StackGrid.ColumnDefinitions>
 
                     <ComboBox IsEditable="True"
-                      IsDropDownOpen="{Binding IsServerListVisible}"
-                      ItemsSource="{Binding Servers, IsAsync=True}"
-                      Text="{Binding DataSource.Value, UpdateSourceTrigger=PropertyChanged}" >
+                              IsDropDownOpen="{Binding IsServerListVisible}"
+                              ItemsSource="{Binding Servers, IsAsync=True}"
+                              Text="{Binding DataSource.Value, UpdateSourceTrigger=PropertyChanged}" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="DropDownOpened">
                                 <catel:EventToCommand Command="{Binding InitServers}" DisableAssociatedObjectOnCannotExecute="True"/>
@@ -93,9 +95,9 @@
                     </ComboBox>
 
                     <Button Style="{StaticResource RefreshButtonStyle}"
-                    Content="Refresh"
-                    Command="{Binding RefreshServers}" 
-                    IsEnabled="{Binding IsServersRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
+                            Content="Refresh"
+                            Command="{Binding RefreshServers}" 
+                            IsEnabled="{Binding IsServersRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
                 </controls:StackGrid>
             </controls:StackGrid>
@@ -129,12 +131,12 @@
                             <ColumnDefinition Width="*"/>
                         </controls:StackGrid.ColumnDefinitions>
 
-                        <TextBlock Text="User name" 
+                        <Label Content="User name" 
                                Visibility="{Binding UserId, UpdateSourceTrigger=PropertyChanged, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
                         <TextBox Text="{Binding UserId.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                             Visibility="{Binding UserId, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
+                                 Visibility="{Binding UserId, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
 
-                        <TextBlock Text="Password" Visibility="{Binding Password, UpdateSourceTrigger=PropertyChanged, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
+                        <Label Content="Password" Visibility="{Binding Password, UpdateSourceTrigger=PropertyChanged, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
                         <PasswordBox Visibility="{Binding Password, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
                             <i:Interaction.Behaviors>
                                 <controls:PasswordBindBehavior Password="{Binding Password.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
@@ -144,18 +146,19 @@
                 </controls:StackGrid>
             </GroupBox>
 
-            <controls:StackGrid Visibility="{Binding InitialCatalog, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
+            <controls:StackGrid Visibility="{Binding InitialCatalog, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"
+                                IsEnabled="{Binding IsServersRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}">
                 <controls:StackGrid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </controls:StackGrid.ColumnDefinitions>
 
-                <TextBlock Text="Database:"/>
+                <Label Content="Database:"/>
                 <ComboBox IsEditable="True"
-                      IsDropDownOpen="{Binding IsDatabaseListVisible}"
-                      ItemsSource="{Binding Databases, IsAsync=True}"
-                      Text="{Binding InitialCatalog.Value, UpdateSourceTrigger=PropertyChanged}" >
+                          IsDropDownOpen="{Binding IsDatabaseListVisible}"
+                          ItemsSource="{Binding Databases, IsAsync=True}"
+                          Text="{Binding InitialCatalog.Value, UpdateSourceTrigger=PropertyChanged}" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DropDownOpened">
                             <catel:EventToCommand Command="{Binding InitDatabases}"
