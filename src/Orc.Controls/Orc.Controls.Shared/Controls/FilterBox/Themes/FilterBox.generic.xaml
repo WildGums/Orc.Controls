@@ -151,7 +151,8 @@
                                      Text="{Binding Path=Text, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBoxControl}}}">
                                 <i:Interaction.Behaviors>
                                     <catel:UpdateBindingOnTextChanged UpdateDelay="750" />
-                                    <catel:AutoCompletion PropertyName ="{Binding PropertyName, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBoxControl}}}" ItemsSource="{Binding FilterSource}" />
+                                    <catel:AutoCompletion PropertyName ="{Binding PropertyName, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBoxControl}}}" 
+                                                          ItemsSource="{Binding FilterSource, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBoxControl}}}" />
                                     <catel:SelectTextOnFocus />
                                 </i:Interaction.Behaviors>
                             </TextBox>
