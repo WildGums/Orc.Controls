@@ -657,16 +657,7 @@ namespace Orc.Controls
             {
                 _settingSelectedList = false;
             }
-        }
-
-        private string ConstructWildcardRegex(string pattern)
-        {
-            // Always add a wildcard at the end of the pattern
-            pattern = "*" + pattern.Trim('*') + "*";
-
-            // Make it case insensitive by default
-            return "(?i)^" + Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".") + "$";
-        }
+        }        
 
         protected IEnumerable<IColorLegendItem> GetFilteredItems()
         {
@@ -680,7 +671,7 @@ namespace Orc.Controls
 
             try
             {
-                var regex = new Regex(ConstructWildcardRegex(filter));
+                var regex = new Regex(filter.GetRegexStringFromSearchPattern());
                 return items.Where(cp => regex.IsMatch(cp.Description));
             }
             catch (Exception)

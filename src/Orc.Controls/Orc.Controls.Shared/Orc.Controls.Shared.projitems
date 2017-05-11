@@ -124,7 +124,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Extensions\LoggingExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Extensions\RichTextBoxExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Extensions\RichTextBoxParagraphExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Extensions\StringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Logging\LogViewerLogListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Models\LogRecord.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\ViewModels\LogViewerViewModel.cs" />
