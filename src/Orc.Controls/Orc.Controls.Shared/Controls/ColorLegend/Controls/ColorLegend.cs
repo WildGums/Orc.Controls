@@ -219,6 +219,7 @@ namespace Orc.Controls
         /// <summary>
         /// Property indicating whether search is performing using regex or not.
         /// </summary>
+        [ObsoleteEx(Message = "Will be removed", RemoveInVersion = "2.0", TreatAsErrorFromVersion = "1.0")]
         public static readonly DependencyProperty UseRegexFilteringProperty = DependencyProperty.Register("UseRegexFiltering",
             typeof (bool), typeof (ColorLegend), new PropertyMetadata(true));
 
