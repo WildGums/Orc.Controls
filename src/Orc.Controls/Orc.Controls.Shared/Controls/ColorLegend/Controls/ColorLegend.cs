@@ -207,6 +207,16 @@ namespace Orc.Controls
             typeof (bool), typeof (ColorLegend), new PropertyMetadata(false, (sender, e) => ((ColorLegend) sender).OnIsColorSelectingPropertyChanged()));
 
         /// <summary>
+        /// Gets or sets a value indicating whether regex is used when search is performed.
+        /// </summary>
+        [ObsoleteEx(Message = "Will be removed", RemoveInVersion = "2.0", TreatAsErrorFromVersion = "1.0")]
+        public bool UseRegexFiltering
+        {
+            get { return (bool) GetValue(UseRegexFilteringProperty); }
+            set { SetValue(UseRegexFilteringProperty, value); }
+        }
+
+        /// <summary>
         /// Property indicating whether search is performing using regex or not.
         /// </summary>
         public static readonly DependencyProperty UseRegexFilteringProperty = DependencyProperty.Register("UseRegexFiltering",
@@ -671,7 +681,7 @@ namespace Orc.Controls
 
             try
             {
-                var regex = new Regex(filter.GetRegexStringFromSearchPattern());
+                var regex = UseRegexFiltering ? new Regex(filter) : new Regex(filter.GetRegexStringFromSearchPattern());
                 return items.Where(cp => regex.IsMatch(cp.Description));
             }
             catch (Exception)
