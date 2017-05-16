@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Controls.Services
+namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;

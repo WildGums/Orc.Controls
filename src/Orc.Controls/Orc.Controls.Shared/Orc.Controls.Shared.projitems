@@ -43,6 +43,8 @@
       <SubType>Code</SubType>
       <DependentUpon>DateRangePicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\Services\Interfaces\ISuggestionListService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\Services\SuggestionListService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\Model\DbProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\ViewModels\DbConnectionProviderListViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\ViewModels\DbProviderControlViewModel.cs" />
@@ -112,8 +114,6 @@
       <DependentUpon>DropDownButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Expander\Expander.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Services\Interfaces\ISuggestionListService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Services\SuggestionListService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\HeaderBar\HeaderBar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\Behaviors\LinkLabelBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\Behaviors\LinkLabelClickBehavior.cs" />
