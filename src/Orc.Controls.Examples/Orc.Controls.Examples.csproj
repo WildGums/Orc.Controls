@@ -108,6 +108,7 @@
     <Compile Include="Logging\ExampleLogListener.cs" />
     <Compile Include="Models\CultureFormat.cs" />
     <Compile Include="ModuleInitializer.cs" />
+    <Compile Include="Services\ReverseAutoCompletionService.cs" />
     <Compile Include="ViewModels\AnimatedGifViewModel.cs" />
     <Compile Include="ViewModels\BindableRichTextBoxViewModel.cs" />
     <Compile Include="ViewModels\ColorLegendViewModel.cs" />

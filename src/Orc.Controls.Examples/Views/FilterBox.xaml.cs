@@ -7,11 +7,19 @@
 
 namespace Orc.Controls.Examples.Views
 {
+    using Catel.IoC;
+    using Services;
+
     public partial class FilterBox
     {
         public FilterBox()
         {
             InitializeComponent();
+        }
+
+        private void FilterBoxControl_OnInitializingAutoCompletionService(object sender, Controls.InitializingAutoCompletionServiceEventArgs e)
+        {
+            e.AutoCompletionService = this.GetTypeFactory().CreateInstance<ReverseAutoCompletionService>();
         }
     }
 }
