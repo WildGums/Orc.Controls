@@ -183,7 +183,7 @@
             <views:PinnableToolTip />
         </TabItem>
 
-        <TabItem Header="SaveFilePickerView">
+        <TabItem Header="SaveFilePicker">
             <views:SaveFilePickerView />
         </TabItem>
 

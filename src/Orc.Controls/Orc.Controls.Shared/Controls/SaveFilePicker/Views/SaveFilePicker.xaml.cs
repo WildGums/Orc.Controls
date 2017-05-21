@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SaveFilePickerView.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+// <copyright file="SaveFilePicker.xaml.cs" company="WildGums">
+//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -11,21 +11,20 @@ namespace Orc.Controls
     using Catel.MVVM.Views;
 
     /// <summary>
-    ///     Interaction logic for SaveFilePickerView.xaml
+    ///     Interaction logic for SaveFilePicker.xaml
     /// </summary>
-    [ObsoleteEx(TreatAsErrorFromVersion = "1.4", RemoveInVersion = "2.0")]
-    public partial class SaveFilePickerView
+    public partial class SaveFilePicker
     {
-        static SaveFilePickerView()
+        static SaveFilePicker()
         {
-            typeof (SaveFilePickerView).AutoDetectViewPropertiesToSubscribe();
+            typeof (SaveFilePicker).AutoDetectViewPropertiesToSubscribe();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SaveFilePickerView"/> class.
+        /// Initializes a new instance of the <see cref="SaveFilePicker"/> class.
         /// </summary>
         /// <remarks>This method is required for design time support.</remarks>
-        public SaveFilePickerView()
+        public SaveFilePicker()
         {
             InitializeComponent();
         }
@@ -39,7 +38,7 @@ namespace Orc.Controls
         }
 
         // Using a DependencyProperty as the backing store for LabelWidth.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty LabelWidthProperty = DependencyProperty.Register("LabelWidth", typeof (double), typeof (SaveFilePickerView), new PropertyMetadata(125d));
+        public static readonly DependencyProperty LabelWidthProperty = DependencyProperty.Register("LabelWidth", typeof (double), typeof (SaveFilePicker), new PropertyMetadata(125d));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string LabelText
@@ -50,7 +49,7 @@ namespace Orc.Controls
 
         // Using a DependencyProperty as the backing store for LabelText.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LabelTextProperty =
-            DependencyProperty.Register("LabelText", typeof (string), typeof (SaveFilePickerView), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("LabelText", typeof (string), typeof (SaveFilePicker), new PropertyMetadata(string.Empty));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string SelectedFile
@@ -61,7 +60,7 @@ namespace Orc.Controls
 
         // Using a DependencyProperty as the backing store for SelectedFile.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedFileProperty = DependencyProperty.Register("SelectedFile", typeof (string),
-            typeof (SaveFilePickerView), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            typeof (SaveFilePicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string Filter
@@ -72,7 +71,7 @@ namespace Orc.Controls
 
         // Using a DependencyProperty as the backing store for Filter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FilterProperty = DependencyProperty.Register("Filter", typeof (string),
-            typeof (SaveFilePickerView), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            typeof (SaveFilePicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
     }
 }
