@@ -107,7 +107,11 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Services\MicrosoftApiSelectDirectoryService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\ViewModels\DirectoryPickerViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPickerView.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPicker.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>DirectoryPicker.xaml</DependentUpon>
+    </Compile>
+	<Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPickerView.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>DirectoryPickerView.xaml</DependentUpon>
     </Compile>
@@ -267,6 +271,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\Views\DateTimePickerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Page Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
