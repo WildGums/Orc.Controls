@@ -175,7 +175,7 @@
             <views:LogViewer />
         </TabItem>
 
-        <TabItem Header="OpenFilePickerView">
+        <TabItem Header="OpenFilePicker">
             <views:OpenFilePickerView />
         </TabItem>
 

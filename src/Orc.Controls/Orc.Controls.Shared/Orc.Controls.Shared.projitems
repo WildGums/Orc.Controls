@@ -139,6 +139,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\ViewModels\OpenFilePickerViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
+	<Compile Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePicker.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>OpenFilePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePickerView.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>OpenFilePickerView.xaml</DependentUpon>
@@ -294,6 +298,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Views\LogViewerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Page Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
