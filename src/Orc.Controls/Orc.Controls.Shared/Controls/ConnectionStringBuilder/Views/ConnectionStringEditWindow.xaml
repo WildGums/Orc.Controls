@@ -1,4 +1,4 @@
-﻿<catel:DataWindow x:Class="Orc.Controls.ConnectionStringEditWindow"
+<catel:DataWindow x:Class="Orc.Controls.ConnectionStringEditWindow"
                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -71,12 +71,12 @@
                     <RowDefinition Height="Auto" />
                 </controls:StackGrid.RowDefinitions>
 
-                <Label Content="Provider:"
+                <Label Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_Label_Content_Provider}"
                        IsEnabled="{Binding IsServersRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
                 <controls:DbProviderControl DbProvider="{Binding DbProvider, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                             IsEnabled="{Binding IsServersRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
-                <Label Content="Server:" Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
+                <Label Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_Label_Content_Server}" Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
                 <controls:StackGrid Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
                     <controls:StackGrid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -95,14 +95,14 @@
                     </ComboBox>
 
                     <Button Style="{StaticResource RefreshButtonStyle}"
-                            Content="Refresh"
+                            Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_Button_Content_Refresh}"
                             Command="{Binding RefreshServers}" 
                             IsEnabled="{Binding IsServersRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
                 </controls:StackGrid>
             </controls:StackGrid>
 
-            <GroupBox Header="Log on to the server"
+            <GroupBox Header="{catel:LanguageBinding Controls_ConnectionStringEditWindow_GroupBox_Header_LogOnToTheServer}"
                   Visibility="{Binding CanLogOnToServer, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
                 <controls:StackGrid>
                     <controls:StackGrid.RowDefinitions>
@@ -113,11 +113,11 @@
 
                     <StackPanel Orientation="Vertical" Visibility="{Binding IntegratedSecurity, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
                         <RadioButton x:Name="UseWindowsAuthenticationRadioButton"
-                             Content="Use Windows Authentication"
+                             Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_RadioButton_Content_UseWindowsAuthentication}"
                              IsChecked="{Binding IntegratedSecurityValue}"/>
 
                         <RadioButton x:Name="UseSqlServerAuthenticationRadioButton"
-                             Content="Use SQL Server Authentication"
+                             Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_RadioButton_Content_UseSQLServerAuthentication}"
                              IsChecked="{Binding IntegratedSecurityValue, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
                     </StackPanel>
 
@@ -131,12 +131,12 @@
                             <ColumnDefinition Width="*"/>
                         </controls:StackGrid.ColumnDefinitions>
 
-                        <Label Content="User name" 
+                        <Label Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_Label_Content_UserName}" 
                                Visibility="{Binding UserId, UpdateSourceTrigger=PropertyChanged, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
                         <TextBox Text="{Binding UserId.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  Visibility="{Binding UserId, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
 
-                        <Label Content="Password" Visibility="{Binding Password, UpdateSourceTrigger=PropertyChanged, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
+                        <Label Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_Label_Content_Password}" Visibility="{Binding Password, UpdateSourceTrigger=PropertyChanged, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
                         <PasswordBox Visibility="{Binding Password, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
                             <i:Interaction.Behaviors>
                                 <controls:PasswordBindBehavior Password="{Binding Password.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
@@ -154,7 +154,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </controls:StackGrid.ColumnDefinitions>
 
-                <Label Content="Database:"/>
+                <Label Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_Label_Content_Database}"/>
                 <ComboBox IsEditable="True"
                           IsDropDownOpen="{Binding IsDatabaseListVisible}"
                           ItemsSource="{Binding Databases, IsAsync=True}"
@@ -168,7 +168,7 @@
                 </ComboBox>
 
                 <Button Style="{StaticResource RefreshButtonStyle}"
-                    Content="Refresh"
+                    Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_Button_Content_Refresh}"
                     Command="{Binding RefreshDatabases}" 
                     IsEnabled="{Binding IsDatabasesRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
@@ -181,13 +181,13 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             
-            <Button Content="Test connection"
+            <Button Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_Button_Content_TestConnection}"
                     BorderBrush ="{Binding ConnectionState, Converter={controls:ConnectionStateToColorBrushValueConverter}, UpdateSourceTrigger=PropertyChanged}"
                     Command="{Binding TestConnection}" 
                     ToolTip="{Binding ConnectionState, Mode=OneWay}"
                     HorizontalAlignment="Left"/>
             
-            <Button Content="Advanced..."
+            <Button Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_Button_Content_Advanced}"
                     Command="{Binding ShowAdvancedOptions}"
                     HorizontalAlignment="Right"/>
         </Grid>

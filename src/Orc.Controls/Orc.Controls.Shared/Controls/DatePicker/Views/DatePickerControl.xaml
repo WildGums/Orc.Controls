@@ -1,4 +1,4 @@
-﻿<catel:UserControl x:Class="Orc.Controls.DatePickerControl"
+<catel:UserControl x:Class="Orc.Controls.DatePickerControl"
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -40,7 +40,7 @@
                     <TextBlock Grid.Column="1" x:Name="Separator1" Text="/" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="1" x:Name="ToggleButtonD" Tag="{x:Static controls:DateTimePart.Day}"
                                   Style="{DynamicResource DatePickerLetterToggleButtonStyle}"
-                                  Checked="ToggleButton_OnChecked" Content="d"
+                                  Checked="ToggleButton_OnChecked" Content="{catel:LanguageBinding Controls_DatePickerControl_ToggleButton_Content_DayAbbreviation}"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
 
                     <controls:NumericTextBox x:Name="NumericTBMonth" Grid.Column="2" Value="{Binding Month, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=PropertyChanged}"
@@ -49,13 +49,13 @@
                     <TextBlock Grid.Column="3" x:Name="Separator2" Text="/" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="3" x:Name="ToggleButtonMo" Tag="{x:Static controls:DateTimePart.Month}"
                                   Style="{DynamicResource DatePickerLetterToggleButtonStyle}"
-                                  Checked="ToggleButton_OnChecked" Content="m"
+                                  Checked="ToggleButton_OnChecked" Content="{catel:LanguageBinding Controls_DatePickerControl_ToggleButton_Content_MonthAbbreviation}"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
 
                     <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Value="{Binding Year, Converter={StaticResource YearLongToYearShortConverter}, TargetNullValue={x:Static sys:String.Empty}}" MinValue="1" MaxValue="3000"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
                     <TextBlock Grid.Column="5" x:Name="Separator3" Text="" Style="{DynamicResource RatioSignStyle}" />
-                    <ToggleButton Grid.Column="5" x:Name="ToggleButtonY" Tag="{x:Static controls:DateTimePart.Year}" Content="y"
+                    <ToggleButton Grid.Column="5" x:Name="ToggleButtonY" Tag="{x:Static controls:DateTimePart.Year}" Content="{catel:LanguageBinding Controls_DatePickerControl_ToggleButton_Content_YearAbbreviation}"
                                   Style="{DynamicResource DatePickerLetterToggleButtonStyle}"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
 
@@ -70,20 +70,20 @@
                         <Border BorderBrush="Gray" BorderThickness="1"
                                 Style="{DynamicResource DatePickerBorderStyle}">
                             <StackPanel Background="White">
-                                <Button x:Name="TodayButton" Content="Today" Click="OnTodayButtonClick" Style="{DynamicResource PopupButtonStyle}"
+                                <Button x:Name="TodayButton" Content="{catel:LanguageBinding Controls_DatePickerControl_Button_Content_Today}" Click="OnTodayButtonClick" Style="{DynamicResource PopupButtonStyle}"
                                         IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
-                                <Button x:Name="SelectDateButton" Content="Select date" Click="OnSelectDateButtonClick" Style="{DynamicResource PopupButtonStyle}"
+                                <Button x:Name="SelectDateButton" Content="{catel:LanguageBinding Controls_DatePickerControl_Button_Content_SelectDate}" Click="OnSelectDateButtonClick" Style="{DynamicResource PopupButtonStyle}"
                                         IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
                                 <Separator Style="{x:Null}"
                                            Visibility="{Binding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
-                                <Button x:Name="ClearButton" Content="Clear" Click="OnClearButtonClick" Style="{DynamicResource PopupButtonStyle}"
+                                <Button x:Name="ClearButton" Content="{catel:LanguageBinding Controls_DatePickerControl_Button_Content_Clear}" Click="OnClearButtonClick" Style="{DynamicResource PopupButtonStyle}"
                                         IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"
                                         Visibility="{Binding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
                                 <Separator Style="{x:Null}"
                                            Visibility="{Binding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
-                                <Button x:Name="CopyButton" Content="Copy" Click="OnCopyButtonClick" Style="{DynamicResource PopupButtonStyle}"
+                                <Button x:Name="CopyButton" Content="{catel:LanguageBinding Controls_DatePickerControl_Button_Content_Copy}" Click="OnCopyButtonClick" Style="{DynamicResource PopupButtonStyle}"
                                         Visibility="{Binding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
-                                <Button x:Name="PasteButton" Content="Paste" Click="OnPasteButtonClick" Style="{DynamicResource PopupButtonStyle}"
+                                <Button x:Name="PasteButton" Content="{catel:LanguageBinding Controls_DatePickerControl_Button_Content_Paste}" Click="OnPasteButtonClick" Style="{DynamicResource PopupButtonStyle}"
                                         IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"
                                         Visibility="{Binding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePickerControl}}}"/>
                             </StackPanel>
