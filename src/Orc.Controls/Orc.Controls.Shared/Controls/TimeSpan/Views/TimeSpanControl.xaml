@@ -1,4 +1,4 @@
-﻿<catel:UserControl x:Class="Orc.Controls.TimeSpanControl"
+<catel:UserControl x:Class="Orc.Controls.TimeSpanControl"
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -30,24 +30,24 @@
                 <controls:NumericTextBox x:Name="NumericTBDays" Value="{Binding Days, TargetNullValue={x:Static sys:String.Empty}}" MinValue="0" MaxValue="100"
                                          IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanControl}}}"/>
                 <TextBlock x:Name="Separator1" Grid.Column="1" Text="." Style="{StaticResource RatioSignStyle}" />
-                <TextBlock x:Name="TextBlockD" Grid.Column="1" Text="d"
+                <TextBlock x:Name="TextBlockD" Grid.Column="1" Text="{catel:LanguageBinding Controls_TimeSpanControl_TextBlock_Text_DaysAbbreviation}"
                            Tag="{x:Static controls:TimeSpanPart.Days}" Style="{StaticResource LettersStyle}" />
 
                 <controls:NumericTextBox x:Name="NumericTBHours" Grid.Column="2" Value="{Binding Hours, TargetNullValue={x:Static sys:String.Empty}}" MaxValue="23" MinValue="0"
                                          IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanControl}}}"/>
                 <TextBlock x:Name="Separator2" Grid.Column="3" Text=":" Style="{StaticResource RatioSignStyle}" />
-                <TextBlock x:Name="TextBlockH" Grid.Column="3" Text="h" 
+                <TextBlock x:Name="TextBlockH" Grid.Column="3" Text="{catel:LanguageBinding Controls_TimeSpanControl_TextBlock_Text_HoursAbbreviation}" 
                            Tag="{x:Static controls:TimeSpanPart.Hours}" Style="{StaticResource LettersStyle}" />
 
                 <controls:NumericTextBox x:Name="NumericTBMinutes" Grid.Column="4" Value="{Binding Minutes, TargetNullValue={x:Static sys:String.Empty}}" MaxValue="59" MinValue="0"
                                          IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanControl}}}"/>
                 <TextBlock x:Name="Separator3" Grid.Column="5" Text=":" Style="{StaticResource RatioSignStyle}" />
-                <TextBlock x:Name="TextBlockM" Grid.Column="5" Text="m" 
+                <TextBlock x:Name="TextBlockM" Grid.Column="5" Text="{catel:LanguageBinding Controls_TimeSpanControl_TextBlock_Text_MinutesAbbreviation}" 
                            Tag="{x:Static controls:TimeSpanPart.Minutes}" Style="{StaticResource LettersStyle}" />
 
                 <controls:NumericTextBox x:Name="NumericTBSeconds" Grid.Column="6" Value="{Binding Seconds, TargetNullValue={x:Static sys:String.Empty}}" MaxValue="59" MinValue="0"
                                          IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanControl}}}"/>
-                <TextBlock x:Name="TextBlockS" Grid.Column="7" Text="s" 
+                <TextBlock x:Name="TextBlockS" Grid.Column="7" Text="{catel:LanguageBinding Controls_TimeSpanControl_TextBlock_Text_SecondsAbbreviation}" 
                            Tag="{x:Static controls:TimeSpanPart.Seconds}" Style="{StaticResource LettersStyle}" />
             </Grid>
         </Border>

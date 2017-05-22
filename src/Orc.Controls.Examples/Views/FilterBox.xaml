@@ -23,7 +23,7 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="FilterBox Control (Reverse)" VerticalAlignment="Center" Width="150"/>
                 <orc:FilterBoxControl Width="200" HorizontalAlignment="Left" PropertyName="Value" Margin="6,4,6,4"
-                                      FilterSource="{Binding FilterSource}" Text="{Binding CustomServiceFilterText}" Watermark="Filter" InitializingAutoCompletionService="FilterBoxControl_OnInitializingAutoCompletionService"/>
+                                      FilterSource="{Binding FilterSource}" Text="{Binding CustomServiceFilterText}" Watermark="Filter" InitializingAutoCompletionService="OnFilterBoxControlInitializingAutoCompletionService"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Filtered Text" VerticalAlignment="Center" Width="150" />
