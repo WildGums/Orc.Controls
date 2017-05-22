@@ -30,6 +30,7 @@ namespace Orc.Controls.Examples.ViewModels
         #region Properties
         public List<KeyValuePair<string, string>> FilterSource { get; private set; }
         public string FilterText { get; set; }
+        public string CustomServiceFilterText { get; set; }
         #endregion
     }
 }

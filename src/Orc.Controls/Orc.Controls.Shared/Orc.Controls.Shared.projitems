@@ -55,6 +55,7 @@
       <DependentUpon>DbProviderControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Controls\FilterBoxControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\EventArgs\InitializingAutoCompletionServiceEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FrameRateCounter\FrameRateCounter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ListTextBox\ListTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\StackGrid\EmptyCell.cs" />
