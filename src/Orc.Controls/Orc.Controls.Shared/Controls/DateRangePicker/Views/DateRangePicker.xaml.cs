@@ -100,23 +100,33 @@ namespace Orc.Controls
             typeof(DateRangePicker), new FrameworkPropertyMetadata(true));
 
 			
-        public string DateTimeFormat
+        public string Format
         {
-            get { return (string)GetValue(DateTimeFormatProperty); }
-            set { SetValue(DateTimeFormatProperty, value); }
+            get { return (string)GetValue(FormatProperty); }
+            set { SetValue(FormatProperty, value); }
         }
 
-        public static readonly DependencyProperty DateTimeFormatProperty = DependencyProperty.Register("DateTimeFormat", typeof(string),
+        public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof(string),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern));
 
-			
-        public bool DateTimeHideSeconds
+
+        public bool HideTime
         {
-            get { return (bool)GetValue(DateTimeHideSecondsProperty); }
-            set { SetValue(DateTimeHideSecondsProperty, value); }
+            get { return (bool)GetValue(HideTimeProperty); }
+            set { SetValue(HideTimeProperty, value); }
         }
 
-        public static readonly DependencyProperty DateTimeHideSecondsProperty = DependencyProperty.Register("DateTimeHideSeconds", typeof(bool),
+        public static readonly DependencyProperty HideTimeProperty = DependencyProperty.Register("HideTime", typeof(bool),
+            typeof(DateRangePicker), new FrameworkPropertyMetadata(false));
+
+
+        public bool HideSeconds
+        {
+            get { return (bool)GetValue(HideSecondsProperty); }
+            set { SetValue(HideSecondsProperty, value); }
+        }
+
+        public static readonly DependencyProperty HideSecondsProperty = DependencyProperty.Register("HideSeconds", typeof(bool),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(false));
 
 			
