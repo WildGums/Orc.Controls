@@ -20,6 +20,7 @@
                 SelectedRange="{Binding SelectedRange}"
                 AllowCopyPaste="{Binding IsChecked, ElementName=allowCopyPasteCheckbox}"
                 DateTimeFormat="yyyy-MM-dd HH:mm:ss"
+                HideTime="{Binding IsChecked, ElementName=hideTimeCheckbox}"
                 DateTimeHideSeconds="{Binding IsChecked, ElementName=hideSecondsCheckbox}"
                 ShowOptionsButton="{Binding IsChecked, ElementName=showOptionsButtonCheckbox}"
                 IsReadOnly="{Binding IsChecked, ElementName=isReadOnlyCheckbox}"/>
@@ -34,6 +35,7 @@
             <TextBlock Text="DateTimePicker Options" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150"/>
             <StackPanel Orientation="Horizontal">
                 <CheckBox x:Name="allowCopyPasteCheckbox" Content="Allow copy/paste" IsChecked="True" />
+                <CheckBox x:Name="hideTimeCheckbox" Content="Hide time" IsChecked="False" />
                 <CheckBox x:Name="hideSecondsCheckbox" Content="Hide seconds" IsChecked="False" />
                 <CheckBox x:Name="showOptionsButtonCheckbox" Content="Show options button" IsChecked="True"/>
             </StackPanel>

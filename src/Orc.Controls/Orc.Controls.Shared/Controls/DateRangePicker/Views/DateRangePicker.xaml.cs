@@ -109,7 +109,15 @@ namespace Orc.Controls
         public static readonly DependencyProperty DateTimeFormatProperty = DependencyProperty.Register("DateTimeFormat", typeof(string),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern));
 
-			
+        public bool HideTime
+        {
+            get { return (bool)GetValue(HideTimeProperty); }
+            set { SetValue(HideTimeProperty, value); }
+        }
+
+        public static readonly DependencyProperty HideTimeProperty = DependencyProperty.Register("HideTime", typeof(bool),
+            typeof(DateRangePicker), new FrameworkPropertyMetadata(false));
+
         public bool DateTimeHideSeconds
         {
             get { return (bool)GetValue(DateTimeHideSecondsProperty); }

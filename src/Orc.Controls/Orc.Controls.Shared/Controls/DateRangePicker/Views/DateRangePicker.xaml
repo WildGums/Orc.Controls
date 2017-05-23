@@ -26,6 +26,7 @@
             AllowNull="False"
             AllowCopyPaste="{Binding AllowCopyPaste, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
             Format="{Binding DateTimeFormat, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
+            HideTime="{Binding HideTime, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
             HideSeconds="{Binding DateTimeHideSeconds, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
             IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
             ShowOptionsButton="{Binding ShowOptionsButton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"/>
@@ -45,6 +46,7 @@
             AllowNull="False"
             AllowCopyPaste="{Binding AllowCopyPaste, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
             Format="{Binding DateTimeFormat, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
+            HideTime="{Binding HideTime, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
             HideSeconds="{Binding DateTimeHideSeconds, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
             IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
             ShowOptionsButton="{Binding ShowOptionsButton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"/>
