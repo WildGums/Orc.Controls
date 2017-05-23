@@ -19,9 +19,9 @@
                 Ranges="{Binding Ranges}"
                 SelectedRange="{Binding SelectedRange}"
                 AllowCopyPaste="{Binding IsChecked, ElementName=allowCopyPasteCheckbox}"
-                DateTimeFormat="yyyy-MM-dd HH:mm:ss"
+                Format="yyyy-MM-dd HH:mm:ss"
                 HideTime="{Binding IsChecked, ElementName=hideTimeCheckbox}"
-                DateTimeHideSeconds="{Binding IsChecked, ElementName=hideSecondsCheckbox}"
+                HideSeconds="{Binding IsChecked, ElementName=hideSecondsCheckbox}"
                 ShowOptionsButton="{Binding IsChecked, ElementName=showOptionsButtonCheckbox}"
                 IsReadOnly="{Binding IsChecked, ElementName=isReadOnlyCheckbox}"/>
         </StackPanel>
