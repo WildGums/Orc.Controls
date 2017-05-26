@@ -105,6 +105,7 @@
     <Compile Include="..\GlobalSuppressions.cs">
       <Link>Properties\GlobalSuppressions.cs</Link>
     </Compile>
+    <Compile Include="FontAwesome.cs" />
     <Compile Include="Logging\ExampleLogListener.cs" />
     <Compile Include="Models\CultureFormat.cs" />
     <Compile Include="ModuleInitializer.cs" />
@@ -304,6 +305,7 @@
     </Compile>
     <None Include="packages.config" />
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\Fonts\fontawesome-webfont.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -332,6 +334,9 @@
       <Project>{e6ce2111-3d7c-4759-a886-e44ec77ce3aa}</Project>
       <Name>Orc.Controls.NET40</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\lib\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\lib\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

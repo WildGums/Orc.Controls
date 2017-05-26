@@ -13,8 +13,32 @@ namespace Orc.Controls
     using System.Windows.Input;
     using System.Windows.Media;
     using Catel;
-    using Catel.MVVM.Views;
-    using Microsoft.WindowsAPICodePack.Shell;
+
+    /// <summary>
+    /// The arrow location.
+    /// </summary>
+    public enum DropdownArrowLocation
+    {
+        /// <summary>
+        /// The left arrow location
+        /// </summary>
+        Left,
+
+        /// <summary>
+        /// The top arrow location
+        /// </summary>
+        Top,
+
+        /// <summary>
+        /// The right arrow location
+        /// </summary>
+        Right,
+
+        /// <summary>
+        /// The bottom arrow location
+        /// </summary>
+        Bottom
+    }
 
     /// <summary>
     /// Interaction logic for DropDownButton.xaml
@@ -31,6 +55,22 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
+        public DropdownArrowLocation ArrowLocation
+        {
+            get { return (DropdownArrowLocation) GetValue(ArrowLocationProperty); }
+            set { SetValue(ArrowLocationProperty, value); }
+        }
+
+        public static readonly DependencyProperty ArrowLocationProperty = DependencyProperty.Register("ArrowLocation", typeof(DropdownArrowLocation), typeof(DropDownButton), new PropertyMetadata(DropdownArrowLocation.Right));
+
+        public Thickness ArrowMargin
+        {
+            get { return (Thickness) GetValue(ArrowMarginProperty); }
+            set { SetValue(ArrowMarginProperty, value); }
+        }
+
+        public static readonly DependencyProperty ArrowMarginProperty = DependencyProperty.Register("ArrowMargin", typeof(Thickness), typeof(DropDownButton), new PropertyMetadata(default(Thickness)));
+
         public object Header
         {
             get { return (object)GetValue(HeaderProperty); }

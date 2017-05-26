@@ -54,6 +54,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\Views\DbProviderControl.xaml.cs">
       <DependentUpon>DbProviderControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DropDownButton\Converters\DropdownArrowLocationConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Controls\FilterBoxControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\EventArgs\InitializingAutoCompletionServiceEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FrameRateCounter\FrameRateCounter.cs" />
@@ -333,6 +334,7 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\Extensions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Resources\Images\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Controls\DropDownButton\Converters\" />
     <Folder Include="$(MSBuildThisFileDirectory)Controls\TabControl\Themes\" />
     <Folder Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Commands\" />
   </ItemGroup>
