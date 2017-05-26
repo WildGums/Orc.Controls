@@ -7,13 +7,16 @@
 
 namespace Orc.Controls.Examples
 {
+    using System;
     using System.Globalization;
     using System.Windows;
+    using System.Windows.Media;
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Services;
     using Orchestra;
     using Logging;
+    using Orchestra.Markup;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -34,6 +37,11 @@ namespace Orc.Controls.Examples
 
             // Some test logging, but important to load the assembly first
             var externalTypeToForceAssemblyLoad = typeof (LogViewerLogListener);
+
+            FontImage.RegisterFont("FontAwesome", new FontFamily(new Uri("pack://application:,,,/Orc.Controls.Examples;component/Resources/Fonts/", UriKind.RelativeOrAbsolute), "./#FontAwesome"));
+
+            FontImage.DefaultFontFamily = "FontAwesome";
+
 
             Log.Info("Starting application");
             Log.Info("This log message should show up as debug");
