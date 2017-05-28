@@ -9,6 +9,12 @@
             <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
         </Style.Setters>
     </Style>
+	
+	<Style x:Key="DefaultDateTimePickerStyle" TargetType="{x:Type controls:DateTimePicker}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
+        </Style.Setters>
+    </Style>
 
     <Style x:Key="DefaultDatePickerControlStyle" TargetType="{x:Type controls:DatePickerControl}">
         <Style.Setters>

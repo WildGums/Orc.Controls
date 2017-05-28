@@ -515,6 +515,123 @@ namespace Orc.Controls.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Clear.
         /// </summary>
+        internal static string Controls_DateTimePicker_Button_Content_Clear {
+            get {
+                return ResourceManager.GetString("Controls_DateTimePicker_Button_Content_Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        internal static string Controls_DateTimePicker_Button_Content_Copy {
+            get {
+                return ResourceManager.GetString("Controls_DateTimePicker_Button_Content_Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Now.
+        /// </summary>
+        internal static string Controls_DateTimePicker_Button_Content_Now {
+            get {
+                return ResourceManager.GetString("Controls_DateTimePicker_Button_Content_Now", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste.
+        /// </summary>
+        internal static string Controls_DateTimePicker_Button_Content_Paste {
+            get {
+                return ResourceManager.GetString("Controls_DateTimePicker_Button_Content_Paste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select date.
+        /// </summary>
+        internal static string Controls_DateTimePicker_Button_Content_SelectDate {
+            get {
+                return ResourceManager.GetString("Controls_DateTimePicker_Button_Content_SelectDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Today.
+        /// </summary>
+        internal static string Controls_DateTimePicker_Button_Content_Today {
+            get {
+                return ResourceManager.GetString("Controls_DateTimePicker_Button_Content_Today", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to t.
+        /// </summary>
+        internal static string Controls_DateTimePicker_ToggleButton_Content_AmPmAbbreviation {
+            get {
+                return ResourceManager.GetString("Controls_DateTimePicker_ToggleButton_Content_AmPmAbbreviation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to d.
+        /// </summary>
+        internal static string Controls_DateTimePicker_ToggleButton_Content_DayAbbreviation {
+            get {
+                return ResourceManager.GetString("Controls_DateTimePicker_ToggleButton_Content_DayAbbreviation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to h.
+        /// </summary>
+        internal static string Controls_DateTimePicker_ToggleButton_Content_HourAbbreviation {
+            get {
+                return ResourceManager.GetString("Controls_DateTimePicker_ToggleButton_Content_HourAbbreviation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to m.
+        /// </summary>
+        internal static string Controls_DateTimePicker_ToggleButton_Content_MinuteAbbreviation {
+            get {
+                return ResourceManager.GetString("Controls_DateTimePicker_ToggleButton_Content_MinuteAbbreviation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to m.
+        /// </summary>
+        internal static string Controls_DateTimePicker_ToggleButton_Content_MonthAbbreviation {
+            get {
+                return ResourceManager.GetString("Controls_DateTimePicker_ToggleButton_Content_MonthAbbreviation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to s.
+        /// </summary>
+        internal static string Controls_DateTimePicker_ToggleButton_Content_SecondAbbreviation {
+            get {
+                return ResourceManager.GetString("Controls_DateTimePicker_ToggleButton_Content_SecondAbbreviation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to y.
+        /// </summary>
+        internal static string Controls_DateTimePicker_ToggleButton_Content_YearAbbreviation {
+            get {
+                return ResourceManager.GetString("Controls_DateTimePicker_ToggleButton_Content_YearAbbreviation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
         internal static string Controls_DateTimePickerControl_Button_Content_Clear {
             get {
                 return ResourceManager.GetString("Controls_DateTimePickerControl_Button_Content_Clear", resourceCulture);
