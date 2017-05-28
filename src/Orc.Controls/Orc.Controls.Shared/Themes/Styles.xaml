@@ -22,6 +22,12 @@
         </Style.Setters>
     </Style>
 
+    <Style x:Key="DefaultTimeSpanPickerStyle" TargetType="{x:Type controls:TimeSpanPicker}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
+        </Style.Setters>
+    </Style>
+
     <Style x:Key="DefaultAnimatedGifStyle" TargetType="{x:Type controls:AnimatedGif}">
         <Style.Setters>
             <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>

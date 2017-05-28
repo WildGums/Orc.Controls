@@ -10,6 +10,7 @@ namespace Orc.Controls
     using System;
     using Catel.MVVM;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "1.4", RemoveInVersion = "2.0")]
     public class TimeSpanViewModel : ViewModelBase
     {
         #region Fields

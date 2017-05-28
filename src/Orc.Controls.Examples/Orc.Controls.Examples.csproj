@@ -175,7 +175,7 @@
     <Compile Include="Views\DateTimePicker.xaml.cs">
       <DependentUpon>DateTimePicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\TimeSpanViewModel.cs" />
+    <Compile Include="ViewModels\TimeSpanPickerViewModel.cs" />
     <Compile Include="Views\FilterBox.xaml.cs">
       <DependentUpon>FilterBox.xaml</DependentUpon>
     </Compile>
@@ -185,8 +185,8 @@
     <Compile Include="Views\SaveFilePickerView.xaml.cs">
       <DependentUpon>SaveFilePickerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TimeSpan.xaml.cs">
-      <DependentUpon>TimeSpan.xaml</DependentUpon>
+    <Compile Include="Views\TimeSpanPickerView.xaml.cs">
+      <DependentUpon>TimeSpanPickerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ValidationContextView.xaml.cs">
       <DependentUpon>ValidationContextView.xaml</DependentUpon>
@@ -286,7 +286,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TimeSpan.xaml">
+    <Page Include="Views\TimeSpanPickerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -64,6 +64,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\StackGrid\EmptyRow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\StackGrid\StackGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TabControl\TabControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpanPicker\ViewModels\TimeSpanPickerViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Services\Interfaces\IValidationNamesService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Converters\ValidationResultTypeToColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Extensions\IValidationContextTreeNodeExtensions.cs" />
@@ -111,7 +112,7 @@
       <SubType>Code</SubType>
       <DependentUpon>DirectoryPicker.xaml</DependentUpon>
     </Compile>
-	<Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPickerView.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPickerView.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>DirectoryPickerView.xaml</DependentUpon>
     </Compile>
@@ -143,7 +144,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\ViewModels\OpenFilePickerViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
-	<Compile Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePicker.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePicker.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>OpenFilePicker.xaml</DependentUpon>
     </Compile>
@@ -163,7 +164,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\ViewModels\SaveFilePickerViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
-	<Compile Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\Views\SaveFilePicker.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\Views\SaveFilePicker.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>SaveFilePicker.xaml</DependentUpon>
     </Compile>
@@ -171,8 +172,11 @@
       <SubType>Code</SubType>
       <DependentUpon>SaveFilePickerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\ViewModels\TimeSpanViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\Views\TimeSpanControl.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpanPicker\ViewModels\TimeSpanViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpanPicker\Views\TimeSpanPicker.xaml.cs">
+      <DependentUpon>TimeSpanPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpanPicker\Views\TimeSpanControl.xaml.cs">
       <DependentUpon>TimeSpanControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\ViewModels\ValidationContextViewModel.cs" />
@@ -274,7 +278,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-	<Page Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPicker.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -309,7 +313,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-	<Page Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePicker.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -321,7 +325,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-	<Page Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\Views\SaveFilePicker.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\Views\SaveFilePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -329,11 +333,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\Themes\TimeSpan.generic.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\TimeSpanPicker\Themes\TimeSpanPicker.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\Views\TimeSpanControl.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\TimeSpanPicker\Views\TimeSpanControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\TimeSpanPicker\Views\TimeSpanPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -373,6 +381,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Images\Loading.gif" />
-    <None Include="$(MSBuildThisFileDirectory)Resources\Images\Thumbs.db" />
+	<None Include="$(MSBuildThisFileDirectory)Resources\Images\Thumbs.db" />
   </ItemGroup>
 </Project>
