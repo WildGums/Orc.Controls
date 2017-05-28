@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SaveFilePickerView.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+// <copyright file="OpenFilePicker.xaml.cs" company="WildGums">
+//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -11,21 +11,20 @@ namespace Orc.Controls
     using Catel.MVVM.Views;
 
     /// <summary>
-    ///     Interaction logic for SaveFilePickerView.xaml
+    ///     Interaction logic for OpenFilePicker.xaml
     /// </summary>
-    [ObsoleteEx(TreatAsErrorFromVersion = "1.4", RemoveInVersion = "2.0")]
-    public partial class SaveFilePickerView
+    public partial class OpenFilePicker
     {
-        static SaveFilePickerView()
+        static OpenFilePicker()
         {
-            typeof (SaveFilePickerView).AutoDetectViewPropertiesToSubscribe();
+            typeof (OpenFilePicker).AutoDetectViewPropertiesToSubscribe();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SaveFilePickerView"/> class.
+        /// Initializes a new instance of the <see cref="OpenFilePicker"/> class.
         /// </summary>
         /// <remarks>This method is required for design time support.</remarks>
-        public SaveFilePickerView()
+        public OpenFilePicker()
         {
             InitializeComponent();
         }
@@ -39,7 +38,7 @@ namespace Orc.Controls
         }
 
         // Using a DependencyProperty as the backing store for LabelWidth.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty LabelWidthProperty = DependencyProperty.Register("LabelWidth", typeof (double), typeof (SaveFilePickerView), new PropertyMetadata(125d));
+        public static readonly DependencyProperty LabelWidthProperty = DependencyProperty.Register("LabelWidth", typeof (double), typeof (OpenFilePicker), new PropertyMetadata(125d));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string LabelText
@@ -50,7 +49,7 @@ namespace Orc.Controls
 
         // Using a DependencyProperty as the backing store for LabelText.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LabelTextProperty =
-            DependencyProperty.Register("LabelText", typeof (string), typeof (SaveFilePickerView), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("LabelText", typeof (string), typeof (OpenFilePicker), new PropertyMetadata(string.Empty));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string SelectedFile
@@ -61,18 +60,28 @@ namespace Orc.Controls
 
         // Using a DependencyProperty as the backing store for SelectedFile.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedFileProperty = DependencyProperty.Register("SelectedFile", typeof (string),
-            typeof (SaveFilePickerView), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            typeof (OpenFilePicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string Filter
         {
-            get { return (string) GetValue(FilterProperty); }
+            get { return (string)GetValue(FilterProperty); }
             set { SetValue(FilterProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Filter.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty FilterProperty = DependencyProperty.Register("Filter", typeof (string),
-            typeof (SaveFilePickerView), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty FilterProperty = DependencyProperty.Register("Filter", typeof(string),
+            typeof(OpenFilePicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public string BaseDirectory
+        {
+            get { return (string)GetValue(BaseDirectoryProperty); }
+            set { SetValue(BaseDirectoryProperty, value); }
+        }
+
+        public static readonly DependencyProperty BaseDirectoryProperty = DependencyProperty.Register(
+            "BaseDirectory", typeof(string), typeof(OpenFilePicker), new PropertyMetadata(string.Empty));
         #endregion
     }
 }

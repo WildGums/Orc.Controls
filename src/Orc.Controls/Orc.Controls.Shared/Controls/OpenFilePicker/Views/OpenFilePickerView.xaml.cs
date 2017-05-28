@@ -13,6 +13,7 @@ namespace Orc.Controls
     /// <summary>
     ///     Interaction logic for OpenFilePickerView.xaml
     /// </summary>
+    [ObsoleteEx(TreatAsErrorFromVersion = "1.4", RemoveInVersion = "2.0")]
     public partial class OpenFilePickerView
     {
         static OpenFilePickerView()

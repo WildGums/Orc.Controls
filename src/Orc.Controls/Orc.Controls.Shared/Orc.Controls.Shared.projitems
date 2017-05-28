@@ -107,7 +107,11 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Services\MicrosoftApiSelectDirectoryService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\ViewModels\DirectoryPickerViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPickerView.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPicker.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>DirectoryPicker.xaml</DependentUpon>
+    </Compile>
+	<Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPickerView.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>DirectoryPickerView.xaml</DependentUpon>
     </Compile>
@@ -139,6 +143,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\ViewModels\OpenFilePickerViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
+	<Compile Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePicker.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>OpenFilePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePickerView.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>OpenFilePickerView.xaml</DependentUpon>
@@ -154,6 +162,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\ToolTipTimer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\ViewModels\SaveFilePickerViewModel.cs">
       <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\Views\SaveFilePicker.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>SaveFilePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\Views\SaveFilePickerView.xaml.cs">
       <SubType>Code</SubType>
@@ -262,6 +274,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+	<Page Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPickerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -293,11 +309,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+	<Page Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePickerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\Views\DateRangePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Page Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\Views\SaveFilePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
