@@ -25,6 +25,8 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/DropDownButton/Themes/DropDownButton.generic.xaml" />
 
         <ResourceDictionary Source="/Orc.Controls;component/Controls/FilterBox/Themes/FilterBox.generic.xaml" />
+        
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/FilterBox/Themes/FilterBoxControl.generic.xaml" />
 
         <ResourceDictionary Source="/Orc.Controls;component/Controls/LogViewer/Themes/LogViewer.generic.xaml" />
 

@@ -55,6 +55,7 @@
       <DependentUpon>DbProviderControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DropDownButton\Converters\DropdownArrowLocationConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Controls\FilterBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Controls\FilterBoxControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\EventArgs\InitializingAutoCompletionServiceEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FrameRateCounter\FrameRateCounter.cs" />
@@ -241,6 +242,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+	<Page Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Themes\FilterBoxControl.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Themes\ValidationContextTree.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -381,6 +386,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Images\Loading.gif" />
-	<None Include="$(MSBuildThisFileDirectory)Resources\Images\Thumbs.db" />
+    <None Include="$(MSBuildThisFileDirectory)Resources\Images\Thumbs.db" />
   </ItemGroup>
 </Project>
