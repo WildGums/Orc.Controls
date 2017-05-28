@@ -100,6 +100,9 @@
       <DependentUpon>CulturePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DatePicker\ViewModels\DatePickerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DatePicker\Views\DatePicker.xaml.cs">
+      <DependentUpon>DatePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DatePicker\Views\DatePickerControl.xaml.cs">
       <DependentUpon>DatePickerControl.xaml</DependentUpon>
     </Compile>
@@ -242,7 +245,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-	<Page Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Themes\FilterBoxControl.generic.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Themes\FilterBoxControl.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -267,7 +270,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DatePicker\Themes\DatePicker.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\DatePicker\Themes\DatePickerControl.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DatePicker\Views\DatePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -15,6 +15,12 @@
             <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
         </Style.Setters>
     </Style>
+	
+	<Style x:Key="DefaultDatePickerStyle" TargetType="{x:Type controls:DatePicker}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
+        </Style.Setters>
+    </Style>
 
     <Style x:Key="DefaultTimeSpanControlStyle" TargetType="{x:Type controls:TimeSpanControl}">
         <Style.Setters>

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DatePickerControl.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+// <copyright file="DatePicker.xaml.cs" company="WildGums">
+//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -23,10 +23,9 @@ namespace Orc.Controls
     using System.Windows.Input;
 
     /// <summary>
-    /// Interaction logic for DatePickerControl.xaml
+    /// Interaction logic for DatePicker.xaml
     /// </summary>
-    [ObsoleteEx(TreatAsErrorFromVersion = "1.4", RemoveInVersion = "2.0")]
-    public partial class DatePickerControl
+    public partial class DatePicker
     {
         #region Fields
         private readonly List<TextBox> _textBoxes;
@@ -36,14 +35,14 @@ namespace Orc.Controls
         #endregion
 
         #region Constructors
-        static DatePickerControl()
+        static DatePicker()
         {
-            typeof(DatePickerControl).AutoDetectViewPropertiesToSubscribe();
+            typeof(DatePicker).AutoDetectViewPropertiesToSubscribe();
 
-            KeyboardNavigation.TabNavigationProperty.OverrideMetadata(typeof(DatePickerControl), new FrameworkPropertyMetadata(KeyboardNavigationMode.Local));
+            KeyboardNavigation.TabNavigationProperty.OverrideMetadata(typeof(DatePicker), new FrameworkPropertyMetadata(KeyboardNavigationMode.Local));
         }
 
-        public DatePickerControl()
+        public DatePicker()
         {
             InitializeComponent();
 
@@ -93,8 +92,8 @@ namespace Orc.Controls
             set { SetValue(ValueProperty, value); }
         }
 
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(DateTime?), typeof(DatePickerControl),
-            new FrameworkPropertyMetadata(DateTime.Today, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((DatePickerControl)sender).OnValueChanged(e.OldValue, e.NewValue)));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(DateTime?), typeof(DatePicker),
+            new FrameworkPropertyMetadata(DateTime.Today, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((DatePicker)sender).OnValueChanged(e.OldValue, e.NewValue)));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowOptionsButton
@@ -104,7 +103,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register("ShowOptionsButton", typeof(bool),
-            typeof(DatePickerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            typeof(DatePicker), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public Brush AccentColorBrush
         {
@@ -113,7 +112,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
-            typeof(DatePickerControl), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((DatePickerControl)sender).OnAccentColorBrushChanged()));
+            typeof(DatePicker), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((DatePicker)sender).OnAccentColorBrushChanged()));
 
         public bool AllowNull
         {
@@ -122,7 +121,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty AllowNullProperty = DependencyProperty.Register("AllowNull", typeof(bool),
-            typeof(DatePickerControl), new PropertyMetadata(false));
+            typeof(DatePicker), new PropertyMetadata(false));
 
         public bool AllowCopyPaste
         {
@@ -131,7 +130,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty AllowCopyPasteProperty = DependencyProperty.Register("AllowCopyPaste", typeof(bool),
-            typeof(DatePickerControl), new PropertyMetadata(true));
+            typeof(DatePicker), new PropertyMetadata(true));
 
         public bool IsReadOnly
         {
@@ -140,7 +139,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register("IsReadOnly", typeof(bool),
-            typeof(DatePickerControl), new PropertyMetadata(false));
+            typeof(DatePicker), new PropertyMetadata(false));
 
         public string Format
         {
@@ -149,7 +148,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof(string),
-            typeof(DatePickerControl), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern, (sender, e) => ((DatePickerControl)sender).OnFormatChanged()));
+            typeof(DatePicker), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern, (sender, e) => ((DatePicker)sender).OnFormatChanged()));
 
         public bool IsYearShortFormat
         {
@@ -158,7 +157,7 @@ namespace Orc.Controls
         }
 
         private static readonly DependencyPropertyKey IsYearShortFormatPropertyKey = DependencyProperty.RegisterReadOnly("IsYearShortFormat", typeof(bool),
-            typeof(DatePickerControl), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.Count(x => x == 'y') < 3 ? true : false));
+            typeof(DatePicker), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.Count(x => x == 'y') < 3 ? true : false));
 
         public static readonly DependencyProperty IsYearShortFormatProperty = IsYearShortFormatPropertyKey.DependencyProperty;
         #endregion
