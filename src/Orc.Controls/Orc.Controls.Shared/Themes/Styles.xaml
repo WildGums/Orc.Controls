@@ -52,4 +52,10 @@
         </Style.Setters>
     </Style>
 
+    <Style x:Key="DbProviderPicker" TargetType="{x:Type controls:DbProviderPicker}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
+        </Style.Setters>
+    </Style>
+
 </ResourceDictionary>

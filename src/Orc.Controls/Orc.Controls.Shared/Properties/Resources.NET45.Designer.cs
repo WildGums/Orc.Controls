@@ -765,6 +765,15 @@ namespace Orc.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change....
+        /// </summary>
+        internal static string Controls_DbProviderPicker_Button_Content_Change {
+            get {
+                return ResourceManager.GetString("Controls_DbProviderPicker_Button_Content_Change", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open folder.
         /// </summary>
         internal static string Controls_OpenFolder {

@@ -12,6 +12,7 @@ namespace Orc.Controls
     using Catel.MVVM;
     using Catel.Services;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "1.4", RemoveInVersion = "2.0")]
     public class DbProviderControlViewModel : ViewModelBase
     {
         private readonly IUIVisualizerService _uiVisualizerService;

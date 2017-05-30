@@ -414,4 +414,7 @@
   <data name="Controls_DateTimePicker_ToggleButton_Content_YearAbbreviation" xml:space="preserve">
     <value>y</value>
   </data>
+  <data name="Controls_DbProviderPicker_Button_Content_Change" xml:space="preserve">
+    <value>Change...</value>
+  </data>
 </root>

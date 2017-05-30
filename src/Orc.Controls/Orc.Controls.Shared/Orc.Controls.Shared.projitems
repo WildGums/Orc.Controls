@@ -45,13 +45,17 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\Services\Interfaces\ISuggestionListService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\Services\SuggestionListService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\Model\DbProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\ViewModels\DbConnectionProviderListViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\ViewModels\DbProviderControlViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\Views\DbConnectionProviderListWindow.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\Model\DbProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\ViewModels\DbConnectionProviderListViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\ViewModels\DbProviderControlViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\ViewModels\DbProviderPickerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\Views\DbConnectionProviderListWindow.xaml.cs">
       <DependentUpon>DbConnectionProviderListWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\Views\DbProviderControl.xaml.cs">
+	<Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\Views\DbProviderPicker.xaml.cs">
+      <DependentUpon>DbProviderPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\Views\DbProviderControl.xaml.cs">
       <DependentUpon>DbProviderControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DropDownButton\Converters\DropdownArrowLocationConverter.cs" />
@@ -236,11 +240,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\Views\DbConnectionProviderListWindow.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\Views\DbConnectionProviderListWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\DbProviderControl\Views\DbProviderControl.xaml">
+	<Page Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\Views\DbProviderPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\Views\DbProviderControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

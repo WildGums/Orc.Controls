@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DbProviderControl.xaml.cs" company="WildGums">
+// <copyright file="DbProviderPicker.xaml.cs" company="WildGums">
 //   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -10,10 +10,10 @@ namespace Orc.Controls
     using System.Windows;
     using Catel.MVVM.Views;
 
-    public sealed partial class DbProviderControl
+    public sealed partial class DbProviderPicker
     {
         public static readonly DependencyProperty DbProviderProperty = DependencyProperty.Register(
-            "DbProvider", typeof (DbProvider), typeof (DbProviderControl), new PropertyMetadata(default(DbProvider)));
+            "DbProvider", typeof (DbProvider), typeof (DbProviderPicker), new PropertyMetadata(default(DbProvider)));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewModelWins)]
         public DbProvider DbProvider
@@ -22,12 +22,12 @@ namespace Orc.Controls
             set { SetValue(DbProviderProperty, value); }
         }
 
-        static DbProviderControl()
+        static DbProviderPicker()
         {
-            typeof(DbProviderControl).AutoDetectViewPropertiesToSubscribe();
+            typeof(DbProviderPicker).AutoDetectViewPropertiesToSubscribe();
         }
 
-        public DbProviderControl()
+        public DbProviderPicker()
         {
             this.InitializeComponent();
         }
