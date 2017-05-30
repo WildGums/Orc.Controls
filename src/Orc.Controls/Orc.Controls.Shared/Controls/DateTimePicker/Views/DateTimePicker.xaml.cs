@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DateTimePickerControl.xaml.cs" company="WildGums">
+// <copyright file="DateTimePicker.xaml.cs" company="WildGums">
 //   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -24,10 +24,9 @@ namespace Orc.Controls
     using Converters;
 
     /// <summary>
-    /// Interaction logic for DateTimePickerControl.xaml
+    /// Interaction logic for DateTimePicker.xaml
     /// </summary>
-    [ObsoleteEx(TreatAsErrorFromVersion = "1.4", RemoveInVersion = "2.0")]
-    public partial class DateTimePickerControl
+    public partial class DateTimePicker
     {
         #region Fields
         private readonly List<TextBox> _textBoxes;
@@ -37,14 +36,14 @@ namespace Orc.Controls
         #endregion
 
         #region Constructors
-        static DateTimePickerControl()
+        static DateTimePicker()
         {
-            typeof(DateTimePickerControl).AutoDetectViewPropertiesToSubscribe();
+            typeof(DateTimePicker).AutoDetectViewPropertiesToSubscribe();
 
-            KeyboardNavigation.TabNavigationProperty.OverrideMetadata(typeof(DateTimePickerControl), new FrameworkPropertyMetadata(KeyboardNavigationMode.Local));
+            KeyboardNavigation.TabNavigationProperty.OverrideMetadata(typeof(DateTimePicker), new FrameworkPropertyMetadata(KeyboardNavigationMode.Local));
         }
 
-        public DateTimePickerControl()
+        public DateTimePicker()
         {
             InitializeComponent();
 
@@ -107,7 +106,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(DateTime?),
-            typeof(DateTimePickerControl), new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((DateTimePickerControl)sender).OnValueChanged(e.OldValue, e.NewValue)));
+            typeof(DateTimePicker), new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((DateTimePicker)sender).OnValueChanged(e.OldValue, e.NewValue)));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowOptionsButton
@@ -117,7 +116,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register("ShowOptionsButton", typeof(bool),
-            typeof(DateTimePickerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            typeof(DateTimePicker), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public Brush AccentColorBrush
         {
@@ -126,7 +125,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
-            typeof(DateTimePickerControl), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((DateTimePickerControl)sender).OnAccentColorBrushChanged()));
+            typeof(DateTimePicker), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((DateTimePicker)sender).OnAccentColorBrushChanged()));
 
         public bool AllowNull
         {
@@ -135,7 +134,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty AllowNullProperty = DependencyProperty.Register("AllowNull", typeof(bool),
-            typeof(DateTimePickerControl), new PropertyMetadata(false));
+            typeof(DateTimePicker), new PropertyMetadata(false));
 
         public bool AllowCopyPaste
         {
@@ -144,7 +143,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty AllowCopyPasteProperty = DependencyProperty.Register("AllowCopyPaste", typeof(bool),
-            typeof(DateTimePickerControl), new PropertyMetadata(true));
+            typeof(DateTimePicker), new PropertyMetadata(true));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool HideTime
@@ -154,7 +153,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty HideTimeProperty = DependencyProperty.Register("HideTime", typeof(bool),
-            typeof(DateTimePickerControl), new FrameworkPropertyMetadata(false, (sender, e) => ((DateTimePickerControl)sender).OnHideTimeChanged()));
+            typeof(DateTimePicker), new FrameworkPropertyMetadata(false, (sender, e) => ((DateTimePicker)sender).OnHideTimeChanged()));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool HideSeconds
@@ -164,7 +163,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty HideSecondsProperty = DependencyProperty.Register("HideSeconds", typeof(bool),
-            typeof(DateTimePickerControl), new FrameworkPropertyMetadata(false, (sender, e) => ((DateTimePickerControl)sender).OnHideSecondsChanged()));
+            typeof(DateTimePicker), new FrameworkPropertyMetadata(false, (sender, e) => ((DateTimePicker)sender).OnHideSecondsChanged()));
 
         public bool IsReadOnly
         {
@@ -173,7 +172,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register("IsReadOnly", typeof(bool),
-            typeof(DateTimePickerControl), new PropertyMetadata(false));
+            typeof(DateTimePicker), new PropertyMetadata(false));
 
         public string Format
         {
@@ -182,7 +181,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof(string),
-            typeof(DateTimePickerControl), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern, (sender, e) => ((DateTimePickerControl)sender).OnFormatChanged()));
+            typeof(DateTimePicker), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern, (sender, e) => ((DateTimePicker)sender).OnFormatChanged()));
 
         public bool IsYearShortFormat
         {
@@ -191,7 +190,7 @@ namespace Orc.Controls
         }
 
         private static readonly DependencyPropertyKey IsYearShortFormatPropertyKey = DependencyProperty.RegisterReadOnly("IsYearShortFormat", typeof(bool),
-            typeof(DateTimePickerControl), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.Count(x => x == 'y') < 3 ? true : false));
+            typeof(DateTimePicker), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.Count(x => x == 'y') < 3 ? true : false));
 
         public static readonly DependencyProperty IsYearShortFormatProperty = IsYearShortFormatPropertyKey.DependencyProperty;
 
@@ -202,7 +201,7 @@ namespace Orc.Controls
         }
 
         private static readonly DependencyPropertyKey IsHour12FormatPropertyKey = DependencyProperty.RegisterReadOnly("IsHour12Format", typeof(bool),
-            typeof(DateTimePickerControl), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern.Contains("h") ? true : false));
+            typeof(DateTimePicker), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern.Contains("h") ? true : false));
 
         public static readonly DependencyProperty IsHour12FormatProperty = IsHour12FormatPropertyKey.DependencyProperty;
 
@@ -213,7 +212,7 @@ namespace Orc.Controls
         }
 
         private static readonly DependencyPropertyKey IsAmPmShortFormatPropertyKey = DependencyProperty.RegisterReadOnly("IsAmPmShortFormat", typeof(bool),
-            typeof(DateTimePickerControl), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern.Count(x => x == 't') < 2 ? true : false));
+            typeof(DateTimePicker), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern.Count(x => x == 't') < 2 ? true : false));
 
         public static readonly DependencyProperty IsAmPmShortFormatProperty = IsAmPmShortFormatPropertyKey.DependencyProperty;
         #endregion

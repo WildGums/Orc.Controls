@@ -1,15 +1,15 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TimeSpan.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+// <copyright file="TimeSpanPickerView.xaml.cs" company="WildGums">
+//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
 namespace Orc.Controls.Examples.Views
 {
-    public partial class TimeSpan
+    public partial class TimeSpanPickerView
     {
-        public TimeSpan()
+        public TimeSpanPickerView()
         {
             InitializeComponent();
         }

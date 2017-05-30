@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FilterBoxControl.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+// <copyright file="FilterBox.cs" company="WildGums">
+//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -20,8 +20,7 @@ namespace Orc.Controls
 
     [TemplatePart(Name = "PART_FilterTextBox", Type = typeof(TextBox))]
     [TemplatePart(Name = "PART_ClearButton", Type = typeof(Button))]
-    [ObsoleteEx(TreatAsErrorFromVersion = "1.4", RemoveInVersion = "2.0")]
-    public class FilterBoxControl : ContentControl
+    public class FilterBox : ContentControl
     {
         private readonly Command _clearFilter;
         private Button _clearButton;
@@ -29,7 +28,7 @@ namespace Orc.Controls
 
         public event EventHandler<InitializingAutoCompletionServiceEventArgs> InitializingAutoCompletionService;
 
-        public FilterBoxControl()
+        public FilterBox()
         {
             _clearFilter = new Command(OnClearFilter, CanClearFilter);
         }
@@ -42,7 +41,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty FilterSourceProperty = DependencyProperty.Register("FilterSource", typeof(IEnumerable),
-            typeof(FilterBoxControl), new FrameworkPropertyMetadata(null));
+            typeof(FilterBox), new FrameworkPropertyMetadata(null));
 
         public string PropertyName
         {
@@ -51,7 +50,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.Register("PropertyName", typeof(string),
-            typeof(FilterBoxControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            typeof(FilterBox), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public string Text
         {
@@ -59,8 +58,8 @@ namespace Orc.Controls
             set { SetValue(TextProperty, value); }
         }
 
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(FilterBoxControl),
-            new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((FilterBoxControl) sender).OnTextChanged(sender, e)));
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(FilterBox),
+            new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((FilterBox) sender).OnTextChanged(sender, e)));
 
         public Brush AccentColorBrush
         {
@@ -69,7 +68,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
-            typeof(FilterBoxControl), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((FilterBoxControl) sender).OnAccentColorBrushChanged()));
+            typeof(FilterBox), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((FilterBox) sender).OnAccentColorBrushChanged()));
 
         public string Watermark
         {
@@ -78,7 +77,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(string),
-            typeof(FilterBoxControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            typeof(FilterBox), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
 
         #region Methods

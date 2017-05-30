@@ -56,10 +56,10 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="{catel:LanguageBinding Controls_TimeSpanGeneric_TextBlock_Text_Total}" HorizontalAlignment="Left"/>
-                            <TextBlock Grid.Column="0" Grid.Row="1" Text="{catel:LanguageBinding Controls_TimeSpanGeneric_TextBlock_Text_Days}" HorizontalAlignment="Left" Margin="10 0 10 0"/>
-                            <TextBlock Grid.Column="0" Grid.Row="2" Text="{catel:LanguageBinding Controls_TimeSpanGeneric_TextBlock_Text_Hours}" HorizontalAlignment="Left" Margin="10 0 10 0"/>
-                            <TextBlock Grid.Column="0" Grid.Row="3" Text="{catel:LanguageBinding Controls_TimeSpanGeneric_TextBlock_Text_Minutes}" HorizontalAlignment="Left" Margin="10 0 10 0"/>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="{catel:LanguageBinding Controls_TimeSpanPickerGeneric_TextBlock_Text_Total}" HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Column="0" Grid.Row="1" Text="{catel:LanguageBinding Controls_TimeSpanPickerGeneric_TextBlock_Text_Days}" HorizontalAlignment="Left" Margin="10 0 10 0"/>
+                            <TextBlock Grid.Column="0" Grid.Row="2" Text="{catel:LanguageBinding Controls_TimeSpanPickerGeneric_TextBlock_Text_Hours}" HorizontalAlignment="Left" Margin="10 0 10 0"/>
+                            <TextBlock Grid.Column="0" Grid.Row="3" Text="{catel:LanguageBinding Controls_TimeSpanPickerGeneric_TextBlock_Text_Minutes}" HorizontalAlignment="Left" Margin="10 0 10 0"/>
                             <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"
                                            Text="{Binding Value, Converter={StaticResource TimeSpanToTotalConverter}, ConverterParameter=Days}"/>
                             <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"

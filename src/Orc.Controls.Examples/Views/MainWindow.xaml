@@ -187,8 +187,8 @@
             <views:SaveFilePickerView />
         </TabItem>
 
-        <TabItem Header="TimeSpan">
-            <views:TimeSpan />
+        <TabItem Header="TimeSpanPicker">
+            <views:TimeSpanPickerView />
         </TabItem>
                
         <TabItem Header="ValidationContextControl">
