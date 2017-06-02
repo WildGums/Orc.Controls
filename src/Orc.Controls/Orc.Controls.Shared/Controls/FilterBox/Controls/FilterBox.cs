@@ -34,6 +34,15 @@ namespace Orc.Controls
         }
 
         #region Properties
+        public bool AllowAutoCompletion
+        {
+            get { return (bool) GetValue(AllowAutoCompletionProperty); }
+            set { SetValue(AllowAutoCompletionProperty, value); }
+        }
+
+        public static readonly DependencyProperty AllowAutoCompletionProperty = DependencyProperty.Register(
+            "AllowAutoCompletion", typeof(bool), typeof(FilterBox), new PropertyMetadata(true));       
+
         public IEnumerable FilterSource
         {
             get { return (IEnumerable) GetValue(FilterSourceProperty); }
@@ -149,7 +158,16 @@ namespace Orc.Controls
 
         private void OnClearFilter()
         {
-            SetCurrentValue(TextProperty, string.Empty);
+            SetCurrentValue(AllowAutoCompletionProperty, false);
+
+            try
+            {
+                SetCurrentValue(TextProperty, string.Empty);
+            }
+            finally 
+            {
+                SetCurrentValue(AllowAutoCompletionProperty, true);
+            }            
         }
 
         private bool CanClearFilter()

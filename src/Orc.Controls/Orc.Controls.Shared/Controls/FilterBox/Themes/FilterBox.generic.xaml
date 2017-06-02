@@ -152,7 +152,8 @@
                                 <i:Interaction.Behaviors>
                                     <catel:UpdateBindingOnTextChanged UpdateDelay="750" />
                                     <catel:AutoCompletion PropertyName ="{Binding PropertyName, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBox}}}" 
-                                                          ItemsSource="{Binding FilterSource, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBox}}}" />
+                                                          ItemsSource="{Binding FilterSource, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBox}}}" 
+                                                          UseAutoCompletionService="{Binding AllowAutoCompletion, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBox}}}"/>
                                     <catel:SelectTextOnFocus />
                                 </i:Interaction.Behaviors>
                             </TextBox>
