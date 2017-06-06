@@ -158,7 +158,11 @@ namespace Orc.Controls
 
         private void OnClearFilter()
         {
+            var allowAutoCompletion = AllowAutoCompletion;
+            var filterSource = FilterSource;
+
             SetCurrentValue(AllowAutoCompletionProperty, false);
+            SetCurrentValue(FilterSourceProperty, null);
 
             try
             {
@@ -166,7 +170,8 @@ namespace Orc.Controls
             }
             finally 
             {
-                SetCurrentValue(AllowAutoCompletionProperty, true);
+                SetCurrentValue(FilterSourceProperty, filterSource);
+                SetCurrentValue(AllowAutoCompletionProperty, allowAutoCompletion);
             }            
         }
 
