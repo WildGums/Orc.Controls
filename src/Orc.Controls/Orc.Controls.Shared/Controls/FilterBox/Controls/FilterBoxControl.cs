@@ -4,23 +4,30 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-
 namespace Orc.Controls
 {
+    using System;
     using System.Collections;
+    using System.Linq;
+    using System.Reflection;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
+    using System.Windows.Interactivity;
     using System.Windows.Media;
     using Catel.MVVM;
+    using Catel.Windows.Interactivity;
 
-    [TemplatePart(Name = "PART_FilterTextBox", Type = typeof (TextBox))]
-    [TemplatePart(Name = "PART_ClearButton", Type = typeof (Button))]
+    [TemplatePart(Name = "PART_FilterTextBox", Type = typeof(TextBox))]
+    [TemplatePart(Name = "PART_ClearButton", Type = typeof(Button))]
+    [ObsoleteEx(TreatAsErrorFromVersion = "1.4", RemoveInVersion = "2.0")]
     public class FilterBoxControl : ContentControl
     {
         private readonly Command _clearFilter;
         private Button _clearButton;
         private TextBox _filterTextBox;
+
+        public event EventHandler<InitializingAutoCompletionServiceEventArgs> InitializingAutoCompletionService;
 
         public FilterBoxControl()
         {
@@ -34,8 +41,8 @@ namespace Orc.Controls
             set { SetValue(FilterSourceProperty, value); }
         }
 
-        public static readonly DependencyProperty FilterSourceProperty = DependencyProperty.Register("FilterSource", typeof (IEnumerable),
-            typeof (FilterBoxControl), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty FilterSourceProperty = DependencyProperty.Register("FilterSource", typeof(IEnumerable),
+            typeof(FilterBoxControl), new FrameworkPropertyMetadata(null));
 
         public string PropertyName
         {
@@ -43,8 +50,8 @@ namespace Orc.Controls
             set { SetValue(PropertyNameProperty, value); }
         }
 
-        public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.Register("PropertyName", typeof (string),
-            typeof (FilterBoxControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.Register("PropertyName", typeof(string),
+            typeof(FilterBoxControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public string Text
         {
@@ -52,7 +59,7 @@ namespace Orc.Controls
             set { SetValue(TextProperty, value); }
         }
 
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof (string), typeof (FilterBoxControl),
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(FilterBoxControl),
             new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((FilterBoxControl) sender).OnTextChanged(sender, e)));
 
         public Brush AccentColorBrush
@@ -61,8 +68,8 @@ namespace Orc.Controls
             set { SetValue(AccentColorBrushProperty, value); }
         }
 
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof (Brush),
-            typeof (FilterBoxControl), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((FilterBoxControl) sender).OnAccentColorBrushChanged()));
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
+            typeof(FilterBoxControl), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((FilterBoxControl) sender).OnAccentColorBrushChanged()));
 
         public string Watermark
         {
@@ -70,8 +77,8 @@ namespace Orc.Controls
             set { SetValue(WatermarkProperty, value); }
         }
 
-        public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof (string),
-            typeof (FilterBoxControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(string),
+            typeof(FilterBoxControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
 
         #region Methods
@@ -110,6 +117,24 @@ namespace Orc.Controls
             }
 
             _filterTextBox = (TextBox) GetTemplateChild("PART_FilterTextBox");
+
+
+            var serviceEventArg = new InitializingAutoCompletionServiceEventArgs();
+            OnInitializingAutoCompletionService(serviceEventArg);
+            var autoCompletionService = serviceEventArg.AutoCompletionService;
+
+            if (autoCompletionService != null)
+            {
+                var autoCompletion = Interaction.GetBehaviors(_filterTextBox).OfType<AutoCompletion>().FirstOrDefault();
+                if (autoCompletion != null)
+                {
+                    var autoCompletionServiceFieldInfo = autoCompletion.GetType().GetField("_autoCompletionService", BindingFlags.Instance | BindingFlags.NonPublic);
+                    if (autoCompletionServiceFieldInfo != null)
+                    {
+                        autoCompletionServiceFieldInfo.SetValue(autoCompletion, autoCompletionService);
+                    }
+                }
+            }
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -137,6 +162,12 @@ namespace Orc.Controls
         {
             _clearFilter.RaiseCanExecuteChanged();
         }
+
+        protected virtual void OnInitializingAutoCompletionService(InitializingAutoCompletionServiceEventArgs e)
+        {
+            InitializingAutoCompletionService?.Invoke(this, e);
+        }
+
         #endregion
     }
 }

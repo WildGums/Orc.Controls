@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DateTimePartHelper.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,8 +14,6 @@ namespace Orc.Controls
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using Catel.IoC;
-    using Services;
-    using Catel.Reflection;
 
     public class DateTimePartHelper
     {

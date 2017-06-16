@@ -21,12 +21,13 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="{catel:LanguageBinding ResourceName=Controls_DateRangePicker_Start_Lbl}"/>
-        <controls:DateTimePickerControl Grid.Row="0" Grid.Column="1" 
+        <controls:DateTimePicker Grid.Row="0" Grid.Column="1" 
             Value="{Binding StartDate}"
             AllowNull="False"
             AllowCopyPaste="{Binding AllowCopyPaste, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
-            Format="{Binding DateTimeFormat, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
-            HideSeconds="{Binding DateTimeHideSeconds, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
+            Format="{Binding Format, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
+            HideTime="{Binding HideTime, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
+            HideSeconds="{Binding HideSeconds, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
             IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
             ShowOptionsButton="{Binding ShowOptionsButton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"/>
 
@@ -40,16 +41,17 @@
             IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"/>
 
         <Label Grid.Row="1" Grid.Column="0" Content="{catel:LanguageBinding ResourceName=Controls_DateRangePicker_End_Lbl}"/>
-        <controls:DateTimePickerControl Grid.Row="2" Grid.Column="1"
+        <controls:DateTimePicker Grid.Row="2" Grid.Column="1"
             Value="{Binding EndDate}"
             AllowNull="False"
             AllowCopyPaste="{Binding AllowCopyPaste, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
-            Format="{Binding DateTimeFormat, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
-            HideSeconds="{Binding DateTimeHideSeconds, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
+            Format="{Binding Format, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
+            HideTime="{Binding HideTime, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
+            HideSeconds="{Binding HideSeconds, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
             IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
             ShowOptionsButton="{Binding ShowOptionsButton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"/>
 
-        <controls:TimeSpanControl Grid.Row="1" Grid.Column="2"
+        <controls:TimeSpanPicker Grid.Row="1" Grid.Column="2"
             Value="{Binding Span}"
             IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"/>
 

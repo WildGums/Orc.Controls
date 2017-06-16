@@ -45,13 +45,8 @@
     <Reference Include="Catel.Core, Version=4.5.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\lib\Catel.Core.4.5.4\lib\net40\Catel.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Catel.Extensions.Controls, Version=4.5.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\lib\Catel.Extensions.Controls.4.5.4\lib\net40\Catel.Extensions.Controls.dll</HintPath>
-    </Reference>
-    <Reference Include="Catel.Fody.Attributes, Version=2.14.0.0, Culture=neutral, PublicKeyToken=1c8163524cbe02e6, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Catel.Fody.2.14.0\lib\portable-net4+sl4+wp7+win8+wpa81+MonoAndroid14+MonoTouch40\Catel.Fody.Attributes.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Catel.Fody.Attributes, Version=2.16.2.0, Culture=neutral, PublicKeyToken=1c8163524cbe02e6, processorArchitecture=MSIL">
+      <HintPath>..\..\lib\Catel.Fody.2.16.2\lib\portable-net4+sl4+wp7+win8+wpa81+MonoAndroid14+MonoTouch40\Catel.Fody.Attributes.dll</HintPath>
     </Reference>
     <Reference Include="Catel.MVVM, Version=4.5.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\lib\Catel.MVVM.4.5.4\lib\net40\Catel.MVVM.dll</HintPath>
@@ -67,6 +62,12 @@
     <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Orc.FileSystem, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\lib\Orc.FileSystem.1.3.0\lib\net40\Orc.FileSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Orchestra.Core, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\lib\Orchestra.Core.2.7.0-unstable0010\lib\net40\Orchestra.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -104,13 +105,16 @@
     <Compile Include="..\GlobalSuppressions.cs">
       <Link>Properties\GlobalSuppressions.cs</Link>
     </Compile>
+    <Compile Include="FontAwesome.cs" />
     <Compile Include="Logging\ExampleLogListener.cs" />
     <Compile Include="Models\CultureFormat.cs" />
     <Compile Include="ModuleInitializer.cs" />
+    <Compile Include="Services\ReverseAutoCompletionService.cs" />
     <Compile Include="ViewModels\AnimatedGifViewModel.cs" />
     <Compile Include="ViewModels\BindableRichTextBoxViewModel.cs" />
     <Compile Include="ViewModels\ColorLegendViewModel.cs" />
     <Compile Include="ViewModels\ColorPickerViewModel.cs" />
+    <Compile Include="ViewModels\ConnectionStringBuilderViewModel.cs" />
     <Compile Include="ViewModels\CulturePickerViewModel.cs" />
     <Compile Include="ViewModels\DatePickerViewModel.cs" />
     <Compile Include="ViewModels\DateRangePickerViewModel.cs" />
@@ -127,6 +131,9 @@
     </Compile>
     <Compile Include="Views\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConnectionStringBuilderView.xaml.cs">
+      <DependentUpon>ConnectionStringBuilderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CulturePickerView.xaml.cs">
       <DependentUpon>CulturePickerView.xaml</DependentUpon>
@@ -168,7 +175,7 @@
     <Compile Include="Views\DateTimePicker.xaml.cs">
       <DependentUpon>DateTimePicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\TimeSpanViewModel.cs" />
+    <Compile Include="ViewModels\TimeSpanPickerViewModel.cs" />
     <Compile Include="Views\FilterBox.xaml.cs">
       <DependentUpon>FilterBox.xaml</DependentUpon>
     </Compile>
@@ -178,8 +185,8 @@
     <Compile Include="Views\SaveFilePickerView.xaml.cs">
       <DependentUpon>SaveFilePickerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TimeSpan.xaml.cs">
-      <DependentUpon>TimeSpan.xaml</DependentUpon>
+    <Compile Include="Views\TimeSpanPickerView.xaml.cs">
+      <DependentUpon>TimeSpanPickerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ValidationContextView.xaml.cs">
       <DependentUpon>ValidationContextView.xaml</DependentUpon>
@@ -200,6 +207,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConnectionStringBuilderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -275,7 +286,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TimeSpan.xaml">
+    <Page Include="Views\TimeSpanPickerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -294,26 +305,20 @@
     </Compile>
     <None Include="packages.config" />
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\Fonts\fontawesome-webfont.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Orc.Controls\Orc.Controls.NET40\Orc.Controls.NET40.csproj">
-      <Project>{E6CE2111-3D7C-4759-A886-E44EC77CE3AA}</Project>
-      <Name>Orc.Controls.NET40</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="FodyWeavers.xml">
+    <None Include="FodyWeavers.xml">
       <SubType>Designer</SubType>
-    </Resource>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\email.png" />
     <Resource Include="Resources\Images\phone.png" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\Images\Loading.gif" />
   </ItemGroup>
@@ -321,8 +326,17 @@
     <Analyzer Include="..\..\lib\AsyncUsageAnalyzers.1.0.0-alpha003\analyzers\dotnet\AsyncUsageAnalyzers.dll" />
     <Analyzer Include="..\..\lib\PublicApiAnalyzer.1.0.0-alpha001\analyzers\dotnet\cs\PublicApiAnalyzer.CodeFixes.dll" />
     <Analyzer Include="..\..\lib\PublicApiAnalyzer.1.0.0-alpha001\analyzers\dotnet\cs\PublicApiAnalyzer.dll" />
-    <Analyzer Include="..\..\lib\WpfAnalyzers.0.2.7.6\analyzers\dotnet\cs\WpfAnalyzers.Analyzers.dll" />
-    <Analyzer Include="..\..\lib\WpfAnalyzers.0.2.7.6\analyzers\dotnet\cs\WpfAnalyzers.CodeFixes.dll" />
+    <Analyzer Include="..\..\lib\WpfAnalyzers.0.2.7.10\analyzers\dotnet\cs\WpfAnalyzers.Analyzers.dll" />
+    <Analyzer Include="..\..\lib\WpfAnalyzers.0.2.7.10\analyzers\dotnet\cs\WpfAnalyzers.CodeFixes.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orc.Controls\Orc.Controls.NET40\Orc.Controls.NET40.csproj">
+      <Project>{e6ce2111-3d7c-4759-a886-e44ec77ce3aa}</Project>
+      <Name>Orc.Controls.NET40</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\lib\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\lib\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -331,9 +345,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\lib\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\lib\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
-    <Error Condition="!Exists('..\..\lib\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\lib\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets'))" />
+    <Error Condition="!Exists('..\..\lib\Fody.2.1.0\build\portable-net+sl+win+wpa+wp\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\lib\Fody.2.1.0\build\portable-net+sl+win+wpa+wp\Fody.targets'))" />
   </Target>
-  <Import Project="..\..\lib\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\..\lib\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
+  <Import Project="..\..\lib\Fody.2.1.0\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\..\lib\Fody.2.1.0\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

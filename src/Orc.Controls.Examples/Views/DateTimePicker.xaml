@@ -26,10 +26,11 @@
         
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="DateTimePicker Control" VerticalAlignment="Center" Width="150"/>
-            <orc:DateTimePickerControl Value="{Binding DateTimeValue}" Width="300"
+            <orc:DateTimePicker Value="{Binding DateTimeValue}"
                                        Format="{Binding SelectedFormat.FormatValue}" HorizontalAlignment="Left"
                                        AllowNull="{Binding IsChecked, ElementName=allowNullCheckbox}"
                                        AllowCopyPaste="{Binding IsChecked, ElementName=allowCopyPasteCheckbox}"
+                                       HideTime="{Binding IsChecked, ElementName=hideTimeCheckbox}"
                                        HideSeconds="{Binding IsChecked, ElementName=hideSecondsCheckbox}"
                                        IsReadOnly="{Binding IsChecked, ElementName=readOnlyCheckbox}"
                                        ShowOptionsButton="{Binding IsChecked, ElementName=showOptionsButtonCheckbox}" />
@@ -38,6 +39,7 @@
         <StackPanel Orientation="Horizontal">
             <CheckBox x:Name="allowNullCheckbox" Content="Allow null" IsChecked="True" />
             <CheckBox x:Name="allowCopyPasteCheckbox" Content="Allow copy/paste" IsChecked="True" />
+            <CheckBox x:Name="hideTimeCheckbox" Content="Hide time" IsChecked="False"/>
             <CheckBox x:Name="hideSecondsCheckbox" Content="Hide seconds" IsChecked="False" />
             <CheckBox x:Name="readOnlyCheckbox" Content="Read only" IsChecked="False" />
             <CheckBox x:Name="showOptionsButtonCheckbox" Content="Show options button" IsChecked="True"/>

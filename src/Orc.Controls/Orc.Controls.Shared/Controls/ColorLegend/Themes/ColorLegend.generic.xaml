@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Orc.Controls"
                     xmlns:catel="http://catel.codeplex.com">
@@ -262,17 +262,12 @@
                                             <ContextMenu>
                                                 <MenuItem>
                                                     <MenuItem.Header>
-                                                        <CheckBox Content="Show Visibility Column" IsChecked="{Binding Path=ShowColorVisibilityControls, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                        <CheckBox Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_ShowVisibilityColumn}" IsChecked="{Binding Path=ShowColorVisibilityControls, RelativeSource={RelativeSource TemplatedParent}}" />
                                                     </MenuItem.Header>
                                                 </MenuItem>
                                                 <MenuItem>
                                                     <MenuItem.Header>
-                                                        <CheckBox Content="Allow Color Edit" IsChecked="{Binding Path=AllowColorEditing, RelativeSource={RelativeSource TemplatedParent}}" />
-                                                    </MenuItem.Header>
-                                                </MenuItem>
-                                                <MenuItem>
-                                                    <MenuItem.Header>
-                                                        <CheckBox Content="Use Regex search" IsChecked="{Binding Path=UseRegexFiltering, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                        <CheckBox Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_AllowColorEdit}" IsChecked="{Binding Path=AllowColorEditing, RelativeSource={RelativeSource TemplatedParent}}" />
                                                     </MenuItem.Header>
                                                 </MenuItem>
                                             </ContextMenu>
@@ -371,7 +366,7 @@
                                         <ColumnDefinition Width="5"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <CheckBox x:Name="PART_All_Visible" Content="Check all" VerticalAlignment="Center" Margin="4 0" IsThreeState="True"
+                                    <CheckBox x:Name="PART_All_Visible" Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_CheckAll}" VerticalAlignment="Center" Margin="4 0" IsThreeState="True"
                                               IsChecked="{Binding IsAllVisible, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                               Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type controls:ColorLegend}}, 
                                                             Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
@@ -381,7 +376,7 @@
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Margin="4" Foreground="Gray" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedItems.Count, ElementName=PART_List, StringFormat='Selected Items: {0}'}"/>
-                                        <Button x:Name="PART_UnselectAll" Grid.Column="1" Margin="2" Width="110" Content="Clear selection" />
+                                        <Button x:Name="PART_UnselectAll" Grid.Column="1" Margin="2" Width="110" Content="{catel:LanguageBinding Controls_ColorLegendGeneric_Button_Content_ClearSelection}" />
                                     </Grid>
                                 </Grid>
                             </Border>

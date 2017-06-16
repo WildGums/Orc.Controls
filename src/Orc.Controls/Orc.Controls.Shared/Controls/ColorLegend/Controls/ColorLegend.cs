@@ -209,6 +209,7 @@ namespace Orc.Controls
         /// <summary>
         /// Gets or sets a value indicating whether regex is used when search is performed.
         /// </summary>
+        [ObsoleteEx(Message = "Will be removed", RemoveInVersion = "2.0", TreatAsErrorFromVersion = "1.0")]
         public bool UseRegexFiltering
         {
             get { return (bool) GetValue(UseRegexFilteringProperty); }
@@ -218,8 +219,9 @@ namespace Orc.Controls
         /// <summary>
         /// Property indicating whether search is performing using regex or not.
         /// </summary>
+        [ObsoleteEx(Message = "Will be removed", RemoveInVersion = "2.0", TreatAsErrorFromVersion = "1.0")]
         public static readonly DependencyProperty UseRegexFilteringProperty = DependencyProperty.Register("UseRegexFiltering",
-            typeof (bool), typeof (ColorLegend), new PropertyMetadata(true));
+            typeof (bool), typeof (ColorLegend), new PropertyMetadata(false));
 
         /// <summary>
         /// Gets or sets a value indicating whether user editing current color.
@@ -666,16 +668,7 @@ namespace Orc.Controls
             {
                 _settingSelectedList = false;
             }
-        }
-
-        private string ConstructWildcardRegex(string pattern)
-        {
-            // Always add a wildcard at the end of the pattern
-            pattern = "*" + pattern.Trim('*') + "*";
-
-            // Make it case insensitive by default
-            return "(?i)^" + Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".") + "$";
-        }
+        }        
 
         protected IEnumerable<IColorLegendItem> GetFilteredItems()
         {
@@ -689,7 +682,7 @@ namespace Orc.Controls
 
             try
             {
-                Regex regex = UseRegexFiltering ? new Regex(filter) : new Regex(ConstructWildcardRegex(filter));
+                var regex = UseRegexFiltering ? new Regex(filter) : new Regex(filter.GetRegexStringFromSearchPattern());
                 return items.Where(cp => regex.IsMatch(cp.Description));
             }
             catch (Exception)

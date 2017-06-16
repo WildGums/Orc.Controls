@@ -12,7 +12,30 @@
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)..\..\GlobalSuppressions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adorners\ResizingAdorner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\PasswordBindBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\Meridiems.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Converters\ConnectionStateToColorBrushValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Initializers\ConnectionStringBuilderServiceInitializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Initializers\Interfaces\IConnectionStringBuilderServiceInitializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Model\ConnectionState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Model\ConnectionStringProperty.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Model\SqlConnectionString.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Providers\Interfaces\IDataSourceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Providers\MsSqlDataSourceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Services\ConnectionStringBuilderService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Services\Interfaces\IConnectionStringBuilderService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\ViewModel\ConnectionStringAdvancedOptionsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\ViewModel\ConnectionStringBuilderViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\ViewModel\ConnectionStringEditViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringAdvancedOptionsWindow.xaml.cs">
+      <DependentUpon>ConnectionStringAdvancedOptionsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringBuilder.xaml.cs">
+      <DependentUpon>ConnectionStringBuilder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringEditWindow.xaml.cs">
+      <DependentUpon>ConnectionStringEditWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\Models\DateRange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\PredefinedDateRanges.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DateRangePicker\ViewModels\DateRangePickerViewModel.cs" />
@@ -20,8 +43,33 @@
       <SubType>Code</SubType>
       <DependentUpon>DateRangePicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\Services\Interfaces\ISuggestionListService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\Services\SuggestionListService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\Model\DbProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\ViewModels\DbConnectionProviderListViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\ViewModels\DbProviderControlViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\ViewModels\DbProviderPickerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\Views\DbConnectionProviderListWindow.xaml.cs">
+      <DependentUpon>DbConnectionProviderListWindow.xaml</DependentUpon>
+    </Compile>
+	<Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\Views\DbProviderPicker.xaml.cs">
+      <DependentUpon>DbProviderPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\Views\DbProviderControl.xaml.cs">
+      <DependentUpon>DbProviderControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DropDownButton\Converters\DropdownArrowLocationConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Controls\FilterBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Controls\FilterBoxControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\EventArgs\InitializingAutoCompletionServiceEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\FrameRateCounter\FrameRateCounter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ListTextBox\ListTextBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\StackGrid\EmptyCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\StackGrid\EmptyColumn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\StackGrid\EmptyRow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\StackGrid\StackGrid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TabControl\TabControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpanPicker\ViewModels\TimeSpanPickerViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Services\Interfaces\IValidationNamesService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Converters\ValidationResultTypeToColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Extensions\IValidationContextTreeNodeExtensions.cs" />
@@ -56,15 +104,25 @@
       <DependentUpon>CulturePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DatePicker\ViewModels\DatePickerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DatePicker\Views\DatePicker.xaml.cs">
+      <DependentUpon>DatePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DatePicker\Views\DatePickerControl.xaml.cs">
       <DependentUpon>DatePickerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\ViewModels\DateTimePickerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\Views\DateTimePicker.xaml.cs">
+      <DependentUpon>DateTimePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\Views\DateTimePickerControl.xaml.cs">
       <DependentUpon>DateTimePickerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Services\MicrosoftApiSelectDirectoryService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\ViewModels\DirectoryPickerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPicker.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>DirectoryPicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPickerView.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>DirectoryPickerView.xaml</DependentUpon>
@@ -74,8 +132,6 @@
       <DependentUpon>DropDownButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Expander\Expander.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Services\Interfaces\ISuggestionListService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Services\SuggestionListService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\HeaderBar\HeaderBar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\Behaviors\LinkLabelBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LinkLabel\Behaviors\LinkLabelClickBehavior.cs" />
@@ -86,7 +142,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Extensions\LoggingExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Extensions\RichTextBoxExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Extensions\RichTextBoxParagraphExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Extensions\StringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BooleanAndToCollapsingVisibilityMultiValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Logging\LogViewerLogListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\Models\LogRecord.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\LogViewer\ViewModels\LogViewerViewModel.cs" />
@@ -97,6 +154,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\RichTextBoxParagraph.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\ViewModels\OpenFilePickerViewModel.cs">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePicker.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>OpenFilePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePickerView.xaml.cs">
       <SubType>Code</SubType>
@@ -114,12 +175,19 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\ViewModels\SaveFilePickerViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\Views\SaveFilePicker.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>SaveFilePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\Views\SaveFilePickerView.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>SaveFilePickerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\ViewModels\TimeSpanViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\Views\TimeSpanControl.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpanPicker\ViewModels\TimeSpanViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpanPicker\Views\TimeSpanPicker.xaml.cs">
+      <DependentUpon>TimeSpanPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TimeSpanPicker\Views\TimeSpanControl.xaml.cs">
       <DependentUpon>TimeSpanControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\ViewModels\ValidationContextViewModel.cs" />
@@ -138,6 +206,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\TimeSpanPart.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ColorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DependencyObjectExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\SqlConnectionStringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\TextBoxExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\TreeViewItemExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\WindowExtensions.cs" />
@@ -151,6 +220,46 @@
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\TabControl\Themes\TabControl.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Themes\ConnectionStringBuilder.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringAdvancedOptionsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringBuilder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ConnectionStringBuilder\Views\ConnectionStringEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\Views\DbConnectionProviderListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Page Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\Views\DbProviderPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DbProviderPicker\Views\DbProviderControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Themes\FilterBox.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Themes\FilterBoxControl.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Themes\ValidationContextTree.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -172,7 +281,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DatePicker\Themes\DatePicker.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\DatePicker\Themes\DatePickerControl.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DatePicker\Views\DatePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -180,11 +297,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\Themes\DateTimePicker.generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\Themes\DateTimePickerControl.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\Views\DateTimePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\DateTimePicker\Views\DateTimePickerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\DirectoryPicker\Views\DirectoryPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -204,10 +333,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\FilterBox\Themes\FilterBox.generic.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\HeaderBar\Themes\HeaderBar.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -223,6 +348,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\OpenFilePicker\Views\OpenFilePickerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -231,15 +360,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\Views\SaveFilePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\SaveFilePicker\Views\SaveFilePickerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\Themes\TimeSpan.generic.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\TimeSpanPicker\Themes\TimeSpanPicker.generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\TimeSpan\Views\TimeSpanControl.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Controls\TimeSpanPicker\Views\TimeSpanControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\TimeSpanPicker\Views\TimeSpanPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -264,12 +401,21 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Controls\BindableRichTextBox\Extensions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Controls\ColorLegend\Resources\Images\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Controls\DropDownButton\Converters\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Controls\TabControl\Themes\" />
     <Folder Include="$(MSBuildThisFileDirectory)Controls\ValidationContextControl\Commands\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Resources\" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Controls\PinnableToolTips\Themes\PinnableToolTip.xaml">
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\Fonts\Consolas.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Resources\Images\Folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Images\Loading.gif" />
+    <None Include="$(MSBuildThisFileDirectory)Resources\Images\Thumbs.db" />
   </ItemGroup>
 </Project>

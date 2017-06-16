@@ -394,6 +394,7 @@ namespace Orc.Controls
                 BorderThickness = new Thickness(0d),
                 Cursor = customizedCursor,
                 //Opacity = 0.40d,
+                OpacityMask = Brushes.Transparent, // ORCOMP-338 - Make thumb transparent
                 Width = CornerSize,
                 Height = CornerSize
             };

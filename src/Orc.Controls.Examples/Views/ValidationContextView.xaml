@@ -7,7 +7,7 @@
                    xmlns:orc="http://www.wildgums.net.au/orc"
                    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
 
-    <catel:StackGrid>
+    <orc:StackGrid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -22,6 +22,6 @@
         <orc:ValidationContextView x:Name="validationContextView" 
                                    ValidationContext="{Binding ValidationContext}"
                                    IsExpandedAllOnStartup="True" />
-    </catel:StackGrid>
+    </orc:StackGrid>
 
 </catel:UserControl>

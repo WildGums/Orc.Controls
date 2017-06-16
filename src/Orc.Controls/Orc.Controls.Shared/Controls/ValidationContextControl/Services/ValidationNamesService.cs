@@ -29,11 +29,41 @@ namespace Orc.Controls
 
         public virtual string GetDisplayName(IValidationResult validationResult)
         {
-            var line = ExtractTagLine(validationResult);
+            var tagData = ExtractTagData(validationResult);
 
-            if (line.HasValue)
+            var line = tagData.Line;
+            var columnName  = tagData.ColumnName;
+            var columnIndex = tagData.ColumnIndex;
+
+            var messagePrefix = string.Empty;
+
+            var hasLine = line.HasValue;
+            var hasColumnIndex = columnIndex.HasValue;
+            var hasColumnName = !string.IsNullOrWhiteSpace(columnName);
+
+            if (hasLine)
             {
-                return $"Row {line}: {validationResult.Message}";
+                messagePrefix += $"Row {line}";
+            }
+            
+            if (hasLine && (hasColumnIndex || hasColumnName))
+            {
+                messagePrefix += ", Column ";
+            }
+
+            if (hasColumnName)
+            {
+                messagePrefix += $"'{columnName}' ";
+            }
+
+            if (hasColumnIndex)
+            {
+                messagePrefix += $"({columnIndex}) ";
+            }
+
+            if (!string.IsNullOrWhiteSpace(messagePrefix))
+            {
+                return $"{messagePrefix} : { validationResult.Message}";
             }
 
             return validationResult.Message;
@@ -70,7 +100,7 @@ namespace Orc.Controls
 
         public int? GetLineNumber(IValidationResult validationResult)
         {
-            return ExtractTagLine(validationResult);
+            return ExtractTagData(validationResult).Line;
         }
 
         public virtual IEnumerable<IValidationResult> GetCachedResultsByTagName(string tagName)
@@ -110,21 +140,43 @@ namespace Orc.Controls
 
         protected virtual int? ExtractTagLine(IValidationResult validationResult)
         {
+            return ExtractTagData(validationResult).Line;
+        }
+
+        protected virtual TagDetails ExtractTagData(IValidationResult validationResult)
+        {
             var tag = validationResult.Tag;
+            var tagDetails = new TagDetails();
+
             if (ReferenceEquals(tag, null))
             {
-                return null;
+                return tagDetails;
             }
 
             if (tag is string)
             {
-                return null;
+                return tagDetails;
             }
 
             var type = tag.GetType();
-            var lineProperty = type.GetPropertyEx("Line");
 
-            return lineProperty?.GetValue(tag, new object[0]) as int?;
+            var lineProperty = type.GetPropertyEx("Line");
+            tagDetails.Line = lineProperty?.GetValue(tag, new object[0]) as int?;
+
+            var columnNameProperty = type.GetPropertyEx("ColumnName");
+            tagDetails.ColumnName = columnNameProperty?.GetValue(tag, new object[0]) as string;
+
+            var columnIndexProperty = type.GetPropertyEx("ColumnIndex");
+            tagDetails.ColumnIndex = columnIndexProperty?.GetValue(tag, new object[0]) as int?;
+
+            return tagDetails;
+        }
+
+        protected class TagDetails
+        {
+            public int? Line { get; set; } = null;
+            public string ColumnName { get; set; } = string.Empty;
+            public int? ColumnIndex { get; set; } = null;
         }
     }
 }

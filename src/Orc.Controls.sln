@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26020.0
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.NET40", "Orc.Controls\Orc.Controls.NET40\Orc.Controls.NET40.csproj", "{E6CE2111-3D7C-4759-A886-E44EC77CE3AA}"
 EndProject

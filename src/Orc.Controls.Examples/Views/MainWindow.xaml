@@ -3,7 +3,7 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:catel="http://catel.codeplex.com"
               xmlns:views="clr-namespace:Orc.Controls.Examples.Views"
-              Height="650" Width="800">
+              Height="650" Width="850">
 
     <catel:Window.Resources>
         <SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#D4D4D4"/>
@@ -16,7 +16,7 @@
         <Style TargetType="{x:Type TabItem}">
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="Padding" Value="6,4,6,4"/>
-            <Setter Property="Width" Value="130"/>
+            <Setter Property="Width" Value="150"/>
             <Setter Property="Margin" Value="0 0 0 -1"/>
             <Setter Property="BorderBrush" Value="{StaticResource TabControlNormalBorderBrush}"/>
             <Setter Property="Background" Value="{StaticResource ButtonNormalBackground}"/>
@@ -106,7 +106,10 @@
         </Style>
     </catel:Window.Resources>
 
-    <TabControl Padding="10" TabStripPlacement="Left" Background="White" BorderBrush="{StaticResource TabControlNormalBorderBrush}">
+    <TabControl Padding="10" 
+                TabStripPlacement="Left" 
+                Background="White" 
+                BorderBrush="{StaticResource TabControlNormalBorderBrush}">
 
         <TabItem Header="AnimatedGif">
             <views:AnimatedGif />
@@ -128,6 +131,10 @@
             </views:ColorPicker>
         </TabItem>
 
+        <TabItem Header="ConnectionStringBuilder">
+            <views:ConnectionStringBuilderView />
+        </TabItem>
+
         <TabItem Header="CulturePicker">
             <views:CulturePickerView/>
         </TabItem>
@@ -144,7 +151,7 @@
             <views:DateRangePicker />
         </TabItem>
 
-        <TabItem Header="DirectoryPickerView">
+        <TabItem Header="DirectoryPicker">
             <views:DirectoryPickerView />
         </TabItem>
 
@@ -168,7 +175,7 @@
             <views:LogViewer />
         </TabItem>
 
-        <TabItem Header="OpenFilePickerView">
+        <TabItem Header="OpenFilePicker">
             <views:OpenFilePickerView />
         </TabItem>
 
@@ -176,12 +183,12 @@
             <views:PinnableToolTip />
         </TabItem>
 
-        <TabItem Header="SaveFilePickerView">
+        <TabItem Header="SaveFilePicker">
             <views:SaveFilePickerView />
         </TabItem>
 
-        <TabItem Header="TimeSpan">
-            <views:TimeSpan />
+        <TabItem Header="TimeSpanPicker">
+            <views:TimeSpanPickerView />
         </TabItem>
                
         <TabItem Header="ValidationContextControl">

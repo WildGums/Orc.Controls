@@ -45,6 +45,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty RangesProperty = DependencyProperty.Register("Ranges", typeof(ObservableCollection<DateRange>),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+			
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public DateRange SelectedRange
         {
@@ -55,6 +56,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty SelectedRangeProperty = DependencyProperty.Register("SelectedRange", typeof(DateRange),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+			
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public DateTime StartDate
         {
@@ -65,6 +67,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty StartDateProperty = DependencyProperty.Register("StartDate", typeof(DateTime),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+			
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public DateTime EndDate
         {
@@ -75,6 +78,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty EndDateProperty = DependencyProperty.Register("EndDate", typeof(DateTime),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+			
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public TimeSpan Span
         {
@@ -85,6 +89,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty SpanProperty = DependencyProperty.Register("Span", typeof(TimeSpan),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+			
         public bool AllowCopyPaste
         {
             get { return (bool)GetValue(AllowCopyPasteProperty); }
@@ -94,24 +99,37 @@ namespace Orc.Controls
         public static readonly DependencyProperty AllowCopyPasteProperty = DependencyProperty.Register("AllowCopyPaste", typeof(bool),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(true));
 
-        public string DateTimeFormat
+			
+        public string Format
         {
-            get { return (string)GetValue(DateTimeFormatProperty); }
-            set { SetValue(DateTimeFormatProperty, value); }
+            get { return (string)GetValue(FormatProperty); }
+            set { SetValue(FormatProperty, value); }
         }
 
-        public static readonly DependencyProperty DateTimeFormatProperty = DependencyProperty.Register("DateTimeFormat", typeof(string),
+        public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof(string),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern));
 
-        public bool DateTimeHideSeconds
+
+        public bool HideTime
         {
-            get { return (bool)GetValue(DateTimeHideSecondsProperty); }
-            set { SetValue(DateTimeHideSecondsProperty, value); }
+            get { return (bool)GetValue(HideTimeProperty); }
+            set { SetValue(HideTimeProperty, value); }
         }
 
-        public static readonly DependencyProperty DateTimeHideSecondsProperty = DependencyProperty.Register("DateTimeHideSeconds", typeof(bool),
+        public static readonly DependencyProperty HideTimeProperty = DependencyProperty.Register("HideTime", typeof(bool),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(false));
 
+
+        public bool HideSeconds
+        {
+            get { return (bool)GetValue(HideSecondsProperty); }
+            set { SetValue(HideSecondsProperty, value); }
+        }
+
+        public static readonly DependencyProperty HideSecondsProperty = DependencyProperty.Register("HideSeconds", typeof(bool),
+            typeof(DateRangePicker), new FrameworkPropertyMetadata(false));
+
+			
         public bool ShowOptionsButton
         {
             get { return (bool)GetValue(ShowOptionsButtonProperty); }
@@ -121,6 +139,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register("ShowOptionsButton", typeof(bool),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(true));
 
+			
         public bool IsReadOnly
         {
             get { return (bool)GetValue(IsReadOnlyProperty); }

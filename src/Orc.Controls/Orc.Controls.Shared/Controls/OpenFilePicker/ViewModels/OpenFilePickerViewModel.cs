@@ -71,7 +71,7 @@ namespace Orc.Controls
         private void OnOpenDirectoryExecute()
         {
             var initialDirectory = GetInitialDirectory();
-            if(!string.IsNullOrWhiteSpace(initialDirectory))
+            if (!string.IsNullOrWhiteSpace(initialDirectory))
             {
                 _processService.StartProcess(initialDirectory);
             }
@@ -100,7 +100,16 @@ namespace Orc.Controls
 
             if (_selectFileService.DetermineFile())
             {
+                var oldSelectedFile = SelectedFile;
+
                 SelectedFile = _selectFileService.FileName;
+
+                // See here: https://github.com/WildGums/Orc.Controls/issues/13
+                if (!AlwaysInvokeNotifyChanged
+                    && string.Equals(oldSelectedFile, SelectedFile))
+                {
+                    RaisePropertyChanged(nameof(SelectedFile));
+                }
             }
         }
         #endregion
@@ -118,14 +127,14 @@ namespace Orc.Controls
         private void UpdateSelectedFileDisplayName()
         {
             var selectedFile = SelectedFile;
-            if(string.IsNullOrWhiteSpace(selectedFile) || !System.IO.Path.IsPathRooted(selectedFile))
+            if (string.IsNullOrWhiteSpace(selectedFile) || !System.IO.Path.IsPathRooted(selectedFile))
             {
                 SelectedFileDisplayName = string.Empty;
                 return;
             }
 
             var baseDirectory = BaseDirectory;
-            if(string.IsNullOrWhiteSpace(baseDirectory) || !Directory.Exists(baseDirectory))
+            if (string.IsNullOrWhiteSpace(baseDirectory) || !Directory.Exists(baseDirectory))
             {
                 SelectedFileDisplayName = selectedFile;
                 return;
@@ -133,7 +142,7 @@ namespace Orc.Controls
 
             var selectedFileRoot = System.IO.Path.GetPathRoot(selectedFile);
             var baseDirectoryRoot = System.IO.Path.GetPathRoot(baseDirectory);
-            if(!string.Equals(selectedFileRoot, baseDirectoryRoot, StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals(selectedFileRoot, baseDirectoryRoot, StringComparison.OrdinalIgnoreCase))
             {
                 SelectedFileDisplayName = selectedFile;
                 return;
@@ -148,12 +157,12 @@ namespace Orc.Controls
             var isSelectedRootedPath = !string.IsNullOrWhiteSpace(selectedFile) && System.IO.Path.IsPathRooted(selectedFile);
 
             string result = null;
-            if(isSelectedRootedPath)
+            if (isSelectedRootedPath)
             {
                 result = Path.GetParentDirectory(selectedFile);
             }
 
-            if(!string.IsNullOrWhiteSpace(result) && Directory.Exists(result))
+            if (!string.IsNullOrWhiteSpace(result) && Directory.Exists(result))
             {
                 return result;
             }

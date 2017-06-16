@@ -26,6 +26,7 @@ namespace Orc.Controls
     /// <summary>
     /// Interaction logic for DateTimePickerControl.xaml
     /// </summary>
+    [ObsoleteEx(TreatAsErrorFromVersion = "1.4", RemoveInVersion = "2.0")]
     public partial class DateTimePickerControl
     {
         #region Fields
@@ -144,6 +145,16 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty AllowCopyPasteProperty = DependencyProperty.Register("AllowCopyPaste", typeof(bool),
             typeof(DateTimePickerControl), new PropertyMetadata(true));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool HideTime
+        {
+            get { return (bool)GetValue(HideTimeProperty); }
+            set { SetValue(HideTimeProperty, value); }
+        }
+
+        public static readonly DependencyProperty HideTimeProperty = DependencyProperty.Register("HideTime", typeof(bool),
+            typeof(DateTimePickerControl), new FrameworkPropertyMetadata(false, (sender, e) => ((DateTimePickerControl)sender).OnHideTimeChanged()));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool HideSeconds
@@ -445,6 +456,11 @@ namespace Orc.Controls
             }
         }
 
+        private void OnHideTimeChanged()
+        {
+            ApplyFormat();
+        }
+
         private void OnHideSecondsChanged()
         {
             ApplyFormat();
@@ -530,7 +546,7 @@ namespace Orc.Controls
             Separator2.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator2);
             Separator3.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator3);
             Separator4.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator4);
-            Separator5.SetCurrentValue(TextBlock.TextProperty, Value == null || HideSeconds ? string.Empty : _formatInfo.Separator5);
+            Separator5.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator5);
             Separator6.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator6);
             Separator7.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator7);
         }
