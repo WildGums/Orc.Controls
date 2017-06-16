@@ -21,8 +21,8 @@
     </ControlTemplate>
 
     <!-- Dummy base style -->
-    <Style x:Key="{x:Type local:DateTimePickerControl}"
-           TargetType="{x:Type local:DateTimePickerControl}"/>
+    <Style x:Key="{x:Type local:DateTimePicker}"
+           TargetType="{x:Type local:DateTimePicker}"/>
 
     <Style x:Key="DateTimePickerToggleButtonStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Width" Value="19"/>
