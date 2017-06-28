@@ -4,8 +4,8 @@
                     xmlns:catel="http://catel.codeplex.com"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
 
-    <Style x:Key="{x:Type local:FilterBoxControl}"
-           TargetType="{x:Type local:FilterBoxControl}">
+    <Style x:Key="{x:Type local:FilterBox}"
+           TargetType="{x:Type local:FilterBox}">
         <Style.Resources>
            <Style TargetType="{x:Type ListBoxItem}">
                 <Setter Property="Template">
@@ -95,7 +95,7 @@
                                        Margin="{TemplateBinding Padding}"
                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                       Text="{Binding Path=Watermark, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBoxControl}}}"
+                                       Text="{Binding Path=Watermark, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBox}}}"
                                        IsHitTestVisible="False"
                                        Visibility="Collapsed"
                                        Focusable="False" 
@@ -133,7 +133,7 @@
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:FilterBoxControl}">
+                <ControlTemplate TargetType="{x:Type local:FilterBox}">
                     <Border x:Name="Bd" 
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
@@ -148,11 +148,12 @@
                             <TextBox x:Name="PART_FilterTextBox" 
                                      Padding="4,0,0,0"
                                      VerticalAlignment="Center"
-                                     Text="{Binding Path=Text, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBoxControl}}}">
+                                     Text="{Binding Path=Text, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBox}}}">
                                 <i:Interaction.Behaviors>
                                     <catel:UpdateBindingOnTextChanged UpdateDelay="750" />
-                                    <catel:AutoCompletion PropertyName ="{Binding PropertyName, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBoxControl}}}" 
-                                                          ItemsSource="{Binding FilterSource, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBoxControl}}}" />
+                                    <catel:AutoCompletion PropertyName ="{Binding PropertyName, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBox}}}" 
+                                                          ItemsSource="{Binding FilterSource, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBox}}}" 
+                                                          UseAutoCompletionService="{Binding AllowAutoCompletion, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBox}}}"/>
                                     <catel:SelectTextOnFocus />
                                 </i:Interaction.Behaviors>
                             </TextBox>
@@ -161,7 +162,7 @@
                                     Grid.Column="1"
                                     Width="18"
                                     DockPanel.Dock="Right"
-                                    Visibility="{Binding Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBoxControl}}}"/>
+                                    Visibility="{Binding Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilterBox}}}"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>

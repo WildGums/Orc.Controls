@@ -26,6 +26,7 @@ namespace Orc.Controls
     /// <summary>
     /// Interaction logic for DateTimePickerControl.xaml
     /// </summary>
+    [ObsoleteEx(TreatAsErrorFromVersion = "1.4", RemoveInVersion = "2.0")]
     public partial class DateTimePickerControl
     {
         #region Fields

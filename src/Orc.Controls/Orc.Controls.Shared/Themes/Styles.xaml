@@ -9,14 +9,32 @@
             <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
         </Style.Setters>
     </Style>
+	
+	<Style x:Key="DefaultDateTimePickerStyle" TargetType="{x:Type controls:DateTimePicker}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
+        </Style.Setters>
+    </Style>
 
     <Style x:Key="DefaultDatePickerControlStyle" TargetType="{x:Type controls:DatePickerControl}">
         <Style.Setters>
             <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
         </Style.Setters>
     </Style>
+	
+	<Style x:Key="DefaultDatePickerStyle" TargetType="{x:Type controls:DatePicker}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
+        </Style.Setters>
+    </Style>
 
     <Style x:Key="DefaultTimeSpanControlStyle" TargetType="{x:Type controls:TimeSpanControl}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="DefaultTimeSpanPickerStyle" TargetType="{x:Type controls:TimeSpanPicker}">
         <Style.Setters>
             <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
         </Style.Setters>
@@ -29,6 +47,12 @@
     </Style>
 
     <Style x:Key="DbProviderControl" TargetType="{x:Type controls:DbProviderControl}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="DbProviderPicker" TargetType="{x:Type controls:DbProviderPicker}">
         <Style.Setters>
             <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
         </Style.Setters>

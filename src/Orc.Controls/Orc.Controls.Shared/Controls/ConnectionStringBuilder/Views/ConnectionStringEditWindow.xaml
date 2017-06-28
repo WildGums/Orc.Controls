@@ -73,7 +73,7 @@
 
                 <Label Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_Label_Content_Provider}"
                        IsEnabled="{Binding IsServersRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
-                <controls:DbProviderControl DbProvider="{Binding DbProvider, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                <controls:DbProviderPicker DbProvider="{Binding DbProvider, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                             IsEnabled="{Binding IsServersRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
                 <Label Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_Label_Content_Server}" Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>

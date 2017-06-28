@@ -152,7 +152,7 @@
             <views:DateRangePicker />
         </TabItem>
 
-        <TabItem Header="DirectoryPickerView">
+        <TabItem Header="DirectoryPicker">
             <views:DirectoryPickerView />
         </TabItem>
 
@@ -176,7 +176,7 @@
             <views:LogViewer />
         </TabItem>
 
-        <TabItem Header="OpenFilePickerView">
+        <TabItem Header="OpenFilePicker">
             <views:OpenFilePickerView />
         </TabItem>
 
@@ -184,12 +184,12 @@
             <views:PinnableToolTip />
         </TabItem>
 
-        <TabItem Header="SaveFilePickerView">
+        <TabItem Header="SaveFilePicker">
             <views:SaveFilePickerView />
         </TabItem>
 
-        <TabItem Header="TimeSpan">
-            <views:TimeSpan />
+        <TabItem Header="TimeSpanPicker">
+            <views:TimeSpanPickerView />
         </TabItem>
                
         <TabItem Header="ValidationContextControl">

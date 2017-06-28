@@ -20,6 +20,7 @@ namespace Orc.Controls
 
     [TemplatePart(Name = "PART_FilterTextBox", Type = typeof(TextBox))]
     [TemplatePart(Name = "PART_ClearButton", Type = typeof(Button))]
+    [ObsoleteEx(TreatAsErrorFromVersion = "1.4", RemoveInVersion = "2.0")]
     public class FilterBoxControl : ContentControl
     {
         private readonly Command _clearFilter;
