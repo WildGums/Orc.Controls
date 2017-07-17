@@ -15,7 +15,7 @@ namespace Orc.Controls
     using Catel.Collections;
     using Catel.Data;
 
-    public class ValidationContextTreeNode : ModelBase, IValidationContextTreeNode, IComparable
+    public class ValidationContextTreeNode : ChildAwareModelBase, IValidationContextTreeNode, IComparable
     {
         protected ValidationContextTreeNode(bool isExpanded)
         {

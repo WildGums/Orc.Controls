@@ -7,6 +7,7 @@
 
 namespace Orc.Controls
 {
+    using System.Threading.Tasks;
     using Catel;
     using Catel.IoC;
     using Catel.MVVM;
@@ -25,17 +26,17 @@ namespace Orc.Controls
             _uiVisualizerService = uiVisualizerService;
             _typeFactory = typeFactory;
 
-            ChangeDbProvider = new Command(OnChangeDbProvider);
+            ChangeDbProvider = new TaskCommand(OnChangeDbProviderAsync);
         }
 
         public DbProvider DbProvider { get; set; }
 
-        public Command ChangeDbProvider { get; }
+        public TaskCommand ChangeDbProvider { get; }
 
-        private void OnChangeDbProvider()
+        private async Task OnChangeDbProviderAsync()
         {
             var dbProviderListViewModel = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<DbConnectionProviderListViewModel>(DbProvider);
-            if (_uiVisualizerService.ShowDialog(dbProviderListViewModel) ?? false)
+            if (await _uiVisualizerService.ShowDialogAsync(dbProviderListViewModel) ?? false)
             {
                 DbProvider = dbProviderListViewModel.DbProvider;
             }
