@@ -64,7 +64,7 @@
       <HintPath>..\..\lib\Orc.FileSystem.2.0.0-unstable0001\lib\net46\Orc.FileSystem.dll</HintPath>
     </Reference>
     <Reference Include="Orchestra.Core, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\lib\Orchestra.Core.3.0.0-unstable0010\lib\net47\Orchestra.Core.dll</HintPath>
+      <HintPath>..\..\lib\Orchestra.Core.3.0.0-unstable0011\lib\net47\Orchestra.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
