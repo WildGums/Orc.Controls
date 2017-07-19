@@ -16,7 +16,10 @@
 
     <!-- Content -->
     <StackPanel>
-        <orc:OpenFilePicker LabelText="OpenFilePicker control" LabelWidth="150"
-                                Filter="Image files (*.bmp, *.jpg)|*.bmp;*.jpg|All files (*.*)|*.*"  />
+        <orc:OpenFilePicker LabelText="OpenFilePicker control" 
+                            LabelWidth="150"
+                            SelectedFile="{Binding SelectedFile}"
+                            BaseDirectory="C:\"
+                            Filter="Image files (*.bmp, *.jpg)|*.bmp;*.jpg|All files (*.*)|*.*"  />
     </StackPanel>
 </catel:UserControl>

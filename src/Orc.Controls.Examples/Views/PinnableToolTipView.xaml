@@ -15,7 +15,8 @@
         <ItemsControl ItemsSource="{Binding ColorList}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="{Binding}" BorderThickness="1" Margin="4,8,4,8" Width="150" HorizontalAlignment="Left">
+                    <Border BorderBrush="{Binding}" BorderThickness="1" Margin="4,8,4,8" Width="150" HorizontalAlignment="Left"
+                            orc:PinnableToolTipService.ShowDuration="100000">
                         <TextBlock Text="{Binding}" Margin="5"/>
                         <orc:PinnableToolTipService.ToolTip>
                             <orc:PinnableToolTip AllowCloseByUser="True" ResizeMode="CanResize" MinWidth="100" MinHeight="100"

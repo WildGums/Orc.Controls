@@ -13,17 +13,17 @@
         <StackPanel>
             <TextBlock Text="DateRangePicker Control" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150"/>
             <orc:DateRangePicker HorizontalAlignment="Left"
-                Span="{Binding Span}"
-                StartDate="{Binding StartDate}"
-                EndDate="{Binding EndDate}"
-                Ranges="{Binding Ranges}"
-                SelectedRange="{Binding SelectedRange}"
-                AllowCopyPaste="{Binding IsChecked, ElementName=allowCopyPasteCheckbox}"
-                Format="yyyy-MM-dd HH:mm:ss"
-                HideTime="{Binding IsChecked, ElementName=hideTimeCheckbox}"
-                HideSeconds="{Binding IsChecked, ElementName=hideSecondsCheckbox}"
-                ShowOptionsButton="{Binding IsChecked, ElementName=showOptionsButtonCheckbox}"
-                IsReadOnly="{Binding IsChecked, ElementName=isReadOnlyCheckbox}"/>
+                                 Span="{Binding Span}"
+                                 StartDate="{Binding StartDate}"
+                                 EndDate="{Binding EndDate}"
+                                 Ranges="{Binding Ranges}"
+                                 SelectedRange="{Binding SelectedRange}"
+                                 AllowCopyPaste="{Binding IsChecked, ElementName=allowCopyPasteCheckbox}"
+                                 Format="yyyy-MM-dd HH:mm:ss"
+                                 HideTime="{Binding IsChecked, ElementName=hideTimeCheckbox}"
+                                 HideSeconds="{Binding IsChecked, ElementName=hideSecondsCheckbox}"
+                                 ShowOptionsButton="{Binding IsChecked, ElementName=showOptionsButtonCheckbox}"
+                                 IsReadOnly="{Binding IsChecked, ElementName=isReadOnlyCheckbox}"/>
         </StackPanel>
 
         <StackPanel>

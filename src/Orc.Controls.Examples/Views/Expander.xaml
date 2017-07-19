@@ -3,8 +3,40 @@
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:orc="http://www.wildgums.net.au/orc"
                    xmlns:catel="http://catel.codeplex.com">
+    <Grid x:Name="Grid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="300" />
+        </Grid.ColumnDefinitions>
 
-    <orc:Expander Style="{DynamicResource ExpandLeftStyle}" Header="Expander" ExpandDirection="Down">
-        <TextBlock Text="Expander" VerticalAlignment="Center"/>
-    </orc:Expander>
+        <Rectangle x:Name="Rect"
+                   Fill="Blue"
+                   Height="50"
+                   VerticalAlignment="Center"                   
+                   HorizontalAlignment="Stretch"/>
+
+        <TextBlock Text="{Binding ElementName=Rect, Path=ActualWidth}"
+                   Foreground="White"
+                   FontWeight="Bold"/>
+
+        <GridSplitter Grid.Column="1"
+                      MinWidth="2"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Stretch"
+                      Background="#D3D3D3"/>
+
+        <orc:Expander Name="MyExpander"
+                      Header="Header"
+                      Grid.Column="2"
+                      ExpandDirection="Left"
+                      AutoResizeGrid="True"
+                      IsExpanded="True"
+                      Style="{DynamicResource ExpandLeftStyle}">
+
+            <!--Expander content-->
+            <TextBlock Text="Expander content"/>
+        </orc:Expander>
+    </Grid>
+
 </catel:UserControl>
