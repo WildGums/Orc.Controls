@@ -7,6 +7,7 @@
 
 namespace Orc.Controls
 {
+    using System.Threading.Tasks;
     using Catel;
     using Catel.IoC;
     using Catel.MVVM;
@@ -27,7 +28,7 @@ namespace Orc.Controls
             _typeFactory = typeFactory;
 
             Clear = new Command(OnClear, () => ConnectionString != null);
-            Edit = new Command(OnEdit);
+            Edit = new TaskCommand(OnEditAsync);
         }
 
         public ConnectionState ConnectionState { get; set; } = ConnectionState.Undefined;
@@ -35,15 +36,15 @@ namespace Orc.Controls
         public string DisplayConnectionString { get; private set; }
         public bool IsInEditMode { get; set; }
 
-        public Command Edit { get; }
+        public TaskCommand Edit { get; }
         public Command Clear { get; }
 
-        private void OnEdit()
+        private async Task OnEditAsync()
         {
             IsInEditMode = true;
 
             var connectionStringEditViewModel = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<ConnectionStringEditViewModel>(ConnectionString, _dbProvider);
-            if (_uiVisualizerService.ShowDialog(connectionStringEditViewModel) ?? false)
+            if (await _uiVisualizerService.ShowDialogAsync(connectionStringEditViewModel) ?? false)
             {
                 _dbProvider = connectionStringEditViewModel.DbProvider;
                 var connectionString = connectionStringEditViewModel.ConnectionString;

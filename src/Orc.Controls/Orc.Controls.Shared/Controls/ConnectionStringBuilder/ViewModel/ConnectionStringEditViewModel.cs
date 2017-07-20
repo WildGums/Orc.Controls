@@ -53,7 +53,7 @@ namespace Orc.Controls
             RefreshDatabases = new Command(() => RefreshDatabasesAsync(), CanInitDatabases);
 
             TestConnection = new Command(OnTestConnection);
-            ShowAdvancedOptions = new Command(OnShowAdvancedOptions, () => ConnectionString != null);
+            ShowAdvancedOptions = new TaskCommand(OnShowAdvancedOptionsAsync, () => ConnectionString != null);
         }
 
         public ConnectionStringProperty DataSource => ConnectionString.TryGetProperty("Data Source");
@@ -95,7 +95,7 @@ namespace Orc.Controls
         public Command RefreshServers { get; }
         public Command InitServers { get; }
         public Command TestConnection { get; }
-        public Command ShowAdvancedOptions { get; }
+        public TaskCommand ShowAdvancedOptions { get; }
         public Command RefreshDatabases { get; }
         public Command InitDatabases { get; }
 
@@ -126,7 +126,7 @@ namespace Orc.Controls
             RaisePropertyChanged(nameof(IntegratedSecurity));
         }
 
-        private void OnShowAdvancedOptions()
+        private async Task OnShowAdvancedOptionsAsync()
         {
             var connectionString = ConnectionString;
             if (connectionString == null)
@@ -135,7 +135,7 @@ namespace Orc.Controls
             }
 
             var advancedOptionsViewModel = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<ConnectionStringAdvancedOptionsViewModel>(connectionString);
-            _uiVisualizerService.ShowDialog(advancedOptionsViewModel);
+            await _uiVisualizerService.ShowDialogAsync(advancedOptionsViewModel);
         }
 
         private void OnTestConnection()

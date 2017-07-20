@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Orc.Controls"
-                    xmlns:catel="http://catel.codeplex.com">
+                    xmlns:catel="http://schemas.catelproject.com">
 
     <controls:MultipleCommandParameterConverter x:Key="MultipleCommandParametersConverter"/>
     <Color x:Key="Color_Control_1">#eeeeee</Color>
@@ -274,12 +274,12 @@
                                         </controls:DropDownButton.DropDown>
                                     </controls:DropDownButton>
 
-                                    <controls:FilterBoxControl Grid.Column="1" 
-                                                               Watermark="{TemplateBinding FilterWatermark}" 
-                                                               PropertyName="Description"
-                                                               Visibility="{Binding ShowSearchBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}"
-                                                               FilterSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}}" 
-                                                               Text="{Binding Filter, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    <controls:FilterBox Grid.Column="1" 
+                                                        Watermark="{TemplateBinding FilterWatermark}" 
+                                                        PropertyName="Description"
+                                                        Visibility="{Binding ShowSearchBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}"
+                                                        FilterSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}}" 
+                                                        Text="{Binding Filter, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 </Grid>
                             </Border>
                             

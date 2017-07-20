@@ -9,6 +9,7 @@ namespace Orc.Controls
 {
     using System;
     using System.IO;
+    using System.Threading.Tasks;
     using Catel;
     using Catel.MVVM;
     using Catel.Services;
@@ -31,7 +32,7 @@ namespace Orc.Controls
             _processService = processService;
 
             OpenDirectory = new Command(OnOpenDirectoryExecute, OnOpenDirectoryCanExecute);
-            SelectFile = new Command(OnSelectFileExecute);
+            SelectFile = new TaskCommand(OnSelectFileExecuteAsync);
         }
         #endregion
 
@@ -80,12 +81,12 @@ namespace Orc.Controls
         /// <summary>
         /// Gets the SelectFile command.
         /// </summary>
-        public Command SelectFile { get; private set; }
+        public TaskCommand SelectFile { get; private set; }
 
         /// <summary>
         /// Method to invoke when the SelectFile command is executed.
         /// </summary>
-        private void OnSelectFileExecute()
+        private async Task OnSelectFileExecuteAsync()
         {
             var initialDirectory = GetInitialDirectory();
             if (!string.IsNullOrEmpty(initialDirectory))
@@ -98,7 +99,7 @@ namespace Orc.Controls
                 _selectFileService.Filter = Filter;
             }
 
-            if (_selectFileService.DetermineFile())
+            if (await _selectFileService.DetermineFileAsync())
             {
                 var oldSelectedFile = SelectedFile;
 

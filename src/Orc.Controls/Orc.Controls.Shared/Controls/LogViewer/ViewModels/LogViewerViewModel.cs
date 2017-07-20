@@ -366,43 +366,43 @@ namespace Orc.Controls.ViewModels
                 var typeNames = TypeNames;
                 var requireSorting = false;
 
-                LeanAndMeanModel = true;
-
-                using (_logEntries.SuspendChangeNotifications())
+                using (SuspendChangeNotifications())
                 {
-                    foreach (var entry in entries)
+                    using (_logEntries.SuspendChangeNotifications())
                     {
-                        _logEntries.Add(entry);
-
-                        if (!typeNames.Contains(entry.Log.TargetType.Name))
+                        foreach (var entry in entries)
                         {
-                            try
-                            {
-                                typeNames.Add(entry.Log.TargetType.Name);
+                            _logEntries.Add(entry);
 
-                                requireSorting = true;
-                            }
-                            catch (Exception)
+                            if (!typeNames.Contains(entry.Log.TargetType.Name))
                             {
-                                // we don't have time for this, let it go...
+                                try
+                                {
+                                    typeNames.Add(entry.Log.TargetType.Name);
+
+                                    requireSorting = true;
+                                }
+                                catch (Exception)
+                                {
+                                    // we don't have time for this, let it go...
+                                }
                             }
+
+                            UpdateEntriesCount(entry);
                         }
-
-                        UpdateEntriesCount(entry);
                     }
-                }
 
-                if (requireSorting)
-                {
-                    using (typeNames.SuspendChangeNotifications())
+                    if (requireSorting)
                     {
-                        typeNames.Sort();
-                        typeNames.Remove(defaultComboBoxItem);
-                        typeNames.Insert(0, defaultComboBoxItem);
+                        using (typeNames.SuspendChangeNotifications())
+                        {
+                            typeNames.Sort();
+                            typeNames.Remove(defaultComboBoxItem);
+                            typeNames.Insert(0, defaultComboBoxItem);
+                        }
                     }
                 }
 
-                LeanAndMeanModel = false;
                 RaisePropertyChanged(string.Empty);
             }
 

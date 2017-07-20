@@ -70,22 +70,6 @@ namespace Orc.Controls
 
         #region Properties
         /// <summary>
-        /// Gets or sets the operation color attribute.
-        /// </summary>
-        [ObsoleteEx(Message = "No longer required, legend now respects the Header property", TreatAsErrorFromVersion = "1.3", RemoveInVersion = "2.0")]
-        public string OperationColorAttribute
-        {
-            get { return (string) GetValue(OperationColorAttributeProperty); }
-            set { SetValue(OperationColorAttributeProperty, value); }
-        }
-
-        /// <summary>
-        /// The operation color attribute property.
-        /// </summary>
-        public static readonly DependencyProperty OperationColorAttributeProperty = DependencyProperty.Register("OperationColorAttribute",
-            typeof (string), typeof (ColorLegend), new PropertyMetadata(string.Empty));
-
-        /// <summary>
         /// Gets or sets a value indicating whether color can be edited or not.
         /// </summary>
         public bool AllowColorEditing
@@ -130,6 +114,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty ShowToolBoxProperty = DependencyProperty.Register("ShowToolBox",
             typeof (bool), typeof (ColorLegend), new PropertyMetadata(true));
 
+
         /// <summary>
         /// Gets or sets a value indicating whether tool box is shown or not.
         /// </summary>
@@ -145,21 +130,6 @@ namespace Orc.Controls
         public static readonly DependencyProperty ShowBottomToolBoxProperty = DependencyProperty.Register("ShowBottomToolBox",
             typeof (bool), typeof (ColorLegend), new PropertyMetadata(true));
 
-        /// <summary>
-        /// Gets or sets a value indicating whether settings button is shown or not.
-        /// </summary>
-        [ObsoleteEx(Message= "No longer required due to consistency, use ShowSettingsBox instead", ReplacementTypeOrMember = "ShowSettingsBox", TreatAsErrorFromVersion = "1.3", RemoveInVersion = "2.0")]
-        public bool ShowSettings
-        {
-            get { return (bool)GetValue(ShowSettingsProperty); }
-            set { SetValue(ShowSettingsProperty, value); }
-        }
-
-        /// <summary>
-        /// Property indicating whether search box is shown or not.
-        /// </summary>
-        public static readonly DependencyProperty ShowSettingsProperty = DependencyProperty.Register("ShowSettings",
-            typeof(bool), typeof(ColorLegend), new PropertyMetadata(true));
 
         /// <summary>
         /// Gets or sets a value indicating whether settings button is shown or not.
@@ -175,6 +145,7 @@ namespace Orc.Controls
         /// </summary>
         public static readonly DependencyProperty ShowSettingsBoxProperty = DependencyProperty.Register("ShowSettingsBox",
             typeof (bool), typeof (ColorLegend), new PropertyMetadata(true));
+
 
         /// <summary>
         /// Gets or sets a value indicating whether settings button is shown or not.
@@ -206,22 +177,6 @@ namespace Orc.Controls
         public static readonly DependencyProperty IsColorSelectingProperty = DependencyProperty.Register("IsColorSelecting",
             typeof (bool), typeof (ColorLegend), new PropertyMetadata(false, (sender, e) => ((ColorLegend) sender).OnIsColorSelectingPropertyChanged()));
 
-        /// <summary>
-        /// Gets or sets a value indicating whether regex is used when search is performed.
-        /// </summary>
-        [ObsoleteEx(Message = "Will be removed", RemoveInVersion = "2.0", TreatAsErrorFromVersion = "1.0")]
-        public bool UseRegexFiltering
-        {
-            get { return (bool) GetValue(UseRegexFilteringProperty); }
-            set { SetValue(UseRegexFilteringProperty, value); }
-        }
-
-        /// <summary>
-        /// Property indicating whether search is performing using regex or not.
-        /// </summary>
-        [ObsoleteEx(Message = "Will be removed", RemoveInVersion = "2.0", TreatAsErrorFromVersion = "1.0")]
-        public static readonly DependencyProperty UseRegexFilteringProperty = DependencyProperty.Register("UseRegexFiltering",
-            typeof (bool), typeof (ColorLegend), new PropertyMetadata(false));
 
         /// <summary>
         /// Gets or sets a value indicating whether user editing current color.
@@ -682,7 +637,7 @@ namespace Orc.Controls
 
             try
             {
-                var regex = UseRegexFiltering ? new Regex(filter) : new Regex(filter.GetRegexStringFromSearchPattern());
+                var regex = new Regex(filter.GetRegexStringFromSearchPattern());
                 return items.Where(cp => regex.IsMatch(cp.Description));
             }
             catch (Exception)

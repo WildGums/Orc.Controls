@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{094077C9-1F14-41CE-99FF-1AE61D13A1CC}</ProjectGuid>
-    <OutputType>library</OutputType>
+    <ProjectGuid>{E6CE2111-3D7C-4759-A886-E44EC77CE3AA}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Orc.Controls</RootNamespace>
     <AssemblyName>Orc.Controls</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -20,34 +19,36 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\output\debug\NET45\Orc.Controls\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET;NET45</DefineConstants>
+    <OutputPath>..\..\..\output\debug\NET47\Orc.Controls\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NET;NET47</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\..\output\debug\NET47\Orc.Controls\Orc.Controls.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>1591;1998</NoWarn>
-    <DocumentationFile>..\..\..\output\debug\NET45\Orc.Controls\Orc.Controls.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\output\release\NET45\Orc.Controls\</OutputPath>
-    <DefineConstants>TRACE;NET;NET45</DefineConstants>
+    <OutputPath>..\..\..\output\release\NET47\Orc.Controls\</OutputPath>
+    <DefineConstants>TRACE;NET;NET47</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>1591;1998</NoWarn>
-    <DocumentationFile>..\..\..\output\release\NET45\Orc.Controls\Orc.Controls.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>..\..\..\output\release\NET47\Orc.Controls\Orc.Controls.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Catel.Core, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\lib\Catel.Core.5.0.0-beta0006\lib\net45\Catel.Core.dll</HintPath>
+      <HintPath>..\..\..\lib\Catel.Core.5.0.0-beta0006\lib\net47\Catel.Core.dll</HintPath>
     </Reference>
     <Reference Include="Catel.Fody.Attributes, Version=2.17.0.0, Culture=neutral, PublicKeyToken=1c8163524cbe02e6, processorArchitecture=MSIL">
       <HintPath>..\..\..\lib\Catel.Fody.2.17.0\lib\portable-net4+sl4+wp7+win8+wpa81+MonoAndroid14+MonoTouch40\Catel.Fody.Attributes.dll</HintPath>
     </Reference>
     <Reference Include="Catel.MVVM, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\lib\Catel.MVVM.5.0.0-beta0006\lib\net45\Catel.MVVM.dll</HintPath>
+      <HintPath>..\..\..\lib\Catel.MVVM.5.0.0-beta0006\lib\net47\Catel.MVVM.dll</HintPath>
     </Reference>
     <Reference Include="Costura, Version=1.6.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\..\..\lib\Costura.Fody.1.6.2\lib\dotnet\Costura.dll</HintPath>
@@ -64,56 +65,45 @@
       <HintPath>..\..\..\lib\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
     <Reference Include="Obsolete, Version=4.2.2.0, Culture=neutral, PublicKeyToken=1ca091877d12ca03, processorArchitecture=MSIL">
-      <HintPath>..\..\..\lib\Obsolete.Fody.4.2.2\lib\dotnet\Obsolete.dll</HintPath>
+      <HintPath>..\..\..\lib\Obsolete.Fody.4.2.2\lib\netstandard1.4\Obsolete.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
-    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\lib\Expression.Blend.Sdk.WPF.1.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <Resource Include="..\Orc.Controls.Shared\Resources\Fonts\Consolas.ttf">
       <Link>Resources\Fonts\Consolas.ttf</Link>
     </Resource>
-    <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="FodyWeavers.xml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\..\..\lib\AsyncUsageAnalyzers.1.0.0-alpha003\analyzers\dotnet\AsyncUsageAnalyzers.dll" />
-    <Analyzer Include="..\..\..\lib\PublicApiAnalyzer.1.0.0-alpha001\analyzers\dotnet\cs\PublicApiAnalyzer.CodeFixes.dll" />
-    <Analyzer Include="..\..\..\lib\PublicApiAnalyzer.1.0.0-alpha001\analyzers\dotnet\cs\PublicApiAnalyzer.dll" />
-    <Analyzer Include="..\..\..\lib\WpfAnalyzers.0.2.7.10\analyzers\dotnet\cs\WpfAnalyzers.Analyzers.dll" />
-    <Analyzer Include="..\..\..\lib\WpfAnalyzers.0.2.7.10\analyzers\dotnet\cs\WpfAnalyzers.CodeFixes.dll" />
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="..\Orc.Controls.Shared\Resources\Images\Folder.png">
       <Link>Resources\Images\Folder.png</Link>
     </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="..\Orc.Controls.Shared\Controls\ColorLegend\Resources\Images\ClearFilter16.png">
       <Link>Controls\ColorLegend\Resources\Images\ClearFilter16.png</Link>
     </Resource>
+    <None Include="FodyWeavers.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Orc.Controls.Shared\Properties\Resources.de.resx">
@@ -131,20 +121,27 @@
     <EmbeddedResource Include="..\Orc.Controls.Shared\Properties\Resources.resx">
       <Link>Properties\Resources.resx</Link>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.NET45.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.NET47.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="..\Orc.Controls.Shared\Properties\Resources.ru.resx">
       <Link>Properties\Resources.ru.resx</Link>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Orc.Controls.Shared\Properties\Resources.NET45.Designer.cs">
-      <Link>Properties\Resources.NET45.Designer.cs</Link>
+    <Compile Include="..\Orc.Controls.Shared\Properties\Resources.NET47.Designer.cs">
+      <Link>Properties\Resources.NET47.Designer.cs</Link>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ModuleInitializer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\..\lib\AsyncUsageAnalyzers.1.0.0-alpha003\analyzers\dotnet\AsyncUsageAnalyzers.dll" />
+    <Analyzer Include="..\..\..\lib\PublicApiAnalyzer.1.0.0-alpha001\analyzers\dotnet\cs\PublicApiAnalyzer.CodeFixes.dll" />
+    <Analyzer Include="..\..\..\lib\PublicApiAnalyzer.1.0.0-alpha001\analyzers\dotnet\cs\PublicApiAnalyzer.dll" />
+    <Analyzer Include="..\..\..\lib\WpfAnalyzers.0.2.7.10\analyzers\dotnet\cs\WpfAnalyzers.Analyzers.dll" />
+    <Analyzer Include="..\..\..\lib\WpfAnalyzers.0.2.7.10\analyzers\dotnet\cs\WpfAnalyzers.CodeFixes.dll" />
   </ItemGroup>
   <Import Project="..\Orc.Controls.Shared\Orc.Controls.Shared.projitems" Label="Shared" Condition="Exists('..\Orc.Controls.Shared\Orc.Controls.Shared.projitems')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

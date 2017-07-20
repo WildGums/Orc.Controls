@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:Orc.Controls.Converters"
-                    xmlns:catel="http://catel.codeplex.com">
+                    xmlns:catel="http://schemas.catelproject.com">
 
     <converters:TreeViewItemToLeftMarginValueConverter Length="15"
                                                        x:Key="LengthConverter" />

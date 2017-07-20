@@ -5,7 +5,7 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:controls="clr-namespace:Orc.Controls"
                    xmlns:converters="clr-namespace:Orc.Controls.Converters"
-                   xmlns:catel="http://catel.codeplex.com"
+                   xmlns:catel="http://schemas.catelproject.com"
                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                    mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="190">
 

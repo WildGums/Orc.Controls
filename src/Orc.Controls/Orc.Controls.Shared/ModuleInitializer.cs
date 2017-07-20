@@ -3,7 +3,6 @@ using Catel.IoC;
 using Catel.Logging;
 using Catel.MVVM;
 using Catel.Services;
-using Catel.Services.Models;
 using Orc.Controls;
 using Orc.Controls.Logging;
 using Orc.Controls.Services;
@@ -48,8 +47,6 @@ public static class ModuleInitializer
         serviceLocator.RegisterType<ISelectDirectoryService, MicrosoftApiSelectDirectoryService>();
 
         var viewModelLocator = serviceLocator.ResolveType<IViewModelLocator>();
-        viewModelLocator.Register(typeof(DateTimePickerControl), typeof(DateTimePickerViewModel));
-        viewModelLocator.Register(typeof(TimeSpanControl), typeof(TimeSpanViewModel));
         viewModelLocator.Register(typeof(CulturePicker), typeof(CulturePickerViewModel));
         viewModelLocator.Register(typeof(ValidationContextTree), typeof(ValidationContextTreeViewModel));
         viewModelLocator.Register(typeof(ValidationContextView), typeof(ValidationContextViewModel));
