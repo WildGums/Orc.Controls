@@ -10,12 +10,16 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="5" >
-            <TextBlock Text="ColorPicker" VerticalAlignment="Center" Width="160" />
-
-            <orc:ColorPicker Width="50" x:Name="colorPicker" Color="Orange" HorizontalAlignment="Center" 
-                          VerticalAlignment="Center" PopupPlacement="Bottom"/>
-        </StackPanel>
+        <Border BorderThickness="1"  Width="150">
+            <TextBlock Text="text" Margin="5"/>
+            <orc:PinnableToolTipService.ToolTip>
+                <StackPanel>
+                    <Label Content="{Binding}" />
+                    <Border Margin="5" Width="50"
+                    Height="50" Background="{Binding}" />
+                </StackPanel>
+            </orc:PinnableToolTipService.ToolTip>
+        </Border>
 
         <Grid Grid.Row="1">
             <Grid.Background>
