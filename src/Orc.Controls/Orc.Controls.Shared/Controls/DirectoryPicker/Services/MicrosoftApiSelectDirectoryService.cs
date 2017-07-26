@@ -7,12 +7,13 @@
 
 namespace Orc.Controls.Services
 {
+    using System.Threading.Tasks;
     using Catel.Services;
     using Microsoft.WindowsAPICodePack.Dialogs;
 
     public class MicrosoftApiSelectDirectoryService : ISelectDirectoryService
     {
-        public bool DetermineDirectory()
+        public async Task<bool> DetermineDirectoryAsync()
         {
             var browserDialog = new CommonOpenFileDialog();
             browserDialog.IsFolderPicker = true;

@@ -40,20 +40,20 @@ namespace Orc.Controls.Examples.ViewModels
             var result13 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning8 message", new { Name = "A", Line = 10 });
             var result14 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning9 message", new { Name = "A", Line = 24 });
 
-            context.AddBusinessRuleValidationResult(result1);
-            context.AddBusinessRuleValidationResult(result2);
-            context.AddFieldValidationResult(result3);
-            context.AddBusinessRuleValidationResult(result4);
-            context.AddBusinessRuleValidationResult(result5);
-            context.AddBusinessRuleValidationResult(result6);
-            context.AddBusinessRuleValidationResult(result7);
-            context.AddFieldValidationResult(result8);
-            context.AddFieldValidationResult(result9);
-            context.AddFieldValidationResult(result10);
-            context.AddFieldValidationResult(result11);
-            context.AddFieldValidationResult(result12);
-            context.AddFieldValidationResult(result13);
-            context.AddFieldValidationResult(result14);
+            context.Add(result1);
+            context.Add(result2);
+            context.Add(result3);
+            context.Add(result4);
+            context.Add(result5);
+            context.Add(result6);
+            context.Add(result7);
+            context.Add(result8);
+            context.Add(result9);
+            context.Add(result10);
+            context.Add(result11);
+            context.Add(result12);
+            context.Add(result13);
+            context.Add(result14);
 
             ValidationContext = context;
 

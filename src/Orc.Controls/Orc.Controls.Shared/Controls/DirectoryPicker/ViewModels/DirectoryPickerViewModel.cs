@@ -8,6 +8,7 @@
 namespace Orc.Controls
 {
     using System.IO;
+    using System.Threading.Tasks;
     using Catel;
     using Catel.MVVM;
     using Catel.Services;
@@ -24,7 +25,7 @@ namespace Orc.Controls
             _processService = processService;
 
             OpenDirectory = new Command(OnOpenDirectoryExecute, OnOpenDirectoryCanExecute);
-            SelectDirectory = new Command(OnSelectDirectoryExecute);
+            SelectDirectory = new TaskCommand(OnSelectDirectoryExecuteAsync);
         }
         #endregion
 
@@ -76,19 +77,19 @@ namespace Orc.Controls
         /// <summary>
         /// Gets the SelectDirectory command.
         /// </summary>
-        public Command SelectDirectory { get; private set; }
+        public TaskCommand SelectDirectory { get; private set; }
 
         /// <summary>
         /// Method to invoke when the SelectOutputDirectory command is executed.
         /// </summary>
-        private void OnSelectDirectoryExecute()
+        private async Task OnSelectDirectoryExecuteAsync()
         {
             if (!string.IsNullOrEmpty(SelectedDirectory))
             {
                 _selectDirectoryService.InitialDirectory = Path.GetFullPath(SelectedDirectory);
             }
 
-            if (_selectDirectoryService.DetermineDirectory())
+            if (await _selectDirectoryService.DetermineDirectoryAsync())
             {
                 SelectedDirectory = _selectDirectoryService.DirectoryName;
             }

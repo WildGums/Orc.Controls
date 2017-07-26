@@ -1,8 +1,9 @@
 ﻿<catel:Window x:Class="Orc.Controls.Examples.Views.MainWindow"
               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-              xmlns:catel="http://catel.codeplex.com"
+              xmlns:catel="http://schemas.catelproject.com"
               xmlns:views="clr-namespace:Orc.Controls.Examples.Views"
+              xmlns:orc="http://www.wildgums.net.au/orc"
               Height="650" Width="850">
 
     <catel:Window.Resources>
@@ -197,6 +198,46 @@
 
         <TabItem Header="WatermarkTextBox">
             <views:Watermark />
+        </TabItem>
+
+        <TabItem Header="WatermarkTextBox">
+            <views:Watermark />
+        </TabItem>
+
+        <TabItem Header="Combobox">
+            <orc:StackGrid>
+                <orc:StackGrid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </orc:StackGrid.RowDefinitions>
+
+                <TextBlock Text="Just for test. Please remove it before merging with develop" 
+                           FontWeight="Bold"
+                           Foreground="DarkRed"/>
+                
+                <ComboBox IsEditable="{Binding ElementName=IsEditableCheckBox, Path=IsChecked, UpdateSourceTrigger=PropertyChanged}"
+                          Text="{Binding ElementName=ComboboxResultTextBlock, Path=Text, UpdateSourceTrigger=PropertyChanged}">
+                    <ComboBox.ItemsSource>
+                        <x:Array Type="sys:String" 
+                                 xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <sys:String>first</sys:String>
+                            <sys:String>second</sys:String>
+                        </x:Array>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+                    
+                <CheckBox x:Name="IsEditableCheckBox" 
+                          Content="Is Editable"/>
+
+                <TextBlock Text="Result text:" Margin="0 10 0 0" FontWeight="Bold"/>
+                <GridSplitter Height="1" HorizontalAlignment="Stretch" Background="Black" Margin="0 0 0 2" BorderBrush="Black" BorderThickness="1"/>
+                
+                <TextBlock x:Name="ComboboxResultTextBlock"/>
+            </orc:StackGrid>
         </TabItem>
 
     </TabControl>

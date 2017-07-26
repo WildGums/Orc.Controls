@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.NET40", "Orc.Controls\Orc.Controls.NET40\Orc.Controls.NET40.csproj", "{E6CE2111-3D7C-4759-A886-E44EC77CE3AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.NET47", "Orc.Controls\Orc.Controls.NET47\Orc.Controls.NET47.csproj", "{E6CE2111-3D7C-4759-A886-E44EC77CE3AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.Tests.NET40", "Orc.Controls.Tests\Orc.Controls.Tests.NET40\Orc.Controls.Tests.NET40.csproj", "{9D4DD1A4-D63D-4766-BA11-29FC99C1CBEF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.Tests.NET47", "Orc.Controls.Tests\Orc.Controls.Tests.NET47\Orc.Controls.Tests.NET47.csproj", "{9D4DD1A4-D63D-4766-BA11-29FC99C1CBEF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.Examples", "Orc.Controls.Examples\Orc.Controls.Examples.csproj", "{FC8A5188-FF86-4D47-B72C-834D12B20406}"
 EndProject

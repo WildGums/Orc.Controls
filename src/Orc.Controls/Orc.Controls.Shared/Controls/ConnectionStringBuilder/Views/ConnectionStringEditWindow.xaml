@@ -3,7 +3,7 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                  xmlns:catel="http://catel.codeplex.com"
+                  xmlns:catel="http://schemas.catelproject.com"
                   xmlns:controls="clr-namespace:Orc.Controls"
                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                   MinWidth="439" 
@@ -74,7 +74,7 @@
                 <Label Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_Label_Content_Provider}"
                        IsEnabled="{Binding IsServersRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
                 <controls:DbProviderPicker DbProvider="{Binding DbProvider, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                            IsEnabled="{Binding IsServersRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
+                                           IsEnabled="{Binding IsServersRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
                 <Label Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_Label_Content_Server}" Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}"/>
                 <controls:StackGrid Visibility="{Binding DataSource, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
