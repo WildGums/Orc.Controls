@@ -10,17 +10,17 @@ Unstable version|![Pre-release version](https://img.shields.io/nuget/vpre/orc.co
 
 This library contains simple (yet useful) controls for viewing and editing data, such as:
 
-- **DatePickerControl**
-- **DateTimePickerControl**
-- **TimeSpanControl**
+- **DatePicker**
+- **DateTimePicker**
+- **TimeSpan**
 - **BindableRichTextBox**
 - **DropDownButton**
-- **FilterBoxControl**
+- **FilterBox**
 - **LogViewer**
 - **WatermarkTextBox**
 - **LinkLabel**
-- **OpenFilePickerView**
-- **DirectoryPickerView**
-- **SaveFilePickerView**
+- **OpenFilePicker**
+- **DirectoryPicker**
+- **SaveFilePicker**
 
 For documentation, please visit the [documentation portal](http://opensource.wildgums.com)
