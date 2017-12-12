@@ -8,7 +8,7 @@
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="AnimatedGif" VerticalAlignment="Center" Width="150"/>
             <orc:AnimatedGif x:Name="LoadingGif" Width="16" Height="16" HorizontalAlignment="Center"
-                             GifSource="/Resources/Images/Loading.gif" Margin="5" />
+                             GifSource="/Orc.Controls;component/Resources/Images/Loading.gif" Margin="5" />
         </StackPanel>
     </StackPanel>
     

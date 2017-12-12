@@ -120,3 +120,4 @@ Desktop.ini
 TestResults
 src/UpgradeLog.htm
 .DS_Store
+src/.vs/

@@ -11,10 +11,12 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)..\..\GlobalSuppressions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GlobalInitialization.approvaltests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimeFormatHelperFacts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimeFormatterFacts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateTimeParserFacts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PublicApiFacts.cs" />
   </ItemGroup>
 </Project>
