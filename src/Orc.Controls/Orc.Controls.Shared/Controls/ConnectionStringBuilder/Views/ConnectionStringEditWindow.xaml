@@ -43,7 +43,7 @@
                                         <controls:AnimatedGif Width="16" 
                                                               Height="16"
                                                               HorizontalAlignment="Center"
-                                                              GifSource="/Resources/Images/Loading.gif" Margin="5" />
+                                                              GifSource="/Orc.Controls;component/Resources/Images/Loading.gif" Margin="5" />
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
