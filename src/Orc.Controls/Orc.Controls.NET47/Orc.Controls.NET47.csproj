@@ -98,6 +98,9 @@
     <Resource Include="..\Orc.Controls.Shared\Resources\Images\Folder.png">
       <Link>Resources\Images\Folder.png</Link>
     </Resource>
+    <Resource Include="..\Orc.Controls.Shared\Resources\Images\Loading.gif">
+      <Link>Resources\Images\Loading.gif</Link>
+    </Resource>    
     <Resource Include="..\Orc.Controls.Shared\Controls\ColorLegend\Resources\Images\ClearFilter16.png">
       <Link>Controls\ColorLegend\Resources\Images\ClearFilter16.png</Link>
     </Resource>

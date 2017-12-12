@@ -348,7 +348,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Resources\Images\Folder.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Images\Loading.gif" />
-    <None Include="$(MSBuildThisFileDirectory)Resources\Images\Thumbs.db" />
+    <Content Include="$(MSBuildThisFileDirectory)Resources\Images\Loading.gif" />
   </ItemGroup>
 </Project>
