@@ -327,6 +327,7 @@ namespace Orc.Controls
         public string Name { get; set; }
         public System.DateTime Start { get; set; }
         protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
+        public override string ToString() { }
     }
     public class DateRangePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
