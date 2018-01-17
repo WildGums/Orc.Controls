@@ -19,5 +19,10 @@ namespace Orc.Controls
         public TimeSpan Duration { get { return End.Subtract(Start); } }
         public bool IsTemporary { get; internal set; } = false;
         #endregion
+
+        public override string ToString()
+        {
+            return $"{Name} ({Start} => {End})";
+        }
     }
 }

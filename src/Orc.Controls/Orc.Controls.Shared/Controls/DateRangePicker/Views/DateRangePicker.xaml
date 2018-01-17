@@ -15,6 +15,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -41,7 +42,7 @@
             IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"/>
 
         <Label Grid.Row="1" Grid.Column="0" Content="{catel:LanguageBinding ResourceName=Controls_DateRangePicker_End_Lbl}"/>
-        <controls:DateTimePicker Grid.Row="2" Grid.Column="1"
+        <controls:DateTimePicker Grid.Row="1" Grid.Column="1"
             Value="{Binding EndDate}"
             AllowNull="False"
             AllowCopyPaste="{Binding AllowCopyPaste, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
