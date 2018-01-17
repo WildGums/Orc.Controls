@@ -19,6 +19,7 @@ namespace Orc.Controls
     public class DateRangePickerViewModel : ViewModelBase
     {
         #region Fields
+        private bool _isUpdatingRanges;
         private ObservableCollection<DateRange> _ranges;
         private DateRange _selectedRange;
         private DateTime _startDate;
@@ -44,9 +45,13 @@ namespace Orc.Controls
                     return;
                 }
 
+                _isUpdatingRanges = true;
+
                 _ranges = value;
 
                 RaisePropertyChanged(nameof(Ranges));
+
+                _isUpdatingRanges = false;
             }
         }
 
@@ -55,6 +60,13 @@ namespace Orc.Controls
             get { return _selectedRange; }
             set
             {
+                if (_isUpdatingRanges)
+                {
+                    // Skip update because combobox is resetting this value. Then we raise a property change event
+                    // and the next update from the user will be ignored (since this will be a more recent change)
+                    return;
+                }
+
                 if (UpdateSelectedRange(_selectedRange, value))
                 {
                     OnSelectedRangeChanged();
