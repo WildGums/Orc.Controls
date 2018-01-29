@@ -35,7 +35,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <controls:NumericTextBox x:Name="NumericTBDay" Grid.Column="0" Value="{Binding Day, TargetNullValue={x:Static sys:String.Empty}}" MinValue="1"
+                    <controls:NumericTextBox x:Name="NumericTBDay" Grid.Column="0" Value="{Binding Day, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" MinValue="1"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePicker}}}"/>
                     <TextBlock Grid.Column="1" x:Name="Separator1" Text="/" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="1" x:Name="ToggleButtonD" Tag="{x:Static controls:DateTimePart.Day}"
@@ -43,7 +43,7 @@
                                   Checked="ToggleButton_OnChecked" Content="{catel:LanguageBinding Controls_DatePicker_ToggleButton_Content_DayAbbreviation}"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePicker}}}"/>
 
-                    <controls:NumericTextBox x:Name="NumericTBMonth" Grid.Column="2" Value="{Binding Month, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=PropertyChanged}"
+                    <controls:NumericTextBox x:Name="NumericTBMonth" Grid.Column="2" Value="{Binding Month, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}"
                                              MinValue="1" MaxValue="12" TextChanged="NumericTBMonth_OnTextChanged"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePicker}}}"/>
                     <TextBlock Grid.Column="3" x:Name="Separator2" Text="/" Style="{DynamicResource RatioSignStyle}" />
@@ -52,7 +52,7 @@
                                   Checked="ToggleButton_OnChecked" Content="{catel:LanguageBinding Controls_DatePicker_ToggleButton_Content_MonthAbbreviation}"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePicker}}}"/>
 
-                    <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Value="{Binding Year, Converter={StaticResource YearLongToYearShortConverter}, TargetNullValue={x:Static sys:String.Empty}}" MinValue="1" MaxValue="3000"
+                    <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Value="{Binding Year, Converter={StaticResource YearLongToYearShortConverter}, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" MinValue="1" MaxValue="3000"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DatePicker}}}"/>
                     <TextBlock Grid.Column="5" x:Name="Separator3" Text="" Style="{DynamicResource RatioSignStyle}" />
                     <ToggleButton Grid.Column="5" x:Name="ToggleButtonY" Tag="{x:Static controls:DateTimePart.Year}" Content="{catel:LanguageBinding Controls_DatePicker_ToggleButton_Content_YearAbbreviation}"
