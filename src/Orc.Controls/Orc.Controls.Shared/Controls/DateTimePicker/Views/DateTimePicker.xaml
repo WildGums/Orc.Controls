@@ -27,6 +27,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
+
                 <Grid Margin="0 0 4 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -46,7 +47,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <controls:NumericTextBox x:Name="NumericTBDay" Grid.Column="0" Value="{Binding Day, TargetNullValue={x:Static sys:String.Empty}}" MinValue="1"
+                    <controls:NumericTextBox x:Name="NumericTBDay" Grid.Column="0" Value="{Binding Day, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" MinValue="1"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePicker}}}"/>
                     <ContentControl Grid.Column="1" IsTabStop="False" Style="{DynamicResource DateTimePickerSeparatorPanelStyle}">
                         <TextBlock x:Name="Separator1" Text="/" Style="{DynamicResource RatioSignStyle}" />
@@ -56,7 +57,7 @@
                                   Checked="ToggleButton_OnChecked" Content="{catel:LanguageBinding Controls_DateTimePicker_ToggleButton_Content_DayAbbreviation}"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePicker}}}"/>
 
-                    <controls:NumericTextBox x:Name="NumericTBMonth" Grid.Column="2" Value="{Binding Month, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=PropertyChanged}"
+                    <controls:NumericTextBox x:Name="NumericTBMonth" Grid.Column="2" Value="{Binding Month, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}"
                                              MinValue="1" MaxValue="12" TextChanged="NumericTBMonth_OnTextChanged"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePicker}}}"/>
                     <ContentControl Grid.Column="3" IsTabStop="False" Style="{DynamicResource DateTimePickerSeparatorPanelStyle}">
@@ -67,7 +68,7 @@
                                   Checked="ToggleButton_OnChecked" Content="{catel:LanguageBinding Controls_DateTimePicker_ToggleButton_Content_MonthAbbreviation}"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePicker}}}"/>
 
-                    <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Value="{Binding Year, Converter={StaticResource YearLongToYearShortConverter}, TargetNullValue={x:Static sys:String.Empty}}" MinValue="1" MaxValue="3000"
+                    <controls:NumericTextBox x:Name="NumericTBYear" Grid.Column="4" Value="{Binding Year, Converter={StaticResource YearLongToYearShortConverter}, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" MinValue="1" MaxValue="3000"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePicker}}}"/>
                     <ContentControl Grid.Column="5" IsTabStop="False" Style="{DynamicResource DateTimePickerSeparatorPanelStyle}">
                         <TextBlock x:Name="Separator3" Text="" Style="{DynamicResource RatioSignStyle}" />
@@ -76,7 +77,7 @@
                                   Style="{DynamicResource DateTimePickerLettersToggleButtonStyle}"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePicker}}}"/>
 
-                    <controls:NumericTextBox x:Name="NumericTBHour" Grid.Column="6" Value="{Binding Hour, Converter={StaticResource Hour24ToHour12Converter}, TargetNullValue={x:Static sys:String.Empty}}" Format="00" MaxValue="23" MinValue="0"
+                    <controls:NumericTextBox x:Name="NumericTBHour" Grid.Column="6" Value="{Binding Hour, Converter={StaticResource Hour24ToHour12Converter}, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" Format="00" MaxValue="23" MinValue="0"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePicker}}}"
                                              Visibility="{Binding HideTime, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
                     <ContentControl Grid.Column="7" IsTabStop="False" Style="{DynamicResource DateTimePickerSeparatorPanelStyle}"
@@ -90,7 +91,7 @@
                                   Visibility="{Binding HideTime, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
 
                     <controls:NumericTextBox x:Name="NumericTBMinute" Grid.Column="8" Format="00" MaxValue="59" MinValue="00"
-                                             Value="{Binding Minute, TargetNullValue={x:Static sys:String.Empty}}"
+                                             Value="{Binding Minute, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePicker}}}"
                                              Visibility="{Binding HideTime, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
                     <ContentControl Grid.Column="9" IsTabStop="False" Style="{DynamicResource DateTimePickerSeparatorPanelStyle}">
@@ -109,7 +110,7 @@
                                   Visibility="{Binding HideTime, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
 
                     <controls:NumericTextBox x:Name="NumericTBSecond" Grid.Column="10" Format="00" MaxValue="59" MinValue="0"
-                                             Value="{Binding Second, TargetNullValue={x:Static sys:String.Empty}}"
+                                             Value="{Binding Second, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePicker}}}">
                         <controls:NumericTextBox.Visibility>
                             <MultiBinding Converter="{converters:BooleanAndToCollapsingVisibilityMultiValueConverter}">
