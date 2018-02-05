@@ -16,6 +16,8 @@ namespace Orc.Controls
 
     public class NumericTextBox : TextBox
     {
+        private bool _textChangingIsInProgress = false;
+
         #region Constructors
         public NumericTextBox()
         {
@@ -28,61 +30,51 @@ namespace Orc.Controls
         }
         #endregion
 
-        #region Constants
-        public static readonly DependencyProperty MinValueProperty = DependencyProperty.Register("MinValue", typeof (double),
-            typeof (NumericTextBox), new UIPropertyMetadata(0.0));
-
-        public static readonly DependencyProperty MaxValueProperty = DependencyProperty.Register("MaxValue", typeof (double),
-            typeof (NumericTextBox), new UIPropertyMetadata(double.MaxValue));
-
-        public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof (string),
-            typeof (NumericTextBox), new UIPropertyMetadata("F0", (sender, e) => ((NumericTextBox)sender).OnFormatChanged()));
-
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof (double?),
-            typeof (NumericTextBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((NumericTextBox) sender).OnValueChanged()));
-
-        private bool _textChangingIsInProgress = false;
-        #endregion
-
         #region Properties
         public double MinValue
         {
-            get { return (double) GetValue(MinValueProperty); }
+            get { return (double)GetValue(MinValueProperty); }
             set { SetValue(MinValueProperty, value); }
         }
 
+        public static readonly DependencyProperty MinValueProperty = DependencyProperty.Register("MinValue", typeof(double),
+            typeof(NumericTextBox), new UIPropertyMetadata(0.0));
+
+
         public double MaxValue
         {
-            get { return (double) GetValue(MaxValueProperty); }
+            get { return (double)GetValue(MaxValueProperty); }
             set { SetValue(MaxValueProperty, value); }
         }
 
+        public static readonly DependencyProperty MaxValueProperty = DependencyProperty.Register("MaxValue", typeof(double),
+            typeof(NumericTextBox), new UIPropertyMetadata(double.MaxValue));
+
+
         public string Format
         {
-            get { return (string) GetValue(FormatProperty); }
+            get { return (string)GetValue(FormatProperty); }
             set { SetValue(FormatProperty, value); }
         }
 
+        public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof(string),
+            typeof(NumericTextBox), new UIPropertyMetadata("F0", (sender, e) => ((NumericTextBox)sender).OnFormatChanged()));
+
+
         public double? Value
         {
-            get { return (double?) GetValue(ValueProperty); }
+            get { return (double?)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
+
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double?),
+            typeof(NumericTextBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((NumericTextBox)sender).OnValueChanged()));
         #endregion
 
         #region Events
         public event EventHandler RightBoundReached;
         public event EventHandler LeftBoundReached;
         #endregion
-
-        #region Functions
-        private bool IsValidValue(double inputValue)
-        {
-            return inputValue <= MaxValue && inputValue >= MinValue;
-        }
-        #endregion
-
-        #region Event Functions
 
         #region Properties
         private bool AllTextSelected
@@ -102,6 +94,11 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
+        private bool IsValidValue(double inputValue)
+        {
+            return inputValue <= MaxValue && inputValue >= MinValue;
+        }
+
         private void OnLostFocus(object sender, RoutedEventArgs e)
         {
             SetCurrentValue(ValueProperty, GetDoubleValue(Text));
@@ -230,11 +227,7 @@ namespace Orc.Controls
             text.Insert(CaretIndex, inputText);
             return (text.ToString());
         }
-        #endregion
 
-        #endregion
-
-        #region Methods
         private static void SelectivelyIgnoreMouseButton(object sender, MouseButtonEventArgs e)
         {
             DependencyObject parent = e.OriginalSource as UIElement;
@@ -243,9 +236,9 @@ namespace Orc.Controls
                 parent = VisualTreeHelper.GetParent(parent);
             }
 
-            if (parent != null)
+            var textBox = parent as TextBox;
+            if (textBox != null)
             {
-                var textBox = (TextBox) parent;
                 if (!textBox.IsKeyboardFocusWithin)
                 {
                     textBox.Focus();

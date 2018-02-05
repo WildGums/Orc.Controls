@@ -258,7 +258,7 @@ namespace Orc.Controls
         private Calendar CreateCalendarPopupSource()
         {
             var dateTime = Value == null ? _todayValue : Value.Value;
-            var calendar = new Calendar()
+            var calendar = new Calendar
             {
                 Margin = new Thickness(0, -3, 0, -3),
                 DisplayDate = dateTime,
@@ -274,9 +274,9 @@ namespace Orc.Controls
         private void CalendarOnSelectedDatesChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
             var calendar = (((Calendar)sender));
-            if (calendar.SelectedDate.HasValue)
+            if (AllowNull || calendar.SelectedDate.HasValue)
             {
-                UpdateDate(calendar.SelectedDate.Value);
+                UpdateDate(calendar.SelectedDate);
             }
 
             ((Popup)calendar.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
@@ -305,21 +305,35 @@ namespace Orc.Controls
             }
         }
 
-        private void UpdateDate(DateTime date)
+        private void UpdateDate(DateTime? date)
         {
-            var dateTime = Value == null ? _todayValue : Value.Value;
-            SetCurrentValue(ValueProperty, new DateTime(date.Year, date.Month, date.Day, dateTime.Hour, dateTime.Minute, dateTime.Second));
+            if (!AllowNull && !date.HasValue)
+            {
+                date = _todayValue;
+            }
+
+            // Keep the time!
+            if (date != null)
+            {
+                var currentValue = Value;
+                if (currentValue.HasValue)
+                {
+                    date = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day,
+                        currentValue.Value.Hour, currentValue.Value.Minute, currentValue.Value.Second);
+                }
+            }
+
+            SetCurrentValue(ValueProperty, date);
         }
 
         private void UpdateDateTime(DateTime? dateTime)
         {
-            var value = dateTime;
-            if (dateTime != null)
+            if (!AllowNull && !dateTime.HasValue)
             {
-                value = new DateTime(dateTime.Value.Year, dateTime.Value.Month, dateTime.Value.Day, dateTime.Value.Hour, dateTime.Value.Minute, dateTime.Value.Second);
+                dateTime = _todayValue;
             }
 
-            SetCurrentValue(ValueProperty, value);
+            SetCurrentValue(ValueProperty, dateTime);
         }
 
         private Popup CreateCalendarPopup()
