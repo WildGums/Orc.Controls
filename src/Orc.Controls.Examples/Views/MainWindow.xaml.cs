@@ -13,6 +13,8 @@ namespace Orc.Controls.Examples.Views
         public MainWindow()
         {
             InitializeComponent();
+
+            CanCloseUsingEscape = false;
         }
         #endregion
     }

@@ -100,7 +100,7 @@
     </Resource>
     <Resource Include="..\Orc.Controls.Shared\Resources\Images\Loading.gif">
       <Link>Resources\Images\Loading.gif</Link>
-    </Resource>    
+    </Resource>
     <Resource Include="..\Orc.Controls.Shared\Controls\ColorLegend\Resources\Images\ClearFilter16.png">
       <Link>Controls\ColorLegend\Resources\Images\ClearFilter16.png</Link>
     </Resource>
@@ -111,6 +111,7 @@
   <ItemGroup>
     <EmbeddedResource Include="..\Orc.Controls.Shared\Properties\Resources.de.resx">
       <Link>Properties\Resources.de.resx</Link>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="..\Orc.Controls.Shared\Properties\Resources.es.resx">
       <Link>Properties\Resources.es.resx</Link>
@@ -125,6 +126,7 @@
       <Link>Properties\Resources.resx</Link>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.NET47.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="..\Orc.Controls.Shared\Properties\Resources.ru.resx">
       <Link>Properties\Resources.ru.resx</Link>
