@@ -108,6 +108,7 @@
     <Compile Include="ViewModels\OpenFilePickerViewModel.cs" />
     <Compile Include="ViewModels\PinnableToolTipViewModel.cs" />
     <Compile Include="ViewModels\ValidationContextViewModel.cs" />
+    <Compile Include="ViewModels\NumericTextBoxViewModel.cs" />
     <Compile Include="Views\AnimatedGif.xaml.cs">
       <DependentUpon>AnimatedGif.xaml</DependentUpon>
     </Compile>
@@ -128,6 +129,9 @@
     </Compile>
     <Compile Include="Views\Expander.xaml.cs">
       <DependentUpon>Expander.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NumericTextBox.xaml.cs">
+      <DependentUpon>NumericTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OpenFilePickerView.xaml.cs">
       <DependentUpon>OpenFilePickerView.xaml</DependentUpon>
@@ -210,6 +214,10 @@
     <Page Include="Views\Expander.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NumericTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OpenFilePickerView.xaml">
       <SubType>Designer</SubType>

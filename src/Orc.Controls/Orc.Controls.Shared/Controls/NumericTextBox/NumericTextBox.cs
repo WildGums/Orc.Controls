@@ -8,29 +8,97 @@
 namespace Orc.Controls
 {
     using System;
+    using System.Collections.Generic;
+    using System.Globalization;
     using System.Text;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
+    using Catel.Logging;
+    using Catel.Windows.Input;
 
     public class NumericTextBox : TextBox
     {
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
+        private const string MinusCharacter = "-";
+        private const string PeriodCharacter = ".";
+        private const string CommaCharacter = ",";
+
+        private static readonly HashSet<Key> AllowedKeys = new HashSet<Key>
+        {
+            Key.Back,
+            Key.CapsLock,
+            Key.LeftCtrl,
+            Key.RightCtrl,
+            Key.Down,
+            Key.End,
+            Key.Enter,
+            Key.Escape,
+            Key.Home,
+            Key.Insert,
+            Key.Left,
+            Key.PageDown,
+            Key.PageUp,
+            Key.Right,
+            Key.LeftShift,
+            Key.RightShift,
+            Key.Tab,
+            Key.Up
+        };
+
+        private readonly MouseButtonEventHandler _selectivelyIgnoreMouseButtonDelegate;
+        private readonly RoutedEventHandler _selectAllTextDelegate;
+
         private bool _textChangingIsInProgress = false;
 
         #region Constructors
         public NumericTextBox()
         {
-            AddHandler(PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(SelectivelyIgnoreMouseButton), true);
-            AddHandler(GotKeyboardFocusEvent, new RoutedEventHandler(SelectAllText), true);
-            AddHandler(MouseDoubleClickEvent, new RoutedEventHandler(SelectAllText), true);
+            _selectivelyIgnoreMouseButtonDelegate = SelectivelyIgnoreMouseButton;
+            _selectAllTextDelegate = SelectAllText;
+
+            VerticalContentAlignment = VerticalAlignment.Center;
 
             TextChanged += OnTextChanged;
             LostFocus += OnLostFocus;
+            Loaded += OnLoaded;
+            Unloaded += OnUnloaded;
         }
         #endregion
 
         #region Properties
+        public bool IsNullValueAllowed
+        {
+            get { return (bool)GetValue(IsNullValueAllowedProperty); }
+            set { SetValue(IsNullValueAllowedProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsNullValueAllowedProperty = DependencyProperty.Register("IsNullValueAllowed", typeof(bool),
+            typeof(NumericTextBox), new PropertyMetadata(true, (sender, e) => ((NumericTextBox)sender).OnIsNullValueAllowedChanged()));
+
+
+        public bool IsNegativeAllowed
+        {
+            get { return (bool)GetValue(IsNegativeAllowedProperty); }
+            set { SetValue(IsNegativeAllowedProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsNegativeAllowedProperty = DependencyProperty.Register("IsNegativeAllowed", typeof(bool),
+            typeof(NumericTextBox), new PropertyMetadata(false, (sender, e) => ((NumericTextBox)sender).OnIsNegativeAllowedChanged()));
+
+
+        public bool IsDecimalAllowed
+        {
+            get { return (bool)GetValue(IsDecimalAllowedProperty); }
+            set { SetValue(IsDecimalAllowedProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsDecimalAllowedProperty = DependencyProperty.Register("IsDecimalAllowed", typeof(bool),
+            typeof(NumericTextBox), new PropertyMetadata(false, (sender, e) => ((NumericTextBox)sender).OnIsDecimalAllowedChanged()));
+
+
         public double MinValue
         {
             get { return (double)GetValue(MinValueProperty); }
@@ -94,7 +162,136 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-        private bool IsValidValue(double inputValue)
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            AddHandler(PreviewMouseLeftButtonDownEvent, _selectivelyIgnoreMouseButtonDelegate, true);
+            AddHandler(GotKeyboardFocusEvent, _selectAllTextDelegate, true);
+            AddHandler(MouseDoubleClickEvent, _selectAllTextDelegate, true);
+
+            DataObject.AddPastingHandler(this, OnPaste);
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            RemoveHandler(PreviewMouseLeftButtonDownEvent, _selectivelyIgnoreMouseButtonDelegate);
+            RemoveHandler(GotKeyboardFocusEvent, _selectAllTextDelegate);
+            RemoveHandler(MouseDoubleClickEvent, _selectAllTextDelegate);
+
+            DataObject.RemovePastingHandler(this, OnPaste);
+        }
+
+        private void OnPaste(object sender, DataObjectPastingEventArgs e)
+        {
+            if (e.DataObject.GetDataPresent(typeof(string)))
+            {
+                var text = (string)e.DataObject.GetData(typeof(string));
+                if (!IsDecimalAllowed && !IsDigitsOnly(text))
+                {
+                    Log.Warning("Pasted text '{0}' contains decimal separator which is not allowed, paste is not allowed", text);
+
+                    e.CancelCommand();
+                }
+                else if (!IsNegativeAllowed && text.Contains(MinusCharacter))
+                {
+                    Log.Warning("Pasted text '{0}' contains negative value which is not allowed, paste is not allowed", text);
+
+                    e.CancelCommand();
+                }
+
+                var tempDouble = 0d;
+                if (!double.TryParse(text, NumberStyles.Any, CultureInfo.CurrentCulture, out tempDouble))
+                {
+                    Log.Warning("Pasted text '{0}' could not be parsed as double (wrong culture?), paste is not allowed", text);
+
+                    e.CancelCommand();
+                }
+            }
+            else
+            {
+                e.CancelCommand();
+            }
+        }
+
+        private void OnIsNullValueAllowedChanged()
+        {
+            EnforceRules();
+        }
+
+        private void OnIsNegativeAllowedChanged()
+        {
+            if (IsNegativeAllowed)
+            {
+                AllowedKeys.Add(Key.OemMinus);
+            }
+            else
+            {
+                if (AllowedKeys.Contains(Key.OemMinus))
+                {
+                    AllowedKeys.Remove(Key.OemMinus);
+                }
+            }
+
+            EnforceRules();
+        }
+
+        private void OnIsDecimalAllowedChanged()
+        {
+            EnforceRules();
+        }
+
+        private bool DoesStringValueRequireUpdate(string text)
+        {
+            var update = true;
+
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                // CTL-1000 NumericTextBox behavior doesn't allow some values (e.g. 2.05)
+                var separator = Math.Max(text.IndexOf(CommaCharacter), text.IndexOf(PeriodCharacter));
+                if (separator >= 0)
+                {
+                    var resetUpdate = true;
+
+                    for (int i = separator + 1; i < text.Length; i++)
+                    {
+                        if (text[i] != '0')
+                        {
+                            resetUpdate = false;
+                            break;
+                        }
+                    }
+
+                    if (resetUpdate)
+                    {
+                        update = false;
+                    }
+                }
+
+                // CTL-761
+                if (string.Equals(text, "-") || string.Equals(text, "-0"))
+                {
+                    // User is typing -0 (whould would result in 0, which we don't want yet, maybe they are typing -0.5)
+                    update = false;
+                }
+
+                if (text.StartsWith(CommaCharacter) || text.EndsWith(CommaCharacter) ||
+                    text.StartsWith(PeriodCharacter) || text.EndsWith(PeriodCharacter))
+                {
+                    // User is typing a . or , don't update
+                    update = false;
+                }
+
+                if (text.StartsWith(CommaCharacter) || text.EndsWith(CommaCharacter) ||
+                    text.StartsWith(PeriodCharacter) || text.EndsWith(PeriodCharacter))
+                {
+                    // User is typing a . or , don't update
+                    update = false;
+                }
+            }
+
+            return update;
+        }
+
+        private bool IsValidDoubleValue(double inputValue)
         {
             return inputValue <= MaxValue && inputValue >= MinValue;
         }
@@ -108,18 +305,41 @@ namespace Orc.Controls
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
             _textChangingIsInProgress = true;
-            SetCurrentValue(ValueProperty, GetDoubleValue(Text));
+
+            var text = Text;
+
+            if (DoesStringValueRequireUpdate(text))
+            {
+                SetCurrentValue(ValueProperty, GetDoubleValue(text));
+            }
+
             _textChangingIsInProgress = false;
         }
 
-        private double GetDoubleValue(string text)
+        private double? GetDoubleValue(string text)
         {
-            if (string.IsNullOrEmpty(text))
+            double? doubleValue = null;
+
+            try
             {
-                return MinValue;
+                if (!string.IsNullOrEmpty(text))
+                {
+                    // TODO: Do we want to handle P2, etc (e.g. 50.00%)
+                    doubleValue = Convert.ToDouble(text, CultureInfo.CurrentCulture);
+                }
+            }
+            catch (Exception)
+            {
+                // Ignore
             }
 
-            return Convert.ToDouble(text);
+            if (!IsNullValueAllowed && !doubleValue.HasValue)
+            {
+                // GHK: I think returning MinValue is weird, but will keep this for backwards compatibility
+                doubleValue = MinValue;
+            }
+
+            return doubleValue;
         }
 
         protected override void OnPreviewTextInput(TextCompositionEventArgs e)
@@ -132,6 +352,11 @@ namespace Orc.Controls
                 return;
             }
 
+            if (!DoesStringValueRequireUpdate(text))
+            {
+                return;
+            }
+
             double value;
             if (!double.TryParse(text, out value))
             {
@@ -139,7 +364,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (!IsValidValue(value))
+            if (!IsValidDoubleValue(value))
             {
                 e.Handled = true;
             }
@@ -172,6 +397,26 @@ namespace Orc.Controls
                 OnUpDown(-1);
                 e.Handled = true;
             }
+
+            var notAllowed = true;
+            var keyValue = GetKeyValue(e);
+
+            var numberDecimalSeparator = GetDecimalSeparator();
+
+            if (keyValue == numberDecimalSeparator && IsDecimalAllowed)
+            {
+                notAllowed = Text.Contains(numberDecimalSeparator);
+            }
+            else if (keyValue == MinusCharacter && IsNegativeAllowed)
+            {
+                notAllowed = CaretIndex > 0;
+            }
+            else if (AllowedKeys.Contains(e.Key) || IsDigit(e.Key))
+            {
+                notAllowed = (e.Key == Key.OemMinus && CaretIndex > 0 && IsNegativeAllowed);
+            }
+
+            e.Handled = notAllowed;
         }
 
         private void OnUpDown(int increment)
@@ -185,7 +430,7 @@ namespace Orc.Controls
             }
             else
             {
-                newValue = GetNewValue(Value.Value, increment);
+                newValue = GetNewValue(value.Value, increment);
             }
 
             SetCurrentValue(ValueProperty, newValue);
@@ -220,15 +465,19 @@ namespace Orc.Controls
         private string GetText(string inputText)
         {
             var text = new StringBuilder(base.Text);
-            if (!string.IsNullOrEmpty(SelectedText))
+
+            var selectedText = SelectedText;
+            if (!string.IsNullOrEmpty(selectedText))
             {
-                text.Remove(CaretIndex, SelectedText.Length);
+                text.Remove(CaretIndex, selectedText.Length);
             }
+
             text.Insert(CaretIndex, inputText);
-            return (text.ToString());
+
+            return text.ToString();
         }
 
-        private static void SelectivelyIgnoreMouseButton(object sender, MouseButtonEventArgs e)
+        private void SelectivelyIgnoreMouseButton(object sender, MouseButtonEventArgs e)
         {
             DependencyObject parent = e.OriginalSource as UIElement;
             while (parent != null && !(parent is TextBox))
@@ -247,7 +496,7 @@ namespace Orc.Controls
             }
         }
 
-        private static void SelectAllText(object sender, RoutedEventArgs e)
+        private void SelectAllText(object sender, RoutedEventArgs e)
         {
             var textBox = e.OriginalSource as TextBox;
             if (textBox != null)
@@ -262,6 +511,7 @@ namespace Orc.Controls
             {
                 return;
             }
+
             UpdateText();
         }
 
@@ -272,7 +522,96 @@ namespace Orc.Controls
 
         private void UpdateText()
         {
-            SetCurrentValue(TextProperty, Value == null ? string.Empty : Value.Value.ToString(Format));
+            var textValue = Value == null ? string.Empty : Value.Value.ToString(Format);
+
+            SetCurrentValue(TextProperty, textValue);
+        }
+
+        private void EnforceRules()
+        {
+            var value = Value;
+            if (value.HasValue)
+            {
+                if (!IsNegativeAllowed && value.Value < 0)
+                {
+                    value = 0d;
+                }
+
+                if (!IsDecimalAllowed)
+                {
+                    value = Math.Round(value.Value, 0);
+                }
+            }
+            else
+            {
+                value = MinValue;
+            }
+
+            if (value != Value)
+            {
+                SetCurrentValue(ValueProperty, value);
+            }
+        }
+
+        private string GetDecimalSeparator()
+        {
+            var numberDecimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            return numberDecimalSeparator;
+        }
+
+        private bool IsDigitsOnly(string input)
+        {
+            foreach (char c in input)
+            {
+                if (c < '0' || c > '9')
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private bool IsDigit(Key key)
+        {
+            bool isDigit;
+
+            var isShiftKey = KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Shift);
+
+            if (key >= Key.D0 && key <= Key.D9 && !isShiftKey)
+            {
+                isDigit = true;
+            }
+            else
+            {
+                isDigit = key >= Key.NumPad0 && key <= Key.NumPad9;
+            }
+
+            return isDigit;
+        }
+
+        private string GetKeyValue(KeyEventArgs e)
+        {
+            var keyValue = string.Empty;
+
+            if (e.Key == Key.Decimal)
+            {
+                keyValue = GetDecimalSeparator();
+            }
+            else if (e.Key == Key.OemMinus || e.Key == Key.Subtract)
+            {
+                keyValue = MinusCharacter;
+            }
+            else if (e.Key == Key.OemComma)
+            {
+                keyValue = CommaCharacter;
+            }
+            else if (e.Key == Key.OemPeriod)
+            {
+                keyValue = PeriodCharacter;
+            }
+
+            return keyValue;
         }
         #endregion
     }

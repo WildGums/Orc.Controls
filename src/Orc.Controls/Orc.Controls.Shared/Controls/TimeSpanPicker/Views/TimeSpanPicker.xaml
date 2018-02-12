@@ -27,25 +27,25 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <controls:NumericTextBox x:Name="NumericTBDays" Value="{Binding Days, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" MinValue="0" MaxValue="100"
+                <controls:NumericTextBox x:Name="NumericTBDays" IsNegativeAllowed="False" Value="{Binding Days, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" MinValue="0" MaxValue="100"
                                          IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanPicker}}}"/>
                 <TextBlock x:Name="Separator1" Grid.Column="1" Text="." Style="{StaticResource RatioSignStyle}" />
                 <TextBlock x:Name="TextBlockD" Grid.Column="1" Text="{catel:LanguageBinding Controls_TimeSpanPicker_TextBlock_Text_DaysAbbreviation}"
                            Tag="{x:Static controls:TimeSpanPart.Days}" Style="{StaticResource LettersStyle}" />
 
-                <controls:NumericTextBox x:Name="NumericTBHours" Grid.Column="2" Value="{Binding Hours, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" MaxValue="23" MinValue="0"
+                <controls:NumericTextBox x:Name="NumericTBHours" Grid.Column="2" IsNegativeAllowed="False" Value="{Binding Hours, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" MaxValue="23" MinValue="0"
                                          IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanPicker}}}"/>
                 <TextBlock x:Name="Separator2" Grid.Column="3" Text=":" Style="{StaticResource RatioSignStyle}" />
                 <TextBlock x:Name="TextBlockH" Grid.Column="3" Text="{catel:LanguageBinding Controls_TimeSpanPicker_TextBlock_Text_HoursAbbreviation}" 
                            Tag="{x:Static controls:TimeSpanPart.Hours}" Style="{StaticResource LettersStyle}" />
 
-                <controls:NumericTextBox x:Name="NumericTBMinutes" Grid.Column="4" Value="{Binding Minutes, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" MaxValue="59" MinValue="0"
+                <controls:NumericTextBox x:Name="NumericTBMinutes" Grid.Column="4" IsNegativeAllowed="False" Value="{Binding Minutes, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" MaxValue="59" MinValue="0"
                                          IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanPicker}}}"/>
                 <TextBlock x:Name="Separator3" Grid.Column="5" Text=":" Style="{StaticResource RatioSignStyle}" />
                 <TextBlock x:Name="TextBlockM" Grid.Column="5" Text="{catel:LanguageBinding Controls_TimeSpanPicker_TextBlock_Text_MinutesAbbreviation}" 
                            Tag="{x:Static controls:TimeSpanPart.Minutes}" Style="{StaticResource LettersStyle}" />
 
-                <controls:NumericTextBox x:Name="NumericTBSeconds" Grid.Column="6" Value="{Binding Seconds, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" MaxValue="59" MinValue="0"
+                <controls:NumericTextBox x:Name="NumericTBSeconds" Grid.Column="6" IsNegativeAllowed="False" Value="{Binding Seconds, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" MaxValue="59" MinValue="0"
                                          IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanPicker}}}"/>
                 <TextBlock x:Name="TextBlockS" Grid.Column="7" Text="{catel:LanguageBinding Controls_TimeSpanPicker_TextBlock_Text_SecondsAbbreviation}" 
                            Tag="{x:Static controls:TimeSpanPart.Seconds}" Style="{StaticResource LettersStyle}" />
@@ -66,6 +66,7 @@
                                          MinValue="0" Format="0.#####"  Margin="2 0 2 0" 
                                          HorizontalContentAlignment="Left"
                                          VerticalContentAlignment="Center" 
+                                         IsNegativeAllowed="True" 
                                          IsKeyboardFocusWithinChanged="NumericTBEditor_OnIsKeyboardFocusWithinChanged" 
                                          IsVisibleChanged="NumericTBEditor_OnIsVisibleChanged"
                                          IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanPicker}}}"/>
