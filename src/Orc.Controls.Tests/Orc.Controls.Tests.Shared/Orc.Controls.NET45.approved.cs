@@ -891,11 +891,17 @@ namespace Orc.Controls
     public class NumericTextBox : System.Windows.Controls.TextBox
     {
         public static readonly System.Windows.DependencyProperty FormatProperty;
+        public static readonly System.Windows.DependencyProperty IsDecimalAllowedProperty;
+        public static readonly System.Windows.DependencyProperty IsNegativeAllowedProperty;
+        public static readonly System.Windows.DependencyProperty IsNullValueAllowedProperty;
         public static readonly System.Windows.DependencyProperty MaxValueProperty;
         public static readonly System.Windows.DependencyProperty MinValueProperty;
         public static readonly System.Windows.DependencyProperty ValueProperty;
         public NumericTextBox() { }
         public string Format { get; set; }
+        public bool IsDecimalAllowed { get; set; }
+        public bool IsNegativeAllowed { get; set; }
+        public bool IsNullValueAllowed { get; set; }
         public double MaxValue { get; set; }
         public double MinValue { get; set; }
         public System.Nullable<double> Value { get; set; }
