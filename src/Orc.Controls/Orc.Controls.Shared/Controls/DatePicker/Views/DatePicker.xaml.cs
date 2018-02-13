@@ -53,7 +53,7 @@ namespace Orc.Controls
                 NumericTBYear,
             };
 
-            DateTime now = DateTime.Now;
+            var now = DateTime.Now;
             _todayValue = new DateTime(now.Year, now.Month, now.Day);
         }
 
@@ -200,9 +200,14 @@ namespace Orc.Controls
 
         private void NumericTBMonth_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            var dateTime = Value == null ? _todayValue : Value.Value;
-            var daysInMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
-            NumericTBDay.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)daysInMonth);
+            if (int.TryParse(NumericTBMonth.Text, out var month))
+            {
+                if (int.TryParse(NumericTBYear.Text, out var year))
+                {
+                    var daysInMonth = DateTime.DaysInMonth(year, month);
+                    NumericTBDay.SetCurrentValue(NumericTextBox.MaxValueProperty, (double) daysInMonth);
+                }
+            }
         }
 
         private Calendar CreateCalendarPopupSource()
