@@ -122,8 +122,22 @@ namespace Orc.Controls
             set { SetValue(EnableTransparentBackgroundProperty, value); }
         }
 
+        public object CommandParameter
+        {
+            get
+            {
+                return (object)GetValue(CommandParameterProperty);
+            }
+            set
+            {
+                SetValue(CommandParameterProperty, value);
+            }
+        }
+
         public static readonly DependencyProperty EnableTransparentBackgroundProperty = DependencyProperty.Register("EnableTransparentBackground", typeof(bool),
             typeof(DropDownButton), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(DropDownButton), new PropertyMetadata(default(object)));
         #endregion
 
         #region Events
