@@ -579,6 +579,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty ArrowLocationProperty;
         public static readonly System.Windows.DependencyProperty ArrowMarginProperty;
+        public static readonly System.Windows.DependencyProperty CommandParameterProperty;
         public static readonly System.Windows.DependencyProperty CommandProperty;
         public static readonly System.Windows.DependencyProperty DropDownProperty;
         public static readonly System.Windows.DependencyProperty EnableTransparentBackgroundProperty;
@@ -589,6 +590,7 @@ namespace Orc.Controls
         public Orc.Controls.DropdownArrowLocation ArrowLocation { get; set; }
         public System.Windows.Thickness ArrowMargin { get; set; }
         public System.Windows.Input.ICommand Command { get; set; }
+        public object CommandParameter { get; set; }
         public System.Windows.Controls.ContextMenu DropDown { get; set; }
         public bool EnableTransparentBackground { get; set; }
         public object Header { get; set; }
