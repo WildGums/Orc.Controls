@@ -22,6 +22,7 @@
             <ColumnDefinition Style="{DynamicResource ToggleButtonColumnStyle}"/>
         </Grid.ColumnDefinitions>
         <Button Command="{Binding Command, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:DropDownButton}}}"
+                CommandParameter="{Binding CommandParameter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:DropDownButton}}}"
                 Visibility="{Binding ShowDefaultButton, RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}, Converter={catel:BooleanToCollapsingVisibilityConverter}}" >
             <ContentPresenter Content="{Binding Header, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:DropDownButton}}}"/>
         </Button>
