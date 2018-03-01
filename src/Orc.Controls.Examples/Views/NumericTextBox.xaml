@@ -36,10 +36,10 @@
         <TextBox Text="{Binding Format}" />
 
         <Label Content="Minimum value" />
-        <orc:NumericTextBox IsNegativeAllowed="True" Value="{Binding MinValue}" />
+        <orc:NumericTextBox IsNegativeAllowed="True" MinValue="-10000" MaxValue="10000" Value="{Binding MinValue}" />
 
         <Label Content="Maximum value" />
-        <orc:NumericTextBox IsNegativeAllowed="True" Value="{Binding MaxValue}" />
+        <orc:NumericTextBox IsNegativeAllowed="True" MinValue="-10000" MaxValue="10000" Value="{Binding MaxValue}" />
 
         <Label Content="Numeric text box" />
         <orc:NumericTextBox Format="{Binding Format}" IsNullValueAllowed="{Binding IsNullValueAllowed}" 
