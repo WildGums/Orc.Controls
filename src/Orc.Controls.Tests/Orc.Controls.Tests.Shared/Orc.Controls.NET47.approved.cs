@@ -909,6 +909,7 @@ namespace Orc.Controls
         public System.Nullable<double> Value { get; set; }
         public event System.EventHandler LeftBoundReached;
         public event System.EventHandler RightBoundReached;
+        public event System.EventHandler ValueChanged;
         protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
         protected override void OnPreviewTextInput(System.Windows.Input.TextCompositionEventArgs e) { }
     }
