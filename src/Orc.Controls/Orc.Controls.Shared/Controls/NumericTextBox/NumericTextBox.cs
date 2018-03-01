@@ -15,6 +15,7 @@ namespace Orc.Controls
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
+    using Catel;
     using Catel.Logging;
     using Catel.Windows.Input;
 
@@ -106,7 +107,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty MinValueProperty = DependencyProperty.Register("MinValue", typeof(double),
-            typeof(NumericTextBox), new UIPropertyMetadata(0.0));
+            typeof(NumericTextBox), new UIPropertyMetadata(0d));
 
 
         public double MaxValue
@@ -142,6 +143,8 @@ namespace Orc.Controls
         #region Events
         public event EventHandler RightBoundReached;
         public event EventHandler LeftBoundReached;
+
+        public event EventHandler ValueChanged;
         #endregion
 
         #region Properties
@@ -335,8 +338,7 @@ namespace Orc.Controls
 
             if (!IsNullValueAllowed && !doubleValue.HasValue)
             {
-                // GHK: I think returning MinValue is weird, but will keep this for backwards compatibility
-                doubleValue = MinValue;
+                doubleValue = default(double);
             }
 
             return doubleValue;
@@ -511,6 +513,8 @@ namespace Orc.Controls
             {
                 return;
             }
+
+            ValueChanged.SafeInvoke(this);
 
             UpdateText();
         }
