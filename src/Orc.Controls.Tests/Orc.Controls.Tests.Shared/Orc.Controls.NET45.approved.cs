@@ -832,6 +832,7 @@ namespace Orc.Controls
     }
     public class LogViewerControl : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
+        public static readonly System.Windows.DependencyProperty AutoScrollProperty;
         public static readonly System.Windows.DependencyProperty EnableIconsProperty;
         public static readonly System.Windows.DependencyProperty EnableTextColoringProperty;
         public static readonly System.Windows.DependencyProperty EnableThreadIdProperty;
@@ -846,6 +847,8 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty SupportCommandManagerProperty;
         public static readonly System.Windows.DependencyProperty TypeFilterProperty;
         public LogViewerControl() { }
+        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool AutoScroll { get; set; }
         public bool EnableIcons { get; set; }
         public bool EnableTextColoring { get; set; }
         public bool EnableThreadId { get; set; }
@@ -871,6 +874,8 @@ namespace Orc.Controls
         public void Clear() { }
         public void CopyToClipboard() { }
         public void InitializeComponent() { }
+        protected override void OnLoaded(System.EventArgs e) { }
+        protected override void OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
         protected override void OnViewModelChanged() { }
         protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
     }
@@ -1418,6 +1423,7 @@ namespace Orc.Controls.ViewModels
     
     public class LogViewerViewModel : Catel.MVVM.ViewModelBase
     {
+        public static readonly Catel.Data.PropertyData AutoScrollProperty;
         public static readonly Catel.Data.PropertyData DebugEntriesCountProperty;
         public static readonly Catel.Data.PropertyData ErrorEntriesCountProperty;
         public static readonly Catel.Data.PropertyData IgnoreCatelLoggingProperty;
@@ -1432,6 +1438,7 @@ namespace Orc.Controls.ViewModels
         public static readonly Catel.Data.PropertyData TypeNamesProperty;
         public static readonly Catel.Data.PropertyData WarningEntriesCountProperty;
         public LogViewerViewModel(Catel.IoC.ITypeFactory typeFactory, Catel.Services.IDispatcherService dispatcherService, Orc.Controls.Logging.LogViewerLogListener logViewerLogListener) { }
+        public bool AutoScroll { get; set; }
         public int DebugEntriesCount { get; }
         public int ErrorEntriesCount { get; }
         public bool IgnoreCatelLogging { get; set; }
