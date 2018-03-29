@@ -59,9 +59,10 @@
             <ToggleButton x:Name="ShowErrorToggleButton" Height="25" Width="60" Margin="0 4 4 4"
                           VerticalAlignment="Top" Content="Error" IsChecked="True" />
         </StackPanel>
+
         <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal">
             <CheckBox x:Name="EnableTimestampCheckBox" Content="Enable Timestamp" Margin="5" />
-            <CheckBox x:Name="AutoScrollCheckBox" Content="Auto Scroll" Margin="5" />
+            <CheckBox x:Name="AutoScrollCheckBox" Content="Auto Scroll" Margin="5" IsChecked="True" />
         </StackPanel>
     </Grid>
 </catel:UserControl>
