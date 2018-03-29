@@ -142,7 +142,7 @@ namespace Orc.Controls.ViewModels
         public bool ShowInfo { get; set; }
         public bool ShowWarning { get; set; }
         public bool ShowError { get; set; }
-
+        public bool AutoScroll { get; set; }
         public int DebugEntriesCount { get; private set; }
         public int InfoEntriesCount { get; private set; }
         public int WarningEntriesCount { get; private set; }
