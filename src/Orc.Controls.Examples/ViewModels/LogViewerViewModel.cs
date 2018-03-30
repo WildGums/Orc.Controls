@@ -27,10 +27,17 @@ namespace Orc.Controls.Examples.ViewModels
 
         private void OnAddLogRecordsExecute()
         {
-            Log.Debug("Debug");
-            Log.Warning("Warning");
-            Log.Error("Error");
-            Log.Info("Info");
+            Log.Debug("Single line debug message");
+            Log.Warning("Multiline debug message tha include a first line \nand a second line of the message");
+
+            Log.Warning("Single line warning message");
+            Log.Warning("Multiline warning message tha include a first line \nand a second line of the message");
+
+            Log.Error("Single line error message");
+            Log.Error("Multiline error message tha include a first line \nand a second line of the message");
+
+            Log.Info("Single line info message");
+            Log.Info("Multiline info message tha include a first line \nand a second line of the message");
         }
     }
 }
