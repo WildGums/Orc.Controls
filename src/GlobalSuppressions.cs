@@ -7,4 +7,4 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("WpfAnalyzers.DependencyProperties", "WPF1010:Property '[property]' must notify when value changes.", Justification = "Don't enforce this")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("WpfAnalyzers.DependencyProperties", "WPF1011:Implement INotifyPropertyChanged.", Justification = "Don't enforce this")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("WpfAnalyzers.DependencyProperties", "WPF1013:Use [CallerMemberName].", Justification = "Don't enforce this, base class doesn't neccessarily support this")]
-
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("WpfAnalyzers.PropertyChanged", "WPF1014:Don't raise PropertyChanged for missing property.", Justification = "<Pending>")]

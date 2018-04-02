@@ -176,6 +176,10 @@
             <views:LogViewer />
         </TabItem>
 
+        <TabItem Header="NumericTextBox">
+            <views:NumericTextBox />
+        </TabItem>
+
         <TabItem Header="OpenFilePicker">
             <views:OpenFilePickerView />
         </TabItem>
@@ -200,11 +204,7 @@
             <views:Watermark />
         </TabItem>
 
-        <TabItem Header="WatermarkTextBox">
-            <views:Watermark />
-        </TabItem>
-
-        <TabItem Header="Combobox">
+        <!--<TabItem Header="Combobox">
             <orc:StackGrid>
                 <orc:StackGrid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -238,7 +238,7 @@
                 
                 <TextBlock x:Name="ComboboxResultTextBlock"/>
             </orc:StackGrid>
-        </TabItem>
+        </TabItem>-->
 
     </TabControl>
 </catel:Window>

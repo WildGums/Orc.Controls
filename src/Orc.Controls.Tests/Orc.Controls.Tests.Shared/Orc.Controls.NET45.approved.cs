@@ -327,6 +327,7 @@ namespace Orc.Controls
         public string Name { get; set; }
         public System.DateTime Start { get; set; }
         protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
+        public override string ToString() { }
     }
     public class DateRangePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
@@ -578,6 +579,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty ArrowLocationProperty;
         public static readonly System.Windows.DependencyProperty ArrowMarginProperty;
+        public static readonly System.Windows.DependencyProperty CommandParameterProperty;
         public static readonly System.Windows.DependencyProperty CommandProperty;
         public static readonly System.Windows.DependencyProperty DropDownProperty;
         public static readonly System.Windows.DependencyProperty EnableTransparentBackgroundProperty;
@@ -588,6 +590,7 @@ namespace Orc.Controls
         public Orc.Controls.DropdownArrowLocation ArrowLocation { get; set; }
         public System.Windows.Thickness ArrowMargin { get; set; }
         public System.Windows.Input.ICommand Command { get; set; }
+        public object CommandParameter { get; set; }
         public System.Windows.Controls.ContextMenu DropDown { get; set; }
         public bool EnableTransparentBackground { get; set; }
         public object Header { get; set; }
@@ -829,6 +832,7 @@ namespace Orc.Controls
     }
     public class LogViewerControl : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
+        public static readonly System.Windows.DependencyProperty AutoScrollProperty;
         public static readonly System.Windows.DependencyProperty EnableIconsProperty;
         public static readonly System.Windows.DependencyProperty EnableTextColoringProperty;
         public static readonly System.Windows.DependencyProperty EnableThreadIdProperty;
@@ -843,6 +847,8 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty SupportCommandManagerProperty;
         public static readonly System.Windows.DependencyProperty TypeFilterProperty;
         public LogViewerControl() { }
+        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool AutoScroll { get; set; }
         public bool EnableIcons { get; set; }
         public bool EnableTextColoring { get; set; }
         public bool EnableThreadId { get; set; }
@@ -868,6 +874,8 @@ namespace Orc.Controls
         public void Clear() { }
         public void CopyToClipboard() { }
         public void InitializeComponent() { }
+        protected override void OnLoaded(System.EventArgs e) { }
+        protected override void OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
         protected override void OnViewModelChanged() { }
         protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
     }
@@ -890,16 +898,23 @@ namespace Orc.Controls
     public class NumericTextBox : System.Windows.Controls.TextBox
     {
         public static readonly System.Windows.DependencyProperty FormatProperty;
+        public static readonly System.Windows.DependencyProperty IsDecimalAllowedProperty;
+        public static readonly System.Windows.DependencyProperty IsNegativeAllowedProperty;
+        public static readonly System.Windows.DependencyProperty IsNullValueAllowedProperty;
         public static readonly System.Windows.DependencyProperty MaxValueProperty;
         public static readonly System.Windows.DependencyProperty MinValueProperty;
         public static readonly System.Windows.DependencyProperty ValueProperty;
         public NumericTextBox() { }
         public string Format { get; set; }
+        public bool IsDecimalAllowed { get; set; }
+        public bool IsNegativeAllowed { get; set; }
+        public bool IsNullValueAllowed { get; set; }
         public double MaxValue { get; set; }
         public double MinValue { get; set; }
         public System.Nullable<double> Value { get; set; }
         public event System.EventHandler LeftBoundReached;
         public event System.EventHandler RightBoundReached;
+        public event System.EventHandler ValueChanged;
         protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
         protected override void OnPreviewTextInput(System.Windows.Input.TextCompositionEventArgs e) { }
     }
@@ -1408,6 +1423,7 @@ namespace Orc.Controls.ViewModels
     
     public class LogViewerViewModel : Catel.MVVM.ViewModelBase
     {
+        public static readonly Catel.Data.PropertyData AutoScrollProperty;
         public static readonly Catel.Data.PropertyData DebugEntriesCountProperty;
         public static readonly Catel.Data.PropertyData ErrorEntriesCountProperty;
         public static readonly Catel.Data.PropertyData IgnoreCatelLoggingProperty;
@@ -1422,6 +1438,7 @@ namespace Orc.Controls.ViewModels
         public static readonly Catel.Data.PropertyData TypeNamesProperty;
         public static readonly Catel.Data.PropertyData WarningEntriesCountProperty;
         public LogViewerViewModel(Catel.IoC.ITypeFactory typeFactory, Catel.Services.IDispatcherService dispatcherService, Orc.Controls.Logging.LogViewerLogListener logViewerLogListener) { }
+        public bool AutoScroll { get; set; }
         public int DebugEntriesCount { get; }
         public int ErrorEntriesCount { get; }
         public bool IgnoreCatelLogging { get; set; }

@@ -46,14 +46,14 @@ namespace Orc.Controls
         {
             InitializeComponent();
 
-            _textBoxes = new List<TextBox>()
+            _textBoxes = new List<TextBox>
             {
                 NumericTBDay,
                 NumericTBMonth,
                 NumericTBYear,
             };
 
-            DateTime now = DateTime.Now;
+            var now = DateTime.Now;
             _todayValue = new DateTime(now.Year, now.Month, now.Day);
         }
 
@@ -95,6 +95,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(DateTime?), typeof(DatePicker),
             new FrameworkPropertyMetadata(DateTime.Today, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((DatePicker)sender).OnValueChanged(e.OldValue, e.NewValue)));
 
+
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowOptionsButton
         {
@@ -105,6 +106,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register("ShowOptionsButton", typeof(bool),
             typeof(DatePicker), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+
         public Brush AccentColorBrush
         {
             get { return (Brush)GetValue(AccentColorBrushProperty); }
@@ -113,6 +115,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
             typeof(DatePicker), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((DatePicker)sender).OnAccentColorBrushChanged()));
+
 
         public bool AllowNull
         {
@@ -123,6 +126,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty AllowNullProperty = DependencyProperty.Register("AllowNull", typeof(bool),
             typeof(DatePicker), new PropertyMetadata(false));
 
+
         public bool AllowCopyPaste
         {
             get { return (bool)GetValue(AllowCopyPasteProperty); }
@@ -131,6 +135,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty AllowCopyPasteProperty = DependencyProperty.Register("AllowCopyPaste", typeof(bool),
             typeof(DatePicker), new PropertyMetadata(true));
+
 
         public bool IsReadOnly
         {
@@ -195,9 +200,14 @@ namespace Orc.Controls
 
         private void NumericTBMonth_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            var dateTime = Value == null ? _todayValue : Value.Value;
-            var daysInMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
-            NumericTBDay.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)daysInMonth);
+            if (int.TryParse(NumericTBMonth.Text, out var month))
+            {
+                if (int.TryParse(NumericTBYear.Text, out var year))
+                {
+                    var daysInMonth = DateTime.DaysInMonth(year, month);
+                    NumericTBDay.SetCurrentValue(NumericTextBox.MaxValueProperty, (double) daysInMonth);
+                }
+            }
         }
 
         private Calendar CreateCalendarPopupSource()
@@ -228,14 +238,18 @@ namespace Orc.Controls
 
         private void UpdateDate(DateTime? date)
         {
-            DateTime? value = null;
-
-            if (date != null)
+            if (!AllowNull && !date.HasValue)
             {
-                value = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day);
+                date = _todayValue;
             }
 
-            SetCurrentValue(ValueProperty, value);
+            // Trim the time
+            if (date != null)
+            {
+                date = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day);
+            }
+
+            SetCurrentValue(ValueProperty, date);
         }
 
         private Popup CreateCalendarPopup()
@@ -248,6 +262,7 @@ namespace Orc.Controls
                 IsOpen = true,
                 StaysOpen = false,
             };
+
             return popup;
         }
 

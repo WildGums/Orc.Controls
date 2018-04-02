@@ -18,6 +18,7 @@ namespace Orc.Controls
     using System.Windows.Media.Imaging;
     using System.Windows.Threading;
     using Catel.Logging;
+    using Catel.Reflection;
 
     /// <summary>
     /// User control supporting animated gif.
@@ -128,7 +129,8 @@ namespace Orc.Controls
             else
             {
                 // Support looking for embedded resources
-                Assembly assemblyToSearch = Assembly.GetAssembly(GetType());
+                var type = GetType();
+                var assemblyToSearch = type.GetAssemblyEx();
                 _bitmap = GetBitmapResourceFromAssembly(assemblyToSearch);
                 if (_bitmap == null)
                 {

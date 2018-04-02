@@ -1,21 +1,17 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainWindow.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+// <copyright file="NumericTextBoxView.xaml.cs" company="WildGums">
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
 namespace Orc.Controls.Examples.Views
 {
-    public partial class MainWindow
+    public partial class NumericTextBox
     {
-        #region Constructors
-        public MainWindow()
+        public NumericTextBox()
         {
             InitializeComponent();
-
-            CanCloseUsingEscape = false;
         }
-        #endregion
     }
 }

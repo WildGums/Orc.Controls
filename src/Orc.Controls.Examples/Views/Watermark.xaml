@@ -26,6 +26,7 @@
             <Setter Property="Margin" Value="0 4 0 0" />
         </Style>
     </catel:UserControl.Resources>
+
     <StackPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="5" >
             <TextBlock Text="Simple watermark" VerticalAlignment="Top" Width="160" Margin="0 4 0 0" />
