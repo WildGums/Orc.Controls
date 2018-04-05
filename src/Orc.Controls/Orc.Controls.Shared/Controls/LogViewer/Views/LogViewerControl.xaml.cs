@@ -433,7 +433,7 @@ namespace Orc.Controls
             Clipboard.SetDataObject(text);
         }
 
-        public void ExpandAllMultilneLogMessages()
+        public void ExpandAllMultilineLogMessages()
         {
             if (LogRecordsRichTextBox.Document != null)
             {
@@ -444,7 +444,7 @@ namespace Orc.Controls
             }
         }
 
-        public void CollapseAllMultilneLogMessages()
+        public void CollapseAllMultilineLogMessages()
         {
             if (LogRecordsRichTextBox.Document != null)
             {
