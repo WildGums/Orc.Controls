@@ -50,10 +50,18 @@ namespace Orc.Controls
             var text = $"{timestamp}{threadId}{message}";
             paragraph.Inlines.Clear();
             paragraph.Inlines.Add(text);
+
             if (buttonRequired)
             {
-                var button = new TextBlock { Text = "[...]", Margin = new Thickness(5, 0, 0, 0), Cursor = Cursors.Arrow };
+                var button = new TextBlock
+                {
+                    Text = "[...]",
+                    Margin = new Thickness(5, 0, 0, 0),
+                    Cursor = Cursors.SizeNWSE
+                };
+
                 button.MouseLeftButtonDown += (sender, args) => { paragraph.SetData(showTimestamp, showThreadId, true); };
+
                 paragraph.Inlines.Add(button);
             }
         }
