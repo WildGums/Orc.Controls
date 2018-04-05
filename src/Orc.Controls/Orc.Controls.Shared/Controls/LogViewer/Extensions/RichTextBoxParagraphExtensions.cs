@@ -8,10 +8,13 @@
 namespace Orc.Controls
 {
     using System.Text;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
 
     public static class RichTextBoxParagraphExtensions
     {
-        public static void SetData(this RichTextBoxParagraph paragraph, bool showTimestamp = true, bool showThreadId = true)
+        public static void SetData(this RichTextBoxParagraph paragraph, bool showTimestamp = true, bool showThreadId = true, bool showMultilineMessagesExpanded = false)
         {
             var timestamp = $"{paragraph.LogEntry.Time} ";
             var toolTip = new StringBuilder();
@@ -23,7 +26,7 @@ namespace Orc.Controls
             }
 
             toolTip.Append("Log event: " + paragraph.LogEntry.Log.Tag);
-            paragraph.SetCurrentValue(System.Windows.FrameworkContentElement.ToolTipProperty, toolTip);
+            paragraph.SetCurrentValue(FrameworkContentElement.ToolTipProperty, toolTip);
 
             var threadId = string.Empty;
             var data = paragraph.LogEntry.Data;
@@ -32,8 +35,27 @@ namespace Orc.Controls
                 threadId = $"[{data["ThreadId"]}] ";
             }
 
-            var text = $"{timestamp}{threadId}{paragraph.LogEntry.Message}";
+            var message = paragraph.LogEntry.Message;
+            var buttonRequired = false;
+            if (!showMultilineMessagesExpanded && !string.IsNullOrEmpty(message))
+            {
+                var lines = message.Split('\n');
+                if (lines.Length > 1)
+                {
+                    message = lines[0].Trim();
+                    buttonRequired = true;
+                }
+            }
+
+            var text = $"{timestamp}{threadId}{message}";
+            paragraph.Inlines.Clear();
             paragraph.Inlines.Add(text);
+            if (buttonRequired)
+            {
+                var button = new TextBlock { Text = "[...]", Margin = new Thickness(5, 0, 0, 0), Cursor = Cursors.Arrow };
+                button.MouseLeftButtonDown += (sender, args) => { paragraph.SetData(showTimestamp, showThreadId, true); };
+                paragraph.Inlines.Add(button);
+            }
         }
     }
 }

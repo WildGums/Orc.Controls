@@ -10,7 +10,6 @@ namespace Orc.Controls.ViewModels
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
     using System.Threading.Tasks;
     using Catel;
     using Catel.Collections;
@@ -143,6 +142,7 @@ namespace Orc.Controls.ViewModels
         public bool ShowWarning { get; set; }
         public bool ShowError { get; set; }
         public bool AutoScroll { get; set; }
+        public bool ShowMultilineMessagesExpanded { get; set; }
         public int DebugEntriesCount { get; private set; }
         public int InfoEntriesCount { get; private set; }
         public int WarningEntriesCount { get; private set; }

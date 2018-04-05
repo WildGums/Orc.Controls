@@ -216,6 +216,17 @@ namespace Orc.Controls
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool ShowMultilineMessagesExpanded
+        {
+            get { return (bool)GetValue(ShowMultilineMessagesExpandedProperty); }
+            set { SetValue(ShowMultilineMessagesExpandedProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowMultilineMessagesExpandedProperty = DependencyProperty.Register("ShowMultilineMessagesExpanded", typeof(bool),
+            typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+
+
         public bool SupportCommandManager
         {
             get { return (bool)GetValue(SupportCommandManagerProperty); }
@@ -336,7 +347,7 @@ namespace Orc.Controls
 
             if (EnableIcons)
             {
-                var icon = new Label() { DataContext = logEntry };
+                var icon = new Label { DataContext = logEntry };
                 paragraph.Inlines.Add(icon);
             }
 
@@ -345,7 +356,7 @@ namespace Orc.Controls
                 paragraph.Foreground = ColorSets[logEntry.LogEvent];
             }
 
-            paragraph.SetData(EnableTimestamp, EnableThreadId);
+            paragraph.SetData(EnableTimestamp, EnableThreadId, ShowMultilineMessagesExpanded);
 
             return paragraph;
         }
@@ -421,6 +432,29 @@ namespace Orc.Controls
             var text = LogRecordsRichTextBox.GetInlineText();
             Clipboard.SetDataObject(text);
         }
+
+        public void ExpandAllMultilineLogMessages()
+        {
+            if (LogRecordsRichTextBox.Document != null)
+            {
+                foreach (var richTextBoxParagraph in LogRecordsRichTextBox.Document.Blocks.OfType<RichTextBoxParagraph>())
+                {
+                    richTextBoxParagraph.SetData(EnableTimestamp, EnableThreadId, true);
+                }
+            }
+        }
+
+        public void CollapseAllMultilineLogMessages()
+        {
+            if (LogRecordsRichTextBox.Document != null)
+            {
+                foreach (var richTextBoxParagraph in LogRecordsRichTextBox.Document.Blocks.OfType<RichTextBoxParagraph>())
+                {
+                    richTextBoxParagraph.SetData(this.EnableTimestamp, this.EnableThreadId);
+                }
+            }
+        }
+
         #endregion
 
         private void LogRecordsRichTextBox_OnKeyDown(object sender, KeyEventArgs e)
