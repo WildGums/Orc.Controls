@@ -217,13 +217,13 @@ namespace Orc.Controls
 
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool ShowMultilineMessageExpanded
+        public bool ShowMultilineMessagesExpanded
         {
-            get { return (bool)GetValue(ShowMultilineMessageExpandedProperty); }
-            set { SetValue(ShowMultilineMessageExpandedProperty, value); }
+            get { return (bool)GetValue(ShowMultilineMessagesExpandedProperty); }
+            set { SetValue(ShowMultilineMessagesExpandedProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowMultilineMessageExpandedProperty = DependencyProperty.Register("ShowMultilineMessageExpanded", typeof(bool),
+        public static readonly DependencyProperty ShowMultilineMessagesExpandedProperty = DependencyProperty.Register("ShowMultilineMessagesExpanded", typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
 
@@ -356,7 +356,7 @@ namespace Orc.Controls
                 paragraph.Foreground = ColorSets[logEntry.LogEvent];
             }
 
-            paragraph.SetData(EnableTimestamp, EnableThreadId, ShowMultilineMessageExpanded);
+            paragraph.SetData(EnableTimestamp, EnableThreadId, ShowMultilineMessagesExpanded);
 
             return paragraph;
         }
@@ -433,7 +433,7 @@ namespace Orc.Controls
             Clipboard.SetDataObject(text);
         }
 
-        public void ExpandAllMultilneLogMessage()
+        public void ExpandAllMultilneLogMessages()
         {
             if (LogRecordsRichTextBox.Document != null)
             {
@@ -444,13 +444,13 @@ namespace Orc.Controls
             }
         }
 
-        public void CollapseAllMultilneLogMessage()
+        public void CollapseAllMultilneLogMessages()
         {
             if (LogRecordsRichTextBox.Document != null)
             {
                 foreach (var richTextBoxParagraph in LogRecordsRichTextBox.Document.Blocks.OfType<RichTextBoxParagraph>())
                 {
-                    richTextBoxParagraph.SetData(EnableTimestamp, EnableThreadId);
+                    richTextBoxParagraph.SetData(this.EnableTimestamp, this.EnableThreadId);
                 }
             }
         }
