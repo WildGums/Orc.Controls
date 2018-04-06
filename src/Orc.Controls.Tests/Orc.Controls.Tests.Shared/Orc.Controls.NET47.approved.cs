@@ -843,6 +843,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ShowDebugProperty;
         public static readonly System.Windows.DependencyProperty ShowErrorProperty;
         public static readonly System.Windows.DependencyProperty ShowInfoProperty;
+        public static readonly System.Windows.DependencyProperty ShowMultilineMessagesExpandedProperty;
         public static readonly System.Windows.DependencyProperty ShowWarningProperty;
         public static readonly System.Windows.DependencyProperty SupportCommandManagerProperty;
         public static readonly System.Windows.DependencyProperty TypeFilterProperty;
@@ -866,13 +867,17 @@ namespace Orc.Controls
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowInfo { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool ShowMultilineMessagesExpanded { get; set; }
+        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowWarning { get; set; }
         public bool SupportCommandManager { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string TypeFilter { get; set; }
         public event System.EventHandler<Orc.Controls.LogEntryDoubleClickEventArgs> LogEntryDoubleClick;
         public void Clear() { }
+        public void CollapseAllMultilineLogMessages() { }
         public void CopyToClipboard() { }
+        public void ExpandAllMultilineLogMessages() { }
         public void InitializeComponent() { }
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
@@ -1081,7 +1086,7 @@ namespace Orc.Controls
     }
     public class static RichTextBoxParagraphExtensions
     {
-        public static void SetData(this Orc.Controls.RichTextBoxParagraph paragraph, bool showTimestamp = True, bool showThreadId = True) { }
+        public static void SetData(this Orc.Controls.RichTextBoxParagraph paragraph, bool showTimestamp = True, bool showThreadId = True, bool showMultilineMessagesExpanded = False) { }
     }
     public class SaveFilePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
@@ -1433,6 +1438,7 @@ namespace Orc.Controls.ViewModels
         public static readonly Catel.Data.PropertyData ShowDebugProperty;
         public static readonly Catel.Data.PropertyData ShowErrorProperty;
         public static readonly Catel.Data.PropertyData ShowInfoProperty;
+        public static readonly Catel.Data.PropertyData ShowMultilineMessagesExpandedProperty;
         public static readonly Catel.Data.PropertyData ShowWarningProperty;
         public static readonly Catel.Data.PropertyData TypeFilterProperty;
         public static readonly Catel.Data.PropertyData TypeNamesProperty;
@@ -1449,6 +1455,7 @@ namespace Orc.Controls.ViewModels
         public bool ShowDebug { get; set; }
         public bool ShowError { get; set; }
         public bool ShowInfo { get; set; }
+        public bool ShowMultilineMessagesExpanded { get; set; }
         public bool ShowWarning { get; set; }
         public string TypeFilter { get; set; }
         public Catel.Collections.FastObservableCollection<string> TypeNames { get; }
