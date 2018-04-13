@@ -1,0 +1,166 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Orc.Controls"
+                    xmlns:catel="http://schemas.catelproject.com">
+
+    <Geometry x:Key="CloseGeometry">M384,415.819L248.839,550.98L217.02,519.161L352.181,384L217.02,248.839L248.839,217.02L384,352.181L519.161,217.02L550.98,248.839L415.819,384L550.98,519.161L519.161,550.98L384,415.819Z</Geometry>
+    <Geometry x:Key="PinnedGeometry">M271.481,217.02L496.519,217.02C498.998,233.046 480.395,252.6 456.338,257.019L461.359,337.306C499.288,346.952 513.621,378.883 511.94,397.774L401.232,397.356L400.802,493.955L384,550.98L367.198,493.953L366.768,397.356L256.06,397.774C254.379,378.883 268.712,346.952 306.641,337.306L311.662,257.019C287.605,252.6 269.002,233.046 271.481,217.02Z</Geometry>
+    <Geometry x:Key="UnpinnedGeometry">M550.98,271.481L550.98,496.519C534.954,498.998 515.4,480.395 510.981,456.338L430.694,461.359C421.048,499.288 389.117,513.621 370.226,511.94L370.644,401.232L274.045,400.802L217.02,384L274.047,367.198L370.644,366.768L370.226,256.06C389.117,254.379 421.048,268.712 430.694,306.641L510.981,311.662C515.4,287.605 534.954,269.002 550.98,271.481Z</Geometry>
+
+    <controls:PinnableItemTemplateSelector x:Key="PinnableItemTemplateSelector" />
+
+    <DataTemplate x:Key="OrdinalToolTipItemTemplate" DataType="controls:OrdinalToolTipItem">
+        <Grid VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="{Binding Key}" TextAlignment="Left" VerticalAlignment="Center" HorizontalAlignment="Left" />
+            <TextBlock Grid.Column="1" FontWeight="Bold" Margin="5 0 0 0" Text="{Binding Value}" TextAlignment="Left" VerticalAlignment="Center" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="LinkToolTipItemTemplate" DataType="controls:LinkToolTipItem">
+        <Grid VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="{Binding Key}" TextAlignment="Left" VerticalAlignment="Center" HorizontalAlignment="Left" />
+            <TextBlock Grid.Column="1" FontWeight="Bold" Margin="5 0 0 0" TextAlignment="Left" VerticalAlignment="Center">
+                <Hyperlink Command="{Binding OpenLinkCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:PinnableToolTip}}}"
+                           CommandParameter="{Binding Value}">    
+                    <TextBlock Text="{Binding Value}" />
+                </Hyperlink>
+            </TextBlock>
+        </Grid>
+    </DataTemplate>
+
+    <Style x:Key="CloseButton" TargetType="{x:Type Button}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid x:Name="BorderButton" Background="Transparent" Height="14" Width="14">
+                        <Viewbox x:Name="Viewbox" Height="9" Width="9">
+                            <Path x:Name="Path" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" 
+                                  UseLayoutRounding="True" Margin="0" SnapsToDevicePixels="True"
+                                  Data="{StaticResource CloseGeometry}" Fill="#575757" >
+                            </Path>
+                        </Viewbox>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="BorderButton" Value="{DynamicResource PinnableToolTipHighlightBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="BorderButton" Value="{DynamicResource PinnableToolTipAccentBrush}"/>
+                            <Setter Property="Fill" TargetName="Path" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Fill" TargetName="Path" Value="#FFADADAD"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Pin_ToggleButton" TargetType="{x:Type ToggleButton}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid x:Name="BorderButton" Background="Transparent" Height="14" Width="14">
+                        <Viewbox x:Name="Viewbox" Height="9" Width="9">
+                            <Path x:Name="Path"  HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" 
+                                  UseLayoutRounding="True" Margin="0" SnapsToDevicePixels="True"
+                                  Data="{StaticResource UnpinnedGeometry}" Fill="#575757" >
+                            </Path>
+                        </Viewbox>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Path" Property="Data" Value="{StaticResource PinnedGeometry}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="BorderButton" Value="{DynamicResource PinnableToolTipHighlightBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="BorderButton" Value="{DynamicResource PinnableToolTipAccentBrush}"/>
+                            <Setter Property="Fill" TargetName="Path" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Fill" TargetName="Path" Value="#FFADADAD"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{x:Type controls:PinnableToolTip}"
+           TargetType="{x:Type controls:PinnableToolTip}">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Background" Value="White" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="LightGray"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:PinnableToolTip">
+                    <Border x:Name="Root" BorderThickness="{TemplateBinding BorderThickness}" Background="White"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            
+                            <Border BorderThickness="0 0 0 1" BorderBrush="LightGray" Background="WhiteSmoke">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                
+                                    <Border x:Name="DragGrip" Margin="3 2 2 0" Height="12" Padding="2" VerticalAlignment="Center">
+                                        <Border.Background>
+                                            <DrawingBrush TileMode="Tile" Viewport="0 0 3 3" ViewportUnits="Absolute"
+                                                        Viewbox="0 0 3 3" ViewboxUnits="Absolute">
+                                                <DrawingBrush.Drawing>
+                                                    <DrawingGroup >
+                                                        <GeometryDrawing x:Name="GripDrawing" Brush="LightGray">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry Rect="0 0 1 1"/>
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                    </DrawingGroup>
+                                                </DrawingBrush.Drawing>
+                                            </DrawingBrush>
+                                        </Border.Background>
+                                    </Border>
+
+                                    <ToggleButton x:Name="PinButton" Content="x" Grid.Column="1" Style="{StaticResource Pin_ToggleButton}" Margin="1"
+                                                IsChecked="{Binding IsPinned, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+
+                                    <Button x:Name="CloseButton" Content="x" Grid.Column="2" Style="{StaticResource CloseButton}" Margin="1"
+                                            Visibility="{Binding AllowCloseByUser, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+                                </Grid>
+                            </Border>
+                            <ContentPresenter Grid.Row="1"
+                                                Content="{TemplateBinding Content}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                Cursor="{TemplateBinding Cursor}"
+                                                Margin="{TemplateBinding Padding}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

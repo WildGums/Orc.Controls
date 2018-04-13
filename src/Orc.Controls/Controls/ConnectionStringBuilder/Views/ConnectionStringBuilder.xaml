@@ -1,0 +1,54 @@
+﻿<catel:UserControl x:Class="Orc.Controls.ConnectionStringBuilder"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:catel="http://schemas.catelproject.com"
+                   xmlns:controls="clr-namespace:Orc.Controls"
+                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
+    
+    <controls:StackGrid>
+        <controls:StackGrid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </controls:StackGrid.ColumnDefinitions>
+    
+        <TextBox Text="{Binding DisplayConnectionString, Mode=OneWay}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <catel:EventToCommand Command="{Binding Edit}" 
+                                          PassEventArgsToCommand="False"
+                                          PreventInvocationIfAssociatedObjectIsDisabled="True" 
+                                          DisableAssociatedObjectOnCannotExecute="False" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
+        <Button Margin="0"
+                Command="{Binding Edit}" 
+                ToolTip="Edit" >
+            <Button.Content>
+                ...
+            </Button.Content>
+        </Button>
+        <Button Margin="0"
+                Command="{Binding Clear}"
+                ToolTip="Clear" 
+                Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+            <Button.Content>
+                <Path Data="M0,1.05 L1.05,0 8.33,7.26 15.55,0.0 16.6,1.0 9.3,8.3 16.6,15.55 15.55,16.6 8.3,9.3 1,16.6 0,15.6 7.3,8.3 z" 
+                      Fill="#575757" Margin="4" Stretch="Uniform" />
+            </Button.Content>
+        </Button>
+    </controls:StackGrid>
+
+</catel:UserControl>
+ 
+
+ 
+
+ 
+
+ 

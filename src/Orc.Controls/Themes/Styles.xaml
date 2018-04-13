@@ -1,0 +1,37 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Orc.Controls">
+
+    <Thickness x:Key="DefaultThickness" Left="6" Top="4" Right="6" Bottom="4"/>
+
+	<Style x:Key="DefaultDateTimePickerStyle" TargetType="{x:Type controls:DateTimePicker}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
+        </Style.Setters>
+    </Style>
+
+	<Style x:Key="DefaultDatePickerStyle" TargetType="{x:Type controls:DatePicker}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="DefaultTimeSpanPickerStyle" TargetType="{x:Type controls:TimeSpanPicker}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="DefaultAnimatedGifStyle" TargetType="{x:Type controls:AnimatedGif}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="DbProviderPickerStyle" TargetType="{x:Type controls:DbProviderPicker}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
+        </Style.Setters>
+    </Style>
+
+</ResourceDictionary>

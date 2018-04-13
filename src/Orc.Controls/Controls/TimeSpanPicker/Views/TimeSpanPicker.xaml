@@ -1,0 +1,79 @@
+<catel:UserControl x:Class="Orc.Controls.TimeSpanPicker"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:controls="clr-namespace:Orc.Controls"
+                   xmlns:catel="http://schemas.catelproject.com"
+                   xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                   mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="120">
+
+    <catel:UserControl.Resources>
+        <Style TargetType="{x:Type controls:NumericTextBox}" BasedOn="{StaticResource TimeSpanNumericTextBoxStyle}"/>
+    </catel:UserControl.Resources>
+
+    <Grid>
+        <Border x:Name="MainContainer" BorderThickness="1" MinWidth="115" Height="22"
+                Style="{DynamicResource TimeSpanBorderStyle}">
+            <Grid  Background="White" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <controls:NumericTextBox x:Name="NumericTBDays" IsNegativeAllowed="False" Value="{Binding Days, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" MinValue="0" MaxValue="100"
+                                         IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanPicker}}}"/>
+                <TextBlock x:Name="Separator1" Grid.Column="1" Text="." Style="{StaticResource RatioSignStyle}" />
+                <TextBlock x:Name="TextBlockD" Grid.Column="1" Text="{catel:LanguageBinding Controls_TimeSpanPicker_TextBlock_Text_DaysAbbreviation}"
+                           Tag="{x:Static controls:TimeSpanPart.Days}" Style="{StaticResource LettersStyle}" />
+
+                <controls:NumericTextBox x:Name="NumericTBHours" Grid.Column="2" IsNegativeAllowed="False" Value="{Binding Hours, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" MaxValue="23" MinValue="0"
+                                         IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanPicker}}}"/>
+                <TextBlock x:Name="Separator2" Grid.Column="3" Text=":" Style="{StaticResource RatioSignStyle}" />
+                <TextBlock x:Name="TextBlockH" Grid.Column="3" Text="{catel:LanguageBinding Controls_TimeSpanPicker_TextBlock_Text_HoursAbbreviation}" 
+                           Tag="{x:Static controls:TimeSpanPart.Hours}" Style="{StaticResource LettersStyle}" />
+
+                <controls:NumericTextBox x:Name="NumericTBMinutes" Grid.Column="4" IsNegativeAllowed="False" Value="{Binding Minutes, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" MaxValue="59" MinValue="0"
+                                         IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanPicker}}}"/>
+                <TextBlock x:Name="Separator3" Grid.Column="5" Text=":" Style="{StaticResource RatioSignStyle}" />
+                <TextBlock x:Name="TextBlockM" Grid.Column="5" Text="{catel:LanguageBinding Controls_TimeSpanPicker_TextBlock_Text_MinutesAbbreviation}" 
+                           Tag="{x:Static controls:TimeSpanPart.Minutes}" Style="{StaticResource LettersStyle}" />
+
+                <controls:NumericTextBox x:Name="NumericTBSeconds" Grid.Column="6" IsNegativeAllowed="False" Value="{Binding Seconds, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}" MaxValue="59" MinValue="0"
+                                         IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanPicker}}}"/>
+                <TextBlock x:Name="TextBlockS" Grid.Column="7" Text="{catel:LanguageBinding Controls_TimeSpanPicker_TextBlock_Text_SecondsAbbreviation}" 
+                           Tag="{x:Static controls:TimeSpanPart.Seconds}" Style="{StaticResource LettersStyle}" />
+            </Grid>
+        </Border>
+
+        <Border x:Name="NumericTBEditorContainer" Grid.ColumnSpan="8"
+                BorderBrush="{DynamicResource TimeSpanAccentBrush}" BorderThickness="1"
+                Width="{Binding ActualWidth, ElementName=MainContainer}" Visibility="Collapsed"
+                Height="{Binding ActualHeight, ElementName=MainContainer}">
+            <Grid HorizontalAlignment="Stretch" Background="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <controls:NumericTextBox x:Name="NumericTBEditor" Grid.Column="0"
+                                         MinValue="0" Format="0.#####"  Margin="2 0 2 0" 
+                                         HorizontalContentAlignment="Left"
+                                         VerticalContentAlignment="Center" 
+                                         IsNegativeAllowed="True" 
+                                         IsKeyboardFocusWithinChanged="NumericTBEditor_OnIsKeyboardFocusWithinChanged" 
+                                         IsVisibleChanged="NumericTBEditor_OnIsVisibleChanged"
+                                         IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:TimeSpanPicker}}}"/>
+                
+                <TextBlock x:Name="NumericTBEditorUnit" Foreground="DarkGray" Grid.Column="1" 
+                           HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 4 0"/>
+            </Grid>
+        </Border>
+    </Grid>
+</catel:UserControl>
