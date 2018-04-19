@@ -28,7 +28,7 @@ namespace Orc.Controls.Examples.ViewModels
         private void OnAddLogRecordsExecute()
         {
             Log.Debug("Single line debug message");
-            Log.Warning("Multiline debug message that include a first line \nand a second line of the message");
+            Log.Debug("Multiline debug message that include a first line \nand a second line of the message");
 
             Log.Warning("Single line warning message");
             Log.Warning("Multiline warning message that include a first line \nand a second line of the message");
