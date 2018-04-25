@@ -80,7 +80,7 @@ namespace Orc.Controls
         /// <summary>
         /// DependencyProperty definition as the backing store for GifSource.
         /// </summary>
-        public static readonly DependencyProperty GifSourceProperty = DependencyProperty.Register("GifSource", typeof(string),
+        public static readonly DependencyProperty GifSourceProperty = DependencyProperty.Register(nameof(GifSource), typeof(string),
             typeof(AnimatedGif), new UIPropertyMetadata(string.Empty, OnGifSourceChanged));
         #endregion
 
@@ -195,8 +195,8 @@ namespace Orc.Controls
         [DebuggerStepperBoundary]
         private void OnFrameChanged(object sender, EventArgs e)
         {
-            // Dispatch the frame changed
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new OnFrameChangedDelegate(OnFrameChangedInMainThread));
+            // Dispatch the frame changed, but with lower prio so rendering won't screw up
+            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new OnFrameChangedDelegate(OnFrameChangedInMainThread));
         }
 
         /// <summary>
@@ -205,6 +205,9 @@ namespace Orc.Controls
         [DebuggerStepperBoundary]
         private void OnFrameChangedInMainThread()
         {
+            var wasNull = ReferenceEquals(null, GetValue(SourceProperty));
+            var isNull = false;
+
             // _bitmap should never be null
             if (_bitmap != null)
             {
@@ -219,7 +222,14 @@ namespace Orc.Controls
             {
                 Log.Debug("Bitmap is NULL while animating");
 
+                isNull = true;
+
                 SetCurrentValue(SourceProperty, null);
+            }
+
+            if (wasNull && isNull)
+            {
+                return;
             }
 
             // Invalidate visual
