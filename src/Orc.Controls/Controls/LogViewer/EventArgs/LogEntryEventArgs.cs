@@ -13,11 +13,14 @@ namespace Orc.Controls
 
     public class LogEntryEventArgs : EventArgs
     {
-        public LogEntryEventArgs(List<LogEntry> logEntries)
+        public LogEntryEventArgs(List<LogEntry> logEntries, List<LogEntry> filteredLogEntries)
         {
             LogEntries = logEntries;
+            FilteredLogEntries = filteredLogEntries;
         }
 
         public List<LogEntry> LogEntries { get; private set; }
+
+        public List<LogEntry> FilteredLogEntries { get; private set; }
     }
 }

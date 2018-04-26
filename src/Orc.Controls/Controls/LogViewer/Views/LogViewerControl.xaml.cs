@@ -290,19 +290,21 @@ namespace Orc.Controls
 
         private void OnViewModelLogMessage(object sender, LogEntryEventArgs e)
         {
-            UpdateControl(false, e.LogEntries);
+            UpdateControl(false, e.FilteredLogEntries);
         }
 
         private void UpdateControl(bool rebuild = true, List<LogEntry> logEntries = null)
         {
+            var rtb = LogRecordsRichTextBox;
+
             // Using BeginInvoke in order to call properties mapping first. Otherwise filtering by buttons doesen't work.
             // UpdateControl will be called *before* the properties mapping,
             // but because we call BeginInvoke, it will be placed at the end of the execution stack
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                if (LogRecordsRichTextBox.Document == null)
+                if (rtb.Document == null)
                 {
-                    LogRecordsRichTextBox.Document = new FlowDocument
+                    rtb.Document = new FlowDocument
                     {
                         Tag = DateTime.MinValue
                     };
@@ -314,27 +316,26 @@ namespace Orc.Controls
                     {
                         ClearScreen();
 
-                        // Note: no need to get filtered ones, we will filter below
-                        logEntries = vm.LogEntries.ToList();
+                        logEntries = vm.GetFilteredLogEntries().ToList();
                     }
 
-                    if (logEntries != null)
+                    if (logEntries != null && logEntries.Count > 0)
                     {
-                        var document = LogRecordsRichTextBox.Document;
+                        rtb.BeginChange();
+
+                        var document = rtb.Document;
                         foreach (var logEntry in logEntries)
                         {
-                            if (!vm.IsValidLogEntry(logEntry))
-                            {
-                                continue;
-                            }
-
                             var paragraph = CreateLogEntryParagraph(logEntry);
                             if (paragraph != null)
                             {
                                 document.Blocks.Add(paragraph);
-                                document.SetCurrentValue(FrameworkContentElement.TagProperty, logEntry.Time);
                             }
                         }
+
+                        document.SetCurrentValue(FrameworkContentElement.TagProperty, logEntries[logEntries.Count - 1].Time);
+
+                        rtb.EndChange();
 
                         if (AutoScroll)
                         {
@@ -354,12 +355,6 @@ namespace Orc.Controls
 
         private RichTextBoxParagraph CreateLogEntryParagraph(LogEntry logEntry)
         {
-            var vm = ViewModel as LogViewerViewModel;
-            if (vm == null)
-            {
-                return null;
-            }
-
             var paragraph = new RichTextBoxParagraph(logEntry);
             paragraph.MouseLeftButtonDown += OnParagraphMouseLeftButton;
 
@@ -413,9 +408,11 @@ namespace Orc.Controls
 
         private void ClearScreen()
         {
-            var oldDoc = LogRecordsRichTextBox.Document;
+            var rtb = LogRecordsRichTextBox;
 
-            LogRecordsRichTextBox.Document = new FlowDocument
+            var oldDoc = rtb.Document;
+
+            rtb.Document = new FlowDocument
             {
                 Tag = DateTime.MinValue
             };

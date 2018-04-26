@@ -198,17 +198,23 @@ namespace Orc.Controls.ViewModels
 
                 // If what we have left is a lot more than our maximum update batch size, automatically add more. The UI
                 // will slow down, but we don't want to get behind too much
-                if (_queuedEntries.Count > (maximumBatchSize * 10))
-                {
-                    // We are under serious pressure, add 5 times the batch, otherwise the UI will start stuttering
-                    additionalItems = maximumBatchSize * 5;
-                }
-                else if (_queuedEntries.Count > (maximumBatchSize * 5))
-                {
-                    // We will add 3 additional batches
-                    additionalItems = maximumBatchSize * 3;
-                }
-                else if (_queuedEntries.Count > (maximumBatchSize * 3))
+                //if (_queuedEntries.Count > (maximumBatchSize * 10))
+                //{
+                //    // We are under serious pressure, add 4 times the batch, otherwise the UI will start stuttering
+                //    additionalItems = maximumBatchSize * 4;
+                //}
+                //else if (_queuedEntries.Count > (maximumBatchSize * 5))
+                //{
+                //    // We will add 3 additional batches
+                //    additionalItems = maximumBatchSize * 3;
+                //}
+                //else if (_queuedEntries.Count > (maximumBatchSize * 3))
+                //{
+                //    // We will add 2 additional batches
+                //    additionalItems = maximumBatchSize * 2;
+                //}
+
+                if (_queuedEntries.Count > (maximumBatchSize * 3))
                 {
                     // We will add 2 additional batches
                     additionalItems = maximumBatchSize * 2;
@@ -229,7 +235,7 @@ namespace Orc.Controls.ViewModels
 
             if (entries.Count > 0)
             {
-                _dispatcherService.BeginInvoke(() => AddLogEntries(entries));
+                AddLogEntries(entries);
             }
         }
 
@@ -324,12 +330,12 @@ namespace Orc.Controls.ViewModels
 
         public bool IsValidLogEntry(LogEntry logEntry)
         {
-            if (!PassFilters(logEntry))
+            if (!IsAcceptable(logEntry.LogEvent))
             {
                 return false;
             }
 
-            if (!IsAcceptable(logEntry.LogEvent))
+            if (!PassFilters(logEntry))
             {
                 return false;
             }
@@ -357,26 +363,12 @@ namespace Orc.Controls.ViewModels
             return false;
         }
 
-        private void UpdateEntriesCount(LogEntry logEvent)
+        private void UpdateEntriesCount(List<LogEntry> entries)
         {
-            switch (logEvent.LogEvent)
-            {
-                case LogEvent.Debug:
-                    DebugEntriesCount++;
-                    break;
-
-                case LogEvent.Info:
-                    InfoEntriesCount++;
-                    break;
-
-                case LogEvent.Warning:
-                    WarningEntriesCount++;
-                    break;
-
-                case LogEvent.Error:
-                    ErrorEntriesCount++;
-                    break;
-            }
+            DebugEntriesCount += entries.Count(x => x.LogEvent == LogEvent.Debug);
+            InfoEntriesCount += entries.Count(x => x.LogEvent == LogEvent.Info);
+            WarningEntriesCount += entries.Count(x => x.LogEvent == LogEvent.Warning);
+            ErrorEntriesCount += entries.Count(x => x.LogEvent == LogEvent.Error);
         }
 
         private bool PassFilters(LogEntry logEntry)
@@ -424,11 +416,12 @@ namespace Orc.Controls.ViewModels
                 return;
             }
 
+            var filteredLogEntries = new List<LogEntry>();
+            var typeNames = TypeNames;
+            var requireSorting = false;
+
             lock (_lock)
             {
-                var typeNames = TypeNames;
-                var requireSorting = false;
-
                 using (SuspendChangeNotifications())
                 {
                     using (_logEntries.SuspendChangeNotifications())
@@ -437,11 +430,17 @@ namespace Orc.Controls.ViewModels
                         {
                             _logEntries.Add(entry);
 
-                            if (!typeNames.Contains(entry.Log.TargetType.Name))
+                            if (IsValidLogEntry(entry))
+                            {
+                                filteredLogEntries.Add(entry);
+                            }
+
+                            var targetTypeName = entry.Log.TargetType.Name;
+                            if (!typeNames.Contains(targetTypeName))
                             {
                                 try
                                 {
-                                    typeNames.Add(entry.Log.TargetType.Name);
+                                    typeNames.Add(targetTypeName);
 
                                     requireSorting = true;
                                 }
@@ -450,12 +449,18 @@ namespace Orc.Controls.ViewModels
                                     // we don't have time for this, let it go...
                                 }
                             }
-
-                            UpdateEntriesCount(entry);
                         }
                     }
+                }
+            }
 
-                    if (requireSorting)
+            _dispatcherService.BeginInvoke(() =>
+            {
+                UpdateEntriesCount(entries);
+
+                if (requireSorting)
+                {
+                    lock (_lock)
                     {
                         using (typeNames.SuspendChangeNotifications())
                         {
@@ -465,11 +470,9 @@ namespace Orc.Controls.ViewModels
                         }
                     }
                 }
+            });
 
-                RaisePropertyChanged(string.Empty);
-            }
-
-            LogMessage.SafeInvoke(this, new LogEntryEventArgs(entries));
+            LogMessage.SafeInvoke(this, new LogEntryEventArgs(entries, filteredLogEntries));
         }
 
         private void OnLogMessage(object sender, LogMessageEventArgs e)

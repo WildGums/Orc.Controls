@@ -7,9 +7,9 @@
                    mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="120">
 
     <Grid>
-        <RichTextBox x:Name="LogRecordsRichTextBox" IsReadOnly="True" IsDocumentEnabled="True" HorizontalAlignment="Stretch"
+        <RichTextBox x:Name="LogRecordsRichTextBox" IsReadOnly="True" IsDocumentEnabled="True" 
+                     HorizontalAlignment="Stretch" IsUndoEnabled="False" UndoLimit="0"
                      VerticalScrollBarVisibility="Auto" ScrollViewer.ScrollChanged="OnScrollViewerScrollChanged"
                      KeyDown="LogRecordsRichTextBox_OnKeyDown" PreviewKeyDown="LogRecordsRichTextBox_OnPreviewKeyDown" />
-
     </Grid>
 </catel:UserControl>

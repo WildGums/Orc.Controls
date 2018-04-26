@@ -1,0 +1,100 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net462</TargetFrameworks>
+    <AssemblyName>Orc.Controls.Example.NET</AssemblyName>
+    <RootNamespace>Orc.Controls.Example</RootNamespace>
+    <DefaultLanguage>en-US</DefaultLanguage>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <StartupObject />
+    <NoWarn>$(NoWarn);SA1652</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.2.2" PrivateAssets="All" />
+    <PackageReference Include="Catel.Core" Version="5.3.0" />
+    <PackageReference Include="Catel.MVVM" Version="5.3.0" />
+    <PackageReference Include="Catel.Fody" Version="3.3.0" PrivateAssets="all" />
+    <PackageReference Include="Fody" Version="3.0.3" PrivateAssets="all" />
+    <PackageReference Include="LoadAssembliesOnStartup.Fody" Version="2.1.0" PrivateAssets="all" />
+    <PackageReference Include="ModuleInit.Fody" Version="1.8.0" PrivateAssets="all" />
+    <PackageReference Include="Obsolete.Fody" Version="4.4.0" PrivateAssets="all" />
+    <PackageReference Include="Orchestra.Core" Version="4.0.0" />
+    <PackageReference Include="WpfAnalyzers" Version="2.1.2.1" PrivateAssets="all" />
+    <PackageReference Include="Orc.Controls" Version="2.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="NETStandard.Library" Version="2.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orc.Controls\Orc.Controls.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
+  <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props')" />
+  <ItemGroup>
+    <ReferencePath Include="C:\Users\geert\.nuget\packages\catel.core\5.3.0\lib\net46\Catel.Core.dll" />
+    <ReferencePath Include="C:\Users\geert\.nuget\packages\catel.fody\3.3.0\lib\net452\Catel.Fody.Attributes.dll" />
+    <ReferencePath Include="C:\Users\geert\.nuget\packages\catel.mvvm\5.3.0\lib\net46\Catel.MVVM.dll" />
+    <ReferencePath Include="C:\Users\geert\.nuget\packages\expression.blend.sdk.wpf\1.0.1\lib\net45\Microsoft.Expression.Interactions.dll" />
+    <ReferencePath Include="C:\Users\geert\.nuget\packages\moduleinit.fody\1.8.0\lib\net452\ModuleInit.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\mscorlib.dll" />
+    <ReferencePath Include="C:\Users\geert\.nuget\packages\obsolete.fody\4.4.0\lib\net452\Obsolete.dll" />
+    <ReferencePath Include="C:\Source\Orc.Controls\src\Orc.Controls\bin\Debug\net46\Orc.Controls.dll" />
+    <ReferencePath Include="C:\Users\geert\.nuget\packages\orc.filesystem\2.0.0\lib\net46\Orc.FileSystem.dll" />
+    <ReferencePath Include="C:\Users\geert\.nuget\packages\orchestra.core\4.0.0\lib\net46\Orchestra.Core.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\PresentationCore.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\PresentationFramework.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.Core.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.Data.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.Drawing.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.IO.Compression.FileSystem.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.Numerics.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.Runtime.Serialization.dll" />
+    <ReferencePath Include="C:\Users\geert\.nuget\packages\expression.blend.sdk.wpf\1.0.1\lib\net45\System.Windows.Interactivity.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.Xaml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.Xml.Linq.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\WindowsBase.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\AnimatedGif.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\BindableRichTextBox.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\ColorLegendView.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\ColorPicker.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\ConnectionStringBuilderView.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\CulturePickerView.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\DatePicker.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\DateRangePicker.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\DateTimePicker.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\DirectoryPickerView.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\DropDownButtonView.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\Expander.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\FilterBox.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\LinkLabel.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\LogViewer.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\MainWindow.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\NumericTextBox.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\OpenFilePickerView.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\PinnableToolTipView.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\SaveFilePickerView.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\TimeSpanPickerView.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\ValidationContextView.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\Views\Watermark.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\App.g.cs" />
+    <Compile Include="C:\Source\Orc.Controls\src\Orc.Controls.Example.NET\obj\Debug\net462\GeneratedInternalTypeHelper.g.cs" />
+  </ItemGroup>
+</Project>

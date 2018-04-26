@@ -60,7 +60,10 @@ namespace Orc.Controls
                     Cursor = Cursors.SizeNWSE
                 };
 
-                button.MouseLeftButtonDown += (sender, args) => { paragraph.SetData(showTimestamp, showThreadId, true); };
+                button.MouseLeftButtonDown += (sender, args) =>
+                {
+                    paragraph.SetData(showTimestamp, showThreadId, true);
+                };
 
                 paragraph.Inlines.Add(button);
             }
