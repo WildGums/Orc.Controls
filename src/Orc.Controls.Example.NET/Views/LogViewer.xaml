@@ -40,6 +40,7 @@
         <StackPanel Grid.Column="1" Grid.Row="1">
             <TextBox x:Name="EventsTextBox" Margin="5 5 5 0" Height="50" VerticalScrollBarVisibility="Auto" />
             <Button Height="25" Margin="5" Content="Add log records" Command="{Binding AddLogRecords}" />
+            <Button Height="25" Margin="5" Content="Test under pressure" Command="{Binding TestUnderPressure}" />
             <Button Content="Clear Log" Click="ClearLog_OnClick" Margin="4 2 2 2" />
         </StackPanel>
 

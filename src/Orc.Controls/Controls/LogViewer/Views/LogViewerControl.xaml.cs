@@ -235,6 +235,17 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty SupportCommandManagerProperty = DependencyProperty.Register("SupportCommandManager", typeof(bool),
             typeof(LogViewerControl), new PropertyMetadata(true));
+
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public int MaximumUpdateBatchSize
+        {
+            get { return (int)GetValue(MaximumUpdateBatchSizeProperty); }
+            set { SetValue(MaximumUpdateBatchSizeProperty, value); }
+        }
+
+        public static readonly DependencyProperty MaximumUpdateBatchSizeProperty = DependencyProperty.Register(nameof(MaximumUpdateBatchSize), 
+            typeof(int), typeof(LogViewerControl), new PropertyMetadata(250));
         #endregion
 
         #region Methods

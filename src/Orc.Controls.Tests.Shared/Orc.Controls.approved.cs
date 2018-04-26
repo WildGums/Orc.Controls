@@ -820,7 +820,7 @@ namespace Orc.Controls
     }
     public class LogEntryEventArgs : System.EventArgs
     {
-        public LogEntryEventArgs(System.Collections.Generic.IEnumerable<Catel.Logging.LogEntry> logEntries) { }
+        public LogEntryEventArgs(System.Collections.Generic.List<Catel.Logging.LogEntry> logEntries) { }
         public System.Collections.Generic.List<Catel.Logging.LogEntry> LogEntries { get; }
     }
     public class static LoggingExtensions
@@ -837,6 +837,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty IgnoreCatelLoggingProperty;
         public static readonly System.Windows.DependencyProperty LogFilterProperty;
         public static readonly System.Windows.DependencyProperty LogListenerTypeProperty;
+        public static readonly System.Windows.DependencyProperty MaximumUpdateBatchSizeProperty;
         public static readonly System.Windows.DependencyProperty ShowDebugProperty;
         public static readonly System.Windows.DependencyProperty ShowErrorProperty;
         public static readonly System.Windows.DependencyProperty ShowInfoProperty;
@@ -857,6 +858,8 @@ namespace Orc.Controls
         public string LogFilter { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.Type LogListenerType { get; set; }
+        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public int MaximumUpdateBatchSize { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowDebug { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
@@ -1426,6 +1429,7 @@ namespace Orc.Controls.ViewModels
         public static readonly Catel.Data.PropertyData InfoEntriesCountProperty;
         public static readonly Catel.Data.PropertyData LogFilterProperty;
         public static readonly Catel.Data.PropertyData LogListenerTypeProperty;
+        public static readonly Catel.Data.PropertyData MaximumUpdateBatchSizeProperty;
         public static readonly Catel.Data.PropertyData ShowDebugProperty;
         public static readonly Catel.Data.PropertyData ShowErrorProperty;
         public static readonly Catel.Data.PropertyData ShowInfoProperty;
@@ -1443,6 +1447,7 @@ namespace Orc.Controls.ViewModels
         public System.Collections.ObjectModel.ObservableCollection<Catel.Logging.LogEntry> LogEntries { get; }
         public string LogFilter { get; set; }
         public System.Type LogListenerType { get; set; }
+        public int MaximumUpdateBatchSize { get; set; }
         public bool ShowDebug { get; set; }
         public bool ShowError { get; set; }
         public bool ShowInfo { get; set; }

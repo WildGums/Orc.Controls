@@ -13,9 +13,9 @@ namespace Orc.Controls
 
     public class LogEntryEventArgs : EventArgs
     {
-        public LogEntryEventArgs(IEnumerable<LogEntry> logEntries)
+        public LogEntryEventArgs(List<LogEntry> logEntries)
         {
-            LogEntries = new List<LogEntry>(logEntries);
+            LogEntries = logEntries;
         }
 
         public List<LogEntry> LogEntries { get; private set; }

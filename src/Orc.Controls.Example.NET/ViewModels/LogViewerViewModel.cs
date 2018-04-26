@@ -7,8 +7,12 @@
 
 namespace Orc.Controls.Examples.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Catel.Logging;
     using Catel.MVVM;
+    using Catel.Threading;
 
     public class LogViewerViewModel : ViewModelBase
     {
@@ -20,6 +24,7 @@ namespace Orc.Controls.Examples.ViewModels
         public LogViewerViewModel()
         {
             AddLogRecords = new Command(OnAddLogRecordsExecute);
+            TestUnderPressure = new TaskCommand(OnTestUnderPressureExecuteAsync);
         }
         #endregion
 
@@ -38,6 +43,35 @@ namespace Orc.Controls.Examples.ViewModels
 
             Log.Error("Single line error message");
             Log.Error("Multiline error message that include a first line \nand a second line of the message");
+        }
+
+        public TaskCommand TestUnderPressure { get; private set; }
+
+        private async Task OnTestUnderPressureExecuteAsync()
+        {
+            await TaskHelper.Run(async () =>
+            {
+                var levelIndex = new Random();
+                var events = new List<LogEvent>();
+                events.Add(LogEvent.Debug);
+                events.Add(LogEvent.Info);
+                events.Add(LogEvent.Warning);
+                events.Add(LogEvent.Error);
+
+                var totalCount = 10000;
+                for (var i = 0; i < totalCount; i++)
+                {
+                    var logEventIndex = levelIndex.Next(0, events.Count);
+                    var logEvent = events[logEventIndex];
+
+                    Log.Write(logEvent, $"[{i + 1} / {totalCount}] This is a stress test");
+
+                    if (i % 20 == 0)
+                    {
+                        await Task.Delay(1);
+                    }    
+                }
+            });
         }
     }
 }

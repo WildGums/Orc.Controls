@@ -10,13 +10,17 @@ namespace Orc.Controls.ViewModels
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Threading.Tasks;
+    using System.Windows.Threading;
     using Catel;
     using Catel.Collections;
     using Catel.IoC;
+    using Catel.Linq;
     using Catel.Logging;
     using Catel.MVVM;
     using Catel.Services;
+    using Catel.Threading;
     using Logging;
 
     public class LogViewerViewModel : ViewModelBase
@@ -36,6 +40,9 @@ namespace Orc.Controls.ViewModels
 
         private readonly FastObservableCollection<LogEntry> _logEntries = new FastObservableCollection<LogEntry>();
 
+        private readonly Timer _timer;
+        private readonly Queue<LogEntry> _queuedEntries = new Queue<LogEntry>();
+
         private bool _hasInitializedFirstLogListener;
         private bool _isClearingLog;
 
@@ -52,6 +59,8 @@ namespace Orc.Controls.ViewModels
             _typeFactory = typeFactory;
             _dispatcherService = dispatcherService;
             _logViewerLogListener = logViewerLogListener;
+
+            _timer = new Timer(OnTimerTick);
 
             LogListenerType = typeof(LogViewerLogListener);
             ShowDebug = true;
@@ -147,6 +156,7 @@ namespace Orc.Controls.ViewModels
         public int InfoEntriesCount { get; private set; }
         public int WarningEntriesCount { get; private set; }
         public int ErrorEntriesCount { get; private set; }
+        public int MaximumUpdateBatchSize { get; set; }
         #endregion
 
         #region Methods
@@ -156,6 +166,8 @@ namespace Orc.Controls.ViewModels
 
             _isViewModelActive = true;
 
+            StartTimer();
+
             SubscribeLogListener();
         }
 
@@ -163,9 +175,62 @@ namespace Orc.Controls.ViewModels
         {
             UnsubscribeLogListener();
 
+            StopTimer();
+
             _isViewModelActive = false;
 
             await base.CloseAsync();
+        }
+
+        private void OnTimerTick(object state)
+        {
+            var entries = new List<LogEntry>();
+            var maximumBatchSize = MaximumUpdateBatchSize;
+
+            lock (_queuedEntries)
+            {
+                while (entries.Count < maximumBatchSize && _queuedEntries.Count > 0)
+                {
+                    entries.Add(_queuedEntries.Dequeue());
+                }
+
+                var additionalItems = 0;
+
+                // If what we have left is a lot more than our maximum update batch size, automatically add more. The UI
+                // will slow down, but we don't want to get behind too much
+                if (_queuedEntries.Count > (maximumBatchSize * 10))
+                {
+                    // We are under serious pressure, add 5 times the batch, otherwise the UI will start stuttering
+                    additionalItems = maximumBatchSize * 5;
+                }
+                else if (_queuedEntries.Count > (maximumBatchSize * 5))
+                {
+                    // We will add 3 additional batches
+                    additionalItems = maximumBatchSize * 3;
+                }
+                else if (_queuedEntries.Count > (maximumBatchSize * 3))
+                {
+                    // We will add 2 additional batches
+                    additionalItems = maximumBatchSize * 2;
+                }
+
+                while (additionalItems > 0 && _queuedEntries.Count > 0)
+                {
+                    entries.Add(_queuedEntries.Dequeue());
+                    additionalItems--;
+                }
+
+                // Make sure to do this inside the lock so we can restart the timer as soon as we release this lock
+                if (_queuedEntries.Count == 0)
+                {
+                    StopTimer();
+                }
+            }
+
+            if (entries.Count > 0)
+            {
+                _dispatcherService.BeginInvoke(() => AddLogEntries(entries));
+            }
         }
 
         private void OnIgnoreCatelLoggingChanged()
@@ -205,9 +270,7 @@ namespace Orc.Controls.ViewModels
             {
                 _logListener = _logViewerLogListener;
 
-                _dispatcherService.Invoke(() =>
-                    AddLogEntries(_logViewerLogListener.GetLogEntries(), true),
-                    true);
+                _dispatcherService.Invoke(() => AddLogEntries(_logViewerLogListener.GetLogEntries().ToList(), true));
             }
             else
             {
@@ -354,7 +417,7 @@ namespace Orc.Controls.ViewModels
             return false;
         }
 
-        private void AddLogEntries(IEnumerable<LogEntry> entries, bool bypassClearingLog = false)
+        private void AddLogEntries(List<LogEntry> entries, bool bypassClearingLog = false)
         {
             if (!bypassClearingLog && _isClearingLog)
             {
@@ -417,7 +480,33 @@ namespace Orc.Controls.ViewModels
                 logEntry.Data["ThreadId"] = ThreadHelper.GetCurrentThreadId();
             }
 
-            _dispatcherService.BeginInvoke(() => AddLogEntries(new[] { logEntry }), true);
+            lock (_queuedEntries)
+            {
+                _queuedEntries.Enqueue(logEntry);
+            }
+
+            StartTimer();
+        }
+
+        private void StartTimer()
+        {
+            if (!_isViewModelActive)
+            {
+                return;
+            }
+
+            if (_timer.Interval > 0)
+            {
+                return;
+            }
+
+            var timeout = TimeSpan.FromMilliseconds(500);
+            _timer.Change(timeout, timeout);
+        }
+
+        private void StopTimer()
+        {
+            _timer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
         }
         #endregion
     }
