@@ -205,6 +205,11 @@ namespace Orc.Controls
         [DebuggerStepperBoundary]
         private void OnFrameChangedInMainThread()
         {
+            if (!IsVisible)
+            {
+                return;
+            }
+
             var wasNull = ReferenceEquals(null, GetValue(SourceProperty));
             var isNull = false;
 
