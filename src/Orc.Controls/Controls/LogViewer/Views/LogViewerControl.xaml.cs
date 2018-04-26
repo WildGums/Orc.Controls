@@ -244,7 +244,7 @@ namespace Orc.Controls
             set { SetValue(MaximumUpdateBatchSizeProperty, value); }
         }
 
-        public static readonly DependencyProperty MaximumUpdateBatchSizeProperty = DependencyProperty.Register(nameof(MaximumUpdateBatchSize), 
+        public static readonly DependencyProperty MaximumUpdateBatchSizeProperty = DependencyProperty.Register(nameof(MaximumUpdateBatchSize),
             typeof(int), typeof(LogViewerControl), new PropertyMetadata(250));
         #endregion
 
@@ -302,45 +302,42 @@ namespace Orc.Controls
             // but because we call BeginInvoke, it will be placed at the end of the execution stack
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                if (rtb.Document == null)
+                if (rebuild)
                 {
-                    rtb.Document = new FlowDocument
-                    {
-                        Tag = DateTime.MinValue
-                    };
-                }
+                    ClearScreen();
 
-                if (ViewModel is LogViewerViewModel vm)
-                {
-                    if (rebuild)
+                    if (ViewModel is LogViewerViewModel vm)
                     {
-                        ClearScreen();
-
                         logEntries = vm.GetFilteredLogEntries().ToList();
                     }
+                }
 
-                    if (logEntries != null && logEntries.Count > 0)
+                if (logEntries != null && logEntries.Count > 0)
+                {
+                    rtb.BeginChange();
+
+                    if (rtb.Document == null)
                     {
-                        rtb.BeginChange();
+                        rtb.Document = CreateFlowDocument();
+                    }
 
-                        var document = rtb.Document;
-                        foreach (var logEntry in logEntries)
+                    var document = rtb.Document;
+                    foreach (var logEntry in logEntries)
+                    {
+                        var paragraph = CreateLogEntryParagraph(logEntry);
+                        if (paragraph != null)
                         {
-                            var paragraph = CreateLogEntryParagraph(logEntry);
-                            if (paragraph != null)
-                            {
-                                document.Blocks.Add(paragraph);
-                            }
+                            document.Blocks.Add(paragraph);
                         }
+                    }
 
-                        document.SetCurrentValue(FrameworkContentElement.TagProperty, logEntries[logEntries.Count - 1].Time);
+                    document.SetCurrentValue(FrameworkContentElement.TagProperty, logEntries[logEntries.Count - 1].Time);
 
-                        rtb.EndChange();
+                    rtb.EndChange();
 
-                        if (AutoScroll)
-                        {
-                            ScrollToEnd();
-                        }
+                    if (AutoScroll)
+                    {
+                        ScrollToEnd();
                     }
                 }
             }));
@@ -412,10 +409,7 @@ namespace Orc.Controls
 
             var oldDoc = rtb.Document;
 
-            rtb.Document = new FlowDocument
-            {
-                Tag = DateTime.MinValue
-            };
+            rtb.Document = CreateFlowDocument();
 
             // TODO: Consider doing in a background thread
             if (oldDoc != null)
@@ -429,8 +423,24 @@ namespace Orc.Controls
                     }
                 }
 
-                oldDoc.Blocks.Clear();
+                // No need to clear, doc should be garbage collected anyway
+                //oldDoc.Blocks.Clear();
             }
+        }
+
+        private FlowDocument CreateFlowDocument()
+        {
+            var flowDocument = new FlowDocument
+            {
+                Tag = DateTime.MinValue,
+                AllowDrop = false,
+                IsHyphenationEnabled = false,
+                IsOptimalParagraphEnabled = false
+            };
+
+            flowDocument.
+
+            return flowDocument;
         }
 
         public void Clear()

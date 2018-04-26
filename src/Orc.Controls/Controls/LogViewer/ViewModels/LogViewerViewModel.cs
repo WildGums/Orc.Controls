@@ -214,10 +214,10 @@ namespace Orc.Controls.ViewModels
                 //    additionalItems = maximumBatchSize * 2;
                 //}
 
-                if (_queuedEntries.Count > (maximumBatchSize * 3))
+                if (_queuedEntries.Count > (maximumBatchSize * 5))
                 {
                     // We will add 2 additional batches
-                    additionalItems = maximumBatchSize * 2;
+                    additionalItems = maximumBatchSize * 4;
                 }
 
                 while (additionalItems > 0 && _queuedEntries.Count > 0)

@@ -26,13 +26,16 @@ namespace Orc.Controls
             }
 
             toolTip.Append("Log event: " + paragraph.LogEntry.Log.Tag);
-            paragraph.SetCurrentValue(FrameworkContentElement.ToolTipProperty, toolTip);
+            paragraph.SetCurrentValue(FrameworkContentElement.ToolTipProperty, toolTip.ToString());
 
             var threadId = string.Empty;
-            var data = paragraph.LogEntry.Data;
-            if (showThreadId && data.ContainsKey("ThreadId"))
+            if (showThreadId)
             {
-                threadId = $"[{data["ThreadId"]}] ";
+                var data = paragraph.LogEntry.Data;
+                if (data.ContainsKey("ThreadId"))
+                {
+                    threadId = $"[{data["ThreadId"]}] ";
+                }
             }
 
             var message = paragraph.LogEntry.Message;
