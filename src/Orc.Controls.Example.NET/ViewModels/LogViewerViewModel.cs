@@ -30,14 +30,14 @@ namespace Orc.Controls.Examples.ViewModels
             Log.Debug("Single line debug message");
             Log.Debug("Multiline debug message that include a first line \nand a second line of the message");
 
+            Log.Info("Single line info message");
+            Log.Info("Multiline info message that include a first line \nand a second line of the message");
+
             Log.Warning("Single line warning message");
             Log.Warning("Multiline warning message that include a first line \nand a second line of the message");
 
             Log.Error("Single line error message");
             Log.Error("Multiline error message that include a first line \nand a second line of the message");
-
-            Log.Info("Single line info message");
-            Log.Info("Multiline info message that include a first line \nand a second line of the message");
         }
     }
 }

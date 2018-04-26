@@ -302,7 +302,9 @@ namespace Orc.Controls
                     if (rebuild)
                     {
                         ClearScreen();
-                        logEntries = vm.GetFilteredLogEntries().ToList();
+
+                        // Note: no need to get filtered ones, we will filter below
+                        logEntries = vm.LogEntries.ToList();
                     }
 
                     if (logEntries != null)
@@ -310,6 +312,11 @@ namespace Orc.Controls
                         var document = LogRecordsRichTextBox.Document;
                         foreach (var logEntry in logEntries)
                         {
+                            if (!vm.IsValidLogEntry(logEntry))
+                            {
+                                continue;
+                            }
+
                             var paragraph = CreateLogEntryParagraph(logEntry);
                             if (paragraph != null)
                             {
@@ -347,7 +354,11 @@ namespace Orc.Controls
 
             if (EnableIcons)
             {
-                var icon = new Label { DataContext = logEntry };
+                var icon = new Label
+                {
+                    DataContext = logEntry
+                };
+
                 paragraph.Inlines.Add(icon);
             }
 
@@ -491,8 +502,7 @@ namespace Orc.Controls
                 {
                     if (inputGesture.Matches(e))
                     {
-                        var keyEventArgs = new KeyEventArgs(e.KeyboardDevice,
-                            PresentationSource.FromVisual(this), e.Timestamp, e.Key)
+                        var keyEventArgs = new KeyEventArgs(e.KeyboardDevice, PresentationSource.FromVisual(this), e.Timestamp, e.Key)
                         {
                             RoutedEvent = Keyboard.KeyDownEvent
                         };
