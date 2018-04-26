@@ -820,7 +820,8 @@ namespace Orc.Controls
     }
     public class LogEntryEventArgs : System.EventArgs
     {
-        public LogEntryEventArgs(System.Collections.Generic.List<Catel.Logging.LogEntry> logEntries) { }
+        public LogEntryEventArgs(System.Collections.Generic.List<Catel.Logging.LogEntry> logEntries, System.Collections.Generic.List<Catel.Logging.LogEntry> filteredLogEntries) { }
+        public System.Collections.Generic.List<Catel.Logging.LogEntry> FilteredLogEntries { get; }
         public System.Collections.Generic.List<Catel.Logging.LogEntry> LogEntries { get; }
     }
     public class static LoggingExtensions

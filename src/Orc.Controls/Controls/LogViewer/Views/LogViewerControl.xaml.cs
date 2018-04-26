@@ -438,8 +438,6 @@ namespace Orc.Controls
                 IsOptimalParagraphEnabled = false
             };
 
-            flowDocument.
-
             return flowDocument;
         }
 
