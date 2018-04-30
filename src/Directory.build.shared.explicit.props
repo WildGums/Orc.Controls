@@ -7,6 +7,7 @@
 
   <!-- Explicit additional project properties that require stuff set before -->
   <PropertyGroup>
+    <OutputPath>$(ProjectDir)..\..\output\$(Configuration)\$(AssemblyName)\</OutputPath>  
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   
