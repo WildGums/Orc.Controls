@@ -14,7 +14,7 @@
     <PackageReference Include="ApiApprover" Version="7.0.0" PrivateAssets="all" />
     <PackageReference Include="ApprovalTests" Version="3.0.13" PrivateAssets="all" />
     <PackageReference Include="ApprovalUtilities" Version="3.0.13" PrivateAssets="all" />
-    <PackageReference Include="Catel.Core" Version="5.3.0" />
+    <PackageReference Include="Catel.Core" Version="5.4.0" />
     <PackageReference Include="Catel.Fody" Version="3.3.0" PrivateAssets="all" />
     <PackageReference Include="Fody" Version="3.0.3" PrivateAssets="all" />
     <PackageReference Include="LoadAssembliesOnStartup.Fody" Version="2.1.0" PrivateAssets="all" />
