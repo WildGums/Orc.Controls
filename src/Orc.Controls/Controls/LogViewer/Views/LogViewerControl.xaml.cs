@@ -293,7 +293,7 @@ namespace Orc.Controls
             UpdateControl(false, e.FilteredLogEntries);
         }
 
-        private void UpdateControl(bool rebuild = true, List<LogEntry> logEntries = null)
+        private void UpdateControl(bool rebuild = true, List<LogEntry> logEntries = null, bool scrollToEnd = false)
         {
             var rtb = LogRecordsRichTextBox;
 
@@ -302,6 +302,11 @@ namespace Orc.Controls
             // but because we call BeginInvoke, it will be placed at the end of the execution stack
             Dispatcher.BeginInvoke(new Action(() =>
             {
+                if (!IsLoaded)
+                {
+                    return;
+                }
+
                 if (rebuild)
                 {
                     ClearScreen();
@@ -335,7 +340,7 @@ namespace Orc.Controls
 
                     rtb.EndChange();
 
-                    if (AutoScroll)
+                    if (scrollToEnd || AutoScroll)
                     {
                         ScrollToEnd();
                     }
@@ -347,7 +352,7 @@ namespace Orc.Controls
         {
             base.OnLoaded(e);
 
-            ScrollToEnd();
+            UpdateControl(scrollToEnd: true);
         }
 
         private RichTextBoxParagraph CreateLogEntryParagraph(LogEntry logEntry)
