@@ -1,110 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -124,31 +19,31 @@
     <value>Zoek map</value>
   </data>
   <data name="Controls_DateRangePicker_Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>Anders</value>
   </data>
   <data name="Controls_DateRangePicker_End_Lbl" xml:space="preserve">
-    <value>End:</value>
+    <value>Eind:</value>
   </data>
   <data name="Controls_DateRangePicker_LastMonth" xml:space="preserve">
-    <value>Last month</value>
+    <value>Afgelopen maand</value>
   </data>
   <data name="Controls_DateRangePicker_LastWeek" xml:space="preserve">
-    <value>Last week</value>
+    <value>Afgelopen week</value>
   </data>
   <data name="Controls_DateRangePicker_Start_Lbl" xml:space="preserve">
     <value>Start:</value>
   </data>
   <data name="Controls_DateRangePicker_ThisMonth" xml:space="preserve">
-    <value>This month</value>
+    <value>Deze maand</value>
   </data>
   <data name="Controls_DateRangePicker_ThisWeek" xml:space="preserve">
-    <value>This week</value>
+    <value>Deze week</value>
   </data>
   <data name="Controls_DateRangePicker_Today" xml:space="preserve">
-    <value>Today</value>
+    <value>Vandaag</value>
   </data>
   <data name="Controls_DateRangePicker_Yesterday" xml:space="preserve">
-    <value>Yesterday</value>
+    <value>Gisteren</value>
   </data>
   <data name="Controls_OpenFolder" xml:space="preserve">
     <value>Open map</value>
@@ -178,28 +73,28 @@
     <value>Waarschuwingen</value>
   </data>
   <data name="Controls_ColorLegendGeneric_CheckBox_Content_ShowVisibilityColumn" xml:space="preserve">
-    <value>Show Visibility Column</value>
+    <value>Toon zichtbaarheidskolom</value>
   </data>
   <data name="Controls_ColorLegendGeneric_CheckBox_Content_AllowColorEdit" xml:space="preserve">
-    <value>Allow Color Edit</value>
+    <value>Sta bewerken van kleuren toe</value>
   </data>
   <data name="Controls_ColorLegendGeneric_CheckBox_Content_CheckAll" xml:space="preserve">
-    <value>Check all</value>
+    <value>Alles selecteren</value>
   </data>
   <data name="Controls_ColorLegendGeneric_Button_Content_ClearSelection" xml:space="preserve">
-    <value>Clear selection</value>
+    <value>Alles deselecteren</value>
   </data>
   <data name="Controls_ColorPickerGeneric_TextBlock_Text_ThemeColors" xml:space="preserve">
-    <value>Theme colors</value>
+    <value>Thema kleuren</value>
   </data>
   <data name="Controls_ColorPickerGeneric_TextBlock_Text_RecentColors" xml:space="preserve">
-    <value>Recent colors</value>
+    <value>Recente kleuren</value>
   </data>
   <data name="Controls_ColorPickerGeneric_Button_Content_Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Annuleren</value>
   </data>
   <data name="Controls_ColorPickerGeneric_Button_Content_Select" xml:space="preserve">
-    <value>Select</value>
+    <value>Selecteren</value>
   </data>
   <data name="Controls_ConnectionStringEditWindow_Label_Content_Provider" xml:space="preserve">
     <value>Provider:</value>
@@ -208,82 +103,94 @@
     <value>Server:</value>
   </data>
   <data name="Controls_ConnectionStringEditWindow_Button_Content_Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Ververs</value>
   </data>
   <data name="Controls_ConnectionStringEditWindow_RadioButton_Content_UseWindowsAuthentication" xml:space="preserve">
-    <value>Use Windows Authentication</value>
+    <value>Gebruik Windows Authenticatie</value>
   </data>
   <data name="Controls_ConnectionStringEditWindow_RadioButton_Content_UseSQLServerAuthentication" xml:space="preserve">
-    <value>Use SQL Server Authentication</value>
+    <value>Gebruik SQL Server Authenticatie</value>
   </data>
   <data name="Controls_ConnectionStringEditWindow_Label_Content_UserName" xml:space="preserve">
-    <value>User name</value>
+    <value>Gebruikersnaam</value>
   </data>
   <data name="Controls_ConnectionStringEditWindow_Label_Content_Password" xml:space="preserve">
-    <value>Password</value>
+    <value>Wachtwoord</value>
   </data>
   <data name="Controls_ConnectionStringEditWindow_Label_Content_Database" xml:space="preserve">
     <value>Database:</value>
   </data>
   <data name="Controls_ConnectionStringEditWindow_Button_Content_TestConnection" xml:space="preserve">
-    <value>Test connection</value>
+    <value>Test connectie</value>
   </data>
   <data name="Controls_ConnectionStringEditWindow_Button_Content_Advanced" xml:space="preserve">
-    <value>Advanced...</value>
+    <value>Geavanceerd...</value>
   </data>
   <data name="Controls_DatePickerControl_Button_Content_Today" xml:space="preserve">
-    <value>Today</value>
+    <value>Vandaag</value>
   </data>
   <data name="Controls_DatePickerControl_Button_Content_SelectDate" xml:space="preserve">
-    <value>Select date</value>
+    <value>Selecteer datum</value>
   </data>
   <data name="Controls_DatePickerControl_Button_Content_Clear" xml:space="preserve">
-    <value>Clear</value>
+    <value>Maak leeg</value>
   </data>
   <data name="Controls_DatePickerControl_Button_Content_Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>Kopiëren</value>
   </data>
   <data name="Controls_DatePickerControl_Button_Content_Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>Plakken</value>
   </data>
   <data name="Controls_DateTimePickerControl_Button_Content_Today" xml:space="preserve">
-    <value>Today</value>
+    <value>Vandaag</value>
   </data>
   <data name="Controls_DateTimePickerControl_Button_Content_Now" xml:space="preserve">
-    <value>Now</value>
+    <value>Nu</value>
   </data>
   <data name="Controls_DateTimePickerControl_Button_Content_SelectDate" xml:space="preserve">
-    <value>Select date</value>
+    <value>Selecteer datum</value>
   </data>
   <data name="Controls_DateTimePickerControl_Button_Content_Clear" xml:space="preserve">
-    <value>Clear</value>
+    <value>Maak leeg</value>
   </data>
   <data name="Controls_DateTimePickerControl_Button_Content_Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>Kopiëren</value>
   </data>
   <data name="Controls_DateTimePickerControl_Button_Content_Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>Plakken</value>
   </data>
   <data name="Controls_DbConnectionProviderListWindow_Button_Content_Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Ververs</value>
   </data>
   <data name="Controls_DbProviderControl_Button_Content_Change" xml:space="preserve">
-    <value>Change...</value>
+    <value>Verander...</value>
+  </data>
+  <data name="Controls_TimeSpanPickerGeneric_TextBlock_Text_Total" xml:space="preserve">
+    <value>Totaal:</value>
+  </data>
+  <data name="Controls_TimeSpanPickerGeneric_TextBlock_Text_Days" xml:space="preserve">
+    <value>Dagen</value>
+  </data>
+  <data name="Controls_TimeSpanPickerGeneric_TextBlock_Text_Hours" xml:space="preserve">
+    <value>Uren</value>
+  </data>
+  <data name="Controls_TimeSpanPickerGeneric_TextBlock_Text_Minutes" xml:space="preserve">
+    <value>Minuten</value>
   </data>
   <data name="Controls_ColorPickerGeneric_TabItem_Header_HSV" xml:space="preserve">
     <value>HSV</value>
   </data>
   <data name="Controls_ColorPickerGeneric_TabItem_Header_Colors" xml:space="preserve">
-    <value>Colors</value>
+    <value>Kleuren</value>
   </data>
   <data name="Controls_ConnectionStringAdvancedOptionsWindow_DataGridTextColumn_Header_Property" xml:space="preserve">
-    <value>Property</value>
+    <value>Eigenschap</value>
   </data>
   <data name="Controls_ConnectionStringAdvancedOptionsWindow_DataGridTextColumn_Header_Value" xml:space="preserve">
-    <value>Value</value>
+    <value>Waarde</value>
   </data>
   <data name="Controls_ConnectionStringEditWindow_GroupBox_Header_LogOnToTheServer" xml:space="preserve">
-    <value>Log on to the server</value>
+    <value>Inloggen op de server</value>
   </data>
   <data name="Controls_DatePickerControl_ToggleButton_Content_DayAbbreviation" xml:space="preserve">
     <value>d</value>
@@ -301,10 +208,10 @@
     <value>m</value>
   </data>
   <data name="Controls_DateTimePickerControl_ToggleButton_Content_YearAbbreviation" xml:space="preserve">
-    <value>y</value>
+    <value>j</value>
   </data>
   <data name="Controls_DateTimePickerControl_ToggleButton_Content_HourAbbreviation" xml:space="preserve">
-    <value>h</value>
+    <value>u</value>
   </data>
   <data name="Controls_DateTimePickerControl_ToggleButton_Content_MinuteAbbreviation" xml:space="preserve">
     <value>m</value>
@@ -319,7 +226,7 @@
     <value>d</value>
   </data>
   <data name="Controls_TimeSpanControl_TextBlock_Text_HoursAbbreviation" xml:space="preserve">
-    <value>h</value>
+    <value>u</value>
   </data>
   <data name="Controls_TimeSpanControl_TextBlock_Text_MinutesAbbreviation" xml:space="preserve">
     <value>m</value>
@@ -331,7 +238,7 @@
     <value>d</value>
   </data>
   <data name="Controls_TimeSpanPicker_TextBlock_Text_HoursAbbreviation" xml:space="preserve">
-    <value>h</value>
+    <value>u</value>
   </data>
   <data name="Controls_TimeSpanPicker_TextBlock_Text_MinutesAbbreviation" xml:space="preserve">
     <value>m</value>
@@ -339,32 +246,20 @@
   <data name="Controls_TimeSpanPicker_TextBlock_Text_SecondsAbbreviation" xml:space="preserve">
     <value>s</value>
   </data>
-  <data name="Controls_TimeSpanPickerGeneric_TextBlock_Text_Days" xml:space="preserve">
-    <value>Days</value>
-  </data>
-  <data name="Controls_TimeSpanPickerGeneric_TextBlock_Text_Hours" xml:space="preserve">
-    <value>Hours</value>
-  </data>
-  <data name="Controls_TimeSpanPickerGeneric_TextBlock_Text_Minutes" xml:space="preserve">
-    <value>Minutes</value>
-  </data>
-  <data name="Controls_TimeSpanPickerGeneric_TextBlock_Text_Total" xml:space="preserve">
-    <value>Total:</value>
-  </data>
   <data name="Controls_DatePicker_Button_Content_Clear" xml:space="preserve">
-    <value>Clear</value>
+    <value>Maak leeg</value>
   </data>
   <data name="Controls_DatePicker_Button_Content_Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>Kopiëren</value>
   </data>
   <data name="Controls_DatePicker_Button_Content_Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>Plakken</value>
   </data>
   <data name="Controls_DatePicker_Button_Content_SelectDate" xml:space="preserve">
-    <value>Select date</value>
+    <value>Selecteer datum</value>
   </data>
   <data name="Controls_DatePicker_Button_Content_Today" xml:space="preserve">
-    <value>Today</value>
+    <value>Vandaag</value>
   </data>
   <data name="Controls_DatePicker_ToggleButton_Content_DayAbbreviation" xml:space="preserve">
     <value>d</value>
@@ -373,25 +268,25 @@
     <value>m</value>
   </data>
   <data name="Controls_DatePicker_ToggleButton_Content_YearAbbreviation" xml:space="preserve">
-    <value>y</value>
+    <value>j</value>
   </data>
   <data name="Controls_DateTimePicker_Button_Content_Clear" xml:space="preserve">
-    <value>Clear</value>
+    <value>Maak leeg</value>
   </data>
   <data name="Controls_DateTimePicker_Button_Content_Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>Kopiëren</value>
   </data>
   <data name="Controls_DateTimePicker_Button_Content_Now" xml:space="preserve">
-    <value>Now</value>
+    <value>Nu</value>
   </data>
   <data name="Controls_DateTimePicker_Button_Content_Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>Plakken</value>
   </data>
   <data name="Controls_DateTimePicker_Button_Content_SelectDate" xml:space="preserve">
-    <value>Select date</value>
+    <value>Selecteer datum</value>
   </data>
   <data name="Controls_DateTimePicker_Button_Content_Today" xml:space="preserve">
-    <value>Today</value>
+    <value>Vandaag</value>
   </data>
   <data name="Controls_DateTimePicker_ToggleButton_Content_AmPmAbbreviation" xml:space="preserve">
     <value>t</value>
@@ -412,9 +307,9 @@
     <value>s</value>
   </data>
   <data name="Controls_DateTimePicker_ToggleButton_Content_YearAbbreviation" xml:space="preserve">
-    <value>y</value>
+    <value>j</value>
   </data>
   <data name="Controls_DbProviderPicker_Button_Content_Change" xml:space="preserve">
-    <value>Change...</value>
+    <value>Verander...</value>
   </data>
 </root>
