@@ -8,7 +8,7 @@
 namespace Orc.Controls
 {
     using System;
-    using Catel.Test;
+    using Catel.Tests;
     using NUnit.Framework;
 
     public class DateTimeFormatHelperFacts
