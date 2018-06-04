@@ -5,7 +5,12 @@
 *.suo
 *.user
 *.sln.docstates
-*.scgdat
+
+.nuget/
+tools/FAKE/
+build-log.xml
+Nuget.key
+TestResult.xml
 
 # Build results
 [Bb]in/
@@ -14,11 +19,11 @@
 [Rr]elease/
 [Oo]utput*/
 [Pp]ackages*/
-.vs/
 bin
 obj
 [Ll]ib/*
 ![Ll]ib/repositories.config
+*.ide/
 *_i.c
 *_p.c
 *.ilk
@@ -118,6 +123,6 @@ Desktop.ini
 
 # mstest test results
 TestResults
-src/UpgradeLog.htm
-.DS_Store
 src/.vs/
+.sonarqube/
+.github/
