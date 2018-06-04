@@ -4,6 +4,7 @@
     <AssemblyName>Orc.Controls.Example.NET</AssemblyName>
     <RootNamespace>Orc.Controls.Example</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
+    <SonarQubeExclude>true</SonarQubeExclude>
   </PropertyGroup>
 
   <PropertyGroup>
