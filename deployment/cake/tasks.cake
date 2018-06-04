@@ -127,7 +127,8 @@ Task("UpdateInfo")
 //-------------------------------------------------------------
 
 Task("SonarBegin")
-	.Does(() =>
+    .ContinueOnError()
+    .Does(() =>
 {
     if (string.IsNullOrWhiteSpace(sonarUrl))
     {
@@ -168,8 +169,9 @@ Task("Build")
 //-------------------------------------------------------------
 
 Task("SonarEnd")
-	.IsDependentOn("Build")
-	.Does(() =>
+    .IsDependentOn("Build")
+    .ContinueOnError()
+    .Does(() =>
 {
     if (string.IsNullOrWhiteSpace(sonarUrl))
     {
