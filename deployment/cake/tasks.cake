@@ -130,6 +130,8 @@ Task("SonarBegin")
     .ContinueOnError()
     .Does(() =>
 {
+    return;
+
     if (string.IsNullOrWhiteSpace(sonarUrl))
     {
         Information("Skipping Sonar integration since url is not specified");
@@ -173,6 +175,8 @@ Task("SonarEnd")
     .ContinueOnError()
     .Does(() =>
 {
+    return;
+
     if (string.IsNullOrWhiteSpace(sonarUrl))
     {
         // No need to log, we already did
