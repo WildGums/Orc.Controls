@@ -1092,6 +1092,7 @@ namespace Orc.Controls
         [System.ComponentModel.CategoryAttribute("Behavior")]
         public double UpperValue { get; set; }
         public override void OnApplyTemplate() { }
+        protected override void OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
     }
     public class ResizingAdorner : System.Windows.Documents.Adorner
     {
