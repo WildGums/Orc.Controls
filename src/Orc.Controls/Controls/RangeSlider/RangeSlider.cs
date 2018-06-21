@@ -138,7 +138,7 @@
             _trackBackgroundBorder = GetTemplateChild("PART_TrackBackground") as Border;
             _selectedRangeRectangle = GetTemplateChild("PART_SelectedRange") as Rectangle;
 
-            UpdateState();
+            Dispatcher.BeginInvoke(() => UpdateState(), false);
         }
 
         private void OnLowerSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
