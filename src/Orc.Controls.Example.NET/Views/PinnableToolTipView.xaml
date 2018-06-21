@@ -1,11 +1,10 @@
-﻿<catel:UserControl x:Class="Orc.Controls.Examples.Views.PinnableToolTip"
+﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.PinnableToolTip"
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:catel="http://schemas.catelproject.com"
                    xmlns:orccontrols="http://schemas.wildgums.com/orc/controls">
 
     <StackPanel>
-
         <Label>
             <TextBlock TextWrapping="Wrap">
                 Hover the controls to see the tool tips. Move them to automatically pin the tool tips.

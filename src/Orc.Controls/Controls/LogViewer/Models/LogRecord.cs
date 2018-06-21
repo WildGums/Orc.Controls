@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Controls.Examples.Models
+namespace Orc.Controls.Example.Models
 {
     using System;
     using Catel.Logging;

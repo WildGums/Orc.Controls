@@ -31,6 +31,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Controls\RangeSlider\RangeSlider.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +45,10 @@
 
   <ItemGroup>
     <PackageReference Update="NETStandard.Library" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controls\RangeSlider\Views\" />
   </ItemGroup>
 
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />

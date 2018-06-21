@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Orc.Controls.Examples.Services
+namespace Orc.Controls.Example.Services
 {
     using System.Collections;
     using System.Linq;

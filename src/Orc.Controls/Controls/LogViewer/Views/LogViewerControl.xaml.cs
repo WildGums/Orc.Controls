@@ -482,7 +482,7 @@ namespace Orc.Controls
             {
                 foreach (var richTextBoxParagraph in LogRecordsRichTextBox.Document.Blocks.OfType<RichTextBoxParagraph>())
                 {
-                    richTextBoxParagraph.SetData(this.EnableTimestamp, this.EnableThreadId);
+                    richTextBoxParagraph.SetData(EnableTimestamp, EnableThreadId);
                 }
             }
         }

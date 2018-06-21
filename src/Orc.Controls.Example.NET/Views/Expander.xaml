@@ -1,4 +1,4 @@
-﻿<catel:UserControl x:Class="Orc.Controls.Examples.Views.Expander"
+﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.Expander"
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"

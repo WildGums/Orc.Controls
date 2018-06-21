@@ -19,7 +19,7 @@ namespace Orc.Controls
     public class ListTextBox : TextBox
     {
         #region Fields
-        private bool _textChangingIsInProgress = false;
+        private readonly bool _textChangingIsInProgress = false;
         private int _currentIndex = 0;
         #endregion
 
