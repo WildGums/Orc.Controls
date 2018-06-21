@@ -6,6 +6,7 @@
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Shapes;
+    using System.Windows.Threading;
     using Catel.Windows;
     using Catel.Windows.Threading;
 
@@ -26,6 +27,8 @@
         private Thumb _lowerThumb;
         private Thumb _upperThumb;
 
+        private readonly DispatcherTimer _dispatcherTimer;
+
         static RangeSlider()
         {
             FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(RangeSlider), new FrameworkPropertyMetadata(typeof(RangeSlider)));
@@ -33,6 +36,9 @@
 
         public RangeSlider()
         {
+            _dispatcherTimer = new DispatcherTimer(DispatcherPriority.Input);
+            _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(50);
+            _dispatcherTimer.Tick += OnDispatcherTimerTick;
         }
 
         [Category("Behavior"), Bindable(true)]
@@ -83,6 +89,36 @@
             UpdateState();
         }
 
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+
+            var propertyName = e.Property.Name;
+            if (propertyName == nameof(Minimum))
+            {
+                if (Minimum > LowerValue)
+                {
+                    LowerValue = Minimum;
+                }
+                else
+                {
+                    StartUpdate();
+                }
+            }
+
+            if (propertyName == nameof(Maximum))
+            {
+                if (Maximum < UpperValue)
+                {
+                    UpperValue = Maximum;
+                }
+                else
+                {
+                    StartUpdate();
+                }
+            }
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -102,21 +138,21 @@
             _trackBackgroundBorder = GetTemplateChild("PART_TrackBackground") as Border;
             _selectedRangeRectangle = GetTemplateChild("PART_SelectedRange") as Rectangle;
 
-            Dispatcher.BeginInvoke(() => UpdateState());
+            UpdateState();
         }
 
         private void OnLowerSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             _upperSlider.Value = Math.Max(_upperSlider.Value, _lowerSlider.Value);
 
-            UpdateRelatedValues();
+            StartUpdate(false);
         }
 
         private void OnUpperSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             _lowerSlider.Value = Math.Min(_upperSlider.Value, _lowerSlider.Value);
 
-            UpdateRelatedValues();
+            StartUpdate(false);
         }
 
         private void UpdateState()
@@ -134,12 +170,37 @@
             _upperTrack = _upperSlider?.Template?.FindName("PART_Track", _upperSlider) as Track;
             _upperThumb = _upperTrack?.FindVisualDescendantByType<Thumb>();
 
+            StartUpdate();
+        }
+
+        private void StartUpdate(bool dispatch = true)
+        {
+            if (!dispatch)
+            {
+                UpdateRelatedValues();
+                return;
+            }
+
+            // We need to delay a bit in order to allow values to propagate
+            _dispatcherTimer.Stop();
+            _dispatcherTimer.Start();
+        }
+
+        private void OnDispatcherTimerTick(object sender, EventArgs e)
+        {
+            _dispatcherTimer.Stop();
+
             UpdateRelatedValues();
         }
 
         private void UpdateRelatedValues()
         {
             if (!IsLoaded)
+            {
+                return;
+            }
+
+            if (_lowerSlider == null || _upperSlider == null)
             {
                 return;
             }
