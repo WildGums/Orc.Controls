@@ -1413,7 +1413,7 @@ namespace Orc.Controls.Converters
         protected override object Convert(object value, System.Type targetType, object parameter) { }
     }
 }
-namespace Orc.Controls.Examples.Models
+namespace Orc.Controls.Logging
 {
     public class LogRecord
     {
@@ -1422,9 +1422,6 @@ namespace Orc.Controls.Examples.Models
         public Catel.Logging.LogEvent LogEvent { get; set; }
         public string Message { get; set; }
     }
-}
-namespace Orc.Controls.Logging
-{
     public class LogViewerLogListener : Catel.Logging.RollingInMemoryLogListener
     {
         public LogViewerLogListener() { }
