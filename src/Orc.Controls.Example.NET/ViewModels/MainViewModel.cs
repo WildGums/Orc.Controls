@@ -16,6 +16,8 @@ namespace Orc.Controls.Example.ViewModels
         public MainViewModel()
         {
             AccentColorBrush = Brushes.Orange;
+
+            Title = "Orc.Controls example";
         }
         #endregion
 

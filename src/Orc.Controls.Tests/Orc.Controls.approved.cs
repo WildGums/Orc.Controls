@@ -1068,6 +1068,31 @@ namespace Orc.Controls
         public static Orc.Controls.DateRange Today { get; }
         public static Orc.Controls.DateRange Yesterday { get; }
     }
+    [System.Windows.TemplatePartAttribute(Name="PART_LowerSlider", Type=typeof(System.Windows.Controls.Slider))]
+    [System.Windows.TemplatePartAttribute(Name="PART_SelectedRange", Type=typeof(System.Windows.Shapes.Rectangle))]
+    [System.Windows.TemplatePartAttribute(Name="PART_TrackBackground", Type=typeof(System.Windows.Controls.Border))]
+    [System.Windows.TemplatePartAttribute(Name="PART_UpperSlider", Type=typeof(System.Windows.Controls.Slider))]
+    public class RangeSlider : System.Windows.Controls.Primitives.RangeBase
+    {
+        public static readonly System.Windows.DependencyProperty HighlightSelectedRangeProperty;
+        public static readonly System.Windows.DependencyProperty LowerValueProperty;
+        public static readonly System.Windows.DependencyProperty OrientationProperty;
+        public static readonly System.Windows.DependencyProperty UpperValueProperty;
+        public RangeSlider() { }
+        [System.ComponentModel.BindableAttribute(true)]
+        [System.ComponentModel.CategoryAttribute("Behavior")]
+        public bool HighlightSelectedRange { get; set; }
+        [System.ComponentModel.BindableAttribute(true)]
+        [System.ComponentModel.CategoryAttribute("Behavior")]
+        public double LowerValue { get; set; }
+        [System.ComponentModel.BindableAttribute(true)]
+        [System.ComponentModel.CategoryAttribute("Behavior")]
+        public System.Windows.Controls.Orientation Orientation { get; set; }
+        [System.ComponentModel.BindableAttribute(true)]
+        [System.ComponentModel.CategoryAttribute("Behavior")]
+        public double UpperValue { get; set; }
+        public override void OnApplyTemplate() { }
+    }
     public class ResizingAdorner : System.Windows.Documents.Adorner
     {
         protected override int VisualChildrenCount { get; }

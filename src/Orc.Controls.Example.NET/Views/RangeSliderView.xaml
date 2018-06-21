@@ -34,8 +34,11 @@
         <Label Content="Maximum value" />
         <orccontrols:NumericTextBox IsNegativeAllowed="True" MinValue="-10000" MaxValue="10000" Value="{Binding MaxValue}" />
 
+        <CheckBox IsChecked="{Binding ElementName=rangeSlider, Path=HighlightSelectedRange, Mode=TwoWay}" 
+                  Grid.ColumnSpan="2" Content="Highlight selected range" />
+
         <Label Content="Range slider" />
-        <orccontrols:RangeSlider Margin="4,6,4,6" Width="300" 
+        <orccontrols:RangeSlider x:Name="rangeSlider" Margin="4,6,4,6" Width="300" 
                                  Minimum="{Binding MinValue}" Maximum="{Binding MaxValue}" 
                                  LowerValue="{Binding LowerValue}" UpperValue="{Binding UpperValue}" />
 
