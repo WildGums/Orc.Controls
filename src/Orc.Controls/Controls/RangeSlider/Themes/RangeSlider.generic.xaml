@@ -76,7 +76,13 @@
 
                             <Track x:Name="PART_Track">
                                 <Track.Thumb>
-                                    <Thumb x:Name="Thumb" Style="{StaticResource HorizontalRangeSliderThumbStyle}"/>
+                                    <Thumb x:Name="Thumb" 
+                                           Style="{StaticResource HorizontalRangeSliderThumbStyle}">
+                                        <Thumb.ToolTip>
+                                            <ToolTip Content="{TemplateBinding Value}"
+                                                     ContentStringFormat="N1" />
+                                        </Thumb.ToolTip>
+                                    </Thumb>
                                 </Track.Thumb>
                             </Track>
                         </Grid>
@@ -105,7 +111,13 @@
 
                                     <Track x:Name="PART_Track">
                                         <Track.Thumb>
-                                            <Thumb x:Name="Thumb" Style="{StaticResource VerticalRangeSliderThumbStyle}"/>
+                                            <Thumb x:Name="Thumb" 
+                                                   Style="{StaticResource VerticalRangeSliderThumbStyle}">
+                                                <Thumb.ToolTip>
+                                                    <ToolTip Content="{TemplateBinding Value}"
+                                                             ContentStringFormat="N1" />
+                                                </Thumb.ToolTip>
+                                            </Thumb>
                                         </Track.Thumb>
                                     </Track>
                                 </Grid>

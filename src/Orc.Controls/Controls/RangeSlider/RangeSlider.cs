@@ -147,50 +147,56 @@
             // As a bonus, the value will show the average
             Value = (_lowerSlider.Value + _upperSlider.Value) / 2;
 
+            var lowerThumb = _lowerThumb;
+            var upperThumb = _upperThumb;
             var trackBackgroundBorder = _trackBackgroundBorder;
             var selectedRangeRectangle = _selectedRangeRectangle;
-            if (trackBackgroundBorder != null && selectedRangeRectangle != null)
+
+            if (lowerThumb != null && upperThumb != null && trackBackgroundBorder != null && selectedRangeRectangle != null)
             {
-                var lowerThumb = _lowerThumb;
-                var lowerThumbCenterX = lowerThumb.Width / 2;
-                var lowerThumbCenterY = lowerThumb.Height / 2;
-                var lowerThumbPosition = lowerThumb.PointToScreen(LeftTop);
-
-                var upperThumb = _upperThumb;
-                var upperThumbCenterX = upperThumb.Width / 2;
-                var upperThumbCenterY = upperThumb.Height / 2;
-                var upperThumbPosition = upperThumb.PointToScreen(LeftTop);
-
-                var containerWidth = trackBackgroundBorder.ActualWidth;
-                var containerHeight = trackBackgroundBorder.ActualHeight;
-                var width = ActualWidth;
-                var height = ActualHeight;
-                var widthRatio = (containerWidth * 100) / width;
-                var heighRatio = (containerHeight * 100) / height;
-
-                var leftTop = PointToScreen(LeftTop);
-
-                if (lowerThumb != null && upperThumb != null)
+                // When unloaded, item becomes IsVisible = false; If this is the case, we can't call PointToScreen,
+                // it will throw an exception
+                if (lowerThumb.IsVisible && upperThumb.IsVisible)
                 {
-                    switch (Orientation)
+                    var lowerThumbCenterX = lowerThumb.Width / 2;
+                    var lowerThumbCenterY = lowerThumb.Height / 2;
+                    var lowerThumbPosition = lowerThumb.PointToScreen(LeftTop);
+
+                    var upperThumbCenterX = upperThumb.Width / 2;
+                    var upperThumbCenterY = upperThumb.Height / 2;
+                    var upperThumbPosition = upperThumb.PointToScreen(LeftTop);
+
+                    var containerWidth = trackBackgroundBorder.ActualWidth;
+                    var containerHeight = trackBackgroundBorder.ActualHeight;
+                    var width = ActualWidth;
+                    var height = ActualHeight;
+                    var widthRatio = (containerWidth * 100) / width;
+                    var heighRatio = (containerHeight * 100) / height;
+
+                    var leftTop = PointToScreen(LeftTop);
+
+                    if (lowerThumb != null && upperThumb != null)
                     {
-                        case Orientation.Horizontal:
-                            // Draw left => right
-                            var left = (lowerThumbPosition.X - leftTop.X) + lowerThumbCenterX;
-                            var finalLeft = (left / 100) * widthRatio;
+                        switch (Orientation)
+                        {
+                            case Orientation.Horizontal:
+                                // Draw left => right
+                                var left = (lowerThumbPosition.X - leftTop.X) + lowerThumbCenterX;
+                                var finalLeft = (left / 100) * widthRatio;
 
-                            var right = (upperThumbPosition.X - leftTop.X) + upperThumbCenterX;
-                            var finalRight = (right / 100) * widthRatio;
+                                var right = (upperThumbPosition.X - leftTop.X) + upperThumbCenterX;
+                                var finalRight = (right / 100) * widthRatio;
 
-                            selectedRangeRectangle.Width = right - left;
+                                selectedRangeRectangle.Width = right - left;
 
-                            Canvas.SetLeft(selectedRangeRectangle, finalLeft);
-                            //Canvas.SetRight(selectedRangeRectangle, finalRight);
-                            break;
+                                Canvas.SetLeft(selectedRangeRectangle, finalLeft);
+                                //Canvas.SetRight(selectedRangeRectangle, finalRight);
+                                break;
 
-                        case Orientation.Vertical:
-                            // Draw bottom => top
-                            break;
+                            case Orientation.Vertical:
+                                // Draw bottom => top
+                                break;
+                        }
                     }
                 }
             }
