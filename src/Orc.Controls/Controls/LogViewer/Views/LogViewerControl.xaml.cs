@@ -23,6 +23,7 @@ namespace Orc.Controls
     using Catel.MVVM.Views;
     using Logging;
     using ViewModels;
+    using Action = System.Action;
 
     /// <summary>
     /// Interaction logic for LogViewerControl.xaml.
@@ -120,19 +121,6 @@ namespace Orc.Controls
             typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public string TypeFilter
-        {
-            get { return (string)GetValue(TypeFilterProperty); }
-            set { SetValue(TypeFilterProperty, value); }
-        }
-
-        public static readonly DependencyProperty TypeFilterProperty = DependencyProperty.Register("TypeFilter", typeof(string),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
-
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public Type LogListenerType
         {
@@ -226,6 +214,15 @@ namespace Orc.Controls
         public static readonly DependencyProperty ShowMultilineMessagesExpandedProperty = DependencyProperty.Register("ShowMultilineMessagesExpanded", typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool UseApplicationFilterGroupsConfiguration
+        {
+            get { return (bool)GetValue(UseApplicationFilterGroupsConfigurationProperty); }
+            set { SetValue(UseApplicationFilterGroupsConfigurationProperty, value); }
+        }
+
+        public static readonly DependencyProperty UseApplicationFilterGroupsConfigurationProperty = DependencyProperty.Register("UseApplicationFilterGroupsConfiguration", typeof(bool),
+            typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
         public bool SupportCommandManager
         {
@@ -482,7 +479,7 @@ namespace Orc.Controls
             {
                 foreach (var richTextBoxParagraph in LogRecordsRichTextBox.Document.Blocks.OfType<RichTextBoxParagraph>())
                 {
-                    richTextBoxParagraph.SetData(this.EnableTimestamp, this.EnableThreadId);
+                    richTextBoxParagraph.SetData(EnableTimestamp, EnableThreadId);
                 }
             }
         }

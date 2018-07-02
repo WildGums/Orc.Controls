@@ -13,6 +13,7 @@ namespace Orc.Controls.Examples.ViewModels
     using Catel.Logging;
     using Catel.MVVM;
     using Catel.Threading;
+    using Orc.Controls.ViewModels;
 
     public class LogViewerViewModel : ViewModelBase
     {
@@ -29,6 +30,8 @@ namespace Orc.Controls.Examples.ViewModels
         #endregion
 
         public Command AddLogRecords { get; set; }
+
+        public LogFilterGroupListControlViewModel LogFilterGroupListViewModel { get; set; }
 
         private void OnAddLogRecordsExecute()
         {

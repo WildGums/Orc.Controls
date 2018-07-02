@@ -26,6 +26,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controls\LogViewer\Views\LogFilterGroupEditorWindow.xaml.cs">
+      <DependentUpon>LogFilterGroupEditorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\LogViewer\Views\LogFilterEditorControl.xaml.cs">
+      <DependentUpon>LogFilterEditorControl.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

@@ -4,7 +4,7 @@
               xmlns:catel="http://schemas.catelproject.com"
               xmlns:views="clr-namespace:Orc.Controls.Examples.Views"
               xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
-              Height="650" Width="850">
+              Height="680" Width="850">
 
     <catel:Window.Resources>
         <SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#D4D4D4"/>

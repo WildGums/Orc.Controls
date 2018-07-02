@@ -4,7 +4,6 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-
 namespace Orc.Controls.ViewModels
 {
     using System;
@@ -12,21 +11,21 @@ namespace Orc.Controls.ViewModels
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Windows.Threading;
     using Catel;
     using Catel.Collections;
     using Catel.IoC;
-    using Catel.Linq;
     using Catel.Logging;
     using Catel.MVVM;
     using Catel.Services;
     using Catel.Threading;
     using Logging;
+    using Orc.Controls.Models;
+    using Orc.Controls.Services;
 
     public class LogViewerViewModel : ViewModelBase
     {
         #region Constants
-        private const string defaultComboBoxItem = "-- Select type name --";
+        private const string DefaultComboBoxItem = "-- Select type name --";
         #endregion
 
         #region Fields
@@ -36,12 +35,15 @@ namespace Orc.Controls.ViewModels
 
         private readonly ITypeFactory _typeFactory;
         private readonly IDispatcherService _dispatcherService;
+        private readonly IApplicationFilterGroupService _applicationFilterGroupService;
         private readonly LogViewerLogListener _logViewerLogListener;
 
         private readonly FastObservableCollection<LogEntry> _logEntries = new FastObservableCollection<LogEntry>();
 
         private readonly Timer _timer;
         private readonly Queue<LogEntry> _queuedEntries = new Queue<LogEntry>();
+
+        private readonly List<LogFilterGroup> _applicationFilterGroups = new List<LogFilterGroup>();
 
         private bool _hasInitializedFirstLogListener;
         private bool _isClearingLog;
@@ -50,14 +52,16 @@ namespace Orc.Controls.ViewModels
         #endregion
 
         #region Constructors
-        public LogViewerViewModel(ITypeFactory typeFactory, IDispatcherService dispatcherService, LogViewerLogListener logViewerLogListener)
+        public LogViewerViewModel(ITypeFactory typeFactory, IDispatcherService dispatcherService, IApplicationFilterGroupService applicationFilterGroupService, LogViewerLogListener logViewerLogListener)
         {
             Argument.IsNotNull(() => typeFactory);
             Argument.IsNotNull(() => dispatcherService);
+            Argument.IsNotNull(() => applicationFilterGroupService);
             Argument.IsNotNull(() => logViewerLogListener);
 
             _typeFactory = typeFactory;
             _dispatcherService = dispatcherService;
+            _applicationFilterGroupService = applicationFilterGroupService;
             _logViewerLogListener = logViewerLogListener;
 
             _timer = new Timer(OnTimerTick);
@@ -70,7 +74,7 @@ namespace Orc.Controls.ViewModels
 
             var typeNames = new FastObservableCollection<string>
             {
-                defaultComboBoxItem
+                DefaultComboBoxItem
             };
 
             TypeNames = typeNames;
@@ -104,7 +108,7 @@ namespace Orc.Controls.ViewModels
                         {
                             using (typeNames.SuspendChangeNotifications())
                             {
-                                typeNames.ReplaceRange(new[] { defaultComboBoxItem });
+                                typeNames.ReplaceRange(new[] { DefaultComboBoxItem });
                             }
                         }
                     }
@@ -157,6 +161,7 @@ namespace Orc.Controls.ViewModels
         public int WarningEntriesCount { get; private set; }
         public int ErrorEntriesCount { get; private set; }
         public int MaximumUpdateBatchSize { get; set; }
+        public bool UseApplicationFilterGroupsConfiguration { get; set; }
         #endregion
 
         #region Methods
@@ -335,6 +340,12 @@ namespace Orc.Controls.ViewModels
                 return false;
             }
 
+            _applicationFilterGroups.Clear();
+            if (UseApplicationFilterGroupsConfiguration)
+            {
+                _applicationFilterGroups.AddRange(_applicationFilterGroupService.Load());
+            }
+
             if (!PassFilters(logEntry))
             {
                 return false;
@@ -373,12 +384,18 @@ namespace Orc.Controls.ViewModels
 
         private bool PassFilters(LogEntry logEntry)
         {
-            return PassTypeFilter(logEntry) && PassLogFilter(logEntry);
+            return PassTypeFilter(logEntry) && PassLogFilter(logEntry) && PassApplicationFilterGroupsConfiguration(logEntry);
+        }
+
+        private bool PassApplicationFilterGroupsConfiguration(LogEntry logEntry)
+        {
+            var enabledFilterGroups = _applicationFilterGroups.Where(filterGroup => filterGroup.IsEnabled).ToList();
+            return enabledFilterGroups.Count == 0 || enabledFilterGroups.Any(group => group.Pass(logEntry));
         }
 
         private bool PassLogFilter(LogEntry logEntry)
         {
-            if (string.IsNullOrEmpty(LogFilter) || LogFilter.Equals(defaultComboBoxItem))
+            if (string.IsNullOrEmpty(LogFilter) || LogFilter.Equals(DefaultComboBoxItem))
             {
                 return true;
             }
@@ -395,7 +412,7 @@ namespace Orc.Controls.ViewModels
         private bool PassTypeFilter(LogEntry logEntry)
         {
             var typeFilter = TypeFilter;
-            if (string.IsNullOrEmpty(typeFilter) || typeFilter.Equals(defaultComboBoxItem))
+            if (string.IsNullOrEmpty(typeFilter) || typeFilter.Equals(DefaultComboBoxItem))
             {
                 return true;
             }
@@ -465,8 +482,8 @@ namespace Orc.Controls.ViewModels
                         using (typeNames.SuspendChangeNotifications())
                         {
                             typeNames.Sort();
-                            typeNames.Remove(defaultComboBoxItem);
-                            typeNames.Insert(0, defaultComboBoxItem);
+                            typeNames.Remove(DefaultComboBoxItem);
+                            typeNames.Insert(0, DefaultComboBoxItem);
                         }
                     }
                 }
