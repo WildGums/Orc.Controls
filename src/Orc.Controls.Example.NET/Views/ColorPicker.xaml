@@ -10,13 +10,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border BorderThickness="1"  Width="150">
-            <TextBlock Text="text" Margin="5"/>
+        <Border BorderThickness="1" Width="150">
+            <TextBlock Text="text" Margin="5" />
             <orccontrols:PinnableToolTipService.ToolTip>
                 <StackPanel>
                     <Label Content="{Binding}" />
-                    <Border Margin="5" Width="50"
-                    Height="50" Background="{Binding}" />
+                    <Border Margin="5" Width="50" Height="50" Background="{Binding}" />
                 </StackPanel>
             </orccontrols:PinnableToolTipService.ToolTip>
         </Border>

@@ -126,7 +126,7 @@ namespace Orc.Controls
             "IsDropDownOpen",
             typeof(bool),
             typeof(ColorPicker),
-            new PropertyMetadata(false, OnIsDropDownOpenChanged));
+            new PropertyMetadata(false));
 
         /// <summary>
         /// Gets or sets the popup placement.
@@ -166,20 +166,6 @@ namespace Orc.Controls
             }
 
             cp.RaiseColorChanged((Color)e.NewValue, (Color)e.OldValue);
-        }
-
-        /// <summary>
-        /// The on is drop down open property changed.
-        /// </summary>
-        /// <param name="d">The d.</param>
-        /// <param name="e">The e.</param>
-        private static void OnIsDropDownOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var cp = (ColorPicker)d;
-            if (cp == null)
-            {
-                return;
-            }
         }
 
         /// <summary>

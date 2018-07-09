@@ -20,7 +20,7 @@ namespace Orc.Controls
         private bool _hideTime;
         private bool _hideSeconds;
         private DateTime? _value;
-        private DateTime _todayValue;
+        private readonly DateTime _todayValue;
         #endregion
 
         #region Constructors

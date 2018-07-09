@@ -52,20 +52,6 @@ namespace Orc.Controls
 
         #region Properties
         /// <summary>
-        /// Gets or sets a value indicating whether this instance is animating.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is animating; otherwise, <c>false</c>.
-        /// </value>
-        private bool IsAnimating { get; set; }
-
-        /// <summary>
-        /// Gets or sets the current frame.
-        /// </summary>
-        /// <value>The current frame.</value>
-        private int CurrentFrame { get; set; }
-
-        /// <summary>
         /// Gets or sets GifSource.
         /// </summary>
         /// <remarks>

@@ -175,7 +175,7 @@ namespace Orc.Controls
         /// The is drop down open property.
         /// </summary>
         public static readonly DependencyProperty IsColorSelectingProperty = DependencyProperty.Register("IsColorSelecting",
-            typeof (bool), typeof (ColorLegend), new PropertyMetadata(false, (sender, e) => ((ColorLegend) sender).OnIsColorSelectingPropertyChanged()));
+            typeof(bool), typeof(ColorLegend), new PropertyMetadata(false));
 
 
         /// <summary>
@@ -391,18 +391,29 @@ namespace Orc.Controls
             {
                 foreach (var filteredItem in filteredItems)
                 {
-                    if (filteredItem.IsChecked)
+                    if (!filteredItem.IsChecked)
                     {
-                        allUnchecked = false;
+                        allChecked = false; 
                     }
                     else
                     {
-                        allChecked = false;
+                        allUnchecked = false;
                     }
                 }
             }
 
-            SetCurrentValue(IsAllVisibleProperty, (allChecked ? true : allUnchecked ? false : (bool?) null));
+            bool? isAllVisible = null;
+
+            if (allChecked)
+            {
+                isAllVisible = true;
+            }
+            else if (allUnchecked)
+            {
+                isAllVisible = false;
+            }
+
+            SetCurrentValue(IsAllVisibleProperty, isAllVisible);
 
             _isUpdatingAllVisible = false;
         }
@@ -459,10 +470,6 @@ namespace Orc.Controls
         {
             SetCurrentValue(FilteredItemsSourceProperty, GetFilteredItems());
             SetCurrentValue(FilteredItemsIdsProperty, FilteredItemsSource == null ? null : FilteredItemsSource.Select(cp => cp.Id));
-        }
-
-        private void OnIsColorSelectingPropertyChanged()
-        {
         }
 
         public override void OnApplyTemplate()

@@ -133,20 +133,15 @@ namespace Orc.Controls
 
         private void OnStartDateChanged()
         {
-            RemoveTemporaryRanges();
-
-            var currentSpan = _span;
-            var newSpan = _endDate.Subtract(_startDate);
-
-            UpdateSpan(currentSpan, newSpan);
-
-            var currentSelectedDateRange = _selectedRange;
-            var newSelectedDateRange = AddTemporaryRange();
-
-            UpdateSelectedRange(currentSelectedDateRange, newSelectedDateRange);
+            UpdateAfterDatesHaveChanged();
         }
 
         private void OnEndDateChanged()
+        {
+            UpdateAfterDatesHaveChanged();
+        }
+
+        private void UpdateAfterDatesHaveChanged()
         {
             RemoveTemporaryRanges();
 

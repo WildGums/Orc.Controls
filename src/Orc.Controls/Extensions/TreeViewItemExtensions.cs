@@ -14,12 +14,16 @@ namespace Orc.Controls
     {
         public static int GetDepth(this TreeViewItem item)
         {
+            var depth = 0;
             TreeViewItem parent;
+
             while ((parent = GetParent(item)) != null)
             {
-                return GetDepth(parent) + 1;
+                depth++;
+                item = parent;
             }
-            return 0;
+
+            return depth;
         }
 
         private static TreeViewItem GetParent(TreeViewItem item)
@@ -32,8 +36,10 @@ namespace Orc.Controls
                 {
                     return null;
                 }
+
                 parent = VisualTreeHelper.GetParent(parent);
             }
+
             return parent as TreeViewItem;
         }
     }

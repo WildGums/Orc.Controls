@@ -15,7 +15,7 @@ namespace Orc.Controls
         #region Fields
         private bool _showOptionsButton;
         private DateTime? _value;
-        private DateTime _todayValue;
+        private readonly DateTime _todayValue;
         #endregion
 
         #region Constructors

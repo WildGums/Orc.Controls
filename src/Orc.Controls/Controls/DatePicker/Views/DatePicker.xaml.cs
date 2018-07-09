@@ -30,7 +30,7 @@ namespace Orc.Controls
         #region Fields
         private readonly List<TextBox> _textBoxes;
         private DateTimePart _activeDateTimePart;
-        private DateTime _todayValue;
+        private readonly DateTime _todayValue;
         private DateTimeFormatInfo _formatInfo;
         #endregion
 

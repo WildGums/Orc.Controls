@@ -916,7 +916,6 @@ namespace Orc.Controls
             IsOpen = false;
 
             BindingOperations.ClearBinding(this, DataContextProperty);
-            //SetOwner(null);
             _lastPosition = new Point(0, 0);
         }
 
@@ -985,8 +984,6 @@ namespace Orc.Controls
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //Debug.WriteLine($"Size changed to '{e.NewSize}'");
-
             _lastSize = e.NewSize;
         }
 

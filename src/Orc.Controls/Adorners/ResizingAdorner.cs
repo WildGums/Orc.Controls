@@ -332,12 +332,9 @@ namespace Orc.Controls
                 return;
             }
 
-            if (!double.IsNaN(adornedElement.MinWidth))
+            if (!double.IsNaN(adornedElement.MinWidth) && adornedElement.MinWidth > width)
             {
-                if (adornedElement.MinWidth > width)
-                {
-                    width = adornedElement.MinWidth;
-                }
+                width = adornedElement.MinWidth;
             }
 
             adornedElement.SetCurrentValue(WidthProperty, width);
@@ -351,12 +348,9 @@ namespace Orc.Controls
                 return;
             }
 
-            if (!double.IsNaN(adornedElement.MinHeight))
+            if (!double.IsNaN(adornedElement.MinHeight) && adornedElement.MinHeight > height)
             {
-                if (adornedElement.MinHeight > height)
-                {
-                    height = adornedElement.MinHeight;
-                }
+                height = adornedElement.MinHeight;
             }
 
             adornedElement.SetCurrentValue(HeightProperty, height);
