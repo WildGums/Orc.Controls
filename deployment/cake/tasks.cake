@@ -65,6 +65,7 @@ Task("UpdateInfo")
 Task("Build")
     .IsDependentOn("Clean")
     .IsDependentOn("UpdateInfo")
+    .IsDependentOn("CleanupCode")
     .Does(async () =>
 {
     var enableSonar = !string.IsNullOrWhiteSpace(SonarUrl);
@@ -148,7 +149,7 @@ Task("Build")
         switch (status)
         {
             case "error":
-                Error("The SonarQube gateway for '{0}' returned ERROR, please check the error(s) at {1}/dashboard?id={0}", SonarProject, SonarUrl);
+                throw new Exception(string.Format("The SonarQube gateway for '{0}' returned ERROR, please check the error(s) at {1}/dashboard?id={0}", SonarProject, SonarUrl));
                 break;
 
             case "warn":
@@ -164,7 +165,7 @@ Task("Build")
                 break;
 
             default:
-                Error("Unexpected SonarQube gateway status '{0}' for project '{1}'", status, SonarProject);
+                throw new Exception(string.Format("Unexpected SonarQube gateway status '{0}' for project '{1}'", status, SonarProject));
                 break;
         }
     }
