@@ -68,7 +68,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(TimeSpan?), typeof(TimeSpanPicker),
-            new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((TimeSpanPicker)sender).OnValueChanged(e.OldValue, e.NewValue)));
+            new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((TimeSpanPicker)sender).OnValueChanged(e.NewValue)));
 
         public Brush AccentColorBrush
         {
@@ -128,22 +128,25 @@ namespace Orc.Controls
                 e.Handled = true;
             }
 
-            if (e.Key == Key.Enter && _isInEditMode)
+            var isTabPressed = e.Key == Key.Tab;
+            if (!isTabPressed && e.Key != Key.Enter || !_isInEditMode)
             {
-                NumericTBEditorContainer.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
-                _isInEditMode = false;
-
-                if (!IsReadOnly)
-                {
-                    var value = NumericTBEditor.Value == null ? NumericTBEditor.MinValue : NumericTBEditor.Value.Value;
-                    SetCurrentValue(ValueProperty, RoundTimeSpan(_activeTextBoxPart.CreateTimeSpan(value)));
-                }
-
-                e.Handled = true;
+                return;
             }
+
+            NumericTBEditorContainer.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
+            _isInEditMode = false;
+
+            if (!IsReadOnly)
+            {
+                var value = NumericTBEditor.Value ?? NumericTBEditor.MinValue;
+                SetCurrentValue(ValueProperty, RoundTimeSpan(_activeTextBoxPart.CreateTimeSpan(value)));
+            }
+
+            e.Handled = !isTabPressed;
         }
 
-        private TimeSpan RoundTimeSpan(TimeSpan timeSpan)
+        private static TimeSpan RoundTimeSpan(TimeSpan timeSpan)
         {
             var totalSeconds = Math.Round(timeSpan.TotalSeconds);
             return TimeSpan.FromSeconds(totalSeconds);
@@ -157,7 +160,7 @@ namespace Orc.Controls
 
         private void NumericTBEditor_OnIsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var timeSpan = Value == null ? TimeSpan.Zero : Value.Value;
+            var timeSpan = Value ?? TimeSpan.Zero;
             if (IsKeyboardFocusWithin)
             {
                 NumericTBEditor.SetCurrentValue(NumericTextBox.ValueProperty, timeSpan.GetTimeSpanPartValue(_activeTextBoxPart));
@@ -169,12 +172,13 @@ namespace Orc.Controls
 
         private void OnAccentColorBrushChanged()
         {
-            var solidColorBrush = AccentColorBrush as SolidColorBrush;
-            if (solidColorBrush != null)
+            if (!(AccentColorBrush is SolidColorBrush solidColorBrush))
             {
-                var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
-                accentColor.CreateAccentColorResourceDictionary("TimeSpan");
+                return;
             }
+
+            var accentColor = solidColorBrush.Color;
+            accentColor.CreateAccentColorResourceDictionary("TimeSpan");
         }
 
         public override void OnApplyTemplate()
@@ -184,7 +188,7 @@ namespace Orc.Controls
             SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
         }
 
-        private void OnValueChanged(object oldValue, object newValue)
+        private void OnValueChanged(object newValue)
         {
             Separator1.SetCurrentValue(TextBlock.TextProperty, newValue == null ? string.Empty : ".");
             Separator2.SetCurrentValue(TextBlock.TextProperty, newValue == null ? string.Empty : ":");
