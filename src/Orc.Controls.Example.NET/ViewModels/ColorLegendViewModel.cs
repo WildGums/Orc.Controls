@@ -1,12 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ColorLegendViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
 namespace Orc.Controls.Example.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Threading.Tasks;
@@ -21,13 +22,16 @@ namespace Orc.Controls.Example.ViewModels
         /// </summary>
         public ColorLegendViewModel()
         {
-            CalendarStateLegend = new ObservableCollection<IColorLegendItem>();
+            CalendarStateLegend = new List<IColorLegendItem>();
+            UpdateItems = new Command(UpdateCalenderStateLegend);
         }
 
         /// <summary>
         /// Gets or sets the calendar state legend.
         /// </summary>
-        public ObservableCollection<IColorLegendItem> CalendarStateLegend { get; private set; }
+        public List<IColorLegendItem> CalendarStateLegend { get; set; }
+
+        public Command UpdateItems { get; }
 
         protected override async Task InitializeAsync()
         {
@@ -36,14 +40,18 @@ namespace Orc.Controls.Example.ViewModels
             UpdateCalenderStateLegend();
         }
 
+        private Random _random = new Random(10);
+
         private void UpdateCalenderStateLegend()
         {
-            var colors = new List<Color>();
-            colors.Add(Colors.Blue);
-            colors.Add(Colors.Red);
-            colors.Add(Colors.Green);
-            colors.Add(Colors.Orange);
-            colors.Add(Colors.Gray);
+            var colors = new List<Color>
+            {
+                Colors.Blue,
+                Colors.Red,
+                Colors.Green,
+                Colors.Orange,
+                Colors.Gray
+            };
 
             var items = new List<IColorLegendItem>();
 
@@ -52,14 +60,14 @@ namespace Orc.Controls.Example.ViewModels
                 items.Add(new ColorLegendItem
                 {
                     Color = color,
-                    Description = string.Format("this color is {0}", color),
+                    Description = $"this color is {color}",
                     IsChecked = true,
                     Id = color.ToString(),
                     AdditionalData = "(1)"
                 });
             }
 
-            ((ICollection<IColorLegendItem>) CalendarStateLegend).ReplaceRange(items);
+            CalendarStateLegend = new List<IColorLegendItem>(items);
         }
     }
 }
