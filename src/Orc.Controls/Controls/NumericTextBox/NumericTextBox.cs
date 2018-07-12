@@ -242,53 +242,57 @@ namespace Orc.Controls
             EnforceRules();
         }
 
-        private bool DoesStringValueRequireUpdate(string text)
+        private static bool DoesStringValueRequireUpdate(string text)
         {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return true;
+            }
+
             var update = true;
 
-            if (!string.IsNullOrWhiteSpace(text))
+            // CTL-1000 NumericTextBox behavior doesn't allow some values (e.g. 2.05)
+            var separator = Math.Max(text.IndexOf(CommaCharacter), text.IndexOf(PeriodCharacter));
+            if (separator >= 0)
             {
-                // CTL-1000 NumericTextBox behavior doesn't allow some values (e.g. 2.05)
-                var separator = Math.Max(text.IndexOf(CommaCharacter), text.IndexOf(PeriodCharacter));
-                if (separator >= 0)
-                {
-                    var resetUpdate = true;
+                var resetUpdate = true;
 
-                    for (int i = separator + 1; i < text.Length; i++)
+                for (var i = separator + 1; i < text.Length; i++)
+                {
+                    if (text[i] == '0')
                     {
-                        if (text[i] != '0')
-                        {
-                            resetUpdate = false;
-                            break;
-                        }
+                        continue;
                     }
 
-                    if (resetUpdate)
-                    {
-                        update = false;
-                    }
+                    resetUpdate = false;
+                    break;
                 }
 
-                // CTL-761
-                if (string.Equals(text, "-") || string.Equals(text, "-0"))
+                if (resetUpdate)
                 {
-                    // User is typing -0 (whould would result in 0, which we don't want yet, maybe they are typing -0.5)
                     update = false;
                 }
+            }
 
-                if (text.StartsWith(CommaCharacter) || text.EndsWith(CommaCharacter) ||
-                    text.StartsWith(PeriodCharacter) || text.EndsWith(PeriodCharacter))
-                {
-                    // User is typing a . or , don't update
-                    update = false;
-                }
+            // CTL-761
+            if (string.Equals(text, "-") || string.Equals(text, "-0"))
+            {
+                // User is typing -0 (whould would result in 0, which we don't want yet, maybe they are typing -0.5)
+                update = false;
+            }
 
-                if (text.StartsWith(CommaCharacter) || text.EndsWith(CommaCharacter) ||
-                    text.StartsWith(PeriodCharacter) || text.EndsWith(PeriodCharacter))
-                {
-                    // User is typing a . or , don't update
-                    update = false;
-                }
+            if (text.StartsWith(CommaCharacter) || text.EndsWith(CommaCharacter) ||
+                text.StartsWith(PeriodCharacter) || text.EndsWith(PeriodCharacter))
+            {
+                // User is typing a . or , don't update
+                update = false;
+            }
+
+            if (text.StartsWith(CommaCharacter) || text.EndsWith(CommaCharacter) ||
+                text.StartsWith(PeriodCharacter) || text.EndsWith(PeriodCharacter))
+            {
+                // User is typing a . or , don't update
+                update = false;
             }
 
             return update;
