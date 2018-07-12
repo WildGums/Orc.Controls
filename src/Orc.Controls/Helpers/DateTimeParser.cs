@@ -10,9 +10,7 @@ namespace Orc.Controls
     using Catel;
     using Catel.Logging;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     public static class DateTimeParser
     {
@@ -56,7 +54,7 @@ namespace Orc.Controls
             }
         }
 
-        private static DateTime? Parse(string input, DateTimeFormatInfo formatInfo, bool throwOnError = true)
+        private static DateTime? Parse(string input, DateTimeFormatInfo formatInfo, bool throwOnError)
         {
             Argument.IsNotNull(() => formatInfo);
 
@@ -66,17 +64,15 @@ namespace Orc.Controls
             var hour = 0;
             var minute = 0;
             var second = 0;
-            var amPm = default(string);
-            var separator = default(string);
+            string separator;
 
-            var i = 0;
-            var partValue = default(string);
+            int i;
 
             for (i = 0; i < 7; i++)
             {
                 separator = formatInfo.GetSeparator(i);
 
-                if (separator != null && separator.Length > 0 && input.Length > 0)
+                if (!string.IsNullOrEmpty(separator) && input.Length > 0)
                 {
                     if (!input.StartsWith(separator))
                     {
@@ -95,58 +91,59 @@ namespace Orc.Controls
 
                     input = input.Trim();
 
-                    if (input.Length == 2)
-                    { 
-                        formatInfo.AmPmFormat = "tt";
-                    }
-                    else if (input.Length == 1)
+                    switch (input.Length)
                     {
-                        formatInfo.AmPmFormat = "t";
+                        case 2:
+                            formatInfo.AmPmFormat = "tt";
+                            break;
+                        case 1:
+                            formatInfo.AmPmFormat = "t";
+                            break;
                     }
                 }
 
+                string partValue;
                 if (i == formatInfo.YearPosition)
                 {
-                    partValue = new string(input.TakeWhile(x => char.IsDigit(x)).ToArray());
+                    partValue = new string(input.TakeWhile(char.IsDigit).ToArray());
 
-                    if (formatInfo.YearFormat.Length == 1 && (partValue.Length < 1 || partValue.Length > 2)) // 'y'
+                    switch (formatInfo.YearFormat.Length)
                     {
-                        return ThrowOnError<FormatException>("Invalid year value. Year must contain 1 or 2 digits", null, throwOnError);
-                    }
-                    else if (formatInfo.YearFormat.Length == 2 && partValue.Length != 2) // 'yy'
-                    {
-                        return ThrowOnError<FormatException>("Invalid year value. Year must contain 2 digits", null, throwOnError);
-                    }
-                    else if (formatInfo.YearFormat.Length == 3 && (partValue.Length < 3 || partValue.Length > 5)) // 'yyy'
-                    {
-                        return ThrowOnError<FormatException>("Invalid year value. Year must contain 3 or 4 or 5 digits", null, throwOnError);
-                    }
-                    else if (formatInfo.YearFormat.Length == 4 && (partValue.Length < 4 || partValue.Length > 5)) // 'yyyy'
-                    {
-                        return ThrowOnError<FormatException>("Invalid year value. Year must contain 4 or 5 digits", null, throwOnError);
-                    }
-                    else if (formatInfo.YearFormat.Length == 5 && partValue.Length != 5) // 'yyyyy'
-                    {
-                        return ThrowOnError<FormatException>("Invalid year value. Year must contain 5 digits", null, throwOnError);
+                        // 'y'
+                        case 1 when (partValue.Length < 1 || partValue.Length > 2):
+                            return ThrowOnError<FormatException>("Invalid year value. Year must contain 1 or 2 digits", null, throwOnError);
+                        // 'yy'
+                        case 2 when partValue.Length != 2:
+                            return ThrowOnError<FormatException>("Invalid year value. Year must contain 2 digits", null, throwOnError);
+                        // 'yyy'
+                        case 3 when (partValue.Length < 3 || partValue.Length > 5):
+                            return ThrowOnError<FormatException>("Invalid year value. Year must contain 3 or 4 or 5 digits", null, throwOnError);
+                        // 'yyyy'
+                        case 4 when (partValue.Length < 4 || partValue.Length > 5):
+                            return ThrowOnError<FormatException>("Invalid year value. Year must contain 4 or 5 digits", null, throwOnError);
+                        // 'yyyyy'
+                        case 5 when partValue.Length != 5:
+                            return ThrowOnError<FormatException>("Invalid year value. Year must contain 5 digits", null, throwOnError);
                     }
 
                     year = int.Parse(partValue); // There is no reason to fail.
 
-                    year += formatInfo.IsYearShortFormat == true ? 2000 : 0;
+                    year += formatInfo.IsYearShortFormat ? 2000 : 0;
 
                     input = input.Substring(partValue.Length);
                 }
                 else if (i == formatInfo.MonthPosition)
                 {
-                    partValue = new string(input.TakeWhile(x => char.IsDigit(x)).ToArray());
+                    partValue = new string(input.TakeWhile(char.IsDigit).ToArray());
 
-                    if (formatInfo.MonthFormat.Length == 1 && (partValue.Length < 1 || partValue.Length > 2)) // 'M'
+                    switch (formatInfo.MonthFormat.Length)
                     {
-                        return ThrowOnError<FormatException>("Invalid month value. Month must contain 1 or 2 digits", null, throwOnError);
-                    }
-                    else if (formatInfo.MonthFormat.Length == 2 && partValue.Length != 2) // 'MM'
-                    {
-                        return ThrowOnError<FormatException>("Invalid month value. Month must contain 2 digits", null, throwOnError);
+                        // 'M'
+                        case 1 when (partValue.Length < 1 || partValue.Length > 2):
+                            return ThrowOnError<FormatException>("Invalid month value. Month must contain 1 or 2 digits", null, throwOnError);
+                        // 'MM'
+                        case 2 when partValue.Length != 2:
+                            return ThrowOnError<FormatException>("Invalid month value. Month must contain 2 digits", null, throwOnError);
                     }
 
                     month = int.Parse(partValue); // There is no reason to fail.
@@ -155,15 +152,16 @@ namespace Orc.Controls
                 }
                 else if (i == formatInfo.DayPosition)
                 {
-                    partValue = new string(input.TakeWhile(x => char.IsDigit(x)).ToArray());
+                    partValue = new string(input.TakeWhile(char.IsDigit).ToArray());
 
-                    if (formatInfo.DayFormat.Length == 1 && (partValue.Length < 1 || partValue.Length > 2)) // 'd'
+                    switch (formatInfo.DayFormat.Length)
                     {
-                        return ThrowOnError<FormatException>("Invalid day value. Day must contain 1 or 2 digits", null, throwOnError);
-                    }
-                    else if (formatInfo.DayFormat.Length == 2 && partValue.Length != 2) // 'dd'
-                    {
-                        return ThrowOnError<FormatException>("Invalid day value. Day must contain 2 digits", null, throwOnError);
+                        // 'd'
+                        case 1 when (partValue.Length < 1 || partValue.Length > 2):
+                            return ThrowOnError<FormatException>("Invalid day value. Day must contain 1 or 2 digits", null, throwOnError);
+                        // 'dd'
+                        case 2 when partValue.Length != 2:
+                            return ThrowOnError<FormatException>("Invalid day value. Day must contain 2 digits", null, throwOnError);
                     }
 
                     day = int.Parse(partValue); // There is no reason to fail.
@@ -172,15 +170,16 @@ namespace Orc.Controls
                 }
                 else if (i == formatInfo.HourPosition)
                 {
-                    partValue = new string(input.TakeWhile(x => char.IsDigit(x)).ToArray());
+                    partValue = new string(input.TakeWhile(char.IsDigit).ToArray());
 
-                    if (formatInfo.HourFormat.Length == 1 && (partValue.Length < 1 || partValue.Length > 2)) // 'h' or 'H'
+                    switch (formatInfo.HourFormat.Length)
                     {
-                        return ThrowOnError<FormatException>("Invalid hour value. Hour must contain 1 or 2 digits", null, throwOnError);
-                    }
-                    else if (formatInfo.HourFormat.Length == 2 && partValue.Length != 2) // 'hh' or 'HH'
-                    {
-                        return ThrowOnError<FormatException>("Invalid hour value. Hour must contain 2 digits", null, throwOnError);
+                        // 'h' or 'H'
+                        case 1 when (partValue.Length < 1 || partValue.Length > 2):
+                            return ThrowOnError<FormatException>("Invalid hour value. Hour must contain 1 or 2 digits", null, throwOnError);
+                        // 'hh' or 'HH'
+                        case 2 when partValue.Length != 2:
+                            return ThrowOnError<FormatException>("Invalid hour value. Hour must contain 2 digits", null, throwOnError);
                     }
 
                     hour = int.Parse(partValue); // There is no reason to fail.
@@ -194,15 +193,16 @@ namespace Orc.Controls
                 }
                 else if (i == formatInfo.MinutePosition)
                 {
-                    partValue = new string(input.TakeWhile(x => char.IsDigit(x)).ToArray());
+                    partValue = new string(input.TakeWhile(char.IsDigit).ToArray());
 
-                    if (formatInfo.MinuteFormat.Length == 1 && (partValue.Length < 1 || partValue.Length > 2)) // 'm'
+                    switch (formatInfo.MinuteFormat.Length)
                     {
-                        return ThrowOnError<FormatException>("Invalid minute value. Minute must contain 1 or 2 digits", null, throwOnError);
-                    }
-                    else if (formatInfo.MinuteFormat.Length == 2 && partValue.Length != 2) // 'mm'
-                    {
-                        return ThrowOnError<FormatException>("Invalid minute value. Minute must contain 2 digits", null, throwOnError);
+                        // 'm'
+                        case 1 when (partValue.Length < 1 || partValue.Length > 2):
+                            return ThrowOnError<FormatException>("Invalid minute value. Minute must contain 1 or 2 digits", null, throwOnError);
+                        // 'mm'
+                        case 2 when partValue.Length != 2:
+                            return ThrowOnError<FormatException>("Invalid minute value. Minute must contain 2 digits", null, throwOnError);
                     }
 
                     minute = int.Parse(partValue); // There is no reason to fail.
@@ -211,15 +211,15 @@ namespace Orc.Controls
                 }
                 else if (i == formatInfo.SecondPosition)
                 {
-                    partValue = new string(input.TakeWhile(x => char.IsDigit(x)).ToArray());
+                    partValue = new string(input.TakeWhile(char.IsDigit).ToArray());
 
-                    if (formatInfo.SecondFormat.Length == 1 && (partValue.Length < 1 || partValue.Length > 2))
+                    switch (formatInfo.SecondFormat.Length)
                     {
-                        return ThrowOnError<FormatException>("Invalid second value. Second must contain 1 or 2 digits", null, throwOnError); // 's'
-                    }
-                    else if (formatInfo.SecondFormat.Length == 2 && partValue.Length != 2) // 'ss'
-                    {
-                        return ThrowOnError<FormatException>("Invalid second value. Second must contain 2 digits", null, throwOnError);
+                        case 1 when (partValue.Length < 1 || partValue.Length > 2):
+                            return ThrowOnError<FormatException>("Invalid second value. Second must contain 1 or 2 digits", null, throwOnError); // 's'
+                        // 'ss'
+                        case 2 when partValue.Length != 2:
+                            return ThrowOnError<FormatException>("Invalid second value. Second must contain 2 digits", null, throwOnError);
                     }
 
                     second = int.Parse(partValue); // There is no reason to fail.
@@ -236,16 +236,16 @@ namespace Orc.Controls
                         continue;
                     }
 
-                    if (formatInfo.IsAmPmShortFormat == true && !(Meridiems.IsShortAm(partValue) || Meridiems.IsShortPm(partValue)))
+                    switch (formatInfo.IsAmPmShortFormat)
                     {
-                        return ThrowOnError<FormatException>("Invalid AM/PM designator value", null, throwOnError);
-                    }
-                    else if (formatInfo.IsAmPmShortFormat == false && !(Meridiems.IsLongAm(partValue) || Meridiems.IsLongPm(partValue)))
-                    {
-                        return ThrowOnError<FormatException>("Invalid AM/PM designator value", null, throwOnError);
+                        case true when !(Meridiems.IsShortAm(partValue) || Meridiems.IsShortPm(partValue)):
+                            return ThrowOnError<FormatException>("Invalid AM/PM designator value", null, throwOnError);
+
+                        case false when !(Meridiems.IsLongAm(partValue) || Meridiems.IsLongPm(partValue)):
+                            return ThrowOnError<FormatException>("Invalid AM/PM designator value", null, throwOnError);
                     }
 
-                    amPm = partValue;
+                    var amPm = partValue;
 
                     // We need to make sure hour is less than 12, because we could accept values like: 05/02/2017 16:41:24 PM
                     hour += (Meridiems.IsPm(amPm) && hour < 12) ? 12 : 0;
@@ -255,7 +255,7 @@ namespace Orc.Controls
             }
 
             separator = formatInfo.GetSeparator(i);
-            if (separator != null && separator.Length > 0)
+            if (!string.IsNullOrEmpty(separator))
             {
                 if (!input.StartsWith(separator))
                 {
@@ -273,7 +273,7 @@ namespace Orc.Controls
             }
         }
 
-        private static DateTime? ThrowOnError<TException>(string exceptionMessage, Exception innerException = null, bool throwOnError = true)
+        private static DateTime? ThrowOnError<TException>(string exceptionMessage, Exception innerException, bool throwOnError)
             where TException : Exception
         {
             if (throwOnError)
