@@ -20,7 +20,7 @@ namespace Orc.Controls
     {
         #region Fields
         private readonly bool _textChangingIsInProgress = false;
-        private int _currentIndex = 0;
+        private int _currentIndex;
         #endregion
 
         #region Constructor
@@ -53,20 +53,11 @@ namespace Orc.Controls
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(string),
             typeof(ListTextBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((ListTextBox)sender).OnValueChanged()));
 
-        private bool AllTextSelected
-        {
-            get { return SelectedText == Text; }
-        }
+        private bool AllTextSelected => SelectedText == Text;
 
-        private bool CaretAtStart
-        {
-            get { return CaretIndex == 0; }
-        }
+        private bool CaretAtStart => CaretIndex == 0;
 
-        private bool CaretAtEnd
-        {
-            get { return CaretIndex == Text.Length; }
-        }
+        private bool CaretAtEnd => CaretIndex == Text.Length;
         #endregion
 
         #region Events
@@ -122,29 +113,37 @@ namespace Orc.Controls
             var listOfValues = ListOfValues;
             var isReadOnly = IsReadOnly;
 
-            if (listOfValues != null && listOfValues.Count > 0 && !isReadOnly)
+            if (listOfValues == null || listOfValues.Count <= 0 || isReadOnly)
             {
-                var text = GetText(e.Text);
-                if (text.Length > 0)
-                {
-                    var value = listOfValues.FirstOrDefault(x => x.StartsWith(text, StringComparison.CurrentCultureIgnoreCase));
-                    if (value != null)
-                    {
-                        var index = listOfValues.IndexOf(value);
-                        if (index >= 0)
-                        {
-                            _currentIndex = index >= 0 ? index : 0;
-
-                            SetCurrentValue(ValueProperty, value);
-
-                            UpdateText();
-                            SelectAll();
-
-                            e.Handled = true;
-                        }
-                    }
-                }
+                return;
             }
+
+            var text = GetText(e.Text);
+            if (text.Length <= 0)
+            {
+                return;
+            }
+
+            var value = listOfValues.FirstOrDefault(x => x.StartsWith(text, StringComparison.CurrentCultureIgnoreCase));
+            if (value == null)
+            {
+                return;
+            }
+
+            var index = listOfValues.IndexOf(value);
+            if (index < 0)
+            {
+                return;
+            }
+
+            _currentIndex = index >= 0 ? index : 0;
+
+            SetCurrentValue(ValueProperty, value);
+
+            UpdateText();
+            SelectAll();
+
+            e.Handled = true;
         }
 
         private void OnUpDown(int increment)
