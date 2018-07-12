@@ -31,7 +31,6 @@ namespace Orc.Controls
         private readonly Thumb _bottomRight;
         private readonly Thumb _bottom;
         private readonly Thumb _bottomLeft;
-
         private readonly VisualCollection _visualChildren;
 
         private bool _hasCanvas;
@@ -53,10 +52,7 @@ namespace Orc.Controls
             BuildAdornerElement(ref _bottomLeft, Cursors.SizeNESW);
         }
 
-        protected override int VisualChildrenCount
-        {
-            get { return _visualChildren.Count; }
-        }
+        protected override int VisualChildrenCount => _visualChildren.Count;
 
         public static ResizingAdorner Attach(FrameworkElement element)
         {
@@ -64,8 +60,7 @@ namespace Orc.Controls
 
             var adorner = new ResizingAdorner(element);
 
-            var fxElement = adorner.AdornedElement as FrameworkElement;
-            if (fxElement != null)
+            if (adorner.AdornedElement is FrameworkElement fxElement)
             {
                 fxElement.Loaded += adorner.OnAdornedElementLoaded;
             }
@@ -101,8 +96,7 @@ namespace Orc.Controls
 
             adorner._visualChildren.Clear();
 
-            var fxElement = adorner.AdornedElement as FrameworkElement;
-            if (fxElement != null)
+            if (adorner.AdornedElement is FrameworkElement fxElement)
             {
                 fxElement.Loaded -= adorner.OnAdornedElementLoaded;
             }
@@ -159,102 +153,26 @@ namespace Orc.Controls
 
         private void HandleBottomLeft(object sender, DragDeltaEventArgs args)
         {
-            HandleResize(left: args.HorizontalChange, bottom: args.VerticalChange);
+            HandleResize(args.HorizontalChange, bottom: args.VerticalChange);
         }
 
         private void HandleResize(double? left = null, double? top = null, double? right = null, double? bottom = null)
         {
-            var adornedElement = AdornedElement as FrameworkElement;
-            if (adornedElement == null)
+            if (!(AdornedElement is FrameworkElement adornedElement))
             {
                 return;
             }
-
-            var updateWidthViaCanvas = false;
-            var updateHeightViaCanvas = false;
-
+            
             EnforceSize(adornedElement);
 
-            if (left.HasValue)
-            {
-                if (_hasCanvas)
-                {
-                    updateWidthViaCanvas = true;
-
-                    var oldLeft = Canvas.GetLeft(adornedElement);
-                    var newValue = oldLeft + left.Value;
-                    Canvas.SetLeft(adornedElement, newValue);
-                }
-                else if (_hasHorizontalOffset)
-                {
-                    var oldLeft = PropertyHelper.GetPropertyValue<double>(adornedElement, HorizontalOffsetProperty, false);
-                    var newValue = oldLeft + left.Value;
-                    PropertyHelper.SetPropertyValue(adornedElement, HorizontalOffsetProperty, newValue, false);
-
-                    UpdateWidth(adornedElement.Width + left.Value * -1);
-                }
-            }
-
-            if (top.HasValue)
-            {
-                if (_hasCanvas)
-                {
-                    updateHeightViaCanvas = true;
-
-                    var oldTop = Canvas.GetTop(adornedElement);
-                    var newValue = oldTop + top.Value;
-                    Canvas.SetTop(adornedElement, newValue);
-                }
-                else if (_hasVerticalOffset)
-                {
-                    var oldTop = PropertyHelper.GetPropertyValue<double>(adornedElement, VerticalOffsetProperty, false);
-                    var newValue = oldTop + top.Value;
-                    PropertyHelper.SetPropertyValue(adornedElement, VerticalOffsetProperty, newValue, false);
-
-                    UpdateHeight(adornedElement.Height + top.Value * -1);
-                }
-            }
-
-            if (right.HasValue)
-            {
-                if (_hasCanvas)
-                {
-                    updateWidthViaCanvas = true;
-
-                    var oldRight = Canvas.GetRight(adornedElement);
-                    var newValue = oldRight + right.Value;
-                    Canvas.SetRight(adornedElement, newValue);
-                }
-                else
-                {
-                    UpdateWidth(adornedElement.Width + right.Value);
-                }
-            }
-
-            if (bottom.HasValue)
-            {
-                if (_hasCanvas)
-                {
-                    updateHeightViaCanvas = true;
-
-                    var oldBottom = Canvas.GetBottom(adornedElement);
-                    var newValue = oldBottom + bottom.Value;
-                    Canvas.SetBottom(adornedElement, newValue);
-                }
-                else
-                {
-                    UpdateHeight(adornedElement.Height + bottom.Value);
-                }
-            }
-
-            if (updateWidthViaCanvas)
+            if (UpdateWidthByLeftCornerViaCanvas(left, adornedElement) || UpdateWidthByRightCornerViaCanvas(right, adornedElement))
             {
                 var difference = Math.Abs(Canvas.GetRight(adornedElement) - Canvas.GetLeft(adornedElement));
 
                 UpdateWidth(difference);
             }
 
-            if (updateHeightViaCanvas)
+            if (UpdateHeightByTopCornerViaCanvas(top, adornedElement) || UpdateHeightByBottomCornerViaCanvas(bottom, adornedElement))
             {
                 var difference = Math.Abs(Canvas.GetBottom(adornedElement) - Canvas.GetTop(adornedElement));
 
@@ -262,13 +180,109 @@ namespace Orc.Controls
             }
         }
 
+        private bool UpdateHeightByBottomCornerViaCanvas(double? bottom, FrameworkElement frameworkElement)
+        {
+            if (!bottom.HasValue)
+            {
+                return false;
+            }
+
+            if (_hasCanvas)
+            {
+                var oldBottom = Canvas.GetBottom(frameworkElement);
+                var newValue = oldBottom + bottom.Value;
+                Canvas.SetBottom(frameworkElement, newValue);
+
+                return true;
+            }
+
+            UpdateHeight(frameworkElement.Height + bottom.Value);
+
+            return false;
+        }
+
+        private bool UpdateHeightByTopCornerViaCanvas(double? top, FrameworkElement frameworkElement)
+        {
+            if (!top.HasValue)
+            {
+                return false;
+            }
+
+            if (_hasCanvas)
+            {
+                Canvas.SetTop(frameworkElement, Canvas.GetTop(frameworkElement) + top.Value);
+
+                return true;
+            }
+
+            if (!_hasVerticalOffset)
+            {
+                return false;
+            }
+
+            var oldTop = PropertyHelper.GetPropertyValue<double>(frameworkElement, VerticalOffsetProperty);
+            var newValue = oldTop + top.Value;
+            PropertyHelper.SetPropertyValue(frameworkElement, VerticalOffsetProperty, newValue);
+
+            UpdateHeight(frameworkElement.Height - top.Value);
+
+            return false;
+        }
+
+        private bool UpdateWidthByLeftCornerViaCanvas(double? left, FrameworkElement frameworkElement)
+        {
+            if (!left.HasValue)
+            {
+                return false;
+            }
+
+            if (_hasCanvas)
+            {
+                Canvas.SetLeft(frameworkElement, Canvas.GetLeft(frameworkElement) + left.Value);
+
+                return true;
+            }
+
+            if (!_hasHorizontalOffset)
+            {
+                return false;
+            }
+
+            var oldLeft = PropertyHelper.GetPropertyValue<double>(frameworkElement, HorizontalOffsetProperty);
+            var newValue = oldLeft + left.Value;
+            PropertyHelper.SetPropertyValue(frameworkElement, HorizontalOffsetProperty, newValue);
+
+            UpdateWidth(frameworkElement.Width - left.Value);
+
+            return false;
+        }
+
+        private bool UpdateWidthByRightCornerViaCanvas(double? right, FrameworkElement frameworkElement)
+        {
+            if (!right.HasValue)
+            {
+                return false;
+            }
+
+            if (_hasCanvas)
+            {
+                Canvas.SetRight(frameworkElement, Canvas.GetRight(frameworkElement) + right.Value);
+
+                return true;
+            }
+
+            UpdateWidth(frameworkElement.Width + right.Value);
+
+            return false;
+        }
+
         protected override Size ArrangeOverride(Size finalSize)
         {
             var desiredWidth = AdornedElement.DesiredSize.Width;
             var desiredHeight = AdornedElement.DesiredSize.Height;
 
-            var fullSize = CornerSize;
-            var halfSize = CornerSize / 2;
+            const double fullSize = CornerSize;
+            const double halfSize = CornerSize / 2;
 
             UpdateSizeAndPosition(_left, -halfSize, halfSize, fullSize, desiredHeight - fullSize);
             UpdateSizeAndPosition(_topLeft, -halfSize, -halfSize, fullSize, fullSize);
@@ -297,7 +311,7 @@ namespace Orc.Controls
                 _hasCanvas = true;
                 enableLeft = true;
             }
-            else if (PropertyHelper.IsPropertyAvailable(adornedElement, HorizontalOffsetProperty, false))
+            else if (PropertyHelper.IsPropertyAvailable(adornedElement, HorizontalOffsetProperty))
             {
                 _hasHorizontalOffset = true;
                 enableLeft = true;
@@ -314,7 +328,7 @@ namespace Orc.Controls
                 _hasCanvas = true;
                 enableTop = true;
             }
-            else if (PropertyHelper.IsPropertyAvailable(adornedElement, VerticalOffsetProperty, false))
+            else if (PropertyHelper.IsPropertyAvailable(adornedElement, VerticalOffsetProperty))
             {
                 _hasVerticalOffset = true;
                 enableTop = true;
@@ -326,8 +340,7 @@ namespace Orc.Controls
 
         private void UpdateWidth(double width)
         {
-            var adornedElement = AdornedElement as FrameworkElement;
-            if (adornedElement == null)
+            if (!(AdornedElement is FrameworkElement adornedElement))
             {
                 return;
             }
@@ -342,8 +355,7 @@ namespace Orc.Controls
 
         private void UpdateHeight(double height)
         {
-            var adornedElement = AdornedElement as FrameworkElement;
-            if (adornedElement == null)
+            if (!(AdornedElement is FrameworkElement adornedElement))
             {
                 return;
             }
