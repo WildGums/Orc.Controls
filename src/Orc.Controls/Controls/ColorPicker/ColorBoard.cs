@@ -151,24 +151,14 @@ namespace Orc.Controls
         private ListBox _recentColorsGrid;
 
         /// <summary>
-        /// The rectangle color.
-        /// </summary>
-        private Rectangle _rectangleColor;
-
-        /// <summary>
         /// The rectangle hsv.
         /// </summary>
         private Rectangle _rectangleHsv;
 
         /// <summary>
-        /// The rectangle root hsv.
-        /// </summary>
-        private Rectangle _rectangleRootHsv;
-
-        /// <summary>
         /// The root element.
         /// </summary>
-        private FrameworkElement rootElement;
+        private FrameworkElement _rootElement;
 
         /// <summary>
         /// The slider a.
@@ -277,10 +267,10 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
-            rootElement = (FrameworkElement)GetTemplateChild("RootElement");
+            _rootElement = (FrameworkElement)GetTemplateChild("RootElement");
 
             _canvasHsv = (Canvas)GetTemplateChild("CanvasHSV");
-            _rectangleRootHsv = (Rectangle)GetTemplateChild("RectangleRootHSV");
+            (Rectangle)GetTemplateChild("RectangleRootHSV");
             _gradientStopHsvColor = (GradientStop)GetTemplateChild("GradientStopHSVColor");
             _rectangleHsv = (Rectangle)GetTemplateChild("RectangleHSV");
             _ellipseHsv = (Ellipse)GetTemplateChild("EllipseHSV");
@@ -305,7 +295,6 @@ namespace Orc.Controls
             _textBoxB = (TextBox)GetTemplateChild("TextBoxB");
 
             _comboBoxColor = (ComboBox)GetTemplateChild("ComboBoxColor");
-            _rectangleColor = (Rectangle)GetTemplateChild("RectangleColor");
             _brushColor = (SolidColorBrush)GetTemplateChild("BrushColor");
             _textBoxColor = (TextBox)GetTemplateChild("TextBoxColor");
             _buttonDone = (Button)GetTemplateChild("ButtonDone");
@@ -313,8 +302,15 @@ namespace Orc.Controls
             _themeColorsGrid = (ListBox)GetTemplateChild("ThemeColorsGrid");
             _recentColorsGrid = (ListBox)GetTemplateChild("RecentColorsGrid");
 
-            _themeColorsGrid.SelectionChanged += themeColorsGrid_SelectionChanged;
-            _recentColorsGrid.SelectionChanged += recentColorsGrid_SelectionChanged;
+            if (_themeColorsGrid != null)
+            {
+                _themeColorsGrid.SelectionChanged += themeColorsGrid_SelectionChanged;
+            }
+
+            if (_recentColorsGrid != null)
+            {
+                _recentColorsGrid.SelectionChanged += recentColorsGrid_SelectionChanged;
+            }
 
             _rectangleHsv.MouseLeftButtonDown += HSV_MouseLeftButtonDown;
             _rectangleHsv.MouseMove += HSV_MouseMove;
@@ -351,10 +347,7 @@ namespace Orc.Controls
         /// </summary>
         public void OnCancelClicked()
         {
-            if (CancelClicked != null)
-            {
-                CancelClicked(this, new RoutedEventArgs());
-            }
+            CancelClicked?.Invoke(this, new RoutedEventArgs());
         }
 
         /// <summary>
@@ -380,11 +373,7 @@ namespace Orc.Controls
             recentColorItems.Insert(0, mostRecentColorItem);
             recentColorsGridItems.Insert(0, mostRecentColorItem);
 
-            var doneClicked = DoneClicked;
-            if (doneClicked != null)
-            {
-                doneClicked(this, new RoutedEventArgs());
-            }
+            DoneClicked?.Invoke(this, new RoutedEventArgs());
         }
         #endregion
 
@@ -397,7 +386,7 @@ namespace Orc.Controls
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as ColorBoard;
-            if (control != null && control.rootElement != null)
+            if (control != null && control._rootElement != null)
             {
                 if (control.Updating)
                 {
@@ -541,56 +530,47 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private void HSV_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_trackingHsv)
+            if (!_trackingHsv)
             {
-                var point = e.GetPosition(_rectangleHsv);
-                var size = _ellipseHsv.RenderSize;
-
-                double ellipseX = 0;
-                if (point.X < 0)
-                {
-                    ellipseX = 0 - _ellipseHsv.ActualWidth / 2;
-                }
-                else
-                {
-                    if (point.X > _canvasHsv.ActualWidth)
-                    {
-                        ellipseX = _canvasHsv.ActualWidth - _ellipseHsv.ActualWidth / 2;
-                    }
-                    else
-                    {
-                        ellipseX = point.X - _ellipseHsv.ActualWidth / 2;
-                    }
-                }
-
-                double ellipseY = 0;
-                if (point.Y < 0)
-                {
-                    ellipseY = 0 - _ellipseHsv.ActualHeight / 2;
-                }
-                else
-                {
-                    if (point.Y > _canvasHsv.ActualHeight)
-                    {
-                        ellipseY = _canvasHsv.ActualHeight - _ellipseHsv.ActualHeight / 2;
-                    }
-                    else
-                    {
-                        ellipseY = point.Y - _ellipseHsv.ActualHeight / 2;
-                    }
-                }
-
-                _ellipseHsv.SetCurrentValue(Canvas.LeftProperty, ellipseX);
-                _ellipseHsv.SetCurrentValue(Canvas.TopProperty, ellipseY);
-
-                if (Updating)
-                {
-                    return;
-                }
-
-                var color = GetHSVColor();
-                UpdateControls(color, false, true, true);
+                return;
             }
+
+            var point = e.GetPosition(_rectangleHsv);
+
+            double ellipseX;
+            if (point.X < 0)
+            {
+                ellipseX = 0 - _ellipseHsv.ActualWidth / 2;
+            }
+            else
+            {
+                ellipseX = point.X > _canvasHsv.ActualWidth 
+                    ? _canvasHsv.ActualWidth - _ellipseHsv.ActualWidth / 2 
+                    : point.X - _ellipseHsv.ActualWidth / 2;
+            }
+
+            double ellipseY;
+            if (point.Y < 0)
+            {
+                ellipseY = 0 - _ellipseHsv.ActualHeight / 2;
+            }
+            else
+            {
+                ellipseY = point.Y > _canvasHsv.ActualHeight 
+                    ? _canvasHsv.ActualHeight - _ellipseHsv.ActualHeight / 2 
+                    : point.Y - _ellipseHsv.ActualHeight / 2;
+            }
+
+            _ellipseHsv.SetCurrentValue(Canvas.LeftProperty, ellipseX);
+            _ellipseHsv.SetCurrentValue(Canvas.TopProperty, ellipseY);
+
+            if (Updating)
+            {
+                return;
+            }
+
+            var color = GetHSVColor();
+            UpdateControls(color, false, true, true);
         }
 
         /// <summary>
@@ -682,7 +662,7 @@ namespace Orc.Controls
                     var s = ColorHelper.GetHSV_S(color);
                     var v = ColorHelper.GetHSV_V(color);
 
-                    _sliderHsv.SetCurrentValue(Slider.ValueProperty, h);
+                    _sliderHsv.SetCurrentValue(RangeBase.ValueProperty, h);
                     _gradientStopHsvColor.SetCurrentValue(GradientStop.ColorProperty, ColorHelper.HSV2RGB(h, 1d, 1d));
 
                     var x = s * (_rectangleHsv.ActualWidth - 1);
@@ -890,8 +870,7 @@ namespace Orc.Controls
                 return;
             }
 
-            var value = 0;
-            if (int.TryParse(_textBoxA.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
+            if (int.TryParse(_textBoxA.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
             {
                 _sliderA.SetCurrentValue(RangeBase.ValueProperty, (double)value);
             }
@@ -909,8 +888,7 @@ namespace Orc.Controls
                 return;
             }
 
-            var value = 0;
-            if (int.TryParse(_textBoxB.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
+            if (int.TryParse(_textBoxB.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
             {
                 _sliderB.SetCurrentValue(RangeBase.ValueProperty, (double)value);
             }
@@ -954,8 +932,7 @@ namespace Orc.Controls
             }
 
             var text = _textBoxColor.Text.TrimStart('#');
-            uint value = 0;
-            if (uint.TryParse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
+            if (uint.TryParse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
             {
                 var b = (byte)(value & 0xFF);
                 value >>= 8;
@@ -991,8 +968,7 @@ namespace Orc.Controls
                 return;
             }
 
-            var value = 0;
-            if (int.TryParse(_textBoxG.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
+            if (int.TryParse(_textBoxG.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
             {
                 _sliderG.SetCurrentValue(RangeBase.ValueProperty, (double)value);
             }
@@ -1010,8 +986,7 @@ namespace Orc.Controls
                 return;
             }
 
-            var value = 0;
-            if (int.TryParse(_textBoxR.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
+            if (int.TryParse(_textBoxR.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
             {
                 _sliderR.SetCurrentValue(RangeBase.ValueProperty, (double)value);
             }
@@ -1024,11 +999,13 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private void themeColorsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_themeColorsGrid.SelectedItems.Count == 1)
+            if (_themeColorsGrid.SelectedItems.Count != 1)
             {
-                var c = ((PredefinedColorItem)_themeColorsGrid.SelectedItem).Color;
-                UpdateControls(c, true, true, true);
+                return;
             }
+
+            var c = ((PredefinedColorItem)_themeColorsGrid.SelectedItem).Color;
+            UpdateControls(c, true, true, true);
         }
         #endregion
     }
