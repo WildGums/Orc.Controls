@@ -47,11 +47,9 @@ namespace Orc.Controls
             {
                 return false;
             }
-            else
-            {
-                dateTime = (DateTime)result;
-                return true;
-            }
+
+            dateTime = (DateTime)result;
+            return true;
         }
 
         private static DateTime? Parse(string input, DateTimeFormatInfo formatInfo, bool throwOnError)
@@ -248,7 +246,7 @@ namespace Orc.Controls
                     var amPm = partValue;
 
                     // We need to make sure hour is less than 12, because we could accept values like: 05/02/2017 16:41:24 PM
-                    hour += (Meridiems.IsPm(amPm) && hour < 12) ? 12 : 0;
+                    hour += Meridiems.IsPm(amPm) && hour < 12 ? 12 : 0;
 
                     input = input.Substring(partValue.Length);
                 }

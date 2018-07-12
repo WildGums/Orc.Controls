@@ -36,8 +36,11 @@
 
         public RangeSlider()
         {
-            _dispatcherTimer = new DispatcherTimer(DispatcherPriority.Input);
-            _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(50);
+            _dispatcherTimer = new DispatcherTimer(DispatcherPriority.Input)
+            {
+                Interval = TimeSpan.FromMilliseconds(50)
+            };
+
             _dispatcherTimer.Tick += OnDispatcherTimerTick;
         }
 
@@ -106,16 +109,18 @@
                 }
             }
 
-            if (propertyName == nameof(Maximum))
+            if (propertyName != nameof(Maximum))
             {
-                if (Maximum < UpperValue)
-                {
-                    UpperValue = Maximum;
-                }
-                else
-                {
-                    StartUpdate();
-                }
+                return;
+            }
+
+            if (Maximum < UpperValue)
+            {
+                UpperValue = Maximum;
+            }
+            else
+            {
+                StartUpdate();
             }
         }
 
@@ -138,7 +143,7 @@
             _trackBackgroundBorder = GetTemplateChild("PART_TrackBackground") as Border;
             _selectedRangeRectangle = GetTemplateChild("PART_SelectedRange") as Rectangle;
 
-            Dispatcher.BeginInvoke(() => UpdateState(), false);
+            Dispatcher.BeginInvoke(UpdateState, false);
         }
 
         private void OnLowerSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -213,53 +218,48 @@
             var trackBackgroundBorder = _trackBackgroundBorder;
             var selectedRangeRectangle = _selectedRangeRectangle;
 
-            if (lowerThumb != null && upperThumb != null && trackBackgroundBorder != null && selectedRangeRectangle != null)
+            if (lowerThumb == null || upperThumb == null || trackBackgroundBorder == null || selectedRangeRectangle == null)
             {
-                // When unloaded, item becomes IsVisible = false; If this is the case, we can't call PointToScreen,
-                // it will throw an exception
-                if (lowerThumb.IsVisible && upperThumb.IsVisible)
-                {
-                    var lowerThumbCenterX = lowerThumb.Width / 2;
-                    var lowerThumbCenterY = lowerThumb.Height / 2;
-                    var lowerThumbPosition = lowerThumb.PointToScreen(LeftTop);
+                return;
+            }
 
-                    var upperThumbCenterX = upperThumb.Width / 2;
-                    var upperThumbCenterY = upperThumb.Height / 2;
-                    var upperThumbPosition = upperThumb.PointToScreen(LeftTop);
+            // When unloaded, item becomes IsVisible = false; If this is the case, we can't call PointToScreen,
+            // it will throw an exception
+            if (!lowerThumb.IsVisible || !upperThumb.IsVisible)
+            {
+                return;
+            }
 
-                    var containerWidth = trackBackgroundBorder.ActualWidth;
-                    var containerHeight = trackBackgroundBorder.ActualHeight;
-                    var width = ActualWidth;
-                    var height = ActualHeight;
-                    var widthRatio = (containerWidth * 100) / width;
-                    var heighRatio = (containerHeight * 100) / height;
+            var lowerThumbCenterX = lowerThumb.Width / 2;
+            var lowerThumbPosition = lowerThumb.PointToScreen(LeftTop);
 
-                    var leftTop = PointToScreen(LeftTop);
+            var upperThumbCenterX = upperThumb.Width / 2;
+            var upperThumbPosition = upperThumb.PointToScreen(LeftTop);
 
-                    if (lowerThumb != null && upperThumb != null)
-                    {
-                        switch (Orientation)
-                        {
-                            case Orientation.Horizontal:
-                                // Draw left => right
-                                var left = (lowerThumbPosition.X - leftTop.X) + lowerThumbCenterX;
-                                var finalLeft = (left / 100) * widthRatio;
+            var containerWidth = trackBackgroundBorder.ActualWidth;
+            var width = ActualWidth;
+            var widthRatio = (containerWidth * 100) / width;
 
-                                var right = (upperThumbPosition.X - leftTop.X) + upperThumbCenterX;
-                                var finalRight = (right / 100) * widthRatio;
+            var leftTop = PointToScreen(LeftTop);
 
-                                selectedRangeRectangle.Width = right - left;
+            switch (Orientation)
+            {
+                case Orientation.Horizontal:
+                    // Draw left => right
+                    var left = (lowerThumbPosition.X - leftTop.X) + lowerThumbCenterX;
+                    var finalLeft = (left / 100) * widthRatio;
 
-                                Canvas.SetLeft(selectedRangeRectangle, finalLeft);
-                                //Canvas.SetRight(selectedRangeRectangle, finalRight);
-                                break;
+                    var right = (upperThumbPosition.X - leftTop.X) + upperThumbCenterX;
 
-                            case Orientation.Vertical:
-                                // Draw bottom => top
-                                break;
-                        }
-                    }
-                }
+                    selectedRangeRectangle.Width = right - left;
+
+                    Canvas.SetLeft(selectedRangeRectangle, finalLeft);
+
+                    break;
+
+                case Orientation.Vertical:
+                    // Draw bottom => top
+                    break;
             }
         }
     }

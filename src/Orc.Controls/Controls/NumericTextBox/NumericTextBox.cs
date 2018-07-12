@@ -148,20 +148,11 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
-        private bool AllTextSelected
-        {
-            get { return SelectedText == Text; }
-        }
+        private bool AllTextSelected => SelectedText == Text;
 
-        private bool CaretAtStart
-        {
-            get { return CaretIndex == 0; }
-        }
+        private bool CaretAtStart => CaretIndex == 0;
 
-        private bool CaretAtEnd
-        {
-            get { return CaretIndex == Text.Length; }
-        }
+        private bool CaretAtEnd => CaretIndex == Text.Length;
         #endregion
 
         #region Methods
@@ -201,13 +192,14 @@ namespace Orc.Controls
                     e.CancelCommand();
                 }
 
-                var tempDouble = 0d;
-                if (!double.TryParse(text, NumberStyles.Any, CultureInfo.CurrentCulture, out tempDouble))
+                if (double.TryParse(text, NumberStyles.Any, CultureInfo.CurrentCulture, out _))
                 {
-                    Log.Warning("Pasted text '{0}' could not be parsed as double (wrong culture?), paste is not allowed", text);
-
-                    e.CancelCommand();
+                    return;
                 }
+
+                Log.Warning("Pasted text '{0}' could not be parsed as double (wrong culture?), paste is not allowed", text);
+
+                e.CancelCommand();
             }
             else
             {
@@ -363,8 +355,7 @@ namespace Orc.Controls
                 return;
             }
 
-            double value;
-            if (!double.TryParse(text, out value))
+            if (!double.TryParse(text, out var value))
             {
                 e.Handled = true;
                 return;
@@ -403,41 +394,38 @@ namespace Orc.Controls
                 OnUpDown(-1);
                 e.Handled = true;
             }
+            
+            e.Handled = IsKeyNotAllowed(e);
+        }
 
-            var notAllowed = true;
+        private bool IsKeyNotAllowed(KeyEventArgs e)
+        {
             var keyValue = GetKeyValue(e);
 
             var numberDecimalSeparator = GetDecimalSeparator();
 
             if (keyValue == numberDecimalSeparator && IsDecimalAllowed)
             {
-                notAllowed = Text.Contains(numberDecimalSeparator);
-            }
-            else if (keyValue == MinusCharacter && IsNegativeAllowed)
-            {
-                notAllowed = CaretIndex > 0;
-            }
-            else if (AllowedKeys.Contains(e.Key) || IsDigit(e.Key))
-            {
-                notAllowed = (e.Key == Key.OemMinus && CaretIndex > 0 && IsNegativeAllowed);
+                return Text.Contains(numberDecimalSeparator);
             }
 
-            e.Handled = notAllowed;
+            if (keyValue == MinusCharacter && IsNegativeAllowed)
+            {
+                return CaretIndex > 0;
+            }
+
+            if (AllowedKeys.Contains(e.Key) || IsDigit(e.Key))
+            {
+                return e.Key == Key.OemMinus && CaretIndex > 0 && IsNegativeAllowed;
+            }
+
+            return true;
         }
 
         private void OnUpDown(int increment)
         {
             var value = Value;
-            var newValue = value;
-
-            if (value == null)
-            {
-                newValue = MinValue;
-            }
-            else
-            {
-                newValue = GetNewValue(value.Value, increment);
-            }
+            var newValue = value == null ? MinValue : GetNewValue(value.Value, increment);
 
             SetCurrentValue(ValueProperty, newValue);
 
@@ -491,24 +479,24 @@ namespace Orc.Controls
                 parent = VisualTreeHelper.GetParent(parent);
             }
 
-            var textBox = parent as TextBox;
-            if (textBox != null)
+            if (!(parent is TextBox textBox))
             {
-                if (!textBox.IsKeyboardFocusWithin)
-                {
-                    textBox.Focus();
-                    e.Handled = true;
-                }
+                return;
             }
+
+            if (textBox.IsKeyboardFocusWithin)
+            {
+                return;
+            }
+
+            textBox.Focus();
+            e.Handled = true;
         }
 
         private void SelectAllText(object sender, RoutedEventArgs e)
         {
             var textBox = e.OriginalSource as TextBox;
-            if (textBox != null)
-            {
-                textBox.SelectAll();
-            }
+            textBox?.SelectAll();
         }
 
         private void OnValueChanged()
@@ -569,7 +557,7 @@ namespace Orc.Controls
 
         private bool IsDigitsOnly(string input)
         {
-            foreach (char c in input)
+            foreach (var c in input)
             {
                 if (c < '0' || c > '9')
                 {
@@ -580,7 +568,7 @@ namespace Orc.Controls
             return true;
         }
 
-        private bool IsDigit(Key key)
+        private static bool IsDigit(Key key)
         {
             bool isDigit;
 
@@ -602,21 +590,24 @@ namespace Orc.Controls
         {
             var keyValue = string.Empty;
 
-            if (e.Key == Key.Decimal)
+            switch (e.Key)
             {
-                keyValue = GetDecimalSeparator();
-            }
-            else if (e.Key == Key.OemMinus || e.Key == Key.Subtract)
-            {
-                keyValue = MinusCharacter;
-            }
-            else if (e.Key == Key.OemComma)
-            {
-                keyValue = CommaCharacter;
-            }
-            else if (e.Key == Key.OemPeriod)
-            {
-                keyValue = PeriodCharacter;
+                case Key.Decimal:
+                    keyValue = GetDecimalSeparator();
+                    break;
+
+                case Key.OemMinus:
+                case Key.Subtract:
+                    keyValue = MinusCharacter;
+                    break;
+
+                case Key.OemComma:
+                    keyValue = CommaCharacter;
+                    break;
+
+                case Key.OemPeriod:
+                    keyValue = PeriodCharacter;
+                    break;
             }
 
             return keyValue;

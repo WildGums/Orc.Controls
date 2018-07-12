@@ -30,9 +30,12 @@ namespace Orc.Controls
         {
             Argument.IsNotNull(() => formatInfo);
 
-            var parts = new List<KeyValuePair<int, string>>();
-            parts.Add(new KeyValuePair<int, string>(formatInfo.DayPosition, dateTime.Day.ToString(NumberFormatHelper.GetFormat(formatInfo.DayFormat.Length))));
-            parts.Add(new KeyValuePair<int, string>(formatInfo.MonthPosition, dateTime.Month.ToString(NumberFormatHelper.GetFormat(formatInfo.MonthFormat.Length))));
+            var parts = new List<KeyValuePair<int, string>>
+            {
+                new KeyValuePair<int, string>(formatInfo.DayPosition, dateTime.Day.ToString(NumberFormatHelper.GetFormat(formatInfo.DayFormat.Length))),
+                new KeyValuePair<int, string>(formatInfo.MonthPosition, dateTime.Month.ToString(NumberFormatHelper.GetFormat(formatInfo.MonthFormat.Length)))
+            };
+
             if (formatInfo.IsYearShortFormat)
             {
                 var yearShort = dateTime.Year - (dateTime.Year - dateTime.Year % 100);
@@ -42,6 +45,7 @@ namespace Orc.Controls
             {
                 parts.Add(new KeyValuePair<int, string>(formatInfo.YearPosition, dateTime.Year.ToString(NumberFormatHelper.GetFormat(formatInfo.YearFormat.Length))));
             }
+
             if (!formatInfo.IsDateOnly)
             {
                 if (formatInfo.IsHour12Format == true)
@@ -73,21 +77,25 @@ namespace Orc.Controls
             builder.Append(parts[2].Value);
             builder.Append(formatInfo.Separator3);
 
-            if (parts.Count > 3) // Contain hour, minute, second part.
+            if (parts.Count <= 3)
             {
-                builder.Append(parts[3].Value);
-                builder.Append(formatInfo.Separator4);
-                builder.Append(parts[4].Value);
-                builder.Append(formatInfo.Separator5);
-                builder.Append(parts[5].Value);
-                builder.Append(formatInfo.Separator6);
-
-                if (parts.Count > 6) // Contain ampm part.
-                {
-                    builder.Append(parts[6].Value);
-                    builder.Append(formatInfo.Separator7);
-                }
+                return builder.ToString();
             }
+
+            builder.Append(parts[3].Value);
+            builder.Append(formatInfo.Separator4);
+            builder.Append(parts[4].Value);
+            builder.Append(formatInfo.Separator5);
+            builder.Append(parts[5].Value);
+            builder.Append(formatInfo.Separator6);
+
+            if (parts.Count <= 6)
+            {
+                return builder.ToString();
+            }
+
+            builder.Append(parts[6].Value);
+            builder.Append(formatInfo.Separator7);
 
             return builder.ToString();
         }

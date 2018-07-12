@@ -42,31 +42,18 @@ namespace Orc.Controls
         private readonly int _id;
 
         private Button _closeButton;
-
         private FrameworkElement _dragGrip;
-
         private GeometryDrawing _gripDrawing;
-
         private ControlAdorner _adorner;
-
         private ControlAdornerDragDrop _adornerDragDrop;
-
         private ResizingAdorner _adornerResizing;
-
         private AdornerLayer _adornerLayer;
-
         private bool _isPositionCalculated;
-
         private Point _lastPosition;
-
         private Size _lastSize;
-
         private bool _ignoreTimerStartupWhenMouseLeave;
-
         private UIElement _owner;
-
         private UIElement _userDefinedAdorner;
-
         private ToolTipTimer _timer;
         #endregion
 
@@ -90,10 +77,7 @@ namespace Orc.Controls
         /// <summary>
         /// Gets a value indicating whether is timer enabled.
         /// </summary>
-        internal bool IsTimerEnabled
-        {
-            get { return _timer != null && _timer.IsEnabled; }
-        }
+        internal bool IsTimerEnabled => _timer != null && _timer.IsEnabled;
         #endregion
 
         #region Properties
@@ -265,7 +249,7 @@ namespace Orc.Controls
                     rootVisual = System.Windows.Interop.BrowserInteropHelper.IsBrowserHosted
                         ? null
                         : (Application.Current.MainWindow.Content as FrameworkElement) != null
-                            ? Application.Current.MainWindow.Content as FrameworkElement
+                            ? (FrameworkElement) Application.Current.MainWindow.Content
                             : Application.Current.MainWindow;
                 }
                 else
@@ -459,38 +443,42 @@ namespace Orc.Controls
             var x = pointArray[index].X;
             var y = pointArray[index].Y;
 
-            if (index > 1)
+            if (index <= 1)
             {
-                if ((placement == PlacementMode.Left) || (placement == PlacementMode.Right))
+                return new Point(x, y);
+            }
+
+            if ((placement == PlacementMode.Left) || (placement == PlacementMode.Right))
+            {
+                if (!(Math.Abs(y - target[0].Y) > Epsilon) || (!(Math.Abs(y - target[1].Y) > Epsilon))
+                                                           || ((!(Math.Abs((y + height) - target[0].Y) > Epsilon))
+                                                               || (!(Math.Abs((y + height) - target[1].Y) > Epsilon))))
                 {
-                    if (((Math.Abs(y - target[0].Y) > Epsilon) && (Math.Abs(y - target[1].Y) > Epsilon))
-                        && ((Math.Abs((y + height) - target[0].Y) > Epsilon)
-                            && (Math.Abs((y + height) - target[1].Y) > Epsilon)))
-                    {
-                        var num18 = bounds.Top + (bounds.Height / 2.0);
-                        if ((num18 > 0.0) && ((num18 - 0.0) > (plugin.Height - num18)))
-                        {
-                            y = plugin.Height - height;
-                        }
-                        else
-                        {
-                            y = 0.0;
-                        }
-                    }
+                    return new Point(x, y);
                 }
-                else if (((placement == PlacementMode.Top) || (placement == PlacementMode.Bottom))
-                         && (((Math.Abs(x - target[0].X) > 0.0001) && (Math.Abs(x - target[1].X) > 0.0001))
-                             && ((Math.Abs((x + width) - target[0].X) > 0.0001) && (Math.Abs((x + width) - target[1].X) > 0.0001))))
+
+                var num18 = bounds.Top + (bounds.Height / 2.0);
+                if ((num18 > 0.0) && ((num18 - 0.0) > (plugin.Height - num18)))
                 {
-                    var num19 = bounds.Left + (bounds.Width / 2.0);
-                    if ((num19 > 0.0) && ((num19 - 0.0) > (plugin.Width - num19)))
-                    {
-                        x = plugin.Width - width;
-                    }
-                    else
-                    {
-                        x = 0.0;
-                    }
+                    y = plugin.Height - height;
+                }
+                else
+                {
+                    y = 0.0;
+                }
+            }
+            else if (((placement == PlacementMode.Top) || (placement == PlacementMode.Bottom))
+                     && (((Math.Abs(x - target[0].X) > 0.0001) && (Math.Abs(x - target[1].X) > 0.0001))
+                         && ((Math.Abs((x + width) - target[0].X) > 0.0001) && (Math.Abs((x + width) - target[1].X) > 0.0001))))
+            {
+                var num19 = bounds.Left + (bounds.Width / 2.0);
+                if ((num19 > 0.0) && ((num19 - 0.0) > (plugin.Width - num19)))
+                {
+                    x = plugin.Width - width;
+                }
+                else
+                {
+                    x = 0.0;
                 }
             }
 
@@ -792,12 +780,7 @@ namespace Orc.Controls
 
         internal void PerformPlacement()
         {
-            if (_adornerLayer == null)
-            {
-                return;
-            }
-
-            _adornerLayer.Update();
+            _adornerLayer?.Update();
         }
 
         public void SetUserDefinedAdorner(UIElement element)
@@ -812,38 +795,40 @@ namespace Orc.Controls
                 return;
             }
 
-            if (IsPinned && _adorner != null)
+            if (!IsPinned || _adorner == null)
             {
-                if (_adornerDragDrop != null)
-                {
-                    ControlAdornerDragDrop.Detach(_adornerDragDrop);
-                    _adornerDragDrop = null;
-                }
-
-                _adornerLayer.Remove(_adorner);
-
-                var adornedElement = GetAdornerElement();
-                if (adornedElement == null)
-                {
-                    return;
-                }
-
-                _adornerLayer = AdornerLayer.GetAdornerLayer(adornedElement);
-                if (_adornerLayer == null)
-                {
-                    return;
-                }
-
-                _adornerLayer.Add(_adorner);
-                BringFluentRibbonBackstageToFront(_adornerLayer, adornedElement);
-
-                if (IsPinned && _adornerDragDrop == null)
-                {
-                    _adornerDragDrop = ControlAdornerDragDrop.Attach(_adorner, _dragGrip);
-                }
-
-                RegisterBeingInFront();
+                return;
             }
+
+            if (_adornerDragDrop != null)
+            {
+                ControlAdornerDragDrop.Detach(_adornerDragDrop);
+                _adornerDragDrop = null;
+            }
+
+            _adornerLayer.Remove(_adorner);
+
+            var adornedElement = GetAdornerElement();
+            if (adornedElement == null)
+            {
+                return;
+            }
+
+            _adornerLayer = AdornerLayer.GetAdornerLayer(adornedElement);
+            if (_adornerLayer == null)
+            {
+                return;
+            }
+
+            _adornerLayer.Add(_adorner);
+            BringFluentRibbonBackstageToFront(_adornerLayer, adornedElement);
+
+            if (IsPinned && _adornerDragDrop == null)
+            {
+                _adornerDragDrop = ControlAdornerDragDrop.Attach(_adorner, _dragGrip);
+            }
+
+            RegisterBeingInFront();
         }
 
         public void SetupTimer(int initialShowDelay, int showDuration)
@@ -866,24 +851,23 @@ namespace Orc.Controls
 
         public void StartTimer()
         {
-            if (_timer != null)
-            {
-                _timer.StartAndReset();
-            }
+            _timer?.StartAndReset();
         }
 
         public void StopTimer(bool reset = true)
         {
-            if (_timer != null && IsTimerEnabled)
+            if (_timer == null || !IsTimerEnabled)
             {
-                if (reset)
-                {
-                    _timer.StopAndReset();
-                }
-                else
-                {
-                    _timer.Stop();
-                }
+                return;
+            }
+
+            if (reset)
+            {
+                _timer.StopAndReset();
+            }
+            else
+            {
+                _timer.Stop();
             }
         }
 
@@ -891,8 +875,7 @@ namespace Orc.Controls
         {
             if (ContentTemplate != null)
             {
-                var owner = Owner as FrameworkElement;
-                if (owner != null)
+                if (Owner is FrameworkElement owner)
                 {
                     SetCurrentValue(ContentProperty, owner.DataContext);
                 }
@@ -967,18 +950,22 @@ namespace Orc.Controls
             // This is a little bit dirty way to keep the ribbon backstage the topmost.
             // I couldn't find a better way to reorder elements within AdornerLayers
             var adorners = layer.GetAdorners(adornedElement);
-            if (adorners != null)
+            if (adorners == null)
             {
-                const string FLUENT_RIBBON_TYPE_NAME = "Fluent.BackstageAdorner";
-                foreach (var adorner in adorners)
+                return;
+            }
+
+            const string FLUENT_RIBBON_TYPE_NAME = "Fluent.BackstageAdorner";
+            foreach (var adorner in adorners)
+            {
+                if (!adorner.GetType().FullName.Equals(FLUENT_RIBBON_TYPE_NAME))
                 {
-                    if (adorner.GetType().FullName.Equals(FLUENT_RIBBON_TYPE_NAME))
-                    {
-                        layer.Remove(adorner);
-                        layer.Add(adorner);
-                        break;
-                    }
+                    continue;
                 }
+
+                layer.Remove(adorner);
+                layer.Add(adorner);
+                break;
             }
         }
 
@@ -1094,11 +1081,13 @@ namespace Orc.Controls
         private void OnAccentColorBrushChanged()
         {
             var solidColorBrush = AccentColorBrush as SolidColorBrush;
-            if (solidColorBrush != null)
+            if (solidColorBrush == null)
             {
-                var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
-                accentColor.CreateAccentColorResourceDictionary("PinnableToolTip");
+                return;
             }
+
+            var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
+            accentColor.CreateAccentColorResourceDictionary("PinnableToolTip");
         }
 
         private void OnResizeModeChanged()
@@ -1117,11 +1106,13 @@ namespace Orc.Controls
             }
             else
             {
-                if (_adornerResizing != null)
+                if (_adornerResizing == null)
                 {
-                    ResizingAdorner.Detach(_adornerResizing);
-                    _adornerResizing = null;
+                    return;
                 }
+
+                ResizingAdorner.Detach(_adornerResizing);
+                _adornerResizing = null;
             }
         }
         #endregion
