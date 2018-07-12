@@ -270,7 +270,6 @@ namespace Orc.Controls
             _rootElement = (FrameworkElement)GetTemplateChild("RootElement");
 
             _canvasHsv = (Canvas)GetTemplateChild("CanvasHSV");
-            (Rectangle)GetTemplateChild("RectangleRootHSV");
             _gradientStopHsvColor = (GradientStop)GetTemplateChild("GradientStopHSVColor");
             _rectangleHsv = (Rectangle)GetTemplateChild("RectangleHSV");
             _ellipseHsv = (Ellipse)GetTemplateChild("EllipseHSV");
