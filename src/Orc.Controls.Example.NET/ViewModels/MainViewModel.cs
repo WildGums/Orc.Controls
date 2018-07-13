@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Controls.Examples.ViewModels
+namespace Orc.Controls.Example.ViewModels
 {
     using System.Windows.Media;
     using Catel.MVVM;
@@ -16,6 +16,8 @@ namespace Orc.Controls.Examples.ViewModels
         public MainViewModel()
         {
             AccentColorBrush = Brushes.Orange;
+
+            Title = "Orc.Controls example";
         }
         #endregion
 

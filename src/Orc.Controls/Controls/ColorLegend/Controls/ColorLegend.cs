@@ -175,7 +175,7 @@ namespace Orc.Controls
         /// The is drop down open property.
         /// </summary>
         public static readonly DependencyProperty IsColorSelectingProperty = DependencyProperty.Register("IsColorSelecting",
-            typeof (bool), typeof (ColorLegend), new PropertyMetadata(false, (sender, e) => ((ColorLegend) sender).OnIsColorSelectingPropertyChanged()));
+            typeof(bool), typeof(ColorLegend), new PropertyMetadata(false));
 
 
         /// <summary>
@@ -317,17 +317,7 @@ namespace Orc.Controls
             var values = (object[]) parameter;
             var colorProvider = (IColorLegendItem) values[1];
 
-            if (colorProvider == null)
-            {
-                return false;
-            }
-
-            if (!AllowColorEditing)
-            {
-                return false;
-            }
-
-            return true;
+            return colorProvider != null && AllowColorEditing;
         }
 
         private void OnChangeColorExecute(object parameter)
@@ -358,7 +348,7 @@ namespace Orc.Controls
             }
 
             SetCurrentValue(FilteredItemsSourceProperty, GetFilteredItems());
-            SetCurrentValue(FilteredItemsIdsProperty, FilteredItemsSource == null ? null : FilteredItemsSource.Select(cp => cp.Id));
+            SetCurrentValue(FilteredItemsIdsProperty, FilteredItemsSource?.Select(cp => cp.Id));
 
             if (newValue != null)
             {
@@ -391,18 +381,29 @@ namespace Orc.Controls
             {
                 foreach (var filteredItem in filteredItems)
                 {
-                    if (filteredItem.IsChecked)
+                    if (!filteredItem.IsChecked)
                     {
-                        allUnchecked = false;
+                        allChecked = false; 
                     }
                     else
                     {
-                        allChecked = false;
+                        allUnchecked = false;
                     }
                 }
             }
 
-            SetCurrentValue(IsAllVisibleProperty, (allChecked ? true : allUnchecked ? false : (bool?) null));
+            bool? isAllVisible = null;
+
+            if (allChecked)
+            {
+                isAllVisible = true;
+            }
+            else if (allUnchecked)
+            {
+                isAllVisible = false;
+            }
+
+            SetCurrentValue(IsAllVisibleProperty, isAllVisible);
 
             _isUpdatingAllVisible = false;
         }
@@ -422,12 +423,14 @@ namespace Orc.Controls
             }
 
             var filteredItems = GetFilteredItems();
-            if (filteredItems != null)
+            if (filteredItems == null)
             {
-                foreach (var filteredItem in filteredItems)
-                {
-                    filteredItem.IsChecked = isAllVisible.Value;
-                }
+                return;
+            }
+
+            foreach (var filteredItem in filteredItems)
+            {
+                filteredItem.IsChecked = isAllVisible.Value;
             }
         }
 
@@ -458,11 +461,7 @@ namespace Orc.Controls
         private void OnFilterChanged()
         {
             SetCurrentValue(FilteredItemsSourceProperty, GetFilteredItems());
-            SetCurrentValue(FilteredItemsIdsProperty, FilteredItemsSource == null ? null : FilteredItemsSource.Select(cp => cp.Id));
-        }
-
-        private void OnIsColorSelectingPropertyChanged()
-        {
+            SetCurrentValue(FilteredItemsIdsProperty, FilteredItemsSource?.Select(cp => cp.Id));
         }
 
         public override void OnApplyTemplate()
@@ -492,10 +491,7 @@ namespace Orc.Controls
             {
                 _button.Click += (s, e) =>
                 {
-                    if (_listBox != null)
-                    {
-                        _listBox.SetCurrentValue(Selector.SelectedIndexProperty, -1);
-                    }
+                    _listBox?.SetCurrentValue(Selector.SelectedIndexProperty, -1);
                 };
             }
 
@@ -507,10 +503,7 @@ namespace Orc.Controls
 
             _colorBoard = new ColorBoard();
 
-            if (_popup != null)
-            {
-                _popup.SetCurrentValue(Popup.ChildProperty, _colorBoard);
-            }
+            _popup?.SetCurrentValue(Popup.ChildProperty, _colorBoard);
 
             var b = new Binding("Color")
             {
@@ -660,12 +653,13 @@ namespace Orc.Controls
 
         private void OnAccentColorBrushChanged()
         {
-            var solidColorBrush = AccentColorBrush as SolidColorBrush;
-            if (solidColorBrush != null)
+            if (!(AccentColorBrush is SolidColorBrush solidColorBrush))
             {
-                var accentColor = ((SolidColorBrush) AccentColorBrush).Color;
-                accentColor.CreateAccentColorResourceDictionary("ColorLegend");
+                return;
             }
+
+            var accentColor = solidColorBrush.Color;
+            accentColor.CreateAccentColorResourceDictionary("ColorLegend");
         }
         #endregion
     }

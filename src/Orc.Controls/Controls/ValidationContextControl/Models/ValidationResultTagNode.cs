@@ -53,24 +53,24 @@ namespace Orc.Controls
             DisplayName = $"{TagName} ({LanguageHelper.GetString("Controls_ValidationContextControl_Errors")}: {errorCount}, {LanguageHelper.GetString("Controls_ValidationContextControl_Warnings")}: {warningCount})";
         }
 
-        public override int CompareTo(ValidationContextTreeNode nodeToCompare)
+        public override int CompareTo(ValidationContextTreeNode node)
         {
-            Argument.IsNotNull(() => nodeToCompare);
+            Argument.IsNotNull(() => node);
 
             var misc = LanguageHelper.GetString("Controls_ValidationContextControl_Misc");
 
-            var node = (ValidationResultTagNode) nodeToCompare;
-            if (TagName.EqualsIgnoreCase(misc) && !node.TagName.EqualsIgnoreCase(misc))
+            var validationResultTagNode = (ValidationResultTagNode)node;
+            if (TagName.EqualsIgnoreCase(misc) && !validationResultTagNode.TagName.EqualsIgnoreCase(misc))
             {
                 return 1;
             }
 
-            if (!TagName.EqualsIgnoreCase(misc) && node.TagName.EqualsIgnoreCase(misc))
+            if (!TagName.EqualsIgnoreCase(misc) && validationResultTagNode.TagName.EqualsIgnoreCase(misc))
             {
                 return -1;
             }
             
-            return CultureInfo.InstalledUICulture.CompareInfo.Compare(TagName, node.TagName);
+            return CultureInfo.InstalledUICulture.CompareInfo.Compare(TagName, validationResultTagNode.TagName);
         }
     }
 }

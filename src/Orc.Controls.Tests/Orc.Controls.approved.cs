@@ -1040,13 +1040,16 @@ namespace Orc.Controls
         public static void SetShowDuration(System.Windows.DependencyObject element, int value) { }
         public static void SetToolTip(System.Windows.DependencyObject element, object value) { }
     }
-    public class PredefinedColor
+    public class PredefinedColor : System.IEquatable<Orc.Controls.PredefinedColor>
     {
         public static System.Collections.Generic.List<Orc.Controls.PredefinedColor> All { get; }
         public static System.Collections.Generic.List<Orc.Controls.PredefinedColor> AllThemeColors { get; }
         public string Name { get; }
         public System.Windows.Media.Color Value { get; }
+        public override bool Equals(object obj) { }
+        public bool Equals(Orc.Controls.PredefinedColor other) { }
         public static string GetColorName(System.Windows.Media.Color color) { }
+        public override int GetHashCode() { }
         public static Orc.Controls.PredefinedColor GetPredefinedColor(System.Windows.Media.Color color) { }
         public static bool IsPredefined(System.Windows.Media.Color color) { }
     }
@@ -1067,6 +1070,32 @@ namespace Orc.Controls
         public static Orc.Controls.DateRange ThisWeek { get; }
         public static Orc.Controls.DateRange Today { get; }
         public static Orc.Controls.DateRange Yesterday { get; }
+    }
+    [System.Windows.TemplatePartAttribute(Name="PART_LowerSlider", Type=typeof(System.Windows.Controls.Slider))]
+    [System.Windows.TemplatePartAttribute(Name="PART_SelectedRange", Type=typeof(System.Windows.Shapes.Rectangle))]
+    [System.Windows.TemplatePartAttribute(Name="PART_TrackBackground", Type=typeof(System.Windows.Controls.Border))]
+    [System.Windows.TemplatePartAttribute(Name="PART_UpperSlider", Type=typeof(System.Windows.Controls.Slider))]
+    public class RangeSlider : System.Windows.Controls.Primitives.RangeBase
+    {
+        public static readonly System.Windows.DependencyProperty HighlightSelectedRangeProperty;
+        public static readonly System.Windows.DependencyProperty LowerValueProperty;
+        public static readonly System.Windows.DependencyProperty OrientationProperty;
+        public static readonly System.Windows.DependencyProperty UpperValueProperty;
+        public RangeSlider() { }
+        [System.ComponentModel.BindableAttribute(true)]
+        [System.ComponentModel.CategoryAttribute("Behavior")]
+        public bool HighlightSelectedRange { get; set; }
+        [System.ComponentModel.BindableAttribute(true)]
+        [System.ComponentModel.CategoryAttribute("Behavior")]
+        public double LowerValue { get; set; }
+        [System.ComponentModel.BindableAttribute(true)]
+        [System.ComponentModel.CategoryAttribute("Behavior")]
+        public System.Windows.Controls.Orientation Orientation { get; set; }
+        [System.ComponentModel.BindableAttribute(true)]
+        [System.ComponentModel.CategoryAttribute("Behavior")]
+        public double UpperValue { get; set; }
+        public override void OnApplyTemplate() { }
+        protected override void OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
     }
     public class ResizingAdorner : System.Windows.Documents.Adorner
     {
@@ -1329,7 +1358,7 @@ namespace Orc.Controls
     {
         public ValidationResultTagNode(string tagName, bool isExpanded) { }
         public string TagName { get; }
-        public override int CompareTo(Orc.Controls.ValidationContextTreeNode nodeToCompare) { }
+        public override int CompareTo(Orc.Controls.ValidationContextTreeNode node) { }
         protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
         protected override void OnPropertyObjectCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) { }
     }
@@ -1388,7 +1417,7 @@ namespace Orc.Controls.Converters
         protected override object Convert(object value, System.Type targetType, object parameter) { }
     }
 }
-namespace Orc.Controls.Examples.Models
+namespace Orc.Controls.Logging
 {
     public class LogRecord
     {
@@ -1397,9 +1426,6 @@ namespace Orc.Controls.Examples.Models
         public Catel.Logging.LogEvent LogEvent { get; set; }
         public string Message { get; set; }
     }
-}
-namespace Orc.Controls.Logging
-{
     public class LogViewerLogListener : Catel.Logging.RollingInMemoryLogListener
     {
         public LogViewerLogListener() { }

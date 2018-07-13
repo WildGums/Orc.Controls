@@ -1,4 +1,4 @@
-﻿<catel:UserControl x:Class="Orc.Controls.Examples.Views.ColorLegendView"
+﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.ColorLegendView"
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -16,6 +16,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="6" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <TextBlock Text="Configure color legend appearance" FontWeight="Bold"/>
@@ -28,7 +29,7 @@
         </UniformGrid>
 
         <orccontrols:ColorLegend Grid.Row="4"
-                         ItemsSource="{Binding CalendarStateLegend}"
+                         ItemsSource="{Binding CalendarStateLegend, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          ShowBottomToolBox="{Binding ElementName=ShowBottomToolBox, Path=IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          ShowSettingsBox="{Binding ElementName=ShowSettingsBox, Path=IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          ShowSearchBox="{Binding ElementName=ShowSearchBox, Path=IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -38,7 +39,9 @@
             </orccontrols:ColorLegend.Header>
         </orccontrols:ColorLegend>
 
-        <orccontrols:ColorLegend Grid.Row="6" ItemsSource="{Binding CalendarStateLegend}" />
+        <orccontrols:ColorLegend Grid.Row="6" ItemsSource="{Binding CalendarStateLegend, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        
+        <Button Grid.Row="7" HorizontalAlignment="Right" Content="Update items" Command="{Binding UpdateItems}"/>
     </Grid>
 
 </catel:UserControl>

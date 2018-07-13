@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Controls.Examples.Views
+namespace Orc.Controls.Example.Views
 {
     using System;
     using System.Windows;

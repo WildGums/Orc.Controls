@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Controls.Examples.ViewModels
+namespace Orc.Controls.Example.ViewModels
 {
     using System.Windows.Documents;
     using System.Windows.Media;

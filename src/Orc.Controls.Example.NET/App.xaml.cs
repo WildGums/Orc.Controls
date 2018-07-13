@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Controls.Examples
+namespace Orc.Controls.Example
 {
     using System;
     using System.Globalization;

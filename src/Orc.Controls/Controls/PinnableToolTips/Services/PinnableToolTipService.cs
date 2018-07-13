@@ -655,6 +655,7 @@ namespace Orc.Controls
             }
             catch (Exception)
             {
+                // Ignore
             }
         }
         #endregion

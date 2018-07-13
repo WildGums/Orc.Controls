@@ -162,6 +162,7 @@ namespace Orc.Controls
 
             if (h0 < 0)
             {
+                // Ignore
             }
             else if (h0 < 1d)
             {
@@ -199,11 +200,8 @@ namespace Orc.Controls
                 g = 0;
                 b = x;
             }
-            else
-            {
-            }
 
-            double m = v - c;
+            var m = v - c;
 
             r = r + m;
             g = g + m;

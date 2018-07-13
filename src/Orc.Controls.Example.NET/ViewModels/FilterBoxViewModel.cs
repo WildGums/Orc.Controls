@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Controls.Examples.ViewModels
+namespace Orc.Controls.Example.ViewModels
 {
     using System.Collections.Generic;
     using Catel.MVVM;

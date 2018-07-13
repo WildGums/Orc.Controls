@@ -68,7 +68,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(FilterBox),
-            new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((FilterBox) sender).OnTextChanged(sender, e)));
+            new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((FilterBox) sender).OnTextChanged()));
 
         public Brush AccentColorBrush
         {
@@ -180,7 +180,7 @@ namespace Orc.Controls
             return !string.IsNullOrWhiteSpace(Text);
         }
 
-        private void OnTextChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        private void OnTextChanged()
         {
             _clearFilter.RaiseCanExecuteChanged();
         }

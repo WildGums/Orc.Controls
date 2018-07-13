@@ -1,4 +1,4 @@
-﻿<catel:UserControl x:Class="Orc.Controls.Examples.Views.NumericTextBox"
+﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.NumericTextBox"
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:catel="http://schemas.catelproject.com"
@@ -43,11 +43,11 @@
 
         <Label Content="Numeric text box" />
         <orccontrols:NumericTextBox Format="{Binding Format}" IsNullValueAllowed="{Binding IsNullValueAllowed}" 
-                            IsDecimalAllowed="{Binding IsDecimalAllowed}" IsNegativeAllowed="{Binding IsNegativeAllowed}"
-                            MinValue="{Binding MinValue}" MaxValue="{Binding MaxValue}" Value="{Binding Value}" />
+                                    IsDecimalAllowed="{Binding IsDecimalAllowed}" IsNegativeAllowed="{Binding IsNegativeAllowed}"
+                                    MinValue="{Binding MinValue}" MaxValue="{Binding MaxValue}" Value="{Binding Value}" />
 
         <Label Content="Actual bound value (control)" />
         <TextBox Text="{Binding Value, Mode=OneWay}" IsReadOnly="true" />
     </orccontrols:StackGrid>
-    
+
 </catel:UserControl>

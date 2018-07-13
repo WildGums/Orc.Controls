@@ -1,8 +1,8 @@
-﻿<catel:Window x:Class="Orc.Controls.Examples.Views.MainWindow"
+﻿<catel:Window x:Class="Orc.Controls.Example.Views.MainWindow"
               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:catel="http://schemas.catelproject.com"
-              xmlns:views="clr-namespace:Orc.Controls.Examples.Views"
+              xmlns:views="clr-namespace:Orc.Controls.Example.Views"
               xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
               Height="680" Width="850">
 
@@ -186,6 +186,10 @@
 
         <TabItem Header="PinnableToolTip">
             <views:PinnableToolTip />
+        </TabItem>
+
+        <TabItem Header="RangeSlider">
+            <views:RangeSliderView />
         </TabItem>
 
         <TabItem Header="SaveFilePicker">

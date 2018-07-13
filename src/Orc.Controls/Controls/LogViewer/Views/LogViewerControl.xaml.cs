@@ -314,33 +314,35 @@ namespace Orc.Controls
                     }
                 }
 
-                if (logEntries != null && logEntries.Count > 0)
+                if (logEntries == null || logEntries.Count <= 0)
                 {
-                    rtb.BeginChange();
+                    return;
+                }
 
-                    if (rtb.Document == null)
+                rtb.BeginChange();
+
+                if (rtb.Document == null)
+                {
+                    rtb.Document = CreateFlowDocument();
+                }
+
+                var document = rtb.Document;
+                foreach (var logEntry in logEntries)
+                {
+                    var paragraph = CreateLogEntryParagraph(logEntry);
+                    if (paragraph != null)
                     {
-                        rtb.Document = CreateFlowDocument();
+                        document.Blocks.Add(paragraph);
                     }
+                }
 
-                    var document = rtb.Document;
-                    foreach (var logEntry in logEntries)
-                    {
-                        var paragraph = CreateLogEntryParagraph(logEntry);
-                        if (paragraph != null)
-                        {
-                            document.Blocks.Add(paragraph);
-                        }
-                    }
+                document.SetCurrentValue(FrameworkContentElement.TagProperty, logEntries[logEntries.Count - 1].Time);
 
-                    document.SetCurrentValue(FrameworkContentElement.TagProperty, logEntries[logEntries.Count - 1].Time);
+                rtb.EndChange();
 
-                    rtb.EndChange();
-
-                    if (scrollToEnd || AutoScroll)
-                    {
-                        ScrollToEnd();
-                    }
+                if (scrollToEnd || AutoScroll)
+                {
+                    ScrollToEnd();
                 }
             }));
         }

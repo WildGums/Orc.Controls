@@ -1,0 +1,52 @@
+﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.RangeSliderView"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:catel="http://schemas.catelproject.com"
+                   xmlns:orccontrols="http://schemas.wildgums.com/orc/controls">
+
+    <UserControl.Resources>
+        <Style TargetType="{x:Type orccontrols:NumericTextBox}">
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Margin" Value="6,6,6,6" />
+        </Style>
+    </UserControl.Resources>
+
+    <orccontrols:StackGrid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Content="Minimum value" />
+        <orccontrols:NumericTextBox IsNegativeAllowed="True" MinValue="-10000" MaxValue="10000" Value="{Binding MinValue, UpdateSourceTrigger=LostFocus}" />
+
+        <Label Content="Maximum value" />
+        <orccontrols:NumericTextBox IsNegativeAllowed="True" MinValue="-10000" MaxValue="10000" Value="{Binding MaxValue, UpdateSourceTrigger=LostFocus}" />
+
+        <CheckBox IsChecked="{Binding ElementName=rangeSlider, Path=HighlightSelectedRange, Mode=TwoWay}" 
+                  Grid.ColumnSpan="2" Content="Highlight selected range" />
+
+        <Label Content="Range slider" />
+        <orccontrols:RangeSlider x:Name="rangeSlider" Margin="4,6,4,6" Width="300" 
+                                 Minimum="{Binding MinValue}" Maximum="{Binding MaxValue}" 
+                                 LowerValue="{Binding LowerValue}" UpperValue="{Binding UpperValue}" />
+
+        <Label Content="Actual lower value (control)" />
+        <TextBox Text="{Binding LowerValue, Mode=OneWay, StringFormat=N1}" IsReadOnly="true" />
+
+        <Label Content="Actual upper value (control)" />
+        <TextBox Text="{Binding UpperValue, Mode=OneWay, StringFormat=N1}" IsReadOnly="true" />
+    </orccontrols:StackGrid>
+
+</catel:UserControl>
