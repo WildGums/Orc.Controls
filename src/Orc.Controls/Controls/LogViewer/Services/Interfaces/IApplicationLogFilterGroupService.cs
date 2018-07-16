@@ -1,19 +1,18 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogFilterEditorWindow.cs" company="WildGums">
+// <copyright file="IApplicationFilterGroupService.cs" company="WildGums">
 //   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace Orc.Controls
 {
-    /// <summary>
-    /// Interaction logic for LogFilterEditorWindow.xaml
-    /// </summary>
-    public partial class LogFilterGroupEditorWindow
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    public interface IApplicationLogFilterGroupService
     {
-        public LogFilterGroupEditorWindow()
-        {
-            InitializeComponent();
-        }
+        Task<IEnumerable<LogFilterGroup>> LoadAsync();
+
+        Task SaveAsync(IEnumerable<LogFilterGroup> filterGroups);
     }
 }

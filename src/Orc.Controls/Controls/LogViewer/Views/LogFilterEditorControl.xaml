@@ -1,11 +1,11 @@
-﻿<caltel:UserControl
-    xmlns:caltel="http://schemas.catelproject.com" x:Class="Orc.Controls.Views.LogFilterEditorControl"
+﻿<catel:UserControl xmlns:catel="http://schemas.catelproject.com" x:Class="Orc.Controls.LogFilterEditorControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    mc:Ignorable="d">
-    <Grid>
+             xmlns:controls="clr-namespace:Orc.Controls"
+             mc:Ignorable="d">
+    <controls:StackGrid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
@@ -17,15 +17,15 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Margin="5" Grid.Column="0" Grid.Row="0">Filter Name</TextBlock>
-        <TextBox  Margin="5" Grid.Column="1" Grid.Row="0" Text="{Binding Name}"/>
-        <TextBlock Margin="5" Grid.Column="0" Grid.Row="1">Expression Value</TextBlock>
-        <TextBox  Margin="5" Grid.Column="1" Grid.Row="1" Text="{Binding ExpressionValue}"/>
-        <TextBlock Margin="5" Grid.Column="0" Grid.Row="2">Expression Type</TextBlock>
-        <ComboBox Margin="5"  Grid.Column="1" Grid.Row="2" ItemsSource="{Binding ExpressionTypes}" SelectedValue="{Binding ExpressionType}"/>
-        <TextBlock Margin="5" Grid.Column="0" Grid.Row="3">Action</TextBlock>
-        <ComboBox Margin="5"  Grid.Column="1" Grid.Row="3" ItemsSource="{Binding Actions}" SelectedValue="{Binding Action}"/>
-        <TextBlock Margin="5" Grid.Column="0" Grid.Row="4">Target</TextBlock>
-        <ComboBox Margin="5"  Grid.Column="1" Grid.Row="4" ItemsSource="{Binding Targets}" SelectedValue="{Binding Target}"/>
-    </Grid>
-</caltel:UserControl>
+        <TextBlock>Filter Name</TextBlock>
+        <TextBox Text="{Binding Name}"/>
+        <TextBlock>Expression Value</TextBlock>
+        <TextBox Text="{Binding ExpressionValue}"/>
+        <TextBlock>Expression Type</TextBlock>
+        <ComboBox ItemsSource="{Binding ExpressionTypes}" SelectedValue="{Binding ExpressionType}"/>
+        <TextBlock>Action</TextBlock>
+        <ComboBox ItemsSource="{Binding Actions}" SelectedValue="{Binding Action}"/>
+        <TextBlock>Target</TextBlock>
+        <ComboBox ItemsSource="{Binding Targets}" SelectedValue="{Binding Target}"/>
+    </controls:StackGrid>
+</catel:UserControl>

@@ -38,7 +38,7 @@ public static class ModuleInitializer
 
         serviceLocator.RegisterInstance<LogViewerLogListener>(logListener);
 
-        serviceLocator.RegisterType<IApplicationFilterGroupService, ApplicationFilterGroupService>();
+        serviceLocator.RegisterType<IApplicationLogFilterGroupService, ApplicationLogFilterGroupService>();
 
         serviceLocator.RegisterType<ISuggestionListService, SuggestionListService>();
         serviceLocator.RegisterType<IValidationNamesService, ValidationNamesService>();

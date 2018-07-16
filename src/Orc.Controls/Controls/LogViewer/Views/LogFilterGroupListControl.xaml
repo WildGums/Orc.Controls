@@ -1,5 +1,5 @@
 ﻿<catel:UserControl
-    xmlns:catel="http://schemas.catelproject.com" x:Class="Orc.Controls.Views.LogFilterGroupListControl"
+    xmlns:catel="http://schemas.catelproject.com" x:Class="Orc.Controls.LogFilterGroupListControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

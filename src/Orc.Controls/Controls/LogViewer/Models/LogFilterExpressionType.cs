@@ -1,17 +1,23 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IApplicationFilterGroupService.cs" company="WildGums">
+// <copyright file="ExpressionType.cs" company="WildGums">
 //   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Orc.Controls.Services
+namespace Orc.Controls
 {
-    using System.Collections.Generic;
-    using Orc.Controls.Models;
-
-    public interface IApplicationFilterGroupService
+    public enum LogFilterExpressionType
     {
-        IEnumerable<LogFilterGroup> Load();
-        void Save(IEnumerable<LogFilterGroup> filterGroups);
+        Contains,
+
+        NotStartsWith,
+
+        StartsWith,
+
+        NotContains,
+
+        Equals,
+
+        NotEquals
     }
 }

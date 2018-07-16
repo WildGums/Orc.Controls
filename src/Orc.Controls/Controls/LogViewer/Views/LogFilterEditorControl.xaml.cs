@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Views
+﻿namespace Orc.Controls
 {
     using System.Windows;
     using Catel.MVVM.Views;
@@ -9,13 +9,9 @@
     /// </summary>
     public partial class LogFilterEditorControl
     {
-        public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register(
-            "LogFilter", typeof(LogFilter), typeof(LogFilterEditorControl), new PropertyMetadata(default(LogFilter)));
-
         public LogFilterEditorControl()
         {
             InitializeComponent();
-            // DataContextChanged += OnDataContextChanged;
         }
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewModelToView)]
@@ -25,11 +21,7 @@
             set => SetValue(LogFilterProperty, value);
         }
 
-        /*
-        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            LogFilter = (LogFilter)e.NewValue;
-        }
-        */
+        public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register(
+            "LogFilter", typeof(LogFilter), typeof(LogFilterEditorControl), new PropertyMetadata(default(LogFilter)));
     }
 }

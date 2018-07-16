@@ -5,53 +5,60 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Controls.Models
+namespace Orc.Controls
 {
     using Catel.Data;
     using Catel.Logging;
+
+    using Orc.Controls.Models;
 
     public class LogFilter : ModelBase
     {
         public string Name { get; set; }
 
-        public ExpressionType ExpressionType { get; set; } = ExpressionType.Contains;
+        public LogFilterExpressionType ExpressionType { get; set; } = LogFilterExpressionType.Contains;
 
         public string ExpressionValue { get; set; }
 
-        public Action Action { get; set; } = Action.Include;
+        public LogFilterAction Action { get; set; } = LogFilterAction.Include;
 
-        public Target Target { get; set; } = Target.TypeName;
+        public LogFilterTarget Target { get; set; } = LogFilterTarget.TypeName;
 
         public bool Pass(LogEntry logEntry)
         {
             var result = false;
-            var expression = Target == Target.TypeName ? logEntry.Log.TargetType.FullName : logEntry.Log.TargetType.Assembly.GetName().Name;
+            var expression = Target == LogFilterTarget.TypeName ? logEntry.Log.TargetType.FullName : logEntry.Log.TargetType.Assembly.GetName().Name;
             if (!string.IsNullOrWhiteSpace(expression))
             {
                 switch (ExpressionType)
                 {
-                    case ExpressionType.Contains:
+                    case LogFilterExpressionType.Contains:
                         result = expression.Contains(ExpressionValue);
                         break;
-                    case ExpressionType.NotContains:
+
+                    case LogFilterExpressionType.NotContains:
                         result = !expression.Contains(ExpressionValue);
                         break;
-                    case ExpressionType.Equals:
+
+                    case LogFilterExpressionType.Equals:
                         result = expression.Equals(ExpressionValue);
                         break;
-                    case ExpressionType.NotEquals:
+
+                    case LogFilterExpressionType.NotEquals:
                         result = !expression.Equals(ExpressionValue);
                         break;
-                    case ExpressionType.StartsWith:
+
+                    case LogFilterExpressionType.StartsWith:
                         result = expression.StartsWith(ExpressionValue);
                         break;
-                    case ExpressionType.NotStartsWith:
+
+                    case LogFilterExpressionType.NotStartsWith:
                         result = !expression.StartsWith(ExpressionValue);
                         break;
                 }
             }
 
-            return Action == Action.Include ? result : !result;
+            return Action == LogFilterAction.Include ? result : !result;
         }
     }
 }

@@ -4,13 +4,15 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-namespace Orc.Controls.ViewModels
+namespace Orc.Controls
 {
     using System.Collections.ObjectModel;
     using System.Threading.Tasks;
+
     using Catel;
+    using Catel.Fody;
     using Catel.MVVM;
+
     using Orc.Controls.Models;
 
     public class LogFilterEditorViewModel : ViewModelBase
@@ -20,35 +22,25 @@ namespace Orc.Controls.ViewModels
             LogFilter = logFilter;
         }
 
+        public ObservableCollection<LogFilterAction> Actions { get; set; }
+
+        public ObservableCollection<LogFilterExpressionType> ExpressionTypes { get; set; }
+
         [Model]
+        [Expose("Name")]
+        [Expose("ExpressionType")]
+        [Expose("ExpressionValue")]
+        [Expose("Action")]
+        [Expose("Target")]
         public LogFilter LogFilter { get; set; }
 
-        [ViewModelToModel(nameof(LogFilter))]
-        public string Name { get; set; }
-
-        [ViewModelToModel(nameof(LogFilter))]
-        public ExpressionType ExpressionType { get; set; }
-
-        [ViewModelToModel(nameof(LogFilter))]
-        public string ExpressionValue { get; set; }
-
-        [ViewModelToModel(nameof(LogFilter))]
-        public Action Action { get; set; }
-
-        [ViewModelToModel(nameof(LogFilter))]
-        public Target Target { get; set; }
-
-        public ObservableCollection<Action> Actions { get; set; }
-
-        public ObservableCollection<Target> Targets { get; set; }
-
-        public ObservableCollection<ExpressionType> ExpressionTypes { get; set; }
+        public ObservableCollection<LogFilterTarget> Targets { get; set; }
 
         protected override async Task InitializeAsync()
         {
-            ExpressionTypes = new ObservableCollection<ExpressionType>(Enum<ExpressionType>.GetValues());
-            Actions = new ObservableCollection<Action>(Enum<Action>.GetValues());
-            Targets = new ObservableCollection<Target>(Enum<Target>.GetValues());
+            ExpressionTypes = new ObservableCollection<LogFilterExpressionType>(Enum<LogFilterExpressionType>.GetValues());
+            Actions = new ObservableCollection<LogFilterAction>(Enum<LogFilterAction>.GetValues());
+            Targets = new ObservableCollection<LogFilterTarget>(Enum<LogFilterTarget>.GetValues());
         }
     }
 }

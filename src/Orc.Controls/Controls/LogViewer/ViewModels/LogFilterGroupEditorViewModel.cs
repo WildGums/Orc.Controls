@@ -4,23 +4,23 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-namespace Orc.Controls.ViewModels
+namespace Orc.Controls
 {
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Threading.Tasks;
+
     using Catel;
     using Catel.Data;
     using Catel.MVVM;
     using Catel.Services;
-    using Orc.Controls.Models;
 
     public class LogFilterGroupEditorViewModel : ViewModelBase
     {
         private readonly IMessageService _messageService;
 
-        public LogFilterGroupEditorViewModel(IMessageService messageService) : this(new LogFilterGroup(), messageService)
+        public LogFilterGroupEditorViewModel(IMessageService messageService)
+            : this(new LogFilterGroup(), messageService)
         {
         }
 
@@ -31,63 +31,47 @@ namespace Orc.Controls.ViewModels
             _messageService = messageService;
             LogFilterGroup = logFilterGroup;
 
-            AddOrSaveCommand = new Command(OnAddOrSaveCommandExecute, OnAddOrSaveCommandCanExecute);
-            EditCommand = new Command(OnEditCommandExecute, OnEditCommandCanExecute);
-            CancelCommand = new Command(OnCancelCommandExecute);
+            AddOrSaveCommand = new TaskCommand(OnAddOrSaveCommandExecute, OnAddOrSaveCommandCanExecute);
+            EditCommand = new TaskCommand(OnEditCommandExecute, OnEditCommandCanExecute);
+            CancelCommand = new TaskCommand(OnCancelCommandExecute);
             RemoveCommand = new TaskCommand(OnRemoveCommandExecute, OnRemoveCommandCanExecute);
         }
 
-        private bool OnRemoveCommandCanExecute()
-        {
-            return SelectedLogFilter != null;
-        }
-
-        private async Task OnRemoveCommandExecute()
-        {
-            var result = await _messageService.ShowAsync("Are you sure?", button: MessageButton.YesNo, icon: MessageImage.Warning);
-            if (result == MessageResult.Yes)
-            {
-                LogFilterGroup.LogFilters.Remove(SelectedLogFilter);
-                SelectedLogFilter = null;
-            }
-
-        }
-
-        public TaskCommand RemoveCommand { get; set; }
-
-        [Model]
-        public LogFilterGroup LogFilterGroup { get; set; }
-
-        [ViewModelToModel(nameof(LogFilterGroup))]
-        public string Name { get; set; }
-
-        [ViewModelToModel(nameof(LogFilterGroup))]
-        public ObservableCollection<LogFilter> LogFilters { get; set; }
+        public TaskCommand AddOrSaveCommand { get; }
 
         public string AddOrSaveCommandText { get; private set; }
+
+        public TaskCommand CancelCommand { get; }
+
+        public TaskCommand EditCommand { get; }
+
+        [ViewModelToModel(nameof(LogFilter))]
+        public string ExpressionValue { get; set; }
 
         [Model]
         public LogFilter LogFilter { get; set; }
 
+        [Model]
+        public LogFilterGroup LogFilterGroup { get; set; }
+
         [ViewModelToModel(nameof(LogFilter), "Name")]
         public string LogFilterName { get; set; }
 
-        [ViewModelToModel(nameof(LogFilter))]
-        public string ExpressionValue { get; set; }
+        [ViewModelToModel(nameof(LogFilterGroup))]
+        public ObservableCollection<LogFilter> LogFilters { get; set; }
+
+        [ViewModelToModel(nameof(LogFilterGroup))]
+        public string Name { get; set; }
+
+        public TaskCommand RemoveCommand { get; set; }
 
         public LogFilter SelectedLogFilter { get; set; }
 
         public override string Title => "Log Filter Group Editor";
 
-        public Command AddOrSaveCommand { get; }
-
-        public Command EditCommand { get; }
-
-        public Command CancelCommand { get; }
-
-        private bool OnAddOrSaveCommandCanExecute()
+        protected override async Task InitializeAsync()
         {
-            return !string.IsNullOrWhiteSpace(LogFilterName) && !string.IsNullOrWhiteSpace(ExpressionValue);
+            InitializeLogFilter();
         }
 
         protected override void OnValidating(IValidationContext validationContext)
@@ -103,25 +87,20 @@ namespace Orc.Controls.ViewModels
             }
         }
 
-        private void OnCancelCommandExecute()
+        private void InitializeLogFilter()
         {
-            (LogFilter as IEditableObject).CancelEdit();
-            InitializeLogFilter();
+            SelectedLogFilter = null;
+            LogFilter = new LogFilter();
+            AddOrSaveCommandText = "Add";
+            ((IEditableObject)LogFilter).BeginEdit();
         }
 
-        private bool OnEditCommandCanExecute()
+        private bool OnAddOrSaveCommandCanExecute()
         {
-            return SelectedLogFilter != null;
+            return !string.IsNullOrWhiteSpace(LogFilterName) && !string.IsNullOrWhiteSpace(ExpressionValue);
         }
 
-        private void OnEditCommandExecute()
-        {
-            LogFilter = SelectedLogFilter;
-            AddOrSaveCommandText = "Save";
-            ((IEditableObject) LogFilter).BeginEdit();
-        }
-
-        private void OnAddOrSaveCommandExecute()
+        private async Task OnAddOrSaveCommandExecute()
         {
             if (LogFilters.IndexOf(LogFilter) == -1)
             {
@@ -135,17 +114,37 @@ namespace Orc.Controls.ViewModels
             InitializeLogFilter();
         }
 
-        protected override async Task InitializeAsync()
+        private async Task OnCancelCommandExecute()
         {
+            (LogFilter as IEditableObject).CancelEdit();
             InitializeLogFilter();
         }
 
-        private void InitializeLogFilter()
+        private bool OnEditCommandCanExecute()
         {
-            SelectedLogFilter = null;
-            LogFilter = new LogFilter();
-            AddOrSaveCommandText = "Add";
-            ((IEditableObject) LogFilter).BeginEdit();
+            return SelectedLogFilter != null;
+        }
+
+        private async Task OnEditCommandExecute()
+        {
+            LogFilter = SelectedLogFilter;
+            AddOrSaveCommandText = "Save";
+            ((IEditableObject)LogFilter).BeginEdit();
+        }
+
+        private bool OnRemoveCommandCanExecute()
+        {
+            return SelectedLogFilter != null;
+        }
+
+        private async Task OnRemoveCommandExecute()
+        {
+            var result = await _messageService.ShowAsync("Are you sure?", button: MessageButton.YesNo, icon: MessageImage.Warning);
+            if (result == MessageResult.Yes)
+            {
+                LogFilterGroup.LogFilters.Remove(SelectedLogFilter);
+                SelectedLogFilter = null;
+            }
         }
     }
 }

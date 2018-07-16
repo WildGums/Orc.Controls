@@ -23,7 +23,6 @@ namespace Orc.Controls
     using Catel.MVVM.Views;
     using Logging;
     using ViewModels;
-    using Action = System.Action;
 
     /// <summary>
     /// Interaction logic for LogViewerControl.xaml.

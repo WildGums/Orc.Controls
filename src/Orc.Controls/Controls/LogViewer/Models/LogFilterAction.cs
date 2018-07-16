@@ -1,16 +1,16 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Target.cs" company="WildGums">
+// <copyright file="Action.cs" company="WildGums">
 //   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Controls.Models
+namespace Orc.Controls
 {
-    public enum Target
+    public enum LogFilterAction
     {
-        TypeName,
+        Include,
 
-        AssemblyName
+        Exclude
     }
 }

@@ -19,8 +19,6 @@ namespace Orc.Controls.ViewModels
     using Catel.Services;
     using Catel.Threading;
     using Logging;
-    using Orc.Controls.Models;
-    using Orc.Controls.Services;
 
     public class LogViewerViewModel : ViewModelBase
     {
@@ -34,13 +32,17 @@ namespace Orc.Controls.ViewModels
         private bool _isViewModelActive;
 
         private readonly ITypeFactory _typeFactory;
+
         private readonly IDispatcherService _dispatcherService;
-        private readonly IApplicationFilterGroupService _applicationFilterGroupService;
+
+        private readonly IApplicationLogFilterGroupService _applicationLogFilterGroupService;
+
         private readonly LogViewerLogListener _logViewerLogListener;
 
         private readonly FastObservableCollection<LogEntry> _logEntries = new FastObservableCollection<LogEntry>();
 
         private readonly Timer _timer;
+
         private readonly Queue<LogEntry> _queuedEntries = new Queue<LogEntry>();
 
         private readonly List<LogFilterGroup> _applicationFilterGroups = new List<LogFilterGroup>();
@@ -52,16 +54,16 @@ namespace Orc.Controls.ViewModels
         #endregion
 
         #region Constructors
-        public LogViewerViewModel(ITypeFactory typeFactory, IDispatcherService dispatcherService, IApplicationFilterGroupService applicationFilterGroupService, LogViewerLogListener logViewerLogListener)
+        public LogViewerViewModel(ITypeFactory typeFactory, IDispatcherService dispatcherService, IApplicationLogFilterGroupService applicationLogFilterGroupService, LogViewerLogListener logViewerLogListener)
         {
             Argument.IsNotNull(() => typeFactory);
             Argument.IsNotNull(() => dispatcherService);
-            Argument.IsNotNull(() => applicationFilterGroupService);
+            Argument.IsNotNull(() => applicationLogFilterGroupService);
             Argument.IsNotNull(() => logViewerLogListener);
 
             _typeFactory = typeFactory;
             _dispatcherService = dispatcherService;
-            _applicationFilterGroupService = applicationFilterGroupService;
+            this._applicationLogFilterGroupService = applicationLogFilterGroupService;
             _logViewerLogListener = logViewerLogListener;
 
             _timer = new Timer(OnTimerTick);
@@ -343,7 +345,7 @@ namespace Orc.Controls.ViewModels
             _applicationFilterGroups.Clear();
             if (UseApplicationFilterGroupsConfiguration)
             {
-                _applicationFilterGroups.AddRange(_applicationFilterGroupService.Load());
+                _applicationFilterGroups.AddRange(_applicationLogFilterGroupService.LoadAsync().GetAwaiter().GetResult().Where(filterGroup => filterGroup.IsEnabled));
             }
 
             if (!PassFilters(logEntry))
@@ -389,8 +391,7 @@ namespace Orc.Controls.ViewModels
 
         private bool PassApplicationFilterGroupsConfiguration(LogEntry logEntry)
         {
-            var enabledFilterGroups = _applicationFilterGroups.Where(filterGroup => filterGroup.IsEnabled).ToList();
-            return enabledFilterGroups.Count == 0 || enabledFilterGroups.Any(group => group.Pass(logEntry));
+            return _applicationFilterGroups.Count == 0 || _applicationFilterGroups.Any(group => group.Pass(logEntry));
         }
 
         private bool PassLogFilter(LogEntry logEntry)

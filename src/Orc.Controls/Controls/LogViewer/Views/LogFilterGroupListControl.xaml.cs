@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Orc.Controls.Views
+namespace Orc.Controls
 {
     /// <summary>
     /// Interaction logic for LogFilterGroupListControl.xaml

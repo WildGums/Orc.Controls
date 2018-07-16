@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ExpressionType.cs" company="WildGums">
+// <copyright file="Target.cs" company="WildGums">
 //   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -7,18 +7,10 @@
 
 namespace Orc.Controls.Models
 {
-    public enum ExpressionType
+    public enum LogFilterTarget
     {
-        Contains,
+        TypeName,
 
-        NotStartsWith,
-
-        StartsWith,
-
-        NotContains,
-
-        Equals,
-
-        NotEquals
+        AssemblyName
     }
 }

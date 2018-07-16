@@ -5,40 +5,31 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Controls.ViewModels
+namespace Orc.Controls
 {
-    using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
-    using System.IO;
     using System.Threading.Tasks;
     using Catel;
     using Catel.Collections;
-    using Catel.Logging;
     using Catel.MVVM;
     using Catel.Services;
-    using Orc.Controls.Models;
-    using Orc.Controls.Services;
-    using Path = Catel.IO.Path;
 
     public class LogFilterGroupListControlViewModel : ViewModelBase
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-
-        private readonly IApplicationFilterGroupService _applicationFilterGroupService;
+        private readonly IApplicationLogFilterGroupService _applicationLogFilterGroupService;
 
         private readonly IMessageService _messageService;
 
         private readonly IUIVisualizerService _uIVisualizerService;
 
-        public LogFilterGroupListControlViewModel(IApplicationFilterGroupService applicationFilterGroupService, IMessageService messageService, IUIVisualizerService uIVisualizerService)
+        public LogFilterGroupListControlViewModel(IApplicationLogFilterGroupService applicationLogFilterGroupService, IMessageService messageService, IUIVisualizerService uIVisualizerService)
         {
-            Argument.IsNotNull(() => applicationFilterGroupService);
+            Argument.IsNotNull(() => applicationLogFilterGroupService);
             Argument.IsNotNull(() => messageService);
             Argument.IsNotNull(() => uIVisualizerService);
 
-            _applicationFilterGroupService = applicationFilterGroupService;
+            _applicationLogFilterGroupService = applicationLogFilterGroupService;
             _messageService = messageService;
             _uIVisualizerService = uIVisualizerService;
 
@@ -144,12 +135,12 @@ namespace Orc.Controls.ViewModels
 
         private void LoadFilterGroups()
         {
-            FilterGroups = new FastObservableCollection<LogFilterGroup>(_applicationFilterGroupService.Load());
+            FilterGroups = new FastObservableCollection<LogFilterGroup>(_applicationLogFilterGroupService.LoadAsync().GetAwaiter().GetResult());
         }
 
         private void SaveFilterGroups()
         {
-            _applicationFilterGroupService.Save(FilterGroups);
+            _applicationLogFilterGroupService.SaveAsync(FilterGroups);
         }
     }
 }

@@ -31,8 +31,6 @@ namespace Orc.Controls.Example.ViewModels
 
         public Command AddLogRecords { get; set; }
 
-        public LogFilterGroupListControlViewModel LogFilterGroupListViewModel { get; set; }
-
         private void OnAddLogRecordsExecute()
         {
             Log.Debug("Single line debug message");

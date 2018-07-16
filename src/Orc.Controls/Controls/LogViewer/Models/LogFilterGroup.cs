@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Orc.Controls.Models
+namespace Orc.Controls
 {
     using System.Collections.ObjectModel;
     using System.Linq;
