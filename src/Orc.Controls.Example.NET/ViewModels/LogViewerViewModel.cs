@@ -13,6 +13,7 @@ namespace Orc.Controls.Example.ViewModels
     using Catel.Logging;
     using Catel.MVVM;
     using Catel.Threading;
+    using Orc.Controls.ViewModels;
 
     public class LogViewerViewModel : ViewModelBase
     {
