@@ -18,44 +18,34 @@ namespace Orc.Controls
     public class LogFilterGroupEditorViewModel : ViewModelBase
     {
         private readonly IMessageService _messageService;
+        private readonly IUIVisualizerService _uiVisualizerService;
 
-        public LogFilterGroupEditorViewModel(IMessageService messageService)
-            : this(new LogFilterGroup(), messageService)
+        public LogFilterGroupEditorViewModel(LogFilterGroup logFilterGroup, IMessageService messageService,
+            IUIVisualizerService uiVisualizerService)
         {
-        }
-
-        public LogFilterGroupEditorViewModel(LogFilterGroup logFilterGroup, IMessageService messageService)
-        {
+            Argument.IsNotNull(() => logFilterGroup);
             Argument.IsNotNull(() => messageService);
+            Argument.IsNotNull(() => uiVisualizerService);
 
             _messageService = messageService;
+            _uiVisualizerService = uiVisualizerService;
             LogFilterGroup = logFilterGroup;
 
-            AddOrSaveCommand = new TaskCommand(OnAddOrSaveCommandExecuteAsync, OnAddOrSaveCommandCanExecute);
+            AddCommand = new TaskCommand(OnAddCommandExecuteAsync);
             EditCommand = new TaskCommand(OnEditCommandExecuteAsync, OnEditCommandCanExecute);
-            CancelCommand = new TaskCommand(OnCancelCommandExecuteAsync);
             RemoveCommand = new TaskCommand(OnRemoveCommandExecuteAsync, OnRemoveCommandCanExecute);
+
+            Title = "Log Filter Group Editor";
         }
 
-        public TaskCommand AddOrSaveCommand { get; }
-
-        public string AddOrSaveCommandText { get; private set; }
-
-        public TaskCommand CancelCommand { get; }
+        public TaskCommand AddCommand { get; }
 
         public TaskCommand EditCommand { get; }
 
-        [ViewModelToModel(nameof(LogFilter))]
-        public string ExpressionValue { get; set; }
-
-        [Model]
-        public LogFilter LogFilter { get; set; }
+        public TaskCommand RemoveCommand { get; set; }
 
         [Model]
         public LogFilterGroup LogFilterGroup { get; set; }
-
-        [ViewModelToModel(nameof(LogFilter), "Name")]
-        public string LogFilterName { get; set; }
 
         [ViewModelToModel(nameof(LogFilterGroup))]
         public ObservableCollection<LogFilter> LogFilters { get; set; }
@@ -63,16 +53,7 @@ namespace Orc.Controls
         [ViewModelToModel(nameof(LogFilterGroup))]
         public string Name { get; set; }
 
-        public TaskCommand RemoveCommand { get; set; }
-
         public LogFilter SelectedLogFilter { get; set; }
-
-        public override string Title => "Log Filter Group Editor";
-
-        protected override async Task InitializeAsync()
-        {
-            InitializeLogFilter();
-        }
 
         protected override void OnValidating(IValidationContext validationContext)
         {
@@ -86,38 +67,17 @@ namespace Orc.Controls
                 validationContext.Add(FieldValidationResult.CreateError(nameof(LogFilters), "At least one LogFilter for the is required"));
             }
         }
-
-        private void InitializeLogFilter()
+        
+        private async Task OnAddCommandExecuteAsync()
         {
-            SelectedLogFilter = null;
-            LogFilter = new LogFilter();
-            AddOrSaveCommandText = "Add";
-            ((IEditableObject)LogFilter).BeginEdit();
-        }
-
-        private bool OnAddOrSaveCommandCanExecute()
-        {
-            return !string.IsNullOrWhiteSpace(LogFilterName) && !string.IsNullOrWhiteSpace(ExpressionValue);
-        }
-
-        private async Task OnAddOrSaveCommandExecuteAsync()
-        {
-            if (LogFilters.IndexOf(LogFilter) == -1)
+            var logFilter = new LogFilter();
+            if (await _uiVisualizerService.ShowDialogAsync<LogFilterEditorViewModel>(logFilter) ?? false)
             {
-                LogFilters.Add(LogFilter);
-            }
-            else
-            {
-                (LogFilter as IEditableObject).EndEdit();
-            }
+                LogFilters.Add(logFilter);
+                SelectedLogFilter = logFilter;
 
-            InitializeLogFilter();
-        }
-
-        private async Task OnCancelCommandExecuteAsync()
-        {
-            (LogFilter as IEditableObject).CancelEdit();
-            InitializeLogFilter();
+                Validate(true);
+            }
         }
 
         private bool OnEditCommandCanExecute()
@@ -127,9 +87,11 @@ namespace Orc.Controls
 
         private async Task OnEditCommandExecuteAsync()
         {
-            LogFilter = SelectedLogFilter;
-            AddOrSaveCommandText = "Save";
-            ((IEditableObject)LogFilter).BeginEdit();
+            var logFilter = SelectedLogFilter;
+            if (await _uiVisualizerService.ShowDialogAsync<LogFilterEditorViewModel>(logFilter) ?? false)
+            {
+                // No action required
+            }
         }
 
         private bool OnRemoveCommandCanExecute()
@@ -144,6 +106,8 @@ namespace Orc.Controls
             {
                 LogFilterGroup.LogFilters.Remove(SelectedLogFilter);
                 SelectedLogFilter = null;
+
+                Validate(true);
             }
         }
     }

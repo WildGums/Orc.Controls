@@ -17,7 +17,7 @@
                 <DataTemplate>
                     <DataTemplate.Resources>
                         <Style x:Key="TextBlockResourceKey"
-                               TargetType="TextBlock" >
+                               TargetType="TextBlock">
                             <Style.Triggers>
                                 <Trigger Property="IsEnabled" Value="False">
                                     <Setter Property="FontStyle" Value="Italic"/>
@@ -32,10 +32,10 @@
         </ListBox>
         
         <StackPanel Grid.Column="1">
-            <Button Margin="5,0,0,5" Width="60" Command="{Binding AddCommand}">Add</Button>
-            <Button Margin="5,5,0,5" Width="60" Command="{Binding EditCommand}">Edit</Button>
-            <Button Margin="5,5,0,5" Width="60" Command="{Binding RemoveCommand}">Remove</Button>
-            <Button Margin="5,5,0,5" Width="60" Command="{Binding EnableOrDisableCommand}" Content="{Binding EnableOrDisableCommandText}" Visibility="{Binding IsFilterGroupSelected, Converter={catel:BooleanToHidingVisibilityConverter}}"/>
+            <Button Width="60" Command="{Binding AddCommand}">Add</Button>
+            <Button Width="60" Command="{Binding EditCommand}">Edit</Button>
+            <Button Width="60" Command="{Binding RemoveCommand}">Remove</Button>
+            <Button Width="60" Command="{Binding EnableOrDisableCommand}" Content="{Binding EnableOrDisableCommandText}" Visibility="{Binding IsFilterGroupSelected, Converter={catel:BooleanToHidingVisibilityConverter}}"/>
         </StackPanel>
     </Grid>
 </catel:UserControl>
