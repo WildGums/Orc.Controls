@@ -290,23 +290,22 @@ namespace Orc.Controls
                 foreach (ContentPresenter child in _itemsHolder.Children)
                 {
                     var tabControlItemData = child.Tag as TabControlItemData;
-                    if (tabControlItemData != null)
+                    var tabItem = tabControlItemData?.TabItem;
+                    if (tabItem == null)
                     {
-                        var tabItem = tabControlItemData.TabItem;
-                        if (tabItem != null)
-                        {
-                            ShowChildContent(child, tabControlItemData);
+                        continue;
+                    }
 
-                            // Collapsed is hidden + not loaded
+                    ShowChildContent(child, tabControlItemData);
+
+                    // Collapsed is hidden + not loaded
 #pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
-                            child.Visibility = Visibility.Collapsed;
+                    child.Visibility = Visibility.Collapsed;
 #pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
 
-                            if (LoadTabItems == LoadTabItemsBehavior.EagerLoading)
-                            {
-                                EagerLoadAllTabs();
-                            }
-                        }
+                    if (LoadTabItems == LoadTabItemsBehavior.EagerLoading)
+                    {
+                        EagerLoadAllTabs();
                     }
                 }
             }
@@ -327,13 +326,10 @@ namespace Orc.Controls
             foreach (ContentPresenter child in _itemsHolder.Children)
             {
                 var tabControlItemData = child.Tag as TabControlItemData;
-                if (tabControlItemData != null)
+                var tabItem = tabControlItemData?.TabItem;
+                if (tabItem != null)
                 {
-                    var tabItem = tabControlItemData.TabItem;
-                    if (tabItem != null)
-                    {
-                        ShowChildContent(child, tabControlItemData);
-                    }
+                    ShowChildContent(child, tabControlItemData);
                 }
 
                 // Always start invisible, the selection will take care of visibility
@@ -369,25 +365,26 @@ namespace Orc.Controls
 
             foreach (ContentPresenter child in _itemsHolder.Children)
             {
-                var tabControlItemData = child.Tag as TabControlItemData;
-                if (tabControlItemData != null)
+                if (!(child.Tag is TabControlItemData tabControlItemData))
                 {
-                    var tabItem = tabControlItemData.TabItem;
-                    if (tabItem != null && tabItem.IsSelected)
+                    continue;
+                }
+
+                var tabItem = tabControlItemData.TabItem;
+                if (tabItem != null && tabItem.IsSelected)
+                {
+                    if (child.Content == null)
                     {
-                        if (child.Content == null)
-                        {
-                            ShowChildContent(child, tabControlItemData);
-                        }
+                        ShowChildContent(child, tabControlItemData);
+                    }
 
 #pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
-                        child.Visibility = Visibility.Visible;
+                    child.Visibility = Visibility.Visible;
 #pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
-                    }
-                    else
-                    {
-                        itemsToHide.Add(child, tabControlItemData);
-                    }
+                }
+                else
+                {
+                    itemsToHide.Add(child, tabControlItemData);
                 }
             }
 
@@ -419,8 +416,7 @@ namespace Orc.Controls
                 return;
             }
 
-            object dummyObject = null;
-            if (_wrappedContainers.TryGetValue(item, out dummyObject))
+            if (_wrappedContainers.TryGetValue(item, out _))
             {
                 return;
             }
@@ -460,8 +456,7 @@ namespace Orc.Controls
 
         private object GetContent(object item)
         {
-            var itemAsTabItem = item as TabItem;
-            if (itemAsTabItem != null)
+            if (item is TabItem itemAsTabItem)
             {
                 return itemAsTabItem.Content;
             }
@@ -471,8 +466,7 @@ namespace Orc.Controls
 
         private object GetContentContainer(object item)
         {
-            var itemAsTabItem = item as TabItem;
-            if (itemAsTabItem != null)
+            if (item is TabItem itemAsTabItem)
             {
                 return itemAsTabItem;
             }
@@ -523,24 +517,12 @@ namespace Orc.Controls
                 return null;
             }
 
-            var dataAsTabItem = data as TabItem;
-            if (dataAsTabItem != null)
+            if (data is TabItem dataAsTabItem)
             {
                 data = dataAsTabItem.Content;
             }
 
-            if (_itemsHolder == null)
-            {
-                return null;
-            }
-
-            var existingCp = _itemsHolder.Children.Cast<ContentPresenter>().FirstOrDefault(cp => ReferenceEquals(((TabControlItemData) cp.Tag).Item, data));
-            if (existingCp != null)
-            {
-                return existingCp;
-            }
-
-            return null;
+            return _itemsHolder?.Children.Cast<ContentPresenter>().FirstOrDefault(cp => ReferenceEquals(((TabControlItemData)cp.Tag).Item, data));
         }
 
         /// <summary>
@@ -549,19 +531,13 @@ namespace Orc.Controls
         /// <returns></returns>
         protected TabItem GetSelectedTabItem()
         {
-            object selectedItem = SelectedItem;
+            var selectedItem = SelectedItem;
             if (selectedItem == null)
             {
                 return null;
             }
-
-            var item = selectedItem as TabItem;
-            if (item == null)
-            {
-                item = ItemContainerGenerator.ContainerFromIndex(SelectedIndex) as TabItem;
-            }
-
-            return item;
+            
+            return selectedItem as TabItem ?? ItemContainerGenerator.ContainerFromIndex(SelectedIndex) as TabItem;
         }
     }
 }

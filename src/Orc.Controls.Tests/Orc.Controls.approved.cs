@@ -1358,7 +1358,7 @@ namespace Orc.Controls
     {
         public ValidationResultTagNode(string tagName, bool isExpanded) { }
         public string TagName { get; }
-        public override int CompareTo(Orc.Controls.ValidationContextTreeNode nodeToCompare) { }
+        public override int CompareTo(Orc.Controls.ValidationContextTreeNode node) { }
         protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
         protected override void OnPropertyObjectCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) { }
     }

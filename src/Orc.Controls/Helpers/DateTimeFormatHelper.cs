@@ -22,7 +22,7 @@ namespace Orc.Controls
         #region Methods
         public static string[] Split(string format, char[] formatCharacters)
         {
-            List<string> parts = new List<string>();
+            var parts = new List<string>();
 
             char? prev = null;
             string part = null;
@@ -66,13 +66,13 @@ namespace Orc.Controls
             var count = 0;
 
             string hourFormat = null, hour12Format = null;
-            foreach (string part in parts)
+            foreach (var part in parts)
             {
                 count++;
 
                 if (count == 1 || count == parts.Length)
                 {
-                    if (!part.All(x => char.IsLetter(x)))
+                    if (!part.All(char.IsLetter))
                     {
                         continue;
                     }
