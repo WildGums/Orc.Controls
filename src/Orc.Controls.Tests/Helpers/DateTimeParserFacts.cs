@@ -16,7 +16,7 @@ namespace Orc.Controls
         [TestFixture]
         public class TheParseMethod
         {
-            private static object[][] parseDateTestCases = new object[][]
+            private static readonly object[][] ParseDateTestCases = new object[][]
             {
                 // Years
                 new object []
@@ -105,7 +105,7 @@ namespace Orc.Controls
                 },
             };
 
-            private static object[][] parseDateTimeTestCases = new object[][]
+            private static readonly object[][] ParseDateTimeTestCases = new object[][]
             {
                 // Years
                 new object []

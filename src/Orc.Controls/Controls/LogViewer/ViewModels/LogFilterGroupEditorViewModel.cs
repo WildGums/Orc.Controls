@@ -31,10 +31,10 @@ namespace Orc.Controls
             _messageService = messageService;
             LogFilterGroup = logFilterGroup;
 
-            AddOrSaveCommand = new TaskCommand(OnAddOrSaveCommandExecute, OnAddOrSaveCommandCanExecute);
-            EditCommand = new TaskCommand(OnEditCommandExecute, OnEditCommandCanExecute);
-            CancelCommand = new TaskCommand(OnCancelCommandExecute);
-            RemoveCommand = new TaskCommand(OnRemoveCommandExecute, OnRemoveCommandCanExecute);
+            AddOrSaveCommand = new TaskCommand(OnAddOrSaveCommandExecuteAsync, OnAddOrSaveCommandCanExecute);
+            EditCommand = new TaskCommand(OnEditCommandExecuteAsync, OnEditCommandCanExecute);
+            CancelCommand = new TaskCommand(OnCancelCommandExecuteAsync);
+            RemoveCommand = new TaskCommand(OnRemoveCommandExecuteAsync, OnRemoveCommandCanExecute);
         }
 
         public TaskCommand AddOrSaveCommand { get; }
@@ -100,7 +100,7 @@ namespace Orc.Controls
             return !string.IsNullOrWhiteSpace(LogFilterName) && !string.IsNullOrWhiteSpace(ExpressionValue);
         }
 
-        private async Task OnAddOrSaveCommandExecute()
+        private async Task OnAddOrSaveCommandExecuteAsync()
         {
             if (LogFilters.IndexOf(LogFilter) == -1)
             {
@@ -114,7 +114,7 @@ namespace Orc.Controls
             InitializeLogFilter();
         }
 
-        private async Task OnCancelCommandExecute()
+        private async Task OnCancelCommandExecuteAsync()
         {
             (LogFilter as IEditableObject).CancelEdit();
             InitializeLogFilter();
@@ -125,7 +125,7 @@ namespace Orc.Controls
             return SelectedLogFilter != null;
         }
 
-        private async Task OnEditCommandExecute()
+        private async Task OnEditCommandExecuteAsync()
         {
             LogFilter = SelectedLogFilter;
             AddOrSaveCommandText = "Save";
@@ -137,7 +137,7 @@ namespace Orc.Controls
             return SelectedLogFilter != null;
         }
 
-        private async Task OnRemoveCommandExecute()
+        private async Task OnRemoveCommandExecuteAsync()
         {
             var result = await _messageService.ShowAsync("Are you sure?", button: MessageButton.YesNo, icon: MessageImage.Warning);
             if (result == MessageResult.Yes)

@@ -10,8 +10,6 @@ namespace Orc.Controls
     using Catel.Data;
     using Catel.Logging;
 
-    using Orc.Controls.Models;
-
     public class LogFilter : ModelBase
     {
         public string Name { get; set; }
@@ -27,6 +25,7 @@ namespace Orc.Controls
         public bool Pass(LogEntry logEntry)
         {
             var result = false;
+
             var expression = Target == LogFilterTarget.TypeName ? logEntry.Log.TargetType.FullName : logEntry.Log.TargetType.Assembly.GetName().Name;
             if (!string.IsNullOrWhiteSpace(expression))
             {

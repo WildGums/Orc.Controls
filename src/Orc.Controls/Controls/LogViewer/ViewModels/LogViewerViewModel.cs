@@ -18,7 +18,6 @@ namespace Orc.Controls.ViewModels
     using Catel.MVVM;
     using Catel.Services;
     using Catel.Threading;
-    using Logging;
 
     public class LogViewerViewModel : ViewModelBase
     {
@@ -63,7 +62,7 @@ namespace Orc.Controls.ViewModels
 
             _typeFactory = typeFactory;
             _dispatcherService = dispatcherService;
-            this._applicationLogFilterGroupService = applicationLogFilterGroupService;
+            _applicationLogFilterGroupService = applicationLogFilterGroupService;
             _logViewerLogListener = logViewerLogListener;
 
             _timer = new Timer(OnTimerTick);

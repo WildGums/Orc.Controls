@@ -17,6 +17,7 @@ namespace Orc.Controls
         public static string GetInlineText(this RichTextBox richTextBox)
         {
             var sb = new StringBuilder();
+
             foreach (var block in richTextBox.Document.Blocks.OfType<Paragraph>())
             {
                 foreach (var inline in block.Inlines.OfType<Run>())
@@ -24,6 +25,7 @@ namespace Orc.Controls
                     sb.AppendLine(inline.Text);
                 }
             }
+
             return sb.ToString();
         }
     }

@@ -33,10 +33,10 @@ namespace Orc.Controls
             _messageService = messageService;
             _uIVisualizerService = uIVisualizerService;
 
-            AddCommand = new TaskCommand(OnAddCommandExecute);
-            EditCommand = new TaskCommand(OnEditCommandExecute, OnEditCommandCanExecute);
+            AddCommand = new TaskCommand(OnAddCommandExecuteAsync);
+            EditCommand = new TaskCommand(OnEditCommandExecuteAsync, OnEditCommandCanExecute);
             EnableOrDisableCommand = new Command(OnEnableOrDisableCommandExecute, OnEnableOrDisableCommandCanExecute);
-            RemoveCommand = new TaskCommand(OnRemoveCommandExecute, OnRemoveCommandCanExecute);
+            RemoveCommand = new TaskCommand(OnRemoveCommandExecuteAsync, OnRemoveCommandCanExecute);
         }
 
         public ObservableCollection<LogFilterGroup> FilterGroups { get; set; }
@@ -71,7 +71,7 @@ namespace Orc.Controls
             return SelectedFilterGroup != null;
         }
 
-        private async Task OnRemoveCommandExecute()
+        private async Task OnRemoveCommandExecuteAsync()
         {
             var result = await _messageService.ShowAsync("Are you sure?", button:MessageButton.YesNo, icon:MessageImage.Warning);
             if (result == MessageResult.Yes)
@@ -89,7 +89,7 @@ namespace Orc.Controls
             RaisePropertyChanged(() => EnableOrDisableCommandText);
         }
 
-        private async Task OnAddCommandExecute()
+        private async Task OnAddCommandExecuteAsync()
         {
             var logFilterGroup = new LogFilterGroup();
             var result = await _uIVisualizerService.ShowDialogAsync<LogFilterGroupEditorViewModel>(logFilterGroup, null);
@@ -110,7 +110,7 @@ namespace Orc.Controls
             return IsFilterGroupSelected;
         }
 
-        private async Task OnEditCommandExecute()
+        private async Task OnEditCommandExecuteAsync()
         {
             if (SelectedFilterGroup is IEditableObject editableObject)
             {

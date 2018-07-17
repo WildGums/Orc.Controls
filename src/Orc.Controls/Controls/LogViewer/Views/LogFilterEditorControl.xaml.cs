@@ -2,7 +2,6 @@
 {
     using System.Windows;
     using Catel.MVVM.Views;
-    using Orc.Controls.Models;
 
     /// <summary>
     /// Interaction logic for LogFilterEditorControl.xaml
@@ -21,7 +20,7 @@
             set => SetValue(LogFilterProperty, value);
         }
 
-        public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register(
-            "LogFilter", typeof(LogFilter), typeof(LogFilterEditorControl), new PropertyMetadata(default(LogFilter)));
+        public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register(nameof(LogFilter), 
+            typeof(LogFilter), typeof(LogFilterEditorControl), new PropertyMetadata(default(LogFilter)));
     }
 }

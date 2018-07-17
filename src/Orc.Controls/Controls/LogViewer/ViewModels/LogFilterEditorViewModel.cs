@@ -13,8 +13,6 @@ namespace Orc.Controls
     using Catel.Fody;
     using Catel.MVVM;
 
-    using Orc.Controls.Models;
-
     public class LogFilterEditorViewModel : ViewModelBase
     {
         public LogFilterEditorViewModel(LogFilter logFilter)

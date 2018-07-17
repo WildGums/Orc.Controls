@@ -15,7 +15,6 @@ namespace Orc.Controls.Example
     using Catel.Logging;
     using Catel.Services;
     using Orchestra;
-    using Logging;
     using Orchestra.Markup;
 
     /// <summary>

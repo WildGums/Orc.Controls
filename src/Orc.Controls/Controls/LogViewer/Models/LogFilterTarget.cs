@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Controls.Models
+namespace Orc.Controls
 {
     public enum LogFilterTarget
     {

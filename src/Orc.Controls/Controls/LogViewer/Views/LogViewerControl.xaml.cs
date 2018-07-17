@@ -21,7 +21,6 @@ namespace Orc.Controls
     using Catel.Logging;
     using Catel.MVVM;
     using Catel.MVVM.Views;
-    using Logging;
     using ViewModels;
 
     /// <summary>

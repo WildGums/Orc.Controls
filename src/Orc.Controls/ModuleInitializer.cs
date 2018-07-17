@@ -4,7 +4,6 @@ using Catel.Logging;
 using Catel.MVVM;
 using Catel.Services;
 using Orc.Controls;
-using Orc.Controls.Logging;
 using Orc.Controls.Services;
 
 /// <summary>

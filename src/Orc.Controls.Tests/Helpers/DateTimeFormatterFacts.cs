@@ -16,7 +16,7 @@ namespace Orc.Controls
         [TestFixture]
         public class TheFormatMethod
         {
-            private static object[][] formatDateTestCases = new object[][]
+            private static readonly object[][] FormatDateTestCases = new object[][]
             {
                 // Years
                 new object []
@@ -85,7 +85,7 @@ namespace Orc.Controls
                 },
             };
 
-            private static object[][] formatDateTimeTestCases = new object[][]
+            private static readonly object[][] FormatDateTimeTestCases = new object[][]
             {
                 // Years
                 new object []

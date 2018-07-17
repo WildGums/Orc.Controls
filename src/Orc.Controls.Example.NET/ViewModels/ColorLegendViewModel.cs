@@ -40,7 +40,7 @@ namespace Orc.Controls.Example.ViewModels
             UpdateCalenderStateLegend();
         }
 
-        private Random _random = new Random(10);
+        private readonly Random _random = new Random(10);
 
         private void UpdateCalenderStateLegend()
         {
