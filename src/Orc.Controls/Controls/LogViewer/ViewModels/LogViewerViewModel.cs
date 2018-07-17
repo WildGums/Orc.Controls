@@ -27,24 +27,18 @@ namespace Orc.Controls.ViewModels
 
         #region Fields
         private ILogListener _logListener;
-
         private bool _isViewModelActive;
 
         private readonly ITypeFactory _typeFactory;
-
         private readonly IDispatcherService _dispatcherService;
-
         private readonly IApplicationLogFilterGroupService _applicationLogFilterGroupService;
-
         private readonly LogViewerLogListener _logViewerLogListener;
 
         private readonly FastObservableCollection<LogEntry> _logEntries = new FastObservableCollection<LogEntry>();
-
         private readonly Timer _timer;
-
         private readonly Queue<LogEntry> _queuedEntries = new Queue<LogEntry>();
-
         private readonly List<LogFilterGroup> _applicationFilterGroups = new List<LogFilterGroup>();
+
 
         private bool _hasInitializedFirstLogListener;
         private bool _isClearingLog;
@@ -171,6 +165,8 @@ namespace Orc.Controls.ViewModels
             await base.InitializeAsync();
 
             _isViewModelActive = true;
+
+            _applicationFilterGroups.AddRange(await _applicationLogFilterGroupService.LoadAsync());
 
             StartTimer();
 
@@ -341,12 +337,6 @@ namespace Orc.Controls.ViewModels
                 return false;
             }
 
-            _applicationFilterGroups.Clear();
-            if (UseApplicationFilterGroupsConfiguration)
-            {
-                _applicationFilterGroups.AddRange(_applicationLogFilterGroupService.LoadAsync().GetAwaiter().GetResult().Where(filterGroup => filterGroup.IsEnabled));
-            }
-
             if (!PassFilters(logEntry))
             {
                 return false;
@@ -385,7 +375,22 @@ namespace Orc.Controls.ViewModels
 
         private bool PassFilters(LogEntry logEntry)
         {
-            return PassTypeFilter(logEntry) && PassLogFilter(logEntry) && PassApplicationFilterGroupsConfiguration(logEntry);
+            if (!PassTypeFilter(logEntry))
+            {
+                return false;
+            }
+
+            if (!PassLogFilter(logEntry))
+            {
+                return false;
+            }
+
+            if (UseApplicationFilterGroupsConfiguration && !PassApplicationFilterGroupsConfiguration(logEntry))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private bool PassApplicationFilterGroupsConfiguration(LogEntry logEntry)
@@ -433,46 +438,46 @@ namespace Orc.Controls.ViewModels
                 return;
             }
 
-            var filteredLogEntries = new List<LogEntry>();
-            var typeNames = TypeNames;
-            var requireSorting = false;
-
-            lock (_lock)
+            _dispatcherService.BeginInvoke(() =>
             {
-                using (SuspendChangeNotifications())
+                var filteredLogEntries = new List<LogEntry>();
+                var typeNames = TypeNames;
+                var requireSorting = false;
+
+                lock (_lock)
                 {
-                    using (_logEntries.SuspendChangeNotifications())
+                    using (SuspendChangeNotifications())
                     {
-                        foreach (var entry in entries)
+                        using (_logEntries.SuspendChangeNotifications())
                         {
-                            _logEntries.Add(entry);
-
-                            if (IsValidLogEntry(entry))
+                            foreach (var entry in entries)
                             {
-                                filteredLogEntries.Add(entry);
-                            }
+                                _logEntries.Add(entry);
 
-                            var targetTypeName = entry.Log.TargetType.Name;
-                            if (!typeNames.Contains(targetTypeName))
-                            {
-                                try
+                                if (IsValidLogEntry(entry))
                                 {
-                                    typeNames.Add(targetTypeName);
-
-                                    requireSorting = true;
+                                    filteredLogEntries.Add(entry);
                                 }
-                                catch (Exception)
+
+                                var targetTypeName = entry.Log.TargetType.Name;
+                                if (!typeNames.Contains(targetTypeName))
                                 {
-                                    // we don't have time for this, let it go...
+                                    try
+                                    {
+                                        typeNames.Add(targetTypeName);
+
+                                        requireSorting = true;
+                                    }
+                                    catch (Exception)
+                                    {
+                                        // we don't have time for this, let it go...
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
 
-            _dispatcherService.BeginInvoke(() =>
-            {
                 UpdateEntriesCount(entries);
 
                 if (requireSorting)
@@ -487,9 +492,9 @@ namespace Orc.Controls.ViewModels
                         }
                     }
                 }
-            });
 
-            LogMessage.SafeInvoke(this, new LogEntryEventArgs(entries, filteredLogEntries));
+                LogMessage.SafeInvoke(this, new LogEntryEventArgs(entries, filteredLogEntries));
+            });
         }
 
         private void OnLogMessage(object sender, LogMessageEventArgs e)

@@ -25,7 +25,7 @@ namespace Orc.Controls
                 timestamp = string.Empty;
             }
 
-            toolTip.Append("Log event: " + paragraph.LogEntry.Log.Tag);
+            toolTip.Append("Log event: " + paragraph.LogEntry.LogEvent);
             paragraph.SetCurrentValue(FrameworkContentElement.ToolTipProperty, toolTip.ToString());
 
             var threadId = string.Empty;
