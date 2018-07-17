@@ -247,7 +247,7 @@ namespace Orc.Controls
             };
 
             [Test]
-            [TestCaseSource("formatDateTestCases")]
+            [TestCaseSource("FormatDateTestCases")]
             public void CorrectlyFormatDate(DateTime dateTime, string format, string expectedResult)
             {
                 var result = DateTimeFormatter.Format(dateTime, format, true);
@@ -256,7 +256,7 @@ namespace Orc.Controls
             }
 
             [Test]
-            [TestCaseSource("formatDateTimeTestCases")]
+            [TestCaseSource("FormatDateTimeTestCases")]
             public void CorrectlyFormatDateTime(DateTime dateTime, string format, string expectedResult)
             {
                 var result = DateTimeFormatter.Format(dateTime, format, false);

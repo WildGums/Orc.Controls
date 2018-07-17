@@ -16,6 +16,12 @@ namespace Orc.Controls
         public AnimatedGif() { }
         public string GifSource { get; set; }
     }
+    public class ApplicationLogFilterGroupService : Orc.Controls.IApplicationLogFilterGroupService
+    {
+        public ApplicationLogFilterGroupService(Orc.FileSystem.IFileService fileService, Catel.Runtime.Serialization.Xml.IXmlSerializer xmlSerializer) { }
+        public System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Orc.Controls.LogFilterGroup>> LoadAsync() { }
+        public System.Threading.Tasks.Task SaveAsync(System.Collections.Generic.IEnumerable<Orc.Controls.LogFilterGroup> filterGroups) { }
+    }
     public class BindableRichTextBox : System.Windows.Controls.RichTextBox
     {
         public static readonly System.Windows.DependencyProperty BindableDocumentProperty;
@@ -665,6 +671,11 @@ namespace Orc.Controls
         public HeaderBar() { }
         public string Header { get; set; }
     }
+    public interface IApplicationLogFilterGroupService
+    {
+        System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Orc.Controls.LogFilterGroup>> LoadAsync();
+        System.Threading.Tasks.Task SaveAsync(System.Collections.Generic.IEnumerable<Orc.Controls.LogFilterGroup> filterGroups);
+    }
     public interface IColorLegendItem : System.ComponentModel.INotifyPropertyChanged
     {
         string AdditionalData { get; set; }
@@ -824,9 +835,143 @@ namespace Orc.Controls
         public System.Collections.Generic.List<Catel.Logging.LogEntry> FilteredLogEntries { get; }
         public System.Collections.Generic.List<Catel.Logging.LogEntry> LogEntries { get; }
     }
+    public class LogFilter : Catel.Data.ModelBase
+    {
+        public static readonly Catel.Data.PropertyData ActionProperty;
+        public static readonly Catel.Data.PropertyData ExpressionTypeProperty;
+        public static readonly Catel.Data.PropertyData ExpressionValueProperty;
+        public static readonly Catel.Data.PropertyData NameProperty;
+        public static readonly Catel.Data.PropertyData TargetProperty;
+        public LogFilter() { }
+        public Orc.Controls.LogFilterAction Action { get; set; }
+        public Orc.Controls.LogFilterExpressionType ExpressionType { get; set; }
+        public string ExpressionValue { get; set; }
+        public string Name { get; set; }
+        public Orc.Controls.LogFilterTarget Target { get; set; }
+        public bool Pass(Catel.Logging.LogEntry logEntry) { }
+    }
+    public enum LogFilterAction
+    {
+        Include = 0,
+        Exclude = 1,
+    }
+    public class LogFilterEditorControl : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
+    {
+        public static readonly System.Windows.DependencyProperty LogFilterProperty;
+        public LogFilterEditorControl() { }
+        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewModelToView)]
+        public Orc.Controls.LogFilter LogFilter { get; set; }
+        public void InitializeComponent() { }
+    }
+    public class LogFilterEditorViewModel : Catel.MVVM.ViewModelBase
+    {
+        public static readonly Catel.Data.PropertyData ActionProperty;
+        public static readonly Catel.Data.PropertyData ActionsProperty;
+        public static readonly Catel.Data.PropertyData ExpressionTypeProperty;
+        public static readonly Catel.Data.PropertyData ExpressionTypesProperty;
+        public static readonly Catel.Data.PropertyData ExpressionValueProperty;
+        public static readonly Catel.Data.PropertyData LogFilterProperty;
+        public static readonly Catel.Data.PropertyData NameProperty;
+        public static readonly Catel.Data.PropertyData TargetProperty;
+        public static readonly Catel.Data.PropertyData TargetsProperty;
+        public LogFilterEditorViewModel(Orc.Controls.LogFilter logFilter) { }
+        [Catel.MVVM.ViewModelToModelAttribute("", "")]
+        public Orc.Controls.LogFilterAction Action { get; set; }
+        public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilterAction> Actions { get; }
+        [Catel.MVVM.ViewModelToModelAttribute("", "")]
+        public Orc.Controls.LogFilterExpressionType ExpressionType { get; set; }
+        public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilterExpressionType> ExpressionTypes { get; }
+        [Catel.MVVM.ViewModelToModelAttribute("", "")]
+        public string ExpressionValue { get; set; }
+        [Catel.MVVM.ModelAttribute()]
+        public Orc.Controls.LogFilter LogFilter { get; set; }
+        [Catel.MVVM.ViewModelToModelAttribute("", "")]
+        public string Name { get; set; }
+        [Catel.MVVM.ViewModelToModelAttribute("", "")]
+        public Orc.Controls.LogFilterTarget Target { get; set; }
+        public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilterTarget> Targets { get; }
+        protected override void ValidateFields(System.Collections.Generic.List<Catel.Data.IFieldValidationResult> validationResults) { }
+    }
+    public enum LogFilterExpressionType
+    {
+        Contains = 0,
+        NotStartsWith = 1,
+        StartsWith = 2,
+        NotContains = 3,
+        Equals = 4,
+        NotEquals = 5,
+    }
+    public class LogFilterGroup : Catel.Data.ModelBase
+    {
+        public static readonly Catel.Data.PropertyData IsEnabledProperty;
+        public static readonly Catel.Data.PropertyData LogFiltersProperty;
+        public static readonly Catel.Data.PropertyData NameProperty;
+        public LogFilterGroup() { }
+        public bool IsEnabled { get; set; }
+        public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilter> LogFilters { get; set; }
+        public string Name { get; set; }
+        public bool Pass(Catel.Logging.LogEntry logEntry) { }
+    }
+    public class LogFilterGroupEditorViewModel : Catel.MVVM.ViewModelBase
+    {
+        public static readonly Catel.Data.PropertyData LogFilterGroupProperty;
+        public static readonly Catel.Data.PropertyData LogFiltersProperty;
+        public static readonly Catel.Data.PropertyData NameProperty;
+        public static readonly Catel.Data.PropertyData SelectedLogFilterProperty;
+        public LogFilterGroupEditorViewModel(Orc.Controls.LogFilterGroup logFilterGroup, Catel.Services.IMessageService messageService, Catel.Services.IUIVisualizerService uiVisualizerService) { }
+        public Catel.MVVM.TaskCommand AddCommand { get; }
+        public Catel.MVVM.TaskCommand EditCommand { get; }
+        [Catel.MVVM.ModelAttribute()]
+        public Orc.Controls.LogFilterGroup LogFilterGroup { get; set; }
+        [Catel.MVVM.ViewModelToModelAttribute("LogFilterGroup", "")]
+        public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilter> LogFilters { get; set; }
+        [Catel.MVVM.ViewModelToModelAttribute("LogFilterGroup", "")]
+        public string Name { get; set; }
+        public Catel.MVVM.TaskCommand RemoveCommand { get; set; }
+        public Orc.Controls.LogFilter SelectedLogFilter { get; set; }
+        protected override void OnValidating(Catel.Data.IValidationContext validationContext) { }
+    }
+    public class LogFilterGroupEditorWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
+    {
+        public LogFilterGroupEditorWindow() { }
+        public void InitializeComponent() { }
+    }
+    public class LogFilterGroupListControl : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    {
+        public LogFilterGroupListControl() { }
+        public void InitializeComponent() { }
+    }
+    public class LogFilterGroupListControlViewModel : Catel.MVVM.ViewModelBase
+    {
+        public static readonly Catel.Data.PropertyData FilterGroupsProperty;
+        public static readonly Catel.Data.PropertyData SelectedFilterGroupProperty;
+        public LogFilterGroupListControlViewModel(Orc.Controls.IApplicationLogFilterGroupService applicationLogFilterGroupService, Catel.Services.IMessageService messageService, Catel.Services.IUIVisualizerService uIVisualizerService) { }
+        public Catel.MVVM.TaskCommand AddCommand { get; set; }
+        public Catel.MVVM.TaskCommand EditCommand { get; set; }
+        public Catel.MVVM.Command EnableOrDisableCommand { get; set; }
+        public string EnableOrDisableCommandText { get; }
+        public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilterGroup> FilterGroups { get; set; }
+        public bool IsFilterGroupSelected { get; }
+        public Catel.MVVM.TaskCommand RemoveCommand { get; set; }
+        public Orc.Controls.LogFilterGroup SelectedFilterGroup { get; set; }
+        protected override System.Threading.Tasks.Task InitializeAsync() { }
+        protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
+    }
+    public enum LogFilterTarget
+    {
+        TypeName = 0,
+        AssemblyName = 1,
+    }
     public class static LoggingExtensions
     {
         public static System.Collections.Generic.IEnumerable<Orc.Controls.RichTextBoxParagraph> ConvertToParagraphs(this System.Collections.Generic.IEnumerable<Catel.Logging.LogEntry> logEntries) { }
+    }
+    public class LogRecord
+    {
+        public LogRecord() { }
+        public System.DateTime DateTime { get; set; }
+        public Catel.Logging.LogEvent LogEvent { get; set; }
+        public string Message { get; set; }
     }
     public class LogViewerControl : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
@@ -845,7 +990,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ShowMultilineMessagesExpandedProperty;
         public static readonly System.Windows.DependencyProperty ShowWarningProperty;
         public static readonly System.Windows.DependencyProperty SupportCommandManagerProperty;
-        public static readonly System.Windows.DependencyProperty TypeFilterProperty;
+        public static readonly System.Windows.DependencyProperty UseApplicationFilterGroupsConfigurationProperty;
         public LogViewerControl() { }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool AutoScroll { get; set; }
@@ -873,7 +1018,7 @@ namespace Orc.Controls
         public bool ShowWarning { get; set; }
         public bool SupportCommandManager { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
-        public string TypeFilter { get; set; }
+        public bool UseApplicationFilterGroupsConfiguration { get; set; }
         public event System.EventHandler<Orc.Controls.LogEntryDoubleClickEventArgs> LogEntryDoubleClick;
         public void Clear() { }
         public void CollapseAllMultilineLogMessages() { }
@@ -884,6 +1029,10 @@ namespace Orc.Controls
         protected override void OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
         protected override void OnViewModelChanged() { }
         protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
+    }
+    public class LogViewerLogListener : Catel.Logging.RollingInMemoryLogListener
+    {
+        public LogViewerLogListener() { }
     }
     public class MsSqlDataSourceProvider : Orc.Controls.IDataSourceProvider
     {
@@ -1417,20 +1566,6 @@ namespace Orc.Controls.Converters
         protected override object Convert(object value, System.Type targetType, object parameter) { }
     }
 }
-namespace Orc.Controls.Logging
-{
-    public class LogRecord
-    {
-        public LogRecord() { }
-        public System.DateTime DateTime { get; set; }
-        public Catel.Logging.LogEvent LogEvent { get; set; }
-        public string Message { get; set; }
-    }
-    public class LogViewerLogListener : Catel.Logging.RollingInMemoryLogListener
-    {
-        public LogViewerLogListener() { }
-    }
-}
 namespace Orc.Controls.Services
 {
     public class MicrosoftApiSelectDirectoryService : Catel.Services.ISelectDirectoryService
@@ -1464,8 +1599,9 @@ namespace Orc.Controls.ViewModels
         public static readonly Catel.Data.PropertyData ShowWarningProperty;
         public static readonly Catel.Data.PropertyData TypeFilterProperty;
         public static readonly Catel.Data.PropertyData TypeNamesProperty;
+        public static readonly Catel.Data.PropertyData UseApplicationFilterGroupsConfigurationProperty;
         public static readonly Catel.Data.PropertyData WarningEntriesCountProperty;
-        public LogViewerViewModel(Catel.IoC.ITypeFactory typeFactory, Catel.Services.IDispatcherService dispatcherService, Orc.Controls.Logging.LogViewerLogListener logViewerLogListener) { }
+        public LogViewerViewModel(Catel.IoC.ITypeFactory typeFactory, Catel.Services.IDispatcherService dispatcherService, Orc.Controls.IApplicationLogFilterGroupService applicationLogFilterGroupService, Orc.Controls.LogViewerLogListener logViewerLogListener) { }
         public bool AutoScroll { get; set; }
         public int DebugEntriesCount { get; }
         public int ErrorEntriesCount { get; }
@@ -1482,6 +1618,7 @@ namespace Orc.Controls.ViewModels
         public bool ShowWarning { get; set; }
         public string TypeFilter { get; set; }
         public Catel.Collections.FastObservableCollection<string> TypeNames { get; }
+        public bool UseApplicationFilterGroupsConfiguration { get; set; }
         public int WarningEntriesCount { get; }
         public event System.EventHandler<Orc.Controls.LogEntryEventArgs> LogMessage;
         public void ClearEntries() { }

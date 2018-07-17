@@ -344,7 +344,7 @@ namespace Orc.Controls
             };
 
             [Test]
-            [TestCaseSource("parseDateTestCases")]
+            [TestCaseSource("ParseDateTestCases")]
             public void CorrectlyParseDate(string input, string format, DateTime expectedResult)
             {
                 var result = DateTimeParser.Parse(input, format, true);
@@ -353,7 +353,7 @@ namespace Orc.Controls
             }
 
             [Test]
-            [TestCaseSource("parseDateTimeTestCases")]
+            [TestCaseSource("ParseDateTimeTestCases")]
             public void CorrectlyParseDateTime(string input, string format, DateTime expectedResult)
             {
                 var result = DateTimeParser.Parse(input, format, false);

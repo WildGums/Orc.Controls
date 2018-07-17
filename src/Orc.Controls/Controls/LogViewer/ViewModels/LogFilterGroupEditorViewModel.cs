@@ -61,11 +61,6 @@ namespace Orc.Controls
             {
                 validationContext.Add(FieldValidationResult.CreateError(nameof(Name), "'Name' for the LogFilterGroup is required"));
             }
-
-            if (LogFilters == null || LogFilters.Count == 0)
-            {
-                validationContext.Add(FieldValidationResult.CreateError(nameof(LogFilters), "At least one LogFilter for the is required"));
-            }
         }
         
         private async Task OnAddCommandExecuteAsync()

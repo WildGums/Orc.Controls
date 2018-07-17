@@ -45,7 +45,7 @@ namespace Orc.Controls
             };
 
             [Test]
-            [TestCaseSource("splitTestCases")]
+            [TestCaseSource("SplitTestCases")]
             public void CorrectlySplitsDateToParts(string format, char[] formatCharacters, string[] expectedResult)
             {
                 var result = DateTimeFormatHelper.Split(format, formatCharacters);
@@ -57,7 +57,7 @@ namespace Orc.Controls
         [TestFixture]
         public class TheGetDateTimeFormatInfoMethod
         {
-            private static readonly object[][] getDateTimeFormatInfoForDateFormatTestCases = new object[][]
+            private static readonly object[][] GetDateTimeFormatInfoForDateFormatTestCases = new object[][]
             {
                 new object []
                 {
@@ -198,7 +198,7 @@ namespace Orc.Controls
             };
 
             [Test]
-            [TestCaseSource("getDateTimeFormatInfoForDateFormatTestCases")]
+            [TestCaseSource("GetDateTimeFormatInfoForDateFormatTestCases")]
             public void ReturnsCorrectDateFormatInfoForDateFormat(string format, DateTimeFormatInfo expectedResult)
             {
                 var result = DateTimeFormatHelper.GetDateTimeFormatInfo(format, true);
@@ -272,7 +272,7 @@ namespace Orc.Controls
             }
 
             [Test]
-            [TestCaseSource("getDateTimeFormatInfoForDateTimeFormatTestCases")]
+            [TestCaseSource("GetDateTimeFormatInfoForDateTimeFormatTestCases")]
             public void ReturnsCorrectDateFormatInfoForDateTimeFormat(string format, DateTimeFormatInfo expectedResult)
             {
                 var result = DateTimeFormatHelper.GetDateTimeFormatInfo(format, false);

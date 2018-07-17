@@ -25,6 +25,7 @@ namespace Orc.Controls
                 timestamp = string.Empty;
             }
 
+            toolTip.Append("Log type: " + paragraph.LogEntry.Log.TargetType.FullName);
             toolTip.Append("Log event: " + paragraph.LogEntry.LogEvent);
             paragraph.SetCurrentValue(FrameworkContentElement.ToolTipProperty, toolTip.ToString());
 
@@ -32,9 +33,9 @@ namespace Orc.Controls
             if (showThreadId)
             {
                 var data = paragraph.LogEntry.Data;
-                if (data.ContainsKey("ThreadId"))
+                if (data.TryGetValue("ThreadId", out var existingThreadId))
                 {
-                    threadId = $"[{data["ThreadId"]}] ";
+                    threadId = $"[{existingThreadId}] ";
                 }
             }
 
