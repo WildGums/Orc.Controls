@@ -12,8 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ApprovalTests" Version="3.0.13" PrivateAssets="all" />
-    <PackageReference Include="ApprovalUtilities" Version="3.0.13" PrivateAssets="all" />
+    <PackageReference Include="ApprovalTests" Version="3.0.15" PrivateAssets="all" />
+    <PackageReference Include="ApprovalUtilities" Version="3.0.15" PrivateAssets="all" />
     <PackageReference Include="ApiApprover" Version="7.0.1" PrivateAssets="all" />
     <PackageReference Include="Catel.Core" Version="5.6.0" />
     <PackageReference Include="Catel.Fody" Version="3.3.0" PrivateAssets="all" />
