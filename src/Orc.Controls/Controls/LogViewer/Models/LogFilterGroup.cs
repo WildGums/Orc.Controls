@@ -23,5 +23,10 @@ namespace Orc.Controls
         {
             return LogFilters.All(filter => filter.Pass(logEntry));
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
