@@ -25,8 +25,11 @@ namespace Orc.Controls
                 timestamp = string.Empty;
             }
 
-            toolTip.Append("Log type: " + paragraph.LogEntry.Log.TargetType.FullName);
+            toolTip.AppendLine("Log type: " + paragraph.LogEntry.Log.TargetType.FullName);
+
+            // Note: last call must be Append instead of AppendLine
             toolTip.Append("Log event: " + paragraph.LogEntry.LogEvent);
+
             paragraph.SetCurrentValue(FrameworkContentElement.ToolTipProperty, toolTip.ToString());
 
             var threadId = string.Empty;
