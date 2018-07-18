@@ -911,6 +911,7 @@ namespace Orc.Controls
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilter> LogFilters { get; set; }
         public string Name { get; set; }
         public bool Pass(Catel.Logging.LogEntry logEntry) { }
+        public override string ToString() { }
     }
     public class LogFilterGroupEditorViewModel : Catel.MVVM.ViewModelBase
     {
