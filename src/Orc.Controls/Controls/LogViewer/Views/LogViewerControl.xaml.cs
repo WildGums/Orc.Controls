@@ -119,6 +119,7 @@ namespace Orc.Controls
             typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
+
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public Type LogListenerType
         {
@@ -212,15 +213,17 @@ namespace Orc.Controls
         public static readonly DependencyProperty ShowMultilineMessagesExpandedProperty = DependencyProperty.Register("ShowMultilineMessagesExpanded", typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
+
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool UseApplicationFilterGroupsConfiguration
+        public LogFilterGroup ActiveFilterGroup
         {
-            get { return (bool)GetValue(UseApplicationFilterGroupsConfigurationProperty); }
-            set { SetValue(UseApplicationFilterGroupsConfigurationProperty, value); }
+            get { return (LogFilterGroup)GetValue(ActiveFilterGroupProperty); }
+            set { SetValue(ActiveFilterGroupProperty, value); }
         }
 
-        public static readonly DependencyProperty UseApplicationFilterGroupsConfigurationProperty = DependencyProperty.Register("UseApplicationFilterGroupsConfiguration", typeof(bool),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+        public static readonly DependencyProperty ActiveFilterGroupProperty = DependencyProperty.Register(nameof(ActiveFilterGroup),
+            typeof(LogFilterGroup), typeof(LogViewerControl), new PropertyMetadata(null));
+
 
         public bool SupportCommandManager
         {
@@ -251,6 +254,7 @@ namespace Orc.Controls
             if (_lastKnownViewModel != null)
             {
                 _lastKnownViewModel.LogMessage -= OnViewModelLogMessage;
+                _lastKnownViewModel.ActiveFilterGroupChanged -= OnViewModelActiveFilterGroupChanged;
                 _lastKnownViewModel = null;
             }
 
@@ -258,6 +262,7 @@ namespace Orc.Controls
             if (_lastKnownViewModel != null)
             {
                 _lastKnownViewModel.LogMessage += OnViewModelLogMessage;
+                _lastKnownViewModel.ActiveFilterGroupChanged += OnViewModelActiveFilterGroupChanged;
             }
 
             ScrollToEnd();
@@ -286,6 +291,11 @@ namespace Orc.Controls
         private void OnViewModelLogMessage(object sender, LogEntryEventArgs e)
         {
             UpdateControl(false, e.FilteredLogEntries);
+        }
+
+        private void OnViewModelActiveFilterGroupChanged(object sender, EventArgs e)
+        {
+            UpdateControl();
         }
 
         private void UpdateControl(bool rebuild = true, List<LogEntry> logEntries = null, bool scrollToEnd = false)

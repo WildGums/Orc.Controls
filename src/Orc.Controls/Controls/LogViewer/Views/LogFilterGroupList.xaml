@@ -1,4 +1,4 @@
-﻿<catel:UserControl x:Class="Orc.Controls.LogFilterGroupListControl"
+﻿<catel:UserControl x:Class="Orc.Controls.LogFilterGroupList"
                    xmlns:catel="http://schemas.catelproject.com" 
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,7 +12,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <ListBox Grid.Column="0" ItemsSource="{Binding FilterGroups}" SelectedItem="{Binding SelectedFilterGroup}" VerticalAlignment="Stretch" Margin="0">
+        <ListBox Grid.Column="0" ItemsSource="{Binding FilterGroups}" SelectedItem="{Binding SelectedFilterGroup}" VerticalAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <DataTemplate.Resources>
@@ -35,7 +35,6 @@
             <Button Width="60" Command="{Binding AddCommand}">Add</Button>
             <Button Width="60" Command="{Binding EditCommand}">Edit</Button>
             <Button Width="60" Command="{Binding RemoveCommand}">Remove</Button>
-            <Button Width="60" Command="{Binding EnableOrDisableCommand}" Content="{Binding EnableOrDisableCommandText}" Visibility="{Binding IsFilterGroupSelected, Converter={catel:BooleanToHidingVisibilityConverter}}"/>
         </StackPanel>
     </Grid>
 </catel:UserControl>

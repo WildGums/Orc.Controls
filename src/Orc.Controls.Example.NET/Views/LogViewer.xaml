@@ -32,7 +32,7 @@
                               EnableTimestamp="{Binding IsChecked, ElementName=EnableTimestampCheckBox}"
                               AutoScroll="{Binding IsChecked, ElementName=AutoScrollCheckBox}"
                               ShowMultilineMessagesExpanded="{Binding IsChecked, ElementName=ShowMultilineMessageExpandedCheckBox}"
-                              UseApplicationFilterGroupsConfiguration="{Binding IsChecked, ElementName=UseApplicationFilterGroupsConfigurationCheckBox}"
+                              ActiveFilterGroup="{Binding SelectedItem, ElementName=ActiveFilterGroupComboBox}"
                               EnableTextColoring="True" EnableIcons="True"/>
 
         <TextBlock Grid.Column="0" Grid.Row="1" Text="Log Viewer Events" Margin="5" />
@@ -47,9 +47,9 @@
         <TextBox x:Name="FilterTextBox" Grid.Column="1" Grid.Row="2" Margin="5"/>
 
         <TextBlock Grid.Column="0" Grid.Row="3" Text="Application Filter Groups" Margin="5" />
-        
-        <orc:LogFilterGroupListControl Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Margin="5" />
-        
+
+        <orc:LogFilterGroupList Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Margin="5" Updated="OnLogFilterGroupListUpdated" />
+
         <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
             <ToggleButton x:Name="ShowDebugToggleButton" Height="25" Width="60" Margin="4" 
                           VerticalAlignment="Top" Content="Debug" IsChecked="True" />
@@ -60,15 +60,21 @@
             <ToggleButton x:Name="ShowErrorToggleButton" Height="25" Width="60" Margin="0 4 4 4"
                           VerticalAlignment="Top" Content="Error" IsChecked="True" />
         </StackPanel>
+
         <StackPanel Grid.Column="1" Grid.Row="5">
-        	<StackPanel Orientation="Horizontal">
-	            <CheckBox x:Name="EnableTimestampCheckBox" Content="Enable Timestamp" Margin="5" />
-	            <CheckBox x:Name="AutoScrollCheckBox" Content="Auto Scroll" Margin="5" IsChecked="True" />
-			</StackPanel>	            
-			<StackPanel Orientation="Horizontal">
-	            <CheckBox x:Name="ShowMultilineMessageExpandedCheckBox" Content="Show Multiline Message Expanded" Margin="5" IsChecked="False" />
-	            <CheckBox x:Name="UseApplicationFilterGroupsConfigurationCheckBox" Content="Use Application Filter Groups" Margin="5" IsChecked="False" />
-			</StackPanel>	            
+            <StackPanel Orientation="Horizontal">
+                <CheckBox x:Name="EnableTimestampCheckBox" Content="Enable Timestamp" Margin="5" />
+                <CheckBox x:Name="AutoScrollCheckBox" Content="Auto Scroll" Margin="5" IsChecked="True" />
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
+                <CheckBox x:Name="ShowMultilineMessageExpandedCheckBox" Content="Show Multiline Message Expanded" Margin="5" IsChecked="False" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Active filter group" />
+                <ComboBox x:Name="ActiveFilterGroupComboBox" DisplayMemberPath="Name" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </catel:UserControl>

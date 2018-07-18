@@ -936,26 +936,27 @@ namespace Orc.Controls
         public LogFilterGroupEditorWindow() { }
         public void InitializeComponent() { }
     }
-    public class LogFilterGroupListControl : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    public class LogFilterGroupList : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
-        public LogFilterGroupListControl() { }
+        public LogFilterGroupList() { }
+        public event System.EventHandler<System.EventArgs> Updated;
         public void InitializeComponent() { }
+        protected override void OnViewModelChanged() { }
     }
-    public class LogFilterGroupListControlViewModel : Catel.MVVM.ViewModelBase
+    public class LogFilterGroupListViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.PropertyData FilterGroupsProperty;
         public static readonly Catel.Data.PropertyData SelectedFilterGroupProperty;
-        public LogFilterGroupListControlViewModel(Orc.Controls.IApplicationLogFilterGroupService applicationLogFilterGroupService, Catel.Services.IMessageService messageService, Catel.Services.IUIVisualizerService uIVisualizerService) { }
+        public static readonly Catel.Data.PropertyData SelectedFilterGroupsProperty;
+        public LogFilterGroupListViewModel(Orc.Controls.IApplicationLogFilterGroupService applicationLogFilterGroupService, Catel.Services.IMessageService messageService, Catel.Services.IUIVisualizerService uiVisualizerService) { }
         public Catel.MVVM.TaskCommand AddCommand { get; set; }
         public Catel.MVVM.TaskCommand EditCommand { get; set; }
-        public Catel.MVVM.Command EnableOrDisableCommand { get; set; }
-        public string EnableOrDisableCommandText { get; }
-        public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilterGroup> FilterGroups { get; set; }
-        public bool IsFilterGroupSelected { get; }
+        public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilterGroup> FilterGroups { get; }
         public Catel.MVVM.TaskCommand RemoveCommand { get; set; }
         public Orc.Controls.LogFilterGroup SelectedFilterGroup { get; set; }
+        public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilterGroup> SelectedFilterGroups { get; }
+        public event System.EventHandler<System.EventArgs> Updated;
         protected override System.Threading.Tasks.Task InitializeAsync() { }
-        protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
     }
     public enum LogFilterTarget
     {
@@ -975,6 +976,7 @@ namespace Orc.Controls
     }
     public class LogViewerControl : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
+        public static readonly System.Windows.DependencyProperty ActiveFilterGroupProperty;
         public static readonly System.Windows.DependencyProperty AutoScrollProperty;
         public static readonly System.Windows.DependencyProperty EnableIconsProperty;
         public static readonly System.Windows.DependencyProperty EnableTextColoringProperty;
@@ -990,8 +992,9 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ShowMultilineMessagesExpandedProperty;
         public static readonly System.Windows.DependencyProperty ShowWarningProperty;
         public static readonly System.Windows.DependencyProperty SupportCommandManagerProperty;
-        public static readonly System.Windows.DependencyProperty UseApplicationFilterGroupsConfigurationProperty;
         public LogViewerControl() { }
+        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public Orc.Controls.LogFilterGroup ActiveFilterGroup { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool AutoScroll { get; set; }
         public bool EnableIcons { get; set; }
@@ -1017,8 +1020,6 @@ namespace Orc.Controls
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowWarning { get; set; }
         public bool SupportCommandManager { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool UseApplicationFilterGroupsConfiguration { get; set; }
         public event System.EventHandler<Orc.Controls.LogEntryDoubleClickEventArgs> LogEntryDoubleClick;
         public void Clear() { }
         public void CollapseAllMultilineLogMessages() { }
@@ -1584,6 +1585,7 @@ namespace Orc.Controls.ViewModels
 {
     public class LogViewerViewModel : Catel.MVVM.ViewModelBase
     {
+        public static readonly Catel.Data.PropertyData ActiveFilterGroupProperty;
         public static readonly Catel.Data.PropertyData AutoScrollProperty;
         public static readonly Catel.Data.PropertyData DebugEntriesCountProperty;
         public static readonly Catel.Data.PropertyData ErrorEntriesCountProperty;
@@ -1599,9 +1601,9 @@ namespace Orc.Controls.ViewModels
         public static readonly Catel.Data.PropertyData ShowWarningProperty;
         public static readonly Catel.Data.PropertyData TypeFilterProperty;
         public static readonly Catel.Data.PropertyData TypeNamesProperty;
-        public static readonly Catel.Data.PropertyData UseApplicationFilterGroupsConfigurationProperty;
         public static readonly Catel.Data.PropertyData WarningEntriesCountProperty;
         public LogViewerViewModel(Catel.IoC.ITypeFactory typeFactory, Catel.Services.IDispatcherService dispatcherService, Orc.Controls.IApplicationLogFilterGroupService applicationLogFilterGroupService, Orc.Controls.LogViewerLogListener logViewerLogListener) { }
+        public Orc.Controls.LogFilterGroup ActiveFilterGroup { get; set; }
         public bool AutoScroll { get; set; }
         public int DebugEntriesCount { get; }
         public int ErrorEntriesCount { get; }
@@ -1618,8 +1620,8 @@ namespace Orc.Controls.ViewModels
         public bool ShowWarning { get; set; }
         public string TypeFilter { get; set; }
         public Catel.Collections.FastObservableCollection<string> TypeNames { get; }
-        public bool UseApplicationFilterGroupsConfiguration { get; set; }
         public int WarningEntriesCount { get; }
+        public event System.EventHandler<System.EventArgs> ActiveFilterGroupChanged;
         public event System.EventHandler<Orc.Controls.LogEntryEventArgs> LogMessage;
         public void ClearEntries() { }
         protected override System.Threading.Tasks.Task CloseAsync() { }

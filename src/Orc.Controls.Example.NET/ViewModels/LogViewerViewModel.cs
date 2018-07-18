@@ -10,6 +10,7 @@ namespace Orc.Controls.Example.ViewModels
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Catel;
     using Catel.Logging;
     using Catel.MVVM;
     using Catel.Threading;
@@ -19,16 +20,23 @@ namespace Orc.Controls.Example.ViewModels
     {
         #region Constants
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
+        private readonly IApplicationLogFilterGroupService _applicationLogFilterGroupService;
         #endregion
 
         #region Constructors
-        public LogViewerViewModel()
+        public LogViewerViewModel(IApplicationLogFilterGroupService applicationLogFilterGroupService)
         {
+            Argument.IsNotNull(() => applicationLogFilterGroupService);
+
+            _applicationLogFilterGroupService = applicationLogFilterGroupService;
+
             AddLogRecords = new Command(OnAddLogRecordsExecute);
             TestUnderPressure = new TaskCommand(OnTestUnderPressureExecuteAsync);
         }
         #endregion
 
+        #region Commands
         public Command AddLogRecords { get; set; }
 
         private void OnAddLogRecordsExecute()
@@ -74,5 +82,21 @@ namespace Orc.Controls.Example.ViewModels
                 }
             });
         }
+        #endregion
+
+        #region Methods
+        public async Task<List<LogFilterGroup>> GetLogFilterGroupsAsync()
+        {
+            var items = new List<LogFilterGroup>();
+            items.Add(new LogFilterGroup
+            {
+                Name = "None"
+            });
+
+            items.AddRange(await _applicationLogFilterGroupService.LoadAsync());
+
+            return items;
+        }
+        #endregion
     }
 }

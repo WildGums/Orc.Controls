@@ -9,6 +9,7 @@ namespace Orc.Controls.ViewModels
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
     using System.Linq;
     using System.Threading.Tasks;
     using Catel;
@@ -37,8 +38,6 @@ namespace Orc.Controls.ViewModels
         private readonly FastObservableCollection<LogEntry> _logEntries = new FastObservableCollection<LogEntry>();
         private readonly Timer _timer;
         private readonly Queue<LogEntry> _queuedEntries = new Queue<LogEntry>();
-        private readonly List<LogFilterGroup> _applicationFilterGroups = new List<LogFilterGroup>();
-
 
         private bool _hasInitializedFirstLogListener;
         private bool _isClearingLog;
@@ -80,6 +79,8 @@ namespace Orc.Controls.ViewModels
 
         #region Events
         public event EventHandler<LogEntryEventArgs> LogMessage;
+
+        public event EventHandler<EventArgs> ActiveFilterGroupChanged;
         #endregion
 
         public void ClearEntries()
@@ -156,7 +157,7 @@ namespace Orc.Controls.ViewModels
         public int WarningEntriesCount { get; private set; }
         public int ErrorEntriesCount { get; private set; }
         public int MaximumUpdateBatchSize { get; set; }
-        public bool UseApplicationFilterGroupsConfiguration { get; set; }
+        public LogFilterGroup ActiveFilterGroup { get; set; }
         #endregion
 
         #region Methods
@@ -165,8 +166,6 @@ namespace Orc.Controls.ViewModels
             await base.InitializeAsync();
 
             _isViewModelActive = true;
-
-            _applicationFilterGroups.AddRange(await _applicationLogFilterGroupService.LoadAsync());
 
             StartTimer();
 
@@ -182,6 +181,11 @@ namespace Orc.Controls.ViewModels
             _isViewModelActive = false;
 
             await base.CloseAsync();
+        }
+
+        private void OnActiveFilterGroupChanged()
+        {
+            ActiveFilterGroupChanged.SafeInvoke(this);
         }
 
         private void OnTimerTick(object state)
@@ -385,7 +389,7 @@ namespace Orc.Controls.ViewModels
                 return false;
             }
 
-            if (UseApplicationFilterGroupsConfiguration && !PassApplicationFilterGroupsConfiguration(logEntry))
+            if (!PassApplicationFilterGroupsConfiguration(logEntry))
             {
                 return false;
             }
@@ -395,7 +399,13 @@ namespace Orc.Controls.ViewModels
 
         private bool PassApplicationFilterGroupsConfiguration(LogEntry logEntry)
         {
-            return _applicationFilterGroups.Count == 0 || _applicationFilterGroups.Any(group => group.Pass(logEntry));
+            var filterGroup = ActiveFilterGroup;
+            if (filterGroup == null)
+            {
+                return true;
+            }
+
+            return filterGroup.Pass(logEntry);
         }
 
         private bool PassLogFilter(LogEntry logEntry)
