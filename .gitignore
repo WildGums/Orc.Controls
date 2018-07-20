@@ -5,7 +5,12 @@
 *.suo
 *.user
 *.sln.docstates
-*.scgdat
+
+.nuget/
+tools/FAKE/
+build-log.xml
+Nuget.key
+TestResult.xml
 
 # Build results
 [Bb]in/
@@ -14,11 +19,11 @@
 [Rr]elease/
 [Oo]utput*/
 [Pp]ackages*/
-.vs/
 bin
 obj
 [Ll]ib/*
 ![Ll]ib/repositories.config
+*.ide/
 *_i.c
 *_p.c
 *.ilk
@@ -116,8 +121,16 @@ Thumbs.db
 # Folder config file
 Desktop.ini
 
+# Cake - Uncomment if you are using it
+tools/**
+!tools/packages.config
+build.cakeoverrides
+
 # mstest test results
 TestResults
-src/UpgradeLog.htm
-.DS_Store
-src/.vs/
+.vs/
+.sonarqube/
+.github/
+BundleArtifacts/
+
+.vscode

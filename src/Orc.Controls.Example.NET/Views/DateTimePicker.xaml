@@ -1,0 +1,55 @@
+﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.DateTimePicker"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				   xmlns:catel="http://schemas.catelproject.com"
+				   xmlns:orccontrols="http://schemas.wildgums.com/orc/controls">
+
+    <!-- Resources -->
+    <UserControl.Resources>
+    </UserControl.Resources>
+
+    <!-- Content -->
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Select format" VerticalAlignment="Center" Width="150"/>
+            <ComboBox MinWidth="250" ItemsSource="{Binding AvailableFormats}" SelectedItem="{Binding SelectedFormat}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding CultureCode}" />
+                            <TextBlock Text="{Binding FormatValue}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="DateTimePicker Control" VerticalAlignment="Center" Width="150"/>
+            <orccontrols:DateTimePicker Value="{Binding DateTimeValue}"
+                                       Format="{Binding SelectedFormat.FormatValue}" HorizontalAlignment="Left"
+                                       AllowNull="{Binding IsChecked, ElementName=allowNullCheckbox}"
+                                       AllowCopyPaste="{Binding IsChecked, ElementName=allowCopyPasteCheckbox}"
+                                       HideTime="{Binding IsChecked, ElementName=hideTimeCheckbox}"
+                                       HideSeconds="{Binding IsChecked, ElementName=hideSecondsCheckbox}"
+                                       IsReadOnly="{Binding IsChecked, ElementName=readOnlyCheckbox}"
+                                       ShowOptionsButton="{Binding IsChecked, ElementName=showOptionsButtonCheckbox}" />
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal">
+            <CheckBox x:Name="allowNullCheckbox" Content="Allow null" IsChecked="True" />
+            <CheckBox x:Name="allowCopyPasteCheckbox" Content="Allow copy/paste" IsChecked="True" />
+            <CheckBox x:Name="hideTimeCheckbox" Content="Hide time" IsChecked="False"/>
+            <CheckBox x:Name="hideSecondsCheckbox" Content="Hide seconds" IsChecked="False" />
+            <CheckBox x:Name="readOnlyCheckbox" Content="Read only" IsChecked="False" />
+            <CheckBox x:Name="showOptionsButtonCheckbox" Content="Show options button" IsChecked="True"/>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Selected DateTime" VerticalAlignment="Center" Width="150"/>
+            <TextBox Text="{Binding DateTimeValueString}"  IsReadOnly="True" Width="300" HorizontalAlignment="Left"/>
+        </StackPanel>
+
+        <Button Content="Set value to null" Command="{Binding SetNull}" HorizontalAlignment="Left" Width="150"/>
+    </StackPanel>
+</catel:UserControl>

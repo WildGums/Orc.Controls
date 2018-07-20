@@ -1,0 +1,512 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="ru" original="ORC.CONTROLS/PROPERTIES/RESOURCES.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6900.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="ORC.CONTROLS/PROPERTIES/RESOURCES.RESX" datatype="resx">
+        <trans-unit id="Controls_BrowseForFile" translate="yes" xml:space="preserve">
+          <source>Browse for file</source>
+          <target state="needs-review-translation">Browse for file</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_BrowseForFolder" translate="yes" xml:space="preserve">
+          <source>Browse for folder</source>
+          <target state="needs-review-translation">Browse for folder</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateRangePicker_Custom" translate="yes" xml:space="preserve">
+          <source>Custom</source>
+          <target state="needs-review-translation">Custom</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateRangePicker_End_Lbl" translate="yes" xml:space="preserve">
+          <source>End:</source>
+          <target state="needs-review-translation">End:</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateRangePicker_LastMonth" translate="yes" xml:space="preserve">
+          <source>Last month</source>
+          <target state="needs-review-translation">Last month</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateRangePicker_LastWeek" translate="yes" xml:space="preserve">
+          <source>Last week</source>
+          <target state="needs-review-translation">Last week</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateRangePicker_Start_Lbl" translate="yes" xml:space="preserve">
+          <source>Start:</source>
+          <target state="needs-review-translation">Start:</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateRangePicker_ThisMonth" translate="yes" xml:space="preserve">
+          <source>This month</source>
+          <target state="needs-review-translation">This month</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateRangePicker_ThisWeek" translate="yes" xml:space="preserve">
+          <source>This week</source>
+          <target state="needs-review-translation">This week</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateRangePicker_Today" translate="yes" xml:space="preserve">
+          <source>Today</source>
+          <target state="needs-review-translation">Today</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateRangePicker_Yesterday" translate="yes" xml:space="preserve">
+          <source>Yesterday</source>
+          <target state="needs-review-translation">Yesterday</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_OpenFolder" translate="yes" xml:space="preserve">
+          <source>Open folder</source>
+          <target state="needs-review-translation">Open folder</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ValidationContextControl_CollapseAll" translate="yes" xml:space="preserve">
+          <source>Collapse all</source>
+          <target state="needs-review-translation">Collapse all</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ValidationContextControl_Copy" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="needs-review-translation">Copy</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ValidationContextControl_Errors" translate="yes" xml:space="preserve">
+          <source>Errors</source>
+          <target state="needs-review-translation">Errors</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ValidationContextControl_ExpandAll" translate="yes" xml:space="preserve">
+          <source>Expand all</source>
+          <target state="needs-review-translation">Expand all</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ValidationContextControl_Filter" translate="yes" xml:space="preserve">
+          <source>Filter</source>
+          <target state="needs-review-translation">Filter</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ValidationContextControl_Misc" translate="yes" xml:space="preserve">
+          <source>Misc</source>
+          <target state="needs-review-translation">Misc</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ValidationContextControl_Open" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <target state="needs-review-translation">Open</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ValidationContextControl_Warnings" translate="yes" xml:space="preserve">
+          <source>Warnings</source>
+          <target state="needs-review-translation">Warnings</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ColorLegendGeneric_CheckBox_Content_ShowVisibilityColumn" translate="yes" xml:space="preserve">
+          <source>Show Visibility Column</source>
+          <target state="needs-review-translation">Show Visibility Column</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ColorLegendGeneric_CheckBox_Content_AllowColorEdit" translate="yes" xml:space="preserve">
+          <source>Allow Color Edit</source>
+          <target state="needs-review-translation">Allow Color Edit</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ColorLegendGeneric_CheckBox_Content_CheckAll" translate="yes" xml:space="preserve">
+          <source>Check all</source>
+          <target state="needs-review-translation">Check all</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ColorLegendGeneric_Button_Content_ClearSelection" translate="yes" xml:space="preserve">
+          <source>Clear selection</source>
+          <target state="needs-review-translation">Clear selection</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ColorPickerGeneric_TextBlock_Text_ThemeColors" translate="yes" xml:space="preserve">
+          <source>Theme colors</source>
+          <target state="needs-review-translation">Theme colors</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ColorPickerGeneric_TextBlock_Text_RecentColors" translate="yes" xml:space="preserve">
+          <source>Recent colors</source>
+          <target state="needs-review-translation">Recent colors</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ColorPickerGeneric_Button_Content_Cancel" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="needs-review-translation">Cancel</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ColorPickerGeneric_Button_Content_Select" translate="yes" xml:space="preserve">
+          <source>Select</source>
+          <target state="needs-review-translation">Select</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ConnectionStringEditWindow_Label_Content_Provider" translate="yes" xml:space="preserve">
+          <source>Provider:</source>
+          <target state="needs-review-translation">Provider:</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ConnectionStringEditWindow_Label_Content_Server" translate="yes" xml:space="preserve">
+          <source>Server:</source>
+          <target state="needs-review-translation">Server:</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ConnectionStringEditWindow_Button_Content_Refresh" translate="yes" xml:space="preserve">
+          <source>Refresh</source>
+          <target state="needs-review-translation">Refresh</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ConnectionStringEditWindow_RadioButton_Content_UseWindowsAuthentication" translate="yes" xml:space="preserve">
+          <source>Use Windows Authentication</source>
+          <target state="needs-review-translation">Use Windows Authentication</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ConnectionStringEditWindow_RadioButton_Content_UseSQLServerAuthentication" translate="yes" xml:space="preserve">
+          <source>Use SQL Server Authentication</source>
+          <target state="needs-review-translation">Use SQL Server Authentication</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ConnectionStringEditWindow_Label_Content_UserName" translate="yes" xml:space="preserve">
+          <source>User name</source>
+          <target state="needs-review-translation">User name</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ConnectionStringEditWindow_Label_Content_Password" translate="yes" xml:space="preserve">
+          <source>Password</source>
+          <target state="needs-review-translation">Password</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ConnectionStringEditWindow_Label_Content_Database" translate="yes" xml:space="preserve">
+          <source>Database:</source>
+          <target state="needs-review-translation">Database:</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ConnectionStringEditWindow_Button_Content_TestConnection" translate="yes" xml:space="preserve">
+          <source>Test connection</source>
+          <target state="needs-review-translation">Test connection</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ConnectionStringEditWindow_Button_Content_Advanced" translate="yes" xml:space="preserve">
+          <source>Advanced...</source>
+          <target state="needs-review-translation">Advanced...</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DatePickerControl_Button_Content_Today" translate="yes" xml:space="preserve">
+          <source>Today</source>
+          <target state="needs-review-translation">Today</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DatePickerControl_Button_Content_SelectDate" translate="yes" xml:space="preserve">
+          <source>Select date</source>
+          <target state="needs-review-translation">Select date</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DatePickerControl_Button_Content_Clear" translate="yes" xml:space="preserve">
+          <source>Clear</source>
+          <target state="needs-review-translation">Clear</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DatePickerControl_Button_Content_Copy" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="needs-review-translation">Copy</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DatePickerControl_Button_Content_Paste" translate="yes" xml:space="preserve">
+          <source>Paste</source>
+          <target state="needs-review-translation">Paste</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePickerControl_Button_Content_Today" translate="yes" xml:space="preserve">
+          <source>Today</source>
+          <target state="needs-review-translation">Today</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePickerControl_Button_Content_Now" translate="yes" xml:space="preserve">
+          <source>Now</source>
+          <target state="needs-review-translation">Now</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePickerControl_Button_Content_SelectDate" translate="yes" xml:space="preserve">
+          <source>Select date</source>
+          <target state="needs-review-translation">Select date</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePickerControl_Button_Content_Clear" translate="yes" xml:space="preserve">
+          <source>Clear</source>
+          <target state="needs-review-translation">Clear</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePickerControl_Button_Content_Copy" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="needs-review-translation">Copy</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePickerControl_Button_Content_Paste" translate="yes" xml:space="preserve">
+          <source>Paste</source>
+          <target state="needs-review-translation">Paste</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DbConnectionProviderListWindow_Button_Content_Refresh" translate="yes" xml:space="preserve">
+          <source>Refresh</source>
+          <target state="needs-review-translation">Refresh</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DbProviderControl_Button_Content_Change" translate="yes" xml:space="preserve">
+          <source>Change...</source>
+          <target state="needs-review-translation">Change...</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_TimeSpanPickerGeneric_TextBlock_Text_Total" translate="yes" xml:space="preserve">
+          <source>Total:</source>
+          <target state="needs-review-translation">Total:</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_TimeSpanPickerGeneric_TextBlock_Text_Days" translate="yes" xml:space="preserve">
+          <source>Days</source>
+          <target state="needs-review-translation">Days</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_TimeSpanPickerGeneric_TextBlock_Text_Hours" translate="yes" xml:space="preserve">
+          <source>Hours</source>
+          <target state="needs-review-translation">Hours</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_TimeSpanPickerGeneric_TextBlock_Text_Minutes" translate="yes" xml:space="preserve">
+          <source>Minutes</source>
+          <target state="needs-review-translation">Minutes</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ColorPickerGeneric_TabItem_Header_HSV" translate="yes" xml:space="preserve">
+          <source>HSV</source>
+          <target state="needs-review-translation">HSV</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ColorPickerGeneric_TabItem_Header_Colors" translate="yes" xml:space="preserve">
+          <source>Colors</source>
+          <target state="needs-review-translation">Colors</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ConnectionStringAdvancedOptionsWindow_DataGridTextColumn_Header_Property" translate="yes" xml:space="preserve">
+          <source>Property</source>
+          <target state="needs-review-translation">Property</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ConnectionStringAdvancedOptionsWindow_DataGridTextColumn_Header_Value" translate="yes" xml:space="preserve">
+          <source>Value</source>
+          <target state="needs-review-translation">Value</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_ConnectionStringEditWindow_GroupBox_Header_LogOnToTheServer" translate="yes" xml:space="preserve">
+          <source>Log on to the server</source>
+          <target state="needs-review-translation">Log on to the server</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DatePickerControl_ToggleButton_Content_DayAbbreviation" translate="yes" xml:space="preserve">
+          <source>d</source>
+          <target state="needs-review-translation">d</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DatePickerControl_ToggleButton_Content_MonthAbbreviation" translate="yes" xml:space="preserve">
+          <source>m</source>
+          <target state="needs-review-translation">m</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DatePickerControl_ToggleButton_Content_YearAbbreviation" translate="yes" xml:space="preserve">
+          <source>y</source>
+          <target state="needs-review-translation">y</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePickerControl_ToggleButton_Content_DayAbbreviation" translate="yes" xml:space="preserve">
+          <source>d</source>
+          <target state="needs-review-translation">d</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePickerControl_ToggleButton_Content_MonthAbbreviation" translate="yes" xml:space="preserve">
+          <source>m</source>
+          <target state="needs-review-translation">m</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePickerControl_ToggleButton_Content_YearAbbreviation" translate="yes" xml:space="preserve">
+          <source>y</source>
+          <target state="needs-review-translation">y</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePickerControl_ToggleButton_Content_HourAbbreviation" translate="yes" xml:space="preserve">
+          <source>h</source>
+          <target state="needs-review-translation">h</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePickerControl_ToggleButton_Content_MinuteAbbreviation" translate="yes" xml:space="preserve">
+          <source>m</source>
+          <target state="needs-review-translation">m</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePickerControl_ToggleButton_Content_SecondAbbreviation" translate="yes" xml:space="preserve">
+          <source>s</source>
+          <target state="needs-review-translation">s</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePickerControl_ToggleButton_Content_AmPmAbbreviation" translate="yes" xml:space="preserve">
+          <source>t</source>
+          <target state="needs-review-translation">t</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_TimeSpanControl_TextBlock_Text_DaysAbbreviation" translate="yes" xml:space="preserve">
+          <source>d</source>
+          <target state="needs-review-translation">d</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_TimeSpanControl_TextBlock_Text_HoursAbbreviation" translate="yes" xml:space="preserve">
+          <source>h</source>
+          <target state="needs-review-translation">h</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_TimeSpanControl_TextBlock_Text_MinutesAbbreviation" translate="yes" xml:space="preserve">
+          <source>m</source>
+          <target state="needs-review-translation">m</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_TimeSpanControl_TextBlock_Text_SecondsAbbreviation" translate="yes" xml:space="preserve">
+          <source>s</source>
+          <target state="needs-review-translation">s</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_TimeSpanPicker_TextBlock_Text_DaysAbbreviation" translate="yes" xml:space="preserve">
+          <source>d</source>
+          <target state="needs-review-translation">d</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_TimeSpanPicker_TextBlock_Text_HoursAbbreviation" translate="yes" xml:space="preserve">
+          <source>h</source>
+          <target state="needs-review-translation">h</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_TimeSpanPicker_TextBlock_Text_MinutesAbbreviation" translate="yes" xml:space="preserve">
+          <source>m</source>
+          <target state="needs-review-translation">m</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_TimeSpanPicker_TextBlock_Text_SecondsAbbreviation" translate="yes" xml:space="preserve">
+          <source>s</source>
+          <target state="needs-review-translation">s</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DatePicker_Button_Content_Clear" translate="yes" xml:space="preserve">
+          <source>Clear</source>
+          <target state="needs-review-translation">Clear</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DatePicker_Button_Content_Copy" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="needs-review-translation">Copy</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DatePicker_Button_Content_Paste" translate="yes" xml:space="preserve">
+          <source>Paste</source>
+          <target state="needs-review-translation">Paste</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DatePicker_Button_Content_SelectDate" translate="yes" xml:space="preserve">
+          <source>Select date</source>
+          <target state="needs-review-translation">Select date</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DatePicker_Button_Content_Today" translate="yes" xml:space="preserve">
+          <source>Today</source>
+          <target state="needs-review-translation">Today</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DatePicker_ToggleButton_Content_DayAbbreviation" translate="yes" xml:space="preserve">
+          <source>d</source>
+          <target state="needs-review-translation">d</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DatePicker_ToggleButton_Content_MonthAbbreviation" translate="yes" xml:space="preserve">
+          <source>m</source>
+          <target state="needs-review-translation">m</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DatePicker_ToggleButton_Content_YearAbbreviation" translate="yes" xml:space="preserve">
+          <source>y</source>
+          <target state="needs-review-translation">y</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePicker_Button_Content_Clear" translate="yes" xml:space="preserve">
+          <source>Clear</source>
+          <target state="needs-review-translation">Clear</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePicker_Button_Content_Copy" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="needs-review-translation">Copy</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePicker_Button_Content_Now" translate="yes" xml:space="preserve">
+          <source>Now</source>
+          <target state="needs-review-translation">Now</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePicker_Button_Content_Paste" translate="yes" xml:space="preserve">
+          <source>Paste</source>
+          <target state="needs-review-translation">Paste</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePicker_Button_Content_SelectDate" translate="yes" xml:space="preserve">
+          <source>Select date</source>
+          <target state="needs-review-translation">Select date</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePicker_Button_Content_Today" translate="yes" xml:space="preserve">
+          <source>Today</source>
+          <target state="needs-review-translation">Today</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePicker_ToggleButton_Content_AmPmAbbreviation" translate="yes" xml:space="preserve">
+          <source>t</source>
+          <target state="needs-review-translation">t</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePicker_ToggleButton_Content_DayAbbreviation" translate="yes" xml:space="preserve">
+          <source>d</source>
+          <target state="needs-review-translation">d</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePicker_ToggleButton_Content_HourAbbreviation" translate="yes" xml:space="preserve">
+          <source>h</source>
+          <target state="needs-review-translation">h</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePicker_ToggleButton_Content_MinuteAbbreviation" translate="yes" xml:space="preserve">
+          <source>m</source>
+          <target state="needs-review-translation">m</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePicker_ToggleButton_Content_MonthAbbreviation" translate="yes" xml:space="preserve">
+          <source>m</source>
+          <target state="needs-review-translation">m</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePicker_ToggleButton_Content_SecondAbbreviation" translate="yes" xml:space="preserve">
+          <source>s</source>
+          <target state="needs-review-translation">s</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePicker_ToggleButton_Content_YearAbbreviation" translate="yes" xml:space="preserve">
+          <source>y</source>
+          <target state="needs-review-translation">y</target>
+          
+        </trans-unit>
+        <trans-unit id="Controls_DbProviderPicker_Button_Content_Change" translate="yes" xml:space="preserve">
+          <source>Change...</source>
+          <target state="needs-review-translation">Change...</target>
+          
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

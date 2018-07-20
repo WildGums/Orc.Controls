@@ -1,0 +1,52 @@
+﻿<catel:DataWindow x:Class="Orc.Controls.LogFilterGroupEditorWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:catel="http://schemas.catelproject.com"
+                  xmlns:controls="clr-namespace:Orc.Controls"
+                  mc:Ignorable="d" MinHeight="600" MinWidth="600">
+
+    <controls:StackGrid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label>Group Name</Label>
+        <TextBox Grid.ColumnSpan="2" Text="{Binding Name, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
+
+        <Label VerticalAlignment="Top">Log Filters</Label>
+        <ListBox ItemsSource="{Binding LogFilters}" SelectedValue="{Binding SelectedLogFilter}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid HorizontalAlignment="Stretch" Background="Transparent">
+                        <TextBlock Text="{Binding Name}">
+                            <TextBlock.ToolTip>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Target}"/>
+                                    <TextBlock Text="{Binding ExpressionType}"/>
+                                    <TextBlock Text="{Binding ExpressionValue}"/>
+                                    <TextBlock Text="{Binding Action}"/>
+                                </StackPanel>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel>
+            <Button Width="60" Command="{Binding AddCommand}">Add</Button>
+            <Button Width="60" Command="{Binding EditCommand}">Edit</Button>
+            <Button Width="60" Command="{Binding RemoveCommand}">Remove</Button>
+        </StackPanel>
+    </controls:StackGrid>
+
+</catel:DataWindow>
