@@ -24,8 +24,10 @@ namespace Orc.Controls
     }
     public class BindableRichTextBox : System.Windows.Controls.RichTextBox
     {
+        public static readonly System.Windows.DependencyProperty AutoScrollToEndProperty;
         public static readonly System.Windows.DependencyProperty BindableDocumentProperty;
         public BindableRichTextBox() { }
+        public bool AutoScrollToEnd { get; set; }
         public System.Windows.Documents.FlowDocument BindableDocument { get; set; }
     }
     public class BindableRun : System.Windows.Documents.Run
