@@ -7,7 +7,6 @@
 
 namespace Orc.Controls
 {
-    using System;
     using System.Threading.Tasks;
     using Catel;
     using Catel.Collections;
@@ -61,6 +60,8 @@ namespace Orc.Controls
         public ConnectionStringProperty Password => ConnectionString.TryGetProperty("Password");
         public ConnectionStringProperty IntegratedSecurity => ConnectionString.TryGetProperty("Integrated Security");
         
+        public bool IsAdvancedOptionsReadonly { get; set; }
+
         public bool? IntegratedSecurityValue
         {
             get { return (bool?)IntegratedSecurity?.Value; }
@@ -135,6 +136,8 @@ namespace Orc.Controls
             }
 
             var advancedOptionsViewModel = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<ConnectionStringAdvancedOptionsViewModel>(connectionString);
+            advancedOptionsViewModel.IsAdvancedOptionsReadonly = IsAdvancedOptionsReadonly;
+
             await _uiVisualizerService.ShowDialogAsync(advancedOptionsViewModel);
         }
 

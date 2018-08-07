@@ -35,6 +35,7 @@ namespace Orc.Controls
         public string ConnectionString { get; private set; }
         public string DisplayConnectionString { get; private set; }
         public bool IsInEditMode { get; set; }
+        public bool IsAdvancedOptionsReadonly { get; set; }
 
         public TaskCommand Edit { get; }
         public Command Clear { get; }
@@ -44,6 +45,8 @@ namespace Orc.Controls
             IsInEditMode = true;
 
             var connectionStringEditViewModel = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<ConnectionStringEditViewModel>(ConnectionString, _dbProvider);
+            connectionStringEditViewModel.IsAdvancedOptionsReadonly = IsAdvancedOptionsReadonly;
+
             if (await _uiVisualizerService.ShowDialogAsync(connectionStringEditViewModel) ?? false)
             {
                 _dbProvider = connectionStringEditViewModel.DbProvider;

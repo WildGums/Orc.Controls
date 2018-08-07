@@ -10,7 +10,11 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        
+        <CheckBox Content="Advanced options readonly" 
+                  IsChecked="{Binding ElementName=ConnectionStringBuilderControl, Path=IsAdvancedOptionsReadonly}"/>
 
         <orccontrols:StackGrid>
             <Grid.ColumnDefinitions>

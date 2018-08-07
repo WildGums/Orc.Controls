@@ -170,9 +170,11 @@ namespace Orc.Controls
     public class ConnectionStringAdvancedOptionsViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.PropertyData ConnectionStringPropertiesProperty;
+        public static readonly Catel.Data.PropertyData IsAdvancedOptionsReadonlyProperty;
         public ConnectionStringAdvancedOptionsViewModel(Orc.Controls.SqlConnectionString connectionString) { }
         public Orc.Controls.SqlConnectionString ConnectionString { get; }
         public System.Collections.Generic.IList<Orc.Controls.ConnectionStringProperty> ConnectionStringProperties { get; }
+        public bool IsAdvancedOptionsReadonly { get; set; }
         public override string Title { get; }
         protected override System.Threading.Tasks.Task InitializeAsync() { }
     }
@@ -186,6 +188,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty ConnectionStateProperty;
         public static readonly System.Windows.DependencyProperty ConnectionStringProperty;
+        public static readonly System.Windows.DependencyProperty IsAdvancedOptionsReadonlyProperty;
         public static readonly System.Windows.DependencyProperty IsInEditModeProperty;
         public ConnectionStringBuilder() { }
         public System.Windows.Media.Brush AccentColorBrush { get; set; }
@@ -193,6 +196,8 @@ namespace Orc.Controls
         public Orc.Controls.ConnectionState ConnectionState { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewModelToView)]
         public string ConnectionString { get; set; }
+        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewToViewModel)]
+        public bool IsAdvancedOptionsReadonly { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewModelToView)]
         public bool IsInEditMode { get; set; }
         public void InitializeComponent() { }
@@ -217,6 +222,7 @@ namespace Orc.Controls
         public static readonly Catel.Data.PropertyData ConnectionStateProperty;
         public static readonly Catel.Data.PropertyData ConnectionStringProperty;
         public static readonly Catel.Data.PropertyData DisplayConnectionStringProperty;
+        public static readonly Catel.Data.PropertyData IsAdvancedOptionsReadonlyProperty;
         public static readonly Catel.Data.PropertyData IsInEditModeProperty;
         public ConnectionStringBuilderViewModel(Catel.Services.IUIVisualizerService uiVisualizerService, Catel.IoC.ITypeFactory typeFactory) { }
         public Catel.MVVM.Command Clear { get; }
@@ -224,6 +230,7 @@ namespace Orc.Controls
         public string ConnectionString { get; }
         public string DisplayConnectionString { get; }
         public Catel.MVVM.TaskCommand Edit { get; }
+        public bool IsAdvancedOptionsReadonly { get; set; }
         public bool IsInEditMode { get; set; }
     }
     public class ConnectionStringEditViewModel : Catel.MVVM.ViewModelBase
@@ -231,6 +238,7 @@ namespace Orc.Controls
         public static readonly Catel.Data.PropertyData ConnectionStateProperty;
         public static readonly Catel.Data.PropertyData ConnectionStringProperty;
         public static readonly Catel.Data.PropertyData DbProviderProperty;
+        public static readonly Catel.Data.PropertyData IsAdvancedOptionsReadonlyProperty;
         public static readonly Catel.Data.PropertyData IsDatabaseListVisibleProperty;
         public static readonly Catel.Data.PropertyData IsDatabasesRefreshingProperty;
         public static readonly Catel.Data.PropertyData IsServerListVisibleProperty;
@@ -247,6 +255,7 @@ namespace Orc.Controls
         public Catel.MVVM.Command InitServers { get; }
         public Orc.Controls.ConnectionStringProperty IntegratedSecurity { get; }
         public System.Nullable<bool> IntegratedSecurityValue { get; set; }
+        public bool IsAdvancedOptionsReadonly { get; set; }
         public bool IsDatabaseListVisible { get; set; }
         public bool IsDatabasesRefreshing { get; }
         public bool IsLogOnEnabled { get; }

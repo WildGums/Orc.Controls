@@ -10,7 +10,6 @@ namespace Orc.Controls
     using System.Windows;
     using System.Windows.Media;
     using Catel.MVVM.Views;
-    using Catel.Windows.Controls;
 
     public sealed partial class ConnectionStringBuilder
     {
@@ -54,6 +53,16 @@ namespace Orc.Controls
         public static readonly DependencyProperty ConnectionStateProperty = DependencyProperty.Register(
             "ConnectionState", typeof(ConnectionState), typeof(ConnectionStringBuilder), new PropertyMetadata(default(ConnectionState)));
 
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
+        public bool IsAdvancedOptionsReadonly
+        {
+            get { return (bool)GetValue(IsAdvancedOptionsReadonlyProperty); }
+            set { SetValue(IsAdvancedOptionsReadonlyProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsAdvancedOptionsReadonlyProperty = DependencyProperty.Register(
+            "IsAdvancedOptionsReadonly", typeof(bool), typeof(ConnectionStringBuilder), new PropertyMetadata(false));
+
         public Brush AccentColorBrush
         {
             get { return (Brush)GetValue(AccentColorBrushProperty); }
@@ -72,12 +81,13 @@ namespace Orc.Controls
 
         private void OnAccentColorBrushChanged()
         {
-            var solidColorBrush = AccentColorBrush as SolidColorBrush;
-            if (solidColorBrush != null)
+            if (!(AccentColorBrush is SolidColorBrush))
             {
-                var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
-                accentColor.CreateAccentColorResourceDictionary("ConnectionStringBuilder");
+                return;
             }
+
+            var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
+            accentColor.CreateAccentColorResourceDictionary("ConnectionStringBuilder");
         }
     }
 }
