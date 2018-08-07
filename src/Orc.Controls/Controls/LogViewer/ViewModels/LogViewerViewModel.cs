@@ -185,6 +185,12 @@ namespace Orc.Controls.ViewModels
 
         private void OnActiveFilterGroupChanged()
         {
+            lock (_lock)
+            {
+                ResetEntriesCount();
+                UpdateEntriesCount(_logEntries.Where(x => IsValidLogEntry(x)).ToList());
+            }
+
             ActiveFilterGroupChanged.SafeInvoke(this);
         }
 
@@ -371,10 +377,12 @@ namespace Orc.Controls.ViewModels
 
         private void UpdateEntriesCount(List<LogEntry> entries)
         {
-            DebugEntriesCount += entries.Count(x => x.LogEvent == LogEvent.Debug);
-            InfoEntriesCount += entries.Count(x => x.LogEvent == LogEvent.Info);
-            WarningEntriesCount += entries.Count(x => x.LogEvent == LogEvent.Warning);
-            ErrorEntriesCount += entries.Count(x => x.LogEvent == LogEvent.Error);
+            var matchedEntries = entries.Where(x => PassApplicationFilterGroupsConfiguration(x)).ToList();
+
+            DebugEntriesCount += matchedEntries.Count(x => x.LogEvent == LogEvent.Debug);
+            InfoEntriesCount += matchedEntries.Count(x => x.LogEvent == LogEvent.Info);
+            WarningEntriesCount += matchedEntries.Count(x => x.LogEvent == LogEvent.Warning);
+            ErrorEntriesCount += matchedEntries.Count(x => x.LogEvent == LogEvent.Error);
         }
 
         private bool PassFilters(LogEntry logEntry)
