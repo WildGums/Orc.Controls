@@ -10,10 +10,13 @@ namespace Orc.Controls.Example.ViewModels
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
     using System.Threading.Tasks;
     using System.Windows.Media;
     using Catel.Collections;
+    using Catel.IoC;
     using Catel.MVVM;
+    using Catel.Services;
 
     public class ColorLegendViewModel : ViewModelBase
     {
@@ -29,7 +32,7 @@ namespace Orc.Controls.Example.ViewModels
         /// <summary>
         /// Gets or sets the calendar state legend.
         /// </summary>
-        public List<IColorLegendItem> CalendarStateLegend { get; set; }
+        public IList<IColorLegendItem> CalendarStateLegend { get; set; }
 
         public Command UpdateItems { get; }
 
@@ -38,9 +41,9 @@ namespace Orc.Controls.Example.ViewModels
             await base.InitializeAsync();
 
             UpdateCalenderStateLegend();
-        }
 
-        private readonly Random _random = new Random(10);
+            PropertyChanged += (sender, args) => { };
+        }
 
         private void UpdateCalenderStateLegend()
         {
@@ -53,11 +56,18 @@ namespace Orc.Controls.Example.ViewModels
                 Colors.Gray
             };
 
-            var items = new List<IColorLegendItem>();
+            if (CalendarStateLegend == null)
+            {
+                CalendarStateLegend = new List<IColorLegendItem>();
+            }
+            else
+            {
+                CalendarStateLegend.Clear();
+            }
 
             foreach (var color in colors)
             {
-                items.Add(new ColorLegendItem
+                CalendarStateLegend.Add(new ColorLegendItem
                 {
                     Color = color,
                     Description = $"this color is {color}",
@@ -67,7 +77,10 @@ namespace Orc.Controls.Example.ViewModels
                 });
             }
 
-            CalendarStateLegend = new List<IColorLegendItem>(items);
+            // PropertyChanged(this, new PropertyChangedEventArgs("CalendarStateLegend"));
+            //   CalendarStateLegend = ; //new List<IColorLegendItem>(items);
+
+            RaisePropertyChanged(nameof(CalendarStateLegend));
         }
     }
 }
