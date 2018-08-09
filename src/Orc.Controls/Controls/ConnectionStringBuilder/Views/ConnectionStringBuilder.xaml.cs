@@ -54,14 +54,14 @@ namespace Orc.Controls
             "ConnectionState", typeof(ConnectionState), typeof(ConnectionStringBuilder), new PropertyMetadata(default(ConnectionState)));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
-        public bool IsAdvancedOptionsReadonly
+        public bool IsAdvancedOptionsReadOnly
         {
-            get { return (bool)GetValue(IsAdvancedOptionsReadonlyProperty); }
-            set { SetValue(IsAdvancedOptionsReadonlyProperty, value); }
+            get { return (bool)GetValue(IsAdvancedOptionsReadOnlyProperty); }
+            set { SetValue(IsAdvancedOptionsReadOnlyProperty, value); }
         }
 
-        public static readonly DependencyProperty IsAdvancedOptionsReadonlyProperty = DependencyProperty.Register(
-            "IsAdvancedOptionsReadonly", typeof(bool), typeof(ConnectionStringBuilder), new PropertyMetadata(false));
+        public static readonly DependencyProperty IsAdvancedOptionsReadOnlyProperty = DependencyProperty.Register(
+            "IsAdvancedOptionsReadOnly", typeof(bool), typeof(ConnectionStringBuilder), new PropertyMetadata(false));
 
         public Brush AccentColorBrush
         {

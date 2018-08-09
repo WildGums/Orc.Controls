@@ -60,7 +60,7 @@ namespace Orc.Controls
         public ConnectionStringProperty Password => ConnectionString.TryGetProperty("Password");
         public ConnectionStringProperty IntegratedSecurity => ConnectionString.TryGetProperty("Integrated Security");
         
-        public bool IsAdvancedOptionsReadonly { get; set; }
+        public bool IsAdvancedOptionsReadOnly { get; set; }
 
         public bool? IntegratedSecurityValue
         {
@@ -136,7 +136,7 @@ namespace Orc.Controls
             }
 
             var advancedOptionsViewModel = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<ConnectionStringAdvancedOptionsViewModel>(connectionString);
-            advancedOptionsViewModel.IsAdvancedOptionsReadonly = IsAdvancedOptionsReadonly;
+            advancedOptionsViewModel.IsAdvancedOptionsReadOnly = IsAdvancedOptionsReadOnly;
 
             await _uiVisualizerService.ShowDialogAsync(advancedOptionsViewModel);
         }

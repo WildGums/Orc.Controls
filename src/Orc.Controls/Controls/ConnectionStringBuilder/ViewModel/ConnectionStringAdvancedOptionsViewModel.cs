@@ -26,7 +26,7 @@ namespace Orc.Controls
 
         public IList<ConnectionStringProperty> ConnectionStringProperties { get; private set; }
 
-        public bool IsAdvancedOptionsReadonly { get; set; }
+        public bool IsAdvancedOptionsReadOnly { get; set; }
         public SqlConnectionString ConnectionString { get; }
 
         protected override Task InitializeAsync()

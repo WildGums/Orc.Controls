@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         
         <CheckBox Content="Advanced options readonly" 
-                  IsChecked="{Binding ElementName=ConnectionStringBuilderControl, Path=IsAdvancedOptionsReadonly}"/>
+                  IsChecked="{Binding ElementName=ConnectionStringBuilderControl, Path=IsAdvancedOptionsReadOnly}"/>
 
         <orccontrols:StackGrid>
             <Grid.ColumnDefinitions>

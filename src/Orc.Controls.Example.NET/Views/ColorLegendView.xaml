@@ -17,6 +17,7 @@
             <RowDefinition Height="6" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <TextBlock Text="Configure color legend appearance" FontWeight="Bold"/>
