@@ -9,7 +9,6 @@ namespace Orc.Controls.ViewModels
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
     using System.Linq;
     using System.Threading.Tasks;
     using Catel;
@@ -188,7 +187,7 @@ namespace Orc.Controls.ViewModels
             lock (_lock)
             {
                 ResetEntriesCount();
-                UpdateEntriesCount(_logEntries.Where(x => IsValidLogEntry(x)).ToList());
+                UpdateEntriesCount(_logEntries.Where(IsValidLogEntry).ToList());
             }
 
             ActiveFilterGroupChanged.SafeInvoke(this);
@@ -377,7 +376,7 @@ namespace Orc.Controls.ViewModels
 
         private void UpdateEntriesCount(List<LogEntry> entries)
         {
-            var matchedEntries = entries.Where(x => PassApplicationFilterGroupsConfiguration(x)).ToList();
+            var matchedEntries = entries.Where(PassApplicationFilterGroupsConfiguration).ToList();
 
             DebugEntriesCount += matchedEntries.Count(x => x.LogEvent == LogEvent.Debug);
             InfoEntriesCount += matchedEntries.Count(x => x.LogEvent == LogEvent.Info);
@@ -392,28 +391,13 @@ namespace Orc.Controls.ViewModels
                 return false;
             }
 
-            if (!PassLogFilter(logEntry))
-            {
-                return false;
-            }
-
-            if (!PassApplicationFilterGroupsConfiguration(logEntry))
-            {
-                return false;
-            }
-
-            return true;
+            return PassLogFilter(logEntry) && PassApplicationFilterGroupsConfiguration(logEntry);
         }
 
         private bool PassApplicationFilterGroupsConfiguration(LogEntry logEntry)
         {
             var filterGroup = ActiveFilterGroup;
-            if (filterGroup == null)
-            {
-                return true;
-            }
-
-            return filterGroup.Pass(logEntry);
+            return filterGroup == null || filterGroup.Pass(logEntry);
         }
 
         private bool PassLogFilter(LogEntry logEntry)

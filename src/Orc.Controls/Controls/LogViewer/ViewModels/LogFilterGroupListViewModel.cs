@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogFilterGroupListControlViewModel.cs" company="WildGums">
+// <copyright file="LogFilterGroupListViewModel.cs" company="WildGums">
 //   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -17,12 +17,15 @@ namespace Orc.Controls
 
     public class LogFilterGroupListViewModel : ViewModelBase
     {
+        #region Fields
         private readonly IApplicationLogFilterGroupService _applicationLogFilterGroupService;
 
         private readonly IMessageService _messageService;
 
         private readonly IUIVisualizerService _uiVisualizerService;
+        #endregion
 
+        #region Constructors
         public LogFilterGroupListViewModel(IApplicationLogFilterGroupService applicationLogFilterGroupService, IMessageService messageService, IUIVisualizerService uiVisualizerService)
         {
             Argument.IsNotNull(() => applicationLogFilterGroupService);
@@ -40,6 +43,7 @@ namespace Orc.Controls
             EditCommand = new TaskCommand(OnEditCommandExecuteAsync, OnEditCommandCanExecute);
             RemoveCommand = new TaskCommand(OnRemoveCommandExecuteAsync, OnRemoveCommandCanExecute);
         }
+        #endregion
 
         #region Properties
         public ObservableCollection<LogFilterGroup> FilterGroups { get; private set; }
@@ -47,6 +51,23 @@ namespace Orc.Controls
         public ObservableCollection<LogFilterGroup> SelectedFilterGroups { get; private set; }
 
         public LogFilterGroup SelectedFilterGroup { get; set; }
+        #endregion
+
+        #region Methods
+        protected override async Task InitializeAsync()
+        {
+            await LoadFilterGroupsAsync();
+        }
+
+        private async Task LoadFilterGroupsAsync()
+        {
+            FilterGroups.ReplaceRange(await _applicationLogFilterGroupService.LoadAsync());
+        }
+
+        private async Task SaveFilterGroupsAsync()
+        {
+            await _applicationLogFilterGroupService.SaveAsync(FilterGroups);
+        }
         #endregion
 
         #region Events
@@ -105,20 +126,5 @@ namespace Orc.Controls
             }
         }
         #endregion
-
-        protected override async Task InitializeAsync()
-        {
-            await LoadFilterGroupsAsync();
-        }
-
-        private async Task LoadFilterGroupsAsync()
-        {
-            FilterGroups.ReplaceRange(await _applicationLogFilterGroupService.LoadAsync());
-        }
-
-        private async Task SaveFilterGroupsAsync()
-        {
-            await _applicationLogFilterGroupService.SaveAsync(FilterGroups);
-        }
     }
 }

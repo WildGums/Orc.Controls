@@ -7,9 +7,7 @@
 namespace Orc.Controls
 {
     using System.Collections.ObjectModel;
-    using System.ComponentModel;
     using System.Threading.Tasks;
-
     using Catel;
     using Catel.Data;
     using Catel.MVVM;

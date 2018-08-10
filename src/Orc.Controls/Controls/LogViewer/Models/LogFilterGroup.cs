@@ -4,6 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+
 namespace Orc.Controls
 {
     using System.Collections.ObjectModel;
@@ -13,12 +14,15 @@ namespace Orc.Controls
 
     public class LogFilterGroup : ModelBase
     {
+        #region Properties
         public string Name { get; set; }
 
         public bool IsEnabled { get; set; } = true;
 
         public ObservableCollection<LogFilter> LogFilters { get; set; } = new ObservableCollection<LogFilter>();
+        #endregion
 
+        #region Methods
         public bool Pass(LogEntry logEntry)
         {
             return LogFilters.All(filter => filter.Pass(logEntry));
@@ -28,5 +32,6 @@ namespace Orc.Controls
         {
             return Name;
         }
+        #endregion
     }
 }

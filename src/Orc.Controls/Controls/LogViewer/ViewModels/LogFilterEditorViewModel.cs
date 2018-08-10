@@ -8,11 +8,8 @@ namespace Orc.Controls
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Threading.Tasks;
-
     using Catel;
     using Catel.Data;
-    using Catel.Fody;
     using Catel.MVVM;
 
     public class LogFilterEditorViewModel : ViewModelBase

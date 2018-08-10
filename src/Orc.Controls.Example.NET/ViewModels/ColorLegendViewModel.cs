@@ -7,16 +7,10 @@
 
 namespace Orc.Controls.Example.ViewModels
 {
-    using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.ComponentModel;
     using System.Threading.Tasks;
     using System.Windows.Media;
-    using Catel.Collections;
-    using Catel.IoC;
     using Catel.MVVM;
-    using Catel.Services;
 
     public class ColorLegendViewModel : ViewModelBase
     {
@@ -76,9 +70,6 @@ namespace Orc.Controls.Example.ViewModels
                     AdditionalData = "(1)"
                 });
             }
-
-            // PropertyChanged(this, new PropertyChangedEventArgs("CalendarStateLegend"));
-            //   CalendarStateLegend = ; //new List<IColorLegendItem>(items);
 
             RaisePropertyChanged(nameof(CalendarStateLegend));
         }

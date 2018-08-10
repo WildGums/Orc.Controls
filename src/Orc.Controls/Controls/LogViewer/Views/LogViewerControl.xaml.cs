@@ -390,12 +390,8 @@ namespace Orc.Controls
         private void OnParagraphMouseLeftButton(object sender, MouseButtonEventArgs e)
         {
             var paragraph = sender as RichTextBoxParagraph;
-            if (paragraph == null)
-            {
-                return;
-            }
 
-            var logEntry = paragraph.LogEntry;
+            var logEntry = paragraph?.LogEntry;
             if (logEntry == null)
             {
                 return;
@@ -418,26 +414,25 @@ namespace Orc.Controls
         private void ClearScreen()
         {
             var rtb = LogRecordsRichTextBox;
-
-            var oldDoc = rtb.Document;
-
+            
             rtb.Document = CreateFlowDocument();
+            var oldDoc = rtb.Document;
+            if (oldDoc == null)
+            {
+                return;
+            }
 
             // TODO: Consider doing in a background thread
-            if (oldDoc != null)
+            foreach (var block in oldDoc.Blocks)
             {
-                foreach (var block in oldDoc.Blocks)
+                if (block is RichTextBoxParagraph paragraph)
                 {
-                    var paragraph = block as RichTextBoxParagraph;
-                    if (paragraph != null)
-                    {
-                        paragraph.MouseLeftButtonDown -= OnParagraphMouseLeftButton;
-                    }
+                    paragraph.MouseLeftButtonDown -= OnParagraphMouseLeftButton;
                 }
-
-                // No need to clear, doc should be garbage collected anyway
-                //oldDoc.Blocks.Clear();
             }
+
+            // No need to clear, doc should be garbage collected anyway
+            //oldDoc.Blocks.Clear();
         }
 
         private FlowDocument CreateFlowDocument()
@@ -458,10 +453,7 @@ namespace Orc.Controls
             _hasClearedEntries = true;
 
             var vm = ViewModel as LogViewerViewModel;
-            if (vm != null)
-            {
-                vm.ClearEntries();
-            }
+            vm?.ClearEntries();
 
             ClearScreen();
         }
@@ -474,23 +466,27 @@ namespace Orc.Controls
 
         public void ExpandAllMultilineLogMessages()
         {
-            if (LogRecordsRichTextBox.Document != null)
+            if (LogRecordsRichTextBox.Document == null)
             {
-                foreach (var richTextBoxParagraph in LogRecordsRichTextBox.Document.Blocks.OfType<RichTextBoxParagraph>())
-                {
-                    richTextBoxParagraph.SetData(EnableTimestamp, EnableThreadId, true);
-                }
+                return;
+            }
+
+            foreach (var richTextBoxParagraph in LogRecordsRichTextBox.Document.Blocks.OfType<RichTextBoxParagraph>())
+            {
+                richTextBoxParagraph.SetData(EnableTimestamp, EnableThreadId, true);
             }
         }
 
         public void CollapseAllMultilineLogMessages()
         {
-            if (LogRecordsRichTextBox.Document != null)
+            if (LogRecordsRichTextBox.Document == null)
             {
-                foreach (var richTextBoxParagraph in LogRecordsRichTextBox.Document.Blocks.OfType<RichTextBoxParagraph>())
-                {
-                    richTextBoxParagraph.SetData(EnableTimestamp, EnableThreadId);
-                }
+                return;
+            }
+
+            foreach (var richTextBoxParagraph in LogRecordsRichTextBox.Document.Blocks.OfType<RichTextBoxParagraph>())
+            {
+                richTextBoxParagraph.SetData(EnableTimestamp, EnableThreadId);
             }
         }
 
@@ -526,19 +522,23 @@ namespace Orc.Controls
             foreach (var commandName in commandNames)
             {
                 var inputGesture = _commandManager.GetInputGesture(commandName);
-                if (inputGesture != null)
+                if (inputGesture == null)
                 {
-                    if (inputGesture.Matches(e))
-                    {
-                        var keyEventArgs = new KeyEventArgs(e.KeyboardDevice, PresentationSource.FromVisual(this), e.Timestamp, e.Key)
-                        {
-                            RoutedEvent = Keyboard.KeyDownEvent
-                        };
-
-                        RaiseEvent(keyEventArgs);
-                        break;
-                    }
+                    continue;
                 }
+
+                if (!inputGesture.Matches(e))
+                {
+                    continue;
+                }
+
+                var keyEventArgs = new KeyEventArgs(e.KeyboardDevice, PresentationSource.FromVisual(this), e.Timestamp, e.Key)
+                {
+                    RoutedEvent = Keyboard.KeyDownEvent
+                };
+
+                RaiseEvent(keyEventArgs);
+                break;
             }
         }
 
