@@ -4,15 +4,18 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+
 namespace Orc.Controls
 {
     using Catel.Logging;
 
     public class LogViewerLogListener : RollingInMemoryLogListener
     {
+        #region Constructors
         public LogViewerLogListener()
         {
             MaximumNumberOfLogEntries = 500;
         }
+        #endregion
     }
 }

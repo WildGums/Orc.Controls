@@ -4,6 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+
 namespace Orc.Controls
 {
     using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace Orc.Controls
 
     public class LogFilterEditorViewModel : ViewModelBase
     {
+        #region Constructors
         public LogFilterEditorViewModel(LogFilter logFilter)
         {
             Argument.IsNotNull(() => logFilter);
@@ -24,11 +26,11 @@ namespace Orc.Controls
 
             LogFilter = logFilter;
         }
+        #endregion
 
+        #region Properties
         public ObservableCollection<LogFilterAction> Actions { get; private set; }
-
         public ObservableCollection<LogFilterExpressionType> ExpressionTypes { get; private set; }
-
         public ObservableCollection<LogFilterTarget> Targets { get; private set; }
 
         [Model]
@@ -48,7 +50,9 @@ namespace Orc.Controls
 
         [ViewModelToModel]
         public LogFilterTarget Target { get; set; }
+        #endregion
 
+        #region Methods
         protected override void ValidateFields(List<IFieldValidationResult> validationResults)
         {
             base.ValidateFields(validationResults);
@@ -63,5 +67,6 @@ namespace Orc.Controls
                 validationResults.Add(FieldValidationResult.CreateError(nameof(ExpressionValue), "Expression value is required"));
             }
         }
+        #endregion
     }
 }

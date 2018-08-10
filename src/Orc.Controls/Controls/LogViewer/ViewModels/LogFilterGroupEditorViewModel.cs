@@ -43,9 +43,7 @@ namespace Orc.Controls
 
         #region Properties
         public TaskCommand AddCommand { get; }
-
         public TaskCommand EditCommand { get; }
-
         public TaskCommand RemoveCommand { get; set; }
 
         [Model]

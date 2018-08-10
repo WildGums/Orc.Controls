@@ -19,9 +19,7 @@ namespace Orc.Controls
     {
         #region Fields
         private readonly IApplicationLogFilterGroupService _applicationLogFilterGroupService;
-
         private readonly IMessageService _messageService;
-
         private readonly IUIVisualizerService _uiVisualizerService;
         #endregion
 
@@ -47,9 +45,7 @@ namespace Orc.Controls
 
         #region Properties
         public ObservableCollection<LogFilterGroup> FilterGroups { get; private set; }
-
         public ObservableCollection<LogFilterGroup> SelectedFilterGroups { get; private set; }
-
         public LogFilterGroup SelectedFilterGroup { get; set; }
         #endregion
 

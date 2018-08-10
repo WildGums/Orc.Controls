@@ -1,8 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="LogViewerViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 
 namespace Orc.Controls.ViewModels
 {
@@ -26,22 +27,22 @@ namespace Orc.Controls.ViewModels
         #endregion
 
         #region Fields
-        private ILogListener _logListener;
-        private bool _isViewModelActive;
-
-        private readonly ITypeFactory _typeFactory;
-        private readonly IDispatcherService _dispatcherService;
         private readonly IApplicationLogFilterGroupService _applicationLogFilterGroupService;
-        private readonly LogViewerLogListener _logViewerLogListener;
+        private readonly IDispatcherService _dispatcherService;
+
+        private readonly object _lock = new object();
 
         private readonly FastObservableCollection<LogEntry> _logEntries = new FastObservableCollection<LogEntry>();
-        private readonly Timer _timer;
+        private readonly LogViewerLogListener _logViewerLogListener;
         private readonly Queue<LogEntry> _queuedEntries = new Queue<LogEntry>();
+        private readonly Timer _timer;
+
+        private readonly ITypeFactory _typeFactory;
 
         private bool _hasInitializedFirstLogListener;
         private bool _isClearingLog;
-
-        private readonly object _lock = new object();
+        private bool _isViewModelActive;
+        private ILogListener _logListener;
         #endregion
 
         #region Constructors
@@ -75,53 +76,6 @@ namespace Orc.Controls.ViewModels
             ResetEntriesCount();
         }
         #endregion
-
-        #region Events
-        public event EventHandler<LogEntryEventArgs> LogMessage;
-
-        public event EventHandler<EventArgs> ActiveFilterGroupChanged;
-        #endregion
-
-        public void ClearEntries()
-        {
-            _isClearingLog = true;
-
-            // Note: we need to dispatch because the FastObservableCollection automatically dispatches (which is a good thing
-            // when coming from a background thread). However... the ReplaceRange will be executed *outside* the lock
-            // which is not good. So the lock is inside the dispatcher handler, and we manually dispatcher here.
-            // Note: don't use BeginInvoke here because we need to wait until action will be processed
-            _dispatcherService.Invoke(() =>
-            {
-                lock (_lock)
-                {
-                    using (_logEntries.SuspendChangeNotifications())
-                    {
-                        _logEntries.Clear();
-
-                        var typeNames = TypeNames;
-                        if (typeNames != null)
-                        {
-                            using (typeNames.SuspendChangeNotifications())
-                            {
-                                typeNames.ReplaceRange(new[] { DefaultComboBoxItem });
-                            }
-                        }
-                    }
-                }
-
-                ResetEntriesCount();
-
-                _isClearingLog = false;
-            }, false);
-        }
-
-        private void ResetEntriesCount()
-        {
-            DebugEntriesCount = 0;
-            InfoEntriesCount = 0;
-            WarningEntriesCount = 0;
-            ErrorEntriesCount = 0;
-        }
 
         #region Properties
         public ObservableCollection<LogEntry> LogEntries
@@ -160,6 +114,47 @@ namespace Orc.Controls.ViewModels
         #endregion
 
         #region Methods
+        public void ClearEntries()
+        {
+            _isClearingLog = true;
+
+            // Note: we need to dispatch because the FastObservableCollection automatically dispatches (which is a good thing
+            // when coming from a background thread). However... the ReplaceRange will be executed *outside* the lock
+            // which is not good. So the lock is inside the dispatcher handler, and we manually dispatcher here.
+            // Note: don't use BeginInvoke here because we need to wait until action will be processed
+            _dispatcherService.Invoke(() =>
+            {
+                lock (_lock)
+                {
+                    using (_logEntries.SuspendChangeNotifications())
+                    {
+                        _logEntries.Clear();
+
+                        var typeNames = TypeNames;
+                        if (typeNames != null)
+                        {
+                            using (typeNames.SuspendChangeNotifications())
+                            {
+                                typeNames.ReplaceRange(new[] {DefaultComboBoxItem});
+                            }
+                        }
+                    }
+                }
+
+                ResetEntriesCount();
+
+                _isClearingLog = false;
+            }, false);
+        }
+
+        private void ResetEntriesCount()
+        {
+            DebugEntriesCount = 0;
+            InfoEntriesCount = 0;
+            WarningEntriesCount = 0;
+            ErrorEntriesCount = 0;
+        }
+
         protected override async Task InitializeAsync()
         {
             await base.InitializeAsync();
@@ -535,6 +530,12 @@ namespace Orc.Controls.ViewModels
         {
             _timer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
         }
+        #endregion
+
+        #region Events
+        public event EventHandler<LogEntryEventArgs> LogMessage;
+
+        public event EventHandler<EventArgs> ActiveFilterGroupChanged;
         #endregion
     }
 }
