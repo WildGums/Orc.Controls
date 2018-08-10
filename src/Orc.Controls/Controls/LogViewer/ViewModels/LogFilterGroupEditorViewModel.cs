@@ -1,8 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogFilterViewModel.cs" company="WildGums">
+// <copyright file="LogFilterGroupEditorViewModel.cs" company="WildGums">
 //   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 
 namespace Orc.Controls
 {
@@ -15,9 +16,12 @@ namespace Orc.Controls
 
     public class LogFilterGroupEditorViewModel : ViewModelBase
     {
+        #region Fields
         private readonly IMessageService _messageService;
         private readonly IUIVisualizerService _uiVisualizerService;
+        #endregion
 
+        #region Constructors
         public LogFilterGroupEditorViewModel(LogFilterGroup logFilterGroup, IMessageService messageService,
             IUIVisualizerService uiVisualizerService)
         {
@@ -35,7 +39,9 @@ namespace Orc.Controls
 
             Title = "Log Filter Group Editor";
         }
+        #endregion
 
+        #region Properties
         public TaskCommand AddCommand { get; }
 
         public TaskCommand EditCommand { get; }
@@ -52,7 +58,9 @@ namespace Orc.Controls
         public string Name { get; set; }
 
         public LogFilter SelectedLogFilter { get; set; }
+        #endregion
 
+        #region Methods
         protected override void OnValidating(IValidationContext validationContext)
         {
             if (string.IsNullOrWhiteSpace(Name))
@@ -60,7 +68,7 @@ namespace Orc.Controls
                 validationContext.Add(FieldValidationResult.CreateError(nameof(Name), "'Name' for the LogFilterGroup is required"));
             }
         }
-        
+
         private async Task OnAddCommandExecuteAsync()
         {
             var logFilter = new LogFilter();
@@ -103,5 +111,6 @@ namespace Orc.Controls
                 Validate(true);
             }
         }
+        #endregion
     }
 }
