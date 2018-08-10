@@ -51,7 +51,8 @@ namespace Orc.Controls
         /// <summary>
         /// The prefix dependency property definition.
         /// </summary>
-        public static readonly DependencyProperty PrefixProperty = DependencyProperty.Register("Prefix", typeof(string), typeof(FrameRateCounter), new PropertyMetadata("Frame rate: "));
+        public static readonly DependencyProperty PrefixProperty = DependencyProperty.Register(nameof(Prefix),
+            typeof(string), typeof(FrameRateCounter), new PropertyMetadata("Frame rate: "));
         #endregion
 
         #region Methods

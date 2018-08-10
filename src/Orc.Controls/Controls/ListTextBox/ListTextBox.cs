@@ -19,7 +19,6 @@ namespace Orc.Controls
     public class ListTextBox : TextBox
     {
         #region Fields
-        private readonly bool _textChangingIsInProgress = false;
         private int _currentIndex;
         #endregion
 
@@ -41,7 +40,7 @@ namespace Orc.Controls
             set { SetValue(ListOfValuesProperty, value); }
         }
 
-        public static readonly DependencyProperty ListOfValuesProperty = DependencyProperty.Register("ListOfValues", typeof(IList<string>),
+        public static readonly DependencyProperty ListOfValuesProperty = DependencyProperty.Register(nameof(ListOfValues), typeof(IList<string>),
             typeof(ListTextBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public string Value
@@ -50,7 +49,7 @@ namespace Orc.Controls
             set { SetValue(ValueProperty, value); }
         }
 
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(string),
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(string),
             typeof(ListTextBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((ListTextBox)sender).OnValueChanged()));
 
         private bool AllTextSelected => SelectedText == Text;
@@ -199,33 +198,29 @@ namespace Orc.Controls
                 parent = VisualTreeHelper.GetParent(parent);
             }
 
-            if (parent != null)
+            if (parent == null)
             {
-                var textBox = (TextBox)parent;
-                if (!textBox.IsKeyboardFocusWithin)
-                {
-                    textBox.Focus();
-                    e.Handled = true;
-                }
+                return;
             }
+
+            var textBox = (TextBox)parent;
+            if (textBox.IsKeyboardFocusWithin)
+            {
+                return;
+            }
+
+            textBox.Focus();
+            e.Handled = true;
         }
 
         private static void SelectAllText(object sender, RoutedEventArgs e)
         {
             var textBox = e.OriginalSource as TextBox;
-            if (textBox != null)
-            {
-                textBox.SelectAll();
-            }
+            textBox?.SelectAll();
         }
 
         private void OnValueChanged()
         {
-            if (_textChangingIsInProgress)
-            {
-                return;
-            }
-
             var listOfValues = ListOfValues;
 
             if (Value != null)
@@ -256,7 +251,7 @@ namespace Orc.Controls
 
         private void UpdateText()
         {
-            SetCurrentValue(TextProperty, Value == null ? string.Empty : Value);
+            SetCurrentValue(TextProperty, Value ?? string.Empty);
         }
         #endregion
     }

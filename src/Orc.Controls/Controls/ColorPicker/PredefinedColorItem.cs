@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="PredefinedColorItem.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -16,13 +16,13 @@ namespace Orc.Controls
     /// </summary>
     public class PredefinedColorItem : Control
     {
-        #region Constructors and Destructors
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="PredefinedColorItem"/> class.
         /// </summary>
         public PredefinedColorItem()
         {
-            DefaultStyleKey = typeof (PredefinedColorItem);
+            DefaultStyleKey = typeof(PredefinedColorItem);
         }
 
         /// <summary>
@@ -38,13 +38,13 @@ namespace Orc.Controls
         }
         #endregion
 
-        #region Public Properties
+        #region Properties
         /// <summary>
         /// Gets or sets the color.
         /// </summary>
         public Color Color
         {
-            get { return (Color) GetValue(ColorProperty); }
+            get { return (Color)GetValue(ColorProperty); }
             set { SetValue(ColorProperty, value); }
         }
 
@@ -52,14 +52,14 @@ namespace Orc.Controls
         /// The color property.
         /// </summary>
         public static readonly DependencyProperty ColorProperty = DependencyProperty.RegisterAttached(
-            "Color", typeof(Color), typeof(PredefinedColorItem), new PropertyMetadata(Colors.White));
+            nameof(Color), typeof(Color), typeof(PredefinedColorItem), new PropertyMetadata(Colors.White));
 
         /// <summary>
         /// Gets or sets the text.
         /// </summary>
         public string Text
         {
-            get { return (string) GetValue(TextProperty); }
+            get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
         }
 
@@ -67,7 +67,7 @@ namespace Orc.Controls
         /// The text property.
         /// </summary>
         public static readonly DependencyProperty TextProperty = DependencyProperty.RegisterAttached(
-            "Text", typeof (string), typeof (PredefinedColorItem), new PropertyMetadata(string.Empty));
+            nameof(Text), typeof(string), typeof(PredefinedColorItem), new PropertyMetadata(string.Empty));
         #endregion
     }
 }

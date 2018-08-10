@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CulturePicker.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,6 +13,7 @@ namespace Orc.Controls
 
     public sealed partial class CulturePicker
     {
+        #region Constructors
         static CulturePicker()
         {
             typeof(CulturePicker).AutoDetectViewPropertiesToSubscribe();
@@ -22,16 +23,17 @@ namespace Orc.Controls
         {
             InitializeComponent();
         }
+        #endregion
 
         #region Dependency properties
         public static readonly DependencyProperty SelectedCultureProperty = DependencyProperty.Register(
-            "SelectedCulture", typeof(CultureInfo), typeof(CulturePicker),
+            nameof(SelectedCulture), typeof(CultureInfo), typeof(CulturePicker),
             new FrameworkPropertyMetadata(default(CultureInfo), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public CultureInfo SelectedCulture
         {
-            get { return (CultureInfo) GetValue(SelectedCultureProperty); }
+            get { return (CultureInfo)GetValue(SelectedCultureProperty); }
             set { SetValue(SelectedCultureProperty, value); }
         }
         #endregion

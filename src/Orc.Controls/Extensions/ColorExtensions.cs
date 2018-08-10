@@ -27,17 +27,12 @@ namespace Orc.Controls
         #region Methods
         public static void CreateAccentColorResourceDictionary(this Color color, string controlName)
         {
-            var accentColor = Application.Current.TryFindResource(controlName.GetAccentBrushName()) as SolidColorBrush;
-
-            if (accentColor != null )
+            if (Application.Current.TryFindResource(controlName.GetAccentBrushName()) is SolidColorBrush)
             {
                 return;
             }
 
-            if (_accentColorResourceDictionary != null)
-            {
-                _accentColorResourceDictionary.AddResources(color, controlName);
-            }
+            _accentColorResourceDictionary?.AddResources(color, controlName);
 
             var resourceDictionary = new ResourceDictionary();
             resourceDictionary.AddResources(color, controlName);

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MultipleCommandParametersConverter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+// <copyright file="MultipleCommandParameterConverter.cs" company="WildGums">
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -10,10 +10,10 @@ namespace Orc.Controls
     using System;
     using System.Globalization;
     using System.Windows.Data;
-    using Catel.MVVM.Converters;
 
-    public class MultipleCommandParameterConverter: IMultiValueConverter
+    public class MultipleCommandParameterConverter : IMultiValueConverter
     {
+        #region IMultiValueConverter Members
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             return values.Clone();
@@ -23,5 +23,6 @@ namespace Orc.Controls
         {
             throw new NotImplementedException();
         }
+        #endregion
     }
 }

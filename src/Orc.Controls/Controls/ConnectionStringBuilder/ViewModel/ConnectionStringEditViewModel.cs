@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ConnectionStringEditViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,6 +17,7 @@ namespace Orc.Controls
 
     public class ConnectionStringEditViewModel : ViewModelBase
     {
+        #region Fields
         private readonly IConnectionStringBuilderService _connectionStringBuilderService;
         private readonly IMessageService _messageService;
         private readonly ITypeFactory _typeFactory;
@@ -24,7 +25,9 @@ namespace Orc.Controls
 
         private bool _isDatabasesInitialized = false;
         private bool _isServersInitialized = false;
+        #endregion
 
+        #region Constructors
         public ConnectionStringEditViewModel(string connectionString, DbProvider provider, IMessageService messageService,
             IConnectionStringBuilderService connectionStringBuilderService, IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory)
         {
@@ -54,12 +57,14 @@ namespace Orc.Controls
             TestConnection = new Command(OnTestConnection);
             ShowAdvancedOptions = new TaskCommand(OnShowAdvancedOptionsAsync, () => ConnectionString != null);
         }
+        #endregion
 
+        #region Properties
         public ConnectionStringProperty DataSource => ConnectionString.TryGetProperty("Data Source");
         public ConnectionStringProperty UserId => ConnectionString.TryGetProperty("User ID");
         public ConnectionStringProperty Password => ConnectionString.TryGetProperty("Password");
         public ConnectionStringProperty IntegratedSecurity => ConnectionString.TryGetProperty("Integrated Security");
-        
+
         public bool IsAdvancedOptionsReadOnly { get; set; }
 
         public bool? IntegratedSecurityValue
@@ -80,7 +85,8 @@ namespace Orc.Controls
                 IntegratedSecurity.Value = value;
                 RaisePropertyChanged(nameof(IntegratedSecurityValue));
             }
-        } 
+        }
+
         public ConnectionStringProperty InitialCatalog => ConnectionString.TryGetProperty("Initial Catalog");
         public bool CanLogOnToServer => Password != null || UserId != null;
         public bool IsLogOnEnabled => CanLogOnToServer && !(IntegratedSecurityValue ?? false);
@@ -102,7 +108,9 @@ namespace Orc.Controls
 
         public FastObservableCollection<string> Servers { get; } = new FastObservableCollection<string>();
         public FastObservableCollection<string> Databases { get; } = new FastObservableCollection<string>();
+        #endregion
 
+        #region Methods
         private void OnDbProviderChanged()
         {
             var dbProvider = DbProvider;
@@ -110,7 +118,7 @@ namespace Orc.Controls
             {
                 return;
             }
-            
+
             ConnectionString = _connectionStringBuilderService.CreateConnectionString(dbProvider);
             SetIntegratedSecurityToDefault();
         }
@@ -221,5 +229,6 @@ namespace Orc.Controls
                 IsDatabaseListVisible = true;
             });
         }
+        #endregion
     }
 }

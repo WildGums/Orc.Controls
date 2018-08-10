@@ -41,7 +41,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty AllowAutoCompletionProperty = DependencyProperty.Register(
-            "AllowAutoCompletion", typeof(bool), typeof(FilterBox), new PropertyMetadata(true));       
+            nameof(AllowAutoCompletion), typeof(bool), typeof(FilterBox), new PropertyMetadata(true));       
 
         public IEnumerable FilterSource
         {
@@ -49,7 +49,7 @@ namespace Orc.Controls
             set { SetValue(FilterSourceProperty, value); }
         }
 
-        public static readonly DependencyProperty FilterSourceProperty = DependencyProperty.Register("FilterSource", typeof(IEnumerable),
+        public static readonly DependencyProperty FilterSourceProperty = DependencyProperty.Register(nameof(FilterSource), typeof(IEnumerable),
             typeof(FilterBox), new FrameworkPropertyMetadata(null));
 
         public string PropertyName
@@ -58,7 +58,7 @@ namespace Orc.Controls
             set { SetValue(PropertyNameProperty, value); }
         }
 
-        public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.Register("PropertyName", typeof(string),
+        public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.Register(nameof(PropertyName), typeof(string),
             typeof(FilterBox), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public string Text
@@ -67,7 +67,7 @@ namespace Orc.Controls
             set { SetValue(TextProperty, value); }
         }
 
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(FilterBox),
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(FilterBox),
             new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((FilterBox) sender).OnTextChanged()));
 
         public Brush AccentColorBrush
@@ -76,7 +76,7 @@ namespace Orc.Controls
             set { SetValue(AccentColorBrushProperty, value); }
         }
 
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), typeof(Brush),
             typeof(FilterBox), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((FilterBox) sender).OnAccentColorBrushChanged()));
 
         public string Watermark
@@ -85,7 +85,7 @@ namespace Orc.Controls
             set { SetValue(WatermarkProperty, value); }
         }
 
-        public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(string),
+        public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register(nameof(Watermark), typeof(string),
             typeof(FilterBox), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
 
@@ -99,11 +99,10 @@ namespace Orc.Controls
 
         private void OnAccentColorBrushChanged()
         {
-            var solidColorBrush = AccentColorBrush as SolidColorBrush;
-            if (solidColorBrush != null)
+            if (AccentColorBrush is SolidColorBrush brush)
             {
-                var accentColor = ((SolidColorBrush) AccentColorBrush).Color;
-                accentColor.CreateAccentColorResourceDictionary("FilterBox");
+                var accentColor = brush.Color;
+                accentColor.CreateAccentColorResourceDictionary(nameof(FilterBox));
             }
         }
 
@@ -113,16 +112,10 @@ namespace Orc.Controls
 
             SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
 
-            if (_clearButton != null)
-            {
-                _clearButton.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, null);
-            }
+            _clearButton?.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, null);
 
             _clearButton = (Button) GetTemplateChild("PART_ClearButton");
-            if (_clearButton != null)
-            {
-                _clearButton.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, _clearFilter);
-            }
+            _clearButton?.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, _clearFilter);
 
             _filterTextBox = (TextBox) GetTemplateChild("PART_FilterTextBox");
 
@@ -131,17 +124,21 @@ namespace Orc.Controls
             OnInitializingAutoCompletionService(serviceEventArg);
             var autoCompletionService = serviceEventArg.AutoCompletionService;
 
-            if (autoCompletionService != null)
+            if (autoCompletionService == null)
             {
-                var autoCompletion = Interaction.GetBehaviors(_filterTextBox).OfType<AutoCompletion>().FirstOrDefault();
-                if (autoCompletion != null)
-                {
-                    var autoCompletionServiceFieldInfo = autoCompletion.GetType().GetField("_autoCompletionService", BindingFlags.Instance | BindingFlags.NonPublic);
-                    if (autoCompletionServiceFieldInfo != null)
-                    {
-                        autoCompletionServiceFieldInfo.SetValue(autoCompletion, autoCompletionService);
-                    }
-                }
+                return;
+            }
+
+            var autoCompletion = Interaction.GetBehaviors(_filterTextBox).OfType<AutoCompletion>().FirstOrDefault();
+            if (autoCompletion == null)
+            {
+                return;
+            }
+
+            var autoCompletionServiceFieldInfo = autoCompletion.GetType().GetField("_autoCompletionService", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (autoCompletionServiceFieldInfo != null)
+            {
+                autoCompletionServiceFieldInfo.SetValue(autoCompletion, autoCompletionService);
             }
         }
 
@@ -189,7 +186,6 @@ namespace Orc.Controls
         {
             InitializingAutoCompletionService?.Invoke(this, e);
         }
-
         #endregion
     }
 }

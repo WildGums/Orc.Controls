@@ -8,9 +8,6 @@
 namespace Orc.Controls
 {
     using System;
-    using System.ComponentModel;
-    using System.Globalization;
-    using Catel.Data;
     using Catel.MVVM;
 
     public class DateTimePickerViewModel : ViewModelBase
@@ -26,7 +23,7 @@ namespace Orc.Controls
         #region Constructors
         public DateTimePickerViewModel()
         {
-            DateTime now = DateTime.Now;
+            var now = DateTime.Now;
             _todayValue = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
         }
         #endregion
@@ -34,7 +31,7 @@ namespace Orc.Controls
         #region Properties
         public bool ShowOptionsButton
         {
-            get { return _showOptionsButton; }
+            get => _showOptionsButton;
             set
             {
                 if (_showOptionsButton == value)
@@ -50,7 +47,7 @@ namespace Orc.Controls
 
         public bool HideTime
         {
-            get { return _hideTime; }
+            get => _hideTime;
             set
             {
                 if (_hideTime == value)
@@ -66,7 +63,7 @@ namespace Orc.Controls
 
         public bool HideSeconds
         {
-            get { return _hideSeconds; }
+            get => _hideSeconds;
             set
             {
                 if (_hideSeconds == value)
@@ -82,7 +79,7 @@ namespace Orc.Controls
 
         public DateTime? Value
         {
-            get { return _value; }
+            get => _value;
             set
             {
                 if (_value == value)
@@ -111,7 +108,7 @@ namespace Orc.Controls
 
         public int? Year
         {
-            get { return _value == null ? (int?)null : _value.Value.Year; }
+            get => _value?.Year;
             set
             {
                 if (value == null)
@@ -137,7 +134,7 @@ namespace Orc.Controls
 
         public int? Month
         {
-            get { return _value == null ? (int?)null : _value.Value.Month; }
+            get => _value?.Month;
             set
             {
                 if (value == null)
@@ -169,7 +166,7 @@ namespace Orc.Controls
 
         public int? Day
         {
-            get { return _value == null ? (int?)null : _value.Value.Day; }
+            get => _value?.Day;
             set
             {
                 if (value == null)
@@ -195,7 +192,7 @@ namespace Orc.Controls
 
         public int? Hour
         {
-            get { return _value == null ? (int?)null : _value.Value.Hour; }
+            get => _value?.Hour;
             set
             {
                 if (value == null)
@@ -221,7 +218,7 @@ namespace Orc.Controls
 
         public int? Minute
         {
-            get { return _value == null ? (int?)null : _value.Value.Minute; }
+            get => _value?.Minute;
             set
             {
                 if (value == null)
@@ -247,7 +244,7 @@ namespace Orc.Controls
 
         public int? Second
         {
-            get { return _value == null ? (int?)null : _value.Value.Second; }
+            get => _value?.Second;
             set
             {
                 if (value == null)
@@ -273,7 +270,7 @@ namespace Orc.Controls
 
         public string AmPm
         {
-            get { return _value == null ? null : (_value.Value >= _value.Value.Date.AddHours(12)) ? Meridiems.LongPM : Meridiems.LongAM; }
+            get => _value == null ? null : (_value.Value >= _value.Value.Date.AddHours(12)) ? Meridiems.LongPM : Meridiems.LongAM;
             set
             {
                 if (!Meridiems.LongAM.Equals(value) && !Meridiems.LongPM.Equals(value))

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ISuggestionListService.cs" company="WildGums">
+// <copyright file="ExpandDirection.cs" company="WildGums">
 //   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -7,13 +7,11 @@
 
 namespace Orc.Controls
 {
-    using System;
-    using System.Collections.Generic;
-
-    public interface ISuggestionListService
+    public enum ExpandDirection
     {
-        #region Methods
-        List<KeyValuePair<string, string>> GetSuggestionList(DateTime dateTime, DateTimePart editablePart, DateTimeFormatInfo dateTimeFormatInfo);
-        #endregion
+        Down = 0,
+        Up = 1,
+        Left = 2,
+        Right = 3,
     }
 }

@@ -1,19 +1,19 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ConnectionStringEditWindow.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
 namespace Orc.Controls
 {
-    using System;
-
     public sealed partial class ConnectionStringEditWindow
     {
+        #region Constructors
         public ConnectionStringEditWindow()
         {
             this.InitializeComponent();
         }
+        #endregion
     }
 }

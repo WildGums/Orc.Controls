@@ -15,32 +15,6 @@ namespace Orc.Controls
     using Catel;
 
     /// <summary>
-    /// The arrow location.
-    /// </summary>
-    public enum DropdownArrowLocation
-    {
-        /// <summary>
-        /// The left arrow location
-        /// </summary>
-        Left,
-
-        /// <summary>
-        /// The top arrow location
-        /// </summary>
-        Top,
-
-        /// <summary>
-        /// The right arrow location
-        /// </summary>
-        Right,
-
-        /// <summary>
-        /// The bottom arrow location
-        /// </summary>
-        Bottom
-    }
-
-    /// <summary>
     /// Interaction logic for DropDownButton.xaml
     /// </summary>
     public partial class DropDownButton
@@ -61,7 +35,7 @@ namespace Orc.Controls
             set { SetValue(ArrowLocationProperty, value); }
         }
 
-        public static readonly DependencyProperty ArrowLocationProperty = DependencyProperty.Register("ArrowLocation", typeof(DropdownArrowLocation), typeof(DropDownButton), new PropertyMetadata(DropdownArrowLocation.Right));
+        public static readonly DependencyProperty ArrowLocationProperty = DependencyProperty.Register(nameof(ArrowLocation), typeof(DropdownArrowLocation), typeof(DropDownButton), new PropertyMetadata(DropdownArrowLocation.Right));
 
         public Thickness ArrowMargin
         {
@@ -69,7 +43,7 @@ namespace Orc.Controls
             set { SetValue(ArrowMarginProperty, value); }
         }
 
-        public static readonly DependencyProperty ArrowMarginProperty = DependencyProperty.Register("ArrowMargin", typeof(Thickness), typeof(DropDownButton), new PropertyMetadata(default(Thickness)));
+        public static readonly DependencyProperty ArrowMarginProperty = DependencyProperty.Register(nameof(ArrowMargin), typeof(Thickness), typeof(DropDownButton), new PropertyMetadata(default(Thickness)));
 
         public object Header
         {
@@ -77,7 +51,7 @@ namespace Orc.Controls
             set { SetValue(HeaderProperty, value); }
         }
 
-        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(object),
+        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(object),
             typeof(DropDownButton), new FrameworkPropertyMetadata(string.Empty));
 
         public ContextMenu DropDown
@@ -86,7 +60,7 @@ namespace Orc.Controls
             set { SetValue(DropDownProperty, value); }
         }
 
-        public static readonly DependencyProperty DropDownProperty = DependencyProperty.Register("DropDown", typeof(ContextMenu),
+        public static readonly DependencyProperty DropDownProperty = DependencyProperty.Register(nameof(DropDown), typeof(ContextMenu),
             typeof(DropDownButton), new UIPropertyMetadata(null));
 
         public ICommand Command
@@ -95,7 +69,7 @@ namespace Orc.Controls
             set { SetValue(CommandProperty, value); }
         }
 
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand),
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand),
             typeof(DropDownButton), new UIPropertyMetadata(null));
 
         public Brush AccentColorBrush
@@ -104,7 +78,7 @@ namespace Orc.Controls
             set { SetValue(AccentColorBrushProperty, value); }
         }
 
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), typeof(Brush),
             typeof(DropDownButton), new PropertyMetadata(Brushes.LightGray, (sender, e) => ((DropDownButton)sender).OnAccentColorBrushChanged()));
 
         public bool ShowDefaultButton
@@ -113,7 +87,7 @@ namespace Orc.Controls
             set { SetValue(ShowDefaultButtonProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowDefaultButtonProperty = DependencyProperty.Register("ShowDefaultButton", typeof(bool),
+        public static readonly DependencyProperty ShowDefaultButtonProperty = DependencyProperty.Register(nameof(ShowDefaultButton), typeof(bool),
             typeof(DropDownButton), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public bool EnableTransparentBackground
@@ -122,7 +96,7 @@ namespace Orc.Controls
             set { SetValue(EnableTransparentBackgroundProperty, value); }
         }
 
-        public static readonly DependencyProperty EnableTransparentBackgroundProperty = DependencyProperty.Register("EnableTransparentBackground", typeof(bool),
+        public static readonly DependencyProperty EnableTransparentBackgroundProperty = DependencyProperty.Register(nameof(EnableTransparentBackground), typeof(bool),
             typeof(DropDownButton), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
             
         public object CommandParameter
@@ -131,7 +105,7 @@ namespace Orc.Controls
             set { SetValue(CommandParameterProperty, value); }
         }
 
-        public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(DropDownButton), new PropertyMetadata(default(object)));
+        public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(DropDownButton), new PropertyMetadata(default(object)));
         #endregion
 
         #region Events
@@ -141,11 +115,10 @@ namespace Orc.Controls
         #region Methods
         private void OnAccentColorBrushChanged()
         {
-            var solidColorBrush = AccentColorBrush as SolidColorBrush;
-            if (solidColorBrush != null)
+            if (AccentColorBrush is SolidColorBrush brush)
             {
-                var accentColor = ((SolidColorBrush) AccentColorBrush).Color;
-                accentColor.CreateAccentColorResourceDictionary("DropDownButton");
+                var accentColor = brush.Color;
+                accentColor.CreateAccentColorResourceDictionary(nameof(DropDownButton));
             }
         }
 

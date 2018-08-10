@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="PasswordBindBehavior.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,15 +13,19 @@ namespace Orc.Controls
 
     public class PasswordBindBehavior : BehaviorBase<PasswordBox>
     {
+        #region Properties
         public string Password
         {
             get { return (string)GetValue(PasswordProperty); }
             set { SetValue(PasswordProperty, value); }
         }
 
-        public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register(
-            "Password", typeof (string), typeof (PasswordBindBehavior), new PropertyMetadata(default(string), (sender, args) => ((PasswordBindBehavior)sender).OnPasswordChanged(args)));
+        public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register(nameof(Password),
+            typeof(string), typeof(PasswordBindBehavior), new PropertyMetadata(default(string), (sender, args) => ((PasswordBindBehavior)sender).OnPasswordChanged(args)));
 
+        #endregion
+
+        #region Methods
         protected override void OnAssociatedObjectLoaded()
         {
             AssociatedObject.PasswordChanged += OnPasswordChanged;
@@ -35,6 +39,7 @@ namespace Orc.Controls
 
             base.OnAssociatedObjectUnloaded();
         }
+
         private void OnPasswordChanged(DependencyPropertyChangedEventArgs args)
         {
             var passwordTextBox = AssociatedObject;
@@ -56,5 +61,6 @@ namespace Orc.Controls
         {
             SetCurrentValue(PasswordProperty, AssociatedObject.Password);
         }
+        #endregion
     }
 }

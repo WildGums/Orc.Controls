@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DbConnectionProviderListViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,8 +17,11 @@ namespace Orc.Controls
 
     public class DbConnectionProviderListViewModel : ViewModelBase
     {
+        #region Fields
         private readonly DbProvider _selectedProvider;
+        #endregion
 
+        #region Constructors
         public DbConnectionProviderListViewModel(DbProvider selectedProvider)
         {
             _selectedProvider = selectedProvider;
@@ -26,14 +29,18 @@ namespace Orc.Controls
             Open = new Command(OnOpen);
             Refresh = new Command(OnRefresh);
         }
+        #endregion
 
+        #region Properties
         public override string Title => "Select provider";
 
         public DbProvider DbProvider { get; set; }
         public IList<DbProvider> DbProviders { get; private set; }
         public Command Refresh { get; }
         public Command Open { get; }
+        #endregion
 
+        #region Methods
         protected override Task InitializeAsync()
         {
             OnRefresh();
@@ -65,5 +72,6 @@ namespace Orc.Controls
 
             DbProvider = DbProviders.FirstOrDefault(x => x.Equals(_selectedProvider));
         }
+        #endregion
     }
 }

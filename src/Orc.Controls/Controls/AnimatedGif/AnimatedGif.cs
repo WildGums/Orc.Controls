@@ -80,10 +80,7 @@ namespace Orc.Controls
         private static void OnGifSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var typedSender = sender as AnimatedGif;
-            if (typedSender != null)
-            {
-                typedSender.SetImageGifSource();
-            }
+            typedSender?.SetImageGifSource();
         }
 
         /// <summary>
@@ -126,7 +123,7 @@ namespace Orc.Controls
                     if (_bitmap == null)
                     {
                         // Get entry assembly
-                        assemblyToSearch = Catel.Reflection.AssemblyHelper.GetEntryAssembly();
+                        assemblyToSearch = AssemblyHelper.GetEntryAssembly();
                         _bitmap = GetBitmapResourceFromAssembly(assemblyToSearch);
                         if (_bitmap == null)
                         {

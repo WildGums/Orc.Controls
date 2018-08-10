@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="MicrosoftApiSelectDirectoryService.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,12 +13,24 @@ namespace Orc.Controls.Services
 
     public class MicrosoftApiSelectDirectoryService : ISelectDirectoryService
     {
+        #region Properties
+        public string FileName { get; set; }
+        public string Filter { get; set; }
+        public string DirectoryName { get; private set; }
+        public bool ShowNewFolderButton { get; set; }
+        public string InitialDirectory { get; set; }
+        public string Title { get; set; }
+        #endregion
+
+        #region ISelectDirectoryService Members
         public async Task<bool> DetermineDirectoryAsync()
         {
-            var browserDialog = new CommonOpenFileDialog();
-            browserDialog.IsFolderPicker = true;
-            browserDialog.Title = Title;
-            browserDialog.InitialDirectory = InitialDirectory;
+            var browserDialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true,
+                Title = Title,
+                InitialDirectory = InitialDirectory
+            };
 
             if (browserDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
@@ -29,12 +41,6 @@ namespace Orc.Controls.Services
             DirectoryName = string.Empty;
             return false;
         }
-
-        public string FileName { get; set; }
-        public string Filter { get; set; }
-        public string DirectoryName { get; private set; }
-        public bool ShowNewFolderButton { get; set; }
-        public string InitialDirectory { get; set; }
-        public string Title { get; set; }
+        #endregion
     }
 }

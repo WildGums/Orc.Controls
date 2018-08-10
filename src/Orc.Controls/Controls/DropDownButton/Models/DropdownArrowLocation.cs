@@ -1,29 +1,35 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LinkLabelClickBehavior.cs" company="WildGums">
+// <copyright file="DropdownArrowLocation.cs" company="WildGums">
 //   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
-#if NET
-
 namespace Orc.Controls
 {
     /// <summary>
-    /// Available <see cref="LinkLabel"/> clickevent behaviors.
+    /// The arrow location.
     /// </summary>
-    public enum LinkLabelClickBehavior
+    public enum DropdownArrowLocation
     {
         /// <summary>
-        /// No explicit behavior defined, will use the set-click-event.
+        /// The left arrow location
         /// </summary>
-        Undefined,
+        Left,
 
         /// <summary>
-        /// Opens the set url in the systems webbrowser.
+        /// The top arrow location
         /// </summary>
-        OpenUrlInBrowser
+        Top,
+
+        /// <summary>
+        /// The right arrow location
+        /// </summary>
+        Right,
+
+        /// <summary>
+        /// The bottom arrow location
+        /// </summary>
+        Bottom
     }
 }
-
-#endif

@@ -39,24 +39,7 @@ namespace Orc.Controls
         /// <summary>
         /// Gets a value indicating whether updating.
         /// </summary>
-        private bool Updating
-        {
-            get { return _isUpdating != 0; }
-        }
-        #endregion
-
-        #region Static Fields
-        /// <summary>
-        /// The color property.
-        /// </summary>
-        public static readonly DependencyProperty ColorProperty = DependencyProperty.RegisterAttached(
-            "Color", typeof(Color), typeof(ColorBoard), new PropertyMetadata(OnColorChanged));
-
-        /// <summary>
-        /// The recent color items property.
-        /// </summary>
-        public static readonly DependencyProperty RecentColorItemsProperty = DependencyProperty.Register("RecentColorItems",
-            typeof(List<PredefinedColorItem>), typeof(ColorBoard), new PropertyMetadata());
+        private bool Updating => _isUpdating != 0;
         #endregion
 
         #region Fields
@@ -248,6 +231,9 @@ namespace Orc.Controls
             set { SetValue(ColorProperty, value); }
         }
 
+        public static readonly DependencyProperty ColorProperty = DependencyProperty.RegisterAttached(
+            nameof(Color), typeof(Color), typeof(ColorBoard), new PropertyMetadata(OnColorChanged));
+
         /// <summary>
         /// Gets or sets the recent color items.
         /// </summary>
@@ -257,6 +243,9 @@ namespace Orc.Controls
 
             set { SetValue(RecentColorItemsProperty, value); }
         }
+
+        public static readonly DependencyProperty RecentColorItemsProperty = DependencyProperty.Register(nameof(RecentColorItems),
+            typeof(List<PredefinedColorItem>), typeof(ColorBoard), new PropertyMetadata());
         #endregion
 
         #region Public Methods and Operators
@@ -384,17 +373,18 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as ColorBoard;
-            if (control != null && control._rootElement != null)
+            if (!(d is ColorBoard control) || control._rootElement == null)
             {
-                if (control.Updating)
-                {
-                    return;
-                }
-
-                var color = (Color)e.NewValue;
-                control.UpdateControls(color, true, true, true);
+                return;
             }
+
+            if (control.Updating)
+            {
+                return;
+            }
+
+            var color = (Color)e.NewValue;
+            control.UpdateControls(color, true, true, true);
         }
 
         /// <summary>

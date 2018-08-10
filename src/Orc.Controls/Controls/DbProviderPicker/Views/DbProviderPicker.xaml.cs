@@ -1,27 +1,23 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DbProviderPicker.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+
 namespace Orc.Controls
 {
-    using System.Data;
     using System.Windows;
     using Catel.MVVM.Views;
 
     public sealed partial class DbProviderPicker
     {
+        #region Constants
         public static readonly DependencyProperty DbProviderProperty = DependencyProperty.Register(
-            "DbProvider", typeof (DbProvider), typeof (DbProviderPicker), new PropertyMetadata(default(DbProvider)));
+            nameof(DbProvider), typeof(DbProvider), typeof(DbProviderPicker), new PropertyMetadata(default(DbProvider)));
+        #endregion
 
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewModelWins)]
-        public DbProvider DbProvider
-        {
-            get { return (DbProvider) GetValue(DbProviderProperty); }
-            set { SetValue(DbProviderProperty, value); }
-        }
-
+        #region Constructors
         static DbProviderPicker()
         {
             typeof(DbProviderPicker).AutoDetectViewPropertiesToSubscribe();
@@ -29,7 +25,17 @@ namespace Orc.Controls
 
         public DbProviderPicker()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
+        #endregion
+
+        #region Properties
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewModelWins)]
+        public DbProvider DbProvider
+        {
+            get { return (DbProvider)GetValue(DbProviderProperty); }
+            set { SetValue(DbProviderProperty, value); }
+        }
+        #endregion
     }
 }

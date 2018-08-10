@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ConnectionStringAdvancedOptionsViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -15,20 +15,23 @@ namespace Orc.Controls
 
     public class ConnectionStringAdvancedOptionsViewModel : ViewModelBase
     {
+        #region Constructors
         public ConnectionStringAdvancedOptionsViewModel(SqlConnectionString connectionString)
         {
             Argument.IsNotNull(() => connectionString);
 
             ConnectionString = connectionString;
         }
+        #endregion
 
+        #region Properties
         public override string Title => "Advanced options";
-
         public IList<ConnectionStringProperty> ConnectionStringProperties { get; private set; }
-
         public bool IsAdvancedOptionsReadOnly { get; set; }
         public SqlConnectionString ConnectionString { get; }
+        #endregion
 
+        #region Methods
         protected override Task InitializeAsync()
         {
             ConnectionStringProperties = ConnectionString.Properties.Values.Where(x => !x.IsSensitive)
@@ -37,5 +40,6 @@ namespace Orc.Controls
 
             return base.InitializeAsync();
         }
+        #endregion
     }
 }
