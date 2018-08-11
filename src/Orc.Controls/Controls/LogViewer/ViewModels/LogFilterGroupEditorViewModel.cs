@@ -36,15 +36,15 @@ namespace Orc.Controls
             AddCommand = new TaskCommand(OnAddCommandExecuteAsync);
             EditCommand = new TaskCommand(OnEditCommandExecuteAsync, OnEditCommandCanExecute);
             RemoveCommand = new TaskCommand(OnRemoveCommandExecuteAsync, OnRemoveCommandCanExecute);
-
-            Title = "Log Filter Group Editor";
         }
         #endregion
 
         #region Properties
+        public override string Title => LanguageHelper.GetString("Controls_LogViewer_LogFilterGroupEditor_Title");
+
         public TaskCommand AddCommand { get; }
         public TaskCommand EditCommand { get; }
-        public TaskCommand RemoveCommand { get; set; }
+        public TaskCommand RemoveCommand { get; }
 
         [Model]
         public LogFilterGroup LogFilterGroup { get; set; }
@@ -63,7 +63,8 @@ namespace Orc.Controls
         {
             if (string.IsNullOrWhiteSpace(Name))
             {
-                validationContext.Add(FieldValidationResult.CreateError(nameof(Name), "'Name' for the LogFilterGroup is required"));
+                validationContext.Add(FieldValidationResult.CreateError(nameof(Name),
+                    LanguageHelper.GetString("Controls_LogViewer_LogFilterGroupEditor_NameForTheLogFilterGroupIsRequired")));
             }
         }
 
@@ -100,7 +101,8 @@ namespace Orc.Controls
 
         private async Task OnRemoveCommandExecuteAsync()
         {
-            var result = await _messageService.ShowAsync("Are you sure?", button: MessageButton.YesNo, icon: MessageImage.Warning);
+            var result = await _messageService.ShowAsync(LanguageHelper.GetString("Controls_LogViewer_AreYouSure"),
+                button: MessageButton.YesNo, icon: MessageImage.Warning);
             if (result == MessageResult.Yes)
             {
                 LogFilterGroup.LogFilters.Remove(SelectedLogFilter);

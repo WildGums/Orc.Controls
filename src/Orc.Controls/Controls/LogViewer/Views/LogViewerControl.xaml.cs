@@ -71,7 +71,7 @@ namespace Orc.Controls
             set { SetValue(EnableTimestampProperty, value); }
         }
 
-        public static readonly DependencyProperty EnableTimestampProperty = DependencyProperty.Register("EnableTimestamp", typeof(bool),
+        public static readonly DependencyProperty EnableTimestampProperty = DependencyProperty.Register(nameof(EnableTimestamp), typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
@@ -82,7 +82,7 @@ namespace Orc.Controls
             set { SetValue(EnableIconsProperty, value); }
         }
 
-        public static readonly DependencyProperty EnableIconsProperty = DependencyProperty.Register("EnableIcons", typeof(bool),
+        public static readonly DependencyProperty EnableIconsProperty = DependencyProperty.Register(nameof(EnableIcons), typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
@@ -93,7 +93,7 @@ namespace Orc.Controls
             set { SetValue(EnableThreadIdProperty, value); }
         }
 
-        public static readonly DependencyProperty EnableThreadIdProperty = DependencyProperty.Register("EnableThreadId", typeof(bool), typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+        public static readonly DependencyProperty EnableThreadIdProperty = DependencyProperty.Register(nameof(EnableThreadId), typeof(bool), typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
             (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
 
@@ -103,7 +103,7 @@ namespace Orc.Controls
             set { SetValue(EnableTextColoringProperty, value); }
         }
 
-        public static readonly DependencyProperty EnableTextColoringProperty = DependencyProperty.Register("EnableTextColoring", typeof(bool),
+        public static readonly DependencyProperty EnableTextColoringProperty = DependencyProperty.Register(nameof(EnableTextColoring), typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
@@ -115,7 +115,7 @@ namespace Orc.Controls
             set { SetValue(LogFilterProperty, value); }
         }
 
-        public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register("LogFilter", typeof(string),
+        public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register(nameof(LogFilter), typeof(string),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
@@ -127,7 +127,7 @@ namespace Orc.Controls
             set { SetValue(LogListenerTypeProperty, value); }
         }
 
-        public static readonly DependencyProperty LogListenerTypeProperty = DependencyProperty.Register("LogListenerType", typeof(Type),
+        public static readonly DependencyProperty LogListenerTypeProperty = DependencyProperty.Register(nameof(LogListenerType), typeof(Type),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(typeof(LogViewerLogListener), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
@@ -139,7 +139,7 @@ namespace Orc.Controls
             set { SetValue(IgnoreCatelLoggingProperty, value); }
         }
 
-        public static readonly DependencyProperty IgnoreCatelLoggingProperty = DependencyProperty.Register("IgnoreCatelLogging", typeof(bool),
+        public static readonly DependencyProperty IgnoreCatelLoggingProperty = DependencyProperty.Register(nameof(IgnoreCatelLogging), typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
@@ -151,7 +151,7 @@ namespace Orc.Controls
             set { SetValue(ShowDebugProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowDebugProperty = DependencyProperty.Register("ShowDebug", typeof(bool),
+        public static readonly DependencyProperty ShowDebugProperty = DependencyProperty.Register(nameof(ShowDebug), typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
@@ -163,7 +163,7 @@ namespace Orc.Controls
             set { SetValue(ShowInfoProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowInfoProperty = DependencyProperty.Register("ShowInfo", typeof(bool),
+        public static readonly DependencyProperty ShowInfoProperty = DependencyProperty.Register(nameof(ShowInfo), typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
@@ -175,7 +175,7 @@ namespace Orc.Controls
             set { SetValue(ShowWarningProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowWarningProperty = DependencyProperty.Register("ShowWarning", typeof(bool),
+        public static readonly DependencyProperty ShowWarningProperty = DependencyProperty.Register(nameof(ShowWarning), typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
@@ -187,7 +187,7 @@ namespace Orc.Controls
             set { SetValue(ShowErrorProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowErrorProperty = DependencyProperty.Register("ShowError", typeof(bool),
+        public static readonly DependencyProperty ShowErrorProperty = DependencyProperty.Register(nameof(ShowError), typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
@@ -199,7 +199,7 @@ namespace Orc.Controls
             set { SetValue(AutoScrollProperty, value); }
         }
 
-        public static readonly DependencyProperty AutoScrollProperty = DependencyProperty.Register("AutoScroll", typeof(bool),
+        public static readonly DependencyProperty AutoScrollProperty = DependencyProperty.Register(nameof(AutoScroll), typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
@@ -210,8 +210,9 @@ namespace Orc.Controls
             set { SetValue(ShowMultilineMessagesExpandedProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowMultilineMessagesExpandedProperty = DependencyProperty.Register("ShowMultilineMessagesExpanded", typeof(bool),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+        public static readonly DependencyProperty ShowMultilineMessagesExpandedProperty = DependencyProperty.Register(nameof(ShowMultilineMessagesExpanded), 
+            typeof(bool), typeof(LogViewerControl),
+            new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -231,7 +232,7 @@ namespace Orc.Controls
             set { SetValue(SupportCommandManagerProperty, value); }
         }
 
-        public static readonly DependencyProperty SupportCommandManagerProperty = DependencyProperty.Register("SupportCommandManager", typeof(bool),
+        public static readonly DependencyProperty SupportCommandManagerProperty = DependencyProperty.Register(nameof(SupportCommandManager), typeof(bool),
             typeof(LogViewerControl), new PropertyMetadata(true));
 
 
@@ -435,7 +436,7 @@ namespace Orc.Controls
             //oldDoc.Blocks.Clear();
         }
 
-        private FlowDocument CreateFlowDocument()
+        private static FlowDocument CreateFlowDocument()
         {
             var flowDocument = new FlowDocument
             {

@@ -774,6 +774,60 @@ namespace Orc.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure?.
+        /// </summary>
+        internal static string Controls_LogViewer_AreYouSure {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_AreYouSure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expression value is required.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterEditor_ExpressionValueIsRequired {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterEditor_ExpressionValueIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name is required.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterEditor_NameIsRequired {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterEditor_NameIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;Name&apos; for the LogFilterGroup is required.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterGroupEditor_NameForTheLogFilterGroupIsRequired {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterGroupEditor_NameForTheLogFilterGroupIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log Filter Group Editor.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterGroupEditor_Title {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterGroupEditor_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -- Select type name --.
+        /// </summary>
+        internal static string Controls_LogViewer_SelectTypeName {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_SelectTypeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open folder.
         /// </summary>
         internal static string Controls_OpenFolder {

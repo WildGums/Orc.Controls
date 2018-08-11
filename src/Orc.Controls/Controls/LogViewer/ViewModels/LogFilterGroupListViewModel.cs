@@ -47,6 +47,10 @@ namespace Orc.Controls
         public ObservableCollection<LogFilterGroup> FilterGroups { get; private set; }
         public ObservableCollection<LogFilterGroup> SelectedFilterGroups { get; private set; }
         public LogFilterGroup SelectedFilterGroup { get; set; }
+
+        public TaskCommand AddCommand { get; set; }
+        public TaskCommand EditCommand { get; set; }
+        public TaskCommand RemoveCommand { get; set; }
         #endregion
 
         #region Methods
@@ -64,14 +68,6 @@ namespace Orc.Controls
         {
             await _applicationLogFilterGroupService.SaveAsync(FilterGroups);
         }
-        #endregion
-
-        #region Events
-        public event EventHandler<EventArgs> Updated;
-        #endregion
-
-        #region Commands
-        public TaskCommand AddCommand { get; set; }
 
         private async Task OnAddCommandExecuteAsync()
         {
@@ -84,8 +80,6 @@ namespace Orc.Controls
                 Updated.SafeInvoke(this);
             }
         }
-
-        public TaskCommand EditCommand { get; set; }
 
         private bool OnEditCommandCanExecute()
         {
@@ -102,8 +96,6 @@ namespace Orc.Controls
             }
         }
 
-        public TaskCommand RemoveCommand { get; set; }
-
         private bool OnRemoveCommandCanExecute()
         {
             return SelectedFilterGroup != null;
@@ -111,7 +103,8 @@ namespace Orc.Controls
 
         private async Task OnRemoveCommandExecuteAsync()
         {
-            var result = await _messageService.ShowAsync("Are you sure?", button: MessageButton.YesNo, icon: MessageImage.Warning);
+            var result = await _messageService.ShowAsync(LanguageHelper.GetString("Controls_LogViewer_AreYouSure"),
+                button: MessageButton.YesNo, icon: MessageImage.Warning);
             if (result == MessageResult.Yes)
             {
                 FilterGroups.Remove(SelectedFilterGroup);
@@ -121,6 +114,10 @@ namespace Orc.Controls
                 Updated.SafeInvoke(this);
             }
         }
+        #endregion
+
+        #region Events
+        public event EventHandler<EventArgs> Updated;
         #endregion
     }
 }

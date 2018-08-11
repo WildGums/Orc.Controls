@@ -23,7 +23,7 @@ namespace Orc.Controls.ViewModels
     public class LogViewerViewModel : ViewModelBase
     {
         #region Constants
-        private const string DefaultComboBoxItem = "-- Select type name --";
+        private readonly string _defaultComboBoxItem = LanguageHelper.GetString("Controls_LogViewer_SelectTypeName");
         #endregion
 
         #region Fields
@@ -68,7 +68,7 @@ namespace Orc.Controls.ViewModels
 
             var typeNames = new FastObservableCollection<string>
             {
-                DefaultComboBoxItem
+                _defaultComboBoxItem
             };
 
             TypeNames = typeNames;
@@ -135,7 +135,7 @@ namespace Orc.Controls.ViewModels
                         {
                             using (typeNames.SuspendChangeNotifications())
                             {
-                                typeNames.ReplaceRange(new[] {DefaultComboBoxItem});
+                                typeNames.ReplaceRange(new[] {_defaultComboBoxItem});
                             }
                         }
                     }
@@ -293,11 +293,13 @@ namespace Orc.Controls.ViewModels
                 }
             }
 
-            if (_logListener != null)
+            if (_logListener == null)
             {
-                _logListener.IgnoreCatelLogging = IgnoreCatelLogging;
-                _logListener.LogMessage += OnLogMessage;
+                return;
             }
+
+            _logListener.IgnoreCatelLogging = IgnoreCatelLogging;
+            _logListener.LogMessage += OnLogMessage;
         }
 
         private void UnsubscribeLogListener()
@@ -336,17 +338,7 @@ namespace Orc.Controls.ViewModels
 
         public bool IsValidLogEntry(LogEntry logEntry)
         {
-            if (!IsAcceptable(logEntry.LogEvent))
-            {
-                return false;
-            }
-
-            if (!PassFilters(logEntry))
-            {
-                return false;
-            }
-
-            return true;
+            return IsAcceptable(logEntry.LogEvent) && PassFilters(logEntry);
         }
 
         private bool IsAcceptable(LogEvent logEvent)
@@ -397,35 +389,23 @@ namespace Orc.Controls.ViewModels
 
         private bool PassLogFilter(LogEntry logEntry)
         {
-            if (string.IsNullOrEmpty(LogFilter) || LogFilter.Equals(DefaultComboBoxItem))
+            if (string.IsNullOrEmpty(LogFilter) || LogFilter.Equals(_defaultComboBoxItem))
             {
                 return true;
             }
 
-            var contains = logEntry.Message.IndexOf(LogFilter, StringComparison.OrdinalIgnoreCase) >= 0;
-            if (contains)
-            {
-                return true;
-            }
-
-            return false;
+            return logEntry.Message.IndexOf(LogFilter, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         private bool PassTypeFilter(LogEntry logEntry)
         {
             var typeFilter = TypeFilter;
-            if (string.IsNullOrEmpty(typeFilter) || typeFilter.Equals(DefaultComboBoxItem))
+            if (string.IsNullOrEmpty(typeFilter) || typeFilter.Equals(_defaultComboBoxItem))
             {
                 return true;
             }
 
-            var isOrigin = logEntry.Log.TargetType.Name.IndexOf(typeFilter, StringComparison.OrdinalIgnoreCase) >= 0;
-            if (isOrigin)
-            {
-                return true;
-            }
-
-            return false;
+            return logEntry.Log.TargetType.Name.IndexOf(typeFilter, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         private void AddLogEntries(List<LogEntry> entries, bool bypassClearingLog = false)
@@ -457,18 +437,20 @@ namespace Orc.Controls.ViewModels
                                 }
 
                                 var targetTypeName = entry.Log.TargetType.Name;
-                                if (!typeNames.Contains(targetTypeName))
+                                if (typeNames.Contains(targetTypeName))
                                 {
-                                    try
-                                    {
-                                        typeNames.Add(targetTypeName);
+                                    continue;
+                                }
 
-                                        requireSorting = true;
-                                    }
-                                    catch (Exception)
-                                    {
-                                        // we don't have time for this, let it go...
-                                    }
+                                try
+                                {
+                                    typeNames.Add(targetTypeName);
+
+                                    requireSorting = true;
+                                }
+                                catch (Exception)
+                                {
+                                    // we don't have time for this, let it go...
                                 }
                             }
                         }
@@ -484,8 +466,8 @@ namespace Orc.Controls.ViewModels
                         using (typeNames.SuspendChangeNotifications())
                         {
                             typeNames.Sort();
-                            typeNames.Remove(DefaultComboBoxItem);
-                            typeNames.Insert(0, DefaultComboBoxItem);
+                            typeNames.Remove(_defaultComboBoxItem);
+                            typeNames.Insert(0, _defaultComboBoxItem);
                         }
                     }
                 }
@@ -534,7 +516,6 @@ namespace Orc.Controls.ViewModels
 
         #region Events
         public event EventHandler<LogEntryEventArgs> LogMessage;
-
         public event EventHandler<EventArgs> ActiveFilterGroupChanged;
         #endregion
     }
