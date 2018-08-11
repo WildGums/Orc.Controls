@@ -939,8 +939,9 @@ namespace Orc.Controls
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilter> LogFilters { get; set; }
         [Catel.MVVM.ViewModelToModelAttribute("LogFilterGroup", "")]
         public string Name { get; set; }
-        public Catel.MVVM.TaskCommand RemoveCommand { get; set; }
+        public Catel.MVVM.TaskCommand RemoveCommand { get; }
         public Orc.Controls.LogFilter SelectedLogFilter { get; set; }
+        public override string Title { get; }
         protected override void OnValidating(Catel.Data.IValidationContext validationContext) { }
     }
     public class LogFilterGroupEditorWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector

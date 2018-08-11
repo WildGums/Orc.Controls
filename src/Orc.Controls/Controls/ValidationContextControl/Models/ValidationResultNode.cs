@@ -28,7 +28,7 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
-        public int? LineNumber { get; }
+        public int? LineNumber { get; private set; }
         #endregion
     }
 }
