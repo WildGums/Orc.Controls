@@ -19,10 +19,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label>Group Name</Label>
+        <Label Content="{catel:LanguageBinding ResourceName=Controls_LogViewer_LogFilterGroupEditor_GroupName}"/>
         <TextBox Grid.ColumnSpan="2" Text="{Binding Name, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
-        <Label VerticalAlignment="Top">Log Filters</Label>
+        <Label VerticalAlignment="Top" Content="{catel:LanguageBinding ResourceName=Controls_LogViewer_LogFilterGroupEditor_LogFilters}"/>
         <ListBox ItemsSource="{Binding LogFilters}" SelectedValue="{Binding SelectedLogFilter}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -43,9 +43,9 @@
         </ListBox>
 
         <StackPanel>
-            <Button Width="60" Command="{Binding AddCommand}">Add</Button>
-            <Button Width="60" Command="{Binding EditCommand}">Edit</Button>
-            <Button Width="60" Command="{Binding RemoveCommand}">Remove</Button>
+            <Button Width="60" Command="{Binding AddCommand}" Content="{catel:LanguageBinding ResourceName=Controls_LogViewer_Add}"/>
+            <Button Width="60" Command="{Binding EditCommand}" Content="{catel:LanguageBinding ResourceName=Controls_LogViewer_Edit}"/>
+            <Button Width="60" Command="{Binding RemoveCommand}" Content="{catel:LanguageBinding ResourceName=Controls_LogViewer_Remove}"/>
         </StackPanel>
     </controls:StackGrid>
 

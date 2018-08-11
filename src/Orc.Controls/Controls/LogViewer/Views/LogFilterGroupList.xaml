@@ -32,9 +32,9 @@
         </ListBox>
         
         <StackPanel Grid.Column="1">
-            <Button Width="60" Command="{Binding AddCommand}">Add</Button>
-            <Button Width="60" Command="{Binding EditCommand}">Edit</Button>
-            <Button Width="60" Command="{Binding RemoveCommand}">Remove</Button>
+            <Button Width="60" Command="{Binding AddCommand}" Content="{catel:LanguageBinding ResourceName=Controls_LogViewer_Add}"/>
+            <Button Width="60" Command="{Binding EditCommand}" Content="{catel:LanguageBinding ResourceName=Controls_LogViewer_Edit}"/>
+            <Button Width="60" Command="{Binding RemoveCommand}" Content="{catel:LanguageBinding ResourceName=Controls_LogViewer_Remove}"/>
         </StackPanel>
     </Grid>
 </catel:UserControl>

@@ -774,11 +774,56 @@ namespace Orc.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string Controls_LogViewer_Add {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure?.
         /// </summary>
         internal static string Controls_LogViewer_AreYouSure {
             get {
                 return ResourceManager.GetString("Controls_LogViewer_AreYouSure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string Controls_LogViewer_Edit {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Action.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterEditor_Action {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterEditor_Action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expression Type.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterEditor_ExpressionType {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterEditor_ExpressionType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expression Value.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterEditor_ExpressionValue {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterEditor_ExpressionValue", resourceCulture);
             }
         }
         
@@ -792,11 +837,47 @@ namespace Orc.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filter name.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterEditor_FilterName {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterEditor_FilterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name is required.
         /// </summary>
         internal static string Controls_LogViewer_LogFilterEditor_NameIsRequired {
             get {
                 return ResourceManager.GetString("Controls_LogViewer_LogFilterEditor_NameIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterEditor_Target {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterEditor_Target", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Group Name.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterGroupEditor_GroupName {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterGroupEditor_GroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log Filters.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterGroupEditor_LogFilters {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterGroupEditor_LogFilters", resourceCulture);
             }
         }
         
@@ -815,6 +896,15 @@ namespace Orc.Controls.Properties {
         internal static string Controls_LogViewer_LogFilterGroupEditor_Title {
             get {
                 return ResourceManager.GetString("Controls_LogViewer_LogFilterGroupEditor_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        internal static string Controls_LogViewer_Remove {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_Remove", resourceCulture);
             }
         }
         

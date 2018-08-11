@@ -435,4 +435,34 @@
   <data name="Controls_LogViewer_SelectTypeName" xml:space="preserve">
     <value>-- Select type name --</value>
   </data>
+  <data name="Controls_LogViewer_LogFilterEditor_Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_ExpressionType" xml:space="preserve">
+    <value>Expression Type</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_ExpressionValue" xml:space="preserve">
+    <value>Expression Value</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_FilterName" xml:space="preserve">
+    <value>Filter name</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_Target" xml:space="preserve">
+    <value>Target</value>
+  </data>
+  <data name="Controls_LogViewer_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Controls_LogViewer_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Controls_LogViewer_Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterGroupEditor_GroupName" xml:space="preserve">
+    <value>Group Name</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterGroupEditor_LogFilters" xml:space="preserve">
+    <value>Log Filters</value>
+  </data>
 </root>

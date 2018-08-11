@@ -435,4 +435,34 @@
   <data name="Controls_LogViewer_SelectTypeName" xml:space="preserve">
     <value>-- Выберите тип --</value>
   </data>
+  <data name="Controls_LogViewer_LogFilterEditor_Action" xml:space="preserve">
+    <value>Действие</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_ExpressionType" xml:space="preserve">
+    <value>Тип условия</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_ExpressionValue" xml:space="preserve">
+    <value>Условие</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_FilterName" xml:space="preserve">
+    <value>Наименование фильтра</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_Target" xml:space="preserve">
+    <value>Цель</value>
+  </data>
+  <data name="Controls_LogViewer_Add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="Controls_LogViewer_Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="Controls_LogViewer_Remove" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterGroupEditor_GroupName" xml:space="preserve">
+    <value>Наименование группы фильтров</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterGroupEditor_LogFilters" xml:space="preserve">
+    <value>Фильтры лога</value>
+  </data>
 </root>
