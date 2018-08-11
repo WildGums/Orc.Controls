@@ -4,27 +4,14 @@
                    xmlns:catel="http://schemas.catelproject.com"
                    xmlns:orccontrols="http://schemas.wildgums.com/orc/controls">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="250"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <orccontrols:StackGrid>
+        <orccontrols:StackGrid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </orccontrols:StackGrid.ColumnDefinitions>
 
-        <Border BorderThickness="1" Width="150">
-            <TextBlock Text="text" Margin="5" />
-            <orccontrols:PinnableToolTipService.ToolTip>
-                <StackPanel>
-                    <Label Content="{Binding}" />
-                    <Border Margin="5" Width="50" Height="50" Background="{Binding}" />
-                </StackPanel>
-            </orccontrols:PinnableToolTipService.ToolTip>
-        </Border>
-
-        <Grid Grid.Row="1">
-            <Grid.Background>
-                <SolidColorBrush Color="{Binding Color, ElementName=colorPicker}"/>
-            </Grid.Background>
-        </Grid>
-    </Grid>
+        <Label Content="Pick a color: " HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <orccontrols:ColorPicker Color="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </orccontrols:StackGrid>
 
 </catel:UserControl>

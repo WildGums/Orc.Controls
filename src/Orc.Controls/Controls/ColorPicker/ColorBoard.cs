@@ -49,16 +49,6 @@ namespace Orc.Controls
         private SolidColorBrush _brushColor;
 
         /// <summary>
-        /// The button cancel.
-        /// </summary>
-        private Button _buttonCancel;
-
-        /// <summary>
-        /// The button done.
-        /// </summary>
-        private Button _buttonDone;
-
-        /// <summary>
         /// The canvas hsv.
         /// </summary>
         private Canvas _canvasHsv;
@@ -285,8 +275,7 @@ namespace Orc.Controls
             _comboBoxColor = (ComboBox)GetTemplateChild("ComboBoxColor");
             _brushColor = (SolidColorBrush)GetTemplateChild("BrushColor");
             _textBoxColor = (TextBox)GetTemplateChild("TextBoxColor");
-            _buttonDone = (Button)GetTemplateChild("ButtonDone");
-            _buttonCancel = (Button)GetTemplateChild("ButtonCancel");
+            
             _themeColorsGrid = (ListBox)GetTemplateChild("ThemeColorsGrid");
             _recentColorsGrid = (ListBox)GetTemplateChild("RecentColorsGrid");
 
@@ -320,8 +309,18 @@ namespace Orc.Controls
             _comboBoxColor.SelectionChanged += comboBoxColor_SelectionChanged;
             _textBoxColor.GotFocus += textBoxColor_GotFocus;
             _textBoxColor.LostFocus += textBoxColor_LostFocus;
-            _buttonDone.Click += buttonDone_Click;
-            _buttonCancel.Click += buttonCancel_Click;
+
+            var buttonDone = (Button)GetTemplateChild("ButtonDone");
+            if (buttonDone != null)
+            {
+                buttonDone.Click += buttonDone_Click;
+            }
+
+            var buttonCancel = (Button)GetTemplateChild("ButtonCancel");
+            if (buttonCancel != null)
+            {
+                buttonCancel.Click += buttonCancel_Click;
+            }
 
             InitializePredefined();
             InitializeThemeColors();

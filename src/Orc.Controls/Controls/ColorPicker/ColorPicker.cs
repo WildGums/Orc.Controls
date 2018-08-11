@@ -20,7 +20,6 @@ namespace Orc.Controls
     /// The color picker.
     /// </summary>
     [TemplatePart(Name = "PART_Popup", Type = typeof(Popup))]
-    [TemplatePart(Name = "PART_ToggleDropDown", Type = typeof(ToggleButton))]
     public class ColorPicker : Control
     {
         #region Fields
@@ -33,11 +32,6 @@ namespace Orc.Controls
         /// The popup.
         /// </summary>
         private Popup _popup;
-
-        /// <summary>
-        /// The toggle drop down.
-        /// </summary>
-        private ToggleButton _toggleDropDown;
         #endregion
 
         #region Constructors and Destructors
@@ -59,7 +53,6 @@ namespace Orc.Controls
             base.OnApplyTemplate();
 
             _popup = (Popup)GetTemplateChild("PART_Popup");
-            _toggleDropDown = (ToggleButton)GetTemplateChild("PART_ToggleButton");
 
             _colorBoard = new ColorBoard();
             _colorBoard.SetCurrentValue(ColorBoard.ColorProperty, Color);
