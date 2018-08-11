@@ -15,7 +15,7 @@ namespace Orc.Controls.Converters
         protected override object Convert(object value, Type targetType, object parameter)
         {
             var timeSpan = ((TimeSpan?)value) == null ? TimeSpan.Zero : (TimeSpan)value;
-            var format = "F";
+            const string format = "F";
 
             if (parameter.Equals("Days"))
             {

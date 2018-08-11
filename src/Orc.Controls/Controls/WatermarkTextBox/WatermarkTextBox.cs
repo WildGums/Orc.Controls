@@ -59,7 +59,8 @@ namespace Orc.Controls
         /// <summary>
         /// Dependency property registration for the <see cref="SelectAllOnGotFocus"/> property.
         /// </summary>
-        public static readonly DependencyProperty SelectAllOnGotFocusProperty = DependencyProperty.Register("SelectAllOnGotFocus", typeof(bool), typeof(WatermarkTextBox), new PropertyMetadata(false));
+        public static readonly DependencyProperty SelectAllOnGotFocusProperty = DependencyProperty.Register(nameof(SelectAllOnGotFocus),
+            typeof(bool), typeof(WatermarkTextBox), new PropertyMetadata(false));
 
 
         /// <summary>
@@ -76,7 +77,8 @@ namespace Orc.Controls
         /// <summary>
         /// Dependency property registration for the <see cref="Watermark"/> property.
         /// </summary>
-        public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(object), typeof(WatermarkTextBox), new PropertyMetadata(null));
+        public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register(nameof(Watermark),
+            typeof(object), typeof(WatermarkTextBox), new PropertyMetadata(null));
 
 
         /// <summary>
@@ -93,7 +95,8 @@ namespace Orc.Controls
         /// <summary>
         /// Dependency property registration for the <see cref="WatermarkTemplate"/> property.
         /// </summary>
-        public static readonly DependencyProperty WatermarkTemplateProperty = DependencyProperty.Register("WatermarkTemplate", typeof(DataTemplate), typeof(WatermarkTextBox), new PropertyMetadata(null));
+        public static readonly DependencyProperty WatermarkTemplateProperty = DependencyProperty.Register(nameof(WatermarkTemplate),
+            typeof(DataTemplate), typeof(WatermarkTextBox), new PropertyMetadata(null));
         #endregion
 
         #region Methods

@@ -94,6 +94,7 @@ namespace Orc.Controls
                         case 2:
                             formatInfo.AmPmFormat = "tt";
                             break;
+
                         case 1:
                             formatInfo.AmPmFormat = "t";
                             break;

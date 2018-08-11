@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ValidationResultTypeNode.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -15,6 +15,7 @@ namespace Orc.Controls
 
     public class ValidationResultTypeNode : ValidationContextTreeNode
     {
+        #region Constructors
         public ValidationResultTypeNode(ValidationResultType resultType, IEnumerable<IValidationResult> validationResults,
             IValidationNamesService validationNamesService, bool isExpanded)
             : base(isExpanded)
@@ -27,11 +28,13 @@ namespace Orc.Controls
             var children = validationResults.Select(x => new ValidationResultNode(x, validationNamesService, isExpanded))
                 .OrderBy(x => x.LineNumber).ThenBy(x => x.DisplayName).ToList();
 
-            ((ICollection<ValidationContextTreeNode>)Children).ReplaceRange(children);
+            Children.ReplaceRange(children);
 
             UpdateDisplayName();
         }
+        #endregion
 
+        #region Methods
         private void UpdateDisplayName()
         {
             switch (ResultType)
@@ -45,5 +48,6 @@ namespace Orc.Controls
                     break;
             }
         }
+        #endregion
     }
 }

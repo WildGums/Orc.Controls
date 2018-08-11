@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationContextControlViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+// <copyright file="ValidationContextViewModel.cs" company="WildGums">
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -20,10 +20,13 @@ namespace Orc.Controls
 
     public class ValidationContextViewModel : ViewModelBase
     {
-        private readonly IProcessService _processService;
-        private readonly IValidationContext _injectedValidationContext;
+        #region Fields
         private readonly IDispatcherService _dispatcherService;
+        private readonly IValidationContext _injectedValidationContext;
+        private readonly IProcessService _processService;
+        #endregion
 
+        #region Constructors
         public ValidationContextViewModel(IProcessService processService)
         {
             Argument.IsNotNull(() => processService);
@@ -46,7 +49,9 @@ namespace Orc.Controls
             _injectedValidationContext = validationContext;
             _dispatcherService = dispatcherService;
         }
+        #endregion
 
+        #region Properties
         public bool IsExpandedAllOnStartup { get; set; }
         public IValidationContext ValidationContext { get; set; }
         public bool ShowErrors { get; set; } = true;
@@ -61,22 +66,22 @@ namespace Orc.Controls
         public bool IsExpanded { get; private set; }
         public bool IsCollapsed => !IsExpanded;
 
-        #region Commands
         public Command ExpandAll { get; }
+        public Command CollapseAll { get; }
+        public Command Copy { get; }
+        public Command Open { get; }
+        #endregion
 
+        #region Methods
         private void OnExpandAllExecute()
         {
             IsExpanded = true;
         }
 
-        public Command CollapseAll { get; }
-
         private void OnCollapseAllExecute()
         {
             IsExpanded = false;
         }
-
-        public Command Copy { get; }
 
         private bool OnCopyCanExecute()
         {
@@ -89,8 +94,6 @@ namespace Orc.Controls
 
             Clipboard.SetText(text);
         }
-
-        public Command Open { get; }
 
         private void OnOpenExecute()
         {
@@ -108,7 +111,6 @@ namespace Orc.Controls
             var filePath = CreateValidationContextFile(path);
             _processService.StartProcess(filePath);
         }
-        #endregion
 
         private void OnIsExpandedAllOnStartupChanged()
         {
@@ -162,5 +164,6 @@ namespace Orc.Controls
                 _dispatcherService.BeginInvoke(() => ValidationContext = _injectedValidationContext);
             }
         }
+        #endregion
     }
 }

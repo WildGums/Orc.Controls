@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DateTimePartExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2014 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -11,6 +11,7 @@ namespace Orc.Controls
 
     public static class DateTimePartExtensions
     {
+        #region Methods
         public static string GetDateTimePartName(this DateTimePart dateTimePart)
         {
             switch (dateTimePart)
@@ -76,5 +77,6 @@ namespace Orc.Controls
                     throw new InvalidOperationException();
             }
         }
+        #endregion
     }
 }

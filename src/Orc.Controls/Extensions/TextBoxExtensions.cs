@@ -8,85 +8,81 @@
 namespace Orc.Controls
 {
     using System;
-    using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Media;
 
     public static class TextBoxExtensions
     {
         internal static void SubscribeToOnRightBoundReachedEvent(this TextBox textBox, EventHandler handler)
         {
-            var numericTextBox = textBox as NumericTextBox;
-            if (numericTextBox != null)
+            switch (textBox)
             {
-                numericTextBox.RightBoundReached += handler;
-            }
+                case NumericTextBox numericTextBox:
+                    numericTextBox.RightBoundReached += handler;
+                    break;
 
-            var listTextBox = textBox as ListTextBox;
-            if (listTextBox != null)
-            {
-                listTextBox.RightBoundReached += handler;
+                case ListTextBox listTextBox:
+                    listTextBox.RightBoundReached += handler;
+                    break;
             }
         }
 
         internal static void SubscribeToOnLeftBoundReachedEvent(this TextBox textBox, EventHandler handler)
         {
-            var numericTextBox = textBox as NumericTextBox;
-            if (numericTextBox != null)
+            switch (textBox)
             {
-                numericTextBox.LeftBoundReached += handler;
-            }
+                case NumericTextBox numericTextBox:
+                    numericTextBox.LeftBoundReached += handler;
+                    break;
 
-            var listTextBox = textBox as ListTextBox;
-            if (listTextBox != null)
-            {
-                listTextBox.LeftBoundReached += handler;
+                case ListTextBox listTextBox:
+                    listTextBox.LeftBoundReached += handler;
+                    break;
             }
         }
 
         internal static void UnsubscribeFromOnRightBoundReachedEvent(this TextBox textBox, EventHandler handler)
         {
-            var numericTextBox = textBox as NumericTextBox;
-            if (numericTextBox != null)
+            switch (textBox)
             {
-                numericTextBox.RightBoundReached -= handler;
-            }
+                case NumericTextBox numericTextBox:
+                    numericTextBox.RightBoundReached -= handler;
+                    break;
 
-            var listTextBox = textBox as ListTextBox;
-            if (listTextBox != null)
-            {
-                listTextBox.RightBoundReached -= handler;
+                case ListTextBox listTextBox:
+                    listTextBox.RightBoundReached -= handler;
+                    break;
             }
         }
 
         internal static void UnsubscribeFromOnLeftBoundReachedEvent(this TextBox textBox, EventHandler handler)
         {
-            var numericTextBox = textBox as NumericTextBox;
-            if (numericTextBox != null)
+            switch (textBox)
             {
-                numericTextBox.LeftBoundReached -= handler;
-            }
+                case NumericTextBox numericTextBox:
+                    numericTextBox.LeftBoundReached -= handler;
+                    break;
 
-            var listTextBox = textBox as ListTextBox;
-            if (listTextBox != null)
-            {
-                listTextBox.LeftBoundReached -= handler;
+                case ListTextBox listTextBox:
+                    listTextBox.LeftBoundReached -= handler;
+                    break;
             }
         }
 
         internal static void UpdateValue(this TextBox textBox, object value)
         {
-            if (textBox is NumericTextBox)
+            switch (textBox)
             {
-                ((NumericTextBox)textBox).SetCurrentValue(NumericTextBox.ValueProperty, value == null ? (double?)null : Convert.ToDouble(value));
-            }
-            else if (textBox is ListTextBox)
-            {
-                ((ListTextBox)textBox).SetCurrentValue(ListTextBox.ValueProperty, value == null ? null : Convert.ToString(value));
-            }
-            else
-            {
-                textBox.SetCurrentValue(TextBox.TextProperty, value == null ? null : Convert.ToString(value));
+                case NumericTextBox _:
+                    ((NumericTextBox)textBox).SetCurrentValue(NumericTextBox.ValueProperty, value == null ? (double?)null : Convert.ToDouble(value));
+                    break;
+
+                case ListTextBox _:
+                    ((ListTextBox)textBox).SetCurrentValue(ListTextBox.ValueProperty, value == null ? null : Convert.ToString(value));
+                    break;
+
+                default:
+                    textBox.SetCurrentValue(TextBox.TextProperty, value == null ? null : Convert.ToString(value));
+                    break;
             }
         }
     }

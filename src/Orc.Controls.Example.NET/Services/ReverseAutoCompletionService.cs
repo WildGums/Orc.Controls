@@ -1,8 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FilterBoxControl.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+// <copyright file="ReverseAutoCompletionService.cs" company="WildGums">
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 
 namespace Orc.Controls.Example.Services
 {
@@ -14,6 +15,7 @@ namespace Orc.Controls.Example.Services
 
     public sealed class ReverseAutoCompletionService : IAutoCompletionService
     {
+        #region IAutoCompletionService Members
         public string[] GetAutoCompleteValues(string property, string filter, IEnumerable source)
         {
             Argument.IsNotNull(() => source);
@@ -26,6 +28,6 @@ namespace Orc.Controls.Example.Services
 
             return source.Cast<object>().Select(o => PropertyHelper.GetPropertyValue<string>(o, property, true)).Where(s => s.EndsWith(reverseFilter)).ToArray();
         }
+        #endregion
     }
-
 }

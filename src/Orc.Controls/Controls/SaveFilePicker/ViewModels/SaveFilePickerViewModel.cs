@@ -63,12 +63,7 @@ namespace Orc.Controls
 
             var directory = Directory.GetParent(SelectedFile);
             // Don't allow users to write text that they can "invoke" via our software
-            if (!directory.Exists)
-            {
-                return false;
-            }
-
-            return true;
+            return directory.Exists;
         }
 
         /// <summary>

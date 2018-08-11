@@ -60,7 +60,7 @@ namespace Orc.Controls
             Argument.IsNotNull(() => format);
 
             var result = new DateTimeFormatInfo();
-            var parts = Split(format, new char[] { 'y', 'M', 'd', 'H', 'h', 'm', 's', 't' });
+            var parts = Split(format, new[] { 'y', 'M', 'd', 'H', 'h', 'm', 's', 't' });
 
             var current = 0;
             var count = 0;
@@ -269,7 +269,7 @@ namespace Orc.Controls
                     }
                 }
             }
-            result.HourFormat = hour12Format == null ? hourFormat : hour12Format;
+            result.HourFormat = hour12Format ?? hourFormat;
 
             if (isDateOnly && (result.DayFormat == null || result.MonthFormat == null || result.YearFormat == null))
             {

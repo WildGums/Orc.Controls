@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="TimeSpanPickerViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,10 +17,9 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
-
         public TimeSpan? Value
         {
-            get { return _value; }
+            get => _value;
             set
             {
                 if (_value == value)
@@ -34,19 +33,19 @@ namespace Orc.Controls
                 RaisePropertyChanged(string.Empty);
 
                 // Note: For some reason we need to notify that Days, Hours, Minutes, Seconds properties changed.
-                RaisePropertyChanged("Days");
-                RaisePropertyChanged("Hours");
-                RaisePropertyChanged("Minutes");
-                RaisePropertyChanged("Seconds");
+                RaisePropertyChanged(nameof(Days));
+                RaisePropertyChanged(nameof(Hours));
+                RaisePropertyChanged(nameof(Minutes));
+                RaisePropertyChanged(nameof(Seconds));
 
                 // Required for mappings
-                RaisePropertyChanged("Value");
+                RaisePropertyChanged(nameof(Value));
             }
         }
 
         public int? Days
         {
-            get { return _value == null ? (int?)null : _value.Value.Days; }
+            get => _value?.Days;
             set
             {
                 if (value == null)
@@ -72,7 +71,7 @@ namespace Orc.Controls
 
         public int? Hours
         {
-            get { return _value == null ? (int?)null : _value.Value.Hours; }
+            get => _value?.Hours;
             set
             {
                 if (value == null)
@@ -98,7 +97,7 @@ namespace Orc.Controls
 
         public int? Minutes
         {
-            get { return _value == null ? (int?)null : _value.Value.Minutes; }
+            get => _value?.Minutes;
             set
             {
                 if (_value == null)
@@ -119,7 +118,7 @@ namespace Orc.Controls
 
         public int? Seconds
         {
-            get { return _value == null ? (int?)null : _value.Value.Seconds; }
+            get => _value?.Seconds;
             set
             {
                 if (_value == null)

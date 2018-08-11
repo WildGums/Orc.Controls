@@ -58,12 +58,7 @@ namespace Orc.Controls
             }
 
             filter = filter.Substring(1, filter.Length - 2);
-            if (!filter.IsValidRegexPattern())
-            {
-                return string.Empty;
-            }
-
-            return filter;
+            return !filter.IsValidRegexPattern() ? string.Empty : filter;
         }
 
         public static bool IsValidRegexPattern(this string pattern)

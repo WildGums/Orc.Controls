@@ -59,12 +59,12 @@ namespace Orc.Controls
 
             if (string.IsNullOrWhiteSpace(Name))
             {
-                validationResults.Add(FieldValidationResult.CreateError(nameof(Name), "Name is required"));
+                validationResults.Add(FieldValidationResult.CreateError(nameof(Name), LanguageHelper.GetString("Controls_LogViewer_LogFilterEditor_NameIsRequired")));
             }
 
             if (string.IsNullOrWhiteSpace(ExpressionValue))
             {
-                validationResults.Add(FieldValidationResult.CreateError(nameof(ExpressionValue), "Expression value is required"));
+                validationResults.Add(FieldValidationResult.CreateError(nameof(ExpressionValue), LanguageHelper.GetString("Controls_LogViewer_LogFilterEditor_ExpressionValueIsRequired")));
             }
         }
         #endregion

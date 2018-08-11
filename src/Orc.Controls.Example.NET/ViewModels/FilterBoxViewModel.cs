@@ -28,7 +28,7 @@ namespace Orc.Controls.Example.ViewModels
         #endregion
 
         #region Properties
-        public List<KeyValuePair<string, string>> FilterSource { get; private set; }
+        public List<KeyValuePair<string, string>> FilterSource { get; }
         public string FilterText { get; set; }
         public string CustomServiceFilterText { get; set; }
         #endregion

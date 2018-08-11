@@ -120,7 +120,7 @@ namespace Orc.Controls
             set { SetValue(AllowCloseByUserProperty, value); }
         }
 
-        public static readonly DependencyProperty AllowCloseByUserProperty = DependencyProperty.Register("AllowCloseByUser", typeof(bool),
+        public static readonly DependencyProperty AllowCloseByUserProperty = DependencyProperty.Register(nameof(AllowCloseByUser), typeof(bool),
             typeof(PinnableToolTip), new PropertyMetadata(false));
 
 
@@ -130,7 +130,7 @@ namespace Orc.Controls
             set { SetValue(HorizontalOffsetProperty, value); }
         }
 
-        public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.Register("HorizontalOffset", typeof(double),
+        public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.Register(nameof(HorizontalOffset), typeof(double),
             typeof(PinnableToolTip), new PropertyMetadata((sender, e) => ((PinnableToolTip)sender).OnHorizontalOffsetChanged()));
 
 
@@ -140,7 +140,7 @@ namespace Orc.Controls
             set { SetValue(IsPinnedProperty, value); }
         }
 
-        public static readonly DependencyProperty IsPinnedProperty = DependencyProperty.Register("IsPinned", typeof(bool), typeof(PinnableToolTip),
+        public static readonly DependencyProperty IsPinnedProperty = DependencyProperty.Register(nameof(IsPinned), typeof(bool), typeof(PinnableToolTip),
             new PropertyMetadata(false, (sender, e) => ((PinnableToolTip)sender).OnIsPinnedChanged()));
 
 
@@ -150,7 +150,7 @@ namespace Orc.Controls
             set { SetValue(GripColorProperty, value); }
         }
 
-        public static readonly DependencyProperty GripColorProperty = DependencyProperty.Register("GripColor", typeof(Color), typeof(PinnableToolTip),
+        public static readonly DependencyProperty GripColorProperty = DependencyProperty.Register(nameof(GripColor), typeof(Color), typeof(PinnableToolTip),
             new PropertyMetadata(Color.FromRgb(204, 204, 204), (sender, e) => ((PinnableToolTip)sender).OnGripColorChanged()));
 
 
@@ -160,7 +160,7 @@ namespace Orc.Controls
             set { SetValue(VerticalOffsetProperty, value); }
         }
 
-        public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.Register("VerticalOffset", typeof(double),
+        public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.Register(nameof(VerticalOffset), typeof(double),
             typeof(PinnableToolTip), new PropertyMetadata((sender, e) => ((PinnableToolTip)sender).OnVerticalOffsetChanged()));
 
 
@@ -170,7 +170,7 @@ namespace Orc.Controls
             set { SetValue(OpenLinkCommandProperty, value); }
         }
 
-        public static readonly DependencyProperty OpenLinkCommandProperty = DependencyProperty.Register("OpenLinkCommand",
+        public static readonly DependencyProperty OpenLinkCommandProperty = DependencyProperty.Register(nameof(OpenLinkCommand),
             typeof(ICommand), typeof(PinnableToolTip), new PropertyMetadata(null));
 
 
@@ -180,7 +180,7 @@ namespace Orc.Controls
             set { SetValue(AccentColorBrushProperty, value); }
         }
 
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), typeof(Brush),
             typeof(PinnableToolTip), new PropertyMetadata(Brushes.LightGray, (sender, e) => ((PinnableToolTip)sender).OnAccentColorBrushChanged()));
 
 
@@ -190,7 +190,7 @@ namespace Orc.Controls
             set { SetValue(ResizeModeProperty, value); }
         }
 
-        public static readonly DependencyProperty ResizeModeProperty = DependencyProperty.Register("ResizeMode", typeof(ResizeMode),
+        public static readonly DependencyProperty ResizeModeProperty = DependencyProperty.Register(nameof(ResizeMode), typeof(ResizeMode),
             typeof(PinnableToolTip), new PropertyMetadata(ResizeMode.NoResize, (sender, e) => ((PinnableToolTip)sender).OnResizeModeChanged()));
         #endregion
 
@@ -243,8 +243,7 @@ namespace Orc.Controls
             //using this code for non UIElements
             if (_owner == null)
             {
-                var userDefinedAdorner = _userDefinedAdorner as FrameworkElement;
-                if (userDefinedAdorner == null)
+                if (!(_userDefinedAdorner is FrameworkElement userDefinedAdorner))
                 {
                     rootVisual = System.Windows.Interop.BrowserInteropHelper.IsBrowserHosted
                         ? null
@@ -607,19 +606,21 @@ namespace Orc.Controls
             var pointArray = new Point[4];
 
             var toolTip = frameworkElement as PinnableToolTip;
-            if (toolTip == null || toolTip.IsOpen)
+            if (toolTip != null && !toolTip.IsOpen)
             {
-                var generalTransform = frameworkElement.TransformToVisual(toolTip != null ? toolTip._adornerLayer : PinnableToolTipService.RootVisual);
-
-                pointArray[0] = generalTransform.Transform(new Point(0.0, 0.0));
-                pointArray[1] = generalTransform.Transform(new Point(frameworkElement.ActualWidth, 0.0));
-                pointArray[1].X--;
-                pointArray[2] = generalTransform.Transform(new Point(0.0, frameworkElement.ActualHeight));
-                pointArray[2].Y--;
-                pointArray[3] = generalTransform.Transform(new Point(frameworkElement.ActualWidth, frameworkElement.ActualHeight));
-                pointArray[3].X--;
-                pointArray[3].Y--;
+                return pointArray;
             }
+
+            var generalTransform = frameworkElement.TransformToVisual(toolTip != null ? toolTip._adornerLayer : PinnableToolTipService.RootVisual);
+
+            pointArray[0] = generalTransform.Transform(new Point(0.0, 0.0));
+            pointArray[1] = generalTransform.Transform(new Point(frameworkElement.ActualWidth, 0.0));
+            pointArray[1].X--;
+            pointArray[2] = generalTransform.Transform(new Point(0.0, frameworkElement.ActualHeight));
+            pointArray[2].Y--;
+            pointArray[3] = generalTransform.Transform(new Point(frameworkElement.ActualWidth, frameworkElement.ActualHeight));
+            pointArray[3].X--;
+            pointArray[3].Y--;
 
             return pointArray;
         }
@@ -1080,13 +1081,12 @@ namespace Orc.Controls
 
         private void OnAccentColorBrushChanged()
         {
-            var solidColorBrush = AccentColorBrush as SolidColorBrush;
-            if (solidColorBrush == null)
+            if (!(AccentColorBrush is SolidColorBrush brush))
             {
                 return;
             }
 
-            var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
+            var accentColor = brush.Color;
             accentColor.CreateAccentColorResourceDictionary("PinnableToolTip");
         }
 

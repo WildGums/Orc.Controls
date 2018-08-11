@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="IValidationContextTreeNodeExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,16 +13,15 @@ namespace Orc.Controls
 
     public static class IValidationContextTreeNodeExtensions
     {
-        private class Node
-        {
-            public int Level;
-            public IValidationContextTreeNode Value;
-        }
-
+        #region Methods
         public static string ToText(this IEnumerable<IValidationContextTreeNode> validationContextTreeNodes)
         {
             var result = string.Empty;
-            var nodes = validationContextTreeNodes.Where(x => x.IsVisible).OrderByDescending(x => (IComparable)x).Select(x => new Node {Level = 0, Value = x});
+            var nodes = validationContextTreeNodes.Where(x => x.IsVisible).OrderByDescending(x => (IComparable)x).Select(x => new Node
+            {
+                Level = 0,
+                Value = x
+            });
             var stack = new Stack<Node>(nodes);
             while (stack.Any())
             {
@@ -36,7 +35,11 @@ namespace Orc.Controls
                 var nexLevel = node.Level + 1;
                 foreach (var subNode in node.Value.Children.Where(x => x.IsVisible).OrderByDescending(x => (IComparable)x))
                 {
-                    stack.Push(new Node {Level = nexLevel, Value = subNode});
+                    stack.Push(new Node
+                    {
+                        Level = nexLevel,
+                        Value = subNode
+                    });
                 }
             }
 
@@ -72,5 +75,16 @@ namespace Orc.Controls
         {
             return nodes?.Any(x => x.IsExpanded || HasAnyExpanded(x.Children)) ?? false;
         }
+        #endregion
+
+        #region Nested type: Node
+        private class Node
+        {
+            #region Fields
+            public int Level;
+            public IValidationContextTreeNode Value;
+            #endregion
+        }
+        #endregion
     }
 }

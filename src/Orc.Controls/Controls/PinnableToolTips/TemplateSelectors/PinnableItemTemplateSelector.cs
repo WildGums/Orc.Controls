@@ -18,17 +18,19 @@ namespace Orc.Controls
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             var element = container as FrameworkElement;
-            if (element != null)
+            if (element == null)
             {
-                if (item is OrdinalToolTipItem)
-                {
-                    return element.FindResource("OrdinalToolTipItemTemplate") as DataTemplate;
-                }
+                return null;
+            }
 
-                if (item is LinkToolTipItem)
-                {
-                    return element.FindResource("LinkToolTipItemTemplate") as DataTemplate;
-                }
+            if (item is OrdinalToolTipItem)
+            {
+                return element.FindResource("OrdinalToolTipItemTemplate") as DataTemplate;
+            }
+
+            if (item is LinkToolTipItem)
+            {
+                return element.FindResource("LinkToolTipItemTemplate") as DataTemplate;
             }
 
             return null;

@@ -9,12 +9,9 @@ namespace Orc.Controls.Example.ViewModels
 {
     using System;
     using Catel.Collections;
-    using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Threading.Tasks;
     using Catel.MVVM;
-    using Catel.Threading;
-    using System.Collections.Generic;
     using System.ComponentModel;
     using Catel.Data;
     using Models;
@@ -37,7 +34,7 @@ namespace Orc.Controls.Example.ViewModels
         public FastObservableCollection<CultureFormat> AvailableFormats { get; private set; }
         public CultureFormat SelectedFormat { get; set; }
 
-        public Command SetNull { get; private set; }
+        public Command SetNull { get; }
         #endregion
 
         #region Methods
@@ -51,7 +48,7 @@ namespace Orc.Controls.Example.ViewModels
                 {
                     var format = new CultureFormat
                     {
-                        CultureCode = string.Format("[{0}]", cultureInfo.IetfLanguageTag),
+                        CultureCode = $"[{cultureInfo.IetfLanguageTag}]",
                         FormatValue = cultureInfo.DateTimeFormat.ShortDatePattern + " " + cultureInfo.DateTimeFormat.LongTimePattern
                     };
 

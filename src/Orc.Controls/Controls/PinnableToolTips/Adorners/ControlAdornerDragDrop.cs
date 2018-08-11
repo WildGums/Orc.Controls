@@ -40,7 +40,7 @@ namespace Orc.Controls
         #region Public Methods and Operators
         public static ControlAdornerDragDrop Attach(ControlAdorner adorner, UIElement element)
         {
-            if (adorner == null || adorner.Child == null)
+            if (adorner?.Child == null)
             {
                 return null;
             }
@@ -60,7 +60,7 @@ namespace Orc.Controls
 
         public static void Detach(ControlAdornerDragDrop dd)
         {
-            if (dd == null || dd._adorner == null || dd._adorner.Child == null)
+            if (dd?._adorner?.Child == null)
             {
                 return;
             }
@@ -104,8 +104,7 @@ namespace Orc.Controls
                 return;
             }
 
-            var frameworkElement = _adorner as FrameworkElement;
-            if (frameworkElement == null)
+            if (!(_adorner is FrameworkElement frameworkElement))
             {
                 return;
             }
@@ -127,8 +126,7 @@ namespace Orc.Controls
             }
 
             var boundariesSize = Application.Current.MainWindow.GetSize();
-            var adornedElement = _adorner.AdornedElement as FrameworkElement;
-            if (adornedElement != null)
+            if (_adorner.AdornedElement is FrameworkElement adornedElement)
             {
                 boundariesSize = new Size(adornedElement.ActualWidth, adornedElement.ActualHeight);
             }
@@ -148,8 +146,8 @@ namespace Orc.Controls
             var adornerChild = _adorner.Child;
             if (adornerChild != null)
             {
-                PropertyHelper.TrySetPropertyValue(adornerChild, "HorizontalOffset", offset.X, false);
-                PropertyHelper.TrySetPropertyValue(adornerChild, "VerticalOffset", offset.Y, false);
+                PropertyHelper.TrySetPropertyValue(adornerChild, "HorizontalOffset", offset.X);
+                PropertyHelper.TrySetPropertyValue(adornerChild, "VerticalOffset", offset.Y);
             }
 
             _mouseY = e.GetPosition(null).Y;

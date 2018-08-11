@@ -35,10 +35,7 @@ namespace Orc.Controls
         /// <summary>
         /// Gets the visual children count.
         /// </summary>
-        protected override int VisualChildrenCount
-        {
-            get { return 1; }
-        }
+        protected override int VisualChildrenCount => 1;
         #endregion
 
         #region Fields
@@ -54,7 +51,7 @@ namespace Orc.Controls
         /// </summary>
         public Control Child
         {
-            get { return _child; }
+            get => _child;
 
             set
             {
@@ -81,25 +78,13 @@ namespace Orc.Controls
         protected override Size ArrangeOverride(Size finalSize)
         {
             var c = _child as IControlAdornerChild;
-            Rect rect;
 
-            var childHorizontalOffset = 0d;
-            PropertyHelper.TryGetPropertyValue(c, "HorizontalOffset", out childHorizontalOffset);
-
-            var childVerticalOffset = 0d;
-            PropertyHelper.TryGetPropertyValue(c, "VerticalOffset", out childVerticalOffset);
+            PropertyHelper.TryGetPropertyValue(c, "HorizontalOffset", out double childHorizontalOffset);
+            PropertyHelper.TryGetPropertyValue(c, "VerticalOffset", out double childVerticalOffset);
              
             Offset = new Point(childHorizontalOffset, childVerticalOffset);
 
-            //if (Offset.X != 0 || Offset.Y != 0)
-            //{
-            //    rect = new Rect(
-            //        ChildPosition.X + Offset.X,
-            //        ChildPosition.Y + Offset.Y,
-            //        finalSize.Width,
-            //        finalSize.Height);
-            //}
-            //else if (c != null)
+            Rect rect;
             if (c != null)
             {
                 var childPosition = c.GetPosition();

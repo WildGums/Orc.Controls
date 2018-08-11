@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ValidationResultTagNodeExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,6 +13,7 @@ namespace Orc.Controls
 
     internal static class ValidationResultTagNodeExtensions
     {
+        #region Methods
         public static void AddValidationResultTypeNode(this ValidationResultTagNode validationResultTagNode, IValidationContext validationContext,
             ValidationResultType validationResultType, IValidationNamesService validationNamesService, bool isExpanded)
         {
@@ -31,5 +32,6 @@ namespace Orc.Controls
 
             validationResultTagNode.Children.Add(resultTypeNode);
         }
+        #endregion
     }
 }

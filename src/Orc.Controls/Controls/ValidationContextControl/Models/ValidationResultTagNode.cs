@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ValidationResultTagNode.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -15,14 +15,19 @@ namespace Orc.Controls
 
     public class ValidationResultTagNode : ValidationContextTreeNode
     {
+        #region Constructors
         public ValidationResultTagNode(string tagName, bool isExpanded)
             : base(isExpanded)
         {
             TagName = tagName;
         }
+        #endregion
 
+        #region Properties
         public string TagName { get; }
+        #endregion
 
+        #region Methods
         protected override void OnPropertyChanged(AdvancedPropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
@@ -69,8 +74,9 @@ namespace Orc.Controls
             {
                 return -1;
             }
-            
+
             return CultureInfo.InstalledUICulture.CompareInfo.Compare(TagName, validationResultTagNode.TagName);
         }
+        #endregion
     }
 }

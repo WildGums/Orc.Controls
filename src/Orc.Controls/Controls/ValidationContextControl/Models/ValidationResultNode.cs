@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ValidationResultNode.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,6 +12,7 @@ namespace Orc.Controls
 
     public class ValidationResultNode : ValidationContextTreeNode
     {
+        #region Constructors
         public ValidationResultNode(IValidationResult validationResult, IValidationNamesService validationNamesService, bool isExpanded)
             : base(isExpanded)
         {
@@ -24,7 +25,10 @@ namespace Orc.Controls
 
             LineNumber = validationNamesService.GetLineNumber(validationResult);
         }
+        #endregion
 
-        public int? LineNumber { get; private set; }
+        #region Properties
+        public int? LineNumber { get; }
+        #endregion
     }
 }

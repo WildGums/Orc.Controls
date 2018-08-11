@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainWindowViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+// <copyright file="MainViewModel.cs" company="WildGums">
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -16,14 +16,12 @@ namespace Orc.Controls.Example.ViewModels
         public MainViewModel()
         {
             AccentColorBrush = Brushes.Orange;
-
-            Title = "Orc.Controls example";
         }
         #endregion
 
         #region Properties
+        public override string Title => "Orc.Controls example";
         public Brush AccentColorBrush { get; set; }
         #endregion
-
     }
 }

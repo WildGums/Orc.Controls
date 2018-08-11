@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="PinnableToolTipService.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,8 +14,6 @@ namespace Orc.Controls
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
-    using System.Windows.Interop;
-    using System.Windows.Media;
     using Catel.Windows;
 
     /// <summary>
@@ -50,42 +48,42 @@ namespace Orc.Controls
         private static FrameworkElement _rootVisual;
         #endregion
 
-        #region Static Fields
+        #region Dependency properties
         /// <summary>
         /// The initial show delay property.
         /// </summary>
         public static readonly DependencyProperty InitialShowDelayProperty = DependencyProperty.RegisterAttached("InitialShowDelay",
-            typeof (int), typeof (PinnableToolTipService), new PropertyMetadata(DefaultInitialShowDelay));
+            typeof(int), typeof(PinnableToolTipService), new PropertyMetadata(DefaultInitialShowDelay));
 
         /// <summary>
         /// The placement property.
         /// </summary>
         public static readonly DependencyProperty PlacementProperty = DependencyProperty.RegisterAttached("Placement",
-            typeof (PlacementMode), typeof (PinnableToolTipService), new PropertyMetadata(PlacementMode.Mouse, OnPlacementChanged));
+            typeof(PlacementMode), typeof(PinnableToolTipService), new PropertyMetadata(PlacementMode.Mouse, OnPlacementChanged));
 
         /// <summary>
         /// The placement target property.
         /// </summary>
         public static readonly DependencyProperty PlacementTargetProperty = DependencyProperty.RegisterAttached("PlacementTarget",
-            typeof (UIElement), typeof (PinnableToolTipService), new PropertyMetadata(OnPlacementTargetChanged));
+            typeof(UIElement), typeof(PinnableToolTipService), new PropertyMetadata(OnPlacementTargetChanged));
 
         /// <summary>
         /// The show duration property.
         /// </summary>
         public static readonly DependencyProperty ShowDurationProperty = DependencyProperty.RegisterAttached("ShowDuration",
-            typeof (int), typeof (PinnableToolTipService), new PropertyMetadata(DefaultShowDuration));
+            typeof(int), typeof(PinnableToolTipService), new PropertyMetadata(DefaultShowDuration));
 
         /// <summary>
         /// The toolTip property.
         /// </summary>
         public static readonly DependencyProperty ToolTipProperty = DependencyProperty.RegisterAttached("ToolTip",
-            typeof (object), typeof (PinnableToolTipService), new PropertyMetadata(OnToolTipChanged));
+            typeof(object), typeof(PinnableToolTipService), new PropertyMetadata(OnToolTipChanged));
 
         /// <summary>
         /// The toolTip owner property.
         /// </summary>
         public static readonly DependencyProperty IsToolTipOwnerProperty = DependencyProperty.RegisterAttached("IsToolTipOwner",
-            typeof (bool), typeof (PinnableToolTipService), new PropertyMetadata(OnIsToolTipOwnerChanged));
+            typeof(bool), typeof(PinnableToolTipService), new PropertyMetadata(OnIsToolTipOwnerChanged));
 
         /// <summary>
         /// The elements and tool tips.
@@ -140,7 +138,7 @@ namespace Orc.Controls
         }
         #endregion
 
-        #region Public Methods and Operators
+        #region Methods
         /// <summary>
         /// The get initial show delay.
         /// </summary>
@@ -148,7 +146,7 @@ namespace Orc.Controls
         /// <returns>The <see cref="int" />.</returns>
         public static int GetInitialShowDelay(DependencyObject element)
         {
-            return (int) element.GetValue(InitialShowDelayProperty);
+            return (int)element.GetValue(InitialShowDelayProperty);
         }
 
         /// <summary>
@@ -168,7 +166,7 @@ namespace Orc.Controls
         /// <returns>The <see cref="UIElement" />.</returns>
         public static UIElement GetPlacementTarget(DependencyObject element)
         {
-            return (UIElement) element.GetValue(PlacementTargetProperty);
+            return (UIElement)element.GetValue(PlacementTargetProperty);
         }
 
         /// <summary>
@@ -178,7 +176,7 @@ namespace Orc.Controls
         /// <returns>The <see cref="int" />.</returns>
         public static int GetShowDuration(DependencyObject element)
         {
-            return (int) element.GetValue(ShowDurationProperty);
+            return (int)element.GetValue(ShowDurationProperty);
         }
 
         /// <summary>
@@ -198,7 +196,7 @@ namespace Orc.Controls
         /// <returns>The <see cref="object" />.</returns>
         public static bool GetIsToolTipOwner(DependencyObject element)
         {
-            return (bool) element.GetValue(IsToolTipOwnerProperty);
+            return (bool)element.GetValue(IsToolTipOwnerProperty);
         }
 
         /// <summary>
@@ -260,9 +258,7 @@ namespace Orc.Controls
         {
             element.SetValue(IsToolTipOwnerProperty, value);
         }
-        #endregion
 
-        #region Methods
         /// <summary>
         /// The convert to toolTip.
         /// </summary>
@@ -280,7 +276,7 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private static void FrameworkElementUnloaded(object sender, RoutedEventArgs e)
         {
-            var element = (UIElement) sender;
+            var element = (UIElement)sender;
             PinnableToolTip toolTip = null;
             lock (Locker)
             {
@@ -290,10 +286,7 @@ namespace Orc.Controls
                 }
             }
 
-            if (toolTip != null)
-            {
-                toolTip.Hide();
-            }
+            toolTip?.Hide();
         }
 
         /// <summary>
@@ -303,12 +296,12 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private static void OnControlEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if ((bool) e.NewValue)
+            if ((bool)e.NewValue)
             {
                 return;
             }
 
-            var element = (UIElement) sender;
+            var element = (UIElement)sender;
             PinnableToolTip toolTip = null;
             lock (Locker)
             {
@@ -318,10 +311,7 @@ namespace Orc.Controls
                 }
             }
 
-            if (toolTip != null)
-            {
-                toolTip.StopTimer();
-            }
+            toolTip?.StopTimer();
         }
 
         /// <summary>
@@ -361,7 +351,7 @@ namespace Orc.Controls
             var initialShowDelay = GetInitialShowDelay(currentElement);
             var showDuration = GetShowDuration(currentElement);
 
-            toolTip.Owner = (FrameworkElement) sender;
+            toolTip.Owner = (FrameworkElement)sender;
             toolTip.SetupTimer(initialShowDelay, showDuration);
             toolTip.StartTimer();
         }
@@ -377,7 +367,7 @@ namespace Orc.Controls
 
             lock (Locker)
             {
-                var currentElement = (UIElement) sender;
+                var currentElement = (UIElement)sender;
                 if (ElementsAndToolTips.ContainsKey(currentElement))
                 {
                     toolTip = ElementsAndToolTips[currentElement];
@@ -408,7 +398,7 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private static void OnPlacementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var element = (UIElement) d;
+            var element = (UIElement)d;
 
             PinnableToolTip toolTip = null;
             lock (Locker)
@@ -432,7 +422,7 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private static void OnPlacementTargetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var element = (UIElement) d;
+            var element = (UIElement)d;
 
             PinnableToolTip toolTip = null;
             lock (Locker)
@@ -460,7 +450,7 @@ namespace Orc.Controls
             {
                 foreach (var toolTip in ElementsAndToolTips.Values.Where(toolTip => toolTip != null && !toolTip.IsPinned))
                 {
-                    if(toolTip.FindLogicalAncestor(x => ReferenceEquals(x, e.OriginalSource)) != null)
+                    if (toolTip.FindLogicalAncestor(x => ReferenceEquals(x, e.OriginalSource)) != null)
                     {
                         continue;
                     }
@@ -492,7 +482,7 @@ namespace Orc.Controls
                 UnregisterToolTip(d as UIElement);
             }
 
-            if ((e.NewValue != null) && ((bool) e.NewValue))
+            if ((e.NewValue != null) && ((bool)e.NewValue))
             {
                 RegisterToolTip(d as UIElement, null);
             }
@@ -535,17 +525,15 @@ namespace Orc.Controls
                     return;
                 }
             }
-
-            var element = owner as FrameworkElement;
+            
             PinnableToolTip toolTip = null;
-
             if (p != null)
             {
                 toolTip = p as PinnableToolTip ?? ConvertToToolTip(p);
                 toolTip.Owner = owner;
             }
 
-            if (element != null)
+            if (owner is FrameworkElement element)
             {
                 element.Unloaded += FrameworkElementUnloaded;
             }
@@ -553,8 +541,7 @@ namespace Orc.Controls
             owner.MouseEnter += OnElementMouseEnter;
             owner.MouseLeave += OnElementMouseLeave;
 
-            var control = owner as Control;
-            if (control != null)
+            if (owner is Control control)
             {
                 control.IsEnabledChanged += OnControlEnabledChanged;
             }
@@ -583,9 +570,9 @@ namespace Orc.Controls
                     RootVisual.MouseMove -= OnRootVisualMouseMove;
                 }
 
-                RootVisual = frameworkElement.GetVisualRoot() as FrameworkElement 
-                    ?? Application.Current.MainWindow.Content as FrameworkElement
-                    ?? Application.Current.MainWindow;
+                RootVisual = frameworkElement.GetVisualRoot() as FrameworkElement
+                             ?? Application.Current.MainWindow.Content as FrameworkElement
+                             ?? Application.Current.MainWindow;
 
                 if (RootVisual == null)
                 {
@@ -625,21 +612,16 @@ namespace Orc.Controls
                         return;
                     }
 
-                    var element = owner as FrameworkElement;
-                    if (element != null)
+                    if (owner is FrameworkElement element)
                     {
                         element.Unloaded -= FrameworkElementUnloaded;
-                        if (toolTip != null)
-                        {
-                            toolTip.SetValue(FrameworkElement.DataContextProperty, null);
-                        }
+                        toolTip?.SetValue(FrameworkElement.DataContextProperty, null);
                     }
 
                     owner.MouseEnter -= OnElementMouseEnter;
                     owner.MouseLeave -= OnElementMouseLeave;
 
-                    var control = owner as Control;
-                    if (control != null)
+                    if (owner is Control control)
                     {
                         control.IsEnabledChanged -= OnControlEnabledChanged;
                     }
