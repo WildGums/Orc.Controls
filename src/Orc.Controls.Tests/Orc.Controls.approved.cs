@@ -143,7 +143,6 @@ namespace Orc.Controls
         public override void SerializeMember(Catel.Runtime.Serialization.ISerializationContext context, Catel.Runtime.Serialization.MemberValue memberValue) { }
     }
     [System.Windows.TemplatePartAttribute(Name="PART_Popup", Type=typeof(System.Windows.Controls.Primitives.Popup))]
-    [System.Windows.TemplatePartAttribute(Name="PART_ToggleDropDown", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
     public class ColorPicker : System.Windows.Controls.Control
     {
         public static readonly System.Windows.DependencyProperty ColorProperty;
