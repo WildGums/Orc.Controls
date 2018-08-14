@@ -31,6 +31,8 @@
                                 </orccontrols:PinnableToolTip.ContentTemplate>
                             </orccontrols:PinnableToolTip>
                         </orccontrols:PinnableToolTipService.ToolTip>
+                        
+                        <orccontrols:PinnableToolTipService.Placement>Right</orccontrols:PinnableToolTipService.Placement>
                     </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

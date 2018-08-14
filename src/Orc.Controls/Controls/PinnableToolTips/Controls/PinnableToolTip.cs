@@ -220,10 +220,8 @@ namespace Orc.Controls
 
         public Point GetPosition()
         {
-            var position = new Point();
-
             var mousePosition = Mouse.GetPosition(_userDefinedAdorner);
-            var rootVisual = PinnableToolTipService.RootVisual;
+            var rootVisual = GetRootVisual();
 
             var fixedOffset = 0d;
             if (ResizeMode == ResizeMode.CanResize || ResizeMode == ResizeMode.CanResizeWithGrip)
@@ -237,159 +235,48 @@ namespace Orc.Controls
             var mousePositionX = mousePosition.X;
             var mousePositionY = mousePosition.Y;
 
-            double offsetX, offsetY, actualHeight, actualWidth, lastHeight, lastWidth;
-            Rect lastRectangle, actualRectangle;
-
             //using this code for non UIElements
             if (_owner == null)
             {
-                if (!(_userDefinedAdorner is FrameworkElement userDefinedAdorner))
-                {
-                    rootVisual = System.Windows.Interop.BrowserInteropHelper.IsBrowserHosted
-                        ? null
-                        : (Application.Current.MainWindow.Content as FrameworkElement) != null
-                            ? (FrameworkElement) Application.Current.MainWindow.Content
-                            : Application.Current.MainWindow;
-                }
-                else
-                {
-                    rootVisual = userDefinedAdorner;
-                }
-
-                if (rootVisual == null)
-                {
-                    position = _isPositionCalculated ? _lastPosition : mousePosition;
-                    return position;
-                }
-
-                if (_isPositionCalculated)
-                {
-                    if (_lastPosition.Y + DesiredSize.Height > rootVisual.ActualHeight)
-                    {
-                        _lastPosition.Y = rootVisual.ActualHeight - DesiredSize.Height;
-                    }
-
-                    if (_lastPosition.X + DesiredSize.Width > rootVisual.ActualWidth)
-                    {
-                        _lastPosition.X = rootVisual.ActualWidth - DesiredSize.Width;
-                    }
-
-                    position = _lastPosition;
-                    return position;
-                }
-
-                offsetX = mousePositionX + horizontalOffset;
-                offsetY = mousePositionY + verticalOffset;
-
-                actualHeight = rootVisual.ActualHeight;
-                actualWidth = rootVisual.ActualWidth;
-                lastHeight = _lastSize.Height;
-                lastWidth = _lastSize.Width;
-
-                lastRectangle = new Rect(offsetX, offsetY, lastWidth, lastHeight);
-                actualRectangle = new Rect(0.0, 0.0, actualWidth, actualHeight);
-                actualRectangle.Intersect(lastRectangle);
-
-                if ((offsetY + DesiredSize.Height) > actualHeight)
-                {
-                    offsetY = (actualHeight - DesiredSize.Height) - 2.0;
-                }
-
-                if (offsetY < 0.0)
-                {
-                    offsetY = 0.0;
-                }
-
-                if ((offsetX + DesiredSize.Width) > actualWidth)
-                {
-                    offsetX = (actualWidth - DesiredSize.Width) - 2.0;
-                }
-
-                if (offsetX < 0.0)
-                {
-                    offsetX = 0.0;
-                }
-
-                position.Y = offsetY;
-                position.X = offsetX;
-
-                _isPositionCalculated = DesiredSize.Height > 0;
-                if (_isPositionCalculated)
-                {
-                    _lastPosition = position;
-                }
-
-                return position;
+                return GetPostionForNonUiElement(rootVisual, mousePosition, horizontalOffset, verticalOffset);
             }
 
             var placementMode = PinnableToolTipService.GetPlacement(_owner);
-            var placementTarget = PinnableToolTipService.GetPlacementTarget(_owner) ?? _owner;
-
             switch (placementMode)
             {
                 case PlacementMode.Mouse:
                     if (_isPositionCalculated)
                     {
-                        position = _lastPosition;
-                        return position;
+                        return _lastPosition;
                     }
 
-                    offsetX = mousePositionX + horizontalOffset;
+                    var offsetX = mousePositionX + horizontalOffset;
 
-                    var fontSize = 0;
-                    offsetY = mousePositionY + fontSize + verticalOffset;
+                    const int fontSize = 0;
+                    var offsetY = mousePositionY + fontSize + verticalOffset;
 
                     offsetX = Math.Max(2.0, offsetX);
                     offsetY = Math.Max(2.0, offsetY);
 
-                    if (rootVisual == null)
-                    {
-                        rootVisual = (FrameworkElement)_owner.GetVisualRoot();
-                    }
+                    var actualHeight = rootVisual.ActualHeight;
+                    var actualWidth = rootVisual.ActualWidth;
+                    var lastHeight = _lastSize.Height;
+                    var lastWidth = _lastSize.Width;
 
-                    actualHeight = rootVisual.ActualHeight;
-                    actualWidth = rootVisual.ActualWidth;
-                    lastHeight = _lastSize.Height;
-                    lastWidth = _lastSize.Width;
-
-                    lastRectangle = new Rect(offsetX, offsetY, lastWidth, lastHeight);
-                    actualRectangle = new Rect(0.0, 0.0, actualWidth, actualHeight);
+                    var lastRectangle = new Rect(offsetX, offsetY, lastWidth, lastHeight);
+                    var actualRectangle = new Rect(0.0, 0.0, actualWidth, actualHeight);
                     actualRectangle.Intersect(lastRectangle);
 
-                    if ((Math.Abs(actualRectangle.Width - lastRectangle.Width) < 2.0)
-                        && (Math.Abs(actualRectangle.Height - lastRectangle.Height) < 2.0))
+                    if (!(Math.Abs(actualRectangle.Width - lastRectangle.Width) < 2.0) 
+                        || !(Math.Abs(actualRectangle.Height - lastRectangle.Height) < 2.0))
                     {
-                        position.Y = offsetY;
-                        position.X = offsetX;
-                    }
-                    else
-                    {
-                        if ((offsetY + lastRectangle.Height) > actualHeight)
-                        {
-                            offsetY = (actualHeight - lastRectangle.Height) - 2.0;
-                        }
-
-                        if (offsetY < 0.0)
-                        {
-                            offsetY = 0.0;
-                        }
-
-                        if ((offsetX + lastRectangle.Width) > actualWidth)
-                        {
-                            offsetX = (actualWidth - lastRectangle.Width) - 2.0;
-                        }
-
-                        if (offsetX < 0.0)
-                        {
-                            offsetX = 0.0;
-                        }
-
-                        position.Y = offsetY;
-                        position.X = offsetX;
+                        offsetY = GetOffset(0, offsetY, actualHeight, lastRectangle.Height);
+                        offsetX = GetOffset(0, offsetX, actualWidth, lastRectangle.Width);
                     }
 
-                    _lastPosition = position;
+                    _lastPosition = new Point(offsetX, offsetY);
                     _isPositionCalculated = true;
+
                     break;
 
                 case PlacementMode.Bottom:
@@ -398,16 +285,90 @@ namespace Orc.Controls
                 case PlacementMode.Top:
                     var windowSize = Application.Current.MainWindow.GetSize();
                     var plugin = new Rect(0.0, 0.0, windowSize.Width, windowSize.Height);
+                    var placementTarget = PinnableToolTipService.GetPlacementTarget(_owner) ?? _owner;
                     var translatedPoints = GetTranslatedPoints((FrameworkElement)placementTarget);
                     var toolTipPoints = GetTranslatedPoints(this);
                     var popupLocation = PlacePopup(plugin, translatedPoints, toolTipPoints, placementMode);
 
-                    position.Y = popupLocation.Y + verticalOffset;
-                    position.X = popupLocation.X + horizontalOffset;
-                    break;
+                    return new Point(popupLocation.X + horizontalOffset, popupLocation.Y + verticalOffset);
+            }
+
+            return new Point();
+        }
+
+        private Point GetPostionForNonUiElement(FrameworkElement rootVisual, Point mousePosition, double horizontalOffset, double verticalOffset)
+        {
+            var mousePositionX = mousePosition.X;
+            var mousePositionY = mousePosition.Y;
+
+            if (rootVisual == null)
+            {
+                return _isPositionCalculated ? _lastPosition : mousePosition;
+            }
+
+            if (_isPositionCalculated)
+            {
+                if (_lastPosition.Y + DesiredSize.Height > rootVisual.ActualHeight)
+                {
+                    _lastPosition.Y = rootVisual.ActualHeight - DesiredSize.Height;
+                }
+
+                if (_lastPosition.X + DesiredSize.Width > rootVisual.ActualWidth)
+                {
+                    _lastPosition.X = rootVisual.ActualWidth - DesiredSize.Width;
+                }
+
+                return _lastPosition;
+            }
+
+            var offsetX = GetOffset(mousePositionX, horizontalOffset, rootVisual.ActualWidth, DesiredSize.Width);
+            var offsetY = GetOffset(mousePositionY, verticalOffset, rootVisual.ActualHeight, DesiredSize.Height);
+
+            var position = new Point(offsetX, offsetY);
+
+            _isPositionCalculated = DesiredSize.Height > 0;
+            if (_isPositionCalculated)
+            {
+                _lastPosition = position;
             }
 
             return position;
+        }
+
+        private static double GetOffset(double mousePosition, double offset, double actualSize, double desiredSize)
+        {
+            var resultOffset = mousePosition + offset;
+            if (resultOffset + desiredSize > actualSize)
+            {
+                resultOffset = actualSize - desiredSize - 2.0;
+            }
+
+            return resultOffset < 0.0 ? 0.0 : resultOffset;
+        }
+
+        private FrameworkElement GetRootVisual()
+        {
+            switch (_owner)
+            {
+                case null when _userDefinedAdorner is FrameworkElement userDefinedAdorner:
+                    return userDefinedAdorner;
+
+                case null when System.Windows.Interop.BrowserInteropHelper.IsBrowserHosted:
+                    return null;
+
+                case null when Application.Current.MainWindow != null && (Application.Current.MainWindow.Content as FrameworkElement) != null:
+                    return (FrameworkElement)Application.Current.MainWindow.Content;
+
+                case null:
+                    return Application.Current.MainWindow;
+            }
+
+            if (PinnableToolTipService.RootVisual != null)
+            {
+                return PinnableToolTipService.RootVisual;
+            }
+
+            return (FrameworkElement)_owner.GetVisualRoot();
         }
 
         /// <summary>
