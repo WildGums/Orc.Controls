@@ -250,13 +250,10 @@ namespace Orc.Controls
                         return _lastPosition;
                     }
 
-                    var offsetX = mousePositionX + horizontalOffset;
+                    var offsetX = Math.Max(2.0, mousePositionX + horizontalOffset);
 
                     const int fontSize = 0;
-                    var offsetY = mousePositionY + fontSize + verticalOffset;
-
-                    offsetX = Math.Max(2.0, offsetX);
-                    offsetY = Math.Max(2.0, offsetY);
+                    var offsetY = Math.Max(2.0, mousePositionY + fontSize + verticalOffset);
 
                     var actualHeight = rootVisual.ActualHeight;
                     var actualWidth = rootVisual.ActualWidth;
