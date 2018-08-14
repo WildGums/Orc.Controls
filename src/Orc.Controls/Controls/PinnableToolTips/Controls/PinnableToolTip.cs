@@ -405,41 +405,48 @@ namespace Orc.Controls
                 return new Point(x, y);
             }
 
-            if ((placement == PlacementMode.Left) || (placement == PlacementMode.Right))
+            switch (placement)
             {
-                if (!(Math.Abs(y - target[0].Y) > Epsilon) || (!(Math.Abs(y - target[1].Y) > Epsilon))
-                                                           || ((!(Math.Abs((y + height) - target[0].Y) > Epsilon))
-                                                               || (!(Math.Abs((y + height) - target[1].Y) > Epsilon))))
-                {
-                    return new Point(x, y);
-                }
+                case PlacementMode.Left:
+                case PlacementMode.Right:
+                    if (!(Math.Abs(y - target[0].Y) > Epsilon) 
+                        || !(Math.Abs(y - target[1].Y) > Epsilon) 
+                        || !(Math.Abs(y + height - target[0].Y) > Epsilon)
+                        || !(Math.Abs(y + height - target[1].Y) > Epsilon))
+                    {
+                        return new Point(x, y);
+                    }
 
-                var num18 = bounds.Top + (bounds.Height / 2.0);
-                if ((num18 > 0.0) && ((num18 - 0.0) > (plugin.Height - num18)))
-                {
-                    y = plugin.Height - height;
-                }
-                else
-                {
-                    y = 0.0;
-                }
-            }
-            else if (((placement == PlacementMode.Top) || (placement == PlacementMode.Bottom))
-                     && (((Math.Abs(x - target[0].X) > 0.0001) && (Math.Abs(x - target[1].X) > 0.0001))
-                         && ((Math.Abs((x + width) - target[0].X) > 0.0001) && (Math.Abs((x + width) - target[1].X) > 0.0001))))
-            {
-                var num19 = bounds.Left + (bounds.Width / 2.0);
-                if ((num19 > 0.0) && ((num19 - 0.0) > (plugin.Width - num19)))
-                {
-                    x = plugin.Width - width;
-                }
-                else
-                {
-                    x = 0.0;
-                }
+                    y = CalculateLinearSize(plugin.Height, height, bounds.Top, bounds.Height);
+                    break;
+
+                case PlacementMode.Top:
+                case PlacementMode.Bottom:
+                    if (!(Math.Abs(x - target[0].X) > 0.0001)
+                        || !(Math.Abs(x - target[1].X) > 0.0001)
+                        || !(Math.Abs(x + width - target[0].X) > 0.0001)
+                        || !(Math.Abs(x + width - target[1].X) > 0.0001))
+                    {
+                        return new Point(x, y);
+                    }
+
+                    x = CalculateLinearSize(plugin.Width, width, bounds.Left, bounds.Width);
+                    break;
+
             }
 
             return new Point(x, y);
+        }
+
+        private static double CalculateLinearSize(double pluginLength, double length, double boundsStart, double boundLenght)
+        {
+            var middle = boundsStart + boundLenght / 2.0;
+            if (middle > 0.0 && middle - 0.0 > pluginLength - middle)
+            {
+                return pluginLength - length;
+            }
+
+            return 0.0;
         }
 
         private static Rect GetBounds(params Point[] interestPoints)
