@@ -17,6 +17,7 @@ namespace Orc.Controls
     using System.Windows.Input;
     using System.Windows.Media;
     using Catel;
+    using Catel.Collections;
     using Catel.IoC;
     using Catel.Logging;
     using Catel.MVVM;
@@ -301,8 +302,6 @@ namespace Orc.Controls
 
         private void UpdateControl(bool rebuild = true, List<LogEntry> logEntries = null, bool scrollToEnd = false)
         {
-            var rtb = LogRecordsRichTextBox;
-
             // Using BeginInvoke in order to call properties mapping first. Otherwise filtering by buttons doesen't work.
             // UpdateControl will be called *before* the properties mapping,
             // but because we call BeginInvoke, it will be placed at the end of the execution stack
@@ -328,32 +327,32 @@ namespace Orc.Controls
                     return;
                 }
 
-                rtb.BeginChange();
-
-                if (rtb.Document == null)
-                {
-                    rtb.Document = CreateFlowDocument();
-                }
-
-                var document = rtb.Document;
-                foreach (var logEntry in logEntries)
-                {
-                    var paragraph = CreateLogEntryParagraph(logEntry);
-                    if (paragraph != null)
-                    {
-                        document.Blocks.Add(paragraph);
-                    }
-                }
-
-                document.SetCurrentValue(FrameworkContentElement.TagProperty, logEntries[logEntries.Count - 1].Time);
-
-                rtb.EndChange();
+                FillLogEntries(logEntries, LogRecordsRichTextBox);
 
                 if (scrollToEnd || AutoScroll)
                 {
                     ScrollToEnd();
                 }
             }));
+        }
+
+        private void FillLogEntries(IReadOnlyCollection<LogEntry> logEntries, RichTextBox rtb)
+        {
+            rtb.BeginChange();
+
+            if (rtb.Document == null)
+            {
+                rtb.Document = CreateFlowDocument();
+            }
+
+            var document = rtb.Document;
+            logEntries.Select(CreateLogEntryParagraph)
+                .Where(x => x != null)
+                .ForEach(x => document.Blocks.Add(x));
+
+            document.SetCurrentValue(FrameworkContentElement.TagProperty, logEntries.Last().Time);
+
+            rtb.EndChange();
         }
 
         protected override void OnLoaded(EventArgs e)
