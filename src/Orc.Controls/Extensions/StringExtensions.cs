@@ -14,6 +14,12 @@ namespace Orc.Controls
     public static class StringExtensions
     {
         #region Methods
+        internal static string ChunkIntValue(this string input, string partValue, out int val)
+        {
+            val = int.Parse(partValue);
+            return input.Substring(partValue.Length);
+        }
+
         internal static bool IsDateTimeFormatPart(this string part)
         {
             return part.Contains('h') || part.Contains('H') || part.Contains('m') || part.Contains('s') || part.Contains('t');

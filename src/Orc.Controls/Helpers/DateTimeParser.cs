@@ -84,6 +84,7 @@ namespace Orc.Controls
                     input = ParseAmPmFormat(input, formatInfo, i);
                 }
 
+
                 if (i == formatInfo.YearPosition)
                 {
                     var partValue = new string(input.TakeWhile(char.IsDigit).ToArray());
@@ -92,10 +93,8 @@ namespace Orc.Controls
                         return ThrowOnError<FormatException>(errorMessage, null, throwOnError);
                     }
 
-                    year = int.Parse(partValue); // There is no reason to fail.
+                    input = input.ChunkIntValue(partValue, out year);
                     year += formatInfo.IsYearShortFormat ? 2000 : 0;
-
-                    input = input.Substring(partValue.Length);
 
                     continue;
                 }
@@ -108,9 +107,7 @@ namespace Orc.Controls
                         return ThrowOnError<FormatException>(errorMessage, null, throwOnError);
                     }
 
-                    month = int.Parse(partValue); // There is no reason to fail.
-
-                    input = input.Substring(partValue.Length);
+                    input = input.ChunkIntValue(partValue, out month);
 
                     continue;
                 }
@@ -123,9 +120,7 @@ namespace Orc.Controls
                         return ThrowOnError<FormatException>(errorMessage, null, throwOnError);
                     }
 
-                    day = int.Parse(partValue); // There is no reason to fail.
-
-                    input = input.Substring(partValue.Length);
+                    input = input.ChunkIntValue(partValue, out day);
 
                     continue;
                 }
@@ -138,13 +133,11 @@ namespace Orc.Controls
                         return ThrowOnError<FormatException>(errorMessage, null, throwOnError);
                     }
 
-                    hour = int.Parse(partValue); // There is no reason to fail.
+                    input = input.ChunkIntValue(partValue, out hour);
                     if (hour < 0 && hour >= 24)
                     {
                         return ThrowOnError<FormatException>("Invalid hour value. Hour must be in range <0, 24> for short format", null, throwOnError);
                     }
-
-                    input = input.Substring(partValue.Length);
 
                     continue;
                 }
@@ -157,9 +150,7 @@ namespace Orc.Controls
                         return ThrowOnError<FormatException>(errorMessage, null, throwOnError);
                     }
 
-                    minute = int.Parse(partValue); // There is no reason to fail.
-
-                    input = input.Substring(partValue.Length);
+                    input = input.ChunkIntValue(partValue, out minute);
 
                     continue;
                 }
@@ -172,36 +163,32 @@ namespace Orc.Controls
                         return ThrowOnError<FormatException>(errorMessage, null, throwOnError);
                     }
 
-                    second = int.Parse(partValue); // There is no reason to fail.
+                    input = input.ChunkIntValue(partValue, out second);
+
+                    continue;
+                }
+
+                if (i == formatInfo.AmPmPosition)
+                {
+                    var partValue = new string(input.Take(formatInfo.AmPmFormat.Length).ToArray());
+                    if (partValue.Length <= 0)
+                    {
+                        // We allow the input string to not have AM/PM even if the format specifies them
+                        continue;
+                    }
+
+                    if (!formatInfo.CheckIsAmPmShortFormat(partValue, out var amPmErrorMessage))
+                    {
+                        return ThrowOnError<FormatException>(amPmErrorMessage, null, throwOnError);
+                    }
+
+                    var amPm = partValue;
+
+                    // We need to make sure hour is less than 12, because we could accept values like: 05/02/2017 16:41:24 PM
+                    hour += Meridiems.IsPm(amPm) && hour < 12 ? 12 : 0;
 
                     input = input.Substring(partValue.Length);
-
-                    continue;
                 }
-
-                if (i != formatInfo.AmPmPosition)
-                {
-                    continue;
-                }
-
-                var amPmPartValue = new string(input.Take(formatInfo.AmPmFormat.Length).ToArray());
-                if (amPmPartValue.Length <= 0)
-                {
-                    // We allow the input string to not have AM/PM even if the format specifies them
-                    continue;
-                }
-
-                if (!formatInfo.CheckIsAmPmShortFormat(amPmPartValue, out var amPmErrorMessage))
-                {
-                    return ThrowOnError<FormatException>(amPmErrorMessage, null, throwOnError);
-                }
-
-                var amPm = amPmPartValue;
-
-                // We need to make sure hour is less than 12, because we could accept values like: 05/02/2017 16:41:24 PM
-                hour += Meridiems.IsPm(amPm) && hour < 12 ? 12 : 0;
-
-                input = input.Substring(amPmPartValue.Length);
             }
 
             separator = formatInfo.GetSeparator(i);
