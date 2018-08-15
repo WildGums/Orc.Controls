@@ -130,7 +130,11 @@ namespace Orc.Controls
 
             if (formatInfo.HourFormat != null)
             {
-                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Hour field can not be specified more than once");
+                var errorMessage = part == formatInfo.HourFormat
+                    ? "Format string is incorrect. Hour field can not be specified more than once"
+                    : "Format string is incorrect. Hour field must be 12 hour or 24 hour format, but no both";
+
+                throw Log.ErrorAndCreateException<FormatException>(errorMessage);
             }
 
             if (part.Length > 2)
