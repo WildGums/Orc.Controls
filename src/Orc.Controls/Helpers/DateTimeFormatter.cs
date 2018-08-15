@@ -59,6 +59,7 @@ namespace Orc.Controls
                 }
                 parts.Add(new KeyValuePair<int, string>(formatInfo.MinutePosition.Value, dateTime.Minute.ToString(NumberFormatHelper.GetFormat(formatInfo.MinuteFormat.Length))));
                 parts.Add(new KeyValuePair<int, string>(formatInfo.SecondPosition.Value, dateTime.Second.ToString(NumberFormatHelper.GetFormat(formatInfo.SecondFormat.Length))));
+
                 if (formatInfo.AmPmPosition.HasValue)
                 {
                     parts.Add(new KeyValuePair<int, string>(formatInfo.AmPmPosition.Value, dateTime.Hour >= 12 ? Meridiems.GetPmForFormat(formatInfo) : Meridiems.GetAmForFormat(formatInfo)));
@@ -67,6 +68,11 @@ namespace Orc.Controls
 
             parts = parts.OrderBy(x => x.Key).ToList();
 
+            return BuildFormatString(formatInfo, parts);
+        }
+
+        private static string BuildFormatString(DateTimeFormatInfo formatInfo, List<KeyValuePair<int, string>> parts)
+        {
             // Always contain year, month, day part.
             var builder = new StringBuilder();
             builder.Append(formatInfo.Separator0);

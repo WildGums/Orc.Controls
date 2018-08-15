@@ -45,6 +45,67 @@ namespace Orc.Controls
             return true;
         }
 
+        public static int FormatPart(this DateTimeFormatInfo result, string part, int current, bool isDateOnly)
+        {
+            if (part.Contains('d'))
+            {
+                result.SetDayFormat(part, current++);
+
+                return current;
+            }
+
+            if (part.Contains('M'))
+            {
+                result.SetMonthFormat(part, current++);
+
+                return current;
+            }
+
+            if (part.Contains('y'))
+            {
+                result.SetYearFormat(part, current++);
+
+                return current;
+            }
+
+            if (isDateOnly && part.IsDateTimeFormatPart())
+            {
+                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Time fields are not expected");
+            }
+
+            if (part.Contains('h') || part.Contains('H'))
+            {
+                result.SetHourFormat(part, current++);
+
+                return current;
+            }
+
+            if (part.Contains('m'))
+            {
+                result.SetMinuteFormat(part, current++);
+
+                return current;
+            }
+
+            if (part.Contains('s'))
+            {
+                result.SetSecondFormat(part, current++);
+
+                return current;
+            }
+
+            if (part.Contains('t'))
+            {
+                result.SetAmPmFormat(part, current++);
+
+                return current;
+            }
+
+            result.SetSeparator(part, current);
+
+            return current;
+        }
+
         public static void SetDayFormat(this DateTimeFormatInfo formatInfo, string part, int position)
         {
             Argument.IsNotNull(() => formatInfo);

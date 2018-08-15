@@ -74,61 +74,7 @@ namespace Orc.Controls
                     continue;
                 }
 
-                if (part.Contains('d'))
-                {
-                    result.SetDayFormat(part, current++);
-
-                    continue;
-                }
-
-                if (part.Contains('M'))
-                {
-                    result.SetMonthFormat(part, current++);
-
-                    continue;
-                }
-
-                if (part.Contains('y'))
-                {
-                    result.SetYearFormat(part, current++);
-
-                    continue;
-                }
-
-                if (isDateOnly && part.IsDateTimeFormatPart())
-                {
-                    throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Time fields are not expected");
-                }
-
-                if (part.Contains('h') || part.Contains('H'))
-                {
-                    result.SetHourFormat(part, current++);
-
-                    continue;
-                }
-
-                if (part.Contains('m'))
-                {
-                    result.SetMinuteFormat(part, current++);
-
-                    continue;
-                }
-
-                if (part.Contains('s'))
-                {
-                    result.SetSecondFormat(part, current++);
-
-                    continue;
-                }
-
-                if (part.Contains('t'))
-                {
-                    result.SetAmPmFormat(part, current++);
-
-                    continue;
-                }
-
-                result.SetSeparator(part, current);
+                current = result.FormatPart(part, current, isDateOnly);
             }
 
             if (!result.IsCorrect(isDateOnly, out var errowMessage))
