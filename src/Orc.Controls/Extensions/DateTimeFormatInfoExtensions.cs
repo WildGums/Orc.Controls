@@ -281,6 +281,199 @@ namespace Orc.Controls
                     break;
             }
         }
+
+        public static bool CheckYearFormat(this DateTimeFormatInfo formatInfo, string partValue, out string errorMessage)
+        {
+            Argument.IsNotNull(() => formatInfo);
+            Argument.IsNotNull(() => partValue);
+
+            errorMessage = string.Empty;
+            switch (formatInfo.YearFormat.Length)
+            {
+                // 'y'
+                case 1 when partValue.Length < 1 || partValue.Length > 2:
+                {
+                    errorMessage = "Invalid year value. Year must contain 1 or 2 digits";
+                    return false;
+                }
+                // 'yy'
+                case 2 when partValue.Length != 2:
+                {
+                    errorMessage = "Invalid year value. Year must contain 2 digits";
+                    return false;
+                }
+                // 'yyy'
+                case 3 when partValue.Length < 3 || partValue.Length > 5:
+                {
+                    errorMessage = "Invalid year value. Year must contain 3 or 4 or 5 digits";
+                    return false;
+                }
+                // 'yyyy'
+                case 4 when partValue.Length < 4 || partValue.Length > 5:
+                {
+                    errorMessage = "Invalid year value. Year must contain 4 or 5 digits";
+                    return false;
+                }
+                // 'yyyyy'
+                case 5 when partValue.Length != 5:
+                {
+                    errorMessage = "Invalid year value. Year must contain 5 digits";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool CheckMonthFormat(this DateTimeFormatInfo formatInfo, string partValue, out string errorMessage)
+        {
+            Argument.IsNotNull(() => formatInfo);
+            Argument.IsNotNull(() => partValue);
+
+            errorMessage = string.Empty;
+            switch (formatInfo.MonthFormat.Length)
+            {
+                // 'M'
+                case 1 when partValue.Length < 1 || partValue.Length > 2:
+                {
+                    errorMessage = "Invalid month value. Month must contain 1 or 2 digits";
+                    return false;
+                }
+                // 'MM'
+                case 2 when partValue.Length != 2:
+                {
+                    errorMessage = "Invalid month value. Month must contain 2 digits";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool CheckDayFormat(this DateTimeFormatInfo formatInfo, string partValue, out string errorMessage)
+        {
+            Argument.IsNotNull(() => formatInfo);
+            Argument.IsNotNull(() => partValue);
+
+            errorMessage = string.Empty;
+            switch (formatInfo.DayFormat.Length)
+            {
+                // 'd'
+                case 1 when partValue.Length < 1 || partValue.Length > 2:
+                {
+                    errorMessage = "Invalid day value. Day must contain 1 or 2 digits";
+                    return false;
+                }
+
+                // 'dd'
+                case 2 when partValue.Length != 2:
+                {
+                    errorMessage = "Invalid day value. Day must contain 2 digits";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool CheckHourFormat(this DateTimeFormatInfo formatInfo, string partValue, out string errorMessage)
+        {
+            Argument.IsNotNull(() => formatInfo);
+            Argument.IsNotNull(() => partValue);
+
+            errorMessage = string.Empty;
+            switch (formatInfo.HourFormat.Length)
+            {
+                // 'h' or 'H'
+                case 1 when partValue.Length < 1 || partValue.Length > 2:
+                {
+                    errorMessage = "Invalid hour value. Hour must contain 1 or 2 digits";
+                    return false;
+                }
+
+                // 'hh' or 'HH'
+                case 2 when partValue.Length != 2:
+                {
+                    errorMessage = "Invalid hour value. Hour must contain 2 digits";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool CheckMinuteFormat(this DateTimeFormatInfo formatInfo, string partValue, out string errorMessage)
+        {
+            Argument.IsNotNull(() => formatInfo);
+            Argument.IsNotNull(() => partValue);
+
+            errorMessage = string.Empty;
+            switch (formatInfo.MinuteFormat.Length)
+            {
+                // 'm'
+                case 1 when partValue.Length < 1 || partValue.Length > 2:
+                {
+                    errorMessage = "Invalid minute value. Minute must contain 1 or 2 digits";
+                    return false;
+                }
+                // 'mm'
+                case 2 when partValue.Length != 2:
+                {
+                    errorMessage = "Invalid minute value. Minute must contain 2 digits";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool CheckSecondFormat(this DateTimeFormatInfo formatInfo, string partValue, out string errorMessage)
+        {
+            Argument.IsNotNull(() => formatInfo);
+            Argument.IsNotNull(() => partValue);
+
+            errorMessage = string.Empty;
+            switch (formatInfo.SecondFormat.Length)
+            {
+                case 1 when (partValue.Length < 1 || partValue.Length > 2):
+                {
+                    errorMessage = "Invalid second value. Second must contain 1 or 2 digits";
+                    return false;
+                }
+                // 'ss'
+                case 2 when partValue.Length != 2:
+                {
+                    errorMessage = "Invalid second value. Second must contain 2 digits";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool CheckIsAmPmShortFormat(this DateTimeFormatInfo formatInfo, string partValue, out string errorMessage)
+        {
+            Argument.IsNotNull(() => formatInfo);
+            Argument.IsNotNull(() => partValue);
+
+            errorMessage = string.Empty;
+            switch (formatInfo.IsAmPmShortFormat)
+            {
+                case true when !(Meridiems.IsShortAm(partValue) || Meridiems.IsShortPm(partValue)):
+                {
+                    errorMessage = "Invalid AM/PM designator value";
+                    return false;
+                }
+
+                case false when !(Meridiems.IsLongAm(partValue) || Meridiems.IsLongPm(partValue)):
+                {
+                    errorMessage = "Invalid AM/PM designator value";
+                    return false;
+                }
+            }
+
+            return true;
+        }
         #endregion
     }
 }
