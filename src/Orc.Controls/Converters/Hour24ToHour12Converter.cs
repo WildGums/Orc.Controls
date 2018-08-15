@@ -70,7 +70,7 @@ namespace Orc.Controls.Converters
                 return 0;
             }
 
-            return (hour12 % 12) + (isPm ? 12 : 0);
+            return hour12 % 12 + (isPm ? 12 : 0);
         }
 
         private string GetAmPm(int hour12)

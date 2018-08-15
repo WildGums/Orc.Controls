@@ -9,10 +9,16 @@ namespace Orc.Controls
 {
     using System.Text.RegularExpressions;
     using System.Windows.Documents;
+    using System.Linq;
 
     public static class StringExtensions
     {
         #region Methods
+        internal static bool IsDateTimeFormatPart(this string part)
+        {
+            return part.Contains('h') || part.Contains('H') || part.Contains('m') || part.Contains('s') || part.Contains('t');
+        }
+
         public static Inline ToInline(this string text)
         {
             return new Run(text);
