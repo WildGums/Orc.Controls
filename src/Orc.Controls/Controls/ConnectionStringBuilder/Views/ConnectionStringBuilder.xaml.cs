@@ -37,6 +37,16 @@ namespace Orc.Controls
             nameof(ConnectionString), typeof(string), typeof(ConnectionStringBuilder), new PropertyMetadata(default(string)));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewModelToView)]
+        public string DatabaseProvider
+        {
+            get { return (string)GetValue(DatabaseProviderProperty); }
+            set { SetValue(DatabaseProviderProperty, value); }
+        }
+
+        public static readonly DependencyProperty DatabaseProviderProperty = DependencyProperty.Register(
+            nameof(DatabaseProvider), typeof(string), typeof(ConnectionStringBuilder), new PropertyMetadata(default(string)));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewModelToView)]
         public bool IsInEditMode
         {
             get { return (bool)GetValue(IsInEditModeProperty); }
