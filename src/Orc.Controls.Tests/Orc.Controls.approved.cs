@@ -189,6 +189,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty ConnectionStateProperty;
         public static readonly System.Windows.DependencyProperty ConnectionStringProperty;
+        public static readonly System.Windows.DependencyProperty DatabaseProviderProperty;
         public static readonly System.Windows.DependencyProperty IsAdvancedOptionsReadOnlyProperty;
         public static readonly System.Windows.DependencyProperty IsInEditModeProperty;
         public ConnectionStringBuilder() { }
@@ -197,6 +198,8 @@ namespace Orc.Controls
         public Orc.Controls.ConnectionState ConnectionState { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewModelToView)]
         public string ConnectionString { get; set; }
+        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewModelToView)]
+        public string DatabaseProvider { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewToViewModel)]
         public bool IsAdvancedOptionsReadOnly { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewModelToView)]
@@ -222,6 +225,7 @@ namespace Orc.Controls
     {
         public static readonly Catel.Data.PropertyData ConnectionStateProperty;
         public static readonly Catel.Data.PropertyData ConnectionStringProperty;
+        public static readonly Catel.Data.PropertyData DatabaseProviderProperty;
         public static readonly Catel.Data.PropertyData DisplayConnectionStringProperty;
         public static readonly Catel.Data.PropertyData IsAdvancedOptionsReadOnlyProperty;
         public static readonly Catel.Data.PropertyData IsInEditModeProperty;
@@ -229,6 +233,7 @@ namespace Orc.Controls
         public Catel.MVVM.Command Clear { get; }
         public Orc.Controls.ConnectionState ConnectionState { get; set; }
         public string ConnectionString { get; }
+        public string DatabaseProvider { get; }
         public string DisplayConnectionString { get; }
         public Catel.MVVM.TaskCommand Edit { get; }
         public bool IsAdvancedOptionsReadOnly { get; set; }
@@ -1316,7 +1321,7 @@ namespace Orc.Controls
         public static readonly Catel.Data.PropertyData PropertiesProperty;
         public SqlConnectionString(System.Data.Common.DbConnectionStringBuilder connectionStringBuilder, Orc.Controls.DbProvider dbProvider) { }
         public Orc.Controls.DbProvider DbProvider { get; }
-        public System.Collections.Generic.Dictionary<string, Orc.Controls.ConnectionStringProperty> Properties { get; }
+        public System.Collections.Generic.IReadOnlyDictionary<string, Orc.Controls.ConnectionStringProperty> Properties { get; }
         public virtual string ToDisplayString() { }
         public override string ToString() { }
     }
