@@ -85,7 +85,7 @@
 
                     <ComboBox IsEditable="True"
                               IsDropDownOpen="{Binding IsServerListVisible}"
-                              ItemsSource="{Binding Servers, IsAsync=True}"
+                              ItemsSource="{Binding Servers}"
                               Text="{Binding DataSource.Value, UpdateSourceTrigger=PropertyChanged}" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="DropDownOpened">
@@ -103,7 +103,7 @@
             </controls:StackGrid>
 
             <GroupBox Header="{catel:LanguageBinding Controls_ConnectionStringEditWindow_GroupBox_Header_LogOnToTheServer}"
-                  Visibility="{Binding CanLogOnToServer, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+                      Visibility="{Binding CanLogOnToServer, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
                 <controls:StackGrid>
                     <controls:StackGrid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -113,12 +113,12 @@
 
                     <StackPanel Orientation="Vertical" Visibility="{Binding IntegratedSecurity, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
                         <RadioButton x:Name="UseWindowsAuthenticationRadioButton"
-                             Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_RadioButton_Content_UseWindowsAuthentication}"
-                             IsChecked="{Binding IntegratedSecurityValue}"/>
+                                     Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_RadioButton_Content_UseWindowsAuthentication}"
+                                     IsChecked="{Binding IntegratedSecurityValue}"/>
 
                         <RadioButton x:Name="UseSqlServerAuthenticationRadioButton"
-                             Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_RadioButton_Content_UseSQLServerAuthentication}"
-                             IsChecked="{Binding IntegratedSecurityValue, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
+                                     Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_RadioButton_Content_UseSQLServerAuthentication}"
+                                     IsChecked="{Binding IntegratedSecurityValue, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
                     </StackPanel>
 
                     <controls:StackGrid Margin="25 0 0 0" IsEnabled="{Binding IsLogOnEnabled}">
@@ -157,20 +157,20 @@
                 <Label Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_Label_Content_Database}"/>
                 <ComboBox IsEditable="True"
                           IsDropDownOpen="{Binding IsDatabaseListVisible}"
-                          ItemsSource="{Binding Databases, IsAsync=True}"
+                          ItemsSource="{Binding Databases}"
                           Text="{Binding InitialCatalog.Value, UpdateSourceTrigger=PropertyChanged}" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DropDownOpened">
                             <catel:EventToCommand Command="{Binding InitDatabases}"
-                                              DisableAssociatedObjectOnCannotExecute="True"/>
+                                                  DisableAssociatedObjectOnCannotExecute="True"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ComboBox>
 
                 <Button Style="{StaticResource RefreshButtonStyle}"
-                    Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_Button_Content_Refresh}"
-                    Command="{Binding RefreshDatabases}" 
-                    IsEnabled="{Binding IsDatabasesRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
+                        Content="{catel:LanguageBinding Controls_ConnectionStringEditWindow_Button_Content_Refresh}"
+                        Command="{Binding RefreshDatabases}" 
+                        IsEnabled="{Binding IsDatabasesRefreshing, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
             </controls:StackGrid>
         </controls:StackGrid>

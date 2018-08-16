@@ -35,8 +35,8 @@
         </Button>
         <Button Margin="0"
                 Command="{Binding Clear}"
-                ToolTip="Clear" 
-                Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+                ToolTip="Clear"
+                Visibility="{Binding ConnectionString, Converter={catel:ReferenceToCollapsingVisibilityConverter}}">
             <Button.Content>
                 <Path Data="M0,1.05 L1.05,0 8.33,7.26 15.55,0.0 16.6,1.0 9.3,8.3 16.6,15.55 15.55,16.6 8.3,9.3 1,16.6 0,15.6 7.3,8.3 z" 
                       Fill="#575757" Margin="4" Stretch="Uniform" />

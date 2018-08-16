@@ -12,7 +12,7 @@ namespace Orc.Controls
         #region Constructors
         public ConnectionStringEditWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
         #endregion
     }
