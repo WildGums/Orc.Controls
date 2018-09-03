@@ -17,10 +17,15 @@
     <Deterministic>False</Deterministic>
   </PropertyGroup>
 
-  <!-- Enforce portable pdb format -->
-  <PropertyGroup>
-    <DebugType>portable</DebugType>
+  <!-- Note: Portable PDB's are disabled for now since ApiApprover breaks because of this -->
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DebugType>pdbonly</DebugType>
   </PropertyGroup>
+  
+  <!-- Enforce portable pdb format -->
+  <!--<PropertyGroup>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>-->
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <DebugSymbols>true</DebugSymbols>
