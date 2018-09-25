@@ -580,6 +580,12 @@ namespace Orc.Controls
         public Catel.MVVM.TaskCommand SelectDirectory { get; }
         public string SelectedDirectory { get; set; }
     }
+    public class DoNotShowDropDownOnClickComboboxBehavior : Catel.Windows.Interactivity.BehaviorBase<System.Windows.Controls.ComboBox>
+    {
+        public DoNotShowDropDownOnClickComboboxBehavior() { }
+        protected override void OnAssociatedObjectLoaded() { }
+        protected override void OnAssociatedObjectUnloaded() { }
+    }
     public enum DropdownArrowLocation
     {
         Left = 0,
