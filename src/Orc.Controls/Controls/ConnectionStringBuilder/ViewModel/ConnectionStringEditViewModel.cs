@@ -18,13 +18,15 @@ namespace Orc.Controls
     public class ConnectionStringEditViewModel : ViewModelBase
     {
         #region Fields
+        private static bool _isServersInitialized = false;
+        private static readonly FastObservableCollection<string> CachedServers = new FastObservableCollection<string>();
+
         private readonly IConnectionStringBuilderService _connectionStringBuilderService;
         private readonly IMessageService _messageService;
         private readonly ITypeFactory _typeFactory;
         private readonly IUIVisualizerService _uiVisualizerService;
 
         private bool _isDatabasesInitialized = false;
-        private bool _isServersInitialized = false;
         #endregion
 
         #region Constructors
@@ -106,7 +108,7 @@ namespace Orc.Controls
         public Command RefreshDatabases { get; }
         public Command InitDatabases { get; }
 
-        public FastObservableCollection<string> Servers { get; } = new FastObservableCollection<string>();
+        public FastObservableCollection<string> Servers => CachedServers;
         public FastObservableCollection<string> Databases { get; } = new FastObservableCollection<string>();
         #endregion
 

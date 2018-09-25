@@ -87,6 +87,9 @@
                               IsDropDownOpen="{Binding IsServerListVisible}"
                               ItemsSource="{Binding Servers}"
                               Text="{Binding DataSource.Value, UpdateSourceTrigger=PropertyChanged}" >
+                        <i:Interaction.Behaviors>
+                          <controls:DoNotShowDropDownOnClickComboboxBehavior/>
+                        </i:Interaction.Behaviors>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="DropDownOpened">
                                 <catel:EventToCommand Command="{Binding InitServers}" DisableAssociatedObjectOnCannotExecute="True"/>
@@ -159,6 +162,9 @@
                           IsDropDownOpen="{Binding IsDatabaseListVisible}"
                           ItemsSource="{Binding Databases}"
                           Text="{Binding InitialCatalog.Value, UpdateSourceTrigger=PropertyChanged}" >
+                    <i:Interaction.Behaviors>
+                        <controls:DoNotShowDropDownOnClickComboboxBehavior/>
+                    </i:Interaction.Behaviors>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DropDownOpened">
                             <catel:EventToCommand Command="{Binding InitDatabases}"
