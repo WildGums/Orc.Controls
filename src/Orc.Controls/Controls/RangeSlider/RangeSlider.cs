@@ -229,36 +229,50 @@
             {
                 return;
             }
-
-            var lowerThumbCenterX = lowerThumb.Width / 2;
+            
             var lowerThumbPosition = lowerThumb.PointToScreen(LeftTop);
-
-            var upperThumbCenterX = upperThumb.Width / 2;
             var upperThumbPosition = upperThumb.PointToScreen(LeftTop);
-
-            var containerWidth = trackBackgroundBorder.ActualWidth;
-            var width = ActualWidth;
-            var widthRatio = (containerWidth * 100) / width;
-
             var leftTop = PointToScreen(LeftTop);
 
             switch (Orientation)
             {
                 case Orientation.Horizontal:
                     // Draw left => right
+                    var lowerThumbCenterX = lowerThumb.Width / 2;
+                    var upperThumbCenterX = upperThumb.Width / 2;
+                    var containerWidth = trackBackgroundBorder.ActualWidth;
+                    var width = ActualWidth;
+                    var widthRatio = (containerWidth * 100) / width;
                     var left = (lowerThumbPosition.X - leftTop.X) + lowerThumbCenterX;
                     var finalLeft = (left / 100) * widthRatio;
 
                     var right = (upperThumbPosition.X - leftTop.X) + upperThumbCenterX;
 
+                    selectedRangeRectangle.Height = double.NaN;
                     selectedRangeRectangle.Width = right - left;
 
+                    Canvas.SetTop(selectedRangeRectangle, double.NaN);
                     Canvas.SetLeft(selectedRangeRectangle, finalLeft);
 
                     break;
 
                 case Orientation.Vertical:
                     // Draw bottom => top
+                    var lowerThumbCenterY = lowerThumb.Height / 2;
+                    var upperThumbCenterY = upperThumb.Height / 2;
+                    var containerHeight = trackBackgroundBorder.ActualHeight;
+                    var height = ActualHeight;
+                    var heightRatio = (containerHeight * 100) / height;
+                    var bottom = (lowerThumbPosition.Y - leftTop.Y) + lowerThumbCenterY;
+                    var top = (upperThumbPosition.Y - leftTop.Y) + upperThumbCenterY;
+                    var finalTop = (top / 100) * heightRatio;
+
+                    selectedRangeRectangle.Width = double.NaN;
+                    selectedRangeRectangle.Height = bottom - top;
+
+                    Canvas.SetLeft(selectedRangeRectangle, double.NaN);
+                    Canvas.SetTop(selectedRangeRectangle, finalTop);
+
                     break;
             }
         }
