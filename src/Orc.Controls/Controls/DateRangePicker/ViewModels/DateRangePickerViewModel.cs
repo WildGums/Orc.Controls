@@ -222,17 +222,23 @@ namespace Orc.Controls
                 return null;
             }
 
-            var temporaryRange = new DateRange()
+            var selectedRange = Ranges?.FirstOrDefault(x => x.Start == _startDate && x.End == _endDate);
+
+            if (selectedRange is null)
             {
-                Name = LanguageHelper.GetString("Controls_DateRangePicker_Custom"),
-                Start = _startDate,
-                End = _endDate,
-                IsTemporary = true
-            };
+                var temporaryRange = new DateRange()
+                {
+                    Name = LanguageHelper.GetString("Controls_DateRangePicker_Custom"),
+                    Start = _startDate,
+                    End = _endDate,
+                    IsTemporary = true
+                };
+                _ranges.Add(temporaryRange);
 
-            _ranges.Add(temporaryRange);
+                return temporaryRange;
+            }
 
-            return temporaryRange;
+            return selectedRange;
         }
 
         private void RemoveTemporaryRanges()
