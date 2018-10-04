@@ -13,6 +13,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -22,7 +23,7 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="{catel:LanguageBinding ResourceName=Controls_DateRangePicker_Start_Lbl}"/>
-        <controls:DateTimePicker Grid.Row="0" Grid.Column="1" 
+        <controls:DateTimePicker Grid.Row="0" Grid.Column="1"  
             Value="{Binding StartDate}"
             AllowNull="False"
             AllowCopyPaste="{Binding AllowCopyPaste, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
@@ -32,7 +33,7 @@
             IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
             ShowOptionsButton="{Binding ShowOptionsButton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"/>
 
-        <ComboBox Grid.Row="0" Grid.Column="2"
+        <ComboBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"
             IsEditable="False"
             IsReadOnly="True"
             ItemsSource="{Binding Ranges}"
@@ -52,9 +53,16 @@
             IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
             ShowOptionsButton="{Binding ShowOptionsButton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"/>
 
-        <controls:TimeSpanPicker Grid.Row="1" Grid.Column="2"
-            Value="{Binding Span}"
-            IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"/>
+        <CheckBox Grid.Row="1"
+                  Grid.Column="2"
+                  ToolTip="Can be changed"
+                  IsChecked="{Binding IsSpanFixed, Converter={catel:BooleanToOppositeBooleanConverter}}"
+                  IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}, Converter={catel:BooleanToOppositeBooleanConverter}}">
+        </CheckBox>
 
+        <controls:TimeSpanPicker Grid.Row="1"
+                                 Grid.Column="3"
+                                 Value="{Binding Span}"
+                                 IsEnabled="{Binding IsSpanReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}" />
     </Grid>
 </catel:UserControl>

@@ -368,6 +368,7 @@ namespace Orc.Controls
         public string Format { get; set; }
         public bool HideSeconds { get; set; }
         public bool HideTime { get; set; }
+        [Catel.MVVM.Views.ViewToViewModelAttribute("IsControlReadOnly", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewToViewModel)]
         public bool IsReadOnly { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.DateRange> Ranges { get; set; }
@@ -382,8 +383,14 @@ namespace Orc.Controls
     }
     public class DateRangePickerViewModel : Catel.MVVM.ViewModelBase
     {
+        public static readonly Catel.Data.PropertyData IsControlReadOnlyProperty;
+        public static readonly Catel.Data.PropertyData IsSpanFixedProperty;
+        public static readonly Catel.Data.PropertyData IsSpanReadOnlyProperty;
         public DateRangePickerViewModel() { }
         public System.DateTime EndDate { get; set; }
+        public bool IsControlReadOnly { get; set; }
+        public bool IsSpanFixed { get; set; }
+        public bool IsSpanReadOnly { get; set; }
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.DateRange> Ranges { get; set; }
         public Orc.Controls.DateRange SelectedRange { get; set; }
         public System.TimeSpan Span { get; set; }

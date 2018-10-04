@@ -139,7 +139,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register(nameof(ShowOptionsButton), typeof(bool),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(true));
 
-			
+        [ViewToViewModel(nameof(DateRangePickerViewModel.IsControlReadOnly), MappingType = ViewToViewModelMappingType.ViewToViewModel)]
         public bool IsReadOnly
         {
             get { return (bool)GetValue(IsReadOnlyProperty); }
