@@ -645,6 +645,13 @@ namespace Orc.Controls
     {
         public EmptyRow() { }
     }
+    public class EnterKeyTraversal
+    {
+        public static readonly System.Windows.DependencyProperty IsEnabledProperty;
+        public EnterKeyTraversal() { }
+        public static bool GetIsEnabled(System.Windows.DependencyObject obj) { }
+        public static void SetIsEnabled(System.Windows.DependencyObject obj, bool value) { }
+    }
     public enum ExpandDirection
     {
         Down = 0,

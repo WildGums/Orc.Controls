@@ -25,7 +25,8 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid Margin="0 0 4 0">
+                <Grid Margin="0 0 4 0"
+                      controls:EnterKeyTraversal.IsEnabled="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
