@@ -48,7 +48,7 @@
 
         <TextBlock Grid.Column="0" Grid.Row="3" Text="Application Filter Groups" Margin="5" />
 
-        <orc:LogFilterGroupList Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Margin="5" Updated="OnLogFilterGroupListUpdated" />
+        <orc:LogFilterGroupList Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Margin="0" Updated="OnLogFilterGroupListUpdated" />
 
         <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
             <ToggleButton x:Name="ShowDebugToggleButton" Height="25" Width="60" Margin="4" 

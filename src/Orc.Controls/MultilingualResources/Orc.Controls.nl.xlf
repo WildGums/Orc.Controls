@@ -406,6 +406,70 @@
           <source>Change...</source>
           <target state="translated">Verander...</target>
         </trans-unit>
+        <trans-unit id="Controls_LogViewer_LogFilterEditor_NameIsRequired" translate="yes" xml:space="preserve">
+          <source>Name is required</source>
+          <target state="translated">Naam is verplicht</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_AreYouSure" translate="yes" xml:space="preserve">
+          <source>Are you sure?</source>
+          <target state="translated">Weet je het zeker?</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_LogFilterEditor_ExpressionValueIsRequired" translate="yes" xml:space="preserve">
+          <source>Expression value is required</source>
+          <target state="translated">Expressie waarde is verplicht</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_LogFilterGroupEditor_NameForTheLogFilterGroupIsRequired" translate="yes" xml:space="preserve">
+          <source>'Name' for the LogFilterGroup is required</source>
+          <target state="translated">'Naam' voor de log filter group is verplicht</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_LogFilterGroupEditor_Title" translate="yes" xml:space="preserve">
+          <source>Log Filter Group Editor</source>
+          <target state="translated">Log Filter Groep bewerken</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_SelectTypeName" translate="yes" xml:space="preserve">
+          <source>-- Select type name --</source>
+          <target state="translated">-- Selecteer type naam --</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_LogFilterEditor_Action" translate="yes" xml:space="preserve">
+          <source>Action</source>
+          <target state="translated">Actie</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_LogFilterEditor_ExpressionType" translate="yes" xml:space="preserve">
+          <source>Expression Type</source>
+          <target state="translated">Expressie type</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_LogFilterEditor_ExpressionValue" translate="yes" xml:space="preserve">
+          <source>Expression Value</source>
+          <target state="translated">Expressie waarde</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_LogFilterEditor_FilterName" translate="yes" xml:space="preserve">
+          <source>Filter name</source>
+          <target state="translated">Filter naam</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_LogFilterEditor_Target" translate="yes" xml:space="preserve">
+          <source>Target</source>
+          <target state="translated">Doel</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_Add" translate="yes" xml:space="preserve">
+          <source>Add</source>
+          <target state="translated">Toevoegen</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_Edit" translate="yes" xml:space="preserve">
+          <source>Edit</source>
+          <target state="translated">Bewerken</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_Remove" translate="yes" xml:space="preserve">
+          <source>Remove</source>
+          <target state="translated">Verwijderen</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_LogFilterGroupEditor_GroupName" translate="yes" xml:space="preserve">
+          <source>Group Name</source>
+          <target state="translated">Groep naam</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_LogFilterGroupEditor_LogFilters" translate="yes" xml:space="preserve">
+          <source>Log Filters</source>
+          <target state="translated">Log filters</target>
+        </trans-unit>
       </group>
     </body>
   </file>
