@@ -1,7 +1,15 @@
-﻿namespace Orc.Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="RangeSlider.cs" company="WildGums">
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+namespace Orc.Controls
 {
     using System;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
@@ -16,22 +24,44 @@
     [TemplatePart(Name = "PART_UpperSlider", Type = typeof(Slider))]
     public class RangeSlider : RangeBase
     {
+        #region Constants
         private static readonly Point LeftTop = new Point(0, 0);
 
-        private Border _trackBackgroundBorder;
-        private Rectangle _selectedRangeRectangle;
-        private Slider _lowerSlider;
-        private Slider _upperSlider;
-        private Track _lowerTrack;
-        private Track _upperTrack;
-        private Thumb _lowerThumb;
-        private Thumb _upperThumb;
+        public static readonly RoutedEvent LowerValueChangedEvent = EventManager.RegisterRoutedEvent(nameof(LowerValueChanged), RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<double>), typeof(RangeSlider));
 
+        public static readonly RoutedEvent UpperValueChangedEvent = EventManager.RegisterRoutedEvent(nameof(UpperValueChanged), RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<double>), typeof(RangeSlider));
+
+        public static readonly DependencyProperty LowerValueProperty = DependencyProperty.Register(nameof(LowerValue), typeof(double),
+            typeof(RangeSlider), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnLowerValueChanged));
+
+        public static readonly DependencyProperty UpperValueProperty = DependencyProperty.Register(nameof(UpperValue), typeof(double),
+            typeof(RangeSlider), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnUpperValueChanged));
+
+        public static readonly DependencyProperty HighlightSelectedRangeProperty = DependencyProperty.Register(nameof(HighlightSelectedRange),
+            typeof(bool), typeof(RangeSlider), new PropertyMetadata(true));
+
+        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation),
+            typeof(RangeSlider), new PropertyMetadata(Orientation.Horizontal, (sender, e) => ((RangeSlider)sender).OnOrientationChanged()));
+        #endregion
+
+        #region Fields
         private readonly DispatcherTimer _dispatcherTimer;
 
+        private bool _ignoreSliderValueChanging;
+        private Slider _lowerSlider;
+        private Thumb _lowerThumb;
+        private Track _lowerTrack;
+        private Rectangle _selectedRangeRectangle;
+        private Border _trackBackgroundBorder;
+        private Slider _upperSlider;
+        private Thumb _upperThumb;
+        private Track _upperTrack;
+        #endregion
+
+        #region Constructors
         static RangeSlider()
         {
-            FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(RangeSlider), new FrameworkPropertyMetadata(typeof(RangeSlider)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(RangeSlider), new FrameworkPropertyMetadata(typeof(RangeSlider)));
         }
 
         public RangeSlider()
@@ -43,17 +73,15 @@
 
             _dispatcherTimer.Tick += OnDispatcherTimerTick;
         }
+        #endregion
 
+        #region Properties
         [Category("Behavior"), Bindable(true)]
         public double LowerValue
         {
             get { return (double)GetValue(LowerValueProperty); }
             set { SetValue(LowerValueProperty, value); }
         }
-
-        public static readonly DependencyProperty LowerValueProperty = DependencyProperty.Register(nameof(LowerValue), typeof(double),
-            typeof(RangeSlider), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
 
         [Category("Behavior"), Bindable(true)]
         public double UpperValue
@@ -62,10 +90,6 @@
             set { SetValue(UpperValueProperty, value); }
         }
 
-        public static readonly DependencyProperty UpperValueProperty = DependencyProperty.Register(nameof(UpperValue), typeof(double),
-            typeof(RangeSlider), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-
         [Category("Behavior"), Bindable(true)]
         public bool HighlightSelectedRange
         {
@@ -73,19 +97,44 @@
             set { SetValue(HighlightSelectedRangeProperty, value); }
         }
 
-        public static readonly DependencyProperty HighlightSelectedRangeProperty = DependencyProperty.Register(nameof(HighlightSelectedRange),
-            typeof(bool), typeof(RangeSlider), new PropertyMetadata(true));
-
-
         [Category("Behavior"), Bindable(true)]
         public Orientation Orientation
         {
             get { return (Orientation)GetValue(OrientationProperty); }
             set { SetValue(OrientationProperty, value); }
         }
+        #endregion
 
-        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation),
-            typeof(RangeSlider), new PropertyMetadata(Orientation.Horizontal, (sender, e) => ((RangeSlider)sender).OnOrientationChanged()));
+        #region Methods
+        private static void OnLowerValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var rangeSlider = (RangeSlider)d;
+            rangeSlider.OnLowerValueChanged((double)e.OldValue, (double)e.NewValue);
+        }
+
+        private static void OnUpperValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var rangeSlider = (RangeSlider)d;
+            rangeSlider.OnUpperValueChanged((double)e.OldValue, (double)e.NewValue);
+        }
+
+        protected virtual void OnUpperValueChanged(double oldValue, double newValue)
+        {
+            var changedEventArgs = new RoutedPropertyChangedEventArgs<double>(oldValue, newValue)
+            {
+                RoutedEvent = UpperValueChangedEvent
+            };
+            RaiseEvent(changedEventArgs);
+        }
+
+        protected virtual void OnLowerValueChanged(double oldValue, double newValue)
+        {
+            var changedEventArgs = new RoutedPropertyChangedEventArgs<double>(oldValue, newValue)
+            {
+                RoutedEvent = LowerValueChangedEvent
+            };
+            RaiseEvent(changedEventArgs);
+        }
 
         private void OnOrientationChanged()
         {
@@ -131,13 +180,13 @@
             _lowerSlider = GetTemplateChild("PART_LowerSlider") as Slider;
             if (_lowerSlider != null)
             {
-                _lowerSlider.ValueChanged += OnLowerSliderValueChanged;
+                _lowerSlider.ValueChanged += OnSliderValueChanged;
             }
 
             _upperSlider = GetTemplateChild("PART_UpperSlider") as Slider;
             if (_upperSlider != null)
             {
-                _upperSlider.ValueChanged += OnLowerSliderValueChanged;
+                _upperSlider.ValueChanged += OnSliderValueChanged;
             }
 
             _trackBackgroundBorder = GetTemplateChild("PART_TrackBackground") as Border;
@@ -146,18 +195,29 @@
             Dispatcher.BeginInvoke(UpdateState, false);
         }
 
-        private void OnLowerSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void OnSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            _upperSlider.Value = Math.Max(_upperSlider.Value, _lowerSlider.Value);
+            if (_ignoreSliderValueChanging)
+            {
+                return;
+            }
 
+            _ignoreSliderValueChanging = true;
+
+            if (ReferenceEquals(sender, _lowerSlider))
+            {
+                _upperSlider.Value = Math.Max(_upperSlider.Value, _lowerSlider.Value);
+            }
+            else if (ReferenceEquals(sender, _upperSlider))
+            {
+                _lowerSlider.Value = Math.Min(_upperSlider.Value, _lowerSlider.Value);
+            }
+
+            _ignoreSliderValueChanging = false;
+            // In case the thumbs already moved.
             StartUpdate(false);
-        }
-
-        private void OnUpperSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            _lowerSlider.Value = Math.Min(_upperSlider.Value, _lowerSlider.Value);
-
-            StartUpdate(false);
+            // In case the thumbs not moved yet.
+            StartUpdate();
         }
 
         private void UpdateState()
@@ -229,7 +289,7 @@
             {
                 return;
             }
-            
+
             var lowerThumbPosition = lowerThumb.PointToScreen(LeftTop);
             var upperThumbPosition = upperThumb.PointToScreen(LeftTop);
             var leftTop = PointToScreen(LeftTop);
@@ -275,6 +335,21 @@
 
                     break;
             }
+        }
+        #endregion
+
+        [Category("Behavior")]
+        public event RoutedPropertyChangedEventHandler<double> LowerValueChanged
+        {
+            add => AddHandler(LowerValueChangedEvent, (value));
+            remove => RemoveHandler(LowerValueChangedEvent, (value));
+        }
+
+        [Category("Behavior")]
+        public event RoutedPropertyChangedEventHandler<double> UpperValueChanged
+        {
+            add => AddHandler(UpperValueChangedEvent, value);
+            remove => RemoveHandler(UpperValueChangedEvent, value);
         }
     }
 }
