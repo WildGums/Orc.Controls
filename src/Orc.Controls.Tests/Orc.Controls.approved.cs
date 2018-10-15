@@ -1268,8 +1268,10 @@ namespace Orc.Controls
     public class RangeSlider : System.Windows.Controls.Primitives.RangeBase
     {
         public static readonly System.Windows.DependencyProperty HighlightSelectedRangeProperty;
+        public static readonly System.Windows.RoutedEvent LowerValueChangedEvent;
         public static readonly System.Windows.DependencyProperty LowerValueProperty;
         public static readonly System.Windows.DependencyProperty OrientationProperty;
+        public static readonly System.Windows.RoutedEvent UpperValueChangedEvent;
         public static readonly System.Windows.DependencyProperty UpperValueProperty;
         public RangeSlider() { }
         [System.ComponentModel.BindableAttribute(true)]
@@ -1284,6 +1286,10 @@ namespace Orc.Controls
         [System.ComponentModel.BindableAttribute(true)]
         [System.ComponentModel.CategoryAttribute("Behavior")]
         public double UpperValue { get; set; }
+        [System.ComponentModel.CategoryAttribute("Behavior")]
+        public event System.Windows.RoutedPropertyChangedEventHandler<double> LowerValueChanged;
+        [System.ComponentModel.CategoryAttribute("Behavior")]
+        public event System.Windows.RoutedPropertyChangedEventHandler<double> UpperValueChanged;
         public override void OnApplyTemplate() { }
         protected override void OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
     }
