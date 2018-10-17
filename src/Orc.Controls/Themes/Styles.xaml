@@ -34,4 +34,8 @@
         </Style.Setters>
     </Style>
 
+    <Style x:Key="DefaultNumericTextBoxStyle" TargetType="{x:Type controls:NumericTextBox}">
+        <Setter Property="Margin" Value="6,6,6,6" />
+    </Style>
+
 </ResourceDictionary>

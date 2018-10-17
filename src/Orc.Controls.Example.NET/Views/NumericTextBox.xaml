@@ -44,7 +44,8 @@
         <Label Content="Numeric text box" />
         <orccontrols:NumericTextBox Format="{Binding Format}" IsNullValueAllowed="{Binding IsNullValueAllowed}" 
                                     IsDecimalAllowed="{Binding IsDecimalAllowed}" IsNegativeAllowed="{Binding IsNegativeAllowed}"
-                                    MinValue="{Binding MinValue}" MaxValue="{Binding MaxValue}" Value="{Binding Value}" />
+                                    MinValue="{Binding MinValue}" MaxValue="{Binding MaxValue}" 
+                                    Value="{Binding Value, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
         <Label Content="Actual bound value (control)" />
         <TextBox Text="{Binding Value, Mode=OneWay}" IsReadOnly="true" />

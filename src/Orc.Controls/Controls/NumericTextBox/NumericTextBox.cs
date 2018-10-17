@@ -438,12 +438,13 @@ namespace Orc.Controls
             {
                 return MinValue;
             }
+
             if (oldValue.Equals(MinValue) && increment == -1)
             {
                 return MaxValue;
             }
 
-            return oldValue + Convert.ToDouble(increment);
+            return oldValue + Convert.ToDouble(increment, CultureInfo.CurrentCulture);
         }
 
         private void RaiseRightBoundReachedEvent()
@@ -484,7 +485,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (textBox.IsKeyboardFocusWithin)
+            if (textBox.IsFocused || textBox.IsKeyboardFocusWithin)
             {
                 return;
             }

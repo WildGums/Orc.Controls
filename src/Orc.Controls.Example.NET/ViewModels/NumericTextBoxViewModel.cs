@@ -7,6 +7,8 @@
 
 namespace Orc.Controls.Example.ViewModels
 {
+    using Catel.Data;
+    using Catel.Fody;
     using Catel.MVVM;
 
     public class NumericTextBoxViewModel : ViewModelBase
@@ -16,12 +18,16 @@ namespace Orc.Controls.Example.ViewModels
             IsNullValueAllowed = true;
             IsNegativeAllowed = true;
             IsDecimalAllowed = true;
-            Format = string.Empty;
+            Format = "F0";
             MinValue = -50;
             MaxValue = 50;
 
-            Value = 42.42;
+            Model = new NumericTextBoxExampleModel();
         }
+
+        [Model]
+        [Expose(nameof(NumericTextBoxExampleModel.Value))]
+        public NumericTextBoxExampleModel Model { get; private set; }
 
         public bool IsNullValueAllowed { get; set; }
 
@@ -34,6 +40,14 @@ namespace Orc.Controls.Example.ViewModels
         public double MinValue { get; set; }
 
         public double MaxValue { get; set; }
+    }
+
+    public class NumericTextBoxExampleModel : ModelBase
+    {
+        public NumericTextBoxExampleModel()
+        {
+            Value = 42.42;
+        }
 
         public double? Value { get; set; }
     }
