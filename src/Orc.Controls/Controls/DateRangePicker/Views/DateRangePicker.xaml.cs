@@ -7,15 +7,12 @@
 
 namespace Orc.Controls
 {
-    using Catel.MVVM.Views;
     using System;
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Windows;
+    using Catel.MVVM.Views;
 
-    /// <summary>
-    /// Interaction logic for DateRangePicker.xaml
-    /// </summary>
     public partial class DateRangePicker
     {
         #region Constructors
@@ -24,10 +21,6 @@ namespace Orc.Controls
             typeof(DateRangePicker).AutoDetectViewPropertiesToSubscribe();
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DateRangePicker"/> class.
-        /// </summary>
-        /// <remarks>This method is required for design time support.</remarks>
         public DateRangePicker()
         {
             InitializeComponent();
@@ -45,7 +38,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty RangesProperty = DependencyProperty.Register(nameof(Ranges), typeof(ObservableCollection<DateRange>),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-			
+
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public DateRange SelectedRange
         {
@@ -56,7 +49,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty SelectedRangeProperty = DependencyProperty.Register(nameof(SelectedRange), typeof(DateRange),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-			
+
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public DateTime StartDate
         {
@@ -67,7 +60,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty StartDateProperty = DependencyProperty.Register(nameof(StartDate), typeof(DateTime),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-			
+
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public DateTime EndDate
         {
@@ -78,7 +71,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty EndDateProperty = DependencyProperty.Register(nameof(EndDate), typeof(DateTime),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-			
+
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public TimeSpan Span
         {
@@ -89,7 +82,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty SpanProperty = DependencyProperty.Register(nameof(Span), typeof(TimeSpan),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-			
+
         public bool AllowCopyPaste
         {
             get { return (bool)GetValue(AllowCopyPasteProperty); }
@@ -99,7 +92,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty AllowCopyPasteProperty = DependencyProperty.Register(nameof(AllowCopyPaste), typeof(bool),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(true));
 
-			
+
         public string Format
         {
             get { return (string)GetValue(FormatProperty); }
@@ -129,7 +122,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty HideSecondsProperty = DependencyProperty.Register(nameof(HideSeconds), typeof(bool),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(false));
 
-			
+
         public bool ShowOptionsButton
         {
             get { return (bool)GetValue(ShowOptionsButtonProperty); }
@@ -138,6 +131,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register(nameof(ShowOptionsButton), typeof(bool),
             typeof(DateRangePicker), new FrameworkPropertyMetadata(true));
+
 
         [ViewToViewModel(nameof(DateRangePickerViewModel.IsControlReadOnly), MappingType = ViewToViewModelMappingType.ViewToViewModel)]
         public bool IsReadOnly
@@ -149,6 +143,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register(nameof(IsReadOnly), typeof(bool),
             typeof(DateRangePicker), new PropertyMetadata(false));
 
+
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool IsSpanFixed
         {
@@ -157,7 +152,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty IsSpanFixedProperty = DependencyProperty.Register(
-            "IsSpanFixed", typeof(bool), typeof(DateRangePicker), new PropertyMetadata(true));
+            nameof(IsSpanFixed), typeof(bool), typeof(DateRangePicker), new PropertyMetadata(true));
         #endregion
     }
 }

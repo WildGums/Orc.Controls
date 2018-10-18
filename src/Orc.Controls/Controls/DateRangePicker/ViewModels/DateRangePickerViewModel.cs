@@ -303,7 +303,6 @@ namespace Orc.Controls
             _ranges.Add(temporaryRange);
 
             return temporaryRange;
-
         }
 
         private void RemoveTemporaryRanges()

@@ -11,6 +11,7 @@ namespace Orc.Controls
     using Catel.Logging;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
 
     public static class DateTimeFormatHelper
@@ -57,7 +58,11 @@ namespace Orc.Controls
 
         public static DateTimeFormatInfo GetDateTimeFormatInfo(string format, bool isDateOnly = false)
         {
-            Argument.IsNotNull(() => format);
+            if (string.IsNullOrWhiteSpace(format))
+            {
+                // Fallback to nothing
+                format = CultureInfo.CurrentCulture.DateTimeFormat.FullDateTimePattern;
+            }
 
             var result = new DateTimeFormatInfo();
             var parts = Split(format, new[] { 'y', 'M', 'd', 'H', 'h', 'm', 's', 't' });
@@ -77,9 +82,9 @@ namespace Orc.Controls
                 current = result.FormatPart(part, current, isDateOnly);
             }
 
-            if (!result.IsCorrect(isDateOnly, out var errowMessage))
+            if (!result.IsCorrect(isDateOnly, out var errorMessage))
             {
-                throw Log.ErrorAndCreateException<FormatException>(errowMessage);
+                throw Log.ErrorAndCreateException<FormatException>(errorMessage);
             }
             
             if (!isDateOnly)
