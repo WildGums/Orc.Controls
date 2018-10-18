@@ -4,11 +4,9 @@
 				   xmlns:catel="http://schemas.catelproject.com"
 				   xmlns:orccontrols="http://schemas.wildgums.com/orc/controls">
 
-    <!-- Resources -->
     <UserControl.Resources>
     </UserControl.Resources>
 
-    <!-- Content -->
     <StackPanel>
         <StackPanel>
             <TextBlock Text="DateRangePicker Control" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150"/>
