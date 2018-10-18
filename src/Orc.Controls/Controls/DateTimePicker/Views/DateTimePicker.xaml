@@ -17,7 +17,6 @@
         <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource DateTimePickerListBoxItemStyle}"/>
         <Style TargetType="{x:Type controls:NumericTextBox}" BasedOn="{StaticResource DateTimePickerNumericTextBoxStyle}"/>
         <Style TargetType="{x:Type controls:ListTextBox}" BasedOn="{StaticResource DateTimePickerListTextBoxStyle}"/>
-
     </catel:UserControl.Resources>
 
     <Grid x:Name="MainGrid">

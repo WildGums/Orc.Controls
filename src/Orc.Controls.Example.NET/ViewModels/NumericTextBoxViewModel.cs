@@ -7,6 +7,8 @@
 
 namespace Orc.Controls.Example.ViewModels
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Catel.Data;
     using Catel.Fody;
     using Catel.MVVM;
@@ -40,6 +42,17 @@ namespace Orc.Controls.Example.ViewModels
         public double MinValue { get; set; }
 
         public double MaxValue { get; set; }
+
+        protected override void ValidateFields(List<IFieldValidationResult> validationResults)
+        {
+            base.ValidateFields(validationResults);
+
+            var value = Model?.Value;
+            if (value.HasValue && value.Value == 0d)
+            {
+                validationResults.Add(FieldValidationResult.CreateError(nameof(Model.Value), "Demo validation for value of 0"));
+            }
+        }
     }
 
     public class NumericTextBoxExampleModel : ModelBase

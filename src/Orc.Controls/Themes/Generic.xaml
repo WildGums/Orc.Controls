@@ -26,6 +26,8 @@
 
         <ResourceDictionary Source="/Orc.Controls;component/Controls/FilterBox/Themes/FilterBox.generic.xaml" />
 
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/NumericTextBox/Themes/NumericTextBox.generic.xaml" />
+
         <ResourceDictionary Source="/Orc.Controls;component/Controls/LogViewer/Themes/LogViewer.generic.xaml" />
 
         <ResourceDictionary Source="/Orc.Controls;component/Controls/RangeSlider/Themes/RangeSlider.generic.xaml" />
@@ -37,7 +39,6 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/Expander/Themes/Expander.generic.xaml" />
 
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ValidationContextControl/Themes/ValidationContextTree.generic.xaml" />
-
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ValidationContextControl/Themes/ValidationContextControl.generic.xaml" />
 
         <ResourceDictionary Source="/Orc.Controls;component/Themes/Styles.xaml" />
