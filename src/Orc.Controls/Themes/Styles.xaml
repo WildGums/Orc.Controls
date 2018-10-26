@@ -28,7 +28,13 @@
         </Style.Setters>
     </Style>
 
-    <Style x:Key="DbProviderPickerStyle" TargetType="{x:Type controls:DbProviderPicker}">
+    <Style x:Key="DefaultDbProviderPickerStyle" TargetType="{x:Type controls:DbProviderPicker}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="DefaultNumericTextBoxStyle" TargetType="{x:Type controls:NumericTextBox}">
         <Style.Setters>
             <Setter Property="Margin" Value="{StaticResource DefaultThickness}"/>
         </Style.Setters>

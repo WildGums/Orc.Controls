@@ -34,13 +34,21 @@
         <Label Content="Maximum value" />
         <orccontrols:NumericTextBox IsNegativeAllowed="True" MinValue="-10000" MaxValue="10000" Value="{Binding MaxValue, UpdateSourceTrigger=LostFocus}" />
 
-        <CheckBox IsChecked="{Binding ElementName=rangeSlider, Path=HighlightSelectedRange, Mode=TwoWay}" 
+        <CheckBox x:Name="HighlightCheckBox" IsChecked="True" 
                   Grid.ColumnSpan="2" Content="Highlight selected range" />
-
         <Label Content="Range slider" />
-        <orccontrols:RangeSlider x:Name="rangeSlider" Margin="4,6,4,6" Width="300" 
-                                 Minimum="{Binding MinValue}" Maximum="{Binding MaxValue}" 
-                                 LowerValue="{Binding LowerValue}" UpperValue="{Binding UpperValue}" />
+        <Grid Grid.ColumnSpan="2">
+            <orccontrols:RangeSlider Margin="10,20" Height="200" 
+                                     HighlightSelectedRange="{Binding ElementName=HighlightCheckBox, Path=IsChecked, Mode=OneWay}"
+                                     Minimum="{Binding MinValue}" Maximum="{Binding MaxValue}" 
+                                     HorizontalAlignment="Left"  Orientation="Vertical"
+                                     LowerValue="{Binding LowerValue}" UpperValue="{Binding UpperValue}" />
+            <orccontrols:RangeSlider Margin="20,10" Width="200" 
+                                     HighlightSelectedRange="{Binding ElementName=HighlightCheckBox, Path=IsChecked, Mode=OneWay}"
+                                     Minimum="{Binding MinValue}"  Maximum="{Binding MaxValue}" 
+                                     VerticalAlignment="Bottom" Orientation="Horizontal"
+                                     LowerValue="{Binding LowerValue}" UpperValue="{Binding UpperValue}" />
+        </Grid>
 
         <Label Content="Actual lower value (control)" />
         <TextBox Text="{Binding LowerValue, Mode=OneWay, StringFormat=N1}" IsReadOnly="true" />

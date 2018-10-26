@@ -17,7 +17,6 @@
         <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource DateTimePickerListBoxItemStyle}"/>
         <Style TargetType="{x:Type controls:NumericTextBox}" BasedOn="{StaticResource DateTimePickerNumericTextBoxStyle}"/>
         <Style TargetType="{x:Type controls:ListTextBox}" BasedOn="{StaticResource DateTimePickerListTextBoxStyle}"/>
-
     </catel:UserControl.Resources>
 
     <Grid x:Name="MainGrid">
@@ -28,7 +27,8 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid Margin="0 0 4 0">
+                <Grid Margin="0 0 4 0"
+                      controls:EnterKeyTraversal.IsEnabled="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>

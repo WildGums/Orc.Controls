@@ -13,6 +13,7 @@ namespace Orc.Controls
     using System.Text;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Documents;
     using System.Windows.Input;
     using System.Windows.Media;
     using Catel;
@@ -55,6 +56,11 @@ namespace Orc.Controls
         private bool _textChangingIsInProgress = false;
 
         #region Constructors
+        static NumericTextBox()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericTextBox), new FrameworkPropertyMetadata(typeof(NumericTextBox)));
+        }
+
         public NumericTextBox()
         {
             _selectivelyIgnoreMouseButtonDelegate = SelectivelyIgnoreMouseButton;
@@ -298,6 +304,7 @@ namespace Orc.Controls
         private void OnLostFocus(object sender, RoutedEventArgs e)
         {
             SetCurrentValue(ValueProperty, GetDoubleValue(Text));
+
             UpdateText();
         }
 
@@ -394,7 +401,7 @@ namespace Orc.Controls
                 OnUpDown(-1);
                 e.Handled = true;
             }
-            
+
             e.Handled = IsKeyNotAllowed(e);
         }
 
@@ -438,12 +445,13 @@ namespace Orc.Controls
             {
                 return MinValue;
             }
+
             if (oldValue.Equals(MinValue) && increment == -1)
             {
                 return MaxValue;
             }
 
-            return oldValue + Convert.ToDouble(increment);
+            return oldValue + Convert.ToDouble(increment, CultureInfo.CurrentCulture);
         }
 
         private void RaiseRightBoundReachedEvent()
@@ -484,7 +492,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (textBox.IsKeyboardFocusWithin)
+            if (textBox.IsFocused || textBox.IsKeyboardFocusWithin)
             {
                 return;
             }

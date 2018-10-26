@@ -356,6 +356,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty HideSecondsProperty;
         public static readonly System.Windows.DependencyProperty HideTimeProperty;
         public static readonly System.Windows.DependencyProperty IsReadOnlyProperty;
+        public static readonly System.Windows.DependencyProperty IsSpanFixedProperty;
         public static readonly System.Windows.DependencyProperty RangesProperty;
         public static readonly System.Windows.DependencyProperty SelectedRangeProperty;
         public static readonly System.Windows.DependencyProperty ShowOptionsButtonProperty;
@@ -368,7 +369,10 @@ namespace Orc.Controls
         public string Format { get; set; }
         public bool HideSeconds { get; set; }
         public bool HideTime { get; set; }
+        [Catel.MVVM.Views.ViewToViewModelAttribute("IsControlReadOnly", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewToViewModel)]
         public bool IsReadOnly { get; set; }
+        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool IsSpanFixed { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.DateRange> Ranges { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
@@ -382,8 +386,14 @@ namespace Orc.Controls
     }
     public class DateRangePickerViewModel : Catel.MVVM.ViewModelBase
     {
+        public static readonly Catel.Data.PropertyData IsControlReadOnlyProperty;
+        public static readonly Catel.Data.PropertyData IsSpanFixedProperty;
+        public static readonly Catel.Data.PropertyData IsSpanReadOnlyProperty;
         public DateRangePickerViewModel() { }
         public System.DateTime EndDate { get; set; }
+        public bool IsControlReadOnly { get; set; }
+        public bool IsSpanFixed { get; set; }
+        public bool IsSpanReadOnly { get; set; }
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.DateRange> Ranges { get; set; }
         public Orc.Controls.DateRange SelectedRange { get; set; }
         public System.TimeSpan Span { get; set; }
@@ -634,6 +644,13 @@ namespace Orc.Controls
     public class EmptyRow : System.Windows.Controls.Control
     {
         public EmptyRow() { }
+    }
+    public class EnterKeyTraversal
+    {
+        public static readonly System.Windows.DependencyProperty IsEnabledProperty;
+        public EnterKeyTraversal() { }
+        public static bool GetIsEnabled(System.Windows.DependencyObject obj) { }
+        public static void SetIsEnabled(System.Windows.DependencyObject obj, bool value) { }
     }
     public enum ExpandDirection
     {
@@ -1251,8 +1268,10 @@ namespace Orc.Controls
     public class RangeSlider : System.Windows.Controls.Primitives.RangeBase
     {
         public static readonly System.Windows.DependencyProperty HighlightSelectedRangeProperty;
+        public static readonly System.Windows.RoutedEvent LowerValueChangedEvent;
         public static readonly System.Windows.DependencyProperty LowerValueProperty;
         public static readonly System.Windows.DependencyProperty OrientationProperty;
+        public static readonly System.Windows.RoutedEvent UpperValueChangedEvent;
         public static readonly System.Windows.DependencyProperty UpperValueProperty;
         public RangeSlider() { }
         [System.ComponentModel.BindableAttribute(true)]
@@ -1267,6 +1286,10 @@ namespace Orc.Controls
         [System.ComponentModel.BindableAttribute(true)]
         [System.ComponentModel.CategoryAttribute("Behavior")]
         public double UpperValue { get; set; }
+        [System.ComponentModel.CategoryAttribute("Behavior")]
+        public event System.Windows.RoutedPropertyChangedEventHandler<double> LowerValueChanged;
+        [System.ComponentModel.CategoryAttribute("Behavior")]
+        public event System.Windows.RoutedPropertyChangedEventHandler<double> UpperValueChanged;
         public override void OnApplyTemplate() { }
         protected override void OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
     }

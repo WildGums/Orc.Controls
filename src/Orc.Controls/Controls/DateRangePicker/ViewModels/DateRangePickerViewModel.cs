@@ -25,6 +25,10 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
+        public bool IsSpanFixed { get; set; }
+        public bool IsSpanReadOnly { get; set; }
+        public bool IsControlReadOnly { get; set; }
+
         public ObservableCollection<DateRange> Ranges
         {
             get => _ranges;
@@ -102,6 +106,21 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
+        private void OnIsControlReadOnlyChanged()
+        {
+            UpdateIsDurationReadOnly();
+        }
+
+        private void OnIsSpanFixedChanged()
+        {
+            UpdateIsDurationReadOnly();
+        }
+
+        private void UpdateIsDurationReadOnly()
+        {
+            IsSpanReadOnly = IsSpanFixed || IsControlReadOnly;
+        }
+
         private void OnSelectedRangeChanged()
         {
             RemoveTemporaryRanges();
@@ -123,13 +142,54 @@ namespace Orc.Controls
             UpdateSpan(currentSpan, newSpan);
         }
 
+        private bool _updatingStartDate;
+        private bool _updatingEndDate;
+
         private void OnStartDateChanged()
         {
+            if (_updatingStartDate)
+            {
+                return;
+            }
+
+            _updatingStartDate = true;
+
+            try
+            {
+                if (IsSpanFixed)
+                {
+                    UpdateEndDate(EndDate, StartDate + Span);
+                }
+            }
+            finally
+            {
+                _updatingStartDate = false;
+            }
+
             UpdateAfterDatesHaveChanged();
         }
 
         private void OnEndDateChanged()
         {
+            if (_updatingEndDate)
+            {
+                return;
+            }
+
+            _updatingEndDate = true;
+
+            try
+            {
+                if (IsSpanFixed)
+                {
+                    UpdateStartDate(StartDate, EndDate - Span);
+                }
+            }
+            finally
+            {
+                _updatingEndDate = false;
+            }
+
             UpdateAfterDatesHaveChanged();
         }
 
@@ -137,15 +197,19 @@ namespace Orc.Controls
         {
             RemoveTemporaryRanges();
 
-            var currentSpan = _span;
-            var newSpan = _endDate.Subtract(_startDate);
+            if (!IsSpanFixed)
+            {
+                var currentSpan = _span;
+                var newSpan = _endDate.Subtract(_startDate);
 
-            UpdateSpan(currentSpan, newSpan);
-
+                UpdateSpan(currentSpan, newSpan);
+            }
+            
             var currentSelectedDateRange = _selectedRange;
             var newSelectedDateRange = AddTemporaryRange();
 
             UpdateSelectedRange(currentSelectedDateRange, newSelectedDateRange);
+            UpdateIsDurationReadOnly();
         }
 
         private void OnSpanChanged()
@@ -220,6 +284,12 @@ namespace Orc.Controls
             if (_ranges == null)
             {
                 return null;
+            }
+
+            var selectedRange = Ranges?.FirstOrDefault(x => x.Start == _startDate && x.End == _endDate);
+            if (!(selectedRange is null))
+            {
+                return selectedRange;
             }
 
             var temporaryRange = new DateRange()
