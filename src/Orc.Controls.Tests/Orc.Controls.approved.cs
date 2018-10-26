@@ -618,6 +618,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty DropDownProperty;
         public static readonly System.Windows.DependencyProperty EnableTransparentBackgroundProperty;
         public static readonly System.Windows.DependencyProperty HeaderProperty;
+        public static readonly System.Windows.DependencyProperty IsArrowVisibleProperty;
         public static readonly System.Windows.DependencyProperty ShowDefaultButtonProperty;
         public DropDownButton() { }
         public System.Windows.Media.Brush AccentColorBrush { get; set; }
@@ -628,6 +629,7 @@ namespace Orc.Controls
         public System.Windows.Controls.ContextMenu DropDown { get; set; }
         public bool EnableTransparentBackground { get; set; }
         public object Header { get; set; }
+        public bool IsArrowVisible { get; set; }
         public bool ShowDefaultButton { get; set; }
         public event System.EventHandler<System.EventArgs> ContentLayoutUpdated;
         public void InitializeComponent() { }
