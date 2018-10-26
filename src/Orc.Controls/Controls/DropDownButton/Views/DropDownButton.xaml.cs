@@ -72,6 +72,15 @@ namespace Orc.Controls
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand),
             typeof(DropDownButton), new UIPropertyMetadata(null));
 
+        public bool IsArrowVisible
+        {
+            get { return (bool)GetValue(IsArrowVisibleProperty); }
+            set { SetValue(IsArrowVisibleProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsArrowVisibleProperty = DependencyProperty.Register(nameof(IsArrowVisible), typeof(bool), typeof(DropDownButton),
+            new PropertyMetadata(true));
+
         public Brush AccentColorBrush
         {
             get { return (Brush)GetValue(AccentColorBrushProperty); }
