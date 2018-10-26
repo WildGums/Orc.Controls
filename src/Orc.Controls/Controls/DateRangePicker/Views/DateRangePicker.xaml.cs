@@ -133,7 +133,6 @@ namespace Orc.Controls
             typeof(DateRangePicker), new FrameworkPropertyMetadata(true));
 
 
-        [ViewToViewModel(nameof(DateRangePickerViewModel.IsControlReadOnly), MappingType = ViewToViewModelMappingType.ViewToViewModel)]
         public bool IsReadOnly
         {
             get { return (bool)GetValue(IsReadOnlyProperty); }
