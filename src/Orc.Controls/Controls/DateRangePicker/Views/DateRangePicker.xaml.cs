@@ -141,17 +141,6 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register(nameof(IsReadOnly), typeof(bool),
             typeof(DateRangePicker), new PropertyMetadata(false));
-
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool IsSpanFixed
-        {
-            get { return (bool)GetValue(IsSpanFixedProperty); }
-            set { SetValue(IsSpanFixedProperty, value); }
-        }
-
-        public static readonly DependencyProperty IsSpanFixedProperty = DependencyProperty.Register(
-            nameof(IsSpanFixed), typeof(bool), typeof(DateRangePicker), new PropertyMetadata(true));
         #endregion
     }
 }

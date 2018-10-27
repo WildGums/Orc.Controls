@@ -356,7 +356,6 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty HideSecondsProperty;
         public static readonly System.Windows.DependencyProperty HideTimeProperty;
         public static readonly System.Windows.DependencyProperty IsReadOnlyProperty;
-        public static readonly System.Windows.DependencyProperty IsSpanFixedProperty;
         public static readonly System.Windows.DependencyProperty RangesProperty;
         public static readonly System.Windows.DependencyProperty SelectedRangeProperty;
         public static readonly System.Windows.DependencyProperty ShowOptionsButtonProperty;
@@ -370,8 +369,6 @@ namespace Orc.Controls
         public bool HideSeconds { get; set; }
         public bool HideTime { get; set; }
         public bool IsReadOnly { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool IsSpanFixed { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.DateRange> Ranges { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
