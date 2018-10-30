@@ -355,6 +355,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty FormatProperty;
         public static readonly System.Windows.DependencyProperty HideSecondsProperty;
         public static readonly System.Windows.DependencyProperty HideTimeProperty;
+        public static readonly System.Windows.DependencyProperty IsAdvancedModeProperty;
         public static readonly System.Windows.DependencyProperty IsReadOnlyProperty;
         public static readonly System.Windows.DependencyProperty RangesProperty;
         public static readonly System.Windows.DependencyProperty SelectedRangeProperty;
@@ -368,6 +369,7 @@ namespace Orc.Controls
         public string Format { get; set; }
         public bool HideSeconds { get; set; }
         public bool HideTime { get; set; }
+        public bool IsAdvancedMode { get; set; }
         public bool IsReadOnly { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.DateRange> Ranges { get; set; }

@@ -141,6 +141,15 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register(nameof(IsReadOnly), typeof(bool),
             typeof(DateRangePicker), new PropertyMetadata(false));
+
+        public bool IsAdvancedMode
+        {
+            get { return (bool)GetValue(IsAdvancedModeProperty); }
+            set { SetValue(IsAdvancedModeProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsAdvancedModeProperty = DependencyProperty.Register(
+            "IsAdvancedMode", typeof(bool), typeof(DateRangePicker), new PropertyMetadata(false));
         #endregion
     }
 }
