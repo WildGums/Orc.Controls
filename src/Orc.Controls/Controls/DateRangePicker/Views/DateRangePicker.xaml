@@ -51,7 +51,7 @@
 
         <Label Grid.Row="1" Grid.Column="0" Content="{catel:LanguageBinding ResourceName=Controls_DateRangePicker_End_Lbl}"/>
         <controls:DateTimePicker Grid.Row="1" Grid.Column="1"
-            Value="{Binding EndDate}"
+            Value="{Binding EndDate, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             AllowNull="False"
             AllowCopyPaste="{Binding AllowCopyPaste, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
             Format="{Binding Format, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
@@ -61,7 +61,7 @@
             ShowOptionsButton="{Binding ShowOptionsButton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"/>
 
         <controls:TimeSpanPicker Grid.Row="1" Grid.Column="2"
-            Value="{Binding Span}"
+            Value="{Binding Span, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"/>
 
         <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="Time adjustment strategy:"

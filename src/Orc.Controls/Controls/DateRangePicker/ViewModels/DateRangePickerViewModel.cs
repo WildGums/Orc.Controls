@@ -8,9 +8,11 @@
 namespace Orc.Controls
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using Catel;
+    using Catel.Data;
     using Catel.MVVM;
 
     public class DateRangePickerViewModel : ViewModelBase
@@ -104,6 +106,21 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
+        protected override void OnValidating(IValidationContext validationContext)
+        {
+            if (EndDate < StartDate)
+            {
+                validationContext.Add(FieldValidationResult.CreateError(nameof(EndDate),
+                    "End date should always be greater or equals to Start time"));
+            }
+
+            if (Span < TimeSpan.Zero)
+            {
+                validationContext.Add(FieldValidationResult.CreateError(nameof(Span),
+                    "Duration can't be less than zero"));
+            }
+        }
+
         private void OnSelectedRangeChanged()
         {
             RemoveTemporaryRanges();
@@ -144,13 +161,10 @@ namespace Orc.Controls
         {
             RemoveTemporaryRanges();
 
-            if (TimeAdjustmentStrategy == TimeAdjustmentStrategy.AdjustDuration)
-            {
-                var currentSpan = _span;
-                var newSpan = _endDate.Subtract(_startDate);
+            var currentSpan = _span;
+            var newSpan = _endDate.Subtract(_startDate);
 
-                UpdateSpan(currentSpan, newSpan);
-            }
+            UpdateSpan(currentSpan, newSpan);
 
             var currentSelectedDateRange = _selectedRange;
             var newSelectedDateRange = AddTemporaryRange();
