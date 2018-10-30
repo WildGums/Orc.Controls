@@ -390,6 +390,7 @@ namespace Orc.Controls
         public System.TimeSpan Span { get; set; }
         public System.DateTime StartDate { get; set; }
         public Orc.Controls.TimeAdjustmentStrategy TimeAdjustmentStrategy { get; set; }
+        protected override void OnValidating(Catel.Data.IValidationContext validationContext) { }
     }
     public class static DateTimeFormatHelper
     {
