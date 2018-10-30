@@ -771,13 +771,7 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private void sliderA_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (Updating)
-            {
-                return;
-            }
-
-            var color = GetRGBColor();
-            UpdateControls(color, true, true, true);
+            UpdateColorsOnSliderValueChanged();
         }
 
         /// <summary>
@@ -787,13 +781,7 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private void sliderB_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (Updating)
-            {
-                return;
-            }
-
-            var color = GetRGBColor();
-            UpdateControls(color, true, true, true);
+            UpdateColorsOnSliderValueChanged();
         }
 
         /// <summary>
@@ -803,13 +791,17 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private void sliderG_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (Updating)
-            {
-                return;
-            }
+            UpdateColorsOnSliderValueChanged();
+        }
 
-            var color = GetRGBColor();
-            UpdateControls(color, true, true, true);
+        /// <summary>
+        /// The slider r_ value changed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
+        private void sliderR_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            UpdateColorsOnSliderValueChanged();
         }
 
         /// <summary>
@@ -828,22 +820,6 @@ namespace Orc.Controls
 
             var color = GetHSVColor();
             UpdateControls(color, false, true, true);
-        }
-
-        /// <summary>
-        /// The slider r_ value changed.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The e.</param>
-        private void sliderR_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (Updating)
-            {
-                return;
-            }
-
-            var color = GetRGBColor();
-            UpdateControls(color, true, true, true);
         }
 
         /// <summary>
@@ -994,6 +970,17 @@ namespace Orc.Controls
 
             var c = ((PredefinedColorItem)_themeColorsGrid.SelectedItem).Color;
             UpdateControls(c, true, true, true);
+        }
+
+        private void UpdateColorsOnSliderValueChanged()
+        {
+            if (Updating)
+            {
+                return;
+            }
+
+            var color = GetRGBColor();
+            UpdateControls(color, true, true, true);
         }
         #endregion
     }
