@@ -8,7 +8,6 @@
 namespace Orc.Controls
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using Catel;
@@ -39,13 +38,12 @@ namespace Orc.Controls
                     return;
                 }
 
-                _isUpdatingRanges = true;
+                using (StartUpdateRanges())
+                {
+                    _ranges = value;
 
-                _ranges = value;
-
-                RaisePropertyChanged(nameof(Ranges));
-
-                _isUpdatingRanges = false;
+                    RaisePropertyChanged(nameof(Ranges));
+                }
             }
         }
 
@@ -277,6 +275,11 @@ namespace Orc.Controls
             {
                 _ranges.Remove(oldCustomRange);
             }
+        }
+
+        private IDisposable StartUpdateRanges()
+        {
+            return new DisposableToken<DateRangePickerViewModel>(this, x => x.Instance._isUpdatingRanges = true, x => x.Instance._isUpdatingRanges = false);
         }
         #endregion
     }
