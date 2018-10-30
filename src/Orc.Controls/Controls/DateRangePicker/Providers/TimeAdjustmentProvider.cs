@@ -9,6 +9,8 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
+    using Catel;
+    using Catel.MVVM.Converters;
 
     public class TimeAdjustmentProvider : ITimeAdjustmentProvider
     {
@@ -48,10 +50,10 @@ namespace Orc.Controls
             switch (strategy)
             {
                 case TimeAdjustmentStrategy.AdjustEndTime:
-                    return "Adjust end time";
+                    return LanguageHelper.GetString("Controls_DateRangePicker_Adj_End_Time");
 
                 case TimeAdjustmentStrategy.AdjustDuration:
-                    return "Adjust duration";
+                    return LanguageHelper.GetString("Controls_DateRangePicker_Adj_Duration");
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(strategy), strategy, null);

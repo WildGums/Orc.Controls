@@ -432,6 +432,33 @@ namespace Orc.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adjust duration.
+        /// </summary>
+        internal static string Controls_DateRangePicker_Adj_Duration {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_Adj_Duration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adjust end time.
+        /// </summary>
+        internal static string Controls_DateRangePicker_Adj_End_Time {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_Adj_End_Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time adjustment strategy:.
+        /// </summary>
+        internal static string Controls_DateRangePicker_Adj_Strategy_Lbl {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_Adj_Strategy_Lbl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom.
         /// </summary>
         internal static string Controls_DateRangePicker_Custom {

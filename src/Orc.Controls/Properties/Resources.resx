@@ -465,4 +465,13 @@
   <data name="Controls_LogViewer_LogFilterGroupEditor_LogFilters" xml:space="preserve">
     <value>Log Filters</value>
   </data>
+  <data name="Controls_DateRangePicker_Adj_Duration" xml:space="preserve">
+    <value>Adjust duration</value>
+  </data>
+  <data name="Controls_DateRangePicker_Adj_End_Time" xml:space="preserve">
+    <value>Adjust end time</value>
+  </data>
+  <data name="Controls_DateRangePicker_Adj_Strategy_Lbl" xml:space="preserve">
+    <value>Time adjustment strategy:</value>
+  </data>
 </root>

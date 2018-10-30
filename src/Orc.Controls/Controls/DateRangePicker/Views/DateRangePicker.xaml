@@ -82,7 +82,7 @@
         <Label Grid.Row="2"
                Grid.Column="0"
                Grid.ColumnSpan="2"
-               Content="Time adjustment strategy:"
+               Content="{catel:LanguageBinding ResourceName=Controls_DateRangePicker_Adj_Strategy_Lbl}"
                HorizontalAlignment="Right"
                Visibility="{Binding IsAdvancedMode, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
 
