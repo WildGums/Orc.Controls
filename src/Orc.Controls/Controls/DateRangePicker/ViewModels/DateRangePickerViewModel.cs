@@ -111,13 +111,13 @@ namespace Orc.Controls
             if (EndDate < StartDate)
             {
                 validationContext.Add(FieldValidationResult.CreateError(nameof(EndDate),
-                    "End date should always be greater or equals to Start time"));
+                    LanguageHelper.GetString("Controls_DateRangePicker_EndDate_NotLess_StartDate_Validation")));
             }
 
             if (Span < TimeSpan.Zero)
             {
                 validationContext.Add(FieldValidationResult.CreateError(nameof(Span),
-                    "Duration can't be less than zero"));
+                    LanguageHelper.GetString("Controls_DateRangePicker_Duration_NotLess_Zero_Validation")));
             }
         }
 

@@ -468,11 +468,29 @@ namespace Orc.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Duration can&apos;t be less than zero.
+        /// </summary>
+        internal static string Controls_DateRangePicker_Duration_NotLess_Zero_Validation {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_Duration_NotLess_Zero_Validation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End:.
         /// </summary>
         internal static string Controls_DateRangePicker_End_Lbl {
             get {
                 return ResourceManager.GetString("Controls_DateRangePicker_End_Lbl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End date can&apos;t be less than Start date.
+        /// </summary>
+        internal static string Controls_DateRangePicker_EndDate_NotLess_StartDate_Validation {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_EndDate_NotLess_StartDate_Validation", resourceCulture);
             }
         }
         
