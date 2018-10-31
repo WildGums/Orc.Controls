@@ -4,13 +4,6 @@
                    xmlns:catel="http://schemas.catelproject.com"
                    xmlns:orccontrols="http://schemas.wildgums.com/orc/controls">
 
-    <UserControl.Resources>
-        <Style TargetType="{x:Type orccontrols:NumericTextBox}">
-            <Setter Property="Width" Value="200" />
-            <Setter Property="Margin" Value="6,6,6,6" />
-        </Style>
-    </UserControl.Resources>
-
     <orccontrols:StackGrid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />

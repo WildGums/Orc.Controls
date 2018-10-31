@@ -10,6 +10,7 @@
                    x:Name="CurrentControl"
                    d:DesignHeight="22"
                    d:DesignWidth="190">
+    
     <catel:UserControl.Resources>
         <ObjectDataProvider x:Key="timeAdjustmentStrategies"
                             MethodName="GetValues"
@@ -49,6 +50,7 @@
 
         <ComboBox Grid.Row="0"
                   Grid.Column="2"
+                  Margin="6,0,0,0"
                   IsEditable="False"
                   IsReadOnly="True"
                   ItemsSource="{Binding Ranges}"
@@ -74,6 +76,7 @@
                                  ShowOptionsButton="{Binding ShowOptionsButton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}" />
 
         <controls:TimeSpanPicker Grid.Row="1"
+                                 Margin="6,0,0,0"
                                  Grid.Column="2"
                                  Value="{Binding Span, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                                  IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}" 
@@ -88,6 +91,7 @@
 
         <ComboBox Grid.Row="2"
                   Grid.Column="2"
+                  Margin="6,0,0,0"
                   IsEditable="False"
                   IsReadOnly="True"
                   ItemsSource="{Binding Source={StaticResource timeAdjustmentStrategies}, Converter={controls:TimeAdjustmentCollectionConverter}}"

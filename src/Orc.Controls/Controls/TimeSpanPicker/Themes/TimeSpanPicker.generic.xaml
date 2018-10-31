@@ -36,6 +36,7 @@
 
     <Style x:Key="TimeSpanBorderStyle" TargetType="{x:Type Border}">
         <Setter Property="BorderBrush" Value="LightGray"/>
+        <Setter Property="MinWidth" Value="115" />
         <Style.Triggers>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>

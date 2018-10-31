@@ -13,7 +13,7 @@
     </catel:UserControl.Resources>
 
     <Grid>
-        <Border x:Name="MainContainer" BorderThickness="1" MinWidth="115" Height="22"
+        <Border x:Name="MainContainer" BorderThickness="1"
                 Style="{DynamicResource TimeSpanBorderStyle}">
             <Grid  Background="White" HorizontalAlignment="Stretch"
                    controls:EnterKeyTraversal.IsEnabled="True">
