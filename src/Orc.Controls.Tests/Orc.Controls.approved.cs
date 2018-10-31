@@ -355,8 +355,8 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty FormatProperty;
         public static readonly System.Windows.DependencyProperty HideSecondsProperty;
         public static readonly System.Windows.DependencyProperty HideTimeProperty;
+        public static readonly System.Windows.DependencyProperty IsAdvancedModeProperty;
         public static readonly System.Windows.DependencyProperty IsReadOnlyProperty;
-        public static readonly System.Windows.DependencyProperty IsSpanFixedProperty;
         public static readonly System.Windows.DependencyProperty RangesProperty;
         public static readonly System.Windows.DependencyProperty SelectedRangeProperty;
         public static readonly System.Windows.DependencyProperty ShowOptionsButtonProperty;
@@ -369,10 +369,8 @@ namespace Orc.Controls
         public string Format { get; set; }
         public bool HideSeconds { get; set; }
         public bool HideTime { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("IsControlReadOnly", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewToViewModel)]
+        public bool IsAdvancedMode { get; set; }
         public bool IsReadOnly { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool IsSpanFixed { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.DateRange> Ranges { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
@@ -386,18 +384,15 @@ namespace Orc.Controls
     }
     public class DateRangePickerViewModel : Catel.MVVM.ViewModelBase
     {
-        public static readonly Catel.Data.PropertyData IsControlReadOnlyProperty;
-        public static readonly Catel.Data.PropertyData IsSpanFixedProperty;
-        public static readonly Catel.Data.PropertyData IsSpanReadOnlyProperty;
+        public static readonly Catel.Data.PropertyData TimeAdjustmentStrategyProperty;
         public DateRangePickerViewModel() { }
         public System.DateTime EndDate { get; set; }
-        public bool IsControlReadOnly { get; set; }
-        public bool IsSpanFixed { get; set; }
-        public bool IsSpanReadOnly { get; set; }
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.DateRange> Ranges { get; set; }
         public Orc.Controls.DateRange SelectedRange { get; set; }
         public System.TimeSpan Span { get; set; }
         public System.DateTime StartDate { get; set; }
+        public Orc.Controls.TimeAdjustmentStrategy TimeAdjustmentStrategy { get; set; }
+        protected override void OnValidating(Catel.Data.IValidationContext validationContext) { }
     }
     public class static DateTimeFormatHelper
     {
@@ -618,6 +613,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty DropDownProperty;
         public static readonly System.Windows.DependencyProperty EnableTransparentBackgroundProperty;
         public static readonly System.Windows.DependencyProperty HeaderProperty;
+        public static readonly System.Windows.DependencyProperty IsArrowVisibleProperty;
         public static readonly System.Windows.DependencyProperty ShowDefaultButtonProperty;
         public DropDownButton() { }
         public System.Windows.Media.Brush AccentColorBrush { get; set; }
@@ -628,6 +624,7 @@ namespace Orc.Controls
         public System.Windows.Controls.ContextMenu DropDown { get; set; }
         public bool EnableTransparentBackground { get; set; }
         public object Header { get; set; }
+        public bool IsArrowVisible { get; set; }
         public bool ShowDefaultButton { get; set; }
         public event System.EventHandler<System.EventArgs> ContentLayoutUpdated;
         public void InitializeComponent() { }
@@ -645,10 +642,9 @@ namespace Orc.Controls
     {
         public EmptyRow() { }
     }
-    public class EnterKeyTraversal
+    public class static EnterKeyTraversal
     {
         public static readonly System.Windows.DependencyProperty IsEnabledProperty;
-        public EnterKeyTraversal() { }
         public static bool GetIsEnabled(System.Windows.DependencyObject obj) { }
         public static void SetIsEnabled(System.Windows.DependencyObject obj, bool value) { }
     }
@@ -754,6 +750,10 @@ namespace Orc.Controls
     public interface ISuggestionListService
     {
         System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> GetSuggestionList(System.DateTime dateTime, Orc.Controls.DateTimePart editablePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo);
+    }
+    public interface ITimeAdjustmentProvider
+    {
+        Orc.Controls.TimeAdjustment GetTimeAdjustment(Orc.Controls.TimeAdjustmentStrategy strategy);
     }
     public interface IValidationContextTreeNode
     {
@@ -1396,6 +1396,33 @@ namespace Orc.Controls
         public System.Windows.Controls.TabItem TabItem { get; }
     }
     public class static TextBoxExtensions { }
+    public class TimeAdjustment
+    {
+        public TimeAdjustment() { }
+        public string Name { get; set; }
+        public Orc.Controls.TimeAdjustmentStrategy Strategy { get; set; }
+    }
+    public class TimeAdjustmentCollectionConverter : Catel.MVVM.Converters.ValueConverterBase
+    {
+        public TimeAdjustmentCollectionConverter() { }
+        protected override object Convert(object value, System.Type targetType, object parameter) { }
+    }
+    public class TimeAdjustmentConverter : Catel.MVVM.Converters.ValueConverterBase
+    {
+        public TimeAdjustmentConverter() { }
+        protected override object Convert(object value, System.Type targetType, object parameter) { }
+        protected override object ConvertBack(object value, System.Type targetType, object parameter) { }
+    }
+    public class TimeAdjustmentProvider : Orc.Controls.ITimeAdjustmentProvider
+    {
+        public TimeAdjustmentProvider() { }
+        public Orc.Controls.TimeAdjustment GetTimeAdjustment(Orc.Controls.TimeAdjustmentStrategy strategy) { }
+    }
+    public enum TimeAdjustmentStrategy
+    {
+        AdjustEndTime = 0,
+        AdjustDuration = 1,
+    }
     public enum TimeSpanPart
     {
         Days = 0,

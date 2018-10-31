@@ -15,7 +15,8 @@
     <Grid>
         <Border x:Name="MainContainer" BorderThickness="1" MinWidth="115" Height="22"
                 Style="{DynamicResource TimeSpanBorderStyle}">
-            <Grid  Background="White" HorizontalAlignment="Stretch">
+            <Grid  Background="White" HorizontalAlignment="Stretch"
+                   controls:EnterKeyTraversal.IsEnabled="True">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>

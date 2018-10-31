@@ -470,6 +470,26 @@
           <source>Log Filters</source>
           <target state="translated">Log filters</target>
         </trans-unit>
+        <trans-unit id="Controls_DateRangePicker_Adj_Duration" translate="yes" xml:space="preserve">
+          <source>Adjust duration</source>
+          <target state="new">Adjust duration</target>
+        </trans-unit>
+        <trans-unit id="Controls_DateRangePicker_Adj_End_Time" translate="yes" xml:space="preserve">
+          <source>Adjust end time</source>
+          <target state="new">Adjust end time</target>
+        </trans-unit>
+        <trans-unit id="Controls_DateRangePicker_Adj_Strategy_Lbl" translate="yes" xml:space="preserve">
+          <source>Time adjustment strategy:</source>
+          <target state="new">Time adjustment strategy:</target>
+        </trans-unit>
+        <trans-unit id="Controls_DateRangePicker_Duration_NotLess_Zero_Validation" translate="yes" xml:space="preserve">
+          <source>Duration can't be less than zero</source>
+          <target state="new">Duration can't be less than zero</target>
+        </trans-unit>
+        <trans-unit id="Controls_DateRangePicker_EndDate_NotLess_StartDate_Validation" translate="yes" xml:space="preserve">
+          <source>End date can't be less than Start date</source>
+          <target state="new">End date can't be less than Start date</target>
+        </trans-unit>
       </group>
     </body>
   </file>

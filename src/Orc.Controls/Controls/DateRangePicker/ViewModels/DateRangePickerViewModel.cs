@@ -11,6 +11,7 @@ namespace Orc.Controls
     using System.Collections.ObjectModel;
     using System.Linq;
     using Catel;
+    using Catel.Data;
     using Catel.MVVM;
 
     public class DateRangePickerViewModel : ViewModelBase
@@ -25,9 +26,7 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
-        public bool IsSpanFixed { get; set; }
-        public bool IsSpanReadOnly { get; set; }
-        public bool IsControlReadOnly { get; set; }
+        public TimeAdjustmentStrategy TimeAdjustmentStrategy { get; set; }
 
         public ObservableCollection<DateRange> Ranges
         {
@@ -39,13 +38,12 @@ namespace Orc.Controls
                     return;
                 }
 
-                _isUpdatingRanges = true;
+                using (StartUpdateRanges())
+                {
+                    _ranges = value;
 
-                _ranges = value;
-
-                RaisePropertyChanged(nameof(Ranges));
-
-                _isUpdatingRanges = false;
+                    RaisePropertyChanged(nameof(Ranges));
+                }
             }
         }
 
@@ -106,19 +104,19 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-        private void OnIsControlReadOnlyChanged()
+        protected override void OnValidating(IValidationContext validationContext)
         {
-            UpdateIsDurationReadOnly();
-        }
+            if (EndDate < StartDate)
+            {
+                validationContext.Add(FieldValidationResult.CreateError(nameof(EndDate),
+                    LanguageHelper.GetString("Controls_DateRangePicker_EndDate_NotLess_StartDate_Validation")));
+            }
 
-        private void OnIsSpanFixedChanged()
-        {
-            UpdateIsDurationReadOnly();
-        }
-
-        private void UpdateIsDurationReadOnly()
-        {
-            IsSpanReadOnly = IsSpanFixed || IsControlReadOnly;
+            if (Span < TimeSpan.Zero)
+            {
+                validationContext.Add(FieldValidationResult.CreateError(nameof(Span),
+                    LanguageHelper.GetString("Controls_DateRangePicker_Duration_NotLess_Zero_Validation")));
+            }
         }
 
         private void OnSelectedRangeChanged()
@@ -142,28 +140,11 @@ namespace Orc.Controls
             UpdateSpan(currentSpan, newSpan);
         }
 
-        private bool _updatingStartDate;
-        private bool _updatingEndDate;
-
         private void OnStartDateChanged()
         {
-            if (_updatingStartDate)
+            if (TimeAdjustmentStrategy == TimeAdjustmentStrategy.AdjustEndTime)
             {
-                return;
-            }
-
-            _updatingStartDate = true;
-
-            try
-            {
-                if (IsSpanFixed)
-                {
-                    UpdateEndDate(EndDate, StartDate + Span);
-                }
-            }
-            finally
-            {
-                _updatingStartDate = false;
+                UpdateEndDate(EndDate, StartDate + Span);
             }
 
             UpdateAfterDatesHaveChanged();
@@ -171,25 +152,6 @@ namespace Orc.Controls
 
         private void OnEndDateChanged()
         {
-            if (_updatingEndDate)
-            {
-                return;
-            }
-
-            _updatingEndDate = true;
-
-            try
-            {
-                if (IsSpanFixed)
-                {
-                    UpdateStartDate(StartDate, EndDate - Span);
-                }
-            }
-            finally
-            {
-                _updatingEndDate = false;
-            }
-
             UpdateAfterDatesHaveChanged();
         }
 
@@ -197,19 +159,15 @@ namespace Orc.Controls
         {
             RemoveTemporaryRanges();
 
-            if (!IsSpanFixed)
-            {
-                var currentSpan = _span;
-                var newSpan = _endDate.Subtract(_startDate);
+            var currentSpan = _span;
+            var newSpan = _endDate.Subtract(_startDate);
 
-                UpdateSpan(currentSpan, newSpan);
-            }
-            
+            UpdateSpan(currentSpan, newSpan);
+
             var currentSelectedDateRange = _selectedRange;
             var newSelectedDateRange = AddTemporaryRange();
 
             UpdateSelectedRange(currentSelectedDateRange, newSelectedDateRange);
-            UpdateIsDurationReadOnly();
         }
 
         private void OnSpanChanged()
@@ -317,6 +275,11 @@ namespace Orc.Controls
             {
                 _ranges.Remove(oldCustomRange);
             }
+        }
+
+        private IDisposable StartUpdateRanges()
+        {
+            return new DisposableToken<DateRangePickerViewModel>(this, x => x.Instance._isUpdatingRanges = true, x => x.Instance._isUpdatingRanges = false);
         }
         #endregion
     }

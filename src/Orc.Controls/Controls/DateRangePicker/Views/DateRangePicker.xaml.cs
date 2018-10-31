@@ -133,7 +133,6 @@ namespace Orc.Controls
             typeof(DateRangePicker), new FrameworkPropertyMetadata(true));
 
 
-        [ViewToViewModel(nameof(DateRangePickerViewModel.IsControlReadOnly), MappingType = ViewToViewModelMappingType.ViewToViewModel)]
         public bool IsReadOnly
         {
             get { return (bool)GetValue(IsReadOnlyProperty); }
@@ -143,16 +142,14 @@ namespace Orc.Controls
         public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register(nameof(IsReadOnly), typeof(bool),
             typeof(DateRangePicker), new PropertyMetadata(false));
 
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool IsSpanFixed
+        public bool IsAdvancedMode
         {
-            get { return (bool)GetValue(IsSpanFixedProperty); }
-            set { SetValue(IsSpanFixedProperty, value); }
+            get { return (bool)GetValue(IsAdvancedModeProperty); }
+            set { SetValue(IsAdvancedModeProperty, value); }
         }
 
-        public static readonly DependencyProperty IsSpanFixedProperty = DependencyProperty.Register(
-            nameof(IsSpanFixed), typeof(bool), typeof(DateRangePicker), new PropertyMetadata(true));
+        public static readonly DependencyProperty IsAdvancedModeProperty = DependencyProperty.Register(
+            "IsAdvancedMode", typeof(bool), typeof(DateRangePicker), new PropertyMetadata(false));
         #endregion
     }
 }
