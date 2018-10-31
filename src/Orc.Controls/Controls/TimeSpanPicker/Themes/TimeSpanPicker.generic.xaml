@@ -4,6 +4,10 @@
                     xmlns:local="clr-namespace:Orc.Controls"
                     xmlns:converters="clr-namespace:Orc.Controls.Converters">
 
+    <!-- Dummy base style -->
+    <Style x:Key="{x:Type local:TimeSpanPicker}"
+           TargetType="{x:Type local:TimeSpanPicker}"/>
+
     <converters:TimeSpanToTotalStringConverter x:Key="TimeSpanToTotalConverter" />
 
     <Style x:Key="RatioSignStyle" TargetType="{x:Type TextBlock}">
