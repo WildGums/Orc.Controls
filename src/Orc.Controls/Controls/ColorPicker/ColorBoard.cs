@@ -296,10 +296,10 @@ namespace Orc.Controls
 
             _sliderHsv.ValueChanged += sliderHSV_ValueChanged;
 
-            _sliderA.ValueChanged += sliderA_ValueChanged;
-            _sliderR.ValueChanged += sliderR_ValueChanged;
-            _sliderG.ValueChanged += sliderG_ValueChanged;
-            _sliderB.ValueChanged += sliderB_ValueChanged;
+            _sliderA.ValueChanged += OnColorChannelSliderValueChanged;
+            _sliderR.ValueChanged += OnColorChannelSliderValueChanged;
+            _sliderG.ValueChanged += OnColorChannelSliderValueChanged;
+            _sliderB.ValueChanged += OnColorChannelSliderValueChanged;
 
             _textBoxA.LostFocus += textBoxA_LostFocus;
             _textBoxR.LostFocus += textBoxR_LostFocus;
@@ -631,8 +631,8 @@ namespace Orc.Controls
         /// <param name="color">The color.</param>
         /// <param name="hsv">The hsv.</param>
         /// <param name="rgb">The rgb.</param>
-        /// <param name="predifined">The predifined.</param>
-        private void UpdateControls(Color color, bool hsv, bool rgb, bool predifined)
+        /// <param name="predefined">The predefined.</param>
+        private void UpdateControls(Color color, bool hsv, bool rgb, bool predefined)
         {
             if (Updating)
             {
@@ -688,7 +688,7 @@ namespace Orc.Controls
                     _textBoxB.SetCurrentValue(TextBox.TextProperty, b.ToString("X2"));
                 }
 
-                if (predifined)
+                if (predefined)
                 {
                     _brushColor.SetCurrentValue(SolidColorBrush.ColorProperty, color);
                     if (_dictionaryColor.ContainsKey(color))
@@ -743,10 +743,9 @@ namespace Orc.Controls
                 return;
             }
 
-            var coloritem = _comboBoxColor.SelectedItem as PredefinedColorItem;
-            if (coloritem != null)
+            if (_comboBoxColor.SelectedItem is PredefinedColorItem colorItem)
             {
-                SetCurrentValue(ColorProperty, coloritem.Color);
+                SetCurrentValue(ColorProperty, colorItem.Color);
             }
         }
 
@@ -769,39 +768,15 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void sliderA_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void OnColorChannelSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            UpdateColorsOnSliderValueChanged();
-        }
+            if (Updating)
+            {
+                return;
+            }
 
-        /// <summary>
-        /// The slider b_ value changed.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The e.</param>
-        private void sliderB_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            UpdateColorsOnSliderValueChanged();
-        }
-
-        /// <summary>
-        /// The slider g_ value changed.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The e.</param>
-        private void sliderG_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            UpdateColorsOnSliderValueChanged();
-        }
-
-        /// <summary>
-        /// The slider r_ value changed.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The e.</param>
-        private void sliderR_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            UpdateColorsOnSliderValueChanged();
+            var color = GetRGBColor();
+            UpdateControls(color, true, true, true);
         }
 
         /// <summary>
@@ -970,17 +945,6 @@ namespace Orc.Controls
 
             var c = ((PredefinedColorItem)_themeColorsGrid.SelectedItem).Color;
             UpdateControls(c, true, true, true);
-        }
-
-        private void UpdateColorsOnSliderValueChanged()
-        {
-            if (Updating)
-            {
-                return;
-            }
-
-            var color = GetRGBColor();
-            UpdateControls(color, true, true, true);
         }
         #endregion
     }
