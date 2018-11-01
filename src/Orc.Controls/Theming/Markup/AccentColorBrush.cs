@@ -26,6 +26,14 @@
             _accentColorService = ServiceLocator.Default.ResolveType<IAccentColorService>();
         }
 
+        public AccentColorBrush(AccentColorStyle accentColorStyle)
+            : this()
+        {
+            AccentColorStyle = accentColorStyle;
+        }
+
+        public AccentColorStyle AccentColorStyle { get; set; }
+
         protected override void OnTargetObjectLoaded()
         {
             base.OnTargetObjectLoaded();
@@ -44,8 +52,6 @@
         {
             UpdateValue();
         }
-
-        public AccentColorStyle AccentColorStyle { get; set; }
 
         protected override object ProvideDynamicValue(IServiceProvider serviceProvider)
         {

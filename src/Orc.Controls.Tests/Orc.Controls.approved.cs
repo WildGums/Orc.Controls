@@ -13,6 +13,7 @@ namespace Orc.Controls
     public class AccentColor : Catel.Windows.Markup.UpdatableMarkupExtension
     {
         public AccentColor() { }
+        public AccentColor(Orc.Controls.AccentColorStyle accentColorStyle) { }
         public Orc.Controls.AccentColorStyle AccentColorStyle { get; set; }
         protected override void OnTargetObjectLoaded() { }
         protected override void OnTargetObjectUnloaded() { }
@@ -21,6 +22,7 @@ namespace Orc.Controls
     public class AccentColorBrush : Catel.Windows.Markup.UpdatableMarkupExtension
     {
         public AccentColorBrush() { }
+        public AccentColorBrush(Orc.Controls.AccentColorStyle accentColorStyle) { }
         public Orc.Controls.AccentColorStyle AccentColorStyle { get; set; }
         protected override void OnTargetObjectLoaded() { }
         protected override void OnTargetObjectUnloaded() { }
