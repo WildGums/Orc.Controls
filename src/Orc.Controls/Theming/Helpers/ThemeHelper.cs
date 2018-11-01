@@ -4,6 +4,7 @@
     using System.Windows.Media;
     using Catel.Caching;
     using Catel.IoC;
+    using Catel.Logging;
     using Orc.Controls.Services;
 
     public enum AccentColorStyle
@@ -21,10 +22,20 @@
 
     public static class ThemeHelper
     {
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
         private static readonly CacheStorage<AccentColorStyle, Color> _accentColorsCache = new CacheStorage<AccentColorStyle, Color>();
         private static readonly CacheStorage<AccentColorStyle, SolidColorBrush> _accentColorBrushesCache = new CacheStorage<AccentColorStyle, SolidColorBrush>();
 
+        private static readonly IAccentColorService _accentColorService;
         private static SolidColorBrush _accentColorBrushCache;
+
+        static ThemeHelper()
+        {
+            var serviceLocator = ServiceLocator.Default;
+            _accentColorService = serviceLocator.ResolveType<IAccentColorService>();
+            _accentColorService.AccentColorChanged += OnAccentColorServiceAccentColorChanged;
+        }
 
         public static Color GetAccentColor(AccentColorStyle colorStyle = AccentColorStyle.AccentColor)
         {
@@ -90,6 +101,15 @@
             brush.Freeze();
 
             return brush;
+        }
+
+        private static void OnAccentColorServiceAccentColorChanged(object sender, EventArgs e)
+        {
+            Log.Debug("Accent color has changed, clearing current cache");
+
+            _accentColorBrushCache = null;
+            _accentColorBrushesCache.Clear();
+            _accentColorsCache.Clear();
         }
     }
 }

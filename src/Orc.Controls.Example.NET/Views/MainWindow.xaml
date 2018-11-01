@@ -107,108 +107,138 @@
         </Style>
     </catel:Window.Resources>
 
-    <TabControl Padding="10" 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Label Content="Select the accent color" />
+            <ComboBox ItemsSource="{Binding AccentColors}" SelectedItem="{Binding SelectedAccentColor}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Rectangle Grid.Column="0" Width="20" Height="12" VerticalAlignment="Center" Margin="4,2,8,2">
+                                <Rectangle.Fill>
+                                    <SolidColorBrush Color="{Binding }" />
+                                </Rectangle.Fill>
+                            </Rectangle>
+
+                            <TextBlock Grid.Column="1" Text="{Binding }" VerticalAlignment="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+        
+        <TabControl Grid.Row="1" Padding="10" 
                 TabStripPlacement="Left" 
                 Background="White" 
                 BorderBrush="{StaticResource TabControlNormalBorderBrush}">
 
-        <TabItem Header="AnimatedGif">
-            <views:AnimatedGif />
-        </TabItem>
-        
-        <TabItem Header="BindableRichTextBox">
-            <views:BindableRichTextBox />
-        </TabItem>
+            <TabItem Header="AnimatedGif">
+                <views:AnimatedGif />
+            </TabItem>
 
-        <TabItem Header="ColorLegend">
-            <views:ColorLegendView />
-        </TabItem>
+            <TabItem Header="BindableRichTextBox">
+                <views:BindableRichTextBox />
+            </TabItem>
 
-        <TabItem Header="ColorPicker">
-            <views:ColorPicker>
-                <views:ColorPicker.Resources>
-                    <Style TargetType="{x:Type TabItem}"/>
-                </views:ColorPicker.Resources>
-            </views:ColorPicker>
-        </TabItem>
+            <TabItem Header="ColorLegend">
+                <views:ColorLegendView />
+            </TabItem>
 
-        <TabItem Header="ConnectionStringBuilder">
-            <views:ConnectionStringBuilderView />
-        </TabItem>
+            <TabItem Header="ColorPicker">
+                <views:ColorPicker>
+                    <views:ColorPicker.Resources>
+                        <Style TargetType="{x:Type TabItem}"/>
+                    </views:ColorPicker.Resources>
+                </views:ColorPicker>
+            </TabItem>
 
-        <TabItem Header="CulturePicker">
-            <views:CulturePickerView/>
-        </TabItem>
-        
-        <TabItem Header="DatePicker">
-            <views:DatePicker />
-        </TabItem>
+            <TabItem Header="ConnectionStringBuilder">
+                <views:ConnectionStringBuilderView />
+            </TabItem>
 
-        <TabItem Header="DateTimePicker">
-            <views:DateTimePicker />
-        </TabItem>
+            <TabItem Header="CulturePicker">
+                <views:CulturePickerView/>
+            </TabItem>
 
-        <TabItem Header="DateRangePicker">
-            <views:DateRangePicker />
-        </TabItem>
+            <TabItem Header="DatePicker">
+                <views:DatePicker />
+            </TabItem>
 
-        <TabItem Header="DirectoryPicker">
-            <views:DirectoryPickerView />
-        </TabItem>
+            <TabItem Header="DateTimePicker">
+                <views:DateTimePicker />
+            </TabItem>
 
-        <TabItem Header="DropDownButton">
-            <views:DropDownButtonView />
-        </TabItem>
+            <TabItem Header="DateRangePicker">
+                <views:DateRangePicker />
+            </TabItem>
 
-        <TabItem Header="Expander">
-            <views:Expander />
-        </TabItem>
+            <TabItem Header="DirectoryPicker">
+                <views:DirectoryPickerView />
+            </TabItem>
 
-        <TabItem Header="FilterBox">
-            <views:FilterBox />
-        </TabItem>
+            <TabItem Header="DropDownButton">
+                <views:DropDownButtonView />
+            </TabItem>
 
-        <TabItem Header="LinkLabel">
-            <views:LinkLabel />
-        </TabItem>
+            <TabItem Header="Expander">
+                <views:Expander />
+            </TabItem>
 
-        <TabItem Header="LogViewer">
-            <views:LogViewer />
-        </TabItem>
+            <TabItem Header="FilterBox">
+                <views:FilterBox />
+            </TabItem>
 
-        <TabItem Header="NumericTextBox">
-            <views:NumericTextBox />
-        </TabItem>
+            <TabItem Header="LinkLabel">
+                <views:LinkLabel />
+            </TabItem>
 
-        <TabItem Header="OpenFilePicker">
-            <views:OpenFilePickerView />
-        </TabItem>
+            <TabItem Header="LogViewer">
+                <views:LogViewer />
+            </TabItem>
 
-        <TabItem Header="PinnableToolTip">
-            <views:PinnableToolTip />
-        </TabItem>
+            <TabItem Header="NumericTextBox">
+                <views:NumericTextBox />
+            </TabItem>
 
-        <TabItem Header="RangeSlider">
-            <views:RangeSliderView />
-        </TabItem>
+            <TabItem Header="OpenFilePicker">
+                <views:OpenFilePickerView />
+            </TabItem>
 
-        <TabItem Header="SaveFilePicker">
-            <views:SaveFilePickerView />
-        </TabItem>
+            <TabItem Header="PinnableToolTip">
+                <views:PinnableToolTip />
+            </TabItem>
 
-        <TabItem Header="TimeSpanPicker">
-            <views:TimeSpanPickerView />
-        </TabItem>
-               
-        <TabItem Header="ValidationContextControl">
-            <views:ValidationContextView />
-        </TabItem>
+            <TabItem Header="RangeSlider">
+                <views:RangeSliderView />
+            </TabItem>
 
-        <TabItem Header="WatermarkTextBox">
-            <views:Watermark />
-        </TabItem>
+            <TabItem Header="SaveFilePicker">
+                <views:SaveFilePickerView />
+            </TabItem>
 
-        <!--<TabItem Header="Combobox">
+            <TabItem Header="TimeSpanPicker">
+                <views:TimeSpanPickerView />
+            </TabItem>
+
+            <TabItem Header="ValidationContextControl">
+                <views:ValidationContextView />
+            </TabItem>
+
+            <TabItem Header="WatermarkTextBox">
+                <views:Watermark />
+            </TabItem>
+
+            <!--<TabItem Header="Combobox">
             <orc:StackGrid>
                 <orc:StackGrid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -244,5 +274,7 @@
             </orc:StackGrid>
         </TabItem>-->
 
-    </TabControl>
+        </TabControl>
+
+    </Grid>
 </catel:Window>

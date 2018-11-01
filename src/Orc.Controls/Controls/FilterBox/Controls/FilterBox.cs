@@ -122,7 +122,6 @@ namespace Orc.Controls
 
             _filterTextBox = (TextBox) GetTemplateChild("PART_FilterTextBox");
 
-
             var serviceEventArg = new InitializingAutoCompletionServiceEventArgs();
             OnInitializingAutoCompletionService(serviceEventArg);
             var autoCompletionService = serviceEventArg.AutoCompletionService;
