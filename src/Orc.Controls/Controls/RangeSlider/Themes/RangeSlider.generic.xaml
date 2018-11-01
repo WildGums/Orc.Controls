@@ -127,8 +127,8 @@
                                     CornerRadius="1" Grid.Row="1" >
                                 <Canvas Margin="-1">
                                     <Rectangle x:Name="PART_SelectedRange" 
-                                               Fill="{DynamicResource AccentColorBrush}"
-                                               Stroke="{DynamicResource AccentColorBrush}"
+                                               Fill="{controls:AccentColorBrush AccentColorStyle=AccentColor}"
+                                               Stroke="{controls:AccentColorBrush AccentColorStyle=AccentColor}"
                                                StrokeThickness="3.0" Visibility="{TemplateBinding HighlightSelectedRange, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
 
                                     <Rectangle x:Name="PART_SelectionRange"
