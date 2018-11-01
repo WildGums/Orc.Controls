@@ -1,14 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Orc.Controls"
+                    xmlns:controls="clr-namespace:Orc.Controls"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <ControlTemplate x:Key="DateTimePickerToggleButtonTemplate" TargetType="{x:Type ToggleButton}">
         <Border BorderBrush="{TemplateBinding BorderBrush}" 
-                        Background="{TemplateBinding Background}" 
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        SnapsToDevicePixels="true"
-                        CornerRadius="0">
+                Background="{TemplateBinding Background}" 
+                BorderThickness="{TemplateBinding BorderThickness}"
+                SnapsToDevicePixels="true"
+                CornerRadius="0">
             <Grid VerticalAlignment="Stretch">
                 <Border Grid.Row="0" Background="{TemplateBinding BorderBrush}" Height="4" VerticalAlignment="Top"/>
                 <Ellipse Grid.Row="0" Width="3" Height="3" Fill="White" VerticalAlignment="Top"/>
@@ -21,8 +21,8 @@
     </ControlTemplate>
 
     <!-- Dummy base style -->
-    <Style x:Key="{x:Type local:DateTimePicker}"
-           TargetType="{x:Type local:DateTimePicker}"/>
+    <Style x:Key="{x:Type controls:DateTimePicker}"
+           TargetType="{x:Type controls:DateTimePicker}"/>
 
     <Style x:Key="DateTimePickerToggleButtonStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Width" Value="19"/>
@@ -34,10 +34,10 @@
         <Setter Property="Template" Value="{StaticResource DateTimePickerToggleButtonTemplate}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource DateTimePickerAccentBrush}"/>
+                <Setter Property="BorderBrush" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource DateTimePickerAccentBrush}"/>
+                <Setter Property="BorderBrush" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -45,7 +45,7 @@
     <Style x:Key="DateTimePickerListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="Padding" Value="2 2 5 2" />
         <Style.Resources>
-            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource DateTimePickerHighlightColor}"/>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{controls:AccentColor AccentColorStyle=AccentColor3}"/>
         </Style.Resources>
         <Style.Triggers>
             <Trigger Property="ListBoxItem.IsSelected" Value="True" >
@@ -58,10 +58,10 @@
         <Setter Property="BorderBrush" Value="LightGray"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource DateTimePickerAccentBrush}" />
+                <Setter Property="BorderBrush" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}" />
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource DateTimePickerAccentBrush}" />
+                <Setter Property="BorderBrush" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -153,9 +153,9 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DateTimePickerNumericTextBoxStyle" BasedOn="{StaticResource DateTimePickerInnerTextBoxStyle}" TargetType="{x:Type local:NumericTextBox}"/>
+    <Style x:Key="DateTimePickerNumericTextBoxStyle" BasedOn="{StaticResource DateTimePickerInnerTextBoxStyle}" TargetType="{x:Type controls:NumericTextBox}"/>
 
-    <Style x:Key="DateTimePickerListTextBoxStyle" BasedOn="{StaticResource DateTimePickerInnerTextBoxStyle}" TargetType="{x:Type local:ListTextBox}"/>
+    <Style x:Key="DateTimePickerListTextBoxStyle" BasedOn="{StaticResource DateTimePickerInnerTextBoxStyle}" TargetType="{x:Type controls:ListTextBox}"/>
 
     <Style x:Key="PopupButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -175,10 +175,10 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Border" Value="{DynamicResource DateTimePickerHighlightBrush}"/>
+                            <Setter Property="Background" TargetName="Border" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor4}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Border" Value="{DynamicResource DateTimePickerHighlightBrush}"/>
+                            <Setter Property="Background" TargetName="Border" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor4}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="#FFADADAD"/>

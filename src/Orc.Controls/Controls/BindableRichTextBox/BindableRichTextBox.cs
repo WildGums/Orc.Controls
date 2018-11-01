@@ -20,24 +20,24 @@ namespace Orc.Controls
         }
 
         #region Properties
-        public static readonly DependencyProperty BindableDocumentProperty = DependencyProperty.Register(nameof(BindableDocument),
-            typeof(FlowDocument), typeof(BindableRichTextBox), 
-            new PropertyMetadata((sender, args) => ((BindableRichTextBox)sender).OnBindableDocumentChanged(args)));
-
         public FlowDocument BindableDocument
         {
             get { return (FlowDocument) GetValue(BindableDocumentProperty); }
             set { SetValue(BindableDocumentProperty, value); }
         }
 
-        public static readonly DependencyProperty AutoScrollToEndProperty = DependencyProperty.Register(nameof(AutoScrollToEnd),
-             typeof(bool), typeof(BindableRichTextBox), new PropertyMetadata(default(bool)));
+        public static readonly DependencyProperty BindableDocumentProperty = DependencyProperty.Register(nameof(BindableDocument),
+            typeof(FlowDocument), typeof(BindableRichTextBox),  new PropertyMetadata((sender, args) => ((BindableRichTextBox)sender).OnBindableDocumentChanged(args)));
+
 
         public bool AutoScrollToEnd
         {
             get { return (bool)GetValue(AutoScrollToEndProperty); }
             set { SetValue(AutoScrollToEndProperty, value); }
         }
+
+        public static readonly DependencyProperty AutoScrollToEndProperty = DependencyProperty.Register(nameof(AutoScrollToEnd),
+             typeof(bool), typeof(BindableRichTextBox), new PropertyMetadata(default(bool)));
         #endregion
 
         #region Methods

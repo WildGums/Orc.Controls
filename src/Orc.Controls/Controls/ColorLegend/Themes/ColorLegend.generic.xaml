@@ -24,7 +24,7 @@
         <Setter Property="BorderBrush" Value="LightGray"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource ColorLegendAccentBrush}" />
+                <Setter Property="BorderBrush" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -48,12 +48,12 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ColorLegendHighlightBrush}"/>
+                            <Setter Property="Background" TargetName="Chrome" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor4}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ColorLegendAccentBrush}"/>
+                            <Setter Property="Background" TargetName="Chrome" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
                             <Setter Property="Foreground" Value="White"/>
-                            <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource ColorLegendAccentBrush}"/>
+                            <Setter Property="BorderBrush" TargetName="Chrome" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" TargetName="Filter" Value="WhiteSmoke"/>
@@ -77,10 +77,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ColorLegendHighlightBrush}"/>
+                            <Setter Property="Background" TargetName="Chrome" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor4}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource ColorLegendAccentBrush}"/>
+                            <Setter Property="Background" TargetName="Chrome" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
                             <Setter Property="Fill" TargetName="Path" Value="White"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
@@ -105,7 +105,7 @@
                                     <Path x:Name="CheckMark" Data="M7.2,5 L5.5,7.16 4.16,6.3 3.5,6.7 5.5,8.4 8.6,5.25 C8.6,5.25 8,4.7 7.22,5" 
                                       Height="Auto" Width="Auto" Stretch="Fill" Fill="Black" Margin="1,1.007,1,1"/>
                                     <Border x:Name="ThreeStateCheckMark" BorderThickness="0" Margin="1" CornerRadius="1"
-                                            Visibility="Hidden" Background="{DynamicResource ColorLegendDarkHighlightBrush}" />
+                                            Visibility="Hidden" Background="{controls:AccentColorBrush AccentColorStyle=AccentColor3}" />
                                 </Grid>
                             </Border>
                         </BulletDecorator.Bullet>
@@ -119,8 +119,8 @@
                             <Setter Property="Foreground" Value="#FFADADAD"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="CheckBoxBorder" Value="{DynamicResource ColorLegendHighlightBrush}"/>
-                            <Setter Property="BorderBrush" TargetName="CheckBoxBorder" Value="{DynamicResource ColorLegendAccentBrush}"/>
+                            <Setter Property="Background" TargetName="CheckBoxBorder" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor4}"/>
+                            <Setter Property="BorderBrush" TargetName="CheckBoxBorder" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="False">
                             <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed"/>
@@ -153,18 +153,18 @@
                                  Value="true">
                             <Setter TargetName="Bd"
                                     Property="BorderBrush"
-                                    Value="{DynamicResource ColorLegendDarkHighlightBrush}" />
+                                    Value="{controls:AccentColorBrush AccentColorStyle=AccentColor3}" />
 
                             <Setter Property="Background"
                                     TargetName="Bd"
-                                    Value="{DynamicResource ColorLegendAccentBrush}" />
+                                    Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}" />
                         </Trigger>
 
                         <Trigger Property="IsMouseOver"
                                  Value="True">
                             <Setter TargetName="Bd"
                                     Property="Background"
-                                    Value="{DynamicResource ColorLegendHighlightBrush}" />
+                                    Value="{controls:AccentColorBrush AccentColorStyle=AccentColor4}" />
                         </Trigger>
 
                         <MultiTrigger>
@@ -182,7 +182,7 @@
 
                             <Setter Property="Background"
                                     TargetName="Bd"
-                                    Value="{DynamicResource ColorLegendAccentBrush}" />
+                                    Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}" />
                         </MultiTrigger>
 
                         <MultiTrigger>
@@ -196,7 +196,7 @@
 
                             <Setter Property="Background"
                                     TargetName="Bd"
-                                    Value="{DynamicResource ColorLegendHighlightBrush}" />
+                                    Value="{controls:AccentColorBrush AccentColorStyle=AccentColor4}" />
                             
                             <Setter Property="Foreground"
                                     Value="White" />
@@ -247,7 +247,7 @@
                                     </Grid.ColumnDefinitions>
 
                                     <controls:DropDownButton x:Name="PART_Settings_Button" Grid.Column="0" Margin="0 0 5 0" Width="40" ShowDefaultButton="False" EnableTransparentBackground="True"
-                                                             AccentColorBrush="{DynamicResource ColorLegendAccentBrush}"
+                                                             AccentColorBrush="{controls:AccentColorBrush AccentColorStyle=AccentColor}"
                                                              Visibility="{Binding ShowSettingsBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
                                         <controls:DropDownButton.Header>
                                             <Grid>

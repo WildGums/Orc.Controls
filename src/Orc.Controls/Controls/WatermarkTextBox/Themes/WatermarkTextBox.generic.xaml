@@ -45,7 +45,6 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:WatermarkTextBox}">
                     <Grid>
-
                         <Border x:Name="Border"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"

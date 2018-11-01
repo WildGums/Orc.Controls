@@ -23,6 +23,8 @@ namespace Orc.Controls.Example.ViewModels
 
         #region Properties
         public override string Title => "Orc.Controls example";
+
+        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
         public Brush AccentColorBrush { get; set; }
         #endregion
     }

@@ -161,6 +161,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty ShowColorVisibilityControlsProperty = DependencyProperty.Register(nameof(ShowColorVisibilityControls),
             typeof (bool), typeof (ColorLegend), new PropertyMetadata(true, (sender, e) => ((ColorLegend) sender).OnShowColorVisibilityControlsChanged()));
 
+
         /// <summary>
         /// Gets or sets a value indicating whether user editing current color.
         /// </summary>
@@ -192,6 +193,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty EditingColorProperty = DependencyProperty.Register(nameof(EditingColor), typeof (Color),
             typeof (ColorLegend), new PropertyMetadata(Colors.White, (sender, e) => ((ColorLegend) sender).OnEditingColorChanged()));
 
+
         /// <summary>
         /// Gets or sets filter for list of color.
         /// </summary>
@@ -206,6 +208,7 @@ namespace Orc.Controls
         /// </summary>
         public static readonly DependencyProperty FilterProperty = DependencyProperty.Register(nameof(Filter),
             typeof (string), typeof (ColorLegend), new PropertyMetadata(null, (sender, e) => ((ColorLegend) sender).OnFilterChanged()));
+
 
         /// <summary>
         /// Gets or sets source for color items.
@@ -223,6 +226,7 @@ namespace Orc.Controls
             typeof (IEnumerable<IColorLegendItem>), typeof (ColorLegend), new FrameworkPropertyMetadata(null,
                 (sender, e) => ((ColorLegend) sender).OnItemsSourceChanged(e.OldValue as IEnumerable<IColorLegendItem>, e.NewValue as IEnumerable<IColorLegendItem>)));
 
+
         /// <summary>
         /// Gets or sets a value indicating whether is all visible.
         /// </summary>
@@ -237,6 +241,7 @@ namespace Orc.Controls
         /// </summary>
         public static readonly DependencyProperty IsAllVisibleProperty = DependencyProperty.Register(nameof(IsAllVisible),
             typeof (bool?), typeof (ColorLegend), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((ColorLegend) sender).OnIsAllVisibleChanged()));
+
 
         /// <summary>
         /// Gets or sets a source for color items respecting current filter value.
@@ -268,6 +273,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty FilteredItemsIdsProperty = DependencyProperty.Register(nameof(FilteredItemsIds),
             typeof (IEnumerable<string>), typeof (ColorLegend), new PropertyMetadata(null));
 
+
         /// <summary>
         /// Gets or sets filter watermark string we use in search textbox.
         /// </summary>
@@ -277,11 +283,9 @@ namespace Orc.Controls
             set { SetValue(FilterWatermarkProperty, value); }
         }
 
-        /// <summary>
-        /// Property for filter watermark.
-        /// </summary>
         public static readonly DependencyProperty FilterWatermarkProperty = DependencyProperty.Register(nameof(FilterWatermark),
             typeof (string), typeof (ColorLegend), new PropertyMetadata("Search"));
+
 
         /// <summary>
         /// Gets or sets list of selected items.
@@ -292,18 +296,17 @@ namespace Orc.Controls
             set { SetValue(SelectedColorItemsProperty, value); }
         }
 
-        /// <summary>
-        /// The selected items property.
-        /// </summary>
         public static readonly DependencyProperty SelectedColorItemsProperty = DependencyProperty.RegisterAttached(nameof(SelectedColorItems),
             typeof (IEnumerable<IColorLegendItem>), typeof (ColorLegend), new PropertyMetadata(null, (sender, e) => ((ColorLegend) sender).OnSelectedColorItemsChanged()));
 
+
+        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
         public Brush AccentColorBrush
         {
             get { return (Brush) GetValue(AccentColorBrushProperty); }
             set { SetValue(AccentColorBrushProperty, value); }
         }
-
+        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), typeof (Brush),
             typeof (ColorLegend), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((ColorLegend) sender).OnAccentColorBrushChanged()));
         #endregion
