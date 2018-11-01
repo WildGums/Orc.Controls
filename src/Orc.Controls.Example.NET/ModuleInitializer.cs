@@ -12,9 +12,6 @@ public static class ModuleInitializer
     /// </summary>
     public static void Initialize()
     {
-        var serviceLocator = ServiceLocator.Default;
 
-        var instance = serviceLocator.RegisterTypeAndInstantiate<IUpdatableAccentColorService, UpdatableAccentColorService>();
-        serviceLocator.RegisterInstance<IAccentColorService>(instance);
     }
 }

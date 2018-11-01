@@ -7,6 +7,8 @@
     {
         Color GetAccentColor();
 
+        void SetAccentColor(Color color);
+
         event EventHandler<EventArgs> AccentColorChanged;
     }
 }

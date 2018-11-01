@@ -13,18 +13,18 @@ namespace Orc.Controls.Example.ViewModels
     using Catel;
     using Catel.MVVM;
     using Catel.Reflection;
-    using Orc.Controls.Example.Services;
+    using Orc.Controls.Services;
 
     public class MainViewModel : ViewModelBase
     {
-        private readonly IUpdatableAccentColorService _updatableAccentColorService;
+        private readonly IAccentColorService _accentColorService;
 
         #region Constructors
-        public MainViewModel(IUpdatableAccentColorService updatableAccentColorService)
+        public MainViewModel(IAccentColorService accentColorService)
         {
-            Argument.IsNotNull(() => updatableAccentColorService);
+            Argument.IsNotNull(() => accentColorService);
 
-            _updatableAccentColorService = updatableAccentColorService;
+            _accentColorService = accentColorService;
 
             AccentColors = typeof(Colors).GetPropertiesEx(true, true).Where(x => x.PropertyType.IsAssignableFromEx(typeof(Color))).Select(x => (Color)x.GetValue(null)).ToList();
             SelectedAccentColor = Colors.Orange;
@@ -44,7 +44,7 @@ namespace Orc.Controls.Example.ViewModels
         #region Methods
         private void OnSelectedAccentColorChanged()
         {
-            _updatableAccentColorService.SetAccentColor(SelectedAccentColor);
+            _accentColorService.SetAccentColor(SelectedAccentColor);
         }
         #endregion
     }
