@@ -14,12 +14,16 @@ namespace Orc.Controls
     {
         public AccentColor() { }
         public Orc.Controls.AccentColorStyle AccentColorStyle { get; set; }
+        protected override void OnTargetObjectLoaded() { }
+        protected override void OnTargetObjectUnloaded() { }
         protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
     }
     public class AccentColorBrush : Catel.Windows.Markup.UpdatableMarkupExtension
     {
         public AccentColorBrush() { }
         public Orc.Controls.AccentColorStyle AccentColorStyle { get; set; }
+        protected override void OnTargetObjectLoaded() { }
+        protected override void OnTargetObjectUnloaded() { }
         protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
     }
     public enum AccentColorStyle
@@ -1696,11 +1700,16 @@ namespace Orc.Controls.Services
     public class AccentColorService : Orc.Controls.Services.IAccentColorService
     {
         public AccentColorService() { }
+        public event System.EventHandler<System.EventArgs> AccentColorChanged;
         public virtual System.Windows.Media.Color GetAccentColor() { }
+        protected void RaiseAccentColorChanged() { }
+        public virtual void SetAccentColor(System.Windows.Media.Color color) { }
     }
     public interface IAccentColorService
     {
+        public event System.EventHandler<System.EventArgs> AccentColorChanged;
         System.Windows.Media.Color GetAccentColor();
+        void SetAccentColor(System.Windows.Media.Color color);
     }
     public class MicrosoftApiSelectDirectoryService : Catel.Services.ISelectDirectoryService
     {
