@@ -10,6 +10,29 @@ public class static ModuleInitializer
 }
 namespace Orc.Controls
 {
+    public class AccentColor : Catel.Windows.Markup.UpdatableMarkupExtension
+    {
+        public AccentColor() { }
+        public Orc.Controls.AccentColorStyle AccentColorStyle { get; set; }
+        protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
+    }
+    public class AccentColorBrush : Catel.Windows.Markup.UpdatableMarkupExtension
+    {
+        public AccentColorBrush() { }
+        public Orc.Controls.AccentColorStyle AccentColorStyle { get; set; }
+        protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
+    }
+    public enum AccentColorStyle
+    {
+        AccentColor = 0,
+        AccentColor1 = 1,
+        AccentColor2 = 2,
+        AccentColor3 = 3,
+        AccentColor4 = 4,
+        AccentColor5 = 5,
+        DarkHighlight = 3,
+        Highlight = 4,
+    }
     public class AnimatedGif : System.Windows.Controls.Image
     {
         public static readonly System.Windows.DependencyProperty GifSourceProperty;
@@ -57,6 +80,7 @@ namespace Orc.Controls
     }
     public class static ColorExtensions
     {
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public static void CreateAccentColorResourceDictionary(this System.Windows.Media.Color color, string controlName) { }
     }
     public class static ColorHelper
@@ -77,6 +101,7 @@ namespace Orc.Controls
     [System.Windows.TemplatePartAttribute(Name="PART_UnselectAll", Type=typeof(System.Windows.Controls.Primitives.ButtonBase))]
     public class ColorLegend : System.Windows.Controls.HeaderedContentControl
     {
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty AllowColorEditingProperty;
         public static readonly System.Windows.DependencyProperty EditingColorProperty;
@@ -94,6 +119,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ShowSettingsBoxProperty;
         public static readonly System.Windows.DependencyProperty ShowToolBoxProperty;
         public ColorLegend() { }
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public System.Windows.Media.Brush AccentColorBrush { get; set; }
         public bool AllowColorEditing { get; set; }
         public Catel.MVVM.Command<object> ChangeColor { get; }
@@ -186,6 +212,7 @@ namespace Orc.Controls
     }
     public sealed class ConnectionStringBuilder : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty ConnectionStateProperty;
         public static readonly System.Windows.DependencyProperty ConnectionStringProperty;
@@ -193,6 +220,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty IsAdvancedOptionsReadOnlyProperty;
         public static readonly System.Windows.DependencyProperty IsInEditModeProperty;
         public ConnectionStringBuilder() { }
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public System.Windows.Media.Brush AccentColorBrush { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewModelToView)]
         public Orc.Controls.ConnectionState ConnectionState { get; set; }
@@ -300,6 +328,7 @@ namespace Orc.Controls
     }
     public class DatePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty AllowCopyPasteProperty;
         public static readonly System.Windows.DependencyProperty AllowNullProperty;
@@ -309,6 +338,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ShowOptionsButtonProperty;
         public static readonly System.Windows.DependencyProperty ValueProperty;
         public DatePicker() { }
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public System.Windows.Media.Brush AccentColorBrush { get; set; }
         public bool AllowCopyPaste { get; set; }
         public bool AllowNull { get; set; }
@@ -463,6 +493,7 @@ namespace Orc.Controls
     }
     public class DateTimePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty AllowCopyPasteProperty;
         public static readonly System.Windows.DependencyProperty AllowNullProperty;
@@ -476,6 +507,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ShowOptionsButtonProperty;
         public static readonly System.Windows.DependencyProperty ValueProperty;
         public DateTimePicker() { }
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public System.Windows.Media.Brush AccentColorBrush { get; set; }
         public bool AllowCopyPaste { get; set; }
         public bool AllowNull { get; set; }
@@ -605,6 +637,7 @@ namespace Orc.Controls
     }
     public class DropDownButton : System.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty ArrowLocationProperty;
         public static readonly System.Windows.DependencyProperty ArrowMarginProperty;
@@ -616,6 +649,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty IsArrowVisibleProperty;
         public static readonly System.Windows.DependencyProperty ShowDefaultButtonProperty;
         public DropDownButton() { }
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public System.Windows.Media.Brush AccentColorBrush { get; set; }
         public Orc.Controls.DropdownArrowLocation ArrowLocation { get; set; }
         public System.Windows.Thickness ArrowMargin { get; set; }
@@ -657,11 +691,13 @@ namespace Orc.Controls
     }
     public class Expander : System.Windows.Controls.HeaderedContentControl
     {
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty AutoResizeGridProperty;
         public static readonly System.Windows.DependencyProperty ExpandDirectionProperty;
         public static readonly System.Windows.DependencyProperty IsExpandedProperty;
         public Expander() { }
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public System.Windows.Media.Brush AccentColorBrush { get; set; }
         public bool AutoResizeGrid { get; set; }
         public Orc.Controls.ExpandDirection ExpandDirection { get; set; }
@@ -674,6 +710,7 @@ namespace Orc.Controls
     [System.Windows.TemplatePartAttribute(Name="PART_FilterTextBox", Type=typeof(System.Windows.Controls.TextBox))]
     public class FilterBox : System.Windows.Controls.ContentControl
     {
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty AllowAutoCompletionProperty;
         public static readonly System.Windows.DependencyProperty FilterSourceProperty;
@@ -681,6 +718,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty TextProperty;
         public static readonly System.Windows.DependencyProperty WatermarkProperty;
         public FilterBox() { }
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public System.Windows.Media.Brush AccentColorBrush { get; set; }
         public bool AllowAutoCompletion { get; set; }
         public System.Collections.IEnumerable FilterSource { get; set; }
@@ -1177,6 +1215,7 @@ namespace Orc.Controls
     [System.Windows.TemplatePartAttribute(Name="PinButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
     public class PinnableToolTip : System.Windows.Controls.ContentControl
     {
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty AllowCloseByUserProperty;
         public static readonly System.Windows.DependencyProperty GripColorProperty;
@@ -1186,6 +1225,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ResizeModeProperty;
         public static readonly System.Windows.DependencyProperty VerticalOffsetProperty;
         public PinnableToolTip() { }
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public System.Windows.Media.Brush AccentColorBrush { get; set; }
         public bool AllowCloseByUser { get; set; }
         public System.Windows.Media.Color GripColor { get; set; }
@@ -1396,6 +1436,13 @@ namespace Orc.Controls
         public System.Windows.Controls.TabItem TabItem { get; }
     }
     public class static TextBoxExtensions { }
+    public class static ThemeHelper
+    {
+        public static System.Windows.Media.Color GetAccentColor(Orc.Controls.AccentColorStyle colorStyle = 0) { }
+        public static System.Windows.Media.SolidColorBrush GetAccentColorBrush(Orc.Controls.AccentColorStyle colorStyle) { }
+        public static System.Windows.Media.SolidColorBrush GetAccentColorBrush() { }
+        public static System.Windows.Media.SolidColorBrush GetSolidColorBrush(this System.Windows.Media.Color color, double opacity = 1) { }
+    }
     public class TimeAdjustment
     {
         public TimeAdjustment() { }
@@ -1438,10 +1485,12 @@ namespace Orc.Controls
     }
     public class TimeSpanPicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty IsReadOnlyProperty;
         public static readonly System.Windows.DependencyProperty ValueProperty;
         public TimeSpanPicker() { }
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public System.Windows.Media.Brush AccentColorBrush { get; set; }
         public bool IsReadOnly { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
@@ -1501,12 +1550,14 @@ namespace Orc.Controls
     }
     public sealed class ValidationContextView : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty IsExpandedAllOnStartupProperty;
         public static readonly System.Windows.DependencyProperty ShowButtonsProperty;
         public static readonly System.Windows.DependencyProperty ShowFilterBoxProperty;
         public static readonly System.Windows.DependencyProperty ValidationContextProperty;
         public ValidationContextView() { }
+        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public System.Windows.Media.Brush AccentColorBrush { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool IsExpandedAllOnStartup { get; set; }
@@ -1642,6 +1693,15 @@ namespace Orc.Controls.Converters
 }
 namespace Orc.Controls.Services
 {
+    public class AccentColorService : Orc.Controls.Services.IAccentColorService
+    {
+        public AccentColorService() { }
+        public virtual System.Windows.Media.Color GetAccentColor() { }
+    }
+    public interface IAccentColorService
+    {
+        System.Windows.Media.Color GetAccentColor();
+    }
     public class MicrosoftApiSelectDirectoryService : Catel.Services.ISelectDirectoryService
     {
         public MicrosoftApiSelectDirectoryService() { }
