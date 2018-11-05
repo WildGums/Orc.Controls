@@ -83,13 +83,14 @@
                 </Setter>
             </Style>
 
-            <Style TargetType="{x:Type TextBox}">
+            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
                 <Style.Setters>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type TextBox}">
                                 <Grid>
-                                    <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    <ScrollViewer x:Name="PART_ContentHost" 
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 
                                     <TextBlock x:Name="PART_Watermark"
                                        Margin="{TemplateBinding Padding}"
@@ -146,7 +147,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBox x:Name="PART_FilterTextBox" 
-                                     Padding="4,0,0,0"
+                                     Padding="{TemplateBinding Padding}"
                                      VerticalAlignment="Center"
                                      Text="{Binding Path=Text, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:FilterBox}}}">
                                 <i:Interaction.Behaviors>

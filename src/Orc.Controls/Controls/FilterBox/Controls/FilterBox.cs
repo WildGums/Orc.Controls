@@ -15,6 +15,7 @@ namespace Orc.Controls
     using System.Windows.Input;
     using System.Windows.Interactivity;
     using System.Windows.Media;
+    using Catel.Logging;
     using Catel.MVVM;
     using Catel.Windows.Interactivity;
 
@@ -22,6 +23,8 @@ namespace Orc.Controls
     [TemplatePart(Name = "PART_ClearButton", Type = typeof(Button))]
     public class FilterBox : ContentControl
     {
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
         private readonly Command _clearFilter;
         private Button _clearButton;
         private TextBox _filterTextBox;
@@ -120,7 +123,11 @@ namespace Orc.Controls
             _clearButton = (Button) GetTemplateChild("PART_ClearButton");
             _clearButton?.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, _clearFilter);
 
-            _filterTextBox = (TextBox) GetTemplateChild("PART_FilterTextBox");
+            _filterTextBox = GetTemplateChild("PART_FilterTextBox") as TextBox;
+            if (_filterTextBox is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_FilterTextBox'");
+            }
 
             var serviceEventArg = new InitializingAutoCompletionServiceEventArgs();
             OnInitializingAutoCompletionService(serviceEventArg);
