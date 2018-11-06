@@ -238,15 +238,15 @@
                             <Border Grid.Row="1" BorderBrush="LightGray" BorderThickness="0 0 0 1" 
                                     Visibility="{TemplateBinding Header, Converter={catel:ReferenceToCollapsingVisibilityConverter}}" />
 
-                            <Border Grid.Row="2" BorderBrush="LightGray" BorderThickness="0 0 0 1" Height="34"
+                            <Border Grid.Row="2" BorderBrush="LightGray" BorderThickness="0 0 0 1" 
                                     Visibility="{Binding ShowToolBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
-                                <Grid x:Name="toolsContainer" Margin="4" Height="24">
+                                <Grid x:Name="toolsContainer" Margin="0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <controls:DropDownButton x:Name="PART_Settings_Button" Grid.Column="0" Margin="0 0 5 0" Width="40" ShowDefaultButton="False" EnableTransparentBackground="True"
+                                    <controls:DropDownButton x:Name="PART_Settings_Button" Grid.Column="0" Margin="0" Width="40" ShowDefaultButton="False" EnableTransparentBackground="True"
                                                              AccentColorBrush="{controls:AccentColorBrush AccentColorStyle=AccentColor}"
                                                              Visibility="{Binding ShowSettingsBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
                                         <controls:DropDownButton.Header>
