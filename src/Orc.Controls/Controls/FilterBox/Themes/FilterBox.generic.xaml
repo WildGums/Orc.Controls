@@ -147,6 +147,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBox x:Name="PART_FilterTextBox" 
+                                     Margin="0"
                                      Padding="{TemplateBinding Padding}"
                                      VerticalAlignment="Center"
                                      Text="{Binding Path=Text, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:FilterBox}}}">
