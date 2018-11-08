@@ -21,12 +21,6 @@
                 </Style.Setters>
             </Style>
 
-            <Style TargetType="{x:Type Label}" BasedOn="{StaticResource {x:Type Label}}">
-                <Style.Setters>
-                    <Setter Property="Margin" Value="{DynamicResource DefaultThickness}"/>
-                </Style.Setters>
-            </Style>
-
             <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource {x:Type GroupBox}}">
                 <Style.Setters>
                     <Setter Property="Margin" Value="{DynamicResource DefaultThickness}"/>

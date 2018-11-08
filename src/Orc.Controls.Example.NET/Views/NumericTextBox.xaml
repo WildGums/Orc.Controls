@@ -13,7 +13,7 @@
     <orccontrols:StackGrid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="200" />
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>

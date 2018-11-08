@@ -8,71 +8,79 @@
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="MinWidth" Value="35"/>
-        <Setter Property="MinHeight" Value="19"/>
+        <Setter Property="MinWidth" Value="24"/>
+        <Setter Property="MinHeight" Value="14"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ColorPicker}">
                     <Grid x:Name="grid" Background="Transparent">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="MouseOver" />
-                                <VisualState x:Name="Disabled">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="arrow" Storyboard.TargetProperty="Fill">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gray"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="14"/>
-                        </Grid.ColumnDefinitions>
-
                         <ToggleButton Grid.ColumnSpan="2" IsTabStop="False" ClickMode="Press" HorizontalContentAlignment="Stretch"
                                       IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
-                                      x:Name="PART_ToggleDropDown">
-                            <ToggleButton.Content>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="14"/>
-                                    </Grid.ColumnDefinitions>
+                                      x:Name="PART_ToggleDropDown" Height="14" Background="Transparent" BorderBrush="Transparent"
+                                      BorderThickness="0">
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                    <Grid Background="Transparent">
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal" />
+                                                <VisualState x:Name="MouseOver">
+                                                    <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="arrow" Storyboard.TargetProperty="Visibility">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </VisualState>
+                                                <VisualState x:Name="Disabled">
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                            <VisualStateGroup x:Name="CheckStates">
+                                                <VisualState x:Name="Unchecked">
+                                                    <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="arrow" Storyboard.TargetProperty="Visibility">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </VisualState>
+                                                <VisualState x:Name="Checked">
+                                                    <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="arrow" Storyboard.TargetProperty="Visibility">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
 
-                                    <Path x:Name="arrow" Data="M 0 0 L 2.5 3 L 5 0 Z" Fill="Black" HorizontalAlignment="Center"
-                                      VerticalAlignment="Center" Stretch="None" Grid.Column="1" Width="5"/>
-
-                                    <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="14"/>
+                                            <ColumnDefinition Width="10"/>
                                         </Grid.ColumnDefinitions>
-                                        <Border Grid.Column="1"  Height="14" HorizontalAlignment="Stretch" VerticalAlignment="Center" BorderBrush="Black" BorderThickness="0 1 1 1">
-                                            <Border.Background>
-                                                <SolidColorBrush Color="{Binding Color, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                            </Border.Background>
-                                        </Border>
-                                        <Border  Height="14" HorizontalAlignment="Stretch" VerticalAlignment="Center" BorderBrush="Black" BorderThickness="1 1 0 1">
-                                            <Border.Background>
-                                                <SolidColorBrush Color="{Binding CurrentColor, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                            </Border.Background>
-                                        </Border>
+
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                        <Path x:Name="arrow" Data="M 0 0 L 2.5 3 L 5 0 Z" Fill="Black" HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" Stretch="None" Grid.Column="1" Width="5" Visibility="Hidden"/>
                                     </Grid>
-                                </Grid>
+
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                            <ToggleButton.Content>
+                                <Ellipse Width="14" Height="14" Grid.Column="1">
+                                    <Ellipse.Fill>
+                                        <SolidColorBrush Color="{Binding Color, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ToggleButton.Content>
                         </ToggleButton>
 
-                        <Popup Placement="{Binding PopupPlacement, RelativeSource={RelativeSource TemplatedParent}}" x:Name="PART_Popup" IsOpen="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Focusable="False"/>
+                        <Popup Placement="{Binding PopupPlacement, RelativeSource={RelativeSource TemplatedParent}}" x:Name="PART_Popup" IsOpen="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-
+    
     <Style TargetType="{x:Type local:ColorBoard}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="BorderBrush" Value="Black" />

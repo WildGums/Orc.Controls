@@ -6,7 +6,7 @@
            TargetType="{x:Type local:LogViewerControl}">
         <Style.Resources>
             <Style TargetType="{x:Type local:RichTextBoxParagraph}">
-                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Margin" Value="0" />
                 <Setter Property="FontFamily" Value="pack://application:,,,/Orc.Controls;component/Resources/Fonts/#Consolas"/>
             </Style>
 

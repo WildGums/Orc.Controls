@@ -26,6 +26,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </TextBox>
+        
         <Button Margin="0"
                 Command="{Binding Edit}" 
                 ToolTip="Edit" >
@@ -33,6 +34,7 @@
                 ...
             </Button.Content>
         </Button>
+        
         <Button Margin="0"
                 Command="{Binding Clear}"
                 ToolTip="Clear"

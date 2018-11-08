@@ -3,11 +3,7 @@
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 				   xmlns:catel="http://schemas.catelproject.com"
 				   xmlns:orc="http://schemas.wildgums.com/orc/controls">
-    <!-- Resources -->
-    <UserControl.Resources>
-    </UserControl.Resources>
 
-    <!-- Content -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -17,12 +13,14 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="0" Text="Log Viewer" Margin="5" />
-        <orc:LogViewerControl x:Name="LogViewerControl" Grid.Column="1" Grid.Row="0" Height="150" Margin="5"
+        
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="Log Viewer" />
+        <orc:LogViewerControl x:Name="LogViewerControl" Grid.Column="1" Grid.Row="0" Height="150"
                               LogEntryDoubleClick="LogViewerControlOnLogRecordDoubleClick"
                               LogFilter="{Binding Text, ElementName=FilterTextBox}"
                               ShowDebug="{Binding IsChecked, ElementName=ShowDebugToggleButton}"
@@ -35,18 +33,18 @@
                               ActiveFilterGroup="{Binding SelectedItem, ElementName=ActiveFilterGroupComboBox}"
                               EnableTextColoring="True" EnableIcons="True"/>
 
-        <TextBlock Grid.Column="0" Grid.Row="1" Text="Log Viewer Events" Margin="5" />
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="Log Viewer Events" />
         <StackPanel Grid.Column="1" Grid.Row="1">
-            <TextBox x:Name="EventsTextBox" Margin="5 5 5 0" Height="50" VerticalScrollBarVisibility="Auto" />
-            <Button Height="25" Margin="5" Content="Add log records" Command="{Binding AddLogRecords}" />
-            <Button Height="25" Margin="5" Content="Test under pressure" Command="{Binding TestUnderPressure}" />
-            <Button Content="Clear Log" Click="ClearLog_OnClick" Margin="4 2 2 2" />
+            <TextBox x:Name="EventsTextBox" MinHeight="50" VerticalScrollBarVisibility="Auto" />
+            <Button Content="Add log records" Command="{Binding AddLogRecords}" />
+            <Button Content="Test under pressure" Command="{Binding TestUnderPressure}" />
+            <Button Content="Clear Log" Click="ClearLog_OnClick" />
         </StackPanel>
 
-        <TextBlock Grid.Column="0" Grid.Row="2" Text="Log Viewer Filter" Margin="5" />
-        <TextBox x:Name="FilterTextBox" Grid.Column="1" Grid.Row="2" Margin="5"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="Log Viewer Filter" />
+        <TextBox x:Name="FilterTextBox" Grid.Column="1" Grid.Row="2" />
 
-        <TextBlock Grid.Column="0" Grid.Row="3" Text="Application Filter Groups" Margin="5" />
+        <TextBlock Grid.Column="0" Grid.Row="3" Text="Application Filter Groups" />
 
         <orc:LogFilterGroupList Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Margin="0" Updated="OnLogFilterGroupListUpdated" />
 
@@ -63,12 +61,12 @@
 
         <StackPanel Grid.Column="1" Grid.Row="5">
             <StackPanel Orientation="Horizontal">
-                <CheckBox x:Name="EnableTimestampCheckBox" Content="Enable Timestamp" Margin="5" />
-                <CheckBox x:Name="AutoScrollCheckBox" Content="Auto Scroll" Margin="5" IsChecked="True" />
+                <CheckBox x:Name="EnableTimestampCheckBox" Content="Enable Timestamp" />
+                <CheckBox x:Name="AutoScrollCheckBox" Content="Auto Scroll" IsChecked="True" />
             </StackPanel>
             
             <StackPanel Orientation="Horizontal">
-                <CheckBox x:Name="ShowMultilineMessageExpandedCheckBox" Content="Show Multiline Message Expanded" Margin="5" IsChecked="False" />
+                <CheckBox x:Name="ShowMultilineMessageExpandedCheckBox" Content="Show Multiline Message Expanded" IsChecked="False" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">

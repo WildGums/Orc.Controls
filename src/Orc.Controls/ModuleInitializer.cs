@@ -37,6 +37,7 @@ public static class ModuleInitializer
 
         serviceLocator.RegisterInstance<LogViewerLogListener>(logListener);
 
+        serviceLocator.RegisterType<IAccentColorService, AccentColorService>();
         serviceLocator.RegisterType<IApplicationLogFilterGroupService, ApplicationLogFilterGroupService>();
 
         serviceLocator.RegisterType<ISuggestionListService, SuggestionListService>();

@@ -149,7 +149,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty IsAdvancedModeProperty = DependencyProperty.Register(
-            "IsAdvancedMode", typeof(bool), typeof(DateRangePicker), new PropertyMetadata(false));
+            "IsAdvancedMode", typeof(bool), typeof(DateRangePicker), new PropertyMetadata(true));
         #endregion
     }
 }

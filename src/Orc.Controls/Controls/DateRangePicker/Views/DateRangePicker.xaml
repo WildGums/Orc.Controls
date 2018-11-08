@@ -10,6 +10,7 @@
                    x:Name="CurrentControl"
                    d:DesignHeight="22"
                    d:DesignWidth="190">
+    
     <catel:UserControl.Resources>
         <ObjectDataProvider x:Key="timeAdjustmentStrategies"
                             MethodName="GetValues"

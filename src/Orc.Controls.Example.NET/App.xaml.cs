@@ -47,7 +47,7 @@ namespace Orc.Controls.Example
             Log.Info("Starting application");
             Log.Info("This log message should show up as debug");
 
-            this.ApplyTheme();
+            this.ApplyTheme(true);
 
             base.OnStartup(e);
         }

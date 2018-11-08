@@ -4,11 +4,11 @@
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
+            <SolidColorBrush x:Key="AccentColorBrush" Color="Orange" />
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <SolidColorBrush x:Key="AccentColorBrush" Color="Orange" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

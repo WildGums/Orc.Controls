@@ -36,6 +36,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty ConnectionStringProperty = DependencyProperty.Register(
             nameof(ConnectionString), typeof(string), typeof(ConnectionStringBuilder), new PropertyMetadata(default(string)));
 
+
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewModelToView)]
         public string DatabaseProvider
         {
@@ -45,6 +46,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty DatabaseProviderProperty = DependencyProperty.Register(
             nameof(DatabaseProvider), typeof(string), typeof(ConnectionStringBuilder), new PropertyMetadata(default(string)));
+
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewModelToView)]
         public bool IsInEditMode
@@ -56,6 +58,7 @@ namespace Orc.Controls
         public static readonly DependencyProperty IsInEditModeProperty = DependencyProperty.Register(
             nameof(IsInEditMode), typeof(bool), typeof(ConnectionStringBuilder), new PropertyMetadata(default(bool)));
 
+
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewModelToView)]
         public ConnectionState ConnectionState
         {
@@ -65,6 +68,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty ConnectionStateProperty = DependencyProperty.Register(
             nameof(ConnectionState), typeof(ConnectionState), typeof(ConnectionStringBuilder), new PropertyMetadata(default(ConnectionState)));
+
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
         public bool IsAdvancedOptionsReadOnly
@@ -76,15 +80,17 @@ namespace Orc.Controls
         public static readonly DependencyProperty IsAdvancedOptionsReadOnlyProperty = DependencyProperty.Register(
             nameof(IsAdvancedOptionsReadOnly), typeof(bool), typeof(ConnectionStringBuilder), new PropertyMetadata(false));
 
+
+        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
         public Brush AccentColorBrush
         {
             get { return (Brush)GetValue(AccentColorBrushProperty); }
             set { SetValue(AccentColorBrushProperty, value); }
         }
 
+        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), typeof(Brush),
             typeof(ConnectionStringBuilder), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((ConnectionStringBuilder)sender).OnAccentColorBrushChanged()));
-
         #endregion
 
         #region Methods

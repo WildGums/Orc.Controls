@@ -13,7 +13,7 @@
     </catel:UserControl.Resources>
 
     <Grid>
-        <Border x:Name="MainContainer" BorderThickness="1" MinWidth="115" Height="22"
+        <Border x:Name="MainContainer" BorderThickness="1"
                 Style="{DynamicResource TimeSpanBorderStyle}">
             <Grid  Background="White" HorizontalAlignment="Stretch"
                    controls:EnterKeyTraversal.IsEnabled="True">
@@ -54,7 +54,7 @@
         </Border>
 
         <Border x:Name="NumericTBEditorContainer" Grid.ColumnSpan="8"
-                BorderBrush="{DynamicResource TimeSpanAccentBrush}" BorderThickness="1"
+                BorderBrush="{controls:AccentColorBrush AccentColorStyle=AccentColor}" BorderThickness="1"
                 Width="{Binding ActualWidth, ElementName=MainContainer}" Visibility="Collapsed"
                 Height="{Binding ActualHeight, ElementName=MainContainer}">
             <Grid HorizontalAlignment="Stretch" Background="White">
