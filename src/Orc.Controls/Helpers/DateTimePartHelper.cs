@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DateTimePartHelper.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -19,8 +19,8 @@ namespace Orc.Controls
     {
         #region Fields
         private readonly DateTime _dateTime;
-        private readonly DateTimePart _dateTimePart;
         private readonly DateTimeFormatInfo _dateTimeFormatInfo;
+        private readonly DateTimePart _dateTimePart;
         private readonly TextBox _textBox;
         private readonly ToggleButton _toggleButton;
         #endregion

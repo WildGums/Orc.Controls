@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="YearLongToYearShortConverter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -19,7 +19,6 @@ namespace Orc.Controls.Converters
         #region Constructors
         public YearLongToYearShortConverter()
         {
-
         }
         #endregion
 
@@ -30,29 +29,33 @@ namespace Orc.Controls.Converters
         #region Methods
         protected override object Convert(object value, Type targetType, object parameter)
         {
-            if (IsEnabled && value != null)
+            if (!IsEnabled || value == null)
             {
-                int yearLong = 0;
-                if (int.TryParse(value.ToString(), out yearLong))
-                {
-                    _yearBase = yearLong - yearLong % 100;
-
-                    return yearLong - _yearBase;
-                }
+                return value;
             }
-            return value;
+
+            if (!int.TryParse(value.ToString(), out var yearLong))
+            {
+                return value;
+            }
+
+            _yearBase = yearLong - yearLong % 100;
+
+            return yearLong - _yearBase;
         }
 
         protected override object ConvertBack(object value, Type targetType, object parameter)
         {
-            if (IsEnabled && value != null)
+            if (!IsEnabled || value == null)
             {
-                int yearShort = 0;
-                if (int.TryParse(value.ToString(), out yearShort))
-                {
-                    return _yearBase + yearShort;
-                }
+                return value;
             }
+
+            if (int.TryParse(value.ToString(), out var yearShort))
+            {
+                return _yearBase + yearShort;
+            }
+
             return value;
         }
         #endregion

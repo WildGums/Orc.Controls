@@ -149,22 +149,24 @@ namespace Orc.Controls
         private Bitmap GetBitmapResourceFromAssembly(Assembly assemblyToSearch)
         {
             // Loop through all resources
-            if (assemblyToSearch.FullName != null)
+            if (assemblyToSearch.FullName == null)
             {
-                try
+                return null;
+            }
+
+            try
+            {
+                // Get stream resource info
+                var streamResourceInfo = Application.GetResourceStream(new Uri(GifSource, UriKind.RelativeOrAbsolute));
+                if (streamResourceInfo != null)
                 {
-                    // Get stream resource info
-                    var streamResourceInfo = Application.GetResourceStream(new Uri(GifSource, UriKind.RelativeOrAbsolute));
-                    if (streamResourceInfo != null)
-                    {
-                        return (Bitmap)Image.FromStream(streamResourceInfo.Stream);
-                    }
+                    return (Bitmap)Image.FromStream(streamResourceInfo.Stream);
                 }
-                catch (IOException)
-                {
-                    // IOException when not existent URI path.
-                    return null;
-                }
+            }
+            catch (IOException)
+            {
+                // IOException when not existent URI path.
+                return null;
             }
 
             return null;

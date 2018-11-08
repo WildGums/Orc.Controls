@@ -1,11 +1,18 @@
-﻿namespace Orc.Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ThemeHelper.cs" company="WildGums">
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+namespace Orc.Controls
 {
     using System;
     using System.Windows.Media;
     using Catel.Caching;
     using Catel.IoC;
     using Catel.Logging;
-    using Orc.Controls.Services;
+    using Services;
 
     public enum AccentColorStyle
     {
@@ -22,6 +29,7 @@
 
     public static class ThemeHelper
     {
+        #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private static readonly CacheStorage<AccentColorStyle, Color> _accentColorsCache = new CacheStorage<AccentColorStyle, Color>();
@@ -29,14 +37,18 @@
 
         private static readonly IAccentColorService _accentColorService;
         private static SolidColorBrush _accentColorBrushCache;
+        #endregion
 
+        #region Constructors
         static ThemeHelper()
         {
             var serviceLocator = ServiceLocator.Default;
             _accentColorService = serviceLocator.ResolveType<IAccentColorService>();
             _accentColorService.AccentColorChanged += OnAccentColorServiceAccentColorChanged;
         }
+        #endregion
 
+        #region Methods
         public static Color GetAccentColor(AccentColorStyle colorStyle = AccentColorStyle.AccentColor)
         {
             return _accentColorsCache.GetFromCacheOrFetch(colorStyle, () =>
@@ -111,5 +123,6 @@
             _accentColorBrushesCache.Clear();
             _accentColorsCache.Clear();
         }
+        #endregion
     }
 }

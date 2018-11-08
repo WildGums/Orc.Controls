@@ -1,18 +1,27 @@
-﻿namespace Orc.Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AccentColorBrush.cs" company="WildGums">
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+namespace Orc.Controls
 {
     using System;
-    using Catel;
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Windows.Markup;
-    using Orc.Controls.Services;
+    using Services;
 
     public class AccentColorBrush : UpdatableMarkupExtension
     {
+        #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private readonly IAccentColorService _accentColorService;
+        #endregion
 
+        #region Constructors
         static AccentColorBrush()
         {
             // Note: use ThemeHelper so it subscribes to events first
@@ -31,9 +40,13 @@
         {
             AccentColorStyle = accentColorStyle;
         }
+        #endregion
 
+        #region Properties
         public AccentColorStyle AccentColorStyle { get; set; }
+        #endregion
 
+        #region Methods
         protected override void OnTargetObjectLoaded()
         {
             base.OnTargetObjectLoaded();
@@ -57,5 +70,6 @@
         {
             return ThemeHelper.GetAccentColorBrush(AccentColorStyle);
         }
+        #endregion
     }
 }
