@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="MsSqlDataSourceProvider.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,10 +17,15 @@ namespace Orc.Controls
 
     public class MsSqlDataSourceProvider : IDataSourceProvider
     {
+        #region Constants
         private const string MicrosoftSqlServerRegPath = @"SOFTWARE\Microsoft\Microsoft SQL Server";
+        #endregion
 
+        #region Properties
         public string DataBasesQuery => "SELECT name from sys.databases";
+        #endregion
 
+        #region IDataSourceProvider Members
         public IList<string> GetDataSources()
         {
             var localServers = GetLocalSqlServerInstances();
@@ -31,7 +36,9 @@ namespace Orc.Controls
                 .OrderBy(x => x)
                 .ToList();
         }
+        #endregion
 
+        #region Methods
         private IEnumerable<string> GetLocalSqlServerInstances()
         {
             var machineName = Environment.MachineName;
@@ -80,5 +87,6 @@ namespace Orc.Controls
 
             return servers;
         }
+        #endregion
     }
 }

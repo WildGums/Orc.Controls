@@ -6,17 +6,23 @@
                   xmlns:catel="http://schemas.catelproject.com"
                   Width="400"
                   Height="400"
-                  MinHeight="500"
+                  MinHeight="200"
                   MinWidth="300"
+                  MaxHeight="400"
                   ResizeMode="CanResizeWithGrip"
                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
 
     <Grid>
         <DataGrid ItemsSource="{Binding ConnectionStringProperties}"
-                  AutoGenerateColumns="False">
+                  AutoGenerateColumns="False"
+                  IsReadOnly="{Binding IsAdvancedOptionsReadOnly}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="{catel:LanguageBinding Controls_ConnectionStringAdvancedOptionsWindow_DataGridTextColumn_Header_Property}" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="{catel:LanguageBinding Controls_ConnectionStringAdvancedOptionsWindow_DataGridTextColumn_Header_Value}" Binding="{Binding Value}"/>
+                <DataGridTextColumn Header="{catel:LanguageBinding Controls_ConnectionStringAdvancedOptionsWindow_DataGridTextColumn_Header_Property}" 
+                                    Binding="{Binding Name}"
+                                    MaxWidth="150"
+                                    IsReadOnly="True"/>
+              <DataGridTextColumn Header="{catel:LanguageBinding Controls_ConnectionStringAdvancedOptionsWindow_DataGridTextColumn_Header_Value}"
+                                  Binding="{Binding Value}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ValidationNamesService.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -16,23 +16,27 @@ namespace Orc.Controls
 
     public class ValidationNamesService : IValidationNamesService
     {
+        #region Fields
         private readonly IDictionary<string, List<IValidationResult>> _cache = new Dictionary<string, List<IValidationResult>>();
-
         private readonly ILanguageService _languageService;
+        #endregion
 
+        #region Constructors
         public ValidationNamesService(ILanguageService languageService)
         {
             Argument.IsNotNull(() => languageService);
 
             _languageService = languageService;
         }
+        #endregion
 
+        #region IValidationNamesService Members
         public virtual string GetDisplayName(IValidationResult validationResult)
         {
             var tagData = ExtractTagData(validationResult);
 
             var line = tagData.Line;
-            var columnName  = tagData.ColumnName;
+            var columnName = tagData.ColumnName;
             var columnIndex = tagData.ColumnIndex;
 
             var messagePrefix = string.Empty;
@@ -45,7 +49,7 @@ namespace Orc.Controls
             {
                 messagePrefix += $"Row {line}";
             }
-            
+
             if (hasLine && (hasColumnIndex || hasColumnName))
             {
                 messagePrefix += ", Column ";
@@ -61,12 +65,9 @@ namespace Orc.Controls
                 messagePrefix += $"({columnIndex}) ";
             }
 
-            if (!string.IsNullOrWhiteSpace(messagePrefix))
-            {
-                return $"{messagePrefix} : { validationResult.Message}";
-            }
-
-            return validationResult.Message;
+            return !string.IsNullOrWhiteSpace(messagePrefix)
+                ? $"{messagePrefix} : {validationResult.Message}"
+                : validationResult.Message;
         }
 
         public void Clear()
@@ -78,18 +79,17 @@ namespace Orc.Controls
         {
             var tagName = ExtractTagName(validationResult);
 
-            List<IValidationResult> results;
-            if (!_cache.TryGetValue(tagName, out results))
+            if (!_cache.TryGetValue(tagName, out var results))
             {
                 results = new List<IValidationResult>();
                 _cache.Add(tagName, results);
             }
 
             var exists = (from result in results
-                          where result.Message.EqualsIgnoreCase(validationResult.Message) &&
-                                result.ValidationResultType == validationResult.ValidationResultType &&
-                                ObjectHelper.AreEqual(result.Tag, validationResult.Tag)
-                          select result).Any();
+                where result.Message.EqualsIgnoreCase(validationResult.Message) &&
+                      result.ValidationResultType == validationResult.ValidationResultType &&
+                      ObjectHelper.AreEqual(result.Tag, validationResult.Tag)
+                select result).Any();
             if (!exists)
             {
                 results.Add(validationResult);
@@ -105,15 +105,11 @@ namespace Orc.Controls
 
         public virtual IEnumerable<IValidationResult> GetCachedResultsByTagName(string tagName)
         {
-            List<IValidationResult> results;
-            if (!_cache.TryGetValue(tagName, out results))
-            {
-                return Enumerable.Empty<IValidationResult>();
-            }
-
-            return results.AsEnumerable();
+            return !_cache.TryGetValue(tagName, out var results) ? Enumerable.Empty<IValidationResult>() : results.AsEnumerable();
         }
+        #endregion
 
+        #region Methods
         protected virtual string ExtractTagName(IValidationResult validationResult)
         {
             var tag = validationResult.Tag;
@@ -132,7 +128,7 @@ namespace Orc.Controls
             var nameProperty = type.GetPropertyEx("Name");
             if (nameProperty != null)
             {
-                return (string) nameProperty.GetValue(tag, new object[0]);
+                return (string)nameProperty.GetValue(tag, new object[0]);
             }
 
             return tag.ToString();
@@ -171,12 +167,17 @@ namespace Orc.Controls
 
             return tagDetails;
         }
+        #endregion
 
+        #region Nested type: TagDetails
         protected class TagDetails
         {
-            public int? Line { get; set; } = null;
+            #region Properties
+            public int? Line { get; set; }
             public string ColumnName { get; set; } = string.Empty;
-            public int? ColumnIndex { get; set; } = null;
+            public int? ColumnIndex { get; set; }
+            #endregion
         }
+        #endregion
     }
 }

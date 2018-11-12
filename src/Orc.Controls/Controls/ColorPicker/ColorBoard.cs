@@ -39,24 +39,7 @@ namespace Orc.Controls
         /// <summary>
         /// Gets a value indicating whether updating.
         /// </summary>
-        private bool Updating
-        {
-            get { return _isUpdating != 0; }
-        }
-        #endregion
-
-        #region Static Fields
-        /// <summary>
-        /// The color property.
-        /// </summary>
-        public static readonly DependencyProperty ColorProperty = DependencyProperty.RegisterAttached(
-            "Color", typeof(Color), typeof(ColorBoard), new PropertyMetadata(OnColorChanged));
-
-        /// <summary>
-        /// The recent color items property.
-        /// </summary>
-        public static readonly DependencyProperty RecentColorItemsProperty = DependencyProperty.Register("RecentColorItems",
-            typeof(List<PredefinedColorItem>), typeof(ColorBoard), new PropertyMetadata());
+        private bool Updating => _isUpdating != 0;
         #endregion
 
         #region Fields
@@ -64,16 +47,6 @@ namespace Orc.Controls
         /// The brush color.
         /// </summary>
         private SolidColorBrush _brushColor;
-
-        /// <summary>
-        /// The button cancel.
-        /// </summary>
-        private Button _buttonCancel;
-
-        /// <summary>
-        /// The button done.
-        /// </summary>
-        private Button _buttonDone;
 
         /// <summary>
         /// The canvas hsv.
@@ -248,6 +221,9 @@ namespace Orc.Controls
             set { SetValue(ColorProperty, value); }
         }
 
+        public static readonly DependencyProperty ColorProperty = DependencyProperty.RegisterAttached(
+            nameof(Color), typeof(Color), typeof(ColorBoard), new PropertyMetadata(OnColorChanged));
+
         /// <summary>
         /// Gets or sets the recent color items.
         /// </summary>
@@ -257,6 +233,9 @@ namespace Orc.Controls
 
             set { SetValue(RecentColorItemsProperty, value); }
         }
+
+        public static readonly DependencyProperty RecentColorItemsProperty = DependencyProperty.Register(nameof(RecentColorItems),
+            typeof(List<PredefinedColorItem>), typeof(ColorBoard), new PropertyMetadata());
         #endregion
 
         #region Public Methods and Operators
@@ -296,8 +275,7 @@ namespace Orc.Controls
             _comboBoxColor = (ComboBox)GetTemplateChild("ComboBoxColor");
             _brushColor = (SolidColorBrush)GetTemplateChild("BrushColor");
             _textBoxColor = (TextBox)GetTemplateChild("TextBoxColor");
-            _buttonDone = (Button)GetTemplateChild("ButtonDone");
-            _buttonCancel = (Button)GetTemplateChild("ButtonCancel");
+            
             _themeColorsGrid = (ListBox)GetTemplateChild("ThemeColorsGrid");
             _recentColorsGrid = (ListBox)GetTemplateChild("RecentColorsGrid");
 
@@ -318,10 +296,10 @@ namespace Orc.Controls
 
             _sliderHsv.ValueChanged += sliderHSV_ValueChanged;
 
-            _sliderA.ValueChanged += sliderA_ValueChanged;
-            _sliderR.ValueChanged += sliderR_ValueChanged;
-            _sliderG.ValueChanged += sliderG_ValueChanged;
-            _sliderB.ValueChanged += sliderB_ValueChanged;
+            _sliderA.ValueChanged += OnColorChannelSliderValueChanged;
+            _sliderR.ValueChanged += OnColorChannelSliderValueChanged;
+            _sliderG.ValueChanged += OnColorChannelSliderValueChanged;
+            _sliderB.ValueChanged += OnColorChannelSliderValueChanged;
 
             _textBoxA.LostFocus += textBoxA_LostFocus;
             _textBoxR.LostFocus += textBoxR_LostFocus;
@@ -331,8 +309,18 @@ namespace Orc.Controls
             _comboBoxColor.SelectionChanged += comboBoxColor_SelectionChanged;
             _textBoxColor.GotFocus += textBoxColor_GotFocus;
             _textBoxColor.LostFocus += textBoxColor_LostFocus;
-            _buttonDone.Click += buttonDone_Click;
-            _buttonCancel.Click += buttonCancel_Click;
+
+            var buttonDone = (Button)GetTemplateChild("ButtonDone");
+            if (buttonDone != null)
+            {
+                buttonDone.Click += buttonDone_Click;
+            }
+
+            var buttonCancel = (Button)GetTemplateChild("ButtonCancel");
+            if (buttonCancel != null)
+            {
+                buttonCancel.Click += buttonCancel_Click;
+            }
 
             InitializePredefined();
             InitializeThemeColors();
@@ -384,17 +372,18 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as ColorBoard;
-            if (control != null && control._rootElement != null)
+            if (!(d is ColorBoard control) || control._rootElement == null)
             {
-                if (control.Updating)
-                {
-                    return;
-                }
-
-                var color = (Color)e.NewValue;
-                control.UpdateControls(color, true, true, true);
+                return;
             }
+
+            if (control.Updating)
+            {
+                return;
+            }
+
+            var color = (Color)e.NewValue;
+            control.UpdateControls(color, true, true, true);
         }
 
         /// <summary>
@@ -642,8 +631,8 @@ namespace Orc.Controls
         /// <param name="color">The color.</param>
         /// <param name="hsv">The hsv.</param>
         /// <param name="rgb">The rgb.</param>
-        /// <param name="predifined">The predifined.</param>
-        private void UpdateControls(Color color, bool hsv, bool rgb, bool predifined)
+        /// <param name="predefined">The predefined.</param>
+        private void UpdateControls(Color color, bool hsv, bool rgb, bool predefined)
         {
             if (Updating)
             {
@@ -699,7 +688,7 @@ namespace Orc.Controls
                     _textBoxB.SetCurrentValue(TextBox.TextProperty, b.ToString("X2"));
                 }
 
-                if (predifined)
+                if (predefined)
                 {
                     _brushColor.SetCurrentValue(SolidColorBrush.ColorProperty, color);
                     if (_dictionaryColor.ContainsKey(color))
@@ -754,10 +743,9 @@ namespace Orc.Controls
                 return;
             }
 
-            var coloritem = _comboBoxColor.SelectedItem as PredefinedColorItem;
-            if (coloritem != null)
+            if (_comboBoxColor.SelectedItem is PredefinedColorItem colorItem)
             {
-                SetCurrentValue(ColorProperty, coloritem.Color);
+                SetCurrentValue(ColorProperty, colorItem.Color);
             }
         }
 
@@ -780,39 +768,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void sliderA_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (Updating)
-            {
-                return;
-            }
-
-            var color = GetRGBColor();
-            UpdateControls(color, true, true, true);
-        }
-
-        /// <summary>
-        /// The slider b_ value changed.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The e.</param>
-        private void sliderB_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (Updating)
-            {
-                return;
-            }
-
-            var color = GetRGBColor();
-            UpdateControls(color, true, true, true);
-        }
-
-        /// <summary>
-        /// The slider g_ value changed.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The e.</param>
-        private void sliderG_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void OnColorChannelSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (Updating)
             {
@@ -839,22 +795,6 @@ namespace Orc.Controls
 
             var color = GetHSVColor();
             UpdateControls(color, false, true, true);
-        }
-
-        /// <summary>
-        /// The slider r_ value changed.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The e.</param>
-        private void sliderR_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (Updating)
-            {
-                return;
-            }
-
-            var color = GetRGBColor();
-            UpdateControls(color, true, true, true);
         }
 
         /// <summary>

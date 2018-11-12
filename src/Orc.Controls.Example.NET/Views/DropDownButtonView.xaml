@@ -15,7 +15,7 @@
             <TextBlock Text="DropDownButton with default button" VerticalAlignment="Center" Width="350" />
             
             <orccontrols:DropDownButton Header="Action" Height="25" Width="200" 
-                                Command="{Binding DefaultAction}">
+                                        Command="{Binding DefaultAction}">
                 <orccontrols:DropDownButton.DropDown>
                     <ContextMenu>
                         <MenuItem Header="Item 1 veeeery looooooooooong"/>
@@ -47,7 +47,7 @@
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0 0 0 20">
             <TextBlock Text="DropDownButton without default button (ArrowLocation.Right)" VerticalAlignment="Center" Width="350" />
             
-            <orccontrols:DropDownButton Header="Action" Height="25" Width="200" Command="{Binding DefaultAction}" ShowDefaultButton="False">
+            <orccontrols:DropDownButton Header="Action" Height="25" Width="200" Command="{Binding DefaultAction}" ShowDefaultButton="False" IsArrowVisible="False">
                 <orccontrols:DropDownButton.DropDown>
                     <ContextMenu>
                         <MenuItem Header="Item 1 veeeery looooooooooong"/>

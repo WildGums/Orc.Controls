@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="AmPmLongToAmPmShortConverter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -15,7 +15,6 @@ namespace Orc.Controls.Converters
         #region Constructors
         public AmPmLongToAmPmShortConverter()
         {
-
         }
         #endregion
 
@@ -26,36 +25,42 @@ namespace Orc.Controls.Converters
         #region Methods
         protected override object Convert(object value, Type targetType, object parameter)
         {
-            if (IsEnabled && value != null)
+            if (!IsEnabled || value == null)
             {
-                if (string.Equals(value, Meridiems.LongAM))
-                {
-                    return Meridiems.ShortAM;
-                }
-
-                if (string.Equals(value, Meridiems.LongPM))
-                {
-                    return Meridiems.ShortPM;
-                }
+                return value;
             }
-            return value;
+
+            switch (value)
+            {
+                case Meridiems.LongAM:
+                    return Meridiems.ShortAM;
+
+                case Meridiems.LongPM:
+                    return Meridiems.ShortPM;
+
+                default:
+                    return value;
+            }
         }
 
         protected override object ConvertBack(object value, Type targetType, object parameter)
         {
-            if (IsEnabled && value != null)
+            if (!IsEnabled || value == null)
             {
-                if (string.Equals(value, Meridiems.ShortAM))
-                {
-                    return Meridiems.LongAM;
-                }
-
-                if (string.Equals(value, Meridiems.ShortPM))
-                {
-                    return Meridiems.LongPM;
-                }
+                return value;
             }
-            return value;
+
+            switch (value)
+            {
+                case Meridiems.ShortAM:
+                    return Meridiems.LongAM;
+
+                case Meridiems.ShortPM:
+                    return Meridiems.LongPM;
+
+                default:
+                    return value;
+            }
         }
         #endregion
     }

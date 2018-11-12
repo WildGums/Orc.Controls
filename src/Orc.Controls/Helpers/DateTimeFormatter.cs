@@ -1,18 +1,18 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DateTimeFormatter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
 namespace Orc.Controls
 {
-    using Catel;
-    using Catel.Logging;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Catel;
+    using Catel.Logging;
 
     public static class DateTimeFormatter
     {
@@ -57,8 +57,10 @@ namespace Orc.Controls
                 {
                     parts.Add(new KeyValuePair<int, string>(formatInfo.HourPosition.Value, dateTime.Hour.ToString(NumberFormatHelper.GetFormat(formatInfo.HourFormat.Length))));
                 }
+
                 parts.Add(new KeyValuePair<int, string>(formatInfo.MinutePosition.Value, dateTime.Minute.ToString(NumberFormatHelper.GetFormat(formatInfo.MinuteFormat.Length))));
                 parts.Add(new KeyValuePair<int, string>(formatInfo.SecondPosition.Value, dateTime.Second.ToString(NumberFormatHelper.GetFormat(formatInfo.SecondFormat.Length))));
+
                 if (formatInfo.AmPmPosition.HasValue)
                 {
                     parts.Add(new KeyValuePair<int, string>(formatInfo.AmPmPosition.Value, dateTime.Hour >= 12 ? Meridiems.GetPmForFormat(formatInfo) : Meridiems.GetAmForFormat(formatInfo)));
@@ -67,6 +69,11 @@ namespace Orc.Controls
 
             parts = parts.OrderBy(x => x.Key).ToList();
 
+            return BuildFormatString(formatInfo, parts);
+        }
+
+        private static string BuildFormatString(DateTimeFormatInfo formatInfo, List<KeyValuePair<int, string>> parts)
+        {
             // Always contain year, month, day part.
             var builder = new StringBuilder();
             builder.Append(formatInfo.Separator0);

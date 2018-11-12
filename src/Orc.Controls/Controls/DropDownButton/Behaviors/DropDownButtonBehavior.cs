@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DropDownButtonBehavior.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -58,18 +58,20 @@ namespace Orc.Controls.Behavior
         private void OnClick(object sender, RoutedEventArgs e)
         {
             var dropDown = AssociatedObject.DropDown;
-            if (dropDown != null && (AssociatedObject.ToggleButton.IsChecked ?? false))
+            if (dropDown == null || (!(AssociatedObject.ToggleButton.IsChecked ?? false)))
             {
-                dropDown.Dispatcher.BeginInvoke(() =>
-                {
-                    dropDown.SetCurrentValue(System.Windows.Controls.ContextMenu.PlacementTargetProperty, AssociatedObject);
-                    dropDown.SetCurrentValue(System.Windows.Controls.ContextMenu.PlacementProperty, PlacementMode.Custom);
-                    dropDown.SetCurrentValue(FrameworkElement.MinWidthProperty, AssociatedObject.ActualWidth);
-                    dropDown.SetCurrentValue(System.Windows.Controls.ContextMenu.CustomPopupPlacementCallbackProperty, (System.Windows.Controls.Primitives.CustomPopupPlacementCallback)CustomPopupPlacementCallback);
-                });
-
-                dropDown.SetCurrentValue(System.Windows.Controls.ContextMenu.IsOpenProperty, true);
+                return;
             }
+
+            dropDown.Dispatcher.BeginInvoke(() =>
+            {
+                dropDown.SetCurrentValue(System.Windows.Controls.ContextMenu.PlacementTargetProperty, AssociatedObject);
+                dropDown.SetCurrentValue(System.Windows.Controls.ContextMenu.PlacementProperty, PlacementMode.Custom);
+                dropDown.SetCurrentValue(FrameworkElement.MinWidthProperty, AssociatedObject.ActualWidth);
+                dropDown.SetCurrentValue(System.Windows.Controls.ContextMenu.CustomPopupPlacementCallbackProperty, (System.Windows.Controls.Primitives.CustomPopupPlacementCallback)CustomPopupPlacementCallback);
+            });
+
+            dropDown.SetCurrentValue(System.Windows.Controls.ContextMenu.IsOpenProperty, true);
         }
 
         private static CustomPopupPlacement[] CustomPopupPlacementCallback(Size popupSize, Size targetSize, Point offset)

@@ -21,19 +21,19 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
-        <Label>Filter Name</Label>
+        <Label Content="{catel:LanguageBinding ResourceName=Controls_LogViewer_LogFilterEditor_FilterName}"/>
         <TextBox Text="{Binding Name, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"/>
 
-        <Label>Target</Label>
+        <Label Content="{catel:LanguageBinding ResourceName=Controls_LogViewer_LogFilterEditor_Target}"/>
         <ComboBox ItemsSource="{Binding Targets}" SelectedValue="{Binding Target, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"/>
 
-        <Label>Expression Type</Label>
+        <Label Content="{catel:LanguageBinding ResourceName=Controls_LogViewer_LogFilterEditor_ExpressionType}"/>
         <ComboBox ItemsSource="{Binding ExpressionTypes}" SelectedValue="{Binding ExpressionType, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"/>
 
-        <Label>Expression Value</Label>
+        <Label Content="{catel:LanguageBinding ResourceName=Controls_LogViewer_LogFilterEditor_ExpressionValue}"/>
         <TextBox Text="{Binding ExpressionValue, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"/>
 
-        <Label>Action</Label>
+        <Label Content="{catel:LanguageBinding ResourceName=Controls_LogViewer_LogFilterEditor_Action}"/>
         <ComboBox ItemsSource="{Binding Actions}" SelectedValue="{Binding Action, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"/>
     </controls:StackGrid>
     

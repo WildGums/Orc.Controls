@@ -1,9 +1,8 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="BindableRun.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 
 
 #if NET
@@ -27,30 +26,26 @@ namespace Orc.Controls
         private static void OnBoundTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var typedSender = sender as BindableRun;
-            if (typedSender != null)
-            {
-                typedSender.SetCurrentValue(BindableRun.TextProperty, e.NewValue as string);
-            }
+            typedSender?.SetCurrentValue(TextProperty, e.NewValue as string);
         }
         #endregion
 
-        #region Properties
+        #region Dependency properties
         /// <summary>
         /// Wrapper for the BoundText dependency property.
         /// </summary>
         public string BoundText
         {
-            get { return (string) GetValue(BoundTextProperty); }
+            get { return (string)GetValue(BoundTextProperty); }
             set { SetValue(BoundTextProperty, value); }
         }
 
         /// <summary>
         /// DependencyProperty definition as the backing store for BoundText
         /// </summary>
-        public static readonly DependencyProperty BoundTextProperty = DependencyProperty.Register("BoundText", typeof (string),
-            typeof (BindableRun), new UIPropertyMetadata(string.Empty, OnBoundTextChanged));
+        public static readonly DependencyProperty BoundTextProperty = DependencyProperty.Register(nameof(BoundText), typeof(string),
+            typeof(BindableRun), new UIPropertyMetadata(string.Empty, OnBoundTextChanged));
         #endregion
     }
 }
-
 #endif

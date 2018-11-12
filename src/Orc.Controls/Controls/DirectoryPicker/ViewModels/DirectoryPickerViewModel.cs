@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DirectoryPickerViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -15,6 +15,11 @@ namespace Orc.Controls
 
     public class DirectoryPickerViewModel : ViewModelBase
     {
+        #region Fields
+        private readonly IProcessService _processService;
+        private readonly ISelectDirectoryService _selectDirectoryService;
+        #endregion
+
         #region Constructors
         public DirectoryPickerViewModel(ISelectDirectoryService selectDirectoryService, IProcessService processService)
         {
@@ -27,11 +32,6 @@ namespace Orc.Controls
             OpenDirectory = new Command(OnOpenDirectoryExecute, OnOpenDirectoryCanExecute);
             SelectDirectory = new TaskCommand(OnSelectDirectoryExecuteAsync);
         }
-        #endregion
-
-        #region Fields
-        private readonly IProcessService _processService;
-        private readonly ISelectDirectoryService _selectDirectoryService;
         #endregion
 
         #region Properties
@@ -54,12 +54,7 @@ namespace Orc.Controls
         /// <returns><c>true</c> if the command can be executed; otherwise <c>false</c></returns>
         private bool OnOpenDirectoryCanExecute()
         {
-            if (string.IsNullOrWhiteSpace(SelectedDirectory))
-            {
-                return false;
-            }
-
-            return true;
+            return !string.IsNullOrWhiteSpace(SelectedDirectory);
         }
 
         /// <summary>

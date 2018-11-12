@@ -1,15 +1,44 @@
 #l "apps-wpf-variables.cake"
 
-#tool "Squirrel.Windows" 
+#addin "nuget:?package=Cake.Squirrel&version=0.13.0"
+#addin "nuget:?package=MagicChunks&version=2.0.0.119"
+//#addin "nuget:?Cake.AzureStorage&version=0.14.0"
 
-#addin nuget:?package=Cake.Squirrel&version=0.13.0
-#addin nuget:?package=MagicChunks&version=2.0.0.119
+#tool "nuget:?package=Squirrel.Windows&version=1.8.0"
+#tool "nuget:?package=AzureStorageSync&version=2.0.0-alpha0028&prerelease"
+
+//-------------------------------------------------------------
+
+private void ValidateWpfAppsInput()
+{
+    // No validation required (yet)
+}
 
 //-------------------------------------------------------------
 
 private bool HasWpfApps()
 {
-    return WpfApps != null && WpfApps.Length > 0;
+    return WpfApps != null && WpfApps.Count > 0;
+}
+
+//-------------------------------------------------------------
+
+private async Task PrepareForWpfAppsAsync()
+{
+    if (!HasWpfApps())
+    {
+        return;
+    }
+
+    // Check whether projects should be processed, `.ToList()` 
+    // is required to prevent issues with foreach
+    foreach (var wpfApp in WpfApps.ToList())
+    {
+        if (!ShouldProcessProject(wpfApp))
+        {
+            WpfApps.Remove(wpfApp);
+        }
+    }
 }
 
 //-------------------------------------------------------------
@@ -21,7 +50,7 @@ private void UpdateInfoForWpfApps()
         return;
     }
 
-    // No specific implementation required for now    
+    // No specific implementation required for now
 }
 
 //-------------------------------------------------------------
@@ -35,7 +64,7 @@ private void BuildWpfApps()
     
     foreach (var wpfApp in WpfApps)
     {
-        Information("Building WPF app '{0}'", wpfApp);
+        LogSeparator("Building WPF app '{0}'", wpfApp);
 
         var projectFileName = GetProjectFileName(wpfApp);
         
@@ -56,6 +85,20 @@ private void BuildWpfApps()
         msBuildSettings.WithProperty("PackageOutputPath", OutputRootDirectory);
 
         MSBuild(projectFileName, msBuildSettings);
+        
+        Information("Deleting unnecessary files for WPF app '{0}'", wpfApp);
+        
+        var extensionsToDelete = new [] { ".pdb", ".RoslynCA.json" };
+        
+        foreach (var extensionToDelete in extensionsToDelete)
+        {
+            var searchPattern = string.Format("{0}**/*{1}", outputDirectory, extensionToDelete);
+            var filesToDelete = GetFiles(searchPattern);
+
+            Information("Deleting '{0}' files using search pattern '{1}'", filesToDelete.Count, searchPattern);
+            
+            DeleteFiles(filesToDelete);
+        }
     }
 }
 
@@ -70,7 +113,7 @@ private void PackageWpfAppUsingInnoSetup(string wpfApp, string channel)
         return;
     }
 
-    Information("Packaging WPF app '{0}' using Inno Setup", wpfApp);
+    LogSeparator("Packaging WPF app '{0}' using Inno Setup", wpfApp);
 
     var installersOnDeploymentsShare = string.Format("{0}/{1}/installer", DeploymentsShare, wpfApp);
     CreateDirectory(installersOnDeploymentsShare);
@@ -132,7 +175,7 @@ private void PackageWpfAppUsingInnoSetup(string wpfApp, string channel)
         var installerSourceFile = string.Format("{0}/{1}_{2}.exe", innoSetupReleasesRoot, wpfApp, VersionFullSemVer);
         CopyFile(installerSourceFile, string.Format("{0}/{1}_{2}.exe", installersOnDeploymentsShare, wpfApp, VersionFullSemVer));
         CopyFile(installerSourceFile, string.Format("{0}/{1}{2}.exe", installersOnDeploymentsShare, wpfApp, setupPostfix));
-    }   
+    }
 }
 //-------------------------------------------------------------
 
@@ -152,7 +195,7 @@ private void PackageWpfAppUsingSquirrel(string wpfApp, string channel)
         return;
     }
 
-    Information("Packaging WPF app '{0}' using Squirrel", wpfApp);
+    LogSeparator("Packaging WPF app '{0}' using Squirrel", wpfApp);
 
     CreateDirectory(squirrelReleasesRoot);
     CreateDirectory(squirrelOutputIntermediate);
@@ -220,7 +263,7 @@ private void PackageWpfAppUsingSquirrel(string wpfApp, string channel)
         // - [version]-full.nupkg
         // - Setup.exe => Setup.exe & WpfApp.exe
         // - Setup.msi
-        // - RELEASES            
+        // - RELEASES
 
         var squirrelFiles = GetFiles(string.Format("{0}/{1}-{2}*.nupkg", squirrelReleasesRoot, wpfApp, VersionNuGet));
         CopyFiles(squirrelFiles, releasesSourceDirectory);
@@ -228,7 +271,7 @@ private void PackageWpfAppUsingSquirrel(string wpfApp, string channel)
         CopyFile(string.Format("{0}/Setup.exe", squirrelReleasesRoot), string.Format("{0}/{1}.exe", releasesSourceDirectory, wpfApp));
         CopyFile(string.Format("{0}/Setup.msi", squirrelReleasesRoot), string.Format("{0}/Setup.msi", releasesSourceDirectory));
         CopyFile(string.Format("{0}/RELEASES", squirrelReleasesRoot), string.Format("{0}/RELEASES", releasesSourceDirectory));
-    }    
+    }
 }
 
 //-------------------------------------------------------------
@@ -255,9 +298,20 @@ private void PackageWpfApps()
         channels.Add("beta");
         channels.Add("stable");
     }
+    else if (IsBetaBuild)
+    {
+        // Both alpha and beta, since MyApp.beta1 should also be available on the alpha channel
+        channels.Add("alpha");
+        channels.Add("beta");
+    }
+    else if (IsAlphaBuild)
+    {
+        // Single channel
+        channels.Add(Channel);
+    }
     else
     {
-        // Single channel        
+        // Unknown build type, just just a single channel
         channels.Add(Channel);
     }
 
@@ -269,6 +323,54 @@ private void PackageWpfApps()
 
             PackageWpfAppUsingInnoSetup(wpfApp, channel);
             PackageWpfAppUsingSquirrel(wpfApp, channel);
+        }
+    }
+}
+
+//-------------------------------------------------------------
+
+private void DeployWpfApps()
+{
+    if (!HasWpfApps())
+    {
+        return;
+    }
+    
+    var azureConnectionString = AzureDeploymentsStorageConnectionString;
+    if (string.IsNullOrWhiteSpace(azureConnectionString))
+    {
+        Warning("Skipping deployments of WPF apps because not Azure deployments storage connection string was specified");
+        return;
+    }
+    
+    var azureStorageSyncExes = GetFiles("./tools/AzureStorageSync*/**/AzureStorageSync.exe");
+    var azureStorageSyncExe = azureStorageSyncExes.LastOrDefault();
+    if (azureStorageSyncExe == null)
+    {
+        throw new Exception("Can't find the AzureStorageSync tool that should have been installed via this script");
+    }
+
+    foreach (var wpfApp in WpfApps)
+    {
+        if (!ShouldDeployProject(wpfApp))
+        {
+            Information("WPF app '{0}' should not be deployed", wpfApp);
+            continue;
+        }
+        
+        LogSeparator("Deploying WPF app '{0}'", wpfApp);
+
+        //%DeploymentsShare%\%ProjectName% /%ProjectName% -c %AzureDeploymentsStorageConnectionString%
+        var deploymentShare = string.Format("{0}/{1}", DeploymentsShare, wpfApp);
+
+        var exitCode = StartProcess(azureStorageSyncExe, new ProcessSettings
+        {
+            Arguments = string.Format("{0} /{1} -c {2}", deploymentShare, wpfApp, azureConnectionString)
+        });
+
+        if (exitCode != 0)
+        {
+            throw new Exception(string.Format("Received unexpected exit code '{0}' for WPF app '{1}'", exitCode, wpfApp));
         }
     }
 }
@@ -299,4 +401,13 @@ Task("PackageWpfApps")
     .Does(() =>
 {
     PackageWpfApps();
+});
+
+//-------------------------------------------------------------
+
+Task("DeployWpfApps")
+    .IsDependentOn("PackageWpfApps")
+    .Does(() =>
+{
+    DeployWpfApps();
 });

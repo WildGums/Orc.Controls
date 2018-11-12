@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DateTimePartHelper.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -19,8 +19,8 @@ namespace Orc.Controls
     {
         #region Fields
         private readonly DateTime _dateTime;
-        private readonly DateTimePart _dateTimePart;
         private readonly DateTimeFormatInfo _dateTimeFormatInfo;
+        private readonly DateTimePart _dateTimePart;
         private readonly TextBox _textBox;
         private readonly ToggleButton _toggleButton;
         #endregion
@@ -115,14 +115,16 @@ namespace Orc.Controls
         {
             foreach (var item in listBox.Items)
             {
-                if ((((KeyValuePair<string, string>)item).Key) == _textBox.Text)
+                if (((KeyValuePair<string, string>)item).Key != _textBox.Text)
                 {
-                    listBox.SetCurrentValue(Selector.SelectedItemProperty, item);
-                    listBox.ScrollIntoView(listBox.SelectedItem);
-                    listBox.Focus();
-
-                    break;
+                    continue;
                 }
+
+                listBox.SetCurrentValue(Selector.SelectedItemProperty, item);
+                listBox.ScrollIntoView(listBox.SelectedItem);
+                listBox.Focus();
+
+                break;
             }
         }
 
@@ -146,7 +148,7 @@ namespace Orc.Controls
             {
                 ItemsSource = source,
                 IsSynchronizedWithCurrentItem = false,
-                DisplayMemberPath = "Value",
+                DisplayMemberPath = nameof(KeyValuePair<string, string>.Value),
                 Margin = new Thickness(0, 0, 0, 0),
             };
 

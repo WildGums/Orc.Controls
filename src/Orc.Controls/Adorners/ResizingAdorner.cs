@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ResizingAdorner.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -19,24 +19,30 @@ namespace Orc.Controls
 
     public class ResizingAdorner : Adorner
     {
+        #region Constants
         private const string HorizontalOffsetProperty = "HorizontalOffset";
         private const string VerticalOffsetProperty = "VerticalOffset";
         private const double CornerSize = 4d;
+        #endregion
 
-        private readonly Thumb _left;
-        private readonly Thumb _topLeft;
-        private readonly Thumb _top;
-        private readonly Thumb _topRight;
-        private readonly Thumb _right;
-        private readonly Thumb _bottomRight;
+        #region Fields
         private readonly Thumb _bottom;
         private readonly Thumb _bottomLeft;
+        private readonly Thumb _bottomRight;
+
+        private readonly Thumb _left;
+        private readonly Thumb _right;
+        private readonly Thumb _top;
+        private readonly Thumb _topLeft;
+        private readonly Thumb _topRight;
         private readonly VisualCollection _visualChildren;
 
         private bool _hasCanvas;
         private bool _hasHorizontalOffset;
         private bool _hasVerticalOffset;
+        #endregion
 
+        #region Constructors
         private ResizingAdorner(FrameworkElement adornedElement)
             : base(adornedElement)
         {
@@ -51,9 +57,13 @@ namespace Orc.Controls
             BuildAdornerElement(ref _bottom, Cursors.SizeNS);
             BuildAdornerElement(ref _bottomLeft, Cursors.SizeNESW);
         }
+        #endregion
 
+        #region Properties
         protected override int VisualChildrenCount => _visualChildren.Count;
+        #endregion
 
+        #region Methods
         public static ResizingAdorner Attach(FrameworkElement element)
         {
             Argument.IsNotNull(() => element);
@@ -162,7 +172,7 @@ namespace Orc.Controls
             {
                 return;
             }
-            
+
             EnforceSize(adornedElement);
 
             if (UpdateWidthByLeftCornerViaCanvas(left, adornedElement) || UpdateWidthByRightCornerViaCanvas(right, adornedElement))
@@ -440,8 +450,7 @@ namespace Orc.Controls
                 Canvas.SetBottom(adornedElement, adornedElement.Height);
             }
 
-            var parent = adornedElement.Parent as FrameworkElement;
-            if (parent != null)
+            if (adornedElement.Parent is FrameworkElement parent)
             {
                 adornedElement.SetCurrentValue(MaxHeightProperty, parent.ActualHeight);
                 adornedElement.SetCurrentValue(MaxWidthProperty, parent.ActualWidth);
@@ -452,5 +461,6 @@ namespace Orc.Controls
         {
             return _visualChildren[index];
         }
+        #endregion
     }
 }

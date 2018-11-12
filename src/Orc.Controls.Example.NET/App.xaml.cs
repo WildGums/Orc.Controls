@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="App.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -22,8 +22,11 @@ namespace Orc.Controls.Example
     /// </summary>
     public partial class App : Application
     {
+        #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        #endregion
 
+        #region Methods
         protected override void OnStartup(StartupEventArgs e)
         {
             var languageService = ServiceLocator.Default.ResolveType<ILanguageService>();
@@ -35,19 +38,19 @@ namespace Orc.Controls.Example
             languageService.FallbackCulture = new CultureInfo("en-US");
 
             // Some test logging, but important to load the assembly first
-            var externalTypeToForceAssemblyLoad = typeof (LogViewerLogListener);
+            var externalTypeToForceAssemblyLoad = typeof(LogViewerLogListener);
 
             FontImage.RegisterFont("FontAwesome", new FontFamily(new Uri("pack://application:,,,/Orc.Controls.Example.NET;component/Resources/Fonts/", UriKind.RelativeOrAbsolute), "./#FontAwesome"));
 
             FontImage.DefaultFontFamily = "FontAwesome";
 
-
             Log.Info("Starting application");
             Log.Info("This log message should show up as debug");
 
-            this.ApplyTheme();
+            this.ApplyTheme(true);
 
             base.OnStartup(e);
         }
+        #endregion
     }
 }

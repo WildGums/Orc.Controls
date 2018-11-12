@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="IColorLegendItem.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ namespace Orc.Controls
     /// </summary>
     public interface IColorLegendItem : INotifyPropertyChanged
     {
-        #region Public Properties
+        #region Properties
         /// <summary>
         /// Gets or sets a value indicating whether color is visible or not
         /// </summary>
@@ -42,7 +42,6 @@ namespace Orc.Controls
         /// Gets or sets the id.
         /// </summary>
         string Id { get; set; }
-
         #endregion
     }
 }

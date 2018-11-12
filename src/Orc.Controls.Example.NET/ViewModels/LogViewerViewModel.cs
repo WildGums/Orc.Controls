@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="LogViewerViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,13 +14,14 @@ namespace Orc.Controls.Example.ViewModels
     using Catel.Logging;
     using Catel.MVVM;
     using Catel.Threading;
-    using Orc.Controls.ViewModels;
 
     public class LogViewerViewModel : ViewModelBase
     {
         #region Constants
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        #endregion
 
+        #region Fields
         private readonly IApplicationLogFilterGroupService _applicationLogFilterGroupService;
         #endregion
 
@@ -36,9 +37,12 @@ namespace Orc.Controls.Example.ViewModels
         }
         #endregion
 
-        #region Commands
-        public Command AddLogRecords { get; set; }
+        #region Properties
+        public Command AddLogRecords { get; }
+        public TaskCommand TestUnderPressure { get; }
+        #endregion
 
+        #region Methods
         private void OnAddLogRecordsExecute()
         {
             Log.Debug("Single line debug message");
@@ -54,20 +58,20 @@ namespace Orc.Controls.Example.ViewModels
             Log.Error("Multiline error message that include a first line \nand a second line of the message");
         }
 
-        public TaskCommand TestUnderPressure { get; private set; }
-
         private async Task OnTestUnderPressureExecuteAsync()
         {
             await TaskHelper.Run(async () =>
             {
                 var levelIndex = new Random();
-                var events = new List<LogEvent>();
-                events.Add(LogEvent.Debug);
-                events.Add(LogEvent.Info);
-                events.Add(LogEvent.Warning);
-                events.Add(LogEvent.Error);
+                var events = new List<LogEvent>
+                {
+                    LogEvent.Debug,
+                    LogEvent.Info,
+                    LogEvent.Warning,
+                    LogEvent.Error
+                };
 
-                var totalCount = 10000;
+                const int totalCount = 10000;
                 for (var i = 0; i < totalCount; i++)
                 {
                     var logEventIndex = levelIndex.Next(0, events.Count);
@@ -78,20 +82,20 @@ namespace Orc.Controls.Example.ViewModels
                     if (i % 20 == 0)
                     {
                         await Task.Delay(1);
-                    }    
+                    }
                 }
             });
         }
-        #endregion
 
-        #region Methods
         public async Task<List<LogFilterGroup>> GetLogFilterGroupsAsync()
         {
-            var items = new List<LogFilterGroup>();
-            items.Add(new LogFilterGroup
+            var items = new List<LogFilterGroup>
             {
-                Name = "None"
-            });
+                new LogFilterGroup
+                {
+                    Name = "None"
+                }
+            };
 
             items.AddRange(await _applicationLogFilterGroupService.LoadAsync());
 

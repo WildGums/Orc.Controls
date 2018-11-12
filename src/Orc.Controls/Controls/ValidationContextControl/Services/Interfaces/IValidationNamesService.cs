@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="IValidationNamesService.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,10 +12,12 @@ namespace Orc.Controls
 
     public interface IValidationNamesService
     {
+        #region Methods
         string GetDisplayName(IValidationResult validationResult);
         string GetTagName(IValidationResult validationResult);
         int? GetLineNumber(IValidationResult validationResult);
         IEnumerable<IValidationResult> GetCachedResultsByTagName(string tagName);
         void Clear();
+        #endregion
     }
 }

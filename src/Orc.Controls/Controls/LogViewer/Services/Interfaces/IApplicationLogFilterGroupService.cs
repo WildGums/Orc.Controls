@@ -1,8 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IApplicationFilterGroupService.cs" company="WildGums">
+// <copyright file="IApplicationLogFilterGroupService.cs" company="WildGums">
 //   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 
 namespace Orc.Controls
 {
@@ -11,8 +12,10 @@ namespace Orc.Controls
 
     public interface IApplicationLogFilterGroupService
     {
+        #region Methods
         Task<IEnumerable<LogFilterGroup>> LoadAsync();
 
         Task SaveAsync(IEnumerable<LogFilterGroup> filterGroups);
+        #endregion
     }
 }

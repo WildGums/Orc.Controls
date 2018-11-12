@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DateRangePickerViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -8,36 +8,29 @@
 namespace Orc.Controls
 {
     using System;
-    using System.ComponentModel;
+    using System.Collections.ObjectModel;
+    using System.Linq;
     using Catel;
     using Catel.Data;
     using Catel.MVVM;
-    using System.Linq;
-    using System.Collections.ObjectModel;
-    using Catel.Services;
 
     public class DateRangePickerViewModel : ViewModelBase
     {
         #region Fields
+        private DateTime _endDate;
         private bool _isUpdatingRanges;
         private ObservableCollection<DateRange> _ranges;
         private DateRange _selectedRange;
-        private DateTime _startDate;
-        private DateTime _endDate;
         private TimeSpan _span;
-        #endregion
-
-        #region Constructors
-        public DateRangePickerViewModel()
-        {
-
-        }
+        private DateTime _startDate;
         #endregion
 
         #region Properties
+        public TimeAdjustmentStrategy TimeAdjustmentStrategy { get; set; }
+
         public ObservableCollection<DateRange> Ranges
         {
-            get { return _ranges; }
+            get => _ranges;
             set
             {
                 if (_ranges == value)
@@ -45,19 +38,18 @@ namespace Orc.Controls
                     return;
                 }
 
-                _isUpdatingRanges = true;
+                using (StartUpdateRanges())
+                {
+                    _ranges = value;
 
-                _ranges = value;
-
-                RaisePropertyChanged(nameof(Ranges));
-
-                _isUpdatingRanges = false;
+                    RaisePropertyChanged(nameof(Ranges));
+                }
             }
         }
 
         public DateRange SelectedRange
         {
-            get { return _selectedRange; }
+            get => _selectedRange;
             set
             {
                 if (_isUpdatingRanges)
@@ -76,7 +68,7 @@ namespace Orc.Controls
 
         public DateTime StartDate
         {
-            get { return _startDate; }
+            get => _startDate;
             set
             {
                 if (UpdateStartDate(_startDate, new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second)))
@@ -88,7 +80,7 @@ namespace Orc.Controls
 
         public DateTime EndDate
         {
-            get { return _endDate; }
+            get => _endDate;
             set
             {
                 if (UpdateEndDate(_endDate, new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second)))
@@ -100,7 +92,7 @@ namespace Orc.Controls
 
         public TimeSpan Span
         {
-            get { return _span; }
+            get => _span;
             set
             {
                 if (UpdateSpan(_span, value))
@@ -112,27 +104,49 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
+        protected override void OnValidating(IValidationContext validationContext)
+        {
+            if (EndDate < StartDate)
+            {
+                validationContext.Add(FieldValidationResult.CreateError(nameof(EndDate),
+                    LanguageHelper.GetString("Controls_DateRangePicker_EndDate_NotLess_StartDate_Validation")));
+            }
+
+            if (Span < TimeSpan.Zero)
+            {
+                validationContext.Add(FieldValidationResult.CreateError(nameof(Span),
+                    LanguageHelper.GetString("Controls_DateRangePicker_Duration_NotLess_Zero_Validation")));
+            }
+        }
+
         private void OnSelectedRangeChanged()
         {
             RemoveTemporaryRanges();
 
-            if (_selectedRange != null)
+            if (_selectedRange == null)
             {
-                var currentStartDate = _startDate;
-                var currentEndDate = _endDate;
-                var currentSpan = _span;
-                var newStartDate = _selectedRange.Start;
-                var newEndDate = _selectedRange.End;
-                var newSpan = newEndDate.Subtract(newStartDate);
-
-                UpdateStartDate(currentStartDate, newStartDate);
-                UpdateEndDate(currentEndDate, newEndDate);
-                UpdateSpan(currentSpan, newSpan);
+                return;
             }
+
+            var currentStartDate = _startDate;
+            var currentEndDate = _endDate;
+            var currentSpan = _span;
+            var newStartDate = _selectedRange.Start;
+            var newEndDate = _selectedRange.End;
+            var newSpan = newEndDate.Subtract(newStartDate);
+
+            UpdateStartDate(currentStartDate, newStartDate);
+            UpdateEndDate(currentEndDate, newEndDate);
+            UpdateSpan(currentSpan, newSpan);
         }
 
         private void OnStartDateChanged()
         {
+            if (TimeAdjustmentStrategy == TimeAdjustmentStrategy.AdjustEndTime)
+            {
+                UpdateEndDate(EndDate, StartDate + Span);
+            }
+
             UpdateAfterDatesHaveChanged();
         }
 
@@ -173,86 +187,99 @@ namespace Orc.Controls
 
         private bool UpdateSelectedRange(DateRange currentSelectedDateRange, DateRange newSelectedDateRange)
         {
-            if (currentSelectedDateRange != newSelectedDateRange)
+            if (currentSelectedDateRange == newSelectedDateRange)
             {
-                _selectedRange = newSelectedDateRange;
-                RaisePropertyChanged(nameof(SelectedRange));
-
-                return true;
+                return false;
             }
 
-            return false;
+            _selectedRange = newSelectedDateRange;
+            RaisePropertyChanged(nameof(SelectedRange));
+
+            return true;
         }
 
         private bool UpdateStartDate(DateTime currentStartDate, DateTime newStartDate)
         {
-            if (currentStartDate != newStartDate)
+            if (currentStartDate == newStartDate)
             {
-                _startDate = newStartDate;
-                RaisePropertyChanged(nameof(StartDate));
-
-                return true;
+                return false;
             }
 
-            return false;
+            _startDate = newStartDate;
+            RaisePropertyChanged(nameof(StartDate));
+
+            return true;
         }
 
         private bool UpdateEndDate(DateTime currentEndDate, DateTime newEndDate)
         {
-            if (currentEndDate != newEndDate)
+            if (currentEndDate == newEndDate)
             {
-                _endDate = newEndDate;
-                RaisePropertyChanged(nameof(EndDate));
-
-                return true;
+                return false;
             }
 
-            return false;
+            _endDate = newEndDate;
+            RaisePropertyChanged(nameof(EndDate));
+
+            return true;
         }
 
         private bool UpdateSpan(TimeSpan currentSpan, TimeSpan newSpan)
         {
-            if (currentSpan != newSpan)
+            if (currentSpan == newSpan)
             {
-                _span = newSpan;
-                RaisePropertyChanged(nameof(Span));
-
-                return true;
+                return false;
             }
 
-            return false;
+            _span = newSpan;
+            RaisePropertyChanged(nameof(Span));
+
+            return true;
         }
 
         private DateRange AddTemporaryRange()
         {
-            if (_ranges != null)
+            if (_ranges == null)
             {
-                var temporaryRange = new DateRange()
-                {
-                    Name = LanguageHelper.GetString("Controls_DateRangePicker_Custom"),
-                    Start = _startDate,
-                    End = _endDate,
-                    IsTemporary = true
-                };
-
-                _ranges.Add(temporaryRange);
-
-                return temporaryRange;
+                return null;
             }
 
-            return null;
+            var selectedRange = Ranges?.FirstOrDefault(x => x.Start == _startDate && x.End == _endDate);
+            if (!(selectedRange is null))
+            {
+                return selectedRange;
+            }
+
+            var temporaryRange = new DateRange()
+            {
+                Name = LanguageHelper.GetString("Controls_DateRangePicker_Custom"),
+                Start = _startDate,
+                End = _endDate,
+                IsTemporary = true
+            };
+
+            _ranges.Add(temporaryRange);
+
+            return temporaryRange;
         }
 
         private void RemoveTemporaryRanges()
         {
-            if (_ranges != null)
+            if (_ranges == null)
             {
-                var oldCustomRanges = _ranges.Where(x => x.IsTemporary).ToList();
-                foreach (var oldCustomRange in oldCustomRanges)
-                {
-                    _ranges.Remove(oldCustomRange);
-                }
+                return;
             }
+
+            var oldCustomRanges = _ranges.Where(x => x.IsTemporary).ToList();
+            foreach (var oldCustomRange in oldCustomRanges)
+            {
+                _ranges.Remove(oldCustomRange);
+            }
+        }
+
+        private IDisposable StartUpdateRanges()
+        {
+            return new DisposableToken<DateRangePickerViewModel>(this, x => x.Instance._isUpdatingRanges = true, x => x.Instance._isUpdatingRanges = false);
         }
         #endregion
     }

@@ -1,8 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogFilterGroupListControl.cs" company="WildGums">
+// <copyright file="LogFilterGroupList.xaml.cs" company="WildGums">
 //   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 
 namespace Orc.Controls
 {
@@ -11,15 +12,18 @@ namespace Orc.Controls
 
     public partial class LogFilterGroupList
     {
+        #region Fields
         private LogFilterGroupListViewModel _lastKnownViewModel;
+        #endregion
 
+        #region Constructors
         public LogFilterGroupList()
         {
             InitializeComponent();
         }
+        #endregion
 
-        public event EventHandler<EventArgs> Updated;
-
+        #region Methods
         protected override void OnViewModelChanged()
         {
             base.OnViewModelChanged();
@@ -41,5 +45,8 @@ namespace Orc.Controls
         {
             Updated.SafeInvoke(this);
         }
+        #endregion
+
+        public event EventHandler<EventArgs> Updated;
     }
 }

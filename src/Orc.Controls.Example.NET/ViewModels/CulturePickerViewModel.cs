@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CulturePickerViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -16,18 +16,26 @@ namespace Orc.Controls.Example.ViewModels
 
     public class CulturePickerViewModel : ViewModelBase
     {
+        #region Fields
         private readonly IMessageService _messageService;
 
+        private bool _isInitializing;
+        #endregion
+
+        #region Constructors
         public CulturePickerViewModel(IMessageService messageService)
         {
             Argument.IsNotNull(() => messageService);
 
             _messageService = messageService;
         }
+        #endregion
 
+        #region Properties
         public CultureInfo Culture { get; set; }
+        #endregion
 
-        private bool _isInitializing;
+        #region Methods
         protected override Task InitializeAsync()
         {
             _isInitializing = true;
@@ -38,7 +46,7 @@ namespace Orc.Controls.Example.ViewModels
             finally
             {
                 _isInitializing = false;
-            }            
+            }
 
             return TaskHelper.Completed;
         }
@@ -54,5 +62,6 @@ namespace Orc.Controls.Example.ViewModels
 
             await _messageService.ShowAsync($"Selected culture {Culture.EnglishName}");
         }
+        #endregion
     }
 }

@@ -11,14 +11,6 @@ namespace Orc.Controls
     using System.Windows.Controls;
     using System.Windows.Media;
 
-    public enum ExpandDirection
-    {
-        Down = 0,
-        Up = 1,
-        Left = 2,
-        Right = 3,
-    }
-
     public class Expander : HeaderedContentControl
     {
         #region Fields
@@ -39,7 +31,8 @@ namespace Orc.Controls
             set { SetValue(IsExpandedProperty, value); }
         }
 
-        public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register("IsExpanded", typeof (bool), typeof (Expander), new PropertyMetadata(false, OnIsExpandedChanged));
+        public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(nameof(IsExpanded), 
+            typeof (bool), typeof (Expander), new PropertyMetadata(false, OnIsExpandedChanged));
 
         public ExpandDirection ExpandDirection
         {
@@ -47,7 +40,8 @@ namespace Orc.Controls
             set { SetValue(ExpandDirectionProperty, value); }
         }
 
-        public static readonly DependencyProperty ExpandDirectionProperty = DependencyProperty.Register("ExpandDirection", typeof (ExpandDirection), typeof (Expander), new PropertyMetadata(ExpandDirection.Left));
+        public static readonly DependencyProperty ExpandDirectionProperty = DependencyProperty.Register(nameof(ExpandDirection),
+            typeof (ExpandDirection), typeof (Expander), new PropertyMetadata(ExpandDirection.Left));
 
         public bool AutoResizeGrid
         {
@@ -55,21 +49,29 @@ namespace Orc.Controls
             set { SetValue(AutoResizeGridProperty, value); }
         }
 
-        public static readonly DependencyProperty AutoResizeGridProperty = DependencyProperty.Register("AutoResizeGrid", typeof (bool), typeof (Expander), new PropertyMetadata(false));
+        public static readonly DependencyProperty AutoResizeGridProperty = DependencyProperty.Register(nameof(AutoResizeGrid),
+            typeof (bool), typeof (Expander), new PropertyMetadata(false));
 
+        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
         public Brush AccentColorBrush
         {
             get { return (Brush) GetValue(AccentColorBrushProperty); }
             set { SetValue(AccentColorBrushProperty, value); }
         }
 
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof (Brush), typeof (Expander), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((Expander) sender).OnAccentColorBrushChanged()));
+        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), 
+            typeof (Brush), typeof (Expander), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((Expander) sender).OnAccentColorBrushChanged()));
         #endregion
 
         #region Methods
         private static void OnIsExpandedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var expander = d as Expander;
+            if (!(d is Expander expander))
+            {
+                return;
+            }
+
             if ((bool) e.NewValue)
             {
                 expander.OnExpanded();
@@ -87,8 +89,7 @@ namespace Orc.Controls
                 return;
             }
 
-            var grid = Parent as Grid;
-            if (grid == null)
+            if (!(Parent is Grid grid))
             {
                 return;
             }
@@ -133,8 +134,7 @@ namespace Orc.Controls
                 return;
             }
 
-            var grid = Parent as Grid;
-            if (grid == null)
+            if (!(Parent is Grid grid))
             {
                 return;
             }
@@ -185,11 +185,10 @@ namespace Orc.Controls
 
         private void OnAccentColorBrushChanged()
         {
-            var solidColorBrush = AccentColorBrush as SolidColorBrush;
-            if (solidColorBrush != null)
+            if (AccentColorBrush is SolidColorBrush brush)
             {
-                var accentColor = ((SolidColorBrush) AccentColorBrush).Color;
-                accentColor.CreateAccentColorResourceDictionary("Expander");
+                var accentColor = brush.Color;
+                accentColor.CreateAccentColorResourceDictionary(nameof(Expander));
             }
         }
 

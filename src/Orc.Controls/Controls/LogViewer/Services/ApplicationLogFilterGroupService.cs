@@ -1,8 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ApplicationFilterGroupService.cs" company="WildGums">
+// <copyright file="ApplicationLogFilterGroupService.cs" company="WildGums">
 //   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 
 namespace Orc.Controls
 {
@@ -10,25 +11,26 @@ namespace Orc.Controls
     using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
-
     using Catel;
     using Catel.Collections;
     using Catel.Logging;
     using Catel.Runtime.Serialization.Xml;
-
-    using Orc.Controls.Services;
-    using Orc.FileSystem;
+    using FileSystem;
 
     public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupService
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-
+        #region Constants
         private const string LogFilterGroupsConfigFile = "LogFilterGroups.xml";
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        #endregion
 
-        private readonly IXmlSerializer _xmlSerializer;
-
+        #region Fields
         private readonly IFileService _fileService;
 
+        private readonly IXmlSerializer _xmlSerializer;
+        #endregion
+
+        #region Constructors
         public ApplicationLogFilterGroupService(IFileService fileService, IXmlSerializer xmlSerializer)
         {
             Argument.IsNotNull(() => xmlSerializer);
@@ -37,24 +39,28 @@ namespace Orc.Controls
             _xmlSerializer = xmlSerializer;
             _fileService = fileService;
         }
+        #endregion
 
+        #region IApplicationLogFilterGroupService Members
         public async Task<IEnumerable<LogFilterGroup>> LoadAsync()
         {
             var applicationDataDirectory = Catel.IO.Path.GetApplicationDataDirectory();
             var configFile = Path.Combine(applicationDataDirectory, LogFilterGroupsConfigFile);
-            if (_fileService.Exists(configFile))
+            if (!_fileService.Exists(configFile))
             {
-                try
+                return ArrayShim.Empty<LogFilterGroup>();
+            }
+
+            try
+            {
+                using (var stream = _fileService.OpenRead(configFile))
                 {
-                    using (var stream = _fileService.OpenRead(configFile))
-                    {
-                        return (LogFilterGroup[]) _xmlSerializer.Deserialize(typeof(LogFilterGroup[]), stream);
-                    }
+                    return (LogFilterGroup[])_xmlSerializer.Deserialize(typeof(LogFilterGroup[]), stream);
                 }
-                catch (Exception ex)
-                {
-                    Log.Error(ex);
-                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
             }
 
             return ArrayShim.Empty<LogFilterGroup>();
@@ -76,5 +82,6 @@ namespace Orc.Controls
                 Log.Error(ex);
             }
         }
+        #endregion
     }
 }

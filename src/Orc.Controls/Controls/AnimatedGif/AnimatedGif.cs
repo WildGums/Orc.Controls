@@ -80,10 +80,7 @@ namespace Orc.Controls
         private static void OnGifSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var typedSender = sender as AnimatedGif;
-            if (typedSender != null)
-            {
-                typedSender.SetImageGifSource();
-            }
+            typedSender?.SetImageGifSource();
         }
 
         /// <summary>
@@ -126,7 +123,7 @@ namespace Orc.Controls
                     if (_bitmap == null)
                     {
                         // Get entry assembly
-                        assemblyToSearch = Catel.Reflection.AssemblyHelper.GetEntryAssembly();
+                        assemblyToSearch = AssemblyHelper.GetEntryAssembly();
                         _bitmap = GetBitmapResourceFromAssembly(assemblyToSearch);
                         if (_bitmap == null)
                         {
@@ -152,22 +149,24 @@ namespace Orc.Controls
         private Bitmap GetBitmapResourceFromAssembly(Assembly assemblyToSearch)
         {
             // Loop through all resources
-            if (assemblyToSearch.FullName != null)
+            if (assemblyToSearch.FullName == null)
             {
-                try
+                return null;
+            }
+
+            try
+            {
+                // Get stream resource info
+                var streamResourceInfo = Application.GetResourceStream(new Uri(GifSource, UriKind.RelativeOrAbsolute));
+                if (streamResourceInfo != null)
                 {
-                    // Get stream resource info
-                    var streamResourceInfo = Application.GetResourceStream(new Uri(GifSource, UriKind.RelativeOrAbsolute));
-                    if (streamResourceInfo != null)
-                    {
-                        return (Bitmap)Image.FromStream(streamResourceInfo.Stream);
-                    }
+                    return (Bitmap)Image.FromStream(streamResourceInfo.Stream);
                 }
-                catch (IOException)
-                {
-                    // IOException when not existent URI path.
-                    return null;
-                }
+            }
+            catch (IOException)
+            {
+                // IOException when not existent URI path.
+                return null;
             }
 
             return null;

@@ -1,15 +1,14 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogFilterViewModel.cs" company="WildGums">
+// <copyright file="LogFilterGroupEditorViewModel.cs" company="WildGums">
 //   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+
 namespace Orc.Controls
 {
     using System.Collections.ObjectModel;
-    using System.ComponentModel;
     using System.Threading.Tasks;
-
     using Catel;
     using Catel.Data;
     using Catel.MVVM;
@@ -17,9 +16,12 @@ namespace Orc.Controls
 
     public class LogFilterGroupEditorViewModel : ViewModelBase
     {
+        #region Fields
         private readonly IMessageService _messageService;
         private readonly IUIVisualizerService _uiVisualizerService;
+        #endregion
 
+        #region Constructors
         public LogFilterGroupEditorViewModel(LogFilterGroup logFilterGroup, IMessageService messageService,
             IUIVisualizerService uiVisualizerService)
         {
@@ -34,15 +36,15 @@ namespace Orc.Controls
             AddCommand = new TaskCommand(OnAddCommandExecuteAsync);
             EditCommand = new TaskCommand(OnEditCommandExecuteAsync, OnEditCommandCanExecute);
             RemoveCommand = new TaskCommand(OnRemoveCommandExecuteAsync, OnRemoveCommandCanExecute);
-
-            Title = "Log Filter Group Editor";
         }
+        #endregion
+
+        #region Properties
+        public override string Title => LanguageHelper.GetString("Controls_LogViewer_LogFilterGroupEditor_Title");
 
         public TaskCommand AddCommand { get; }
-
         public TaskCommand EditCommand { get; }
-
-        public TaskCommand RemoveCommand { get; set; }
+        public TaskCommand RemoveCommand { get; }
 
         [Model]
         public LogFilterGroup LogFilterGroup { get; set; }
@@ -54,15 +56,18 @@ namespace Orc.Controls
         public string Name { get; set; }
 
         public LogFilter SelectedLogFilter { get; set; }
+        #endregion
 
+        #region Methods
         protected override void OnValidating(IValidationContext validationContext)
         {
             if (string.IsNullOrWhiteSpace(Name))
             {
-                validationContext.Add(FieldValidationResult.CreateError(nameof(Name), "'Name' for the LogFilterGroup is required"));
+                validationContext.Add(FieldValidationResult.CreateError(nameof(Name),
+                    LanguageHelper.GetString("Controls_LogViewer_LogFilterGroupEditor_NameForTheLogFilterGroupIsRequired")));
             }
         }
-        
+
         private async Task OnAddCommandExecuteAsync()
         {
             var logFilter = new LogFilter();
@@ -96,7 +101,8 @@ namespace Orc.Controls
 
         private async Task OnRemoveCommandExecuteAsync()
         {
-            var result = await _messageService.ShowAsync("Are you sure?", button: MessageButton.YesNo, icon: MessageImage.Warning);
+            var result = await _messageService.ShowAsync(LanguageHelper.GetString("Controls_LogViewer_AreYouSure"),
+                button: MessageButton.YesNo, icon: MessageImage.Warning);
             if (result == MessageResult.Yes)
             {
                 LogFilterGroup.LogFilters.Remove(SelectedLogFilter);
@@ -105,5 +111,6 @@ namespace Orc.Controls
                 Validate(true);
             }
         }
+        #endregion
     }
 }

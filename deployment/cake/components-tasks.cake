@@ -4,9 +4,84 @@
 
 //-------------------------------------------------------------
 
+private string GetComponentNuGetRepositoryUrl(string projectName)
+{
+    // Allow per project overrides via "NuGetRepositoryUrlFor[ProjectName]"
+    return GetProjectSpecificConfigurationValue(projectName, "NuGetRepositoryUrlFor", NuGetRepositoryUrl);
+}
+
+//-------------------------------------------------------------
+
+private string GetComponentNuGetRepositoryApiKey(string projectName)
+{
+    // Allow per project overrides via "NuGetRepositoryApiKeyFor[ProjectName]"
+    return GetProjectSpecificConfigurationValue(projectName, "NuGetRepositoryApiKeyFor", NuGetRepositoryApiKey);
+}
+
+//-------------------------------------------------------------
+
+private void ValidateComponentsInput()
+{
+    // No validation required (yet)
+}
+
+//-------------------------------------------------------------
+
 private bool HasComponents()
 {
-    return Components != null && Components.Length > 0;
+    return Components != null && Components.Count > 0;
+}
+
+//-------------------------------------------------------------
+
+private async Task PrepareForComponentsAsync()
+{
+    if (!HasComponents())
+    {
+        return;
+    }
+
+    // Check whether projects should be processed, `.ToList()` 
+    // is required to prevent issues with foreach
+    foreach (var component in Components.ToList())
+    {
+        if (!ShouldProcessProject(component))
+        {
+            Components.Remove(component);
+        }
+    }
+
+    if (IsLocalBuild && Target.ToLower().Contains("packagelocal"))
+    {
+        foreach (var component in Components)
+        {
+            var cacheDirectory = Environment.ExpandEnvironmentVariables(string.Format("%userprofile%/.nuget/packages/{0}/{1}", component, VersionNuGet));
+
+            Information("Checking for existing local NuGet cached version at '{0}'", cacheDirectory);
+
+            var retryCount = 3;
+
+            while (retryCount > 0)
+            {
+                if (!DirectoryExists(cacheDirectory))
+                {
+                    break;
+                }
+
+                Information("Deleting already existing NuGet cached version from '{0}'", cacheDirectory);
+                
+                DeleteDirectory(cacheDirectory, new DeleteDirectorySettings()
+                {
+                    Force = true,
+                    Recursive = true
+                });
+
+                await System.Threading.Tasks.Task.Delay(1000);
+
+                retryCount--;
+            }            
+        }
+    }
 }
 
 //-------------------------------------------------------------
@@ -42,7 +117,7 @@ private void BuildComponents()
     
     foreach (var component in Components)
     {
-        Information("Building component '{0}'", component);
+        LogSeparator("Building component '{0}'", component);
 
         var projectFileName = GetProjectFileName(component);
         
@@ -62,8 +137,12 @@ private void BuildComponents()
         msBuildSettings.WithProperty("OverridableOutputPath", outputDirectory);
         msBuildSettings.WithProperty("PackageOutputPath", OutputRootDirectory);
 
-        // TODO: Enable GitLink / SourceLink, see RepositoryUrl, RepositoryBranchName, RepositoryCommitId variables
-
+        // SourceLink specific stuff
+        msBuildSettings.WithProperty("PublishRepositoryUrl", "true");
+        
+        // For SourceLink to work, the .csproj should contain something like this:
+        // <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02 " PrivateAssets="all" />
+        
         MSBuild(projectFileName, msBuildSettings);
     }
 }
@@ -79,7 +158,7 @@ private void PackageComponents()
 
     foreach (var component in Components)
     {
-        Information("Packaging component '{0}'", component);
+        LogSeparator("Packaging component '{0}'", component);
 
         var projectFileName = string.Format("./src/{0}/{0}.csproj", component);
 
@@ -146,6 +225,8 @@ private void PackageComponents()
 
             MSBuild(projectFileName, msBuildSettings);
         }
+        
+        LogSeparator();
     }
 
     var codeSign = (!IsCiBuild && !string.IsNullOrWhiteSpace(CodeSignCertificateSubjectName));
@@ -166,6 +247,42 @@ private void PackageComponents()
 
             Information("Signing NuGet package exited with '{0}'", exitCode);
         }
+    }
+}
+
+//-------------------------------------------------------------
+
+private void DeployComponents()
+{
+    if (!HasComponents())
+    {
+        return;
+    }
+
+    foreach (var component in Components)
+    {
+        if (!ShouldDeployProject(component))
+        {
+            Information("Component '{0}' should not be deployed", component);
+            continue;
+        }
+
+        LogSeparator("Deploying component '{0}'", component);
+
+        var packageToPush = string.Format("{0}/{1}.{2}.nupkg", OutputRootDirectory, component, VersionNuGet);
+        var nuGetRepositoryUrl = GetComponentNuGetRepositoryUrl(component);
+        var nuGetRepositoryApiKey = GetComponentNuGetRepositoryApiKey(component);
+
+        if (string.IsNullOrWhiteSpace(nuGetRepositoryUrl))
+        {
+            throw new Exception("NuGet repository is empty, as a protection mechanism this must *always* be specified to make sure packages aren't accidentally deployed to the default public NuGet feed");
+        }
+
+        NuGetPush(packageToPush, new NuGetPushSettings
+        {
+            Source = nuGetRepositoryUrl,
+            ApiKey = nuGetRepositoryApiKey
+        });
     }
 }
 
@@ -195,4 +312,13 @@ Task("PackageComponents")
     .Does(() =>
 {
     PackageComponents();
+});
+
+//-------------------------------------------------------------
+
+Task("DeployComponents")
+    .IsDependentOn("PackageComponents")
+    .Does(() =>
+{
+    DeployComponents();
 });

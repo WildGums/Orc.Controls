@@ -1,22 +1,21 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="BooleanAndToCollapsingVisibilityMultiValueConverter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Markup;
-
 namespace Orc.Controls.Converters
 {
+    using System;
+    using System.Globalization;
+    using System.Windows;
+    using System.Windows.Data;
+    using System.Windows.Markup;
+
     public class BooleanAndToCollapsingVisibilityMultiValueConverter : MarkupExtension, IMultiValueConverter
     {
+        #region IMultiValueConverter Members
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             foreach (var obj in values)
@@ -25,7 +24,7 @@ namespace Orc.Controls.Converters
                 {
                     return Visibility.Collapsed;
                 }
-                else if(!(bool)obj)
+                else if (!(bool)obj)
                 {
                     return Visibility.Collapsed;
                 }
@@ -39,10 +38,13 @@ namespace Orc.Controls.Converters
             // Not supported (and IMultiValueConverter must return null if no conversion is supported)
             return null;
         }
+        #endregion
 
+        #region Methods
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             return this;
         }
+        #endregion
     }
 }

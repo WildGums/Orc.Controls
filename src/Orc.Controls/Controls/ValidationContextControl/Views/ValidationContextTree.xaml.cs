@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ValidationContextTree.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,6 +14,7 @@ namespace Orc.Controls
 
     internal sealed partial class ValidationContextTree
     {
+        #region Constructors
         static ValidationContextTree()
         {
             typeof(ValidationContextTree).AutoDetectViewPropertiesToSubscribe();
@@ -23,6 +24,7 @@ namespace Orc.Controls
         {
             InitializeComponent();
         }
+        #endregion
 
         #region Dependency properties
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
@@ -33,7 +35,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ValidationContextProperty = DependencyProperty.Register(
-            "ValidationContext", typeof(IValidationContext), typeof(ValidationContextTree), new PropertyMetadata(null));
+            nameof(ValidationContext), typeof(IValidationContext), typeof(ValidationContextTree), new PropertyMetadata(null));
 
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
@@ -44,7 +46,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ShowErrorsProperty = DependencyProperty.Register(
-            "ShowErrors", typeof(bool), typeof(ValidationContextTree), new PropertyMetadata(true));
+            nameof(ShowErrors), typeof(bool), typeof(ValidationContextTree), new PropertyMetadata(true));
 
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
@@ -55,7 +57,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ShowWarningsProperty = DependencyProperty.Register(
-            "ShowWarnings", typeof(bool), typeof(ValidationContextTree), new PropertyMetadata(true));
+            nameof(ShowWarnings), typeof(bool), typeof(ValidationContextTree), new PropertyMetadata(true));
 
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
@@ -66,7 +68,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty FilterProperty = DependencyProperty.Register(
-            "Filter", typeof(string), typeof(ValidationContextTree), new PropertyMetadata(default(string)));
+            nameof(Filter), typeof(string), typeof(ValidationContextTree), new PropertyMetadata(default(string)));
 
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewModelToView)]
@@ -77,17 +79,18 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty NodesProperty = DependencyProperty.Register(
-            "Nodes", typeof(IEnumerable<IValidationContextTreeNode>), typeof(ValidationContextTree), new PropertyMetadata(default(IEnumerable<IValidationContextTreeNode>)));        
+            nameof(Nodes), typeof(IEnumerable<IValidationContextTreeNode>), typeof(ValidationContextTree), new PropertyMetadata(default(IEnumerable<IValidationContextTreeNode>)));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
         public bool IsExpandedByDefault
         {
-            get { return (bool) GetValue(IsExpandedByDefaultProperty); }
+            get { return (bool)GetValue(IsExpandedByDefaultProperty); }
             set { SetValue(IsExpandedByDefaultProperty, value); }
         }
 
         public static readonly DependencyProperty IsExpandedByDefaultProperty = DependencyProperty.Register(
-            "IsExpandedByDefault", typeof(bool), typeof(ValidationContextTree), new PropertyMetadata(true));
-        #endregion        
+            nameof(IsExpandedByDefault), typeof(bool), typeof(ValidationContextTree), new PropertyMetadata(true));
+
+        #endregion
     }
 }

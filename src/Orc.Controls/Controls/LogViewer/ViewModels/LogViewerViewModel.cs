@@ -1,15 +1,15 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="LogViewerViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 
 namespace Orc.Controls.ViewModels
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
     using System.Linq;
     using System.Threading.Tasks;
     using Catel;
@@ -23,26 +23,26 @@ namespace Orc.Controls.ViewModels
     public class LogViewerViewModel : ViewModelBase
     {
         #region Constants
-        private const string DefaultComboBoxItem = "-- Select type name --";
+        private readonly string _defaultComboBoxItem = LanguageHelper.GetString("Controls_LogViewer_SelectTypeName");
         #endregion
 
         #region Fields
-        private ILogListener _logListener;
-        private bool _isViewModelActive;
-
-        private readonly ITypeFactory _typeFactory;
-        private readonly IDispatcherService _dispatcherService;
         private readonly IApplicationLogFilterGroupService _applicationLogFilterGroupService;
-        private readonly LogViewerLogListener _logViewerLogListener;
+        private readonly IDispatcherService _dispatcherService;
+
+        private readonly object _lock = new object();
 
         private readonly FastObservableCollection<LogEntry> _logEntries = new FastObservableCollection<LogEntry>();
-        private readonly Timer _timer;
+        private readonly LogViewerLogListener _logViewerLogListener;
         private readonly Queue<LogEntry> _queuedEntries = new Queue<LogEntry>();
+        private readonly Timer _timer;
+
+        private readonly ITypeFactory _typeFactory;
 
         private bool _hasInitializedFirstLogListener;
         private bool _isClearingLog;
-
-        private readonly object _lock = new object();
+        private bool _isViewModelActive;
+        private ILogListener _logListener;
         #endregion
 
         #region Constructors
@@ -68,7 +68,7 @@ namespace Orc.Controls.ViewModels
 
             var typeNames = new FastObservableCollection<string>
             {
-                DefaultComboBoxItem
+                _defaultComboBoxItem
             };
 
             TypeNames = typeNames;
@@ -76,53 +76,6 @@ namespace Orc.Controls.ViewModels
             ResetEntriesCount();
         }
         #endregion
-
-        #region Events
-        public event EventHandler<LogEntryEventArgs> LogMessage;
-
-        public event EventHandler<EventArgs> ActiveFilterGroupChanged;
-        #endregion
-
-        public void ClearEntries()
-        {
-            _isClearingLog = true;
-
-            // Note: we need to dispatch because the FastObservableCollection automatically dispatches (which is a good thing
-            // when coming from a background thread). However... the ReplaceRange will be executed *outside* the lock
-            // which is not good. So the lock is inside the dispatcher handler, and we manually dispatcher here.
-            // Note: don't use BeginInvoke here because we need to wait until action will be processed
-            _dispatcherService.Invoke(() =>
-            {
-                lock (_lock)
-                {
-                    using (_logEntries.SuspendChangeNotifications())
-                    {
-                        _logEntries.Clear();
-
-                        var typeNames = TypeNames;
-                        if (typeNames != null)
-                        {
-                            using (typeNames.SuspendChangeNotifications())
-                            {
-                                typeNames.ReplaceRange(new[] { DefaultComboBoxItem });
-                            }
-                        }
-                    }
-                }
-
-                ResetEntriesCount();
-
-                _isClearingLog = false;
-            }, false);
-        }
-
-        private void ResetEntriesCount()
-        {
-            DebugEntriesCount = 0;
-            InfoEntriesCount = 0;
-            WarningEntriesCount = 0;
-            ErrorEntriesCount = 0;
-        }
 
         #region Properties
         public ObservableCollection<LogEntry> LogEntries
@@ -161,6 +114,47 @@ namespace Orc.Controls.ViewModels
         #endregion
 
         #region Methods
+        public void ClearEntries()
+        {
+            _isClearingLog = true;
+
+            // Note: we need to dispatch because the FastObservableCollection automatically dispatches (which is a good thing
+            // when coming from a background thread). However... the ReplaceRange will be executed *outside* the lock
+            // which is not good. So the lock is inside the dispatcher handler, and we manually dispatcher here.
+            // Note: don't use BeginInvoke here because we need to wait until action will be processed
+            _dispatcherService.Invoke(() =>
+            {
+                lock (_lock)
+                {
+                    using (_logEntries.SuspendChangeNotifications())
+                    {
+                        _logEntries.Clear();
+
+                        var typeNames = TypeNames;
+                        if (typeNames != null)
+                        {
+                            using (typeNames.SuspendChangeNotifications())
+                            {
+                                typeNames.ReplaceRange(new[] {_defaultComboBoxItem});
+                            }
+                        }
+                    }
+                }
+
+                ResetEntriesCount();
+
+                _isClearingLog = false;
+            }, false);
+        }
+
+        private void ResetEntriesCount()
+        {
+            DebugEntriesCount = 0;
+            InfoEntriesCount = 0;
+            WarningEntriesCount = 0;
+            ErrorEntriesCount = 0;
+        }
+
         protected override async Task InitializeAsync()
         {
             await base.InitializeAsync();
@@ -185,6 +179,12 @@ namespace Orc.Controls.ViewModels
 
         private void OnActiveFilterGroupChanged()
         {
+            lock (_lock)
+            {
+                ResetEntriesCount();
+                UpdateEntriesCount(_logEntries.Where(IsValidLogEntry).ToList());
+            }
+
             ActiveFilterGroupChanged.SafeInvoke(this);
         }
 
@@ -293,11 +293,13 @@ namespace Orc.Controls.ViewModels
                 }
             }
 
-            if (_logListener != null)
+            if (_logListener == null)
             {
-                _logListener.IgnoreCatelLogging = IgnoreCatelLogging;
-                _logListener.LogMessage += OnLogMessage;
+                return;
             }
+
+            _logListener.IgnoreCatelLogging = IgnoreCatelLogging;
+            _logListener.LogMessage += OnLogMessage;
         }
 
         private void UnsubscribeLogListener()
@@ -336,17 +338,7 @@ namespace Orc.Controls.ViewModels
 
         public bool IsValidLogEntry(LogEntry logEntry)
         {
-            if (!IsAcceptable(logEntry.LogEvent))
-            {
-                return false;
-            }
-
-            if (!PassFilters(logEntry))
-            {
-                return false;
-            }
-
-            return true;
+            return IsAcceptable(logEntry.LogEvent) && PassFilters(logEntry);
         }
 
         private bool IsAcceptable(LogEvent logEvent)
@@ -371,10 +363,12 @@ namespace Orc.Controls.ViewModels
 
         private void UpdateEntriesCount(List<LogEntry> entries)
         {
-            DebugEntriesCount += entries.Count(x => x.LogEvent == LogEvent.Debug);
-            InfoEntriesCount += entries.Count(x => x.LogEvent == LogEvent.Info);
-            WarningEntriesCount += entries.Count(x => x.LogEvent == LogEvent.Warning);
-            ErrorEntriesCount += entries.Count(x => x.LogEvent == LogEvent.Error);
+            var matchedEntries = entries.Where(PassApplicationFilterGroupsConfiguration).ToList();
+
+            DebugEntriesCount += matchedEntries.Count(x => x.LogEvent == LogEvent.Debug);
+            InfoEntriesCount += matchedEntries.Count(x => x.LogEvent == LogEvent.Info);
+            WarningEntriesCount += matchedEntries.Count(x => x.LogEvent == LogEvent.Warning);
+            ErrorEntriesCount += matchedEntries.Count(x => x.LogEvent == LogEvent.Error);
         }
 
         private bool PassFilters(LogEntry logEntry)
@@ -384,61 +378,34 @@ namespace Orc.Controls.ViewModels
                 return false;
             }
 
-            if (!PassLogFilter(logEntry))
-            {
-                return false;
-            }
-
-            if (!PassApplicationFilterGroupsConfiguration(logEntry))
-            {
-                return false;
-            }
-
-            return true;
+            return PassLogFilter(logEntry) && PassApplicationFilterGroupsConfiguration(logEntry);
         }
 
         private bool PassApplicationFilterGroupsConfiguration(LogEntry logEntry)
         {
             var filterGroup = ActiveFilterGroup;
-            if (filterGroup == null)
-            {
-                return true;
-            }
-
-            return filterGroup.Pass(logEntry);
+            return filterGroup == null || filterGroup.Pass(logEntry);
         }
 
         private bool PassLogFilter(LogEntry logEntry)
         {
-            if (string.IsNullOrEmpty(LogFilter) || LogFilter.Equals(DefaultComboBoxItem))
+            if (string.IsNullOrEmpty(LogFilter) || LogFilter.Equals(_defaultComboBoxItem))
             {
                 return true;
             }
 
-            var contains = logEntry.Message.IndexOf(LogFilter, StringComparison.OrdinalIgnoreCase) >= 0;
-            if (contains)
-            {
-                return true;
-            }
-
-            return false;
+            return logEntry.Message.IndexOf(LogFilter, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         private bool PassTypeFilter(LogEntry logEntry)
         {
             var typeFilter = TypeFilter;
-            if (string.IsNullOrEmpty(typeFilter) || typeFilter.Equals(DefaultComboBoxItem))
+            if (string.IsNullOrEmpty(typeFilter) || typeFilter.Equals(_defaultComboBoxItem))
             {
                 return true;
             }
 
-            var isOrigin = logEntry.Log.TargetType.Name.IndexOf(typeFilter, StringComparison.OrdinalIgnoreCase) >= 0;
-            if (isOrigin)
-            {
-                return true;
-            }
-
-            return false;
+            return logEntry.Log.TargetType.Name.IndexOf(typeFilter, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         private void AddLogEntries(List<LogEntry> entries, bool bypassClearingLog = false)
@@ -470,18 +437,20 @@ namespace Orc.Controls.ViewModels
                                 }
 
                                 var targetTypeName = entry.Log.TargetType.Name;
-                                if (!typeNames.Contains(targetTypeName))
+                                if (typeNames.Contains(targetTypeName))
                                 {
-                                    try
-                                    {
-                                        typeNames.Add(targetTypeName);
+                                    continue;
+                                }
 
-                                        requireSorting = true;
-                                    }
-                                    catch (Exception)
-                                    {
-                                        // we don't have time for this, let it go...
-                                    }
+                                try
+                                {
+                                    typeNames.Add(targetTypeName);
+
+                                    requireSorting = true;
+                                }
+                                catch (Exception)
+                                {
+                                    // we don't have time for this, let it go...
                                 }
                             }
                         }
@@ -497,8 +466,8 @@ namespace Orc.Controls.ViewModels
                         using (typeNames.SuspendChangeNotifications())
                         {
                             typeNames.Sort();
-                            typeNames.Remove(DefaultComboBoxItem);
-                            typeNames.Insert(0, DefaultComboBoxItem);
+                            typeNames.Remove(_defaultComboBoxItem);
+                            typeNames.Insert(0, _defaultComboBoxItem);
                         }
                     }
                 }
@@ -543,6 +512,11 @@ namespace Orc.Controls.ViewModels
         {
             _timer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
         }
+        #endregion
+
+        #region Events
+        public event EventHandler<LogEntryEventArgs> LogMessage;
+        public event EventHandler<EventArgs> ActiveFilterGroupChanged;
         #endregion
     }
 }

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ValidationContextTreeNode.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,29 +17,32 @@ namespace Orc.Controls
 
     public class ValidationContextTreeNode : ChildAwareModelBase, IValidationContextTreeNode, IComparable
     {
+        #region Constructors
         protected ValidationContextTreeNode(bool isExpanded)
         {
             Children = new FastObservableCollection<ValidationContextTreeNode>();
             IsExpanded = isExpanded;
         }
+        #endregion
 
+        #region Properties
         public FastObservableCollection<ValidationContextTreeNode> Children { get; }
-
-        public int CompareTo(object obj)
-        {
-            return CompareTo((ValidationContextTreeNode) obj);
-        }
-
         public string DisplayName { get; protected set; }
-
         public bool IsExpanded { get; set; }
-
         public bool IsVisible { get; set; }
 
         public ValidationResultType? ResultType { get; set; }
-
         IEnumerable<IValidationContextTreeNode> IValidationContextTreeNode.Children => Children.OfType<IValidationContextTreeNode>();
+        #endregion
 
+        #region IComparable Members
+        public int CompareTo(object obj)
+        {
+            return CompareTo((ValidationContextTreeNode)obj);
+        }
+        #endregion
+
+        #region Methods
         public void ApplyFilter(bool showErrors, bool showWarnings, string filter)
         {
             foreach (var validationContextTreeNode in Children)
@@ -87,5 +90,6 @@ namespace Orc.Controls
 
             return CultureInfo.InstalledUICulture.CompareInfo.Compare(DisplayName, node.DisplayName);
         }
+        #endregion
     }
 }

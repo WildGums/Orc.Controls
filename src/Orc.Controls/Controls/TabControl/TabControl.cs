@@ -270,13 +270,7 @@ namespace Orc.Controls
                 return;
             }
 
-            var items = Items;
-            if (items == null)
-            {
-                return;
-            }
-
-            foreach (var item in items)
+            foreach (var item in Items)
             {
                 if (item != null)
                 {
@@ -284,35 +278,39 @@ namespace Orc.Controls
                 }
             }
 
-            var loadAllItems = (LoadTabItems == LoadTabItemsBehavior.EagerLoading) || (IsLoaded && !IsLazyLoading);
-            if (loadAllItems)
+            if (LoadTabItems == LoadTabItemsBehavior.EagerLoading || IsLoaded && !IsLazyLoading)
             {
-                foreach (ContentPresenter child in _itemsHolder.Children)
-                {
-                    var tabControlItemData = child.Tag as TabControlItemData;
-                    var tabItem = tabControlItemData?.TabItem;
-                    if (tabItem == null)
-                    {
-                        continue;
-                    }
-
-                    ShowChildContent(child, tabControlItemData);
-
-                    // Collapsed is hidden + not loaded
-#pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
-                    child.Visibility = Visibility.Collapsed;
-#pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
-
-                    if (LoadTabItems == LoadTabItemsBehavior.EagerLoading)
-                    {
-                        EagerLoadAllTabs();
-                    }
-                }
+                EagerInitializeAllTabs();
             }
 
             if (SelectedItem != null)
             {
                 UpdateItems();
+            }
+        }
+
+        private void EagerInitializeAllTabs()
+        {
+            foreach (ContentPresenter child in _itemsHolder.Children)
+            {
+                var tabControlItemData = child.Tag as TabControlItemData;
+                var tabItem = tabControlItemData?.TabItem;
+                if (tabItem == null)
+                {
+                    continue;
+                }
+
+                ShowChildContent(child, tabControlItemData);
+
+                // Collapsed is hidden + not loaded
+#pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
+                child.Visibility = Visibility.Collapsed;
+#pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
+
+                if (LoadTabItems == LoadTabItemsBehavior.EagerLoading)
+                {
+                    EagerLoadAllTabs();
+                }
             }
         }
 
@@ -346,21 +344,33 @@ namespace Orc.Controls
                 return;
             }
 
-            var items = Items;
-            if (items == null)
+            if (SelectedItem != null && !IsLazyLoading)
             {
-                return;
-            }
-
-            if (SelectedItem != null)
-            {
-                if (!IsLazyLoading)
-                {
-                    EagerLoadAllTabs();
-                }
+                EagerLoadAllTabs();
             }
 
             // Show the right child first (to prevent flickering)
+            var itemsToHide = ShowItems();
+
+            // Now hide so we have prevented flickering
+            foreach (var itemToHide in itemsToHide)
+            {
+                var child = itemToHide;
+
+                // Note: hidden, not collapsed otherwise items will not be loaded
+#pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
+                child.Key.Visibility = Visibility.Hidden;
+#pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
+
+                if (LoadTabItems == LoadTabItemsBehavior.LazyLoadingUnloadOthers)
+                {
+                    HideChildContent(child.Key, child.Value);
+                }
+            }
+        }
+
+        private Dictionary<ContentPresenter, TabControlItemData> ShowItems()
+        {
             var itemsToHide = new Dictionary<ContentPresenter, TabControlItemData>();
 
             foreach (ContentPresenter child in _itemsHolder.Children)
@@ -388,21 +398,7 @@ namespace Orc.Controls
                 }
             }
 
-            // Now hide so we have prevented flickering
-            foreach (var itemToHide in itemsToHide)
-            {
-                var child = itemToHide;
-
-                // Note: hidden, not collapsed otherwise items will not be loaded
-#pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
-                child.Key.Visibility = Visibility.Hidden;
-#pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
-
-                if (LoadTabItems == LoadTabItemsBehavior.LazyLoadingUnloadOthers)
-                {
-                    HideChildContent(child.Key, child.Value);
-                }
-            }
+            return itemsToHide;
         }
 
         /// <summary>

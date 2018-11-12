@@ -432,6 +432,33 @@ namespace Orc.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adjust duration.
+        /// </summary>
+        internal static string Controls_DateRangePicker_Adj_Duration {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_Adj_Duration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adjust end time.
+        /// </summary>
+        internal static string Controls_DateRangePicker_Adj_End_Time {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_Adj_End_Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time adjustment strategy:.
+        /// </summary>
+        internal static string Controls_DateRangePicker_Adj_Strategy_Lbl {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_Adj_Strategy_Lbl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom.
         /// </summary>
         internal static string Controls_DateRangePicker_Custom {
@@ -441,11 +468,29 @@ namespace Orc.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Duration can&apos;t be less than zero.
+        /// </summary>
+        internal static string Controls_DateRangePicker_Duration_NotLess_Zero_Validation {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_Duration_NotLess_Zero_Validation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End:.
         /// </summary>
         internal static string Controls_DateRangePicker_End_Lbl {
             get {
                 return ResourceManager.GetString("Controls_DateRangePicker_End_Lbl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End date can&apos;t be less than Start date.
+        /// </summary>
+        internal static string Controls_DateRangePicker_EndDate_NotLess_StartDate_Validation {
+            get {
+                return ResourceManager.GetString("Controls_DateRangePicker_EndDate_NotLess_StartDate_Validation", resourceCulture);
             }
         }
         
@@ -770,6 +815,150 @@ namespace Orc.Controls.Properties {
         internal static string Controls_DbProviderPicker_Button_Content_Change {
             get {
                 return ResourceManager.GetString("Controls_DbProviderPicker_Button_Content_Change", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string Controls_LogViewer_Add {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure?.
+        /// </summary>
+        internal static string Controls_LogViewer_AreYouSure {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_AreYouSure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string Controls_LogViewer_Edit {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Action.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterEditor_Action {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterEditor_Action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expression Type.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterEditor_ExpressionType {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterEditor_ExpressionType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expression Value.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterEditor_ExpressionValue {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterEditor_ExpressionValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expression value is required.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterEditor_ExpressionValueIsRequired {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterEditor_ExpressionValueIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter name.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterEditor_FilterName {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterEditor_FilterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name is required.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterEditor_NameIsRequired {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterEditor_NameIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterEditor_Target {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterEditor_Target", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Group Name.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterGroupEditor_GroupName {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterGroupEditor_GroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log Filters.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterGroupEditor_LogFilters {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterGroupEditor_LogFilters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;Name&apos; for the LogFilterGroup is required.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterGroupEditor_NameForTheLogFilterGroupIsRequired {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterGroupEditor_NameForTheLogFilterGroupIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log Filter Group Editor.
+        /// </summary>
+        internal static string Controls_LogViewer_LogFilterGroupEditor_Title {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_LogFilterGroupEditor_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        internal static string Controls_LogViewer_Remove {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -- Select type name --.
+        /// </summary>
+        internal static string Controls_LogViewer_SelectTypeName {
+            get {
+                return ResourceManager.GetString("Controls_LogViewer_SelectTypeName", resourceCulture);
             }
         }
         

@@ -40,10 +40,10 @@ namespace Orc.Controls
         /// </summary>
         static LinkLabel()
         {
-            FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof (LinkLabel), new FrameworkPropertyMetadata(typeof (LinkLabel)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (LinkLabel), new FrameworkPropertyMetadata(typeof (LinkLabel)));
 
-            ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (LinkLabel));
-            RequestNavigateEvent = EventManager.RegisterRoutedEvent("RequestNavigate", RoutingStrategy.Bubble, typeof (RequestNavigateEventHandler), typeof (LinkLabel));
+            ClickEvent = EventManager.RegisterRoutedEvent(nameof(Click), RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (LinkLabel));
+            RequestNavigateEvent = EventManager.RegisterRoutedEvent(nameof(RequestNavigate), RoutingStrategy.Bubble, typeof (RequestNavigateEventHandler), typeof (LinkLabel));
         }
 
         /// <summary>
@@ -57,12 +57,6 @@ namespace Orc.Controls
 
         #region Properties
         /// <summary>
-        /// DependencyProperty definition as the backing store for Url
-        /// </summary>
-        public static readonly DependencyProperty UrlProperty =
-            DependencyProperty.Register("Url", typeof (Uri), typeof (LinkLabel), new UIPropertyMetadata(OnUrlChanged));
-
-        /// <summary>
         /// Gets or sets the URL.
         /// </summary>
         /// <value>The URL.</value>
@@ -72,6 +66,12 @@ namespace Orc.Controls
             get { return GetValue(UrlProperty) as Uri; }
             set { SetValue(UrlProperty, value); }
         }
+
+        /// <summary>
+        /// DependencyProperty definition as the backing store for Url
+        /// </summary>
+        public static readonly DependencyProperty UrlProperty =
+            DependencyProperty.Register(nameof(Url), typeof(Uri), typeof(LinkLabel), new UIPropertyMetadata(OnUrlChanged));
 
         /// <summary>
         /// Indicates whether url has a value.
@@ -86,13 +86,8 @@ namespace Orc.Controls
         /// <summary>
         /// DependencyProperty definition as the backing store for HasUrl
         /// </summary>
-        public static readonly DependencyProperty HasUrlProperty = DependencyProperty.Register("HasUrl", typeof (bool), typeof (LinkLabel), new UIPropertyMetadata(false));
-
-        /// <summary>
-        /// DependencyProperty definition as the backing store for HyperlinkStyle
-        /// </summary>
-        public static readonly DependencyProperty HyperlinkStyleProperty =
-            DependencyProperty.Register("HyperlinkStyle", typeof (Style), typeof (LinkLabel));
+        public static readonly DependencyProperty HasUrlProperty = DependencyProperty.Register(nameof(HasUrl),
+            typeof (bool), typeof (LinkLabel), new UIPropertyMetadata(false));
 
         /// <summary>
         /// Gets or sets the hyperlink style.
@@ -105,10 +100,10 @@ namespace Orc.Controls
         }
 
         /// <summary>
-        /// DependencyProperty definition as the backing store for HoverForeground
+        /// DependencyProperty definition as the backing store for HyperlinkStyle
         /// </summary>
-        public static readonly DependencyProperty HoverForegroundProperty =
-            DependencyProperty.Register("HoverForeground", typeof (Brush), typeof (LinkLabel));
+        public static readonly DependencyProperty HyperlinkStyleProperty =
+            DependencyProperty.Register(nameof(HyperlinkStyle), typeof(Style), typeof(LinkLabel));
 
         /// <summary>
         /// Gets or sets the hover foreground.
@@ -122,10 +117,10 @@ namespace Orc.Controls
         }
 
         /// <summary>
-        /// DependencyProperty definition as the backing store for LinkLabelBehavior
+        /// DependencyProperty definition as the backing store for HoverForeground
         /// </summary>
-        public static readonly DependencyProperty LinkLabelBehaviorProperty =
-            DependencyProperty.Register("LinkLabelBehavior", typeof (LinkLabelBehavior), typeof (LinkLabel));
+        public static readonly DependencyProperty HoverForegroundProperty =
+            DependencyProperty.Register(nameof(HoverForeground), typeof(Brush), typeof(LinkLabel));
 
         /// <summary>
         /// Gets or sets the link label behavior.
@@ -137,6 +132,12 @@ namespace Orc.Controls
             get { return (LinkLabelBehavior) GetValue(LinkLabelBehaviorProperty); }
             set { SetValue(LinkLabelBehaviorProperty, value); }
         }
+
+        /// <summary>
+        /// DependencyProperty definition as the backing store for LinkLabelBehavior
+        /// </summary>
+        public static readonly DependencyProperty LinkLabelBehaviorProperty =
+            DependencyProperty.Register(nameof(LinkLabelBehavior), typeof(LinkLabelBehavior), typeof(LinkLabel));
 
         /// <summary>
         /// Wrapper for the ClickBehavior dependency property.
@@ -153,25 +154,8 @@ namespace Orc.Controls
         /// DependencyProperty definition as the backing store for ClickBehavior
         /// </summary>
         public static readonly DependencyProperty ClickBehaviorProperty =
-            DependencyProperty.Register("ClickBehavior", typeof (LinkLabelClickBehavior), typeof (LinkLabel), new UIPropertyMetadata(LinkLabelClickBehavior.Undefined, OnClickBehaviorChanged));
-
-        /// <summary>
-        /// DependencyProperty definition as the backing store for CommandParameter
-        /// </summary>
-        public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof (object), typeof (LinkLabel));
-
-        /// <summary>
-        /// DependencyProperty definition as the backing store for Command
-        /// </summary>
-        public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register("Command", typeof (ICommand), typeof (LinkLabel));
-
-        /// <summary>
-        /// DependencyProperty definition as the backing store for CommandTarget
-        /// </summary>
-        public static readonly DependencyProperty CommandTargetProperty =
-            DependencyProperty.Register("CommandTarget", typeof (IInputElement), typeof (LinkLabel));
+            DependencyProperty.Register(nameof(ClickBehavior), 
+                typeof (LinkLabelClickBehavior), typeof (LinkLabel), new UIPropertyMetadata(LinkLabelClickBehavior.Undefined, OnClickBehaviorChanged));
 
         /// <summary>
         /// Gets or sets the command parameter.
@@ -185,6 +169,12 @@ namespace Orc.Controls
         }
 
         /// <summary>
+        /// DependencyProperty definition as the backing store for CommandParameter
+        /// </summary>
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(LinkLabel));
+
+        /// <summary>
         /// Gets or sets the command.
         /// </summary>
         /// <value>The command.</value>
@@ -196,6 +186,12 @@ namespace Orc.Controls
         }
 
         /// <summary>
+        /// DependencyProperty definition as the backing store for Command
+        /// </summary>
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(LinkLabel));
+
+        /// <summary>
         /// Gets or sets the command target.
         /// </summary>
         /// <value>The command target.</value>
@@ -205,6 +201,12 @@ namespace Orc.Controls
             get { return (IInputElement) GetValue(CommandTargetProperty); }
             set { SetValue(CommandTargetProperty, value); }
         }
+
+        /// <summary>
+        /// DependencyProperty definition as the backing store for CommandTarget
+        /// </summary>
+        public static readonly DependencyProperty CommandTargetProperty =
+            DependencyProperty.Register(nameof(CommandTarget), typeof(IInputElement), typeof(LinkLabel));
         #endregion
 
         #region Events
@@ -256,12 +258,11 @@ namespace Orc.Controls
         /// <param name="args">Event args.</param>
         private static void OnUrlChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            var typedSender = sender as LinkLabel;
-            if (typedSender != null)
+            if (sender is LinkLabel typedSender)
             {
                 var url = args.NewValue as Uri;
 
-                typedSender.SetCurrentValue(HasUrlProperty, url != null && !String.IsNullOrEmpty(url.OriginalString));
+                typedSender.SetCurrentValue(HasUrlProperty, url != null && !string.IsNullOrEmpty(url.OriginalString));
                 typedSender.SetCurrentValue(IsEnabledProperty, typedSender.HasUrl);
             }
         }
@@ -273,8 +274,7 @@ namespace Orc.Controls
         /// <param name="args">The event arguments.</param>
         private static void OnClickBehaviorChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            var label = sender as LinkLabel;
-            if (label == null)
+            if (!(sender is LinkLabel label))
             {
                 return;
             }
@@ -305,8 +305,7 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
-            var innerHyperlink = GetTemplateChild("PART_InnerHyperlink") as Hyperlink;
-            if (innerHyperlink != null)
+            if (GetTemplateChild("PART_InnerHyperlink") is Hyperlink innerHyperlink)
             {
                 innerHyperlink.Click += OnInnerHyperlinkClick;
                 innerHyperlink.RequestNavigate += OnInnerHyperlinkRequestNavigate;
@@ -320,9 +319,11 @@ namespace Orc.Controls
         /// <param name="e">The <see cref="System.Windows.Navigation.RequestNavigateEventArgs"/> instance containing the event data.</param>
         private void OnInnerHyperlinkRequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            var args = new RequestNavigateEventArgs(e.Uri, String.Empty);
-            args.Source = this;
-            args.RoutedEvent = LinkLabel.RequestNavigateEvent;
+            var args = new RequestNavigateEventArgs(e.Uri, string.Empty)
+            {
+                Source = this,
+                RoutedEvent = RequestNavigateEvent
+            };
             RaiseEvent(args);
         }
 
@@ -333,7 +334,7 @@ namespace Orc.Controls
         /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         private void OnInnerHyperlinkClick(object sender, RoutedEventArgs e)
         {
-            RaiseEvent(new RoutedEventArgs(LinkLabel.ClickEvent, this));
+            RaiseEvent(new RoutedEventArgs(ClickEvent, this));
         }
 
         /// <summary>
@@ -351,7 +352,7 @@ namespace Orc.Controls
             }
 
             var destinationUrl = hyperlinkSender != null ? hyperlinkSender.NavigateUri : linklabelSender.Url;
-            if (destinationUrl == null || String.IsNullOrEmpty(destinationUrl.ToString()))
+            if (destinationUrl == null || string.IsNullOrEmpty(destinationUrl.ToString()))
             {
                 return;
             }
@@ -369,8 +370,10 @@ namespace Orc.Controls
                 {
                     Log.Warning(ex, "Default handler for http-scheme not valid in Windows");
 
-                    var processStartInfo = new ProcessStartInfo(@"iexplore.exe", destinationUrl.ToString());
-                    processStartInfo.UseShellExecute = false;
+                    var processStartInfo = new ProcessStartInfo(@"iexplore.exe", destinationUrl.ToString())
+                    {
+                        UseShellExecute = false
+                    };
                     Process.Start(processStartInfo);
                 }
             }

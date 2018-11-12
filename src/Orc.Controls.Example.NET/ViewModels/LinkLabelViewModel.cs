@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="LinkLabelViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,8 +13,11 @@ namespace Orc.Controls.Example.ViewModels
 
     public class LinkLabelViewModel : ViewModelBase
     {
+        #region Fields
         private readonly IMessageService _messageService;
+        #endregion
 
+        #region Constructors
         public LinkLabelViewModel(IMessageService messageService)
         {
             Argument.IsNotNull(() => messageService);
@@ -22,9 +25,10 @@ namespace Orc.Controls.Example.ViewModels
             _messageService = messageService;
             DefaultAction = new Command(OnDefaultActionExecute);
         }
+        #endregion
 
         #region Commands
-        public Command DefaultAction { get; private set; }
+        public Command DefaultAction { get; }
 
         private void OnDefaultActionExecute()
         {

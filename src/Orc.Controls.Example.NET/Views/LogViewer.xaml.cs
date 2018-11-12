@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="LogViewer.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -8,18 +8,20 @@
 namespace Orc.Controls.Example.Views
 {
     using System;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Windows;
-    using Orc.Controls.Example.ViewModels;
+    using ViewModels;
 
     public partial class LogViewer
     {
+        #region Constructors
         public LogViewer()
         {
             InitializeComponent();
         }
+        #endregion
 
+        #region Methods
         protected override async void OnViewModelChanged()
         {
             base.OnViewModelChanged();
@@ -47,13 +49,13 @@ namespace Orc.Controls.Example.Views
 
         private async Task UpdateLogFilterGroupsAsync()
         {
-            var vm = ViewModel as LogViewerViewModel;
-            if (vm != null)
+            if (ViewModel is LogViewerViewModel vm)
             {
                 var filterGroups = await vm.GetLogFilterGroupsAsync();
 
                 ActiveFilterGroupComboBox.SetCurrentValue(System.Windows.Controls.ItemsControl.ItemsSourceProperty, filterGroups);
             }
         }
+        #endregion
     }
 }

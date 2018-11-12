@@ -1,8 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FilterBoxControl.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+// <copyright file="InitializingAutoCompletionServiceEventArgs.cs" company="WildGums">
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 
 namespace Orc.Controls
 {
@@ -14,9 +15,11 @@ namespace Orc.Controls
     /// </summary>
     public class InitializingAutoCompletionServiceEventArgs : RoutedEventArgs
     {
+        #region Properties
         /// <summary>
         /// Sets and gets the AutoCompletionService.
         /// </summary>
         public IAutoCompletionService AutoCompletionService { get; set; }
+        #endregion
     }
 }

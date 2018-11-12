@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="RichTextBoxParagraphExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,6 +14,7 @@ namespace Orc.Controls
 
     public static class RichTextBoxParagraphExtensions
     {
+        #region Methods
         public static void SetData(this RichTextBoxParagraph paragraph, bool showTimestamp = true, bool showThreadId = true, bool showMultilineMessagesExpanded = false)
         {
             var timestamp = $"{paragraph.LogEntry.Time} ";
@@ -58,22 +59,22 @@ namespace Orc.Controls
             paragraph.Inlines.Clear();
             paragraph.Inlines.Add(text);
 
-            if (buttonRequired)
+            if (!buttonRequired)
             {
-                var button = new TextBlock
-                {
-                    Text = "[...]",
-                    Margin = new Thickness(5, 0, 0, 0),
-                    Cursor = Cursors.SizeNWSE
-                };
-
-                button.MouseLeftButtonDown += (sender, args) =>
-                {
-                    paragraph.SetData(showTimestamp, showThreadId, true);
-                };
-
-                paragraph.Inlines.Add(button);
+                return;
             }
+
+            var button = new TextBlock
+            {
+                Text = "[...]",
+                Margin = new Thickness(5, 0, 0, 0),
+                Cursor = Cursors.SizeNWSE
+            };
+
+            button.MouseLeftButtonDown += (sender, args) => paragraph.SetData(showTimestamp, showThreadId, true);
+
+            paragraph.Inlines.Add(button);
         }
+        #endregion
     }
 }

@@ -312,4 +312,52 @@
   <data name="Controls_DbProviderPicker_Button_Content_Change" xml:space="preserve">
     <value>Verander...</value>
   </data>
+  <data name="Controls_LogViewer_LogFilterEditor_NameIsRequired" xml:space="preserve">
+    <value>Naam is verplicht</value>
+  </data>
+  <data name="Controls_LogViewer_AreYouSure" xml:space="preserve">
+    <value>Weet je het zeker?</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_ExpressionValueIsRequired" xml:space="preserve">
+    <value>Expressie waarde is verplicht</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterGroupEditor_NameForTheLogFilterGroupIsRequired" xml:space="preserve">
+    <value>'Naam' voor de log filter group is verplicht</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterGroupEditor_Title" xml:space="preserve">
+    <value>Log Filter Groep bewerken</value>
+  </data>
+  <data name="Controls_LogViewer_SelectTypeName" xml:space="preserve">
+    <value>-- Selecteer type naam --</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_Action" xml:space="preserve">
+    <value>Actie</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_ExpressionType" xml:space="preserve">
+    <value>Expressie type</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_ExpressionValue" xml:space="preserve">
+    <value>Expressie waarde</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_FilterName" xml:space="preserve">
+    <value>Filter naam</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_Target" xml:space="preserve">
+    <value>Doel</value>
+  </data>
+  <data name="Controls_LogViewer_Add" xml:space="preserve">
+    <value>Toevoegen</value>
+  </data>
+  <data name="Controls_LogViewer_Edit" xml:space="preserve">
+    <value>Bewerken</value>
+  </data>
+  <data name="Controls_LogViewer_Remove" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterGroupEditor_GroupName" xml:space="preserve">
+    <value>Groep naam</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterGroupEditor_LogFilters" xml:space="preserve">
+    <value>Log filters</value>
+  </data>
 </root>

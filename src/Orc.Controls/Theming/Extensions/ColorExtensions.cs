@@ -21,32 +21,30 @@ namespace Orc.Controls
 
         private const string DarkHighlightBrush = "DarkHighlightBrush";
         private const string DarkHighlightColor = "DarkHighlightColor";
-        private static ResourceDictionary _accentColorResourceDictionary;
+        //private static ResourceDictionary _accentColorResourceDictionary;
         #endregion
 
         #region Methods
+        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
         public static void CreateAccentColorResourceDictionary(this Color color, string controlName)
         {
-            var accentColor = Application.Current.TryFindResource(controlName.GetAccentBrushName()) as SolidColorBrush;
+            return;
 
-            if (accentColor != null )
-            {
-                return;
-            }
+            //if (Application.Current.TryFindResource(controlName.GetAccentBrushName()) is SolidColorBrush)
+            //{
+            //    return;
+            //}
 
-            if (_accentColorResourceDictionary != null)
-            {
-                _accentColorResourceDictionary.AddResources(color, controlName);
-            }
+            //_accentColorResourceDictionary?.AddResources(color, controlName);
 
-            var resourceDictionary = new ResourceDictionary();
-            resourceDictionary.AddResources(color, controlName);
+            //var resourceDictionary = new ResourceDictionary();
+            //resourceDictionary.AddResources(color, controlName);
             
-            var application = Application.Current;
-            var applicationResources = application.Resources;
-            applicationResources.MergedDictionaries.Insert(0, resourceDictionary);
+            //var application = Application.Current;
+            //var applicationResources = application.Resources;
+            //applicationResources.MergedDictionaries.Insert(0, resourceDictionary);
 
-            _accentColorResourceDictionary = resourceDictionary;
+            //_accentColorResourceDictionary = resourceDictionary;
         }
 
         private static void AddResources(this ResourceDictionary resourceDictionary, Color color, string name)

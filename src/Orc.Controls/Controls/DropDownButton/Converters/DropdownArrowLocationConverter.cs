@@ -1,8 +1,9 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ArrowLocationConverter.xaml.cs" company="WildGums">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DropdownArrowLocationConverter.cs" company="WildGums">
 //   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 
 namespace Orc.Controls
 {
@@ -17,6 +18,7 @@ namespace Orc.Controls
     /// </summary>
     public class DropdownArrowLocationConverter : ValueConverterBase
     {
+        #region Methods
         /// <summary>
         /// Converts value <see cref="DropdownArrowLocation "/> values into <see cref="Dock"/> or <see cref="HorizontalAlignment"/>.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Orc.Controls
         /// </returns>
         protected override object Convert(object value, Type targetType, object parameter)
         {
-            Argument.IsOfOneOfTheTypes(nameof(targetType), targetType, new[] { typeof(Dock), typeof(HorizontalAlignment) });
+            Argument.IsOfOneOfTheTypes(nameof(targetType), targetType, new[] {typeof(Dock), typeof(HorizontalAlignment)});
 
             object result = null;
             if (targetType == typeof(Dock))
@@ -59,5 +61,6 @@ namespace Orc.Controls
 
             return result;
         }
+        #endregion
     }
 }

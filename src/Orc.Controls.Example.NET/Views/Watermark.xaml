@@ -9,11 +9,6 @@
                    d:DesignHeight="300" d:DesignWidth="300">
     
     <catel:UserControl.Resources>
-        <Style TargetType="{x:Type orccontrols:WatermarkTextBox}">
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Margin" Value="0 2 0 4"/>
-        </Style>
-
         <Style TargetType="{x:Type Image}">
             <Setter Property="Height" Value="10"/>
             <Setter Property="Margin" Value="3 3 3 1"/>
@@ -27,43 +22,49 @@
         </Style>
     </catel:UserControl.Resources>
 
-    <StackPanel>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="5" >
-            <TextBlock Text="Simple watermark" VerticalAlignment="Top" Width="160" Margin="0 4 0 0" />
-            <orccontrols:WatermarkTextBox Watermark="Textbox with Watermark" />
-        </StackPanel>
-        
-        <GridSplitter Style="{StaticResource HorizontalGridSplitterStyle}"/>
-        
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="5" >
-            <TextBlock Text="Complex watermark" VerticalAlignment="Top" Width="160" />
-            <StackPanel>
-                <TextBlock Text="First Name:" />
-                <orccontrols:WatermarkTextBox Watermark="Enter the first name" />
+    <orccontrols:StackGrid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-                <TextBlock Text="Last Name:" />
-                <orccontrols:WatermarkTextBox Watermark="Enter the last name" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Phone Number:" />
-                <orccontrols:WatermarkTextBox>
-                    <orccontrols:WatermarkTextBox.Watermark>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="/Resources/Images/phone.png" />
-                            <TextBlock Text="Enter the phone number" />
-                        </StackPanel>
-                    </orccontrols:WatermarkTextBox.Watermark>
-                </orccontrols:WatermarkTextBox>
+        <TextBlock Text="Simple watermark" VerticalAlignment="Top" />
+        <orccontrols:WatermarkTextBox Watermark="Textbox with Watermark" />
 
-                <TextBlock Text="E-mail:"  />
-                <orccontrols:WatermarkTextBox>
-                    <orccontrols:WatermarkTextBox.Watermark>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="/Resources/Images/email.png" />
-                            <TextBlock Text="Enter the e-mail" />
-                        </StackPanel>
-                    </orccontrols:WatermarkTextBox.Watermark>
-                </orccontrols:WatermarkTextBox>
-            </StackPanel>
-        </StackPanel>
-    </StackPanel>
+        <TextBlock Text="First Name:" />
+        <orccontrols:WatermarkTextBox Watermark="Enter the first name" />
+
+        <TextBlock Text="Last Name:" />
+        <orccontrols:WatermarkTextBox Watermark="Enter the last name" />
+
+        <TextBlock Text="Phone Number:" />
+        <orccontrols:WatermarkTextBox>
+            <orccontrols:WatermarkTextBox.Watermark>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Images/phone.png" />
+                    <TextBlock Text="Enter the phone number" />
+                </StackPanel>
+            </orccontrols:WatermarkTextBox.Watermark>
+        </orccontrols:WatermarkTextBox>
+
+        <TextBlock Text="E-mail:"  />
+        <orccontrols:WatermarkTextBox>
+            <orccontrols:WatermarkTextBox.Watermark>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Images/email.png" />
+                    <TextBlock Text="Enter the e-mail" />
+                </StackPanel>
+            </orccontrols:WatermarkTextBox.Watermark>
+        </orccontrols:WatermarkTextBox>
+
+    </orccontrols:StackGrid>
 </catel:UserControl>

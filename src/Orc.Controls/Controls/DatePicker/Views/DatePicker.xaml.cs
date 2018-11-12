@@ -17,7 +17,6 @@ namespace Orc.Controls
     using System.Windows.Data;
     using System.Windows.Media;
     using Catel.MVVM.Views;
-    using Catel.Windows.Threading;
     using Calendar = System.Windows.Controls.Calendar;
     using Converters;
     using System.Windows.Input;
@@ -92,7 +91,7 @@ namespace Orc.Controls
             set { SetValue(ValueProperty, value); }
         }
 
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(DateTime?), typeof(DatePicker),
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(DateTime?), typeof(DatePicker),
             new FrameworkPropertyMetadata(DateTime.Today, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((DatePicker)sender).OnValueChanged(e.OldValue, e.NewValue)));
 
 
@@ -103,17 +102,19 @@ namespace Orc.Controls
             set { SetValue(ShowOptionsButtonProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register("ShowOptionsButton", typeof(bool),
+        public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register(nameof(ShowOptionsButton), typeof(bool),
             typeof(DatePicker), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
+        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
         public Brush AccentColorBrush
         {
             get { return (Brush)GetValue(AccentColorBrushProperty); }
             set { SetValue(AccentColorBrushProperty, value); }
         }
 
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
+        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), typeof(Brush),
             typeof(DatePicker), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((DatePicker)sender).OnAccentColorBrushChanged()));
 
 
@@ -123,7 +124,7 @@ namespace Orc.Controls
             set { SetValue(AllowNullProperty, value); }
         }
 
-        public static readonly DependencyProperty AllowNullProperty = DependencyProperty.Register("AllowNull", typeof(bool),
+        public static readonly DependencyProperty AllowNullProperty = DependencyProperty.Register(nameof(AllowNull), typeof(bool),
             typeof(DatePicker), new PropertyMetadata(false));
 
 
@@ -133,7 +134,7 @@ namespace Orc.Controls
             set { SetValue(AllowCopyPasteProperty, value); }
         }
 
-        public static readonly DependencyProperty AllowCopyPasteProperty = DependencyProperty.Register("AllowCopyPaste", typeof(bool),
+        public static readonly DependencyProperty AllowCopyPasteProperty = DependencyProperty.Register(nameof(AllowCopyPaste), typeof(bool),
             typeof(DatePicker), new PropertyMetadata(true));
 
 
@@ -143,7 +144,7 @@ namespace Orc.Controls
             set { SetValue(IsReadOnlyProperty, value); }
         }
 
-        public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register("IsReadOnly", typeof(bool),
+        public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register(nameof(IsReadOnly), typeof(bool),
             typeof(DatePicker), new PropertyMetadata(false));
 
         public string Format
@@ -152,7 +153,7 @@ namespace Orc.Controls
             set { SetValue(FormatProperty, value); }
         }
 
-        public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof(string),
+        public static readonly DependencyProperty FormatProperty = DependencyProperty.Register(nameof(Format), typeof(string),
             typeof(DatePicker), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern, (sender, e) => ((DatePicker)sender).OnFormatChanged()));
 
         public bool IsYearShortFormat
@@ -161,8 +162,8 @@ namespace Orc.Controls
             private set { SetValue(IsYearShortFormatPropertyKey, value); }
         }
 
-        private static readonly DependencyPropertyKey IsYearShortFormatPropertyKey = DependencyProperty.RegisterReadOnly("IsYearShortFormat", typeof(bool),
-            typeof(DatePicker), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.Count(x => x == 'y') < 3 ? true : false));
+        private static readonly DependencyPropertyKey IsYearShortFormatPropertyKey = DependencyProperty.RegisterReadOnly(nameof(IsYearShortFormat), typeof(bool),
+            typeof(DatePicker), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern.Count(x => x == 'y') < 3));
 
         public static readonly DependencyProperty IsYearShortFormatProperty = IsYearShortFormatPropertyKey.DependencyProperty;
         #endregion
@@ -193,26 +194,30 @@ namespace Orc.Controls
             var activeTextBox = (TextBox)FindName(_activeDateTimePart.GetDateTimePartName());
             var activeToggleButton = (ToggleButton)FindName(_activeDateTimePart.GetDateTimePartToggleButtonName());
 
-            var dateTime = Value == null ? _todayValue : Value.Value;
+            var dateTime = Value ?? _todayValue;
             var dateTimePartHelper = new DateTimePartHelper(dateTime, _activeDateTimePart, _formatInfo, activeTextBox, activeToggleButton);
             dateTimePartHelper.CreatePopup();
         }
 
         private void NumericTBMonth_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (int.TryParse(NumericTBMonth.Text, out var month))
+            if (!int.TryParse(NumericTBMonth.Text, out var month))
             {
-                if (int.TryParse(NumericTBYear.Text, out var year))
-                {
-                    var daysInMonth = DateTime.DaysInMonth(year, month);
-                    NumericTBDay.SetCurrentValue(NumericTextBox.MaxValueProperty, (double) daysInMonth);
-                }
+                return;
             }
+
+            if (!int.TryParse(NumericTBYear.Text, out var year))
+            {
+                return;
+            }
+
+            var daysInMonth = DateTime.DaysInMonth(year, month);
+            NumericTBDay.SetCurrentValue(NumericTextBox.MaxValueProperty, (double) daysInMonth);
         }
 
         private Calendar CreateCalendarPopupSource()
         {
-            var dateTime = Value == null ? _todayValue : Value.Value;
+            var dateTime = Value ?? _todayValue;
             var calendar = new Calendar()
             {
                 Margin = new Thickness(0, -3, 0, -3),
@@ -227,7 +232,7 @@ namespace Orc.Controls
 
         private void CalendarOnSelectedDatesChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
-            var calendar = (((Calendar)sender));
+            var calendar = (Calendar)sender;
             if (calendar.SelectedDate.HasValue)
             {
                 UpdateDate(calendar.SelectedDate.Value);
@@ -304,28 +309,28 @@ namespace Orc.Controls
         {
             DatePickerIcon.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
 
-            if (Clipboard.ContainsData(DataFormats.Text))
+            if (!Clipboard.ContainsData(DataFormats.Text))
             {
-                var text = Clipboard.GetText(TextDataFormat.Text);
-                var value = DateTime.MinValue;
-                if (!string.IsNullOrEmpty(text)
-                    && (DateTimeParser.TryParse(text, _formatInfo, out value)
-                        || DateTime.TryParseExact(text, Format, null, DateTimeStyles.None, out value)
-                        || DateTime.TryParseExact(text, CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern, null, DateTimeStyles.None, out value)
-                        || DateTime.TryParseExact(text, CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern, null, DateTimeStyles.None, out value)))
-                {
-                    SetCurrentValue(ValueProperty, new DateTime(value.Year, value.Month, value.Day));
-                }
+                return;
+            }
+
+            var text = Clipboard.GetText(TextDataFormat.Text);
+            if (!string.IsNullOrEmpty(text)
+                && (DateTimeParser.TryParse(text, _formatInfo, out var value)
+                    || DateTime.TryParseExact(text, Format, null, DateTimeStyles.None, out value)
+                    || DateTime.TryParseExact(text, CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern, null, DateTimeStyles.None, out value)
+                    || DateTime.TryParseExact(text, CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern, null, DateTimeStyles.None, out value)))
+            {
+                SetCurrentValue(ValueProperty, new DateTime(value.Year, value.Month, value.Day));
             }
         }
 
         private void OnAccentColorBrushChanged()
         {
-            var solidColorBrush = AccentColorBrush as SolidColorBrush;
-            if (solidColorBrush != null)
+            if (AccentColorBrush is SolidColorBrush brush)
             {
-                var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
-                accentColor.CreateAccentColorResourceDictionary("DatePicker");
+                var accentColor = brush.Color;
+                accentColor.CreateAccentColorResourceDictionary(nameof(DatePicker));
             }
         }
 
@@ -427,8 +432,7 @@ namespace Orc.Controls
 
         private void EnableOrDisableYearConverterDependingOnFormat()
         {
-            var converter = TryFindResource("YearLongToYearShortConverter") as YearLongToYearShortConverter;
-            if (converter != null)
+            if (TryFindResource(nameof(YearLongToYearShortConverter)) is YearLongToYearShortConverter converter)
             {
                 converter.IsEnabled = IsYearShortFormat;
                 BindingOperations.GetBindingExpression(NumericTBYear, NumericTextBox.ValueProperty)?.UpdateTarget();

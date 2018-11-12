@@ -20,7 +20,6 @@ namespace Orc.Controls
     /// The color picker.
     /// </summary>
     [TemplatePart(Name = "PART_Popup", Type = typeof(Popup))]
-    [TemplatePart(Name = "PART_ToggleDropDown", Type = typeof(ToggleButton))]
     public class ColorPicker : Control
     {
         #region Fields
@@ -33,11 +32,6 @@ namespace Orc.Controls
         /// The popup.
         /// </summary>
         private Popup _popup;
-
-        /// <summary>
-        /// The toggle drop down.
-        /// </summary>
-        private ToggleButton _toggleDropDown;
         #endregion
 
         #region Constructors and Destructors
@@ -59,22 +53,23 @@ namespace Orc.Controls
             base.OnApplyTemplate();
 
             _popup = (Popup)GetTemplateChild("PART_Popup");
-            _toggleDropDown = (ToggleButton)GetTemplateChild("PART_ToggleButton");
 
             _colorBoard = new ColorBoard();
             _colorBoard.SetCurrentValue(ColorBoard.ColorProperty, Color);
-            _colorBoard.SizeChanged += colorBoard_SizeChanged;
+            _colorBoard.SizeChanged += OnColorBoardSizeChanged;
 
             _popup.SetCurrentValue(Popup.ChildProperty, _colorBoard);
-            _colorBoard.DoneClicked += colorBoard_DoneClicked;
-            _colorBoard.CancelClicked += colorBoard_CancelClicked;
+            _colorBoard.DoneClicked += OnColorBoardDoneClicked;
+            _colorBoard.CancelClicked += OnColorBoardCancelClicked;
 
-            var b = new Binding("Color");
-            b.Mode = BindingMode.TwoWay;
-            b.Source = _colorBoard;
+            var b = new Binding(nameof(ColorBoard.Color))
+            {
+                Mode = BindingMode.TwoWay,
+                Source = _colorBoard
+            };
             SetBinding(CurrentColorProperty, b);
 
-            KeyDown += ColorPicker_KeyDown;
+            KeyDown += OnColorPickerKeyDown;
         }
         #endregion
 
@@ -92,7 +87,7 @@ namespace Orc.Controls
         /// The color property.
         /// </summary>
         public static readonly DependencyProperty ColorProperty = DependencyProperty.Register(
-            "Color", typeof(Color), typeof(ColorPicker), new PropertyMetadata(Colors.White, OnColorChanged));
+            nameof(Color), typeof(Color), typeof(ColorPicker), new PropertyMetadata(Colors.White, OnColorChanged));
 
 
         /// <summary>
@@ -108,7 +103,7 @@ namespace Orc.Controls
         /// The current color property.
         /// </summary>
         public static readonly DependencyProperty CurrentColorProperty = DependencyProperty.Register(
-            "CurrentColor", typeof(Color), typeof(ColorPicker), new PropertyMetadata(Colors.White));
+            nameof(CurrentColor), typeof(Color), typeof(ColorPicker), new PropertyMetadata(Colors.White));
 
         /// <summary>
         /// Gets or sets a value indicating whether is drop down open.
@@ -123,7 +118,7 @@ namespace Orc.Controls
         /// The is drop down open property.
         /// </summary>
         public static readonly DependencyProperty IsDropDownOpenProperty = DependencyProperty.Register(
-            "IsDropDownOpen",
+            nameof(IsDropDownOpen),
             typeof(bool),
             typeof(ColorPicker),
             new PropertyMetadata(false));
@@ -141,7 +136,7 @@ namespace Orc.Controls
         /// The popup placement property.
         /// </summary>
         public static readonly DependencyProperty PopupPlacementProperty = DependencyProperty.Register(
-            "PopupPlacement", typeof(PlacementMode), typeof(ColorPicker), new PropertyMetadata(PlacementMode.Bottom));
+            nameof(PopupPlacement), typeof(PlacementMode), typeof(ColorPicker), new PropertyMetadata(PlacementMode.Bottom));
         #endregion
 
         #region Public Events
@@ -160,12 +155,8 @@ namespace Orc.Controls
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var cp = (ColorPicker)d;
-            if (cp == null)
-            {
-                return;
-            }
 
-            cp.RaiseColorChanged((Color)e.NewValue, (Color)e.OldValue);
+            cp?.RaiseColorChanged((Color)e.NewValue, (Color)e.OldValue);
         }
 
         /// <summary>
@@ -173,7 +164,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void ColorPicker_KeyDown(object sender, KeyEventArgs e)
+        private void OnColorPickerKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter && IsDropDownOpen)
             {
@@ -196,7 +187,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void colorBoard_DoneClicked(object sender, RoutedEventArgs e)
+        private void OnColorBoardDoneClicked(object sender, RoutedEventArgs e)
         {
             SetCurrentValue(ColorProperty, _colorBoard.Color);
             _popup.SetCurrentValue(Popup.IsOpenProperty, false);
@@ -207,7 +198,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void colorBoard_CancelClicked(object sender, RoutedEventArgs e)
+        private void OnColorBoardCancelClicked(object sender, RoutedEventArgs e)
         {
             var color = Color;
 
@@ -221,7 +212,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void colorBoard_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void OnColorBoardSizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (PopupPlacement == PlacementMode.Bottom)
             {

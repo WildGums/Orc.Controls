@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogFilterGroupListControlViewModel.cs" company="WildGums">
+// <copyright file="LogFilterGroupListViewModel.cs" company="WildGums">
 //   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -17,12 +17,13 @@ namespace Orc.Controls
 
     public class LogFilterGroupListViewModel : ViewModelBase
     {
+        #region Fields
         private readonly IApplicationLogFilterGroupService _applicationLogFilterGroupService;
-
         private readonly IMessageService _messageService;
-
         private readonly IUIVisualizerService _uiVisualizerService;
+        #endregion
 
+        #region Constructors
         public LogFilterGroupListViewModel(IApplicationLogFilterGroupService applicationLogFilterGroupService, IMessageService messageService, IUIVisualizerService uiVisualizerService)
         {
             Argument.IsNotNull(() => applicationLogFilterGroupService);
@@ -40,21 +41,33 @@ namespace Orc.Controls
             EditCommand = new TaskCommand(OnEditCommandExecuteAsync, OnEditCommandCanExecute);
             RemoveCommand = new TaskCommand(OnRemoveCommandExecuteAsync, OnRemoveCommandCanExecute);
         }
+        #endregion
 
         #region Properties
         public ObservableCollection<LogFilterGroup> FilterGroups { get; private set; }
-
         public ObservableCollection<LogFilterGroup> SelectedFilterGroups { get; private set; }
-
         public LogFilterGroup SelectedFilterGroup { get; set; }
-        #endregion
 
-        #region Events
-        public event EventHandler<EventArgs> Updated;
-        #endregion
-
-        #region Commands
         public TaskCommand AddCommand { get; set; }
+        public TaskCommand EditCommand { get; set; }
+        public TaskCommand RemoveCommand { get; set; }
+        #endregion
+
+        #region Methods
+        protected override async Task InitializeAsync()
+        {
+            await LoadFilterGroupsAsync();
+        }
+
+        private async Task LoadFilterGroupsAsync()
+        {
+            FilterGroups.ReplaceRange(await _applicationLogFilterGroupService.LoadAsync());
+        }
+
+        private async Task SaveFilterGroupsAsync()
+        {
+            await _applicationLogFilterGroupService.SaveAsync(FilterGroups);
+        }
 
         private async Task OnAddCommandExecuteAsync()
         {
@@ -67,8 +80,6 @@ namespace Orc.Controls
                 Updated.SafeInvoke(this);
             }
         }
-
-        public TaskCommand EditCommand { get; set; }
 
         private bool OnEditCommandCanExecute()
         {
@@ -85,8 +96,6 @@ namespace Orc.Controls
             }
         }
 
-        public TaskCommand RemoveCommand { get; set; }
-
         private bool OnRemoveCommandCanExecute()
         {
             return SelectedFilterGroup != null;
@@ -94,7 +103,8 @@ namespace Orc.Controls
 
         private async Task OnRemoveCommandExecuteAsync()
         {
-            var result = await _messageService.ShowAsync("Are you sure?", button: MessageButton.YesNo, icon: MessageImage.Warning);
+            var result = await _messageService.ShowAsync(LanguageHelper.GetString("Controls_LogViewer_AreYouSure"),
+                button: MessageButton.YesNo, icon: MessageImage.Warning);
             if (result == MessageResult.Yes)
             {
                 FilterGroups.Remove(SelectedFilterGroup);
@@ -106,19 +116,8 @@ namespace Orc.Controls
         }
         #endregion
 
-        protected override async Task InitializeAsync()
-        {
-            await LoadFilterGroupsAsync();
-        }
-
-        private async Task LoadFilterGroupsAsync()
-        {
-            FilterGroups.ReplaceRange(await _applicationLogFilterGroupService.LoadAsync());
-        }
-
-        private async Task SaveFilterGroupsAsync()
-        {
-            await _applicationLogFilterGroupService.SaveAsync(FilterGroups);
-        }
+        #region Events
+        public event EventHandler<EventArgs> Updated;
+        #endregion
     }
 }

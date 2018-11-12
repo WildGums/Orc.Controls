@@ -13,6 +13,7 @@ namespace Orc.Controls
     using System.Text;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Documents;
     using System.Windows.Input;
     using System.Windows.Media;
     using Catel;
@@ -55,6 +56,11 @@ namespace Orc.Controls
         private bool _textChangingIsInProgress = false;
 
         #region Constructors
+        static NumericTextBox()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericTextBox), new FrameworkPropertyMetadata(typeof(NumericTextBox)));
+        }
+
         public NumericTextBox()
         {
             _selectivelyIgnoreMouseButtonDelegate = SelectivelyIgnoreMouseButton;
@@ -76,7 +82,7 @@ namespace Orc.Controls
             set { SetValue(IsNullValueAllowedProperty, value); }
         }
 
-        public static readonly DependencyProperty IsNullValueAllowedProperty = DependencyProperty.Register("IsNullValueAllowed", typeof(bool),
+        public static readonly DependencyProperty IsNullValueAllowedProperty = DependencyProperty.Register(nameof(IsNullValueAllowed), typeof(bool),
             typeof(NumericTextBox), new PropertyMetadata(true, (sender, e) => ((NumericTextBox)sender).OnIsNullValueAllowedChanged()));
 
 
@@ -86,7 +92,7 @@ namespace Orc.Controls
             set { SetValue(IsNegativeAllowedProperty, value); }
         }
 
-        public static readonly DependencyProperty IsNegativeAllowedProperty = DependencyProperty.Register("IsNegativeAllowed", typeof(bool),
+        public static readonly DependencyProperty IsNegativeAllowedProperty = DependencyProperty.Register(nameof(IsNegativeAllowed), typeof(bool),
             typeof(NumericTextBox), new PropertyMetadata(false, (sender, e) => ((NumericTextBox)sender).OnIsNegativeAllowedChanged()));
 
 
@@ -96,7 +102,7 @@ namespace Orc.Controls
             set { SetValue(IsDecimalAllowedProperty, value); }
         }
 
-        public static readonly DependencyProperty IsDecimalAllowedProperty = DependencyProperty.Register("IsDecimalAllowed", typeof(bool),
+        public static readonly DependencyProperty IsDecimalAllowedProperty = DependencyProperty.Register(nameof(IsDecimalAllowed), typeof(bool),
             typeof(NumericTextBox), new PropertyMetadata(false, (sender, e) => ((NumericTextBox)sender).OnIsDecimalAllowedChanged()));
 
 
@@ -106,7 +112,7 @@ namespace Orc.Controls
             set { SetValue(MinValueProperty, value); }
         }
 
-        public static readonly DependencyProperty MinValueProperty = DependencyProperty.Register("MinValue", typeof(double),
+        public static readonly DependencyProperty MinValueProperty = DependencyProperty.Register(nameof(MinValue), typeof(double),
             typeof(NumericTextBox), new UIPropertyMetadata(0d));
 
 
@@ -116,7 +122,7 @@ namespace Orc.Controls
             set { SetValue(MaxValueProperty, value); }
         }
 
-        public static readonly DependencyProperty MaxValueProperty = DependencyProperty.Register("MaxValue", typeof(double),
+        public static readonly DependencyProperty MaxValueProperty = DependencyProperty.Register(nameof(MaxValue), typeof(double),
             typeof(NumericTextBox), new UIPropertyMetadata(double.MaxValue));
 
 
@@ -126,7 +132,7 @@ namespace Orc.Controls
             set { SetValue(FormatProperty, value); }
         }
 
-        public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof(string),
+        public static readonly DependencyProperty FormatProperty = DependencyProperty.Register(nameof(Format), typeof(string),
             typeof(NumericTextBox), new UIPropertyMetadata("F0", (sender, e) => ((NumericTextBox)sender).OnFormatChanged()));
 
 
@@ -136,7 +142,7 @@ namespace Orc.Controls
             set { SetValue(ValueProperty, value); }
         }
 
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double?),
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(double?),
             typeof(NumericTextBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((NumericTextBox)sender).OnValueChanged()));
         #endregion
 
@@ -298,6 +304,7 @@ namespace Orc.Controls
         private void OnLostFocus(object sender, RoutedEventArgs e)
         {
             SetCurrentValue(ValueProperty, GetDoubleValue(Text));
+
             UpdateText();
         }
 
@@ -394,7 +401,7 @@ namespace Orc.Controls
                 OnUpDown(-1);
                 e.Handled = true;
             }
-            
+
             e.Handled = IsKeyNotAllowed(e);
         }
 
@@ -438,12 +445,13 @@ namespace Orc.Controls
             {
                 return MinValue;
             }
+
             if (oldValue.Equals(MinValue) && increment == -1)
             {
                 return MaxValue;
             }
 
-            return oldValue + Convert.ToDouble(increment);
+            return oldValue + Convert.ToDouble(increment, CultureInfo.CurrentCulture);
         }
 
         private void RaiseRightBoundReachedEvent()
@@ -484,7 +492,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (textBox.IsKeyboardFocusWithin)
+            if (textBox.IsFocused || textBox.IsKeyboardFocusWithin)
             {
                 return;
             }

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DependencyObjectExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,6 +13,7 @@ namespace Orc.Controls
 
     public static class DependencyObjectExtensions
     {
+        #region Methods
         public static IEnumerable<DependencyObject> GetDescendents(this DependencyObject root)
         {
             var count = VisualTreeHelper.GetChildrenCount(root);
@@ -38,8 +39,9 @@ namespace Orc.Controls
                 root = parent;
                 parent = VisualTreeHelper.GetParent(root);
             } while (parent != null);
-  
+
             return root;
         }
+        #endregion
     }
 }

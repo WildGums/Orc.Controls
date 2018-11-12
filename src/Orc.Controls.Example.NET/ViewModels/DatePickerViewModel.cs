@@ -14,7 +14,6 @@ namespace Orc.Controls.Example.ViewModels
     using Catel.Collections;
     using Catel.Data;
     using Catel.MVVM;
-    using Catel.Threading;
     using Models;
 
     public class DatePickerViewModel : ViewModelBase
@@ -50,16 +49,18 @@ namespace Orc.Controls.Example.ViewModels
                 {
                     var format = new CultureFormat
                     {
-                        CultureCode = string.Format("[{0}]", cultureInfo.IetfLanguageTag),
+                        CultureCode = $"[{cultureInfo.IetfLanguageTag}]",
                         FormatValue = cultureInfo.DateTimeFormat.ShortDatePattern
                     };
 
                     AvailableFormats.Add(format);
-                    if (cultureInfo.Equals(CultureInfo.CurrentCulture))
+                    if (!cultureInfo.Equals(CultureInfo.CurrentCulture))
                     {
-                        SelectedFormat = format;
-                        DateValueString = DateValue.Value.ToString(format.FormatValue);
+                        continue;
                     }
+
+                    SelectedFormat = format;
+                    DateValueString = DateValue.Value.ToString(format.FormatValue);
                 }
             }
         }

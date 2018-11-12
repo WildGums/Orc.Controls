@@ -24,6 +24,8 @@ namespace Orc.Controls.Example.ViewModels
 
         #region Properties
         public FlowDocument FlowDoc { get; set; }
+
+        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
         public Brush AccentColorBrush { get; set; }
         #endregion
     }

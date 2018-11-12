@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="SqlConnectionString.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -18,8 +18,11 @@ namespace Orc.Controls
 
     public class SqlConnectionString : ModelBase
     {
+        #region Fields
         private readonly DbConnectionStringBuilder _connectionStringBuilder;
+        #endregion
 
+        #region Constructors
         public SqlConnectionString(DbConnectionStringBuilder connectionStringBuilder, DbProvider dbProvider)
         {
             Argument.IsNotNull(() => connectionStringBuilder);
@@ -30,11 +33,15 @@ namespace Orc.Controls
 
             UpdateProperties();
         }
+        #endregion
 
-        public Dictionary<string, ConnectionStringProperty> Properties { get; private set; }
+        #region Properties
+        public IReadOnlyDictionary<string, ConnectionStringProperty> Properties { get; private set; }
 
         public DbProvider DbProvider { get; }
+        #endregion
 
+        #region Methods
         private void UpdateProperties()
         {
             if (_connectionStringBuilder == null)
@@ -50,7 +57,7 @@ namespace Orc.Controls
             var sensitivePropertiesHashSet = new HashSet<string>();
             sensitivePropertiesHashSet.AddRange(sensitiveProperties);
 
-            Properties = _connectionStringBuilder.Keys?.OfType<string>()
+            Properties = _connectionStringBuilder.Keys.OfType<string>()
                 .ToDictionary(x => x, x =>
                 {
                     var isSensitive = sensitivePropertiesHashSet.Contains(x);
@@ -74,6 +81,7 @@ namespace Orc.Controls
                 removedProperties.Add(new Tuple<string, object>(propertyName, _connectionStringBuilder[propertyName]));
                 _connectionStringBuilder.Remove(propertyName);
             }
+
             var displayConnectionString = _connectionStringBuilder.ConnectionString;
 
             foreach (var prop in removedProperties.Where(prop => prop.Item2 != null))
@@ -88,5 +96,6 @@ namespace Orc.Controls
         {
             return _connectionStringBuilder.ConnectionString;
         }
+        #endregion
     }
 }

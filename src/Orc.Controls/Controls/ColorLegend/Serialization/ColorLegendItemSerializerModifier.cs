@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ColorLegendItemSerializerModifier.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,14 +14,21 @@ namespace Orc.Controls
 
     public class ColorLegendItemSerializerModifier : SerializerModifierBase<ColorLegendItem>
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        #region Constants
+        private const char ArgbSeparator = ';';
+        #endregion
 
+        #region Fields
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        #endregion
+
+        #region Methods
         public override void SerializeMember(ISerializationContext context, MemberValue memberValue)
         {
-            if (string.Equals("Color", memberValue.Name))
+            if (string.Equals(nameof(ColorLegendItem.Color), memberValue.Name))
             {
-                var color = (Color) memberValue.Value;
-                memberValue.Value = string.Format("{0};{1};{2};{3}", color.A, color.R, color.G, color.B);
+                var color = (Color)memberValue.Value;
+                memberValue.Value = $"{color.A}{ArgbSeparator}{color.R}{ArgbSeparator}{color.G}{ArgbSeparator}{color.B}";
             }
 
             base.SerializeMember(context, memberValue);
@@ -29,7 +36,7 @@ namespace Orc.Controls
 
         public override void DeserializeMember(ISerializationContext context, MemberValue memberValue)
         {
-            if (string.Equals("Color", memberValue.Name))
+            if (string.Equals(nameof(ColorLegendItem.Color), memberValue.Name))
             {
                 var color = memberValue.Value as string;
 
@@ -37,9 +44,9 @@ namespace Orc.Controls
                 {
                     if (!string.IsNullOrEmpty(color))
                     {
-                        var colorParts = color.Split(';');
+                        var colorParts = color.Split(ArgbSeparator);
 
-                        memberValue.Value = Color.FromArgb(Convert.ToByte(colorParts[0]), Convert.ToByte(colorParts[1]), 
+                        memberValue.Value = Color.FromArgb(Convert.ToByte(colorParts[0]), Convert.ToByte(colorParts[1]),
                             Convert.ToByte(colorParts[2]), Convert.ToByte(colorParts[3]));
                     }
                 }
@@ -51,5 +58,6 @@ namespace Orc.Controls
 
             base.DeserializeMember(context, memberValue);
         }
+        #endregion
     }
 }

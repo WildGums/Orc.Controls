@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="LogEntryEventArgs.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,14 +13,18 @@ namespace Orc.Controls
 
     public class LogEntryEventArgs : EventArgs
     {
+        #region Constructors
         public LogEntryEventArgs(List<LogEntry> logEntries, List<LogEntry> filteredLogEntries)
         {
             LogEntries = logEntries;
             FilteredLogEntries = filteredLogEntries;
         }
+        #endregion
 
+        #region Properties
         public List<LogEntry> LogEntries { get; private set; }
 
         public List<LogEntry> FilteredLogEntries { get; private set; }
+        #endregion
     }
 }

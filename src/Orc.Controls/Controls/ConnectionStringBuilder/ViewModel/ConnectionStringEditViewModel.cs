@@ -1,13 +1,12 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ConnectionStringEditViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
 namespace Orc.Controls
 {
-    using System;
     using System.Threading.Tasks;
     using Catel;
     using Catel.Collections;
@@ -18,14 +17,19 @@ namespace Orc.Controls
 
     public class ConnectionStringEditViewModel : ViewModelBase
     {
+        #region Fields
+        private static bool _isServersInitialized = false;
+        private static readonly FastObservableCollection<string> CachedServers = new FastObservableCollection<string>();
+
         private readonly IConnectionStringBuilderService _connectionStringBuilderService;
         private readonly IMessageService _messageService;
         private readonly ITypeFactory _typeFactory;
         private readonly IUIVisualizerService _uiVisualizerService;
 
         private bool _isDatabasesInitialized = false;
-        private bool _isServersInitialized = false;
+        #endregion
 
+        #region Constructors
         public ConnectionStringEditViewModel(string connectionString, DbProvider provider, IMessageService messageService,
             IConnectionStringBuilderService connectionStringBuilderService, IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory)
         {
@@ -55,12 +59,16 @@ namespace Orc.Controls
             TestConnection = new Command(OnTestConnection);
             ShowAdvancedOptions = new TaskCommand(OnShowAdvancedOptionsAsync, () => ConnectionString != null);
         }
+        #endregion
 
+        #region Properties
         public ConnectionStringProperty DataSource => ConnectionString.TryGetProperty("Data Source");
         public ConnectionStringProperty UserId => ConnectionString.TryGetProperty("User ID");
         public ConnectionStringProperty Password => ConnectionString.TryGetProperty("Password");
         public ConnectionStringProperty IntegratedSecurity => ConnectionString.TryGetProperty("Integrated Security");
-        
+
+        public bool IsAdvancedOptionsReadOnly { get; set; }
+
         public bool? IntegratedSecurityValue
         {
             get { return (bool?)IntegratedSecurity?.Value; }
@@ -79,7 +87,8 @@ namespace Orc.Controls
                 IntegratedSecurity.Value = value;
                 RaisePropertyChanged(nameof(IntegratedSecurityValue));
             }
-        } 
+        }
+
         public ConnectionStringProperty InitialCatalog => ConnectionString.TryGetProperty("Initial Catalog");
         public bool CanLogOnToServer => Password != null || UserId != null;
         public bool IsLogOnEnabled => CanLogOnToServer && !(IntegratedSecurityValue ?? false);
@@ -99,9 +108,11 @@ namespace Orc.Controls
         public Command RefreshDatabases { get; }
         public Command InitDatabases { get; }
 
-        public FastObservableCollection<string> Servers { get; } = new FastObservableCollection<string>();
+        public FastObservableCollection<string> Servers => CachedServers;
         public FastObservableCollection<string> Databases { get; } = new FastObservableCollection<string>();
+        #endregion
 
+        #region Methods
         private void OnDbProviderChanged()
         {
             var dbProvider = DbProvider;
@@ -109,7 +120,7 @@ namespace Orc.Controls
             {
                 return;
             }
-            
+
             ConnectionString = _connectionStringBuilderService.CreateConnectionString(dbProvider);
             SetIntegratedSecurityToDefault();
         }
@@ -135,6 +146,8 @@ namespace Orc.Controls
             }
 
             var advancedOptionsViewModel = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<ConnectionStringAdvancedOptionsViewModel>(connectionString);
+            advancedOptionsViewModel.IsAdvancedOptionsReadOnly = IsAdvancedOptionsReadOnly;
+
             await _uiVisualizerService.ShowDialogAsync(advancedOptionsViewModel);
         }
 
@@ -218,5 +231,6 @@ namespace Orc.Controls
                 IsDatabaseListVisible = true;
             });
         }
+        #endregion
     }
 }

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="BindableRichTextBox.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,24 +13,47 @@ namespace Orc.Controls
 
     public class BindableRichTextBox : RichTextBox
     {
-        #region Properties
-        public static readonly DependencyProperty BindableDocumentProperty = DependencyProperty.Register("BindableDocument",
-            typeof(FlowDocument), typeof(BindableRichTextBox), new PropertyMetadata(OnBindableDocumentChanged));
-
-        public FlowDocument BindableDocument
+        #region Constructors
+        public BindableRichTextBox()
         {
-            get { return (FlowDocument) GetValue(BindableDocumentProperty); }
-            set { SetValue(BindableDocumentProperty, value); }
+            TextChanged += OnTextChanged;
         }
         #endregion
 
-        #region Methods
-        private static void OnBindableDocumentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        #region Dependency properties
+        public FlowDocument BindableDocument
         {
-            var thisControl = (BindableRichTextBox) d;
-
-            thisControl.Document = (e.NewValue == null) ? new FlowDocument() : (FlowDocument) e.NewValue;
+            get { return (FlowDocument)GetValue(BindableDocumentProperty); }
+            set { SetValue(BindableDocumentProperty, value); }
         }
-        #endregion        
+
+        public static readonly DependencyProperty BindableDocumentProperty = DependencyProperty.Register(nameof(BindableDocument),
+            typeof(FlowDocument), typeof(BindableRichTextBox), new PropertyMetadata((sender, args) => ((BindableRichTextBox)sender).OnBindableDocumentChanged(args)));
+
+
+        public bool AutoScrollToEnd
+        {
+            get { return (bool)GetValue(AutoScrollToEndProperty); }
+            set { SetValue(AutoScrollToEndProperty, value); }
+        }
+
+        public static readonly DependencyProperty AutoScrollToEndProperty = DependencyProperty.Register(nameof(AutoScrollToEnd),
+            typeof(bool), typeof(BindableRichTextBox), new PropertyMetadata(default(bool)));
+        #endregion
+
+        #region Methods
+        private void OnBindableDocumentChanged(DependencyPropertyChangedEventArgs args)
+        {
+            Document = (args.NewValue == null) ? new FlowDocument() : (FlowDocument)args.NewValue;
+        }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (AutoScrollToEnd)
+            {
+                ScrollToEnd();
+            }
+        }
+        #endregion
     }
 }

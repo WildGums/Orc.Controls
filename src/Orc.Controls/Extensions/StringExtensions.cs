@@ -1,18 +1,30 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="StringExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
 namespace Orc.Controls
 {
+    using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows.Documents;
 
     public static class StringExtensions
     {
         #region Methods
+        internal static string ChunkIntValue(this string input, string partValue, out int val)
+        {
+            val = int.Parse(partValue);
+            return input.Substring(partValue.Length);
+        }
+
+        internal static bool IsDateTimeFormatPart(this string part)
+        {
+            return part.Contains('h') || part.Contains('H') || part.Contains('m') || part.Contains('s') || part.Contains('t');
+        }
+
         public static Inline ToInline(this string text)
         {
             return new Run(text);
@@ -27,7 +39,7 @@ namespace Orc.Controls
                 var modifiedPattern = "/^" + pattern.Substring(1, pattern.Length - 2) + "$/";
                 regexString = modifiedPattern.ExtractRegexString();
             }
-            
+
             if (string.IsNullOrWhiteSpace(regexString))
             {
                 regexString = pattern.ExtractRegexString();
@@ -58,12 +70,7 @@ namespace Orc.Controls
             }
 
             filter = filter.Substring(1, filter.Length - 2);
-            if (!filter.IsValidRegexPattern())
-            {
-                return string.Empty;
-            }
-
-            return filter;
+            return !filter.IsValidRegexPattern() ? string.Empty : filter;
         }
 
         public static bool IsValidRegexPattern(this string pattern)

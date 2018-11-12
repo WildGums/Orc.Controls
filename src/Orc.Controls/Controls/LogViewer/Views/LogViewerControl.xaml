@@ -8,7 +8,7 @@
 
     <Grid>
         <RichTextBox x:Name="LogRecordsRichTextBox" IsReadOnly="True" IsDocumentEnabled="True" 
-                     HorizontalAlignment="Stretch" IsUndoEnabled="False" UndoLimit="0"
+                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsUndoEnabled="False" UndoLimit="0"
                      VerticalScrollBarVisibility="Auto" ScrollViewer.ScrollChanged="OnScrollViewerScrollChanged"
                      KeyDown="LogRecordsRichTextBox_OnKeyDown" PreviewKeyDown="LogRecordsRichTextBox_OnPreviewKeyDown" />
     </Grid>

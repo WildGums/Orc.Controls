@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ConnectionStringBuilderService.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,15 +14,20 @@ namespace Orc.Controls
 
     public class ConnectionStringBuilderService : IConnectionStringBuilderService
     {
+        #region Fields
         private readonly Dictionary<string, IDataSourceProvider> _providers = new Dictionary<string, IDataSourceProvider>();
+        #endregion
 
+        #region Constructors
         public ConnectionStringBuilderService(IConnectionStringBuilderServiceInitializer connectionStringBuilderServiceInitializer)
         {
             Argument.IsNotNull(() => connectionStringBuilderServiceInitializer);
 
             connectionStringBuilderServiceInitializer.Initialize(this);
         }
+        #endregion
 
+        #region IConnectionStringBuilderService Members
         public ConnectionState GetConnectionState(SqlConnectionString connectionString)
         {
             var connectionStringStr = connectionString?.ToString();
@@ -84,8 +89,7 @@ namespace Orc.Controls
                 return new List<string>();
             }
 
-            IDataSourceProvider provider = null;
-            _providers.TryGetValue(dbProvider, out provider);
+            _providers.TryGetValue(dbProvider, out var provider);
             if (provider == null)
             {
                 return new List<string>();
@@ -145,9 +149,9 @@ namespace Orc.Controls
                 return new List<string>();
             }
 
-            IDataSourceProvider provider = null;
-            _providers.TryGetValue(dbProvider, out provider);
+            _providers.TryGetValue(dbProvider, out var provider);
             return provider != null ? provider.GetDataSources() : new List<string>();
         }
+        #endregion
     }
 }

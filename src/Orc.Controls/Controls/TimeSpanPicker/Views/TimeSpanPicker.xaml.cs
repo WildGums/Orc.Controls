@@ -67,16 +67,19 @@ namespace Orc.Controls
             set { SetValue(ValueProperty, value); }
         }
 
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(TimeSpan?), typeof(TimeSpanPicker),
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(TimeSpan?), typeof(TimeSpanPicker),
             new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((TimeSpanPicker)sender).OnValueChanged(e.NewValue)));
 
+
+        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
         public Brush AccentColorBrush
         {
             get { return (Brush)GetValue(AccentColorBrushProperty); }
             set { SetValue(AccentColorBrushProperty, value); }
         }
 
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register("AccentColorBrush", typeof(Brush),
+        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), typeof(Brush),
             typeof(TimeSpanPicker), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((TimeSpanPicker)sender).OnAccentColorBrushChanged()));
 
         public bool IsReadOnly
@@ -85,7 +88,7 @@ namespace Orc.Controls
             set { SetValue(IsReadOnlyProperty, value); }
         }
 
-        public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register("IsReadOnly", typeof(bool),
+        public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register(nameof(IsReadOnly), typeof(bool),
             typeof(TimeSpanPicker), new PropertyMetadata(false));
 
         #endregion
