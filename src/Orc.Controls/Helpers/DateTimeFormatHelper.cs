@@ -1,18 +1,17 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DateTimeFormatHelper.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
 namespace Orc.Controls
 {
-    using Catel;
-    using Catel.Logging;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using Catel.Logging;
 
     public static class DateTimeFormatHelper
     {
@@ -65,7 +64,7 @@ namespace Orc.Controls
             }
 
             var result = new DateTimeFormatInfo();
-            var parts = Split(format, new[] { 'y', 'M', 'd', 'H', 'h', 'm', 's', 't' });
+            var parts = Split(format, new[] {'y', 'M', 'd', 'H', 'h', 'm', 's', 't'});
 
             var current = 0;
             var count = 0;
@@ -86,7 +85,7 @@ namespace Orc.Controls
             {
                 throw Log.ErrorAndCreateException<FormatException>(errorMessage);
             }
-            
+
             if (!isDateOnly)
             {
                 result.IsAmPmShortFormat = result.AmPmFormat != null && result.AmPmFormat.Length < 2;

@@ -7,7 +7,6 @@
 
 namespace Orc.Controls
 {
-    using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
     using Catel.Windows.Interactivity;

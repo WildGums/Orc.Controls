@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="TreeViewItemExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,6 +12,7 @@ namespace Orc.Controls
 
     public static class TreeViewItemExtensions
     {
+        #region Methods
         public static int GetDepth(this TreeViewItem item)
         {
             var depth = 0;
@@ -42,5 +43,6 @@ namespace Orc.Controls
 
             return parent as TreeViewItem;
         }
+        #endregion
     }
 }

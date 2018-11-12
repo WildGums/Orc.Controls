@@ -1,4 +1,11 @@
-﻿namespace Orc.Controls.Services
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AccentColorService.cs" company="WildGums">
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+namespace Orc.Controls.Services
 {
     using System;
     using System.Windows;
@@ -7,17 +14,22 @@
 
     public class AccentColorService : IAccentColorService
     {
+        #region Fields
         private Color? _accentColor;
+        #endregion
 
+        #region IAccentColorService Members
         public virtual Color GetAccentColor()
         {
-            if (!_accentColor.HasValue)
+            if (_accentColor.HasValue)
             {
-                var accentColorBrush = Application.Current.TryFindResource("AccentColorBrush") as SolidColorBrush;
-                var finalBrush = accentColorBrush ?? Brushes.Orange;
-
-                _accentColor = finalBrush.Color;
+                return _accentColor.Value;
             }
+
+            var accentColorBrush = Application.Current.TryFindResource("AccentColorBrush") as SolidColorBrush;
+            var finalBrush = accentColorBrush ?? Brushes.Orange;
+
+            _accentColor = finalBrush.Color;
 
             return _accentColor.Value;
         }
@@ -30,10 +42,13 @@
         }
 
         public event EventHandler<EventArgs> AccentColorChanged;
+        #endregion
 
+        #region Methods
         protected void RaiseAccentColorChanged()
         {
             AccentColorChanged.SafeInvoke(this);
         }
+        #endregion
     }
 }

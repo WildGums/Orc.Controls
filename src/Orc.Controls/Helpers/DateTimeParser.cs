@@ -1,16 +1,16 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DateTimeParser.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
 namespace Orc.Controls
 {
-    using Catel;
-    using Catel.Logging;
     using System;
     using System.Linq;
+    using Catel;
+    using Catel.Logging;
 
     public static class DateTimeParser
     {
@@ -83,7 +83,6 @@ namespace Orc.Controls
                 {
                     input = ParseAmPmFormat(input, formatInfo, i);
                 }
-
 
                 if (i == formatInfo.YearPosition)
                 {
@@ -235,9 +234,7 @@ namespace Orc.Controls
         {
             if (throwOnError)
             {
-                throw innerException == null ?
-                    Log.ErrorAndCreateException<TException>(exceptionMessage) :
-                    Log.ErrorAndCreateException<TException>(innerException, exceptionMessage);
+                throw innerException == null ? Log.ErrorAndCreateException<TException>(exceptionMessage) : Log.ErrorAndCreateException<TException>(innerException, exceptionMessage);
             }
 
             Log.Warning(exceptionMessage);

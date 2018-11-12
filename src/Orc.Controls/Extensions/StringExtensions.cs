@@ -1,15 +1,15 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="StringExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 
 namespace Orc.Controls
 {
+    using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows.Documents;
-    using System.Linq;
 
     public static class StringExtensions
     {
@@ -39,7 +39,7 @@ namespace Orc.Controls
                 var modifiedPattern = "/^" + pattern.Substring(1, pattern.Length - 2) + "$/";
                 regexString = modifiedPattern.ExtractRegexString();
             }
-            
+
             if (string.IsNullOrWhiteSpace(regexString))
             {
                 regexString = pattern.ExtractRegexString();

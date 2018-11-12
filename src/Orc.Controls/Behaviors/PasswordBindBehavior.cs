@@ -13,7 +13,7 @@ namespace Orc.Controls
 
     public class PasswordBindBehavior : BehaviorBase<PasswordBox>
     {
-        #region Properties
+        #region Dependency properties
         public string Password
         {
             get { return (string)GetValue(PasswordProperty); }
@@ -22,7 +22,6 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register(nameof(Password),
             typeof(string), typeof(PasswordBindBehavior), new PropertyMetadata(default(string), (sender, args) => ((PasswordBindBehavior)sender).OnPasswordChanged(args)));
-
         #endregion
 
         #region Methods

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="TextBoxExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,6 +12,7 @@ namespace Orc.Controls
 
     public static class TextBoxExtensions
     {
+        #region Methods
         internal static void SubscribeToOnRightBoundReachedEvent(this TextBox textBox, EventHandler handler)
         {
             switch (textBox)
@@ -85,5 +86,6 @@ namespace Orc.Controls
                     break;
             }
         }
+        #endregion
     }
 }

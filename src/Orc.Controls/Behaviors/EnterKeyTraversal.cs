@@ -13,11 +13,6 @@ namespace Orc.Controls
     // originally came from http://madprops.org/blog/enter-to-tab-as-an-attached-property/
     public static class EnterKeyTraversal
     {
-        #region Constants
-        public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.RegisterAttached("IsEnabled", typeof(bool),
-            typeof(EnterKeyTraversal), new UIPropertyMetadata(false, IsEnabledChanged));
-        #endregion
-
         #region Methods
         public static bool GetIsEnabled(DependencyObject obj)
         {
@@ -28,6 +23,9 @@ namespace Orc.Controls
         {
             obj.SetValue(IsEnabledProperty, value);
         }
+
+        public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.RegisterAttached("IsEnabled", typeof(bool),
+            typeof(EnterKeyTraversal), new UIPropertyMetadata(false, IsEnabledChanged));
 
         private static void OnPreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
