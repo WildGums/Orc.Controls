@@ -120,7 +120,7 @@ namespace Orc.Controls
         private readonly ConditionalWeakTable<object, object> _wrappedContainers = new ConditionalWeakTable<object, object>();
         private Panel _itemsHolder;
 
-#if NET
+#if NET || NETCORE
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TabControl"/>.class.

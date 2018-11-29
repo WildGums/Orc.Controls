@@ -5,17 +5,14 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-#if NET
+#if NET || NETCORE
 
 namespace Orc.Controls
 {
     using System.Windows;
     using System.Windows.Controls;
-
-#if NET
     using System;
     using System.Windows.Input;
-#endif
 
     /// <summary>
     /// WatermarkTextBox which is a simple <see cref="TextBox"/> that is able to show simple and complex watermarks.
@@ -28,9 +25,7 @@ namespace Orc.Controls
         /// </summary>
         static WatermarkTextBox()
         {
-#if NET
             DefaultStyleKeyProperty.OverrideMetadata(typeof(WatermarkTextBox), new FrameworkPropertyMetadata(typeof(WatermarkTextBox)));
-#endif
         }
 
         /// <summary>
@@ -38,9 +33,6 @@ namespace Orc.Controls
         /// </summary>
         public WatermarkTextBox()
         {
-#if SILVERLIGHT
-            DefaultStyleKey = GetType();
-#endif
         }
         #endregion
 
@@ -100,24 +92,6 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-#if SILVERLIGHT
-        /// <summary>
-        /// Called before <see cref="E:System.Windows.UIElement.GotFocus"/> event occurs.
-        /// </summary>
-        /// <param name="e">The data for the event.</param>
-        /// <remarks></remarks>
-        protected override void OnGotFocus(RoutedEventArgs e)
-        {
-            base.OnGotFocus(e);
-
-            if (SelectAllOnGotFocus)
-            {
-                SelectAll();
-            }
-        }
-#endif
-
-#if NET
         /// <summary>
         /// Invoked whenever an unhandled <c>System.Windows.Input.Keyboard.GotKeyboardFocus</c> attached routed event reaches an element derived from this class in its route. Implement this method to add class handling for this event.
         /// </summary>
@@ -148,7 +122,6 @@ namespace Orc.Controls
 
             base.OnPreviewMouseLeftButtonDown(e);
         }
-#endif
         #endregion
     }
 }
