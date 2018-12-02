@@ -1493,7 +1493,7 @@ namespace Orc.Controls
         public static System.Windows.Media.SolidColorBrush GetAccentColorBrush() { }
         public static System.Windows.Media.SolidColorBrush GetSolidColorBrush(this System.Windows.Media.Color color, double opacity = 1) { }
         public static System.Windows.Media.Color GetThemeColor(Orc.Controls.ThemeColorStyle colorStyle = 0) { }
-        public static System.Windows.Media.SolidColorBrush GetThemeColorBrush(Orc.Controls.ThemeColorStyle colorStyle) { }
+        public static System.Windows.Media.SolidColorBrush GetThemeColorBrush(Orc.Controls.ThemeColorStyle colorStyle = 0) { }
     }
     public class TimeAdjustment
     {
