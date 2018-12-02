@@ -170,7 +170,7 @@ namespace Orc.Controls
             return GetThemeColorBrush((ThemeColorStyle)(int)colorStyle);
         }
 
-        public static SolidColorBrush GetThemeColorBrush(ThemeColorStyle colorStyle)
+        public static SolidColorBrush GetThemeColorBrush(ThemeColorStyle colorStyle = ThemeColorStyle.AccentColor)
         {
             return _themeColorBrushesCache.GetFromCacheOrFetch(colorStyle, () =>
             {
