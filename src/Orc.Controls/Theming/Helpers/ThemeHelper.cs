@@ -46,6 +46,7 @@ namespace Orc.Controls
         BorderColor5 = 11,
 
         ForegroundColor = 12,
+        ForegroundAlternativeColor = 13,
 
         // Aliases - highlights
         DarkHighlight = AccentColor3,
@@ -57,16 +58,25 @@ namespace Orc.Controls
         BorderDark = BorderColor1,
         BorderMouseOver = AccentColor1,
         BorderPressed = AccentColor,
+        BorderChecked = AccentColor,
+        BorderSelected = AccentColor,
+        BorderSelectedInactive = AccentColor2,
         BorderDisabled = BorderColor5,
 
         // Aliases - backgrounds
         BackgroundMouseOver = AccentColor4,
         BackgroundPressed = AccentColor3,
+        BackgroundChecked = AccentColor,
+        BackgroundSelected = AccentColor3,
+        BackgroundSelectedInactive = AccentColor4,
         BackgroundDisabled = AccentColor5,
 
         // Aliases - foregrounds
         ForegroundMouseOver = ForegroundColor,
-        ForegroundPressed = ForegroundColor,
+        ForegroundPressed = ForegroundAlternativeColor,
+        ForegroundChecked = ForegroundAlternativeColor,
+        ForegroundSelected = ForegroundAlternativeColor,
+        ForegroundSelectedInactive = ForegroundAlternativeColor,
         ForegroundDisabled = ForegroundColor
     }
 
@@ -108,6 +118,7 @@ namespace Orc.Controls
                 // For now use a fixed values, we might change in the future
                 var borderColor = Colors.LightGray;
                 var foreground = Colors.Black;
+                var foregroundAlternative = Colors.White;
 
                 const int Alpha0 = 255;
                 const int Alpha1 = 204;
@@ -159,6 +170,9 @@ namespace Orc.Controls
                     // Foreground
                     case ThemeColorStyle.ForegroundColor:
                         return CreateColor(Alpha0, foreground);
+
+                    case ThemeColorStyle.ForegroundAlternativeColor:
+                        return CreateColor(Alpha0, foregroundAlternative);
 
                     default:
                         throw new ArgumentOutOfRangeException(nameof(colorStyle));
