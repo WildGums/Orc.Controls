@@ -54,7 +54,7 @@
         </Border>
 
         <Border x:Name="NumericTBEditorContainer" Grid.ColumnSpan="8"
-                BorderBrush="{controls:AccentColorBrush AccentColorStyle=AccentColor}" BorderThickness="1"
+                BorderBrush="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" BorderThickness="1"
                 Width="{Binding ActualWidth, ElementName=MainContainer}" Visibility="Collapsed"
                 Height="{Binding ActualHeight, ElementName=MainContainer}">
             <Grid HorizontalAlignment="Stretch" Background="White">

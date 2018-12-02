@@ -25,10 +25,10 @@
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" TargetName="Chrome" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor4}"/>
+                                    <Setter Property="Background" TargetName="Chrome" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor4}"/>
                                 </Trigger>
                                 <Trigger Property="IsPressed" Value="True">
-                                    <Setter Property="Background" TargetName="Chrome" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
+                                    <Setter Property="Background" TargetName="Chrome" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
                                 </Trigger>
                                 <Trigger Property="IsEnabled" Value="False">
                                     <Setter Property="Foreground" Value="#FFADADAD"/>
@@ -61,10 +61,10 @@
                                 <Setter Property="BorderBrush" TargetName="Chrome" Value="Green"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="BorderBrush" TargetName="Chrome" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
+                                <Setter Property="BorderBrush" TargetName="Chrome" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
                             </Trigger>
                             <Trigger Property="IsInEditMode" Value="True">
-                                <Setter Property="BorderBrush" TargetName="Chrome" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
+                                <Setter Property="BorderBrush" TargetName="Chrome" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

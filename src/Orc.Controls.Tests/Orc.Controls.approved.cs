@@ -10,24 +10,23 @@ public class static ModuleInitializer
 }
 namespace Orc.Controls
 {
-    public class AccentColor : Catel.Windows.Markup.UpdatableMarkupExtension
+    [System.ObsoleteAttribute("Use `ThemeColor` instead. Will be removed in version 4.0.0.", true)]
+    public class AccentColor : Orc.Controls.ThemeColor
     {
         public AccentColor() { }
         public AccentColor(Orc.Controls.AccentColorStyle accentColorStyle) { }
         public Orc.Controls.AccentColorStyle AccentColorStyle { get; set; }
-        protected override void OnTargetObjectLoaded() { }
-        protected override void OnTargetObjectUnloaded() { }
         protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
     }
-    public class AccentColorBrush : Catel.Windows.Markup.UpdatableMarkupExtension
+    [System.ObsoleteAttribute("Use `ThemeColorBrush` instead. Will be removed in version 4.0.0.", true)]
+    public class AccentColorBrush : Orc.Controls.ThemeColorBrush
     {
         public AccentColorBrush() { }
         public AccentColorBrush(Orc.Controls.AccentColorStyle accentColorStyle) { }
         public Orc.Controls.AccentColorStyle AccentColorStyle { get; set; }
-        protected override void OnTargetObjectLoaded() { }
-        protected override void OnTargetObjectUnloaded() { }
         protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
     }
+    [System.ObsoleteAttribute("Use `ThemeColorStyle` instead. Will be removed in version 4.0.0.", true)]
     public enum AccentColorStyle
     {
         AccentColor = 0,
@@ -1442,12 +1441,59 @@ namespace Orc.Controls
         public System.Windows.Controls.TabItem TabItem { get; }
     }
     public class static TextBoxExtensions { }
+    public class ThemeColor : Catel.Windows.Markup.UpdatableMarkupExtension
+    {
+        public ThemeColor() { }
+        public ThemeColor(Orc.Controls.ThemeColorStyle themeColorStyle) { }
+        public Orc.Controls.ThemeColorStyle ThemeColorStyle { get; set; }
+        protected override void OnTargetObjectLoaded() { }
+        protected override void OnTargetObjectUnloaded() { }
+        protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
+    }
+    public class ThemeColorBrush : Catel.Windows.Markup.UpdatableMarkupExtension
+    {
+        public ThemeColorBrush() { }
+        public ThemeColorBrush(Orc.Controls.ThemeColorStyle themeColorStyle) { }
+        public Orc.Controls.ThemeColorStyle ThemeColorStyle { get; set; }
+        protected override void OnTargetObjectLoaded() { }
+        protected override void OnTargetObjectUnloaded() { }
+        protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
+    }
+    public enum ThemeColorStyle
+    {
+        AccentColor = 0,
+        AccentColor1 = 1,
+        AccentColor2 = 2,
+        AccentColor3 = 3,
+        AccentColor4 = 4,
+        AccentColor5 = 5,
+        BorderColor = 6,
+        BorderColor1 = 7,
+        BorderColor2 = 8,
+        BorderColor3 = 9,
+        BorderColor4 = 10,
+        BorderColor5 = 11,
+        ForegroundColor = 12,
+        DarkHighlight = 3,
+        Highlight = 4,
+        BorderLight = 9,
+        BorderMedium = 8,
+        BorderDark = 7,
+        BorderMouseOver = 7,
+        BorderPressed = 6,
+        BackgroundDisabled = 5,
+        BorderDisabled = 11,
+    }
     public class static ThemeHelper
     {
+        [System.ObsoleteAttribute("Use `GetThemeColor` instead. Will be removed in version 4.0.0.", true)]
         public static System.Windows.Media.Color GetAccentColor(Orc.Controls.AccentColorStyle colorStyle = 0) { }
-        public static System.Windows.Media.SolidColorBrush GetAccentColorBrush(Orc.Controls.AccentColorStyle colorStyle) { }
+        [System.ObsoleteAttribute("Use `GetThemeColorBrush` instead. Will be removed in version 4.0.0.", true)]
+        public static System.Windows.Media.SolidColorBrush GetAccentColorBrush(Orc.Controls.AccentColorStyle colorStyle = 0) { }
         public static System.Windows.Media.SolidColorBrush GetAccentColorBrush() { }
         public static System.Windows.Media.SolidColorBrush GetSolidColorBrush(this System.Windows.Media.Color color, double opacity = 1) { }
+        public static System.Windows.Media.Color GetThemeColor(Orc.Controls.ThemeColorStyle colorStyle = 0) { }
+        public static System.Windows.Media.SolidColorBrush GetThemeColorBrush(Orc.Controls.ThemeColorStyle colorStyle) { }
     }
     public class TimeAdjustment
     {

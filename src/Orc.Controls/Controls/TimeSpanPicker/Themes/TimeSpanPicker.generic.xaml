@@ -76,10 +76,10 @@
                 </Setter>
             </MultiDataTrigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}" />
+                <Setter Property="BorderBrush" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" />
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="BorderBrush" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}" />
+                <Setter Property="BorderBrush" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" />
             </Trigger>
         </Style.Triggers>
     </Style>

@@ -54,10 +54,10 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:AccentColorBrush AccentColorStyle=Highlight}"/>
+                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:ThemeColorBrush ThemeColorStyle=Highlight}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
+                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
                             <Setter Property="Fill" TargetName="Path" Value="White"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
@@ -88,10 +88,10 @@
                             <Setter TargetName="Path" Property="Data" Value="{StaticResource PinnedGeometry}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:AccentColorBrush AccentColorStyle=Highlight}"/>
+                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:ThemeColorBrush ThemeColorStyle=Highlight}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
+                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
                             <Setter Property="Fill" TargetName="Path" Value="White"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
@@ -120,7 +120,7 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             
-                            <Border BorderThickness="0 0 0 1" BorderBrush="LightGray" Background="WhiteSmoke">
+                            <Border BorderThickness="0 0 0 1" BorderBrush="{controls:ThemeColorBrush ThemeColorStyle=BorderColor}" Background="WhiteSmoke">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
