@@ -1481,8 +1481,13 @@ namespace Orc.Controls
         BorderDark = 7,
         BorderMouseOver = 1,
         BorderPressed = 0,
-        BackgroundDisabled = 5,
         BorderDisabled = 11,
+        BackgroundMouseOver = 4,
+        BackgroundPressed = 3,
+        BackgroundDisabled = 5,
+        ForegroundMouseOver = 12,
+        ForegroundPressed = 12,
+        ForegroundDisabled = 12,
     }
     public class static ThemeHelper
     {

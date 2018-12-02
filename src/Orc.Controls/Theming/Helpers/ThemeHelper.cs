@@ -57,10 +57,17 @@ namespace Orc.Controls
         BorderDark = BorderColor1,
         BorderMouseOver = AccentColor1,
         BorderPressed = AccentColor,
-
-        // Aliases - disabled state
-        BackgroundDisabled = AccentColor5,
         BorderDisabled = BorderColor5,
+
+        // Aliases - backgrounds
+        BackgroundMouseOver = AccentColor4,
+        BackgroundPressed = AccentColor3,
+        BackgroundDisabled = AccentColor5,
+
+        // Aliases - foregrounds
+        ForegroundMouseOver = ForegroundColor,
+        ForegroundPressed = ForegroundColor,
+        ForegroundDisabled = ForegroundColor
     }
 
     public static class ThemeHelper
