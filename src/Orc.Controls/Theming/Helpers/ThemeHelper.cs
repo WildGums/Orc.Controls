@@ -55,8 +55,8 @@ namespace Orc.Controls
         BorderLight = BorderColor3,
         BorderMedium = BorderColor2,
         BorderDark = BorderColor1,
-        BorderMouseOver = BorderDark,
-        BorderPressed = BorderColor,
+        BorderMouseOver = AccentColor1,
+        BorderPressed = AccentColor,
 
         // Aliases - disabled state
         BackgroundDisabled = AccentColor5,
