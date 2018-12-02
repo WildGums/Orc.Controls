@@ -1479,8 +1479,8 @@ namespace Orc.Controls
         BorderLight = 9,
         BorderMedium = 8,
         BorderDark = 7,
-        BorderMouseOver = 7,
-        BorderPressed = 6,
+        BorderMouseOver = 1,
+        BorderPressed = 0,
         BackgroundDisabled = 5,
         BorderDisabled = 11,
     }
