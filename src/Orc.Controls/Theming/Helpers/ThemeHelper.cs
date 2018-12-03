@@ -45,8 +45,10 @@ namespace Orc.Controls
         BorderColor4 = 10,
         BorderColor5 = 11,
 
-        ForegroundColor = 12,
-        ForegroundAlternativeColor = 13,
+        BackgroundColor = 12,
+
+        ForegroundColor = 13,
+        ForegroundAlternativeColor = 14,
 
         // Aliases - highlights
         DarkHighlight = AccentColor3,
@@ -117,8 +119,9 @@ namespace Orc.Controls
 
                 // For now use a fixed values, we might change in the future
                 var borderColor = Colors.LightGray;
-                var foreground = Colors.Black;
-                var foregroundAlternative = Colors.White;
+                var backgroundColor = Colors.WhiteSmoke;
+                var foregroundColor = Colors.Black;
+                var foregroundAlternativeColor = Colors.White;
 
                 const int Alpha0 = 255;
                 const int Alpha1 = 204;
@@ -167,12 +170,16 @@ namespace Orc.Controls
                     case ThemeColorStyle.BorderColor5:
                         return CreateColor(Alpha5, borderColor);
 
+                    // Background
+                    case ThemeColorStyle.BackgroundColor:
+                        return CreateColor(Alpha0, backgroundColor);
+
                     // Foreground
                     case ThemeColorStyle.ForegroundColor:
-                        return CreateColor(Alpha0, foreground);
+                        return CreateColor(Alpha0, foregroundColor);
 
                     case ThemeColorStyle.ForegroundAlternativeColor:
-                        return CreateColor(Alpha0, foregroundAlternative);
+                        return CreateColor(Alpha0, foregroundAlternativeColor);
 
                     default:
                         throw new ArgumentOutOfRangeException(nameof(colorStyle));
