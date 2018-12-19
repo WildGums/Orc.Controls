@@ -238,7 +238,7 @@ namespace Orc.Controls
             var mousePositionY = mousePosition.Y;
 
             //using this code for non UIElements
-            if (_owner == null)
+            if (_owner is null)
             {
                 return GetPostionForNonUiElement(rootVisual, mousePosition, horizontalOffset, verticalOffset);
             }
@@ -252,9 +252,9 @@ namespace Orc.Controls
                         return _lastPosition;
                     }
 
-                    var offsetX = Math.Max(2.0, mousePositionX + horizontalOffset);
-
                     const int fontSize = 0;
+
+                    var offsetX = Math.Max(2.0, mousePositionX + horizontalOffset);
                     var offsetY = Math.Max(2.0, mousePositionY + fontSize + verticalOffset);
 
                     var actualHeight = rootVisual.ActualHeight;
@@ -285,11 +285,14 @@ namespace Orc.Controls
                     var windowSize = Application.Current.MainWindow.GetSize();
                     var plugin = new Rect(0.0, 0.0, windowSize.Width, windowSize.Height);
                     var placementTarget = PinnableToolTipService.GetPlacementTarget(_owner) ?? _owner;
-                    var translatedPoints = GetTranslatedPoints((FrameworkElement)placementTarget);
+                    var targetPoints = GetTranslatedPoints((FrameworkElement)placementTarget);
                     var toolTipPoints = GetTranslatedPoints(this);
-                    var popupLocation = PlacePopup(plugin, translatedPoints, toolTipPoints, placementMode);
+                    var popupLocation = PlacePopup(plugin, targetPoints, toolTipPoints, placementMode);
 
-                    return new Point(popupLocation.X + horizontalOffset, popupLocation.Y + verticalOffset);
+                    Debug.WriteLine($"Offset: X = '{horizontalOffset}', Y = '{verticalOffset}'");
+
+                    //return new Point(popupLocation.X + horizontalOffset, popupLocation.Y + verticalOffset);
+                    return new Point(popupLocation.X, popupLocation.Y);
             }
 
             return new Point();
@@ -300,7 +303,7 @@ namespace Orc.Controls
             var mousePositionX = mousePosition.X;
             var mousePositionY = mousePosition.Y;
 
-            if (rootVisual == null)
+            if (rootVisual is null)
             {
                 return _isPositionCalculated ? _lastPosition : mousePosition;
             }
@@ -522,6 +525,7 @@ namespace Orc.Controls
         private static Point[] GetPointArray(IList<Point> target, PlacementMode placement, Rect plugin, double width, double height)
         {
             Point[] pointArray;
+
             switch (placement)
             {
                 case PlacementMode.Bottom:
@@ -568,26 +572,31 @@ namespace Orc.Controls
             return pointArray;
         }
 
-        private static Point[] GetTranslatedPoints(FrameworkElement frameworkElement)
+        private Point[] GetTranslatedPoints(FrameworkElement frameworkElement)
         {
             var pointArray = new Point[4];
 
+            //var toolTip = this;
             var toolTip = frameworkElement as PinnableToolTip;
-            if (toolTip != null && !toolTip.IsOpen)
+            if (toolTip is null || toolTip.IsOpen)
             {
-                return pointArray;
+                GeneralTransform generalTransform = new TranslateTransform(0, 0);
+
+                var elementToTransform = toolTip != null ? toolTip._adornerLayer : PinnableToolTipService.RootVisual;
+                if (elementToTransform != null)
+                {
+                    generalTransform = frameworkElement.TransformToVisual(elementToTransform);
+                }
+
+                pointArray[0] = generalTransform.Transform(new Point(0.0, 0.0));
+                pointArray[1] = generalTransform.Transform(new Point(frameworkElement.ActualWidth, 0.0));
+                pointArray[1].X--;
+                pointArray[2] = generalTransform.Transform(new Point(0.0, frameworkElement.ActualHeight));
+                pointArray[2].Y--;
+                pointArray[3] = generalTransform.Transform(new Point(frameworkElement.ActualWidth, frameworkElement.ActualHeight));
+                pointArray[3].X--;
+                pointArray[3].Y--;
             }
-
-            var generalTransform = frameworkElement.TransformToVisual(toolTip != null ? toolTip._adornerLayer : PinnableToolTipService.RootVisual);
-
-            pointArray[0] = generalTransform.Transform(new Point(0.0, 0.0));
-            pointArray[1] = generalTransform.Transform(new Point(frameworkElement.ActualWidth, 0.0));
-            pointArray[1].X--;
-            pointArray[2] = generalTransform.Transform(new Point(0.0, frameworkElement.ActualHeight));
-            pointArray[2].Y--;
-            pointArray[3] = generalTransform.Transform(new Point(frameworkElement.ActualWidth, frameworkElement.ActualHeight));
-            pointArray[3].X--;
-            pointArray[3].Y--;
 
             return pointArray;
         }
@@ -611,7 +620,7 @@ namespace Orc.Controls
         {
             if (IsPinned)
             {
-                if (_adornerDragDrop == null && _adorner != null)
+                if (_adornerDragDrop is null && _adorner != null)
                 {
                     _adornerDragDrop = ControlAdornerDragDrop.Attach(_adorner, _dragGrip);
                 }
@@ -657,6 +666,23 @@ namespace Orc.Controls
             var pointArray = GetPointArray(target, placement, plugin, width, height);
             var index = GetIndex(plugin, width, height, pointArray);
             var point = CalculatePoint(target, placement, plugin, width, height, pointArray, index, bounds);
+
+            Debug.WriteLine($"Placing popup");
+            Debug.WriteLine($"  Target points:");
+
+            foreach (var targetPoint in target)
+            {
+                Debug.WriteLine($"  '{targetPoint.X}, {targetPoint.Y}'");
+            }
+
+            Debug.WriteLine($"  ToolTip points:");
+
+            foreach (var toolTipPoint in toolTip)
+            {
+                Debug.WriteLine($"  '{toolTipPoint.X}, {toolTipPoint.Y}'");
+            }
+
+            Debug.WriteLine($"  Final point: '{point.X}, {point.Y}'");
 
             return point;
         }
@@ -763,7 +789,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (!IsPinned || _adorner == null)
+            if (!IsPinned || _adorner is null)
             {
                 return;
             }
@@ -777,13 +803,13 @@ namespace Orc.Controls
             _adornerLayer.Remove(_adorner);
 
             var adornedElement = GetAdornerElement();
-            if (adornedElement == null)
+            if (adornedElement is null)
             {
                 return;
             }
 
             _adornerLayer = AdornerLayer.GetAdornerLayer(adornedElement);
-            if (_adornerLayer == null)
+            if (_adornerLayer is null)
             {
                 return;
             }
@@ -791,7 +817,7 @@ namespace Orc.Controls
             _adornerLayer.Add(_adorner);
             BringFluentRibbonBackstageToFront(_adornerLayer, adornedElement);
 
-            if (IsPinned && _adornerDragDrop == null)
+            if (IsPinned && _adornerDragDrop is null)
             {
                 _adornerDragDrop = ControlAdornerDragDrop.Attach(_adorner, _dragGrip);
             }
@@ -824,7 +850,7 @@ namespace Orc.Controls
 
         public void StopTimer(bool reset = true)
         {
-            if (_timer == null || !IsTimerEnabled)
+            if (_timer is null || !IsTimerEnabled)
             {
                 return;
             }
@@ -872,19 +898,19 @@ namespace Orc.Controls
 
         private void CreateAdorner()
         {
-            if (_adorner != null || (Application.Current.MainWindow == null && _userDefinedAdorner == null))
+            if (_adorner != null || (Application.Current.MainWindow is null && _userDefinedAdorner is null))
             {
                 return;
             }
 
             var adornedElement = GetAdornerElement();
-            if (adornedElement == null)
+            if (adornedElement is null)
             {
                 return;
             }
 
             var layer = AdornerLayer.GetAdornerLayer(adornedElement);
-            if (layer == null)
+            if (layer is null)
             {
                 return;
             }
@@ -905,7 +931,7 @@ namespace Orc.Controls
             _adorner = ad;
             _adornerLayer = layer;
 
-            if (IsPinned && _adornerDragDrop == null)
+            if (IsPinned && _adornerDragDrop is null)
             {
                 _adornerDragDrop = ControlAdornerDragDrop.Attach(_adorner, _dragGrip);
             }
@@ -918,7 +944,7 @@ namespace Orc.Controls
             // This is a little bit dirty way to keep the ribbon backstage the topmost.
             // I couldn't find a better way to reorder elements within AdornerLayers
             var adorners = layer.GetAdorners(adornedElement);
-            if (adorners == null)
+            if (adorners is null)
             {
                 return;
             }
@@ -965,7 +991,7 @@ namespace Orc.Controls
 
         private void RemoveAdorner()
         {
-            if (_adorner == null || _adornerLayer == null)
+            if (_adorner is null || _adornerLayer is null)
             {
                 return;
             }
@@ -1066,14 +1092,14 @@ namespace Orc.Controls
         {
             if (IsOpen && (ResizeMode == ResizeMode.CanResize || ResizeMode == ResizeMode.CanResizeWithGrip))
             {
-                if (_adornerResizing == null && _adorner != null)
+                if (_adornerResizing is null && _adorner != null)
                 {
                     _adornerResizing = ResizingAdorner.Attach(this);
                 }
             }
             else
             {
-                if (_adornerResizing == null)
+                if (_adornerResizing is null)
                 {
                     return;
                 }

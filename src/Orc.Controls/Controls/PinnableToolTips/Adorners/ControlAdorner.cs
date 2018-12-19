@@ -79,8 +79,8 @@ namespace Orc.Controls
         {
             var c = _child as IControlAdornerChild;
 
-            PropertyHelper.TryGetPropertyValue(c, "HorizontalOffset", out double childHorizontalOffset);
-            PropertyHelper.TryGetPropertyValue(c, "VerticalOffset", out double childVerticalOffset);
+            PropertyHelper.TryGetPropertyValue(c, nameof(PinnableToolTip.HorizontalOffset), out double childHorizontalOffset);
+            PropertyHelper.TryGetPropertyValue(c, nameof(PinnableToolTip.VerticalOffset), out double childVerticalOffset);
              
             Offset = new Point(childHorizontalOffset, childVerticalOffset);
 
