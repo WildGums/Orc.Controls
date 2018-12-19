@@ -27,7 +27,7 @@
     </PackageReference>
     <PackageReference Include="ModuleInit.Fody" Version="1.8.3" PrivateAssets="all" />
     <PackageReference Include="Obsolete.Fody" Version="4.4.3" PrivateAssets="all" />
-    <PackageReference Include="Orc.FileSystem" Version="3.1.0-alpha0007" />
+    <PackageReference Include="Orc.FileSystem" Version="3.1.0-alpha0009" />
     <PackageReference Include="WindowsAPICodePack-Core" Version="1.1.2" PrivateAssets="all" />
     <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" PrivateAssets="all" />
     <!--<PackageReference Include="WpfAnalyzers" Version="2.1.2.1" PrivateAssets="all" />-->
