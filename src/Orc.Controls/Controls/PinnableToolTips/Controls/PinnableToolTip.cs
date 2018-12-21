@@ -289,13 +289,15 @@ namespace Orc.Controls
                     var toolTipPoints = GetTranslatedPoints(this);
                     var popupLocation = PlacePopup(plugin, targetPoints, toolTipPoints, placementMode);
 
+                    Debug.WriteLine($"IsPinned: {IsPinned}");
                     Debug.WriteLine($"Offset: X = '{horizontalOffset}', Y = '{verticalOffset}'");
+                    Debug.WriteLine($"Final point: '{popupLocation.X}, {popupLocation.Y}'");
 
                     //return new Point(popupLocation.X + horizontalOffset, popupLocation.Y + verticalOffset);
-                    return new Point(popupLocation.X, popupLocation.Y);
+                    return popupLocation;
             }
 
-            return new Point();
+            return default(Point);
         }
 
         private Point GetPostionForNonUiElement(FrameworkElement rootVisual, Point mousePosition, double horizontalOffset, double verticalOffset)
@@ -583,6 +585,9 @@ namespace Orc.Controls
                 GeneralTransform generalTransform = new TranslateTransform(0, 0);
 
                 var elementToTransform = toolTip != null ? toolTip._adornerLayer : PinnableToolTipService.RootVisual;
+
+                Debug.WriteLine($"Element to transform: '{elementToTransform}', placement target: '{frameworkElement}'");
+
                 if (elementToTransform != null)
                 {
                     generalTransform = frameworkElement.TransformToVisual(elementToTransform);
@@ -620,6 +625,8 @@ namespace Orc.Controls
         {
             if (IsPinned)
             {
+                Debug.WriteLine("ToolTip just got pinned");
+
                 if (_adornerDragDrop is null && _adorner != null)
                 {
                     _adornerDragDrop = ControlAdornerDragDrop.Attach(_adorner, _dragGrip);
@@ -629,6 +636,8 @@ namespace Orc.Controls
             }
             else
             {
+                Debug.WriteLine("ToolTip just got unpinned");
+
                 if (_adornerDragDrop != null)
                 {
                     ControlAdornerDragDrop.Detach(_adornerDragDrop);
@@ -681,8 +690,6 @@ namespace Orc.Controls
             {
                 Debug.WriteLine($"  '{toolTipPoint.X}, {toolTipPoint.Y}'");
             }
-
-            Debug.WriteLine($"  Final point: '{point.X}, {point.Y}'");
 
             return point;
         }

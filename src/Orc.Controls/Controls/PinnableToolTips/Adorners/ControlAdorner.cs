@@ -7,6 +7,7 @@
 
 namespace Orc.Controls
 {
+    using System.Diagnostics;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Documents;
@@ -88,6 +89,10 @@ namespace Orc.Controls
             if (c != null)
             {
                 var childPosition = c.GetPosition();
+
+                Debug.WriteLine($"Old child position: {ChildPosition}");
+                Debug.WriteLine($"New child position: {childPosition}");
+
                 ChildPosition = childPosition;
 
                 var finalPosition = new Point(childPosition.X + childHorizontalOffset,
