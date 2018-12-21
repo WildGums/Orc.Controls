@@ -380,7 +380,7 @@ namespace Orc.Controls
 
             RootVisual = null;
 
-            if (toolTip == null)
+            if (toolTip is null)
             {
                 return;
             }
@@ -560,27 +560,30 @@ namespace Orc.Controls
         {
             lock (Locker)
             {
-                if (Application.Current == null)
+                if (Application.Current is null)
                 {
                     return;
                 }
 
-                if (RootVisual != null)
+                var existingRootVisual = RootVisual;
+                if (existingRootVisual != null)
                 {
-                    RootVisual.MouseMove -= OnRootVisualMouseMove;
+                    existingRootVisual.MouseMove -= OnRootVisualMouseMove;
                 }
 
-                RootVisual = frameworkElement.GetVisualRoot() as FrameworkElement
+                var rootVisual = frameworkElement.GetVisualRoot() as FrameworkElement
                              ?? Application.Current.MainWindow.Content as FrameworkElement
                              ?? Application.Current.MainWindow;
 
-                if (RootVisual == null)
+                RootVisual = rootVisual;
+
+                if (rootVisual is null)
                 {
                     return;
                 }
 
-                RootVisual.MouseMove += OnRootVisualMouseMove;
-                RootVisual.AddHandler(
+                rootVisual.MouseMove += OnRootVisualMouseMove;
+                rootVisual.AddHandler(
                     UIElement.MouseLeftButtonDownEvent,
                     new MouseButtonEventHandler(OnRootVisualMouseLeftButtonDown),
                     true);
@@ -595,7 +598,7 @@ namespace Orc.Controls
         {
             try
             {
-                if (owner == null)
+                if (owner is null)
                 {
                     return;
                 }

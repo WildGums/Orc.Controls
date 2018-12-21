@@ -7,6 +7,7 @@
 
 namespace Orc.Controls
 {
+    using System.Diagnostics;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Documents;
@@ -79,8 +80,8 @@ namespace Orc.Controls
         {
             var c = _child as IControlAdornerChild;
 
-            PropertyHelper.TryGetPropertyValue(c, "HorizontalOffset", out double childHorizontalOffset);
-            PropertyHelper.TryGetPropertyValue(c, "VerticalOffset", out double childVerticalOffset);
+            PropertyHelper.TryGetPropertyValue(c, nameof(PinnableToolTip.HorizontalOffset), out double childHorizontalOffset);
+            PropertyHelper.TryGetPropertyValue(c, nameof(PinnableToolTip.VerticalOffset), out double childVerticalOffset);
              
             Offset = new Point(childHorizontalOffset, childVerticalOffset);
 
@@ -88,6 +89,10 @@ namespace Orc.Controls
             if (c != null)
             {
                 var childPosition = c.GetPosition();
+
+                //Debug.WriteLine($"Old child position: {ChildPosition}");
+                //Debug.WriteLine($"New child position: {childPosition}");
+
                 ChildPosition = childPosition;
 
                 var finalPosition = new Point(childPosition.X + childHorizontalOffset,

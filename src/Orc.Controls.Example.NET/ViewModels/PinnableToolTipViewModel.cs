@@ -26,6 +26,6 @@ namespace Orc.Controls.Example.ViewModels
             };
         }
 
-        public List<Brush> ColorList{ get; set; }
+        public List<Brush> ColorList { get; set; }
     }
 }
