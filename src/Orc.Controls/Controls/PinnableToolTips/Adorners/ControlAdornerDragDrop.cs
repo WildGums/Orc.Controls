@@ -7,6 +7,7 @@
 
 namespace Orc.Controls
 {
+    using System.Diagnostics;
     using System.Windows;
     using System.Windows.Input;
     using Catel.Reflection;
@@ -33,14 +34,13 @@ namespace Orc.Controls
         private bool _mouseCaptured;
 
         private double _mouseX;
-
         private double _mouseY;
         #endregion
 
         #region Public Methods and Operators
         public static ControlAdornerDragDrop Attach(ControlAdorner adorner, UIElement element)
         {
-            if (adorner?.Child == null)
+            if (adorner?.Child is null)
             {
                 return null;
             }
@@ -55,12 +55,29 @@ namespace Orc.Controls
             dd._adorner.Child.MouseLeftButtonUp += dd.MouseLeftButtonUp;
             dd._adorner.Child.MouseMove += dd.MouseMove;
 
+            // Important: the initial check should position it correctly,
+            // see https://github.com/WildGums/Orc.Controls/issues/40
+
+            var frameworkElement = (FrameworkElement)element;
+            var adornedElement = (FrameworkElement)adorner.AdornedElement;
+            var childPosition = adorner.ChildPosition;
+            var adornerOffset = adorner.Offset;
+
+            var initialX = childPosition.X;
+            var initialY = childPosition.Y;
+
+            //Debug.WriteLine($"Adorner child: X = '{childPosition.X}', Y = '{childPosition.Y}'");
+            //Debug.WriteLine($"Adorned element: Width = '{adornedElement.ActualWidth}', Height = '{adornedElement.ActualHeight}'");
+            //Debug.WriteLine($"Initial X = '{initialX}', Y = '{initialY}'");
+
+            dd.UpdatePosition(frameworkElement, new Point(initialX, initialY), true);
+
             return dd;
         }
 
         public static void Detach(ControlAdornerDragDrop dd)
         {
-            if (dd?._adorner?.Child == null)
+            if (dd?._adorner?.Child is null)
             {
                 return;
             }
@@ -85,16 +102,19 @@ namespace Orc.Controls
 
             _adorner.Child.CaptureMouse();
             _mouseCaptured = true;
-            _mouseY = e.GetPosition(null).Y;
-            _mouseX = e.GetPosition(null).X;
+
+            var position = e.GetPosition(null);
+            _mouseX = position.X;
+            _mouseY = position.Y;
         }
 
         private void MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             _adorner.Child.ReleaseMouseCapture();
             _mouseCaptured = false;
-            _mouseY = 0;
+
             _mouseX = 0;
+            _mouseY = 0;
         }
 
         private void MouseMove(object sender, MouseEventArgs e)
@@ -109,49 +129,66 @@ namespace Orc.Controls
                 return;
             }
 
-            var deltaY = e.GetPosition(null).Y - _mouseY;
-            var deltaX = e.GetPosition(null).X - _mouseX;
+            var position = e.GetPosition(null);
 
-            var offset = new Point(_adorner.Offset.X + deltaX, _adorner.Offset.Y + deltaY);
+            UpdatePosition(frameworkElement, position);
+        }
+
+        private void UpdatePosition(FrameworkElement frameworkElement, Point position, bool ignoreBoundaries = false)
+        {
+            var deltaX = position.X - _mouseX;
+            var deltaY = position.Y - _mouseY;
+            var adornerChildPosition = _adorner.ChildPosition;
+            var adornerOffset = _adorner.Offset;
+
+            //Debug.WriteLine($"Adorner offset: X = '{adornerOffset.X}', Y = '{adornerOffset.Y}'");
+            //Debug.WriteLine($"Movement delta: X = '{deltaX}', Y = '{deltaY}'");
+
+            var offset = new Point(adornerOffset.X + deltaX, adornerOffset.Y + deltaY);
 
             // constrain the popup to the bounds of the window
-            if (_adorner.ChildPosition.Y + offset.Y < 0)
+            if (adornerChildPosition.X + offset.X < 0)
             {
-                offset.Y = -_adorner.ChildPosition.Y;
+                offset.X = -adornerChildPosition.X;
             }
 
-            if (_adorner.ChildPosition.X + offset.X < 0)
+            if (adornerChildPosition.Y + offset.Y < 0)
             {
-                offset.X = -_adorner.ChildPosition.X;
+                offset.Y = -adornerChildPosition.Y;
             }
 
-            var boundariesSize = Application.Current.MainWindow.GetSize();
-            if (_adorner.AdornedElement is FrameworkElement adornedElement)
+            if (!ignoreBoundaries)
             {
-                boundariesSize = new Size(adornedElement.ActualWidth, adornedElement.ActualHeight);
-            }
+                var boundariesSize = Application.Current.MainWindow.GetSize();
+                if (_adorner.AdornedElement is FrameworkElement adornedElement)
+                {
+                    boundariesSize = new Size(adornedElement.ActualWidth, adornedElement.ActualHeight);
+                }
 
-            var maxY = boundariesSize.Height - frameworkElement.ActualHeight;
-            if (_adorner.ChildPosition.Y + offset.Y > maxY)
-            {
-                offset.Y = maxY - _adorner.ChildPosition.Y;
-            }
+                var maxX = boundariesSize.Width - frameworkElement.ActualWidth;
+                if (adornerChildPosition.X + offset.X > maxX)
+                {
+                    offset.X = maxX - adornerChildPosition.X;
+                }
 
-            var maxX = boundariesSize.Width - frameworkElement.ActualWidth;
-            if (_adorner.ChildPosition.X + offset.X > maxX)
-            {
-                offset.X = maxX - _adorner.ChildPosition.X;
+                var maxY = boundariesSize.Height - frameworkElement.ActualHeight;
+                if (adornerChildPosition.Y + offset.Y > maxY)
+                {
+                    offset.Y = maxY - adornerChildPosition.Y;
+                }
             }
 
             var adornerChild = _adorner.Child;
             if (adornerChild != null)
             {
+                //Debug.WriteLine($"Updating adorner child offset: X = '{offset.X}', Y = '{offset.Y}'");
+
                 PropertyHelper.TrySetPropertyValue(adornerChild, "HorizontalOffset", offset.X);
                 PropertyHelper.TrySetPropertyValue(adornerChild, "VerticalOffset", offset.Y);
             }
 
-            _mouseY = e.GetPosition(null).Y;
-            _mouseX = e.GetPosition(null).X;
+            _mouseX = position.X;
+            _mouseY = position.Y;
         }
         #endregion
     }
