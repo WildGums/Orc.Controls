@@ -619,6 +619,12 @@ namespace Orc.Controls
             UpdateResizingAdorner();
 
             IsOpenChanged.SafeInvoke(this);
+
+            if (IsPinned)
+            {
+                // Stop pinning
+                IsPinned = false;
+            }
         }
 
         private void OnIsPinnedChanged()
@@ -897,6 +903,11 @@ namespace Orc.Controls
 
         public void Hide()
         {
+            if (!IsOpen)
+            {
+                return;
+            }
+
             IsOpen = false;
 
             BindingOperations.ClearBinding(this, DataContextProperty);
