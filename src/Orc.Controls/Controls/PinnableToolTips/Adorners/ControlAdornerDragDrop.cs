@@ -63,12 +63,8 @@ namespace Orc.Controls
             var childPosition = adorner.ChildPosition;
             var adornerOffset = adorner.Offset;
 
-            //var initialX = adornedElement.ActualWidth - childPosition.X;
-            //var initialY = adornedElement.ActualHeight - childPosition.Y;
-            //var initialX = childPosition.X - frameworkElement.ActualWidth;
-            //var initialY = childPosition.Y - frameworkElement.ActualHeight;
-            var initialX = childPosition.X - adornerOffset.X;
-            var initialY = childPosition.Y - adornerOffset.Y;
+            var initialX = childPosition.X;
+            var initialY = childPosition.Y;
 
             Debug.WriteLine($"Adorner child: X = '{childPosition.X}', Y = '{childPosition.Y}'");
             Debug.WriteLine($"Adorned element: Width = '{adornedElement.ActualWidth}', Height = '{adornedElement.ActualHeight}'");

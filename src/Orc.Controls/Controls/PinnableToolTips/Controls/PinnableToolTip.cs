@@ -266,7 +266,7 @@ namespace Orc.Controls
                     var actualRectangle = new Rect(0.0, 0.0, actualWidth, actualHeight);
                     actualRectangle.Intersect(lastRectangle);
 
-                    if (!(Math.Abs(actualRectangle.Width - lastRectangle.Width) < 2.0) 
+                    if (!(Math.Abs(actualRectangle.Width - lastRectangle.Width) < 2.0)
                         || !(Math.Abs(actualRectangle.Height - lastRectangle.Height) < 2.0))
                     {
                         offsetY = GetOffset(0, offsetY, actualHeight, lastRectangle.Height);
@@ -416,8 +416,8 @@ namespace Orc.Controls
             {
                 case PlacementMode.Left:
                 case PlacementMode.Right:
-                    if (!(Math.Abs(y - target[0].Y) > Epsilon) 
-                        || !(Math.Abs(y - target[1].Y) > Epsilon) 
+                    if (!(Math.Abs(y - target[0].Y) > Epsilon)
+                        || !(Math.Abs(y - target[1].Y) > Epsilon)
                         || !(Math.Abs(y + height - target[0].Y) > Epsilon)
                         || !(Math.Abs(y + height - target[1].Y) > Epsilon))
                     {
@@ -623,7 +623,7 @@ namespace Orc.Controls
             if (IsPinned)
             {
                 // Stop pinning
-                IsPinned = false;
+                SetCurrentValue(IsPinnedProperty, false);
             }
         }
 
@@ -669,7 +669,7 @@ namespace Orc.Controls
             _gripDrawing?.SetCurrentValue(GeometryDrawing.BrushProperty, new SolidColorBrush(GripColor));
         }
 
-        private static Point PlacePopup(Rect plugin, Point[] target, Point[] toolTip, PlacementMode placement)
+        private Point PlacePopup(Rect plugin, Point[] target, Point[] toolTip, PlacementMode placement)
         {
             var bounds = GetBounds(target);
             var rect2 = GetBounds(toolTip);
@@ -700,8 +700,14 @@ namespace Orc.Controls
             return point;
         }
 
-        private static PlacementMode ValidatePlacement(IList<Point> target, PlacementMode placement, Rect plugin, double width, double height)
+        private PlacementMode ValidatePlacement(IList<Point> target, PlacementMode placement, Rect plugin, double width, double height)
         {
+            // If we are in pinned mode, stop using the placement
+            if (_adornerDragDrop != null)
+            {
+                return PlacementMode.AbsolutePoint;
+            }
+
             switch (placement)
             {
                 case PlacementMode.Right:
