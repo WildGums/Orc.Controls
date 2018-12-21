@@ -90,8 +90,8 @@ namespace Orc.Controls
             {
                 var childPosition = c.GetPosition();
 
-                Debug.WriteLine($"Old child position: {ChildPosition}");
-                Debug.WriteLine($"New child position: {childPosition}");
+                //Debug.WriteLine($"Old child position: {ChildPosition}");
+                //Debug.WriteLine($"New child position: {childPosition}");
 
                 ChildPosition = childPosition;
 

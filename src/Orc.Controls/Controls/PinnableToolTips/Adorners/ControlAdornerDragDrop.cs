@@ -66,9 +66,9 @@ namespace Orc.Controls
             var initialX = childPosition.X;
             var initialY = childPosition.Y;
 
-            Debug.WriteLine($"Adorner child: X = '{childPosition.X}', Y = '{childPosition.Y}'");
-            Debug.WriteLine($"Adorned element: Width = '{adornedElement.ActualWidth}', Height = '{adornedElement.ActualHeight}'");
-            Debug.WriteLine($"Initial X = '{initialX}', Y = '{initialY}'");
+            //Debug.WriteLine($"Adorner child: X = '{childPosition.X}', Y = '{childPosition.Y}'");
+            //Debug.WriteLine($"Adorned element: Width = '{adornedElement.ActualWidth}', Height = '{adornedElement.ActualHeight}'");
+            //Debug.WriteLine($"Initial X = '{initialX}', Y = '{initialY}'");
 
             dd.UpdatePosition(frameworkElement, new Point(initialX, initialY), true);
 
@@ -141,8 +141,8 @@ namespace Orc.Controls
             var adornerChildPosition = _adorner.ChildPosition;
             var adornerOffset = _adorner.Offset;
 
-            Debug.WriteLine($"Adorner offset: X = '{adornerOffset.X}', Y = '{adornerOffset.Y}'");
-            Debug.WriteLine($"Movement delta: X = '{deltaX}', Y = '{deltaY}'");
+            //Debug.WriteLine($"Adorner offset: X = '{adornerOffset.X}', Y = '{adornerOffset.Y}'");
+            //Debug.WriteLine($"Movement delta: X = '{deltaX}', Y = '{deltaY}'");
 
             var offset = new Point(adornerOffset.X + deltaX, adornerOffset.Y + deltaY);
 
@@ -181,7 +181,7 @@ namespace Orc.Controls
             var adornerChild = _adorner.Child;
             if (adornerChild != null)
             {
-                Debug.WriteLine($"Updating adorner child offset: X = '{offset.X}', Y = '{offset.Y}'");
+                //Debug.WriteLine($"Updating adorner child offset: X = '{offset.X}', Y = '{offset.Y}'");
 
                 PropertyHelper.TrySetPropertyValue(adornerChild, "HorizontalOffset", offset.X);
                 PropertyHelper.TrySetPropertyValue(adornerChild, "VerticalOffset", offset.Y);

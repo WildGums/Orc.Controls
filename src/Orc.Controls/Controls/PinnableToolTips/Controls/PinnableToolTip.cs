@@ -4,6 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+//#define TRACE_DETAILS
 
 namespace Orc.Controls
 {
@@ -289,11 +290,11 @@ namespace Orc.Controls
                     var toolTipPoints = GetTranslatedPoints(this);
                     var popupLocation = PlacePopup(plugin, targetPoints, toolTipPoints, placementMode);
 
+#if TRACE_DETAILS
                     Debug.WriteLine($"IsPinned: {IsPinned}");
                     Debug.WriteLine($"Offset: X = '{horizontalOffset}', Y = '{verticalOffset}'");
                     Debug.WriteLine($"Final point: '{popupLocation.X}, {popupLocation.Y}'");
-
-                    //return new Point(popupLocation.X + horizontalOffset, popupLocation.Y + verticalOffset);
+#endif
                     return popupLocation;
             }
 
@@ -398,9 +399,9 @@ namespace Orc.Controls
 
             _gripDrawing = GetTemplateChild("GripDrawing") as GeometryDrawing;
         }
-        #endregion
+#endregion
 
-        #region Methods
+#region Methods
         private static Point CalculatePoint(IList<Point> target, PlacementMode placement, Rect plugin, double width, double height,
             IList<Point> pointArray, int index, Rect bounds)
         {
@@ -586,7 +587,9 @@ namespace Orc.Controls
 
                 var elementToTransform = toolTip != null ? toolTip._adornerLayer : PinnableToolTipService.RootVisual;
 
+#if TRACE_DETAILS
                 Debug.WriteLine($"Element to transform: '{elementToTransform}', placement target: '{frameworkElement}'");
+#endif
 
                 if (elementToTransform != null)
                 {
@@ -631,7 +634,9 @@ namespace Orc.Controls
         {
             if (IsPinned)
             {
+#if TRACE_DETAILS
                 Debug.WriteLine("ToolTip just got pinned");
+#endif
 
                 if (_adornerDragDrop is null && _adorner != null)
                 {
@@ -642,7 +647,9 @@ namespace Orc.Controls
             }
             else
             {
+#if TRACE_DETAILS
                 Debug.WriteLine("ToolTip just got unpinned");
+#endif
 
                 if (_adornerDragDrop != null)
                 {
@@ -682,6 +689,7 @@ namespace Orc.Controls
             var index = GetIndex(plugin, width, height, pointArray);
             var point = CalculatePoint(target, placement, plugin, width, height, pointArray, index, bounds);
 
+#if TRACE_DETAILS
             Debug.WriteLine($"Placing popup");
             Debug.WriteLine($"  Target points:");
 
@@ -696,6 +704,7 @@ namespace Orc.Controls
             {
                 Debug.WriteLine($"  '{toolTipPoint.X}, {toolTipPoint.Y}'");
             }
+#endif
 
             return point;
         }
@@ -1132,6 +1141,6 @@ namespace Orc.Controls
                 _adornerResizing = null;
             }
         }
-        #endregion
+#endregion
     }
 }
