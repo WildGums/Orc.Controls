@@ -322,6 +322,7 @@ namespace Orc.Controls
         public bool IsSensitive { get; }
         public string Name { get; }
         public object Value { get; set; }
+        protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
     }
     public sealed class CulturePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
