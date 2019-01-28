@@ -621,7 +621,7 @@ namespace Orc.Controls
         {
             UpdateResizingAdorner();
 
-            IsOpenChanged.SafeInvoke(this);
+            IsOpenChanged?.Invoke(this, EventArgs.Empty);
 
             if (IsPinned)
             {
@@ -660,7 +660,7 @@ namespace Orc.Controls
                 Hide();
             }
 
-            IsPinnedChanged.SafeInvoke(this);
+            IsPinnedChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnVerticalOffsetChanged()

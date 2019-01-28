@@ -95,7 +95,7 @@ namespace Orc.Controls
         {
             base.Stop();
 
-            Stopped.SafeInvoke(this);
+            Stopped?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

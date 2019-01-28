@@ -43,7 +43,7 @@ namespace Orc.Controls
 
         private void OnViewModelUpdated(object sender, EventArgs e)
         {
-            Updated.SafeInvoke(this);
+            Updated?.Invoke(this, EventArgs.Empty);
         }
         #endregion
 

@@ -135,7 +135,7 @@ namespace Orc.Controls
 
         private void OnLayoutUpdated(object sender, EventArgs e)
         {
-            ContentLayoutUpdated.SafeInvoke(this, e);
+            ContentLayoutUpdated?.Invoke(this, e);
         }
 
         public override void OnApplyTemplate()
