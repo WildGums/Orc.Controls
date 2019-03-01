@@ -1288,6 +1288,8 @@ namespace Orc.Controls
         public override int GetHashCode() { }
         public static Orc.Controls.PredefinedColor GetPredefinedColor(System.Windows.Media.Color color) { }
         public static bool IsPredefined(System.Windows.Media.Color color) { }
+        public static bool ==(Orc.Controls.PredefinedColor color1, Orc.Controls.PredefinedColor color2) { }
+        public static bool !=(Orc.Controls.PredefinedColor color1, Orc.Controls.PredefinedColor color2) { }
     }
     public class PredefinedColorItem : System.Windows.Controls.Control
     {
