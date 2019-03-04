@@ -29,11 +29,11 @@
         
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
-                <Setter Property="Fill" TargetName="ThumbEllipse" Value="{controls:AccentColorBrush AccentColorStyle=Highlight}"/>
+                <Setter Property="Fill" TargetName="ThumbEllipse" Value="{controls:ThemeColorBrush ThemeColorStyle=Highlight}"/>
             </Trigger>
             <Trigger Property="IsDragging" Value="true">
-                <Setter Property="Fill" TargetName="ThumbEllipse" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
-                <Setter Property="Stroke" TargetName="ThumbEllipse" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
+                <Setter Property="Fill" TargetName="ThumbEllipse" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
+                <Setter Property="Stroke" TargetName="ThumbEllipse" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Fill" TargetName="ThumbEllipse" Value="#FFF4F4F4"/>
@@ -127,8 +127,8 @@
                                     CornerRadius="1" Grid.Row="1" >
                                 <Canvas Margin="-1">
                                     <Rectangle x:Name="PART_SelectedRange" 
-                                               Fill="{controls:AccentColorBrush AccentColorStyle=AccentColor}"
-                                               Stroke="{controls:AccentColorBrush AccentColorStyle=AccentColor}"
+                                               Fill="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"
+                                               Stroke="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"
                                                StrokeThickness="3.0" Visibility="{TemplateBinding HighlightSelectedRange, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
 
                                     <Rectangle x:Name="PART_SelectionRange"

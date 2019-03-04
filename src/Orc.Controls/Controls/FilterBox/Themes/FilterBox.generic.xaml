@@ -38,12 +38,12 @@
                                         <Condition Property="Selector.IsSelectionActive" Value="True"/>
                                         <Condition Property="Selector.IsSelected" Value="True"/>
                                     </MultiTrigger.Conditions>
-                                    <Setter Property="Panel.Background" TargetName="Bd" Value="{controls:AccentColorBrush AccentColorStyle=DarkHighlight}"/>
-                                    <Setter Property="Border.BorderBrush" TargetName="Bd" Value="{controls:AccentColorBrush AccentColorStyle=DarkHighlight}"/>
+                                    <Setter Property="Panel.Background" TargetName="Bd" Value="{controls:ThemeColorBrush ThemeColorStyle=DarkHighlight}"/>
+                                    <Setter Property="Border.BorderBrush" TargetName="Bd" Value="{controls:ThemeColorBrush ThemeColorStyle=DarkHighlight}"/>
                                 </MultiTrigger>
                                 <Trigger Property="UIElement.IsMouseOver" Value="True">
-                                    <Setter Property="Panel.Background" TargetName="Bd" Value="{controls:AccentColorBrush AccentColorStyle=Highlight}"/>
-                                    <Setter Property="Border.BorderBrush" TargetName="Bd" Value="{controls:AccentColorBrush AccentColorStyle=Highlight}"/>
+                                    <Setter Property="Panel.Background" TargetName="Bd" Value="{controls:ThemeColorBrush ThemeColorStyle=Highlight}"/>
+                                    <Setter Property="Border.BorderBrush" TargetName="Bd" Value="{controls:ThemeColorBrush ThemeColorStyle=Highlight}"/>
                                 </Trigger>
                                 <Trigger Property="UIElement.IsEnabled" Value="False">
                                     <Setter Property="TextElement.Foreground" TargetName="Bd">
@@ -68,10 +68,10 @@
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" TargetName="Chrome" Value="{controls:AccentColorBrush AccentColorStyle=Highlight}"/>
+                                    <Setter Property="Background" TargetName="Chrome" Value="{controls:ThemeColorBrush ThemeColorStyle=Highlight}"/>
                                 </Trigger>
                                 <Trigger Property="IsPressed" Value="True">
-                                    <Setter Property="Background" TargetName="Chrome" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
+                                    <Setter Property="Background" TargetName="Chrome" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
                                     <Setter Property="Fill" TargetName="Path" Value="White"/>
                                 </Trigger>
                                 <Trigger Property="IsEnabled" Value="False">
@@ -169,10 +169,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="BorderBrush" TargetName="Bd" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter Property="BorderBrush" TargetName="Bd" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="#FFADADAD"/>

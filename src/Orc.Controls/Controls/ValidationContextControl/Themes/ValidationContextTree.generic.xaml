@@ -64,11 +64,11 @@
                                  Value="True">
                             <Setter Property="Stroke"
                                     TargetName="ExpandPath"
-                                    Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}" />
+                                    Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" />
 
                             <Setter Property="Fill"
                                     TargetName="ExpandPath"
-                                    Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}" />
+                                    Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -80,11 +80,11 @@
 
                             <Setter Property="Stroke"
                                     TargetName="ExpandPath"
-                                    Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}" />
+                                    Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" />
 
                             <Setter Property="Fill"
                                     TargetName="ExpandPath"
-                                    Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}" />
+                                    Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" />
                         </MultiTrigger>
 
                         <MultiTrigger>
@@ -97,7 +97,7 @@
 
                             <Setter Property="Stroke"
                                     TargetName="ExpandPath"
-                                    Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}" />
+                                    Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" />
 
                             <Setter Property="Fill"
                                     TargetName="ExpandPath"
@@ -206,7 +206,7 @@
                                  Value="true">
                             <Setter Property="Background"
                                     TargetName="Bd"
-                                    Value="{controls:AccentColorBrush AccentColorStyle=DarkHighlight}" />
+                                    Value="{controls:ThemeColorBrush ThemeColorStyle=DarkHighlight}" />
                         </Trigger>
 
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.IsActive}"
@@ -227,7 +227,7 @@
 
                             <Setter TargetName="Bd"
                                     Property="Background"
-                                    Value="{controls:AccentColorBrush AccentColorStyle=DarkHighlight}" />
+                                    Value="{controls:ThemeColorBrush ThemeColorStyle=DarkHighlight}" />
                         </MultiDataTrigger>
 
                         <Trigger Property="IsEnabled"

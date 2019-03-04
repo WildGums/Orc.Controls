@@ -179,7 +179,7 @@ namespace Orc.Controls
         /// <param name="oldColor">The old color.</param>
         private void RaiseColorChanged(Color newColor, Color oldColor)
         {
-            ColorChanged.SafeInvoke(this, new ColorChangedEventArgs(newColor, oldColor));
+            ColorChanged?.Invoke(this, new ColorChangedEventArgs(newColor, oldColor));
         }
 
         /// <summary>

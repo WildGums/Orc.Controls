@@ -185,7 +185,7 @@ namespace Orc.Controls.ViewModels
                 UpdateEntriesCount(_logEntries.Where(IsValidLogEntry).ToList());
             }
 
-            ActiveFilterGroupChanged.SafeInvoke(this);
+            ActiveFilterGroupChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnTimerTick(object state)
@@ -472,7 +472,7 @@ namespace Orc.Controls.ViewModels
                     }
                 }
 
-                LogMessage.SafeInvoke(this, new LogEntryEventArgs(entries, filteredLogEntries));
+                LogMessage?.Invoke(this, new LogEntryEventArgs(entries, filteredLogEntries));
             });
         }
 

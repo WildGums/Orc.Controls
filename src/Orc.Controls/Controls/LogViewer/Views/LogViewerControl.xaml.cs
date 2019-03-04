@@ -399,7 +399,7 @@ namespace Orc.Controls
 
             if (e.ClickCount == 2)
             {
-                LogEntryDoubleClick.SafeInvoke(this, new LogEntryDoubleClickEventArgs(logEntry));
+                LogEntryDoubleClick?.Invoke(this, new LogEntryDoubleClickEventArgs(logEntry));
             }
         }
 

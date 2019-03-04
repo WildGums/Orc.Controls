@@ -77,7 +77,7 @@ namespace Orc.Controls
                 FilterGroups.Add(logFilterGroup);
                 await SaveFilterGroupsAsync();
 
-                Updated.SafeInvoke(this);
+                Updated?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -92,7 +92,7 @@ namespace Orc.Controls
             {
                 await SaveFilterGroupsAsync();
 
-                Updated.SafeInvoke(this);
+                Updated?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -111,7 +111,7 @@ namespace Orc.Controls
                 await SaveFilterGroupsAsync();
                 SelectedFilterGroup = null;
 
-                Updated.SafeInvoke(this);
+                Updated?.Invoke(this, EventArgs.Empty);
             }
         }
         #endregion

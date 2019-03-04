@@ -482,7 +482,7 @@ namespace Orc.Controls
             try
             {
                 SetCurrentValue(SelectedColorItemsProperty, GetSelectedList());
-                SelectionChanged.SafeInvoke(sender, e);
+                SelectionChanged?.Invoke(sender, e);
             }
             finally
             {
