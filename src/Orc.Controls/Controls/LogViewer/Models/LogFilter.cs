@@ -7,6 +7,8 @@
 
 namespace Orc.Controls
 {
+    using System;
+    using Catel;
     using Catel.Data;
     using Catel.Logging;
 
@@ -29,7 +31,26 @@ namespace Orc.Controls
         {
             var result = false;
 
-            var expression = Target == LogFilterTarget.TypeName ? logEntry.Log.TargetType.FullName : logEntry.Log.TargetType.Assembly.GetName().Name;
+            var expression = string.Empty;
+
+            switch (Target)
+            {
+                case LogFilterTarget.AssemblyName:
+                    expression = logEntry.Log.TargetType.Assembly.GetName().Name;
+                    break;
+
+                case LogFilterTarget.TypeName:
+                    expression = logEntry.Log.TargetType.FullName;
+                    break;
+
+                case LogFilterTarget.LogMessage:
+                    expression = logEntry.Message;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(Target), $"Target '{Target}' is not yet supported");
+            }
+
             if (string.IsNullOrWhiteSpace(expression))
             {
                 return Action != LogFilterAction.Include;
@@ -38,27 +59,27 @@ namespace Orc.Controls
             switch (ExpressionType)
             {
                 case LogFilterExpressionType.Contains:
-                    result = expression.Contains(ExpressionValue);
+                    result = expression.ContainsIgnoreCase(ExpressionValue);
                     break;
 
                 case LogFilterExpressionType.NotContains:
-                    result = !expression.Contains(ExpressionValue);
+                    result = !expression.ContainsIgnoreCase(ExpressionValue);
                     break;
 
                 case LogFilterExpressionType.Equals:
-                    result = expression.Equals(ExpressionValue);
+                    result = expression.EqualsIgnoreCase(ExpressionValue);
                     break;
 
                 case LogFilterExpressionType.NotEquals:
-                    result = !expression.Equals(ExpressionValue);
+                    result = !expression.EqualsIgnoreCase(ExpressionValue);
                     break;
 
                 case LogFilterExpressionType.StartsWith:
-                    result = expression.StartsWith(ExpressionValue);
+                    result = expression.StartsWithIgnoreCase(ExpressionValue);
                     break;
 
                 case LogFilterExpressionType.NotStartsWith:
-                    result = !expression.StartsWith(ExpressionValue);
+                    result = !expression.StartsWithIgnoreCase(ExpressionValue);
                     break;
             }
 

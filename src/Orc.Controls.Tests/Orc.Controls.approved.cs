@@ -47,6 +47,7 @@ namespace Orc.Controls
     public class ApplicationLogFilterGroupService : Orc.Controls.IApplicationLogFilterGroupService
     {
         public ApplicationLogFilterGroupService(Orc.FileSystem.IFileService fileService, Catel.Runtime.Serialization.Xml.IXmlSerializer xmlSerializer) { }
+        protected virtual System.Collections.Generic.List<Orc.Controls.LogFilterGroup> CreateRuntimeFilterGroups() { }
         public System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Orc.Controls.LogFilterGroup>> LoadAsync() { }
         public System.Threading.Tasks.Task SaveAsync(System.Collections.Generic.IEnumerable<Orc.Controls.LogFilterGroup> filterGroups) { }
     }
@@ -986,10 +987,12 @@ namespace Orc.Controls
     public class LogFilterGroup : Catel.Data.ModelBase
     {
         public static readonly Catel.Data.PropertyData IsEnabledProperty;
+        public static readonly Catel.Data.PropertyData IsRuntimeProperty;
         public static readonly Catel.Data.PropertyData LogFiltersProperty;
         public static readonly Catel.Data.PropertyData NameProperty;
         public LogFilterGroup() { }
         public bool IsEnabled { get; set; }
+        public bool IsRuntime { get; set; }
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilter> LogFilters { get; set; }
         public string Name { get; set; }
         public bool Pass(Catel.Logging.LogEntry logEntry) { }
@@ -1046,6 +1049,7 @@ namespace Orc.Controls
     {
         TypeName = 0,
         AssemblyName = 1,
+        LogMessage = 2,
     }
     public class static LoggingExtensions
     {
