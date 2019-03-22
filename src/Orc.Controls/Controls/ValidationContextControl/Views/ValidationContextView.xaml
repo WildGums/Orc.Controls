@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
 
         <DockPanel LastChildFill="False">
-            <ToggleButton Margin="0"
+            <ToggleButton Margin="2 0"
                           Tag="Error"
                           IsChecked="{Binding ShowErrors}"
                           Style="{StaticResource ValidationContextToggleButtonStyle}">
@@ -56,7 +56,7 @@
 
             <StackPanel Orientation="Horizontal"
                         DockPanel.Dock="Right">
-                <controls:FilterBox Margin="0 0 4 0"
+                <controls:FilterBox Margin="0 0 6 0"
                                     Width="200"
                                     PropertyName="Message"
                                     FilterSource="{Binding ValidationResults}"
@@ -73,7 +73,7 @@
         </DockPanel>
 
         <controls:ValidationContextTree Grid.Row="1"
-                                        Margin="4"
+                                        Margin="0"
                                         ValidationContext="{Binding ValidationContext}"
                                         ShowErrors="{Binding ShowErrors}"
                                         ShowWarnings="{Binding ShowWarnings}"
@@ -86,7 +86,7 @@
             <Button Content="{catel:LanguageBinding Controls_ValidationContextControl_Copy}"
                     Command="{Binding Copy}"
                     DockPanel.Dock="Right"
-                    Margin="2 2 4 2"
+                    Margin="2 2 6 2"
                     Width="80"
                     Padding="2" />
 
