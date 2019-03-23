@@ -325,6 +325,17 @@ namespace Orc.Controls
         public object Value { get; set; }
         protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
     }
+    public abstract class ControlToolBase : Orc.Controls.IControlTool
+    {
+        protected ControlToolBase() { }
+        public bool IsOpened { get; }
+        public abstract string Name { get; }
+        public event System.EventHandler<System.EventArgs> Closed;
+        public event System.EventHandler<System.EventArgs> Opened;
+        public virtual void Close() { }
+        protected abstract void OnOpen();
+        public void Open() { }
+    }
     public sealed class CulturePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
         public static readonly System.Windows.DependencyProperty SelectedCultureProperty;
@@ -738,6 +749,20 @@ namespace Orc.Controls
         protected virtual void OnInitializingAutoCompletionService(Orc.Controls.InitializingAutoCompletionServiceEventArgs e) { }
         protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e) { }
     }
+    public class FindReplaceSettings : Catel.Data.ModelBase
+    {
+        public static readonly Catel.Data.PropertyData CaseSensitiveProperty;
+        public static readonly Catel.Data.PropertyData IsSearchUpProperty;
+        public static readonly Catel.Data.PropertyData UseRegexProperty;
+        public static readonly Catel.Data.PropertyData UseWildcardsProperty;
+        public static readonly Catel.Data.PropertyData WholeWordProperty;
+        public FindReplaceSettings() { }
+        public bool CaseSensitive { get; set; }
+        public bool IsSearchUp { get; set; }
+        public bool UseRegex { get; set; }
+        public bool UseWildcards { get; set; }
+        public bool WholeWord { get; set; }
+    }
     public class FrameRateCounter : System.Windows.Controls.TextBlock
     {
         public static readonly System.Windows.DependencyProperty PrefixProperty;
@@ -775,6 +800,15 @@ namespace Orc.Controls
     public interface IConnectionStringBuilderServiceInitializer
     {
         void Initialize(Orc.Controls.IConnectionStringBuilderService connectionStringBuilderService);
+    }
+    public interface IControlTool
+    {
+        bool IsOpened { get; }
+        string Name { get; }
+        public event System.EventHandler<System.EventArgs> Closed;
+        public event System.EventHandler<System.EventArgs> Opened;
+        void Close();
+        void Open();
     }
     public interface IDataSourceProvider
     {
@@ -1759,6 +1793,12 @@ namespace Orc.Controls.Converters
         public object[] ConvertBack(object value, System.Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) { }
         public override object ProvideValue(System.IServiceProvider serviceProvider) { }
     }
+    public class TextToTextArrayMultiValueConverter : System.Windows.Data.IMultiValueConverter
+    {
+        public TextToTextArrayMultiValueConverter() { }
+        public object Convert(object[] values, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) { }
+        public object[] ConvertBack(object value, System.Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) { }
+    }
     public class TreeViewItemToLeftMarginValueConverter : Catel.MVVM.Converters.ValueConverterBase
     {
         public TreeViewItemToLeftMarginValueConverter() { }
@@ -1782,6 +1822,13 @@ namespace Orc.Controls.Services
         System.Windows.Media.Color GetAccentColor();
         void SetAccentColor(System.Windows.Media.Color color);
     }
+    public interface IFindReplaceService
+    {
+        bool FindNext(string textToFind, Orc.Controls.FindReplaceSettings settings);
+        string GetInitialFindText();
+        bool Replace(string textToFind, string textToReplace, Orc.Controls.FindReplaceSettings settings);
+        void ReplaceAll(string textToFind, string textToReplace, Orc.Controls.FindReplaceSettings settings);
+    }
     public class MicrosoftApiSelectDirectoryService : Catel.Services.ISelectDirectoryService
     {
         public MicrosoftApiSelectDirectoryService() { }
@@ -1796,6 +1843,20 @@ namespace Orc.Controls.Services
 }
 namespace Orc.Controls.ViewModels
 {
+    public class FindReplaceViewModel : Catel.MVVM.ViewModelBase
+    {
+        public static readonly Catel.Data.PropertyData TextToFindForReplaceProperty;
+        public static readonly Catel.Data.PropertyData TextToFindProperty;
+        public FindReplaceViewModel(Orc.Controls.Services.IFindReplaceService findReplaceService) { }
+        public Catel.MVVM.Command<string> FindNext { get; }
+        [Catel.MVVM.ModelAttribute()]
+        public Orc.Controls.FindReplaceSettings FindReplaceSettings { get; }
+        public Catel.MVVM.Command<object> Replace { get; }
+        public Catel.MVVM.Command<object> ReplaceAll { get; }
+        public string TextToFind { get; set; }
+        public string TextToFindForReplace { get; set; }
+        public override string Title { get; }
+    }
     public class LogViewerViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.PropertyData ActiveFilterGroupProperty;
@@ -1841,6 +1902,14 @@ namespace Orc.Controls.ViewModels
         public System.Collections.Generic.IEnumerable<Catel.Logging.LogEntry> GetFilteredLogEntries() { }
         protected override System.Threading.Tasks.Task InitializeAsync() { }
         public bool IsValidLogEntry(Catel.Logging.LogEntry logEntry) { }
+    }
+}
+namespace Orc.Controls.Views
+{
+    public class FindReplaceView : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
+    {
+        public FindReplaceView() { }
+        public void InitializeComponent() { }
     }
 }
 namespace XamlGeneratedNamespace
