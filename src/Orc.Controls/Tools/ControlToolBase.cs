@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ControlToolBase.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -11,6 +11,10 @@ namespace Orc.Controls
 
     public abstract class ControlToolBase : IControlTool
     {
+        #region Fields
+        protected object Target;
+        #endregion
+
         #region Constructors
         protected ControlToolBase()
         {
@@ -23,14 +27,30 @@ namespace Orc.Controls
         #endregion
 
         #region IControlTool Members
+        public virtual void Attach(object target)
+        {
+            Target = target;
+        }
+
+        public virtual void Detach()
+        {
+            Target = null;
+        }
+
+        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use Open() with parameter instead")]
         public void Open()
+        {
+            Open(null);
+        }
+
+        public void Open(object parameter = null)
         {
             if (IsOpened)
             {
                 return;
             }
 
-            OnOpen();
+            OnOpen(parameter);
 
             IsOpened = true;
             Opened?.Invoke(this, EventArgs.Empty);
@@ -48,7 +68,7 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-        protected abstract void OnOpen();
+        protected abstract void OnOpen(object parameter = null);
 
         private void RaiseClosedEvent()
         {

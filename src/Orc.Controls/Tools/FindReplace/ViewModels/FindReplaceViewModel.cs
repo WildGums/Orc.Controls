@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="FindReplaceViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -19,8 +19,9 @@ namespace Orc.Controls.ViewModels
         #endregion
 
         #region Constructors
-        public FindReplaceViewModel(IFindReplaceService findReplaceService)
+        public FindReplaceViewModel(FindReplaceSettings findReplaceSettings, IFindReplaceService findReplaceService)
         {
+            Argument.IsNotNull(() => findReplaceSettings);
             Argument.IsNotNull(() => findReplaceService);
 
             _findReplaceService = findReplaceService;
@@ -29,7 +30,7 @@ namespace Orc.Controls.ViewModels
             Replace = new Command<object>(OnReplace);
             ReplaceAll = new Command<object>(OnReplaceAll);
 
-            FindReplaceSettings = new FindReplaceSettings();
+            FindReplaceSettings = findReplaceSettings;
 
             var initialText = _findReplaceService.GetInitialFindText();
 
