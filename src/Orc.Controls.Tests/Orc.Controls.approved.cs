@@ -327,14 +327,19 @@ namespace Orc.Controls
     }
     public abstract class ControlToolBase : Orc.Controls.IControlTool
     {
+        protected object Target;
         protected ControlToolBase() { }
         public bool IsOpened { get; }
         public abstract string Name { get; }
         public event System.EventHandler<System.EventArgs> Closed;
         public event System.EventHandler<System.EventArgs> Opened;
+        public virtual void Attach(object target) { }
         public virtual void Close() { }
-        protected abstract void OnOpen();
+        public virtual void Detach() { }
+        protected abstract void OnOpen(object parameter = null);
+        [System.ObsoleteAttribute("Use Open() with parameter instead. Will be removed in version 4.0.0.", true)]
         public void Open() { }
+        public void Open(object parameter = null) { }
     }
     public sealed class CulturePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
@@ -769,6 +774,17 @@ namespace Orc.Controls
         public FrameRateCounter() { }
         public string Prefix { get; set; }
     }
+    public class static FrameworkElementExtensions
+    {
+        public static void AttachAndOpenTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType, object parameter = null) { }
+        public static void AttachAndOpenTool<T>(this System.Windows.FrameworkElement frameworkElement, object parameter = null)
+            where T :  class, Orc.Controls.IControlTool { }
+        public static object AttachTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
+        public static T AttachTool<T>(this System.Windows.FrameworkElement frameworkElement)
+            where T :  class, Orc.Controls.IControlTool { }
+        public static bool DetachTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
+        public static System.Collections.Generic.IList<Orc.Controls.IControlTool> GetTools(this System.Windows.FrameworkElement frameworkElement) { }
+    }
     public class HeaderBar : System.Windows.Controls.Control
     {
         public static readonly System.Windows.DependencyProperty HeaderProperty;
@@ -807,8 +823,12 @@ namespace Orc.Controls
         string Name { get; }
         public event System.EventHandler<System.EventArgs> Closed;
         public event System.EventHandler<System.EventArgs> Opened;
+        void Attach(object target);
         void Close();
+        void Detach();
+        [System.ObsoleteAttribute("Use Open() with parameter instead. Will be removed in version 4.0.0.", true)]
         void Open();
+        void Open(object parameter);
     }
     public interface IDataSourceProvider
     {
@@ -1233,6 +1253,11 @@ namespace Orc.Controls
         public string SelectedFile { get; set; }
         public string SelectedFileDisplayName { get; }
         public Catel.MVVM.TaskCommand SelectFile { get; }
+    }
+    public class OpenToolCommandExtension : Catel.Windows.Markup.UpdatableMarkupExtension
+    {
+        public OpenToolCommandExtension(System.Type toolType, System.Type frameworkElementType) { }
+        protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
     }
     public class OrdinalToolTipItem
     {
@@ -1806,6 +1831,13 @@ namespace Orc.Controls.Converters
         protected override object Convert(object value, System.Type targetType, object parameter) { }
     }
 }
+namespace Orc.Controls.Extensions
+{
+    public class static FindReplaceSettingsExtensions
+    {
+        public static System.Text.RegularExpressions.Regex GetRegEx(this Orc.Controls.FindReplaceSettings settings, string textToFind, bool isLeftToRight = False) { }
+    }
+}
 namespace Orc.Controls.Services
 {
     public class AccentColorService : Orc.Controls.Services.IAccentColorService
@@ -1841,13 +1873,26 @@ namespace Orc.Controls.Services
         public System.Threading.Tasks.Task<bool> DetermineDirectoryAsync() { }
     }
 }
+namespace Orc.Controls.Tools.FindReplace
+{
+    public abstract class FindReplaceTool : Orc.Controls.ControlToolBase
+    {
+        public FindReplaceTool(Catel.Services.IUIVisualizerService uiVisualizerService, Catel.IoC.ITypeFactory typeFactory) { }
+        public override string Name { get; }
+        public override void Attach(object target) { }
+        public override void Close() { }
+        protected abstract Orc.Controls.Services.IFindReplaceService CreateFindReplaceService(object target);
+        public override void Detach() { }
+        protected override void OnOpen(object parameter = null) { }
+    }
+}
 namespace Orc.Controls.ViewModels
 {
     public class FindReplaceViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.PropertyData TextToFindForReplaceProperty;
         public static readonly Catel.Data.PropertyData TextToFindProperty;
-        public FindReplaceViewModel(Orc.Controls.Services.IFindReplaceService findReplaceService) { }
+        public FindReplaceViewModel(Orc.Controls.FindReplaceSettings findReplaceSettings, Orc.Controls.Services.IFindReplaceService findReplaceService) { }
         public Catel.MVVM.Command<string> FindNext { get; }
         [Catel.MVVM.ModelAttribute()]
         public Orc.Controls.FindReplaceSettings FindReplaceSettings { get; }
