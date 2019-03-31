@@ -16,12 +16,13 @@ namespace Orc.Controls.Tools.FindReplace
     using Services;
     using ViewModels;
 
-    public abstract class FindReplaceTool : ControlToolBase
+    public class FindReplaceTool<TFindReplaceService> : ControlToolBase
+        where TFindReplaceService : IFindReplaceService
     {
         #region Fields
         private readonly FindReplaceSettings _findReplaceSettings;
-        private readonly ITypeFactory _typeFactory;
         private readonly IUIVisualizerService _uiVisualizerService;
+        private readonly ITypeFactory _typeFactory;
 
         private IFindReplaceService _findReplaceService;
         private FindReplaceViewModel _findReplaceViewModel;
@@ -58,11 +59,13 @@ namespace Orc.Controls.Tools.FindReplace
             }
 
             _findReplaceService = CreateFindReplaceService(target);
-            //_typeFactory.CreateInstanceWithParametersAndAutoCompletion<FindReplaceService>(target);
             serviceLocator.RegisterInstance(_findReplaceService, target);
         }
 
-        protected abstract IFindReplaceService CreateFindReplaceService(object target);
+        protected virtual TFindReplaceService CreateFindReplaceService(object target)
+        {
+            return _typeFactory.CreateInstanceWithParametersAndAutoCompletion<TFindReplaceService>(target);
+        }
 
         public override void Detach()
         {

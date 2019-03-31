@@ -1875,13 +1875,14 @@ namespace Orc.Controls.Services
 }
 namespace Orc.Controls.Tools.FindReplace
 {
-    public abstract class FindReplaceTool : Orc.Controls.ControlToolBase
+    public class FindReplaceTool<TFindReplaceService> : Orc.Controls.ControlToolBase
+        where TFindReplaceService : Orc.Controls.Services.IFindReplaceService
     {
         public FindReplaceTool(Catel.Services.IUIVisualizerService uiVisualizerService, Catel.IoC.ITypeFactory typeFactory) { }
         public override string Name { get; }
         public override void Attach(object target) { }
         public override void Close() { }
-        protected abstract Orc.Controls.Services.IFindReplaceService CreateFindReplaceService(object target);
+        protected virtual TFindReplaceService CreateFindReplaceService(object target) { }
         public override void Detach() { }
         protected override void OnOpen(object parameter = null) { }
     }
