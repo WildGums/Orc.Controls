@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Controls.Tools.FindReplace
+namespace Orc.Controls
 {
     using System.Threading.Tasks;
     using Catel;
