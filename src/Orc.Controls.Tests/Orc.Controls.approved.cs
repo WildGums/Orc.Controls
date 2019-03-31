@@ -614,6 +614,18 @@ namespace Orc.Controls
         public static System.Collections.Generic.IEnumerable<System.Windows.DependencyObject> GetDescendents(this System.Windows.DependencyObject root) { }
         public static System.Windows.DependencyObject GetVisualRoot(this System.Windows.DependencyObject dependencyObject) { }
     }
+    public abstract class DialogWindowHostedToolBase<T> : Orc.Controls.ControlToolBase
+        where T : Catel.MVVM.ViewModelBase
+    {
+        protected object Parameter;
+        protected readonly Catel.IoC.ITypeFactory TypeFactory;
+        protected T WindowViewModel;
+        protected DialogWindowHostedToolBase(Catel.IoC.ITypeFactory typeFactory, Catel.Services.IUIVisualizerService uiVisualizerService) { }
+        public override void Close() { }
+        protected abstract T InitializeViewModel();
+        protected abstract void OnAccepted();
+        protected override void OnOpen(object parameter = null) { }
+    }
     public class DirectoryPicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
         public static readonly System.Windows.DependencyProperty LabelTextProperty;
@@ -767,6 +779,17 @@ namespace Orc.Controls
         public bool UseRegex { get; set; }
         public bool UseWildcards { get; set; }
         public bool WholeWord { get; set; }
+    }
+    public class FindReplaceTool<TFindReplaceService> : Orc.Controls.ControlToolBase
+        where TFindReplaceService : Orc.Controls.Services.IFindReplaceService
+    {
+        public FindReplaceTool(Catel.Services.IUIVisualizerService uiVisualizerService, Catel.IoC.ITypeFactory typeFactory) { }
+        public override string Name { get; }
+        public override void Attach(object target) { }
+        public override void Close() { }
+        protected virtual TFindReplaceService CreateFindReplaceService(object target) { }
+        public override void Detach() { }
+        protected override void OnOpen(object parameter = null) { }
     }
     public class FrameRateCounter : System.Windows.Controls.TextBlock
     {
@@ -1871,20 +1894,6 @@ namespace Orc.Controls.Services
         public bool ShowNewFolderButton { get; set; }
         public string Title { get; set; }
         public System.Threading.Tasks.Task<bool> DetermineDirectoryAsync() { }
-    }
-}
-namespace Orc.Controls.Tools.FindReplace
-{
-    public class FindReplaceTool<TFindReplaceService> : Orc.Controls.ControlToolBase
-        where TFindReplaceService : Orc.Controls.Services.IFindReplaceService
-    {
-        public FindReplaceTool(Catel.Services.IUIVisualizerService uiVisualizerService, Catel.IoC.ITypeFactory typeFactory) { }
-        public override string Name { get; }
-        public override void Attach(object target) { }
-        public override void Close() { }
-        protected virtual TFindReplaceService CreateFindReplaceService(object target) { }
-        public override void Detach() { }
-        protected override void OnOpen(object parameter = null) { }
     }
 }
 namespace Orc.Controls.ViewModels
