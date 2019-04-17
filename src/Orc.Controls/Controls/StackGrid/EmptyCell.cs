@@ -55,7 +55,7 @@ namespace Orc.Controls
         /// </summary>
         public EmptyCell()
         {
-#if NET
+#if NET || NETCORE
             Focusable = false;
 #endif
 

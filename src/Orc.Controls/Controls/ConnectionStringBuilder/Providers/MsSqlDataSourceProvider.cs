@@ -13,11 +13,14 @@ namespace Orc.Controls
     using System.Data.Sql;
     using System.Globalization;
     using System.Linq;
+    using Catel.Logging;
     using Microsoft.Win32;
 
     public class MsSqlDataSourceProvider : IDataSourceProvider
     {
         #region Constants
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
         private const string MicrosoftSqlServerRegPath = @"SOFTWARE\Microsoft\Microsoft SQL Server";
         #endregion
 
@@ -61,7 +64,11 @@ namespace Orc.Controls
 
         private IList<string> GetRemoteSqlServerInstances()
         {
+#if NETCORE
+            throw Log.ErrorAndCreateException<NotSupportedException>($"Not supported on .NET Core, SqlDataSourceEnumerator is not (yet) available. See https://github.com/dotnet/corefx/issues/32874");
+#else
             DataTable dataTable;
+
             try
             {
                 dataTable = SqlDataSourceEnumerator.Instance.GetDataSources();
@@ -73,6 +80,7 @@ namespace Orc.Controls
 
             var serversCount = dataTable.Rows.Count;
             var servers = new string[serversCount];
+
             for (var i = 0; i < serversCount; i++)
             {
                 var name = dataTable.Rows[i]["ServerName"].ToString();
@@ -86,6 +94,7 @@ namespace Orc.Controls
             }
 
             return servers;
+#endif
         }
         #endregion
     }

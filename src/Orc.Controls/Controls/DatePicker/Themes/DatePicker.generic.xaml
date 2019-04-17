@@ -34,10 +34,10 @@
         <Setter Property="Template" Value="{StaticResource DatePickerToggleButtonTemplate}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
+                <Setter Property="BorderBrush" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="BorderBrush" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
+                <Setter Property="BorderBrush" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -45,7 +45,7 @@
     <Style x:Key="DatePickerListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="Padding" Value="2 2 5 2" />
         <Style.Resources>
-            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{controls:AccentColor AccentColorStyle=AccentColor4}"/>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{controls:ThemeColor ThemeColorStyle=AccentColor4}"/>
         </Style.Resources>
         <Style.Triggers>
             <Trigger Property="ListBoxItem.IsSelected" Value="True" >
@@ -58,10 +58,10 @@
         <Setter Property="BorderBrush" Value="LightGray"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}" />
+                <Setter Property="BorderBrush" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" />
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="BorderBrush" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}" />
+                <Setter Property="BorderBrush" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -158,10 +158,10 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Border" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor4}"/>
+                            <Setter Property="Background" TargetName="Border" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor4}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Border" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor4}"/>
+                            <Setter Property="Background" TargetName="Border" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor4}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="#FFADADAD"/>

@@ -14,7 +14,7 @@
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Foreground"
-                                    Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
+                                    Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground"

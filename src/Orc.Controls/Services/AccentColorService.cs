@@ -47,7 +47,7 @@ namespace Orc.Controls.Services
         #region Methods
         protected void RaiseAccentColorChanged()
         {
-            AccentColorChanged.SafeInvoke(this);
+            AccentColorChanged?.Invoke(this, EventArgs.Empty);
         }
         #endregion
     }

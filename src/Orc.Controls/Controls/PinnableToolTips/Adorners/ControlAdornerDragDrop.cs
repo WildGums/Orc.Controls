@@ -59,18 +59,12 @@ namespace Orc.Controls
             // see https://github.com/WildGums/Orc.Controls/issues/40
 
             var frameworkElement = (FrameworkElement)element;
-            var adornedElement = (FrameworkElement)adorner.AdornedElement;
-            var childPosition = adorner.ChildPosition;
-            var adornerOffset = adorner.Offset;
-
-            var initialX = childPosition.X;
-            var initialY = childPosition.Y;
 
             //Debug.WriteLine($"Adorner child: X = '{childPosition.X}', Y = '{childPosition.Y}'");
             //Debug.WriteLine($"Adorned element: Width = '{adornedElement.ActualWidth}', Height = '{adornedElement.ActualHeight}'");
             //Debug.WriteLine($"Initial X = '{initialX}', Y = '{initialY}'");
 
-            dd.UpdatePosition(frameworkElement, new Point(initialX, initialY), true);
+            dd.UpdatePosition(frameworkElement, new Point(0, 0), true);
 
             return dd;
         }

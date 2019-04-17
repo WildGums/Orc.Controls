@@ -75,7 +75,7 @@ namespace Orc.Controls
             }
             else
             {
-#if NET
+#if NET || NETCORE
                 Initialized += OnInitialized;
 #else
                 Loaded += OnInitialized;
@@ -101,7 +101,7 @@ namespace Orc.Controls
             }
             else
             {
-#if NET
+#if NET || NETCORE
                 Initialized -= OnInitialized;
 #else
                 Loaded -= OnInitialized;

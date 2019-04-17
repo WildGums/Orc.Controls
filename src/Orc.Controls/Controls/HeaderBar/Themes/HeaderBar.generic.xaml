@@ -7,7 +7,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border BorderBrush="LightGray" BorderThickness="0" Background="WhiteSmoke">
+                    <Border BorderBrush="{controls:ThemeColorBrush ThemeColorStyle=BorderColor}" BorderThickness="0" Background="WhiteSmoke">
                         <TextBlock FontWeight="Medium" FontSize="14" Margin="4" TextAlignment="Left"
                                    Text="{Binding Path=Header, RelativeSource={RelativeSource TemplatedParent}}">
                         </TextBlock>

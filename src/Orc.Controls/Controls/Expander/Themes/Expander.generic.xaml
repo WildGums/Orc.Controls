@@ -28,10 +28,10 @@
                             <Setter TargetName="Path" Property="Data" Value="{StaticResource PinnedGeometry}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:AccentColorBrush AccentColorStyle=Highlight}"/>
+                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:ThemeColorBrush ThemeColorStyle=Highlight}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
+                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
                             <Setter Property="Fill" TargetName="Path" Value="White"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
@@ -59,10 +59,10 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="line" Property="Background" Value="{controls:AccentColorBrush AccentColorStyle=DarkHighlight}"/>
+                            <Setter TargetName="line" Property="Background" Value="{controls:ThemeColorBrush ThemeColorStyle=DarkHighlight}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="line" Property="Background" Value="{controls:AccentColorBrush AccentColorStyle=AccentColor}"/>
+                            <Setter TargetName="line" Property="Background" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -102,7 +102,7 @@
                                 <ColumnDefinition  Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <Border Margin="0" Grid.ColumnSpan="2" BorderBrush="LightGray"
+                            <Border Margin="0" Grid.ColumnSpan="2" BorderBrush="{controls:ThemeColorBrush ThemeColorStyle=BorderColor}"
                                     BorderThickness="1" Background="WhiteSmoke"/>
                             <ContentControl Content="{TemplateBinding Header}" FontWeight="Medium" Margin="4"
                                             HorizontalAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center"/>

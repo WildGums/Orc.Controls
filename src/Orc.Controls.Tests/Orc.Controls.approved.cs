@@ -10,24 +10,23 @@ public class static ModuleInitializer
 }
 namespace Orc.Controls
 {
-    public class AccentColor : Catel.Windows.Markup.UpdatableMarkupExtension
+    [System.ObsoleteAttribute("Use `ThemeColor` instead. Will be removed in version 4.0.0.", true)]
+    public class AccentColor : Orc.Controls.ThemeColor
     {
         public AccentColor() { }
         public AccentColor(Orc.Controls.AccentColorStyle accentColorStyle) { }
         public Orc.Controls.AccentColorStyle AccentColorStyle { get; set; }
-        protected override void OnTargetObjectLoaded() { }
-        protected override void OnTargetObjectUnloaded() { }
         protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
     }
-    public class AccentColorBrush : Catel.Windows.Markup.UpdatableMarkupExtension
+    [System.ObsoleteAttribute("Use `ThemeColorBrush` instead. Will be removed in version 4.0.0.", true)]
+    public class AccentColorBrush : Orc.Controls.ThemeColorBrush
     {
         public AccentColorBrush() { }
         public AccentColorBrush(Orc.Controls.AccentColorStyle accentColorStyle) { }
         public Orc.Controls.AccentColorStyle AccentColorStyle { get; set; }
-        protected override void OnTargetObjectLoaded() { }
-        protected override void OnTargetObjectUnloaded() { }
         protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
     }
+    [System.ObsoleteAttribute("Use `ThemeColorStyle` instead. Will be removed in version 4.0.0.", true)]
     public enum AccentColorStyle
     {
         AccentColor = 0,
@@ -48,6 +47,7 @@ namespace Orc.Controls
     public class ApplicationLogFilterGroupService : Orc.Controls.IApplicationLogFilterGroupService
     {
         public ApplicationLogFilterGroupService(Orc.FileSystem.IFileService fileService, Catel.Runtime.Serialization.Xml.IXmlSerializer xmlSerializer) { }
+        protected virtual System.Collections.Generic.List<Orc.Controls.LogFilterGroup> CreateRuntimeFilterGroups() { }
         public System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Orc.Controls.LogFilterGroup>> LoadAsync() { }
         public System.Threading.Tasks.Task SaveAsync(System.Collections.Generic.IEnumerable<Orc.Controls.LogFilterGroup> filterGroups) { }
     }
@@ -323,6 +323,23 @@ namespace Orc.Controls
         public bool IsSensitive { get; }
         public string Name { get; }
         public object Value { get; set; }
+        protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
+    }
+    public abstract class ControlToolBase : Orc.Controls.IControlTool
+    {
+        protected object Target;
+        protected ControlToolBase() { }
+        public bool IsOpened { get; }
+        public abstract string Name { get; }
+        public event System.EventHandler<System.EventArgs> Closed;
+        public event System.EventHandler<System.EventArgs> Opened;
+        public virtual void Attach(object target) { }
+        public virtual void Close() { }
+        public virtual void Detach() { }
+        protected abstract void OnOpen(object parameter = null);
+        [System.ObsoleteAttribute("Use Open() with parameter instead. Will be removed in version 4.0.0.", true)]
+        public void Open() { }
+        public void Open(object parameter = null) { }
     }
     public sealed class CulturePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
@@ -597,6 +614,18 @@ namespace Orc.Controls
         public static System.Collections.Generic.IEnumerable<System.Windows.DependencyObject> GetDescendents(this System.Windows.DependencyObject root) { }
         public static System.Windows.DependencyObject GetVisualRoot(this System.Windows.DependencyObject dependencyObject) { }
     }
+    public abstract class DialogWindowHostedToolBase<T> : Orc.Controls.ControlToolBase
+        where T : Catel.MVVM.ViewModelBase
+    {
+        protected object Parameter;
+        protected readonly Catel.IoC.ITypeFactory TypeFactory;
+        protected T WindowViewModel;
+        protected DialogWindowHostedToolBase(Catel.IoC.ITypeFactory typeFactory, Catel.Services.IUIVisualizerService uiVisualizerService) { }
+        public override void Close() { }
+        protected abstract T InitializeViewModel();
+        protected abstract void OnAccepted();
+        protected override void OnOpen(object parameter = null) { }
+    }
     public class DirectoryPicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
         public static readonly System.Windows.DependencyProperty LabelTextProperty;
@@ -737,11 +766,47 @@ namespace Orc.Controls
         protected virtual void OnInitializingAutoCompletionService(Orc.Controls.InitializingAutoCompletionServiceEventArgs e) { }
         protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e) { }
     }
+    public class FindReplaceSettings : Catel.Data.ModelBase
+    {
+        public static readonly Catel.Data.PropertyData CaseSensitiveProperty;
+        public static readonly Catel.Data.PropertyData IsSearchUpProperty;
+        public static readonly Catel.Data.PropertyData UseRegexProperty;
+        public static readonly Catel.Data.PropertyData UseWildcardsProperty;
+        public static readonly Catel.Data.PropertyData WholeWordProperty;
+        public FindReplaceSettings() { }
+        public bool CaseSensitive { get; set; }
+        public bool IsSearchUp { get; set; }
+        public bool UseRegex { get; set; }
+        public bool UseWildcards { get; set; }
+        public bool WholeWord { get; set; }
+    }
+    public class FindReplaceTool<TFindReplaceService> : Orc.Controls.ControlToolBase
+        where TFindReplaceService : Orc.Controls.Services.IFindReplaceService
+    {
+        public FindReplaceTool(Catel.Services.IUIVisualizerService uiVisualizerService, Catel.IoC.ITypeFactory typeFactory) { }
+        public override string Name { get; }
+        public override void Attach(object target) { }
+        public override void Close() { }
+        protected virtual TFindReplaceService CreateFindReplaceService(object target) { }
+        public override void Detach() { }
+        protected override void OnOpen(object parameter = null) { }
+    }
     public class FrameRateCounter : System.Windows.Controls.TextBlock
     {
         public static readonly System.Windows.DependencyProperty PrefixProperty;
         public FrameRateCounter() { }
         public string Prefix { get; set; }
+    }
+    public class static FrameworkElementExtensions
+    {
+        public static void AttachAndOpenTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType, object parameter = null) { }
+        public static void AttachAndOpenTool<T>(this System.Windows.FrameworkElement frameworkElement, object parameter = null)
+            where T :  class, Orc.Controls.IControlTool { }
+        public static object AttachTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
+        public static T AttachTool<T>(this System.Windows.FrameworkElement frameworkElement)
+            where T :  class, Orc.Controls.IControlTool { }
+        public static bool DetachTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
+        public static System.Collections.Generic.IList<Orc.Controls.IControlTool> GetTools(this System.Windows.FrameworkElement frameworkElement) { }
     }
     public class HeaderBar : System.Windows.Controls.Control
     {
@@ -774,6 +839,19 @@ namespace Orc.Controls
     public interface IConnectionStringBuilderServiceInitializer
     {
         void Initialize(Orc.Controls.IConnectionStringBuilderService connectionStringBuilderService);
+    }
+    public interface IControlTool
+    {
+        bool IsOpened { get; }
+        string Name { get; }
+        public event System.EventHandler<System.EventArgs> Closed;
+        public event System.EventHandler<System.EventArgs> Opened;
+        void Attach(object target);
+        void Close();
+        void Detach();
+        [System.ObsoleteAttribute("Use Open() with parameter instead. Will be removed in version 4.0.0.", true)]
+        void Open();
+        void Open(object parameter);
     }
     public interface IDataSourceProvider
     {
@@ -986,10 +1064,12 @@ namespace Orc.Controls
     public class LogFilterGroup : Catel.Data.ModelBase
     {
         public static readonly Catel.Data.PropertyData IsEnabledProperty;
+        public static readonly Catel.Data.PropertyData IsRuntimeProperty;
         public static readonly Catel.Data.PropertyData LogFiltersProperty;
         public static readonly Catel.Data.PropertyData NameProperty;
         public LogFilterGroup() { }
         public bool IsEnabled { get; set; }
+        public bool IsRuntime { get; set; }
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilter> LogFilters { get; set; }
         public string Name { get; set; }
         public bool Pass(Catel.Logging.LogEntry logEntry) { }
@@ -1046,6 +1126,7 @@ namespace Orc.Controls
     {
         TypeName = 0,
         AssemblyName = 1,
+        LogMessage = 2,
     }
     public class static LoggingExtensions
     {
@@ -1196,6 +1277,11 @@ namespace Orc.Controls
         public string SelectedFileDisplayName { get; }
         public Catel.MVVM.TaskCommand SelectFile { get; }
     }
+    public class OpenToolCommandExtension : Catel.Windows.Markup.UpdatableMarkupExtension
+    {
+        public OpenToolCommandExtension(System.Type toolType, System.Type frameworkElementType) { }
+        protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
+    }
     public class OrdinalToolTipItem
     {
         public OrdinalToolTipItem() { }
@@ -1288,6 +1374,8 @@ namespace Orc.Controls
         public override int GetHashCode() { }
         public static Orc.Controls.PredefinedColor GetPredefinedColor(System.Windows.Media.Color color) { }
         public static bool IsPredefined(System.Windows.Media.Color color) { }
+        public static bool ==(Orc.Controls.PredefinedColor color1, Orc.Controls.PredefinedColor color2) { }
+        public static bool !=(Orc.Controls.PredefinedColor color1, Orc.Controls.PredefinedColor color2) { }
     }
     public class PredefinedColorItem : System.Windows.Controls.Control
     {
@@ -1442,12 +1530,75 @@ namespace Orc.Controls
         public System.Windows.Controls.TabItem TabItem { get; }
     }
     public class static TextBoxExtensions { }
+    public class ThemeColor : Catel.Windows.Markup.UpdatableMarkupExtension
+    {
+        public ThemeColor() { }
+        public ThemeColor(Orc.Controls.ThemeColorStyle themeColorStyle) { }
+        public Orc.Controls.ThemeColorStyle ThemeColorStyle { get; set; }
+        protected override void OnTargetObjectLoaded() { }
+        protected override void OnTargetObjectUnloaded() { }
+        protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
+    }
+    public class ThemeColorBrush : Catel.Windows.Markup.UpdatableMarkupExtension
+    {
+        public ThemeColorBrush() { }
+        public ThemeColorBrush(Orc.Controls.ThemeColorStyle themeColorStyle) { }
+        public Orc.Controls.ThemeColorStyle ThemeColorStyle { get; set; }
+        protected override void OnTargetObjectLoaded() { }
+        protected override void OnTargetObjectUnloaded() { }
+        protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
+    }
+    public enum ThemeColorStyle
+    {
+        AccentColor = 0,
+        AccentColor1 = 1,
+        AccentColor2 = 2,
+        AccentColor3 = 3,
+        AccentColor4 = 4,
+        AccentColor5 = 5,
+        BorderColor = 6,
+        BorderColor1 = 7,
+        BorderColor2 = 8,
+        BorderColor3 = 9,
+        BorderColor4 = 10,
+        BorderColor5 = 11,
+        BackgroundColor = 12,
+        ForegroundColor = 13,
+        ForegroundAlternativeColor = 14,
+        DarkHighlight = 3,
+        Highlight = 4,
+        BorderLight = 9,
+        BorderMedium = 8,
+        BorderDark = 7,
+        BorderMouseOver = 1,
+        BorderPressed = 0,
+        BorderChecked = 0,
+        BorderSelected = 0,
+        BorderSelectedInactive = 2,
+        BorderDisabled = 11,
+        BackgroundMouseOver = 4,
+        BackgroundPressed = 3,
+        BackgroundChecked = 0,
+        BackgroundSelected = 3,
+        BackgroundSelectedInactive = 4,
+        BackgroundDisabled = 5,
+        ForegroundMouseOver = 13,
+        ForegroundPressed = 14,
+        ForegroundChecked = 14,
+        ForegroundSelected = 14,
+        ForegroundSelectedInactive = 14,
+        ForegroundDisabled = 13,
+    }
     public class static ThemeHelper
     {
+        [System.ObsoleteAttribute("Use `GetThemeColor` instead. Will be removed in version 4.0.0.", true)]
         public static System.Windows.Media.Color GetAccentColor(Orc.Controls.AccentColorStyle colorStyle = 0) { }
-        public static System.Windows.Media.SolidColorBrush GetAccentColorBrush(Orc.Controls.AccentColorStyle colorStyle) { }
+        [System.ObsoleteAttribute("Use `GetThemeColorBrush` instead. Will be removed in version 4.0.0.", true)]
+        public static System.Windows.Media.SolidColorBrush GetAccentColorBrush(Orc.Controls.AccentColorStyle colorStyle = 0) { }
         public static System.Windows.Media.SolidColorBrush GetAccentColorBrush() { }
         public static System.Windows.Media.SolidColorBrush GetSolidColorBrush(this System.Windows.Media.Color color, double opacity = 1) { }
+        public static System.Windows.Media.Color GetThemeColor(Orc.Controls.ThemeColorStyle colorStyle = 0) { }
+        public static System.Windows.Media.SolidColorBrush GetThemeColorBrush(Orc.Controls.ThemeColorStyle colorStyle = 0) { }
     }
     public class TimeAdjustment
     {
@@ -1690,11 +1841,24 @@ namespace Orc.Controls.Converters
         public object[] ConvertBack(object value, System.Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) { }
         public override object ProvideValue(System.IServiceProvider serviceProvider) { }
     }
+    public class TextToTextArrayMultiValueConverter : System.Windows.Data.IMultiValueConverter
+    {
+        public TextToTextArrayMultiValueConverter() { }
+        public object Convert(object[] values, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) { }
+        public object[] ConvertBack(object value, System.Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) { }
+    }
     public class TreeViewItemToLeftMarginValueConverter : Catel.MVVM.Converters.ValueConverterBase
     {
         public TreeViewItemToLeftMarginValueConverter() { }
         public double Length { get; set; }
         protected override object Convert(object value, System.Type targetType, object parameter) { }
+    }
+}
+namespace Orc.Controls.Extensions
+{
+    public class static FindReplaceSettingsExtensions
+    {
+        public static System.Text.RegularExpressions.Regex GetRegEx(this Orc.Controls.FindReplaceSettings settings, string textToFind, bool isLeftToRight = False) { }
     }
 }
 namespace Orc.Controls.Services
@@ -1713,6 +1877,13 @@ namespace Orc.Controls.Services
         System.Windows.Media.Color GetAccentColor();
         void SetAccentColor(System.Windows.Media.Color color);
     }
+    public interface IFindReplaceService
+    {
+        bool FindNext(string textToFind, Orc.Controls.FindReplaceSettings settings);
+        string GetInitialFindText();
+        bool Replace(string textToFind, string textToReplace, Orc.Controls.FindReplaceSettings settings);
+        void ReplaceAll(string textToFind, string textToReplace, Orc.Controls.FindReplaceSettings settings);
+    }
     public class MicrosoftApiSelectDirectoryService : Catel.Services.ISelectDirectoryService
     {
         public MicrosoftApiSelectDirectoryService() { }
@@ -1727,6 +1898,20 @@ namespace Orc.Controls.Services
 }
 namespace Orc.Controls.ViewModels
 {
+    public class FindReplaceViewModel : Catel.MVVM.ViewModelBase
+    {
+        public static readonly Catel.Data.PropertyData TextToFindForReplaceProperty;
+        public static readonly Catel.Data.PropertyData TextToFindProperty;
+        public FindReplaceViewModel(Orc.Controls.FindReplaceSettings findReplaceSettings, Orc.Controls.Services.IFindReplaceService findReplaceService) { }
+        public Catel.MVVM.Command<string> FindNext { get; }
+        [Catel.MVVM.ModelAttribute()]
+        public Orc.Controls.FindReplaceSettings FindReplaceSettings { get; }
+        public Catel.MVVM.Command<object> Replace { get; }
+        public Catel.MVVM.Command<object> ReplaceAll { get; }
+        public string TextToFind { get; set; }
+        public string TextToFindForReplace { get; set; }
+        public override string Title { get; }
+    }
     public class LogViewerViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.PropertyData ActiveFilterGroupProperty;
@@ -1772,6 +1957,14 @@ namespace Orc.Controls.ViewModels
         public System.Collections.Generic.IEnumerable<Catel.Logging.LogEntry> GetFilteredLogEntries() { }
         protected override System.Threading.Tasks.Task InitializeAsync() { }
         public bool IsValidLogEntry(Catel.Logging.LogEntry logEntry) { }
+    }
+}
+namespace Orc.Controls.Views
+{
+    public class FindReplaceView : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
+    {
+        public FindReplaceView() { }
+        public void InitializeComponent() { }
     }
 }
 namespace XamlGeneratedNamespace

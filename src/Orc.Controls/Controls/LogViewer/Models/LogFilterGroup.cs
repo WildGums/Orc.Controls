@@ -17,6 +17,8 @@ namespace Orc.Controls
         #region Properties
         public string Name { get; set; }
 
+        public bool IsRuntime { get; set; }
+
         public bool IsEnabled { get; set; } = true;
 
         public ObservableCollection<LogFilter> LogFilters { get; set; } = new ObservableCollection<LogFilter>();

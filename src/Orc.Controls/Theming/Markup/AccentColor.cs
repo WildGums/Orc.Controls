@@ -8,64 +8,25 @@
 namespace Orc.Controls
 {
     using System;
-    using Catel.IoC;
-    using Catel.Logging;
-    using Catel.Windows.Markup;
-    using Services;
 
-    public class AccentColor : UpdatableMarkupExtension
+    [ObsoleteEx(ReplacementTypeOrMember = "ThemeColor", TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0")]
+    public class AccentColor : ThemeColor
     {
-        #region Fields
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-
-        private readonly IAccentColorService _accentColorService;
-        #endregion
-
-        #region Constructors
-        static AccentColor()
-        {
-            // Note: use ThemeHelper so it subscribes to events first
-            var dummyCall = ThemeHelper.GetAccentColor();
-        }
-
         public AccentColor()
+            : base()
         {
-            AllowUpdatableStyleSetters = true;
-
-            _accentColorService = ServiceLocator.Default.ResolveType<IAccentColorService>();
         }
 
         public AccentColor(AccentColorStyle accentColorStyle)
             : this()
         {
-            AccentColorStyle = accentColorStyle;
         }
-        #endregion
 
         #region Properties
         public AccentColorStyle AccentColorStyle { get; set; }
         #endregion
 
         #region Methods
-        protected override void OnTargetObjectLoaded()
-        {
-            base.OnTargetObjectLoaded();
-
-            _accentColorService.AccentColorChanged += OnAccentColorChanged;
-        }
-
-        protected override void OnTargetObjectUnloaded()
-        {
-            _accentColorService.AccentColorChanged -= OnAccentColorChanged;
-
-            base.OnTargetObjectUnloaded();
-        }
-
-        private void OnAccentColorChanged(object sender, EventArgs e)
-        {
-            UpdateValue();
-        }
-
         protected override object ProvideDynamicValue(IServiceProvider serviceProvider)
         {
             return ThemeHelper.GetAccentColor(AccentColorStyle);

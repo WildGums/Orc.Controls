@@ -514,7 +514,7 @@ namespace Orc.Controls
                 return;
             }
 
-            ValueChanged.SafeInvoke(this);
+            ValueChanged?.Invoke(this, EventArgs.Empty);
 
             UpdateText();
         }

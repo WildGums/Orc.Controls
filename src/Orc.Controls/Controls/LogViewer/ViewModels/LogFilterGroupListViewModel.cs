@@ -9,6 +9,7 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Threading.Tasks;
     using Catel;
     using Catel.Collections;
@@ -61,7 +62,9 @@ namespace Orc.Controls
 
         private async Task LoadFilterGroupsAsync()
         {
-            FilterGroups.ReplaceRange(await _applicationLogFilterGroupService.LoadAsync());
+            var filterGroups = await _applicationLogFilterGroupService.LoadAsync();
+
+            FilterGroups.ReplaceRange(filterGroups/*.Where(x => !x.IsRuntime)*/.OrderBy(x => x.Name));
         }
 
         private async Task SaveFilterGroupsAsync()
@@ -77,13 +80,24 @@ namespace Orc.Controls
                 FilterGroups.Add(logFilterGroup);
                 await SaveFilterGroupsAsync();
 
-                Updated.SafeInvoke(this);
+                Updated?.Invoke(this, EventArgs.Empty);
             }
         }
 
         private bool OnEditCommandCanExecute()
         {
-            return SelectedFilterGroup != null;
+            var selectedFilterGroup = SelectedFilterGroup;
+            if (selectedFilterGroup is null)
+            {
+                return false;
+            }
+
+            if (selectedFilterGroup.IsRuntime)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private async Task OnEditCommandExecuteAsync()
@@ -92,13 +106,24 @@ namespace Orc.Controls
             {
                 await SaveFilterGroupsAsync();
 
-                Updated.SafeInvoke(this);
+                Updated?.Invoke(this, EventArgs.Empty);
             }
         }
 
         private bool OnRemoveCommandCanExecute()
         {
-            return SelectedFilterGroup != null;
+            var selectedFilterGroup = SelectedFilterGroup;
+            if (selectedFilterGroup is null)
+            {
+                return false;
+            }
+
+            if (selectedFilterGroup.IsRuntime)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private async Task OnRemoveCommandExecuteAsync()
@@ -111,7 +136,7 @@ namespace Orc.Controls
                 await SaveFilterGroupsAsync();
                 SelectedFilterGroup = null;
 
-                Updated.SafeInvoke(this);
+                Updated?.Invoke(this, EventArgs.Empty);
             }
         }
         #endregion
