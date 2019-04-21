@@ -52,12 +52,31 @@ namespace Orc.Controls
 
             var sensitiveProperties = TypeDescriptor.GetProperties(_connectionStringBuilder, new Attribute[] {PasswordPropertyTextAttribute.Yes})
                 .OfType<PropertyDescriptor>()
-                .Select(x => x.DisplayName);
+                .Select(x => x.DisplayName.ToUpperInvariant());
 
             var sensitivePropertiesHashSet = new HashSet<string>();
             sensitivePropertiesHashSet.AddRange(sensitiveProperties);
 
-            Properties = _connectionStringBuilder.Keys.OfType<string>()
+            
+            var propDescriptor = _connectionStringBuilder as ICustomTypeDescriptor;
+            var props = propDescriptor.GetProperties().OfType<PropertyDescriptor>().Where(x => x.GetType().Name =="DbConnectionStringBuilderDescriptor").ToList();
+            //foreach (var prop in props)
+            //{
+            //    prop.SetValue();
+            //}
+
+            // var props = TypeDescriptor.GetProperties(_connectionStringBuilder).OfType<DbConnectionStringBuilderPropertyDescriptor>().ToList();
+
+
+            //Properties = props
+            //    .ToDictionary(x => x.Name, x =>
+            //    {
+            //        var isSensitive = sensitivePropertiesHashSet.Contains(x.DisplayName);
+            //        return new ConnectionStringProperty(x.Name, isSensitive, _connectionStringBuilder);
+            //    });
+
+            Properties = props.Select(x => x.DisplayName)
+                .Select(x => x.ToUpperInvariant())
                 .ToDictionary(x => x, x =>
                 {
                     var isSensitive = sensitivePropertiesHashSet.Contains(x);

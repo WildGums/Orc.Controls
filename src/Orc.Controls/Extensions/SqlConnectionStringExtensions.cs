@@ -18,7 +18,8 @@ namespace Orc.Controls
                 return null;
             }
 
-            return !properties.ContainsKey(propertyName) ? null : properties[propertyName];
+            var upperInvariantPropertyName = propertyName.ToUpperInvariant();
+            return !properties.ContainsKey(upperInvariantPropertyName) ? null : properties[upperInvariantPropertyName];
         }
         #endregion
     }
