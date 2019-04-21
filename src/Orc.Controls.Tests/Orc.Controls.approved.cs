@@ -283,7 +283,7 @@ namespace Orc.Controls
         public static readonly Catel.Data.PropertyData IsDatabasesRefreshingProperty;
         public static readonly Catel.Data.PropertyData IsServerListVisibleProperty;
         public static readonly Catel.Data.PropertyData IsServersRefreshingProperty;
-        public ConnectionStringEditViewModel(string connectionString, Orc.Controls.DbProvider provider, Catel.Services.IMessageService messageService, Orc.Controls.IConnectionStringBuilderService connectionStringBuilderService, Catel.Services.IUIVisualizerService uiVisualizerService, Catel.IoC.ITypeFactory typeFactory) { }
+        public ConnectionStringEditViewModel(string connectionString, Orc.Controls.DbProvider provider, Catel.Services.IMessageService messageService, Orc.Controls.IConnectionStringBuilderService connectionStringBuilderService, Catel.Services.IUIVisualizerService uiVisualizerService, Catel.IoC.ITypeFactory typeFactory, Catel.Services.IDispatcherService dispatcherService) { }
         public bool CanLogOnToServer { get; }
         public Orc.Controls.ConnectionState ConnectionState { get; }
         public Orc.Controls.SqlConnectionString ConnectionString { get; }
@@ -302,6 +302,7 @@ namespace Orc.Controls
         public bool IsServerListVisible { get; set; }
         public bool IsServersRefreshing { get; }
         public Orc.Controls.ConnectionStringProperty Password { get; }
+        public Orc.Controls.ConnectionStringProperty Port { get; }
         public Catel.MVVM.Command RefreshDatabases { get; }
         public Catel.MVVM.Command RefreshServers { get; }
         public Catel.Collections.FastObservableCollection<string> Servers { get; }
@@ -310,6 +311,7 @@ namespace Orc.Controls
         public override string Title { get; }
         public Orc.Controls.ConnectionStringProperty UserId { get; }
         public bool CanInitDatabases() { }
+        protected override System.Threading.Tasks.Task InitializeAsync() { }
         protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
     }
     public sealed class ConnectionStringEditWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
@@ -319,11 +321,10 @@ namespace Orc.Controls
     }
     public class ConnectionStringProperty : Catel.Data.ObservableObject
     {
-        public ConnectionStringProperty(string name, bool isSensitive, System.Data.Common.DbConnectionStringBuilder dbConnectionStringBuilder) { }
+        public ConnectionStringProperty(bool isSensitive, System.Data.Common.DbConnectionStringBuilder dbConnectionStringBuilder, System.ComponentModel.PropertyDescriptor propertyDescriptor) { }
         public bool IsSensitive { get; }
         public string Name { get; }
         public object Value { get; set; }
-        protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
     }
     public abstract class ControlToolBase : Orc.Controls.IControlTool
     {
