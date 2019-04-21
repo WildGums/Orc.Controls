@@ -71,16 +71,24 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
-        public ConnectionStringProperty DataSource => ConnectionString.TryGetProperty("Data Source");
-        public ConnectionStringProperty UserId => ConnectionString.TryGetProperty("User ID");
+        public ConnectionStringProperty DataSource => ConnectionString.TryGetProperty("Data Source")
+                                                      ?? ConnectionString.TryGetProperty("Server")
+                                                      ?? ConnectionString.TryGetProperty("Host");
+        public ConnectionStringProperty UserId => ConnectionString.TryGetProperty("User ID")
+                                                  ?? ConnectionString.TryGetProperty("User name");
         public ConnectionStringProperty Password => ConnectionString.TryGetProperty("Password");
+
+        public ConnectionStringProperty Port => ConnectionString.TryGetProperty("Port");
         public ConnectionStringProperty IntegratedSecurity => ConnectionString.TryGetProperty("Integrated Security");
+
+        public ConnectionStringProperty InitialCatalog => ConnectionString.TryGetProperty("Initial Catalog") 
+                                                          ?? ConnectionString.TryGetProperty("Database") ;
 
         public bool IsAdvancedOptionsReadOnly { get; set; }
 
         public bool? IntegratedSecurityValue
         {
-            get { return (bool?)IntegratedSecurity?.Value; }
+            get => IntegratedSecurity?.Value as bool?;
             set
             {
                 if (IntegratedSecurity == null)
@@ -88,7 +96,7 @@ namespace Orc.Controls
                     return;
                 }
 
-                if ((bool)IntegratedSecurity.Value == value)
+                if (Equals(IntegratedSecurity.Value, value))
                 {
                     return;
                 }
@@ -97,8 +105,6 @@ namespace Orc.Controls
                 RaisePropertyChanged(nameof(IntegratedSecurityValue));
             }
         }
-
-        public ConnectionStringProperty InitialCatalog => ConnectionString.TryGetProperty("Initial Catalog");
         public bool CanLogOnToServer => Password != null || UserId != null;
         public bool IsLogOnEnabled => CanLogOnToServer && !(IntegratedSecurityValue ?? false);
 
@@ -140,7 +146,11 @@ namespace Orc.Controls
         {
             _initializeTimer.Stop();
 
-            DbProvider = _initalDbProvider;
+            using (SuspendChangeNotifications())
+            {
+                DbProvider = _initalDbProvider;
+            }
+            
             ConnectionString = _initalDbProvider != null ? _connectionStringBuilderService.CreateConnectionString(_initalDbProvider, _initialConnectionString) : null;
         }
 
