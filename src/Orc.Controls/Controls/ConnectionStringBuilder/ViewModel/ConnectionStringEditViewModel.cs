@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ConnectionStringEditViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -8,47 +8,54 @@
 namespace Orc.Controls
 {
     using System.Threading.Tasks;
+    using System.Timers;
     using Catel;
     using Catel.Collections;
     using Catel.IoC;
     using Catel.MVVM;
     using Catel.Services;
     using Catel.Threading;
+    using Timer = System.Timers.Timer;
 
     public class ConnectionStringEditViewModel : ViewModelBase
     {
-        #region Fields
+        #region Constants
         private static bool _isServersInitialized = false;
         private static readonly FastObservableCollection<string> CachedServers = new FastObservableCollection<string>();
+        #endregion
 
+        #region Fields
         private readonly IConnectionStringBuilderService _connectionStringBuilderService;
+        private readonly IDispatcherService _dispatcherService;
+
+        private readonly DbProvider _initalDbProvider;
+        private readonly string _initialConnectionString;
         private readonly IMessageService _messageService;
         private readonly ITypeFactory _typeFactory;
         private readonly IUIVisualizerService _uiVisualizerService;
+        private readonly Timer _initializeTimer = new Timer(200);
 
         private bool _isDatabasesInitialized = false;
         #endregion
 
         #region Constructors
         public ConnectionStringEditViewModel(string connectionString, DbProvider provider, IMessageService messageService,
-            IConnectionStringBuilderService connectionStringBuilderService, IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory)
+            IConnectionStringBuilderService connectionStringBuilderService, IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory, IDispatcherService dispatcherService)
         {
             Argument.IsNotNull(() => connectionStringBuilderService);
             Argument.IsNotNull(() => uiVisualizerService);
             Argument.IsNotNull(() => typeFactory);
             Argument.IsNotNull(() => messageService);
+            Argument.IsNotNull(() => dispatcherService);
 
             _messageService = messageService;
             _connectionStringBuilderService = connectionStringBuilderService;
             _uiVisualizerService = uiVisualizerService;
             _typeFactory = typeFactory;
+            _dispatcherService = dispatcherService;
 
-            using (SuspendChangeNotifications())
-            {
-                DbProvider = provider;
-            }
-
-            ConnectionString = provider != null ? _connectionStringBuilderService.CreateConnectionString(provider, connectionString) : null;
+            _initalDbProvider = provider;
+            _initialConnectionString = connectionString;
 
             InitServers = new Command(() => InitServersAsync(), () => !IsServersRefreshing);
             RefreshServers = new Command(() => RefreshServersAsync(), () => !IsServersRefreshing);
@@ -58,20 +65,30 @@ namespace Orc.Controls
 
             TestConnection = new Command(OnTestConnection);
             ShowAdvancedOptions = new TaskCommand(OnShowAdvancedOptionsAsync, () => ConnectionString != null);
+
+            _initializeTimer.Elapsed += OnInitializeTimerElapsed;
         }
         #endregion
 
         #region Properties
-        public ConnectionStringProperty DataSource => ConnectionString.TryGetProperty("Data Source");
-        public ConnectionStringProperty UserId => ConnectionString.TryGetProperty("User ID");
+        public ConnectionStringProperty DataSource => ConnectionString.TryGetProperty("Data Source")
+                                                      ?? ConnectionString.TryGetProperty("Server")
+                                                      ?? ConnectionString.TryGetProperty("Host");
+        public ConnectionStringProperty UserId => ConnectionString.TryGetProperty("User ID")
+                                                  ?? ConnectionString.TryGetProperty("User name");
         public ConnectionStringProperty Password => ConnectionString.TryGetProperty("Password");
+
+        public ConnectionStringProperty Port => ConnectionString.TryGetProperty("Port");
         public ConnectionStringProperty IntegratedSecurity => ConnectionString.TryGetProperty("Integrated Security");
+
+        public ConnectionStringProperty InitialCatalog => ConnectionString.TryGetProperty("Initial Catalog") 
+                                                          ?? ConnectionString.TryGetProperty("Database") ;
 
         public bool IsAdvancedOptionsReadOnly { get; set; }
 
         public bool? IntegratedSecurityValue
         {
-            get { return (bool?)IntegratedSecurity?.Value; }
+            get => IntegratedSecurity?.Value as bool?;
             set
             {
                 if (IntegratedSecurity == null)
@@ -79,7 +96,7 @@ namespace Orc.Controls
                     return;
                 }
 
-                if ((bool)IntegratedSecurity.Value == value)
+                if (Equals(IntegratedSecurity.Value, value))
                 {
                     return;
                 }
@@ -88,8 +105,6 @@ namespace Orc.Controls
                 RaisePropertyChanged(nameof(IntegratedSecurityValue));
             }
         }
-
-        public ConnectionStringProperty InitialCatalog => ConnectionString.TryGetProperty("Initial Catalog");
         public bool CanLogOnToServer => Password != null || UserId != null;
         public bool IsLogOnEnabled => CanLogOnToServer && !(IntegratedSecurityValue ?? false);
 
@@ -100,7 +115,9 @@ namespace Orc.Controls
         public ConnectionState ConnectionState { get; private set; } = ConnectionState.Undefined;
         public override string Title => "Connection properties";
         public SqlConnectionString ConnectionString { get; private set; }
+
         public DbProvider DbProvider { get; set; }
+
         public Command RefreshServers { get; }
         public Command InitServers { get; }
         public Command TestConnection { get; }
@@ -113,6 +130,30 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
+        private void OnInitializeTimerElapsed(object sender, ElapsedEventArgs args)
+        {
+            _dispatcherService.Invoke(SetInitialState);
+        }
+
+        protected override async Task InitializeAsync()
+        {
+            await base.InitializeAsync();
+
+            _initializeTimer.Start();
+        }
+
+        private void SetInitialState()
+        {
+            _initializeTimer.Stop();
+
+            using (SuspendChangeNotifications())
+            {
+                DbProvider = _initalDbProvider;
+            }
+            
+            ConnectionString = _initalDbProvider != null ? _connectionStringBuilderService.CreateConnectionString(_initalDbProvider, _initialConnectionString) : null;
+        }
+
         private void OnDbProviderChanged()
         {
             var dbProvider = DbProvider;

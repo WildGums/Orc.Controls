@@ -1056,11 +1056,11 @@ namespace Orc.Controls
                 return _userDefinedAdorner;
             }
 
-            var root = Owner.GetVisualRoot() as ContentControl;
+            var root = Owner?.GetVisualRoot() as ContentControl;
 
             return root?.Content as FrameworkElement
                    ?? root
-                   ?? Application.Current.MainWindow.Content as FrameworkElement
+                   ?? Application.Current.MainWindow?.Content as FrameworkElement
                    ?? Application.Current.MainWindow;
         }
 
