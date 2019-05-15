@@ -33,20 +33,23 @@ private void CleanUpCode(bool failOnChanges)
     // --check: return non-0 exit code if changes are needed
     // --dry-run: don't save files
 
-    var arguments = new List<string>();
+    // Note: disabled for now, see:
+    // * https://github.com/onovotny/MSBuildSdkExtras/issues/164
+    // * https://github.com/microsoft/msbuild/issues/4376
+    // var arguments = new List<string>();
 
-    //arguments.Add("--dry-run");
+    // //arguments.Add("--dry-run");
 
-    if (failOnChanges)
-    {
-        arguments.Add("--check");
-    }
+    // if (failOnChanges)
+    // {
+    //     arguments.Add("--check");
+    // }
 
-    DotNetCoreTool(null, "format", string.Join(" ", arguments),
-        new DotNetCoreToolSettings
-        {
-            WorkingDirectory = "./src/"
-        });
+    // DotNetCoreTool(null, "format", string.Join(" ", arguments),
+    //     new DotNetCoreToolSettings
+    //     {
+    //         WorkingDirectory = "./src/"
+    //     });
 }
 
 //-------------------------------------------------------------
