@@ -46,7 +46,8 @@ namespace Orc.Controls.ViewModels
         #endregion
 
         #region Constructors
-        public LogViewerViewModel(ITypeFactory typeFactory, IDispatcherService dispatcherService, IApplicationLogFilterGroupService applicationLogFilterGroupService, LogViewerLogListener logViewerLogListener)
+        public LogViewerViewModel(ITypeFactory typeFactory, IDispatcherService dispatcherService,
+            IApplicationLogFilterGroupService applicationLogFilterGroupService, LogViewerLogListener logViewerLogListener)
         {
             Argument.IsNotNull(() => typeFactory);
             Argument.IsNotNull(() => dispatcherService);
@@ -135,7 +136,7 @@ namespace Orc.Controls.ViewModels
                         {
                             using (typeNames.SuspendChangeNotifications())
                             {
-                                typeNames.ReplaceRange(new[] {_defaultComboBoxItem});
+                                typeNames.ReplaceRange(new[] { _defaultComboBoxItem });
                             }
                         }
                     }
@@ -273,27 +274,31 @@ namespace Orc.Controls.ViewModels
             }
 
             var logListenerType = LogListenerType;
-            if (logListenerType == null)
+            if (logListenerType is null)
             {
                 return;
             }
 
             if (logListenerType == typeof(LogViewerLogListener))
             {
-                _logListener = _logViewerLogListener;
-
-                _dispatcherService.Invoke(() => AddLogEntries(_logViewerLogListener.GetLogEntries().ToList(), true));
+                var logViewerLogListener = _logViewerLogListener;
+                if (logViewerLogListener != null)
+                {
+                    _logListener = logViewerLogListener;
+                    _dispatcherService.Invoke(() => AddLogEntries(logViewerLogListener.GetLogEntries().ToList(), true));
+                }
             }
             else
             {
-                _logListener = _typeFactory.CreateInstance(logListenerType) as ILogListener;
-                if (_logListener != null)
+                var logListener = _typeFactory.CreateInstance(logListenerType) as ILogListener;
+                if (logListener != null)
                 {
-                    LogManager.AddListener(_logListener);
+                    LogManager.AddListener(logListener);
+                    _logListener = logListener;
                 }
             }
 
-            if (_logListener == null)
+            if (_logListener is null)
             {
                 return;
             }
