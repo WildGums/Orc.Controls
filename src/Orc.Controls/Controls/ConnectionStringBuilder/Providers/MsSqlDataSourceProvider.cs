@@ -75,7 +75,7 @@ namespace Orc.Controls
             }
             catch
             {
-                dataTable = new DataTable {Locale = CultureInfo.InvariantCulture};
+                dataTable = new DataTable { Locale = CultureInfo.InvariantCulture };
             }
 
             var serversCount = dataTable.Rows.Count;

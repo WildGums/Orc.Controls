@@ -81,8 +81,8 @@ namespace Orc.Controls
         public ConnectionStringProperty Port => ConnectionString.TryGetProperty("Port");
         public ConnectionStringProperty IntegratedSecurity => ConnectionString.TryGetProperty("Integrated Security");
 
-        public ConnectionStringProperty InitialCatalog => ConnectionString.TryGetProperty("Initial Catalog") 
-                                                          ?? ConnectionString.TryGetProperty("Database") ;
+        public ConnectionStringProperty InitialCatalog => ConnectionString.TryGetProperty("Initial Catalog")
+                                                          ?? ConnectionString.TryGetProperty("Database");
 
         public bool IsAdvancedOptionsReadOnly { get; set; }
 
@@ -150,7 +150,7 @@ namespace Orc.Controls
             {
                 DbProvider = _initalDbProvider;
             }
-            
+
             ConnectionString = _initalDbProvider != null ? _connectionStringBuilderService.CreateConnectionString(_initalDbProvider, _initialConnectionString) : null;
         }
 

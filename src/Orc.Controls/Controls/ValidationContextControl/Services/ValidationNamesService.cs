@@ -86,10 +86,10 @@ namespace Orc.Controls
             }
 
             var exists = (from result in results
-                where result.Message.EqualsIgnoreCase(validationResult.Message) &&
-                      result.ValidationResultType == validationResult.ValidationResultType &&
-                      ObjectHelper.AreEqual(result.Tag, validationResult.Tag)
-                select result).Any();
+                          where result.Message.EqualsIgnoreCase(validationResult.Message) &&
+                                result.ValidationResultType == validationResult.ValidationResultType &&
+                                ObjectHelper.AreEqual(result.Tag, validationResult.Tag)
+                          select result).Any();
             if (!exists)
             {
                 results.Add(validationResult);

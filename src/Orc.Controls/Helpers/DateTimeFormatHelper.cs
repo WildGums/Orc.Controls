@@ -64,7 +64,7 @@ namespace Orc.Controls
             }
 
             var result = new DateTimeFormatInfo();
-            var parts = Split(format, new[] {'y', 'M', 'd', 'H', 'h', 'm', 's', 't'});
+            var parts = Split(format, new[] { 'y', 'M', 'd', 'H', 'h', 'm', 's', 't' });
 
             var current = 0;
             var count = 0;

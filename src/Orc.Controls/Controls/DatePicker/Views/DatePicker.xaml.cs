@@ -212,7 +212,7 @@ namespace Orc.Controls
             }
 
             var daysInMonth = DateTime.DaysInMonth(year, month);
-            NumericTBDay.SetCurrentValue(NumericTextBox.MaxValueProperty, (double) daysInMonth);
+            NumericTBDay.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)daysInMonth);
         }
 
         private Calendar CreateCalendarPopupSource()

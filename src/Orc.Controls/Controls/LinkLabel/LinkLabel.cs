@@ -24,7 +24,7 @@ namespace Orc.Controls
     /// <summary>
     /// A label looking like the known hyperlink.
     /// </summary>
-    [TemplatePart(Name = "PART_InnerHyperlink", Type = typeof (Hyperlink))]
+    [TemplatePart(Name = "PART_InnerHyperlink", Type = typeof(Hyperlink))]
     public class LinkLabel : Label
     {
         #region Fields
@@ -40,10 +40,10 @@ namespace Orc.Controls
         /// </summary>
         static LinkLabel()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (LinkLabel), new FrameworkPropertyMetadata(typeof (LinkLabel)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(LinkLabel), new FrameworkPropertyMetadata(typeof(LinkLabel)));
 
-            ClickEvent = EventManager.RegisterRoutedEvent(nameof(Click), RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (LinkLabel));
-            RequestNavigateEvent = EventManager.RegisterRoutedEvent(nameof(RequestNavigate), RoutingStrategy.Bubble, typeof (RequestNavigateEventHandler), typeof (LinkLabel));
+            ClickEvent = EventManager.RegisterRoutedEvent(nameof(Click), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LinkLabel));
+            RequestNavigateEvent = EventManager.RegisterRoutedEvent(nameof(RequestNavigate), RoutingStrategy.Bubble, typeof(RequestNavigateEventHandler), typeof(LinkLabel));
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Orc.Controls
         /// <value><c>true</c> if this instance has URL; otherwise, <c>false</c>.</value>
         public bool HasUrl
         {
-            get { return (bool) GetValue(HasUrlProperty); }
+            get { return (bool)GetValue(HasUrlProperty); }
             private set { SetValue(HasUrlProperty, value); }
         }
 
@@ -87,7 +87,7 @@ namespace Orc.Controls
         /// DependencyProperty definition as the backing store for HasUrl
         /// </summary>
         public static readonly DependencyProperty HasUrlProperty = DependencyProperty.Register(nameof(HasUrl),
-            typeof (bool), typeof (LinkLabel), new UIPropertyMetadata(false));
+            typeof(bool), typeof(LinkLabel), new UIPropertyMetadata(false));
 
         /// <summary>
         /// Gets or sets the hyperlink style.
@@ -129,7 +129,7 @@ namespace Orc.Controls
         [Category("Common Properties"), Bindable(true)]
         public LinkLabelBehavior LinkLabelBehavior
         {
-            get { return (LinkLabelBehavior) GetValue(LinkLabelBehaviorProperty); }
+            get { return (LinkLabelBehavior)GetValue(LinkLabelBehaviorProperty); }
             set { SetValue(LinkLabelBehaviorProperty, value); }
         }
 
@@ -146,7 +146,7 @@ namespace Orc.Controls
         [Category("Common Properties"), Bindable(true)]
         public LinkLabelClickBehavior ClickBehavior
         {
-            get { return (LinkLabelClickBehavior) GetValue(ClickBehaviorProperty); }
+            get { return (LinkLabelClickBehavior)GetValue(ClickBehaviorProperty); }
             set { SetValue(ClickBehaviorProperty, value); }
         }
 
@@ -154,8 +154,8 @@ namespace Orc.Controls
         /// DependencyProperty definition as the backing store for ClickBehavior
         /// </summary>
         public static readonly DependencyProperty ClickBehaviorProperty =
-            DependencyProperty.Register(nameof(ClickBehavior), 
-                typeof (LinkLabelClickBehavior), typeof (LinkLabel), new UIPropertyMetadata(LinkLabelClickBehavior.Undefined, OnClickBehaviorChanged));
+            DependencyProperty.Register(nameof(ClickBehavior),
+                typeof(LinkLabelClickBehavior), typeof(LinkLabel), new UIPropertyMetadata(LinkLabelClickBehavior.Undefined, OnClickBehaviorChanged));
 
         /// <summary>
         /// Gets or sets the command parameter.
@@ -181,7 +181,7 @@ namespace Orc.Controls
         [Localizability(LocalizationCategory.NeverLocalize), Bindable(true), Category("Action")]
         public ICommand Command
         {
-            get { return (ICommand) GetValue(CommandProperty); }
+            get { return (ICommand)GetValue(CommandProperty); }
             set { SetValue(CommandProperty, value); }
         }
 
@@ -198,7 +198,7 @@ namespace Orc.Controls
         [Bindable(true), Category("Action")]
         public IInputElement CommandTarget
         {
-            get { return (IInputElement) GetValue(CommandTargetProperty); }
+            get { return (IInputElement)GetValue(CommandTargetProperty); }
             set { SetValue(CommandTargetProperty, value); }
         }
 
@@ -284,8 +284,8 @@ namespace Orc.Controls
                 return;
             }
 
-            var previous = (LinkLabelClickBehavior) args.OldValue;
-            var next = (LinkLabelClickBehavior) args.NewValue;
+            var previous = (LinkLabelClickBehavior)args.OldValue;
+            var next = (LinkLabelClickBehavior)args.NewValue;
 
             if (previous == LinkLabelClickBehavior.OpenUrlInBrowser)
             {

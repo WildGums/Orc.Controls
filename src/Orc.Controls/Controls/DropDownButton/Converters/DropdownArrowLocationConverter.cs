@@ -32,7 +32,7 @@ namespace Orc.Controls
         /// </returns>
         protected override object Convert(object value, Type targetType, object parameter)
         {
-            Argument.IsOfOneOfTheTypes(nameof(targetType), targetType, new[] {typeof(Dock), typeof(HorizontalAlignment)});
+            Argument.IsOfOneOfTheTypes(nameof(targetType), targetType, new[] { typeof(Dock), typeof(HorizontalAlignment) });
 
             object result = null;
             if (targetType == typeof(Dock))

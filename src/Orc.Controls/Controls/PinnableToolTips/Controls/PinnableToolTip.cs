@@ -399,9 +399,9 @@ namespace Orc.Controls
 
             _gripDrawing = GetTemplateChild("GripDrawing") as GeometryDrawing;
         }
-#endregion
+        #endregion
 
-#region Methods
+        #region Methods
         private static Point CalculatePoint(IList<Point> target, PlacementMode placement, Rect plugin, double width, double height,
             IList<Point> pointArray, int index, Rect bounds)
         {
@@ -1141,6 +1141,6 @@ namespace Orc.Controls
                 _adornerResizing = null;
             }
         }
-#endregion
+        #endregion
     }
 }

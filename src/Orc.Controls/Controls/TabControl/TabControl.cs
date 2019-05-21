@@ -115,7 +115,7 @@ namespace Orc.Controls
         /// </summary>
         public static readonly DependencyProperty LoadTabItemsProperty = DependencyProperty.Register("LoadTabItems",
             typeof(LoadTabItemsBehavior), typeof(TabControl), new PropertyMetadata(LoadTabItemsBehavior.LazyLoading,
-                (sender, e) => ((TabControl) sender).OnLoadTabItemsChanged()));
+                (sender, e) => ((TabControl)sender).OnLoadTabItemsChanged()));
 
         private readonly ConditionalWeakTable<object, object> _wrappedContainers = new ConditionalWeakTable<object, object>();
         private Panel _itemsHolder;
@@ -155,7 +155,7 @@ namespace Orc.Controls
         /// </value>
         public LoadTabItemsBehavior LoadTabItems
         {
-            get { return (LoadTabItemsBehavior) GetValue(LoadTabItemsProperty); }
+            get { return (LoadTabItemsBehavior)GetValue(LoadTabItemsProperty); }
             set { SetValue(LoadTabItemsProperty, value); }
         }
 
@@ -532,7 +532,7 @@ namespace Orc.Controls
             {
                 return null;
             }
-            
+
             return selectedItem as TabItem ?? ItemContainerGenerator.ContainerFromIndex(SelectedIndex) as TabItem;
         }
     }

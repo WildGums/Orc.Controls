@@ -275,7 +275,7 @@ namespace Orc.Controls
             _comboBoxColor = (ComboBox)GetTemplateChild("ComboBoxColor");
             _brushColor = (SolidColorBrush)GetTemplateChild("BrushColor");
             _textBoxColor = (TextBox)GetTemplateChild("TextBoxColor");
-            
+
             _themeColorsGrid = (ListBox)GetTemplateChild("ThemeColorsGrid");
             _recentColorsGrid = (ListBox)GetTemplateChild("RecentColorsGrid");
 
@@ -532,8 +532,8 @@ namespace Orc.Controls
             }
             else
             {
-                ellipseX = point.X > _canvasHsv.ActualWidth 
-                    ? _canvasHsv.ActualWidth - _ellipseHsv.ActualWidth / 2 
+                ellipseX = point.X > _canvasHsv.ActualWidth
+                    ? _canvasHsv.ActualWidth - _ellipseHsv.ActualWidth / 2
                     : point.X - _ellipseHsv.ActualWidth / 2;
             }
 
@@ -544,8 +544,8 @@ namespace Orc.Controls
             }
             else
             {
-                ellipseY = point.Y > _canvasHsv.ActualHeight 
-                    ? _canvasHsv.ActualHeight - _ellipseHsv.ActualHeight / 2 
+                ellipseY = point.Y > _canvasHsv.ActualHeight
+                    ? _canvasHsv.ActualHeight - _ellipseHsv.ActualHeight / 2
                     : point.Y - _ellipseHsv.ActualHeight / 2;
             }
 

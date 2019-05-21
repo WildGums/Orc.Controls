@@ -42,7 +42,7 @@ namespace Orc.Controls
         public string DatabaseProvider { get; private set; }
         public bool IsInEditMode { get; set; }
         public bool IsAdvancedOptionsReadOnly { get; set; }
-        
+
         public TaskCommand Edit { get; }
         public Command Clear { get; }
         #endregion

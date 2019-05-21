@@ -564,7 +564,7 @@ namespace Orc.Controls
                 new PredefinedColor(255, 255, 192, 203, "Pink"),
                 new PredefinedColor(255, 255, 182, 193, "Light Pink")
             };
-            
+
             return listColors;
         }
 

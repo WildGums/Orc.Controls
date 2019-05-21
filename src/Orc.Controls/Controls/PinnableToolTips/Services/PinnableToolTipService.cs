@@ -266,7 +266,7 @@ namespace Orc.Controls
         /// <returns>The <see cref="PinnableToolTip" />.</returns>
         private static PinnableToolTip ConvertToToolTip(object p)
         {
-            return p as PinnableToolTip ?? new PinnableToolTip {Content = p};
+            return p as PinnableToolTip ?? new PinnableToolTip { Content = p };
         }
 
         /// <summary>
@@ -525,7 +525,7 @@ namespace Orc.Controls
                     return;
                 }
             }
-            
+
             PinnableToolTip toolTip = null;
             if (p != null)
             {

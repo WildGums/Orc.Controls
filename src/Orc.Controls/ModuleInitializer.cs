@@ -47,7 +47,7 @@ public static class ModuleInitializer
 
         // Override Catel.SelectDirectoryService with Orchestra.Services.SelectDirectoryService
         serviceLocator.RegisterType<ISelectDirectoryService, MicrosoftApiSelectDirectoryService>();
-        
+
         serviceLocator.RegisterType<ITimeAdjustmentProvider, TimeAdjustmentProvider>();
 
         var viewModelLocator = serviceLocator.ResolveType<IViewModelLocator>();
