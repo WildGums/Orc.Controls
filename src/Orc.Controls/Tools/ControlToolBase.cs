@@ -72,7 +72,7 @@ namespace Orc.Controls
         #region Methods
         protected virtual void OnAddParameter(object parameter)
         {
-            
+
         }
 
         protected abstract void OnOpen(object parameter = null);
