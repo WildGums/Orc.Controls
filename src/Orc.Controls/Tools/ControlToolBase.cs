@@ -47,6 +47,8 @@ namespace Orc.Controls
         {
             if (IsOpened)
             {
+                OnAddParameter(parameter);
+
                 return;
             }
 
@@ -68,6 +70,11 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
+        protected virtual void OnAddParameter(object parameter)
+        {
+            
+        }
+
         protected abstract void OnOpen(object parameter = null);
 
         private void RaiseClosedEvent()

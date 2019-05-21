@@ -337,6 +337,7 @@ namespace Orc.Controls
         public virtual void Attach(object target) { }
         public virtual void Close() { }
         public virtual void Detach() { }
+        protected virtual void OnAddParameter(object parameter) { }
         protected abstract void OnOpen(object parameter = null);
         [System.ObsoleteAttribute("Use Open() with parameter instead. Will be removed in version 4.0.0.", true)]
         public void Open() { }
