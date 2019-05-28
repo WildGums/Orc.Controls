@@ -480,4 +480,7 @@
   <data name="Controls_DateRangePicker_EndDate_NotLess_StartDate_Validation" xml:space="preserve">
     <value>End date can't be less than Start date</value>
   </data>
+  <data name="Controls_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
 </root>

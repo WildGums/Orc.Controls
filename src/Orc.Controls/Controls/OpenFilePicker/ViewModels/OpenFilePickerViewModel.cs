@@ -33,6 +33,7 @@ namespace Orc.Controls
 
             OpenDirectory = new Command(OnOpenDirectoryExecute, OnOpenDirectoryCanExecute);
             SelectFile = new TaskCommand(OnSelectFileExecuteAsync);
+            Clear = new Command(OnClearExecute, OnClearCanExecute);
         }
         #endregion
 
@@ -51,6 +52,18 @@ namespace Orc.Controls
         #endregion
 
         #region Commands
+        public Command Clear { get; }
+
+        private bool OnClearCanExecute()
+        {
+            return OnOpenDirectoryCanExecute();
+        } 
+
+        private void OnClearExecute()
+        {
+            SelectedFile = string.Empty;
+        } 
+
         /// <summary>
         /// Gets the OpenDirectory command.
         /// </summary>
