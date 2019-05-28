@@ -27,7 +27,7 @@
 
         <Button Grid.Column="4" Margin="2,6,0,6" Width="24" ToolTip="{catel:LanguageBinding Controls_Clear}"
                 Command="{Binding Clear}" Visibility="{Binding SelectedFile, Converter={catel:EmptyStringToCollapsingVisibilityConverter}}">
-            <Image Source="/Orc.Controls;component/Resources/Images/ClearFilter16.png" Width="16" Height="16" />
+            <Image Source="/Orc.Controls;component/Resources/Images/Delete.png" Width="16" Height="16" />
         </Button>
     </Grid>
 
