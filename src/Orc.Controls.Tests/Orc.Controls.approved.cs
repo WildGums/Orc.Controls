@@ -648,6 +648,7 @@ namespace Orc.Controls
         public static readonly Catel.Data.PropertyData LabelWidthProperty;
         public static readonly Catel.Data.PropertyData SelectedDirectoryProperty;
         public DirectoryPickerViewModel(Catel.Services.ISelectDirectoryService selectDirectoryService, Catel.Services.IProcessService processService) { }
+        public Catel.MVVM.Command Clear { get; }
         public string LabelText { get; set; }
         public double LabelWidth { get; set; }
         public Catel.MVVM.Command OpenDirectory { get; }
@@ -1271,6 +1272,7 @@ namespace Orc.Controls
         public static readonly Catel.Data.PropertyData SelectedFileProperty;
         public OpenFilePickerViewModel(Catel.Services.IOpenFileService selectFileService, Catel.Services.IProcessService processService) { }
         public string BaseDirectory { get; set; }
+        public Catel.MVVM.Command Clear { get; }
         public string Filter { get; set; }
         public string LabelText { get; set; }
         public double LabelWidth { get; set; }
@@ -1474,6 +1476,7 @@ namespace Orc.Controls
         public static readonly Catel.Data.PropertyData LabelWidthProperty;
         public static readonly Catel.Data.PropertyData SelectedFileProperty;
         public SaveFilePickerViewModel(Catel.Services.ISaveFileService saveFileService, Catel.Services.IProcessService processService) { }
+        public Catel.MVVM.Command Clear { get; }
         public string Filter { get; set; }
         public string LabelText { get; set; }
         public double LabelWidth { get; set; }
