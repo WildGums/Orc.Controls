@@ -5,31 +5,8 @@
                    xmlns:orccontrols="http://schemas.wildgums.com/orc/controls">
 
     <orccontrols:StackGrid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        
-        <CheckBox Content="Advanced options readonly" 
-                  IsChecked="{Binding ElementName=ConnectionStringBuilderControl, Path=IsAdvancedOptionsReadOnly}"/>
 
-        <orccontrols:StackGrid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Text="Connection string" VerticalAlignment="Center"/>
-            <orccontrols:ConnectionStringBuilder x:Name="ConnectionStringBuilderControl"/>
-
-        </orccontrols:StackGrid>
-
-        <TextBlock Text="Result:" Margin="0 10 0 0" FontWeight="Bold"/>
-        <GridSplitter Height="1" HorizontalAlignment="Stretch" Background="Black" Margin="0 0 0 2" BorderBrush="Black" BorderThickness="1"/>
-        <TextBlock TextWrapping="Wrap" Text="{Binding ElementName=ConnectionStringBuilderControl, Path=ConnectionString}"/>
+        <Label FontWeight="Bold" Content="ConnectionStringBuilderControl is obsolete (use control from orc.dataaccess.xaml library)"/>
 
     </orccontrols:StackGrid>
 </catel:UserControl>
