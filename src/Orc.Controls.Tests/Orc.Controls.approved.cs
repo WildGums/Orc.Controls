@@ -189,17 +189,23 @@ namespace Orc.Controls
         public event System.EventHandler<Orc.Controls.ColorChangedEventArgs> ColorChanged;
         public override void OnApplyTemplate() { }
     }
+    [System.ObsoleteAttribute("Use ConnectionState from Orc.DataAccess library instead. Will be removed in versi" +
+        "on 4.0.0.", true)]
     public enum ConnectionState
     {
         Undefined = 0,
         Valid = 1,
         Invalid = 2,
     }
+    [System.ObsoleteAttribute("Use ConnectionStateToColorBrushValueConverter from Orc.DataAccess.Xaml library in" +
+        "stead. Will be removed in version 4.0.0.", true)]
     public class ConnectionStateToColorBrushValueConverter : Catel.MVVM.Converters.ValueConverterBase<Orc.Controls.ConnectionState, System.Windows.Media.SolidColorBrush>
     {
         public ConnectionStateToColorBrushValueConverter() { }
         protected override object Convert(Orc.Controls.ConnectionState value, System.Type targetType, object parameter) { }
     }
+    [System.ObsoleteAttribute("Use ConnectionStringAdvancedOptionsViewModel from Orc.DataAccess.Xaml library ins" +
+        "tead. Will be removed in version 4.0.0.", true)]
     public class ConnectionStringAdvancedOptionsViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.PropertyData ConnectionStringPropertiesProperty;
@@ -211,11 +217,15 @@ namespace Orc.Controls
         public override string Title { get; }
         protected override System.Threading.Tasks.Task InitializeAsync() { }
     }
+    [System.ObsoleteAttribute("Use ConnectionStringAdvancedOptionsWindow from Orc.DataAccess.Xaml library instea" +
+        "d. Will be removed in version 4.0.0.", true)]
     public sealed class ConnectionStringAdvancedOptionsWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
         public ConnectionStringAdvancedOptionsWindow() { }
         public void InitializeComponent() { }
     }
+    [System.ObsoleteAttribute("Use ConnectionStringBuilder from Orc.DataAccess.Xaml library instead. Will be rem" +
+        "oved in version 4.0.0.", true)]
     public sealed class ConnectionStringBuilder : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
         [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
@@ -241,6 +251,7 @@ namespace Orc.Controls
         public void InitializeComponent() { }
         public override void OnApplyTemplate() { }
     }
+    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
     public class ConnectionStringBuilderService : Orc.Controls.IConnectionStringBuilderService
     {
         public ConnectionStringBuilderService(Orc.Controls.IConnectionStringBuilderServiceInitializer connectionStringBuilderServiceInitializer) { }
@@ -250,11 +261,14 @@ namespace Orc.Controls
         public System.Collections.Generic.IList<string> GetDatabases(Orc.Controls.SqlConnectionString connectionString) { }
         public System.Collections.Generic.IList<string> GetDataSources(Orc.Controls.SqlConnectionString connectionString) { }
     }
+    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
     public class ConnectionStringBuilderServiceInitializer : Orc.Controls.IConnectionStringBuilderServiceInitializer
     {
         public ConnectionStringBuilderServiceInitializer(Catel.IoC.ITypeFactory typeFactory) { }
         public void Initialize(Orc.Controls.IConnectionStringBuilderService connectionStringBuilderService) { }
     }
+    [System.ObsoleteAttribute("Use ConnectionStringBuilderViewModel from Orc.DataAccess.Xaml library instead. Wi" +
+        "ll be removed in version 4.0.0.", true)]
     public class ConnectionStringBuilderViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.PropertyData ConnectionStateProperty;
@@ -273,6 +287,8 @@ namespace Orc.Controls
         public bool IsAdvancedOptionsReadOnly { get; set; }
         public bool IsInEditMode { get; set; }
     }
+    [System.ObsoleteAttribute("Use ConnectionStringEditViewModel from Orc.DataAccess.Xaml library instead. Will " +
+        "be removed in version 4.0.0.", true)]
     public class ConnectionStringEditViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.PropertyData ConnectionStateProperty;
@@ -314,11 +330,15 @@ namespace Orc.Controls
         protected override System.Threading.Tasks.Task InitializeAsync() { }
         protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
     }
+    [System.ObsoleteAttribute("Use ConnectionStringEditWindow from Orc.DataAccess.Xaml library instead. Will be " +
+        "removed in version 4.0.0.", true)]
     public sealed class ConnectionStringEditWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
         public ConnectionStringEditWindow() { }
         public void InitializeComponent() { }
     }
+    [System.ObsoleteAttribute("Use ConnectionStringProperty from Orc.DataAccess library instead. Will be removed" +
+        " in version 4.0.0.", true)]
     public class ConnectionStringProperty : Catel.Data.ObservableObject
     {
         public ConnectionStringProperty(bool isSensitive, System.Data.Common.DbConnectionStringBuilder dbConnectionStringBuilder, System.ComponentModel.PropertyDescriptor propertyDescriptor) { }
@@ -569,6 +589,8 @@ namespace Orc.Controls
         public System.Nullable<System.DateTime> Value { get; set; }
         public System.Nullable<int> Year { get; set; }
     }
+    [System.ObsoleteAttribute("Use DbConnectionProviderListViewModel from Orc.DataAccess.Xaml library instead. W" +
+        "ill be removed in version 4.0.0.", true)]
     public class DbConnectionProviderListViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.PropertyData DbProviderProperty;
@@ -581,11 +603,15 @@ namespace Orc.Controls
         public override string Title { get; }
         protected override System.Threading.Tasks.Task InitializeAsync() { }
     }
+    [System.ObsoleteAttribute("Use DbConnectionProviderListWindow from Orc.DataAccess.Xaml library instead. Will" +
+        " be removed in version 4.0.0.", true)]
     public sealed class DbConnectionProviderListWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
         public DbConnectionProviderListWindow() { }
         public void InitializeComponent() { }
     }
+    [System.ObsoleteAttribute("Use DbProviderInfo from Orc.DataAccess library instead. Will be removed in versio" +
+        "n 4.0.0.", true)]
     public class DbProvider
     {
         public DbProvider() { }
@@ -596,6 +622,8 @@ namespace Orc.Controls
         public override bool Equals(object obj) { }
         public override int GetHashCode() { }
     }
+    [System.ObsoleteAttribute("Use DbProviderPicker from Orc.DataAccess.Xaml library instead. Will be removed in" +
+        " version 4.0.0.", true)]
     public sealed class DbProviderPicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
         public static readonly System.Windows.DependencyProperty DbProviderProperty;
@@ -604,6 +632,8 @@ namespace Orc.Controls
         public Orc.Controls.DbProvider DbProvider { get; set; }
         public void InitializeComponent() { }
     }
+    [System.ObsoleteAttribute("Use DbProviderPickerViewModel from Orc.DataAccess.Xaml library instead. Will be r" +
+        "emoved in version 4.0.0.", true)]
     public class DbProviderPickerViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.PropertyData DbProviderProperty;
@@ -831,6 +861,7 @@ namespace Orc.Controls
         bool IsChecked { get; set; }
         bool IsSelected { get; set; }
     }
+    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
     public interface IConnectionStringBuilderService
     {
         void AddDataSourceProvider(string invariantName, Orc.Controls.IDataSourceProvider provider);
@@ -839,6 +870,7 @@ namespace Orc.Controls
         System.Collections.Generic.IList<string> GetDatabases(Orc.Controls.SqlConnectionString connectionString);
         System.Collections.Generic.IList<string> GetDataSources(Orc.Controls.SqlConnectionString connectionString);
     }
+    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
     public interface IConnectionStringBuilderServiceInitializer
     {
         void Initialize(Orc.Controls.IConnectionStringBuilderService connectionStringBuilderService);
@@ -856,6 +888,7 @@ namespace Orc.Controls
         void Open();
         void Open(object parameter);
     }
+    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
     public interface IDataSourceProvider
     {
         string DataBasesQuery { get; }
@@ -1203,6 +1236,7 @@ namespace Orc.Controls
     {
         public LogViewerLogListener() { }
     }
+    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
     public class MsSqlDataSourceProvider : Orc.Controls.IDataSourceProvider
     {
         public MsSqlDataSourceProvider() { }
@@ -1484,6 +1518,8 @@ namespace Orc.Controls
         public string SelectedFile { get; set; }
         public Catel.MVVM.TaskCommand SelectFile { get; }
     }
+    [System.ObsoleteAttribute("Use SqlConnectionString from Orc.DataAccess library instead. Will be removed in v" +
+        "ersion 4.0.0.", true)]
     public class SqlConnectionString : Catel.Data.ModelBase
     {
         public static readonly Catel.Data.PropertyData PropertiesProperty;
