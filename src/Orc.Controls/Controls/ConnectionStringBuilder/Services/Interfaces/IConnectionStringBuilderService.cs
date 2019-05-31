@@ -9,6 +9,7 @@ namespace Orc.Controls
 {
     using System.Collections.Generic;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Deprecated")]
     public interface IConnectionStringBuilderService
     {
         #region Methods

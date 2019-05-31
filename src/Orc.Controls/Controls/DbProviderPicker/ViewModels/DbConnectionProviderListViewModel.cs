@@ -15,6 +15,7 @@ namespace Orc.Controls
     using Catel.MVVM;
     using Catel.Threading;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use DbConnectionProviderListViewModel from Orc.DataAccess.Xaml library instead")]
     public class DbConnectionProviderListViewModel : ViewModelBase
     {
         #region Fields

@@ -13,6 +13,7 @@ namespace Orc.Controls
     using Catel;
     using Catel.MVVM;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use ConnectionStringAdvancedOptionsViewModel from Orc.DataAccess.Xaml library instead")]
     public class ConnectionStringAdvancedOptionsViewModel : ViewModelBase
     {
         #region Constructors

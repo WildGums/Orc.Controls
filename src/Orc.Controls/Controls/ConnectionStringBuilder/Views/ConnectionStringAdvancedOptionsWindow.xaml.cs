@@ -9,6 +9,7 @@ namespace Orc.Controls
 {
     using Catel.Windows;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use ConnectionStringAdvancedOptionsWindow from Orc.DataAccess.Xaml library instead")]
     public sealed partial class ConnectionStringAdvancedOptionsWindow
     {
         #region Constructors

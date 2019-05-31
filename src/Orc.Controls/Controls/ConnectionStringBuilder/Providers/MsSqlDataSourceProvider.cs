@@ -16,6 +16,7 @@ namespace Orc.Controls
     using Catel.Logging;
     using Microsoft.Win32;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Deprecated")]
     public class MsSqlDataSourceProvider : IDataSourceProvider
     {
         #region Constants

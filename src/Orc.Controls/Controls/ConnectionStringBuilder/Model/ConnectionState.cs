@@ -7,6 +7,7 @@
 
 namespace Orc.Controls
 {
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use ConnectionState from Orc.DataAccess library instead")]
     public enum ConnectionState
     {
         Undefined,

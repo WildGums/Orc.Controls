@@ -12,6 +12,7 @@ namespace Orc.Controls
     using System.Data.Common;
     using Catel;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Deprecated")]
     public class ConnectionStringBuilderService : IConnectionStringBuilderService
     {
         #region Fields

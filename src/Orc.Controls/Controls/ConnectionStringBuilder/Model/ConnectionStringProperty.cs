@@ -12,6 +12,7 @@ namespace Orc.Controls
     using Catel;
     using Catel.Data;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use ConnectionStringProperty from Orc.DataAccess library instead")]
     public class ConnectionStringProperty : ObservableObject
     {
         #region Fields

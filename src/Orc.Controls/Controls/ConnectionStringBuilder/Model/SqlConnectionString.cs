@@ -16,6 +16,7 @@ namespace Orc.Controls
     using Catel.Collections;
     using Catel.Data;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use SqlConnectionString from Orc.DataAccess library instead")]
     public class SqlConnectionString : ModelBase
     {
         #region Fields

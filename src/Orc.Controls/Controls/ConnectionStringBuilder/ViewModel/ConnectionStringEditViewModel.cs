@@ -17,6 +17,7 @@ namespace Orc.Controls
     using Catel.Threading;
     using Timer = System.Timers.Timer;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use ConnectionStringEditViewModel from Orc.DataAccess.Xaml library instead")]
     public class ConnectionStringEditViewModel : ViewModelBase
     {
         #region Constants
