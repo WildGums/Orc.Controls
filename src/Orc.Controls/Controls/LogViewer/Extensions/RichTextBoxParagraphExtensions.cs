@@ -26,24 +26,26 @@ namespace Orc.Controls
                 timestamp = string.Empty;
             }
 
-            toolTip.AppendLine("Log type: " + paragraph.LogEntry.Log.TargetType.FullName);
+            var logEntry = paragraph.LogEntry;
+
+            toolTip.AppendLine($"Log type: {logEntry?.Log?.TargetType?.FullName}");
 
             // Note: last call must be Append instead of AppendLine
-            toolTip.Append("Log event: " + paragraph.LogEntry.LogEvent);
+            toolTip.Append($"Log event: {logEntry?.LogEvent}");
 
             paragraph.SetCurrentValue(FrameworkContentElement.ToolTipProperty, toolTip.ToString());
 
             var threadId = string.Empty;
             if (showThreadId)
             {
-                var data = paragraph.LogEntry.Data;
-                if (data.TryGetValue("ThreadId", out var existingThreadId))
+                var data = logEntry?.Data;
+                if (data != null && data.TryGetValue("ThreadId", out var existingThreadId))
                 {
                     threadId = $"[{existingThreadId}] ";
                 }
             }
 
-            var message = paragraph.LogEntry.Message;
+            var message = logEntry?.Message;
             var buttonRequired = false;
             if (!showMultilineMessagesExpanded && !string.IsNullOrEmpty(message))
             {
