@@ -441,7 +441,7 @@ namespace Orc.Controls.ViewModels
                                     filteredLogEntries.Add(entry);
                                 }
 
-                                var targetTypeName = entry.Log.TargetType.Name;
+                                var targetTypeName = entry?.Log?.TargetType?.Name ?? string.Empty;
                                 if (typeNames.Contains(targetTypeName))
                                 {
                                     continue;
