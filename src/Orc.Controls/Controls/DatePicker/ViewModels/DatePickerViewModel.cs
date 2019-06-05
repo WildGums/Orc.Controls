@@ -89,14 +89,16 @@ namespace Orc.Controls
                         return;
                     }
 
-                    Value = new DateTime(value.Value, Month.Value, Day.Value);
+                    var month = Month??1;
+
+                    Value = new DateTime(value.Value, month, Day.Value);
                 }
             }
         }
 
         public int? Month
         {
-            get { return _value == null ? (int?)null : _value.Value.Month; }
+            get { return _value?.Month; }
             set
             {
                 if (value == null)
@@ -104,9 +106,20 @@ namespace Orc.Controls
                     return;
                 }
 
+                var month = value.Value;
+                if (month < 1)
+                {
+                    month = 1;
+                }
+
+                if (month > 12)
+                {
+                    month = 12;
+                }
+
                 if (_value == null)
                 {
-                    Value = new DateTime(_todayValue.Year, value.Value, _todayValue.Day);
+                    Value = new DateTime(_todayValue.Year, month, _todayValue.Day);
                 }
                 else
                 {
@@ -114,21 +127,25 @@ namespace Orc.Controls
                     {
                         return;
                     }
-                    var daysInMonth = DateTime.DaysInMonth(Year.Value, value.Value);
+
+                    var year = Year ?? DateTime.Today.Year;
+                    var daysInMonth = DateTime.DaysInMonth(year, month);
+
                     if (Day <= daysInMonth)
                     {
-                        Value = new DateTime(Year.Value, value.Value, Day.Value);
+                        Value = new DateTime(year, month, Day.Value);
                         return;
                     }
+
                     Day = daysInMonth;
-                    Value = new DateTime(Year.Value, value.Value, daysInMonth);
+                    Value = new DateTime(year, month, daysInMonth);
                 }
             }
         }
 
         public int? Day
         {
-            get { return _value == null ? (int?)null : _value.Value.Day; }
+            get { return _value?.Day; }
             set
             {
                 if (value == null)
@@ -147,7 +164,10 @@ namespace Orc.Controls
                         return;
                     }
 
-                    Value = new DateTime(Year.Value, Month.Value, value.Value);
+                    var month = Month??DateTime.Today.Month;
+                    var year = Year??DateTime.Today.Year;
+
+                    Value = new DateTime(year, month, value.Value);
                 }
             }
         }
