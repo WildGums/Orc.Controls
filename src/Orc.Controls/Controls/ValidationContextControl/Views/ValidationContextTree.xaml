@@ -35,7 +35,8 @@
                         <TextBlock Text="{Binding DisplayName}"
                                    Margin="5,0,0,0"
                                    VerticalAlignment="Center"
-                                   Foreground="{Binding ResultType, Converter={StaticResource ResultTypeToColorConverter}}" />
+                                   Foreground="{Binding ResultType, Converter={StaticResource ResultTypeToColorConverter}}"
+                                   TextWrapping="Wrap"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>

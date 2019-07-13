@@ -490,6 +490,10 @@
           <source>End date can't be less than Start date</source>
           <target state="new">End date can't be less than Start date</target>
         </trans-unit>
+        <trans-unit id="Controls_Clear" translate="yes" xml:space="preserve">
+          <source>Clear</source>
+          <target state="new">Clear</target>
+        </trans-unit>
       </group>
     </body>
   </file>
