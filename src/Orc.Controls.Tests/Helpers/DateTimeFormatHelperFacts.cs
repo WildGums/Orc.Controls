@@ -42,6 +42,12 @@ namespace Orc.Controls
                     new char[] { 'y', 'M', 'd', 'H', 'h', 'm', 's', 't' },
                     new string [] { "yyyy", "/", "MM", "/", "dd", " ", "tt", " ", "hh", ":", "mm", ":", "ss" }
                 },
+                new object []
+                {
+                    "yyyy/MMMM/dddd tt hh:mm:ss",
+                    new char[] { 'y', 'M', 'd', 'H', 'h', 'm', 's', 't' },
+                    new string [] { "yyyy", "/", "MMMM", "/", "dddd", " ", "tt", " ", "hh", ":", "mm", ":", "ss" }
+                },
             };
 
             [Test]
@@ -73,6 +79,24 @@ namespace Orc.Controls
                         Separator2 = "-",
                         DayPosition = 2,
                         DayFormat = "dd",
+                        Separator3 = null,
+                        IsYearShortFormat = false
+                    }
+                },
+                new object []
+                {
+                    "yyyy-MMM-dddd",
+                    new DateTimeFormatInfo()
+                    {
+                        Separator0 = null,
+                        YearPosition = 0,
+                        YearFormat = "yyyy",
+                        Separator1 = "-",
+                        MonthPosition = 1,
+                        MonthFormat = "MMM",
+                        Separator2 = "-",
+                        DayPosition = 2,
+                        DayFormat = "dddd",
                         Separator3 = null,
                         IsYearShortFormat = false
                     }
@@ -242,21 +266,21 @@ namespace Orc.Controls
                 });
             }
 
-            [TestCase("yyyy-MMM-dd")]
+            [TestCase("yyyy-MMMMM-dd")]
             public void ThrowsFormatExceptionForDateFormatWhenMonthPartFormatIsIncorrect(string format)
             {
                 ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true), x =>
                 {
-                    return string.Equals(x.Message, "Format string is incorrect. Month field must be in one of formats: 'M' or 'MM'");
+                    return string.Equals(x.Message, "Format string is incorrect. Month field must be in one of formats: 'M' or 'MM' or 'MMM' or 'MMMM'");
                 });
             }
 
-            [TestCase("yyyy-MM-ddd")]
+            [TestCase("yyyy-MM-ddddd")]
             public void ThrowsFormatExceptionForDateFormatWhenDayPartFormatIsIncorrect(string format)
             {
                 ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true), x =>
                 {
-                    return string.Equals(x.Message, "Format string is incorrect. Day field must be in one of formats: 'd' or 'dd'");
+                    return string.Equals(x.Message, "Format string is incorrect. Day field must be in one of formats: 'd' or 'dd' or 'ddd' or 'dddd'");
                 });
             }
 
@@ -362,21 +386,21 @@ namespace Orc.Controls
                 });
             }
 
-            [TestCase("yyyy-MMM-dd HH:mm:ss")]
+            [TestCase("yyyy-MMMMM-dd HH:mm:ss")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenMonthPartFormatIsIncorrect(string format)
             {
                 ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
                 {
-                    return string.Equals(x.Message, "Format string is incorrect. Month field must be in one of formats: 'M' or 'MM'");
+                    return string.Equals(x.Message, "Format string is incorrect. Month field must be in one of formats: 'M' or 'MM' or 'MMM' or 'MMMM'");
                 });
             }
 
-            [TestCase("yyyy-MM-ddd HH:mm:ss")]
+            [TestCase("yyyy-MM-ddddd HH:mm:ss")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenDayPartFormatIsIncorrect(string format)
             {
                 ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
                 {
-                    return string.Equals(x.Message, "Format string is incorrect. Day field must be in one of formats: 'd' or 'dd'");
+                    return string.Equals(x.Message, "Format string is incorrect. Day field must be in one of formats: 'd' or 'dd' or 'ddd' or 'dddd'");
                 });
             }
 

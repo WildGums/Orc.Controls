@@ -116,9 +116,9 @@ namespace Orc.Controls
                 throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Day field can not be specified more than once");
             }
 
-            if (part.Length > 2)
+            if (part.Length > 4)
             {
-                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Day field must be in one of formats: 'd' or 'dd'");
+                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Day field must be in one of formats: 'd' or 'dd' or 'ddd' or 'dddd'");
             }
 
             formatInfo.DayFormat = part;
@@ -135,9 +135,9 @@ namespace Orc.Controls
                 throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Month field can not be specified more than once");
             }
 
-            if (part.Length > 2)
+            if (part.Length > 4)
             {
-                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Month field must be in one of formats: 'M' or 'MM'");
+                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Month field must be in one of formats: 'M' or 'MM' or 'MMM' or 'MMMM'");
             }
 
             formatInfo.MonthFormat = part;
@@ -258,24 +258,31 @@ namespace Orc.Controls
                 case 0:
                     formatInfo.Separator0 = part;
                     break;
+
                 case 1:
                     formatInfo.Separator1 = part;
                     break;
+
                 case 2:
                     formatInfo.Separator2 = part;
                     break;
+
                 case 3:
                     formatInfo.Separator3 = part;
                     break;
+
                 case 4:
                     formatInfo.Separator4 = part;
                     break;
+
                 case 5:
                     formatInfo.Separator5 = part;
                     break;
+
                 case 6:
                     formatInfo.Separator6 = part;
                     break;
+
                 case 7:
                     formatInfo.Separator7 = part;
                     break;
@@ -345,6 +352,18 @@ namespace Orc.Controls
                         errorMessage = "Invalid month value. Month must contain 2 digits";
                         return false;
                     }
+                // 'MMM'
+                case 3 when partValue.Length != 3:
+                {
+                    errorMessage = "Invalid month value. Month must contain 3 digits";
+                    return false;
+                }
+                // 'MMMM'
+                case 4 when partValue.Length != 4:
+                {
+                    errorMessage = "Invalid month value. Month must contain 4 digits";
+                    return false;
+                }
             }
 
             return true;
@@ -369,6 +388,20 @@ namespace Orc.Controls
                 case 2 when partValue.Length != 2:
                     {
                         errorMessage = "Invalid day value. Day must contain 2 digits";
+                    return false;
+                }
+
+                // 'ddd'
+                case 3 when partValue.Length != 3:
+                {
+                    errorMessage = "Invalid day value. Day must contain 3 digits";
+                    return false;
+                }
+
+                // 'dddd'
+                case 4 when partValue.Length != 4:
+                {
+                    errorMessage = "Invalid day value. Day must contain 4 digits";
                         return false;
                     }
             }
