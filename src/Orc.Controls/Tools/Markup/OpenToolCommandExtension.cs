@@ -42,11 +42,8 @@ namespace Orc.Controls
                 return;
             }
 
-            var contextMenu = targetObject.FindLogicalAncestorByType<ContextMenu>();
-            if (contextMenu == null)
-            {
-                contextMenu = targetObject.FindLogicalOrVisualAncestor(x => x.GetType() == typeof(ContextMenu)) as ContextMenu;
-            }
+            var contextMenu = targetObject.FindLogicalAncestorByType<ContextMenu>() 
+                              ?? targetObject.FindLogicalOrVisualAncestor(x => x.GetType() == typeof(ContextMenu)) as ContextMenu;
 
             if (!(contextMenu?.PlacementTarget is FrameworkElement placementTarget))
             {

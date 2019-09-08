@@ -5,6 +5,7 @@ using Catel.MVVM;
 using Catel.Services;
 using Orc.Controls;
 using Orc.Controls.Services;
+using Orc.Controls.Tools;
 
 /// <summary>
 /// Used by the ModuleInit. All code inside the Initialize method is ran as soon as the assembly is loaded.
@@ -44,6 +45,7 @@ public static class ModuleInitializer
         serviceLocator.RegisterType<IValidationNamesService, ValidationNamesService>();
         serviceLocator.RegisterTypeIfNotYetRegistered<IConnectionStringBuilderServiceInitializer, ConnectionStringBuilderServiceInitializer>();
         serviceLocator.RegisterType<IConnectionStringBuilderService, ConnectionStringBuilderService>();
+        serviceLocator.RegisterTypeIfNotYetRegistered<IControlToolManagerFactory, ControlToolManagerFactory>();
 
         // Override Catel.SelectDirectoryService with Orchestra.Services.SelectDirectoryService
         serviceLocator.RegisterType<ISelectDirectoryService, MicrosoftApiSelectDirectoryService>();

@@ -25,6 +25,9 @@ namespace Orc.Controls
         void Close();
         #endregion
 
+        event EventHandler<EventArgs> Attached;
+        event EventHandler<EventArgs> Detached;
+        event EventHandler<EventArgs> Opening;
         event EventHandler<EventArgs> Opened;
         event EventHandler<EventArgs> Closed;
     }

@@ -352,8 +352,11 @@ namespace Orc.Controls
         protected ControlToolBase() { }
         public bool IsOpened { get; }
         public abstract string Name { get; }
+        public event System.EventHandler<System.EventArgs> Attached;
         public event System.EventHandler<System.EventArgs> Closed;
+        public event System.EventHandler<System.EventArgs> Detached;
         public event System.EventHandler<System.EventArgs> Opened;
+        public event System.EventHandler<System.EventArgs> Opening;
         public virtual void Attach(object target) { }
         public virtual void Close() { }
         public virtual void Detach() { }
@@ -839,6 +842,7 @@ namespace Orc.Controls
         public static T AttachTool<T>(this System.Windows.FrameworkElement frameworkElement)
             where T :  class, Orc.Controls.IControlTool { }
         public static bool DetachTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
+        public static Orc.Controls.Tools.IControlToolManager GetControlToolManager(this System.Windows.FrameworkElement frameworkElement) { }
         public static System.Collections.Generic.IList<Orc.Controls.IControlTool> GetTools(this System.Windows.FrameworkElement frameworkElement) { }
     }
     public class HeaderBar : System.Windows.Controls.Control
@@ -879,8 +883,11 @@ namespace Orc.Controls
     {
         bool IsOpened { get; }
         string Name { get; }
+        public event System.EventHandler<System.EventArgs> Attached;
         public event System.EventHandler<System.EventArgs> Closed;
+        public event System.EventHandler<System.EventArgs> Detached;
         public event System.EventHandler<System.EventArgs> Opened;
+        public event System.EventHandler<System.EventArgs> Opening;
         void Attach(object target);
         void Close();
         void Detach();
@@ -1935,6 +1942,46 @@ namespace Orc.Controls.Services
         public bool ShowNewFolderButton { get; set; }
         public string Title { get; set; }
         public System.Threading.Tasks.Task<bool> DetermineDirectoryAsync() { }
+    }
+}
+namespace Orc.Controls.Tools
+{
+    public class ControlToolManager : Orc.Controls.Tools.IControlToolManager
+    {
+        public ControlToolManager(System.Windows.FrameworkElement frameworkElement, Catel.IoC.ITypeFactory typeFactory) { }
+        public System.Collections.Generic.IList<Orc.Controls.IControlTool> Tools { get; }
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolAttached;
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolClosed;
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolDetached;
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpened;
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpening;
+        public object AttachTool(System.Type toolType) { }
+        public bool DetachTool(System.Type toolType) { }
+    }
+    public class ControlToolManagerFactory : Orc.Controls.Tools.IControlToolManagerFactory
+    {
+        public ControlToolManagerFactory(Catel.IoC.ITypeFactory typeFactory) { }
+        public Orc.Controls.Tools.IControlToolManager GetOrCreateManager(System.Windows.FrameworkElement frameworkElement) { }
+    }
+    public interface IControlToolManager
+    {
+        System.Collections.Generic.IList<Orc.Controls.IControlTool> Tools { get; }
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolAttached;
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolClosed;
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolDetached;
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpened;
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpening;
+        object AttachTool(System.Type toolType);
+        bool DetachTool(System.Type toolType);
+    }
+    public interface IControlToolManagerFactory
+    {
+        Orc.Controls.Tools.IControlToolManager GetOrCreateManager(System.Windows.FrameworkElement frameworkElement);
+    }
+    public class ToolManagementEventArgs : System.EventArgs
+    {
+        public ToolManagementEventArgs(Orc.Controls.IControlTool tool) { }
+        public Orc.Controls.IControlTool Tool { get; }
     }
 }
 namespace Orc.Controls.ViewModels
