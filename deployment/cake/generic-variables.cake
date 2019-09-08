@@ -358,6 +358,7 @@ private GeneralContext InitializeGeneralContext(BuildContext buildContext, IBuil
         data.Solution.ConfigurationName = "Debug";
     }
 
+    // Important: do *after* initializing the configuration name
     data.RootDirectory = System.IO.Path.GetFullPath(".");
     data.OutputRootDirectory = System.IO.Path.GetFullPath(buildContext.BuildServer.GetVariable("OutputRootDirectory", string.Format("./output/{0}", data.Solution.ConfigurationName), showValue: true));
 
