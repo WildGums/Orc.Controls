@@ -1929,6 +1929,11 @@ namespace Orc.Controls.Tools
     public interface IControlToolManager
     {
         System.Collections.Generic.IList<Orc.Controls.IControlTool> Tools { get; }
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolAttached;
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolClosed;
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolDetached;
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpened;
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpening;
         object AttachTool(System.Type toolType);
         bool DetachTool(System.Type toolType);
     }
