@@ -20,5 +20,11 @@ namespace Orc.Controls.Tools
         object AttachTool(Type toolType);
         bool DetachTool(Type toolType);
         #endregion
+
+        event EventHandler<ToolManagementEventArgs> ToolAttached;
+        event EventHandler<ToolManagementEventArgs> ToolDetached;
+        event EventHandler<ToolManagementEventArgs> ToolOpening;
+        event EventHandler<ToolManagementEventArgs> ToolOpened;
+        event EventHandler<ToolManagementEventArgs> ToolClosed;
     }
 }
