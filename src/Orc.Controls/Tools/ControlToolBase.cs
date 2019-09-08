@@ -15,12 +15,6 @@ namespace Orc.Controls
         protected object Target;
         #endregion
 
-        #region Constructors
-        protected ControlToolBase()
-        {
-        }
-        #endregion
-
         #region Properties
         public abstract string Name { get; }
         public bool IsOpened { get; private set; }
@@ -30,11 +24,15 @@ namespace Orc.Controls
         public virtual void Attach(object target)
         {
             Target = target;
+
+            Attached?.Invoke(this, EventArgs.Empty);
         }
 
         public virtual void Detach()
         {
             Target = null;
+
+            Detached?.Invoke(this, EventArgs.Empty);
         }
 
         [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use Open() with parameter instead")]
@@ -50,6 +48,8 @@ namespace Orc.Controls
                 return;
             }
 
+            Opening?.Invoke(this, EventArgs.Empty);
+
             OnOpen(parameter);
 
             IsOpened = true;
@@ -60,20 +60,18 @@ namespace Orc.Controls
         {
             IsOpened = false;
 
-            RaiseClosedEvent();
+            Closed?.Invoke(this, EventArgs.Empty);
         }
 
+        public event EventHandler<EventArgs> Attached;
+        public event EventHandler<EventArgs> Detached;
         public event EventHandler<EventArgs> Closed;
         public event EventHandler<EventArgs> Opened;
+        public event EventHandler<EventArgs> Opening;
         #endregion
 
         #region Methods
         protected abstract void OnOpen(object parameter = null);
-
-        private void RaiseClosedEvent()
-        {
-            Closed?.Invoke(this, EventArgs.Empty);
-        }
         #endregion
     }
 }

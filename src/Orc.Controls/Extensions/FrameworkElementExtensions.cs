@@ -9,24 +9,35 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Windows;
     using Catel;
     using Catel.IoC;
+    using Tools;
 
     public static class FrameworkElementExtensions
     {
         #region Constants
-        private static readonly Dictionary<FrameworkElement, List<IControlTool>> ControlTools
-            = new Dictionary<FrameworkElement, List<IControlTool>>();
+        private static readonly IControlToolManagerFactory ControlToolManagerFactory;
+        #endregion
+
+        #region Constructors
+        static FrameworkElementExtensions()
+        {
+            ControlToolManagerFactory = ServiceLocator.Default.ResolveType<IControlToolManagerFactory>();
+        }
         #endregion
 
         #region Methods
-        public static IList<IControlTool> GetTools(this FrameworkElement frameworkElement)
+        public static IControlToolManager GetControlToolManager(this FrameworkElement frameworkElement)
         {
             Argument.IsNotNull(() => frameworkElement);
 
-            return ControlTools.TryGetValue(frameworkElement, out var tools) ? tools : new List<IControlTool>();
+            return ControlToolManagerFactory.GetOrCreateManager(frameworkElement);
+        }
+
+        public static IList<IControlTool> GetTools(this FrameworkElement frameworkElement)
+        {
+            return frameworkElement.GetControlToolManager().Tools;
         }
 
         public static void AttachAndOpenTool(this FrameworkElement frameworkElement, Type toolType, object parameter = null)
@@ -48,31 +59,8 @@ namespace Orc.Controls
 
         public static object AttachTool(this FrameworkElement frameworkElement, Type toolType)
         {
-            Argument.IsNotNull(() => frameworkElement);
-            Argument.IsNotNull(() => toolType);
-
-            var typeFactory = frameworkElement.GetTypeFactory();
-            if (!(typeFactory.CreateInstanceWithParametersAndAutoCompletion(toolType) is IControlTool tool))
-            {
-                return null;
-            }
-
-            if (!ControlTools.TryGetValue(frameworkElement, out var tools))
-            {
-                tools = new List<IControlTool>();
-                ControlTools[frameworkElement] = tools;
-            }
-
-            var existingTool = tools.FirstOrDefault(x => x.GetType() == toolType);
-            if (existingTool != null)
-            {
-                return existingTool;
-            }
-
-            tools.Add(tool);
-            tool.Attach(frameworkElement);
-
-            return tool;
+            var controlToolManager = frameworkElement.GetControlToolManager();
+            return controlToolManager.AttachTool(toolType);
         }
 
         public static T AttachTool<T>(this FrameworkElement frameworkElement)
@@ -85,21 +73,8 @@ namespace Orc.Controls
 
         public static bool DetachTool(this FrameworkElement frameworkElement, Type toolType)
         {
-            Argument.IsNotNull(() => frameworkElement);
-
-            if (!ControlTools.TryGetValue(frameworkElement, out var tools))
-            {
-                return false;
-            }
-
-            var tool = tools.FirstOrDefault(x => x.GetType() == toolType);
-            if (tool == null)
-            {
-                return false;
-            }
-
-            tools.Remove(tool);
-            return true;
+            var controlToolManager = frameworkElement.GetControlToolManager();
+            return controlToolManager.DetachTool(toolType);
         }
         #endregion
     }
