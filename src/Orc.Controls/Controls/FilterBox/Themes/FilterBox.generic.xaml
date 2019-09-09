@@ -93,16 +93,16 @@
                                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 
                                     <TextBlock x:Name="PART_Watermark"
-                                       Margin="{TemplateBinding Padding}"
-                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                       Text="{Binding Path=Watermark, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:FilterBox}}}"
-                                       IsHitTestVisible="False"
-                                       Visibility="Collapsed"
-                                       Focusable="False" 
-                                       Foreground="Gray" />
+                                               Margin="{TemplateBinding Padding}"
+                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                               Text="{Binding Path=Watermark, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:FilterBox}}}"
+                                               IsHitTestVisible="False"
+                                               Visibility="Collapsed"
+                                               Focusable="False" 
+                                               Foreground="Gray" />
                                 </Grid>
-                                
+
                                 <ControlTemplate.Triggers>
                                     <MultiTrigger>
                                         <MultiTrigger.Conditions>
@@ -119,7 +119,6 @@
                     </Setter>
                 </Style.Setters>
             </Style>
-
         </Style.Resources>
         
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
@@ -150,6 +149,7 @@
                                      Margin="0"
                                      Padding="{TemplateBinding Padding}"
                                      VerticalAlignment="Center"
+                                     VerticalContentAlignment="Center"
                                      Text="{Binding Path=Text, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:FilterBox}}}">
                                 <i:Interaction.Behaviors>
                                     <catel:UpdateBindingOnTextChanged UpdateDelay="750" />
