@@ -40,11 +40,6 @@ namespace Orc.Controls.Tools
         {
             Argument.IsNotNull(() => toolType);
 
-            if (!(_typeFactory.CreateInstanceWithParametersAndAutoCompletion(toolType) is IControlTool tool))
-            {
-                return null;
-            }
-
             var tools = Tools;
             if (!tools.Any())
             {
@@ -55,6 +50,16 @@ namespace Orc.Controls.Tools
             if (existingTool != null)
             {
                 return existingTool;
+            }
+
+            if (!(_typeFactory.CreateInstanceWithParametersAndAutoCompletion(toolType) is IControlTool tool))
+            {
+                return null;
+            }
+
+            if (!tool.CanAttach(_frameworkElement))
+            {
+                return null;
             }
 
             tools.Add(tool);

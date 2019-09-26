@@ -23,9 +23,19 @@ namespace Orc.Controls
         #region IControlTool Members
         public virtual void Attach(object target)
         {
+            if (!CanAttach(target))
+            {
+                return;
+            }
+
             Target = target;
 
             Attached?.Invoke(this, EventArgs.Empty);
+        }
+
+        public virtual bool CanAttach(object target)
+        {
+            return true;
         }
 
         public virtual void Detach()
