@@ -32,7 +32,30 @@ namespace Orc.Controls
         #region Methods
         protected override object ProvideDynamicValue(IServiceProvider serviceProvider)
         {
-            return new Command<object>(OnOpenTool);
+            return new Command<object>(OnOpenTool, CanAttachTool);
+        }
+
+        private bool CanAttachTool(object parameter)
+        {
+            if (!(TargetObject is FrameworkElement targetObject))
+            {
+                return false;
+            }
+
+            var contextMenu = targetObject.FindLogicalAncestorByType<ContextMenu>()
+                              ?? targetObject.FindLogicalOrVisualAncestor(x => x.GetType() == typeof(ContextMenu)) as ContextMenu;
+
+            if (!(contextMenu?.PlacementTarget is FrameworkElement placementTarget))
+            {
+                return false;
+            }
+
+            if (placementTarget.GetType() == _frameworkElementType)
+            {
+                return placementTarget.AttachTool(_toolType) != null;
+            }
+
+            return true;
         }
 
         private void OnOpenTool(object parameter)
