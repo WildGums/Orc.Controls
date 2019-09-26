@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <None Remove="Controls\AlignmentGrid\Themes\AlignmentGrid.generic.xaml" />
+    <None Remove="Controls\AnimatingTextBlock\Themes\AnimatingTextBlock.generic.xaml" />
   </ItemGroup>
   
   <ItemGroup>

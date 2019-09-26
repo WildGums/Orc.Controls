@@ -1,0 +1,9 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Orc.Controls"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <Style x:Key="{x:Type local:AlignmentGrid}"
+           TargetType="{x:Type local:AlignmentGrid}"/>
+
+</ResourceDictionary>
