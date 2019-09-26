@@ -142,6 +142,10 @@
                 Background="White" 
                 BorderBrush="{StaticResource TabControlNormalBorderBrush}">
 
+            <TabItem Header="AlignmentGrid">
+                <views:AlignmentGrid />
+            </TabItem>        
+            
             <TabItem Header="AnimatedGif">
                 <views:AnimatedGif />
             </TabItem>

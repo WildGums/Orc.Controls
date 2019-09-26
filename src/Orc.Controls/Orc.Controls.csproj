@@ -21,6 +21,10 @@
     <!-- SonarQube requires a project guid -->
     <ProjectGuid>84E22240-D816-4B43-AC37-92B805A2BEE3</ProjectGuid>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Controls\AlignmentGrid\Themes\AlignmentGrid.generic.xaml" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="Catel.Analyzers" Version="1.0.0" PrivateAssets="all" />
