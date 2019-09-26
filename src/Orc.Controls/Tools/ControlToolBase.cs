@@ -18,6 +18,7 @@ namespace Orc.Controls
         #region Properties
         public abstract string Name { get; }
         public bool IsOpened { get; private set; }
+        public virtual bool IsEnabled => true;
         #endregion
 
         #region IControlTool Members
@@ -26,6 +27,11 @@ namespace Orc.Controls
             Target = target;
 
             Attached?.Invoke(this, EventArgs.Empty);
+        }
+
+        public bool CanAttach(object target)
+        {
+            return true;
         }
 
         public virtual void Detach()

@@ -8,6 +8,7 @@
 namespace Orc.Controls
 {
     using System;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using Catel.MVVM;
@@ -32,32 +33,52 @@ namespace Orc.Controls
         #region Methods
         protected override object ProvideDynamicValue(IServiceProvider serviceProvider)
         {
-            return new Command<object>(OnOpenTool);
+            return new Command<object>(OnOpenTool, CanExecute);
+        }
+
+        private bool CanExecute(object parameter)
+        {
+            var attachmentTarget = GetAttachmentTarget();
+            if (attachmentTarget is null)
+            {
+                return false;
+            }
+
+            var tool = attachmentTarget.GetTools().FirstOrDefault(x => x.GetType() == _toolType);
+            if (tool != null)
+            {
+                return tool.IsEnabled;
+            }
+
+            return attachmentTarget.CanAttach(_toolType);
         }
 
         private void OnOpenTool(object parameter)
         {
+            GetAttachmentTarget()?.AttachAndOpenTool(_toolType, parameter);
+        }
+
+        private FrameworkElement GetAttachmentTarget()
+        {
             if (!(TargetObject is FrameworkElement targetObject))
             {
-                return;
+                return null;
             }
 
-            var contextMenu = targetObject.FindLogicalAncestorByType<ContextMenu>() 
+            var contextMenu = targetObject.FindLogicalAncestorByType<ContextMenu>()
                               ?? targetObject.FindLogicalOrVisualAncestor(x => x.GetType() == typeof(ContextMenu)) as ContextMenu;
 
             if (!(contextMenu?.PlacementTarget is FrameworkElement placementTarget))
             {
-                return;
+                return null;
             }
 
             if (placementTarget.GetType() == _frameworkElementType)
             {
-                placementTarget.AttachAndOpenTool(_toolType, parameter);
-                return;
+                return placementTarget;
             }
 
-            var ancestorElement = placementTarget.FindLogicalOrVisualAncestor(x => x.GetType() == _frameworkElementType) as FrameworkElement;
-            ancestorElement?.AttachAndOpenTool(_toolType, parameter);
+            return placementTarget.FindLogicalOrVisualAncestor(x => x.GetType() == _frameworkElementType) as FrameworkElement;
         }
         #endregion
     }
