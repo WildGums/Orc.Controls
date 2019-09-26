@@ -358,6 +358,7 @@ namespace Orc.Controls
         public event System.EventHandler<System.EventArgs> Opened;
         public event System.EventHandler<System.EventArgs> Opening;
         public virtual void Attach(object target) { }
+        public virtual bool CanAttach(object target) { }
         public virtual void Close() { }
         public virtual void Detach() { }
         protected virtual void OnAddParameter(object parameter) { }
@@ -889,6 +890,7 @@ namespace Orc.Controls
         public event System.EventHandler<System.EventArgs> Opened;
         public event System.EventHandler<System.EventArgs> Opening;
         void Attach(object target);
+        bool CanAttach(object target);
         void Close();
         void Detach();
         [System.ObsoleteAttribute("Use Open() with parameter instead. Will be removed in version 4.0.0.", true)]
@@ -1525,8 +1527,10 @@ namespace Orc.Controls
         public string SelectedFile { get; set; }
         public Catel.MVVM.TaskCommand SelectFile { get; }
     }
-    [System.ObsoleteAttribute("Use SqlConnectionString from Orc.DataAccess library instead. Will be removed in v" +
-        "ersion 4.0.0.", true)]
+    public class static ScreenHelper
+    {
+        public static System.Windows.Size GetDpi() { }
+    }
     public class SqlConnectionString : Catel.Data.ModelBase
     {
         public static readonly Catel.Data.PropertyData PropertiesProperty;
@@ -1907,6 +1911,25 @@ namespace Orc.Controls.Extensions
     public class static FindReplaceSettingsExtensions
     {
         public static System.Text.RegularExpressions.Regex GetRegEx(this Orc.Controls.FindReplaceSettings settings, string textToFind, bool isLeftToRight = False) { }
+    }
+}
+namespace Orc.Controls.Markup
+{
+    public class FontImage : Catel.Windows.Markup.UpdatableMarkupExtension
+    {
+        public FontImage() { }
+        public FontImage(string itemName) { }
+        public System.Windows.Media.Brush Brush { get; set; }
+        public static System.Windows.Media.Brush DefaultBrush { get; set; }
+        public static string DefaultFontFamily { get; set; }
+        public string FontFamily { get; set; }
+        [System.Windows.Markup.ConstructorArgumentAttribute("itemName")]
+        public string ItemName { get; set; }
+        public System.Windows.Media.ImageSource GetImageSource() { }
+        public static System.Windows.Media.FontFamily GetRegisteredFont(string name) { }
+        public static System.Collections.Generic.IEnumerable<string> GetRegisteredFonts() { }
+        protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
+        public static void RegisterFont(string name, System.Windows.Media.FontFamily fontFamily) { }
     }
 }
 namespace Orc.Controls.Services
