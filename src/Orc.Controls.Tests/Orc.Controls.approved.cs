@@ -350,6 +350,7 @@ namespace Orc.Controls
     {
         protected object Target;
         protected ControlToolBase() { }
+        public virtual bool IsEnabled { get; }
         public bool IsOpened { get; }
         public abstract string Name { get; }
         public event System.EventHandler<System.EventArgs> Attached;
@@ -358,7 +359,7 @@ namespace Orc.Controls
         public event System.EventHandler<System.EventArgs> Opened;
         public event System.EventHandler<System.EventArgs> Opening;
         public virtual void Attach(object target) { }
-        public virtual bool CanAttach(object target) { }
+        public bool CanAttach(object target) { }
         public virtual void Close() { }
         public virtual void Detach() { }
         protected virtual void OnAddParameter(object parameter) { }
@@ -842,6 +843,7 @@ namespace Orc.Controls
         public static object AttachTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
         public static T AttachTool<T>(this System.Windows.FrameworkElement frameworkElement)
             where T :  class, Orc.Controls.IControlTool { }
+        public static bool CanAttach(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
         public static bool DetachTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
         public static Orc.Controls.Tools.IControlToolManager GetControlToolManager(this System.Windows.FrameworkElement frameworkElement) { }
         public static System.Collections.Generic.IList<Orc.Controls.IControlTool> GetTools(this System.Windows.FrameworkElement frameworkElement) { }
@@ -882,6 +884,7 @@ namespace Orc.Controls
     }
     public interface IControlTool
     {
+        bool IsEnabled { get; }
         bool IsOpened { get; }
         string Name { get; }
         public event System.EventHandler<System.EventArgs> Attached;
@@ -1979,6 +1982,7 @@ namespace Orc.Controls.Tools
         public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpened;
         public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpening;
         public object AttachTool(System.Type toolType) { }
+        public bool CanAttachTool(System.Type toolType) { }
         public bool DetachTool(System.Type toolType) { }
     }
     public class ControlToolManagerFactory : Orc.Controls.Tools.IControlToolManagerFactory
@@ -1995,6 +1999,7 @@ namespace Orc.Controls.Tools
         public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpened;
         public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpening;
         object AttachTool(System.Type toolType);
+        bool CanAttachTool(System.Type toolType);
         bool DetachTool(System.Type toolType);
     }
     public interface IControlToolManagerFactory

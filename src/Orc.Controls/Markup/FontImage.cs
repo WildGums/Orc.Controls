@@ -35,6 +35,7 @@ namespace Orc.Controls.Markup
         #region Constructors
         static FontImage()
         {
+            RegisterFont("Segoe UI Symbol", new FontFamily("Segoe UI Symbol"));
             DefaultFontFamily = "Segoe UI Symbol";
             DefaultBrush = Brushes.Black;
 

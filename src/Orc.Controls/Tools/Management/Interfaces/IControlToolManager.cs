@@ -17,6 +17,7 @@ namespace Orc.Controls.Tools
         #endregion
 
         #region Methods
+        bool CanAttachTool(Type toolType);
         object AttachTool(Type toolType);
         bool DetachTool(Type toolType);
         #endregion
