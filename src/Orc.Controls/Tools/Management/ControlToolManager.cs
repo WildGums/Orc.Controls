@@ -36,16 +36,33 @@ namespace Orc.Controls.Tools
         #endregion
 
         #region IControlToolManager Members
+        public bool CanAttachTool(Type toolType)
+        {
+            if (toolType is null)
+            {
+                return false;
+            }
+
+            var tools = Tools;
+            var existingTool = tools.FirstOrDefault(x => x.GetType() == toolType);
+            if (existingTool != null)
+            {
+                return false;
+            }
+
+            if (!(_typeFactory.CreateInstanceWithParametersAndAutoCompletion(toolType) is IControlTool tool))
+            {
+                return false;
+            }
+
+            return tool.CanAttach(_frameworkElement);
+        }
+
         public object AttachTool(Type toolType)
         {
             Argument.IsNotNull(() => toolType);
 
             var tools = Tools;
-            if (!tools.Any())
-            {
-                _frameworkElement.Unloaded += OnFrameworkElementUnloaded;
-            }
-
             var existingTool = tools.FirstOrDefault(x => x.GetType() == toolType);
             if (existingTool != null)
             {
@@ -57,9 +74,9 @@ namespace Orc.Controls.Tools
                 return null;
             }
 
-            if (!tool.CanAttach(_frameworkElement))
+            if (!tools.Any())
             {
-                return null;
+                _frameworkElement.Unloaded += OnFrameworkElementUnloaded;
             }
 
             tools.Add(tool);

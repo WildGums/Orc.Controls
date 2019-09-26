@@ -14,6 +14,7 @@ namespace Orc.Controls
         #region Properties
         string Name { get; }
         bool IsOpened { get; }
+        bool IsEnabled { get; }
         #endregion
 
         #region Methods

@@ -18,22 +18,18 @@ namespace Orc.Controls
         #region Properties
         public abstract string Name { get; }
         public bool IsOpened { get; private set; }
+        public virtual bool IsEnabled => true;
         #endregion
 
         #region IControlTool Members
         public virtual void Attach(object target)
         {
-            if (!CanAttach(target))
-            {
-                return;
-            }
-
             Target = target;
 
             Attached?.Invoke(this, EventArgs.Empty);
         }
 
-        public virtual bool CanAttach(object target)
+        public bool CanAttach(object target)
         {
             return true;
         }

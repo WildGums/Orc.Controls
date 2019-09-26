@@ -40,6 +40,12 @@ namespace Orc.Controls
             return frameworkElement.GetControlToolManager().Tools;
         }
 
+        public static bool CanAttach(this FrameworkElement frameworkElement, Type toolType)
+        {
+            var controlToolManager = frameworkElement.GetControlToolManager();
+            return controlToolManager.CanAttachTool(toolType);
+        }
+
         public static void AttachAndOpenTool(this FrameworkElement frameworkElement, Type toolType, object parameter = null)
         {
             Argument.IsNotNull(() => frameworkElement);
