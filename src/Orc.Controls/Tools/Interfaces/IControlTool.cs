@@ -18,7 +18,6 @@ namespace Orc.Controls
 
         #region Methods
         void Attach(object target);
-        bool CanAttach(object target);
         void Detach();
         [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use Open() with parameter instead")]
         void Open();

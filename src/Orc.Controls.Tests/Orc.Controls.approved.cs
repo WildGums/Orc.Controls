@@ -338,7 +338,6 @@ namespace Orc.Controls
         public event System.EventHandler<System.EventArgs> Opened;
         public event System.EventHandler<System.EventArgs> Opening;
         public virtual void Attach(object target) { }
-        public virtual bool CanAttach(object target) { }
         public virtual void Close() { }
         public virtual void Detach() { }
         protected abstract void OnOpen(object parameter = null);
@@ -857,7 +856,6 @@ namespace Orc.Controls
         public event System.EventHandler<System.EventArgs> Opened;
         public event System.EventHandler<System.EventArgs> Opening;
         void Attach(object target);
-        bool CanAttach(object target);
         void Close();
         void Detach();
         [System.ObsoleteAttribute("Use Open() with parameter instead. Will be removed in version 4.0.0.", true)]

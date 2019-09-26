@@ -57,11 +57,6 @@ namespace Orc.Controls.Tools
                 return null;
             }
 
-            if (!tool.CanAttach(_frameworkElement))
-            {
-                return null;
-            }
-
             tools.Add(tool);
             tool.Attach(_frameworkElement);
 
