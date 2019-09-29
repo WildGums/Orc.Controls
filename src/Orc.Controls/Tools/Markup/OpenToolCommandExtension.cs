@@ -55,10 +55,10 @@ namespace Orc.Controls
 
         private void OnOpenTool(object parameter)
         {
-            GetAttachmentTarget()?.AttachAndOpenTool(_toolType, parameter);
+            GetAttachmentTarget(parameter)?.AttachAndOpenTool(_toolType, parameter);
         }
 
-        private FrameworkElement GetAttachmentTarget()
+        protected virtual FrameworkElement GetAttachmentTarget(object parameter = null)
         {
             if (!(TargetObject is FrameworkElement targetObject))
             {
