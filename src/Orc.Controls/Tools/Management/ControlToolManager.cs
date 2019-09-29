@@ -45,7 +45,7 @@ namespace Orc.Controls.Tools
 
             var tools = Tools;
             var existingTool = tools.FirstOrDefault(x => x.GetType() == toolType);
-            return existingTool == null;
+            return existingTool is null;
         }
 
         public object AttachTool(Type toolType)
