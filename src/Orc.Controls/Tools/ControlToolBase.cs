@@ -29,11 +29,6 @@ namespace Orc.Controls
             Attached?.Invoke(this, EventArgs.Empty);
         }
 
-        public bool CanAttach(object target)
-        {
-            return true;
-        }
-
         public virtual void Detach()
         {
             Target = null;
