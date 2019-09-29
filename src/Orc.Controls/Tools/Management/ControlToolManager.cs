@@ -45,17 +45,7 @@ namespace Orc.Controls.Tools
 
             var tools = Tools;
             var existingTool = tools.FirstOrDefault(x => x.GetType() == toolType);
-            if (existingTool != null)
-            {
-                return false;
-            }
-
-            if (!(_typeFactory.CreateInstanceWithParametersAndAutoCompletion(toolType) is IControlTool tool))
-            {
-                return false;
-            }
-
-            return tool.CanAttach(_frameworkElement);
+            return existingTool is null;
         }
 
         public object AttachTool(Type toolType)
