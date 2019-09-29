@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <None Remove="Views\AlignmentGrid.xaml" />
+    <None Remove="Views\BusyIndicator.xaml" />
+    <None Remove="Views\FluidProgressBar.xaml" />
   </ItemGroup>
 
   <ItemGroup>

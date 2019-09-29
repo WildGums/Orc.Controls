@@ -154,6 +154,11 @@
                 <views:BindableRichTextBox />
             </TabItem>
 
+
+            <TabItem Header="BusyIndicator">
+                <views:BusyIndicator/>
+            </TabItem>
+
             <TabItem Header="ColorLegend">
                 <views:ColorLegendView />
             </TabItem>
@@ -200,6 +205,10 @@
 
             <TabItem Header="FilterBox">
                 <views:FilterBox />
+            </TabItem>
+
+            <TabItem Header="FluidProgressBar">
+                <views:FluidProgressBar />
             </TabItem>
 
             <TabItem Header="LinkLabel">
