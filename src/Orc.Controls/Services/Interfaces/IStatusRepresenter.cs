@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IStatusRepresenter.cs" company="WildGums">
+//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace Orc.Controls.Services.Interfaces
+
+namespace Orc.Controls.Services
 {
-    class IStatusRepresenter
+    public interface IStatusRepresenter
     {
+        void UpdateStatus(string status);
     }
 }

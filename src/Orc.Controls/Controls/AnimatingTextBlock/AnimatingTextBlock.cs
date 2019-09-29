@@ -12,6 +12,7 @@ namespace Orc.Controls
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media.Animation;
+    using Catel.Windows.Threading;
     using Services;
 
     public class AnimatingTextBlock : UserControl, IStatusRepresenter

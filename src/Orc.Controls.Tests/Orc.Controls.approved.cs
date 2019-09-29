@@ -38,11 +38,33 @@ namespace Orc.Controls
         DarkHighlight = 3,
         Highlight = 4,
     }
+    public class AlignmentGrid : System.Windows.Controls.ContentControl
+    {
+        public static readonly System.Windows.DependencyProperty HorizontalStepProperty;
+        public static readonly System.Windows.DependencyProperty LineBrushProperty;
+        public static readonly System.Windows.DependencyProperty VerticalStepProperty;
+        public AlignmentGrid() { }
+        public double HorizontalStep { get; set; }
+        public System.Windows.Media.Brush LineBrush { get; set; }
+        public double VerticalStep { get; set; }
+    }
     public class AnimatedGif : System.Windows.Controls.Image
     {
         public static readonly System.Windows.DependencyProperty GifSourceProperty;
         public AnimatedGif() { }
         public string GifSource { get; set; }
+    }
+    public class AnimatingTextBlock : System.Windows.Controls.UserControl, Orc.Controls.Services.IStatusRepresenter
+    {
+        public static readonly System.Windows.DependencyProperty HideStoryboardProperty;
+        public static readonly System.Windows.DependencyProperty ShowStoryboardProperty;
+        public static readonly System.Windows.DependencyProperty TextProperty;
+        public AnimatingTextBlock() { }
+        public System.Windows.Media.Animation.Storyboard HideStoryboard { get; set; }
+        public System.Windows.Media.Animation.Storyboard ShowStoryboard { get; set; }
+        public string Text { get; set; }
+        public override void OnApplyTemplate() { }
+        public void UpdateStatus(string status) { }
     }
     public class ApplicationLogFilterGroupService : Orc.Controls.IApplicationLogFilterGroupService
     {
@@ -64,6 +86,16 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty BoundTextProperty;
         public BindableRun() { }
         public string BoundText { get; set; }
+    }
+    public class BusyIndicator : Orc.Controls.VisualWrapper, System.Windows.Markup.IComponentConnector
+    {
+        public static readonly System.Windows.DependencyProperty ForegroundProperty;
+        public static readonly System.Windows.DependencyProperty IgnoreUnloadedEventCountProperty;
+        public BusyIndicator() { }
+        public System.Windows.Media.Brush Foreground { get; set; }
+        public int IgnoreUnloadedEventCount { get; set; }
+        public void InitializeComponent() { }
+        protected override void OnRenderSizeChanged(System.Windows.SizeChangedInfo sizeInfo) { }
     }
     public class ColorBoard : System.Windows.Controls.Control
     {
@@ -828,6 +860,53 @@ namespace Orc.Controls
         public override void Detach() { }
         protected override void OnOpen(object parameter = null) { }
     }
+    public class FluidProgressBar : System.Windows.Controls.UserControl, System.IDisposable, System.Windows.Markup.IComponentConnector
+    {
+        public static readonly System.Windows.DependencyProperty DelayProperty;
+        public static readonly System.Windows.DependencyProperty DotHeightProperty;
+        public static readonly System.Windows.DependencyProperty DotRadiusXProperty;
+        public static readonly System.Windows.DependencyProperty DotRadiusYProperty;
+        public static readonly System.Windows.DependencyProperty DotWidthProperty;
+        public static readonly System.Windows.DependencyProperty DurationAProperty;
+        public static readonly System.Windows.DependencyProperty DurationBProperty;
+        public static readonly System.Windows.DependencyProperty DurationCProperty;
+        public static readonly System.Windows.DependencyProperty KeyFrameAProperty;
+        public static readonly System.Windows.DependencyProperty KeyFrameBProperty;
+        public static readonly System.Windows.DependencyProperty OscillateProperty;
+        public static readonly System.Windows.DependencyProperty ReverseDurationProperty;
+        public static readonly System.Windows.DependencyProperty TotalDurationProperty;
+        public FluidProgressBar() { }
+        public System.Windows.Duration Delay { get; set; }
+        public double DotHeight { get; set; }
+        public double DotRadiusX { get; set; }
+        public double DotRadiusY { get; set; }
+        public double DotWidth { get; set; }
+        public System.Windows.Duration DurationA { get; set; }
+        public System.Windows.Duration DurationB { get; set; }
+        public System.Windows.Duration DurationC { get; set; }
+        public double KeyFrameA { get; set; }
+        public double KeyFrameB { get; set; }
+        public bool Oscillate { get; set; }
+        public System.Windows.Duration ReverseDuration { get; set; }
+        public System.Windows.Duration TotalDuration { get; set; }
+        public void Dispose() { }
+        protected virtual void Dispose(bool disposing) { }
+        protected override void Finalize() { }
+        public void InitializeComponent() { }
+        protected virtual void OnDelayChanged(System.Windows.Duration oldDelay, System.Windows.Duration newDelay) { }
+        protected virtual void OnDotHeightChanged(double oldDotHeight, double newDotHeight) { }
+        protected virtual void OnDotRadiusXChanged(double oldDotRadiusX, double newDotRadiusX) { }
+        protected virtual void OnDotRadiusYChanged(double oldDotRadiusY, double newDotRadiusY) { }
+        protected virtual void OnDotWidthChanged(double oldDotWidth, double newDotWidth) { }
+        protected virtual void OnDurationAChanged(System.Windows.Duration oldDurationA, System.Windows.Duration newDurationA) { }
+        protected virtual void OnDurationBChanged(System.Windows.Duration oldDurationB, System.Windows.Duration newDurationB) { }
+        protected virtual void OnDurationCChanged(System.Windows.Duration oldDurationC, System.Windows.Duration newDurationC) { }
+        protected virtual void OnKeyFrameAChanged(double oldKeyFrameA, double newKeyFrameA) { }
+        protected virtual void OnKeyFrameBChanged(double oldKeyFrameB, double newKeyFrameB) { }
+        protected virtual void OnOscillateChanged(bool oldOscillate, bool newOscillate) { }
+        protected virtual void OnReverseDurationChanged(System.Windows.Duration oldReverseDuration, System.Windows.Duration newReverseDuration) { }
+        protected virtual void OnTotalDurationChanged(System.Windows.Duration oldTotalDuration, System.Windows.Duration newTotalDuration) { }
+    }
     public class FontImage : Catel.Windows.Markup.UpdatableMarkupExtension
     {
         public FontImage() { }
@@ -1262,6 +1341,17 @@ namespace Orc.Controls
     {
         public LogViewerLogListener() { }
     }
+    public class static MediaElementThreadFactory
+    {
+        public static Orc.Controls.MediaElementThreadInfo CreateMediaElementsOnWorkerThread(System.Func<System.Windows.Media.Visual> createVisual) { }
+    }
+    public class MediaElementThreadInfo : Catel.Disposable
+    {
+        public MediaElementThreadInfo(System.Windows.Media.HostVisual hostVisual, System.Threading.Thread thread) { }
+        public System.Windows.Media.HostVisual HostVisual { get; }
+        public System.Threading.Thread Thread { get; }
+        protected override void DisposeManaged() { }
+    }
     [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
     public class MsSqlDataSourceProvider : Orc.Controls.IDataSourceProvider
     {
@@ -1548,6 +1638,8 @@ namespace Orc.Controls
     {
         public static System.Windows.Size GetDpi() { }
     }
+    [System.ObsoleteAttribute("Use SqlConnectionString from Orc.DataAccess library instead. Will be removed in v" +
+        "ersion 4.0.0.", true)]
     public class SqlConnectionString : Catel.Data.ModelBase
     {
         public static readonly Catel.Data.PropertyData PropertiesProperty;
@@ -1874,6 +1966,21 @@ namespace Orc.Controls
         public System.Windows.Media.Color WarningColor { get; set; }
         protected override object Convert(object value, System.Type targetType, object parameter) { }
     }
+    public class VisualTargetPresentationSource : System.Windows.PresentationSource
+    {
+        public VisualTargetPresentationSource(System.Windows.Media.HostVisual hostVisual) { }
+        public override bool IsDisposed { get; }
+        public override System.Windows.Media.Visual RootVisual { get; set; }
+        protected override System.Windows.Media.CompositionTarget GetCompositionTargetCore() { }
+    }
+    [System.Windows.Markup.ContentPropertyAttribute("Child")]
+    public class VisualWrapper : System.Windows.FrameworkElement
+    {
+        public VisualWrapper() { }
+        public System.Windows.Media.Visual Child { get; set; }
+        protected override int VisualChildrenCount { get; }
+        protected override System.Windows.Media.Visual GetVisualChild(int index) { }
+    }
     public class WatermarkTextBox : System.Windows.Controls.TextBox
     {
         public static readonly System.Windows.DependencyProperty SelectAllOnGotFocusProperty;
@@ -1952,6 +2059,10 @@ namespace Orc.Controls.Services
         string GetInitialFindText();
         bool Replace(string textToFind, string textToReplace, Orc.Controls.FindReplaceSettings settings);
         void ReplaceAll(string textToFind, string textToReplace, Orc.Controls.FindReplaceSettings settings);
+    }
+    public interface IStatusRepresenter
+    {
+        void UpdateStatus(string status);
     }
     public class MicrosoftApiSelectDirectoryService : Catel.Services.ISelectDirectoryService
     {
