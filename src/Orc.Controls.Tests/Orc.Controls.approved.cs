@@ -255,6 +255,8 @@ namespace Orc.Controls
     {
         public ConnectionStringAdvancedOptionsWindow() { }
         public void InitializeComponent() { }
+        protected override void OnLoaded(System.EventArgs e) { }
+        protected override void OnUnloaded(System.EventArgs e) { }
     }
     [System.ObsoleteAttribute("Use ConnectionStringBuilder from Orc.DataAccess.Xaml library instead. Will be rem" +
         "oved in version 4.0.0.", true)]
@@ -368,6 +370,8 @@ namespace Orc.Controls
     {
         public ConnectionStringEditWindow() { }
         public void InitializeComponent() { }
+        protected override void OnLoaded(System.EventArgs e) { }
+        protected override void OnUnloaded(System.EventArgs e) { }
     }
     [System.ObsoleteAttribute("Use ConnectionStringProperty from Orc.DataAccess library instead. Will be removed" +
         " in version 4.0.0.", true)]
@@ -1992,6 +1996,15 @@ namespace Orc.Controls
         public System.Windows.DataTemplate WatermarkTemplate { get; set; }
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e) { }
         protected override void OnPreviewMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e) { }
+    }
+    public class static WindowExtensions
+    {
+        public static void CenterWindowToParent(this System.Windows.Window window) { }
+        public static void CenterWindowToSize(this System.Windows.Window window, System.Windows.Rect parentRect) { }
+        public static void LoadWindowSize(this System.Windows.Window window, bool restoreWindowState) { }
+        public static void LoadWindowSize(this System.Windows.Window window, string tag = null, bool restoreWindowState = False, bool restoreWindowPosition = True) { }
+        public static void SaveWindowSize(this System.Windows.Window window) { }
+        public static void SaveWindowSize(this System.Windows.Window window, string tag) { }
     }
     public class WrapPanel : System.Windows.Controls.Panel
     {
