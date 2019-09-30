@@ -43,6 +43,7 @@ namespace Orc.Controls
 
             WindowViewModel = InitializeViewModel();
             WindowViewModel.ClosedAsync += OnClosedAsync;
+            ApplyParameter(parameter);
 
             _uiVisualizerService.ShowDialogAsync(WindowViewModel, (sender, args) =>
             {
@@ -57,6 +58,11 @@ namespace Orc.Controls
 
         protected abstract void OnAccepted();
         protected abstract T InitializeViewModel();
+
+        protected virtual void ApplyParameter(object parameter)
+        {
+
+        }
 
         public override void Close()
         {
