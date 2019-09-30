@@ -630,6 +630,7 @@ namespace Orc.Controls
         protected readonly Catel.IoC.ITypeFactory TypeFactory;
         protected T WindowViewModel;
         protected DialogWindowHostedToolBase(Catel.IoC.ITypeFactory typeFactory, Catel.Services.IUIVisualizerService uiVisualizerService) { }
+        protected virtual void ApplyParameter(object parameter) { }
         public override void Close() { }
         protected abstract T InitializeViewModel();
         protected abstract void OnAccepted();
