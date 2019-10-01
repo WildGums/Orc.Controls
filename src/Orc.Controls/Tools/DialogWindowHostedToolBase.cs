@@ -36,6 +36,10 @@ namespace Orc.Controls
         }
         #endregion
 
+        #region Properties
+        public virtual bool IsModal => true;
+        #endregion
+
         #region Methods
         protected override void OnOpen(object parameter = null)
         {
@@ -45,15 +49,24 @@ namespace Orc.Controls
             WindowViewModel.ClosedAsync += OnClosedAsync;
             ApplyParameter(parameter);
 
-            _uiVisualizerService.ShowDialogAsync(WindowViewModel, (sender, args) =>
+            if (IsModal)
             {
-                if (!(args.Result ?? false))
-                {
-                    return;
-                }
+                _uiVisualizerService.ShowDialogAsync(WindowViewModel, OnWindowCompleted);
+            }
+            else
+            {
+                _uiVisualizerService.ShowAsync(WindowViewModel, OnWindowCompleted);
+            }
+        }
 
-                OnAccepted();
-            });
+        private void OnWindowCompleted(object sender, UICompletedEventArgs args)
+        {
+            if (!(args.Result ?? false))
+            {
+                return;
+            }
+
+            OnAccepted();
         }
 
         protected abstract void OnAccepted();
@@ -61,7 +74,6 @@ namespace Orc.Controls
 
         protected virtual void ApplyParameter(object parameter)
         {
-
         }
 
         public override void Close()
