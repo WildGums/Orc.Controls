@@ -20,20 +20,23 @@ namespace Orc.Controls
         #region Fields
         private readonly Type _frameworkElementType;
         private readonly Type _toolType;
+        protected Command<object> Command { get; }
         #endregion
 
         #region Constructors
-        public OpenToolCommandExtension(Type toolType, Type frameworkElementType)
+        public OpenToolCommandExtension1(Type toolType, Type frameworkElementType)
         {
             _toolType = toolType;
             _frameworkElementType = frameworkElementType;
+            Command = new Command<object>(OnOpenTool, CanExecute);
         }
         #endregion
 
         #region Methods
         protected override object ProvideDynamicValue(IServiceProvider serviceProvider)
         {
-            return new Command<object>(OnOpenTool, CanExecute);
+            Command.RaiseCanExecuteChanged();
+            return Command;
         }
 
         private bool CanExecute(object parameter)
