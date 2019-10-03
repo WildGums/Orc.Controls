@@ -1440,6 +1440,7 @@ namespace Orc.Controls
     public class OpenToolCommandExtension : Catel.Windows.Markup.UpdatableMarkupExtension
     {
         public OpenToolCommandExtension(System.Type toolType, System.Type frameworkElementType) { }
+        protected Catel.MVVM.Command<object> Command { get; }
         protected virtual System.Windows.FrameworkElement GetAttachmentTarget(object parameter = null) { }
         protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
     }
