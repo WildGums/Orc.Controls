@@ -24,7 +24,7 @@ namespace Orc.Controls
         #endregion
 
         #region Constructors
-        public OpenToolCommandExtension1(Type toolType, Type frameworkElementType)
+        public OpenToolCommandExtension(Type toolType, Type frameworkElementType)
         {
             _toolType = toolType;
             _frameworkElementType = frameworkElementType;
