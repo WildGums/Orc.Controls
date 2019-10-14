@@ -164,7 +164,7 @@
                                     Grid.Column="1"
                                     Width="18"
                                     DockPanel.Dock="Right"
-                                    Visibility="{Binding Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:FilterBox}}}"/>
+                                    Visibility="{Binding Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Self}}"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
