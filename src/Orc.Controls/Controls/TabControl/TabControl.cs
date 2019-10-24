@@ -18,93 +18,6 @@ namespace Orc.Controls
     using Catel.Windows.Data;
 
     /// <summary>
-    /// Load behavior of the tabs in the <see cref="TabControl"/>.
-    /// </summary>
-    public enum LoadTabItemsBehavior
-    {
-        /// <summary>
-        /// Load all tabs using lazy loading, but keeps the tabs in memory afterwards.
-        /// </summary>
-        LazyLoading,
-
-        /// <summary>
-        /// Load all tabs using lazy loading. As soon as a tab is loaded, all other loaded tabs will be unloaded.
-        /// </summary>
-        LazyLoadingUnloadOthers,
-
-        /// <summary>
-        /// Load all tabs as soon as the tab control is loaded.
-        /// </summary>
-        EagerLoading,
-
-        /// <summary>
-        /// Load all tabs when any of the tabs is used for the first time.
-        /// </summary>
-        EagerLoadingOnFirstUse,
-    }
-
-    /// <summary>
-    /// Item data for a tab control item.
-    /// </summary>
-    public class TabControlItemData
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TabControlItemData" /> class.
-        /// </summary>
-        /// <param name="container">The container.</param>
-        /// <param name="content">The content.</param>
-        /// <param name="contentTemplate">The content template.</param>
-        /// <param name="item">The item.</param>
-        public TabControlItemData(object container, object content, DataTemplate contentTemplate, object item)
-        {
-            Container = container;
-            TabItem = container as TabItem;
-
-            if (TabItem != null)
-            {
-#pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
-                TabItem.Content = null;
-                TabItem.ContentTemplate = null;
-#pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
-            }
-
-            Content = content;
-            ContentTemplate = contentTemplate;
-            Item = item;
-        }
-
-        /// <summary>
-        /// Gets the container.
-        /// </summary>
-        /// <value>The container.</value>
-        public object Container { get; private set; }
-
-        /// <summary>
-        /// Gets the tab item.
-        /// </summary>
-        /// <value>The tab item.</value>
-        public TabItem TabItem { get; private set; }
-
-        /// <summary>
-        /// Gets the content.
-        /// </summary>
-        /// <value>The content.</value>
-        public object Content { get; private set; }
-
-        /// <summary>
-        /// Gets the content template.
-        /// </summary>
-        /// <value>The content.</value>
-        public DataTemplate ContentTemplate { get; private set; }
-
-        /// <summary>
-        /// The item from which it was generated.
-        /// </summary>
-        /// <value>The item.</value>
-        public object Item { get; private set; }
-    }
-
-    /// <summary>
     /// TabControl that will not remove the tab items from the visual tree. This way, views can be re-used.
     /// </summary>
     [TemplatePart(Name = "PART_ItemsHolder", Type = typeof(Panel))]
@@ -142,7 +55,7 @@ namespace Orc.Controls
             ItemContainerGenerator.StatusChanged += OnItemContainerGeneratorStatusChanged;
             Loaded += OnTabControlLoaded;
 
-            this.SubscribeToDependencyProperty("SelectedItem", OnSelectedItemChanged);
+            this.SubscribeToDependencyProperty(nameof(TabControl.SelectedItem), OnSelectedItemChanged);
         }
 
         /// <summary>
@@ -211,6 +124,29 @@ namespace Orc.Controls
             InitializeItems();
         }
 
+        /// <summary>
+        /// Eager loads the tab item at the specified index.
+        /// </summary>
+        /// <param name="index">the index of the tab item to load.</param>
+        public virtual void LoadTabItem(int index)
+        {
+            var child = _itemsHolder.Children[index] as ContentPresenter;
+            LoadTabItem(child);
+        }
+
+        /// <summary>
+        /// Eager loads the specified tab item.
+        /// </summary>
+        public virtual void LoadTabItem(ContentPresenter tabItem)
+        {
+            if (tabItem is null)
+            {
+                return;
+            }
+
+            EagerLoadTab(tabItem);
+        }
+
         private void OnLoadTabItemsChanged()
         {
             InitializeItems();
@@ -224,7 +160,7 @@ namespace Orc.Controls
         {
             base.OnItemsChanged(e);
 
-            if (_itemsHolder == null)
+            if (_itemsHolder is null)
             {
                 return;
             }
@@ -265,7 +201,7 @@ namespace Orc.Controls
 
         private void InitializeItems()
         {
-            if (_itemsHolder == null)
+            if (_itemsHolder is null)
             {
                 return;
             }
@@ -293,53 +229,63 @@ namespace Orc.Controls
         {
             foreach (ContentPresenter child in _itemsHolder.Children)
             {
-                var tabControlItemData = child.Tag as TabControlItemData;
-                var tabItem = tabControlItemData?.TabItem;
-                if (tabItem == null)
-                {
-                    continue;
-                }
+                InitializeTab(child);
+            }
+        }
 
-                ShowChildContent(child, tabControlItemData);
+        private void InitializeTab(ContentPresenter child)
+        {
+            var tabControlItemData = child.Tag as TabControlItemData;
+            var tabItem = tabControlItemData?.TabItem;
+            if (tabItem is null)
+            {
+                return;
+            }
 
-                // Collapsed is hidden + not loaded
+            ShowChildContent(child, tabControlItemData);
+
+            // Collapsed is hidden + not loaded
 #pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
-                child.Visibility = Visibility.Collapsed;
+            child.Visibility = Visibility.Collapsed;
 #pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
 
-                if (LoadTabItems == LoadTabItemsBehavior.EagerLoading)
-                {
-                    EagerLoadAllTabs();
-                }
+            if (LoadTabItems == LoadTabItemsBehavior.EagerLoading)
+            {
+                EagerLoadAllTabs();
             }
         }
 
         private void EagerLoadAllTabs()
         {
-            if (_itemsHolder == null)
+            if (_itemsHolder is null)
             {
                 return;
             }
 
             foreach (ContentPresenter child in _itemsHolder.Children)
             {
-                var tabControlItemData = child.Tag as TabControlItemData;
-                var tabItem = tabControlItemData?.TabItem;
-                if (tabItem != null)
-                {
-                    ShowChildContent(child, tabControlItemData);
-                }
-
-                // Always start invisible, the selection will take care of visibility
-#pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
-                child.Visibility = Visibility.Hidden;
-#pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
+                EagerLoadTab(child);
             }
+        }
+
+        private void EagerLoadTab(ContentPresenter child)
+        {
+            var tabControlItemData = child.Tag as TabControlItemData;
+            var tabItem = tabControlItemData?.TabItem;
+            if (tabItem != null)
+            {
+                ShowChildContent(child, tabControlItemData);
+            }
+
+            // Always start invisible, the selection will take care of visibility
+#pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
+            child.Visibility = Visibility.Hidden;
+#pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
         }
 
         private void UpdateItems()
         {
-            if (_itemsHolder == null)
+            if (_itemsHolder is null)
             {
                 return;
             }

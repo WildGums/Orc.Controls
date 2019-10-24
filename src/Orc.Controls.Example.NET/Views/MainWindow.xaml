@@ -136,16 +136,16 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
-        
-        <TabControl Grid.Row="1" Padding="10" 
-                TabStripPlacement="Left" 
-                Background="White" 
-                BorderBrush="{StaticResource TabControlNormalBorderBrush}">
+
+        <orccontrols:TabControl Grid.Row="1" Padding="10" 
+                                TabStripPlacement="Left" 
+                                Background="White" 
+                                BorderBrush="{StaticResource TabControlNormalBorderBrush}">
 
             <TabItem Header="AlignmentGrid">
                 <views:AlignmentGrid />
-            </TabItem>        
-            
+            </TabItem>
+
             <TabItem Header="AnimatedGif">
                 <views:AnimatedGif />
             </TabItem>
@@ -287,7 +287,6 @@
             </orc:StackGrid>
         </TabItem>-->
 
-        </TabControl>
-
+        </orccontrols:TabControl>
     </Grid>
 </catel:Window>

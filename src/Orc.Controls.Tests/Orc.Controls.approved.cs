@@ -1686,6 +1686,8 @@ namespace Orc.Controls
         public bool IsLazyLoading { get; }
         public Orc.Controls.LoadTabItemsBehavior LoadTabItems { get; set; }
         protected new System.Windows.Controls.TabItem GetSelectedTabItem() { }
+        public virtual void LoadTabItem(int index) { }
+        public virtual void LoadTabItem(System.Windows.Controls.ContentPresenter tabItem) { }
         public override void OnApplyTemplate() { }
         protected override void OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e) { }
     }
