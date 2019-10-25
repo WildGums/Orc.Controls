@@ -382,8 +382,9 @@ namespace Orc.Controls
         public string Name { get; }
         public object Value { get; set; }
     }
-    public abstract class ControlToolBase : Orc.Controls.IControlTool
+    public abstract class ControlToolBase : Catel.Data.ModelBase, Orc.Controls.IControlTool
     {
+        public static readonly Catel.Data.PropertyData IsOpenedProperty;
         protected object Target;
         protected ControlToolBase() { }
         public virtual bool IsEnabled { get; }
