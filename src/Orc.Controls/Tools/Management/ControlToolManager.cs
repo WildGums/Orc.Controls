@@ -12,6 +12,7 @@ namespace Orc.Controls.Tools
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Text.RegularExpressions;
     using System.Windows;
     using Attributes;
     using Catel;
@@ -192,7 +193,6 @@ namespace Orc.Controls.Tools
             var toolSettingsAttribute = Attribute.GetCustomAttribute(settingsProperty, typeof(ToolSettingsAttribute)) as ToolSettingsAttribute;
             var settingsStorage = toolSettingsAttribute.Storage;
             var appDataDirectory = Catel.IO.Path.GetApplicationDataDirectory();
-            var companyDirectory = Catel.IO.Path.GetParentDirectory(appDataDirectory);
             var fileName = settingsProperty.Name + ".xml";
 
             if (string.IsNullOrWhiteSpace(settingsStorage))
@@ -201,13 +201,11 @@ namespace Orc.Controls.Tools
             }
             else
             {
-                if (settingsStorage == "%AppData%" || settingsStorage == "%Company%")
-                {
-                    settingsStorage = Path.Combine(settingsStorage, tool.Name);
-                }
+                var companyDirectory = Catel.IO.Path.GetParentDirectory(appDataDirectory);
 
-                settingsStorage = settingsStorage.Replace("%AppData%", appDataDirectory);
-                settingsStorage = settingsStorage.Replace("%Company%", companyDirectory);
+                settingsStorage = Regex.Replace(settingsStorage, "%AppData%", appDataDirectory, RegexOptions.IgnoreCase);
+                settingsStorage = Regex.Replace(settingsStorage, "%Company%", companyDirectory, RegexOptions.IgnoreCase);
+                settingsStorage = Regex.Replace(settingsStorage, "%Name%", tool.Name, RegexOptions.IgnoreCase);
             }
 
             _directoryService.Create(settingsStorage);
