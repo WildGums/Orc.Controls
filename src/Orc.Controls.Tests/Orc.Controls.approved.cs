@@ -2096,11 +2096,20 @@ namespace Orc.Controls.Services
         public System.Threading.Tasks.Task<bool> DetermineDirectoryAsync() { }
     }
 }
+namespace Orc.Controls.Tools.Attributes
+{
+    [System.AttributeUsageAttribute(System.AttributeTargets.Property | System.AttributeTargets.All)]
+    public class ToolSettingsAttribute : System.Attribute
+    {
+        public ToolSettingsAttribute() { }
+        public string Storage { get; set; }
+    }
+}
 namespace Orc.Controls.Tools
 {
     public class ControlToolManager : Orc.Controls.Tools.IControlToolManager
     {
-        public ControlToolManager(System.Windows.FrameworkElement frameworkElement, Catel.IoC.ITypeFactory typeFactory) { }
+        public ControlToolManager(System.Windows.FrameworkElement frameworkElement, Catel.IoC.ITypeFactory typeFactory, Orc.FileSystem.IDirectoryService directoryService) { }
         public System.Collections.Generic.IList<Orc.Controls.IControlTool> Tools { get; }
         public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolAttached;
         public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolClosed;
@@ -2110,6 +2119,8 @@ namespace Orc.Controls.Tools
         public object AttachTool(System.Type toolType) { }
         public bool CanAttachTool(System.Type toolType) { }
         public bool DetachTool(System.Type toolType) { }
+        protected virtual void LoadSettings(Orc.Controls.IControlTool tool) { }
+        protected virtual void SaveSettings(Orc.Controls.IControlTool tool) { }
     }
     public class ControlToolManagerFactory : Orc.Controls.Tools.IControlToolManagerFactory
     {

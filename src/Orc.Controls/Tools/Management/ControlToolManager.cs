@@ -9,25 +9,33 @@ namespace Orc.Controls.Tools
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Windows;
+    using Attributes;
     using Catel;
     using Catel.IoC;
+    using Catel.Runtime.Serialization;
+    using FileSystem;
 
     public class ControlToolManager : IControlToolManager
     {
         #region Fields
         private readonly FrameworkElement _frameworkElement;
         private readonly ITypeFactory _typeFactory;
+        private readonly IDirectoryService _directoryService;
         #endregion
 
         #region Constructors
-        public ControlToolManager(FrameworkElement frameworkElement, ITypeFactory typeFactory)
+        public ControlToolManager(FrameworkElement frameworkElement, ITypeFactory typeFactory, IDirectoryService directoryService)
         {
             Argument.IsNotNull(() => typeFactory);
+            Argument.IsNotNull(() => directoryService);
 
             _frameworkElement = frameworkElement;
             _typeFactory = typeFactory;
+            _directoryService = directoryService;
         }
         #endregion
 
@@ -73,7 +81,7 @@ namespace Orc.Controls.Tools
             tool.Attach(_frameworkElement);
 
             tool.Opening += OnToolOpening;
-            tool.Opened += OnToolClosed;
+            tool.Opened += OnToolOpened;
             tool.Closed += OnToolClosed;
 
             ToolAttached?.Invoke(this, new ToolManagementEventArgs(tool));
@@ -91,7 +99,7 @@ namespace Orc.Controls.Tools
             }
 
             tool.Opening -= OnToolOpening;
-            tool.Opened -= OnToolClosed;
+            tool.Opened -= OnToolOpened;
             tool.Closed -= OnToolClosed;
 
             tool.Close();
@@ -108,17 +116,102 @@ namespace Orc.Controls.Tools
         #region Methods
         private void OnToolClosed(object sender, EventArgs e)
         {
-            ToolClosed?.Invoke(this, new ToolManagementEventArgs(sender as IControlTool));
+            if (!(sender is IControlTool tool))
+            {
+                return;
+            }
+
+            SaveSettings(tool);
+            ToolClosed?.Invoke(this, new ToolManagementEventArgs(tool));
         }
 
         private void OnToolOpening(object sender, EventArgs e)
         {
-            ToolOpening?.Invoke(this, new ToolManagementEventArgs(sender as IControlTool));
+            if (!(sender is IControlTool tool))
+            {
+                return;
+            }
+
+            LoadSettings(tool);
+            ToolOpening?.Invoke(this, new ToolManagementEventArgs(tool));
         }
 
         private void OnToolOpened(object sender, EventArgs e)
         {
             ToolOpened?.Invoke(this, new ToolManagementEventArgs(sender as IControlTool));
+        }
+
+        protected virtual void LoadSettings(IControlTool tool)
+        {
+            var settingsProperties = tool.GetType()
+                .GetProperties()
+                .Where(prop => Attribute.IsDefined(prop, typeof(ToolSettingsAttribute)));
+
+            foreach (var settingsProperty in settingsProperties)
+            {
+                var settingsFilePath = GetSettingsFilePath(tool, settingsProperty);
+                if (!File.Exists(settingsFilePath))
+                {
+                    continue;
+                }
+
+                var serializer = SerializationFactory.GetXmlSerializer();
+                using (var fileStream = File.Open(settingsFilePath, FileMode.Open))
+                {
+                    var settings = serializer.Deserialize(settingsProperty.PropertyType, fileStream);
+                    settingsProperty.SetValue(tool, settings);
+                }
+            }
+        }
+
+        protected virtual void SaveSettings(IControlTool tool)
+        {
+            var settingsProperties = tool.GetType()
+                .GetProperties()
+                .Where(prop => Attribute.IsDefined(prop, typeof(ToolSettingsAttribute)));
+
+            foreach (var settingsProperty in settingsProperties)
+            {
+                var settings = settingsProperty.GetValue(tool);
+                if (settings is null)
+                {
+                    continue;
+                }
+
+                var serializer = SerializationFactory.GetXmlSerializer();
+                var settingsFilePath = GetSettingsFilePath(tool, settingsProperty);
+                using (var fileStream = File.Open(settingsFilePath, FileMode.Create))
+                {
+                    serializer.Serialize(settings, fileStream);
+                }
+            }
+        }
+
+        private string GetSettingsFilePath(IControlTool tool, PropertyInfo settingsProperty)
+        {
+            var toolSettingsAttribute = Attribute.GetCustomAttribute(settingsProperty, typeof(ToolSettingsAttribute)) as ToolSettingsAttribute;
+            var settingsStorage = toolSettingsAttribute.Storage;
+            var appDataDirectory = Catel.IO.Path.GetApplicationDataDirectory();
+            var companyDirectory = Catel.IO.Path.GetParentDirectory(appDataDirectory);
+            var fileName = settingsProperty.Name + ".xml";
+
+            if (string.IsNullOrWhiteSpace(settingsStorage))
+            {
+                settingsStorage = Path.Combine(appDataDirectory, tool.Name);
+            }
+            else
+            {
+                if (settingsStorage == "%AppData%" || settingsStorage == "%Company%")
+                {
+                    settingsStorage = Path.Combine(settingsStorage, tool.Name);
+                }
+
+                settingsStorage = settingsStorage.Replace("%AppData%", appDataDirectory);
+                settingsStorage = settingsStorage.Replace("%Company%", companyDirectory);
+            }
+
+            _directoryService.Create(settingsStorage);
+            return Path.Combine(settingsStorage, fileName);
         }
 
         private void OnFrameworkElementUnloaded(object sender, RoutedEventArgs e)
