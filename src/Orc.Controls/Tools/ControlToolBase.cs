@@ -8,8 +8,9 @@
 namespace Orc.Controls
 {
     using System;
+    using Catel.Data;
 
-    public abstract class ControlToolBase : IControlTool
+    public abstract class ControlToolBase : ModelBase, IControlTool
     {
         #region Fields
         protected object Target;
