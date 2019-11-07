@@ -494,16 +494,51 @@ namespace Orc.Controls
 
         private void ApplyFormat()
         {
-            _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format);
+            var format = Format;
+            _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(format);
+            var hasLongTimeFormat = !(_formatInfo.HourFormat is null
+                                   || _formatInfo.MinuteFormat is null
+                                   || _formatInfo.SecondFormat is null);
+
+            var hasAnyTimeFormat = !(_formatInfo.HourFormat is null
+                               && _formatInfo.MinuteFormat is null
+                               && _formatInfo.SecondFormat is null);
+
+
+            if (!hasAnyTimeFormat)
+            {
+                HideTime = true;
+            }
+
+            if (hasAnyTimeFormat && !hasLongTimeFormat)
+            {
+                var timePattern = DateTimeFormatHelper.ExtractTimePatternFromFormat(format);
+                if (!string.IsNullOrEmpty(timePattern))
+                {
+                    timePattern = DateTimeFormatHelper.FindMatchedLongTimePattern(CultureInfo.CurrentUICulture, timePattern);
+                }
+
+                if (string.IsNullOrEmpty(timePattern))
+                {
+                    timePattern = CultureInfo.CurrentUICulture.DateTimeFormat.LongTimePattern;
+                }
+
+                var datePattern = DateTimeFormatHelper.ExtractDatePatternFromFormat(format);
+                
+                format = $"{datePattern} {timePattern}";
+
+                _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(format);
+            }
 
             IsYearShortFormat = _formatInfo.IsYearShortFormat;
             NumericTBYear.SetCurrentValue(NumericTextBox.MinValueProperty, (double)(_formatInfo.IsYearShortFormat ? 0 : 1));
             NumericTBYear.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)(_formatInfo.IsYearShortFormat ? 99 : 3000));
 
-            IsHour12Format = _formatInfo.IsHour12Format.Value;
-            NumericTBHour.SetCurrentValue(NumericTextBox.MinValueProperty, (double)(_formatInfo.IsHour12Format.Value ? 1 : 0));
-            NumericTBHour.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)(_formatInfo.IsHour12Format.Value ? 12 : 23));
-            ToggleButtonH.SetCurrentValue(TagProperty, _formatInfo.IsHour12Format.Value ? DateTimePart.Hour12 : DateTimePart.Hour);
+            var isHour12Format = _formatInfo.IsHour12Format??true;
+            IsHour12Format = isHour12Format;
+            NumericTBHour.SetCurrentValue(NumericTextBox.MinValueProperty, (double)(isHour12Format ? 1 : 0));
+            NumericTBHour.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)(isHour12Format ? 12 : 23));
+            ToggleButtonH.SetCurrentValue(TagProperty, isHour12Format ? DateTimePart.Hour12 : DateTimePart.Hour);
 
             IsAmPmShortFormat = _formatInfo.IsAmPmShortFormat.Value;
 

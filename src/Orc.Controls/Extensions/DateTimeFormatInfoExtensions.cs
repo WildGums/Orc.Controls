@@ -8,6 +8,7 @@
 namespace Orc.Controls
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Catel;
     using Catel.Logging;
@@ -19,26 +20,38 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-        public static bool IsCorrect(this DateTimeFormatInfo formatInfo, bool isDateOnly, out string errorMessage)
+        public static bool IsCorrect(this DateTimeFormatInfo formatInfo, bool isDateRequired, bool isTimeAllowed, out string errorMessage)
         {
             Argument.IsNotNull(() => formatInfo);
 
             errorMessage = string.Empty;
+            var missingFields = new List<string>();
 
-            if (isDateOnly && (formatInfo.DayFormat == null || formatInfo.MonthFormat == null || formatInfo.YearFormat == null))
+            if (isDateRequired && (formatInfo.DayFormat is null || formatInfo.MonthFormat is null || formatInfo.YearFormat is null))
             {
-                errorMessage = "Format string is incorrect. Day, month and year fields are mandatory";
-                return false;
+                missingFields.AddRange(new[]
+                {
+                    "day",
+                    "month",
+                    "year"
+                });
             }
 
-            if (!isDateOnly && (formatInfo.DayFormat == null
-                                || formatInfo.MonthFormat == null
-                                || formatInfo.YearFormat == null
-                                || formatInfo.HourFormat == null
-                                || formatInfo.MinuteFormat == null
-                                || formatInfo.SecondFormat == null))
+            if (!isTimeAllowed && !(formatInfo.HourFormat is null
+                                   || formatInfo.MinuteFormat is null
+                                   || formatInfo.SecondFormat is null))
             {
-                errorMessage = "Format string is incorrect. Day, month, year, hour, minute and second fields are mandatory";
+                missingFields.AddRange(new[]
+                {
+                    "hour",
+                    "minute",
+                    "second"
+                });
+            }
+
+            if (missingFields.Any())
+            {
+                errorMessage = "Format string is incorrect. Missing required fields: " + string.Join(", ", missingFields);
                 return false;
             }
 

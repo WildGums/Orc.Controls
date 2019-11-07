@@ -15,8 +15,17 @@ namespace Orc.Controls
 
     public static class DateTimeFormatHelper
     {
-        #region Fields
+        #region Constants
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
+        private static readonly HashSet<char> TimeFormatChars = new HashSet<char>
+        {
+            'h',
+            'm',
+            's',
+            't',
+            'H'
+        };
         #endregion
 
         #region Methods
@@ -30,9 +39,9 @@ namespace Orc.Controls
             {
                 if (c != prev)
                 {
-                    if ((formatCharacters.Contains(c) && (prev.HasValue && formatCharacters.Contains(prev.Value)))
-                        || (formatCharacters.Contains(c) && (prev.HasValue && !formatCharacters.Contains(prev.Value)))
-                        || (!formatCharacters.Contains(c) && (prev.HasValue && formatCharacters.Contains(prev.Value))))
+                    if (formatCharacters.Contains(c) && prev.HasValue && formatCharacters.Contains(prev.Value)
+                        || formatCharacters.Contains(c) && prev.HasValue && !formatCharacters.Contains(prev.Value)
+                        || !formatCharacters.Contains(c) && prev.HasValue && formatCharacters.Contains(prev.Value))
                     {
                         if (part != null)
                         {
@@ -64,7 +73,7 @@ namespace Orc.Controls
             }
 
             var result = new DateTimeFormatInfo();
-            var parts = Split(format, new[] { 'y', 'M', 'd', 'H', 'h', 'm', 's', 't' });
+            var parts = Split(format, new[] {'y', 'M', 'd', 'H', 'h', 'm', 's', 't'});
 
             var current = 0;
             var count = 0;
@@ -81,7 +90,7 @@ namespace Orc.Controls
                 current = result.FormatPart(part, current, isDateOnly);
             }
 
-            if (!result.IsCorrect(isDateOnly, out var errorMessage))
+            if (!result.IsCorrect(true, !isDateOnly, out var errorMessage))
             {
                 throw Log.ErrorAndCreateException<FormatException>(errorMessage);
             }
@@ -94,6 +103,53 @@ namespace Orc.Controls
             result.MaxPosition = current - 1;
 
             return result;
+        }
+
+        public static string FindMatchedLongTimePattern(CultureInfo cultureInfo, string timePattern)
+        {
+            var timeChars = new HashSet<char>(timePattern.Where(x => TimeFormatChars.Contains(x)));
+            timeChars.Add('s');
+
+            var patterns = cultureInfo.DateTimeFormat.GetAllDateTimePatterns()
+                .Select(ExtractTimePatternFromFormat).Distinct()
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Where(x => x.Contains('s'))
+                .Select(x => new {Pattern = x, MatchesCount = x.Count(y => timeChars.Contains(y))})
+                .OrderByDescending(x => x.MatchesCount).Select(x => x.Pattern);
+
+            var result = patterns.FirstOrDefault() ?? string.Empty;
+
+            return result;
+        }
+
+        public static string ExtractTimePatternFromFormat(string format)
+        {
+            var timeCharPositions = format.Select((x, i) => new {Char = x, Position = i})
+                .Where(x => TimeFormatChars.Contains(x.Char)).GroupBy(x => x.Char)
+                .ToDictionary(x => x.Key, x => x.Min(y => y.Position));
+
+            if (timeCharPositions.Any())
+            {
+                var timePosition = timeCharPositions.Values.Min();
+                return format.Substring(timePosition).Trim();
+            }
+
+            return string.Empty;
+        }
+
+        public static string ExtractDatePatternFromFormat(string format)
+        {
+            var timeCharPositions = format.Select((x, i) => new { Char = x, Position = i })
+                .Where(x => TimeFormatChars.Contains(x.Char)).GroupBy(x => x.Char)
+                .ToDictionary(x => x.Key, x => x.Min(y => y.Position));
+
+            if (timeCharPositions.Any())
+            {
+                var timePosition = timeCharPositions.Values.Min();
+                return format.Substring(0, timePosition).Trim();
+            }
+
+            return string.Empty;
         }
         #endregion
     }
