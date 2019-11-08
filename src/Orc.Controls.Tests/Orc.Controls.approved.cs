@@ -512,6 +512,9 @@ namespace Orc.Controls
     }
     public class static DateTimeFormatHelper
     {
+        public static string ExtractDatePatternFromFormat(string format) { }
+        public static string ExtractTimePatternFromFormat(string format) { }
+        public static string FindMatchedLongTimePattern(System.Globalization.CultureInfo cultureInfo, string timePattern) { }
         public static Orc.Controls.DateTimeFormatInfo GetDateTimeFormatInfo(string format, bool isDateOnly = False) { }
         public static string[] Split(string format, char[] formatCharacters) { }
     }

@@ -291,7 +291,7 @@ namespace Orc.Controls
             {
                 ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true), x =>
                 {
-                    return string.Equals(x.Message, "Format string is incorrect. Day, month and year fields are mandatory");
+                    return string.Equals(x.Message, "Format string is incorrect. Missing required fields: day, month, year");
                 });
             }
 
