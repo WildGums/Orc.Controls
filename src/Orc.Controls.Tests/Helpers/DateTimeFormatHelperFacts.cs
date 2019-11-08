@@ -450,20 +450,6 @@ namespace Orc.Controls
                 });
             }
 
-            [TestCase("yyyy-MM HH:mm:ss")]
-            [TestCase("MM-dd HH:mm:ss")]
-            [TestCase("yyyy-dd HH:mm:ss")]
-            [TestCase("yyyy-MM-dd mm:ss")]
-            [TestCase("yyyy-MM-dd HH:ss")]
-            [TestCase("yyyy-MM-dd HH:mm")]
-            public void ThrowsFormatExceptionForDateTimeFormatWhenMissingYearOrMonthOrDayOrHourOrMinuteOrSecondPart(string format)
-            {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Day, month, year, hour, minute and second fields are mandatory");
-                });
-            }
-
             private bool AreEqual(DateTimeFormatInfo info1, DateTimeFormatInfo info2)
             {
                 return (
