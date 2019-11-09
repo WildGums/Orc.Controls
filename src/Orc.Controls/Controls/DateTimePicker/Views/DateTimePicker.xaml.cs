@@ -33,6 +33,8 @@ namespace Orc.Controls
 
         private DateTimePart _activeDateTimePart;
         private DateTimeFormatInfo _formatInfo;
+        private bool _hideTime;
+        private bool _applyingFormat;
         #endregion
 
         #region Constructors
@@ -453,9 +455,6 @@ namespace Orc.Controls
             base.OnUnloaded(e);
             UnsubscribeNumericTextBoxes();
         }
-
-        private bool _hideTime;
-        private bool _applyingFormat;
 
         private void OnFormatChanged()
         {
