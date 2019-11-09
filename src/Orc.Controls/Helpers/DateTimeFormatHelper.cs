@@ -149,7 +149,7 @@ namespace Orc.Controls
                 return format.Substring(0, timePosition).Trim();
             }
 
-            return string.Empty;
+            return format;
         }
         #endregion
     }

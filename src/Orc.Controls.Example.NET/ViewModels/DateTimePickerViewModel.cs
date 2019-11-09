@@ -53,6 +53,23 @@ namespace Orc.Controls.Example.ViewModels
                     };
 
                     AvailableFormats.Add(format);
+
+                    format = new CultureFormat
+                    {
+                        CultureCode = $"[{cultureInfo.IetfLanguageTag}]",
+                        FormatValue = cultureInfo.DateTimeFormat.ShortDatePattern
+                    };
+
+                    AvailableFormats.Add(format);
+
+                    format = new CultureFormat
+                    {
+                        CultureCode = $"[{cultureInfo.IetfLanguageTag}]",
+                        FormatValue = cultureInfo.DateTimeFormat.ShortDatePattern + " " + cultureInfo.DateTimeFormat.ShortTimePattern
+                    };
+
+                    AvailableFormats.Add(format);
+
                     if (cultureInfo.Equals(CultureInfo.CurrentCulture))
                     {
                         SelectedFormat = format;
