@@ -41,7 +41,7 @@
     </PackageReference>
     <PackageReference Include="MethodTimer.Fody" Version="3.1.2" PrivateAssets="all" />
     <PackageReference Include="ModuleInit.Fody" Version="2.1.0" PrivateAssets="all" />
-    <PackageReference Include="Obsolete.Fody" Version="5.1.0" PrivateAssets="all" />
+    <PackageReference Include="Obsolete.Fody" Version="5.2.0" PrivateAssets="all" />
     <PackageReference Include="Orc.FileSystem" Version="3.1.2" />
     <PackageReference Include="WindowsAPICodePack-Core" Version="1.1.2" PrivateAssets="all" />
     <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" PrivateAssets="all" />
