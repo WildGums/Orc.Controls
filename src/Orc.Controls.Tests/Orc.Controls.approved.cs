@@ -1357,10 +1357,14 @@ namespace Orc.Controls
     }
     public class MediaElementThreadInfo : Catel.Disposable
     {
-        public MediaElementThreadInfo(System.Windows.Media.HostVisual hostVisual, System.Threading.Thread thread) { }
+        public MediaElementThreadInfo(System.Windows.Media.HostVisual hostVisual, System.Func<System.Windows.Media.Visual> createVisual, System.Threading.Thread thread) { }
+        public System.Func<System.Windows.Media.Visual> CreateVisual { get; }
+        public System.Windows.Threading.Dispatcher Dispatcher { get; }
         public System.Windows.Media.HostVisual HostVisual { get; }
+        public int Id { get; }
         public System.Threading.Thread Thread { get; }
         protected override void DisposeManaged() { }
+        public void UpdateDispatcher(System.Windows.Threading.Dispatcher dispatcher) { }
     }
     [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
     public class MsSqlDataSourceProvider : Orc.Controls.IDataSourceProvider
