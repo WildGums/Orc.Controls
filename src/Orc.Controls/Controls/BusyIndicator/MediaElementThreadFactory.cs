@@ -14,6 +14,7 @@ namespace Orc.Controls
     using System.Windows.Media;
     using System.Windows.Threading;
     using Catel;
+    using Catel.Logging;
 
     /// <summary>
     /// Factory that allows the creation of media elements on a worker thread.
@@ -21,6 +22,8 @@ namespace Orc.Controls
     public static class MediaElementThreadFactory
     {
         #region Constants
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
         private static readonly AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
         #endregion
 
@@ -35,35 +38,43 @@ namespace Orc.Controls
         {
             Argument.IsNotNull("createVisual", createVisual);
 
-            var visual = new HostVisual();
-
             var thread = new Thread(WorkerThread);
 
             thread.SetApartmentState(ApartmentState.STA);
             thread.IsBackground = true;
-            thread.Start(new object[] {visual, createVisual});
 
+            var mediaElementThreadInfo = new MediaElementThreadInfo(new HostVisual(), createVisual, thread);
+
+            thread.Start(mediaElementThreadInfo);
+
+            // Wait for the element to be created by the thread
             AutoResetEvent.WaitOne();
 
-            return new MediaElementThreadInfo(visual, thread);
+            return mediaElementThreadInfo;
         }
 
         private static void WorkerThread(object arg)
         {
             try
             {
-                var objects = (object[])arg;
+                var mediaElementThreadInfo = (MediaElementThreadInfo)arg;
 
-                var hostVisual = (HostVisual)objects[0];
-                var createVisual = (Func<Visual>)objects[1];
+                var hostVisual = mediaElementThreadInfo.HostVisual;
+                var createVisual = mediaElementThreadInfo.CreateVisual;
 
                 var indeterminateSource = new VisualTargetPresentationSource(hostVisual);
-
-                AutoResetEvent.Set();
-
                 indeterminateSource.RootVisual = createVisual();
 
+                // The visual has been created, signal the creator of this thread
+                AutoResetEvent.Set();
+
+                var dispatcher = Dispatcher.CurrentDispatcher;
+
+                mediaElementThreadInfo.UpdateDispatcher(dispatcher);
+
                 Dispatcher.Run();
+
+                Log.Debug($"[{mediaElementThreadInfo.Id}] Dispatcher has shut down, exiting worker thread");
             }
             catch
             {
