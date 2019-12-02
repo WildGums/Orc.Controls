@@ -17,12 +17,15 @@ namespace Orc.Controls.Tools
     using Attributes;
     using Catel;
     using Catel.IoC;
+    using Catel.Logging;
     using Catel.Runtime.Serialization;
     using FileSystem;
 
     public class ControlToolManager : IControlToolManager
     {
         #region Fields
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
         private readonly FrameworkElement _frameworkElement;
         private readonly ITypeFactory _typeFactory;
         private readonly IDirectoryService _directoryService;
@@ -159,8 +162,16 @@ namespace Orc.Controls.Tools
                 var serializer = SerializationFactory.GetXmlSerializer();
                 using (var fileStream = File.Open(settingsFilePath, FileMode.Open))
                 {
-                    var settings = serializer.Deserialize(settingsProperty.PropertyType, fileStream);
-                    settingsProperty.SetValue(tool, settings);
+                    try
+                    {
+                        var settings = serializer.Deserialize(settingsProperty.PropertyType, fileStream);
+                        settingsProperty.SetValue(tool, settings);
+                    }
+                    catch (Exception e)
+                    {
+                        //Vladimir:Don't crash if something went wrong while loading file
+                        Log.Error(e);
+                    }
                 }
             }
         }
@@ -183,7 +194,15 @@ namespace Orc.Controls.Tools
                 var settingsFilePath = GetSettingsFilePath(tool, settingsProperty);
                 using (var fileStream = File.Open(settingsFilePath, FileMode.Create))
                 {
-                    serializer.Serialize(settings, fileStream);
+                    try
+                    {
+                        serializer.Serialize(settings, fileStream);   
+                    }
+                    catch (Exception e)
+                    {
+                        //Vladimir:Don't crash if something went wrong while saving tool settings into file
+                        Log.Error(e);
+                    }
                 }
             }
         }
