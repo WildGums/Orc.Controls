@@ -164,11 +164,7 @@
             </TabItem>
 
             <TabItem Header="ColorPicker">
-                <views:ColorPicker>
-                    <views:ColorPicker.Resources>
-                        <Style TargetType="{x:Type TabItem}"/>
-                    </views:ColorPicker.Resources>
-                </views:ColorPicker>
+                <views:ColorPicker/>
             </TabItem>
 
             <TabItem Header="ConnectionStringBuilder">
