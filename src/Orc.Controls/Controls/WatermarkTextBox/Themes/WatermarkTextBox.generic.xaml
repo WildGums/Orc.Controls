@@ -9,15 +9,15 @@
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="TextBox_MouseOver" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Offset="0.05" Color="#5794BF" />
-        <GradientStop Offset="0.07" Color="#B7D5EA" />
-        <GradientStop Offset="1" Color="#C7E2F1" />
+        <GradientStop Offset="0.05" Color="{controls:ThemeColor ThemeColorStyle=BorderMouseOver}" />
+        <GradientStop Offset="0.07" Color="{controls:ThemeColor ThemeColorStyle=AccentColor2}" />
+        <GradientStop Offset="1" Color="{controls:ThemeColor ThemeColorStyle=AccentColor3}" />
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="TextBox_Focused" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Offset="0.05" Color="#3D7BAD" />
-        <GradientStop Offset="0.07" Color="#A4C9E3" />
-        <GradientStop Offset="1" Color="#B7D9ED" />
+        <GradientStop Offset="0.05" Color="{controls:ThemeColor ThemeColorStyle=BorderSelected}" />
+        <GradientStop Offset="0.07" Color="{controls:ThemeColor ThemeColorStyle=AccentColor2}" />
+        <GradientStop Offset="1" Color="{controls:ThemeColor ThemeColorStyle=AccentColor3}" />
     </LinearGradientBrush>
 
     <SolidColorBrush x:Key="TextBox_DisabledBorder" Color="#ADB2B5" />

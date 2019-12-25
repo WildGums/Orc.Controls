@@ -37,7 +37,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Simple watermark" VerticalAlignment="Top" />
+        <TextBlock Text="Simple watermark"/>
         <orccontrols:WatermarkTextBox Watermark="Textbox with Watermark" />
 
         <TextBlock Text="First Name:" />
