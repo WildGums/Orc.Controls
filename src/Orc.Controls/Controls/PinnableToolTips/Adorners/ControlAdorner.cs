@@ -82,7 +82,7 @@ namespace Orc.Controls
 
             PropertyHelper.TryGetPropertyValue(c, nameof(PinnableToolTip.HorizontalOffset), out double childHorizontalOffset);
             PropertyHelper.TryGetPropertyValue(c, nameof(PinnableToolTip.VerticalOffset), out double childVerticalOffset);
-             
+
             Offset = new Point(childHorizontalOffset, childVerticalOffset);
 
             Rect rect;

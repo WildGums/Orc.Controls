@@ -16,6 +16,7 @@ namespace Orc.Controls
     using Catel.Collections;
     using Catel.Data;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use SqlConnectionString from Orc.DataAccess library instead")]
     public class SqlConnectionString : ModelBase
     {
         #region Fields
@@ -50,16 +51,16 @@ namespace Orc.Controls
                 return;
             }
 
-            var sensitiveProperties = TypeDescriptor.GetProperties(_connectionStringBuilder, new Attribute[] {PasswordPropertyTextAttribute.Yes})
+            var sensitiveProperties = TypeDescriptor.GetProperties(_connectionStringBuilder, new Attribute[] { PasswordPropertyTextAttribute.Yes })
                 .OfType<PropertyDescriptor>()
                 .Select(x => x.DisplayName.ToUpperInvariant());
 
             var sensitivePropertiesHashSet = new HashSet<string>();
             sensitivePropertiesHashSet.AddRange(sensitiveProperties);
 
-            
+
             var propDescriptor = _connectionStringBuilder as ICustomTypeDescriptor;
-            var props = propDescriptor.GetProperties().OfType<PropertyDescriptor>().Where(x => x.GetType().Name =="DbConnectionStringBuilderDescriptor").ToList();
+            var props = propDescriptor.GetProperties().OfType<PropertyDescriptor>().Where(x => x.GetType().Name == "DbConnectionStringBuilderDescriptor").ToList();
 
             Properties = props
                 .ToDictionary(x => x.DisplayName.ToUpperInvariant(), x =>

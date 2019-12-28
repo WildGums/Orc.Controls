@@ -21,18 +21,28 @@
     <!-- SonarQube requires a project guid -->
     <ProjectGuid>84E22240-D816-4B43-AC37-92B805A2BEE3</ProjectGuid>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Controls\AlignmentGrid\Themes\AlignmentGrid.generic.xaml" />
+    <None Remove="Controls\AnimatingTextBlock\Themes\AnimatingTextBlock.generic.xaml" />
+    <None Remove="Controls\BusyIndicator\BusyIndicator.xaml" />
+    <None Remove="Controls\BusyIndicator\Themes\BusyIndicator.generic.xaml" />
+    <None Remove="Controls\FluidProgressBar\FluidProgressBar.xaml" />
+    <None Remove="Controls\FluidProgressBar\Themes\FluidProgressBar.generic.xaml" />
+  </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Catel.Fody" Version="3.9.0" PrivateAssets="all" />
-    <PackageReference Include="Catel.MVVM" Version="5.10.0" />
-    <PackageReference Include="Costura.Fody" Version="3.3.3" PrivateAssets="all" />
-    <PackageReference Include="Fody" Version="4.2.1" PrivateAssets="all">
+    <PackageReference Include="Catel.Analyzers" Version="1.0.0" PrivateAssets="all" />
+    <PackageReference Include="Catel.Fody" Version="4.3.0" PrivateAssets="all" />
+    <PackageReference Include="Catel.MVVM" Version="5.12.0" />
+    <PackageReference Include="Costura.Fody" Version="4.1.0" PrivateAssets="all" />
+    <PackageReference Include="Fody" Version="6.0.5" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="MethodTimer.Fody" Version="2.3.3" PrivateAssets="all" />
-    <PackageReference Include="ModuleInit.Fody" Version="1.9.0" PrivateAssets="all" />
-    <PackageReference Include="Obsolete.Fody" Version="4.4.3" PrivateAssets="all" />
-    <PackageReference Include="Orc.FileSystem" Version="3.1.0" />
+    <PackageReference Include="MethodTimer.Fody" Version="3.1.2" PrivateAssets="all" />
+    <PackageReference Include="ModuleInit.Fody" Version="2.1.0" PrivateAssets="all" />
+    <PackageReference Include="Obsolete.Fody" Version="5.2.0" PrivateAssets="all" />
+    <PackageReference Include="Orc.FileSystem" Version="3.1.2" />
     <PackageReference Include="WindowsAPICodePack-Core" Version="1.1.2" PrivateAssets="all" />
     <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" PrivateAssets="all" />
   </ItemGroup>
@@ -54,6 +64,12 @@
 
   <ItemGroup>
     <PackageReference Update="NETStandard.Library" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\FluidProgressBar\Themes\FluidProgressBar.generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props')" />

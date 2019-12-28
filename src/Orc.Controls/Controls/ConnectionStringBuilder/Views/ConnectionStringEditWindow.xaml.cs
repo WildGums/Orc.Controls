@@ -9,6 +9,7 @@ namespace Orc.Controls
 {
     using System;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use ConnectionStringEditWindow from Orc.DataAccess.Xaml library instead")]
     public sealed partial class ConnectionStringEditWindow
     {
         #region Constructors

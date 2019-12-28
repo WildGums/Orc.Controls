@@ -10,6 +10,7 @@ namespace Orc.Controls
     using System.Windows;
     using Catel.MVVM.Views;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use DbProviderPicker from Orc.DataAccess.Xaml library instead")]
     public sealed partial class DbProviderPicker
     {
         #region Constants

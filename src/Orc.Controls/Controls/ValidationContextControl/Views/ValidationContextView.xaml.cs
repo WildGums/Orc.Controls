@@ -28,23 +28,23 @@ namespace Orc.Controls
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public IValidationContext ValidationContext
         {
-            get { return (IValidationContext) GetValue(ValidationContextProperty); }
+            get { return (IValidationContext)GetValue(ValidationContextProperty); }
             set { SetValue(ValidationContextProperty, value); }
         }
 
         public static readonly DependencyProperty ValidationContextProperty = DependencyProperty.Register(
-            "ValidationContext", typeof (IValidationContext), typeof (ValidationContextView), new PropertyMetadata(null));
+            "ValidationContext", typeof(IValidationContext), typeof(ValidationContextView), new PropertyMetadata(null));
 
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowFilterBox
         {
-            get { return (bool) GetValue(ShowFilterBoxProperty); }
+            get { return (bool)GetValue(ShowFilterBoxProperty); }
             set { SetValue(ShowFilterBoxProperty, value); }
         }
 
         public static readonly DependencyProperty ShowFilterBoxProperty = DependencyProperty.Register(
-            "ShowFilterBox", typeof (bool), typeof (ValidationContextView), new PropertyMetadata(true));
+            "ShowFilterBox", typeof(bool), typeof(ValidationContextView), new PropertyMetadata(true));
 
 
         [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
@@ -66,13 +66,13 @@ namespace Orc.Controls
             set { SetValue(ShowButtonsProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowButtonsProperty = DependencyProperty.Register("ShowButtons", 
-            typeof(bool), typeof(ValidationContextView), new PropertyMetadata(true));        
+        public static readonly DependencyProperty ShowButtonsProperty = DependencyProperty.Register("ShowButtons",
+            typeof(bool), typeof(ValidationContextView), new PropertyMetadata(true));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool IsExpandedAllOnStartup
         {
-            get { return (bool) GetValue(IsExpandedAllOnStartupProperty); }
+            get { return (bool)GetValue(IsExpandedAllOnStartupProperty); }
             set { SetValue(IsExpandedAllOnStartupProperty, value); }
         }
 

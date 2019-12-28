@@ -211,7 +211,7 @@ namespace Orc.Controls
             set { SetValue(ShowMultilineMessagesExpandedProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowMultilineMessagesExpandedProperty = DependencyProperty.Register(nameof(ShowMultilineMessagesExpanded), 
+        public static readonly DependencyProperty ShowMultilineMessagesExpandedProperty = DependencyProperty.Register(nameof(ShowMultilineMessagesExpanded),
             typeof(bool), typeof(LogViewerControl),
             new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((LogViewerControl)sender).UpdateControl()));
 
@@ -414,7 +414,7 @@ namespace Orc.Controls
         private void ClearScreen()
         {
             var rtb = LogRecordsRichTextBox;
-            
+
             rtb.Document = CreateFlowDocument();
             var oldDoc = rtb.Document;
             if (oldDoc == null)

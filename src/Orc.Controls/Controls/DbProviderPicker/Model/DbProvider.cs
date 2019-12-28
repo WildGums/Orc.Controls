@@ -7,6 +7,7 @@
 
 namespace Orc.Controls
 {
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use DbProviderInfo from Orc.DataAccess library instead")]
     public class DbProvider
     {
         #region Properties

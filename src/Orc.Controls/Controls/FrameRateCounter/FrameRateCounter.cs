@@ -44,7 +44,7 @@ namespace Orc.Controls
         /// <value>The prefix.</value>
         public string Prefix
         {
-            get { return (string) GetValue(PrefixProperty); }
+            get { return (string)GetValue(PrefixProperty); }
             set { SetValue(PrefixProperty, value); }
         }
 

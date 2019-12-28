@@ -23,14 +23,14 @@ namespace Orc.Controls
         /// <returns>The <see cref="double" />.</returns>
         public static double GetHSB_B(Color color)
         {
-            double r = color.R/255d;
-            double g = color.G/255d;
-            double b = color.B/255d;
+            double r = color.R / 255d;
+            double g = color.G / 255d;
+            double b = color.B / 255d;
 
             double max = Math.Max(r, Math.Max(g, b));
             double min = Math.Min(r, Math.Min(g, b));
 
-            return (max + min)/2d;
+            return (max + min) / 2d;
         }
 
         /// <summary>
@@ -50,9 +50,9 @@ namespace Orc.Controls
         /// <returns>The <see cref="double" />.</returns>
         public static double GetHSB_S(Color color)
         {
-            double r = color.R/255d;
-            double g = color.G/255d;
-            double b = color.B/255d;
+            double r = color.R / 255d;
+            double g = color.G / 255d;
+            double b = color.B / 255d;
 
             double max = Math.Max(r, Math.Max(g, b));
             double min = Math.Min(r, Math.Min(g, b));
@@ -61,14 +61,14 @@ namespace Orc.Controls
                 return 0f;
             }
 
-            double brightness = (max + min)/2d;
+            double brightness = (max + min) / 2d;
             if (brightness <= 0.5)
             {
-                return (max - min)/(max + min);
+                return (max - min) / (max + min);
             }
             else
             {
-                return (max - min)/(2d - max - min);
+                return (max - min) / (2d - max - min);
             }
         }
 
@@ -89,9 +89,9 @@ namespace Orc.Controls
         /// <returns>The <see cref="double" />.</returns>
         public static double GetHSV_S(Color color)
         {
-            double r = color.R/255d;
-            double g = color.G/255d;
-            double b = color.B/255d;
+            double r = color.R / 255d;
+            double g = color.G / 255d;
+            double b = color.B / 255d;
 
             double max = Math.Max(r, Math.Max(g, b));
             if (max < double.Epsilon)
@@ -101,7 +101,7 @@ namespace Orc.Controls
 
             double min = Math.Min(r, Math.Min(g, b));
 
-            return (max - min)/max;
+            return (max - min) / max;
         }
 
         /// <summary>
@@ -111,9 +111,9 @@ namespace Orc.Controls
         /// <returns>The <see cref="double" />.</returns>
         public static double GetHSV_V(Color color)
         {
-            double r = color.R/255d;
-            double g = color.G/255d;
-            double b = color.B/255d;
+            double r = color.R / 255d;
+            double g = color.G / 255d;
+            double b = color.B / 255d;
 
             double max = Math.Max(r, Math.Max(g, b));
 
@@ -129,12 +129,12 @@ namespace Orc.Controls
         /// <returns>The <see cref="Color" />.</returns>
         public static Color HSB2RGB(double h, double s, double l)
         {
-            double q = (l < 0.5f) ? (l*(1f + s)) : (l + s - l*s);
-            double p = 2*l - q;
-            double hk = h/360f;
-            double tr = hk + 1f/3f;
+            double q = (l < 0.5f) ? (l * (1f + s)) : (l + s - l * s);
+            double p = 2 * l - q;
+            double hk = h / 360f;
+            double tr = hk + 1f / 3f;
             double tg = hk;
-            double tb = hk - 1f/3f;
+            double tb = hk - 1f / 3f;
 
             byte r = GetColorItem(q, p, tr);
             byte g = GetColorItem(q, p, tg);
@@ -152,9 +152,9 @@ namespace Orc.Controls
         /// <returns>The <see cref="Color" />.</returns>
         public static Color HSV2RGB(double h, double s, double v)
         {
-            double c = v*s;
-            double h0 = h/60;
-            double x = c*(1 - Math.Abs(h0%2 - 1));
+            double c = v * s;
+            double h0 = h / 60;
+            double x = c * (1 - Math.Abs(h0 % 2 - 1));
 
             double r = 0d;
             double g = 0d;
@@ -207,7 +207,7 @@ namespace Orc.Controls
             g = g + m;
             b = b + m;
 
-            return Color.FromArgb(255, (byte) (r*255), (byte) (g*255), (byte) (b*255));
+            return Color.FromArgb(255, (byte)(r * 255), (byte)(g * 255), (byte)(b * 255));
         }
         #endregion
 
@@ -230,14 +230,14 @@ namespace Orc.Controls
                 t -= 1f;
             }
 
-            double f16 = 1f/6f;
-            double f12 = 1f/2f;
-            double f23 = 2f/3f;
+            double f16 = 1f / 6f;
+            double f12 = 1f / 2f;
+            double f23 = 2f / 3f;
 
             double color;
             if (t < f16)
             {
-                color = p + (q - p)*6*t;
+                color = p + (q - p) * 6 * t;
             }
             else if (t < f12)
             {
@@ -245,14 +245,14 @@ namespace Orc.Controls
             }
             else if (t < f23)
             {
-                color = p + (q - p)*6*(f23 - t);
+                color = p + (q - p) * 6 * (f23 - t);
             }
             else
             {
                 color = p;
             }
 
-            return (byte) (color*255 + 0.5f);
+            return (byte)(color * 255 + 0.5f);
         }
 
         /// <summary>
@@ -267,9 +267,9 @@ namespace Orc.Controls
                 return 0f;
             }
 
-            double r = color.R/255d;
-            double g = color.G/255d;
-            double b = color.B/255d;
+            double r = color.R / 255d;
+            double g = color.G / 255d;
+            double b = color.B / 255d;
 
             double max = Math.Max(r, Math.Max(g, b));
             double min = Math.Min(r, Math.Min(g, b));
@@ -278,15 +278,15 @@ namespace Orc.Controls
             double h0 = 0d;
             if (r == max)
             {
-                h0 = (g - b)/c;
+                h0 = (g - b) / c;
             }
             else if (g == max)
             {
-                h0 = 2d + ((b - r)/c);
+                h0 = 2d + ((b - r) / c);
             }
             else if (b == max)
             {
-                h0 = 4d + ((r - g)/c);
+                h0 = 4d + ((r - g) / c);
             }
 
             h0 *= 60d;

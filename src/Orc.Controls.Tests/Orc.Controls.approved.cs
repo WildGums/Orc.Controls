@@ -38,11 +38,33 @@ namespace Orc.Controls
         DarkHighlight = 3,
         Highlight = 4,
     }
+    public class AlignmentGrid : System.Windows.Controls.ContentControl
+    {
+        public static readonly System.Windows.DependencyProperty HorizontalStepProperty;
+        public static readonly System.Windows.DependencyProperty LineBrushProperty;
+        public static readonly System.Windows.DependencyProperty VerticalStepProperty;
+        public AlignmentGrid() { }
+        public double HorizontalStep { get; set; }
+        public System.Windows.Media.Brush LineBrush { get; set; }
+        public double VerticalStep { get; set; }
+    }
     public class AnimatedGif : System.Windows.Controls.Image
     {
         public static readonly System.Windows.DependencyProperty GifSourceProperty;
         public AnimatedGif() { }
         public string GifSource { get; set; }
+    }
+    public class AnimatingTextBlock : System.Windows.Controls.UserControl, Orc.Controls.Services.IStatusRepresenter
+    {
+        public static readonly System.Windows.DependencyProperty HideStoryboardProperty;
+        public static readonly System.Windows.DependencyProperty ShowStoryboardProperty;
+        public static readonly System.Windows.DependencyProperty TextProperty;
+        public AnimatingTextBlock() { }
+        public System.Windows.Media.Animation.Storyboard HideStoryboard { get; set; }
+        public System.Windows.Media.Animation.Storyboard ShowStoryboard { get; set; }
+        public string Text { get; set; }
+        public override void OnApplyTemplate() { }
+        public void UpdateStatus(string status) { }
     }
     public class ApplicationLogFilterGroupService : Orc.Controls.IApplicationLogFilterGroupService
     {
@@ -64,6 +86,16 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty BoundTextProperty;
         public BindableRun() { }
         public string BoundText { get; set; }
+    }
+    public class BusyIndicator : Orc.Controls.VisualWrapper, System.Windows.Markup.IComponentConnector
+    {
+        public static readonly System.Windows.DependencyProperty ForegroundProperty;
+        public static readonly System.Windows.DependencyProperty IgnoreUnloadedEventCountProperty;
+        public BusyIndicator() { }
+        public System.Windows.Media.Brush Foreground { get; set; }
+        public int IgnoreUnloadedEventCount { get; set; }
+        public void InitializeComponent() { }
+        protected override void OnRenderSizeChanged(System.Windows.SizeChangedInfo sizeInfo) { }
     }
     public class ColorBoard : System.Windows.Controls.Control
     {
@@ -189,17 +221,23 @@ namespace Orc.Controls
         public event System.EventHandler<Orc.Controls.ColorChangedEventArgs> ColorChanged;
         public override void OnApplyTemplate() { }
     }
+    [System.ObsoleteAttribute("Use ConnectionState from Orc.DataAccess library instead. Will be removed in versi" +
+        "on 4.0.0.", true)]
     public enum ConnectionState
     {
         Undefined = 0,
         Valid = 1,
         Invalid = 2,
     }
+    [System.ObsoleteAttribute("Use ConnectionStateToColorBrushValueConverter from Orc.DataAccess.Xaml library in" +
+        "stead. Will be removed in version 4.0.0.", true)]
     public class ConnectionStateToColorBrushValueConverter : Catel.MVVM.Converters.ValueConverterBase<Orc.Controls.ConnectionState, System.Windows.Media.SolidColorBrush>
     {
         public ConnectionStateToColorBrushValueConverter() { }
         protected override object Convert(Orc.Controls.ConnectionState value, System.Type targetType, object parameter) { }
     }
+    [System.ObsoleteAttribute("Use ConnectionStringAdvancedOptionsViewModel from Orc.DataAccess.Xaml library ins" +
+        "tead. Will be removed in version 4.0.0.", true)]
     public class ConnectionStringAdvancedOptionsViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.PropertyData ConnectionStringPropertiesProperty;
@@ -211,6 +249,8 @@ namespace Orc.Controls
         public override string Title { get; }
         protected override System.Threading.Tasks.Task InitializeAsync() { }
     }
+    [System.ObsoleteAttribute("Use ConnectionStringAdvancedOptionsWindow from Orc.DataAccess.Xaml library instea" +
+        "d. Will be removed in version 4.0.0.", true)]
     public sealed class ConnectionStringAdvancedOptionsWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
         public ConnectionStringAdvancedOptionsWindow() { }
@@ -218,6 +258,8 @@ namespace Orc.Controls
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnUnloaded(System.EventArgs e) { }
     }
+    [System.ObsoleteAttribute("Use ConnectionStringBuilder from Orc.DataAccess.Xaml library instead. Will be rem" +
+        "oved in version 4.0.0.", true)]
     public sealed class ConnectionStringBuilder : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
         [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
@@ -243,6 +285,7 @@ namespace Orc.Controls
         public void InitializeComponent() { }
         public override void OnApplyTemplate() { }
     }
+    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
     public class ConnectionStringBuilderService : Orc.Controls.IConnectionStringBuilderService
     {
         public ConnectionStringBuilderService(Orc.Controls.IConnectionStringBuilderServiceInitializer connectionStringBuilderServiceInitializer) { }
@@ -252,11 +295,14 @@ namespace Orc.Controls
         public System.Collections.Generic.IList<string> GetDatabases(Orc.Controls.SqlConnectionString connectionString) { }
         public System.Collections.Generic.IList<string> GetDataSources(Orc.Controls.SqlConnectionString connectionString) { }
     }
+    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
     public class ConnectionStringBuilderServiceInitializer : Orc.Controls.IConnectionStringBuilderServiceInitializer
     {
         public ConnectionStringBuilderServiceInitializer(Catel.IoC.ITypeFactory typeFactory) { }
         public void Initialize(Orc.Controls.IConnectionStringBuilderService connectionStringBuilderService) { }
     }
+    [System.ObsoleteAttribute("Use ConnectionStringBuilderViewModel from Orc.DataAccess.Xaml library instead. Wi" +
+        "ll be removed in version 4.0.0.", true)]
     public class ConnectionStringBuilderViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.PropertyData ConnectionStateProperty;
@@ -275,6 +321,8 @@ namespace Orc.Controls
         public bool IsAdvancedOptionsReadOnly { get; set; }
         public bool IsInEditMode { get; set; }
     }
+    [System.ObsoleteAttribute("Use ConnectionStringEditViewModel from Orc.DataAccess.Xaml library instead. Will " +
+        "be removed in version 4.0.0.", true)]
     public class ConnectionStringEditViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.PropertyData ConnectionStateProperty;
@@ -316,6 +364,8 @@ namespace Orc.Controls
         protected override System.Threading.Tasks.Task InitializeAsync() { }
         protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
     }
+    [System.ObsoleteAttribute("Use ConnectionStringEditWindow from Orc.DataAccess.Xaml library instead. Will be " +
+        "removed in version 4.0.0.", true)]
     public sealed class ConnectionStringEditWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
         public ConnectionStringEditWindow() { }
@@ -323,6 +373,8 @@ namespace Orc.Controls
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnUnloaded(System.EventArgs e) { }
     }
+    [System.ObsoleteAttribute("Use ConnectionStringProperty from Orc.DataAccess library instead. Will be removed" +
+        " in version 4.0.0.", true)]
     public class ConnectionStringProperty : Catel.Data.ObservableObject
     {
         public ConnectionStringProperty(bool isSensitive, System.Data.Common.DbConnectionStringBuilder dbConnectionStringBuilder, System.ComponentModel.PropertyDescriptor propertyDescriptor) { }
@@ -330,8 +382,9 @@ namespace Orc.Controls
         public string Name { get; }
         public object Value { get; set; }
     }
-    public abstract class ControlToolBase : Orc.Controls.IControlTool
+    public abstract class ControlToolBase : Catel.Data.ModelBase, Orc.Controls.IControlTool
     {
+        public static readonly Catel.Data.PropertyData IsOpenedProperty;
         protected object Target;
         protected ControlToolBase() { }
         public virtual bool IsEnabled { get; }
@@ -345,6 +398,7 @@ namespace Orc.Controls
         public virtual void Attach(object target) { }
         public virtual void Close() { }
         public virtual void Detach() { }
+        protected virtual void OnAddParameter(object parameter) { }
         protected abstract void OnOpen(object parameter = null);
         [System.ObsoleteAttribute("Use Open() with parameter instead. Will be removed in version 4.0.0.", true)]
         public void Open() { }
@@ -458,6 +512,9 @@ namespace Orc.Controls
     }
     public class static DateTimeFormatHelper
     {
+        public static string ExtractDatePatternFromFormat(string format) { }
+        public static string ExtractTimePatternFromFormat(string format) { }
+        public static string FindMatchedLongTimePattern(System.Globalization.CultureInfo cultureInfo, string timePattern) { }
         public static Orc.Controls.DateTimeFormatInfo GetDateTimeFormatInfo(string format, bool isDateOnly = False) { }
         public static string[] Split(string format, char[] formatCharacters) { }
     }
@@ -576,6 +633,8 @@ namespace Orc.Controls
         public System.Nullable<System.DateTime> Value { get; set; }
         public System.Nullable<int> Year { get; set; }
     }
+    [System.ObsoleteAttribute("Use DbConnectionProviderListViewModel from Orc.DataAccess.Xaml library instead. W" +
+        "ill be removed in version 4.0.0.", true)]
     public class DbConnectionProviderListViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.PropertyData DbProviderProperty;
@@ -588,11 +647,15 @@ namespace Orc.Controls
         public override string Title { get; }
         protected override System.Threading.Tasks.Task InitializeAsync() { }
     }
+    [System.ObsoleteAttribute("Use DbConnectionProviderListWindow from Orc.DataAccess.Xaml library instead. Will" +
+        " be removed in version 4.0.0.", true)]
     public sealed class DbConnectionProviderListWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
         public DbConnectionProviderListWindow() { }
         public void InitializeComponent() { }
     }
+    [System.ObsoleteAttribute("Use DbProviderInfo from Orc.DataAccess library instead. Will be removed in versio" +
+        "n 4.0.0.", true)]
     public class DbProvider
     {
         public DbProvider() { }
@@ -603,6 +666,8 @@ namespace Orc.Controls
         public override bool Equals(object obj) { }
         public override int GetHashCode() { }
     }
+    [System.ObsoleteAttribute("Use DbProviderPicker from Orc.DataAccess.Xaml library instead. Will be removed in" +
+        " version 4.0.0.", true)]
     public sealed class DbProviderPicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
         public static readonly System.Windows.DependencyProperty DbProviderProperty;
@@ -611,6 +676,8 @@ namespace Orc.Controls
         public Orc.Controls.DbProvider DbProvider { get; set; }
         public void InitializeComponent() { }
     }
+    [System.ObsoleteAttribute("Use DbProviderPickerViewModel from Orc.DataAccess.Xaml library instead. Will be r" +
+        "emoved in version 4.0.0.", true)]
     public class DbProviderPickerViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.PropertyData DbProviderProperty;
@@ -803,6 +870,53 @@ namespace Orc.Controls
         public override void Detach() { }
         protected override void OnOpen(object parameter = null) { }
     }
+    public class FluidProgressBar : System.Windows.Controls.UserControl, System.IDisposable, System.Windows.Markup.IComponentConnector
+    {
+        public static readonly System.Windows.DependencyProperty DelayProperty;
+        public static readonly System.Windows.DependencyProperty DotHeightProperty;
+        public static readonly System.Windows.DependencyProperty DotRadiusXProperty;
+        public static readonly System.Windows.DependencyProperty DotRadiusYProperty;
+        public static readonly System.Windows.DependencyProperty DotWidthProperty;
+        public static readonly System.Windows.DependencyProperty DurationAProperty;
+        public static readonly System.Windows.DependencyProperty DurationBProperty;
+        public static readonly System.Windows.DependencyProperty DurationCProperty;
+        public static readonly System.Windows.DependencyProperty KeyFrameAProperty;
+        public static readonly System.Windows.DependencyProperty KeyFrameBProperty;
+        public static readonly System.Windows.DependencyProperty OscillateProperty;
+        public static readonly System.Windows.DependencyProperty ReverseDurationProperty;
+        public static readonly System.Windows.DependencyProperty TotalDurationProperty;
+        public FluidProgressBar() { }
+        public System.Windows.Duration Delay { get; set; }
+        public double DotHeight { get; set; }
+        public double DotRadiusX { get; set; }
+        public double DotRadiusY { get; set; }
+        public double DotWidth { get; set; }
+        public System.Windows.Duration DurationA { get; set; }
+        public System.Windows.Duration DurationB { get; set; }
+        public System.Windows.Duration DurationC { get; set; }
+        public double KeyFrameA { get; set; }
+        public double KeyFrameB { get; set; }
+        public bool Oscillate { get; set; }
+        public System.Windows.Duration ReverseDuration { get; set; }
+        public System.Windows.Duration TotalDuration { get; set; }
+        public void Dispose() { }
+        protected virtual void Dispose(bool disposing) { }
+        protected override void Finalize() { }
+        public void InitializeComponent() { }
+        protected virtual void OnDelayChanged(System.Windows.Duration oldDelay, System.Windows.Duration newDelay) { }
+        protected virtual void OnDotHeightChanged(double oldDotHeight, double newDotHeight) { }
+        protected virtual void OnDotRadiusXChanged(double oldDotRadiusX, double newDotRadiusX) { }
+        protected virtual void OnDotRadiusYChanged(double oldDotRadiusY, double newDotRadiusY) { }
+        protected virtual void OnDotWidthChanged(double oldDotWidth, double newDotWidth) { }
+        protected virtual void OnDurationAChanged(System.Windows.Duration oldDurationA, System.Windows.Duration newDurationA) { }
+        protected virtual void OnDurationBChanged(System.Windows.Duration oldDurationB, System.Windows.Duration newDurationB) { }
+        protected virtual void OnDurationCChanged(System.Windows.Duration oldDurationC, System.Windows.Duration newDurationC) { }
+        protected virtual void OnKeyFrameAChanged(double oldKeyFrameA, double newKeyFrameA) { }
+        protected virtual void OnKeyFrameBChanged(double oldKeyFrameB, double newKeyFrameB) { }
+        protected virtual void OnOscillateChanged(bool oldOscillate, bool newOscillate) { }
+        protected virtual void OnReverseDurationChanged(System.Windows.Duration oldReverseDuration, System.Windows.Duration newReverseDuration) { }
+        protected virtual void OnTotalDurationChanged(System.Windows.Duration oldTotalDuration, System.Windows.Duration newTotalDuration) { }
+    }
     public class FontImage : Catel.Windows.Markup.UpdatableMarkupExtension
     {
         public FontImage() { }
@@ -858,6 +972,7 @@ namespace Orc.Controls
         bool IsChecked { get; set; }
         bool IsSelected { get; set; }
     }
+    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
     public interface IConnectionStringBuilderService
     {
         void AddDataSourceProvider(string invariantName, Orc.Controls.IDataSourceProvider provider);
@@ -866,6 +981,7 @@ namespace Orc.Controls
         System.Collections.Generic.IList<string> GetDatabases(Orc.Controls.SqlConnectionString connectionString);
         System.Collections.Generic.IList<string> GetDataSources(Orc.Controls.SqlConnectionString connectionString);
     }
+    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
     public interface IConnectionStringBuilderServiceInitializer
     {
         void Initialize(Orc.Controls.IConnectionStringBuilderService connectionStringBuilderService);
@@ -887,6 +1003,7 @@ namespace Orc.Controls
         void Open();
         void Open(object parameter);
     }
+    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
     public interface IDataSourceProvider
     {
         string DataBasesQuery { get; }
@@ -1234,6 +1351,22 @@ namespace Orc.Controls
     {
         public LogViewerLogListener() { }
     }
+    public class static MediaElementThreadFactory
+    {
+        public static Orc.Controls.MediaElementThreadInfo CreateMediaElementsOnWorkerThread(System.Func<System.Windows.Media.Visual> createVisual) { }
+    }
+    public class MediaElementThreadInfo : Catel.Disposable
+    {
+        public MediaElementThreadInfo(System.Windows.Media.HostVisual hostVisual, System.Func<System.Windows.Media.Visual> createVisual, System.Threading.Thread thread) { }
+        public System.Func<System.Windows.Media.Visual> CreateVisual { get; }
+        public System.Windows.Threading.Dispatcher Dispatcher { get; }
+        public System.Windows.Media.HostVisual HostVisual { get; }
+        public int Id { get; }
+        public System.Threading.Thread Thread { get; }
+        protected override void DisposeManaged() { }
+        public void UpdateDispatcher(System.Windows.Threading.Dispatcher dispatcher) { }
+    }
+    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
     public class MsSqlDataSourceProvider : Orc.Controls.IDataSourceProvider
     {
         public MsSqlDataSourceProvider() { }
@@ -1521,6 +1654,8 @@ namespace Orc.Controls
     {
         public static System.Windows.Size GetDpi() { }
     }
+    [System.ObsoleteAttribute("Use SqlConnectionString from Orc.DataAccess library instead. Will be removed in v" +
+        "ersion 4.0.0.", true)]
     public class SqlConnectionString : Catel.Data.ModelBase
     {
         public static readonly Catel.Data.PropertyData PropertiesProperty;
@@ -1559,6 +1694,8 @@ namespace Orc.Controls
         public bool IsLazyLoading { get; }
         public Orc.Controls.LoadTabItemsBehavior LoadTabItems { get; set; }
         protected new System.Windows.Controls.TabItem GetSelectedTabItem() { }
+        public virtual void LoadTabItem(int index) { }
+        public virtual void LoadTabItem(System.Windows.Controls.ContentPresenter tabItem) { }
         public override void OnApplyTemplate() { }
         protected override void OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e) { }
     }
@@ -1847,6 +1984,21 @@ namespace Orc.Controls
         public System.Windows.Media.Color WarningColor { get; set; }
         protected override object Convert(object value, System.Type targetType, object parameter) { }
     }
+    public class VisualTargetPresentationSource : System.Windows.PresentationSource
+    {
+        public VisualTargetPresentationSource(System.Windows.Media.HostVisual hostVisual) { }
+        public override bool IsDisposed { get; }
+        public override System.Windows.Media.Visual RootVisual { get; set; }
+        protected override System.Windows.Media.CompositionTarget GetCompositionTargetCore() { }
+    }
+    [System.Windows.Markup.ContentPropertyAttribute("Child")]
+    public class VisualWrapper : System.Windows.FrameworkElement
+    {
+        public VisualWrapper() { }
+        public System.Windows.Media.Visual Child { get; set; }
+        protected override int VisualChildrenCount { get; }
+        protected override System.Windows.Media.Visual GetVisualChild(int index) { }
+    }
     public class WatermarkTextBox : System.Windows.Controls.TextBox
     {
         public static readonly System.Windows.DependencyProperty SelectAllOnGotFocusProperty;
@@ -1935,6 +2087,10 @@ namespace Orc.Controls.Services
         bool Replace(string textToFind, string textToReplace, Orc.Controls.FindReplaceSettings settings);
         void ReplaceAll(string textToFind, string textToReplace, Orc.Controls.FindReplaceSettings settings);
     }
+    public interface IStatusRepresenter
+    {
+        void UpdateStatus(string status);
+    }
     public class MicrosoftApiSelectDirectoryService : Catel.Services.ISelectDirectoryService
     {
         public MicrosoftApiSelectDirectoryService() { }
@@ -1947,11 +2103,20 @@ namespace Orc.Controls.Services
         public System.Threading.Tasks.Task<bool> DetermineDirectoryAsync() { }
     }
 }
+namespace Orc.Controls.Tools.Attributes
+{
+    [System.AttributeUsageAttribute(System.AttributeTargets.Property | System.AttributeTargets.All)]
+    public class ToolSettingsAttribute : System.Attribute
+    {
+        public ToolSettingsAttribute() { }
+        public string Storage { get; set; }
+    }
+}
 namespace Orc.Controls.Tools
 {
     public class ControlToolManager : Orc.Controls.Tools.IControlToolManager
     {
-        public ControlToolManager(System.Windows.FrameworkElement frameworkElement, Catel.IoC.ITypeFactory typeFactory) { }
+        public ControlToolManager(System.Windows.FrameworkElement frameworkElement, Catel.IoC.ITypeFactory typeFactory, Orc.FileSystem.IDirectoryService directoryService) { }
         public System.Collections.Generic.IList<Orc.Controls.IControlTool> Tools { get; }
         public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolAttached;
         public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolClosed;
@@ -1961,6 +2126,8 @@ namespace Orc.Controls.Tools
         public object AttachTool(System.Type toolType) { }
         public bool CanAttachTool(System.Type toolType) { }
         public bool DetachTool(System.Type toolType) { }
+        protected virtual void LoadSettings(Orc.Controls.IControlTool tool) { }
+        protected virtual void SaveSettings(Orc.Controls.IControlTool tool) { }
     }
     public class ControlToolManagerFactory : Orc.Controls.Tools.IControlToolManagerFactory
     {

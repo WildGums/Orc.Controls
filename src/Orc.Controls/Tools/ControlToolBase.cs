@@ -8,8 +8,9 @@
 namespace Orc.Controls
 {
     using System;
+    using Catel.Data;
 
-    public abstract class ControlToolBase : IControlTool
+    public abstract class ControlToolBase : ModelBase, IControlTool
     {
         #region Fields
         protected object Target;
@@ -46,6 +47,8 @@ namespace Orc.Controls
         {
             if (IsOpened)
             {
+                OnAddParameter(parameter);
+
                 return;
             }
 
@@ -72,6 +75,10 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
+        protected virtual void OnAddParameter(object parameter)
+        {
+        }
+
         protected abstract void OnOpen(object parameter = null);
         #endregion
     }

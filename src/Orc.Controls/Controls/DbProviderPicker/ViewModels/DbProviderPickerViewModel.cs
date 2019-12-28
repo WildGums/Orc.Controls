@@ -13,6 +13,7 @@ namespace Orc.Controls
     using Catel.MVVM;
     using Catel.Services;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use DbProviderPickerViewModel from Orc.DataAccess.Xaml library instead")]
     public class DbProviderPickerViewModel : ViewModelBase
     {
         #region Fields

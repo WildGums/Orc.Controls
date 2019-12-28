@@ -20,48 +20,48 @@ namespace Orc.Controls
         #region Constructors
         public Expander()
         {
-            DefaultStyleKey = typeof (Expander);
+            DefaultStyleKey = typeof(Expander);
         }
         #endregion
 
         #region Properties
         public bool IsExpanded
         {
-            get { return (bool) GetValue(IsExpandedProperty); }
+            get { return (bool)GetValue(IsExpandedProperty); }
             set { SetValue(IsExpandedProperty, value); }
         }
 
-        public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(nameof(IsExpanded), 
-            typeof (bool), typeof (Expander), new PropertyMetadata(false, OnIsExpandedChanged));
+        public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(nameof(IsExpanded),
+            typeof(bool), typeof(Expander), new PropertyMetadata(false, OnIsExpandedChanged));
 
         public ExpandDirection ExpandDirection
         {
-            get { return (ExpandDirection) GetValue(ExpandDirectionProperty); }
+            get { return (ExpandDirection)GetValue(ExpandDirectionProperty); }
             set { SetValue(ExpandDirectionProperty, value); }
         }
 
         public static readonly DependencyProperty ExpandDirectionProperty = DependencyProperty.Register(nameof(ExpandDirection),
-            typeof (ExpandDirection), typeof (Expander), new PropertyMetadata(ExpandDirection.Left));
+            typeof(ExpandDirection), typeof(Expander), new PropertyMetadata(ExpandDirection.Left));
 
         public bool AutoResizeGrid
         {
-            get { return (bool) GetValue(AutoResizeGridProperty); }
+            get { return (bool)GetValue(AutoResizeGridProperty); }
             set { SetValue(AutoResizeGridProperty, value); }
         }
 
         public static readonly DependencyProperty AutoResizeGridProperty = DependencyProperty.Register(nameof(AutoResizeGrid),
-            typeof (bool), typeof (Expander), new PropertyMetadata(false));
+            typeof(bool), typeof(Expander), new PropertyMetadata(false));
 
         [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
         public Brush AccentColorBrush
         {
-            get { return (Brush) GetValue(AccentColorBrushProperty); }
+            get { return (Brush)GetValue(AccentColorBrushProperty); }
             set { SetValue(AccentColorBrushProperty, value); }
         }
 
         [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), 
-            typeof (Brush), typeof (Expander), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((Expander) sender).OnAccentColorBrushChanged()));
+        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush),
+            typeof(Brush), typeof(Expander), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((Expander)sender).OnAccentColorBrushChanged()));
         #endregion
 
         #region Methods
@@ -72,7 +72,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if ((bool) e.NewValue)
+            if ((bool)e.NewValue)
             {
                 expander.OnExpanded();
             }
@@ -97,33 +97,33 @@ namespace Orc.Controls
             switch (ExpandDirection)
             {
                 case ExpandDirection.Left:
-                {
-                    var column = Grid.GetColumn(this);
-                    _expandDistance = grid.ColumnDefinitions[column].Width;
-                    grid.ColumnDefinitions[column].SetCurrentValue(ColumnDefinition.WidthProperty, GridLength.Auto);
-                    break;
-                }
+                    {
+                        var column = Grid.GetColumn(this);
+                        _expandDistance = grid.ColumnDefinitions[column].Width;
+                        grid.ColumnDefinitions[column].SetCurrentValue(ColumnDefinition.WidthProperty, GridLength.Auto);
+                        break;
+                    }
                 case ExpandDirection.Right:
-                {
-                    var column = Grid.GetColumn(this);
-                    _expandDistance = grid.ColumnDefinitions[column].Width;
-                    grid.ColumnDefinitions[column].SetCurrentValue(ColumnDefinition.WidthProperty, GridLength.Auto);
-                    break;
-                }
+                    {
+                        var column = Grid.GetColumn(this);
+                        _expandDistance = grid.ColumnDefinitions[column].Width;
+                        grid.ColumnDefinitions[column].SetCurrentValue(ColumnDefinition.WidthProperty, GridLength.Auto);
+                        break;
+                    }
                 case ExpandDirection.Up:
-                {
-                    var row = Grid.GetRow(this);
-                    _expandDistance = grid.RowDefinitions[row].Height;
-                    grid.RowDefinitions[row].SetCurrentValue(RowDefinition.HeightProperty, GridLength.Auto);
-                    break;
-                }
+                    {
+                        var row = Grid.GetRow(this);
+                        _expandDistance = grid.RowDefinitions[row].Height;
+                        grid.RowDefinitions[row].SetCurrentValue(RowDefinition.HeightProperty, GridLength.Auto);
+                        break;
+                    }
                 case ExpandDirection.Down:
-                {
-                    var row = Grid.GetRow(this);
-                    _expandDistance = grid.RowDefinitions[row].Height;
-                    grid.RowDefinitions[row].SetCurrentValue(RowDefinition.HeightProperty, GridLength.Auto);
-                    break;
-                }
+                    {
+                        var row = Grid.GetRow(this);
+                        _expandDistance = grid.RowDefinitions[row].Height;
+                        grid.RowDefinitions[row].SetCurrentValue(RowDefinition.HeightProperty, GridLength.Auto);
+                        break;
+                    }
             }
         }
 
@@ -142,44 +142,44 @@ namespace Orc.Controls
             switch (ExpandDirection)
             {
                 case ExpandDirection.Left:
-                {
-                    var column = Grid.GetColumn(this);
-                    if (_expandDistance.HasValue)
                     {
-                        grid.ColumnDefinitions[column].SetCurrentValue(ColumnDefinition.WidthProperty, _expandDistance.Value);
+                        var column = Grid.GetColumn(this);
+                        if (_expandDistance.HasValue)
+                        {
+                            grid.ColumnDefinitions[column].SetCurrentValue(ColumnDefinition.WidthProperty, _expandDistance.Value);
+                        }
+                        break;
                     }
-                    break;
-                }
 
                 case ExpandDirection.Right:
-                {
-                    var column = Grid.GetColumn(this);
-                    if (_expandDistance.HasValue)
                     {
-                        grid.ColumnDefinitions[column].SetCurrentValue(ColumnDefinition.WidthProperty, _expandDistance.Value);
+                        var column = Grid.GetColumn(this);
+                        if (_expandDistance.HasValue)
+                        {
+                            grid.ColumnDefinitions[column].SetCurrentValue(ColumnDefinition.WidthProperty, _expandDistance.Value);
+                        }
+                        break;
                     }
-                    break;
-                }
 
                 case ExpandDirection.Up:
-                {
-                    var row = Grid.GetRow(this);
-                    if (_expandDistance.HasValue)
                     {
-                        grid.RowDefinitions[row].SetCurrentValue(RowDefinition.HeightProperty, _expandDistance.Value);
+                        var row = Grid.GetRow(this);
+                        if (_expandDistance.HasValue)
+                        {
+                            grid.RowDefinitions[row].SetCurrentValue(RowDefinition.HeightProperty, _expandDistance.Value);
+                        }
+                        break;
                     }
-                    break;
-                }
 
                 case ExpandDirection.Down:
-                {
-                    var row = Grid.GetRow(this);
-                    if (_expandDistance.HasValue)
                     {
-                        grid.RowDefinitions[row].SetCurrentValue(RowDefinition.HeightProperty, _expandDistance.Value);
+                        var row = Grid.GetRow(this);
+                        if (_expandDistance.HasValue)
+                        {
+                            grid.RowDefinitions[row].SetCurrentValue(RowDefinition.HeightProperty, _expandDistance.Value);
+                        }
+                        break;
                     }
-                    break;
-                }
             }
         }
 

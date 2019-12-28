@@ -11,6 +11,7 @@ namespace Orc.Controls
     using System.Windows.Media;
     using Catel.MVVM.Views;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use ConnectionStringBuilder from Orc.DataAccess.Xaml library instead")]
     public sealed partial class ConnectionStringBuilder
     {
         #region Constructors

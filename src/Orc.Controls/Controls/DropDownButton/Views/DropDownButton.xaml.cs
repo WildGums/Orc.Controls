@@ -31,7 +31,7 @@ namespace Orc.Controls
         #region Properties
         public DropdownArrowLocation ArrowLocation
         {
-            get { return (DropdownArrowLocation) GetValue(ArrowLocationProperty); }
+            get { return (DropdownArrowLocation)GetValue(ArrowLocationProperty); }
             set { SetValue(ArrowLocationProperty, value); }
         }
 
@@ -39,7 +39,7 @@ namespace Orc.Controls
 
         public Thickness ArrowMargin
         {
-            get { return (Thickness) GetValue(ArrowMarginProperty); }
+            get { return (Thickness)GetValue(ArrowMarginProperty); }
             set { SetValue(ArrowMarginProperty, value); }
         }
 
@@ -109,7 +109,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty EnableTransparentBackgroundProperty = DependencyProperty.Register(nameof(EnableTransparentBackground), typeof(bool),
             typeof(DropDownButton), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-            
+
         public object CommandParameter
         {
             get { return (object)GetValue(CommandParameterProperty); }

@@ -136,11 +136,15 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
-        
-        <TabControl Grid.Row="1" Padding="10" 
-                TabStripPlacement="Left" 
-                Background="White" 
-                BorderBrush="{StaticResource TabControlNormalBorderBrush}">
+
+        <orccontrols:TabControl Grid.Row="1" Padding="10" 
+                                TabStripPlacement="Left" 
+                                Background="White" 
+                                BorderBrush="{StaticResource TabControlNormalBorderBrush}">
+
+            <TabItem Header="AlignmentGrid">
+                <views:AlignmentGrid />
+            </TabItem>
 
             <TabItem Header="AnimatedGif">
                 <views:AnimatedGif />
@@ -150,16 +154,17 @@
                 <views:BindableRichTextBox />
             </TabItem>
 
+
+            <TabItem Header="BusyIndicator">
+                <views:BusyIndicator/>
+            </TabItem>
+
             <TabItem Header="ColorLegend">
                 <views:ColorLegendView />
             </TabItem>
 
             <TabItem Header="ColorPicker">
-                <views:ColorPicker>
-                    <views:ColorPicker.Resources>
-                        <Style TargetType="{x:Type TabItem}"/>
-                    </views:ColorPicker.Resources>
-                </views:ColorPicker>
+                <views:ColorPicker/>
             </TabItem>
 
             <TabItem Header="ConnectionStringBuilder">
@@ -196,6 +201,10 @@
 
             <TabItem Header="FilterBox">
                 <views:FilterBox />
+            </TabItem>
+
+            <TabItem Header="FluidProgressBar">
+                <views:FluidProgressBar />
             </TabItem>
 
             <TabItem Header="LinkLabel">
@@ -274,7 +283,6 @@
             </orc:StackGrid>
         </TabItem>-->
 
-        </TabControl>
-
+        </orccontrols:TabControl>
     </Grid>
 </catel:Window>

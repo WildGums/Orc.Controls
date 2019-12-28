@@ -39,7 +39,7 @@ namespace Orc.Controls
 
             //var resourceDictionary = new ResourceDictionary();
             //resourceDictionary.AddResources(color, controlName);
-            
+
             //var application = Application.Current;
             //var applicationResources = application.Resources;
             //applicationResources.MergedDictionaries.Insert(0, resourceDictionary);

@@ -17,6 +17,7 @@ namespace Orc.Controls
     using Catel.Threading;
     using Timer = System.Timers.Timer;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use ConnectionStringEditViewModel from Orc.DataAccess.Xaml library instead")]
     public class ConnectionStringEditViewModel : ViewModelBase
     {
         #region Constants
@@ -81,8 +82,8 @@ namespace Orc.Controls
         public ConnectionStringProperty Port => ConnectionString.TryGetProperty("Port");
         public ConnectionStringProperty IntegratedSecurity => ConnectionString.TryGetProperty("Integrated Security");
 
-        public ConnectionStringProperty InitialCatalog => ConnectionString.TryGetProperty("Initial Catalog") 
-                                                          ?? ConnectionString.TryGetProperty("Database") ;
+        public ConnectionStringProperty InitialCatalog => ConnectionString.TryGetProperty("Initial Catalog")
+                                                          ?? ConnectionString.TryGetProperty("Database");
 
         public bool IsAdvancedOptionsReadOnly { get; set; }
 
@@ -150,7 +151,7 @@ namespace Orc.Controls
             {
                 DbProvider = _initalDbProvider;
             }
-            
+
             ConnectionString = _initalDbProvider != null ? _connectionStringBuilderService.CreateConnectionString(_initalDbProvider, _initialConnectionString) : null;
         }
 

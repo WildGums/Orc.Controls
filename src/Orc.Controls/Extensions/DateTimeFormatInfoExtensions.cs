@@ -8,6 +8,7 @@
 namespace Orc.Controls
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Catel;
     using Catel.Logging;
@@ -19,26 +20,38 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-        public static bool IsCorrect(this DateTimeFormatInfo formatInfo, bool isDateOnly, out string errorMessage)
+        public static bool IsCorrect(this DateTimeFormatInfo formatInfo, bool isDateRequired, bool isTimeAllowed, out string errorMessage)
         {
             Argument.IsNotNull(() => formatInfo);
 
             errorMessage = string.Empty;
+            var missingFields = new List<string>();
 
-            if (isDateOnly && (formatInfo.DayFormat == null || formatInfo.MonthFormat == null || formatInfo.YearFormat == null))
+            if (isDateRequired && (formatInfo.DayFormat is null || formatInfo.MonthFormat is null || formatInfo.YearFormat is null))
             {
-                errorMessage = "Format string is incorrect. Day, month and year fields are mandatory";
-                return false;
+                missingFields.AddRange(new[]
+                {
+                    "day",
+                    "month",
+                    "year"
+                });
             }
 
-            if (!isDateOnly && (formatInfo.DayFormat == null
-                                || formatInfo.MonthFormat == null
-                                || formatInfo.YearFormat == null
-                                || formatInfo.HourFormat == null
-                                || formatInfo.MinuteFormat == null
-                                || formatInfo.SecondFormat == null))
+            if (!isTimeAllowed && !(formatInfo.HourFormat is null
+                                   || formatInfo.MinuteFormat is null
+                                   || formatInfo.SecondFormat is null))
             {
-                errorMessage = "Format string is incorrect. Day, month, year, hour, minute and second fields are mandatory";
+                missingFields.AddRange(new[]
+                {
+                    "hour",
+                    "minute",
+                    "second"
+                });
+            }
+
+            if (missingFields.Any())
+            {
+                errorMessage = "Format string is incorrect. Missing required fields: " + string.Join(", ", missingFields);
                 return false;
             }
 
@@ -299,34 +312,34 @@ namespace Orc.Controls
             {
                 // 'y'
                 case 1 when partValue.Length < 1 || partValue.Length > 2:
-                {
-                    errorMessage = "Invalid year value. Year must contain 1 or 2 digits";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid year value. Year must contain 1 or 2 digits";
+                        return false;
+                    }
                 // 'yy'
                 case 2 when partValue.Length != 2:
-                {
-                    errorMessage = "Invalid year value. Year must contain 2 digits";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid year value. Year must contain 2 digits";
+                        return false;
+                    }
                 // 'yyy'
                 case 3 when partValue.Length < 3 || partValue.Length > 5:
-                {
-                    errorMessage = "Invalid year value. Year must contain 3 or 4 or 5 digits";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid year value. Year must contain 3 or 4 or 5 digits";
+                        return false;
+                    }
                 // 'yyyy'
                 case 4 when partValue.Length < 4 || partValue.Length > 5:
-                {
-                    errorMessage = "Invalid year value. Year must contain 4 or 5 digits";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid year value. Year must contain 4 or 5 digits";
+                        return false;
+                    }
                 // 'yyyyy'
                 case 5 when partValue.Length != 5:
-                {
-                    errorMessage = "Invalid year value. Year must contain 5 digits";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid year value. Year must contain 5 digits";
+                        return false;
+                    }
             }
 
             return true;
@@ -342,16 +355,16 @@ namespace Orc.Controls
             {
                 // 'M'
                 case 1 when partValue.Length < 1 || partValue.Length > 2:
-                {
-                    errorMessage = "Invalid month value. Month must contain 1 or 2 digits";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid month value. Month must contain 1 or 2 digits";
+                        return false;
+                    }
                 // 'MM'
                 case 2 when partValue.Length != 2:
-                {
-                    errorMessage = "Invalid month value. Month must contain 2 digits";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid month value. Month must contain 2 digits";
+                        return false;
+                    }
                 // 'MMM'
                 case 3 when partValue.Length != 3:
                 {
@@ -379,15 +392,15 @@ namespace Orc.Controls
             {
                 // 'd'
                 case 1 when partValue.Length < 1 || partValue.Length > 2:
-                {
-                    errorMessage = "Invalid day value. Day must contain 1 or 2 digits";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid day value. Day must contain 1 or 2 digits";
+                        return false;
+                    }
 
                 // 'dd'
                 case 2 when partValue.Length != 2:
-                {
-                    errorMessage = "Invalid day value. Day must contain 2 digits";
+                    {
+                        errorMessage = "Invalid day value. Day must contain 2 digits";
                     return false;
                 }
 
@@ -402,8 +415,8 @@ namespace Orc.Controls
                 case 4 when partValue.Length != 4:
                 {
                     errorMessage = "Invalid day value. Day must contain 4 digits";
-                    return false;
-                }
+                        return false;
+                    }
             }
 
             return true;
@@ -419,17 +432,17 @@ namespace Orc.Controls
             {
                 // 'h' or 'H'
                 case 1 when partValue.Length < 1 || partValue.Length > 2:
-                {
-                    errorMessage = "Invalid hour value. Hour must contain 1 or 2 digits";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid hour value. Hour must contain 1 or 2 digits";
+                        return false;
+                    }
 
                 // 'hh' or 'HH'
                 case 2 when partValue.Length != 2:
-                {
-                    errorMessage = "Invalid hour value. Hour must contain 2 digits";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid hour value. Hour must contain 2 digits";
+                        return false;
+                    }
             }
 
             return true;
@@ -445,16 +458,16 @@ namespace Orc.Controls
             {
                 // 'm'
                 case 1 when partValue.Length < 1 || partValue.Length > 2:
-                {
-                    errorMessage = "Invalid minute value. Minute must contain 1 or 2 digits";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid minute value. Minute must contain 1 or 2 digits";
+                        return false;
+                    }
                 // 'mm'
                 case 2 when partValue.Length != 2:
-                {
-                    errorMessage = "Invalid minute value. Minute must contain 2 digits";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid minute value. Minute must contain 2 digits";
+                        return false;
+                    }
             }
 
             return true;
@@ -469,16 +482,16 @@ namespace Orc.Controls
             switch (formatInfo.SecondFormat.Length)
             {
                 case 1 when (partValue.Length < 1 || partValue.Length > 2):
-                {
-                    errorMessage = "Invalid second value. Second must contain 1 or 2 digits";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid second value. Second must contain 1 or 2 digits";
+                        return false;
+                    }
                 // 'ss'
                 case 2 when partValue.Length != 2:
-                {
-                    errorMessage = "Invalid second value. Second must contain 2 digits";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid second value. Second must contain 2 digits";
+                        return false;
+                    }
             }
 
             return true;
@@ -493,16 +506,16 @@ namespace Orc.Controls
             switch (formatInfo.IsAmPmShortFormat)
             {
                 case true when !(Meridiems.IsShortAm(partValue) || Meridiems.IsShortPm(partValue)):
-                {
-                    errorMessage = "Invalid AM/PM designator value";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid AM/PM designator value";
+                        return false;
+                    }
 
                 case false when !(Meridiems.IsLongAm(partValue) || Meridiems.IsLongPm(partValue)):
-                {
-                    errorMessage = "Invalid AM/PM designator value";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid AM/PM designator value";
+                        return false;
+                    }
             }
 
             return true;

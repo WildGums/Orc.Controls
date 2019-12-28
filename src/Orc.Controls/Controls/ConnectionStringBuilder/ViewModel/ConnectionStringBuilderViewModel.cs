@@ -13,6 +13,7 @@ namespace Orc.Controls
     using Catel.MVVM;
     using Catel.Services;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use ConnectionStringBuilderViewModel from Orc.DataAccess.Xaml library instead")]
     public class ConnectionStringBuilderViewModel : ViewModelBase
     {
         #region Fields
@@ -42,7 +43,7 @@ namespace Orc.Controls
         public string DatabaseProvider { get; private set; }
         public bool IsInEditMode { get; set; }
         public bool IsAdvancedOptionsReadOnly { get; set; }
-        
+
         public TaskCommand Edit { get; }
         public Command Clear { get; }
         #endregion

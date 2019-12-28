@@ -39,16 +39,16 @@ namespace Orc.Controls
         #region Properties
         public bool AllowAutoCompletion
         {
-            get { return (bool) GetValue(AllowAutoCompletionProperty); }
+            get { return (bool)GetValue(AllowAutoCompletionProperty); }
             set { SetValue(AllowAutoCompletionProperty, value); }
         }
 
         public static readonly DependencyProperty AllowAutoCompletionProperty = DependencyProperty.Register(
-            nameof(AllowAutoCompletion), typeof(bool), typeof(FilterBox), new PropertyMetadata(true));       
+            nameof(AllowAutoCompletion), typeof(bool), typeof(FilterBox), new PropertyMetadata(true));
 
         public IEnumerable FilterSource
         {
-            get { return (IEnumerable) GetValue(FilterSourceProperty); }
+            get { return (IEnumerable)GetValue(FilterSourceProperty); }
             set { SetValue(FilterSourceProperty, value); }
         }
 
@@ -57,7 +57,7 @@ namespace Orc.Controls
 
         public string PropertyName
         {
-            get { return (string) GetValue(PropertyNameProperty); }
+            get { return (string)GetValue(PropertyNameProperty); }
             set { SetValue(PropertyNameProperty, value); }
         }
 
@@ -66,28 +66,28 @@ namespace Orc.Controls
 
         public string Text
         {
-            get { return (string) GetValue(TextProperty); }
+            get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
         }
 
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(FilterBox),
-            new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((FilterBox) sender).OnTextChanged()));
+            new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((FilterBox)sender).OnTextChanged()));
 
 
         [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
         public Brush AccentColorBrush
         {
-            get { return (Brush) GetValue(AccentColorBrushProperty); }
+            get { return (Brush)GetValue(AccentColorBrushProperty); }
             set { SetValue(AccentColorBrushProperty, value); }
         }
 
         [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
         public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), typeof(Brush),
-            typeof(FilterBox), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((FilterBox) sender).OnAccentColorBrushChanged()));
+            typeof(FilterBox), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((FilterBox)sender).OnAccentColorBrushChanged()));
 
         public string Watermark
         {
-            get { return (string) GetValue(WatermarkProperty); }
+            get { return (string)GetValue(WatermarkProperty); }
             set { SetValue(WatermarkProperty, value); }
         }
 
@@ -120,7 +120,7 @@ namespace Orc.Controls
 
             _clearButton?.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, null);
 
-            _clearButton = (Button) GetTemplateChild("PART_ClearButton");
+            _clearButton = (Button)GetTemplateChild("PART_ClearButton");
             _clearButton?.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, _clearFilter);
 
             _filterTextBox = GetTemplateChild("PART_FilterTextBox") as TextBox;
@@ -174,11 +174,11 @@ namespace Orc.Controls
             {
                 SetCurrentValue(TextProperty, string.Empty);
             }
-            finally 
+            finally
             {
                 SetCurrentValue(FilterSourceProperty, filterSource);
                 SetCurrentValue(AllowAutoCompletionProperty, allowAutoCompletion);
-            }            
+            }
         }
 
         private bool CanClearFilter()

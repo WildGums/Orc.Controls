@@ -7,6 +7,8 @@
 
 namespace Orc.Controls
 {
+ 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Deprecated")]
     public interface IConnectionStringBuilderServiceInitializer
     {
         void Initialize(IConnectionStringBuilderService connectionStringBuilderService);

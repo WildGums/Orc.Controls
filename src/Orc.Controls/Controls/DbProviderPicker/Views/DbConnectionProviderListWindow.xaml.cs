@@ -6,11 +6,12 @@
 
 namespace Orc.Controls
 {
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use DbConnectionProviderListWindow from Orc.DataAccess.Xaml library instead")]
     public sealed partial class DbConnectionProviderListWindow
     {
         public DbConnectionProviderListWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

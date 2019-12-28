@@ -11,6 +11,7 @@ namespace Orc.Controls
     using System.Windows.Media;
     using Catel.MVVM.Converters;
 
+    [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use ConnectionStateToColorBrushValueConverter from Orc.DataAccess.Xaml library instead")]
     public class ConnectionStateToColorBrushValueConverter : ValueConverterBase<ConnectionState, SolidColorBrush>
     {
         protected override object Convert(ConnectionState value, Type targetType, object parameter)
