@@ -2,10 +2,12 @@
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 				   xmlns:catel="http://schemas.catelproject.com"
+                   xmlns:converters="clr-namespace:Orc.Controls.Example.Converters"
 				   xmlns:orc="http://schemas.wildgums.com/orc/controls">
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -20,7 +22,7 @@
         </Grid.ColumnDefinitions>
         
         <TextBlock Grid.Column="0" Grid.Row="0" Text="Log Viewer" />
-        <orc:LogViewerControl x:Name="LogViewerControl" Grid.Column="1" Grid.Row="0" Height="150"
+        <orc:LogViewerControl x:Name="LogViewerControl" Grid.Column="1" Grid.Row="0" MaxHeight="150"
                               LogEntryDoubleClick="LogViewerControlOnLogRecordDoubleClick"
                               LogFilter="{Binding Text, ElementName=FilterTextBox}"
                               ShowDebug="{Binding IsChecked, ElementName=ShowDebugToggleButton}"
@@ -29,26 +31,30 @@
                               ShowError="{Binding IsChecked, ElementName=ShowErrorToggleButton}"
                               EnableTimestamp="{Binding IsChecked, ElementName=EnableTimestampCheckBox}"
                               AutoScroll="{Binding IsChecked, ElementName=AutoScrollCheckBox}"
+                              ScrollMode="{Binding ScrollMode}"
                               ShowMultilineMessagesExpanded="{Binding IsChecked, ElementName=ShowMultilineMessageExpandedCheckBox}"
                               ActiveFilterGroup="{Binding SelectedItem, ElementName=ActiveFilterGroupComboBox}"
                               EnableTextColoring="True" EnableIcons="True"/>
 
-        <TextBlock Grid.Column="0" Grid.Row="1" Text="Log Viewer Events" />
-        <StackPanel Grid.Column="1" Grid.Row="1">
+        <GridSplitter Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Width="Auto" Grid.Row="1" Grid.ColumnSpan="2" Margin="0 0 5 0" 
+                      ResizeBehavior="PreviousAndCurrent" Background="LightGray"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="Log Viewer Events" />
+        <StackPanel Grid.Column="1" Grid.Row="3">
             <TextBox x:Name="EventsTextBox" MinHeight="50" VerticalScrollBarVisibility="Auto" />
             <Button Content="Add log records" Command="{Binding AddLogRecords}" />
             <Button Content="Test under pressure" Command="{Binding TestUnderPressure}" />
             <Button Content="Clear Log" Click="ClearLog_OnClick" />
         </StackPanel>
 
-        <TextBlock Grid.Column="0" Grid.Row="2" Text="Log Viewer Filter" />
+        <TextBlock Grid.Column="0" Grid.Row="3" Text="Log Viewer Filter" />
         <TextBox x:Name="FilterTextBox" Grid.Column="1" Grid.Row="2" />
 
-        <TextBlock Grid.Column="0" Grid.Row="3" Text="Application Filter Groups" />
+        <TextBlock Grid.Column="0" Grid.Row="4" Text="Application Filter Groups" />
 
-        <orc:LogFilterGroupList Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Margin="0" Updated="OnLogFilterGroupListUpdated" />
+        <orc:LogFilterGroupList Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Margin="0" Updated="OnLogFilterGroupListUpdated" />
 
-        <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
+        <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal">
             <ToggleButton x:Name="ShowDebugToggleButton" Height="25" Width="60" Margin="4" 
                           VerticalAlignment="Top" Content="Debug" IsChecked="True" />
             <ToggleButton x:Name="ShowInfoToggleButton" Height="25" Width="60" Margin="0 4 4 4"
@@ -59,10 +65,16 @@
                           VerticalAlignment="Top" Content="Error" IsChecked="True" />
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="5">
+        <StackPanel Grid.Column="1" Grid.Row="6">
             <StackPanel Orientation="Horizontal">
                 <CheckBox x:Name="EnableTimestampCheckBox" Content="Enable Timestamp" />
                 <CheckBox x:Name="AutoScrollCheckBox" Content="Auto Scroll" IsChecked="True" />
+                <RadioButton x:Name="ManualScrollModeRadioButton" Content="Manual Scroll Mode" GroupName="ScrollMode"
+                             IsChecked="{Binding ScrollMode, Converter={converters:ScrollModeEnumToBooleanConverter}, ConverterParameter=OnlyManual}"/>
+                <RadioButton x:Name="AutoScrollModeRadioButton" Content="Auto Scroll Mode" GroupName="ScrollMode"
+                             IsChecked="{Binding ScrollMode, Converter={converters:ScrollModeEnumToBooleanConverter}, ConverterParameter=AutoScrollPriority}"/>
+                <RadioButton x:Name="MixedScrollModeRadioButton" Content="Manual Scroll Priority Mode" GroupName="ScrollMode"
+                             IsChecked="{Binding ScrollMode, Converter={converters:ScrollModeEnumToBooleanConverter}, ConverterParameter=ManualScrollPriority}"/>
             </StackPanel>
             
             <StackPanel Orientation="Horizontal">

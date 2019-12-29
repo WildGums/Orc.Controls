@@ -38,6 +38,9 @@ namespace Orc.Controls.Example.ViewModels
         #endregion
 
         #region Properties
+
+        public ScrollMode ScrollMode { get; set; } = ScrollMode.ManualScrollPriority;
+
         public Command AddLogRecords { get; }
         public TaskCommand TestUnderPressure { get; }
         #endregion
