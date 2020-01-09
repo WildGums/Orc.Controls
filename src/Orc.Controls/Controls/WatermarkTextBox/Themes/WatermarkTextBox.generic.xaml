@@ -8,25 +8,13 @@
         <GradientStop Offset="1" Color="#E3E9EF" />
     </LinearGradientBrush>
 
-    <LinearGradientBrush x:Key="TextBox_MouseOver" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Offset="0.05" Color="{controls:ThemeColor ThemeColorStyle=BorderMouseOver}" />
-        <GradientStop Offset="0.07" Color="{controls:ThemeColor ThemeColorStyle=AccentColor2}" />
-        <GradientStop Offset="1" Color="{controls:ThemeColor ThemeColorStyle=AccentColor3}" />
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="TextBox_Focused" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Offset="0.05" Color="{controls:ThemeColor ThemeColorStyle=BorderSelected}" />
-        <GradientStop Offset="0.07" Color="{controls:ThemeColor ThemeColorStyle=AccentColor2}" />
-        <GradientStop Offset="1" Color="{controls:ThemeColor ThemeColorStyle=AccentColor3}" />
-    </LinearGradientBrush>
-
     <SolidColorBrush x:Key="TextBox_DisabledBorder" Color="#ADB2B5" />
     <SolidColorBrush x:Key="TextBox_DisabledBackground" Color="#F4F4F4" />
 
     <DataTemplate x:Key="DefaultWatermarkTemplate">
         <ContentControl Content="{Binding}"
                         Focusable="False"
-                        Foreground="Gray" />
+                        Foreground="Gray"/>
     </DataTemplate>
 
     <Style x:Key="{x:Type controls:WatermarkTextBox}"
@@ -50,16 +38,7 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="1" />
-                        <Border x:Name="MouseOverVisual"
-                                BorderBrush="{StaticResource TextBox_MouseOver}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="1"
-                                Opacity="0" />
-                        <Border x:Name="FocusVisual"
-                                BorderBrush="{StaticResource TextBox_Focused}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="1"
-                                Opacity="0" />
+
                         <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         <ContentPresenter x:Name="PART_WatermarkHost"
                                           Margin="{TemplateBinding Padding}"
@@ -82,10 +61,10 @@
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="MouseOverVisual" Property="Opacity" Value="1" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{controls:ThemeColorBrush ThemeColorStyle=BorderMouseOver}" />
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="FocusVisual" Property="Opacity" Value="1" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{controls:ThemeColorBrush ThemeColorStyle=BorderSelected}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource TextBox_DisabledBorder}" />
