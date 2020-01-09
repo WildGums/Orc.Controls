@@ -591,6 +591,12 @@ namespace Orc.Controls
                 return;
             }
 
+            //ignore changes forced by log parts removal (e.g. filtering)
+            if(e.VerticalChange == e.ExtentHeightChange)
+            {
+                return;
+            }
+
             // Disable auto scroll automatically if we are scrolling up
             if (e.VerticalChange < 0 && _lastKnownScrollHeight == scrollHeight)
             {
