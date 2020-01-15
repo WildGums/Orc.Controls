@@ -1302,6 +1302,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty LogFilterProperty;
         public static readonly System.Windows.DependencyProperty LogListenerTypeProperty;
         public static readonly System.Windows.DependencyProperty MaximumUpdateBatchSizeProperty;
+        public static readonly System.Windows.DependencyProperty ScrollModeProperty;
         public static readonly System.Windows.DependencyProperty ShowDebugProperty;
         public static readonly System.Windows.DependencyProperty ShowErrorProperty;
         public static readonly System.Windows.DependencyProperty ShowInfoProperty;
@@ -1325,6 +1326,8 @@ namespace Orc.Controls
         public System.Type LogListenerType { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public int MaximumUpdateBatchSize { get; set; }
+        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public Orc.Controls.ScrollMode ScrollMode { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowDebug { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
@@ -1653,6 +1656,12 @@ namespace Orc.Controls
     public class static ScreenHelper
     {
         public static System.Windows.Size GetDpi() { }
+    }
+    public enum ScrollMode
+    {
+        OnlyManual = 0,
+        AutoScrollPriority = 1,
+        ManualScrollPriority = 2,
     }
     [System.ObsoleteAttribute("Use SqlConnectionString from Orc.DataAccess library instead. Will be removed in v" +
         "ersion 4.0.0.", true)]
@@ -2183,6 +2192,7 @@ namespace Orc.Controls.ViewModels
         public static readonly Catel.Data.PropertyData LogFilterProperty;
         public static readonly Catel.Data.PropertyData LogListenerTypeProperty;
         public static readonly Catel.Data.PropertyData MaximumUpdateBatchSizeProperty;
+        public static readonly Catel.Data.PropertyData ScrollModeProperty;
         public static readonly Catel.Data.PropertyData ShowDebugProperty;
         public static readonly Catel.Data.PropertyData ShowErrorProperty;
         public static readonly Catel.Data.PropertyData ShowInfoProperty;
@@ -2202,6 +2212,7 @@ namespace Orc.Controls.ViewModels
         public string LogFilter { get; set; }
         public System.Type LogListenerType { get; set; }
         public int MaximumUpdateBatchSize { get; set; }
+        public Orc.Controls.ScrollMode ScrollMode { get; set; }
         public bool ShowDebug { get; set; }
         public bool ShowError { get; set; }
         public bool ShowInfo { get; set; }
