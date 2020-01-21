@@ -35,6 +35,9 @@ namespace Orc.Controls
         private DateTimeFormatInfo _formatInfo;
         private bool _hideTime;
         private bool _applyingFormat;
+
+        private readonly int _defaultSecondFormatPosition = 5;
+        private readonly int _defaultAmPmFormatPosition = 6;
         #endregion
 
         #region Constructors
@@ -568,7 +571,7 @@ namespace Orc.Controls
                 NumericTBYear.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.YearFormat.Length));
                 NumericTBHour.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.HourFormat.Length));
                 NumericTBMinute.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.MinuteFormat.Length));
-                NumericTBSecond.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.SecondFormat.Length));
+                NumericTBSecond.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.SecondFormat?.Length ?? 0));
 
                 UnsubscribeNumericTextBoxes();
 
@@ -577,21 +580,30 @@ namespace Orc.Controls
                 Grid.SetColumn(NumericTBYear, GetPosition(_formatInfo.YearPosition));
                 Grid.SetColumn(NumericTBHour, GetPosition(_formatInfo.HourPosition.Value));
                 Grid.SetColumn(NumericTBMinute, GetPosition(_formatInfo.MinutePosition.Value));
-                Grid.SetColumn(NumericTBSecond, GetPosition(_formatInfo.SecondPosition.Value));
-                Grid.SetColumn(ListTBAmPm, GetPosition(_formatInfo.AmPmPosition.HasValue == false ? 6 : _formatInfo.AmPmPosition.Value));
+                Grid.SetColumn(NumericTBSecond, GetPosition(_formatInfo.SecondPosition ?? _defaultSecondFormatPosition));
+                Grid.SetColumn(ListTBAmPm, GetPosition(_formatInfo.AmPmPosition ?? _defaultAmPmFormatPosition));
 
                 Grid.SetColumn(ToggleButtonD, GetPosition(_formatInfo.DayPosition) + 1);
                 Grid.SetColumn(ToggleButtonMo, GetPosition(_formatInfo.MonthPosition) + 1);
                 Grid.SetColumn(ToggleButtonY, GetPosition(_formatInfo.YearPosition) + 1);
                 Grid.SetColumn(ToggleButtonH, GetPosition(_formatInfo.HourPosition.Value) + 1);
                 Grid.SetColumn(ToggleButtonM, GetPosition(_formatInfo.MinutePosition.Value) + 1);
-                Grid.SetColumn(ToggleButtonS, GetPosition(_formatInfo.SecondPosition.Value) + 1);
-                Grid.SetColumn(ToggleButtonT, GetPosition(_formatInfo.AmPmPosition.HasValue == false ? 6 : _formatInfo.AmPmPosition.Value) + 1);
+                Grid.SetColumn(ToggleButtonS, GetPosition(_formatInfo.SecondPosition ?? _defaultSecondFormatPosition) + 1);
+
+                //hide parts according to format only if it not overriden by 'HideSeconds' property
+                if (!HideSeconds)
+                {
+                    NumericTBSecond.SetCurrentValue(NumericTextBox.VisibilityProperty, _formatInfo.SecondFormat is null ? Visibility.Collapsed : Visibility.Visible);
+                    ToggleButtonS.SetCurrentValue(NumericTextBox.VisibilityProperty, _formatInfo.SecondFormat is null ? Visibility.Collapsed : Visibility.Visible);
+                }
+
+                Grid.SetColumn(ToggleButtonT, GetPosition((_formatInfo.AmPmPosition ?? _defaultAmPmFormatPosition) + 1));
 
                 // Fix positions which could be broken, because of AM/PM textblock.
+                // Fix for seconds in a same way
                 int dayPos = _formatInfo.DayPosition, monthPos = _formatInfo.MonthPosition, yearPos = _formatInfo.YearPosition,
-                    hourPos = _formatInfo.HourPosition.Value, minutePos = _formatInfo.MinutePosition.Value, secondPos = _formatInfo.SecondPosition.Value,
-                    amPmPos = _formatInfo.AmPmPosition.HasValue == false ? 6 : _formatInfo.AmPmPosition.Value;
+                    hourPos = _formatInfo.HourPosition.Value, minutePos = _formatInfo.MinutePosition.Value, secondPos = _formatInfo.SecondPosition ?? 5,
+                    amPmPos = _formatInfo.AmPmPosition ?? 6;
                 FixNumericTextBoxesPositions(ref dayPos, ref monthPos, ref yearPos, ref hourPos, ref minutePos, ref secondPos, ref amPmPos);
 
                 _textBoxes[dayPos] = NumericTBDay;
