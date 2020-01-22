@@ -590,12 +590,11 @@ namespace Orc.Controls
                 Grid.SetColumn(ToggleButtonM, GetPosition(_formatInfo.MinutePosition.Value) + 1);
                 Grid.SetColumn(ToggleButtonS, GetPosition(_formatInfo.SecondPosition ?? _defaultSecondFormatPosition) + 1);
 
-                //hide parts according to format only if it not overriden by 'HideSeconds' property
-                if (!HideSeconds)
-                {
-                    NumericTBSecond.SetCurrentValue(NumericTextBox.VisibilityProperty, _formatInfo.SecondFormat is null ? Visibility.Collapsed : Visibility.Visible);
-                    ToggleButtonS.SetCurrentValue(NumericTextBox.VisibilityProperty, _formatInfo.SecondFormat is null ? Visibility.Collapsed : Visibility.Visible);
-                }
+                //hide parts according to Hide options and format
+                bool isHiddenManual = HideSeconds || HideTime;
+
+                NumericTBSecond.SetCurrentValue(NumericTextBox.VisibilityProperty, _formatInfo.SecondFormat is null || isHiddenManual ? Visibility.Collapsed : Visibility.Visible);
+                ToggleButtonS.SetCurrentValue(NumericTextBox.VisibilityProperty, _formatInfo.SecondFormat is null || isHiddenManual ? Visibility.Collapsed : Visibility.Visible);
 
                 Grid.SetColumn(ToggleButtonT, GetPosition((_formatInfo.AmPmPosition ?? _defaultAmPmFormatPosition) + 1));
 

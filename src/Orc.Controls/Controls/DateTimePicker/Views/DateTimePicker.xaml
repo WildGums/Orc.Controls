@@ -112,12 +112,6 @@
                     <controls:NumericTextBox x:Name="NumericTBSecond" Grid.Column="10" Format="00" MaxValue="59" MinValue="0"
                                              Value="{Binding Second, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=LostFocus}"
                                              IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePicker}}}">
-                        <controls:NumericTextBox.Visibility>
-                            <MultiBinding Converter="{converters:BooleanAndToCollapsingVisibilityMultiValueConverter}">
-                                <Binding Path="HideSeconds" Converter="{catel:BooleanToOppositeBooleanConverter}" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePicker}}"/>
-                                <Binding Path="HideTime" Converter="{catel:BooleanToOppositeBooleanConverter}" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePicker}}"/>
-                            </MultiBinding>
-                        </controls:NumericTextBox.Visibility>
                     </controls:NumericTextBox>
                     <ContentControl Grid.Column="11" IsTabStop="False" Style="{DynamicResource DateTimePickerSeparatorPanelStyle}">
                         <ContentControl.Visibility>
@@ -132,12 +126,6 @@
                                   Style="{DynamicResource DateTimePickerLettersToggleButtonStyle}"
                                   Checked="ToggleButton_OnChecked" Content="{catel:LanguageBinding Controls_DateTimePicker_ToggleButton_Content_SecondAbbreviation}"
                                   IsEnabled="{Binding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePicker}}}">
-                        <ToggleButton.Visibility>
-                            <MultiBinding Converter="{converters:BooleanAndToCollapsingVisibilityMultiValueConverter}">
-                                <Binding Path="HideSeconds" Converter="{catel:BooleanToOppositeBooleanConverter}" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePicker}}"/>
-                                <Binding Path="HideTime" Converter="{catel:BooleanToOppositeBooleanConverter}" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateTimePicker}}"/>
-                            </MultiBinding>
-                        </ToggleButton.Visibility>
                     </ToggleButton>
 
                     <controls:ListTextBox x:Name="ListTBAmPm" Grid.Column="12"
