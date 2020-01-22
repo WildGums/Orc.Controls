@@ -105,7 +105,7 @@ namespace Orc.Controls
             return result;
         }
 
-        public static string FindMatchedLongTimePattern(CultureInfo cultureInfo, string timePattern)
+        private static string FindMatchedLongTimePattern(CultureInfo cultureInfo, string timePattern)
         {
             var timeChars = new HashSet<char>(timePattern.Where(x => TimeFormatChars.Contains(x)));
 
@@ -120,7 +120,7 @@ namespace Orc.Controls
             return result;
         }
 
-        public static string ExtractTimePatternFromFormat(string format)
+        private static string ExtractTimePatternFromFormat(string format)
         {
             var timeCharPositions = format.Select((x, i) => new {Char = x, Position = i})
                 .Where(x => TimeFormatChars.Contains(x.Char)).GroupBy(x => x.Char)
@@ -135,7 +135,7 @@ namespace Orc.Controls
             return string.Empty;
         }
 
-        public static string ExtractDatePatternFromFormat(string format)
+        private static string ExtractDatePatternFromFormat(string format)
         {
             var timeCharPositions = format.Select((x, i) => new { Char = x, Position = i })
                 .Where(x => TimeFormatChars.Contains(x.Char)).GroupBy(x => x.Char)
