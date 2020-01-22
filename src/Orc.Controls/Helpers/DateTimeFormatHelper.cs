@@ -90,7 +90,7 @@ namespace Orc.Controls
                 current = result.FormatPart(part, current, isDateOnly);
             }
 
-            if (!result.IsCorrect(isDateOnly, out var errorMessage))
+            if (!result.IsCorrect(true, !isDateOnly, out var errorMessage))
             {
                 throw Log.ErrorAndCreateException<FormatException>(errorMessage);
             }
