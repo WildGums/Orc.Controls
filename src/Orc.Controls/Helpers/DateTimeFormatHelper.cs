@@ -108,12 +108,10 @@ namespace Orc.Controls
         public static string FindMatchedLongTimePattern(CultureInfo cultureInfo, string timePattern)
         {
             var timeChars = new HashSet<char>(timePattern.Where(x => TimeFormatChars.Contains(x)));
-            timeChars.Add('s');
 
             var patterns = cultureInfo.DateTimeFormat.GetAllDateTimePatterns()
                 .Select(ExtractTimePatternFromFormat).Distinct()
                 .Where(x => !string.IsNullOrWhiteSpace(x))
-                .Where(x => x.Contains('s'))
                 .Select(x => new {Pattern = x, MatchesCount = x.Count(y => timeChars.Contains(y))})
                 .OrderByDescending(x => x.MatchesCount).Select(x => x.Pattern);
 
