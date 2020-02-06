@@ -14,6 +14,7 @@ namespace Orc.Controls
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using Catel.IoC;
+    using Catel.Windows;
 
     public class DateTimePartHelper
     {
@@ -66,7 +67,11 @@ namespace Orc.Controls
         private void PopupSourceOnMouseUp(object sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
             var listbox = ((ListBox)sender);
-            UpdateTextBox((KeyValuePair<string, string>)listbox.SelectedItems[0]);
+            
+            if(listbox.SelectedItems.Count > 0)
+            {
+                UpdateTextBox((KeyValuePair<string, string>)listbox.SelectedItems[0]);
+            }
 
             ((Popup)listbox.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
             _textBox.Focus();
