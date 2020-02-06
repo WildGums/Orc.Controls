@@ -157,8 +157,6 @@ namespace Orc.Controls
                 Margin = new Thickness(0, 0, 0, 0),
             };
 
-            var scroll = listbox.FindVisualDescendantByType<ScrollViewer>();
-
             return listbox;
         }
         #endregion
