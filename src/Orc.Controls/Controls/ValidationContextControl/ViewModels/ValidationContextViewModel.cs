@@ -112,6 +112,11 @@ namespace Orc.Controls
             _processService.StartProcess(filePath);
         }
 
+        private void OnNodesChanged()
+        {
+            UpdateNodesExpandedingState();
+        }
+
         private void OnIsExpandedAllOnStartupChanged()
         {
             IsExpanded = IsExpandedAllOnStartup;
