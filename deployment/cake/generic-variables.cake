@@ -70,25 +70,24 @@ public class VersionContext : BuildContextBase
             {
                 CakeContext.Information("No local .git directory found, treating as dynamic repository");
 
-                //// TEMP CODE - START
-                //
-                //CakeContext.Warning("Since dynamic repositories do not yet work correctly, we clear out the cloned temp directory (which is slow, but should be fixed in 5.0 beta)");
-                //
-                //// Make a *BIG* assumption that the solution name == repository name
-                //var repositoryName = generalContext.Solution.Name;
-                //var tempDirectory = $"{System.IO.Path.GetTempPath()}\\{repositoryName}";
-                //
-                //if (CakeContext.DirectoryExists(tempDirectory))
-                //{
-                //    CakeContext.DeleteDirectory(tempDirectory, new DeleteDirectorySettings
-                //    {
-                //        Force = true,
-                //        Recursive = true
-                //    });
-                //}
-                //
-                //// TEMP CODE - END
-
+                if (ClearCache)
+                {
+                    CakeContext.Warning("Cleaning the cloned temp directory, disable by setting 'GitVersion_ClearCache' to 'false'");
+                    
+                    // Make a *BIG* assumption that the solution name == repository name
+                    var repositoryName = generalContext.Solution.Name;
+                    var tempDirectory = $"{System.IO.Path.GetTempPath()}\\{repositoryName}";
+                    
+                    if (CakeContext.DirectoryExists(tempDirectory))
+                    {
+                        CakeContext.DeleteDirectory(tempDirectory, new DeleteDirectorySettings
+                        {
+                            Force = true,
+                            Recursive = true
+                        });
+                    }
+                }
+          
                 // Dynamic repository
                 gitVersionSettings.UserName = generalContext.Repository.Username;
                 gitVersionSettings.Password = generalContext.Repository.Password;
@@ -105,6 +104,7 @@ public class VersionContext : BuildContextBase
         return _gitVersionContext;
     }
 
+    public bool ClearCache { get; set; }
     public string MajorMinorPatch { get; set; }
     public string FullSemVer { get; set; }
     public string NuGet { get; set; }
@@ -183,7 +183,28 @@ public class SolutionContext : BuildContextBase
     public string Name { get; set; }
     public string AssemblyInfoFileName { get; set; }
     public string FileName { get; set; }
+    public string Directory
+    {
+        get
+        {
+            var directory = System.IO.Directory.GetParent(FileName).FullName;
+            if (!directory.EndsWith("/") && !directory.EndsWith("\\"))
+            {
+                if (directory.Contains("\\"))
+                {
+                    directory += "\\";
+                }
+                else
+                {
+                    directory += "/";
+                }
+            }
 
+            return directory;
+        }
+    }
+
+    public bool BuildSolution { get; set; }
     public string PublishType { get; set; }
     public string ConfigurationName { get; set; }
 
@@ -313,6 +334,7 @@ private GeneralContext InitializeGeneralContext(BuildContext buildContext, IBuil
 
     data.Version = new VersionContext(data)
     {
+        ClearCache = buildContext.BuildServer.GetVariableAsBool("GitVersion_ClearCache", false, showValue: true),
         MajorMinorPatch = buildContext.BuildServer.GetVariable("GitVersion_MajorMinorPatch", "unknown", showValue: true),
         FullSemVer = buildContext.BuildServer.GetVariable("GitVersion_FullSemVer", "unknown", showValue: true),
         NuGet = buildContext.BuildServer.GetVariable("GitVersion_NuGetVersion", "unknown", showValue: true),
@@ -340,7 +362,8 @@ private GeneralContext InitializeGeneralContext(BuildContext buildContext, IBuil
         AssemblyInfoFileName = "./src/SolutionAssemblyInfo.cs",
         FileName = string.Format("./src/{0}", string.Format("{0}.sln", solutionName)),
         PublishType = buildContext.BuildServer.GetVariable("PublishType", "Unknown", showValue: true),
-        ConfigurationName = buildContext.BuildServer.GetVariable("ConfigurationName", "Release", showValue: true)
+        ConfigurationName = buildContext.BuildServer.GetVariable("ConfigurationName", "Release", showValue: true),
+        BuildSolution = buildContext.BuildServer.GetVariableAsBool("BuildSolution", false, showValue: true)
     };
 
     data.IsCiBuild = buildContext.BuildServer.GetVariableAsBool("IsCiBuild", false, showValue: true);
