@@ -49,12 +49,12 @@ namespace Orc.Controls
         private bool OnClearCanExecute()
         {
             return OnOpenDirectoryCanExecute();
-        } 
+        }
 
         private void OnClearExecute()
         {
             SelectedDirectory = string.Empty;
-        } 
+        }
 
         /// <summary>
         /// Gets the OpenDirectory command.
@@ -92,14 +92,21 @@ namespace Orc.Controls
         /// </summary>
         private async Task OnSelectDirectoryExecuteAsync()
         {
+            string initialDirectory = null;
+
             if (!string.IsNullOrEmpty(SelectedDirectory))
             {
-                _selectDirectoryService.InitialDirectory = Path.GetFullPath(SelectedDirectory);
+                initialDirectory = Path.GetFullPath(SelectedDirectory);
             }
 
-            if (await _selectDirectoryService.DetermineDirectoryAsync())
+            var result = await _selectDirectoryService.DetermineDirectoryAsync(new DetermineDirectoryContext
             {
-                SelectedDirectory = _selectDirectoryService.DirectoryName;
+                InitialDirectory = initialDirectory
+            });
+
+            if (result.Result)
+            {
+                SelectedDirectory = result.DirectoryName;
             }
         }
         #endregion

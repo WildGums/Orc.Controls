@@ -47,7 +47,7 @@ public static class ModuleInitializer
         serviceLocator.RegisterType<IConnectionStringBuilderService, ConnectionStringBuilderService>();
         serviceLocator.RegisterTypeIfNotYetRegistered<IControlToolManagerFactory, ControlToolManagerFactory>();
 
-        // Override Catel.SelectDirectoryService with Orchestra.Services.SelectDirectoryService
+        // Override Catel.SelectDirectoryService with Orchestra.Services.SelectDirectoryService, moved to orchestra
         serviceLocator.RegisterType<ISelectDirectoryService, MicrosoftApiSelectDirectoryService>();
 
         serviceLocator.RegisterType<ITimeAdjustmentProvider, TimeAdjustmentProvider>();

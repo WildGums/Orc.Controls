@@ -1437,7 +1437,7 @@ namespace Orc.Controls
         public static readonly Catel.Data.PropertyData LabelWidthProperty;
         public static readonly Catel.Data.PropertyData SelectedFileDisplayNameProperty;
         public static readonly Catel.Data.PropertyData SelectedFileProperty;
-        public OpenFilePickerViewModel(Catel.Services.IOpenFileService selectFileService, Catel.Services.IProcessService processService) { }
+        public OpenFilePickerViewModel(Catel.Services.IOpenFileService openFileService, Catel.Services.IProcessService processService) { }
         public string BaseDirectory { get; set; }
         public Catel.MVVM.Command Clear { get; }
         public string Filter { get; set; }
@@ -2100,6 +2100,8 @@ namespace Orc.Controls.Services
     {
         void UpdateStatus(string status);
     }
+    [System.ObsoleteAttribute("Use `Orchestra.Services.MicrosoftApiSelectDirectoryService` instead. Will be remo" +
+        "ved in version 4.0.0.", true)]
     public class MicrosoftApiSelectDirectoryService : Catel.Services.ISelectDirectoryService
     {
         public MicrosoftApiSelectDirectoryService() { }
@@ -2110,6 +2112,7 @@ namespace Orc.Controls.Services
         public bool ShowNewFolderButton { get; set; }
         public string Title { get; set; }
         public System.Threading.Tasks.Task<bool> DetermineDirectoryAsync() { }
+        public System.Threading.Tasks.Task<Catel.Services.DetermineDirectoryResult> DetermineDirectoryAsync(Catel.Services.DetermineDirectoryContext context) { }
     }
 }
 namespace Orc.Controls.Tools.Attributes
