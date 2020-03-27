@@ -93,6 +93,12 @@ Task("UpdateNuGet")
 {
     Information("Making sure NuGet is using the latest version");
 
+    if (buildContext.General.IsLocalBuild && buildContext.General.MaximizePerformance)
+    {
+        Information("Local build with maximized performance detected, skipping NuGet update check");
+        return;
+    }
+
     var nuGetExecutable = buildContext.General.NuGet.Executable;
 
     var exitCode = StartProcess(nuGetExecutable, new ProcessSettings
@@ -113,6 +119,12 @@ Task("RestorePackages")
     .ContinueOnError()
     .Does<BuildContext>(buildContext =>
 {
+    if (buildContext.General.IsLocalBuild && buildContext.General.MaximizePerformance)
+    {
+        Information("Local build with maximized performance detected, skipping package restore");
+        return;
+    }
+
     // var csharpProjects = GetFiles("./**/*.csproj");
     // var cProjects = GetFiles("./**/*.vcxproj");
     var solutions = GetFiles("./**/*.sln");
@@ -127,12 +139,18 @@ Task("RestorePackages")
         RestoreNuGetPackages(buildContext, file);
     }
 
+    // C++ files need to be done manually
     foreach (var project in buildContext.AllProjects)
     {
         var projectFileName = GetProjectFileName(buildContext, project);
         if (IsCppProject(projectFileName))
         {
+            buildContext.CakeContext.LogSeparator("'{0}' is a C++ project, restoring NuGet packages separately", project);
+
             RestoreNuGetPackages(buildContext, projectFileName);
+
+            // For C++ projects, we must clean the project again after a package restore
+            CleanProject(buildContext, project);
         }
     }
 });
@@ -148,6 +166,12 @@ Task("Clean")
     .ContinueOnError()
     .Does<BuildContext>(buildContext => 
 {
+    if (buildContext.General.IsLocalBuild && buildContext.General.MaximizePerformance)
+    {
+        Information("Local build with maximized performance detected, skipping solution clean");
+        return;
+    }
+
     var platforms = new Dictionary<string, PlatformTarget>();
     platforms["AnyCPU"] = PlatformTarget.MSIL;
     platforms["x86"] = PlatformTarget.x86;
@@ -181,54 +205,13 @@ Task("Clean")
         }
     }
 
-    var directoriesToDelete = new List<string>();
-
     // Output directory
-    directoriesToDelete.Add(buildContext.General.OutputRootDirectory);
+    DeleteDirectoryWithLogging(buildContext, buildContext.General.OutputRootDirectory);
 
     // obj directories
     foreach (var project in buildContext.AllProjects)
     {
-        var projectDirectory = GetProjectDirectory(project);
-
-        Information($"Investigating paths to clean up in '{projectDirectory}'");
-
-        var binDirectory = System.IO.Path.Combine(projectDirectory, "bin");
-        directoriesToDelete.Add(binDirectory);
-
-        var objDirectory = System.IO.Path.Combine(projectDirectory, "obj");
-        directoriesToDelete.Add(objDirectory);
-
-        // Special C++ scenarios
-        var projectFileName = GetProjectFileName(buildContext, project);
-        if (IsCppProject(projectFileName))
-        {
-            var debugDirectory = System.IO.Path.Combine(projectDirectory, "Debug");
-            directoriesToDelete.Add(debugDirectory);
-
-            var releaseDirectory = System.IO.Path.Combine(projectDirectory, "Release");
-            directoriesToDelete.Add(releaseDirectory);
-
-            var x64Directory = System.IO.Path.Combine(projectDirectory, "x64");
-            directoriesToDelete.Add(x64Directory);
-
-            var x86Directory = System.IO.Path.Combine(projectDirectory, "x86");
-            directoriesToDelete.Add(x86Directory);
-        }
-    }
-
-    foreach (var directoryToDelete in directoriesToDelete)
-    {
-        if (DirectoryExists(directoryToDelete))
-        {
-            Information($"Cleaning up directory '{directoryToDelete}'");
-
-            DeleteDirectory(directoryToDelete, new DeleteDirectorySettings()
-            {
-                Force = true,
-                Recursive = true
-            });
-        }
+        CleanProject(buildContext, project);
     }
 });
 
@@ -269,7 +252,7 @@ Task("CodeSign")
 
     if (buildContext.General.IsLocalBuild)
     {
-        Information("Skipping code signing because this is a local package build");
+        Information("Local build detected, skipping code signing");
         return;
     }
 
