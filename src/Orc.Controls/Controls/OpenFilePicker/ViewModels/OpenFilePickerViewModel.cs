@@ -57,12 +57,12 @@ namespace Orc.Controls
         private bool OnClearCanExecute()
         {
             return OnOpenDirectoryCanExecute();
-        } 
+        }
 
         private void OnClearExecute()
         {
             SelectedFile = string.Empty;
-        } 
+        }
 
         /// <summary>
         /// Gets the OpenDirectory command.

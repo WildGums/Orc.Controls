@@ -58,6 +58,11 @@ namespace Orc.Controls.Example
             // Some test logging, but important to load the assembly first
             var externalTypeToForceAssemblyLoad = typeof(LogViewerLogListener);
 
+#pragma warning disable CS0618 // Type or member is obsolete
+            Orchestra.Markup.FontImage.RegisterFont("FontAwesome", new FontFamily(new Uri("pack://application:,,,/Orc.Controls.Example.NET;component/Resources/Fonts/", UriKind.RelativeOrAbsolute), "./#FontAwesome"));
+            Orchestra.Markup.FontImage.DefaultFontFamily = "FontAwesome";
+#pragma warning restore CS0618 // Type or member is obsolete
+
             Orc.Controls.FontImage.RegisterFont("FontAwesome", new FontFamily(new Uri("pack://application:,,,/Orc.Controls.Example.NET;component/Resources/Fonts/", UriKind.RelativeOrAbsolute), "./#FontAwesome"));
             Orc.Controls.FontImage.DefaultFontFamily = "FontAwesome";
 
