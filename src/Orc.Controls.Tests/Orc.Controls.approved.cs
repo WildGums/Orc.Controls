@@ -1434,7 +1434,7 @@ namespace Orc.Controls
         public static readonly Catel.Data.PropertyData LabelWidthProperty;
         public static readonly Catel.Data.PropertyData SelectedFileDisplayNameProperty;
         public static readonly Catel.Data.PropertyData SelectedFileProperty;
-        public OpenFilePickerViewModel(Catel.Services.IOpenFileService selectFileService, Catel.Services.IProcessService processService) { }
+        public OpenFilePickerViewModel(Catel.Services.IOpenFileService openFileService, Catel.Services.IProcessService processService) { }
         public string BaseDirectory { get; set; }
         public Catel.MVVM.Command Clear { get; }
         public string Filter { get; set; }
@@ -2101,6 +2101,7 @@ namespace Orc.Controls.Services
         public bool ShowNewFolderButton { get; set; }
         public string Title { get; set; }
         public System.Threading.Tasks.Task<bool> DetermineDirectoryAsync() { }
+        public System.Threading.Tasks.Task<Catel.Services.DetermineDirectoryResult> DetermineDirectoryAsync(Catel.Services.DetermineDirectoryContext context) { }
     }
 }
 namespace Orc.Controls.Tools.Attributes
@@ -2225,17 +2226,5 @@ namespace Orc.Controls.Views
     {
         public FindReplaceView() { }
         public void InitializeComponent() { }
-    }
-}
-namespace XamlGeneratedNamespace
-{
-    public sealed class GeneratedInternalTypeHelper : System.Windows.Markup.InternalTypeHelper
-    {
-        public GeneratedInternalTypeHelper() { }
-        protected override void AddEventHandler(System.Reflection.EventInfo eventInfo, object target, System.Delegate handler) { }
-        protected override System.Delegate CreateDelegate(System.Type delegateType, object target, string handler) { }
-        protected override object CreateInstance(System.Type type, System.Globalization.CultureInfo culture) { }
-        protected override object GetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, System.Globalization.CultureInfo culture) { }
-        protected override void SetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, object value, System.Globalization.CultureInfo culture) { }
     }
 }

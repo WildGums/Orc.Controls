@@ -8,6 +8,7 @@
 namespace Orc.Controls.Services
 {
     using System.Threading.Tasks;
+    using Catel;
     using Catel.Services;
     using Microsoft.WindowsAPICodePack.Dialogs;
 
@@ -40,6 +41,33 @@ namespace Orc.Controls.Services
 
             DirectoryName = string.Empty;
             return false;
+        }
+
+        public async Task<DetermineDirectoryResult> DetermineDirectoryAsync(DetermineDirectoryContext context)
+        {
+            Argument.IsNotNull(() => context);
+
+            var browserDialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true,
+                Title = Title,
+                InitialDirectory = context.InitialDirectory
+            };
+
+            var dialogResult = browserDialog.ShowDialog();
+
+            var result = new DetermineDirectoryResult
+            {
+                Result = dialogResult == CommonFileDialogResult.Ok,
+            };
+
+            // Note: only get properties when succeeded, otherwise it will throw exceptions
+            if (result.Result)
+            {
+                result.DirectoryName = browserDialog.FileName;
+            }
+
+            return result;
         }
         #endregion
     }

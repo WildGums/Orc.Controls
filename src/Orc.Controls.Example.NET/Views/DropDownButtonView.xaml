@@ -179,7 +179,7 @@
                 <StackPanel Orientation="Horizontal">
                     <orccontrols:DropDownButton Margin="5" Height="75" Width="75" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Left">
                         <orccontrols:DropDownButton.Header>
-                            <Image Source="{orchestra:FontImage {x:Static ribbon:FontAwesome.Refresh}}"/>
+                            <Image Source="{orccontrols:FontImage {x:Static ribbon:FontAwesome.Refresh}}"/>
                         </orccontrols:DropDownButton.Header>
                         <orccontrols:DropDownButton.DropDown>
                             <ContextMenu>
@@ -193,7 +193,7 @@
 
                     <orccontrols:DropDownButton Margin="5" Height="75" Width="75" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Top">
                         <orccontrols:DropDownButton.Header>
-                            <Image Source="{orchestra:FontImage {x:Static ribbon:FontAwesome.Medkit}}"/>
+                            <Image Source="{orccontrols:FontImage {x:Static ribbon:FontAwesome.Medkit}}"/>
                         </orccontrols:DropDownButton.Header>
                         <orccontrols:DropDownButton.DropDown>
                             <ContextMenu>
@@ -210,7 +210,7 @@
 
                     <orccontrols:DropDownButton Margin="5" Height="75" Width="75" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Right">
                         <orccontrols:DropDownButton.Header>
-                            <Image Source="{orchestra:FontImage {x:Static ribbon:FontAwesome.MailReply}}"/>
+                            <Image Source="{orccontrols:FontImage {x:Static ribbon:FontAwesome.MailReply}}"/>
                         </orccontrols:DropDownButton.Header>
                         <orccontrols:DropDownButton.DropDown>
                             <ContextMenu>
@@ -224,7 +224,7 @@
 
                     <orccontrols:DropDownButton Margin="5" Height="75" Width="75" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Bottom">
                         <orccontrols:DropDownButton.Header>
-                            <Image Source="{orchestra:FontImage {x:Static ribbon:FontAwesome.Ambulance}}"/>
+                            <Image Source="{orccontrols:FontImage {x:Static ribbon:FontAwesome.Ambulance}}"/>
                         </orccontrols:DropDownButton.Header>
                         <orccontrols:DropDownButton.DropDown>
                             <ContextMenu>
@@ -246,7 +246,7 @@
                 <StackPanel Orientation="Horizontal"  >
                     <orccontrols:DropDownButton Margin="5" Height="50" Width="50" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Left" ArrowMargin="5" >
                         <orccontrols:DropDownButton.Header>
-                            <Image Source="{orchestra:FontImage {x:Static ribbon:FontAwesome.Warning}}"/>
+                            <Image Source="{orccontrols:FontImage {x:Static ribbon:FontAwesome.Warning}}"/>
                         </orccontrols:DropDownButton.Header>
                         <orccontrols:DropDownButton.DropDown>
                             <ContextMenu>
@@ -260,7 +260,7 @@
 
                     <orccontrols:DropDownButton Margin="5" Height="50" Width="50" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Top" ArrowMargin="4">
                         <orccontrols:DropDownButton.Header>
-                            <Image Source="{orchestra:FontImage {x:Static ribbon:FontAwesome.Edit}}"/>
+                            <Image Source="{orccontrols:FontImage {x:Static ribbon:FontAwesome.Edit}}"/>
                         </orccontrols:DropDownButton.Header>
                         <orccontrols:DropDownButton.DropDown>
                             <ContextMenu>
@@ -276,7 +276,7 @@
                 <StackPanel Orientation="Horizontal" >
                     <orccontrols:DropDownButton Margin="5" Height="50" Width="50" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Right" ArrowMargin="3">
                         <orccontrols:DropDownButton.Header>
-                            <Image Source="{orchestra:FontImage {x:Static ribbon:FontAwesome.PowerOff}}"/>
+                            <Image Source="{orccontrols:FontImage {x:Static ribbon:FontAwesome.PowerOff}}"/>
                         </orccontrols:DropDownButton.Header>
                         <orccontrols:DropDownButton.DropDown>
                             <ContextMenu>
@@ -290,7 +290,7 @@
 
                     <orccontrols:DropDownButton Margin="5" Height="50" Width="50" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Bottom" ArrowMargin="2">
                         <orccontrols:DropDownButton.Header>
-                            <Image Source="{orchestra:FontImage {x:Static ribbon:FontAwesome.PaintBrush}}"/>
+                            <Image Source="{orccontrols:FontImage {x:Static ribbon:FontAwesome.PaintBrush}}"/>
                         </orccontrols:DropDownButton.Header>
                         <orccontrols:DropDownButton.DropDown>
                             <ContextMenu>

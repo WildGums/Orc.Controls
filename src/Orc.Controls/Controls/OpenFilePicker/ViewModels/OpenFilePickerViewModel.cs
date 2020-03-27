@@ -19,16 +19,16 @@ namespace Orc.Controls
     {
         #region Fields
         private readonly IProcessService _processService;
-        private readonly IOpenFileService _selectFileService;
+        private readonly IOpenFileService _openFileService;
         #endregion
 
         #region Constructors
-        public OpenFilePickerViewModel(IOpenFileService selectFileService, IProcessService processService)
+        public OpenFilePickerViewModel(IOpenFileService openFileService, IProcessService processService)
         {
-            Argument.IsNotNull(() => selectFileService);
+            Argument.IsNotNull(() => openFileService);
             Argument.IsNotNull(() => processService);
 
-            _selectFileService = selectFileService;
+            _openFileService = openFileService;
             _processService = processService;
 
             OpenDirectory = new Command(OnOpenDirectoryExecute, OnOpenDirectoryCanExecute);
@@ -57,12 +57,12 @@ namespace Orc.Controls
         private bool OnClearCanExecute()
         {
             return OnOpenDirectoryCanExecute();
-        } 
+        }
 
         private void OnClearExecute()
         {
             SelectedFile = string.Empty;
-        } 
+        }
 
         /// <summary>
         /// Gets the OpenDirectory command.
@@ -101,22 +101,33 @@ namespace Orc.Controls
         /// </summary>
         private async Task OnSelectFileExecuteAsync()
         {
-            var initialDirectory = GetInitialDirectory();
-            if (!string.IsNullOrEmpty(initialDirectory))
+            string initialDirectory = null;
+            string fileName = null;
+            string filter = null;
+
+            if (!string.IsNullOrEmpty(SelectedFile))
             {
-                _selectFileService.InitialDirectory = initialDirectory;
+                initialDirectory = Directory.GetParent(SelectedFile).FullName;
+                fileName = SelectedFile;
             }
 
             if (!string.IsNullOrEmpty(Filter))
             {
-                _selectFileService.Filter = Filter;
+                filter = Filter;
             }
 
-            if (await _selectFileService.DetermineFileAsync())
+            var result = await _openFileService.DetermineFileAsync(new DetermineOpenFileContext
+            {
+                InitialDirectory = initialDirectory,
+                FileName = fileName,
+                Filter = filter,
+            });
+
+            if (result.Result)
             {
                 var oldSelectedFile = SelectedFile;
 
-                SelectedFile = _selectFileService.FileName;
+                SelectedFile = result.FileName;
 
                 // See here: https://github.com/WildGums/Orc.Controls/issues/13
                 if (!AlwaysInvokeNotifyChanged

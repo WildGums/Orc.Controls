@@ -51,12 +51,12 @@ namespace Orc.Controls
         private bool OnClearCanExecute()
         {
             return OnOpenDirectoryCanExecute();
-        } 
+        }
 
         private void OnClearExecute()
         {
             SelectedFile = string.Empty;
-        } 
+        }
 
         /// <summary>
         /// Gets the OpenDirectory command.
@@ -98,20 +98,40 @@ namespace Orc.Controls
         /// </summary>
         private async Task OnSelectFileExecuteAsync()
         {
+            string initialDirectory = null;
+            string fileName = null;
+            string filter = null;
+
             if (!string.IsNullOrEmpty(SelectedFile))
             {
-                _saveFileService.InitialDirectory = Directory.GetParent(SelectedFile).FullName;
-                _saveFileService.FileName = SelectedFile;
+                initialDirectory = Directory.GetParent(SelectedFile).FullName;
+                fileName = SelectedFile;
             }
 
             if (!string.IsNullOrEmpty(Filter))
             {
-                _saveFileService.Filter = Filter;
+                filter = Filter;
             }
 
-            if (await _saveFileService.DetermineFileAsync())
+            var result = await _saveFileService.DetermineFileAsync(new DetermineSaveFileContext
             {
-                SelectedFile = _saveFileService.FileName;
+                InitialDirectory = initialDirectory,
+                FileName = fileName,
+                Filter = filter,
+            });
+
+            if (result.Result)
+            {
+                var oldSelectedFile = SelectedFile;
+
+                SelectedFile = result.FileName;
+
+                // See here: https://github.com/WildGums/Orc.Controls/issues/13
+                if (!AlwaysInvokeNotifyChanged
+                    && string.Equals(oldSelectedFile, SelectedFile))
+                {
+                    RaisePropertyChanged(nameof(SelectedFile));
+                }
             }
         }
         #endregion
