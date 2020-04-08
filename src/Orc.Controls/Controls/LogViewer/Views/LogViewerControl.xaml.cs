@@ -40,6 +40,7 @@ namespace Orc.Controls
 
         private LogViewerViewModel _lastKnownViewModel;
         private bool _hasClearedEntries;
+        private double _lastKnownScrollHeight = 0;
         #endregion
 
         #region Events
@@ -203,6 +204,34 @@ namespace Orc.Controls
         public static readonly DependencyProperty AutoScrollProperty = DependencyProperty.Register(nameof(AutoScroll), typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public ScrollMode ScrollMode
+        {
+            get { return (ScrollMode)GetValue(ScrollModeProperty); }
+            set { SetValue(ScrollModeProperty, value); }
+        }
+
+        public static readonly DependencyProperty ScrollModeProperty = DependencyProperty.Register(nameof(ScrollMode), typeof(ScrollMode),
+            typeof(LogViewerControl), new FrameworkPropertyMetadata(ScrollMode.ManualScrollPriority, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (s, e) => ((LogViewerControl)s).OnScrollModePropertyChanged(s, e)));
+
+        private void OnScrollModePropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            var newScrollModeValue = (ScrollMode)e.NewValue;
+
+            //when ManualScrollPriority set we enabled AutoScroll at first, and handle AutoScroll in ScrollChanged event later
+            switch (newScrollModeValue)
+            {
+                case ScrollMode.AutoScrollPriority:
+                    SetCurrentValue(AutoScrollProperty, true);
+                    break;
+                case ScrollMode.ManualScrollPriority:
+                    SetCurrentValue(AutoScrollProperty, true);
+                    break;
+                case ScrollMode.OnlyManual:
+                    SetCurrentValue(AutoScrollProperty, false);
+                    break;
+            }
+        }
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowMultilineMessagesExpanded
@@ -544,19 +573,39 @@ namespace Orc.Controls
 
         private void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
         {
+            double? scrollHeight = null;
+
+            if (e.OriginalSource is ScrollViewer scrollViewer)
+            {
+                scrollHeight = scrollViewer.ActualHeight;
+            }
+
             if (_hasClearedEntries)
             {
                 _hasClearedEntries = false;
                 return;
             }
 
+            if (ScrollMode != ScrollMode.ManualScrollPriority)
+            {
+                return;
+            }
+
+            //ignore changes forced by log parts removal (e.g. filtering)
+            if(e.VerticalChange == e.ExtentHeightChange)
+            {
+                return;
+            }
+
             // Disable auto scroll automatically if we are scrolling up
-            if (e.VerticalChange < 0)
+            if (e.VerticalChange < 0 && _lastKnownScrollHeight == scrollHeight)
             {
 #pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
                 SetValue(AutoScrollProperty, false);
 #pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
             }
+
+            _lastKnownScrollHeight = scrollHeight.Value;
         }
     }
 }

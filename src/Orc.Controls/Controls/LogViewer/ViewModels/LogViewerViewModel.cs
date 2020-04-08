@@ -105,6 +105,7 @@ namespace Orc.Controls.ViewModels
         public bool ShowWarning { get; set; }
         public bool ShowError { get; set; }
         public bool AutoScroll { get; set; }
+        public ScrollMode ScrollMode { get; set; }
         public bool ShowMultilineMessagesExpanded { get; set; }
         public int DebugEntriesCount { get; private set; }
         public int InfoEntriesCount { get; private set; }

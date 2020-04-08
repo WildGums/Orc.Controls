@@ -10,7 +10,9 @@
 
     <!-- Content -->
     <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
-        <TextBlock Text="BindableRichTextBox" Width="150" VerticalAlignment="Top" />
-        <orccontrols:BindableRichTextBox BindableDocument="{Binding FlowDoc}" Width="200" VerticalAlignment="Top"/>
+        <TextBlock Text="BindableRichTextBox" Width="120" VerticalAlignment="Top" />
+        <orccontrols:BindableRichTextBox BindableDocument="{Binding FlowDoc}" Width="280" VerticalAlignment="Top"/>
+        <CheckBox VerticalAlignment="Top" Margin="6 0 0 0" Content="Color text" IsChecked="{Binding UseAccentText}"/>
+        <Button VerticalAlignment="Top" Width="80" Margin="6 0 0 0" Content="Clear" Command="{Binding ClearText}" />
     </StackPanel>
 </catel:UserControl>

@@ -12,6 +12,8 @@ namespace Orc.Controls.Services
     using Catel.Services;
     using Microsoft.WindowsAPICodePack.Dialogs;
 
+    [ObsoleteEx(ReplacementTypeOrMember = "Orchestra.Services.MicrosoftApiSelectDirectoryService", TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0")]
+    // NOTE: Don't forget to remove the references when removing this class
     public class MicrosoftApiSelectDirectoryService : ISelectDirectoryService
     {
         #region Properties

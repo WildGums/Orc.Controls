@@ -10,7 +10,7 @@ internal static class MethodTimeLogger
     #region Methods
     public static void Log(MethodBase methodBase, long milliseconds, string message)
     {
-        Log(methodBase.DeclaringType, methodBase.Name, milliseconds, message);
+        Log(methodBase.DeclaringType ?? typeof(object), methodBase.Name, milliseconds, message);
     }
 
     public static void Log(Type type, string methodName, long milliseconds, string message)
@@ -26,7 +26,7 @@ internal static class MethodTimeLogger
             return;
         }
 
-        var finalMessage = $"[METHODTIMER] {type.Name}.{methodName} took '{milliseconds}' ms";
+        var finalMessage = $"[METHODTIMER] {type.Name}.{methodName} took '{milliseconds.ToString()}' ms";
 
         if (!string.IsNullOrWhiteSpace(message))
         {
