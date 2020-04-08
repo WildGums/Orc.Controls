@@ -367,16 +367,16 @@ namespace Orc.Controls
                     }
                 // 'MMM'
                 case 3 when partValue.Length != 3:
-                {
-                    errorMessage = "Invalid month value. Month must contain 3 digits";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid month value. Month must contain 3 digits";
+                        return false;
+                    }
                 // 'MMMM'
                 case 4 when partValue.Length != 4:
-                {
-                    errorMessage = "Invalid month value. Month must contain 4 digits";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid month value. Month must contain 4 digits";
+                        return false;
+                    }
             }
 
             return true;
@@ -401,20 +401,20 @@ namespace Orc.Controls
                 case 2 when partValue.Length != 2:
                     {
                         errorMessage = "Invalid day value. Day must contain 2 digits";
-                    return false;
-                }
+                        return false;
+                    }
 
                 // 'ddd'
                 case 3 when partValue.Length != 3:
-                {
-                    errorMessage = "Invalid day value. Day must contain 3 digits";
-                    return false;
-                }
+                    {
+                        errorMessage = "Invalid day value. Day must contain 3 digits";
+                        return false;
+                    }
 
                 // 'dddd'
                 case 4 when partValue.Length != 4:
-                {
-                    errorMessage = "Invalid day value. Day must contain 4 digits";
+                    {
+                        errorMessage = "Invalid day value. Day must contain 4 digits";
                         return false;
                     }
             }
