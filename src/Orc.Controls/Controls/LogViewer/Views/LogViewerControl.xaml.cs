@@ -573,12 +573,12 @@ namespace Orc.Controls
 
         private void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            double? scrollHeight = null;
-
-            if (e.OriginalSource is ScrollViewer scrollViewer)
+            if (!(e.OriginalSource is ScrollViewer scrollViewer))
             {
-                scrollHeight = scrollViewer.ActualHeight;
+                return;
             }
+           
+            var scrollHeight = scrollViewer.ActualHeight;
 
             if (_hasClearedEntries)
             {
@@ -605,7 +605,7 @@ namespace Orc.Controls
 #pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
             }
 
-            _lastKnownScrollHeight = scrollHeight.Value;
+            _lastKnownScrollHeight = scrollHeight;
         }
     }
 }
