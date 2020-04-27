@@ -4,7 +4,6 @@ using Catel.Logging;
 using Catel.MVVM;
 using Catel.Services;
 using Orc.Controls;
-using Orc.Controls.Services;
 using Orc.Controls.Tools;
 
 /// <summary>
@@ -22,7 +21,7 @@ public static class ModuleInitializer
         var logListener = (from x in LogManager.GetListeners()
                            where x is LogViewerLogListener
                            select (LogViewerLogListener)x).FirstOrDefault();
-        if (logListener == null)
+        if (logListener is null)
         {
             logListener = new LogViewerLogListener
             {
@@ -38,17 +37,11 @@ public static class ModuleInitializer
 
         serviceLocator.RegisterInstance<LogViewerLogListener>(logListener);
 
-        serviceLocator.RegisterType<IAccentColorService, AccentColorService>();
         serviceLocator.RegisterType<IApplicationLogFilterGroupService, ApplicationLogFilterGroupService>();
 
         serviceLocator.RegisterType<ISuggestionListService, SuggestionListService>();
         serviceLocator.RegisterType<IValidationNamesService, ValidationNamesService>();
-        serviceLocator.RegisterTypeIfNotYetRegistered<IConnectionStringBuilderServiceInitializer, ConnectionStringBuilderServiceInitializer>();
-        serviceLocator.RegisterType<IConnectionStringBuilderService, ConnectionStringBuilderService>();
         serviceLocator.RegisterTypeIfNotYetRegistered<IControlToolManagerFactory, ControlToolManagerFactory>();
-
-        // Override Catel.SelectDirectoryService with Orchestra.Services.SelectDirectoryService, moved to orchestra
-        serviceLocator.RegisterType<ISelectDirectoryService, MicrosoftApiSelectDirectoryService>();
 
         serviceLocator.RegisterType<ITimeAdjustmentProvider, TimeAdjustmentProvider>();
 
@@ -56,10 +49,10 @@ public static class ModuleInitializer
         viewModelLocator.Register(typeof(CulturePicker), typeof(CulturePickerViewModel));
         viewModelLocator.Register(typeof(ValidationContextTree), typeof(ValidationContextTreeViewModel));
         viewModelLocator.Register(typeof(ValidationContextView), typeof(ValidationContextViewModel));
-        viewModelLocator.Register(typeof(ConnectionStringBuilder), typeof(ConnectionStringBuilderViewModel));
-        viewModelLocator.Register(typeof(ConnectionStringEditWindow), typeof(ConnectionStringEditViewModel));
-        viewModelLocator.Register(typeof(ConnectionStringAdvancedOptionsWindow), typeof(ConnectionStringAdvancedOptionsViewModel));
-        viewModelLocator.Register(typeof(DbConnectionProviderListWindow), typeof(DbConnectionProviderListViewModel));
+
+        var themeManager = ControlzEx.Theming.ThemeManager.Current;
+        themeManager.RegisterLibraryThemeProvider(Orc.Controls.Theming.LibraryThemeProvider.DefaultInstance);
+        serviceLocator.RegisterInstance(Orc.Controls.Theming.ThemeManager.Current);
 
         var languageService = serviceLocator.ResolveType<ILanguageService>();
         languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Controls", "Orc.Controls.Properties", "Resources"));

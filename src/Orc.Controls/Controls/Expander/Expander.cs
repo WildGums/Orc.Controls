@@ -51,17 +51,6 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty AutoResizeGridProperty = DependencyProperty.Register(nameof(AutoResizeGrid),
             typeof(bool), typeof(Expander), new PropertyMetadata(false));
-
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public Brush AccentColorBrush
-        {
-            get { return (Brush)GetValue(AccentColorBrushProperty); }
-            set { SetValue(AccentColorBrushProperty, value); }
-        }
-
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush),
-            typeof(Brush), typeof(Expander), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((Expander)sender).OnAccentColorBrushChanged()));
         #endregion
 
         #region Methods
@@ -181,22 +170,6 @@ namespace Orc.Controls
                         break;
                     }
             }
-        }
-
-        private void OnAccentColorBrushChanged()
-        {
-            if (AccentColorBrush is SolidColorBrush brush)
-            {
-                var accentColor = brush.Color;
-                accentColor.CreateAccentColorResourceDictionary(nameof(Expander));
-            }
-        }
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
         }
         #endregion
     }

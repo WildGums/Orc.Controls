@@ -34,7 +34,7 @@ namespace Orc.Controls
         #region Constants
         private const double Epsilon = 1E-7;
 
-        private static int _counter = 0;
+        private static int Counter = 0;
         #endregion
 
         #region Fields
@@ -65,7 +65,7 @@ namespace Orc.Controls
         public PinnableToolTip()
         {
             DefaultStyleKey = typeof(PinnableToolTip);
-            _id = System.Threading.Interlocked.Increment(ref _counter);
+            _id = System.Threading.Interlocked.Increment(ref Counter);
 
             SizeChanged += OnSizeChanged;
             MouseEnter += OnPinnableToolTipMouseEnter;
@@ -173,18 +173,6 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty OpenLinkCommandProperty = DependencyProperty.Register(nameof(OpenLinkCommand),
             typeof(ICommand), typeof(PinnableToolTip), new PropertyMetadata(null));
-
-
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public Brush AccentColorBrush
-        {
-            get { return (Brush)GetValue(AccentColorBrushProperty); }
-            set { SetValue(AccentColorBrushProperty, value); }
-        }
-
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), typeof(Brush),
-            typeof(PinnableToolTip), new PropertyMetadata(Brushes.LightGray, (sender, e) => ((PinnableToolTip)sender).OnAccentColorBrushChanged()));
 
 
         public ResizeMode ResizeMode
@@ -382,8 +370,6 @@ namespace Orc.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-
-            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
 
             _closeButton = GetTemplateChild("CloseButton") as Button;
             if (_closeButton != null)
@@ -1103,17 +1089,6 @@ namespace Orc.Controls
         private bool IsInFront()
         {
             return GetInFrontId() == _id;
-        }
-
-        private void OnAccentColorBrushChanged()
-        {
-            if (!(AccentColorBrush is SolidColorBrush brush))
-            {
-                return;
-            }
-
-            var accentColor = brush.Color;
-            accentColor.CreateAccentColorResourceDictionary("PinnableToolTip");
         }
 
         private void OnResizeModeChanged()

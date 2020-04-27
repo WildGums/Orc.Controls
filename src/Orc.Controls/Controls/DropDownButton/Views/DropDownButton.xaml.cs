@@ -81,16 +81,6 @@ namespace Orc.Controls
         public static readonly DependencyProperty IsArrowVisibleProperty = DependencyProperty.Register(nameof(IsArrowVisible), typeof(bool), typeof(DropDownButton),
             new PropertyMetadata(true));
 
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public Brush AccentColorBrush
-        {
-            get { return (Brush)GetValue(AccentColorBrushProperty); }
-            set { SetValue(AccentColorBrushProperty, value); }
-        }
-
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), typeof(Brush),
-            typeof(DropDownButton), new PropertyMetadata(Brushes.LightGray, (sender, e) => ((DropDownButton)sender).OnAccentColorBrushChanged()));
 
         public bool ShowDefaultButton
         {
@@ -124,25 +114,9 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-        private void OnAccentColorBrushChanged()
-        {
-            if (AccentColorBrush is SolidColorBrush brush)
-            {
-                var accentColor = brush.Color;
-                accentColor.CreateAccentColorResourceDictionary(nameof(DropDownButton));
-            }
-        }
-
         private void OnLayoutUpdated(object sender, EventArgs e)
         {
             ContentLayoutUpdated?.Invoke(this, e);
-        }
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
         }
         #endregion
     }

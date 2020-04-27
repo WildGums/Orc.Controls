@@ -687,7 +687,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">EventArgs</param>
-        void OnLoaded(object sender, RoutedEventArgs e)
+        private void OnLoaded(object sender, RoutedEventArgs e)
         {
             // Update the key frames
             UpdateKeyFrames();
@@ -700,7 +700,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">EventArgs</param>
-        void OnSizeChanged(object sender, SizeChangedEventArgs e)
+        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             // Restart the animation
             RestartStoryboardAnimation();
@@ -711,7 +711,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">EventArgs</param>
-        void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (Visibility == Visibility.Visible)
             {

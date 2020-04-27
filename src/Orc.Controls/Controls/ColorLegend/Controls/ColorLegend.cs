@@ -280,17 +280,6 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty SelectedColorItemsProperty = DependencyProperty.RegisterAttached(nameof(SelectedColorItems),
             typeof(IEnumerable<IColorLegendItem>), typeof(ColorLegend), new PropertyMetadata(null, (sender, e) => ((ColorLegend)sender).OnSelectedColorItemsChanged()));
-
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public Brush AccentColorBrush
-        {
-            get { return (Brush)GetValue(AccentColorBrushProperty); }
-            set { SetValue(AccentColorBrushProperty, value); }
-        }
-
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), typeof(Brush),
-            typeof(ColorLegend), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((ColorLegend)sender).OnAccentColorBrushChanged()));
         #endregion
 
         #region Methods
@@ -423,7 +412,6 @@ namespace Orc.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
 
             _listBox = (ListBox)GetTemplateChild("PART_List");
             _popup = (Popup)GetTemplateChild("PART_Popup_Color_Board");
@@ -602,17 +590,6 @@ namespace Orc.Controls
         {
             _colorBoard.SetCurrentValue(ColorBoard.ColorProperty, _previousColor);
             _popup.SetCurrentValue(Popup.IsOpenProperty, false);
-        }
-
-        private void OnAccentColorBrushChanged()
-        {
-            if (!(AccentColorBrush is SolidColorBrush solidColorBrush))
-            {
-                return;
-            }
-
-            var accentColor = solidColorBrush.Color;
-            accentColor.CreateAccentColorResourceDictionary(nameof(ColorLegend));
         }
         #endregion
 

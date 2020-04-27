@@ -71,17 +71,6 @@ namespace Orc.Controls
             new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((TimeSpanPicker)sender).OnValueChanged(e.NewValue)));
 
 
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public Brush AccentColorBrush
-        {
-            get { return (Brush)GetValue(AccentColorBrushProperty); }
-            set { SetValue(AccentColorBrushProperty, value); }
-        }
-
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), typeof(Brush),
-            typeof(TimeSpanPicker), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((TimeSpanPicker)sender).OnAccentColorBrushChanged()));
-
         public bool IsReadOnly
         {
             get { return (bool)GetValue(IsReadOnlyProperty); }
@@ -171,24 +160,6 @@ namespace Orc.Controls
             }
 
             NumericTBEditorContainer.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
-        }
-
-        private void OnAccentColorBrushChanged()
-        {
-            if (!(AccentColorBrush is SolidColorBrush solidColorBrush))
-            {
-                return;
-            }
-
-            var accentColor = solidColorBrush.Color;
-            accentColor.CreateAccentColorResourceDictionary("TimeSpan");
-        }
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
         }
 
         private void OnValueChanged(object newValue)

@@ -74,17 +74,6 @@ namespace Orc.Controls
             new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((FilterBox)sender).OnTextChanged()));
 
 
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public Brush AccentColorBrush
-        {
-            get { return (Brush)GetValue(AccentColorBrushProperty); }
-            set { SetValue(AccentColorBrushProperty, value); }
-        }
-
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), typeof(Brush),
-            typeof(FilterBox), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((FilterBox)sender).OnAccentColorBrushChanged()));
-
         public string Watermark
         {
             get { return (string)GetValue(WatermarkProperty); }
@@ -103,20 +92,9 @@ namespace Orc.Controls
             _filterTextBox?.Focus();
         }
 
-        private void OnAccentColorBrushChanged()
-        {
-            if (AccentColorBrush is SolidColorBrush brush)
-            {
-                var accentColor = brush.Color;
-                accentColor.CreateAccentColorResourceDictionary(nameof(FilterBox));
-            }
-        }
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-
-            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
 
             _clearButton?.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, null);
 

@@ -8,31 +8,26 @@
 namespace Orc.Controls
 {
     using System;
-    using Catel.IoC;
     using Catel.Logging;
     using Catel.Windows.Markup;
-    using Services;
+    using Orc.Controls.Theming;
 
     public class ThemeColor : UpdatableMarkupExtension
     {
         #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-        private readonly IAccentColorService _accentColorService;
+        private readonly ControlzEx.Theming.ThemeManager _controlzThemeManager;
+        private readonly ThemeManager _themeManager;
         #endregion
 
         #region Constructors
-        static ThemeColor()
-        {
-            // Note: use ThemeHelper so it subscribes to events first
-            var dummyCall = ThemeHelper.GetAccentColor();
-        }
-
         public ThemeColor()
         {
             AllowUpdatableStyleSetters = true;
 
-            _accentColorService = ServiceLocator.Default.ResolveType<IAccentColorService>();
+            _controlzThemeManager = ControlzEx.Theming.ThemeManager.Current;
+            _themeManager = ThemeManager.Current;
         }
 
         public ThemeColor(ThemeColorStyle themeColorStyle)
@@ -51,24 +46,24 @@ namespace Orc.Controls
         {
             base.OnTargetObjectLoaded();
 
-            _accentColorService.AccentColorChanged += OnAccentColorChanged;
+            _controlzThemeManager.ThemeChanged += OnThemeChanged;
         }
 
         protected override void OnTargetObjectUnloaded()
         {
-            _accentColorService.AccentColorChanged -= OnAccentColorChanged;
+            _controlzThemeManager.ThemeChanged -= OnThemeChanged;
 
             base.OnTargetObjectUnloaded();
         }
 
-        private void OnAccentColorChanged(object sender, EventArgs e)
+        private void OnThemeChanged(object sender, EventArgs e)
         {
             UpdateValue();
         }
 
         protected override object ProvideDynamicValue(IServiceProvider serviceProvider)
         {
-            return ThemeHelper.GetThemeColor(ThemeColorStyle);
+            return _themeManager.GetThemeColor(ThemeColorStyle);
         }
         #endregion
     }
