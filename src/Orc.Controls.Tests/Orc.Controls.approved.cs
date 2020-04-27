@@ -2,6 +2,7 @@
 [assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETFramework,Version=v4.6", FrameworkDisplayName=".NET Framework 4.6")]
 [assembly: System.Windows.Markup.XmlnsDefinitionAttribute("http://schemas.wildgums.com/orc/controls", "Orc.Controls")]
 [assembly: System.Windows.Markup.XmlnsDefinitionAttribute("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Converters")]
+[assembly: System.Windows.Markup.XmlnsDefinitionAttribute("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Theming")]
 [assembly: System.Windows.Markup.XmlnsPrefixAttribute("http://schemas.wildgums.com/orc/controls", "orccontrols")]
 [assembly: System.Windows.ThemeInfoAttribute(System.Windows.ResourceDictionaryLocation.None, System.Windows.ResourceDictionaryLocation.SourceAssembly)]
 public class static ModuleInitializer
@@ -10,34 +11,6 @@ public class static ModuleInitializer
 }
 namespace Orc.Controls
 {
-    [System.ObsoleteAttribute("Use `ThemeColor` instead. Will be removed in version 4.0.0.", true)]
-    public class AccentColor : Orc.Controls.ThemeColor
-    {
-        public AccentColor() { }
-        public AccentColor(Orc.Controls.AccentColorStyle accentColorStyle) { }
-        public Orc.Controls.AccentColorStyle AccentColorStyle { get; set; }
-        protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
-    }
-    [System.ObsoleteAttribute("Use `ThemeColorBrush` instead. Will be removed in version 4.0.0.", true)]
-    public class AccentColorBrush : Orc.Controls.ThemeColorBrush
-    {
-        public AccentColorBrush() { }
-        public AccentColorBrush(Orc.Controls.AccentColorStyle accentColorStyle) { }
-        public Orc.Controls.AccentColorStyle AccentColorStyle { get; set; }
-        protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
-    }
-    [System.ObsoleteAttribute("Use `ThemeColorStyle` instead. Will be removed in version 4.0.0.", true)]
-    public enum AccentColorStyle
-    {
-        AccentColor = 0,
-        AccentColor1 = 1,
-        AccentColor2 = 2,
-        AccentColor3 = 3,
-        AccentColor4 = 4,
-        AccentColor5 = 5,
-        DarkHighlight = 3,
-        Highlight = 4,
-    }
     public class AlignmentGrid : System.Windows.Controls.ContentControl
     {
         public static readonly System.Windows.DependencyProperty HorizontalStepProperty;
@@ -118,8 +91,7 @@ namespace Orc.Controls
     }
     public class static ColorExtensions
     {
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public static void CreateAccentColorResourceDictionary(this System.Windows.Media.Color color, string controlName) { }
+        public static System.Windows.Media.SolidColorBrush ToSolidColorBrush(this System.Windows.Media.Color color, double opacity = 1) { }
     }
     public class static ColorHelper
     {
@@ -139,8 +111,6 @@ namespace Orc.Controls
     [System.Windows.TemplatePartAttribute(Name="PART_UnselectAll", Type=typeof(System.Windows.Controls.Primitives.ButtonBase))]
     public class ColorLegend : System.Windows.Controls.HeaderedContentControl
     {
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty AllowColorEditingProperty;
         public static readonly System.Windows.DependencyProperty EditingColorProperty;
         public static readonly System.Windows.DependencyProperty FilteredItemsIdsProperty;
@@ -157,8 +127,6 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ShowSettingsBoxProperty;
         public static readonly System.Windows.DependencyProperty ShowToolBoxProperty;
         public ColorLegend() { }
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public System.Windows.Media.Brush AccentColorBrush { get; set; }
         public bool AllowColorEditing { get; set; }
         public Catel.MVVM.Command<object> ChangeColor { get; }
         public System.Windows.Media.Color EditingColor { get; set; }
@@ -221,167 +189,6 @@ namespace Orc.Controls
         public event System.EventHandler<Orc.Controls.ColorChangedEventArgs> ColorChanged;
         public override void OnApplyTemplate() { }
     }
-    [System.ObsoleteAttribute("Use ConnectionState from Orc.DataAccess library instead. Will be removed in versi" +
-        "on 4.0.0.", true)]
-    public enum ConnectionState
-    {
-        Undefined = 0,
-        Valid = 1,
-        Invalid = 2,
-    }
-    [System.ObsoleteAttribute("Use ConnectionStateToColorBrushValueConverter from Orc.DataAccess.Xaml library in" +
-        "stead. Will be removed in version 4.0.0.", true)]
-    public class ConnectionStateToColorBrushValueConverter : Catel.MVVM.Converters.ValueConverterBase<Orc.Controls.ConnectionState, System.Windows.Media.SolidColorBrush>
-    {
-        public ConnectionStateToColorBrushValueConverter() { }
-        protected override object Convert(Orc.Controls.ConnectionState value, System.Type targetType, object parameter) { }
-    }
-    [System.ObsoleteAttribute("Use ConnectionStringAdvancedOptionsViewModel from Orc.DataAccess.Xaml library ins" +
-        "tead. Will be removed in version 4.0.0.", true)]
-    public class ConnectionStringAdvancedOptionsViewModel : Catel.MVVM.ViewModelBase
-    {
-        public static readonly Catel.Data.PropertyData ConnectionStringPropertiesProperty;
-        public static readonly Catel.Data.PropertyData IsAdvancedOptionsReadOnlyProperty;
-        public ConnectionStringAdvancedOptionsViewModel(Orc.Controls.SqlConnectionString connectionString) { }
-        public Orc.Controls.SqlConnectionString ConnectionString { get; }
-        public System.Collections.Generic.IList<Orc.Controls.ConnectionStringProperty> ConnectionStringProperties { get; }
-        public bool IsAdvancedOptionsReadOnly { get; set; }
-        public override string Title { get; }
-        protected override System.Threading.Tasks.Task InitializeAsync() { }
-    }
-    [System.ObsoleteAttribute("Use ConnectionStringAdvancedOptionsWindow from Orc.DataAccess.Xaml library instea" +
-        "d. Will be removed in version 4.0.0.", true)]
-    public sealed class ConnectionStringAdvancedOptionsWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
-    {
-        public ConnectionStringAdvancedOptionsWindow() { }
-        public void InitializeComponent() { }
-        protected override void OnLoaded(System.EventArgs e) { }
-        protected override void OnUnloaded(System.EventArgs e) { }
-    }
-    [System.ObsoleteAttribute("Use ConnectionStringBuilder from Orc.DataAccess.Xaml library instead. Will be rem" +
-        "oved in version 4.0.0.", true)]
-    public sealed class ConnectionStringBuilder : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
-    {
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
-        public static readonly System.Windows.DependencyProperty ConnectionStateProperty;
-        public static readonly System.Windows.DependencyProperty ConnectionStringProperty;
-        public static readonly System.Windows.DependencyProperty DatabaseProviderProperty;
-        public static readonly System.Windows.DependencyProperty IsAdvancedOptionsReadOnlyProperty;
-        public static readonly System.Windows.DependencyProperty IsInEditModeProperty;
-        public ConnectionStringBuilder() { }
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public System.Windows.Media.Brush AccentColorBrush { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewModelToView)]
-        public Orc.Controls.ConnectionState ConnectionState { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewModelToView)]
-        public string ConnectionString { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewModelToView)]
-        public string DatabaseProvider { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewToViewModel)]
-        public bool IsAdvancedOptionsReadOnly { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewModelToView)]
-        public bool IsInEditMode { get; set; }
-        public void InitializeComponent() { }
-        public override void OnApplyTemplate() { }
-    }
-    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
-    public class ConnectionStringBuilderService : Orc.Controls.IConnectionStringBuilderService
-    {
-        public ConnectionStringBuilderService(Orc.Controls.IConnectionStringBuilderServiceInitializer connectionStringBuilderServiceInitializer) { }
-        public void AddDataSourceProvider(string invariantName, Orc.Controls.IDataSourceProvider provider) { }
-        public Orc.Controls.SqlConnectionString CreateConnectionString(Orc.Controls.DbProvider dbProvider, string connectionString = "") { }
-        public Orc.Controls.ConnectionState GetConnectionState(Orc.Controls.SqlConnectionString connectionString) { }
-        public System.Collections.Generic.IList<string> GetDatabases(Orc.Controls.SqlConnectionString connectionString) { }
-        public System.Collections.Generic.IList<string> GetDataSources(Orc.Controls.SqlConnectionString connectionString) { }
-    }
-    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
-    public class ConnectionStringBuilderServiceInitializer : Orc.Controls.IConnectionStringBuilderServiceInitializer
-    {
-        public ConnectionStringBuilderServiceInitializer(Catel.IoC.ITypeFactory typeFactory) { }
-        public void Initialize(Orc.Controls.IConnectionStringBuilderService connectionStringBuilderService) { }
-    }
-    [System.ObsoleteAttribute("Use ConnectionStringBuilderViewModel from Orc.DataAccess.Xaml library instead. Wi" +
-        "ll be removed in version 4.0.0.", true)]
-    public class ConnectionStringBuilderViewModel : Catel.MVVM.ViewModelBase
-    {
-        public static readonly Catel.Data.PropertyData ConnectionStateProperty;
-        public static readonly Catel.Data.PropertyData ConnectionStringProperty;
-        public static readonly Catel.Data.PropertyData DatabaseProviderProperty;
-        public static readonly Catel.Data.PropertyData DisplayConnectionStringProperty;
-        public static readonly Catel.Data.PropertyData IsAdvancedOptionsReadOnlyProperty;
-        public static readonly Catel.Data.PropertyData IsInEditModeProperty;
-        public ConnectionStringBuilderViewModel(Catel.Services.IUIVisualizerService uiVisualizerService, Catel.IoC.ITypeFactory typeFactory) { }
-        public Catel.MVVM.Command Clear { get; }
-        public Orc.Controls.ConnectionState ConnectionState { get; set; }
-        public string ConnectionString { get; }
-        public string DatabaseProvider { get; }
-        public string DisplayConnectionString { get; }
-        public Catel.MVVM.TaskCommand Edit { get; }
-        public bool IsAdvancedOptionsReadOnly { get; set; }
-        public bool IsInEditMode { get; set; }
-    }
-    [System.ObsoleteAttribute("Use ConnectionStringEditViewModel from Orc.DataAccess.Xaml library instead. Will " +
-        "be removed in version 4.0.0.", true)]
-    public class ConnectionStringEditViewModel : Catel.MVVM.ViewModelBase
-    {
-        public static readonly Catel.Data.PropertyData ConnectionStateProperty;
-        public static readonly Catel.Data.PropertyData ConnectionStringProperty;
-        public static readonly Catel.Data.PropertyData DbProviderProperty;
-        public static readonly Catel.Data.PropertyData IsAdvancedOptionsReadOnlyProperty;
-        public static readonly Catel.Data.PropertyData IsDatabaseListVisibleProperty;
-        public static readonly Catel.Data.PropertyData IsDatabasesRefreshingProperty;
-        public static readonly Catel.Data.PropertyData IsServerListVisibleProperty;
-        public static readonly Catel.Data.PropertyData IsServersRefreshingProperty;
-        public ConnectionStringEditViewModel(string connectionString, Orc.Controls.DbProvider provider, Catel.Services.IMessageService messageService, Orc.Controls.IConnectionStringBuilderService connectionStringBuilderService, Catel.Services.IUIVisualizerService uiVisualizerService, Catel.IoC.ITypeFactory typeFactory, Catel.Services.IDispatcherService dispatcherService) { }
-        public bool CanLogOnToServer { get; }
-        public Orc.Controls.ConnectionState ConnectionState { get; }
-        public Orc.Controls.SqlConnectionString ConnectionString { get; }
-        public Catel.Collections.FastObservableCollection<string> Databases { get; }
-        public Orc.Controls.ConnectionStringProperty DataSource { get; }
-        public Orc.Controls.DbProvider DbProvider { get; set; }
-        public Catel.MVVM.Command InitDatabases { get; }
-        public Orc.Controls.ConnectionStringProperty InitialCatalog { get; }
-        public Catel.MVVM.Command InitServers { get; }
-        public Orc.Controls.ConnectionStringProperty IntegratedSecurity { get; }
-        public System.Nullable<bool> IntegratedSecurityValue { get; set; }
-        public bool IsAdvancedOptionsReadOnly { get; set; }
-        public bool IsDatabaseListVisible { get; set; }
-        public bool IsDatabasesRefreshing { get; }
-        public bool IsLogOnEnabled { get; }
-        public bool IsServerListVisible { get; set; }
-        public bool IsServersRefreshing { get; }
-        public Orc.Controls.ConnectionStringProperty Password { get; }
-        public Orc.Controls.ConnectionStringProperty Port { get; }
-        public Catel.MVVM.Command RefreshDatabases { get; }
-        public Catel.MVVM.Command RefreshServers { get; }
-        public Catel.Collections.FastObservableCollection<string> Servers { get; }
-        public Catel.MVVM.TaskCommand ShowAdvancedOptions { get; }
-        public Catel.MVVM.Command TestConnection { get; }
-        public override string Title { get; }
-        public Orc.Controls.ConnectionStringProperty UserId { get; }
-        public bool CanInitDatabases() { }
-        protected override System.Threading.Tasks.Task InitializeAsync() { }
-        protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
-    }
-    [System.ObsoleteAttribute("Use ConnectionStringEditWindow from Orc.DataAccess.Xaml library instead. Will be " +
-        "removed in version 4.0.0.", true)]
-    public sealed class ConnectionStringEditWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
-    {
-        public ConnectionStringEditWindow() { }
-        public void InitializeComponent() { }
-        protected override void OnLoaded(System.EventArgs e) { }
-        protected override void OnUnloaded(System.EventArgs e) { }
-    }
-    [System.ObsoleteAttribute("Use ConnectionStringProperty from Orc.DataAccess library instead. Will be removed" +
-        " in version 4.0.0.", true)]
-    public class ConnectionStringProperty : Catel.Data.ObservableObject
-    {
-        public ConnectionStringProperty(bool isSensitive, System.Data.Common.DbConnectionStringBuilder dbConnectionStringBuilder, System.ComponentModel.PropertyDescriptor propertyDescriptor) { }
-        public bool IsSensitive { get; }
-        public string Name { get; }
-        public object Value { get; set; }
-    }
     public abstract class ControlToolBase : Catel.Data.ModelBase, Orc.Controls.IControlTool
     {
         public static readonly Catel.Data.PropertyData IsOpenedProperty;
@@ -400,8 +207,6 @@ namespace Orc.Controls
         public virtual void Detach() { }
         protected virtual void OnAddParameter(object parameter) { }
         protected abstract void OnOpen(object parameter = null);
-        [System.ObsoleteAttribute("Use Open() with parameter instead. Will be removed in version 4.0.0.", true)]
-        public void Open() { }
         public void Open(object parameter = null) { }
     }
     public sealed class CulturePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
@@ -414,8 +219,6 @@ namespace Orc.Controls
     }
     public class DatePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty AllowCopyPasteProperty;
         public static readonly System.Windows.DependencyProperty AllowNullProperty;
         public static readonly System.Windows.DependencyProperty FormatProperty;
@@ -424,8 +227,6 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ShowOptionsButtonProperty;
         public static readonly System.Windows.DependencyProperty ValueProperty;
         public DatePicker() { }
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public System.Windows.Media.Brush AccentColorBrush { get; set; }
         public bool AllowCopyPaste { get; set; }
         public bool AllowNull { get; set; }
         public string Format { get; set; }
@@ -436,7 +237,6 @@ namespace Orc.Controls
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.Nullable<System.DateTime> Value { get; set; }
         public void InitializeComponent() { }
-        public override void OnApplyTemplate() { }
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnUnloaded(System.EventArgs e) { }
     }
@@ -582,8 +382,6 @@ namespace Orc.Controls
     }
     public class DateTimePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty AllowCopyPasteProperty;
         public static readonly System.Windows.DependencyProperty AllowNullProperty;
         public static readonly System.Windows.DependencyProperty FormatProperty;
@@ -596,8 +394,6 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ShowOptionsButtonProperty;
         public static readonly System.Windows.DependencyProperty ValueProperty;
         public DateTimePicker() { }
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public System.Windows.Media.Brush AccentColorBrush { get; set; }
         public bool AllowCopyPaste { get; set; }
         public bool AllowNull { get; set; }
         public string Format { get; set; }
@@ -614,7 +410,6 @@ namespace Orc.Controls
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.Nullable<System.DateTime> Value { get; set; }
         public void InitializeComponent() { }
-        public override void OnApplyTemplate() { }
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnUnloaded(System.EventArgs e) { }
     }
@@ -632,58 +427,6 @@ namespace Orc.Controls
         public bool ShowOptionsButton { get; set; }
         public System.Nullable<System.DateTime> Value { get; set; }
         public System.Nullable<int> Year { get; set; }
-    }
-    [System.ObsoleteAttribute("Use DbConnectionProviderListViewModel from Orc.DataAccess.Xaml library instead. W" +
-        "ill be removed in version 4.0.0.", true)]
-    public class DbConnectionProviderListViewModel : Catel.MVVM.ViewModelBase
-    {
-        public static readonly Catel.Data.PropertyData DbProviderProperty;
-        public static readonly Catel.Data.PropertyData DbProvidersProperty;
-        public DbConnectionProviderListViewModel(Orc.Controls.DbProvider selectedProvider) { }
-        public Orc.Controls.DbProvider DbProvider { get; set; }
-        public System.Collections.Generic.IList<Orc.Controls.DbProvider> DbProviders { get; }
-        public Catel.MVVM.Command Open { get; }
-        public Catel.MVVM.Command Refresh { get; }
-        public override string Title { get; }
-        protected override System.Threading.Tasks.Task InitializeAsync() { }
-    }
-    [System.ObsoleteAttribute("Use DbConnectionProviderListWindow from Orc.DataAccess.Xaml library instead. Will" +
-        " be removed in version 4.0.0.", true)]
-    public sealed class DbConnectionProviderListWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
-    {
-        public DbConnectionProviderListWindow() { }
-        public void InitializeComponent() { }
-    }
-    [System.ObsoleteAttribute("Use DbProviderInfo from Orc.DataAccess library instead. Will be removed in versio" +
-        "n 4.0.0.", true)]
-    public class DbProvider
-    {
-        public DbProvider() { }
-        public string Description { get; set; }
-        public string InvariantName { get; set; }
-        public string Name { get; set; }
-        protected bool Equals(Orc.Controls.DbProvider other) { }
-        public override bool Equals(object obj) { }
-        public override int GetHashCode() { }
-    }
-    [System.ObsoleteAttribute("Use DbProviderPicker from Orc.DataAccess.Xaml library instead. Will be removed in" +
-        " version 4.0.0.", true)]
-    public sealed class DbProviderPicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
-    {
-        public static readonly System.Windows.DependencyProperty DbProviderProperty;
-        public DbProviderPicker() { }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewModelWins)]
-        public Orc.Controls.DbProvider DbProvider { get; set; }
-        public void InitializeComponent() { }
-    }
-    [System.ObsoleteAttribute("Use DbProviderPickerViewModel from Orc.DataAccess.Xaml library instead. Will be r" +
-        "emoved in version 4.0.0.", true)]
-    public class DbProviderPickerViewModel : Catel.MVVM.ViewModelBase
-    {
-        public static readonly Catel.Data.PropertyData DbProviderProperty;
-        public DbProviderPickerViewModel(Catel.Services.IUIVisualizerService uiVisualizerService, Catel.IoC.ITypeFactory typeFactory) { }
-        public Catel.MVVM.TaskCommand ChangeDbProvider { get; }
-        public Orc.Controls.DbProvider DbProvider { get; set; }
     }
     public class static DependencyObjectExtensions
     {
@@ -751,8 +494,6 @@ namespace Orc.Controls
     }
     public class DropDownButton : System.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty ArrowLocationProperty;
         public static readonly System.Windows.DependencyProperty ArrowMarginProperty;
         public static readonly System.Windows.DependencyProperty CommandParameterProperty;
@@ -763,8 +504,6 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty IsArrowVisibleProperty;
         public static readonly System.Windows.DependencyProperty ShowDefaultButtonProperty;
         public DropDownButton() { }
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public System.Windows.Media.Brush AccentColorBrush { get; set; }
         public Orc.Controls.DropdownArrowLocation ArrowLocation { get; set; }
         public System.Windows.Thickness ArrowMargin { get; set; }
         public System.Windows.Input.ICommand Command { get; set; }
@@ -776,7 +515,6 @@ namespace Orc.Controls
         public bool ShowDefaultButton { get; set; }
         public event System.EventHandler<System.EventArgs> ContentLayoutUpdated;
         public void InitializeComponent() { }
-        public override void OnApplyTemplate() { }
     }
     public class EmptyCell : System.Windows.Controls.Control
     {
@@ -805,18 +543,13 @@ namespace Orc.Controls
     }
     public class Expander : System.Windows.Controls.HeaderedContentControl
     {
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty AutoResizeGridProperty;
         public static readonly System.Windows.DependencyProperty ExpandDirectionProperty;
         public static readonly System.Windows.DependencyProperty IsExpandedProperty;
         public Expander() { }
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public System.Windows.Media.Brush AccentColorBrush { get; set; }
         public bool AutoResizeGrid { get; set; }
         public Orc.Controls.ExpandDirection ExpandDirection { get; set; }
         public bool IsExpanded { get; set; }
-        public override void OnApplyTemplate() { }
         protected virtual void OnCollapsed() { }
         protected virtual void OnExpanded() { }
     }
@@ -824,16 +557,12 @@ namespace Orc.Controls
     [System.Windows.TemplatePartAttribute(Name="PART_FilterTextBox", Type=typeof(System.Windows.Controls.TextBox))]
     public class FilterBox : System.Windows.Controls.ContentControl
     {
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty AllowAutoCompletionProperty;
         public static readonly System.Windows.DependencyProperty FilterSourceProperty;
         public static readonly System.Windows.DependencyProperty PropertyNameProperty;
         public static readonly System.Windows.DependencyProperty TextProperty;
         public static readonly System.Windows.DependencyProperty WatermarkProperty;
         public FilterBox() { }
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public System.Windows.Media.Brush AccentColorBrush { get; set; }
         public bool AllowAutoCompletion { get; set; }
         public System.Collections.IEnumerable FilterSource { get; set; }
         public string PropertyName { get; set; }
@@ -972,20 +701,6 @@ namespace Orc.Controls
         bool IsChecked { get; set; }
         bool IsSelected { get; set; }
     }
-    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
-    public interface IConnectionStringBuilderService
-    {
-        void AddDataSourceProvider(string invariantName, Orc.Controls.IDataSourceProvider provider);
-        Orc.Controls.SqlConnectionString CreateConnectionString(Orc.Controls.DbProvider dbProvider, string connectionString = "");
-        Orc.Controls.ConnectionState GetConnectionState(Orc.Controls.SqlConnectionString connectionString);
-        System.Collections.Generic.IList<string> GetDatabases(Orc.Controls.SqlConnectionString connectionString);
-        System.Collections.Generic.IList<string> GetDataSources(Orc.Controls.SqlConnectionString connectionString);
-    }
-    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
-    public interface IConnectionStringBuilderServiceInitializer
-    {
-        void Initialize(Orc.Controls.IConnectionStringBuilderService connectionStringBuilderService);
-    }
     public interface IControlTool
     {
         bool IsEnabled { get; }
@@ -999,15 +714,7 @@ namespace Orc.Controls
         void Attach(object target);
         void Close();
         void Detach();
-        [System.ObsoleteAttribute("Use Open() with parameter instead. Will be removed in version 4.0.0.", true)]
-        void Open();
         void Open(object parameter);
-    }
-    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
-    public interface IDataSourceProvider
-    {
-        string DataBasesQuery { get; }
-        System.Collections.Generic.IList<string> GetDataSources();
     }
     public class InitializingAutoCompletionServiceEventArgs : System.Windows.RoutedEventArgs
     {
@@ -1369,13 +1076,6 @@ namespace Orc.Controls
         protected override void DisposeManaged() { }
         public void UpdateDispatcher(System.Windows.Threading.Dispatcher dispatcher) { }
     }
-    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
-    public class MsSqlDataSourceProvider : Orc.Controls.IDataSourceProvider
-    {
-        public MsSqlDataSourceProvider() { }
-        public string DataBasesQuery { get; }
-        public System.Collections.Generic.IList<string> GetDataSources() { }
-    }
     public class MultipleCommandParameterConverter : System.Windows.Data.IMultiValueConverter
     {
         public MultipleCommandParameterConverter() { }
@@ -1480,8 +1180,6 @@ namespace Orc.Controls
     [System.Windows.TemplatePartAttribute(Name="PinButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
     public class PinnableToolTip : System.Windows.Controls.ContentControl
     {
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty AllowCloseByUserProperty;
         public static readonly System.Windows.DependencyProperty GripColorProperty;
         public static readonly System.Windows.DependencyProperty HorizontalOffsetProperty;
@@ -1490,8 +1188,6 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ResizeModeProperty;
         public static readonly System.Windows.DependencyProperty VerticalOffsetProperty;
         public PinnableToolTip() { }
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public System.Windows.Media.Brush AccentColorBrush { get; set; }
         public bool AllowCloseByUser { get; set; }
         public System.Windows.Media.Color GripColor { get; set; }
         public double HorizontalOffset { get; set; }
@@ -1663,21 +1359,6 @@ namespace Orc.Controls
         AutoScrollPriority = 1,
         ManualScrollPriority = 2,
     }
-    [System.ObsoleteAttribute("Use SqlConnectionString from Orc.DataAccess library instead. Will be removed in v" +
-        "ersion 4.0.0.", true)]
-    public class SqlConnectionString : Catel.Data.ModelBase
-    {
-        public static readonly Catel.Data.PropertyData PropertiesProperty;
-        public SqlConnectionString(System.Data.Common.DbConnectionStringBuilder connectionStringBuilder, Orc.Controls.DbProvider dbProvider) { }
-        public Orc.Controls.DbProvider DbProvider { get; }
-        public System.Collections.Generic.IReadOnlyDictionary<string, Orc.Controls.ConnectionStringProperty> Properties { get; }
-        public virtual string ToDisplayString() { }
-        public override string ToString() { }
-    }
-    public class static SqlConnectionStringExtensions
-    {
-        public static Orc.Controls.ConnectionStringProperty TryGetProperty(this Orc.Controls.SqlConnectionString connectionString, string propertyName) { }
-    }
     public class StackGrid : System.Windows.Controls.Grid
     {
         public StackGrid() { }
@@ -1739,12 +1420,20 @@ namespace Orc.Controls
     public enum ThemeColorStyle
     {
         AccentColor = 0,
+        AccentColor80 = 1,
+        AccentColor60 = 2,
+        AccentColor40 = 3,
+        AccentColor20 = 4,
         AccentColor1 = 1,
         AccentColor2 = 2,
         AccentColor3 = 3,
         AccentColor4 = 4,
         AccentColor5 = 5,
         BorderColor = 6,
+        BorderColor80 = 7,
+        BorderColor60 = 8,
+        BorderColor40 = 9,
+        BorderColor20 = 10,
         BorderColor1 = 7,
         BorderColor2 = 8,
         BorderColor3 = 9,
@@ -1776,17 +1465,6 @@ namespace Orc.Controls
         ForegroundSelected = 14,
         ForegroundSelectedInactive = 14,
         ForegroundDisabled = 13,
-    }
-    public class static ThemeHelper
-    {
-        [System.ObsoleteAttribute("Use `GetThemeColor` instead. Will be removed in version 4.0.0.", true)]
-        public static System.Windows.Media.Color GetAccentColor(Orc.Controls.AccentColorStyle colorStyle = 0) { }
-        [System.ObsoleteAttribute("Use `GetThemeColorBrush` instead. Will be removed in version 4.0.0.", true)]
-        public static System.Windows.Media.SolidColorBrush GetAccentColorBrush(Orc.Controls.AccentColorStyle colorStyle = 0) { }
-        public static System.Windows.Media.SolidColorBrush GetAccentColorBrush() { }
-        public static System.Windows.Media.SolidColorBrush GetSolidColorBrush(this System.Windows.Media.Color color, double opacity = 1) { }
-        public static System.Windows.Media.Color GetThemeColor(Orc.Controls.ThemeColorStyle colorStyle = 0) { }
-        public static System.Windows.Media.SolidColorBrush GetThemeColorBrush(Orc.Controls.ThemeColorStyle colorStyle = 0) { }
     }
     public class TimeAdjustment
     {
@@ -1830,18 +1508,13 @@ namespace Orc.Controls
     }
     public class TimeSpanPicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty IsReadOnlyProperty;
         public static readonly System.Windows.DependencyProperty ValueProperty;
         public TimeSpanPicker() { }
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public System.Windows.Media.Brush AccentColorBrush { get; set; }
         public bool IsReadOnly { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.Nullable<System.TimeSpan> Value { get; set; }
         public void InitializeComponent() { }
-        public override void OnApplyTemplate() { }
         protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
     }
     public class TimeSpanPickerViewModel : Catel.MVVM.ViewModelBase
@@ -1895,15 +1568,11 @@ namespace Orc.Controls
     }
     public sealed class ValidationContextView : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
         public static readonly System.Windows.DependencyProperty IsExpandedAllOnStartupProperty;
         public static readonly System.Windows.DependencyProperty ShowButtonsProperty;
         public static readonly System.Windows.DependencyProperty ShowFilterBoxProperty;
         public static readonly System.Windows.DependencyProperty ValidationContextProperty;
         public ValidationContextView() { }
-        [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
-        public System.Windows.Media.Brush AccentColorBrush { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool IsExpandedAllOnStartup { get; set; }
         public bool ShowButtons { get; set; }
@@ -1912,7 +1581,6 @@ namespace Orc.Controls
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public Catel.Data.IValidationContext ValidationContext { get; set; }
         public void InitializeComponent() { }
-        public override void OnApplyTemplate() { }
     }
     public class ValidationContextViewModel : Catel.MVVM.ViewModelBase
     {
@@ -2075,20 +1743,6 @@ namespace Orc.Controls.Extensions
 }
 namespace Orc.Controls.Services
 {
-    public class AccentColorService : Orc.Controls.Services.IAccentColorService
-    {
-        public AccentColorService() { }
-        public event System.EventHandler<System.EventArgs> AccentColorChanged;
-        public virtual System.Windows.Media.Color GetAccentColor() { }
-        protected void RaiseAccentColorChanged() { }
-        public virtual void SetAccentColor(System.Windows.Media.Color color) { }
-    }
-    public interface IAccentColorService
-    {
-        public event System.EventHandler<System.EventArgs> AccentColorChanged;
-        System.Windows.Media.Color GetAccentColor();
-        void SetAccentColor(System.Windows.Media.Color color);
-    }
     public interface IFindReplaceService
     {
         bool FindNext(string textToFind, Orc.Controls.FindReplaceSettings settings);
@@ -2100,19 +1754,22 @@ namespace Orc.Controls.Services
     {
         void UpdateStatus(string status);
     }
-    [System.ObsoleteAttribute("Use `Orchestra.Services.MicrosoftApiSelectDirectoryService` instead. Will be remo" +
-        "ved in version 4.0.0.", true)]
-    public class MicrosoftApiSelectDirectoryService : Catel.Services.ISelectDirectoryService
+}
+namespace Orc.Controls.Theming
+{
+    public class LibraryThemeProvider : ControlzEx.Theming.LibraryThemeProvider
     {
-        public MicrosoftApiSelectDirectoryService() { }
-        public string DirectoryName { get; }
-        public string FileName { get; set; }
-        public string Filter { get; set; }
-        public string InitialDirectory { get; set; }
-        public bool ShowNewFolderButton { get; set; }
-        public string Title { get; set; }
-        public System.Threading.Tasks.Task<bool> DetermineDirectoryAsync() { }
-        public System.Threading.Tasks.Task<Catel.Services.DetermineDirectoryResult> DetermineDirectoryAsync(Catel.Services.DetermineDirectoryContext context) { }
+        public static readonly ControlzEx.Theming.LibraryThemeProvider DefaultInstance;
+        public LibraryThemeProvider() { }
+        public override void FillColorSchemeValues(System.Collections.Generic.Dictionary<string, string> values, ControlzEx.Theming.RuntimeThemeColorValues colorValues) { }
+    }
+    public class ThemeManager
+    {
+        public ThemeManager(ControlzEx.Theming.ThemeManager controlzThemeManager) { }
+        public static Orc.Controls.Theming.ThemeManager Current { get; set; }
+        public System.Windows.Media.SolidColorBrush GetAccentColorBrush() { }
+        public System.Windows.Media.Color GetThemeColor(Orc.Controls.ThemeColorStyle colorStyle = 0) { }
+        public System.Windows.Media.SolidColorBrush GetThemeColorBrush(Orc.Controls.ThemeColorStyle colorStyle = 0) { }
     }
 }
 namespace Orc.Controls.Tools.Attributes

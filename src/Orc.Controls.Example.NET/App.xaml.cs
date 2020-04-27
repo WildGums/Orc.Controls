@@ -14,8 +14,6 @@ namespace Orc.Controls.Example
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Services;
-    using Orchestra;
-    using Orchestra.Markup;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -58,18 +56,11 @@ namespace Orc.Controls.Example
             // Some test logging, but important to load the assembly first
             var externalTypeToForceAssemblyLoad = typeof(LogViewerLogListener);
 
-#pragma warning disable CS0618 // Type or member is obsolete
-            Orchestra.Markup.FontImage.RegisterFont("FontAwesome", new FontFamily(new Uri("pack://application:,,,/Orc.Controls.Example.NET;component/Resources/Fonts/", UriKind.RelativeOrAbsolute), "./#FontAwesome"));
-            Orchestra.Markup.FontImage.DefaultFontFamily = "FontAwesome";
-#pragma warning restore CS0618 // Type or member is obsolete
-
             Orc.Controls.FontImage.RegisterFont("FontAwesome", new FontFamily(new Uri("pack://application:,,,/Orc.Controls.Example.NET;component/Resources/Fonts/", UriKind.RelativeOrAbsolute), "./#FontAwesome"));
             Orc.Controls.FontImage.DefaultFontFamily = "FontAwesome";
 
             Log.Info("Starting application");
             Log.Info("This log message should show up as debug");
-
-            this.ApplyTheme(true);
 
             base.OnStartup(e);
         }

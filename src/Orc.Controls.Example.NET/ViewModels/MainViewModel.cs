@@ -9,23 +9,18 @@ namespace Orc.Controls.Example.ViewModels
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Windows;
     using System.Windows.Media;
     using Catel;
     using Catel.MVVM;
     using Catel.Reflection;
-    using Orc.Controls.Services;
+    using ControlzEx.Theming;
 
     public class MainViewModel : ViewModelBase
     {
-        private readonly IAccentColorService _accentColorService;
-
         #region Constructors
-        public MainViewModel(IAccentColorService accentColorService)
+        public MainViewModel()
         {
-            Argument.IsNotNull(() => accentColorService);
-
-            _accentColorService = accentColorService;
-
             AccentColors = typeof(Colors).GetPropertiesEx(true, true).Where(x => x.PropertyType.IsAssignableFromEx(typeof(Color))).Select(x => (Color)x.GetValue(null)).ToList();
             SelectedAccentColor = Colors.Orange;
 
@@ -44,7 +39,12 @@ namespace Orc.Controls.Example.ViewModels
         #region Methods
         private void OnSelectedAccentColorChanged()
         {
-            _accentColorService.SetAccentColor(SelectedAccentColor);
+            var application = Application.Current;
+            var themeManager = ControlzEx.Theming.ThemeManager.Current;
+            var themeGenerator = RuntimeThemeGenerator.Current;
+
+            var generatedTheme = themeGenerator.GenerateRuntimeTheme("Light", SelectedAccentColor);
+            themeManager.ChangeTheme(application, generatedTheme);
         }
         #endregion
     }

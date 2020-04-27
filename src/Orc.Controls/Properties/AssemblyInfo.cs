@@ -23,6 +23,7 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Converters")]
 //[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Fonts")]
 //[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Markup")]
+[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Theming")]
 //[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Views")]
 //[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Windows")]
 

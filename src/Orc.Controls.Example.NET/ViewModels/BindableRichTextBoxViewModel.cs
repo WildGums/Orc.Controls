@@ -18,7 +18,6 @@ namespace Orc.Controls.Example.ViewModels
         #region Constructors
         public BindableRichTextBoxViewModel()
         {
-            AccentColorBrush = Controls.ThemeHelper.GetAccentColorBrush();
             FlowDoc = CreateFlowDocument("This is example text colored with AccentColor");
 
             ClearText = new Command(OnClearText);
@@ -29,9 +28,6 @@ namespace Orc.Controls.Example.ViewModels
         public FlowDocument FlowDoc { get; set; }
 
         public bool UseAccentText { get; set; }
-
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public Brush AccentColorBrush { get; set; }
 
         public Command ClearText { get; set; }
         #endregion
@@ -49,7 +45,7 @@ namespace Orc.Controls.Example.ViewModels
 
             if (UseAccentText)
             {
-                exampleParagraph.Foreground = AccentColorBrush.Clone();
+                exampleParagraph.Foreground = Orc.Controls.Theming.ThemeManager.Current.GetAccentColorBrush().Clone();
             }
 
             flowDoc.Blocks.Add(exampleParagraph);

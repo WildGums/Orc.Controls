@@ -167,10 +167,6 @@
                 <views:ColorPicker/>
             </TabItem>
 
-            <TabItem Header="ConnectionStringBuilder">
-                <views:ConnectionStringBuilderView />
-            </TabItem>
-
             <TabItem Header="CulturePicker">
                 <views:CulturePickerView/>
             </TabItem>
