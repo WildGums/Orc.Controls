@@ -154,14 +154,14 @@ namespace Orc.Controls
         /// <summary>
         /// Property indicating whether color picker color rounds are shown or not
         /// </summary>
-        public bool ShowColorPickerColor
+        public bool ShowColorPicker
         {
-            get { return (bool)GetValue(ShowColorPickerColorProperty); }
-            set { SetValue(ShowColorPickerColorProperty, value); }
+            get { return (bool)GetValue(ShowColorPickerProperty); }
+            set { SetValue(ShowColorPickerProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowColorPickerColorProperty = DependencyProperty.Register(nameof(ShowColorPickerColor), 
-            typeof(bool), typeof(ColorLegend), new PropertyMetadata(true, (sender, e) => ((ColorLegend)sender).OnShowColorPickerColorChanged()));
+        public static readonly DependencyProperty ShowColorPickerProperty = DependencyProperty.Register(nameof(ShowColorPicker), 
+            typeof(bool), typeof(ColorLegend), new PropertyMetadata(true, (sender, e) => ((ColorLegend)sender).OnShowColorPickerChanged()));
 
 
         /// <summary>
@@ -402,7 +402,7 @@ namespace Orc.Controls
             UpdateVisibilityControlsVisibility();
         }
 
-        private void OnShowColorPickerColorChanged()
+        private void OnShowColorPickerChanged()
         {
             UpdateColorPickerColorVisibility();
         }
@@ -446,6 +446,7 @@ namespace Orc.Controls
                 {
                     UpdateVisibilityControlsVisibility();
                     UpdateColorEditingControlsVisibility();
+                    UpdateColorPickerColorVisibility();
                 };
             }
 
@@ -537,11 +538,7 @@ namespace Orc.Controls
             var colorChangeButtonParts = _listBox.GetDescendents().OfType<Button>().Where(b => string.Equals(b.Name, "PART_ButtonColorChange"));
             foreach (var button in colorChangeButtonParts)
             {
-                var innerEllipseElement = button.GetDescendents().OfType<System.Windows.Shapes.Ellipse>();
-                foreach (var ellipse in innerEllipseElement)
-                {
-                    ellipse.SetCurrentValue(VisibilityProperty, ShowColorPickerColor ? Visibility.Visible : Visibility.Collapsed);
-                }
+                button.SetCurrentValue(VisibilityProperty, ShowColorPicker ? Visibility.Visible : Visibility.Collapsed);
             }
         }
 

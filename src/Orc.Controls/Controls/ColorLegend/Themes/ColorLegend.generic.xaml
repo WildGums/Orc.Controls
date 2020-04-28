@@ -275,7 +275,7 @@
                                                 </MenuItem>
                                                 <MenuItem>
                                                     <MenuItem.Header>
-                                                        <CheckBox Content="Show colors" IsChecked="{Binding Path=ShowColorPickerColor, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                        <CheckBox Content="Show colors" IsChecked="{Binding Path=ShowColorPicker, RelativeSource={RelativeSource TemplatedParent}}" />
                                                     </MenuItem.Header>
                                                 </MenuItem>
                                             </ContextMenu>
@@ -297,7 +297,7 @@
                                         <Grid HorizontalAlignment="Stretch" Margin="2">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition x:Name="visibilityCheckColumn" Width="15"/>
-                                                <ColumnDefinition Width="24"/>
+                                                <ColumnDefinition x:Name="colorPickerColumn" Width="24"/>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
@@ -357,6 +357,12 @@
                                                     <Condition SourceName="visibilityCheckbox" Property="Visibility" Value="Collapsed"/>
                                                 </MultiTrigger.Conditions>
                                                 <Setter TargetName="visibilityCheckColumn" Property="Width" Value="0"/>
+                                            </MultiTrigger>
+                                            <MultiTrigger>
+                                                <MultiTrigger.Conditions>
+                                                    <Condition SourceName="PART_ButtonColorChange" Property="Visibility" Value="Collapsed"/>
+                                                </MultiTrigger.Conditions>
+                                                <Setter TargetName="colorPickerColumn" Property="Width" Value="0"/>
                                             </MultiTrigger>
                                         </DataTemplate.Triggers>
                                     </DataTemplate>
