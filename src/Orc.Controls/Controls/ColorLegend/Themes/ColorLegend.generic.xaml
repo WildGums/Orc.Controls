@@ -273,6 +273,11 @@
                                                         <CheckBox Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_AllowColorEdit}" IsChecked="{Binding Path=AllowColorEditing, RelativeSource={RelativeSource TemplatedParent}}" />
                                                     </MenuItem.Header>
                                                 </MenuItem>
+                                                <MenuItem>
+                                                    <MenuItem.Header>
+                                                        <CheckBox Content="Show colors" IsChecked="{Binding Path=ShowColorPickerColor, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                    </MenuItem.Header>
+                                                </MenuItem>
                                             </ContextMenu>
                                         </controls:DropDownButton.DropDown>
                                     </controls:DropDownButton>
