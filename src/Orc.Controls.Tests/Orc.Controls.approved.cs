@@ -122,6 +122,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ItemsSourceProperty;
         public static readonly System.Windows.DependencyProperty SelectedColorItemsProperty;
         public static readonly System.Windows.DependencyProperty ShowBottomToolBoxProperty;
+        public static readonly System.Windows.DependencyProperty ShowColorPickerProperty;
         public static readonly System.Windows.DependencyProperty ShowColorVisibilityControlsProperty;
         public static readonly System.Windows.DependencyProperty ShowSearchBoxProperty;
         public static readonly System.Windows.DependencyProperty ShowSettingsBoxProperty;
@@ -139,6 +140,7 @@ namespace Orc.Controls
         public System.Collections.Generic.IEnumerable<Orc.Controls.IColorLegendItem> ItemsSource { get; set; }
         public System.Collections.Generic.IEnumerable<Orc.Controls.IColorLegendItem> SelectedColorItems { get; set; }
         public bool ShowBottomToolBox { get; set; }
+        public bool ShowColorPicker { get; set; }
         public bool ShowColorVisibilityControls { get; set; }
         public bool ShowSearchBox { get; set; }
         public bool ShowSettingsBox { get; set; }
@@ -149,6 +151,7 @@ namespace Orc.Controls
         public override void OnApplyTemplate() { }
         public void SetSelectedList(System.Collections.Generic.IEnumerable<Orc.Controls.IColorLegendItem> selectedList) { }
         public void UpdateColorEditingControlsVisibility() { }
+        public void UpdateColorPickerColorVisibility() { }
         public void UpdateVisibilityControlsVisibility() { }
     }
     [Catel.Runtime.Serialization.SerializerModifierAttribute(typeof(Orc.Controls.ColorLegendItemSerializerModifier))]
