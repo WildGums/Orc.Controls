@@ -59,7 +59,11 @@ namespace Orc.Controls
                 }
 
                 parts.Add(new KeyValuePair<int, string>(formatInfo.MinutePosition.Value, dateTime.Minute.ToString(NumberFormatHelper.GetFormat(formatInfo.MinuteFormat.Length))));
-                parts.Add(new KeyValuePair<int, string>(formatInfo.SecondPosition.Value, dateTime.Second.ToString(NumberFormatHelper.GetFormat(formatInfo.SecondFormat.Length))));
+
+                if (formatInfo.SecondPosition.HasValue)
+                {
+                    parts.Add(new KeyValuePair<int, string>(formatInfo.SecondPosition.Value, dateTime.Second.ToString(NumberFormatHelper.GetFormat(formatInfo.SecondFormat.Length))));
+                }
 
                 if (formatInfo.AmPmPosition.HasValue)
                 {
@@ -76,33 +80,13 @@ namespace Orc.Controls
         {
             // Always contain year, month, day part.
             var builder = new StringBuilder();
+
             builder.Append(formatInfo.Separator0);
-            builder.Append(parts[0].Value);
-            builder.Append(formatInfo.Separator1);
-            builder.Append(parts[1].Value);
-            builder.Append(formatInfo.Separator2);
-            builder.Append(parts[2].Value);
-            builder.Append(formatInfo.Separator3);
-
-            if (parts.Count <= 3)
+            for (int i = 0; i < parts.Count; i++)
             {
-                return builder.ToString();
+                builder.Append(parts[i].Value);
+                builder.Append(formatInfo.GetSeparator(i + 1));
             }
-
-            builder.Append(parts[3].Value);
-            builder.Append(formatInfo.Separator4);
-            builder.Append(parts[4].Value);
-            builder.Append(formatInfo.Separator5);
-            builder.Append(parts[5].Value);
-            builder.Append(formatInfo.Separator6);
-
-            if (parts.Count <= 6)
-            {
-                return builder.ToString();
-            }
-
-            builder.Append(parts[6].Value);
-            builder.Append(formatInfo.Separator7);
 
             return builder.ToString();
         }
