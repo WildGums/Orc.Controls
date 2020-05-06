@@ -329,7 +329,7 @@ namespace Orc.Controls
                 var tabItem = tabControlItemData.TabItem;
                 if (tabItem != null && tabItem.IsSelected)
                 {
-                    if (child.Content == null)
+                    if (child.Content is null)
                     {
                         ShowChildContent(child, tabControlItemData);
                     }
@@ -353,7 +353,7 @@ namespace Orc.Controls
         /// <param name="item">The item.</param>
         private void CreateChildContentPresenter(object item)
         {
-            if (item == null)
+            if (item is null)
             {
                 return;
             }
@@ -383,17 +383,17 @@ namespace Orc.Controls
             cp.Tag = tabItemData;
 #pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
 
-            if (!IsLazyLoading)
-            {
-                ShowChildContent(cp, tabItemData);
-            }
-
 #pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
             cp.ContentTemplateSelector = ContentTemplateSelector;
             cp.ContentStringFormat = SelectedContentStringFormat;
 #pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
 
             _itemsHolder.Children.Add(cp);
+
+            if (!IsLazyLoading)
+            {
+                ShowChildContent(cp, tabItemData);
+            }
         }
 
         private object GetContent(object item)
@@ -418,14 +418,14 @@ namespace Orc.Controls
 
         private void ShowChildContent(ContentPresenter child, TabControlItemData tabControlItemData)
         {
-            if (child.Content == null)
+            if (child.Content is null)
             {
 #pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
                 child.Content = tabControlItemData.Content;
 #pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
             }
 
-            if (child.ContentTemplate == null)
+            if (child.ContentTemplate is null)
             {
 #pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
                 child.ContentTemplate = tabControlItemData.ContentTemplate;
@@ -454,7 +454,7 @@ namespace Orc.Controls
         /// <returns></returns>
         private ContentPresenter FindChildContentPresenter(object data)
         {
-            if (data == null)
+            if (data is null)
             {
                 return null;
             }
@@ -474,7 +474,7 @@ namespace Orc.Controls
         protected TabItem GetSelectedTabItem()
         {
             var selectedItem = SelectedItem;
-            if (selectedItem == null)
+            if (selectedItem is null)
             {
                 return null;
             }

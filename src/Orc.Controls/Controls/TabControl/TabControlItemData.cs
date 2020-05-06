@@ -25,14 +25,15 @@ namespace Orc.Controls
         public TabControlItemData(object container, object content, DataTemplate contentTemplate, object item)
         {
             Container = container;
-            TabItem = container as TabItem;
 
-            if (TabItem != null)
+            if (container is TabItem tabItem)
             {
 #pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
-                TabItem.Content = null;
-                TabItem.ContentTemplate = null;
+                tabItem.Content = null;
+                tabItem.ContentTemplate = null;
 #pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
+
+                TabItem = tabItem;
             }
 
             Content = content;
