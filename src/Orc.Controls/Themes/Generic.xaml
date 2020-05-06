@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Orc.Theming;component/Themes/Generic.xaml" />
+
         <ResourceDictionary Source="/Orc.Controls;component/Controls/AlignmentGrid/Themes/AlignmentGrid.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/AnimatedGif/Themes/AnimatedGif.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/AnimatingTextBlock/Themes/AnimatingTextBlock.generic.xaml" />
