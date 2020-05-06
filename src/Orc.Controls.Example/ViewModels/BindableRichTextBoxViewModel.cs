@@ -45,7 +45,7 @@ namespace Orc.Controls.Example.ViewModels
 
             if (UseAccentText)
             {
-                exampleParagraph.Foreground = Orc.Controls.Theming.ThemeManager.Current.GetAccentColorBrush().Clone();
+                exampleParagraph.Foreground = Orc.Theming.ThemeManager.Current.GetAccentColorBrush().Clone();
             }
 
             flowDoc.Blocks.Add(exampleParagraph);

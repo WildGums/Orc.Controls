@@ -14,6 +14,7 @@ namespace Orc.Controls.Example
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Services;
+    using Orc.Theming;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -27,24 +28,6 @@ namespace Orc.Controls.Example
         #region Methods
         protected override void OnStartup(StartupEventArgs e)
         {
-            //var sqLiteProviderInfo = new DbProviderInfo
-            //{
-            //    Name = "SQLite Data Provider",
-            //    InvariantName = "System.Data.SQLite",
-            //    Description = ".NET Framework Data Provider for SQLite",
-            //    AssemblyQualifiedName = "System.Data.SQLite.SQLiteFactory, System.Data.SQLite, Version=1.0.110.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139"
-            //};
-            //DbProvider.RegisterProvider(sqLiteProviderInfo);
-
-            //var oracleProviderInfo = new DbProviderInfo
-            //{
-            //    Name = "ODP.NET, Managed Driver",
-            //    InvariantName = "Oracle.ManagedDataAccess.Client",
-            //    Description = "Oracle Data Provider for .NET, Managed Driver",
-            //    AssemblyQualifiedName = "Oracle.ManagedDataAccess.Client.OracleClientFactory, Oracle.ManagedDataAccess, Version=4.122.18.3, Culture=neutral, PublicKeyToken=89b483f429c47342"
-            //};
-            //DbProvider.RegisterProvider(oracleProviderInfo);
-
             var languageService = ServiceLocator.Default.ResolveType<ILanguageService>();
 
             // Note: it's best to use .CurrentUICulture in actual apps since it will use the preferred language
@@ -56,8 +39,10 @@ namespace Orc.Controls.Example
             // Some test logging, but important to load the assembly first
             var externalTypeToForceAssemblyLoad = typeof(LogViewerLogListener);
 
-            Orc.Controls.FontImage.RegisterFont("FontAwesome", new FontFamily(new Uri("pack://application:,,,/Orc.Controls.Example.NET;component/Resources/Fonts/", UriKind.RelativeOrAbsolute), "./#FontAwesome"));
-            Orc.Controls.FontImage.DefaultFontFamily = "FontAwesome";
+            Orc.Theming.FontImage.RegisterFont("FontAwesome", new FontFamily(new Uri("pack://application:,,,/Orc.Controls.Example;component/Resources/Fonts/", UriKind.RelativeOrAbsolute), "./#FontAwesome"));
+            Orc.Theming.FontImage.DefaultFontFamily = "FontAwesome";
+
+            StyleHelper.CreateStyleForwardersForDefaultStyles();
 
             Log.Info("Starting application");
             Log.Info("This log message should show up as debug");

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
     <TargetFrameworks>net462</TargetFrameworks>
-    <AssemblyName>Orc.Controls.Example.NET</AssemblyName>
+    <AssemblyName>Orc.Controls.Example</AssemblyName>
     <RootNamespace>Orc.Controls.Example</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
     <SonarQubeExclude>true</SonarQubeExclude>
@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="Catel.Analyzers" Version="1.0.0" PrivateAssets="all" />
-    <PackageReference Include="Catel.MVVM" Version="5.12.4" />
+    <PackageReference Include="Catel.MVVM" Version="5.12.5" />
     <PackageReference Include="Catel.Fody" Version="4.3.0" PrivateAssets="all" />
     <PackageReference Include="Fody" Version="6.1.1" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

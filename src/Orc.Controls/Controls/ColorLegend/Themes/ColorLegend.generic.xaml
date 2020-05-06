@@ -1,7 +1,8 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Orc.Controls"
-                    xmlns:catel="http://schemas.catelproject.com">
+                    xmlns:catel="http://schemas.catelproject.com"
+                    xmlns:orctheming="http://schemas.wildgums.com/orc/theming">
 
     <controls:MultipleCommandParameterConverter x:Key="MultipleCommandParametersConverter"/>
     <Color x:Key="Color_Control_1">#eeeeee</Color>
@@ -21,10 +22,10 @@
         174.204C173.134,148.54 193.97,127.704 219.634,127.704Z</Geometry>
 
     <Style x:Key="SearchBoxBorderStyle" TargetType="{x:Type Border}">
-        <Setter Property="BorderBrush" Value="{controls:ThemeColorBrush ThemeColorStyle=BorderColor}"/>
+        <Setter Property="BorderBrush" Value="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" />
+                <Setter Property="BorderBrush" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -35,7 +36,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ButtonBase}">
                     <Border x:Name="Chrome" 
-                            BorderBrush="{controls:ThemeColorBrush ThemeColorStyle=BorderColor}"
+                            BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}"
                             BorderThickness="1" 
                             Background="#FFF4F4F4" 
                             SnapsToDevicePixels="True">
@@ -52,12 +53,12 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Chrome" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor4}"/>
+                            <Setter Property="Background" TargetName="Chrome" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor4}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Chrome" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
+                            <Setter Property="Background" TargetName="Chrome" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
                             <Setter Property="Foreground" Value="White"/>
-                            <Setter Property="BorderBrush" TargetName="Chrome" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
+                            <Setter Property="BorderBrush" TargetName="Chrome" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" TargetName="Filter" Value="WhiteSmoke"/>
@@ -81,10 +82,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Chrome" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor4}"/>
+                            <Setter Property="Background" TargetName="Chrome" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor4}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Chrome" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
+                            <Setter Property="Background" TargetName="Chrome" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
                             <Setter Property="Fill" TargetName="Path" Value="White"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
@@ -103,13 +104,13 @@
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <BulletDecorator Background="Transparent" SnapsToDevicePixels="true">
                         <BulletDecorator.Bullet>
-                            <Border x:Name="CheckBoxBorder" Height="12" Width="12" BorderBrush="{controls:ThemeColorBrush ThemeColorStyle=BorderColor}"
+                            <Border x:Name="CheckBoxBorder" Height="12" Width="12" BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}"
                                     BorderThickness="1" Background="White">
                                 <Grid>
                                     <Path x:Name="CheckMark" Data="M7.2,5 L5.5,7.16 4.16,6.3 3.5,6.7 5.5,8.4 8.6,5.25 C8.6,5.25 8,4.7 7.22,5" 
                                       Height="Auto" Width="Auto" Stretch="Fill" Fill="Black" Margin="1,1.007,1,1"/>
                                     <Border x:Name="ThreeStateCheckMark" BorderThickness="0" Margin="1" CornerRadius="1"
-                                            Visibility="Hidden" Background="{controls:ThemeColorBrush ThemeColorStyle=AccentColor3}" />
+                                            Visibility="Hidden" Background="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor3}" />
                                 </Grid>
                             </Border>
                         </BulletDecorator.Bullet>
@@ -123,8 +124,8 @@
                             <Setter Property="Foreground" Value="#FFADADAD"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="CheckBoxBorder" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor4}"/>
-                            <Setter Property="BorderBrush" TargetName="CheckBoxBorder" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
+                            <Setter Property="Background" TargetName="CheckBoxBorder" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor4}"/>
+                            <Setter Property="BorderBrush" TargetName="CheckBoxBorder" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="False">
                             <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed"/>
@@ -157,18 +158,18 @@
                                  Value="true">
                             <Setter TargetName="Bd"
                                     Property="BorderBrush"
-                                    Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor3}" />
+                                    Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor3}" />
 
                             <Setter Property="Background"
                                     TargetName="Bd"
-                                    Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" />
+                                    Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}" />
                         </Trigger>
 
                         <Trigger Property="IsMouseOver"
                                  Value="True">
                             <Setter TargetName="Bd"
                                     Property="Background"
-                                    Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor4}" />
+                                    Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor4}" />
                         </Trigger>
 
                         <MultiTrigger>
@@ -186,7 +187,7 @@
 
                             <Setter Property="Background"
                                     TargetName="Bd"
-                                    Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" />
+                                    Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}" />
                         </MultiTrigger>
 
                         <MultiTrigger>
@@ -200,7 +201,7 @@
 
                             <Setter Property="Background"
                                     TargetName="Bd"
-                                    Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor4}" />
+                                    Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor4}" />
                             
                             <Setter Property="Foreground"
                                     Value="White" />
@@ -224,7 +225,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:ColorLegend}">
                     <Border Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"
-                            BorderBrush="{controls:ThemeColorBrush ThemeColorStyle=BorderColor}"
+                            BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}"
                             BorderThickness="1">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -239,10 +240,10 @@
                                             Visibility="{TemplateBinding Header, Converter={catel:ReferenceToCollapsingVisibilityConverter}}" />
 
                             <!-- Filler border in case we are showing a legend -->
-                            <Border Grid.Row="1" BorderBrush="{controls:ThemeColorBrush ThemeColorStyle=BorderColor}" BorderThickness="0 0 0 1" 
+                            <Border Grid.Row="1" BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}" BorderThickness="0 0 0 1" 
                                     Visibility="{TemplateBinding Header, Converter={catel:ReferenceToCollapsingVisibilityConverter}}" />
 
-                            <Border Grid.Row="2" BorderBrush="{controls:ThemeColorBrush ThemeColorStyle=BorderColor}" BorderThickness="0 0 0 1" 
+                            <Border Grid.Row="2" BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}" BorderThickness="0 0 0 1" 
                                     Visibility="{Binding ShowToolBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
                                 <Grid x:Name="toolsContainer" Margin="0">
                                     <Grid.ColumnDefinitions>
@@ -370,7 +371,7 @@
                             </ListBox>
 
                             <Border Grid.Row="4"
-                                    BorderBrush="{controls:ThemeColorBrush ThemeColorStyle=BorderColor}"
+                                    BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}"
                                     BorderThickness="0 1 0 0"
                                     Height="30"
                                     Visibility="{Binding ShowBottomToolBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">

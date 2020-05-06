@@ -10,7 +10,6 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <CheckBox x:Name="alignmentCheckBox" Content="Enable alignment grid" IsChecked="True" />
-        <orccontrols:AlignmentGrid
-            Visibility="{Binding ElementName=alignmentCheckBox, Path=IsChecked, Converter={catel:BooleanToHidingVisibilityConverter}}"/>
+        <orccontrols:AlignmentGrid Visibility="{Binding ElementName=alignmentCheckBox, Path=IsChecked, Converter={catel:BooleanToHidingVisibilityConverter}}"/>
     </Grid>
 </catel:UserControl>

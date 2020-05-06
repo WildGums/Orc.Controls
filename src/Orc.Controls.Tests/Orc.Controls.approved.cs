@@ -2,7 +2,6 @@
 [assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETFramework,Version=v4.6", FrameworkDisplayName=".NET Framework 4.6")]
 [assembly: System.Windows.Markup.XmlnsDefinitionAttribute("http://schemas.wildgums.com/orc/controls", "Orc.Controls")]
 [assembly: System.Windows.Markup.XmlnsDefinitionAttribute("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Converters")]
-[assembly: System.Windows.Markup.XmlnsDefinitionAttribute("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Theming")]
 [assembly: System.Windows.Markup.XmlnsPrefixAttribute("http://schemas.wildgums.com/orc/controls", "orccontrols")]
 [assembly: System.Windows.ThemeInfoAttribute(System.Windows.ResourceDictionaryLocation.None, System.Windows.ResourceDictionaryLocation.SourceAssembly)]
 public class static LoadAssembliesOnStartup { }
@@ -89,10 +88,6 @@ namespace Orc.Controls
         public ColorChangedEventArgs(System.Windows.Media.Color newColor, System.Windows.Media.Color oldColor) { }
         public System.Windows.Media.Color NewColor { get; set; }
         public System.Windows.Media.Color OldColor { get; set; }
-    }
-    public class static ColorExtensions
-    {
-        public static System.Windows.Media.SolidColorBrush ToSolidColorBrush(this System.Windows.Media.Color color, double opacity = 1) { }
     }
     public class static ColorHelper
     {
@@ -649,22 +644,6 @@ namespace Orc.Controls
         protected virtual void OnOscillateChanged(bool oldOscillate, bool newOscillate) { }
         protected virtual void OnReverseDurationChanged(System.Windows.Duration oldReverseDuration, System.Windows.Duration newReverseDuration) { }
         protected virtual void OnTotalDurationChanged(System.Windows.Duration oldTotalDuration, System.Windows.Duration newTotalDuration) { }
-    }
-    public class FontImage : Catel.Windows.Markup.UpdatableMarkupExtension
-    {
-        public FontImage() { }
-        public FontImage(string itemName) { }
-        public System.Windows.Media.Brush Brush { get; set; }
-        public static System.Windows.Media.Brush DefaultBrush { get; set; }
-        public static string DefaultFontFamily { get; set; }
-        public string FontFamily { get; set; }
-        [System.Windows.Markup.ConstructorArgumentAttribute("itemName")]
-        public string ItemName { get; set; }
-        public System.Windows.Media.ImageSource GetImageSource() { }
-        public static System.Windows.Media.FontFamily GetRegisteredFont(string name) { }
-        public static System.Collections.Generic.IEnumerable<string> GetRegisteredFonts() { }
-        protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
-        public static void RegisterFont(string name, System.Windows.Media.FontFamily fontFamily) { }
     }
     public class FrameRateCounter : System.Windows.Controls.TextBlock
     {
@@ -1353,10 +1332,6 @@ namespace Orc.Controls
         public string SelectedFile { get; set; }
         public Catel.MVVM.TaskCommand SelectFile { get; }
     }
-    public class static ScreenHelper
-    {
-        public static System.Windows.Size GetDpi() { }
-    }
     public enum ScrollMode
     {
         OnlyManual = 0,
@@ -1403,73 +1378,6 @@ namespace Orc.Controls
         public System.Windows.Controls.TabItem TabItem { get; }
     }
     public class static TextBoxExtensions { }
-    public class ThemeColor : Catel.Windows.Markup.UpdatableMarkupExtension
-    {
-        public ThemeColor() { }
-        public ThemeColor(Orc.Controls.ThemeColorStyle themeColorStyle) { }
-        public Orc.Controls.ThemeColorStyle ThemeColorStyle { get; set; }
-        protected override void OnTargetObjectLoaded() { }
-        protected override void OnTargetObjectUnloaded() { }
-        protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
-    }
-    public class ThemeColorBrush : Catel.Windows.Markup.UpdatableMarkupExtension
-    {
-        public ThemeColorBrush() { }
-        public ThemeColorBrush(Orc.Controls.ThemeColorStyle themeColorStyle) { }
-        public Orc.Controls.ThemeColorStyle ThemeColorStyle { get; set; }
-        protected override void OnTargetObjectLoaded() { }
-        protected override void OnTargetObjectUnloaded() { }
-        protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
-    }
-    public enum ThemeColorStyle
-    {
-        AccentColor = 0,
-        AccentColor80 = 1,
-        AccentColor60 = 2,
-        AccentColor40 = 3,
-        AccentColor20 = 4,
-        AccentColor1 = 1,
-        AccentColor2 = 2,
-        AccentColor3 = 3,
-        AccentColor4 = 4,
-        AccentColor5 = 5,
-        BorderColor = 6,
-        BorderColor80 = 7,
-        BorderColor60 = 8,
-        BorderColor40 = 9,
-        BorderColor20 = 10,
-        BorderColor1 = 7,
-        BorderColor2 = 8,
-        BorderColor3 = 9,
-        BorderColor4 = 10,
-        BorderColor5 = 11,
-        BackgroundColor = 12,
-        ForegroundColor = 13,
-        ForegroundAlternativeColor = 14,
-        DarkHighlight = 3,
-        Highlight = 4,
-        BorderLight = 9,
-        BorderMedium = 8,
-        BorderDark = 7,
-        BorderMouseOver = 1,
-        BorderPressed = 0,
-        BorderChecked = 0,
-        BorderSelected = 0,
-        BorderSelectedInactive = 2,
-        BorderDisabled = 11,
-        BackgroundMouseOver = 4,
-        BackgroundPressed = 3,
-        BackgroundChecked = 0,
-        BackgroundSelected = 3,
-        BackgroundSelectedInactive = 4,
-        BackgroundDisabled = 5,
-        ForegroundMouseOver = 13,
-        ForegroundPressed = 14,
-        ForegroundChecked = 14,
-        ForegroundSelected = 14,
-        ForegroundSelectedInactive = 14,
-        ForegroundDisabled = 13,
-    }
     public class TimeAdjustment
     {
         public TimeAdjustment() { }
@@ -1757,23 +1665,6 @@ namespace Orc.Controls.Services
     public interface IStatusRepresenter
     {
         void UpdateStatus(string status);
-    }
-}
-namespace Orc.Controls.Theming
-{
-    public class LibraryThemeProvider : ControlzEx.Theming.LibraryThemeProvider
-    {
-        public static readonly ControlzEx.Theming.LibraryThemeProvider DefaultInstance;
-        public LibraryThemeProvider() { }
-        public override void FillColorSchemeValues(System.Collections.Generic.Dictionary<string, string> values, ControlzEx.Theming.RuntimeThemeColorValues colorValues) { }
-    }
-    public class ThemeManager
-    {
-        public ThemeManager(ControlzEx.Theming.ThemeManager controlzThemeManager) { }
-        public static Orc.Controls.Theming.ThemeManager Current { get; set; }
-        public System.Windows.Media.SolidColorBrush GetAccentColorBrush() { }
-        public System.Windows.Media.Color GetThemeColor(Orc.Controls.ThemeColorStyle colorStyle = 0) { }
-        public System.Windows.Media.SolidColorBrush GetThemeColorBrush(Orc.Controls.ThemeColorStyle colorStyle = 0) { }
     }
 }
 namespace Orc.Controls.Tools.Attributes

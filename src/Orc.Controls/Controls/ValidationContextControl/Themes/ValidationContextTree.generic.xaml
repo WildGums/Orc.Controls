@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:Orc.Controls.Converters"
                     xmlns:catel="http://schemas.catelproject.com"
-                    xmlns:controls="clr-namespace:Orc.Controls">
+                    xmlns:controls="clr-namespace:Orc.Controls"
+                    xmlns:orctheming="http://schemas.wildgums.com/orc/theming">
 
     <converters:TreeViewItemToLeftMarginValueConverter Length="15"
                                                        x:Key="LengthConverter" />
@@ -64,11 +65,11 @@
                                  Value="True">
                             <Setter Property="Stroke"
                                     TargetName="ExpandPath"
-                                    Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" />
+                                    Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}" />
 
                             <Setter Property="Fill"
                                     TargetName="ExpandPath"
-                                    Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" />
+                                    Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -80,11 +81,11 @@
 
                             <Setter Property="Stroke"
                                     TargetName="ExpandPath"
-                                    Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" />
+                                    Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}" />
 
                             <Setter Property="Fill"
                                     TargetName="ExpandPath"
-                                    Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" />
+                                    Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}" />
                         </MultiTrigger>
 
                         <MultiTrigger>
@@ -97,7 +98,7 @@
 
                             <Setter Property="Stroke"
                                     TargetName="ExpandPath"
-                                    Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" />
+                                    Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}" />
 
                             <Setter Property="Fill"
                                     TargetName="ExpandPath"
@@ -206,7 +207,7 @@
                                  Value="true">
                             <Setter Property="Background"
                                     TargetName="Bd"
-                                    Value="{controls:ThemeColorBrush ThemeColorStyle=DarkHighlight}" />
+                                    Value="{orctheming:ThemeColorBrush ThemeColorStyle=SelectionActiveBackground}" />
                         </Trigger>
 
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.IsActive}"
@@ -227,7 +228,7 @@
 
                             <Setter TargetName="Bd"
                                     Property="Background"
-                                    Value="{controls:ThemeColorBrush ThemeColorStyle=DarkHighlight}" />
+                                    Value="{orctheming:ThemeColorBrush ThemeColorStyle=SelectionActiveBackground}" />
                         </MultiDataTrigger>
 
                         <Trigger Property="IsEnabled"

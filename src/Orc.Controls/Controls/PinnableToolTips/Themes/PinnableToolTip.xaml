@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Orc.Controls"
+                    xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
                     xmlns:catel="http://schemas.catelproject.com">
 
     <Geometry x:Key="CloseGeometry">M384,415.819L248.839,550.98L217.02,519.161L352.181,384L217.02,248.839L248.839,217.02L384,352.181L519.161,217.02L550.98,248.839L415.819,384L550.98,519.161L519.161,550.98L384,415.819Z</Geometry>
@@ -54,14 +55,14 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:ThemeColorBrush ThemeColorStyle=Highlight}"/>
+                            <Setter Property="Background" TargetName="BorderButton" Value="{orctheming:ThemeColorBrush ThemeColorStyle=MouseOverBackground}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
+                            <Setter Property="Background" TargetName="BorderButton" Value="{orctheming:ThemeColorBrush ThemeColorStyle=PressedBackground}"/>
                             <Setter Property="Fill" TargetName="Path" Value="White"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Fill" TargetName="Path" Value="#FFADADAD"/>
+                            <Setter Property="Fill" TargetName="Path" Value="{orctheming:ThemeColorBrush ThemeColorStyle=DisabledForeground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -88,14 +89,14 @@
                             <Setter TargetName="Path" Property="Data" Value="{StaticResource PinnedGeometry}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:ThemeColorBrush ThemeColorStyle=Highlight}"/>
+                            <Setter Property="Background" TargetName="BorderButton" Value="{orctheming:ThemeColorBrush ThemeColorStyle=MouseOverBackground}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
+                            <Setter Property="Background" TargetName="BorderButton" Value="{orctheming:ThemeColorBrush ThemeColorStyle=PressedBackground}"/>
                             <Setter Property="Fill" TargetName="Path" Value="White"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Fill" TargetName="Path" Value="#FFADADAD"/>
+                            <Setter Property="Fill" TargetName="Path" Value="{orctheming:ThemeColorBrush ThemeColorStyle=DisabledForeground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -120,7 +121,7 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             
-                            <Border BorderThickness="0 0 0 1" BorderBrush="{controls:ThemeColorBrush ThemeColorStyle=BorderColor}" Background="WhiteSmoke">
+                            <Border BorderThickness="0 0 0 1" BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}" Background="WhiteSmoke">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />

@@ -13,7 +13,7 @@ namespace Orc.Controls
     using System.Windows.Media;
     using System.Windows.Shapes;
     using ControlzEx.Theming;
-    using Orc.Controls.Theming;
+    using Orc.Theming;
 
     public class AlignmentGrid : ContentControl
     {
@@ -112,7 +112,7 @@ namespace Orc.Controls
 
             var horizontalStep = HorizontalStep;
             var verticalStep = VerticalStep;
-            var brush = LineBrush ?? Theming.ThemeManager.Current.GetThemeColorBrush(ThemeColorStyle.AccentColor4);
+            var brush = LineBrush ?? Theming.ThemeManager.Current.GetThemeColorBrush(ThemeColorStyle.AccentColor20);
 
             for (double x = 0; x < ActualWidth; x += horizontalStep)
             {

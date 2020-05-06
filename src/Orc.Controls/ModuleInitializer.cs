@@ -50,10 +50,6 @@ public static class ModuleInitializer
         viewModelLocator.Register(typeof(ValidationContextTree), typeof(ValidationContextTreeViewModel));
         viewModelLocator.Register(typeof(ValidationContextView), typeof(ValidationContextViewModel));
 
-        var themeManager = ControlzEx.Theming.ThemeManager.Current;
-        themeManager.RegisterLibraryThemeProvider(Orc.Controls.Theming.LibraryThemeProvider.DefaultInstance);
-        serviceLocator.RegisterInstance(Orc.Controls.Theming.ThemeManager.Current);
-
         var languageService = serviceLocator.ResolveType<ILanguageService>();
         languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Controls", "Orc.Controls.Properties", "Resources"));
     }

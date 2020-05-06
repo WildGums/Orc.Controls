@@ -5,6 +5,7 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:controls="clr-namespace:Orc.Controls"
                    xmlns:catel="http://schemas.catelproject.com"
+                   xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                    mc:Ignorable="d" x:Name="CurrentControl" d:DesignHeight="22" d:DesignWidth="120">
 
@@ -54,7 +55,7 @@
         </Border>
 
         <Border x:Name="NumericTBEditorContainer" Grid.ColumnSpan="8"
-                BorderBrush="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}" BorderThickness="1"
+                BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}" BorderThickness="1"
                 Width="{Binding ActualWidth, ElementName=MainContainer}" Visibility="Collapsed"
                 Height="{Binding ActualHeight, ElementName=MainContainer}">
             <Grid HorizontalAlignment="Stretch" Background="White">
