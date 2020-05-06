@@ -4,6 +4,8 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <Style x:Key="{x:Type local:BusyIndicator}"
-           TargetType="{x:Type local:BusyIndicator}"/>
+           TargetType="{x:Type local:BusyIndicator}">
+        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.AccentColor}" />
+    </Style>
 
 </ResourceDictionary>

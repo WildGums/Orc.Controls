@@ -20,10 +20,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="UIElement.IsMouseOver" Value="True">
-                            <Setter Property="Border.BorderBrush" TargetName="border" Value="{orctheming:ThemeColorBrush ThemeColorStyle=MouseOverBorder}"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Border}"/>
                         </Trigger>
                         <Trigger Property="UIElement.IsKeyboardFocused" Value="True">
-                            <Setter Property="Border.BorderBrush" TargetName="border" Value="{orctheming:ThemeColorBrush ThemeColorStyle=CheckedBorder}"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Orc.Brushes.Control.Checked.Border}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

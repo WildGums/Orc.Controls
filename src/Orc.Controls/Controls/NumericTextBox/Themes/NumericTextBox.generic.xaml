@@ -4,6 +4,6 @@
 
     <Style x:Key="{x:Type local:NumericTextBox}"
            TargetType="{x:Type local:NumericTextBox}"
-           BasedOn="{StaticResource {x:Type TextBox}}" />
+           BasedOn="{StaticResource Orc.Theming.TextBox}" />
 
 </ResourceDictionary>

@@ -4,6 +4,8 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <Style x:Key="{x:Type local:FluidProgressBar}"
-           TargetType="{x:Type local:FluidProgressBar}"/>
+           TargetType="{x:Type local:FluidProgressBar}">
+        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.AccentColor}" />
+    </Style>
 
 </ResourceDictionary>
