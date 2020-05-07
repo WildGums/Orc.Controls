@@ -3,22 +3,24 @@
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:catel="http://schemas.catelproject.com"
                    xmlns:orccontrols="http://schemas.wildgums.com/orc/controls">
-    
-    <UserControl.Resources>
-    </UserControl.Resources>
-
     <StackPanel>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="FilterBox Control" VerticalAlignment="Center" Width="150"/>
-                <orccontrols:FilterBox Width="200" HorizontalAlignment="Left" PropertyName="Value"
-                                      FilterSource="{Binding FilterSource}" Text="{Binding FilterText}" Watermark="Filter"/>
+                <orccontrols:FilterBox Width="200"
+                                       HorizontalAlignment="Left"
+                                       PropertyName="Value"
+                                       FilterSource="{Binding FilterSource}"
+                                       Text="{Binding FilterText}"
+                                       Watermark="Filter"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="FilterBox Control" VerticalAlignment="Center" Width="150"/>
-                <orccontrols:FilterBox Width="200" Height="40" HorizontalAlignment="Left" PropertyName="Value"
-                                      FilterSource="{Binding FilterSource}" Text="{Binding FilterText}" Watermark="Filter"/>
+                <orccontrols:FilterBox Width="200"
+                                       HorizontalAlignment="Left"
+                                       PropertyName="Value"
+                                       FilterSource="{Binding FilterSource}" Text="{Binding FilterText}" Watermark="Filter"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
