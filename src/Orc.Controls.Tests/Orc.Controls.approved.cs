@@ -1,11 +1,11 @@
-﻿[assembly: System.Resources.NeutralResourcesLanguageAttribute("en-US")]
-[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETFramework,Version=v4.6", FrameworkDisplayName=".NET Framework 4.6")]
-[assembly: System.Windows.Markup.XmlnsDefinitionAttribute("http://schemas.wildgums.com/orc/controls", "Orc.Controls")]
-[assembly: System.Windows.Markup.XmlnsDefinitionAttribute("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Converters")]
-[assembly: System.Windows.Markup.XmlnsPrefixAttribute("http://schemas.wildgums.com/orc/controls", "orccontrols")]
-[assembly: System.Windows.ThemeInfoAttribute(System.Windows.ResourceDictionaryLocation.None, System.Windows.ResourceDictionaryLocation.SourceAssembly)]
-public class static LoadAssembliesOnStartup { }
-public class static ModuleInitializer
+﻿[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETFramework,Version=v4.7", FrameworkDisplayName=".NET Framework 4.7")]
+[assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls")]
+[assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Converters")]
+[assembly: System.Windows.Markup.XmlnsPrefix("http://schemas.wildgums.com/orc/controls", "orccontrols")]
+[assembly: System.Windows.ThemeInfo(System.Windows.ResourceDictionaryLocation.None, System.Windows.ResourceDictionaryLocation.SourceAssembly)]
+public static class LoadAssembliesOnStartup { }
+public static class ModuleInitializer
 {
     public static void Initialize() { }
 }
@@ -89,7 +89,7 @@ namespace Orc.Controls
         public System.Windows.Media.Color NewColor { get; set; }
         public System.Windows.Media.Color OldColor { get; set; }
     }
-    public class static ColorHelper
+    public static class ColorHelper
     {
         public static double GetHSB_B(System.Windows.Media.Color color) { }
         public static double GetHSB_H(System.Windows.Media.Color color) { }
@@ -100,19 +100,19 @@ namespace Orc.Controls
         public static System.Windows.Media.Color HSB2RGB(double h, double s, double l) { }
         public static System.Windows.Media.Color HSV2RGB(double h, double s, double v) { }
     }
-    [System.Windows.TemplatePartAttribute(Name="PART_All_Visible", Type=typeof(System.Windows.Controls.CheckBox))]
-    [System.Windows.TemplatePartAttribute(Name="PART_List", Type=typeof(System.Windows.Controls.ListBox))]
-    [System.Windows.TemplatePartAttribute(Name="PART_Popup_Color_Board", Type=typeof(System.Windows.Controls.Primitives.Popup))]
-    [System.Windows.TemplatePartAttribute(Name="PART_Settings_Button", Type=typeof(Orc.Controls.DropDownButton))]
-    [System.Windows.TemplatePartAttribute(Name="PART_UnselectAll", Type=typeof(System.Windows.Controls.Primitives.ButtonBase))]
+    [System.Windows.TemplatePart(Name="PART_All_Visible", Type=typeof(System.Windows.Controls.CheckBox))]
+    [System.Windows.TemplatePart(Name="PART_List", Type=typeof(System.Windows.Controls.ListBox))]
+    [System.Windows.TemplatePart(Name="PART_Popup_Color_Board", Type=typeof(System.Windows.Controls.Primitives.Popup))]
+    [System.Windows.TemplatePart(Name="PART_Settings_Button", Type=typeof(Orc.Controls.DropDownButton))]
+    [System.Windows.TemplatePart(Name="PART_UnselectAll", Type=typeof(System.Windows.Controls.Primitives.ButtonBase))]
     public class ColorLegend : System.Windows.Controls.HeaderedContentControl
     {
         public static readonly System.Windows.DependencyProperty AllowColorEditingProperty;
         public static readonly System.Windows.DependencyProperty EditingColorProperty;
-        public static readonly System.Windows.DependencyProperty FilteredItemsIdsProperty;
-        public static readonly System.Windows.DependencyProperty FilteredItemsSourceProperty;
         public static readonly System.Windows.DependencyProperty FilterProperty;
         public static readonly System.Windows.DependencyProperty FilterWatermarkProperty;
+        public static readonly System.Windows.DependencyProperty FilteredItemsIdsProperty;
+        public static readonly System.Windows.DependencyProperty FilteredItemsSourceProperty;
         public static readonly System.Windows.DependencyProperty IsAllVisibleProperty;
         public static readonly System.Windows.DependencyProperty IsColorSelectingProperty;
         public static readonly System.Windows.DependencyProperty ItemsSourceProperty;
@@ -128,10 +128,10 @@ namespace Orc.Controls
         public Catel.MVVM.Command<object> ChangeColor { get; }
         public System.Windows.Media.Color EditingColor { get; set; }
         public string Filter { get; set; }
+        public string FilterWatermark { get; set; }
         public System.Collections.Generic.IEnumerable<string> FilteredItemsIds { get; set; }
         public System.Collections.Generic.IEnumerable<Orc.Controls.IColorLegendItem> FilteredItemsSource { get; set; }
-        public string FilterWatermark { get; set; }
-        public System.Nullable<bool> IsAllVisible { get; set; }
+        public bool? IsAllVisible { get; set; }
         public bool IsColorSelecting { get; set; }
         public System.Collections.Generic.IEnumerable<Orc.Controls.IColorLegendItem> ItemsSource { get; set; }
         public System.Collections.Generic.IEnumerable<Orc.Controls.IColorLegendItem> SelectedColorItems { get; set; }
@@ -150,7 +150,7 @@ namespace Orc.Controls
         public void UpdateColorPickerColorVisibility() { }
         public void UpdateVisibilityControlsVisibility() { }
     }
-    [Catel.Runtime.Serialization.SerializerModifierAttribute(typeof(Orc.Controls.ColorLegendItemSerializerModifier))]
+    [Catel.Runtime.Serialization.SerializerModifier(typeof(Orc.Controls.ColorLegendItemSerializerModifier))]
     public class ColorLegendItem : Catel.Data.ModelBase, Orc.Controls.IColorLegendItem, System.ComponentModel.INotifyPropertyChanged
     {
         public static readonly Catel.Data.PropertyData AdditionalDataProperty;
@@ -173,7 +173,7 @@ namespace Orc.Controls
         public override void DeserializeMember(Catel.Runtime.Serialization.ISerializationContext context, Catel.Runtime.Serialization.MemberValue memberValue) { }
         public override void SerializeMember(Catel.Runtime.Serialization.ISerializationContext context, Catel.Runtime.Serialization.MemberValue memberValue) { }
     }
-    [System.Windows.TemplatePartAttribute(Name="PART_Popup", Type=typeof(System.Windows.Controls.Primitives.Popup))]
+    [System.Windows.TemplatePart(Name="PART_Popup", Type=typeof(System.Windows.Controls.Primitives.Popup))]
     public class ColorPicker : System.Windows.Controls.Control
     {
         public static readonly System.Windows.DependencyProperty ColorProperty;
@@ -190,8 +190,8 @@ namespace Orc.Controls
     }
     public abstract class ControlToolBase : Catel.Data.ModelBase, Orc.Controls.IControlTool
     {
-        public static readonly Catel.Data.PropertyData IsOpenedProperty;
         protected object Target;
+        public static readonly Catel.Data.PropertyData IsOpenedProperty;
         protected ControlToolBase() { }
         public virtual bool IsEnabled { get; }
         public bool IsOpened { get; }
@@ -212,7 +212,7 @@ namespace Orc.Controls
     {
         public static readonly System.Windows.DependencyProperty SelectedCultureProperty;
         public CulturePicker() { }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.Globalization.CultureInfo SelectedCulture { get; set; }
         public void InitializeComponent() { }
     }
@@ -231,10 +231,10 @@ namespace Orc.Controls
         public string Format { get; set; }
         public bool IsReadOnly { get; set; }
         public bool IsYearShortFormat { get; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowOptionsButton { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
-        public System.Nullable<System.DateTime> Value { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public System.DateTime? Value { get; set; }
         public void InitializeComponent() { }
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnUnloaded(System.EventArgs e) { }
@@ -242,11 +242,11 @@ namespace Orc.Controls
     public class DatePickerViewModel : Catel.MVVM.ViewModelBase
     {
         public DatePickerViewModel() { }
-        public System.Nullable<int> Day { get; set; }
-        public System.Nullable<int> Month { get; set; }
+        public int? Day { get; set; }
+        public int? Month { get; set; }
         public bool ShowOptionsButton { get; set; }
-        public System.Nullable<System.DateTime> Value { get; set; }
-        public System.Nullable<int> Year { get; set; }
+        public System.DateTime? Value { get; set; }
+        public int? Year { get; set; }
     }
     public class DateRange : Catel.Data.ModelBase
     {
@@ -279,21 +279,21 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty StartDateProperty;
         public DateRangePicker() { }
         public bool AllowCopyPaste { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.DateTime EndDate { get; set; }
         public string Format { get; set; }
         public bool HideSeconds { get; set; }
         public bool HideTime { get; set; }
         public bool IsAdvancedMode { get; set; }
         public bool IsReadOnly { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.DateRange> Ranges { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public Orc.Controls.DateRange SelectedRange { get; set; }
         public bool ShowOptionsButton { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.TimeSpan Span { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.DateTime StartDate { get; set; }
         public void InitializeComponent() { }
     }
@@ -309,34 +309,34 @@ namespace Orc.Controls
         public Orc.Controls.TimeAdjustmentStrategy TimeAdjustmentStrategy { get; set; }
         protected override void OnValidating(Catel.Data.IValidationContext validationContext) { }
     }
-    public class static DateTimeFormatHelper
+    public static class DateTimeFormatHelper
     {
         public static string ExtractDatePatternFromFormat(string format) { }
         public static string ExtractTimePatternFromFormat(string format) { }
         public static string FindMatchedLongTimePattern(System.Globalization.CultureInfo cultureInfo, string timePattern) { }
-        public static Orc.Controls.DateTimeFormatInfo GetDateTimeFormatInfo(string format, bool isDateOnly = False) { }
+        public static Orc.Controls.DateTimeFormatInfo GetDateTimeFormatInfo(string format, bool isDateOnly = false) { }
         public static string[] Split(string format, char[] formatCharacters) { }
     }
     public class DateTimeFormatInfo
     {
         public DateTimeFormatInfo() { }
         public string AmPmFormat { get; set; }
-        public System.Nullable<int> AmPmPosition { get; set; }
+        public int? AmPmPosition { get; set; }
         public string DayFormat { get; set; }
         public int DayPosition { get; set; }
         public string HourFormat { get; set; }
-        public System.Nullable<int> HourPosition { get; set; }
-        public System.Nullable<bool> IsAmPmShortFormat { get; set; }
+        public int? HourPosition { get; set; }
+        public bool? IsAmPmShortFormat { get; set; }
         public bool IsDateOnly { get; }
-        public System.Nullable<bool> IsHour12Format { get; set; }
+        public bool? IsHour12Format { get; set; }
         public bool IsYearShortFormat { get; set; }
         public int MaxPosition { get; set; }
         public string MinuteFormat { get; set; }
-        public System.Nullable<int> MinutePosition { get; set; }
+        public int? MinutePosition { get; set; }
         public string MonthFormat { get; set; }
         public int MonthPosition { get; set; }
         public string SecondFormat { get; set; }
-        public System.Nullable<int> SecondPosition { get; set; }
+        public int? SecondPosition { get; set; }
         public string Separator0 { get; set; }
         public string Separator1 { get; set; }
         public string Separator2 { get; set; }
@@ -349,14 +349,14 @@ namespace Orc.Controls
         public int YearPosition { get; set; }
         public string GetSeparator(int position) { }
     }
-    public class static DateTimeFormatter
+    public static class DateTimeFormatter
     {
-        public static string Format(System.DateTime dateTime, string format, bool isDateOnly = False) { }
+        public static string Format(System.DateTime dateTime, string format, bool isDateOnly = false) { }
     }
-    public class static DateTimeParser
+    public static class DateTimeParser
     {
-        public static System.DateTime Parse(string input, string format, bool isDateOnly = False) { }
-        public static bool TryParse(string input, string format, out System.DateTime dateTime, bool isDateOnly = False) { }
+        public static System.DateTime Parse(string input, string format, bool isDateOnly = false) { }
+        public static bool TryParse(string input, string format, out System.DateTime dateTime, bool isDateOnly = false) { }
     }
     public enum DateTimePart
     {
@@ -369,7 +369,7 @@ namespace Orc.Controls
         Second = 6,
         AmPmDesignator = 7,
     }
-    public class static DateTimePartExtensions
+    public static class DateTimePartExtensions
     {
         public static string GetDateTimePartName(this Orc.Controls.DateTimePart dateTimePart) { }
         public static string GetDateTimePartToggleButtonName(this Orc.Controls.DateTimePart dateTimePart) { }
@@ -396,18 +396,18 @@ namespace Orc.Controls
         public bool AllowCopyPaste { get; set; }
         public bool AllowNull { get; set; }
         public string Format { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool HideSeconds { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool HideTime { get; set; }
         public bool IsAmPmShortFormat { get; }
         public bool IsHour12Format { get; }
         public bool IsReadOnly { get; set; }
         public bool IsYearShortFormat { get; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowOptionsButton { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
-        public System.Nullable<System.DateTime> Value { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public System.DateTime? Value { get; set; }
         public void InitializeComponent() { }
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnUnloaded(System.EventArgs e) { }
@@ -416,18 +416,18 @@ namespace Orc.Controls
     {
         public DateTimePickerViewModel() { }
         public string AmPm { get; set; }
-        public System.Nullable<int> Day { get; set; }
+        public int? Day { get; set; }
         public bool HideSeconds { get; set; }
         public bool HideTime { get; set; }
-        public System.Nullable<int> Hour { get; set; }
-        public System.Nullable<int> Minute { get; set; }
-        public System.Nullable<int> Month { get; set; }
-        public System.Nullable<int> Second { get; set; }
+        public int? Hour { get; set; }
+        public int? Minute { get; set; }
+        public int? Month { get; set; }
+        public int? Second { get; set; }
         public bool ShowOptionsButton { get; set; }
-        public System.Nullable<System.DateTime> Value { get; set; }
-        public System.Nullable<int> Year { get; set; }
+        public System.DateTime? Value { get; set; }
+        public int? Year { get; set; }
     }
-    public class static DependencyObjectExtensions
+    public static class DependencyObjectExtensions
     {
         public static System.Collections.Generic.IEnumerable<System.Windows.DependencyObject> GetDescendents(this System.Windows.DependencyObject root) { }
         public static System.Windows.DependencyObject GetVisualRoot(this System.Windows.DependencyObject dependencyObject) { }
@@ -452,11 +452,11 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty LabelWidthProperty;
         public static readonly System.Windows.DependencyProperty SelectedDirectoryProperty;
         public DirectoryPicker() { }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string LabelText { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public double LabelWidth { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string SelectedDirectory { get; set; }
         public void InitializeComponent() { }
     }
@@ -478,18 +478,6 @@ namespace Orc.Controls
         public DoNotShowDropDownOnClickComboboxBehavior() { }
         protected override void OnAssociatedObjectLoaded() { }
         protected override void OnAssociatedObjectUnloaded() { }
-    }
-    public enum DropdownArrowLocation
-    {
-        Left = 0,
-        Top = 1,
-        Right = 2,
-        Bottom = 3,
-    }
-    public class DropdownArrowLocationConverter : Catel.MVVM.Converters.ValueConverterBase
-    {
-        public DropdownArrowLocationConverter() { }
-        protected override object Convert(object value, System.Type targetType, object parameter) { }
     }
     public class DropDownButton : System.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
@@ -515,6 +503,18 @@ namespace Orc.Controls
         public event System.EventHandler<System.EventArgs> ContentLayoutUpdated;
         public void InitializeComponent() { }
     }
+    public enum DropdownArrowLocation
+    {
+        Left = 0,
+        Top = 1,
+        Right = 2,
+        Bottom = 3,
+    }
+    public class DropdownArrowLocationConverter : Catel.MVVM.Converters.ValueConverterBase
+    {
+        public DropdownArrowLocationConverter() { }
+        protected override object Convert(object value, System.Type targetType, object parameter) { }
+    }
     public class EmptyCell : System.Windows.Controls.Control
     {
         public EmptyCell() { }
@@ -527,7 +527,7 @@ namespace Orc.Controls
     {
         public EmptyRow() { }
     }
-    public class static EnterKeyTraversal
+    public static class EnterKeyTraversal
     {
         public static readonly System.Windows.DependencyProperty IsEnabledProperty;
         public static bool GetIsEnabled(System.Windows.DependencyObject obj) { }
@@ -552,8 +552,8 @@ namespace Orc.Controls
         protected virtual void OnCollapsed() { }
         protected virtual void OnExpanded() { }
     }
-    [System.Windows.TemplatePartAttribute(Name="PART_ClearButton", Type=typeof(System.Windows.Controls.Button))]
-    [System.Windows.TemplatePartAttribute(Name="PART_FilterTextBox", Type=typeof(System.Windows.Controls.TextBox))]
+    [System.Windows.TemplatePart(Name="PART_ClearButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_FilterTextBox", Type=typeof(System.Windows.Controls.TextBox))]
     public class FilterBox : System.Windows.Controls.ContentControl
     {
         public static readonly System.Windows.DependencyProperty AllowAutoCompletionProperty;
@@ -651,7 +651,7 @@ namespace Orc.Controls
         public FrameRateCounter() { }
         public string Prefix { get; set; }
     }
-    public class static FrameworkElementExtensions
+    public static class FrameworkElementExtensions
     {
         public static void AttachAndOpenTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType, object parameter = null) { }
         public static void AttachAndOpenTool<T>(this System.Windows.FrameworkElement frameworkElement, object parameter = null)
@@ -689,26 +689,15 @@ namespace Orc.Controls
         bool IsEnabled { get; }
         bool IsOpened { get; }
         string Name { get; }
-        public event System.EventHandler<System.EventArgs> Attached;
-        public event System.EventHandler<System.EventArgs> Closed;
-        public event System.EventHandler<System.EventArgs> Detached;
-        public event System.EventHandler<System.EventArgs> Opened;
-        public event System.EventHandler<System.EventArgs> Opening;
+        event System.EventHandler<System.EventArgs> Attached;
+        event System.EventHandler<System.EventArgs> Closed;
+        event System.EventHandler<System.EventArgs> Detached;
+        event System.EventHandler<System.EventArgs> Opened;
+        event System.EventHandler<System.EventArgs> Opening;
         void Attach(object target);
         void Close();
         void Detach();
         void Open(object parameter);
-    }
-    public class InitializingAutoCompletionServiceEventArgs : System.Windows.RoutedEventArgs
-    {
-        public InitializingAutoCompletionServiceEventArgs() { }
-        public Catel.Services.IAutoCompletionService AutoCompletionService { get; set; }
-    }
-    public class static InlineExtensions
-    {
-        public static System.Windows.Documents.Inline Append(this System.Windows.Documents.Inline inline, System.Windows.Documents.Inline inlineToAdd) { }
-        public static System.Windows.Documents.Inline AppendRange(this System.Windows.Documents.Inline inline, System.Collections.Generic.IEnumerable<System.Windows.Documents.Inline> inlines) { }
-        public static System.Windows.Documents.Bold Bold(this System.Windows.Documents.Inline inline) { }
     }
     public interface ISuggestionListService
     {
@@ -724,9 +713,9 @@ namespace Orc.Controls
         string DisplayName { get; }
         bool IsExpanded { get; set; }
         bool IsVisible { get; set; }
-        System.Nullable<Catel.Data.ValidationResultType> ResultType { get; }
+        Catel.Data.ValidationResultType? ResultType { get; }
     }
-    public class static IValidationContextTreeNodeExtensions
+    public static class IValidationContextTreeNodeExtensions
     {
         public static void CollapseAll(this System.Collections.Generic.IEnumerable<Orc.Controls.IValidationContextTreeNode> nodes) { }
         public static void ExpandAll(this System.Collections.Generic.IEnumerable<Orc.Controls.IValidationContextTreeNode> nodes) { }
@@ -739,14 +728,25 @@ namespace Orc.Controls
         void Clear();
         System.Collections.Generic.IEnumerable<Catel.Data.IValidationResult> GetCachedResultsByTagName(string tagName);
         string GetDisplayName(Catel.Data.IValidationResult validationResult);
-        System.Nullable<int> GetLineNumber(Catel.Data.IValidationResult validationResult);
+        int? GetLineNumber(Catel.Data.IValidationResult validationResult);
         string GetTagName(Catel.Data.IValidationResult validationResult);
     }
-    [System.Windows.TemplatePartAttribute(Name="PART_InnerHyperlink", Type=typeof(System.Windows.Documents.Hyperlink))]
+    public class InitializingAutoCompletionServiceEventArgs : System.Windows.RoutedEventArgs
+    {
+        public InitializingAutoCompletionServiceEventArgs() { }
+        public Catel.Services.IAutoCompletionService AutoCompletionService { get; set; }
+    }
+    public static class InlineExtensions
+    {
+        public static System.Windows.Documents.Inline Append(this System.Windows.Documents.Inline inline, System.Windows.Documents.Inline inlineToAdd) { }
+        public static System.Windows.Documents.Inline AppendRange(this System.Windows.Documents.Inline inline, System.Collections.Generic.IEnumerable<System.Windows.Documents.Inline> inlines) { }
+        public static System.Windows.Documents.Bold Bold(this System.Windows.Documents.Inline inline) { }
+    }
+    [System.Windows.TemplatePart(Name="PART_InnerHyperlink", Type=typeof(System.Windows.Documents.Hyperlink))]
     public class LinkLabel : System.Windows.Controls.Label
     {
         public static readonly System.Windows.DependencyProperty ClickBehaviorProperty;
-        [System.ComponentModel.CategoryAttribute("Behavior")]
+        [System.ComponentModel.Category("Behavior")]
         public static readonly System.Windows.RoutedEvent ClickEvent;
         public static readonly System.Windows.DependencyProperty CommandParameterProperty;
         public static readonly System.Windows.DependencyProperty CommandProperty;
@@ -755,34 +755,34 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty HoverForegroundProperty;
         public static readonly System.Windows.DependencyProperty HyperlinkStyleProperty;
         public static readonly System.Windows.DependencyProperty LinkLabelBehaviorProperty;
-        [System.ComponentModel.CategoryAttribute("Behavior")]
+        [System.ComponentModel.Category("Behavior")]
         public static readonly System.Windows.RoutedEvent RequestNavigateEvent;
         public static readonly System.Windows.DependencyProperty UrlProperty;
         public LinkLabel() { }
-        [System.ComponentModel.BindableAttribute(true)]
-        [System.ComponentModel.CategoryAttribute("Common Properties")]
+        [System.ComponentModel.Bindable(true)]
+        [System.ComponentModel.Category("Common Properties")]
         public Orc.Controls.LinkLabelClickBehavior ClickBehavior { get; set; }
-        [System.ComponentModel.BindableAttribute(true)]
-        [System.ComponentModel.CategoryAttribute("Action")]
-        [System.Windows.LocalizabilityAttribute(System.Windows.LocalizationCategory.NeverLocalize)]
+        [System.ComponentModel.Bindable(true)]
+        [System.ComponentModel.Category("Action")]
+        [System.Windows.Localizability(System.Windows.LocalizationCategory.NeverLocalize)]
         public System.Windows.Input.ICommand Command { get; set; }
-        [System.ComponentModel.BindableAttribute(true)]
-        [System.ComponentModel.CategoryAttribute("Action")]
-        [System.Windows.LocalizabilityAttribute(System.Windows.LocalizationCategory.NeverLocalize)]
+        [System.ComponentModel.Bindable(true)]
+        [System.ComponentModel.Category("Action")]
+        [System.Windows.Localizability(System.Windows.LocalizationCategory.NeverLocalize)]
         public object CommandParameter { get; set; }
-        [System.ComponentModel.BindableAttribute(true)]
-        [System.ComponentModel.CategoryAttribute("Action")]
+        [System.ComponentModel.Bindable(true)]
+        [System.ComponentModel.Category("Action")]
         public System.Windows.IInputElement CommandTarget { get; set; }
         public bool HasUrl { get; }
-        [System.ComponentModel.BindableAttribute(true)]
-        [System.ComponentModel.CategoryAttribute("Brushes")]
+        [System.ComponentModel.Bindable(true)]
+        [System.ComponentModel.Category("Brushes")]
         public System.Windows.Media.Brush HoverForeground { get; set; }
         public System.Windows.Style HyperlinkStyle { get; set; }
-        [System.ComponentModel.BindableAttribute(true)]
-        [System.ComponentModel.CategoryAttribute("Common Properties")]
+        [System.ComponentModel.Bindable(true)]
+        [System.ComponentModel.Category("Common Properties")]
         public Orc.Controls.LinkLabelBehavior LinkLabelBehavior { get; set; }
-        [System.ComponentModel.BindableAttribute(true)]
-        [System.ComponentModel.CategoryAttribute("Common Properties")]
+        [System.ComponentModel.Bindable(true)]
+        [System.ComponentModel.Category("Common Properties")]
         public System.Uri Url { get; set; }
         public event System.Windows.RoutedEventHandler Click;
         public event System.Windows.Navigation.RequestNavigateEventHandler RequestNavigate;
@@ -860,7 +860,7 @@ namespace Orc.Controls
     {
         public static readonly System.Windows.DependencyProperty LogFilterProperty;
         public LogFilterEditorControl() { }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewModelToView)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewModelToView)]
         public Orc.Controls.LogFilter LogFilter { get; set; }
         public void InitializeComponent() { }
     }
@@ -876,19 +876,19 @@ namespace Orc.Controls
         public static readonly Catel.Data.PropertyData TargetProperty;
         public static readonly Catel.Data.PropertyData TargetsProperty;
         public LogFilterEditorViewModel(Orc.Controls.LogFilter logFilter) { }
-        [Catel.MVVM.ViewModelToModelAttribute("", "")]
+        [Catel.MVVM.ViewModelToModel("", "")]
         public Orc.Controls.LogFilterAction Action { get; set; }
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilterAction> Actions { get; }
-        [Catel.MVVM.ViewModelToModelAttribute("", "")]
+        [Catel.MVVM.ViewModelToModel("", "")]
         public Orc.Controls.LogFilterExpressionType ExpressionType { get; set; }
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilterExpressionType> ExpressionTypes { get; }
-        [Catel.MVVM.ViewModelToModelAttribute("", "")]
+        [Catel.MVVM.ViewModelToModel("", "")]
         public string ExpressionValue { get; set; }
-        [Catel.MVVM.ModelAttribute()]
+        [Catel.MVVM.Model]
         public Orc.Controls.LogFilter LogFilter { get; set; }
-        [Catel.MVVM.ViewModelToModelAttribute("", "")]
+        [Catel.MVVM.ViewModelToModel("", "")]
         public string Name { get; set; }
-        [Catel.MVVM.ViewModelToModelAttribute("", "")]
+        [Catel.MVVM.ViewModelToModel("", "")]
         public Orc.Controls.LogFilterTarget Target { get; set; }
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilterTarget> Targets { get; }
         protected override void ValidateFields(System.Collections.Generic.List<Catel.Data.IFieldValidationResult> validationResults) { }
@@ -925,11 +925,11 @@ namespace Orc.Controls
         public LogFilterGroupEditorViewModel(Orc.Controls.LogFilterGroup logFilterGroup, Catel.Services.IMessageService messageService, Catel.Services.IUIVisualizerService uiVisualizerService) { }
         public Catel.MVVM.TaskCommand AddCommand { get; }
         public Catel.MVVM.TaskCommand EditCommand { get; }
-        [Catel.MVVM.ModelAttribute()]
+        [Catel.MVVM.Model]
         public Orc.Controls.LogFilterGroup LogFilterGroup { get; set; }
-        [Catel.MVVM.ViewModelToModelAttribute("LogFilterGroup", "")]
+        [Catel.MVVM.ViewModelToModel("LogFilterGroup", "")]
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilter> LogFilters { get; set; }
-        [Catel.MVVM.ViewModelToModelAttribute("LogFilterGroup", "")]
+        [Catel.MVVM.ViewModelToModel("LogFilterGroup", "")]
         public string Name { get; set; }
         public Catel.MVVM.TaskCommand RemoveCommand { get; }
         public Orc.Controls.LogFilter SelectedLogFilter { get; set; }
@@ -969,10 +969,6 @@ namespace Orc.Controls
         AssemblyName = 1,
         LogMessage = 2,
     }
-    public class static LoggingExtensions
-    {
-        public static System.Collections.Generic.IEnumerable<Orc.Controls.RichTextBoxParagraph> ConvertToParagraphs(this System.Collections.Generic.IEnumerable<Catel.Logging.LogEntry> logEntries) { }
-    }
     public class LogRecord
     {
         public LogRecord() { }
@@ -1000,33 +996,33 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ShowWarningProperty;
         public static readonly System.Windows.DependencyProperty SupportCommandManagerProperty;
         public LogViewerControl() { }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public Orc.Controls.LogFilterGroup ActiveFilterGroup { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool AutoScroll { get; set; }
         public bool EnableIcons { get; set; }
         public bool EnableTextColoring { get; set; }
         public bool EnableThreadId { get; set; }
         public bool EnableTimestamp { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool IgnoreCatelLogging { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string LogFilter { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.Type LogListenerType { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public int MaximumUpdateBatchSize { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public Orc.Controls.ScrollMode ScrollMode { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowDebug { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowError { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowInfo { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowMultilineMessagesExpanded { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowWarning { get; set; }
         public bool SupportCommandManager { get; set; }
         public event System.EventHandler<Orc.Controls.LogEntryDoubleClickEventArgs> LogEntryDoubleClick;
@@ -1044,7 +1040,11 @@ namespace Orc.Controls
     {
         public LogViewerLogListener() { }
     }
-    public class static MediaElementThreadFactory
+    public static class LoggingExtensions
+    {
+        public static System.Collections.Generic.IEnumerable<Orc.Controls.RichTextBoxParagraph> ConvertToParagraphs(this System.Collections.Generic.IEnumerable<Catel.Logging.LogEntry> logEntries) { }
+    }
+    public static class MediaElementThreadFactory
     {
         public static Orc.Controls.MediaElementThreadInfo CreateMediaElementsOnWorkerThread(System.Func<System.Windows.Media.Visual> createVisual) { }
     }
@@ -1065,7 +1065,7 @@ namespace Orc.Controls
         public object Convert(object[] values, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) { }
         public object[] ConvertBack(object value, System.Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) { }
     }
-    public class static NumberFormatHelper
+    public static class NumberFormatHelper
     {
         public static string GetFormat(int digits) { }
     }
@@ -1085,7 +1085,7 @@ namespace Orc.Controls
         public bool IsNullValueAllowed { get; set; }
         public double MaxValue { get; set; }
         public double MinValue { get; set; }
-        public System.Nullable<double> Value { get; set; }
+        public double? Value { get; set; }
         public event System.EventHandler LeftBoundReached;
         public event System.EventHandler RightBoundReached;
         public event System.EventHandler ValueChanged;
@@ -1100,15 +1100,15 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty LabelWidthProperty;
         public static readonly System.Windows.DependencyProperty SelectedFileProperty;
         public OpenFilePicker() { }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string BaseDirectory { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string Filter { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string LabelText { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public double LabelWidth { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string SelectedFile { get; set; }
         public void InitializeComponent() { }
     }
@@ -1127,9 +1127,9 @@ namespace Orc.Controls
         public string LabelText { get; set; }
         public double LabelWidth { get; set; }
         public Catel.MVVM.Command OpenDirectory { get; }
+        public Catel.MVVM.TaskCommand SelectFile { get; }
         public string SelectedFile { get; set; }
         public string SelectedFileDisplayName { get; }
-        public Catel.MVVM.TaskCommand SelectFile { get; }
     }
     public class OpenToolCommandExtension : Catel.Windows.Markup.UpdatableMarkupExtension
     {
@@ -1157,10 +1157,10 @@ namespace Orc.Controls
         public PinnableItemTemplateSelector() { }
         public override System.Windows.DataTemplate SelectTemplate(object item, System.Windows.DependencyObject container) { }
     }
-    [System.Windows.TemplatePartAttribute(Name="CloseButton", Type=typeof(System.Windows.Controls.Button))]
-    [System.Windows.TemplatePartAttribute(Name="DragGrip", Type=typeof(System.Windows.FrameworkElement))]
-    [System.Windows.TemplatePartAttribute(Name="GripDrawing", Type=typeof(System.Windows.Media.GeometryDrawing))]
-    [System.Windows.TemplatePartAttribute(Name="PinButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
+    [System.Windows.TemplatePart(Name="CloseButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="DragGrip", Type=typeof(System.Windows.FrameworkElement))]
+    [System.Windows.TemplatePart(Name="GripDrawing", Type=typeof(System.Windows.Media.GeometryDrawing))]
+    [System.Windows.TemplatePart(Name="PinButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
     public class PinnableToolTip : System.Windows.Controls.ContentControl
     {
         public static readonly System.Windows.DependencyProperty AllowCloseByUserProperty;
@@ -1187,13 +1187,13 @@ namespace Orc.Controls
         public void Hide() { }
         public void IgnoreTimerStartupWhenMouseLeave(bool value) { }
         public override void OnApplyTemplate() { }
-        public void SetupTimer(int initialShowDelay, int showDuration) { }
         public void SetUserDefinedAdorner(System.Windows.UIElement element) { }
+        public void SetupTimer(int initialShowDelay, int showDuration) { }
         public void Show() { }
         public void StartTimer() { }
-        public void StopTimer(bool reset = True) { }
+        public void StopTimer(bool reset = true) { }
     }
-    public class static PinnableToolTipService
+    public static class PinnableToolTipService
     {
         public static readonly System.Windows.DependencyProperty InitialShowDelayProperty;
         public static readonly System.Windows.DependencyProperty IsToolTipOwnerProperty;
@@ -1216,18 +1216,18 @@ namespace Orc.Controls
     }
     public class PredefinedColor : System.IEquatable<Orc.Controls.PredefinedColor>
     {
-        public static System.Collections.Generic.List<Orc.Controls.PredefinedColor> All { get; }
-        public static System.Collections.Generic.List<Orc.Controls.PredefinedColor> AllThemeColors { get; }
         public string Name { get; }
         public System.Windows.Media.Color Value { get; }
-        public override bool Equals(object obj) { }
+        public static System.Collections.Generic.List<Orc.Controls.PredefinedColor> All { get; }
+        public static System.Collections.Generic.List<Orc.Controls.PredefinedColor> AllThemeColors { get; }
         public bool Equals(Orc.Controls.PredefinedColor other) { }
-        public static string GetColorName(System.Windows.Media.Color color) { }
+        public override bool Equals(object obj) { }
         public override int GetHashCode() { }
+        public static bool !=(Orc.Controls.PredefinedColor color1, Orc.Controls.PredefinedColor color2) { }
+        public static bool ==(Orc.Controls.PredefinedColor color1, Orc.Controls.PredefinedColor color2) { }
+        public static string GetColorName(System.Windows.Media.Color color) { }
         public static Orc.Controls.PredefinedColor GetPredefinedColor(System.Windows.Media.Color color) { }
         public static bool IsPredefined(System.Windows.Media.Color color) { }
-        public static bool ==(Orc.Controls.PredefinedColor color1, Orc.Controls.PredefinedColor color2) { }
-        public static bool !=(Orc.Controls.PredefinedColor color1, Orc.Controls.PredefinedColor color2) { }
     }
     public class PredefinedColorItem : System.Windows.Controls.Control
     {
@@ -1238,7 +1238,7 @@ namespace Orc.Controls
         public System.Windows.Media.Color Color { get; set; }
         public string Text { get; set; }
     }
-    public class static PredefinedDateRanges
+    public static class PredefinedDateRanges
     {
         public static Orc.Controls.DateRange LastMonth { get; }
         public static Orc.Controls.DateRange LastWeek { get; }
@@ -1247,10 +1247,10 @@ namespace Orc.Controls
         public static Orc.Controls.DateRange Today { get; }
         public static Orc.Controls.DateRange Yesterday { get; }
     }
-    [System.Windows.TemplatePartAttribute(Name="PART_LowerSlider", Type=typeof(System.Windows.Controls.Slider))]
-    [System.Windows.TemplatePartAttribute(Name="PART_SelectedRange", Type=typeof(System.Windows.Shapes.Rectangle))]
-    [System.Windows.TemplatePartAttribute(Name="PART_TrackBackground", Type=typeof(System.Windows.Controls.Border))]
-    [System.Windows.TemplatePartAttribute(Name="PART_UpperSlider", Type=typeof(System.Windows.Controls.Slider))]
+    [System.Windows.TemplatePart(Name="PART_LowerSlider", Type=typeof(System.Windows.Controls.Slider))]
+    [System.Windows.TemplatePart(Name="PART_SelectedRange", Type=typeof(System.Windows.Shapes.Rectangle))]
+    [System.Windows.TemplatePart(Name="PART_TrackBackground", Type=typeof(System.Windows.Controls.Border))]
+    [System.Windows.TemplatePart(Name="PART_UpperSlider", Type=typeof(System.Windows.Controls.Slider))]
     public class RangeSlider : System.Windows.Controls.Primitives.RangeBase
     {
         public static readonly System.Windows.DependencyProperty HighlightSelectedRangeProperty;
@@ -1260,21 +1260,21 @@ namespace Orc.Controls
         public static readonly System.Windows.RoutedEvent UpperValueChangedEvent;
         public static readonly System.Windows.DependencyProperty UpperValueProperty;
         public RangeSlider() { }
-        [System.ComponentModel.BindableAttribute(true)]
-        [System.ComponentModel.CategoryAttribute("Behavior")]
+        [System.ComponentModel.Bindable(true)]
+        [System.ComponentModel.Category("Behavior")]
         public bool HighlightSelectedRange { get; set; }
-        [System.ComponentModel.BindableAttribute(true)]
-        [System.ComponentModel.CategoryAttribute("Behavior")]
+        [System.ComponentModel.Bindable(true)]
+        [System.ComponentModel.Category("Behavior")]
         public double LowerValue { get; set; }
-        [System.ComponentModel.BindableAttribute(true)]
-        [System.ComponentModel.CategoryAttribute("Behavior")]
+        [System.ComponentModel.Bindable(true)]
+        [System.ComponentModel.Category("Behavior")]
         public System.Windows.Controls.Orientation Orientation { get; set; }
-        [System.ComponentModel.BindableAttribute(true)]
-        [System.ComponentModel.CategoryAttribute("Behavior")]
+        [System.ComponentModel.Bindable(true)]
+        [System.ComponentModel.Category("Behavior")]
         public double UpperValue { get; set; }
-        [System.ComponentModel.CategoryAttribute("Behavior")]
+        [System.ComponentModel.Category("Behavior")]
         public event System.Windows.RoutedPropertyChangedEventHandler<double> LowerValueChanged;
-        [System.ComponentModel.CategoryAttribute("Behavior")]
+        [System.ComponentModel.Category("Behavior")]
         public event System.Windows.RoutedPropertyChangedEventHandler<double> UpperValueChanged;
         public override void OnApplyTemplate() { }
         protected override void OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
@@ -1283,11 +1283,11 @@ namespace Orc.Controls
     {
         protected override int VisualChildrenCount { get; }
         protected override System.Windows.Size ArrangeOverride(System.Windows.Size finalSize) { }
+        protected override System.Windows.Media.Visual GetVisualChild(int index) { }
         public static Orc.Controls.ResizingAdorner Attach(System.Windows.FrameworkElement element) { }
         public static void Detach(Orc.Controls.ResizingAdorner adorner) { }
-        protected override System.Windows.Media.Visual GetVisualChild(int index) { }
     }
-    public class static RichTextBoxExtensions
+    public static class RichTextBoxExtensions
     {
         public static string GetInlineText(this System.Windows.Controls.RichTextBox richTextBox) { }
     }
@@ -1296,9 +1296,9 @@ namespace Orc.Controls
         public RichTextBoxParagraph(Catel.Logging.LogEntry logEntry) { }
         public Catel.Logging.LogEntry LogEntry { get; }
     }
-    public class static RichTextBoxParagraphExtensions
+    public static class RichTextBoxParagraphExtensions
     {
-        public static void SetData(this Orc.Controls.RichTextBoxParagraph paragraph, bool showTimestamp = True, bool showThreadId = True, bool showMultilineMessagesExpanded = False) { }
+        public static void SetData(this Orc.Controls.RichTextBoxParagraph paragraph, bool showTimestamp = true, bool showThreadId = true, bool showMultilineMessagesExpanded = false) { }
     }
     public class SaveFilePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
@@ -1307,13 +1307,13 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty LabelWidthProperty;
         public static readonly System.Windows.DependencyProperty SelectedFileProperty;
         public SaveFilePicker() { }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string Filter { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string LabelText { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public double LabelWidth { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string SelectedFile { get; set; }
         public void InitializeComponent() { }
     }
@@ -1329,8 +1329,8 @@ namespace Orc.Controls
         public string LabelText { get; set; }
         public double LabelWidth { get; set; }
         public Catel.MVVM.Command OpenDirectory { get; }
-        public string SelectedFile { get; set; }
         public Catel.MVVM.TaskCommand SelectFile { get; }
+        public string SelectedFile { get; set; }
     }
     public enum ScrollMode
     {
@@ -1342,7 +1342,7 @@ namespace Orc.Controls
     {
         public StackGrid() { }
     }
-    public class static StringExtensions
+    public static class StringExtensions
     {
         public static string ConstructWildcardRegex(this string pattern) { }
         public static string ExtractRegexString(this string filter) { }
@@ -1355,7 +1355,7 @@ namespace Orc.Controls
         public SuggestionListService() { }
         public System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> GetSuggestionList(System.DateTime dateTime, Orc.Controls.DateTimePart editablePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo) { }
     }
-    [System.Windows.TemplatePartAttribute(Name="PART_ItemsHolder", Type=typeof(System.Windows.Controls.Panel))]
+    [System.Windows.TemplatePart(Name="PART_ItemsHolder", Type=typeof(System.Windows.Controls.Panel))]
     public class TabControl : System.Windows.Controls.TabControl
     {
         public static readonly System.Windows.DependencyProperty LoadTabItemsProperty;
@@ -1377,7 +1377,7 @@ namespace Orc.Controls
         public object Item { get; }
         public System.Windows.Controls.TabItem TabItem { get; }
     }
-    public class static TextBoxExtensions { }
+    public static class TextBoxExtensions { }
     public class TimeAdjustment
     {
         public TimeAdjustment() { }
@@ -1412,7 +1412,7 @@ namespace Orc.Controls
         Minutes = 2,
         Seconds = 3,
     }
-    public class static TimeSpanPartExtensions
+    public static class TimeSpanPartExtensions
     {
         public static System.TimeSpan CreateTimeSpan(this Orc.Controls.TimeSpanPart timeSpanPart, double value) { }
         public static string GetTimeSpanPartName(this Orc.Controls.TimeSpanPart timeSpanPart) { }
@@ -1424,21 +1424,21 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ValueProperty;
         public TimeSpanPicker() { }
         public bool IsReadOnly { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
-        public System.Nullable<System.TimeSpan> Value { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public System.TimeSpan? Value { get; set; }
         public void InitializeComponent() { }
         protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
     }
     public class TimeSpanPickerViewModel : Catel.MVVM.ViewModelBase
     {
         public TimeSpanPickerViewModel() { }
-        public System.Nullable<int> Days { get; set; }
-        public System.Nullable<int> Hours { get; set; }
-        public System.Nullable<int> Minutes { get; set; }
-        public System.Nullable<int> Seconds { get; set; }
-        public System.Nullable<System.TimeSpan> Value { get; set; }
+        public int? Days { get; set; }
+        public int? Hours { get; set; }
+        public int? Minutes { get; set; }
+        public int? Seconds { get; set; }
+        public System.TimeSpan? Value { get; set; }
     }
-    public class static TreeViewItemExtensions
+    public static class TreeViewItemExtensions
     {
         public static int GetDepth(this System.Windows.Controls.TreeViewItem item) { }
     }
@@ -1453,10 +1453,10 @@ namespace Orc.Controls
         public string DisplayName { get; set; }
         public bool IsExpanded { get; set; }
         public bool IsVisible { get; set; }
-        public System.Nullable<Catel.Data.ValidationResultType> ResultType { get; set; }
+        public Catel.Data.ValidationResultType? ResultType { get; set; }
         public void ApplyFilter(bool showErrors, bool showWarnings, string filter) { }
-        public int CompareTo(object obj) { }
         public virtual int CompareTo(Orc.Controls.ValidationContextTreeNode node) { }
+        public int CompareTo(object obj) { }
         protected override void OnPropertyChanged(Catel.Data.AdvancedPropertyChangedEventArgs e) { }
     }
     public class ValidationContextTreeViewModel : Catel.MVVM.ViewModelBase
@@ -1485,12 +1485,12 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ShowFilterBoxProperty;
         public static readonly System.Windows.DependencyProperty ValidationContextProperty;
         public ValidationContextView() { }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool IsExpandedAllOnStartup { get; set; }
         public bool ShowButtons { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowFilterBox { get; set; }
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public Catel.Data.IValidationContext ValidationContext { get; set; }
         public void InitializeComponent() { }
     }
@@ -1533,25 +1533,25 @@ namespace Orc.Controls
         public ValidationNamesService(Catel.Services.ILanguageService languageService) { }
         public void Clear() { }
         protected virtual Orc.Controls.ValidationNamesService.TagDetails ExtractTagData(Catel.Data.IValidationResult validationResult) { }
-        protected virtual System.Nullable<int> ExtractTagLine(Catel.Data.IValidationResult validationResult) { }
+        protected virtual int? ExtractTagLine(Catel.Data.IValidationResult validationResult) { }
         protected virtual string ExtractTagName(Catel.Data.IValidationResult validationResult) { }
         public virtual System.Collections.Generic.IEnumerable<Catel.Data.IValidationResult> GetCachedResultsByTagName(string tagName) { }
         public virtual string GetDisplayName(Catel.Data.IValidationResult validationResult) { }
-        public System.Nullable<int> GetLineNumber(Catel.Data.IValidationResult validationResult) { }
+        public int? GetLineNumber(Catel.Data.IValidationResult validationResult) { }
         public string GetTagName(Catel.Data.IValidationResult validationResult) { }
         protected class TagDetails
         {
             public TagDetails() { }
-            public System.Nullable<int> ColumnIndex { get; set; }
+            public int? ColumnIndex { get; set; }
             public string ColumnName { get; set; }
-            public System.Nullable<int> Line { get; set; }
+            public int? Line { get; set; }
         }
     }
     public class ValidationResultNode : Orc.Controls.ValidationContextTreeNode
     {
         public static readonly Catel.Data.PropertyData LineNumberProperty;
         public ValidationResultNode(Catel.Data.IValidationResult validationResult, Orc.Controls.IValidationNamesService validationNamesService, bool isExpanded) { }
-        public System.Nullable<int> LineNumber { get; }
+        public int? LineNumber { get; }
     }
     public class ValidationResultTagNode : Orc.Controls.ValidationContextTreeNode
     {
@@ -1580,7 +1580,7 @@ namespace Orc.Controls
         public override System.Windows.Media.Visual RootVisual { get; set; }
         protected override System.Windows.Media.CompositionTarget GetCompositionTargetCore() { }
     }
-    [System.Windows.Markup.ContentPropertyAttribute("Child")]
+    [System.Windows.Markup.ContentProperty("Child")]
     public class VisualWrapper : System.Windows.FrameworkElement
     {
         public VisualWrapper() { }
@@ -1599,12 +1599,12 @@ namespace Orc.Controls
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e) { }
         protected override void OnPreviewMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e) { }
     }
-    public class static WindowExtensions
+    public static class WindowExtensions
     {
         public static void CenterWindowToParent(this System.Windows.Window window) { }
         public static void CenterWindowToSize(this System.Windows.Window window, System.Windows.Rect parentRect) { }
         public static void LoadWindowSize(this System.Windows.Window window, bool restoreWindowState) { }
-        public static void LoadWindowSize(this System.Windows.Window window, string tag = null, bool restoreWindowState = False, bool restoreWindowPosition = True) { }
+        public static void LoadWindowSize(this System.Windows.Window window, string tag = null, bool restoreWindowState = false, bool restoreWindowPosition = true) { }
         public static void SaveWindowSize(this System.Windows.Window window) { }
         public static void SaveWindowSize(this System.Windows.Window window, string tag) { }
     }
@@ -1648,9 +1648,9 @@ namespace Orc.Controls.Converters
 }
 namespace Orc.Controls.Extensions
 {
-    public class static FindReplaceSettingsExtensions
+    public static class FindReplaceSettingsExtensions
     {
-        public static System.Text.RegularExpressions.Regex GetRegEx(this Orc.Controls.FindReplaceSettings settings, string textToFind, bool isLeftToRight = False) { }
+        public static System.Text.RegularExpressions.Regex GetRegEx(this Orc.Controls.FindReplaceSettings settings, string textToFind, bool isLeftToRight = false) { }
     }
 }
 namespace Orc.Controls.Services
@@ -1669,7 +1669,7 @@ namespace Orc.Controls.Services
 }
 namespace Orc.Controls.Tools.Attributes
 {
-    [System.AttributeUsageAttribute(System.AttributeTargets.Property | System.AttributeTargets.All)]
+    [System.AttributeUsage(System.AttributeTargets.Property | System.AttributeTargets.All)]
     public class ToolSettingsAttribute : System.Attribute
     {
         public ToolSettingsAttribute() { }
@@ -1701,11 +1701,11 @@ namespace Orc.Controls.Tools
     public interface IControlToolManager
     {
         System.Collections.Generic.IList<Orc.Controls.IControlTool> Tools { get; }
-        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolAttached;
-        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolClosed;
-        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolDetached;
-        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpened;
-        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpening;
+        event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolAttached;
+        event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolClosed;
+        event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolDetached;
+        event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpened;
+        event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpening;
         object AttachTool(System.Type toolType);
         bool CanAttachTool(System.Type toolType);
         bool DetachTool(System.Type toolType);
@@ -1728,7 +1728,7 @@ namespace Orc.Controls.ViewModels
         public static readonly Catel.Data.PropertyData TextToFindProperty;
         public FindReplaceViewModel(Orc.Controls.FindReplaceSettings findReplaceSettings, Orc.Controls.Services.IFindReplaceService findReplaceService) { }
         public Catel.MVVM.Command<string> FindNext { get; }
-        [Catel.MVVM.ModelAttribute()]
+        [Catel.MVVM.Model]
         public Orc.Controls.FindReplaceSettings FindReplaceSettings { get; }
         public Catel.MVVM.Command<object> Replace { get; }
         public Catel.MVVM.Command<object> ReplaceAll { get; }
@@ -1791,5 +1791,17 @@ namespace Orc.Controls.Views
     {
         public FindReplaceView() { }
         public void InitializeComponent() { }
+    }
+}
+namespace XamlGeneratedNamespace
+{
+    public sealed class GeneratedInternalTypeHelper : System.Windows.Markup.InternalTypeHelper
+    {
+        public GeneratedInternalTypeHelper() { }
+        protected override void AddEventHandler(System.Reflection.EventInfo eventInfo, object target, System.Delegate handler) { }
+        protected override System.Delegate CreateDelegate(System.Type delegateType, object target, string handler) { }
+        protected override object CreateInstance(System.Type type, System.Globalization.CultureInfo culture) { }
+        protected override object GetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, System.Globalization.CultureInfo culture) { }
+        protected override void SetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, object value, System.Globalization.CultureInfo culture) { }
     }
 }
