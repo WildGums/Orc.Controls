@@ -141,16 +141,17 @@
                             <Setter Property="BorderBrush" Value="#FFADADAD" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="True">
-                            <Setter Property="BorderBrush" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Border}" />
                         </DataTrigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Chrome" Value="{orctheming:ThemeColorBrush ThemeColorStyle=MouseOverBackground}"/>
-                            <Setter Property="BorderBrush" TargetName="Chrome" Value="{orctheming:ThemeColorBrush ThemeColorStyle=MouseOverBorder}"/>
+                            <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Background}"/>
+                            <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Border}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Chrome" Value="{orctheming:ThemeColorBrush ThemeColorStyle=PressedBackground}"/>
-                            <Setter Property="Foreground" Value="{orctheming:ThemeColorBrush ThemeColorStyle=PressedForeground}"/>
-                            <Setter Property="BorderBrush" TargetName="Chrome" Value="{orctheming:ThemeColorBrush ThemeColorStyle=PressedBorder}"/>
+                            <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource Orc.Brushes.Control.Pressed.Background}"/>
+                            <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource Orc.Brushes.Control.Pressed.Border}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Pressed.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="#FFADADAD"/>
