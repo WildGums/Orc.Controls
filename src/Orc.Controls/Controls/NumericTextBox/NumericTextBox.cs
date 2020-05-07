@@ -149,7 +149,6 @@ namespace Orc.Controls
         #region Events
         public event EventHandler RightBoundReached;
         public event EventHandler LeftBoundReached;
-
         public event EventHandler ValueChanged;
         #endregion
 
@@ -509,12 +508,12 @@ namespace Orc.Controls
 
         private void OnValueChanged()
         {
+            ValueChanged?.Invoke(this, EventArgs.Empty);
+
             if (_textChangingIsInProgress)
             {
                 return;
             }
-
-            ValueChanged?.Invoke(this, EventArgs.Empty);
 
             UpdateText();
         }
@@ -551,7 +550,7 @@ namespace Orc.Controls
                 value = MinValue;
             }
 
-            if (value != Value)
+            if (!Equals(value, Value))
             {
                 SetCurrentValue(ValueProperty, value);
             }

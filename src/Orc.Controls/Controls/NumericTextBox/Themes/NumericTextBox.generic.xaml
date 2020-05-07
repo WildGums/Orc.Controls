@@ -30,7 +30,6 @@
                                       Padding="{TemplateBinding Padding}"
                                       BorderThickness="0" 
                                       IsTabStop="False" 
-                                      Margin="2" 
                                       Background="{x:Null}"
                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
