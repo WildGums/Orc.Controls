@@ -1565,13 +1565,14 @@ namespace Orc.Controls
     {
         public ValidationResultTypeNode(Catel.Data.ValidationResultType resultType, System.Collections.Generic.IEnumerable<Catel.Data.IValidationResult> validationResults, Orc.Controls.IValidationNamesService validationNamesService, bool isExpanded) { }
     }
-    public class ValidationResultTypeToColorConverter : Catel.MVVM.Converters.ValueConverterBase
+    public class ValidationResultTypeToColorMultiValueConverter : System.Windows.Data.IMultiValueConverter
     {
-        public ValidationResultTypeToColorConverter() { }
-        public System.Windows.Media.Color DefaultColor { get; set; }
-        public System.Windows.Media.Color ErrorColor { get; set; }
-        public System.Windows.Media.Color WarningColor { get; set; }
-        protected override object Convert(object value, System.Type targetType, object parameter) { }
+        public ValidationResultTypeToColorMultiValueConverter() { }
+        public System.Windows.Media.SolidColorBrush DefaultBrush { get; set; }
+        public System.Windows.Media.SolidColorBrush ErrorBrush { get; set; }
+        public System.Windows.Media.SolidColorBrush WarningBrush { get; set; }
+        public object Convert(object[] values, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) { }
+        public object[] ConvertBack(object value, System.Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) { }
     }
     public class VisualTargetPresentationSource : System.Windows.PresentationSource
     {
