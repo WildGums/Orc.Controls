@@ -15,12 +15,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Views\AlignmentGrid.xaml" />
-    <None Remove="Views\BusyIndicator.xaml" />
-    <None Remove="Views\FluidProgressBar.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Catel.Analyzers" Version="1.0.0" PrivateAssets="all" />
     <PackageReference Include="Catel.MVVM" Version="5.12.5" />
     <PackageReference Include="Catel.Fody" Version="4.3.0" PrivateAssets="all" />
