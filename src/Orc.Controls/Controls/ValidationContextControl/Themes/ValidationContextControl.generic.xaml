@@ -61,6 +61,16 @@
                             <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource Orc.Brushes.Control.Checked.Background}"/>
                             <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource Orc.Brushes.Control.Checked.Border}"/>
                         </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Background}"/>
+                            <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Border}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Foreground}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource Orc.Brushes.Control.Pressed.Background}"/>
+                            <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource Orc.Brushes.Control.Pressed.Border}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Pressed.Foreground}"/>
+                        </Trigger>
                         <Trigger Property="IsChecked" Value="False">
                             <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Foreground}"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Border}"/>
