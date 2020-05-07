@@ -4,9 +4,7 @@
                     xmlns:orctheming="http://schemas.wildgums.com/orc/theming">
 
     <DataTemplate x:Key="DefaultWatermarkTemplate">
-        <ContentControl Content="{Binding}"
-                        Focusable="False"
-                        Foreground="Gray"/>
+        <ContentControl Content="{Binding}" Focusable="False" Foreground="Gray"/>
     </DataTemplate>
 
     <Style x:Key="{x:Type controls:WatermarkTextBox}"
