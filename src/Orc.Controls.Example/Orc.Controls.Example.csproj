@@ -1,6 +1,6 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>net462</TargetFrameworks>
+    <TargetFrameworks>net462;netcoreapp3.1</TargetFrameworks>
     <AssemblyName>Orc.Controls.Example</AssemblyName>
     <RootNamespace>Orc.Controls.Example</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
