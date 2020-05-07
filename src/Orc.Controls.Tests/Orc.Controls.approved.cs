@@ -1,5 +1,5 @@
 ﻿[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
-[assembly: System.Runtime.Versioning.TargetFramework(".NETFramework,Version=v4.7", FrameworkDisplayName=".NET Framework 4.7")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v3.1", FrameworkDisplayName="")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Converters")]
 [assembly: System.Windows.Markup.XmlnsPrefix("http://schemas.wildgums.com/orc/controls", "orccontrols")]
