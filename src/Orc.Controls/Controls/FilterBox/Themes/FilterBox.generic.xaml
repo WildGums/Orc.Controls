@@ -126,6 +126,8 @@
 
             <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
                 <Style.Setters>
+                    <Setter Property="SelectionBrush" Value="{DynamicResource Orc.Brushes.Control.SelectionActive.Background}"/>
+
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type TextBox}">

@@ -8,6 +8,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Default.Border}" />
         <Setter Property="Background" Value="{DynamicResource Orc.Brushes.Control.Default.Background}" />
         <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource Orc.Brushes.Control.SelectionActive.Background}"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="1"/>
