@@ -13,18 +13,27 @@
            TargetType="{x:Type controls:ValidationContextView}"/>
 
 
-    <Style x:Key="ValidationContextToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+    <Style x:Key="ValidationContextToggleButtonStyle"
+           TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Border x:Name="Chrome" BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}" BorderThickness="1" Background="White"
+                    <Border x:Name="Chrome"
+                            BorderBrush="{DynamicResource Orc.Brushes.Control.Border}" 
+                            BorderThickness="1" 
+                            Background="{DynamicResource Orc.Brushes.Control.Background}"
                             SnapsToDevicePixels="True" Padding="4 0 4 0" Margin="4 0 0 0">
                         <StackPanel Orientation="Horizontal" >
                             <Grid>
                                 <Viewbox x:Name="Viewbox" Height="12" Width="12">
-                                    <Path Data="{TemplateBinding Path.Data}" HorizontalAlignment="Center" Margin="0" 
-                                          SnapsToDevicePixels="True" Stretch="Fill" UseLayoutRounding="True"
-                                          Fill="{TemplateBinding BorderBrush}" VerticalAlignment="Center"/>
+                                    <Path Data="{TemplateBinding Path.Data}" 
+                                          HorizontalAlignment="Center" 
+                                          Margin="0" 
+                                          SnapsToDevicePixels="True"
+                                          Stretch="Fill"
+                                          UseLayoutRounding="True"
+                                          Fill="{TemplateBinding BorderBrush}"
+                                          VerticalAlignment="Center"/>
                                 </Viewbox>
                                 <TextBlock x:Name="TextBlock"
                                            HorizontalAlignment="Center"
@@ -49,13 +58,13 @@
                             <Setter Property="Path.Data" Value="{StaticResource RectangleGeometry}" />
                         </DataTrigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Background" TargetName="Chrome" Value="White"/>
-                            <Setter Property="BorderBrush" TargetName="Chrome" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
+                            <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource Orc.Brushes.Control.Checked.Background}"/>
+                            <Setter Property="BorderBrush" TargetName="Chrome" Value="{DynamicResource Orc.Brushes.Control.Checked.Border}"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="False">
-                            <Setter Property="Foreground" Value="#FFADADAD"/>
-                            <Setter Property="BorderBrush" Value="#FFADADAD"/>
-                            <Setter Property="Background" TargetName="Chrome" Value="WhiteSmoke"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Foreground}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Border}"/>
+                            <Setter Property="Background" TargetName="Chrome" Value="{DynamicResource Orc.Brushes.Control.Background}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="#FFADADAD"/>
@@ -73,14 +82,26 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="Chrome" BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}" BorderThickness="1" Background="White"
-                            SnapsToDevicePixels="True" Padding="4 0 4 0" Margin="4 0 0 0">
+                    <Border x:Name="Chrome"
+                            BorderBrush="{DynamicResource Orc.Brushes.Control.Border}"
+                            BorderThickness="1"
+                            Background="{DynamicResource Orc.Brushes.Control.Background}"
+                            SnapsToDevicePixels="True" 
+                            Padding="4 0 4 0" 
+                            Margin="4 0 0 0">
                         <StackPanel Orientation="Horizontal" >
                             <Grid>
-                                <Viewbox x:Name="Viewbox" Height="12" Width="12">
-                                    <Path Data="{TemplateBinding Path.Data}" HorizontalAlignment="Center" Margin="0" 
-                                          SnapsToDevicePixels="True" Stretch="Fill" UseLayoutRounding="True"
-                                          Fill="{TemplateBinding BorderBrush}" VerticalAlignment="Center"/>
+                                <Viewbox x:Name="Viewbox"
+                                         Height="12" 
+                                         Width="12">
+                                    <Path Data="{TemplateBinding Path.Data}" 
+                                          HorizontalAlignment="Center"
+                                          Margin="0" 
+                                          SnapsToDevicePixels="True" 
+                                          Stretch="Fill"
+                                          UseLayoutRounding="True"
+                                          Fill="{TemplateBinding BorderBrush}"
+                                          VerticalAlignment="Center"/>
                                 </Viewbox>
                                 <TextBlock x:Name="TextBlock"
                                            HorizontalAlignment="Center"
@@ -89,13 +110,14 @@
                                            FontSize="9"
                                            Foreground="{TemplateBinding BorderBrush}" />
                             </Grid>
-                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"
-                                                  ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  Margin="{TemplateBinding Padding}"
-                                                  RecognizesAccessKey="True"
-                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}"
+                                              ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </StackPanel>
                     </Border>
                     <ControlTemplate.Triggers>

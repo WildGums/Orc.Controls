@@ -13,15 +13,17 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <GroupBox Header="Settings" Margin="4,6,4,6">
+        <GroupBox Header="Settings" 
+                  Margin="4,6,4,6">
             <StackPanel>
-                <CheckBox IsChecked="{Binding ElementName=validationContextView, Path=ShowButtons}" Content="Show buttons" />
+                <CheckBox IsChecked="{Binding ElementName=validationContextView, Path=ShowButtons}" 
+                          Content="Show buttons" />
             </StackPanel>
         </GroupBox>
 
         <orccontrols:ValidationContextView x:Name="validationContextView" 
-                                   ValidationContext="{Binding ValidationContext}"
-                                   IsExpandedAllOnStartup="True" />
+                                           ValidationContext="{Binding ValidationContext}"
+                                           IsExpandedAllOnStartup="True" />
     </orccontrols:StackGrid>
 
 </catel:UserControl>
