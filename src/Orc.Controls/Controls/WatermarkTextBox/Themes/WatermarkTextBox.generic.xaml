@@ -3,15 +3,6 @@
                     xmlns:controls="clr-namespace:Orc.Controls"
                     xmlns:orctheming="http://schemas.wildgums.com/orc/theming">
 
-    <LinearGradientBrush x:Key="TextBoxBorder" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,20">
-        <GradientStop Offset="0.05" Color="#ABADB3" />
-        <GradientStop Offset="0.07" Color="#E2E3EA" />
-        <GradientStop Offset="1" Color="#E3E9EF" />
-    </LinearGradientBrush>
-
-    <SolidColorBrush x:Key="TextBox_DisabledBorder" Color="#ADB2B5" />
-    <SolidColorBrush x:Key="TextBox_DisabledBackground" Color="#F4F4F4" />
-
     <DataTemplate x:Key="DefaultWatermarkTemplate">
         <ContentControl Content="{Binding}"
                         Focusable="False"
@@ -20,9 +11,9 @@
 
     <Style x:Key="{x:Type controls:WatermarkTextBox}"
            TargetType="{x:Type controls:WatermarkTextBox}">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
-        <Setter Property="BorderBrush" Value="{StaticResource TextBoxBorder}" />
+        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Foreground}" />
+        <Setter Property="Background" Value="{DynamicResource Orc.Brushes.Control.Background}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Border}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="3" />
         <Setter Property="AllowDrop" Value="true" />
@@ -62,15 +53,15 @@
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{orctheming:ThemeColorBrush ThemeColorStyle=MouseOverBorder}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Border}" />
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{orctheming:ThemeColorBrush ThemeColorStyle=CheckedBorder}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Background}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource TextBox_DisabledBorder}" />
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource TextBox_DisabledBackground}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Disabled.Border}" />
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Orc.Brushes.Control.Disabled.Background}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
