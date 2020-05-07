@@ -4,13 +4,7 @@
                    xmlns:catel="http://schemas.catelproject.com"
                    xmlns:orccontrols="http://schemas.wildgums.com/orc/controls">
 
-    <UserControl.Resources>
-        <Style TargetType="{x:Type orccontrols:NumericTextBox}" BasedOn="{StaticResource {x:Type orccontrols:NumericTextBox}}">
-            <Setter Property="Width" Value="200" />
-        </Style>
-    </UserControl.Resources>
-
-    <orccontrols:StackGrid>
+ <orccontrols:StackGrid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="200" />
@@ -35,15 +29,24 @@
         <TextBox Text="{Binding Format}" />
 
         <Label Content="Minimum value" />
-        <orccontrols:NumericTextBox IsNegativeAllowed="True" MinValue="-10000" MaxValue="10000" Value="{Binding MinValue}" />
+        <orccontrols:NumericTextBox IsNegativeAllowed="True" 
+                                    MinValue="-10000"
+                                    MaxValue="10000"
+                                    Value="{Binding MinValue}" />
 
         <Label Content="Maximum value" />
-        <orccontrols:NumericTextBox IsNegativeAllowed="True" MinValue="-10000" MaxValue="10000" Value="{Binding MaxValue}" />
+        <orccontrols:NumericTextBox IsNegativeAllowed="True"
+                                    MinValue="-10000"
+                                    MaxValue="10000" 
+                                    Value="{Binding MaxValue}" />
 
         <Label Content="Numeric text box" />
-        <orccontrols:NumericTextBox Format="{Binding Format}" IsNullValueAllowed="{Binding IsNullValueAllowed}" 
-                                    IsDecimalAllowed="{Binding IsDecimalAllowed}" IsNegativeAllowed="{Binding IsNegativeAllowed}"
-                                    MinValue="{Binding MinValue}" MaxValue="{Binding MaxValue}" 
+        <orccontrols:NumericTextBox Format="{Binding Format}"
+                                    IsNullValueAllowed="{Binding IsNullValueAllowed}" 
+                                    IsDecimalAllowed="{Binding IsDecimalAllowed}"
+                                    IsNegativeAllowed="{Binding IsNegativeAllowed}"
+                                    MinValue="{Binding MinValue}"
+                                    MaxValue="{Binding MaxValue}" 
                                     Text="{Binding Value, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
         <Label Content="Actual bound value (control)" />
