@@ -14,7 +14,6 @@ namespace Orc.Controls
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Interactivity;
-    using System.Windows.Media;
     using Catel.Logging;
     using Catel.MVVM;
     using Catel.Windows.Interactivity;
@@ -23,20 +22,22 @@ namespace Orc.Controls
     [TemplatePart(Name = "PART_ClearButton", Type = typeof(Button))]
     public class FilterBox : ContentControl
     {
+        #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private readonly Command _clearFilter;
         private Button _clearButton;
         private TextBox _filterTextBox;
+        #endregion
 
-        public event EventHandler<InitializingAutoCompletionServiceEventArgs> InitializingAutoCompletionService;
-
+        #region Constructors
         public FilterBox()
         {
             _clearFilter = new Command(OnClearFilter, CanClearFilter);
         }
+        #endregion
 
-        #region Properties
+        #region Dependency Properties
         public bool AllowAutoCompletion
         {
             get { return (bool)GetValue(AllowAutoCompletionProperty); }
@@ -174,5 +175,7 @@ namespace Orc.Controls
             InitializingAutoCompletionService?.Invoke(this, e);
         }
         #endregion
+
+        public event EventHandler<InitializingAutoCompletionServiceEventArgs> InitializingAutoCompletionService;
     }
 }

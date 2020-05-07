@@ -17,13 +17,15 @@
                                     Padding="{TemplateBinding Control.Padding}"
                                     BorderBrush="{TemplateBinding Border.BorderBrush}"
                                     Background="{TemplateBinding Panel.Background}"
-                                    SnapsToDevicePixels="True">   
+                                    SnapsToDevicePixels="True">
+                                   
                                 <ContentPresenter Content="{TemplateBinding ContentControl.Content}"
                                                   ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
                                                   ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
                                                   HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
                                                   SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+
                             </Border>
                             <ControlTemplate.Triggers>
                                 <MultiTrigger>
@@ -31,27 +33,43 @@
                                         <Condition Property="Selector.IsSelectionActive" Value="False"/>
                                         <Condition Property="Selector.IsSelected" Value="True"/>
                                     </MultiTrigger.Conditions>
-                                    <Setter Property="Panel.Background" TargetName="Bd" Value="Transparent"/>
-                                    <Setter Property="Border.BorderBrush" TargetName="Bd" Value ="LightGray"/>
+                                    <Setter Property="Panel.Background" 
+                                            TargetName="Bd" 
+                                            Value="Transparent"/>
+
+                                    <Setter Property="Border.BorderBrush"
+                                            TargetName="Bd"
+                                            Value ="{DynamicResource Orc.Brushes.Control.Background}"/>
                                 </MultiTrigger>
+
                                 <MultiTrigger>
                                     <MultiTrigger.Conditions>
                                         <Condition Property="Selector.IsSelectionActive" Value="True"/>
                                         <Condition Property="Selector.IsSelected" Value="True"/>
                                     </MultiTrigger.Conditions>
-                                    <Setter Property="Panel.Background" TargetName="Bd" Value="{orctheming:ThemeColorBrush ThemeColorStyle=SelectionActiveBackground}"/>
-                                    <Setter Property="Border.BorderBrush" TargetName="Bd" Value="{orctheming:ThemeColorBrush ThemeColorStyle=SelectionActiveBorder}"/>
+                                    <Setter Property="Panel.Background" 
+                                            TargetName="Bd"
+                                            Value="{DynamicResource Orc.Brushes.Control.SelectionActive.Background}"/>
+
+                                    <Setter Property="Border.BorderBrush" 
+                                            TargetName="Bd"
+                                            Value="{DynamicResource Orc.Brushes.Control.SelectionActive.Border}"/>
                                 </MultiTrigger>
+
                                 <Trigger Property="UIElement.IsMouseOver" Value="True">
-                                    <Setter Property="Panel.Background" TargetName="Bd" Value="{orctheming:ThemeColorBrush ThemeColorStyle=MouseOverBackground}"/>
-                                    <Setter Property="Border.BorderBrush" TargetName="Bd" Value="{orctheming:ThemeColorBrush ThemeColorStyle=MouseOverBorder}"/>
+                                    <Setter Property="Panel.Background" 
+                                            TargetName="Bd"
+                                            Value="{DynamicResource Orc.Brushes.Control.MouseOver.Background}"/>
+
+                                    <Setter Property="Border.BorderBrush"
+                                            TargetName="Bd" 
+                                            Value="{DynamicResource Orc.Brushes.Control.MouseOver.Border}"/>
                                 </Trigger>
+
                                 <Trigger Property="UIElement.IsEnabled" Value="False">
-                                    <Setter Property="TextElement.Foreground" TargetName="Bd">
-                                        <Setter.Value>
-                                            <DynamicResource ResourceKey="{x:Static SystemColors.GrayTextBrushKey}" />
-                                        </Setter.Value>
-                                    </Setter>
+                                    <Setter Property="TextElement.Foreground" 
+                                            TargetName="Bd"
+                                            Value="{DynamicResource Orc.Brushes.Control.Foreground}"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -63,20 +81,42 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ButtonBase}">
-                            <Border x:Name="Chrome" BorderThickness="0" Background="#FFF4F4F4" SnapsToDevicePixels="True">
-                                <Path x:Name="Path" Data="M0,1.05 L1.05,0 8.33,7.26 15.55,0.0 16.6,1.0 9.3,8.3 16.6,15.55 15.55,16.6 8.3,9.3 1,16.6 0,15.6 7.3,8.3 z" 
-                                  Fill="#575757" Margin="4" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Border x:Name="Chrome"
+                                    BorderThickness="0"
+                                    Background="{DynamicResource Orc.Brushes.Control.Background}"
+                                    SnapsToDevicePixels="True">
+                                <Path x:Name="Path"
+                                      Data="M0,1.05 L1.05,0 8.33,7.26 15.55,0.0 16.6,1.0 9.3,8.3 16.6,15.55 15.55,16.6 8.3,9.3 1,16.6 0,15.6 7.3,8.3 z" 
+                                      Fill="{DynamicResource Orc.Brushes.Control.Foreground}" 
+                                      Margin="4"
+                                      Stretch="Uniform"
+                                      HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center"/>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" TargetName="Chrome" Value="{orctheming:ThemeColorBrush ThemeColorStyle=MouseOverBackground}"/>
+                                    <Setter Property="Background"
+                                            TargetName="Chrome" 
+                                            Value="{DynamicResource Orc.Brushes.Control.MouseOver.Background}"/>
+
+                                    <Setter Property="Foreground"
+                                            Value="{DynamicResource Orc.Brushes.Control.MouseOver.Foreground}"/>
                                 </Trigger>
+
                                 <Trigger Property="IsPressed" Value="True">
-                                    <Setter Property="Background" TargetName="Chrome" Value="{orctheming:ThemeColorBrush ThemeColorStyle=PressedBackground}"/>
-                                    <Setter Property="Fill" TargetName="Path" Value="White"/>
+                                    <Setter Property="Background"
+                                            TargetName="Chrome" 
+                                            Value="{DynamicResource Orc.Brushes.Control.Pressed.Background}"/>
+
+                                    <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Pressed.Foreground}"/>
                                 </Trigger>
+
                                 <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Foreground" Value="{orctheming:ThemeColorBrush ThemeColorStyle=DisabledForeground}"/>
+                                    <Setter Property="Background"
+                                            TargetName="Chrome" 
+                                            Value="{DynamicResource Orc.Brushes.Control.Disabled.Background}"/>
+
+                                    <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -121,10 +161,10 @@
                 </Style.Setters>
             </Style>
         </Style.Resources>
-        
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
-        <Setter Property="BorderBrush" Value="LightGray"/>
+
+        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Foreground}"/>
+        <Setter Property="Background" Value="{DynamicResource Orc.Brushes.Control.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Border}"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="1"/>
@@ -148,6 +188,7 @@
 
                             <TextBox x:Name="PART_FilterTextBox" 
                                      Margin="0"
+                                     Foreground="{TemplateBinding Foreground}"
                                      Padding="{TemplateBinding Padding}"
                                      VerticalAlignment="Center"
                                      VerticalContentAlignment="Center"
@@ -162,6 +203,7 @@
                             </TextBox>
                             
                             <Button x:Name="PART_ClearButton"
+                                    Foreground="{TemplateBinding Foreground}"
                                     Grid.Column="1"
                                     Width="18"
                                     DockPanel.Dock="Right"
@@ -170,13 +212,18 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="BorderBrush" TargetName="Bd" Value="{orctheming:ThemeColorBrush ThemeColorStyle=MouseOverBorder}"/>
+                            <Setter Property="BorderBrush"
+                                    TargetName="Bd"
+                                    Value="{DynamicResource Orc.Brushes.Control.MouseOver.Border}"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter Property="BorderBrush" TargetName="Bd" Value="{orctheming:ThemeColorBrush ThemeColorStyle=MouseOverBorder}"/>
+                            <Setter Property="BorderBrush" 
+                                    TargetName="Bd"
+                                    Value="{DynamicResource Orc.Brushes.Control.MouseOver.Border}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{orctheming:ThemeColorBrush ThemeColorStyle=DisabledForeground}"/>
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
