@@ -2,31 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Orc.Theming;component/Themes/Generic.xaml" />
-
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/AlignmentGrid/Themes/AlignmentGrid.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/AnimatedGif/Themes/AnimatedGif.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/AnimatingTextBlock/Themes/AnimatingTextBlock.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/BindableRichTextBox/Themes/BindableRichTextBox.generic.xaml"/>
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorLegend/Themes/ColorLegend.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorPicker/Themes/ColorPicker.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/DatePicker/Themes/DatePicker.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/DateTimePicker/Themes/DateTimePicker.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/DropDownButton/Themes/DropDownButton.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/Expander/Themes/Expander.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/FilterBox/Themes/FilterBox.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/HeaderBar/Themes/HeaderBar.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/LinkLabel/Themes/LinkLabel.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/LogViewer/Themes/LogViewer.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/NumericTextBox/Themes/NumericTextBox.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/PinnableToolTips/Themes/PinnableToolTip.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/RangeSlider/Themes/RangeSlider.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/TabControl/Themes/TabControl.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/TimeSpanPicker/Themes/TimeSpanPicker.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/ValidationContextControl/Themes/ValidationContextTree.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/ValidationContextControl/Themes/ValidationContextControl.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/WatermarkTextBox/Themes/WatermarkTextBox.generic.xaml" />
-        
+        <ResourceDictionary Source="/Orc.Controls;component/Themes/Theming.defaultstyles.orccontrols.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Themes/Styles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
