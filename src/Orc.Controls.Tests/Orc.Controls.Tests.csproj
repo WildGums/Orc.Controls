@@ -1,6 +1,6 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>net46</TargetFrameworks>
+    <TargetFrameworks>net47</TargetFrameworks>
     <AssemblyName>Orc.Controls.Tests</AssemblyName>
     <RootNamespace>Orc.Controls.Tests</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ApiApprover" Version="9.3.0" PrivateAssets="all" />
+    <PackageReference Include="ApprovalTests" Version="5.1.1" />
     <PackageReference Include="Catel.Analyzers" Version="1.0.0" PrivateAssets="all" />
     <PackageReference Include="Catel.Fody" Version="4.3.0" PrivateAssets="all" />
     <PackageReference Include="Fody" Version="6.1.1" PrivateAssets="all">
