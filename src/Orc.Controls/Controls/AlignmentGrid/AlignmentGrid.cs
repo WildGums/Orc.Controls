@@ -7,13 +7,12 @@
 
 namespace Orc.Controls
 {
-    using System;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Shapes;
     using ControlzEx.Theming;
-    using Orc.Theming;
+    using Theming;
 
     public class AlignmentGrid : ContentControl
     {
@@ -116,7 +115,12 @@ namespace Orc.Controls
 
             for (double x = 0; x < ActualWidth; x += horizontalStep)
             {
-                var line = new Rectangle {Width = 1, Height = ActualHeight, Fill = brush};
+                var line = new Rectangle
+                {
+                    Width = 1,
+                    Height = ActualHeight,
+                    Fill = brush
+                };
 
                 Canvas.SetLeft(line, x);
 
@@ -125,7 +129,12 @@ namespace Orc.Controls
 
             for (double y = 0; y < ActualHeight; y += verticalStep)
             {
-                var line = new Rectangle {Width = ActualWidth, Height = 1, Fill = brush};
+                var line = new Rectangle
+                {
+                    Width = ActualWidth, 
+                    Height = 1,
+                    Fill = brush
+                };
 
                 Canvas.SetTop(line, y);
 

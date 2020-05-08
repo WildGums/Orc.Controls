@@ -1,8 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Orc.Controls"
-                    xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
-                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    xmlns:local="clr-namespace:Orc.Controls">
 
     <Style x:Key="{x:Type local:AnimatedGif}"
            TargetType="{x:Type local:AnimatedGif}"/>
