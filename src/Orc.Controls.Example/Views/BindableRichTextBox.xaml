@@ -3,16 +3,13 @@
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 				   xmlns:catel="http://schemas.catelproject.com"
 				   xmlns:orccontrols="http://schemas.wildgums.com/orc/controls">
-    
-    <!-- Resources -->
-    <UserControl.Resources>
-    </UserControl.Resources>
 
-    <!-- Content -->
     <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+
         <TextBlock Text="BindableRichTextBox" Width="120" />
         <orccontrols:BindableRichTextBox VerticalAlignment="Center" BindableDocument="{Binding FlowDoc}" Width="280" />
         <CheckBox Content="Color text" IsChecked="{Binding UseAccentText}"/>
         <Button Width="80" Content="Clear" Command="{Binding ClearText}" />
+
     </StackPanel>
 </catel:UserControl>

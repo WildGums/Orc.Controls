@@ -45,12 +45,17 @@ namespace Orc.Controls.Example.ViewModels
 
             if (UseAccentText)
             {
-                exampleParagraph.Foreground = Orc.Theming.ThemeManager.Current.GetAccentColorBrush().Clone();
+                exampleParagraph.Foreground = Theming.ThemeManager.Current.GetAccentColorBrush().Clone();
             }
 
             flowDoc.Blocks.Add(exampleParagraph);
 
             return flowDoc;
+        }
+
+        private void OnUseAccentTextChanged()
+        {
+            FlowDoc = CreateFlowDocument("This is example text colored with AccentColor");
         }
         #endregion
     }
