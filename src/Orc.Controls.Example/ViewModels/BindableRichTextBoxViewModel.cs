@@ -8,10 +8,7 @@
 namespace Orc.Controls.Example.ViewModels
 {
     using System.Windows.Documents;
-    using System.Windows.Media;
-    using Catel;
     using Catel.MVVM;
-    using Orc.Controls.Services;
 
     public class BindableRichTextBoxViewModel : ViewModelBase
     {
