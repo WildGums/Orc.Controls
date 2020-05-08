@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Orc.Controls"
+                    xmlns:orctheming="http://schemas.wildgums.com/orc/theming">
+
+    <Style x:Key="{x:Type controls:SaveFilePicker}"
+           TargetType="{x:Type controls:SaveFilePicker}"/>
+</ResourceDictionary>

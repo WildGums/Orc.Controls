@@ -16,6 +16,7 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/DropDownButton/Themes/DropDownButton.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/Expander/Themes/Expander.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/FilterBox/Themes/FilterBox.generic.xaml" />
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/SaveFilePicker/Themes/SaveFilePicker.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/HeaderBar/Themes/HeaderBar.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/LinkLabel/Themes/LinkLabel.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/LogViewer/Themes/LogViewer.generic.xaml" />
