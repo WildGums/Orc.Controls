@@ -15,19 +15,45 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Column="0" Content="{Binding LabelText}" Width="{Binding LabelWidth}" />
-        <TextBox Grid.Column="1" IsReadOnly="True" Text="{Binding SelectedFile}" />
+        <Label Grid.Column="0" 
+               Content="{Binding LabelText}" 
+               Width="{Binding LabelWidth}" />
 
-        <Button Grid.Column="2" Margin="0,6,2,6" Width="24" Content="..." ToolTip="{catel:LanguageBinding Controls_BrowseForFile}" Command="{Binding SelectFile}" />
+        <TextBox Grid.Column="1" 
+                 IsReadOnly="True"
+                 Text="{Binding SelectedFile}" />
 
-        <Button Grid.Column="3" Margin="2,6,2,6" Width="24" ToolTip="{catel:LanguageBinding Controls_OpenFolder}"
-                Command="{Binding OpenDirectory}" Visibility="{Binding SelectedFile, Converter={catel:EmptyStringToCollapsingVisibilityConverter}}">
-            <Image Source="/Orc.Controls;component/Resources/Images/Folder.png" Width="16" Height="16" />
+        <Button Grid.Column="2" 
+                Margin="0,6,2,6" 
+                Width="24"
+                Content="..." 
+                ToolTip="{catel:LanguageBinding Controls_BrowseForFile}"
+                Command="{Binding SelectFile}" />
+
+        <Button Grid.Column="3"
+                Margin="2,6,2,6"
+                Width="24"
+                ToolTip="{catel:LanguageBinding Controls_OpenFolder}"
+                Command="{Binding OpenDirectory}"
+                Visibility="{Binding SelectedFile, Converter={catel:EmptyStringToCollapsingVisibilityConverter}}">
+            
+            <Image Source="/Orc.Controls;component/Resources/Images/Folder.png" 
+                   Width="16" 
+                   Height="16" />
+
         </Button>
 
-        <Button Grid.Column="4" Margin="2,6,0,6" Width="24" ToolTip="{catel:LanguageBinding Controls_Clear}"
-                Command="{Binding Clear}" Visibility="{Binding SelectedFile, Converter={catel:EmptyStringToCollapsingVisibilityConverter}}">
-            <Image Source="/Orc.Controls;component/Resources/Images/Delete.png" Width="16" Height="16" />
+        <Button Grid.Column="4" 
+                Margin="2,6,0,6"
+                Width="24"
+                ToolTip="{catel:LanguageBinding Controls_Clear}"
+                Command="{Binding Clear}"
+                Visibility="{Binding SelectedFile, Converter={catel:EmptyStringToCollapsingVisibilityConverter}}">
+
+            <Image Source="/Orc.Controls;component/Resources/Images/Delete.png" 
+                   Width="16" 
+                   Height="16" />
+
         </Button>
     </Grid>
 
