@@ -9,6 +9,7 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/AnimatedGif/Themes/AnimatedGif.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/AnimatingTextBlock/Themes/AnimatingTextBlock.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/BindableRichTextBox/Themes/BindableRichTextBox.generic.xaml"/>
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/BusyIndicator/Themes/BusyIndicator.generic.xaml"/>
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorLegend/Themes/ColorLegend.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorPicker/Themes/ColorPicker.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/DatePicker/Themes/DatePicker.generic.xaml" />
@@ -63,7 +64,6 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
 
     <Style x:Key="DefaultTimeSpanPickerStyle" 
            TargetType="{x:Type orccontrols:TimeSpanPicker}" 
@@ -126,6 +126,17 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <Style x:Key="DefaultRangeSliderStyle" 
+           TargetType="{x:Type orccontrols:RangeSlider}" 
+           BasedOn="{StaticResource {x:Type orccontrols:RangeSlider}}">
+
+        <Setter Property="Margin" Value="{DynamicResource Margin.Default}" />
+    </Style>
+
+    <Style x:Key="DefaultBusyIndicatorStyle" 
+           TargetType="{x:Type orccontrols:BusyIndicator}" 
+           BasedOn="{StaticResource {x:Type orccontrols:BusyIndicator}}"/>
 
     <!-- WatermarkTextBox -->
     <Style x:Key="DefaultWatermarkTextBoxStyle" TargetType="{x:Type orccontrols:WatermarkTextBox}" BasedOn="{StaticResource {x:Type orccontrols:WatermarkTextBox}}">

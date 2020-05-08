@@ -36,6 +36,7 @@
                                      Minimum="{Binding MinValue}" Maximum="{Binding MaxValue}" 
                                      HorizontalAlignment="Left"  Orientation="Vertical"
                                      LowerValue="{Binding LowerValue}" UpperValue="{Binding UpperValue}" />
+
             <orccontrols:RangeSlider Margin="20,10" Width="200" 
                                      HighlightSelectedRange="{Binding ElementName=HighlightCheckBox, Path=IsChecked, Mode=OneWay}"
                                      Minimum="{Binding MinValue}"  Maximum="{Binding MaxValue}" 

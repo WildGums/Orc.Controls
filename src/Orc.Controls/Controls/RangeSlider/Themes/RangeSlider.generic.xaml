@@ -98,10 +98,10 @@
         <Style.Resources>
             <sys:Double x:Key="TrackSizeValue">3</sys:Double>
         </Style.Resources>
-        <Setter Property="Margin" Value="{DynamicResource Margin.Default}" />
+       
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="#FFC4C4C4" />
+        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Default.Background}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:RangeSlider}">
