@@ -20,7 +20,7 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
-        public LogEntry LogEntry { get; private set; }
+        public LogEntry LogEntry { get; }
         #endregion
     }
 }
