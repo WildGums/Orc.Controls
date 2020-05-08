@@ -28,7 +28,7 @@ namespace Orc.Controls
 
             double y = 0;
 
-            foreach (FrameworkElement child in this.Children)
+            foreach (FrameworkElement child in Children)
             {
                 var ds = child.DesiredSize;
                 y = rowY + ds.Height > y ? rowY + ds.Height : y;
@@ -54,7 +54,7 @@ namespace Orc.Controls
         /// <returns>The <see cref="Size" />.</returns>
         protected override Size MeasureOverride(Size availableSize)
         {
-            foreach (FrameworkElement child in this.Children)
+            foreach (FrameworkElement child in Children)
             {
                 child.Measure(availableSize);
             }
@@ -66,7 +66,7 @@ namespace Orc.Controls
             double dsw = 0;
             double dsh = 0;
 
-            foreach (FrameworkElement child in this.Children)
+            foreach (FrameworkElement child in Children)
             {
                 var ds = child.DesiredSize;
                 dsw = ds.Width;
