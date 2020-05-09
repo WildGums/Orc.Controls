@@ -1,14 +1,16 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:Orc.Controls"
-                    xmlns:orctheming="http://schemas.wildgums.com/orc/theming">
+                    xmlns:controls="clr-namespace:Orc.Controls">
 
-    <DataTemplate x:Key="DefaultWatermarkTemplate">
-        <ContentControl Content="{Binding}" Focusable="False" Foreground="Gray"/>
-    </DataTemplate>
+    <Style x:Key="{x:Type controls:WatermarkTextBox}" TargetType="{x:Type controls:WatermarkTextBox}">
+        <Style.Resources>
+            <DataTemplate x:Key="DefaultWatermarkTemplate">
+                <ContentControl Content="{Binding}"
+                                Focusable="False"
+                                Foreground="{DynamicResource Orc.Brushes.Control.SelectionInactive.Border}"/>
+            </DataTemplate>
+        </Style.Resources>
 
-    <Style x:Key="{x:Type controls:WatermarkTextBox}"
-           TargetType="{x:Type controls:WatermarkTextBox}">
         <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Foreground}" />
         <Setter Property="Background" Value="{DynamicResource Orc.Brushes.Control.Background}" />
         <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Border}" />
