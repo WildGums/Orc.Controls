@@ -5,11 +5,6 @@
                     xmlns:orctheming="http://schemas.wildgums.com/orc/theming">
 
     <controls:MultipleCommandParameterConverter x:Key="MultipleCommandParametersConverter"/>
-    <Color x:Key="Color_Control_1">#eeeeee</Color>
-    <SolidColorBrush x:Key="Brush_Control_1" Color="{StaticResource Color_Control_1}"/>
-
-    <Color x:Key="Color_Highlight_1">#707070</Color>
-    <SolidColorBrush x:Key="Brush_Highlight_1" Color="{StaticResource Color_Highlight_1}"/>
 
     <Geometry x:Key="SettingsGeometry">M391.731,618.796C380.8,657.999 344.804,686.796 302.135,686.796C259.467,686.796 223.471,657.999 212.54,618.796L34.704,618.796L34.704,568.796L212.54,568.796C223.471,
         529.594 259.467,500.796 302.135,500.796C344.804,500.796 380.8,529.594 391.731,568.796L734.704,568.796L734.704,618.796L391.731,618.796ZM302.135,547.296C327.799,547.296 348.635,
@@ -21,211 +16,15 @@
         149.292L733.296,199.292L309.205,199.292ZM219.634,127.704C245.298,127.704 266.134,148.54 266.134,174.204C266.134,199.868 245.298,220.704 219.634,220.704C193.97,220.704 173.134,199.868 173.134,
         174.204C173.134,148.54 193.97,127.704 219.634,127.704Z</Geometry>
 
-    <Style x:Key="SearchBoxBorderStyle" TargetType="{x:Type Border}">
-        <Setter Property="BorderBrush" Value="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}"/>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="ColorLegendButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="Padding" Value="4 2 4 2"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ButtonBase}">
-                    <Border x:Name="Chrome" 
-                            BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}"
-                            BorderThickness="1" 
-                            Background="#FFF4F4F4" 
-                            SnapsToDevicePixels="True">
-                        <Grid>
-                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"
-                                              ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              Margin="{TemplateBinding Padding}"
-                                              RecognizesAccessKey="True"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            <Grid x:Name="Filter" Background="Transparent" Opacity="0.7"/>
-                        </Grid>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Chrome" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor4}"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Chrome" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
-                            <Setter Property="Foreground" Value="White"/>
-                            <Setter Property="BorderBrush" TargetName="Chrome" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" TargetName="Filter" Value="WhiteSmoke"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="ClearButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="ToolTipService.InitialShowDelay" Value="900" />
-        <Setter Property="ToolTipService.ShowDuration" Value="20000" />
-        <Setter Property="ToolTipService.BetweenShowDelay" Value="0" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ButtonBase}">
-                    <Border x:Name="Chrome" BorderThickness="0" Background="#FFF4F4F4" SnapsToDevicePixels="True">
-                        <Path x:Name="Path" Data="M0,1.05 L1.05,0 8.33,7.26 15.55,0.0 16.6,1.0 9.3,8.3 16.6,15.55 15.55,16.6 8.3,9.3 1,16.6 0,15.6 7.3,8.3 z"
-                              Fill="#575757" Margin="6" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Chrome" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor4}"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Chrome" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
-                            <Setter Property="Fill" TargetName="Path" Value="White"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="#FFADADAD"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="ColorLegendCheckBoxStyle"  TargetType="{x:Type CheckBox}">
-        <Setter Property="Padding" Value="5,0,0,0"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <BulletDecorator Background="Transparent" SnapsToDevicePixels="true">
-                        <BulletDecorator.Bullet>
-                            <Border x:Name="CheckBoxBorder" Height="12" Width="12" BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}"
-                                    BorderThickness="1" Background="White">
-                                <Grid>
-                                    <Path x:Name="CheckMark" Data="M7.2,5 L5.5,7.16 4.16,6.3 3.5,6.7 5.5,8.4 8.6,5.25 C8.6,5.25 8,4.7 7.22,5" 
-                                      Height="Auto" Width="Auto" Stretch="Fill" Fill="Black" Margin="1,1.007,1,1"/>
-                                    <Border x:Name="ThreeStateCheckMark" BorderThickness="0" Margin="1" CornerRadius="1"
-                                            Visibility="Hidden" Background="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor3}" />
-                                </Grid>
-                            </Border>
-                        </BulletDecorator.Bullet>
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" 
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                    </BulletDecorator>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="#FFADADAD"/>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="CheckBoxBorder" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor4}"/>
-                            <Setter Property="BorderBrush" TargetName="CheckBoxBorder" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="False">
-                            <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="{x:Null}">
-                            <Setter TargetName="ThreeStateCheckMark" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="ColorLegendListBoxItemStyle"
-           TargetType="{x:Type ListBoxItem}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Border x:Name="Bd"
-                            Background="{TemplateBinding Background}"
-                            SnapsToDevicePixels="true"
-                            BorderThickness="1"
-                            BorderBrush="{TemplateBinding Background}">
-                        <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </Border>
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsSelected"
-                                 Value="true">
-                            <Setter TargetName="Bd"
-                                    Property="BorderBrush"
-                                    Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor3}" />
-
-                            <Setter Property="Background"
-                                    TargetName="Bd"
-                                    Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}" />
-                        </Trigger>
-
-                        <Trigger Property="IsMouseOver"
-                                 Value="True">
-                            <Setter TargetName="Bd"
-                                    Property="Background"
-                                    Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor4}" />
-                        </Trigger>
-
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected"
-                                           Value="true" />
-
-                                <Condition Property="IsMouseOver"
-                                           Value="true" />
-                            </MultiTrigger.Conditions>
-
-                            <Setter TargetName="Bd"
-                                    Property="BorderBrush"
-                                    Value="White" />
-
-                            <Setter Property="Background"
-                                    TargetName="Bd"
-                                    Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}" />
-                        </MultiTrigger>
-
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected"
-                                           Value="true" />
-
-                                <Condition Property="Selector.IsSelectionActive"
-                                           Value="False" />
-                            </MultiTrigger.Conditions>
-
-                            <Setter Property="Background"
-                                    TargetName="Bd"
-                                    Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor4}" />
-                            
-                            <Setter Property="Foreground"
-                                    Value="White" />
-                        </MultiTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="{x:Type controls:ColorLegend}"
-           TargetType="{x:Type controls:ColorLegend}">
-        <Style.Resources>
-            <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource ColorLegendCheckBoxStyle}"/>
-            <Style TargetType="{x:Type TabItem}" BasedOn="{x:Null}"/>
-            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ColorLegendButtonStyle}" />
-            <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ColorLegendListBoxItemStyle}"/>
-        </Style.Resources>
-        <Setter Property="Background" Value="White" />
+    <Style x:Key="{x:Type controls:ColorLegend}" TargetType="{x:Type controls:ColorLegend}">
+        <Setter Property="Background" Value="{DynamicResource Orc.Brushes.Control.Default.Background}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Default.Border}" />
+        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:ColorLegend}">
-                    <Border Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"
-                            BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}"
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="1">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -240,10 +39,15 @@
                                             Visibility="{TemplateBinding Header, Converter={catel:ReferenceToCollapsingVisibilityConverter}}" />
 
                             <!-- Filler border in case we are showing a legend -->
-                            <Border Grid.Row="1" BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}" BorderThickness="0 0 0 1" 
+                            <Border Grid.Row="1" 
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="0 0 0 1" 
                                     Visibility="{TemplateBinding Header, Converter={catel:ReferenceToCollapsingVisibilityConverter}}" />
 
-                            <Border Grid.Row="2" BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}" BorderThickness="0 0 0 1" 
+                            <Border Grid.Row="2"
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="0 0 0 1" 
                                     Visibility="{Binding ShowToolBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
                                 <Grid x:Name="toolsContainer" Margin="0">
                                     <Grid.ColumnDefinitions>
@@ -251,32 +55,43 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <controls:DropDownButton x:Name="PART_Settings_Button" Grid.Column="0" Margin="0" Width="40" ShowDefaultButton="False" EnableTransparentBackground="True"
+                                    <controls:DropDownButton x:Name="PART_Settings_Button" 
+                                                             Grid.Column="0"
+                                                             Width="40"
+                                                             ShowDefaultButton="False" 
+                                                             EnableTransparentBackground="True"
                                                              Visibility="{Binding ShowSettingsBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
                                         <controls:DropDownButton.Header>
                                             <Grid>
                                                 <Viewbox Height="15">
                                                     <Path Data="{StaticResource SettingsGeometry}"
-                                                          Fill="#575757" HorizontalAlignment="Center" Margin="0" SnapsToDevicePixels="True"
-                                                          Stretch="Fill" UseLayoutRounding="True" VerticalAlignment="Center"/>
+                                                          Fill="{TemplateBinding Foreground}"
+                                                          HorizontalAlignment="Center" 
+                                                          SnapsToDevicePixels="True"
+                                                          Stretch="Fill"
+                                                          UseLayoutRounding="True" 
+                                                          VerticalAlignment="Center"/>
                                                 </Viewbox>
                                             </Grid>
                                         </controls:DropDownButton.Header>
                                         <controls:DropDownButton.DropDown>
-                                            <ContextMenu>
-                                                <MenuItem>
+                                            <ContextMenu Background="{DynamicResource Orc.Brushes.Control.Default.Background}">
+                                                <MenuItem Background="Transparent">
                                                     <MenuItem.Header>
-                                                        <CheckBox Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_ShowVisibilityColumn}" IsChecked="{Binding Path=ShowColorVisibilityControls, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                        <CheckBox Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_ShowVisibilityColumn}" 
+                                                                  IsChecked="{Binding Path=ShowColorVisibilityControls, RelativeSource={RelativeSource TemplatedParent}}" />
                                                     </MenuItem.Header>
                                                 </MenuItem>
-                                                <MenuItem>
+                                                <MenuItem Background="Transparent">
                                                     <MenuItem.Header>
-                                                        <CheckBox Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_AllowColorEdit}" IsChecked="{Binding Path=AllowColorEditing, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                        <CheckBox Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_AllowColorEdit}" 
+                                                                  IsChecked="{Binding Path=AllowColorEditing, RelativeSource={RelativeSource TemplatedParent}}" />
                                                     </MenuItem.Header>
                                                 </MenuItem>
-                                                <MenuItem>
+                                                <MenuItem Background="Transparent">
                                                     <MenuItem.Header>
-                                                        <CheckBox Content="Show colors" IsChecked="{Binding Path=ShowColorPicker, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                        <CheckBox Content="Show colors"
+                                                                  IsChecked="{Binding Path=ShowColorPicker, RelativeSource={RelativeSource TemplatedParent}}" />
                                                     </MenuItem.Header>
                                                 </MenuItem>
                                             </ContextMenu>
@@ -291,21 +106,34 @@
                                                         Text="{Binding Filter, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 </Grid>
                             </Border>
-                            
-                            <ListBox Grid.Row="3" ItemsSource="{Binding FilteredItemsSource, RelativeSource={RelativeSource TemplatedParent}}" BorderThickness="0" x:Name="PART_List" HorizontalContentAlignment="Stretch">
+
+                            <ListBox x:Name="PART_List" 
+                                     Grid.Row="3"
+                                     ItemsSource="{Binding FilteredItemsSource, RelativeSource={RelativeSource TemplatedParent}}"
+                                     BorderThickness="0"
+                                     HorizontalContentAlignment="Stretch">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate DataType="controls:IColorLegendItem">
-                                        <Grid HorizontalAlignment="Stretch" Margin="2">
+                                        <Grid HorizontalAlignment="Stretch" Margin="0">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition x:Name="visibilityCheckColumn" Width="15"/>
-                                                <ColumnDefinition x:Name="colorPickerColumn" Width="24"/>
+                                                <ColumnDefinition x:Name="visibilityCheckColumn" Width="Auto"/>
+                                                <ColumnDefinition x:Name="colorPickerColumn" Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
-                                            <CheckBox x:Name="visibilityCheckbox" Grid.Column="0" IsChecked="{Binding IsChecked}" VerticalAlignment="Center"
+                                            <CheckBox x:Name="visibilityCheckbox" 
+                                                      Margin="0 0 2 0"
+                                                      Grid.Column="0" 
+                                                      IsChecked="{Binding IsChecked}"
+                                                      VerticalAlignment="Center"
                                                       Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type controls:ColorLegend}}, 
                                                                     Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
-                                            <Button x:Name="PART_ButtonColorChange" Height="14" VerticalAlignment="Center" Grid.Column="1"
+                                           
+                                            <Button x:Name="PART_ButtonColorChange"
+                                                    Margin="2 0 10 0"
+                                                    Grid.Column="1"
+                                                    Height="14"
+                                                    VerticalAlignment="Center" 
                                                     Command="{Binding ChangeColor, RelativeSource={RelativeSource AncestorType=controls:ColorLegend}}">
                                                 <Button.CommandParameter>
                                                     <MultiBinding Converter="{StaticResource MultipleCommandParametersConverter}">
@@ -342,15 +170,29 @@
                                                                 </Ellipse.Fill>
                                                             </Ellipse>
 
-                                                            <Path x:Name="arrow" Data="M 0 0 L 2.5 3 L 5 0 Z" Fill="Black" HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center" Stretch="None" Grid.Column="1" Width="5" Visibility="Collapsed"/>
+                                                            <Path x:Name="arrow"
+                                                                  Data="M 0 0 L 2.5 3 L 5 0 Z" 
+                                                                  Fill="{TemplateBinding Foreground}" 
+                                                                  HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center" 
+                                                                  Stretch="None" 
+                                                                  Grid.Column="1"
+                                                                  Width="5" 
+                                                                  Visibility="Collapsed"/>
                                                         </Grid>
                                                     </ControlTemplate>
                                                 </Button.Template>
                                             </Button>
 
-                                            <TextBlock Text="{Binding Description}" Grid.Column="2"/>
-                                            <TextBlock Text="{Binding AdditionalData}" Grid.Column="3" Margin="0 0 10 0"/>
+                                            <TextBlock Text="{Binding Description}"
+                                                       VerticalAlignment="Center"
+                                                       Grid.Column="2"
+                                                       Margin="0"/>
+
+                                            <TextBlock Text="{Binding AdditionalData}" 
+                                                       VerticalAlignment="Center"
+                                                       Grid.Column="3" 
+                                                       Margin="0 0 10 0"/>
                                         </Grid>
                                         <DataTemplate.Triggers>
                                             <MultiTrigger>
@@ -371,27 +213,40 @@
                             </ListBox>
 
                             <Border Grid.Row="4"
-                                    BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}"
+                                    BorderBrush="{DynamicResource Orc.Brushes.Control.Default.Border}"
                                     BorderThickness="0 1 0 0"
-                                    Height="30"
                                     Visibility="{Binding ShowBottomToolBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
-                                <Grid>
+                                <Grid Margin="2">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="5"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <CheckBox x:Name="PART_All_Visible" Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_CheckAll}" VerticalAlignment="Center" Margin="4 0" IsThreeState="True"
+                                    <CheckBox x:Name="PART_All_Visible" 
+                                              Margin="6 0 6 0"
+                                              Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_CheckAll}"
+                                              VerticalAlignment="Center" 
+                                              IsThreeState="True"
                                               IsChecked="{Binding IsAllVisible, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                               Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type controls:ColorLegend}}, 
                                                             Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
                                     <Grid Grid.Column="2">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition  MinWidth="100" Width="*"/>
+                                            <ColumnDefinition MinWidth="100" Width="*"/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Margin="4" Foreground="Gray" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedItems.Count, ElementName=PART_List, StringFormat='Selected Items: {0}'}"/>
-                                        <Button x:Name="PART_UnselectAll" Grid.Column="1" Margin="2" Width="110" Content="{catel:LanguageBinding Controls_ColorLegendGeneric_Button_Content_ClearSelection}" />
+                                        <TextBlock Foreground="{DynamicResource Orc.Brushes.Control.Disabled.Border}"
+                                                   Margin="6 0 6 0"
+                                                   TextAlignment="Left"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding SelectedItems.Count, ElementName=PART_List, StringFormat='Selected Items: {0}'}"/>
+                                        
+                                        <Button x:Name="PART_UnselectAll"
+                                                Margin="6 0 6 0"
+                                                Grid.Column="1" 
+                                                VerticalAlignment="Center"
+                                                Width="110" 
+                                                Content="{catel:LanguageBinding Controls_ColorLegendGeneric_Button_Content_ClearSelection}" />
                                     </Grid>
                                 </Grid>
                             </Border>
@@ -404,9 +259,9 @@
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition SourceName="toolsContainer" Property="Visibility" Value="Collapsed"></Condition>
+                                <Condition SourceName="toolsContainer" Property="Visibility" Value="Collapsed"/>
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="toolsContainerRow" Property="Height" Value="0"></Setter>
+                            <Setter TargetName="toolsContainerRow" Property="Height" Value="0"/>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

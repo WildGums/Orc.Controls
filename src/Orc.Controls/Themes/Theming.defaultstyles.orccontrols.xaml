@@ -36,6 +36,27 @@
         <Setter Property="Margin" Value="{DynamicResource Margin.Default}" />
     </Style>
 
+    <Style x:Key="DefaultDropDownButtonStyle" TargetType="{x:Type orccontrols:DropDownButton}"
+           BasedOn="{StaticResource {x:Type orccontrols:DropDownButton}}">
+        <Setter Property="Margin" Value="{DynamicResource Margin.Button}" />
+        <Setter Property="Height" Value="{DynamicResource Size.Height}" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+
+        <!-- Due to a bug, adjust the error template (see http://stackoverflow.com/questions/321327/how-do-i-get-rid-of-the-red-rectangle-when-my-wpf-binding-validation-has-failed-a) -->
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <DockPanel LastChildFill="True">
+                        <Border BorderThickness="1" BorderBrush="Red" 
+                                Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
+                            <AdornedElementPlaceholder x:Name="placeholder" />
+                        </Border>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="DefaultBindableRichTextBoxStyle" TargetType="{x:Type orccontrols:BindableRichTextBox}"
            BasedOn="{StaticResource {x:Type orccontrols:BindableRichTextBox}}">
         <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />

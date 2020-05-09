@@ -4,62 +4,14 @@
                     xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
                     xmlns:controls="clr-namespace:Orc.Controls">
 
-    <Style x:Key="{x:Type controls:DropDownButton}"
-           TargetType="{x:Type controls:DropDownButton}">
+    <Style x:Key="{x:Type controls:DropDownButton}" TargetType="{x:Type controls:DropDownButton}">
         <Style.Resources>
             <Style TargetType="{x:Type Button}">
-                <Setter Property="Padding"
-                        Value="4 2 4 2" />
-                <Setter Property="VerticalContentAlignment"
-                        Value="Center" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ButtonBase}">
-                            <Border x:Name="Chrome"
-                                    BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}"
-                                    BorderThickness="1 1 0 1"
-                                    Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}}"
-                                    SnapsToDevicePixels="True">
-                                <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  Content="{TemplateBinding Content}"
-                                                  ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  Margin="{TemplateBinding Padding}"
-                                                  RecognizesAccessKey="True"
-                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver"
-                                         Value="True">
-                                    <Setter Property="Background"
-                                            TargetName="Chrome"
-                                            Value="{orctheming:ThemeColorBrush ThemeColorStyle=MouseOverBackground}" />
-                                </Trigger>
-                                <Trigger Property="IsPressed"
-                                         Value="True">
-                                    <Setter Property="Background"
-                                            TargetName="Chrome"
-                                            Value="{orctheming:ThemeColorBrush ThemeColorStyle=PressedBackground}" />
-                                    <Setter Property="Foreground"
-                                            Value="{orctheming:ThemeColorBrush ThemeColorStyle=PressedForeground}" />
-                                    <Setter Property="BorderBrush"
-                                            TargetName="Chrome"
-                                            Value="{orctheming:ThemeColorBrush ThemeColorStyle=PressedBorder}" />
-                                </Trigger>
-                                <Trigger Property="IsEnabled"
-                                         Value="False">
-                                    <Setter Property="Foreground"
-                                            Value="{orctheming:ThemeColorBrush ThemeColorStyle=DisabledForeground}" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="Padding" Value="4 2 4 2" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
             </Style>
 
-            <ControlTemplate x:Key="ToggleButtonControlTemplate"
-                             TargetType="{x:Type ToggleButton}">
+            <ControlTemplate x:Key="ToggleButtonControlTemplate" TargetType="{x:Type ToggleButton}">
                 <Border x:Name="Chrome"
                         BorderBrush="{orctheming:ThemeColorBrush ThemeColorStyle=BorderColor}"
                         BorderThickness="1"
@@ -102,10 +54,8 @@
                                 TargetName="Chrome"
                                 Value="{orctheming:ThemeColorBrush ThemeColorStyle=MouseOverBackground}" />
                     </Trigger>
-                    <Trigger Property="IsChecked"
-                             Value="True">
-                        <Setter Property="Background"
-                                TargetName="PathGrid"
+                    <Trigger Property="IsChecked" Value="True">
+                        <Setter Property="Background" TargetName="PathGrid"
                                 Value="{orctheming:ThemeColorBrush ThemeColorStyle=CheckedBackground}" />
                         <Setter Property="Background"
                                 TargetName="Chrome"
@@ -128,21 +78,21 @@
                 </ControlTemplate.Triggers>
             </ControlTemplate>
 
-            <ControlTemplate x:Key="TransparentToggleButtonControlTemplate"
-                             TargetType="{x:Type ToggleButton}">
+            <ControlTemplate x:Key="TransparentToggleButtonControlTemplate" TargetType="{x:Type ToggleButton}">
                 <Border x:Name="Chrome"
                         BorderBrush="Transparent"
                         BorderThickness="1"
                         Background="Transparent"
                         SnapsToDevicePixels="True">
                     <DockPanel HorizontalAlignment="Stretch">
-                        <Grid x:Name="PathGrid" Margin="{Binding ArrowMargin, RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}}"
+                        <Grid x:Name="PathGrid"
+                              Margin="{Binding ArrowMargin, RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}}"
                               Width="12"
                               HorizontalAlignment="{Binding ArrowLocation, RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}, Converter={controls:DropdownArrowLocationConverter}}"
                               DockPanel.Dock="{Binding ArrowLocation, RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}, Converter={controls:DropdownArrowLocationConverter}}">
                             <Path x:Name="Arrow"
                                   Data="M0,0L3.5,4 7,0z"
-                                  Fill="Black"
+                                  Fill="{DynamicResource Orc.Brushes.Control.Foreground}"
                                   HorizontalAlignment="Center"
                                   Margin="0,1,0,0"
                                   VerticalAlignment="Center" />
@@ -159,60 +109,41 @@
                 <ControlTemplate.Triggers>
                     <DataTrigger Binding="{Binding ShowDefaultButton,RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}}"
                                  Value="False">
-                        <Setter Property="Visibility"
-                                TargetName="ToggleButtonContent"
+                        <Setter Property="Visibility" TargetName="ToggleButtonContent"
                                 Value="Visible" />
                     </DataTrigger>
-                    <Trigger Property="IsMouseOver"
-                             Value="True">
-                        <Setter Property="Background"
-                                TargetName="Chrome"
-                                Value="{orctheming:ThemeColorBrush ThemeColorStyle=MouseOverBackground}" />
-                        <Setter Property="BorderBrush"
-                                TargetName="Chrome"
-                                Value="{orctheming:ThemeColorBrush ThemeColorStyle=MouseOverBorder}" />
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" TargetName="Chrome"
+                                Value="{DynamicResource Orc.Brushes.Control.MouseOver.Background}" />
+                        <Setter Property="BorderBrush" TargetName="Chrome"
+                                Value="{DynamicResource Orc.Brushes.Control.MouseOver.Border}" />
                     </Trigger>
-                    <Trigger Property="IsChecked"
-                             Value="True">
-                        <Setter Property="Background"
-                                TargetName="PathGrid"
-                                Value="{orctheming:ThemeColorBrush ThemeColorStyle=CheckedBackground}" />
-                        <Setter Property="Background"
-                                TargetName="Chrome"
-                                Value="{orctheming:ThemeColorBrush ThemeColorStyle=CheckedBackground}" />
-                        <Setter Property="Fill"
-                                TargetName="Arrow"
-                                Value="White" />
+                    <Trigger Property="IsChecked" Value="True">
+                        <Setter Property="Background" TargetName="PathGrid"
+                                Value="{DynamicResource Orc.Brushes.Control.CheckedMouseOver.Background}" />
+                        <Setter Property="Background" TargetName="Chrome"
+                                Value="{DynamicResource Orc.Brushes.Control.CheckedMouseOver.Background}" />
+                        <Setter Property="Fill" TargetName="Arrow"
+                                Value="{DynamicResource Orc.Brushes.Control.Checked.Foreground}" />
                         <Setter Property="Foreground"
-                                Value="White" />
-                        <Setter Property="BorderBrush"
-                                TargetName="Chrome"
-                                Value="{orctheming:ThemeColorBrush ThemeColorStyle=CheckedBorder}" />
+                                Value="{DynamicResource Orc.Brushes.Control.Checked.Foreground}" />
+                        <Setter Property="BorderBrush" TargetName="Chrome"
+                                Value="{DynamicResource Orc.Brushes.Control.Checked.Border}" />
                     </Trigger>
-                    <Trigger Property="IsEnabled"
-                             Value="False">
-                        <Setter Property="Fill"
-                                TargetName="Arrow"
-                                Value="#FFAFAFAF" />
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Fill" TargetName="Arrow" Value="{DynamicResource Orc.Brushes.Control.Disabled.Border}" />
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
 
             <Style TargetType="{x:Type ToggleButton}">
-                <Setter Property="Padding"
-                        Value="4 2 5 2" />
-                <Setter Property="OverridesDefaultStyle"
-                        Value="True" />
-                <Setter Property="IsTabStop"
-                        Value="False" />
-                <Setter Property="Focusable"
-                        Value="False" />
-                <Setter Property="ClickMode"
-                        Value="Press" />
-                <Setter Property="Background"
-                        Value="Transparent" />
-                <Setter Property="Template"
-                        Value="{StaticResource ToggleButtonControlTemplate}" />
+                <Setter Property="Padding" Value="4 2 5 2" />
+                <Setter Property="OverridesDefaultStyle" Value="True" />
+                <Setter Property="IsTabStop" Value="False" />
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="ClickMode" Value="Press" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Template" Value="{StaticResource ToggleButtonControlTemplate}" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding EnableTransparentBackground, RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}}"
                                  Value="True">
@@ -230,25 +161,6 @@
                 M 0,0 L 4,3.5 L 0,7 Z
             </Geometry>
 
-            <SolidColorBrush x:Key="ForegroundBrush"
-                             Color="Black" />
-            <SolidColorBrush x:Key="MouseOverForegroundBrush"
-                             Color="Black" />
-            <SolidColorBrush x:Key="DisabledMenuForeground"
-                             Color="#FFAFAFAF" />
-            <SolidColorBrush x:Key="MenuItemSelectionFill"
-                             Color="{orctheming:ThemeColor ThemeColorStyle=HighlightColor}" />
-            <SolidColorBrush x:Key="SubMenuBackgroundBrush"
-                             Color="White" />
-            <SolidColorBrush x:Key="MenuItemPressedFill"
-                             Color="{orctheming:ThemeColor ThemeColorStyle=AccentColor}" />
-            <SolidColorBrush x:Key="SubMenuBorderBrush"
-                             Color="LightGray" />
-            <SolidColorBrush x:Key="SubMenuRepeatButtonBrush"
-                             Color="LightGray" />
-            <SolidColorBrush x:Key="SubMenuHoverRepeatButtonBrush"
-                             Color="LightGray" />
-
             <Geometry x:Key="MenuScrollDownArrowGeometry">
                 M-0.7,5.2 L-2.2,6.7 3.6,12.6 9.5,6.7 8,5.2 3.6,9.6 z
             </Geometry>
@@ -257,16 +169,14 @@
             </Geometry>
 
             <Style TargetType="{x:Type ContextMenu}">
-                <Setter Property="Background"
-                        Value="White" />
-                <Setter Property="Foreground"
-                        Value="{StaticResource ForegroundBrush}" />
+                <Setter Property="Background" Value="{DynamicResource Orc.Brushes.Control.Default.Background}" />
+                <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ContextMenu}">
-                            <Border BorderBrush="{StaticResource SubMenuBorderBrush}"
+                            <Border BorderBrush="{DynamicResource Orc.Brushes.Control.Default.Border}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
-                                    Background="{StaticResource SubMenuBackgroundBrush}"
+                                    Background="{DynamicResource Orc.Brushes.Control.Default.Background}"
                                     Padding="{TemplateBinding Padding}"
                                     SnapsToDevicePixels="true">
                                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
@@ -315,37 +225,29 @@
                 </Grid>
 
                 <ControlTemplate.Triggers>
-                    <Trigger Property="IsHighlighted"
-                             Value="true">
+                    <Trigger Property="IsHighlighted" Value="true">
                         <Setter Property="Fill"
                                 TargetName="Bg"
-                                Value="{StaticResource MenuItemSelectionFill}" />
+                                Value="{DynamicResource Orc.Brushes.Control.SelectionActive.Background}" />
                         <Setter Property="TextBlock.Foreground"
                                 TargetName="Content"
-                                Value="{StaticResource MouseOverForegroundBrush}" />
+                                Value="{DynamicResource Orc.Brushes.Control.MouseOver.Foreground}" />
                     </Trigger>
-                    <Trigger Property="IsEnabled"
-                             Value="false">
-                        <Setter Property="Foreground"
-                                Value="{StaticResource DisabledMenuForeground}" />
+                    <Trigger Property="IsEnabled" Value="false">
+                        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}" />
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
 
-            <Style x:Key="MenuScrollButton"
-                   BasedOn="{x:Null}"
-                   TargetType="{x:Type RepeatButton}">
-                <Setter Property="ClickMode"
-                        Value="Hover" />
-                <Setter Property="MinWidth"
-                        Value="0" />
-                <Setter Property="MinHeight"
-                        Value="0" />
+            <Style x:Key="MenuScrollButton" BasedOn="{x:Null}" TargetType="{x:Type RepeatButton}">
+                <Setter Property="ClickMode" Value="Hover" />
+                <Setter Property="MinWidth" Value="0" />
+                <Setter Property="MinHeight" Value="0" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type RepeatButton}">
                             <DockPanel x:Name="DPButton"
-                                       Background="{StaticResource SubMenuRepeatButtonBrush}"
+                                       Background="{DynamicResource Orc.Brushes.Control.Default.Background}"
                                        SnapsToDevicePixels="true">
                                 <ContentPresenter x:Name="ContentContainer"
                                                   HorizontalAlignment="Center"
@@ -357,7 +259,7 @@
                                          Value="true">
                                     <Setter Property="Background"
                                             TargetName="DPButton"
-                                            Value="{StaticResource SubMenuHoverRepeatButtonBrush}" />
+                                            Value="{DynamicResource Orc.Brushes.Control.MouseOver.Background}" />
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -370,10 +272,8 @@
             <Style x:Key="{ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}"
                    BasedOn="{x:Null}"
                    TargetType="{x:Type ScrollViewer}">
-                <Setter Property="HorizontalScrollBarVisibility"
-                        Value="Hidden" />
-                <Setter Property="VerticalScrollBarVisibility"
-                        Value="Auto" />
+                <Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
+                <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ScrollViewer}">
@@ -413,7 +313,7 @@
                                     </RepeatButton.Visibility>
                                     <Path x:Name="UpArrow"
                                           Data="{StaticResource MenuScrollUpArrowGeometry}"
-                                          Fill="{StaticResource ForegroundBrush}" />
+                                          Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}" />
                                 </RepeatButton>
                                 <RepeatButton Grid.Column="0"
                                               CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
@@ -437,7 +337,7 @@
                                     </RepeatButton.Visibility>
                                     <Path x:Name="DownArrow"
                                           Data="{StaticResource MenuScrollDownArrowGeometry}"
-                                          Fill="{StaticResource ForegroundBrush}" />
+                                          Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}" />
                                 </RepeatButton>
                             </Grid>
                         </ControlTemplate>
@@ -465,9 +365,9 @@
                         <Border x:Name="Shdw"
                                 Background="Transparent">
                             <Border x:Name="SubMenuBorder"
-                                    BorderBrush="{StaticResource SubMenuBorderBrush}"
+                                    BorderBrush="{DynamicResource Orc.Brushes.Control.Default.Border}"
                                     BorderThickness="1"
-                                    Background="{StaticResource SubMenuBackgroundBrush}">
+                                    Background="{DynamicResource Orc.Brushes.Control.Default.Background}">
                                 <ScrollViewer x:Name="SubMenuScrollViewer"
                                               Margin="1,0"
                                               Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}">
@@ -477,7 +377,7 @@
                                                 VerticalAlignment="Top"
                                                 Width="0">
                                             <Rectangle x:Name="OpaqueRect"
-                                                       Fill="{StaticResource SubMenuBackgroundBrush}"
+                                                       Fill="{DynamicResource Orc.Brushes.Control.Default.Background}"
                                                        Height="{Binding ActualHeight, ElementName=SubMenuBorder}"
                                                        Width="{Binding ActualWidth, ElementName=SubMenuBorder}" />
                                         </Canvas>
@@ -514,27 +414,27 @@
                              Value="true">
                         <Setter Property="Fill"
                                 TargetName="Bg"
-                                Value="{StaticResource MenuItemPressedFill}" />
+                                Value="{DynamicResource Orc.Brushes.Control.Pressed.Background}" />
                         <Setter Property="TextBlock.Foreground"
                                 TargetName="Content"
-                                Value="{StaticResource MouseOverForegroundBrush}" />
+                                Value="{DynamicResource Orc.Brushes.Control.MouseOver.Foreground}" />
                     </Trigger>
                     <Trigger Property="IsKeyboardFocused"
                              Value="true">
                         <Setter Property="Fill"
                                 TargetName="Bg"
-                                Value="{StaticResource MenuItemPressedFill}" />
+                                Value="{DynamicResource Orc.Brushes.Control.Pressed.Background}" />
                     </Trigger>
                     <Trigger Property="IsSubmenuOpen"
                              Value="true">
                         <Setter Property="Fill"
                                 TargetName="Bg"
-                                Value="{StaticResource MenuItemPressedFill}" />
+                                Value="{DynamicResource Orc.Brushes.Control.Pressed.Background}" />
                     </Trigger>
                     <Trigger Property="IsEnabled"
                              Value="false">
                         <Setter Property="Foreground"
-                                Value="{StaticResource DisabledMenuForeground}" />
+                                Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}" />
                     </Trigger>
                     <Trigger Property="ScrollViewer.CanContentScroll"
                              SourceName="SubMenuScrollViewer"
@@ -565,20 +465,18 @@
                              Value="true">
                         <Setter Property="Fill"
                                 TargetName="Bg"
-                                Value="{StaticResource MenuItemSelectionFill}" />
+                                Value="{DynamicResource Orc.Brushes.Control.SelectionActive.Background}" />
                         <Setter Property="TextBlock.Foreground"
-                                Value="{StaticResource MouseOverForegroundBrush}" />
+                                Value="{DynamicResource Orc.Brushes.Control.MouseOver.Foreground}" />
                     </Trigger>
                     <Trigger Property="IsKeyboardFocused"
                              Value="true">
                         <Setter Property="Fill"
                                 TargetName="Bg"
-                                Value="{StaticResource MenuItemPressedFill}" />
+                                Value="{DynamicResource Orc.Brushes.Control.Pressed.Background}" />
                     </Trigger>
-                    <Trigger Property="IsEnabled"
-                             Value="false">
-                        <Setter Property="Foreground"
-                                Value="{StaticResource DisabledMenuForeground}" />
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}" />
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
@@ -611,7 +509,7 @@
                         <Path x:Name="RightArrowPath"
                               Grid.Column="2"
                               Data="{StaticResource RightArrow}"
-                              Fill="{TemplateBinding Foreground}"
+                              Fill="{DynamicResource Orc.Brushes.Control.Foreground}"
                               Margin="4,0,0,0"
                               VerticalAlignment="Center" />
                     </Grid>
@@ -626,9 +524,9 @@
                         <Border x:Name="Shdw"
                                 Background="Transparent">
                             <Border x:Name="SubMenuBorder"
-                                    BorderBrush="{StaticResource SubMenuBorderBrush}"
+                                    BorderBrush="{DynamicResource Orc.Brushes.Control.Default.Border}"
                                     BorderThickness="1"
-                                    Background="{StaticResource SubMenuBackgroundBrush}">
+                                    Background="{DynamicResource Orc.Brushes.Control.Default.Background}">
                                 <ScrollViewer x:Name="SubMenuScrollViewer"
                                               Margin="1,0"
                                               Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}">
@@ -638,7 +536,7 @@
                                                 VerticalAlignment="Top"
                                                 Width="0">
                                             <Rectangle x:Name="OpaqueRect"
-                                                       Fill="{StaticResource SubMenuBackgroundBrush}"
+                                                       Fill="{DynamicResource Orc.Brushes.Control.Default.Background}"
                                                        Height="{Binding ActualHeight, ElementName=SubMenuBorder}"
                                                        Width="{Binding ActualWidth, ElementName=SubMenuBorder}" />
                                         </Canvas>
@@ -676,22 +574,20 @@
                              Value="true">
                         <Setter Property="Fill"
                                 TargetName="Bg"
-                                Value="{StaticResource MenuItemSelectionFill}" />
+                                Value="{DynamicResource Orc.Brushes.Control.SelectionActive.Background}" />
                         <Setter Property="TextBlock.Foreground"
                                 TargetName="Content"
-                                Value="{StaticResource MouseOverForegroundBrush}" />
+                                Value="{DynamicResource Orc.Brushes.Control.MouseOver.Foreground}" />
                         <Setter Property="Fill"
                                 TargetName="RightArrowPath"
-                                Value="{StaticResource MouseOverForegroundBrush}" />
+                                Value="{DynamicResource Orc.Brushes.Control.MouseOver.Foreground}" />
                     </Trigger>
-                    <Trigger Property="IsEnabled"
-                             Value="false">
-                        <Setter Property="Foreground"
-                                Value="{StaticResource DisabledMenuForeground}" />
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}" />
                     </Trigger>
                     <Trigger Property="ScrollViewer.CanContentScroll"
                              SourceName="SubMenuScrollViewer"
-                             Value="false">
+                             Value="False">
                         <Setter Property="Canvas.Top"
                                 TargetName="OpaqueRect"
                                 Value="{Binding VerticalOffset, ElementName=SubMenuScrollViewer}" />
@@ -703,36 +599,25 @@
             </ControlTemplate>
 
             <Style TargetType="{x:Type MenuItem}">
-                <Setter Property="Foreground"
-                        Value="{StaticResource ForegroundBrush}" />
-                <Setter Property="Background"
-                        Value="Transparent" />
-                <Setter Property="ScrollViewer.PanningMode"
-                        Value="Both" />
-                <Setter Property="MinHeight"
-                        Value="26" />
-                <Setter Property="Stylus.IsFlicksEnabled"
-                        Value="False" />
-                <Setter Property="Template"
-                        Value="{DynamicResource {ComponentResourceKey ResourceId=SubmenuItemTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}" />
+                <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}" />
+                <Setter Property="Background" Value="{DynamicResource Orc.Brushes.Control.Default.Background}" />
+                <Setter Property="ScrollViewer.PanningMode" Value="Both" />
+                <Setter Property="MinHeight" Value="26" />
+                <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+                <Setter Property="Template" Value="{DynamicResource {ComponentResourceKey ResourceId=SubmenuItemTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}" />
                 <Style.Triggers>
-                    <Trigger Property="Role"
-                             Value="TopLevelHeader">
+                    <Trigger Property="Role" Value="TopLevelHeader">
                         <Setter Property="Template"
                                 Value="{DynamicResource {ComponentResourceKey ResourceId=TopLevelHeaderTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}" />
                     </Trigger>
-                    <Trigger Property="Role"
-                             Value="TopLevelItem">
+                    <Trigger Property="Role" Value="TopLevelItem">
                         <Setter Property="Template"
                                 Value="{DynamicResource {ComponentResourceKey ResourceId=TopLevelItemTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}" />
                     </Trigger>
-                    <Trigger Property="Role"
-                             Value="SubmenuHeader">
-                        <Setter Property="Template"
-                                Value="{DynamicResource {ComponentResourceKey ResourceId=SubmenuHeaderTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}" />
+                    <Trigger Property="Role" Value="SubmenuHeader">
+                        <Setter Property="Template" Value="{DynamicResource {ComponentResourceKey ResourceId=SubmenuHeaderTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}" />
                     </Trigger>
-                    <Trigger Property="Role"
-                             Value="SubmenuItem">
+                    <Trigger Property="Role" Value="SubmenuItem">
                         <Setter Property="Template"
                                 Value="{DynamicResource {ComponentResourceKey ResourceId=SubmenuItemTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}" />
                     </Trigger>
@@ -740,46 +625,36 @@
             </Style>
 
             <!-- Separator -->
-            <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}"
-                   TargetType="{x:Type Separator}">
-                <Setter Property="FocusVisualStyle"
-                        Value="{x:Null}" />
+            <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="{x:Type Separator}">
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Separator}">
-                            <Grid Margin="3,2,3,2"
-                                  SnapsToDevicePixels="true"
-                                  UseLayoutRounding="False">
-                                <Rectangle Fill="WhiteSmoke"
-                                           Height="1" />
+                            <Grid Margin="3,2,3,2" SnapsToDevicePixels="true" UseLayoutRounding="False">
+                                <Rectangle Fill="{DynamicResource Orc.Brushes.Control.SelectionInactive.Border}" Height="1" />
                             </Grid>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
 
-            <Style x:Key="DefaultButtonColumnStyle"
-                   TargetType="{x:Type ColumnDefinition}">
-                <Setter Property="Width"
-                        Value="*" />
+            <Style x:Key="DefaultButtonColumnStyle" TargetType="{x:Type ColumnDefinition}">
+                <Setter Property="Width" Value="*" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding ShowDefaultButton, RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}}"
                                  Value="False">
-                        <Setter Property="Width"
-                                Value="Auto" />
+                        <Setter Property="Width" Value="Auto" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
 
             <Style x:Key="ToggleButtonColumnStyle"
                    TargetType="{x:Type ColumnDefinition}">
-                <Setter Property="Width"
-                        Value="Auto" />
+                <Setter Property="Width" Value="Auto" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding ShowDefaultButton, RelativeSource={RelativeSource AncestorType={x:Type controls:DropDownButton}}}"
                                  Value="False">
-                        <Setter Property="Width"
-                                Value="*" />
+                        <Setter Property="Width" Value="*" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>

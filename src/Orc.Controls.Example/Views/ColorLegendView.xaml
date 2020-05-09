@@ -40,9 +40,13 @@
             </orccontrols:ColorLegend.Header>
         </orccontrols:ColorLegend>
 
-        <orccontrols:ColorLegend Grid.Row="6" ItemsSource="{Binding CalendarStateLegend, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <orccontrols:ColorLegend Grid.Row="6" 
+                                 ItemsSource="{Binding CalendarStateLegend, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         
-        <Button Grid.Row="7" HorizontalAlignment="Right" Content="Update items" Command="{Binding UpdateItems}"/>
+        <Button Grid.Row="7"
+                HorizontalAlignment="Right" 
+                Content="Update items" 
+                Command="{Binding UpdateItems}"/>
         
         <DataGrid Grid.Row="8" ItemsSource="{Binding CalendarStateLegend, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"/>
     </Grid>
