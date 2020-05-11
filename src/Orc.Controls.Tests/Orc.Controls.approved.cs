@@ -1418,25 +1418,29 @@ namespace Orc.Controls
         public static string GetTimeSpanPartName(this Orc.Controls.TimeSpanPart timeSpanPart) { }
         public static double GetTimeSpanPartValue(this System.TimeSpan value, Orc.Controls.TimeSpanPart timeSpanPart) { }
     }
-    public class TimeSpanPicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    [System.Windows.TemplatePart(Name="PART_DaysAbbreviationTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_DaysHoursSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_DaysNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
+    [System.Windows.TemplatePart(Name="PART_EditedUnitTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_EditorNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
+    [System.Windows.TemplatePart(Name="PART_HoursAbbreviationTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_HoursMinutesSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_HoursNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
+    [System.Windows.TemplatePart(Name="PART_MinutesAbbreviationTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_MinutesNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
+    [System.Windows.TemplatePart(Name="PART_MinutesSecondsSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_NumericTBEditorContainerBorder", Type=typeof(System.Windows.Controls.Border))]
+    [System.Windows.TemplatePart(Name="PART_SecondsAbbreviationTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_SecondsNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
+    public class TimeSpanPicker : System.Windows.Controls.ContentControl
     {
         public static readonly System.Windows.DependencyProperty IsReadOnlyProperty;
         public static readonly System.Windows.DependencyProperty ValueProperty;
         public TimeSpanPicker() { }
         public bool IsReadOnly { get; set; }
-        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.TimeSpan? Value { get; set; }
-        public void InitializeComponent() { }
+        public override void OnApplyTemplate() { }
         protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
-    }
-    public class TimeSpanPickerViewModel : Catel.MVVM.ViewModelBase
-    {
-        public TimeSpanPickerViewModel() { }
-        public int? Days { get; set; }
-        public int? Hours { get; set; }
-        public int? Minutes { get; set; }
-        public int? Seconds { get; set; }
-        public System.TimeSpan? Value { get; set; }
     }
     public static class TreeViewItemExtensions
     {
