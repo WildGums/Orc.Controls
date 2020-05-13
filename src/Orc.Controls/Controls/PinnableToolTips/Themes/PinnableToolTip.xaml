@@ -83,7 +83,7 @@
                                                       Margin="0" 
                                                       SnapsToDevicePixels="True"
                                                       Data="{StaticResource UnpinnedGeometry}"
-                                                      Fill="{TemplateBinding Foreground}"/>
+                                                      Fill="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton}, Path=Foreground}"/>
                                             </Viewbox>
                                         </Grid>
 
@@ -105,8 +105,7 @@
                                                       UseLayoutRounding="True" Margin="0"
                                                       SnapsToDevicePixels="True"
                                                       Data="{StaticResource CloseGeometry}" 
-                                                      Fill="{TemplateBinding Foreground}" >
-                                                </Path>
+                                                      Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"/>
                                             </Viewbox>
                                         </Grid>
 
