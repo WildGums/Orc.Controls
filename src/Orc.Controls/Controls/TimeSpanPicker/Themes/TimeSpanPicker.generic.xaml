@@ -4,8 +4,7 @@
                     xmlns:controls="clr-namespace:Orc.Controls"
                     xmlns:converters="clr-namespace:Orc.Controls.Converters">
 
-    <Style x:Key="{x:Type controls:TimeSpanPicker}"
-           TargetType="{x:Type controls:TimeSpanPicker}">
+    <Style x:Key="{x:Type controls:TimeSpanPicker}" TargetType="{x:Type controls:TimeSpanPicker}">
         <Style.Resources>
 
             <Style x:Key="RatioSignStyle" TargetType="{x:Type TextBlock}">

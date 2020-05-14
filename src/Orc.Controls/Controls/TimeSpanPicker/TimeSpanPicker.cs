@@ -32,8 +32,7 @@ namespace Orc.Controls
     [TemplatePart(Name = "PART_EditedUnitTextBlock", Type = typeof(TextBlock))]
 
     [TemplatePart(Name = "PART_NumericTBEditorContainerBorder", Type = typeof(Border))]
-
-    public class TimeSpanPicker : ContentControl
+    public class TimeSpanPicker : Control
     {
         #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
@@ -98,7 +97,6 @@ namespace Orc.Controls
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(TimeSpan?), typeof(TimeSpanPicker),
             new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, 
                 (sender, e) => ((TimeSpanPicker)sender).OnValueChanged(e.NewValue as TimeSpan?)));
-
 
         public bool IsReadOnly
         {

@@ -17,13 +17,13 @@ namespace Orc.Controls
             switch (dateTimePart)
             {
                 case DateTimePart.Day:
-                    return "NumericTBDay";
+                    return "PART_DaysNumericTextBox";
 
                 case DateTimePart.Month:
-                    return "NumericTBMonth";
+                    return "PART_MonthNumericTextBox";
 
                 case DateTimePart.Year:
-                    return "NumericTBYear";
+                    return "PART_YearNumericTextBox";
 
                 case DateTimePart.Hour:
                     return "NumericTBHour";
@@ -50,13 +50,13 @@ namespace Orc.Controls
             switch (dateTimePart)
             {
                 case DateTimePart.Day:
-                    return "ToggleButtonD";
+                    return "PART_DaysToggleButton";
 
                 case DateTimePart.Month:
-                    return "ToggleButtonMo";
+                    return "PART_MonthToggleButton";
 
                 case DateTimePart.Year:
-                    return "ToggleButtonY";
+                    return "PART_YearToggleButton";
 
                 case DateTimePart.Hour:
                     return "ToggleButtonH";
