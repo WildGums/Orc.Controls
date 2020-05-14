@@ -39,7 +39,7 @@ namespace Orc.Controls
     [TemplatePart(Name = "PART_CopyButton", Type = typeof(Button))]
     [TemplatePart(Name = "PART_PasteButton", Type = typeof(Button))]
 
-        [TemplatePart(Name = "PART_MainGrid", Type = typeof(Grid))]
+    [TemplatePart(Name = "PART_MainGrid", Type = typeof(Grid))]
     public class DatePicker : Control
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();

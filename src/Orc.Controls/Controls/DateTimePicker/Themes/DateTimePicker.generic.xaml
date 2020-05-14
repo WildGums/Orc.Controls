@@ -2,8 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Orc.Controls"
                     xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
-                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
+                    xmlns:catel="http://schemas.catelproject.com">
 
+   
     <ControlTemplate x:Key="DateTimePickerToggleButtonTemplate" TargetType="{x:Type ToggleButton}">
         <Border BorderBrush="{TemplateBinding BorderBrush}" 
                 Background="{TemplateBinding Background}" 
@@ -85,14 +88,14 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    
+
     <Style x:Key="AmPmStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Margin" Value="2 0 0 0"/>
         <Setter Property="Padding" Value="0"/>
     </Style>
-    
+
     <Style x:Key="LettersStyle" TargetType="{x:Type TextBlock}" >
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="Visibility" Value="Hidden"/>
@@ -189,5 +192,346 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!--<Style x:Key="{x:Type controls:DateTimePicker1}" TargetType="{x:Type controls:DateTimePicker1}">
+        <Style.Resources>
+            <orccontrols:YearLongToYearShortConverter x:Key="YearLongToYearShortConverter" />
+            <orccontrols:Hour24ToHour12Converter x:Key="Hour24ToHour12Converter" />
+            <orccontrols:AmPmLongToAmPmShortConverter x:Key="AmPmLongToAmPmShortConverter" />
+
+            <Style BasedOn="{x:Null}" TargetType="{x:Type controls:NumericTextBox}">
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="2 0 0 0"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="AllowDrop" Value="true"/>
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+                <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            </Style>
+        </Style.Resources>
+
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Background" Value="{DynamicResource Orc.Brushes.Control.Default.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Default.Border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:DateTimePicker1}">
+                    <Grid x:Name="PART_MainGrid">
+                        <Border x:Name="MainBorder"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Background="{TemplateBinding Background}">
+                            <Grid MinWidth="115">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid controls:EnterKeyTraversal.IsEnabled="True">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <controls:NumericTextBox x:Name="PART_DaysNumericTextBox" 
+                                                             Grid.Column="0" 
+                                                             MinValue="1"
+                                                             IsReadOnly="{TemplateBinding IsReadOnly}"/>
+
+                                    <TextBlock x:Name="PART_DaysMonthsSeparatorTextBlock"
+                                               Grid.Column="1" 
+                                               Text="/" 
+                                               Style="{DynamicResource RatioSignStyle}" />
+
+                                    <ToggleButton x:Name="PART_DaysToggleButton"
+                                                  Grid.Column="1"  
+                                                  Tag="{x:Static controls:DateTimePart.Day}"
+                                                  Style="{DynamicResource DateTimePickerLettersToggleButtonStyle}"
+                                                  Content="{catel:LanguageBinding Controls_DatePicker_ToggleButton_Content_DayAbbreviation}"
+                                                  IsEnabled= "{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
+
+                                    <controls:NumericTextBox x:Name="PART_MonthNumericTextBox" 
+                                                             Grid.Column="2"
+                                                             MinValue="1" 
+                                                             MaxValue="12" 
+                                                             IsReadOnly="{TemplateBinding IsReadOnly}"/>
+
+                                    <TextBlock x:Name="PART_MonthsYearSeparatorTextBlock"
+                                               Grid.Column="3" 
+                                               Text="/" 
+                                               Style="{DynamicResource RatioSignStyle}" />
+
+                                    <ToggleButton x:Name="PART_MonthToggleButton"
+                                                  Grid.Column="3"  
+                                                  Tag="{x:Static controls:DateTimePart.Month}"
+                                                  Style="{DynamicResource DateTimePickerLettersToggleButtonStyle}"
+                                                  Content="{catel:LanguageBinding Controls_DatePicker_ToggleButton_Content_MonthAbbreviation}"
+                                                  IsEnabled= "{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
+
+                                    <controls:NumericTextBox x:Name="PART_YearNumericTextBox" 
+                                                             Grid.Column="4" 
+                                                             MinValue="1" 
+                                                             MaxValue="3000"
+                                                             IsReadOnly="{TemplateBinding IsReadOnly}"/>
+
+                                    <TextBlock x:Name="PART_YearSeparatorTextBlock"
+                                               Grid.Column="5" 
+                                               Text="" 
+                                               Style="{DynamicResource RatioSignStyle}" />
+
+                                    <ToggleButton x:Name="PART_YearToggleButton"
+                                                  Grid.Column="5"  
+                                                  Tag="{x:Static controls:DateTimePart.Year}"
+                                                  Content="{catel:LanguageBinding Controls_DatePicker_ToggleButton_Content_YearAbbreviation}"
+                                                  Style="{DynamicResource DatePickerLetterToggleButtonStyle}"
+                                                  IsEnabled= "{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
+
+
+                                    <controls:NumericTextBox x:Name="PART_HourNumericTextBox" 
+                                                             Grid.Column="6" 
+                                                             Format="00"
+                                                             MaxValue="23" 
+                                                             MinValue="0"
+                                                             IsReadOnly="{TemplateBinding IsReadOnly}"
+                                                             Visibility="{TemplateBinding HideTime, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
+
+                                    <TextBlock x:Name="PART_HourMinuteSeparatorTextBlock"
+                                               Grid.Column="7" 
+                                               Text=":" 
+                                               Style="{DynamicResource RatioSignStyle}" 
+                                               Visibility="{TemplateBinding HideTime, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
+
+                              
+                                    <ToggleButton Grid.Column="7" 
+                                                  x:Name="PART_HourToggleButton" 
+                                                  Tag="{x:Static controls:DateTimePart.Hour}"
+                                                  Style="{DynamicResource DateTimePickerLettersToggleButtonStyle}"
+                                                  Content="{catel:LanguageBinding Controls_DateTimePicker_ToggleButton_Content_HourAbbreviation}"
+                                                  IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"
+                                                  Visibility="{TemplateBinding HideTime, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
+
+                                    <controls:NumericTextBox x:Name="PART_MinuteNumericTextBox"
+                                                             Grid.Column="8" 
+                                                             Format="00" 
+                                                             MaxValue="59"
+                                                             MinValue="00"
+                                                             IsReadOnly="{TemplateBinding IsReadOnly}"
+                                                             Visibility="{TemplateBinding HideTime, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
+
+                                    <TextBlock x:Name="PART_MinuteSecondSeparatorTextBlock" 
+                                               Grid.Column="9"
+                                               Text=":" 
+                                               Style="{DynamicResource RatioSignStyle}">
+                                        <TextBlock.Visibility>
+                                            <MultiBinding Converter="{orccontrols:BooleanAndToCollapsingVisibilityMultiValueConverter}" ConverterParameter="1">
+                                                <TemplateBinding Property="HideSeconds" Converter="{catel:BooleanToOppositeBooleanConverter}" />
+                                                <TemplateBinding Property="HideTime" Converter="{catel:BooleanToOppositeBooleanConverter}" />
+                                            </MultiBinding>
+                                        </TextBlock.Visibility>
+                                    </TextBlock>
+                                    
+                                    <ToggleButton Grid.Column="9"
+                                                  x:Name="PART_MinuteToggleButton"
+                                                  Tag="{x:Static controls:DateTimePart.Minute}"
+                                                  Style="{DynamicResource DateTimePickerLettersToggleButtonStyle}"
+                                                  Content="{catel:LanguageBinding Controls_DateTimePicker_ToggleButton_Content_MinuteAbbreviation}"
+                                                  IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"
+                                                  Visibility="{TemplateBinding HideTime, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
+
+                                    <controls:NumericTextBox x:Name="PART_SecondNumericTextBox" 
+                                                             Grid.Column="10" 
+                                                             Format="00" 
+                                                             MaxValue="59"
+                                                             MinValue="0"
+                                                             IsReadOnly="{TemplateBinding IsReadOnly}"
+                                                             Visibility="{TemplateBinding HideTime, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
+
+                                    <TextBlock x:Name="PART_SecondAmPmSeparatorTextBlock" 
+                                               Grid.Column="11"
+                                               Text="" 
+                                               Style="{DynamicResource RatioSignStyle}">
+                                        <TextBlock.Visibility>
+                                            <MultiBinding Converter="{orccontrols:BooleanAndToCollapsingVisibilityMultiValueConverter}" ConverterParameter="1">
+                                                <TemplateBinding Property="HideSeconds" Converter="{catel:BooleanToOppositeBooleanConverter}" />
+                                                <TemplateBinding Property="HideTime" Converter="{catel:BooleanToOppositeBooleanConverter}" />
+                                            </MultiBinding>
+                                        </TextBlock.Visibility>
+                                    </TextBlock>
+
+                                    <ToggleButton x:Name="PART_SecondToggleButton" 
+                                                  Grid.Column="11"
+                                                  Tag="{x:Static controls:DateTimePart.Second}"
+                                                  Content="{catel:LanguageBinding Controls_DateTimePicker_ToggleButton_Content_SecondAbbreviation}"
+                                                  Style="{DynamicResource DateTimePickerLettersToggleButtonStyle}"
+                                                  IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"
+                                                  Visibility="{TemplateBinding HideTime, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
+
+                                    <controls:ListTextBox x:Name="PART_AmPmListTextBox" 
+                                                          Grid.Column="12"
+                                                          Value="{TemplateBinding AmPm, Converter={StaticResource AmPmLongToAmPmShortConverter}}"
+                                                          IsReadOnly="{TemplateBinding IsReadOnly}">
+                                        <controls:ListTextBox.Visibility>
+                                            <MultiBinding Converter="{orccontrols:BooleanAndToCollapsingVisibilityMultiValueConverter}">
+                                                <TemplateBinding Property="IsHour12Format" />
+                                                <TemplateBinding Property="HideTime" Converter="{catel:BooleanToOppositeBooleanConverter}" />
+                                            </MultiBinding>
+                                        </controls:ListTextBox.Visibility>
+                                    </controls:ListTextBox>
+
+                                    <TextBlock x:Name="PART_AmPmSeparatorTextBlock" 
+                                               Grid.Column="13"
+                                               Text="" 
+                                               Style="{DynamicResource RatioSignStyle}">
+                                        <TextBlock.Visibility>
+                                            <MultiBinding Converter="{orccontrols:BooleanAndToCollapsingVisibilityMultiValueConverter}" ConverterParameter="1">
+                                                <TemplateBinding Property="HideSeconds" Converter="{catel:BooleanToOppositeBooleanConverter}" />
+                                                <TemplateBinding Property="HideTime" Converter="{catel:BooleanToOppositeBooleanConverter}" />
+                                            </MultiBinding>
+                                        </TextBlock.Visibility>
+                                    </TextBlock>
+
+                                    <ToggleButton x:Name="PART_AmPmToggleButton"
+                                                  Grid.Column="14"
+                                                  Tag="{x:Static controls:DateTimePart.AmPmDesignator}"
+                                                  Content="{catel:LanguageBinding Controls_DateTimePicker_ToggleButton_Content_AmPmAbbreviation}"
+                                                  Style="{DynamicResource DateTimePickerLettersToggleButtonStyle}"
+                                                  IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}">
+                                        <ToggleButton.Visibility>
+                                            <MultiBinding Converter="{orccontrols:BooleanAndToCollapsingVisibilityMultiValueConverter}">
+                                                <TemplateBinding Property="IsHour12Format" />
+                                                <TemplateBinding Property="HideTime" Converter="{catel:BooleanToOppositeBooleanConverter}" />
+                                            </MultiBinding>
+                                        </ToggleButton.Visibility>
+                                    </ToggleButton>
+
+                                </Grid>
+
+                                <Grid Grid.Column="1">
+                                    <ToggleButton x:Name="PART_DatePickerIconToggleButton" 
+                                                  DockPanel.Dock="Right"
+                                                  Margin="0"
+                                                  Height="19"
+                                                  Width="19"
+                                                  VerticalAlignment="Stretch">
+
+                                        <Grid VerticalAlignment="Stretch">
+                                            <Border Grid.Row="0" 
+                                                    Background="{TemplateBinding BorderBrush}" 
+                                                    Height="4"
+                                                    VerticalAlignment="Top"/>
+
+                                            <Ellipse Grid.Row="0" 
+                                                     Width="3"
+                                                     Height="3" 
+                                                     Fill="{TemplateBinding Background}"
+                                                     VerticalAlignment="Top"/>
+
+                                            <TextBlock Text="{Binding Source={x:Static sys:DateTime.Today}, StringFormat=' d '}"
+                                                       Margin="0 3 0 0"
+                                                       FontSize="10"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Foreground="{TemplateBinding Foreground}"
+                                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        </Grid>
+
+                                    </ToggleButton>
+
+                                    <Popup Placement="Bottom" 
+                                           VerticalOffset="2" 
+                                           StaysOpen="False"
+                                           PlacementTarget="{Binding ElementName=PART_DatePickerIconToggleButton}" 
+                                           IsOpen="{Binding IsChecked, ElementName=PART_DatePickerIconToggleButton}">
+
+                                        <Border BorderBrush="{DynamicResource Orc.Brushes.Control.Disabled.Border}" 
+                                                BorderThickness="{TemplateBinding BorderThickness}">
+
+                                            <StackPanel Background="{TemplateBinding Background}">
+                                                <Button x:Name="PART_TodayButton" 
+                                                        HorizontalAlignment="Stretch"
+                                                        HorizontalContentAlignment="Left"
+                                                        BorderThickness="0"
+                                                        Margin="0"
+                                                        Content="{catel:LanguageBinding Controls_DatePicker_Button_Content_Today}" 
+                                                        IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
+
+                                                <Button x:Name="PART_NowButton" 
+                                                        HorizontalAlignment="Stretch"
+                                                        HorizontalContentAlignment="Left"
+                                                        BorderThickness="0"
+                                                        Margin="0"
+                                                        Content="{catel:LanguageBinding Controls_DateTimePicker_Button_Content_Now}" 
+                                                        IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
+
+                                                <Button x:Name="PART_SelectDateButton"
+                                                        Content="{catel:LanguageBinding Controls_DatePicker_Button_Content_SelectDate}"
+                                                        HorizontalAlignment="Stretch"
+                                                        HorizontalContentAlignment="Left"
+                                                        BorderThickness="0"
+                                                        Margin="0"
+                                                        IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
+
+                                                <Separator Visibility="{TemplateBinding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+
+                                                <Button x:Name="PART_ClearButton"
+                                                        HorizontalAlignment="Stretch"
+                                                        HorizontalContentAlignment="Left"
+                                                        BorderThickness="0"
+                                                        Margin="0"
+                                                        Content="{catel:LanguageBinding Controls_DatePicker_Button_Content_Clear}"
+                                                        IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"
+                                                        Visibility="{TemplateBinding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+
+                                                <Separator Visibility="{TemplateBinding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+
+                                                <Button x:Name="PART_CopyButton"
+                                                        HorizontalAlignment="Stretch"
+                                                        HorizontalContentAlignment="Left"
+                                                        BorderThickness="0"
+                                                        Margin="0"
+                                                        Content="{catel:LanguageBinding Controls_DatePicker_Button_Content_Copy}"
+                                                        Visibility="{TemplateBinding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+
+                                                <Button x:Name="PART_PasteButton"
+                                                        HorizontalAlignment="Stretch"
+                                                        HorizontalContentAlignment="Left"
+                                                        BorderThickness="0"
+                                                        Margin="0"
+                                                        Content="{catel:LanguageBinding Controls_DatePicker_Button_Content_Paste}"
+                                                        IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"
+                                                        Visibility="{TemplateBinding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </Popup>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+
+
 
 </ResourceDictionary>
