@@ -216,7 +216,23 @@ namespace Orc.Controls
         public System.Globalization.CultureInfo SelectedCulture { get; set; }
         public void InitializeComponent() { }
     }
-    public class DatePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    [System.Windows.TemplatePart(Name="PART_ClearButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_CopyButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_DatePickerIconToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
+    [System.Windows.TemplatePart(Name="PART_DaysMonthsSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_DaysNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
+    [System.Windows.TemplatePart(Name="PART_DaysToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
+    [System.Windows.TemplatePart(Name="PART_MainGrid", Type=typeof(System.Windows.Controls.Grid))]
+    [System.Windows.TemplatePart(Name="PART_MonthNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
+    [System.Windows.TemplatePart(Name="PART_MonthToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
+    [System.Windows.TemplatePart(Name="PART_MonthsYearSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_PasteButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_SelectDateButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_TodayButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_YearNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
+    [System.Windows.TemplatePart(Name="PART_YearSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_YearToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
+    public class DatePicker : System.Windows.Controls.Control
     {
         public static readonly System.Windows.DependencyProperty AllowCopyPasteProperty;
         public static readonly System.Windows.DependencyProperty AllowNullProperty;
@@ -231,22 +247,9 @@ namespace Orc.Controls
         public string Format { get; set; }
         public bool IsReadOnly { get; set; }
         public bool IsYearShortFormat { get; }
-        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool ShowOptionsButton { get; set; }
-        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
-        public System.DateTime? Value { get; set; }
-        public void InitializeComponent() { }
-        protected override void OnLoaded(System.EventArgs e) { }
-        protected override void OnUnloaded(System.EventArgs e) { }
-    }
-    public class DatePickerViewModel : Catel.MVVM.ViewModelBase
-    {
-        public DatePickerViewModel() { }
-        public int? Day { get; set; }
-        public int? Month { get; set; }
         public bool ShowOptionsButton { get; set; }
         public System.DateTime? Value { get; set; }
-        public int? Year { get; set; }
+        public override void OnApplyTemplate() { }
     }
     public class DateRange : Catel.Data.ModelBase
     {
@@ -379,7 +382,36 @@ namespace Orc.Controls
         public DateTimePartHelper(System.DateTime dateTime, Orc.Controls.DateTimePart dateTimePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo, System.Windows.Controls.TextBox textBox, System.Windows.Controls.Primitives.ToggleButton activeToggleButton) { }
         public System.Windows.Controls.Primitives.Popup CreatePopup() { }
     }
-    public class DateTimePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    [System.Windows.TemplatePart(Name="PART_AmPmListTextBox", Type=typeof(Orc.Controls.ListTextBox))]
+    [System.Windows.TemplatePart(Name="PART_AmPmSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_AmPmToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
+    [System.Windows.TemplatePart(Name="PART_ClearButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_CopyButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_DatePickerIconToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
+    [System.Windows.TemplatePart(Name="PART_DaysMonthsSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_DaysNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
+    [System.Windows.TemplatePart(Name="PART_DaysToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
+    [System.Windows.TemplatePart(Name="PART_HourMinuteSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_HourNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
+    [System.Windows.TemplatePart(Name="PART_HourToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
+    [System.Windows.TemplatePart(Name="PART_MainGrid", Type=typeof(System.Windows.Controls.Grid))]
+    [System.Windows.TemplatePart(Name="PART_MinuteNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
+    [System.Windows.TemplatePart(Name="PART_MinuteSecondSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_MinuteToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
+    [System.Windows.TemplatePart(Name="PART_MonthNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
+    [System.Windows.TemplatePart(Name="PART_MonthToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
+    [System.Windows.TemplatePart(Name="PART_MonthsYearSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_NowButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_PasteButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_SecondAmPmSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_SecondNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
+    [System.Windows.TemplatePart(Name="PART_SecondToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
+    [System.Windows.TemplatePart(Name="PART_SelectDateButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_TodayButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_YearNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
+    [System.Windows.TemplatePart(Name="PART_YearSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
+    [System.Windows.TemplatePart(Name="PART_YearToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
+    public class DateTimePicker : System.Windows.Controls.Control
     {
         public static readonly System.Windows.DependencyProperty AllowCopyPasteProperty;
         public static readonly System.Windows.DependencyProperty AllowNullProperty;
@@ -396,36 +428,15 @@ namespace Orc.Controls
         public bool AllowCopyPaste { get; set; }
         public bool AllowNull { get; set; }
         public string Format { get; set; }
-        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool HideSeconds { get; set; }
-        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool HideTime { get; set; }
         public bool IsAmPmShortFormat { get; }
         public bool IsHour12Format { get; }
         public bool IsReadOnly { get; set; }
         public bool IsYearShortFormat { get; }
-        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool ShowOptionsButton { get; set; }
-        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
-        public System.DateTime? Value { get; set; }
-        public void InitializeComponent() { }
-        protected override void OnLoaded(System.EventArgs e) { }
-        protected override void OnUnloaded(System.EventArgs e) { }
-    }
-    public class DateTimePickerViewModel : Catel.MVVM.ViewModelBase
-    {
-        public DateTimePickerViewModel() { }
-        public string AmPm { get; set; }
-        public int? Day { get; set; }
-        public bool HideSeconds { get; set; }
-        public bool HideTime { get; set; }
-        public int? Hour { get; set; }
-        public int? Minute { get; set; }
-        public int? Month { get; set; }
-        public int? Second { get; set; }
         public bool ShowOptionsButton { get; set; }
         public System.DateTime? Value { get; set; }
-        public int? Year { get; set; }
+        public override void OnApplyTemplate() { }
     }
     public static class DependencyObjectExtensions
     {
@@ -800,12 +811,6 @@ namespace Orc.Controls
         Undefined = 0,
         OpenUrlInBrowser = 1,
     }
-    public class LinkToolTipItem
-    {
-        public LinkToolTipItem() { }
-        public string Key { get; set; }
-        public string Value { get; set; }
-    }
     public class ListTextBox : System.Windows.Controls.TextBox
     {
         public static readonly System.Windows.DependencyProperty ListOfValuesProperty;
@@ -815,6 +820,7 @@ namespace Orc.Controls
         public string Value { get; set; }
         public event System.EventHandler LeftBoundReached;
         public event System.EventHandler RightBoundReached;
+        public event System.EventHandler ValueChanged;
         protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
         protected override void OnPreviewTextInput(System.Windows.Input.TextCompositionEventArgs e) { }
     }
@@ -1138,12 +1144,6 @@ namespace Orc.Controls
         protected virtual System.Windows.FrameworkElement GetAttachmentTarget(object parameter = null) { }
         protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
     }
-    public class OrdinalToolTipItem
-    {
-        public OrdinalToolTipItem() { }
-        public string Key { get; set; }
-        public string Value { get; set; }
-    }
     public class PasswordBindBehavior : Catel.Windows.Interactivity.BehaviorBase<System.Windows.Controls.PasswordBox>
     {
         public static readonly System.Windows.DependencyProperty PasswordProperty;
@@ -1151,11 +1151,6 @@ namespace Orc.Controls
         public string Password { get; set; }
         protected override void OnAssociatedObjectLoaded() { }
         protected override void OnAssociatedObjectUnloaded() { }
-    }
-    public class PinnableItemTemplateSelector : System.Windows.Controls.DataTemplateSelector
-    {
-        public PinnableItemTemplateSelector() { }
-        public override System.Windows.DataTemplate SelectTemplate(object item, System.Windows.DependencyObject container) { }
     }
     [System.Windows.TemplatePart(Name="CloseButton", Type=typeof(System.Windows.Controls.Button))]
     [System.Windows.TemplatePart(Name="DragGrip", Type=typeof(System.Windows.FrameworkElement))]
@@ -1432,7 +1427,7 @@ namespace Orc.Controls
     [System.Windows.TemplatePart(Name="PART_NumericTBEditorContainerBorder", Type=typeof(System.Windows.Controls.Border))]
     [System.Windows.TemplatePart(Name="PART_SecondsAbbreviationTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
     [System.Windows.TemplatePart(Name="PART_SecondsNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
-    public class TimeSpanPicker : System.Windows.Controls.ContentControl
+    public class TimeSpanPicker : System.Windows.Controls.Control
     {
         public static readonly System.Windows.DependencyProperty IsReadOnlyProperty;
         public static readonly System.Windows.DependencyProperty ValueProperty;
@@ -1650,6 +1645,13 @@ namespace Orc.Controls.Converters
         public double Length { get; set; }
         protected override object Convert(object value, System.Type targetType, object parameter) { }
     }
+    public class YearLongToYearShortConverter : Catel.MVVM.Converters.ValueConverterBase
+    {
+        public YearLongToYearShortConverter() { }
+        public bool IsEnabled { get; set; }
+        protected override object Convert(object value, System.Type targetType, object parameter) { }
+        protected override object ConvertBack(object value, System.Type targetType, object parameter) { }
+    }
 }
 namespace Orc.Controls.Extensions
 {
@@ -1796,5 +1798,17 @@ namespace Orc.Controls.Views
     {
         public FindReplaceView() { }
         public void InitializeComponent() { }
+    }
+}
+namespace XamlGeneratedNamespace
+{
+    public sealed class GeneratedInternalTypeHelper : System.Windows.Markup.InternalTypeHelper
+    {
+        public GeneratedInternalTypeHelper() { }
+        protected override void AddEventHandler(System.Reflection.EventInfo eventInfo, object target, System.Delegate handler) { }
+        protected override System.Delegate CreateDelegate(System.Type delegateType, object target, string handler) { }
+        protected override object CreateInstance(System.Type type, System.Globalization.CultureInfo culture) { }
+        protected override object GetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, System.Globalization.CultureInfo culture) { }
+        protected override void SetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, object value, System.Globalization.CultureInfo culture) { }
     }
 }
