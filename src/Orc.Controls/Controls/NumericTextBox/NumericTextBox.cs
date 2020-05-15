@@ -13,10 +13,8 @@ namespace Orc.Controls
     using System.Text;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Documents;
     using System.Windows.Input;
     using System.Windows.Media;
-    using Catel;
     using Catel.Logging;
     using Catel.Windows.Input;
 

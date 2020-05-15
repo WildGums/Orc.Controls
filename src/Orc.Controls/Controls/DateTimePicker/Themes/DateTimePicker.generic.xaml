@@ -6,42 +6,6 @@
                     xmlns:converters="clr-namespace:Orc.Controls.Converters"
                     xmlns:catel="http://schemas.catelproject.com">
 
-   
-    <ControlTemplate x:Key="DateTimePickerToggleButtonTemplate" TargetType="{x:Type ToggleButton}">
-        <Border BorderBrush="{TemplateBinding BorderBrush}" 
-                Background="{TemplateBinding Background}" 
-                BorderThickness="{TemplateBinding BorderThickness}"
-                SnapsToDevicePixels="true"
-                CornerRadius="0">
-            <Grid VerticalAlignment="Stretch">
-                <Border Grid.Row="0" Background="{TemplateBinding BorderBrush}" Height="4" VerticalAlignment="Top"/>
-                <Ellipse Grid.Row="0" Width="3" Height="3" Fill="White" VerticalAlignment="Top"/>
-                <TextBlock Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat=' d '}"
-                                   Margin="0 3 0 0" FontSize="10" HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" Foreground="Gray"
-                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-            </Grid>
-        </Border>
-    </ControlTemplate>
-
-    <Style x:Key="DateTimePickerToggleButtonStyle" TargetType="{x:Type ToggleButton}">
-        <Setter Property="Width" Value="19"/>
-        <Setter Property="Height" Value="19"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Background" Value="White"/>
-        <Setter Property="BorderBrush" Value="LightGray"/>
-        <Setter Property="Template" Value="{StaticResource DateTimePickerToggleButtonTemplate}"/>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
-            </Trigger>
-            <Trigger Property="IsPressed" Value="True">
-                <Setter Property="BorderBrush" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
     <Style x:Key="DateTimePickerListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="Padding" Value="2 2 5 2" />
         <Style.Resources>
@@ -54,118 +18,69 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="DateTimePickerBorderStyle" TargetType="{x:Type Border}">
-        <Setter Property="BorderBrush" Value="LightGray"/>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}" />
-            </Trigger>
-            <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="BorderBrush" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor}" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="DateTimePickerSeparatorPanelStyle" TargetType="{x:Type ContentControl}">
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-    </Style>
-
-    <Style x:Key="RatioSignStyle" TargetType="{x:Type TextBlock}">
-        <Setter Property="TextAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True">
-                <Setter Property="Visibility" Value="Hidden"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsKeyboardFocusWithin}" Value="True">
-                <Setter Property="Visibility" Value="Hidden"/>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="AmPmStyle" TargetType="{x:Type TextBlock}">
-        <Setter Property="TextAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Margin" Value="2 0 0 0"/>
-        <Setter Property="Padding" Value="0"/>
-    </Style>
-
-    <Style x:Key="LettersStyle" TargetType="{x:Type TextBlock}" >
-        <Setter Property="TextAlignment" Value="Center"/>
-        <Setter Property="Visibility" Value="Hidden"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Foreground" Value="DarkGray"/>
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True">
-                <Setter Property="Visibility" Value="Visible"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsKeyboardFocusWithin}" Value="True">
-                <Setter Property="Visibility" Value="Visible"/>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="DateTimePickerLettersToggleButtonStyle" BasedOn="{x:Null}" TargetType="{x:Type ToggleButton}">
-        <Setter Property="IsTabStop" Value="False"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <TextBlock Style="{StaticResource LettersStyle}">
-                        <ContentPresenter/>
-                    </TextBlock>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="DateTimePickerInnerTextBoxStyle" BasedOn="{x:Null}" TargetType="{x:Type TextBox}">
-        <Setter Property="TextAlignment" Value="Center"/>
-        <Setter Property="Margin" Value="2 0 0 0"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="AllowDrop" Value="true"/>
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TextBox}">
-                    <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    Background="{TemplateBinding Background}"
-                                    SnapsToDevicePixels="true">
-                        <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Background" TargetName="Bd" Value="Transparent"/>
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="DateTimePickerNumericTextBoxStyle" BasedOn="{StaticResource DateTimePickerInnerTextBoxStyle}" TargetType="{x:Type controls:NumericTextBox}"/>
-
-    <Style x:Key="DateTimePickerListTextBoxStyle" BasedOn="{StaticResource DateTimePickerInnerTextBoxStyle}" TargetType="{x:Type controls:ListTextBox}"/>
-
-
-
-    <Style x:Key="{x:Type controls:DateTimePicker1}" TargetType="{x:Type controls:DateTimePicker1}">
+    <Style x:Key="{x:Type controls:DateTimePicker}" TargetType="{x:Type controls:DateTimePicker}">
         <Style.Resources>
             <converters:YearLongToYearShortConverter x:Key="YearLongToYearShortConverter" />
             <converters:Hour24ToHour12Converter x:Key="Hour24ToHour12Converter" />
             <converters:AmPmLongToAmPmShortConverter x:Key="AmPmLongToAmPmShortConverter" />
 
+            <Style x:Key="RatioSignStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsKeyboardFocusWithin}" Value="True">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="LettersStyle" TargetType="{x:Type TextBlock}" >
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="Visibility" Value="Hidden"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="DarkGray"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True">
+                        <Setter Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsKeyboardFocusWithin}" Value="True">
+                        <Setter Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="DateTimePickerLettersToggleButtonStyle" BasedOn="{x:Null}" TargetType="{x:Type ToggleButton}">
+                <Setter Property="IsTabStop" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <TextBlock Style="{StaticResource LettersStyle}">
+                                <ContentPresenter/>
+                            </TextBlock>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
             <Style BasedOn="{x:Null}" TargetType="{x:Type controls:NumericTextBox}">
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="2 0 0 0"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="AllowDrop" Value="true"/>
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+                <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            </Style>
+
+            <Style BasedOn="{StaticResource {x:Type controls:ListTextBox}}" TargetType="{x:Type controls:ListTextBox}">
                 <Setter Property="TextAlignment" Value="Center"/>
                 <Setter Property="Margin" Value="2 0 0 0"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
@@ -189,7 +104,7 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type controls:DateTimePicker1}">
+                <ControlTemplate TargetType="{x:Type controls:DateTimePicker}">
                     <Grid x:Name="PART_MainGrid">
                         <Border x:Name="MainBorder"
                                 BorderThickness="{TemplateBinding BorderThickness}"
@@ -273,7 +188,6 @@
                                                   Style="{DynamicResource DateTimePickerLettersToggleButtonStyle}"
                                                   IsEnabled= "{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
-
                                     <controls:NumericTextBox x:Name="PART_HourNumericTextBox" 
                                                              Grid.Column="6" 
                                                              Format="00"
@@ -287,7 +201,6 @@
                                                Text=":" 
                                                Style="{DynamicResource RatioSignStyle}" 
                                                Visibility="{TemplateBinding HideTime, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
-
 
                                     <ToggleButton Grid.Column="7" 
                                                   x:Name="PART_HourToggleButton" 
@@ -313,11 +226,11 @@
                                             <MultiBinding Converter="{converters:BooleanAndToCollapsingVisibilityMultiValueConverter}" ConverterParameter="1">
                                                 <Binding Path="HideSeconds" 
                                                          Converter="{catel:BooleanToOppositeBooleanConverter}" 
-                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker}"/>
 
                                                 <Binding Path="HideTime" 
                                                          Converter="{catel:BooleanToOppositeBooleanConverter}"
-                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker}"/>
                                             </MultiBinding>
                                         </TextBlock.Visibility>
                                     </TextBlock>
@@ -346,10 +259,10 @@
                                             <MultiBinding Converter="{converters:BooleanAndToCollapsingVisibilityMultiValueConverter}" ConverterParameter="1">
                                                 <Binding Path="HideSeconds"
                                                          Converter="{catel:BooleanToOppositeBooleanConverter}" 
-                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker}"/>
                                                 <Binding Path="HideTime"
                                                          Converter="{catel:BooleanToOppositeBooleanConverter}" 
-                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker}"/>
                                             </MultiBinding>
                                         </TextBlock.Visibility>
                                     </TextBlock>
@@ -368,10 +281,10 @@
                                         <controls:ListTextBox.Visibility>
                                             <MultiBinding Converter="{converters:BooleanAndToCollapsingVisibilityMultiValueConverter}">
                                                 <Binding Path="IsHour12Format" 
-                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}" />
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker}" />
                                                 <Binding Path="HideTime" 
                                                          Converter="{catel:BooleanToOppositeBooleanConverter}" 
-                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker}"/>
                                             </MultiBinding>
                                         </controls:ListTextBox.Visibility>
                                     </controls:ListTextBox>
@@ -384,16 +297,16 @@
                                             <MultiBinding Converter="{converters:BooleanAndToCollapsingVisibilityMultiValueConverter}" ConverterParameter="1">
                                                 <Binding Path="HideSeconds" 
                                                          Converter="{catel:BooleanToOppositeBooleanConverter}" 
-                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker}"/>
                                                 <Binding Path="HideTime"
                                                          Converter="{catel:BooleanToOppositeBooleanConverter}"
-                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker}"/>
                                             </MultiBinding>
                                         </TextBlock.Visibility>
                                     </TextBlock>
 
                                     <ToggleButton x:Name="PART_AmPmToggleButton"
-                                                  Grid.Column="14"
+                                                  Grid.Column="13"
                                                   Tag="{x:Static controls:DateTimePart.AmPmDesignator}"
                                                   Content="{catel:LanguageBinding Controls_DateTimePicker_ToggleButton_Content_AmPmAbbreviation}"
                                                   Style="{DynamicResource DateTimePickerLettersToggleButtonStyle}"
@@ -401,10 +314,10 @@
                                         <ToggleButton.Visibility>
                                             <MultiBinding Converter="{converters:BooleanAndToCollapsingVisibilityMultiValueConverter}">
                                                 <Binding Path="IsHour12Format" 
-                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker}"/>
                                                 <Binding Path="HideTime" 
                                                          Converter="{catel:BooleanToOppositeBooleanConverter}" 
-                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker}"/>
                                             </MultiBinding>
                                         </ToggleButton.Visibility>
                                     </ToggleButton>

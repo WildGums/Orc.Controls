@@ -37,7 +37,7 @@
         <Label Grid.Row="0"
                Grid.Column="0"
                Content="{catel:LanguageBinding ResourceName=Controls_DateRangePicker_Start_Lbl}" />
-        <controls:DateTimePicker1 Grid.Row="0"
+        <controls:DateTimePicker Grid.Row="0"
                                  Grid.Column="1"
                                  Value="{Binding StartDate}"
                                  AllowNull="False"
@@ -63,7 +63,7 @@
                Grid.Column="0"
                Content="{catel:LanguageBinding ResourceName=Controls_DateRangePicker_End_Lbl}" />
 
-        <controls:DateTimePicker1 Grid.Row="1"
+        <controls:DateTimePicker Grid.Row="1"
                                  Grid.Column="1"
                                  Value="{Binding EndDate, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                                  AllowNull="False"
