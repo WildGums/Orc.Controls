@@ -3,7 +3,7 @@
                     xmlns:controls="clr-namespace:Orc.Controls"
                     xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                    xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
+                    xmlns:converters="clr-namespace:Orc.Controls.Converters"
                     xmlns:catel="http://schemas.catelproject.com">
 
    
@@ -23,10 +23,6 @@
             </Grid>
         </Border>
     </ControlTemplate>
-
-    <!-- Dummy base style -->
-    <Style x:Key="{x:Type controls:DateTimePicker}"
-           TargetType="{x:Type controls:DateTimePicker}"/>
 
     <Style x:Key="DateTimePickerToggleButtonStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Width" Value="19"/>
@@ -161,43 +157,13 @@
 
     <Style x:Key="DateTimePickerListTextBoxStyle" BasedOn="{StaticResource DateTimePickerInnerTextBoxStyle}" TargetType="{x:Type controls:ListTextBox}"/>
 
-    <Style x:Key="PopupButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ButtonBase}">
-                    <Border x:Name="Border" BorderThickness="0" Background="White" SnapsToDevicePixels="True">
-                        <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  Margin="5 2 5 2"
-                                                  Content="{TemplateBinding Content}"
-                                                  ContentStringFormat="{TemplateBinding ContentStringFormat}" 
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                                  RecognizesAccessKey="True" 
-                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                    </Border>
 
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Border" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor4}"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Border" Value="{orctheming:ThemeColorBrush ThemeColorStyle=AccentColor4}"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="#FFADADAD"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
 
-    <!--<Style x:Key="{x:Type controls:DateTimePicker1}" TargetType="{x:Type controls:DateTimePicker1}">
+    <Style x:Key="{x:Type controls:DateTimePicker1}" TargetType="{x:Type controls:DateTimePicker1}">
         <Style.Resources>
-            <orccontrols:YearLongToYearShortConverter x:Key="YearLongToYearShortConverter" />
-            <orccontrols:Hour24ToHour12Converter x:Key="Hour24ToHour12Converter" />
-            <orccontrols:AmPmLongToAmPmShortConverter x:Key="AmPmLongToAmPmShortConverter" />
+            <converters:YearLongToYearShortConverter x:Key="YearLongToYearShortConverter" />
+            <converters:Hour24ToHour12Converter x:Key="Hour24ToHour12Converter" />
+            <converters:AmPmLongToAmPmShortConverter x:Key="AmPmLongToAmPmShortConverter" />
 
             <Style BasedOn="{x:Null}" TargetType="{x:Type controls:NumericTextBox}">
                 <Setter Property="TextAlignment" Value="Center"/>
@@ -213,6 +179,7 @@
                 <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
                 <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
             </Style>
+          
         </Style.Resources>
 
         <Setter Property="BorderThickness" Value="1"/>
@@ -303,7 +270,7 @@
                                                   Grid.Column="5"  
                                                   Tag="{x:Static controls:DateTimePart.Year}"
                                                   Content="{catel:LanguageBinding Controls_DatePicker_ToggleButton_Content_YearAbbreviation}"
-                                                  Style="{DynamicResource DatePickerLetterToggleButtonStyle}"
+                                                  Style="{DynamicResource DateTimePickerLettersToggleButtonStyle}"
                                                   IsEnabled= "{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
 
@@ -321,7 +288,7 @@
                                                Style="{DynamicResource RatioSignStyle}" 
                                                Visibility="{TemplateBinding HideTime, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
 
-                              
+
                                     <ToggleButton Grid.Column="7" 
                                                   x:Name="PART_HourToggleButton" 
                                                   Tag="{x:Static controls:DateTimePart.Hour}"
@@ -343,13 +310,18 @@
                                                Text=":" 
                                                Style="{DynamicResource RatioSignStyle}">
                                         <TextBlock.Visibility>
-                                            <MultiBinding Converter="{orccontrols:BooleanAndToCollapsingVisibilityMultiValueConverter}" ConverterParameter="1">
-                                                <TemplateBinding Property="HideSeconds" Converter="{catel:BooleanToOppositeBooleanConverter}" />
-                                                <TemplateBinding Property="HideTime" Converter="{catel:BooleanToOppositeBooleanConverter}" />
+                                            <MultiBinding Converter="{converters:BooleanAndToCollapsingVisibilityMultiValueConverter}" ConverterParameter="1">
+                                                <Binding Path="HideSeconds" 
+                                                         Converter="{catel:BooleanToOppositeBooleanConverter}" 
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
+
+                                                <Binding Path="HideTime" 
+                                                         Converter="{catel:BooleanToOppositeBooleanConverter}"
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
                                             </MultiBinding>
                                         </TextBlock.Visibility>
                                     </TextBlock>
-                                    
+
                                     <ToggleButton Grid.Column="9"
                                                   x:Name="PART_MinuteToggleButton"
                                                   Tag="{x:Static controls:DateTimePart.Minute}"
@@ -371,9 +343,13 @@
                                                Text="" 
                                                Style="{DynamicResource RatioSignStyle}">
                                         <TextBlock.Visibility>
-                                            <MultiBinding Converter="{orccontrols:BooleanAndToCollapsingVisibilityMultiValueConverter}" ConverterParameter="1">
-                                                <TemplateBinding Property="HideSeconds" Converter="{catel:BooleanToOppositeBooleanConverter}" />
-                                                <TemplateBinding Property="HideTime" Converter="{catel:BooleanToOppositeBooleanConverter}" />
+                                            <MultiBinding Converter="{converters:BooleanAndToCollapsingVisibilityMultiValueConverter}" ConverterParameter="1">
+                                                <Binding Path="HideSeconds"
+                                                         Converter="{catel:BooleanToOppositeBooleanConverter}" 
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
+                                                <Binding Path="HideTime"
+                                                         Converter="{catel:BooleanToOppositeBooleanConverter}" 
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
                                             </MultiBinding>
                                         </TextBlock.Visibility>
                                     </TextBlock>
@@ -388,12 +364,14 @@
 
                                     <controls:ListTextBox x:Name="PART_AmPmListTextBox" 
                                                           Grid.Column="12"
-                                                          Value="{TemplateBinding AmPm, Converter={StaticResource AmPmLongToAmPmShortConverter}}"
                                                           IsReadOnly="{TemplateBinding IsReadOnly}">
                                         <controls:ListTextBox.Visibility>
-                                            <MultiBinding Converter="{orccontrols:BooleanAndToCollapsingVisibilityMultiValueConverter}">
-                                                <TemplateBinding Property="IsHour12Format" />
-                                                <TemplateBinding Property="HideTime" Converter="{catel:BooleanToOppositeBooleanConverter}" />
+                                            <MultiBinding Converter="{converters:BooleanAndToCollapsingVisibilityMultiValueConverter}">
+                                                <Binding Path="IsHour12Format" 
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}" />
+                                                <Binding Path="HideTime" 
+                                                         Converter="{catel:BooleanToOppositeBooleanConverter}" 
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
                                             </MultiBinding>
                                         </controls:ListTextBox.Visibility>
                                     </controls:ListTextBox>
@@ -403,9 +381,13 @@
                                                Text="" 
                                                Style="{DynamicResource RatioSignStyle}">
                                         <TextBlock.Visibility>
-                                            <MultiBinding Converter="{orccontrols:BooleanAndToCollapsingVisibilityMultiValueConverter}" ConverterParameter="1">
-                                                <TemplateBinding Property="HideSeconds" Converter="{catel:BooleanToOppositeBooleanConverter}" />
-                                                <TemplateBinding Property="HideTime" Converter="{catel:BooleanToOppositeBooleanConverter}" />
+                                            <MultiBinding Converter="{converters:BooleanAndToCollapsingVisibilityMultiValueConverter}" ConverterParameter="1">
+                                                <Binding Path="HideSeconds" 
+                                                         Converter="{catel:BooleanToOppositeBooleanConverter}" 
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
+                                                <Binding Path="HideTime"
+                                                         Converter="{catel:BooleanToOppositeBooleanConverter}"
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
                                             </MultiBinding>
                                         </TextBlock.Visibility>
                                     </TextBlock>
@@ -417,9 +399,12 @@
                                                   Style="{DynamicResource DateTimePickerLettersToggleButtonStyle}"
                                                   IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}">
                                         <ToggleButton.Visibility>
-                                            <MultiBinding Converter="{orccontrols:BooleanAndToCollapsingVisibilityMultiValueConverter}">
-                                                <TemplateBinding Property="IsHour12Format" />
-                                                <TemplateBinding Property="HideTime" Converter="{catel:BooleanToOppositeBooleanConverter}" />
+                                            <MultiBinding Converter="{converters:BooleanAndToCollapsingVisibilityMultiValueConverter}">
+                                                <Binding Path="IsHour12Format" 
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
+                                                <Binding Path="HideTime" 
+                                                         Converter="{catel:BooleanToOppositeBooleanConverter}" 
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType=controls:DateTimePicker1}"/>
                                             </MultiBinding>
                                         </ToggleButton.Visibility>
                                     </ToggleButton>
@@ -530,8 +515,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>-->
-
-
+    </Style>
 
 </ResourceDictionary>

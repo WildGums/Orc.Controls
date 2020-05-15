@@ -10,7 +10,7 @@ namespace Orc.Controls.Converters
     using System;
     using Catel.MVVM.Converters;
 
-    internal class YearLongToYearShortConverter : ValueConverterBase
+    public class YearLongToYearShortConverter : ValueConverterBase
     {
         #region Fields
         private int _yearBase = 2000;

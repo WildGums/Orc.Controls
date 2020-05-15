@@ -247,6 +247,8 @@ namespace Orc.Controls
             }
 
             UpdateText();
+
+            ValueChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void UpdateText()
@@ -254,5 +256,7 @@ namespace Orc.Controls
             SetCurrentValue(TextProperty, Value ?? string.Empty);
         }
         #endregion
+
+        public event EventHandler ValueChanged;
     }
 }

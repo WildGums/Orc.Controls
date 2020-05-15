@@ -216,6 +216,50 @@ namespace Orc.Controls
         public static readonly DependencyProperty IsAmPmShortFormatProperty = IsAmPmShortFormatPropertyKey.DependencyProperty;
         #endregion
 
+        #region Properties
+        private int? Day
+        {
+            get => (int?)_daysNumericTextBox.Value;
+            set => _daysNumericTextBox.Value = value;
+        }
+
+        private int? Month
+        {
+            get => (int?)_monthNumericTextBox.Value;
+            set => _monthNumericTextBox.Value = value;
+        }
+
+        private int? Year
+        {
+            get => (int?)_yearNumericTextBox.Value;
+            set => _yearNumericTextBox.Value = value;
+        }
+
+        private int? Hour
+        {
+            get => (int?)_hourNumericTextBox.Value;
+            set => _hourNumericTextBox.Value = value;
+        }
+
+        private int? Minute
+        {
+            get => (int?)_minuteNumericTextBox.Value;
+            set => _minuteNumericTextBox.Value = value;
+        }
+
+        private int? Second
+        {
+            get => (int?)_secondNumericTextBox.Value;
+            set => _secondNumericTextBox.Value = value;
+        }
+
+        private string AmPm
+        {
+            get => _ampmListTextBox.Value;
+            set => _ampmListTextBox.Value = value;
+        }
+        #endregion
+
         #region Methods
         public override void OnApplyTemplate()
         {
@@ -269,6 +313,13 @@ namespace Orc.Controls
             }
             _secondNumericTextBox.ValueChanged += OnSecondValueChanged;
 
+            _ampmListTextBox = GetTemplateChild("PART_AmPmListTextBox") as ListTextBox;
+            if (_ampmListTextBox is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_AmPmListTextBox'");
+            }
+            _ampmListTextBox.ValueChanged += OnAmPmListTextBoxValueChanged;
+
             /*Separators*/
             _daysMonthsSeparatorTextBlock = GetTemplateChild("PART_DaysMonthsSeparatorTextBlock") as TextBlock;
             if (_daysMonthsSeparatorTextBlock is null)
@@ -310,12 +361,6 @@ namespace Orc.Controls
             if (_amPmSeparatorTextBlock is null)
             {
                 throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_AmPmSeparatorTextBlock'");
-            }
-
-            _ampmListTextBox = GetTemplateChild("PART_AmPmListTextBox") as ListTextBox;
-            if (_ampmListTextBox is null)
-            {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_AmPmListTextBox'");
             }
 
             /*Toggles*/
@@ -425,8 +470,7 @@ namespace Orc.Controls
             {
                 throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_MainGrid'");
             }
-
-
+            
             _textBoxes = new List<TextBox>
             {
                 _daysNumericTextBox,
@@ -645,18 +689,54 @@ namespace Orc.Controls
             {
                 _applyingFormat = false;
             }
-
         }
 
         private void OnToggleButtonChecked(object sender, RoutedEventArgs e)
         {
-            var activeDateTimePart = (DateTimePart)((ToggleButton)sender).Tag;
+            var toggleButton = (ToggleButton)sender;
+            var activeDateTimePart = (DateTimePart)toggleButton.Tag;
 
-            var activeTextBox = (TextBox)FindName(activeDateTimePart.GetDateTimePartName());
-            var activeToggleButton = (ToggleButton)FindName(activeDateTimePart.GetDateTimePartToggleButtonName());
+            TextBox activeTextBox;
+            switch (activeDateTimePart)
+            {
+                case DateTimePart.Day:
+                    activeTextBox = _daysNumericTextBox;
+                    break;
+
+                case DateTimePart.Hour:
+                    activeTextBox = _hourNumericTextBox;
+                    break;
+
+                case DateTimePart.Month:
+                    activeTextBox = _monthNumericTextBox;
+                    break;
+
+                case DateTimePart.Year:
+                    activeTextBox = _yearNumericTextBox;
+                    break;
+
+                case DateTimePart.Hour12:
+                    activeTextBox = _hourNumericTextBox;
+                    break;
+
+                case DateTimePart.Minute:
+                    activeTextBox = _minuteNumericTextBox;
+                    break;
+
+                case DateTimePart.Second:
+                    activeTextBox = _secondNumericTextBox;
+                    break;
+
+                case DateTimePart.AmPmDesignator:
+                    activeTextBox = _ampmListTextBox;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
             var dateTime = Value ?? _todayValue;
-            var dateTimePartHelper = new DateTimePartHelper(dateTime, activeDateTimePart, _formatInfo, activeTextBox, activeToggleButton);
+            var dateTimePartHelper = new DateTimePartHelper(dateTime, activeDateTimePart, _formatInfo, activeTextBox, toggleButton);
             dateTimePartHelper.CreatePopup();
         }
 
@@ -715,38 +795,163 @@ namespace Orc.Controls
 
         private void UpdateUi()
         {
+            var value = Value;
 
+            Day = value?.Day;
+            Month = value?.Month;
+            Year = value?.Year;
+            Hour = value?.Hour;
+            Minute = value?.Minute;
+            Second = value?.Second;
+            AmPm = value != null ? value.Value >= value.Value.Date.AddHours(12) ? Meridiems.LongPM : Meridiems.LongAM : null;
         }
-
 
         private void OnDaysValueChanged(object sender, EventArgs e)
         {
+            var value = Value;
+            var day = Day;
+            if (day is null)
+            {
+                return;
+            }
 
+            if (value?.Day == day)
+            {
+                return;
+            }
+
+            var currentValue = value ?? _todayValue;
+            Value = new DateTime(currentValue.Year, currentValue.Month, day.Value, currentValue.Hour, currentValue.Minute, currentValue.Second);
         }
 
         private void OnMonthValueChanged(object sender, EventArgs e)
         {
-         
+            var value = Value;
+            var month = Month;
+            if (month is null)
+            {
+                return;
+            }
+
+            if (value?.Month == month)
+            {
+                return;
+            }
+
+            var currentValue = value ?? _todayValue;
+
+            var daysInMonth = DateTime.DaysInMonth(currentValue.Year, month.Value);
+            if (Day <= daysInMonth)
+            {
+                Value = new DateTime(currentValue.Year, month.Value, Day.Value, currentValue.Hour, currentValue.Minute, currentValue.Second);
+                return;
+            }
+
+            Day = daysInMonth;
+            Value = new DateTime(currentValue.Year, month.Value, daysInMonth, currentValue.Hour, currentValue.Minute, currentValue.Second);
         }
 
         private void OnYearValueChanged(object sender, EventArgs e)
         {
-           
+            var value = Value;
+            var year = Year;
+            if (year is null)
+            {
+                return;
+            }
+
+            if (value?.Year == year)
+            {
+                return;
+            }
+
+            var currentValue = value ?? _todayValue;
+            Value = new DateTime(year.Value, currentValue.Month, currentValue.Day, currentValue.Hour, currentValue.Minute, currentValue.Second);
         }
 
         private void OnHourValueChanged(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var value = Value;
+            var hour = Hour;
+            if (hour is null)
+            {
+                return;
+            }
+
+            if (value?.Hour == hour)
+            {
+                return;
+            }
+
+            var currentValue = value ?? _todayValue;
+            Value = new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, hour.Value, currentValue.Minute, currentValue.Second);
         }
 
         private void OnMinuteValueChanged(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var value = Value;
+            var minute = Minute;
+            if (minute is null)
+            {
+                return;
+            }
+
+            if (value?.Minute == minute)
+            {
+                return;
+            }
+
+            var currentValue = value ?? _todayValue;
+            Value = new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, currentValue.Hour, minute.Value, currentValue.Second);
         }
 
         private void OnSecondValueChanged(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var value = Value;
+            var second = Second;
+            if (second is null)
+            {
+                return;
+            }
+
+            if (value?.Second == second)
+            {
+                return;
+            }
+
+            var currentValue = value ?? _todayValue;
+            Value = new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, currentValue.Hour, currentValue.Minute, second.Value);
+        }
+
+        private void OnAmPmListTextBoxValueChanged(object sender, EventArgs e)
+        {
+            var amPm = AmPm;
+            var value = Value;
+
+            if (!Meridiems.LongAM.Equals(amPm) && !Meridiems.LongPM.Equals(amPm))
+            {
+                return;
+            }
+
+            if (value == null)
+            {
+                Value = new DateTime(_todayValue.Year, _todayValue.Month, _todayValue.Day, _todayValue.Hour, _todayValue.Minute, _todayValue.Second);
+            }
+            else
+            {
+                var currentValue = value.Value;
+                if (currentValue.Hour >= 12 && Meridiems.LongPM.Equals(amPm)
+                    || currentValue.Hour < 12 && Meridiems.LongAM.Equals(amPm))
+                {
+                    return;
+                }
+
+                var newValue = new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, currentValue.Hour, currentValue.Minute, currentValue.Second);
+                newValue = newValue.AddHours(Meridiems.LongAM.Equals(amPm) ? -12 : 12);
+
+                Value = newValue;
+            }
+
         }
 
         private void OnMonthTextChanged(object sender, TextChangedEventArgs e)
@@ -787,12 +992,20 @@ namespace Orc.Controls
 
         private void OnTextBoxLeftBoundReached(object sender, EventArgs e)
         {
+            var currentTextBoxIndex = _textBoxes.IndexOf((TextBox)sender);
+            var prevTextBox = _textBoxes[currentTextBoxIndex - 1];
 
+            prevTextBox.CaretIndex = prevTextBox.Text.Length;
+            prevTextBox.Focus();
         }
 
         private void OnTextBoxRightBoundReached(object sender, EventArgs eventArgs)
         {
+            var currentTextBoxIndex = _textBoxes.IndexOf((TextBox)sender);
+            var nextTextBox = _textBoxes[currentTextBoxIndex + 1];
 
+            nextTextBox.CaretIndex = 0;
+            nextTextBox.Focus();
         }
 
         private void SubscribeNumericTextBoxes()
