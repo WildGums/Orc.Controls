@@ -15,11 +15,9 @@ namespace Orc.Controls
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
-    using System.Windows.Forms.VisualStyles;
     using System.Windows.Input;
     using Catel.IoC;
     using Catel.Logging;
-    using Catel.MVVM.Views;
     using Catel.Services;
     using Converters;
     using Calendar = System.Windows.Controls.Calendar;

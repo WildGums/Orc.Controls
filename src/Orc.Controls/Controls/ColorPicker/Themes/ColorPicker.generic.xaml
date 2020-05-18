@@ -3,8 +3,13 @@
                     xmlns:local="clr-namespace:Orc.Controls"
                     xmlns:catel="http://schemas.catelproject.com">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <Style x:Key="{x:Type local:ColorPicker}"
-           TargetType="{x:Type local:ColorPicker}">
+           TargetType="{x:Type local:ColorPicker}"
+           BasedOn="{StaticResource Orc.Controls.Control}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
@@ -67,7 +72,7 @@
 
                                         <Path x:Name="arrow"
                                               Data="M 0 0 L 2.5 3 L 5 0 Z"
-                                              Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
+                                              Fill="{TemplateBinding Foreground}"
                                               HorizontalAlignment="Center"
                                               VerticalAlignment="Center"
                                               Stretch="None" 
@@ -96,11 +101,9 @@
         </Setter>
     </Style>
     
-    <Style TargetType="{x:Type local:ColorBoard}">
+    <Style TargetType="{x:Type local:ColorBoard}"
+           BasedOn="{StaticResource Orc.Controls.Control}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Default.Border}" />
-        <Setter Property="Background" Value="{DynamicResource Orc.Brushes.Control.Default.Background}" />
-        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Color" Value="White" />
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -131,7 +134,7 @@
 
                                     <Style x:Key="ThumbHorizontalStyle" 
                                            TargetType="{x:Type Thumb}"
-                                           BasedOn="{StaticResource {x:Type Thumb}}">
+                                           BasedOn="{StaticResource Orc.Controls.Control}">
                                         <Setter Property="IsTabStop" Value="False" />
                                         <Setter Property="Focusable" Value="False" />
                                         <Setter Property="Template">
@@ -140,7 +143,7 @@
                                                     <Grid>
                                                         <Rectangle x:Name="BackgroundGradient"
                                                                    Fill="Transparent" />
-                                                        <Path Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}" 
+                                                        <Path Fill="{TemplateBinding Foreground}" 
                                                               Data="M 0,9 L 0,4 L 5,0 L 10,4 L 10,9 Z"
                                                               VerticalAlignment="Bottom" />
                                                     </Grid>
@@ -149,7 +152,8 @@
                                         </Setter>
                                     </Style>
 
-                                    <Style x:Key="ThumbVerticalStyle" TargetType="{x:Type Thumb}">
+                                    <Style x:Key="ThumbVerticalStyle" TargetType="{x:Type Thumb}"
+                                           BasedOn="{StaticResource Orc.Controls.Control}">
                                         <Setter Property="IsTabStop" Value="False" />
                                         <Setter Property="Focusable" Value="False" />
                                         <Setter Property="Template">
@@ -159,10 +163,10 @@
                                                         <Rectangle x:Name="BackgroundGradient" 
                                                                    Fill="Transparent" />
 
-                                                        <Path Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}" 
+                                                        <Path Fill="{TemplateBinding Foreground}" 
                                                               Data="M 0,0 L 5,5 L 0,10 Z" />
 
-                                                        <Path Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
+                                                        <Path Fill="{TemplateBinding Foreground}"
                                                               Data="M 5,0 L 0,5 L 5,10 Z"
                                                               HorizontalAlignment="Right" />
                                                     </Grid>
@@ -186,17 +190,15 @@
                                                     </LinearGradientBrush>
                                                 </Rectangle.Fill>
                                             </Rectangle>
+
                                             <Rectangle x:Name="TrackRectangle"
-                                                       Grid.Column="0"
-                                                       Grid.ColumnSpan="3"
                                                        Height="10" 
                                                        Margin="5,0" 
                                                        Fill="{TemplateBinding Background}"
                                                        Stroke="{TemplateBinding BorderBrush}" 
                                                        StrokeThickness="1"/>
 
-
-                                            <Track Grid.Row="1" x:Name="PART_Track">
+                                            <Track x:Name="PART_Track">
                                                 <Track.DecreaseRepeatButton>
                                                     <RepeatButton Style="{StaticResource SliderButtonStyle}"
                                                                   Command="Slider.DecreaseLarge" />
@@ -214,10 +216,9 @@
 
                                     <ControlTemplate x:Key="VerticalSlider" TargetType="{x:Type Slider}">
                                         <Grid>
-
                                             <Rectangle Width="14" Margin="0,5" Fill="{TemplateBinding Background}" />
 
-                                            <Track Grid.Column="1" x:Name="PART_Track">
+                                            <Track x:Name="PART_Track">
                                                 <Track.DecreaseRepeatButton>
                                                     <RepeatButton Style="{StaticResource SliderButtonStyle}" Command="Slider.DecreaseLarge" />
                                                 </Track.DecreaseRepeatButton>

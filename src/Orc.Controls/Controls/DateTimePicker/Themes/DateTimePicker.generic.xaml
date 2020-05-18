@@ -1,24 +1,16 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Orc.Controls"
-                    xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:converters="clr-namespace:Orc.Controls.Converters"
                     xmlns:catel="http://schemas.catelproject.com">
 
-    <Style x:Key="DateTimePickerListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
-        <Setter Property="Padding" Value="2 2 5 2" />
-        <Style.Resources>
-            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{orctheming:ThemeColor ThemeColorStyle=AccentColor3}"/>
-        </Style.Resources>
-        <Style.Triggers>
-            <Trigger Property="ListBoxItem.IsSelected" Value="True" >
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="{x:Type controls:DateTimePicker}" TargetType="{x:Type controls:DateTimePicker}">
+    <Style x:Key="{x:Type controls:DateTimePicker}" TargetType="{x:Type controls:DateTimePicker}"
+           BasedOn="{StaticResource Orc.Controls.Control}">
         <Style.Resources>
             <converters:YearLongToYearShortConverter x:Key="YearLongToYearShortConverter" />
             <converters:Hour24ToHour12Converter x:Key="Hour24ToHour12Converter" />
@@ -96,11 +88,6 @@
             </Style>
           
         </Style.Resources>
-
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Background" Value="{DynamicResource Orc.Brushes.Control.Default.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Default.Border}"/>
-        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}"/>
 
         <Setter Property="Template">
             <Setter.Value>

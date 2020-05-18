@@ -5,7 +5,12 @@
                     xmlns:converters="clr-namespace:Orc.Controls.Converters"
                     xmlns:catel="http://schemas.catelproject.com">
 
-    <Style x:Key="{x:Type controls:DatePicker}" TargetType="{x:Type controls:DatePicker}">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{x:Type controls:DatePicker}" TargetType="{x:Type controls:DatePicker}"
+           BasedOn="{StaticResource Orc.Controls.Control}">
         <Style.Resources>
             <converters:YearLongToYearShortConverter x:Key="YearLongToYearShortConverter" />
 
@@ -66,11 +71,6 @@
                 <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
             </Style>
         </Style.Resources>
-
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Background" Value="{DynamicResource Orc.Brushes.Control.Default.Background}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Default.Border}"/>
-        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}"/>
 
         <Setter Property="Template">
             <Setter.Value>

@@ -2,10 +2,12 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Orc.Controls">
 
-    <Style x:Key="{x:Type controls:HeaderBar}" TargetType="{x:Type controls:HeaderBar}">
-        <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Border}"/>
-        <Setter Property="Background" Value="{DynamicResource Orc.Brushes.Control.Background}"/>
-        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Foreground}"/>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{x:Type controls:HeaderBar}" TargetType="{x:Type controls:HeaderBar}"
+           BasedOn="{StaticResource Orc.Controls.Control}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
