@@ -5,6 +5,10 @@
                     xmlns:catel="http://schemas.catelproject.com"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.textboxbase.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <Style x:Key="{x:Type controls:FilterBox}"
            TargetType="{x:Type controls:FilterBox}">
         <Style.Resources>
@@ -126,8 +130,6 @@
 
             <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
                 <Style.Setters>
-                    <Setter Property="SelectionBrush" Value="{DynamicResource Orc.Brushes.Control.SelectionActive.Background}"/>
-
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type TextBox}">
@@ -192,6 +194,7 @@
                                      Margin="0"
                                      Foreground="{TemplateBinding Foreground}"
                                      Padding="{TemplateBinding Padding}"
+                                     IsInactiveSelectionHighlightEnabled="True"
                                      VerticalAlignment="Center"
                                      VerticalContentAlignment="Center"
                                      Text="{Binding Path=Text, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:FilterBox}}}">

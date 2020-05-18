@@ -11,8 +11,6 @@ namespace Orc.Controls
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
-    using System.Windows.Media;
-    using Catel;
 
     /// <summary>
     /// Interaction logic for DropDownButton.xaml

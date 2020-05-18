@@ -9,7 +9,6 @@ namespace Orc.Controls
 {
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Media;
 
     public class Expander : HeaderedContentControl
     {

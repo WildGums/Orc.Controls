@@ -1,20 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Orc.Controls">
-   
-    <Style x:Key="{x:Type local:NumericTextBox}" TargetType="{x:Type local:NumericTextBox}">
-        <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Default.Border}" />
-        <Setter Property="Background" Value="{DynamicResource Orc.Brushes.Control.Default.Background}" />
-        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource Orc.Brushes.Control.SelectionActive.Background}"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Padding" Value="1"/>
-        <Setter Property="AllowDrop" Value="true"/>
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.textboxbase.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
+    <Style x:Key="{x:Type local:NumericTextBox}" 
+           TargetType="{x:Type local:NumericTextBox}"
+           BasedOn="{StaticResource Orc.Controls.TextBoxBase}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:NumericTextBox}">
@@ -37,19 +30,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Border}"/>
-            </Trigger>
-            <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Border}"/>
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}"/>
-                <Setter Property="Background" Value="{DynamicResource Orc.Brushes.Control.Disabled.Background}"/>
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

@@ -2,7 +2,12 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Orc.Controls">
 
-    <Style x:Key="{x:Type controls:WatermarkTextBox}" TargetType="{x:Type controls:WatermarkTextBox}">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.textboxbase.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{x:Type controls:WatermarkTextBox}" TargetType="{x:Type controls:WatermarkTextBox}"
+           BasedOn="{StaticResource Orc.Controls.TextBoxBase}">
         <Style.Resources>
             <DataTemplate x:Key="DefaultWatermarkTemplate">
                 <ContentControl Content="{Binding}"
@@ -11,15 +16,6 @@
             </DataTemplate>
         </Style.Resources>
 
-        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Foreground}" />
-        <Setter Property="Background" Value="{DynamicResource Orc.Brushes.Control.Background}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Border}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Padding" Value="3" />
-        <Setter Property="AllowDrop" Value="true" />
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <!--<Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />-->
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
         <Setter Property="WatermarkTemplate" Value="{StaticResource DefaultWatermarkTemplate}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -52,17 +48,6 @@
                                 <Setter TargetName="PART_WatermarkHost" Property="Visibility" Value="Visible" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Border}" />
-                        </Trigger>
-                        <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Background}"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Disabled.Border}" />
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Orc.Brushes.Control.Disabled.Background}" />
-                            <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}" />
-                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
