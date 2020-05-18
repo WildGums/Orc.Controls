@@ -81,7 +81,7 @@
                 </Setter>
             </Style>
 
-            <Style TargetType="{x:Type Button}">
+            <!--<Style TargetType="{x:Type Button}">
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ButtonBase}">
@@ -126,44 +126,8 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-            </Style>
-
-            <!--<Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
-                <Style.Setters>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type TextBox}">
-                                <Grid>
-                                    <ScrollViewer x:Name="PART_ContentHost" 
-                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-
-                                    <TextBlock x:Name="PART_Watermark"
-                                               Margin="{TemplateBinding Padding}"
-                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                               Text="{Binding Path=Watermark, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:FilterBox}}}"
-                                               IsHitTestVisible="False"
-                                               Visibility="Collapsed"
-                                               Focusable="False" 
-                                               Foreground="Gray" />
-                                </Grid>
-
-                                <ControlTemplate.Triggers>
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="IsFocused" Value="False" />
-                                            <Condition Property="Text" Value="" />
-                                        </MultiTrigger.Conditions>
-                                        <MultiTrigger.Setters>
-                                            <Setter TargetName="PART_Watermark" Property="Visibility" Value="Visible" />
-                                        </MultiTrigger.Setters>
-                                    </MultiTrigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style.Setters>
             </Style>-->
+
         </Style.Resources>
 
         <Setter Property="Template">
@@ -199,11 +163,23 @@
                                           TextElement.Foreground="{TemplateBinding Foreground}"/>
 
                             <Button x:Name="PART_ClearButton"
+                                    BorderThickness="0"
+                                    Margin="0"
                                     Foreground="{TemplateBinding Foreground}"
                                     Grid.Column="1"
                                     Width="18"
                                     DockPanel.Dock="Right"
-                                    Visibility="{Binding Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Self}}"/>
+                                    Visibility="{Binding Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Self}}">
+                                
+                                <Path x:Name="Path"
+                                      Data="M0,1.05 L1.05,0 8.33,7.26 15.55,0.0 16.6,1.0 9.3,8.3 16.6,15.55 15.55,16.6 8.3,9.3 1,16.6 0,15.6 7.3,8.3 z" 
+                                      Fill="{TemplateBinding Foreground}" 
+                                      Margin="4"
+                                      Stretch="Uniform"
+                                      HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center"/>
+
+                            </Button>
                         </Grid>
                     </Border>
 
