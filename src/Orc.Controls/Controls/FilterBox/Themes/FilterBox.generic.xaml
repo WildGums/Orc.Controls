@@ -164,6 +164,7 @@
                             <Button x:Name="PART_ClearButton"
                                     BorderThickness="0"
                                     Margin="0"
+                                    Height="NaN"
                                     Foreground="{TemplateBinding Foreground}"
                                     Grid.Column="1"
                                     Width="18"
