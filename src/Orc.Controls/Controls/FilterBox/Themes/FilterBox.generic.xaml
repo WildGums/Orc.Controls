@@ -145,7 +145,6 @@
                             </Grid.ColumnDefinitions>
 
                             <ContentPresenter x:Name="PART_WatermarkHost"
-                                              Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Content="{TemplateBinding Watermark}"
