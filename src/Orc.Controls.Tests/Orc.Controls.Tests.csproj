@@ -29,7 +29,7 @@
     </PackageReference>
     <PackageReference Include="Obsolete.Fody" Version="5.2.1" PrivateAssets="all" />
     <PackageReference Include="PublicApiGenerator" Version="10.0.2" PrivateAssets="all" />    
-    <PackageReference Include="WpfAnalyzers" Version="2.4.5" PrivateAssets="all">
+    <PackageReference Include="WpfAnalyzers" Version="3.1.0" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
