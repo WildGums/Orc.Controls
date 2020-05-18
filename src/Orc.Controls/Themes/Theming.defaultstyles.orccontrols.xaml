@@ -116,6 +116,9 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="DefaultExpanderStyle" TargetType="{x:Type orccontrols:Expander}" 
+           BasedOn="{StaticResource {x:Type orccontrols:Expander}}"/>
+
     <Style x:Key="DefaultTimeSpanPickerStyle" 
            TargetType="{x:Type orccontrols:TimeSpanPicker}" 
            BasedOn="{StaticResource {x:Type orccontrols:TimeSpanPicker}}">

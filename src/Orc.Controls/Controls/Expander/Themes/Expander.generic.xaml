@@ -3,10 +3,488 @@
                     xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
                     xmlns:controls="clr-namespace:Orc.Controls">
 
-    <Geometry x:Key="PinnedGeometry">M271.481,217.02L496.519,217.02C498.998,233.046 480.395,252.6 456.338,257.019L461.359,337.306C499.288,346.952 513.621,378.883 511.94,397.774L401.232,397.356L400.802,493.955L384,550.98L367.198,493.953L366.768,397.356L256.06,397.774C254.379,378.883 268.712,346.952 306.641,337.306L311.662,257.019C287.605,252.6 269.002,233.046 271.481,217.02Z</Geometry>
+    <Geometry x:Key="ExpanderCheckedArrow">M 1,4.5  L 4.5,1  L 8,4.5</Geometry>
+    <Geometry x:Key="ExpanderNormalArrow">M 1,1.5 L 4.5,5 L 8,1.5</Geometry>
+    <Geometry x:Key="ExpanderToggleButtonArrow">M5,-0 L9,5 1,5 z</Geometry>
+
+    <Geometry x:Key="ScrollArrow">M-0,6 L-0,8 8,8 8,-0 6,-0 6,6 z</Geometry>
+
+    <SolidColorBrush x:Key="Expander.Background" Color="White"/>
+    <SolidColorBrush x:Key="Expander.Disabled.Arrow.Stroke" Color="DarkGray"/>
+    <SolidColorBrush x:Key="Expander.Static.Arrow.Stroke" Color="Black"/>
+    <SolidColorBrush x:Key="ListViewDisabledForegroundBrush" Color="DarkGray" />
+    <SolidColorBrush x:Key="GridViewColumnHeaderBackground" Color="#F4F4F4" />
+
+    <Style x:Key="ExpanderLeftHeaderStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Padding="{TemplateBinding Padding}">
+                        <Grid Background="Transparent" SnapsToDevicePixels="False">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid>
+                                <Grid.LayoutTransform>
+                                    <TransformGroup>
+                                        <TransformGroup.Children>
+                                            <TransformCollection>
+                                                <RotateTransform Angle="90"/>
+                                            </TransformCollection>
+                                        </TransformGroup.Children>
+                                    </TransformGroup>
+                                </Grid.LayoutTransform>
+                                <Path x:Name="arrow" Data="{StaticResource ExpanderNormalArrow}" HorizontalAlignment="Center"
+                                      SnapsToDevicePixels="false" Stroke="{StaticResource Expander.Static.Arrow.Stroke}"
+                                      StrokeThickness="2" VerticalAlignment="Center"/>
+                            </Grid>
+                            <ContentPresenter HorizontalAlignment="Center" Margin="0" Grid.Column="1" RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="True" VerticalAlignment="Top"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="Data" TargetName="arrow" Value="{StaticResource ExpanderCheckedArrow}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Stroke" TargetName="arrow" Value="{DynamicResource Orc.Brushes.AccentColorBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Stroke" TargetName="arrow" Value="{StaticResource Expander.Disabled.Arrow.Stroke}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ExpanderRightHeaderStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Padding="{TemplateBinding Padding}">
+                        <Grid Background="Transparent" SnapsToDevicePixels="False">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid>
+                                <Grid.LayoutTransform>
+                                    <TransformGroup>
+                                        <TransformGroup.Children>
+                                            <TransformCollection>
+                                                <RotateTransform Angle="-90"/>
+                                            </TransformCollection>
+                                        </TransformGroup.Children>
+                                    </TransformGroup>
+                                </Grid.LayoutTransform>
+                                <Path x:Name="arrow" Data="{StaticResource ExpanderNormalArrow}" HorizontalAlignment="Center"
+                                      SnapsToDevicePixels="false" Stroke="{StaticResource Expander.Static.Arrow.Stroke}"
+                                      StrokeThickness="2" VerticalAlignment="Center"/>
+
+                            </Grid>
+                            <ContentPresenter HorizontalAlignment="Center" Margin="0" Grid.Column="1" RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="True" VerticalAlignment="Top"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="Data" TargetName="arrow" Value="{StaticResource ExpanderCheckedArrow}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Stroke" TargetName="arrow" Value="{DynamicResource Orc.Brushes.AccentColorBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Stroke" TargetName="arrow" Value="{StaticResource Expander.Disabled.Arrow.Stroke}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ExpanderUpHeaderStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Padding="{TemplateBinding Padding}">
+                        <Grid Background="Transparent" 
+                              SnapsToDevicePixels="False">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid>
+                                <Grid.LayoutTransform>
+                                    <TransformGroup>
+                                        <TransformGroup.Children>
+                                            <TransformCollection>
+                                                <RotateTransform Angle="180"/>
+                                            </TransformCollection>
+                                        </TransformGroup.Children>
+                                    </TransformGroup>
+                                </Grid.LayoutTransform>
+                                <Path x:Name="arrow" Data="{StaticResource ExpanderNormalArrow}" HorizontalAlignment="Center"
+                                      SnapsToDevicePixels="false" Stroke="{StaticResource Expander.Static.Arrow.Stroke}"
+                                      StrokeThickness="2" VerticalAlignment="Center"/>
+
+                            </Grid>
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                              Margin="0"
+                                              Grid.Column="1"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="True"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="Data" TargetName="arrow" Value="{StaticResource ExpanderCheckedArrow}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Stroke" TargetName="arrow" Value="{DynamicResource Orc.Brushes.AccentColorBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Stroke" TargetName="arrow" Value="{StaticResource Expander.Disabled.Arrow.Stroke}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ExpanderDownHeaderStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Padding="{TemplateBinding Padding}">
+                        <Grid Background="Transparent" SnapsToDevicePixels="False">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Path x:Name="arrow" Data="{StaticResource ExpanderNormalArrow}" HorizontalAlignment="Center"
+                                      SnapsToDevicePixels="false" Stroke="{StaticResource Expander.Static.Arrow.Stroke}"
+                                      StrokeThickness="2" VerticalAlignment="Center"/>
+
+                            <ContentPresenter HorizontalAlignment="Left" 
+                                              Margin="0" 
+                                              Grid.Column="1"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="True" 
+                                              VerticalAlignment="Top"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="Data" TargetName="arrow" Value="{StaticResource ExpanderCheckedArrow}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Stroke" TargetName="arrow" Value="{DynamicResource Orc.Brushes.AccentColorBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Stroke" TargetName="arrow" Value="{StaticResource Expander.Disabled.Arrow.Stroke}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ExpanderHeaderFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border>
+                        <Rectangle Margin="0" SnapsToDevicePixels="true" Stroke="Black" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Storyboard x:Key="ScaleYUp">
+        <DoubleAnimation From="0" To="1" 
+                         Duration="0:0:0.25" 
+                         Storyboard.TargetName="PART_ExpandSite"
+                         Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleY)" />
+    </Storyboard>
+
+    <Storyboard x:Key="ScaleYDown">
+        <DoubleAnimation From="1" To="0" Duration="0:0:0.25" Storyboard.TargetName="PART_ExpandSite"
+                         Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleY)" />
+    </Storyboard>
+
+    <Storyboard x:Key="ScaleXUp">
+        <DoubleAnimation From="0" To="1" Duration="0:0:0.25" Storyboard.TargetName="PART_ExpandSite"
+                         Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleX)" />
+    </Storyboard>
+
+    <Storyboard x:Key="ScaleXDown">
+        <DoubleAnimation From="1" To="0" Duration="0:0:0.25" Storyboard.TargetName="PART_ExpandSite"
+                         Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleX)" />
+    </Storyboard>
+
+    <Style x:Key="{x:Type controls:Expander}" TargetType="{x:Type controls:Expander}">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Background" Value="{StaticResource Expander.Background}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:Expander}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" 
+						    BorderThickness="{TemplateBinding BorderThickness}" 
+						    Background="{TemplateBinding Background}" 
+						    SnapsToDevicePixels="true">
+
+                        <!--<VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="Expander">
+                                <VisualState Name="Collapsed" >
+                                    <Storyboard>
+                                        <DoubleAnimation To="0"
+                                                         Duration="{TemplateBinding ExpandDuration}"
+                                                         Storyboard.TargetName="PART_ExpandSite"
+                                                         Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleX)" />
+                                    </Storyboard>
+                                </VisualState>
+
+                                <VisualState Name="Expanded">
+                                    <Storyboard>
+                                        <DoubleAnimation To="1" 
+                                                         Duration="{TemplateBinding ExpandDuration}"
+                                                         Storyboard.TargetName="PART_ExpandSite"
+                                                         Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleX)" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>-->
+
+                        <DockPanel>
+                            <Border x:Name="PART_HeaderSiteBorder"
+                                    Background="WhiteSmoke" 
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <ToggleButton x:Name="HeaderSite"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}" 
+								              ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" 
+								              Content="{TemplateBinding Header}" 
+								              Foreground="{TemplateBinding Foreground}" 
+								              FontWeight="{TemplateBinding FontWeight}" 
+								              FocusVisualStyle="{StaticResource ExpanderHeaderFocusVisual}" 
+								              FontStyle="{TemplateBinding FontStyle}" 
+								              FontStretch="{TemplateBinding FontStretch}" 
+								              FontSize="{TemplateBinding FontSize}" 
+								              FontFamily="{TemplateBinding FontFamily}" 
+								              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+								              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+								              Padding="{TemplateBinding Padding}" 								            
+								              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+
+                            <ContentPresenter x:Name="PART_ExpandSite"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}" 
+                                              Focusable="false">
+                                <ContentPresenter.LayoutTransform>
+                                    <ScaleTransform x:Name="scaleTransform" ScaleX="1" ScaleY="1" />
+                                </ContentPresenter.LayoutTransform>
+                            </ContentPresenter>
+                        </DockPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!--<MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsExpanded" Value="True" />
+                                <Condition Property="ExpandDirection" Value="Up" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource ScaleYUp}" />
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource ScaleYDown}" />
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsExpanded" Value="False" />
+                                <Condition Property="ExpandDirection" Value="Up" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource ScaleYDown}" />
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource ScaleYUp}" />
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsExpanded" Value="True" />
+                                <Condition Property="ExpandDirection" Value="Down" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource ScaleYUp}" />
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource ScaleYDown}" />
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsExpanded" Value="True" />
+                                <Condition Property="ExpandDirection" Value="Left" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource ScaleXUp}" />
+                            </MultiTrigger.EnterActions>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsExpanded" Value="False" />
+                                <Condition Property="ExpandDirection" Value="Left" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource ScaleXDown}" />
+                            </MultiTrigger.EnterActions>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsExpanded" Value="True" />
+                                <Condition Property="ExpandDirection" Value="Right" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource ScaleXUp}" />
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource ScaleXDown}" />
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>-->
+
+                        <Trigger Property="ExpandDirection" Value="Down">
+                            <Setter Property="DockPanel.Dock" TargetName="PART_ExpandSite" Value="Top" />
+                            <Setter Property="DockPanel.Dock" TargetName="PART_HeaderSiteBorder" Value="Bottom" />
+                            <Setter Property="Style" TargetName="HeaderSite" Value="{DynamicResource ExpanderDownHeaderStyle}" />
+                        </Trigger>
+
+                        <Trigger Property="ExpandDirection" Value="Up">
+                            <Setter Property="DockPanel.Dock" TargetName="PART_ExpandSite" Value="Bottom" />
+                            <Setter Property="DockPanel.Dock" TargetName="PART_HeaderSiteBorder" Value="Top" />
+                            <Setter Property="Style" TargetName="HeaderSite" Value="{DynamicResource ExpanderUpHeaderStyle}" />
+                        </Trigger>
+
+                        <Trigger Property="ExpandDirection" Value="Right">
+                            <Setter Property="DockPanel.Dock" TargetName="PART_ExpandSite" Value="Left" />
+                            <Setter Property="DockPanel.Dock" TargetName="PART_HeaderSiteBorder" Value="Right" />
+                            <Setter Property="Style" TargetName="HeaderSite" Value="{DynamicResource ExpanderRightHeaderStyle}" />
+                        </Trigger>
+
+                        <Trigger Property="ExpandDirection" Value="Left">
+                            <Setter Property="DockPanel.Dock" TargetName="PART_ExpandSite" Value="Right" />
+                            <Setter Property="DockPanel.Dock" TargetName="PART_HeaderSiteBorder" Value="Left" />
+                            <Setter Property="Style" TargetName="HeaderSite" Value="{DynamicResource ExpanderLeftHeaderStyle}" />
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Visibility" TargetName="PART_ExpandSite" Value="Hidden"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ExpanderToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Padding="{TemplateBinding Padding}">
+                        <Grid Background="Transparent" SnapsToDevicePixels="False">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Path x:Name="arrow"
+								            Grid.ColumnSpan="2" 
+								            HorizontalAlignment="Left" 
+								            Fill="{StaticResource Expander.Static.Arrow.Stroke}" 
+								            Stroke="{StaticResource Expander.Static.Arrow.Stroke}" 
+								            StrokeThickness="1" 
+								            VerticalAlignment="Top" 
+								            Data="{StaticResource ExpanderToggleButtonArrow}" 
+								            Height="4.5" 
+								            Stretch="Fill" 
+								            Width="8" 
+								            RenderTransformOrigin="0.5,0.5" 
+								            Margin="2,0,0,0">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="135"/>
+                                        <TranslateTransform X="0.18" Y="0.43"/>
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                            <ContentPresenter Grid.Column="1" 
+								                        HorizontalAlignment="Left" 
+								                        RecognizesAccessKey="True" 
+								                        SnapsToDevicePixels="True" 
+								                        VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="false">
+                            <Setter Property="Margin" TargetName="arrow" Value="-1,5,0,0"/>
+                            <Setter Property="RenderTransform" TargetName="arrow">
+                                <Setter.Value>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="90"/>
+                                        <TranslateTransform X="0.18" Y="0.43"/>
+                                    </TransformGroup>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Fill" TargetName="arrow" Value="Transparent"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="true"/>
+                                <Condition Property="IsChecked" Value="true"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Fill" TargetName="arrow" Value="{DynamicResource Orc.Brushes.AccentColorBrush}"/>
+                            <Setter Property="Stroke" TargetName="arrow" Value="{DynamicResource Orc.Brushes.AccentColorBrush}"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="true"/>
+                                <Condition Property="IsChecked" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Fill" TargetName="arrow" Value="Transparent"/>
+                            <Setter Property="Stroke" TargetName="arrow" Value="{DynamicResource Orc.Brushes.AccentColorBrush}"/>
+                        </MultiTrigger>
+                        <Trigger Property="IsEnabled" Value="false"/>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--<Geometry x:Key="PinnedGeometry">M271.481,217.02L496.519,217.02C498.998,233.046 480.395,252.6 456.338,257.019L461.359,337.306C499.288,346.952 513.621,378.883 511.94,397.774L401.232,397.356L400.802,493.955L384,550.98L367.198,493.953L366.768,397.356L256.06,397.774C254.379,378.883 268.712,346.952 306.641,337.306L311.662,257.019C287.605,252.6 269.002,233.046 271.481,217.02Z</Geometry>
     <Geometry x:Key="UnpinnedGeometry">M550.98,271.481L550.98,496.519C534.954,498.998 515.4,480.395 510.981,456.338L430.694,461.359C421.048,499.288 389.117,513.621 370.226,511.94L370.644,401.232L274.045,400.802L217.02,384L274.047,367.198L370.644,366.768L370.226,256.06C389.117,254.379 421.048,268.712 430.694,306.641L510.981,311.662C515.4,287.605 534.954,269.002 550.98,271.481Z</Geometry>
 
-    <!-- Dummy base style -->
+    --><!-- Dummy base style --><!--
     <Style x:Key="{x:Type controls:Expander}"
            TargetType="{x:Type controls:Expander}"/>
 
@@ -125,5 +603,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
 </ResourceDictionary>

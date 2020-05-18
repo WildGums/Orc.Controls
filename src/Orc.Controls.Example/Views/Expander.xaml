@@ -3,8 +3,128 @@
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
                    xmlns:catel="http://schemas.catelproject.com">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-    <orccontrols:Expander Style="{DynamicResource ExpandLeftStyle}" Header="Expander" ExpandDirection="Down">
-        <TextBlock Text="Expander" VerticalAlignment="Center"/>
-    </orccontrols:Expander>
+        <orccontrols:Expander Grid.Column="0"
+                              AutoResizeGrid="True"
+                              VerticalAlignment="Stretch"
+                              ExpandDirection ="Right"
+                              HorizontalAlignment="Stretch">
+
+            <orccontrols:Expander.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <orccontrols:Expander Grid.Row="0"
+                                          AutoResizeGrid="True"
+                                          VerticalAlignment="Stretch"
+                                          ExpandDirection ="Down"
+                                          HorizontalAlignment="Stretch">
+                        <orccontrols:Expander.Header>
+                            <orccontrols:StackGrid HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Content="Bottom color attribute:" />
+
+                                <ComboBox HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                            </orccontrols:StackGrid>
+                        </orccontrols:Expander.Header>
+
+                        <orccontrols:Expander.Content>
+                            <orccontrols:ColorLegend/>
+                        </orccontrols:Expander.Content>
+                    </orccontrols:Expander>
+
+                    <GridSplitter Grid.Row="1"
+                                  MinHeight="2"
+                                  ResizeDirection="Rows"
+                                  Width="Auto"
+                                  Height="2"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Stretch"
+                                  Background="#D3D3D3"/>
+
+                    <orccontrols:ColorLegend Grid.Row="2"/>
+                </Grid>
+            </orccontrols:Expander.Content>
+
+        </orccontrols:Expander>
+
+        <GridSplitter Grid.Column="1"
+                      MinWidth="2"
+                      ResizeDirection="Columns"
+                      Height="Auto"
+                      Width="2"
+                      VerticalAlignment="Stretch"
+                      HorizontalAlignment="Center"
+                      Background="#D3D3D3"/>
+
+        <orccontrols:Expander Grid.Column="2"
+                              AutoResizeGrid="True"
+                              VerticalAlignment="Stretch"
+                              ExpandDirection ="Left"
+                              HorizontalAlignment="Stretch">
+
+            <orccontrols:Expander.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <orccontrols:ColorLegend/>
+
+                    <GridSplitter Grid.Row="1"
+                                  MinHeight="2"
+                                  ResizeDirection="Rows"
+                                  Width="Auto"
+                                  Height="2"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Stretch"
+                                  Background="#D3D3D3"/>
+
+                    <orccontrols:Expander Grid.Row="2"
+                                          AutoResizeGrid="True"
+                                          VerticalAlignment="Stretch"
+                                          ExpandDirection ="Up"
+                                          HorizontalAlignment="Stretch">
+                        <orccontrols:Expander.Header>
+                            <orccontrols:StackGrid HorizontalAlignment="Stretch"
+                                     VerticalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Content="Bottom color attribute:" />
+
+                                <ComboBox HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                            </orccontrols:StackGrid>
+                        </orccontrols:Expander.Header>
+
+                        <orccontrols:Expander.Content>
+                            <orccontrols:ColorLegend />
+                        </orccontrols:Expander.Content>
+                    </orccontrols:Expander>
+                </Grid>
+            </orccontrols:Expander.Content>
+
+        </orccontrols:Expander>
+        
+    </Grid>
+    
 </catel:UserControl>
