@@ -9,7 +9,9 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Windows;
+    using System.Windows.Interactivity;
     using Catel;
     using Catel.IoC;
     using Tools;
@@ -28,6 +30,41 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
+        public static TBehavior AttachBehavior<TBehavior>(this FrameworkElement frameworkElement)
+            where TBehavior : System.Windows.Interactivity.Behavior
+        {
+            Argument.IsNotNull(() => frameworkElement);
+
+            var behaviors = Interaction.GetBehaviors(frameworkElement);
+
+            var existingBehaviorOfType = behaviors.OfType<TBehavior>().FirstOrDefault();
+            if (existingBehaviorOfType != null)
+            {
+                return existingBehaviorOfType;
+            }
+
+            var behavior = frameworkElement.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TBehavior>();
+            behaviors.Add(behavior);
+
+            return behavior;
+        }
+
+        public static void DetachBehavior<TBehavior>(this FrameworkElement frameworkElement)
+            where TBehavior : System.Windows.Interactivity.Behavior
+        {
+            Argument.IsNotNull(() => frameworkElement);
+
+            var behaviors = Interaction.GetBehaviors(frameworkElement);
+
+            var detachingBehavior = behaviors.OfType<TBehavior>().FirstOrDefault();
+            if (detachingBehavior == null)
+            {
+                return;
+            }
+
+            behaviors.Remove(detachingBehavior);
+        }
+
         public static IControlToolManager GetControlToolManager(this FrameworkElement frameworkElement)
         {
             Argument.IsNotNull(() => frameworkElement);

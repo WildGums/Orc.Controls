@@ -18,16 +18,16 @@ namespace Orc.Controls
     using Catel.MVVM;
     using Catel.Windows.Interactivity;
 
-    [TemplatePart(Name = "PART_FilterTextBox", Type = typeof(TextBox))]
+   // [TemplatePart(Name = "PART_FilterTextBox", Type = typeof(TextBox))]
     [TemplatePart(Name = "PART_ClearButton", Type = typeof(Button))]
-    public class FilterBox : ContentControl
+    public class FilterBox : TextBox
     {
         #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private readonly Command _clearFilter;
         private Button _clearButton;
-        private TextBox _filterTextBox;
+        private AutoCompletion _autoCompletion;
         #endregion
 
         #region Constructors
@@ -45,7 +45,8 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty AllowAutoCompletionProperty = DependencyProperty.Register(
-            nameof(AllowAutoCompletion), typeof(bool), typeof(FilterBox), new PropertyMetadata(true));
+            nameof(AllowAutoCompletion), typeof(bool), typeof(FilterBox), 
+            new PropertyMetadata(true, (sender, args) => ((FilterBox)sender).OnAllowAutoCompletionChanged(args)));
 
         public IEnumerable FilterSource
         {
@@ -54,7 +55,8 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty FilterSourceProperty = DependencyProperty.Register(nameof(FilterSource), typeof(IEnumerable),
-            typeof(FilterBox), new FrameworkPropertyMetadata(null));
+            typeof(FilterBox), new FrameworkPropertyMetadata(null,
+                (sender, args) => ((FilterBox)sender).OnFilterSourceChanged(args)));
 
         public string PropertyName
         {
@@ -63,17 +65,8 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.Register(nameof(PropertyName), typeof(string),
-            typeof(FilterBox), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-        public string Text
-        {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
-        }
-
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(FilterBox),
-            new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((FilterBox)sender).OnTextChanged()));
-
+            typeof(FilterBox), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault
+                , (sender, args) => ((FilterBox)sender).OnPropertyNameChanged(args)));
 
         public string Watermark
         {
@@ -86,13 +79,6 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-        protected override void OnGotFocus(RoutedEventArgs e)
-        {
-            base.OnGotFocus(e);
-
-            _filterTextBox?.Focus();
-        }
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -102,32 +88,38 @@ namespace Orc.Controls
             _clearButton = (Button)GetTemplateChild("PART_ClearButton");
             _clearButton?.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, _clearFilter);
 
-            _filterTextBox = GetTemplateChild("PART_FilterTextBox") as TextBox;
-            if (_filterTextBox is null)
-            {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_FilterTextBox'");
-            }
+            this.AttachBehavior<UpdateBindingOnTextChanged>();
+            this.AttachBehavior<SelectTextOnFocus>();
+
+            _autoCompletion = this.AttachBehavior<AutoCompletion>();
+            UpdateAutoCompletion();
 
             var serviceEventArg = new InitializingAutoCompletionServiceEventArgs();
             OnInitializingAutoCompletionService(serviceEventArg);
             var autoCompletionService = serviceEventArg.AutoCompletionService;
-
             if (autoCompletionService == null)
             {
                 return;
             }
+            
+            //Hack
+            var autoCompletionServiceFieldInfo = _autoCompletion.GetType().GetField("_autoCompletionService", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (autoCompletionServiceFieldInfo != null)
+            {
+                autoCompletionServiceFieldInfo.SetValue(_autoCompletion, autoCompletionService);
+            }
+        }
 
-            var autoCompletion = Interaction.GetBehaviors(_filterTextBox).OfType<AutoCompletion>().FirstOrDefault();
-            if (autoCompletion == null)
+        private void UpdateAutoCompletion()
+        {
+            if (_autoCompletion is null)
             {
                 return;
             }
 
-            var autoCompletionServiceFieldInfo = autoCompletion.GetType().GetField("_autoCompletionService", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (autoCompletionServiceFieldInfo != null)
-            {
-                autoCompletionServiceFieldInfo.SetValue(autoCompletion, autoCompletionService);
-            }
+            _autoCompletion.PropertyName = PropertyName;
+            _autoCompletion.ItemsSource = FilterSource;
+            _autoCompletion.UseAutoCompletionService = AllowAutoCompletion;
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -165,14 +157,30 @@ namespace Orc.Controls
             return !string.IsNullOrWhiteSpace(Text);
         }
 
-        private void OnTextChanged()
+        protected override void OnTextChanged(TextChangedEventArgs e)
         {
             _clearFilter.RaiseCanExecuteChanged();
+
+            base.OnTextChanged(e);
         }
 
         protected virtual void OnInitializingAutoCompletionService(InitializingAutoCompletionServiceEventArgs e)
         {
             InitializingAutoCompletionService?.Invoke(this, e);
+        }
+
+        private void OnAllowAutoCompletionChanged(DependencyPropertyChangedEventArgs args)
+        {
+            UpdateAutoCompletion();
+        }
+
+        private void OnFilterSourceChanged(DependencyPropertyChangedEventArgs args)
+        {
+            UpdateAutoCompletion();
+        }
+        private void OnPropertyNameChanged(DependencyPropertyChangedEventArgs args)
+        {
+            UpdateAutoCompletion();
         }
         #endregion
 
