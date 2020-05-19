@@ -276,7 +276,7 @@
 
     <Style x:Key="DefaultRangeSliderStyle" 
            TargetType="{x:Type orccontrols:RangeSlider}" 
-           BasedOn="{StaticResource {x:Type orccontrols:RangeSlider}}">
+           BasedOn="{StaticResource Orc.Styles.RangeSlider}">
 
         <Setter Property="Margin" Value="{DynamicResource Margin.Default}" />
     </Style>
