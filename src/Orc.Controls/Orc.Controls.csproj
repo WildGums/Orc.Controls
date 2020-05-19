@@ -25,7 +25,7 @@
   <ItemGroup>
     <PackageReference Include="Catel.Analyzers" Version="1.0.0" PrivateAssets="all" />
     <PackageReference Include="Catel.Fody" Version="4.4.2" PrivateAssets="all" />
-    <PackageReference Include="Catel.MVVM" Version="5.12.5" />
+    <PackageReference Include="Catel.MVVM" Version="5.12.6-beta0005" />
     <PackageReference Include="Costura.Fody" Version="4.1.0" PrivateAssets="all" />
     <PackageReference Include="Fody" Version="6.1.1" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -38,7 +38,7 @@
     <PackageReference Include="ModuleInit.Fody" Version="2.1.0" PrivateAssets="all" />
     <PackageReference Include="Obsolete.Fody" Version="5.2.1" PrivateAssets="all" />
     <PackageReference Include="Orc.FileSystem" Version="3.2.0" />
-    <PackageReference Include="Orc.Theming" Version="4.0.0-alpha0119" />
+    <PackageReference Include="Orc.Theming" Version="4.0.0-alpha0121" />
   </ItemGroup>
 
   <!-- Theming -->
