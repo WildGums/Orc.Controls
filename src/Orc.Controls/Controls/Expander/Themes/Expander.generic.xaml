@@ -129,11 +129,7 @@
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Margin="{TemplateBinding Padding}" 
-                                              Focusable="false">
-                                <ContentPresenter.LayoutTransform>
-                                    <ScaleTransform x:Name="scaleTransform" ScaleX="1" ScaleY="1" />
-                                </ContentPresenter.LayoutTransform>
-                            </ContentPresenter>
+                                              Focusable="false"/>
                         </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>
