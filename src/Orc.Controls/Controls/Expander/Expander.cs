@@ -228,6 +228,8 @@ namespace Orc.Controls
         {
             if (!AutoResizeGrid)
             {
+                _expandSite.Visibility = Visibility.Collapsed;
+
                 return;
             }
 
@@ -280,6 +282,8 @@ namespace Orc.Controls
         {
             if (!AutoResizeGrid)
             {
+                _expandSite.Visibility = Visibility.Visible;
+
                 return;
             }
 
