@@ -671,14 +671,10 @@ namespace Orc.Controls
         public static void AttachAndOpenTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType, object parameter = null) { }
         public static void AttachAndOpenTool<T>(this System.Windows.FrameworkElement frameworkElement, object parameter = null)
             where T :  class, Orc.Controls.IControlTool { }
-        public static TBehavior AttachBehavior<TBehavior>(this System.Windows.FrameworkElement frameworkElement)
-            where TBehavior : System.Windows.Interactivity.Behavior { }
         public static object AttachTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
         public static T AttachTool<T>(this System.Windows.FrameworkElement frameworkElement)
             where T :  class, Orc.Controls.IControlTool { }
         public static bool CanAttach(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
-        public static void DetachBehavior<TBehavior>(this System.Windows.FrameworkElement frameworkElement)
-            where TBehavior : System.Windows.Interactivity.Behavior { }
         public static bool DetachTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
         public static Orc.Controls.Tools.IControlToolManager GetControlToolManager(this System.Windows.FrameworkElement frameworkElement) { }
         public static System.Collections.Generic.IList<Orc.Controls.IControlTool> GetTools(this System.Windows.FrameworkElement frameworkElement) { }

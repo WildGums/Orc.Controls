@@ -5,7 +5,7 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:catel="http://schemas.catelproject.com"
                    xmlns:controls="clr-namespace:Orc.Controls"
-                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                   xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
                    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
 
     <UserControl.Resources>
@@ -63,11 +63,11 @@
                                     Watermark="{catel:LanguageBinding Controls_ValidationContextControl_Filter}"
                                     Visibility="{Binding ShowFilterBox, Converter={catel:BooleanToCollapsingVisibilityConverter}}"
                                     Text="{Binding Filter}">
-                    <i:Interaction.Behaviors>
+                    <behaviors:Interaction.Behaviors>
                         <catel:FocusOnKeyPress Key="F"
                                                Modifiers="Ctrl"
                                                IsEnabled="{Binding ShowFilterBox}" />
-                    </i:Interaction.Behaviors>
+                    </behaviors:Interaction.Behaviors>
                 </controls:FilterBox>
             </StackPanel>
         </DockPanel>

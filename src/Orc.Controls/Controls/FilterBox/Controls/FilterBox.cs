@@ -13,10 +13,10 @@ namespace Orc.Controls
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
-    using System.Windows.Interactivity;
     using Catel.Logging;
     using Catel.MVVM;
     using Catel.Windows.Interactivity;
+    using Orc.Theming;
 
    // [TemplatePart(Name = "PART_FilterTextBox", Type = typeof(TextBox))]
     [TemplatePart(Name = "PART_ClearButton", Type = typeof(Button))]
