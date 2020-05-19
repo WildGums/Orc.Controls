@@ -26,6 +26,7 @@
 
                     <orccontrols:Expander Grid.Row="0"
                                           AutoResizeGrid="True"
+                                          ExpandDuration="{Binding ElementName=SetupDurationNumericTextBox, Path=Value}"
                                           VerticalAlignment="Stretch"
                                           ExpandDirection ="Down"
                                           HorizontalAlignment="Stretch">
@@ -37,9 +38,15 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Label Content="Bottom color attribute:" />
+                                <Label Content="Setup duration:" />
 
-                                <ComboBox HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                                <orccontrols:NumericTextBox x:Name="SetupDurationNumericTextBox"
+                                                            HorizontalAlignment="Stretch" 
+                                                            VerticalAlignment="Center"
+                                                            Format="0"
+                                                            Value="1000"
+                                                            MaxValue="10000"
+                                                            MinValue="0"/>
                             </orccontrols:StackGrid>
                         </orccontrols:Expander.Header>
 
@@ -73,6 +80,7 @@
                       Background="#D3D3D3"/>
 
         <orccontrols:Expander Grid.Column="2"
+                              ExpandDuration="250"
                               AutoResizeGrid="True"
                               VerticalAlignment="Stretch"
                               ExpandDirection ="Left"
@@ -99,6 +107,7 @@
 
                     <orccontrols:Expander Grid.Row="2"
                                           AutoResizeGrid="True"
+                                          ExpandDuration="10000"
                                           VerticalAlignment="Stretch"
                                           ExpandDirection ="Up"
                                           HorizontalAlignment="Stretch">
@@ -110,7 +119,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Label Content="Bottom color attribute:" />
+                                <Label Content="Slow expander" />
 
                                 <ComboBox HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                             </orccontrols:StackGrid>

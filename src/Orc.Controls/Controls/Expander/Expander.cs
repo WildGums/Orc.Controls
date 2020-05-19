@@ -11,9 +11,7 @@ namespace Orc.Controls
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media.Animation;
-    using Catel.IoC;
     using Catel.Logging;
-    using Catel.Services;
     
     [TemplateVisualState(Name = "Expanded", GroupName = "Expander")]
     [TemplateVisualState(Name = "Collapsed", GroupName = "Expander")]
@@ -27,7 +25,6 @@ namespace Orc.Controls
         private GridLength? _expandDistance;
         private double? _previousActualLength;
         private double? _previousMaxLenght;
-        private double? _expanderContentLenght;
         private ContentPresenter _expandSite;
         private Border _headerSiteBorder;
         #endregion
@@ -36,8 +33,6 @@ namespace Orc.Controls
         public Expander()
         {
             DefaultStyleKey = typeof(Expander);
-
-            _dispatcherService = this.GetServiceLocator().ResolveType<IDispatcherService>();
         }
         #endregion
 
@@ -61,14 +56,14 @@ namespace Orc.Controls
         public static readonly DependencyProperty ExpandDirectionProperty = DependencyProperty.Register(nameof(ExpandDirection),
             typeof(ExpandDirection), typeof(Expander), new PropertyMetadata(ExpandDirection.Left));
         
-        public Duration ExpandDuration
+        public double ExpandDuration
         {
-            get { return (Duration)GetValue(ExpandDurationProperty); }
+            get { return (double)GetValue(ExpandDurationProperty); }
             set { SetValue(ExpandDurationProperty, value); }
         }
 
         public static readonly DependencyProperty ExpandDurationProperty = DependencyProperty.Register(
-            nameof(ExpandDuration), typeof(Duration), typeof(Expander), new PropertyMetadata(new Duration(new TimeSpan(0, 0, 0, 0, 250))));
+            nameof(ExpandDuration), typeof(double), typeof(Expander), new PropertyMetadata(0d));
 
 
         public bool AutoResizeGrid
@@ -115,30 +110,75 @@ namespace Orc.Controls
             UpdateStates(false);
         }
 
+        private void AnimateMaxHeight(RowDefinition rowDefinition, double from, double to, double duration)
+        {
+            var storyboard = new Storyboard();
+
+            var anumationDuration = new Duration(TimeSpan.FromMilliseconds(duration));
+            var ease = new CubicEase { EasingMode = EasingMode.EaseOut };
+
+            var animation = new DoubleAnimation { EasingFunction = ease, Duration = anumationDuration };
+            storyboard.Children.Add(animation);
+            animation.From = from;
+            animation.To = to;
+            Storyboard.SetTarget(animation, rowDefinition);
+            Storyboard.SetTargetProperty(animation, new PropertyPath("(RowDefinition.MaxHeight)"));
+
+            storyboard.Completed += OnRowMaxHeightAnimationCompleted;
+
+            storyboard.Begin();
+        }
+
         private void AnimateMaxWidth(ColumnDefinition columnDefinition, double from, double to, double duration)
         {
+            var storyboard = new Storyboard();
 
-            _dispatcherService.Invoke(() =>
-            {
-                var storyboard = new Storyboard();
+            var anumationDuration = new Duration(TimeSpan.FromMilliseconds(duration));
+            var ease = new CubicEase { EasingMode = EasingMode.EaseOut };
 
-                var anumationDuration = new Duration(TimeSpan.FromMilliseconds(duration));
-                var ease = new CubicEase { EasingMode = EasingMode.EaseOut };
+            var animation = new DoubleAnimation { EasingFunction = ease, Duration = anumationDuration };
+            storyboard.Children.Add(animation);
+            animation.From = from;
+            animation.To = to;
+            Storyboard.SetTarget(animation, columnDefinition);
+            Storyboard.SetTargetProperty(animation, new PropertyPath("(ColumnDefinition.MaxWidth)"));
 
-                var animation = new DoubleAnimation { EasingFunction = ease, Duration = anumationDuration };
-                storyboard.Children.Add(animation);
-                animation.From = from;
-                animation.To = to;
-                Storyboard.SetTarget(animation, columnDefinition);
-                Storyboard.SetTargetProperty(animation, new PropertyPath("(ColumnDefinition.MaxWidth)"));
+            storyboard.Completed += OnColumnMaxWidthAnimationCompleted;
 
-                storyboard.Completed += StoryboardOnCompleted;
-
-                storyboard.Begin();
-            });
-
+            storyboard.Begin();
         }
-        private void StoryboardOnCompleted(object sender, EventArgs e)
+
+        private void OnRowMaxHeightAnimationCompleted(object sender, EventArgs e)
+        {
+            var isExpanded = IsExpanded;
+
+            if (!isExpanded)
+            {
+                return;
+            }
+
+            if (_previousMaxLenght is null)
+            {
+                return;
+            }
+
+            if (!AutoResizeGrid)
+            {
+                return;
+            }
+
+            if (!(Parent is Grid grid))
+            {
+                return;
+            }
+
+            var row = Grid.GetRow(this);
+            var rowDefinition = grid.RowDefinitions[row];
+
+            rowDefinition.BeginAnimation(RowDefinition.MaxHeightProperty, null);
+        }
+
+        private void OnColumnMaxWidthAnimationCompleted(object sender, EventArgs e)
         {
             var isExpanded = IsExpanded;
 
@@ -183,49 +223,42 @@ namespace Orc.Controls
             switch (ExpandDirection)
             {
                 case ExpandDirection.Left:
-                    {
-                        var column = Grid.GetColumn(this);
-
-                        _expandDistance = grid.ColumnDefinitions[column].Width;
-                        _expanderContentLenght = _expandSite.ActualWidth;
-
-                        var columnDefinition = grid.ColumnDefinitions[column];
-
-                        if (_previousMaxLenght is null)
-                        {
-                            _previousMaxLenght = columnDefinition.MaxWidth;
-                        }
-                        
-                        _previousActualLength = columnDefinition.ActualWidth;
-                        AnimateMaxWidth(columnDefinition, columnDefinition.ActualWidth, _headerSiteBorder.ActualWidth, 250d);
-
-                        break;
-                    }
                 case ExpandDirection.Right:
+                {
+                    var column = Grid.GetColumn(this);
+                    var columnDefinition = grid.ColumnDefinitions[column];
+                    _expandDistance = columnDefinition.Width;
+
+                    if (_previousMaxLenght is null)
                     {
-                        var column = Grid.GetColumn(this);
-                        _expandDistance = grid.ColumnDefinitions[column].Width;
-                        grid.ColumnDefinitions[column].SetCurrentValue(ColumnDefinition.WidthProperty, GridLength.Auto);
-                        break;
+                        _previousMaxLenght = columnDefinition.MaxWidth;
                     }
+                    
+                    _previousActualLength = columnDefinition.ActualWidth;
+                    AnimateMaxWidth(columnDefinition, columnDefinition.ActualWidth, _headerSiteBorder.ActualWidth, ExpandDuration);
+
+                    break;
+                }
+
                 case ExpandDirection.Up:
-                    {
-                        var row = Grid.GetRow(this);
-                        _expandDistance = grid.RowDefinitions[row].Height;
-                        grid.RowDefinitions[row].SetCurrentValue(RowDefinition.HeightProperty, GridLength.Auto);
-                        break;
-                    }
                 case ExpandDirection.Down:
+                {
+                    var row = Grid.GetRow(this);
+                    var rowDefinition = grid.RowDefinitions[row];
+                    _expandDistance = rowDefinition.Height;
+                        
+                    if (_previousMaxLenght is null)
                     {
-                        var row = Grid.GetRow(this);
-                        _expandDistance = grid.RowDefinitions[row].Height;
-                        grid.RowDefinitions[row].SetCurrentValue(RowDefinition.HeightProperty, GridLength.Auto);
-                        break;
+                        _previousMaxLenght = rowDefinition.MaxHeight;
                     }
+
+                    _previousActualLength = rowDefinition.ActualHeight;
+                    AnimateMaxHeight(rowDefinition, rowDefinition.ActualHeight, _headerSiteBorder.ActualHeight, ExpandDuration);
+
+                    break;
+                }
             }
         }
-
-        private IDispatcherService _dispatcherService;
 
         protected virtual void OnExpanded()
         {
@@ -242,52 +275,30 @@ namespace Orc.Controls
             switch (ExpandDirection)
             {
                 case ExpandDirection.Left:
+                case ExpandDirection.Right:
                     {
                         var column = Grid.GetColumn(this);
 
                         if (_previousActualLength.HasValue)
                         {
                             var columnDefinition = grid.ColumnDefinitions[column];
-                            AnimateMaxWidth(columnDefinition, _headerSiteBorder.ActualWidth, _previousActualLength.Value, 250d);
-
-                            //_expandSite.Width = _expanderContentLenght.Value;
-                            //grid.ColumnDefinitions[column].SetCurrentValue(ColumnDefinition.WidthProperty, GridLength.Auto);
-
-                            //_timer.Stop();
-                            //_timer.Start();
-                        }
-                        break;
-                    }
-
-                case ExpandDirection.Right:
-                    {
-                        var column = Grid.GetColumn(this);
-                        if (_expandDistance.HasValue)
-                        {
-                            grid.ColumnDefinitions[column].SetCurrentValue(ColumnDefinition.WidthProperty, _expandDistance.Value);
+                            AnimateMaxWidth(columnDefinition, _headerSiteBorder.ActualWidth, _previousActualLength.Value, ExpandDuration);
                         }
                         break;
                     }
 
                 case ExpandDirection.Up:
-                    {
-                        var row = Grid.GetRow(this);
-                        if (_expandDistance.HasValue)
-                        {
-                            grid.RowDefinitions[row].SetCurrentValue(RowDefinition.HeightProperty, _expandDistance.Value);
-                        }
-                        break;
-                    }
-
                 case ExpandDirection.Down:
+                {
+                    var row = Grid.GetRow(this);
+
+                    if (_previousActualLength.HasValue)
                     {
-                        var row = Grid.GetRow(this);
-                        if (_expandDistance.HasValue)
-                        {
-                            grid.RowDefinitions[row].SetCurrentValue(RowDefinition.HeightProperty, _expandDistance.Value);
-                        }
-                        break;
+                        var rowDefinition = grid.RowDefinitions[row];
+                        AnimateMaxHeight(rowDefinition, _headerSiteBorder.ActualHeight, _previousActualLength.Value, ExpandDuration);
                     }
+                    break;
+                }
             }
         }
 

@@ -242,28 +242,6 @@
 						    Background="{TemplateBinding Background}" 
 						    SnapsToDevicePixels="true">
 
-                        <!--<VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup Name="Expander">
-                                <VisualState Name="Collapsed" >
-                                    <Storyboard>
-                                        <DoubleAnimation To="0"
-                                                         Duration="{TemplateBinding ExpandDuration}"
-                                                         Storyboard.TargetName="PART_ExpandSite"
-                                                         Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleX)" />
-                                    </Storyboard>
-                                </VisualState>
-
-                                <VisualState Name="Expanded">
-                                    <Storyboard>
-                                        <DoubleAnimation To="1" 
-                                                         Duration="{TemplateBinding ExpandDuration}"
-                                                         Storyboard.TargetName="PART_ExpandSite"
-                                                         Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleX)" />
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>-->
-
                         <DockPanel>
                             <Border x:Name="PART_HeaderSiteBorder"
                                     Background="WhiteSmoke" 
