@@ -10,6 +10,8 @@
     <Style x:Key="{x:Type controls:FilterBox}"
            TargetType="{x:Type controls:FilterBox}"
            BasedOn="{StaticResource Orc.Styles.TextBoxBase}">
+
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
   
         <Setter Property="Template">
             <Setter.Value>
@@ -30,7 +32,14 @@
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Content="{TemplateBinding Watermark}"
                                               IsHitTestVisible="False"
-                                              Visibility="Collapsed" />
+                                              Visibility="Collapsed" >
+                                <ContentPresenter.Resources>
+                                    <Style TargetType="{x:Type TextBlock}"
+                                           BasedOn="{StaticResource {x:Type TextBlock}}">
+                                        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Disabled.Border}"/>
+                                    </Style>
+                                </ContentPresenter.Resources>
+                            </ContentPresenter>
 
                             <ScrollViewer x:Name="PART_ContentHost"
                                           Padding="{TemplateBinding Padding}"
