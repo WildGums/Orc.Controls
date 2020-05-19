@@ -8,7 +8,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{x:Type controls:Expander}" TargetType="{x:Type controls:Expander}"
-           BasedOn="{StaticResource Orc.Controls.Control}">
+           BasedOn="{StaticResource Orc.Styles.Control}">
         <Style.Resources>
             <Geometry x:Key="ExpanderUpArrow">M 1,4.5  L 4.5,1  L 8,4.5</Geometry>
             <Geometry x:Key="ExpanderDownArrow">M 1,1.5 L 4.5,5 L 8,1.5</Geometry>
@@ -16,7 +16,7 @@
             <Geometry x:Key="ExpanderRightArrow">M 1.5,8 L 5,4.5 L 1,1.5</Geometry>
 
             <Style x:Key="ExpanderHeaderToggleButtonStyle" TargetType="{x:Type ToggleButton}"
-                   BasedOn="{StaticResource Orc.Controls.ButtonBase}">
+                   BasedOn="{StaticResource Orc.Styles.ButtonBase}">
 
                 <Setter Property="Template">
                     <Setter.Value>

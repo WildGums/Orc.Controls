@@ -9,7 +9,7 @@
 
     <Style x:Key="{x:Type controls:FilterBox}"
            TargetType="{x:Type controls:FilterBox}"
-           BasedOn="{StaticResource Orc.Controls.TextBoxBase}">
+           BasedOn="{StaticResource Orc.Styles.TextBoxBase}">
   
         <Setter Property="Template">
             <Setter.Value>

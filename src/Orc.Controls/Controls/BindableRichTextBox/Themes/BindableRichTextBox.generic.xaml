@@ -8,7 +8,7 @@
 
     <!-- default style for BindableRichTextBox-->
     <Style x:Key="{x:Type local:BindableRichTextBox}" TargetType="{x:Type local:BindableRichTextBox}"
-           BasedOn="{StaticResource Orc.Controls.TextBoxBase}">
+           BasedOn="{StaticResource Orc.Styles.TextBoxBase}">
 
         <Setter Property="Template">
             <Setter.Value>

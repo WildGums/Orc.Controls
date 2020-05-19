@@ -8,7 +8,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{x:Type controls:ColorLegend}" TargetType="{x:Type controls:ColorLegend}"
-           BasedOn="{StaticResource Orc.Controls.Control}">
+           BasedOn="{StaticResource Orc.Styles.Control}">
         <Style.Resources>
             <controls:MultipleCommandParameterConverter x:Key="MultipleCommandParametersConverter"/>
 

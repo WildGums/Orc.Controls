@@ -7,7 +7,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{x:Type controls:HeaderBar}" TargetType="{x:Type controls:HeaderBar}"
-           BasedOn="{StaticResource Orc.Controls.Control}">
+           BasedOn="{StaticResource Orc.Styles.Control}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>

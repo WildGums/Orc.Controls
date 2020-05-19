@@ -9,7 +9,7 @@
 
     <Style x:Key="{x:Type local:ColorPicker}"
            TargetType="{x:Type local:ColorPicker}"
-           BasedOn="{StaticResource Orc.Controls.Control}">
+           BasedOn="{StaticResource Orc.Styles.Control}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
@@ -102,7 +102,7 @@
     </Style>
     
     <Style TargetType="{x:Type local:ColorBoard}"
-           BasedOn="{StaticResource Orc.Controls.Control}">
+           BasedOn="{StaticResource Orc.Styles.Control}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Color" Value="White" />
         <Setter Property="Focusable" Value="False"/>
@@ -134,7 +134,7 @@
 
                                     <Style x:Key="ThumbHorizontalStyle" 
                                            TargetType="{x:Type Thumb}"
-                                           BasedOn="{StaticResource Orc.Controls.Control}">
+                                           BasedOn="{StaticResource Orc.Styles.Control}">
                                         <Setter Property="IsTabStop" Value="False" />
                                         <Setter Property="Focusable" Value="False" />
                                         <Setter Property="Template">
@@ -153,7 +153,7 @@
                                     </Style>
 
                                     <Style x:Key="ThumbVerticalStyle" TargetType="{x:Type Thumb}"
-                                           BasedOn="{StaticResource Orc.Controls.Control}">
+                                           BasedOn="{StaticResource Orc.Styles.Control}">
                                         <Setter Property="IsTabStop" Value="False" />
                                         <Setter Property="Focusable" Value="False" />
                                         <Setter Property="Template">

@@ -7,7 +7,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{x:Type controls:WatermarkTextBox}" TargetType="{x:Type controls:WatermarkTextBox}"
-           BasedOn="{StaticResource Orc.Controls.TextBoxBase}">
+           BasedOn="{StaticResource Orc.Styles.TextBoxBase}">
         <Style.Resources>
             <DataTemplate x:Key="DefaultWatermarkTemplate">
                 <ContentControl Content="{Binding}"

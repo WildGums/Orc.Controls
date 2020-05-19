@@ -10,7 +10,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{x:Type controls:DatePicker}" TargetType="{x:Type controls:DatePicker}"
-           BasedOn="{StaticResource Orc.Controls.Control}">
+           BasedOn="{StaticResource Orc.Styles.Control}">
         <Style.Resources>
             <converters:YearLongToYearShortConverter x:Key="YearLongToYearShortConverter" />
 

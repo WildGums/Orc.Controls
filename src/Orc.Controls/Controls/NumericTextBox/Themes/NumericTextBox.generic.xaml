@@ -7,7 +7,7 @@
 
     <Style x:Key="{x:Type local:NumericTextBox}" 
            TargetType="{x:Type local:NumericTextBox}"
-           BasedOn="{StaticResource Orc.Controls.TextBoxBase}">
+           BasedOn="{StaticResource Orc.Styles.TextBoxBase}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:NumericTextBox}">

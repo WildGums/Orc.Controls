@@ -1,6 +1,6 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>net46;net47;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net46;net47;netcoreapp3.1</TargetFrameworks>
     <AssemblyName>Orc.Controls</AssemblyName>
     <RootNamespace>Orc.Controls</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
@@ -38,7 +38,7 @@
     <PackageReference Include="ModuleInit.Fody" Version="2.1.0" PrivateAssets="all" />
     <PackageReference Include="Obsolete.Fody" Version="5.2.1" PrivateAssets="all" />
     <PackageReference Include="Orc.FileSystem" Version="3.2.0" />
-    <PackageReference Include="Orc.Theming" Version="4.0.0-alpha0104" />
+    <PackageReference Include="Orc.Theming" Version="4.0.0-alpha0119" />
   </ItemGroup>
 
   <!-- Theming -->

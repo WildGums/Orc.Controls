@@ -8,7 +8,7 @@
 
 
     <Style x:Key="{x:Type local:ListTextBox}" TargetType="{x:Type local:ListTextBox}"
-           BasedOn="{StaticResource Orc.Controls.TextBoxBase}">
+           BasedOn="{StaticResource Orc.Styles.TextBoxBase}">
 
         <Setter Property="Template">
             <Setter.Value>
