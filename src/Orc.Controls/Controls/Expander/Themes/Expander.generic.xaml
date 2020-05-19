@@ -10,7 +10,6 @@
     <Style x:Key="{x:Type controls:Expander}" TargetType="{x:Type controls:Expander}"
            BasedOn="{StaticResource Orc.Controls.Control}">
         <Style.Resources>
-
             <Geometry x:Key="ExpanderUpArrow">M 1,4.5  L 4.5,1  L 8,4.5</Geometry>
             <Geometry x:Key="ExpanderDownArrow">M 1,1.5 L 4.5,5 L 8,1.5</Geometry>
             <Geometry x:Key="ExpanderLeftArrow">M 4.5,8 L 1,4.5 L 4.5,1</Geometry>

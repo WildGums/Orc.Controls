@@ -551,38 +551,42 @@ namespace Orc.Controls
         Left = 2,
         Right = 3,
     }
+    [System.Windows.TemplatePart(Name="PART_ExpandSite", Type=typeof(System.Windows.Controls.ContentPresenter))]
+    [System.Windows.TemplatePart(Name="PART_HeaderSiteBorder", Type=typeof(System.Windows.Controls.Border))]
+    [System.Windows.TemplateVisualState(GroupName="Expander", Name="Collapsed")]
+    [System.Windows.TemplateVisualState(GroupName="Expander", Name="Expanded")]
     public class Expander : System.Windows.Controls.HeaderedContentControl
     {
         public static readonly System.Windows.DependencyProperty AutoResizeGridProperty;
         public static readonly System.Windows.DependencyProperty ExpandDirectionProperty;
+        public static readonly System.Windows.DependencyProperty ExpandDurationProperty;
         public static readonly System.Windows.DependencyProperty IsExpandedProperty;
         public Expander() { }
         public bool AutoResizeGrid { get; set; }
         public Orc.Controls.ExpandDirection ExpandDirection { get; set; }
+        public double ExpandDuration { get; set; }
         public bool IsExpanded { get; set; }
+        public override void OnApplyTemplate() { }
         protected virtual void OnCollapsed() { }
         protected virtual void OnExpanded() { }
     }
     [System.Windows.TemplatePart(Name="PART_ClearButton", Type=typeof(System.Windows.Controls.Button))]
-    [System.Windows.TemplatePart(Name="PART_FilterTextBox", Type=typeof(System.Windows.Controls.TextBox))]
-    public class FilterBox : System.Windows.Controls.ContentControl
+    public class FilterBox : System.Windows.Controls.TextBox
     {
         public static readonly System.Windows.DependencyProperty AllowAutoCompletionProperty;
         public static readonly System.Windows.DependencyProperty FilterSourceProperty;
         public static readonly System.Windows.DependencyProperty PropertyNameProperty;
-        public static readonly System.Windows.DependencyProperty TextProperty;
         public static readonly System.Windows.DependencyProperty WatermarkProperty;
         public FilterBox() { }
         public bool AllowAutoCompletion { get; set; }
         public System.Collections.IEnumerable FilterSource { get; set; }
         public string PropertyName { get; set; }
-        public string Text { get; set; }
         public string Watermark { get; set; }
         public event System.EventHandler<Orc.Controls.InitializingAutoCompletionServiceEventArgs> InitializingAutoCompletionService;
         public override void OnApplyTemplate() { }
-        protected override void OnGotFocus(System.Windows.RoutedEventArgs e) { }
         protected virtual void OnInitializingAutoCompletionService(Orc.Controls.InitializingAutoCompletionServiceEventArgs e) { }
         protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e) { }
+        protected override void OnTextChanged(System.Windows.Controls.TextChangedEventArgs e) { }
     }
     public class FindReplaceSettings : Catel.Data.ModelBase
     {
@@ -667,10 +671,14 @@ namespace Orc.Controls
         public static void AttachAndOpenTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType, object parameter = null) { }
         public static void AttachAndOpenTool<T>(this System.Windows.FrameworkElement frameworkElement, object parameter = null)
             where T :  class, Orc.Controls.IControlTool { }
+        public static TBehavior AttachBehavior<TBehavior>(this System.Windows.FrameworkElement frameworkElement)
+            where TBehavior : System.Windows.Interactivity.Behavior { }
         public static object AttachTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
         public static T AttachTool<T>(this System.Windows.FrameworkElement frameworkElement)
             where T :  class, Orc.Controls.IControlTool { }
         public static bool CanAttach(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
+        public static void DetachBehavior<TBehavior>(this System.Windows.FrameworkElement frameworkElement)
+            where TBehavior : System.Windows.Interactivity.Behavior { }
         public static bool DetachTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
         public static Orc.Controls.Tools.IControlToolManager GetControlToolManager(this System.Windows.FrameworkElement frameworkElement) { }
         public static System.Collections.Generic.IList<Orc.Controls.IControlTool> GetTools(this System.Windows.FrameworkElement frameworkElement) { }
