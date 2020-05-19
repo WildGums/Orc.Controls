@@ -19,6 +19,10 @@ namespace Orc.Controls
     [TemplatePart(Name = "PART_HeaderSiteBorder", Type = typeof(Border))]
     public class Expander : HeaderedContentControl
     {
+        #region Constants
+        private const double MinimumDuration = 150d;
+        #endregion 
+
         #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
@@ -112,6 +116,12 @@ namespace Orc.Controls
 
         private void AnimateMaxHeight(RowDefinition rowDefinition, double from, double to, double duration)
         {
+            rowDefinition.BeginAnimation(RowDefinition.MaxHeightProperty, null);
+            if (duration < MinimumDuration)
+            {
+                duration = MinimumDuration;
+            }
+
             var storyboard = new Storyboard();
 
             var anumationDuration = new Duration(TimeSpan.FromMilliseconds(duration));
@@ -131,6 +141,12 @@ namespace Orc.Controls
 
         private void AnimateMaxWidth(ColumnDefinition columnDefinition, double from, double to, double duration)
         {
+            columnDefinition.BeginAnimation(ColumnDefinition.MaxWidthProperty, null);
+            if (duration < MinimumDuration)
+            {
+                duration = MinimumDuration;
+            }
+
             var storyboard = new Storyboard();
 
             var anumationDuration = new Duration(TimeSpan.FromMilliseconds(duration));

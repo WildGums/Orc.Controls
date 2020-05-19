@@ -3,6 +3,11 @@
                     xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
                     xmlns:controls="clr-namespace:Orc.Controls">
 
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <Geometry x:Key="ExpanderCheckedArrow">M 1,4.5  L 4.5,1  L 8,4.5</Geometry>
     <Geometry x:Key="ExpanderNormalArrow">M 1,1.5 L 4.5,5 L 8,1.5</Geometry>
     <Geometry x:Key="ExpanderToggleButtonArrow">M5,-0 L9,5 1,5 z</Geometry>
@@ -192,59 +197,23 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ExpanderHeaderFocusVisual">
-        <Setter Property="Control.Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Border>
-                        <Rectangle Margin="0" SnapsToDevicePixels="true" Stroke="Black" StrokeThickness="1" StrokeDashArray="1 2"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Storyboard x:Key="ScaleYUp">
-        <DoubleAnimation From="0" To="1" 
-                         Duration="0:0:0.25" 
-                         Storyboard.TargetName="PART_ExpandSite"
-                         Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleY)" />
-    </Storyboard>
-
-    <Storyboard x:Key="ScaleYDown">
-        <DoubleAnimation From="1" To="0" Duration="0:0:0.25" Storyboard.TargetName="PART_ExpandSite"
-                         Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleY)" />
-    </Storyboard>
-
-    <Storyboard x:Key="ScaleXUp">
-        <DoubleAnimation From="0" To="1" Duration="0:0:0.25" Storyboard.TargetName="PART_ExpandSite"
-                         Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleX)" />
-    </Storyboard>
-
-    <Storyboard x:Key="ScaleXDown">
-        <DoubleAnimation From="1" To="0" Duration="0:0:0.25" Storyboard.TargetName="PART_ExpandSite"
-                         Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleX)" />
-    </Storyboard>
-
-    <Style x:Key="{x:Type controls:Expander}" TargetType="{x:Type controls:Expander}">
+    <Style x:Key="{x:Type controls:Expander}" TargetType="{x:Type controls:Expander}"
+           BasedOn="{StaticResource Orc.Controls.Control}">
         <Setter Property="Padding" Value="0"/>
         <Setter Property="Margin" Value="0"/>
-        <Setter Property="Background" Value="{StaticResource Expander.Background}"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:Expander}">
                     <Border BorderBrush="{TemplateBinding BorderBrush}" 
-						    BorderThickness="{TemplateBinding BorderThickness}" 
+						    BorderThickness="0" 
 						    Background="{TemplateBinding Background}" 
 						    SnapsToDevicePixels="true">
 
                         <DockPanel>
                             <Border x:Name="PART_HeaderSiteBorder"
-                                    Background="WhiteSmoke" 
+                                    Background="{TemplateBinding Background}" 
                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                                 <ToggleButton x:Name="HeaderSite"
@@ -253,7 +222,6 @@
 								              Content="{TemplateBinding Header}" 
 								              Foreground="{TemplateBinding Foreground}" 
 								              FontWeight="{TemplateBinding FontWeight}" 
-								              FocusVisualStyle="{StaticResource ExpanderHeaderFocusVisual}" 
 								              FontStyle="{TemplateBinding FontStyle}" 
 								              FontStretch="{TemplateBinding FontStretch}" 
 								              FontSize="{TemplateBinding FontSize}" 

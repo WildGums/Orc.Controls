@@ -62,7 +62,7 @@
                                   Height="2"
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Stretch"
-                                  Background="#D3D3D3"/>
+                                  Background="Red"/>
 
                     <orccontrols:ColorLegend Grid.Row="2"/>
                 </Grid>
@@ -77,7 +77,7 @@
                       Width="2"
                       VerticalAlignment="Stretch"
                       HorizontalAlignment="Center"
-                      Background="#D3D3D3"/>
+                      Background="Red"/>
 
         <orccontrols:Expander Grid.Column="2"
                               ExpandDuration="250"
@@ -103,7 +103,7 @@
                                   Height="2"
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Stretch"
-                                  Background="#D3D3D3"/>
+                                  Background="Red"/>
 
                     <orccontrols:Expander Grid.Row="2"
                                           AutoResizeGrid="True"
