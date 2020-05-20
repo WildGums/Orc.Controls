@@ -105,7 +105,7 @@ namespace Orc.Controls
 
         private Grid _mainGrid;
 
-        private ListTextBox _ampmListTextBox;
+        private ListTextBox _amPmListTextBox;
 
         #region Dependency properties
         public DateTime? Value
@@ -126,7 +126,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register(nameof(ShowOptionsButton), typeof(bool),
             typeof(DateTimePicker), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, args) => ((DateTimePicker)sender).OnShowOptionsButtonChanged(args)));
+                (sender, args) => ((DateTimePicker)sender).OnShowOptionsButtonChanged()));
 
         public bool AllowNull
         {
@@ -221,43 +221,57 @@ namespace Orc.Controls
         private int? Day
         {
             get => (int?)_daysNumericTextBox.Value;
-            set => _daysNumericTextBox.Value = value;
+#pragma warning disable WPF0035 // Use SetValue in setter.
+            set => _daysNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+#pragma warning restore WPF0035 // Use SetValue in setter.
         }
 
         private int? Month
         {
             get => (int?)_monthNumericTextBox.Value;
-            set => _monthNumericTextBox.Value = value;
+#pragma warning disable WPF0035 // Use SetValue in setter.
+            set => _monthNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+#pragma warning restore WPF0035 // Use SetValue in setter.
         }
 
         private int? Year
         {
             get => (int?)_yearNumericTextBox.Value;
-            set => _yearNumericTextBox.Value = value;
+#pragma warning disable WPF0035 // Use SetValue in setter.
+            set => _yearNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+#pragma warning restore WPF0035 // Use SetValue in setter.
         }
 
         private int? Hour
         {
             get => (int?)_hourNumericTextBox.Value;
-            set => _hourNumericTextBox.Value = value;
+#pragma warning disable WPF0035 // Use SetValue in setter.
+            set => _hourNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+#pragma warning restore WPF0035 // Use SetValue in setter.
         }
 
         private int? Minute
         {
             get => (int?)_minuteNumericTextBox.Value;
-            set => _minuteNumericTextBox.Value = value;
+#pragma warning disable WPF0035 // Use SetValue in setter.
+            set => _minuteNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+#pragma warning restore WPF0035 // Use SetValue in setter.
         }
 
         private int? Second
         {
             get => (int?)_secondNumericTextBox.Value;
-            set => _secondNumericTextBox.Value = value;
+#pragma warning disable WPF0035 // Use SetValue in setter.
+            set => _secondNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+#pragma warning restore WPF0035 // Use SetValue in setter.
         }
 
         private string AmPm
         {
-            get => _ampmListTextBox.Value;
-            set => _ampmListTextBox.Value = value;
+            get => _amPmListTextBox.Value;
+#pragma warning disable WPF0035 // Use SetValue in setter.
+            set => _amPmListTextBox.SetCurrentValue(ListTextBox.ValueProperty, value);
+#pragma warning restore WPF0035 // Use SetValue in setter.
         }
         #endregion
 
@@ -270,7 +284,7 @@ namespace Orc.Controls
             _daysNumericTextBox = GetTemplateChild("PART_DaysNumericTextBox") as NumericTextBox;
             if (_daysNumericTextBox is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_DaysNumericTextBox'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysNumericTextBox'");
             }
             _daysNumericTextBox.ValueChanged += OnDaysValueChanged;
 
@@ -278,7 +292,7 @@ namespace Orc.Controls
             _monthNumericTextBox = GetTemplateChild("PART_MonthNumericTextBox") as NumericTextBox;
             if (_monthNumericTextBox is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_MonthNumericTextBox'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MonthNumericTextBox'");
             }
             _monthNumericTextBox.ValueChanged += OnMonthValueChanged;
             _monthNumericTextBox.TextChanged += OnMonthTextChanged;
@@ -287,7 +301,7 @@ namespace Orc.Controls
             _yearNumericTextBox = GetTemplateChild("PART_YearNumericTextBox") as NumericTextBox;
             if (_yearNumericTextBox is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_YearNumericTextBox'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_YearNumericTextBox'");
             }
             _yearNumericTextBox.ValueChanged += OnYearValueChanged;
 
@@ -295,7 +309,7 @@ namespace Orc.Controls
             _hourNumericTextBox = GetTemplateChild("PART_HourNumericTextBox") as NumericTextBox;
             if (_hourNumericTextBox is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_HourNumericTextBox'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HourNumericTextBox'");
             }
             _hourNumericTextBox.ValueChanged += OnHourValueChanged;
 
@@ -303,113 +317,113 @@ namespace Orc.Controls
             _minuteNumericTextBox = GetTemplateChild("PART_MinuteNumericTextBox") as NumericTextBox;
             if (_minuteNumericTextBox is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_MinuteNumericTextBox'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MinuteNumericTextBox'");
             }
             _minuteNumericTextBox.ValueChanged += OnMinuteValueChanged;
 
             _secondNumericTextBox = GetTemplateChild("PART_SecondNumericTextBox") as NumericTextBox;
             if (_secondNumericTextBox is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_SecondNumericTextBox'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SecondNumericTextBox'");
             }
             _secondNumericTextBox.ValueChanged += OnSecondValueChanged;
 
-            _ampmListTextBox = GetTemplateChild("PART_AmPmListTextBox") as ListTextBox;
-            if (_ampmListTextBox is null)
+            _amPmListTextBox = GetTemplateChild("PART_AmPmListTextBox") as ListTextBox;
+            if (_amPmListTextBox is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_AmPmListTextBox'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_AmPmListTextBox'");
             }
-            _ampmListTextBox.ValueChanged += OnAmPmListTextBoxValueChanged;
+            _amPmListTextBox.ValueChanged += OnAmPmListTextBoxValueChanged;
 
             /*Separators*/
             _daysMonthsSeparatorTextBlock = GetTemplateChild("PART_DaysMonthsSeparatorTextBlock") as TextBlock;
             if (_daysMonthsSeparatorTextBlock is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_DaysMonthsSeparatorTextBlock'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysMonthsSeparatorTextBlock'");
             }
 
             _monthsYearSeparatorTextBlock = GetTemplateChild("PART_MonthsYearSeparatorTextBlock") as TextBlock;
             if (_monthsYearSeparatorTextBlock is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_MonthsYearSeparatorTextBlock'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MonthsYearSeparatorTextBlock'");
             }
 
             _yearSeparatorTextBlock = GetTemplateChild("PART_YearSeparatorTextBlock") as TextBlock;
             if (_yearSeparatorTextBlock is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_YearSeparatorTextBlock'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_YearSeparatorTextBlock'");
             }
 
             _hourMinuteSeparatorTextBlock = GetTemplateChild("PART_HourMinuteSeparatorTextBlock") as TextBlock;
             if (_hourMinuteSeparatorTextBlock is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_HourMinuteSeparatorTextBlock'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HourMinuteSeparatorTextBlock'");
             }
 
             _minuteSecondSeparatorTextBlock = GetTemplateChild("PART_MinuteSecondSeparatorTextBlock") as TextBlock;
             if (_minuteSecondSeparatorTextBlock is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_MinuteSecondSeparatorTextBlock'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MinuteSecondSeparatorTextBlock'");
             }
 
             _secondAmPmSeparatorTextBlock = GetTemplateChild("PART_SecondAmPmSeparatorTextBlock") as TextBlock;
             if (_secondAmPmSeparatorTextBlock is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_SecondAmPmSeparatorTextBlock'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SecondAmPmSeparatorTextBlock'");
             }
 
             _amPmSeparatorTextBlock = GetTemplateChild("PART_AmPmSeparatorTextBlock") as TextBlock;
             if (_amPmSeparatorTextBlock is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_AmPmSeparatorTextBlock'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_AmPmSeparatorTextBlock'");
             }
 
             /*Toggles*/
             _daysToggleButton = GetTemplateChild("PART_DaysToggleButton") as ToggleButton;
             if (_daysToggleButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_DaysToggleButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysToggleButton'");
             }
             _daysToggleButton.Checked += OnToggleButtonChecked;
 
             _monthToggleButton = GetTemplateChild("PART_MonthToggleButton") as ToggleButton;
             if (_monthToggleButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_MonthToggleButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MonthToggleButton'");
             }
             _monthToggleButton.Checked += OnToggleButtonChecked;
 
             _yearToggleButton = GetTemplateChild("PART_YearToggleButton") as ToggleButton;
             if (_yearToggleButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_YearToggleButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_YearToggleButton'");
             }
 
             _hourToggleButton = GetTemplateChild("PART_HourToggleButton") as ToggleButton;
             if (_hourToggleButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_HourToggleButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HourToggleButton'");
             }
             _hourToggleButton.Checked += OnToggleButtonChecked;
 
             _minuteToggleButton = GetTemplateChild("PART_MinuteToggleButton") as ToggleButton;
             if (_minuteToggleButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_MinuteToggleButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MinuteToggleButton'");
             }
             _minuteToggleButton.Checked += OnToggleButtonChecked;
 
             _secondToggleButton = GetTemplateChild("PART_SecondToggleButton") as ToggleButton;
             if (_secondToggleButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_SecondToggleButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SecondToggleButton'");
             }
             _secondToggleButton.Checked += OnToggleButtonChecked;
 
             _amPmToggleButton = GetTemplateChild("PART_AmPmToggleButton") as ToggleButton;
             if (_amPmToggleButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_AmPmToggleButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_AmPmToggleButton'");
             }
             _amPmToggleButton.Checked += OnToggleButtonChecked;
 
@@ -418,50 +432,50 @@ namespace Orc.Controls
             _datePickerIconToggleButton = GetTemplateChild("PART_DatePickerIconToggleButton") as ToggleButton;
             if (_datePickerIconToggleButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_DatePickerIconToggleButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DatePickerIconToggleButton'");
             }
-            _datePickerIconToggleButton.Visibility = ShowOptionsButton ? Visibility.Visible : Visibility.Hidden;
+            _datePickerIconToggleButton.SetCurrentValue(VisibilityProperty, ShowOptionsButton ? Visibility.Visible : Visibility.Hidden);
 
             /*Buttons*/
             _todayButton = GetTemplateChild("PART_TodayButton") as Button;
             if (_todayButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_TodayButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TodayButton'");
             }
             _todayButton.Click += OnTodayButtonClick;     
             
             _nowButton = GetTemplateChild("PART_NowButton") as Button;
             if (_nowButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_NowButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_NowButton'");
             }
             _nowButton.Click += OnNowButtonClick;
 
             _selectDateButton = GetTemplateChild("PART_SelectDateButton") as Button;
             if (_selectDateButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_SelectDateButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SelectDateButton'");
             }
             _selectDateButton.Click += OnSelectDateButtonClick;
 
             _clearButton = GetTemplateChild("PART_ClearButton") as Button;
             if (_clearButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_ClearButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ClearButton'");
             }
             _clearButton.Click += OnClearButtonClick;
 
             _copyButton = GetTemplateChild("PART_CopyButton") as Button;
             if (_copyButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_CopyButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_CopyButton'");
             }
             _copyButton.Click += OnCopyButtonClick;
 
             _pasteButton = GetTemplateChild("PART_PasteButton") as Button;
             if (_pasteButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_PasteButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_PasteButton'");
             }
             _pasteButton.Click += OnPasteButtonClick;
 
@@ -469,7 +483,7 @@ namespace Orc.Controls
             _mainGrid = GetTemplateChild("PART_MainGrid") as Grid;
             if (_mainGrid is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_MainGrid'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MainGrid'");
             }
             
             _textBoxes = new List<TextBox>
@@ -480,7 +494,7 @@ namespace Orc.Controls
                 _hourNumericTextBox,
                 _minuteNumericTextBox,
                 _secondNumericTextBox,
-                _ampmListTextBox
+                _amPmListTextBox
             };
 
             var now = DateTime.Now;
@@ -597,6 +611,18 @@ namespace Orc.Controls
                 if (!hasAnyTimeFormat)
                 { }
 
+                var hourPosition = _formatInfo?.HourPosition;
+                if (hourPosition is null)
+                {
+                    return;
+                }
+
+                var minutePosition = _formatInfo.MinutePosition;
+                if (minutePosition is null)
+                {
+                    return;
+                }
+
                 IsYearShortFormat = _formatInfo.IsYearShortFormat;
                 _yearNumericTextBox.SetCurrentValue(NumericTextBox.MinValueProperty, (double)(_formatInfo.IsYearShortFormat ? 0 : 1));
                 _yearNumericTextBox.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)(_formatInfo.IsYearShortFormat ? 99 : 3000));
@@ -607,13 +633,13 @@ namespace Orc.Controls
                 _hourNumericTextBox.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)(isHour12Format ? 12 : 23));
                 _hourToggleButton.SetCurrentValue(TagProperty, isHour12Format ? DateTimePart.Hour12 : DateTimePart.Hour);
 
-                IsAmPmShortFormat = _formatInfo.IsAmPmShortFormat.Value;
+                IsAmPmShortFormat = _formatInfo.IsAmPmShortFormat ?? true;
 
                 EnableOrDisableYearConverterDependingOnFormat();
                 EnableOrDisableHourConverterDependingOnFormat();
                 EnableOrDisableAmPmConverterDependingOnFormat();
 
-                _ampmListTextBox.SetCurrentValue(ListTextBox.ListOfValuesProperty, new List<string>
+                _amPmListTextBox.SetCurrentValue(ListTextBox.ListOfValuesProperty, new List<string>
                 {
                     Meridiems.GetAmForFormat(_formatInfo),
                     Meridiems.GetPmForFormat(_formatInfo)
@@ -628,19 +654,21 @@ namespace Orc.Controls
 
                 UnsubscribeNumericTextBoxes();
 
+
+
                 Grid.SetColumn(_daysNumericTextBox, GetPosition(_formatInfo.DayPosition));
                 Grid.SetColumn(_monthNumericTextBox, GetPosition(_formatInfo.MonthPosition));
                 Grid.SetColumn(_yearNumericTextBox, GetPosition(_formatInfo.YearPosition));
-                Grid.SetColumn(_hourNumericTextBox, GetPosition(_formatInfo.HourPosition.Value));
-                Grid.SetColumn(_minuteNumericTextBox, GetPosition(_formatInfo.MinutePosition.Value));
+                Grid.SetColumn(_hourNumericTextBox, GetPosition(hourPosition.Value));
+                Grid.SetColumn(_minuteNumericTextBox, GetPosition(minutePosition.Value));
                 Grid.SetColumn(_secondNumericTextBox, GetPosition(_formatInfo.SecondPosition ?? _defaultSecondFormatPosition));
-                Grid.SetColumn(_ampmListTextBox, GetPosition(_formatInfo.AmPmPosition ?? _defaultAmPmFormatPosition));
+                Grid.SetColumn(_amPmListTextBox, GetPosition(_formatInfo.AmPmPosition ?? _defaultAmPmFormatPosition));
 
                 Grid.SetColumn(_daysToggleButton, GetPosition(_formatInfo.DayPosition) + 1);
                 Grid.SetColumn(_monthToggleButton, GetPosition(_formatInfo.MonthPosition) + 1);
                 Grid.SetColumn(_yearToggleButton, GetPosition(_formatInfo.YearPosition) + 1);
-                Grid.SetColumn(_hourToggleButton, GetPosition(_formatInfo.HourPosition.Value) + 1);
-                Grid.SetColumn(_minuteToggleButton, GetPosition(_formatInfo.MinutePosition.Value) + 1);
+                Grid.SetColumn(_hourToggleButton, GetPosition(hourPosition.Value) + 1);
+                Grid.SetColumn(_minuteToggleButton, GetPosition(minutePosition.Value) + 1);
                 Grid.SetColumn(_secondToggleButton, GetPosition(_formatInfo.SecondPosition ?? _defaultSecondFormatPosition) + 1);
 
                 //hide parts according to Hide options and format
@@ -651,10 +679,10 @@ namespace Orc.Controls
 
                 Grid.SetColumn(_amPmToggleButton, GetPosition((_formatInfo.AmPmPosition ?? _defaultAmPmFormatPosition) + 1));
 
-                // Fix positions which could be broken, because of AM/PM textblock.
+                // Fix positions which could be broken, because of AM/PM textBlock.
                 // Fix for seconds in a same way
                 int dayPos = _formatInfo.DayPosition, monthPos = _formatInfo.MonthPosition, yearPos = _formatInfo.YearPosition,
-                    hourPos = _formatInfo.HourPosition.Value, minutePos = _formatInfo.MinutePosition.Value, secondPos = _formatInfo.SecondPosition ?? 5,
+                    hourPos = hourPosition.Value, minutePos = minutePosition.Value, secondPos = _formatInfo.SecondPosition ?? 5,
                     amPmPos = _formatInfo.AmPmPosition ?? 6;
                 FixNumericTextBoxesPositions(ref dayPos, ref monthPos, ref yearPos, ref hourPos, ref minutePos, ref secondPos, ref amPmPos);
 
@@ -664,7 +692,7 @@ namespace Orc.Controls
                 _textBoxes[hourPos] = _hourNumericTextBox;
                 _textBoxes[minutePos] = _minuteNumericTextBox;
                 _textBoxes[secondPos] = _secondNumericTextBox;
-                _textBoxes[amPmPos] = _ampmListTextBox;
+                _textBoxes[amPmPos] = _amPmListTextBox;
 
                 // Fix tab order inside control.
                 _daysNumericTextBox.SetCurrentValue(TabIndexProperty, dayPos);
@@ -673,7 +701,7 @@ namespace Orc.Controls
                 _hourNumericTextBox.SetCurrentValue(TabIndexProperty, hourPos);
                 _minuteNumericTextBox.SetCurrentValue(TabIndexProperty, minutePos);
                 _secondNumericTextBox.SetCurrentValue(TabIndexProperty, secondPos);
-                _ampmListTextBox.SetCurrentValue(TabIndexProperty, amPmPos);
+                _amPmListTextBox.SetCurrentValue(TabIndexProperty, amPmPos);
                 _datePickerIconToggleButton.SetCurrentValue(TabIndexProperty, int.MaxValue);
 
                 SubscribeNumericTextBoxes();
@@ -729,7 +757,7 @@ namespace Orc.Controls
                     break;
 
                 case DateTimePart.AmPmDesignator:
-                    activeTextBox = _ampmListTextBox;
+                    activeTextBox = _amPmListTextBox;
                     break;
 
                 default:
@@ -825,7 +853,7 @@ namespace Orc.Controls
             }
 
             var currentValue = value ?? _todayValue;
-            Value = new DateTime(currentValue.Year, currentValue.Month, day.Value, currentValue.Hour, currentValue.Minute, currentValue.Second);
+            SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, currentValue.Month, day.Value, currentValue.Hour, currentValue.Minute, currentValue.Second));
         }
 
         private void OnMonthValueChanged(object sender, EventArgs e)
@@ -847,12 +875,12 @@ namespace Orc.Controls
             var daysInMonth = DateTime.DaysInMonth(currentValue.Year, month.Value);
             if (Day <= daysInMonth)
             {
-                Value = new DateTime(currentValue.Year, month.Value, Day.Value, currentValue.Hour, currentValue.Minute, currentValue.Second);
+                SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, month.Value, Day.Value, currentValue.Hour, currentValue.Minute, currentValue.Second));
                 return;
             }
 
             Day = daysInMonth;
-            Value = new DateTime(currentValue.Year, month.Value, daysInMonth, currentValue.Hour, currentValue.Minute, currentValue.Second);
+            SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, month.Value, daysInMonth, currentValue.Hour, currentValue.Minute, currentValue.Second));
         }
 
         private void OnYearValueChanged(object sender, EventArgs e)
@@ -870,7 +898,7 @@ namespace Orc.Controls
             }
 
             var currentValue = value ?? _todayValue;
-            Value = new DateTime(year.Value, currentValue.Month, currentValue.Day, currentValue.Hour, currentValue.Minute, currentValue.Second);
+            SetCurrentValue(ValueProperty, new DateTime(year.Value, currentValue.Month, currentValue.Day, currentValue.Hour, currentValue.Minute, currentValue.Second));
         }
 
         private void OnHourValueChanged(object sender, EventArgs e)
@@ -888,7 +916,7 @@ namespace Orc.Controls
             }
 
             var currentValue = value ?? _todayValue;
-            Value = new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, hour.Value, currentValue.Minute, currentValue.Second);
+            SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, hour.Value, currentValue.Minute, currentValue.Second));
         }
 
         private void OnMinuteValueChanged(object sender, EventArgs e)
@@ -906,7 +934,7 @@ namespace Orc.Controls
             }
 
             var currentValue = value ?? _todayValue;
-            Value = new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, currentValue.Hour, minute.Value, currentValue.Second);
+            SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, currentValue.Hour, minute.Value, currentValue.Second));
         }
 
         private void OnSecondValueChanged(object sender, EventArgs e)
@@ -924,7 +952,7 @@ namespace Orc.Controls
             }
 
             var currentValue = value ?? _todayValue;
-            Value = new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, currentValue.Hour, currentValue.Minute, second.Value);
+            SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, currentValue.Hour, currentValue.Minute, second.Value));
         }
 
         private void OnAmPmListTextBoxValueChanged(object sender, EventArgs e)
@@ -939,7 +967,7 @@ namespace Orc.Controls
 
             if (value == null)
             {
-                Value = new DateTime(_todayValue.Year, _todayValue.Month, _todayValue.Day, _todayValue.Hour, _todayValue.Minute, _todayValue.Second);
+                SetCurrentValue(ValueProperty, new DateTime(_todayValue.Year, _todayValue.Month, _todayValue.Day, _todayValue.Hour, _todayValue.Minute, _todayValue.Second));
             }
             else
             {
@@ -953,7 +981,7 @@ namespace Orc.Controls
                 var newValue = new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, currentValue.Hour, currentValue.Minute, currentValue.Second);
                 newValue = newValue.AddHours(Meridiems.LongAM.Equals(amPm) ? -12 : 12);
 
-                Value = newValue;
+                SetCurrentValue(ValueProperty, newValue);
             }
 
         }
@@ -974,9 +1002,9 @@ namespace Orc.Controls
             _daysNumericTextBox.SetCurrentValue(NumericTextBox.MaxValueProperty, (double)daysInMonth);
         }
 
-        private void OnShowOptionsButtonChanged(DependencyPropertyChangedEventArgs args)
+        private void OnShowOptionsButtonChanged()
         {
-            _datePickerIconToggleButton.Visibility = ShowOptionsButton ? Visibility.Visible : Visibility.Collapsed;
+            _datePickerIconToggleButton.SetCurrentValue(VisibilityProperty, ShowOptionsButton ? Visibility.Visible : Visibility.Collapsed);
         }
 
         private void OnHideTimeChanged()
@@ -1015,14 +1043,14 @@ namespace Orc.Controls
         private void SubscribeNumericTextBoxes()
         {
             // Enable support for switching between textboxes,
-            // 0-5 because we can't switch to right on last textbox.
+            // 0-5 because we can't switch to right on last textBox.
             for (var i = 0; i <= 5; i++)
             {
                 _textBoxes[i].SubscribeToOnRightBoundReachedEvent(OnTextBoxRightBoundReached);
             }
 
             // Enable support for switching between textboxes,
-            // 5-1 because we can't switch to left on first textbox.
+            // 5-1 because we can't switch to left on first textBox.
             for (var i = 6; i >= 1; i--)
             {
                 _textBoxes[i].SubscribeToOnLeftBoundReachedEvent(OnTextBoxLeftBoundReached);
@@ -1032,14 +1060,14 @@ namespace Orc.Controls
         private void UnsubscribeNumericTextBoxes()
         {
             // Disable support for switching between textboxes,
-            // 0-4 because we can't switch to right on last textbox.
+            // 0-4 because we can't switch to right on last textBox.
             for (var i = 0; i <= 5; i++)
             {
                 _textBoxes[i].UnsubscribeFromOnRightBoundReachedEvent(OnTextBoxRightBoundReached);
             }
 
             // Disable support for switching between textboxes,
-            // 5-1 because we can't switch to left on first textbox.
+            // 5-1 because we can't switch to left on first textBox.
             for (var i = 6; i >= 1; i--)
             {
                 _textBoxes[i].UnsubscribeFromOnLeftBoundReachedEvent(OnTextBoxLeftBoundReached);
@@ -1060,7 +1088,7 @@ namespace Orc.Controls
             if (TryFindResource(nameof(AmPmLongToAmPmShortConverter)) is AmPmLongToAmPmShortConverter converter)
             {
                 converter.IsEnabled = IsAmPmShortFormat;
-                BindingOperations.GetBindingExpression(_ampmListTextBox, ListTextBox.ValueProperty)?.UpdateTarget();
+                BindingOperations.GetBindingExpression(_amPmListTextBox, ListTextBox.ValueProperty)?.UpdateTarget();
             }
         }
 
@@ -1069,7 +1097,7 @@ namespace Orc.Controls
             if (TryFindResource(nameof(YearLongToYearShortConverter)) is YearLongToYearShortConverter converter)
             {
                 converter.IsEnabled = IsYearShortFormat;
-                BindingOperations.GetBindingExpression(_ampmListTextBox, NumericTextBox.ValueProperty)?.UpdateTarget();
+                BindingOperations.GetBindingExpression(_amPmListTextBox, NumericTextBox.ValueProperty)?.UpdateTarget();
             }
         }
 

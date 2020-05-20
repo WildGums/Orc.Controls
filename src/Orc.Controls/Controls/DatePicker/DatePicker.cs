@@ -79,7 +79,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(DateTime?), typeof(DatePicker),
             new FrameworkPropertyMetadata(DateTime.Today, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((DatePicker)sender).OnValueChanged((DateTime?)e.NewValue)));
+                (sender, e) => ((DatePicker)sender).OnValueChanged()));
 
         public bool ShowOptionsButton
         {
@@ -89,7 +89,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register(nameof(ShowOptionsButton), typeof(bool),
             typeof(DatePicker), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, 
-                (sender, args) => ((DatePicker)sender).OnShowOptionsButtonChanged(args)));
+                (sender, args) => ((DatePicker)sender).OnShowOptionsButtonChanged()));
 
         public bool AllowNull
         {
@@ -144,19 +144,25 @@ namespace Orc.Controls
         private int? Day
         {
             get => (int?)_daysNumericTextBox.Value;
-            set => _daysNumericTextBox.Value = value;
+#pragma warning disable WPF0035 // Use SetValue in setter.
+            set => _daysNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+#pragma warning restore WPF0035 // Use SetValue in setter.
         }
 
         private int? Month
         {
             get => (int?)_monthNumericTextBox.Value;
-            set => _monthNumericTextBox.Value = value;
+#pragma warning disable WPF0035 // Use SetValue in setter.
+            set => _monthNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+#pragma warning restore WPF0035 // Use SetValue in setter.
         }
 
         private int? Year
         {
             get => (int?)_yearNumericTextBox.Value;
-            set => _yearNumericTextBox.Value = value;
+#pragma warning disable WPF0035 // Use SetValue in setter.
+            set => _yearNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+#pragma warning restore WPF0035 // Use SetValue in setter.
         }
         #endregion
         
@@ -168,7 +174,7 @@ namespace Orc.Controls
             _daysNumericTextBox = GetTemplateChild("PART_DaysNumericTextBox") as NumericTextBox;
             if (_daysNumericTextBox is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_DaysNumericTextBox'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysNumericTextBox'");
             }
             _daysNumericTextBox.ValueChanged += OnDaysValueChanged;
 
@@ -176,7 +182,7 @@ namespace Orc.Controls
             _monthNumericTextBox = GetTemplateChild("PART_MonthNumericTextBox") as NumericTextBox;
             if (_monthNumericTextBox is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_MonthNumericTextBox'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MonthNumericTextBox'");
             }
             _monthNumericTextBox.ValueChanged += OnMonthValueChanged;
             _monthNumericTextBox.TextChanged += OnMonthTextChanged;
@@ -185,7 +191,7 @@ namespace Orc.Controls
             _yearNumericTextBox = GetTemplateChild("PART_YearNumericTextBox") as NumericTextBox;
             if (_yearNumericTextBox is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_YearNumericTextBox'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_YearNumericTextBox'");
             }
             _yearNumericTextBox.ValueChanged += OnYearValueChanged;
 
@@ -193,83 +199,83 @@ namespace Orc.Controls
             _daysMonthsSeparatorTextBlock = GetTemplateChild("PART_DaysMonthsSeparatorTextBlock") as TextBlock;
             if (_daysMonthsSeparatorTextBlock is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_DaysMonthsSeparatorTextBlock'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysMonthsSeparatorTextBlock'");
             }
 
             _monthsYearSeparatorTextBlock = GetTemplateChild("PART_MonthsYearSeparatorTextBlock") as TextBlock;
             if (_monthsYearSeparatorTextBlock is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_MonthsYearSeparatorTextBlock'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MonthsYearSeparatorTextBlock'");
             }
 
             _yearSeparatorTextBlock = GetTemplateChild("PART_YearSeparatorTextBlock") as TextBlock;
             if (_yearSeparatorTextBlock is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_YearSeparatorTextBlock'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_YearSeparatorTextBlock'");
             }
 
             /*Toggles*/
             _daysToggleButton = GetTemplateChild("PART_DaysToggleButton") as ToggleButton;
             if (_daysToggleButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_DaysToggleButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysToggleButton'");
             }
             _daysToggleButton.Checked += OnToggleButtonChecked;
 
             _monthToggleButton = GetTemplateChild("PART_MonthToggleButton") as ToggleButton;
             if (_monthToggleButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_MonthToggleButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MonthToggleButton'");
             }
             _monthToggleButton.Checked += OnToggleButtonChecked;
 
             _yearToggleButton = GetTemplateChild("PART_YearToggleButton") as ToggleButton;
             if (_yearToggleButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_YearToggleButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_YearToggleButton'");
             }
             
 
             _datePickerIconToggleButton = GetTemplateChild("PART_DatePickerIconToggleButton") as ToggleButton;
             if (_datePickerIconToggleButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_DatePickerIconToggleButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DatePickerIconToggleButton'");
             }
-            _datePickerIconToggleButton.Visibility = ShowOptionsButton ? Visibility.Visible : Visibility.Hidden;
+            _datePickerIconToggleButton.SetCurrentValue(VisibilityProperty, ShowOptionsButton ? Visibility.Visible : Visibility.Hidden);
 
             /*Buttons*/
             _todayButton = GetTemplateChild("PART_TodayButton") as Button;
             if (_todayButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_TodayButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TodayButton'");
             }
             _todayButton.Click += OnTodayButtonClick;  
             
             _selectDateButton = GetTemplateChild("PART_SelectDateButton") as Button;
             if (_selectDateButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_SelectDateButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SelectDateButton'");
             }
             _selectDateButton.Click += OnSelectDateButtonClick;
 
             _clearButton = GetTemplateChild("PART_ClearButton") as Button;
             if (_clearButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_ClearButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ClearButton'");
             }
             _clearButton.Click += OnClearButtonClick;   
             
             _copyButton = GetTemplateChild("PART_CopyButton") as Button;
             if (_copyButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_CopyButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_CopyButton'");
             }
             _copyButton.Click += OnCopyButtonClick;
 
             _pasteButton = GetTemplateChild("PART_PasteButton") as Button;
             if (_pasteButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_PasteButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_PasteButton'");
             }
             _pasteButton.Click += OnPasteButtonClick;         
             
@@ -277,7 +283,7 @@ namespace Orc.Controls
             _mainGrid = GetTemplateChild("PART_MainGrid") as Grid;
             if (_mainGrid is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_MainGrid'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MainGrid'");
             }
 
             _textBoxes = new List<TextBox>
@@ -424,7 +430,7 @@ namespace Orc.Controls
             dateTimePartHelper.CreatePopup();
         }
 
-        private void OnValueChanged(DateTime? value)
+        private void OnValueChanged()
         {
             UpdateUi();
         }
@@ -603,7 +609,7 @@ namespace Orc.Controls
             BindingOperations.GetBindingExpression(_yearNumericTextBox, NumericTextBox.ValueProperty)?.UpdateTarget();
         }
 
-        private void OnShowOptionsButtonChanged(DependencyPropertyChangedEventArgs args)
+        private void OnShowOptionsButtonChanged()
         {
             _datePickerIconToggleButton.SetCurrentValue(VisibilityProperty, ShowOptionsButton ? Visibility.Visible : Visibility.Collapsed);
         }
@@ -611,12 +617,12 @@ namespace Orc.Controls
         private void SubscribeNumericTextBoxes()
         {
             // Enable support for switching between textboxes,
-            // 0-1 because we can't switch to right on last textbox.
+            // 0-1 because we can't switch to right on last textBox.
             _textBoxes[0].SubscribeToOnRightBoundReachedEvent(OnTextBoxRightBoundReached);
             _textBoxes[1].SubscribeToOnRightBoundReachedEvent(OnTextBoxRightBoundReached);
 
             // Enable support for switching between textboxes,
-            // 2-1 because we can't switch to left on first textbox.
+            // 2-1 because we can't switch to left on first textBox.
             _textBoxes[2].SubscribeToOnLeftBoundReachedEvent(OnTextBoxLeftBoundReached);
             _textBoxes[1].SubscribeToOnLeftBoundReachedEvent(OnTextBoxLeftBoundReached);
         }
@@ -624,12 +630,12 @@ namespace Orc.Controls
         private void UnsubscribeNumericTextBoxes()
         {
             // Disable support for switching between textboxes,
-            // 0-1 because we can't switch to right on last textbox.
+            // 0-1 because we can't switch to right on last textBox.
             _textBoxes[0].UnsubscribeFromOnRightBoundReachedEvent(OnTextBoxRightBoundReached);
             _textBoxes[1].UnsubscribeFromOnRightBoundReachedEvent(OnTextBoxRightBoundReached);
 
             // Disable support for switching between textboxes,
-            // 2-1 because we can't switch to left on first textbox.
+            // 2-1 because we can't switch to left on first textBox.
             _textBoxes[2].UnsubscribeFromOnLeftBoundReachedEvent(OnTextBoxLeftBoundReached);
             _textBoxes[1].UnsubscribeFromOnLeftBoundReachedEvent(OnTextBoxLeftBoundReached);
         }
