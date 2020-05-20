@@ -676,6 +676,7 @@ namespace Orc.Controls
             where T :  class, Orc.Controls.IControlTool { }
         public static bool CanAttach(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
         public static bool DetachTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
+        public static System.Windows.Point GetCenterPointInRoot(this System.Windows.FrameworkElement frameworkElement, System.Windows.FrameworkElement root) { }
         public static Orc.Controls.Tools.IControlToolManager GetControlToolManager(this System.Windows.FrameworkElement frameworkElement) { }
         public static System.Collections.Generic.IList<Orc.Controls.IControlTool> GetTools(this System.Windows.FrameworkElement frameworkElement) { }
     }
