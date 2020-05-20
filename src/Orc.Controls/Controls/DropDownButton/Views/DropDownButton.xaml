@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:catel="http://schemas.catelproject.com"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:behavior="clr-namespace:Orc.Controls.Behavior"
              xmlns:controls="clr-namespace:Orc.Controls" 
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"

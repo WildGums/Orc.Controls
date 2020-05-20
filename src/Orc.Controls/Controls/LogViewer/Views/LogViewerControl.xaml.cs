@@ -16,7 +16,6 @@ namespace Orc.Controls
     using System.Windows.Documents;
     using System.Windows.Input;
     using System.Windows.Media;
-    using Catel;
     using Catel.Collections;
     using Catel.IoC;
     using Catel.Logging;
@@ -59,10 +58,7 @@ namespace Orc.Controls
 
             _commandManager = ServiceLocator.Default.ResolveType<ICommandManager>();
 
-            ColorSets[LogEvent.Debug] = Brushes.Gray;
-            ColorSets[LogEvent.Info] = Brushes.Black;
-            ColorSets[LogEvent.Warning] = Brushes.DarkOrange;
-            ColorSets[LogEvent.Error] = Brushes.Red;
+            UpdateMessageBrushes();
         }
         #endregion
 
@@ -275,9 +271,64 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty MaximumUpdateBatchSizeProperty = DependencyProperty.Register(nameof(MaximumUpdateBatchSize),
             typeof(int), typeof(LogViewerControl), new PropertyMetadata(250));
+
+        public Brush InfoMessageBrush
+        {
+            get { return (Brush)GetValue(InfoMessageBrushProperty); }
+            set { SetValue(InfoMessageBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty InfoMessageBrushProperty = DependencyProperty.Register(
+            nameof(InfoMessageBrush), typeof(Brush), typeof(LogViewerControl), 
+            new PropertyMetadata(Brushes.Black, (sender, args) => ((LogViewerControl) sender).OnMessageColorChanged()));
+
+        public Brush DebugMessageBrush
+        {
+            get { return (Brush)GetValue(DebugMessageBrushProperty); }
+            set { SetValue(DebugMessageBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty DebugMessageBrushProperty = DependencyProperty.Register(
+            nameof(DebugMessageBrush), typeof(Brush), typeof(LogViewerControl),
+            new PropertyMetadata(Brushes.Gray, (sender, args) => ((LogViewerControl)sender).OnMessageColorChanged()));
+
+        public Brush WarningMessageBrush
+        {
+            get { return (Brush)GetValue(WarningMessageBrushProperty); }
+            set { SetValue(WarningMessageBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty WarningMessageBrushProperty = DependencyProperty.Register(
+            nameof(WarningMessageBrush), typeof(Brush), typeof(LogViewerControl),
+            new PropertyMetadata(Brushes.DarkOrange, (sender, args) => ((LogViewerControl)sender).OnMessageColorChanged()));
+
+        public Brush ErrorMessageBrush
+        {
+            get { return (Brush)GetValue(ErrorMessageBrushProperty); }
+            set { SetValue(ErrorMessageBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty ErrorMessageBrushProperty = DependencyProperty.Register(
+            nameof(ErrorMessageBrush), typeof(Brush), typeof(LogViewerControl),
+            new PropertyMetadata(Brushes.Red, (sender, args) => ((LogViewerControl)sender).OnMessageColorChanged()));
         #endregion
 
         #region Methods
+        private void OnMessageColorChanged()
+        {
+            UpdateMessageBrushes();
+
+            UpdateControl();
+        }
+
+        private void UpdateMessageBrushes()
+        {
+            ColorSets[LogEvent.Debug] = DebugMessageBrush;
+            ColorSets[LogEvent.Info] = InfoMessageBrush;
+            ColorSets[LogEvent.Warning] = WarningMessageBrush;
+            ColorSets[LogEvent.Error] = ErrorMessageBrush;
+        }
+
         protected override void OnViewModelChanged()
         {
             base.OnViewModelChanged();

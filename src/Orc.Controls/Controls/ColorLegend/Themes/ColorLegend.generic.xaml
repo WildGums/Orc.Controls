@@ -62,7 +62,7 @@
                                                              Grid.Column="0"
                                                              Width="40"
                                                              ShowDefaultButton="False" 
-                                                             EnableTransparentBackground="True"
+                                                             EnableTransparentBackground="False"
                                                              Visibility="{Binding ShowSettingsBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
                                         <controls:DropDownButton.Header>
                                             <Grid>

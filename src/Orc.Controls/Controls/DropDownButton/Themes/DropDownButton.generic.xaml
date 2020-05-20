@@ -4,6 +4,10 @@
                     xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
                     xmlns:controls="clr-namespace:Orc.Controls">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.togglebutton.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <Style x:Key="{x:Type controls:DropDownButton}" TargetType="{x:Type controls:DropDownButton}">
         <Style.Resources>
             <Style TargetType="{x:Type Button}">

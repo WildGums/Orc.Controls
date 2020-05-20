@@ -19,8 +19,7 @@
                                    FontSize="14"
                                    Margin="4" 
                                    TextAlignment="Left"
-                                   Text="{Binding Path=Header, RelativeSource={RelativeSource TemplatedParent}}">
-                        </TextBlock>
+                                   Text="{Binding Path=Header, RelativeSource={RelativeSource TemplatedParent}}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
