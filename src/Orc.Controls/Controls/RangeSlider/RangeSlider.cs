@@ -182,11 +182,6 @@
                 return;
             }
 
-            if (_lowerSlider is null)
-            {
-                return;
-            }
-
             if (_upperSlider is null)
             {
                 return;
@@ -291,14 +286,20 @@
                 return;
             }
 
-            if (!_lowerThumb.IsVisible)
+            if (_lowerThumb != null)
             {
-                _lowerThumb.IsVisibleChanged += OnLowerThumbIsVisibleChanged;
+                if (!_lowerThumb.IsVisible)
+                {
+                    _lowerThumb.IsVisibleChanged += OnLowerThumbIsVisibleChanged;
+                }
             }
-
-            if (!_upperThumb.IsVisible)
+            
+            if (_upperThumb != null)
             {
-                _upperThumb.IsVisibleChanged += OnUpperThumbIsVisibleChanged;
+                if (!_upperThumb.IsVisible)
+                {
+                    _upperThumb.IsVisibleChanged += OnUpperThumbIsVisibleChanged;
+                }
             }
 
             IsVisibleChanged -= OnIsVisibleChanged;
