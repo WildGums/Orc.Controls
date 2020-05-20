@@ -70,6 +70,35 @@ namespace Orc.Controls
         public void InitializeComponent() { }
         protected override void OnRenderSizeChanged(System.Windows.SizeChangedInfo sizeInfo) { }
     }
+    [System.Windows.TemplatePart(Name="PART_A0GradientStop", Type=typeof(System.Windows.Media.GradientStop))]
+    [System.Windows.TemplatePart(Name="PART_A1GradientStop", Type=typeof(System.Windows.Media.GradientStop))]
+    [System.Windows.TemplatePart(Name="PART_ASlider", Type=typeof(System.Windows.Controls.Slider))]
+    [System.Windows.TemplatePart(Name="PART_ATextBox", Type=typeof(System.Windows.Controls.TextBox))]
+    [System.Windows.TemplatePart(Name="PART_B0GradientStop", Type=typeof(System.Windows.Media.GradientStop))]
+    [System.Windows.TemplatePart(Name="PART_B1GradientStop", Type=typeof(System.Windows.Media.GradientStop))]
+    [System.Windows.TemplatePart(Name="PART_BSlider", Type=typeof(System.Windows.Controls.Slider))]
+    [System.Windows.TemplatePart(Name="PART_BTextBox", Type=typeof(System.Windows.Controls.TextBox))]
+    [System.Windows.TemplatePart(Name="PART_CancelButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_ColorBrush", Type=typeof(System.Windows.Media.SolidColorBrush))]
+    [System.Windows.TemplatePart(Name="PART_ColorComboBox", Type=typeof(System.Windows.Controls.ComboBox))]
+    [System.Windows.TemplatePart(Name="PART_ColorTextBox", Type=typeof(System.Windows.Controls.TextBox))]
+    [System.Windows.TemplatePart(Name="PART_G0GradientStop", Type=typeof(System.Windows.Media.GradientStop))]
+    [System.Windows.TemplatePart(Name="PART_G1GradientStop", Type=typeof(System.Windows.Media.GradientStop))]
+    [System.Windows.TemplatePart(Name="PART_GSlider", Type=typeof(System.Windows.Controls.Slider))]
+    [System.Windows.TemplatePart(Name="PART_GTextBox", Type=typeof(System.Windows.Controls.TextBox))]
+    [System.Windows.TemplatePart(Name="PART_HSVCanvas", Type=typeof(System.Windows.Controls.Canvas))]
+    [System.Windows.TemplatePart(Name="PART_HSVColorGradientStop", Type=typeof(System.Windows.Media.GradientStop))]
+    [System.Windows.TemplatePart(Name="PART_HSVEllipse", Type=typeof(System.Windows.Shapes.Ellipse))]
+    [System.Windows.TemplatePart(Name="PART_HSVRectangle", Type=typeof(System.Windows.Shapes.Rectangle))]
+    [System.Windows.TemplatePart(Name="PART_HSVSlider", Type=typeof(System.Windows.Controls.Slider))]
+    [System.Windows.TemplatePart(Name="PART_R0GradientStop", Type=typeof(System.Windows.Media.GradientStop))]
+    [System.Windows.TemplatePart(Name="PART_R1GradientStop", Type=typeof(System.Windows.Media.GradientStop))]
+    [System.Windows.TemplatePart(Name="PART_RSlider", Type=typeof(System.Windows.Controls.Slider))]
+    [System.Windows.TemplatePart(Name="PART_RTextBox", Type=typeof(System.Windows.Controls.TextBox))]
+    [System.Windows.TemplatePart(Name="PART_RecentColorsListBox", Type=typeof(System.Windows.Controls.ListBox))]
+    [System.Windows.TemplatePart(Name="PART_RootGrid", Type=typeof(System.Windows.FrameworkElement))]
+    [System.Windows.TemplatePart(Name="PART_SelectButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_ThemeColorsListBox", Type=typeof(System.Windows.Controls.ListBox))]
     public class ColorBoard : System.Windows.Controls.Control
     {
         public static readonly System.Windows.DependencyProperty ColorProperty;
@@ -80,7 +109,6 @@ namespace Orc.Controls
         public event System.Windows.RoutedEventHandler CancelClicked;
         public event System.Windows.RoutedEventHandler DoneClicked;
         public override void OnApplyTemplate() { }
-        public void OnCancelClicked() { }
         public void OnDoneClicked() { }
     }
     public class ColorChangedEventArgs : System.EventArgs
@@ -758,6 +786,7 @@ namespace Orc.Controls
         public static System.Windows.Documents.Inline AppendRange(this System.Windows.Documents.Inline inline, System.Collections.Generic.IEnumerable<System.Windows.Documents.Inline> inlines) { }
         public static System.Windows.Documents.Bold Bold(this System.Windows.Documents.Inline inline) { }
     }
+    [System.Windows.StyleTypedProperty(Property="HyperlinkStyle", StyleTargetType=typeof(System.Windows.Documents.Hyperlink))]
     [System.Windows.TemplatePart(Name="PART_InnerHyperlink", Type=typeof(System.Windows.Documents.Hyperlink))]
     public class LinkLabel : System.Windows.Controls.Label
     {
@@ -1165,10 +1194,10 @@ namespace Orc.Controls
         protected override void OnAssociatedObjectLoaded() { }
         protected override void OnAssociatedObjectUnloaded() { }
     }
-    [System.Windows.TemplatePart(Name="CloseButton", Type=typeof(System.Windows.Controls.Button))]
-    [System.Windows.TemplatePart(Name="DragGrip", Type=typeof(System.Windows.FrameworkElement))]
-    [System.Windows.TemplatePart(Name="GripDrawing", Type=typeof(System.Windows.Media.GeometryDrawing))]
-    [System.Windows.TemplatePart(Name="PinButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
+    [System.Windows.TemplatePart(Name="PART_CloseButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_DragGrip", Type=typeof(System.Windows.FrameworkElement))]
+    [System.Windows.TemplatePart(Name="PART_GripDrawing", Type=typeof(System.Windows.Media.GeometryDrawing))]
+    [System.Windows.TemplatePart(Name="PART_PinButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
     public class PinnableToolTip : System.Windows.Controls.ContentControl
     {
         public static readonly System.Windows.DependencyProperty AllowCloseByUserProperty;
