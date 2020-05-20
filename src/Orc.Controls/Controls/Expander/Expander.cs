@@ -26,9 +26,8 @@ namespace Orc.Controls
         #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-        private GridLength? _expandDistance;
         private double? _previousActualLength;
-        private double? _previousMaxLenght;
+        private double? _previousMaxLength;
         private ContentPresenter _expandSite;
         private Border _headerSiteBorder;
         #endregion
@@ -124,10 +123,10 @@ namespace Orc.Controls
 
             var storyboard = new Storyboard();
 
-            var anumationDuration = new Duration(TimeSpan.FromMilliseconds(duration));
+            var animationDuration = new Duration(TimeSpan.FromMilliseconds(duration));
             var ease = new CubicEase { EasingMode = EasingMode.EaseOut };
 
-            var animation = new DoubleAnimation { EasingFunction = ease, Duration = anumationDuration };
+            var animation = new DoubleAnimation { EasingFunction = ease, Duration = animationDuration };
             storyboard.Children.Add(animation);
             animation.From = from;
             animation.To = to;
@@ -149,10 +148,10 @@ namespace Orc.Controls
 
             var storyboard = new Storyboard();
 
-            var anumationDuration = new Duration(TimeSpan.FromMilliseconds(duration));
+            var animationDuration = new Duration(TimeSpan.FromMilliseconds(duration));
             var ease = new CubicEase { EasingMode = EasingMode.EaseOut };
 
-            var animation = new DoubleAnimation { EasingFunction = ease, Duration = anumationDuration };
+            var animation = new DoubleAnimation { EasingFunction = ease, Duration = animationDuration };
             storyboard.Children.Add(animation);
             animation.From = from;
             animation.To = to;
@@ -173,7 +172,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (_previousMaxLenght is null)
+            if (_previousMaxLength is null)
             {
                 return;
             }
@@ -203,7 +202,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (_previousMaxLenght is null)
+            if (_previousMaxLength is null)
             {
                 return;
             }
@@ -228,7 +227,7 @@ namespace Orc.Controls
         {
             if (!AutoResizeGrid)
             {
-                _expandSite.Visibility = Visibility.Collapsed;
+                _expandSite.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
 
                 return;
             }
@@ -245,11 +244,10 @@ namespace Orc.Controls
                 {
                     var column = Grid.GetColumn(this);
                     var columnDefinition = grid.ColumnDefinitions[column];
-                    _expandDistance = columnDefinition.Width;
 
-                    if (_previousMaxLenght is null)
+                    if (_previousMaxLength is null)
                     {
-                        _previousMaxLenght = columnDefinition.MaxWidth;
+                        _previousMaxLength = columnDefinition.MaxWidth;
                     }
                     
                     _previousActualLength = columnDefinition.ActualWidth;
@@ -263,11 +261,10 @@ namespace Orc.Controls
                 {
                     var row = Grid.GetRow(this);
                     var rowDefinition = grid.RowDefinitions[row];
-                    _expandDistance = rowDefinition.Height;
                         
-                    if (_previousMaxLenght is null)
+                    if (_previousMaxLength is null)
                     {
-                        _previousMaxLenght = rowDefinition.MaxHeight;
+                        _previousMaxLength = rowDefinition.MaxHeight;
                     }
 
                     _previousActualLength = rowDefinition.ActualHeight;
@@ -282,7 +279,7 @@ namespace Orc.Controls
         {
             if (!AutoResizeGrid)
             {
-                _expandSite.Visibility = Visibility.Visible;
+                _expandSite.SetCurrentValue(VisibilityProperty, Visibility.Visible);
 
                 return;
             }

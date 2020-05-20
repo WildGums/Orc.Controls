@@ -62,7 +62,7 @@ namespace Orc.Controls
         }
 
         // Using a DependencyProperty as the backing store for SelectedDirectory.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SelectedDirectoryProperty = DependencyProperty.Register("SelectedDirectory", typeof(string),
+        public static readonly DependencyProperty SelectedDirectoryProperty = DependencyProperty.Register(nameof(SelectedDirectory), typeof(string),
             typeof(DirectoryPicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
     }
