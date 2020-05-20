@@ -7,7 +7,7 @@
         <Setter Property="HoverForeground" Value="{DynamicResource Orc.Brushes.AccentColor}" />
         <Setter Property="HyperlinkStyle">
             <Setter.Value>
-                <Style TargetType="Hyperlink">
+                <Style TargetType="{x:Type Hyperlink}">
                     <Setter Property="Foreground" 
                             Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Foreground}"/>
                     <Style.Triggers>
@@ -17,7 +17,7 @@
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground"
-                                    Value="{DynamicResource Orc.Brushes.Control.Disabled.Foregound}"/>
+                                    Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}"/>
                         </Trigger>
                     </Style.Triggers>
                 </Style>

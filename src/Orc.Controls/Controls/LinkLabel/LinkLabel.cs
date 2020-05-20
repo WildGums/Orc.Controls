@@ -21,10 +21,13 @@ namespace Orc.Controls
     using System.Windows.Navigation;
     using Catel.Logging;
 
+
+
     /// <summary>
     /// A label looking like the known hyperlink.
     /// </summary>
     [TemplatePart(Name = "PART_InnerHyperlink", Type = typeof(Hyperlink))]
+    [StyleTypedProperty(Property = nameof(HyperlinkStyle), StyleTargetType = typeof(Hyperlink))]
     public class LinkLabel : Label
     {
         #region Fields
@@ -220,8 +223,8 @@ namespace Orc.Controls
         /// </summary>
         public event RoutedEventHandler Click
         {
-            add { base.AddHandler(ClickEvent, value); }
-            remove { base.RemoveHandler(ClickEvent, value); }
+            add { AddHandler(ClickEvent, value); }
+            remove { RemoveHandler(ClickEvent, value); }
         }
 
         /// <summary>
@@ -234,8 +237,8 @@ namespace Orc.Controls
         /// </summary>
         public event RequestNavigateEventHandler RequestNavigate
         {
-            add { base.AddHandler(RequestNavigateEvent, value); }
-            remove { base.RemoveHandler(RequestNavigateEvent, value); }
+            add { AddHandler(RequestNavigateEvent, value); }
+            remove { RemoveHandler(RequestNavigateEvent, value); }
         }
         #endregion
 
