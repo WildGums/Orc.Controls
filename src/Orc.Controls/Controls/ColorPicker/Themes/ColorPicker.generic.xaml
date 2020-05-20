@@ -110,7 +110,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ColorBoard}">
-                    <Grid x:Name="RootElement" >
+                    <Grid x:Name="PART_RootGrid" >
                         <Border Background="{TemplateBinding Background}" 
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 BorderThickness="{TemplateBinding BorderThickness}">
@@ -305,17 +305,17 @@
                                             </Grid.ColumnDefinitions>
 
                                             <!--HSV Part-->
-                                            <Canvas x:Name="CanvasHSV" Margin="2" Width="140" Height="140" Focusable="False">
+                                            <Canvas x:Name="PART_HSVCanvas" Margin="2" Width="140" Height="140" Focusable="False">
                                                 <Rectangle x:Name="RectangleRootHSV" Width="140" Height="140" Focusable="False" Stroke="Black" StrokeThickness="1">
                                                     <Rectangle.Fill>
                                                         <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
                                                             <GradientStop Color="#FFFFFFFF" Offset="0" />
-                                                            <GradientStop x:Name="GradientStopHSVColor" Color="#FFFF0000" Offset="1" />
+                                                            <GradientStop x:Name="PART_HSVColorGradientStop" Color="#FFFF0000" Offset="1" />
                                                         </LinearGradientBrush>
                                                     </Rectangle.Fill>
                                                 </Rectangle>
 
-                                                <Rectangle x:Name="RectangleHSV" Focusable="False" Width="140" Height="140">
+                                                <Rectangle x:Name="PART_HSVRectangle" Focusable="False" Width="140" Height="140">
                                                     <Rectangle.Fill>
                                                         <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                                             <GradientStop Color="#00000000" Offset="0" />
@@ -324,7 +324,7 @@
                                                     </Rectangle.Fill>
                                                 </Rectangle>
 
-                                                <Ellipse x:Name="EllipseHSV" Focusable="False" Height="8" Width="8" IsHitTestVisible="False">
+                                                <Ellipse x:Name="PART_HSVEllipse" Focusable="False" Height="8" Width="8" IsHitTestVisible="False">
                                                     <Ellipse.Fill>
                                                         <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
                                                             <GradientStop Color="Transparent" Offset="0" />
@@ -337,7 +337,7 @@
                                                 </Ellipse>
                                             </Canvas>
 
-                                            <Slider Name="SliderHSV"
+                                            <Slider Name="PART_HSVSlider"
                                                     Grid.Column="1"
                                                     Margin="0"
                                                     Height="150" 
@@ -375,7 +375,7 @@
                                                     <ColumnDefinition Width="Auto"/>
                                                 </Grid.ColumnDefinitions>
 
-                                                <Slider x:Name="SliderA"
+                                                <Slider x:Name="PART_ASlider"
                                                         Grid.Row="0"
                                                         Grid.Column="0" 
                                                         Height="20" 
@@ -386,13 +386,13 @@
                                                         VerticalAlignment="Center">
                                                     <Slider.Background>
                                                         <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                            <GradientStop x:Name="GradientStopA0" Color="#00000000" Offset="0.0" />
-                                                            <GradientStop x:Name="GradientStopA1" Color="#FF000000" Offset="1.0" />
+                                                            <GradientStop x:Name="PART_A0GradientStop" Color="#00000000" Offset="0.0" />
+                                                            <GradientStop x:Name="PART_A1GradientStop" Color="#FF000000" Offset="1.0" />
                                                         </LinearGradientBrush>
                                                     </Slider.Background>
                                                 </Slider>
 
-                                                <Slider x:Name="SliderR"
+                                                <Slider x:Name="PART_RSlider"
                                                         Grid.Row="1"
                                                         Grid.Column="0"  
                                                         Height="20" 
@@ -403,13 +403,13 @@
                                                         VerticalAlignment="Center">
                                                     <Slider.Background>
                                                         <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                            <GradientStop x:Name="GradientStopR0" Color="#FF000000" Offset="0.0" />
-                                                            <GradientStop x:Name="GradientStopR1" Color="#FFFF0000" Offset="1.0" />
+                                                            <GradientStop x:Name="PART_R0GradientStop" Color="#FF000000" Offset="0.0" />
+                                                            <GradientStop x:Name="PART_R1GradientStop" Color="#FFFF0000" Offset="1.0" />
                                                         </LinearGradientBrush>
                                                     </Slider.Background>
                                                 </Slider>
 
-                                                <Slider x:Name="SliderG"
+                                                <Slider x:Name="PART_GSlider"
                                                         Grid.Row="2"
                                                         Grid.Column="0"
                                                         Height="20" 
@@ -420,13 +420,13 @@
                                                         VerticalAlignment="Center">
                                                     <Slider.Background>
                                                         <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                            <GradientStop x:Name="GradientStopG0" Color="#FF000000" Offset="0.0" />
-                                                            <GradientStop x:Name="GradientStopG1" Color="#FF00FF00" Offset="1.0" />
+                                                            <GradientStop x:Name="PART_G0GradientStop" Color="#FF000000" Offset="0.0" />
+                                                            <GradientStop x:Name="PART_G1GradientStop" Color="#FF00FF00" Offset="1.0" />
                                                         </LinearGradientBrush>
                                                     </Slider.Background>
                                                 </Slider>
 
-                                                <Slider x:Name="SliderB"
+                                                <Slider x:Name="PART_BSlider"
                                                         Grid.Row="3" 
                                                         Grid.Column="0" 
                                                         Height="20" 
@@ -437,13 +437,13 @@
                                                         VerticalAlignment="Center">
                                                     <Slider.Background>
                                                         <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                            <GradientStop x:Name="GradientStopB0" Color="#FF000000" Offset="0.0" />
-                                                            <GradientStop x:Name="GradientStopB1" Color="#FF0000FF" Offset="1.0" />
+                                                            <GradientStop x:Name="PART_B0GradientStop" Color="#FF000000" Offset="0.0" />
+                                                            <GradientStop x:Name="PART_B1GradientStop" Color="#FF0000FF" Offset="1.0" />
                                                         </LinearGradientBrush>
                                                     </Slider.Background>
                                                 </Slider>
 
-                                                <TextBox x:Name="TextBoxA"
+                                                <TextBox x:Name="PART_ATextBox"
                                                          Grid.Row="0"
                                                          Grid.Column="1" 
                                                          Margin="0 2 0 0"
@@ -452,7 +452,7 @@
                                                          Width="24" 
                                                          VerticalAlignment="Center" 
                                                          HorizontalAlignment="Center"/>
-                                                <TextBox x:Name="TextBoxR"
+                                                <TextBox x:Name="PART_RTextBox"
                                                          Grid.Row="1"
                                                          Grid.Column="1"
                                                          Margin="0 2 0 0"
@@ -461,7 +461,7 @@
                                                          Width="24"
                                                          VerticalAlignment="Center"
                                                          HorizontalAlignment="Center"/>
-                                                <TextBox x:Name="TextBoxG"
+                                                <TextBox x:Name="PART_GTextBox"
                                                          Grid.Row="2"
                                                          Grid.Column="1"
                                                          Margin="0 2 0 0"
@@ -470,7 +470,7 @@
                                                          Width="24"
                                                          VerticalAlignment="Center"
                                                          HorizontalAlignment="Center"/>
-                                                <TextBox x:Name="TextBoxB"
+                                                <TextBox x:Name="PART_BTextBox"
                                                          Grid.Row="3"
                                                          Grid.Column="1"
                                                          Margin="0 2 0 0"
@@ -565,7 +565,7 @@
                                                 <TextBlock Text="{catel:LanguageBinding Controls_ColorPickerGeneric_TextBlock_Text_ThemeColors}" 
                                                            Margin="2 1"/>
                                             </Border>
-                                            <ListBox x:Name="ThemeColorsGrid"
+                                            <ListBox x:Name="PART_ThemeColorsListBox"
                                                      HorizontalAlignment="Stretch"
                                                      HorizontalContentAlignment="Center"
                                                      BorderThickness="0" 
@@ -585,7 +585,7 @@
                                                 <TextBlock Text="{catel:LanguageBinding Controls_ColorPickerGeneric_TextBlock_Text_RecentColors}" 
                                                            Margin="2 1"/>
                                             </Border>
-                                            <ListBox x:Name="RecentColorsGrid"
+                                            <ListBox x:Name="PART_RecentColorsListBox"
                                                      HorizontalAlignment="Stretch"
                                                      HorizontalContentAlignment="Center" 
                                                      BorderThickness="0"
@@ -608,7 +608,7 @@
                                       Height="25"
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Center">
-                                    <ComboBox x:Name="ComboBoxColor" 
+                                    <ComboBox x:Name="PART_ColorComboBox" 
                                               Height="20"
                                               Margin="2"
                                               HorizontalContentAlignment="Left"
@@ -625,12 +625,12 @@
                                                    Stroke="Black" 
                                                    StrokeThickness="1">
                                             <Rectangle.Fill>
-                                                <SolidColorBrush x:Name="BrushColor" 
+                                                <SolidColorBrush x:Name="PART_ColorBrush" 
                                                                  Color="White"/>
                                             </Rectangle.Fill>
                                         </Rectangle>
 
-                                        <TextBox x:Name="TextBoxColor"
+                                        <TextBox x:Name="PART_ColorTextBox"
                                                  TextOptions.TextRenderingMode="ClearType" 
                                                  Margin="5,0" 
                                                  Height="20" 
@@ -646,13 +646,13 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Button x:Name="ButtonCancel" 
+                                    <Button x:Name="PART_CancelButton" 
                                             Grid.Column="0"
                                             Height="auto"
                                             Margin="2 0 2 2"
                                             Content="{catel:LanguageBinding Controls_ColorPickerGeneric_Button_Content_Cancel}" />
 
-                                    <Button x:Name="ButtonDone"
+                                    <Button x:Name="PART_SelectButton"
                                             Grid.Column="1"
                                             Height="auto" 
                                             Margin="0 0 2 2"

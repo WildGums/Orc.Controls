@@ -65,25 +65,21 @@ namespace Orc.Controls
         private int Days
         {
             get => (int)(_daysNumericTextBox.Value ?? 0);
-            set => _daysNumericTextBox.Value = value;
         }
 
         private int Hours
         {
             get => (int)(_hoursNumericTextBox.Value ?? 0);
-            set => _hoursNumericTextBox.Value = value;
         }
 
         private int Minutes
         {
             get => (int)(_minutesNumericTextBox.Value ?? 0);
-            set => _minutesNumericTextBox.Value = value;
         }
 
         private int Seconds
         {
             get => (int)(_secondsNumericTextBox.Value ?? 0);
-            set => _secondsNumericTextBox.Value = value;
         }
         #endregion
 
@@ -330,10 +326,10 @@ namespace Orc.Controls
 
         private void OnValueChanged(TimeSpan? value)
         {
-            Days = value?.Days ?? 0;
-            Hours = value?.Hours ?? 0;
-            Minutes = value?.Minutes ?? 0;
-            Seconds = value?.Seconds ?? 0;
+            _daysNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?) (value?.Days ?? 0));
+            _hoursNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?) (value?.Hours ?? 0));
+            _minutesNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?) (value?.Minutes ?? 0));
+            _secondsNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?) (value?.Seconds ?? 0));
 
             _daysHoursSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, value == null ? string.Empty : ".");
             _hoursMinutesSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, value == null ? string.Empty : ":");

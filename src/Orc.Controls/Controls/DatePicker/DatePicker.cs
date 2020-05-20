@@ -450,7 +450,7 @@ namespace Orc.Controls
 
             if (value == null)
             {
-                Value = new DateTime(_todayValue.Year, _todayValue.Month, day.Value);
+                SetCurrentValue(ValueProperty, new DateTime(_todayValue.Year, _todayValue.Month, day.Value));
                 return;
             }
 
@@ -462,7 +462,7 @@ namespace Orc.Controls
             var month = Month ?? DateTime.Today.Month;
             var year = Year ?? DateTime.Today.Year;
 
-            Value = new DateTime(year, month, day.Value);
+            SetCurrentValue(ValueProperty, new DateTime(year, month, day.Value));
         }
 
         private void OnMonthValueChanged(object sender, EventArgs e)
@@ -487,7 +487,7 @@ namespace Orc.Controls
 
             if (value == null)
             {
-                Value = new DateTime(_todayValue.Year, month.Value, _todayValue.Day);
+                SetCurrentValue(ValueProperty, new DateTime(_todayValue.Year, month.Value, _todayValue.Day));
                 return;
             }
 
@@ -501,12 +501,12 @@ namespace Orc.Controls
 
             if (Day <= daysInMonth)
             {
-                Value = new DateTime(year, month.Value, Day.Value);
+                SetCurrentValue(ValueProperty, new DateTime(year, month.Value, Day.Value));
                 return;
             }
 
             Day = daysInMonth;
-            Value = new DateTime(year, month.Value, daysInMonth);
+            SetCurrentValue(ValueProperty, new DateTime(year, month.Value, daysInMonth));
         }
 
         private void OnYearValueChanged(object sender, EventArgs e)
@@ -521,7 +521,7 @@ namespace Orc.Controls
 
             if (value == null)
             {
-                Value = new DateTime(year.Value, _todayValue.Month, _todayValue.Day);
+                SetCurrentValue(ValueProperty, new DateTime(year.Value, _todayValue.Month, _todayValue.Day));
                 return;
             }
 
@@ -532,7 +532,7 @@ namespace Orc.Controls
 
             var month = Month ?? _todayValue.Month;
             var day = Day ?? _todayValue.Day;
-            Value = new DateTime(year.Value, month, day);
+            SetCurrentValue(ValueProperty, new DateTime(year.Value, month, day));
         }
     
         private void OnMonthTextChanged(object sender, TextChangedEventArgs e)
@@ -605,7 +605,7 @@ namespace Orc.Controls
 
         private void OnShowOptionsButtonChanged(DependencyPropertyChangedEventArgs args)
         {
-            _datePickerIconToggleButton.Visibility = ShowOptionsButton ? Visibility.Visible : Visibility.Collapsed;
+            _datePickerIconToggleButton.SetCurrentValue(VisibilityProperty, ShowOptionsButton ? Visibility.Visible : Visibility.Collapsed);
         }
 
         private void SubscribeNumericTextBoxes()

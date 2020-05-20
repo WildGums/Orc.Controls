@@ -27,7 +27,7 @@ namespace Orc.Controls
 #if NETFX_CORE
 	[ContentProperty(Name = "Child")]
 #else
-    [ContentProperty("Child")]
+    [ContentProperty(nameof(Child))]
 #endif
     public class VisualWrapper : FrameworkElement
     {

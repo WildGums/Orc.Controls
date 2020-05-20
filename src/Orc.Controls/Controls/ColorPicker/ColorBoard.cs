@@ -7,6 +7,7 @@
 
 namespace Orc.Controls
 {
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
@@ -16,10 +17,48 @@ namespace Orc.Controls
     using System.Windows.Input;
     using System.Windows.Media;
     using System.Windows.Shapes;
+    using Catel.Logging;
 
-    /// <summary>
-    /// The color board.
-    /// </summary>
+    [TemplatePart(Name = "PART_RootGrid", Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = "PART_HSVCanvas", Type = typeof(Canvas))]
+
+    [TemplatePart(Name = "PART_HSVColorGradientStop", Type = typeof(GradientStop))]
+    [TemplatePart(Name = "PART_HSVRectangle", Type = typeof(Rectangle))]
+    [TemplatePart(Name = "PART_HSVEllipse", Type = typeof(Ellipse))]
+    [TemplatePart(Name = "PART_HSVSlider", Type = typeof(Slider))]
+
+
+    [TemplatePart(Name = "PART_ASlider", Type = typeof(Slider))]
+    [TemplatePart(Name = "PART_A0GradientStop", Type = typeof(GradientStop))]
+    [TemplatePart(Name = "PART_A1GradientStop", Type = typeof(GradientStop))]
+
+    [TemplatePart(Name = "PART_RSlider", Type = typeof(Slider))]
+    [TemplatePart(Name = "PART_R0GradientStop", Type = typeof(GradientStop))]
+    [TemplatePart(Name = "PART_R1GradientStop", Type = typeof(GradientStop))]
+
+    [TemplatePart(Name = "PART_GSlider", Type = typeof(Slider))]
+    [TemplatePart(Name = "PART_G0GradientStop", Type = typeof(GradientStop))]
+    [TemplatePart(Name = "PART_G1GradientStop", Type = typeof(GradientStop))]
+
+    [TemplatePart(Name = "PART_BSlider", Type = typeof(Slider))]
+    [TemplatePart(Name = "PART_B0GradientStop", Type = typeof(GradientStop))]
+    [TemplatePart(Name = "PART_B1GradientStop", Type = typeof(GradientStop))]
+
+    [TemplatePart(Name = "PART_ATextBox", Type = typeof(TextBox))]
+    [TemplatePart(Name = "PART_RTextBox", Type = typeof(TextBox))]
+    [TemplatePart(Name = "PART_GTextBox", Type = typeof(TextBox))]
+    [TemplatePart(Name = "PART_BTextBox", Type = typeof(TextBox))]
+
+    [TemplatePart(Name = "PART_ColorComboBox", Type = typeof(ComboBox))]
+
+    [TemplatePart(Name = "PART_ColorBrush", Type = typeof(SolidColorBrush))]
+    [TemplatePart(Name = "PART_ColorTextBox", Type = typeof(TextBox))]
+
+    [TemplatePart(Name = "PART_ThemeColorsListBox", Type = typeof(ListBox))]
+    [TemplatePart(Name = "PART_RecentColorsListBox", Type = typeof(ListBox))]
+
+    [TemplatePart(Name = "PART_SelectButton", Type = typeof(Button))]
+    [TemplatePart(Name = "PART_CancelButton", Type = typeof(Button))]
     public class ColorBoard : Control
     {
         #region Constructors and Destructors
@@ -43,20 +82,22 @@ namespace Orc.Controls
         #endregion
 
         #region Fields
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
         /// <summary>
         /// The brush color.
         /// </summary>
-        private SolidColorBrush _brushColor;
+        private SolidColorBrush _colorBrush;
 
         /// <summary>
         /// The canvas hsv.
         /// </summary>
-        private Canvas _canvasHsv;
+        private Canvas _hsvCanvas;
 
         /// <summary>
         /// The combo box color.
         /// </summary>
-        private ComboBox _comboBoxColor;
+        private ComboBox _colorComboBox;
 
         /// <summary>
         /// The dictionary color.
@@ -66,52 +107,52 @@ namespace Orc.Controls
         /// <summary>
         /// The ellipse hsv.
         /// </summary>
-        private Ellipse _ellipseHsv;
+        private Ellipse _hsvEllipse;
 
         /// <summary>
         /// The gradient stop a 0.
         /// </summary>
-        private GradientStop _gradientStopA0;
+        private GradientStop _a0GradientStop;
 
         /// <summary>
         /// The gradient stop a 1.
         /// </summary>
-        private GradientStop _gradientStopA1;
+        private GradientStop _a1GradientStop;
 
         /// <summary>
         /// The gradient stop b 0.
         /// </summary>
-        private GradientStop _gradientStopB0;
+        private GradientStop _b0GradientStop;
 
         /// <summary>
         /// The gradient stop b 1.
         /// </summary>
-        private GradientStop _gradientStopB1;
+        private GradientStop _b1GradientStop;
 
         /// <summary>
         /// The gradient stop g 0.
         /// </summary>
-        private GradientStop _gradientStopG0;
+        private GradientStop _g0GradientStop;
 
         /// <summary>
         /// The gradient stop g 1.
         /// </summary>
-        private GradientStop _gradientStopG1;
+        private GradientStop _g1GradientStop;
 
         /// <summary>
         /// The gradient stop hsv color.
         /// </summary>
-        private GradientStop _gradientStopHsvColor;
+        private GradientStop _hsvColorGradientStop;
 
         /// <summary>
         /// The gradient stop r 0.
         /// </summary>
-        private GradientStop _gradientStopR0;
+        private GradientStop _r0GradientStop;
 
         /// <summary>
         /// The gradient stop r 1.
         /// </summary>
-        private GradientStop _gradientStopR1;
+        private GradientStop _r1GradientStop;
 
         /// <summary>
         /// The is updating.
@@ -121,67 +162,67 @@ namespace Orc.Controls
         /// <summary>
         /// The recent colors grid.
         /// </summary>
-        private ListBox _recentColorsGrid;
+        private ListBox _recentColorsListBox;
 
         /// <summary>
         /// The rectangle hsv.
         /// </summary>
-        private Rectangle _rectangleHsv;
+        private Rectangle _hsvRectangle;
 
         /// <summary>
         /// The root element.
         /// </summary>
-        private FrameworkElement _rootElement;
+        private FrameworkElement _rootGrid;
 
         /// <summary>
         /// The slider a.
         /// </summary>
-        private Slider _sliderA;
+        private Slider _aSlider;
 
         /// <summary>
         /// The slider b.
         /// </summary>
-        private Slider _sliderB;
+        private Slider _bSlider;
 
         /// <summary>
         /// The slider g.
         /// </summary>
-        private Slider _sliderG;
+        private Slider _gSlider;
 
         /// <summary>
         /// The slider hsv.
         /// </summary>
-        private Slider _sliderHsv;
+        private Slider _hsvSlider;
 
         /// <summary>
         /// The slider r.
         /// </summary>
-        private Slider _sliderR;
+        private Slider _rSlider;
 
         /// <summary>
         /// The text box a.
         /// </summary>
-        private TextBox _textBoxA;
+        private TextBox _aTextBox;
 
         /// <summary>
         /// The text box b.
         /// </summary>
-        private TextBox _textBoxB;
+        private TextBox _bTextBox;
 
         /// <summary>
         /// The text box color.
         /// </summary>
-        private TextBox _textBoxColor;
+        private TextBox _colorTextBox;
 
         /// <summary>
         /// The text box g.
         /// </summary>
-        private TextBox _textBoxG;
+        private TextBox _gTextBox;
 
         /// <summary>
         /// The text box r.
         /// </summary>
-        private TextBox _textBoxR;
+        private TextBox _rTextBox;
 
         /// <summary>
         /// The theme colors.
@@ -191,7 +232,7 @@ namespace Orc.Controls
         /// <summary>
         /// The theme colors grid.
         /// </summary>
-        private ListBox _themeColorsGrid;
+        private ListBox _themeColorsListBox;
 
         /// <summary>
         /// The tracking hsv.
@@ -246,81 +287,203 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
-            _rootElement = (FrameworkElement)GetTemplateChild("RootElement");
-
-            _canvasHsv = (Canvas)GetTemplateChild("CanvasHSV");
-            _gradientStopHsvColor = (GradientStop)GetTemplateChild("GradientStopHSVColor");
-            _rectangleHsv = (Rectangle)GetTemplateChild("RectangleHSV");
-            _ellipseHsv = (Ellipse)GetTemplateChild("EllipseHSV");
-            _sliderHsv = (Slider)GetTemplateChild("SliderHSV");
-
-            _sliderA = (Slider)GetTemplateChild("SliderA");
-            _gradientStopA0 = (GradientStop)GetTemplateChild("GradientStopA0");
-            _gradientStopA1 = (GradientStop)GetTemplateChild("GradientStopA1");
-            _sliderR = (Slider)GetTemplateChild("SliderR");
-            _gradientStopR0 = (GradientStop)GetTemplateChild("GradientStopR0");
-            _gradientStopR1 = (GradientStop)GetTemplateChild("GradientStopR1");
-            _sliderG = (Slider)GetTemplateChild("SliderG");
-            _gradientStopG0 = (GradientStop)GetTemplateChild("GradientStopG0");
-            _gradientStopG1 = (GradientStop)GetTemplateChild("GradientStopG1");
-            _sliderB = (Slider)GetTemplateChild("SliderB");
-            _gradientStopB0 = (GradientStop)GetTemplateChild("GradientStopB0");
-            _gradientStopB1 = (GradientStop)GetTemplateChild("GradientStopB1");
-
-            _textBoxA = (TextBox)GetTemplateChild("TextBoxA");
-            _textBoxR = (TextBox)GetTemplateChild("TextBoxR");
-            _textBoxG = (TextBox)GetTemplateChild("TextBoxG");
-            _textBoxB = (TextBox)GetTemplateChild("TextBoxB");
-
-            _comboBoxColor = (ComboBox)GetTemplateChild("ComboBoxColor");
-            _brushColor = (SolidColorBrush)GetTemplateChild("BrushColor");
-            _textBoxColor = (TextBox)GetTemplateChild("TextBoxColor");
-
-            _themeColorsGrid = (ListBox)GetTemplateChild("ThemeColorsGrid");
-            _recentColorsGrid = (ListBox)GetTemplateChild("RecentColorsGrid");
-
-            if (_themeColorsGrid != null)
+            _rootGrid = GetTemplateChild("PART_RootGrid") as Grid;
+            if (_rootGrid is null)
             {
-                _themeColorsGrid.SelectionChanged += themeColorsGrid_SelectionChanged;
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_RootGrid'");
             }
 
-            if (_recentColorsGrid != null)
+            /*HSV slider*/
+            _hsvCanvas = GetTemplateChild("PART_HSVCanvas") as Canvas;
+            if (_hsvCanvas is null)
             {
-                _recentColorsGrid.SelectionChanged += recentColorsGrid_SelectionChanged;
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HSVCanvas'");
             }
 
-            _rectangleHsv.MouseLeftButtonDown += HSV_MouseLeftButtonDown;
-            _rectangleHsv.MouseMove += HSV_MouseMove;
-            _rectangleHsv.MouseLeftButtonUp += HSV_MouseLeftButtonUp;
-            _rectangleHsv.MouseLeave += HSV_MouseLeave;
-
-            _sliderHsv.ValueChanged += sliderHSV_ValueChanged;
-
-            _sliderA.ValueChanged += OnColorChannelSliderValueChanged;
-            _sliderR.ValueChanged += OnColorChannelSliderValueChanged;
-            _sliderG.ValueChanged += OnColorChannelSliderValueChanged;
-            _sliderB.ValueChanged += OnColorChannelSliderValueChanged;
-
-            _textBoxA.LostFocus += textBoxA_LostFocus;
-            _textBoxR.LostFocus += textBoxR_LostFocus;
-            _textBoxG.LostFocus += textBoxG_LostFocus;
-            _textBoxB.LostFocus += textBoxB_LostFocus;
-
-            _comboBoxColor.SelectionChanged += comboBoxColor_SelectionChanged;
-            _textBoxColor.GotFocus += textBoxColor_GotFocus;
-            _textBoxColor.LostFocus += textBoxColor_LostFocus;
-
-            var buttonDone = (Button)GetTemplateChild("ButtonDone");
-            if (buttonDone != null)
+            _hsvColorGradientStop = GetTemplateChild("PART_HSVColorGradientStop") as GradientStop;
+            if (_hsvColorGradientStop is null)
             {
-                buttonDone.Click += buttonDone_Click;
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HSVColorGradientStop'");
             }
 
-            var buttonCancel = (Button)GetTemplateChild("ButtonCancel");
-            if (buttonCancel != null)
+            _hsvRectangle = GetTemplateChild("PART_HSVRectangle") as Rectangle;
+            if (_hsvRectangle is null)
             {
-                buttonCancel.Click += buttonCancel_Click;
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HSVRectangle'");
             }
+            _hsvRectangle.MouseLeftButtonDown += OnHsvRectangleMouseLeftButtonDown;
+            _hsvRectangle.MouseMove += OnHsvRectangleMouseMove;
+            _hsvRectangle.MouseLeftButtonUp += OnHsvRectangleMouseLeftButtonUp;
+            _hsvRectangle.MouseLeave += OnHsvRectangleMouseLeave;
+
+            _hsvEllipse = GetTemplateChild("PART_HSVEllipse") as Ellipse;
+            if (_hsvEllipse is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HSVEllipse'");
+            }
+
+            _hsvSlider = GetTemplateChild("PART_HSVSlider") as Slider;
+            if (_hsvSlider is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HSVSlider'");
+            }
+            _hsvSlider.ValueChanged += OnHsvSliderValueChanged;
+
+            /*ARGB sliders*/
+            _aSlider = GetTemplateChild("PART_ASlider") as Slider;
+            if (_aSlider is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ASlider'");
+            }
+            _aSlider.ValueChanged += OnArgbSliderValueChanged;
+
+            _a0GradientStop = GetTemplateChild("PART_A0GradientStop") as GradientStop;
+            if (_a0GradientStop is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_A0GradientStop'");
+            }
+
+            _a1GradientStop = GetTemplateChild("PART_A1GradientStop") as GradientStop;
+            if (_a1GradientStop is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_A1GradientStop'");
+            }
+
+            _rSlider = GetTemplateChild("PART_RSlider") as Slider;
+            if (_rSlider is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_RSlider'");
+            }
+            _rSlider.ValueChanged += OnArgbSliderValueChanged;
+
+            _r0GradientStop = GetTemplateChild("PART_R0GradientStop") as GradientStop;
+            if (_r0GradientStop is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_R0GradientStop'");
+            }
+
+            _r1GradientStop = GetTemplateChild("PART_R1GradientStop") as GradientStop;
+            if (_r1GradientStop is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_R1GradientStop'");
+            }
+
+            _gSlider = GetTemplateChild("PART_GSlider") as Slider;
+            if (_gSlider is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_GSlider'");
+            }
+            _gSlider.ValueChanged += OnArgbSliderValueChanged;
+
+            _g0GradientStop = GetTemplateChild("PART_G0GradientStop") as GradientStop;
+            if (_g0GradientStop is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_G0GradientStop'");
+            }
+
+            _g1GradientStop = GetTemplateChild("PART_G1GradientStop") as GradientStop;
+            if (_g1GradientStop is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_G1GradientStop'");
+            }
+
+            _bSlider = GetTemplateChild("PART_BSlider") as Slider;
+            if (_bSlider is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_BSlider'");
+            }
+            _bSlider.ValueChanged += OnArgbSliderValueChanged;
+
+            _b0GradientStop = GetTemplateChild("PART_B0GradientStop") as GradientStop;
+            if (_b0GradientStop is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_B0GradientStop'");
+            }
+
+            _b1GradientStop = GetTemplateChild("PART_B1GradientStop") as GradientStop;
+            if (_b1GradientStop is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_B1GradientStop'");
+            }
+            
+            _aTextBox = GetTemplateChild("PART_ATextBox") as TextBox;
+            if (_aTextBox is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ATextBox'");
+            }
+            _aTextBox.LostFocus += OnATextBoxLostFocus;
+
+            _rTextBox = GetTemplateChild("PART_RTextBox") as TextBox;
+            if (_rTextBox is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_RTextBox'");
+            }
+            _rTextBox.LostFocus += OnRTextBoxLostFocus;
+
+            _gTextBox = GetTemplateChild("PART_GTextBox") as TextBox;
+            if (_gTextBox is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_GTextBox'");
+            }
+            _gTextBox.LostFocus += OnGTextBoxLostFocus;
+
+            _bTextBox = GetTemplateChild("PART_BTextBox") as TextBox;
+            if (_bTextBox is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_BTextBox'");
+            }
+            _bTextBox.LostFocus += OnBTextBoxLostFocus;
+
+            /*Color*/
+            _colorComboBox = GetTemplateChild("PART_ColorComboBox") as ComboBox;
+            if (_colorComboBox is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ColorComboBox'");
+            }
+            _colorComboBox.SelectionChanged += OnColorComboBoxSelectionChanged;
+
+            _colorBrush = GetTemplateChild("PART_ColorBrush") as SolidColorBrush;
+            if (_colorBrush is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ColorBrush'");
+            }
+
+            _colorTextBox = GetTemplateChild("PART_ColorTextBox") as TextBox;
+            if (_colorTextBox is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ColorTextBox'");
+            }
+            _colorTextBox.GotFocus += OnColorTextBoxGotFocus;
+            _colorTextBox.LostFocus += OnColorTextBoxLostFocus;
+
+            _themeColorsListBox = GetTemplateChild("PART_ThemeColorsListBox") as ListBox;
+            if (_themeColorsListBox is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ThemeColorsListBox'");
+            }
+            _themeColorsListBox.SelectionChanged += OnThemeColorsSelectionChanged;
+
+            _recentColorsListBox = GetTemplateChild("PART_RecentColorsListBox") as ListBox;
+            if (_recentColorsListBox is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_RecentColorsListBox'");
+            }
+            _recentColorsListBox.SelectionChanged += OnRecentColorsSelectionChanged;
+
+
+            var selectButton = (Button)GetTemplateChild("PART_SelectButton");
+            if (selectButton is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SelectButton'");
+            }
+            selectButton.Click += OnsSelectButtonClick;
+
+            var cancelButton = (Button)GetTemplateChild("PART_CancelButton");
+            if (cancelButton is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_CancelButton'");
+            }
+            cancelButton.Click += OnCancelButtonClick;
 
             InitializePredefined();
             InitializeThemeColors();
@@ -330,21 +493,13 @@ namespace Orc.Controls
         }
 
         /// <summary>
-        /// The on cancel clicked.
-        /// </summary>
-        public void OnCancelClicked()
-        {
-            CancelClicked?.Invoke(this, new RoutedEventArgs());
-        }
-
-        /// <summary>
         /// The on done clicked.
         /// </summary>
         public void OnDoneClicked()
         {
             var selectedColor = Color;
             var recentColorItems = RecentColorItems;
-            var recentColorsGridItems = _recentColorsGrid.Items;
+            var recentColorsGridItems = _recentColorsListBox.Items;
 
             var mostRecentColorItem = recentColorItems.FirstOrDefault(i => i.Color == selectedColor);
             if (mostRecentColorItem != null)
@@ -372,7 +527,7 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!(d is ColorBoard control) || control._rootElement == null)
+            if (!(d is ColorBoard control) || control._rootGrid == null)
             {
                 return;
             }
@@ -421,12 +576,12 @@ namespace Orc.Controls
         /// <returns>The <see cref="Color" />.</returns>
         private Color GetHSVColor()
         {
-            var h = _sliderHsv.Value;
+            var h = _hsvSlider.Value;
 
-            var x = (double)_ellipseHsv.GetValue(Canvas.LeftProperty) + _ellipseHsv.ActualWidth / 2;
-            var y = (double)_ellipseHsv.GetValue(Canvas.TopProperty) + _ellipseHsv.ActualHeight / 2;
+            var x = (double)_hsvEllipse.GetValue(Canvas.LeftProperty) + _hsvEllipse.ActualWidth / 2;
+            var y = (double)_hsvEllipse.GetValue(Canvas.TopProperty) + _hsvEllipse.ActualHeight / 2;
 
-            var s = x / (_rectangleHsv.ActualWidth - 1);
+            var s = x / (_hsvRectangle.ActualWidth - 1);
             if (s < 0d)
             {
                 s = 0d;
@@ -436,7 +591,7 @@ namespace Orc.Controls
                 s = 1d;
             }
 
-            var v = 1 - y / (_rectangleHsv.ActualHeight - 1);
+            var v = 1 - y / (_hsvRectangle.ActualHeight - 1);
             if (v < 0d)
             {
                 v = 0d;
@@ -455,10 +610,10 @@ namespace Orc.Controls
         /// <returns>The <see cref="Color" />.</returns>
         private Color GetRGBColor()
         {
-            var a = (byte)_sliderA.Value;
-            var r = (byte)_sliderR.Value;
-            var g = (byte)_sliderG.Value;
-            var b = (byte)_sliderB.Value;
+            var a = (byte)_aSlider.Value;
+            var r = (byte)_rSlider.Value;
+            var g = (byte)_gSlider.Value;
+            var b = (byte)_bSlider.Value;
 
             return Color.FromArgb(a, r, g, b);
         }
@@ -468,10 +623,10 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void HSV_MouseLeave(object sender, MouseEventArgs e)
+        private void OnHsvRectangleMouseLeave(object sender, MouseEventArgs e)
         {
             _trackingHsv = false;
-            _rectangleHsv.ReleaseMouseCapture();
+            _hsvRectangle.ReleaseMouseCapture();
         }
 
         /// <summary>
@@ -479,15 +634,15 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void HSV_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void OnHsvRectangleMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
-            _trackingHsv = _rectangleHsv.CaptureMouse();
+            _trackingHsv = _hsvRectangle.CaptureMouse();
 
-            var point = e.GetPosition(_rectangleHsv);
+            var point = e.GetPosition(_hsvRectangle);
 
-            _ellipseHsv.SetCurrentValue(Canvas.LeftProperty, point.X - _ellipseHsv.ActualWidth / 2);
-            _ellipseHsv.SetCurrentValue(Canvas.TopProperty, point.Y - _ellipseHsv.ActualHeight / 2);
+            _hsvEllipse.SetCurrentValue(Canvas.LeftProperty, point.X - _hsvEllipse.ActualWidth / 2);
+            _hsvEllipse.SetCurrentValue(Canvas.TopProperty, point.Y - _hsvEllipse.ActualHeight / 2);
 
             if (Updating)
             {
@@ -503,12 +658,12 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void HSV_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void OnHsvRectangleMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
             _trackingHsv = false;
 
-            _rectangleHsv.ReleaseMouseCapture();
+            _hsvRectangle.ReleaseMouseCapture();
         }
 
         /// <summary>
@@ -516,41 +671,41 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void HSV_MouseMove(object sender, MouseEventArgs e)
+        private void OnHsvRectangleMouseMove(object sender, MouseEventArgs e)
         {
             if (!_trackingHsv)
             {
                 return;
             }
 
-            var point = e.GetPosition(_rectangleHsv);
+            var point = e.GetPosition(_hsvRectangle);
 
             double ellipseX;
             if (point.X < 0)
             {
-                ellipseX = 0 - _ellipseHsv.ActualWidth / 2;
+                ellipseX = 0 - _hsvEllipse.ActualWidth / 2;
             }
             else
             {
-                ellipseX = point.X > _canvasHsv.ActualWidth
-                    ? _canvasHsv.ActualWidth - _ellipseHsv.ActualWidth / 2
-                    : point.X - _ellipseHsv.ActualWidth / 2;
+                ellipseX = point.X > _hsvCanvas.ActualWidth
+                    ? _hsvCanvas.ActualWidth - _hsvEllipse.ActualWidth / 2
+                    : point.X - _hsvEllipse.ActualWidth / 2;
             }
 
             double ellipseY;
             if (point.Y < 0)
             {
-                ellipseY = 0 - _ellipseHsv.ActualHeight / 2;
+                ellipseY = 0 - _hsvEllipse.ActualHeight / 2;
             }
             else
             {
-                ellipseY = point.Y > _canvasHsv.ActualHeight
-                    ? _canvasHsv.ActualHeight - _ellipseHsv.ActualHeight / 2
-                    : point.Y - _ellipseHsv.ActualHeight / 2;
+                ellipseY = point.Y > _hsvCanvas.ActualHeight
+                    ? _hsvCanvas.ActualHeight - _hsvEllipse.ActualHeight / 2
+                    : point.Y - _hsvEllipse.ActualHeight / 2;
             }
 
-            _ellipseHsv.SetCurrentValue(Canvas.LeftProperty, ellipseX);
-            _ellipseHsv.SetCurrentValue(Canvas.TopProperty, ellipseY);
+            _hsvEllipse.SetCurrentValue(Canvas.LeftProperty, ellipseX);
+            _hsvEllipse.SetCurrentValue(Canvas.TopProperty, ellipseY);
 
             if (Updating)
             {
@@ -576,7 +731,7 @@ namespace Orc.Controls
             foreach (var color in list)
             {
                 var item = new PredefinedColorItem(color.Value, color.Name);
-                _comboBoxColor.Items.Add(item);
+                _colorComboBox.Items.Add(item);
 
                 if (!_dictionaryColor.ContainsKey(color.Value))
                 {
@@ -606,7 +761,7 @@ namespace Orc.Controls
                 item.SetValue(Grid.RowProperty, r);
                 item.SetValue(Grid.ColumnProperty, c);
 
-                _themeColorsGrid.Items.Add(item);
+                _themeColorsListBox.Items.Add(item);
 
                 if (!_themeColors.ContainsKey(color.Value))
                 {
@@ -650,14 +805,14 @@ namespace Orc.Controls
                     var s = ColorHelper.GetHSV_S(color);
                     var v = ColorHelper.GetHSV_V(color);
 
-                    _sliderHsv.SetCurrentValue(RangeBase.ValueProperty, h);
-                    _gradientStopHsvColor.SetCurrentValue(GradientStop.ColorProperty, ColorHelper.HSV2RGB(h, 1d, 1d));
+                    _hsvSlider.SetCurrentValue(RangeBase.ValueProperty, h);
+                    _hsvColorGradientStop.SetCurrentValue(GradientStop.ColorProperty, ColorHelper.HSV2RGB(h, 1d, 1d));
 
-                    var x = s * (_rectangleHsv.ActualWidth - 1);
-                    var y = (1 - v) * (_rectangleHsv.ActualHeight - 1);
+                    var x = s * (_hsvRectangle.ActualWidth - 1);
+                    var y = (1 - v) * (_hsvRectangle.ActualHeight - 1);
 
-                    _ellipseHsv.SetCurrentValue(Canvas.LeftProperty, x - _ellipseHsv.ActualWidth / 2);
-                    _ellipseHsv.SetCurrentValue(Canvas.TopProperty, y - _ellipseHsv.ActualHeight / 2);
+                    _hsvEllipse.SetCurrentValue(Canvas.LeftProperty, x - _hsvEllipse.ActualWidth / 2);
+                    _hsvEllipse.SetCurrentValue(Canvas.TopProperty, y - _hsvEllipse.ActualHeight / 2);
                 }
 
                 if (rgb)
@@ -667,39 +822,39 @@ namespace Orc.Controls
                     var g = color.G;
                     var b = color.B;
 
-                    _sliderA.SetCurrentValue(RangeBase.ValueProperty, (double)a);
-                    _gradientStopA0.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(0, r, g, b));
-                    _gradientStopA1.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, r, g, b));
-                    _textBoxA.SetCurrentValue(TextBox.TextProperty, a.ToString("X2"));
+                    _aSlider.SetCurrentValue(RangeBase.ValueProperty, (double)a);
+                    _a0GradientStop.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(0, r, g, b));
+                    _a1GradientStop.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, r, g, b));
+                    _aTextBox.SetCurrentValue(TextBox.TextProperty, a.ToString("X2"));
 
-                    _sliderR.SetCurrentValue(RangeBase.ValueProperty, (double)r);
-                    _gradientStopR0.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, 0, g, b));
-                    _gradientStopR1.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, 255, g, b));
-                    _textBoxR.SetCurrentValue(TextBox.TextProperty, r.ToString("X2"));
+                    _rSlider.SetCurrentValue(RangeBase.ValueProperty, (double)r);
+                    _r0GradientStop.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, 0, g, b));
+                    _r1GradientStop.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, 255, g, b));
+                    _rTextBox.SetCurrentValue(TextBox.TextProperty, r.ToString("X2"));
 
-                    _sliderG.SetCurrentValue(RangeBase.ValueProperty, (double)g);
-                    _gradientStopG0.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, r, 0, b));
-                    _gradientStopG1.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, r, 255, b));
-                    _textBoxG.SetCurrentValue(TextBox.TextProperty, g.ToString("X2"));
+                    _gSlider.SetCurrentValue(RangeBase.ValueProperty, (double)g);
+                    _g0GradientStop.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, r, 0, b));
+                    _g1GradientStop.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, r, 255, b));
+                    _gTextBox.SetCurrentValue(TextBox.TextProperty, g.ToString("X2"));
 
-                    _sliderB.SetCurrentValue(RangeBase.ValueProperty, (double)b);
-                    _gradientStopB0.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, r, g, 0));
-                    _gradientStopB1.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, r, g, 255));
-                    _textBoxB.SetCurrentValue(TextBox.TextProperty, b.ToString("X2"));
+                    _bSlider.SetCurrentValue(RangeBase.ValueProperty, (double)b);
+                    _b0GradientStop.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, r, g, 0));
+                    _b1GradientStop.SetCurrentValue(GradientStop.ColorProperty, Color.FromArgb(255, r, g, 255));
+                    _bTextBox.SetCurrentValue(TextBox.TextProperty, b.ToString("X2"));
                 }
 
                 if (predefined)
                 {
-                    _brushColor.SetCurrentValue(SolidColorBrush.ColorProperty, color);
+                    _colorBrush.SetCurrentValue(SolidColorBrush.ColorProperty, color);
                     if (_dictionaryColor.ContainsKey(color))
                     {
-                        _comboBoxColor.SetCurrentValue(Selector.SelectedItemProperty, _dictionaryColor[color]);
-                        _textBoxColor.SetCurrentValue(TextBox.TextProperty, string.Empty);
+                        _colorComboBox.SetCurrentValue(Selector.SelectedItemProperty, _dictionaryColor[color]);
+                        _colorTextBox.SetCurrentValue(TextBox.TextProperty, string.Empty);
                     }
                     else
                     {
-                        _comboBoxColor.SetCurrentValue(Selector.SelectedItemProperty, null);
-                        _textBoxColor.SetCurrentValue(TextBox.TextProperty, color.ToString());
+                        _colorComboBox.SetCurrentValue(Selector.SelectedItemProperty, null);
+                        _colorTextBox.SetCurrentValue(TextBox.TextProperty, color.ToString());
                     }
                 }
 
@@ -716,9 +871,9 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void buttonCancel_Click(object sender, RoutedEventArgs e)
+        private void OnCancelButtonClick(object sender, RoutedEventArgs e)
         {
-            OnCancelClicked();
+            CancelClicked?.Invoke(this, new RoutedEventArgs());
         }
 
         /// <summary>
@@ -726,7 +881,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void buttonDone_Click(object sender, RoutedEventArgs e)
+        private void OnsSelectButtonClick(object sender, RoutedEventArgs e)
         {
             OnDoneClicked();
         }
@@ -736,14 +891,14 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void comboBoxColor_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void OnColorComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Updating)
             {
                 return;
             }
 
-            if (_comboBoxColor.SelectedItem is PredefinedColorItem colorItem)
+            if (_colorComboBox.SelectedItem is PredefinedColorItem colorItem)
             {
                 SetCurrentValue(ColorProperty, colorItem.Color);
             }
@@ -754,13 +909,15 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void recentColorsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void OnRecentColorsSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_recentColorsGrid.SelectedItems.Count == 1)
+            if (_recentColorsListBox.SelectedItems.Count != 1)
             {
-                var c = ((PredefinedColorItem)_recentColorsGrid.SelectedItem).Color;
-                UpdateControls(c, true, true, true);
+                return;
             }
+
+            var c = ((PredefinedColorItem)_recentColorsListBox.SelectedItem).Color;
+            UpdateControls(c, true, true, true);
         }
 
         /// <summary>
@@ -768,7 +925,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void OnColorChannelSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void OnArgbSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (Updating)
             {
@@ -784,14 +941,14 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void sliderHSV_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void OnHsvSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (Updating)
             {
                 return;
             }
 
-            _gradientStopHsvColor.SetCurrentValue(GradientStop.ColorProperty, ColorHelper.HSV2RGB(e.NewValue, 1d, 1d));
+            _hsvColorGradientStop.SetCurrentValue(GradientStop.ColorProperty, ColorHelper.HSV2RGB(e.NewValue, 1d, 1d));
 
             var color = GetHSVColor();
             UpdateControls(color, false, true, true);
@@ -802,16 +959,16 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void textBoxA_LostFocus(object sender, RoutedEventArgs e)
+        private void OnATextBoxLostFocus(object sender, RoutedEventArgs e)
         {
             if (Updating)
             {
                 return;
             }
 
-            if (int.TryParse(_textBoxA.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
+            if (int.TryParse(_aTextBox.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
             {
-                _sliderA.SetCurrentValue(RangeBase.ValueProperty, (double)value);
+                _aSlider.SetCurrentValue(RangeBase.ValueProperty, (double)value);
             }
         }
 
@@ -820,16 +977,16 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void textBoxB_LostFocus(object sender, RoutedEventArgs e)
+        private void OnBTextBoxLostFocus(object sender, RoutedEventArgs e)
         {
             if (Updating)
             {
                 return;
             }
 
-            if (int.TryParse(_textBoxB.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
+            if (int.TryParse(_bTextBox.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
             {
-                _sliderB.SetCurrentValue(RangeBase.ValueProperty, (double)value);
+                _bSlider.SetCurrentValue(RangeBase.ValueProperty, (double)value);
             }
         }
 
@@ -838,7 +995,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void textBoxColor_GotFocus(object sender, RoutedEventArgs e)
+        private void OnColorTextBoxGotFocus(object sender, RoutedEventArgs e)
         {
             if (Updating)
             {
@@ -849,8 +1006,8 @@ namespace Orc.Controls
             {
                 BeginUpdate();
 
-                _comboBoxColor.SetCurrentValue(Selector.SelectedItemProperty, null);
-                _textBoxColor.SetCurrentValue(TextBox.TextProperty, Color.ToString());
+                _colorComboBox.SetCurrentValue(Selector.SelectedItemProperty, null);
+                _colorTextBox.SetCurrentValue(TextBox.TextProperty, Color.ToString());
             }
             finally
             {
@@ -863,14 +1020,14 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void textBoxColor_LostFocus(object sender, RoutedEventArgs e)
+        private void OnColorTextBoxLostFocus(object sender, RoutedEventArgs e)
         {
             if (Updating)
             {
                 return;
             }
 
-            var text = _textBoxColor.Text.TrimStart('#');
+            var text = _colorTextBox.Text.TrimStart('#');
             if (uint.TryParse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
             {
                 var b = (byte)(value & 0xFF);
@@ -900,16 +1057,16 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void textBoxG_LostFocus(object sender, RoutedEventArgs e)
+        private void OnGTextBoxLostFocus(object sender, RoutedEventArgs e)
         {
             if (Updating)
             {
                 return;
             }
 
-            if (int.TryParse(_textBoxG.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
+            if (int.TryParse(_gTextBox.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
             {
-                _sliderG.SetCurrentValue(RangeBase.ValueProperty, (double)value);
+                _gSlider.SetCurrentValue(RangeBase.ValueProperty, (double)value);
             }
         }
 
@@ -918,16 +1075,16 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void textBoxR_LostFocus(object sender, RoutedEventArgs e)
+        private void OnRTextBoxLostFocus(object sender, RoutedEventArgs e)
         {
             if (Updating)
             {
                 return;
             }
 
-            if (int.TryParse(_textBoxR.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
+            if (int.TryParse(_rTextBox.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
             {
-                _sliderR.SetCurrentValue(RangeBase.ValueProperty, (double)value);
+                _rSlider.SetCurrentValue(RangeBase.ValueProperty, (double)value);
             }
         }
 
@@ -936,14 +1093,14 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void themeColorsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void OnThemeColorsSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_themeColorsGrid.SelectedItems.Count != 1)
+            if (_themeColorsListBox.SelectedItems.Count != 1)
             {
                 return;
             }
 
-            var c = ((PredefinedColorItem)_themeColorsGrid.SelectedItem).Color;
+            var c = ((PredefinedColorItem)_themeColorsListBox.SelectedItem).Color;
             UpdateControls(c, true, true, true);
         }
         #endregion

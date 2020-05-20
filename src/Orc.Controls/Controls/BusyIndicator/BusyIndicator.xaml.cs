@@ -114,10 +114,10 @@ namespace Orc.Controls
         private void OnForegroundChanged(DependencyPropertyChangedEventArgs args)
         {
             _foreground = Foreground;
-
+            
             _mediaElementThreadInfo?.Dispatcher.Invoke(() =>
             {
-                _fluidProgressBar.Foreground = _foreground;
+                _fluidProgressBar.SetCurrentValue(Control.ForegroundProperty, _foreground);
             });
         }
 
