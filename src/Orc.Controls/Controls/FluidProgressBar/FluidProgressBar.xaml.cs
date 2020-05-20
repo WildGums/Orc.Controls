@@ -11,17 +11,16 @@ namespace Orc.Controls
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Media.Animation;
 
     /// <summary>
     /// Interaction logic for FluidProgressBar.xaml
     /// </summary>
-    public partial class FluidProgressBar : UserControl, IDisposable
+    public partial class FluidProgressBar : IDisposable
     {
         #region Fields
-        private readonly Dictionary<int, KeyFrameDetails> _keyFrameMap = null;
-        private readonly Dictionary<int, KeyFrameDetails> _opKeyFrameMap = null;
+        private readonly Dictionary<int, KeyFrameDetails> _keyFrameMap;
+        private readonly Dictionary<int, KeyFrameDetails> _opKeyFrameMap;
         private bool _isStoryboardRunning;
         private Storyboard _sb;
         #endregion
@@ -61,12 +60,12 @@ namespace Orc.Controls
         /// Delay Dependency Property
         /// </summary>
         public static readonly DependencyProperty DelayProperty =
-            DependencyProperty.Register("Delay", typeof(Duration), typeof(FluidProgressBar),
-                new FrameworkPropertyMetadata(new Duration(TimeSpan.FromMilliseconds(100)), new PropertyChangedCallback(OnDelayChanged)));
+            DependencyProperty.Register(nameof(Delay), typeof(Duration), typeof(FluidProgressBar),
+                new FrameworkPropertyMetadata(new Duration(TimeSpan.FromMilliseconds(100)), OnDelayChanged));
 
         /// <summary>
         /// Gets or sets the Delay property. This dependency property 
-        /// indicates the delay between adjacent animation timelines.
+        /// indicates the delay between adjacent animation timeLines.
         /// </summary>
         public Duration Delay
         {
@@ -114,8 +113,8 @@ namespace Orc.Controls
         /// DotWidth Dependency Property
         /// </summary>
         public static readonly DependencyProperty DotWidthProperty =
-            DependencyProperty.Register("DotWidth", typeof(double), typeof(FluidProgressBar),
-                new FrameworkPropertyMetadata(4.0, new PropertyChangedCallback(OnDotWidthChanged)));
+            DependencyProperty.Register(nameof(DotWidth), typeof(double), typeof(FluidProgressBar),
+                new FrameworkPropertyMetadata(4.0, OnDotWidthChanged));
 
         /// <summary>
         /// Gets or sets the DotWidth property. This dependency property 
@@ -159,8 +158,8 @@ namespace Orc.Controls
         /// DotHeight Dependency Property
         /// </summary>
         public static readonly DependencyProperty DotHeightProperty =
-            DependencyProperty.Register("DotHeight", typeof(double), typeof(FluidProgressBar),
-                new FrameworkPropertyMetadata(4.0, new PropertyChangedCallback(OnDotHeightChanged)));
+            DependencyProperty.Register(nameof(DotHeight), typeof(double), typeof(FluidProgressBar),
+                new FrameworkPropertyMetadata(4.0, OnDotHeightChanged));
 
         /// <summary>
         /// Gets or sets the DotHeight property. This dependency property 
@@ -204,8 +203,8 @@ namespace Orc.Controls
         /// DotRadiusX Dependency Property
         /// </summary>
         public static readonly DependencyProperty DotRadiusXProperty =
-            DependencyProperty.Register("DotRadiusX", typeof(double), typeof(FluidProgressBar),
-                new FrameworkPropertyMetadata(0.0, new PropertyChangedCallback(OnDotRadiusXChanged)));
+            DependencyProperty.Register(nameof(DotRadiusX), typeof(double), typeof(FluidProgressBar),
+                new FrameworkPropertyMetadata(0.0, OnDotRadiusXChanged));
 
         /// <summary>
         /// Gets or sets the DotRadiusX property. This dependency property 
@@ -249,8 +248,8 @@ namespace Orc.Controls
         /// DotRadiusY Dependency Property
         /// </summary>
         public static readonly DependencyProperty DotRadiusYProperty =
-            DependencyProperty.Register("DotRadiusY", typeof(double), typeof(FluidProgressBar),
-                new FrameworkPropertyMetadata(0.0, new PropertyChangedCallback(OnDotRadiusYChanged)));
+            DependencyProperty.Register(nameof(DotRadiusY), typeof(double), typeof(FluidProgressBar),
+                new FrameworkPropertyMetadata(0.0, OnDotRadiusYChanged));
 
         /// <summary>
         /// Gets or sets the DotRadiusY property. This dependency property 
@@ -294,8 +293,8 @@ namespace Orc.Controls
         /// DurationA Dependency Property
         /// </summary>
         public static readonly DependencyProperty DurationAProperty =
-            DependencyProperty.Register("DurationA", typeof(Duration), typeof(FluidProgressBar),
-                new FrameworkPropertyMetadata(new Duration(TimeSpan.FromSeconds(0.5)), new PropertyChangedCallback(OnDurationAChanged)));
+            DependencyProperty.Register(nameof(DurationA), typeof(Duration), typeof(FluidProgressBar),
+                new FrameworkPropertyMetadata(new Duration(TimeSpan.FromSeconds(0.5)), OnDurationAChanged));
 
         /// <summary>
         /// Gets or sets the DurationA property. This dependency property 
@@ -347,8 +346,8 @@ namespace Orc.Controls
         /// DurationB Dependency Property
         /// </summary>
         public static readonly DependencyProperty DurationBProperty =
-            DependencyProperty.Register("DurationB", typeof(Duration), typeof(FluidProgressBar),
-                new FrameworkPropertyMetadata(new Duration(TimeSpan.FromSeconds(1.5)), new PropertyChangedCallback(OnDurationBChanged)));
+            DependencyProperty.Register(nameof(DurationB), typeof(Duration), typeof(FluidProgressBar),
+                new FrameworkPropertyMetadata(new Duration(TimeSpan.FromSeconds(1.5)), OnDurationBChanged));
 
         /// <summary>
         /// Gets or sets the DurationB property. This dependency property 
@@ -400,8 +399,8 @@ namespace Orc.Controls
         /// DurationC Dependency Property
         /// </summary>
         public static readonly DependencyProperty DurationCProperty =
-            DependencyProperty.Register("DurationC", typeof(Duration), typeof(FluidProgressBar),
-                new FrameworkPropertyMetadata(new Duration(TimeSpan.FromSeconds(0.5)), new PropertyChangedCallback(OnDurationCChanged)));
+            DependencyProperty.Register(nameof(DurationC), typeof(Duration), typeof(FluidProgressBar),
+                new FrameworkPropertyMetadata(new Duration(TimeSpan.FromSeconds(0.5)), OnDurationCChanged));
 
         /// <summary>
         /// Gets or sets the DurationC property. This dependency property 
@@ -433,7 +432,7 @@ namespace Orc.Controls
         /// <param name="newDurationC">New Value</param>
         protected virtual void OnDurationCChanged(Duration oldDurationC, Duration newDurationC)
         {
-            bool isActive = _isStoryboardRunning;
+            var isActive = _isStoryboardRunning;
             if (isActive)
             {
                 StopFluidAnimation();
@@ -453,8 +452,8 @@ namespace Orc.Controls
         /// KeyFrameA Dependency Property
         /// </summary>
         public static readonly DependencyProperty KeyFrameAProperty =
-            DependencyProperty.Register("KeyFrameA", typeof(double), typeof(FluidProgressBar),
-                new FrameworkPropertyMetadata(0.33, new PropertyChangedCallback(OnKeyFrameAChanged)));
+            DependencyProperty.Register(nameof(KeyFrameA), typeof(double), typeof(FluidProgressBar),
+                new FrameworkPropertyMetadata(0.33, OnKeyFrameAChanged));
 
         /// <summary>
         /// Gets or sets the KeyFrameA property. This dependency property 
@@ -495,8 +494,8 @@ namespace Orc.Controls
         /// KeyFrameB Dependency Property
         /// </summary>
         public static readonly DependencyProperty KeyFrameBProperty =
-            DependencyProperty.Register("KeyFrameB", typeof(double), typeof(FluidProgressBar),
-                new FrameworkPropertyMetadata(0.63, new PropertyChangedCallback(OnKeyFrameBChanged)));
+            DependencyProperty.Register(nameof(KeyFrameB), typeof(double), typeof(FluidProgressBar),
+                new FrameworkPropertyMetadata(0.63, OnKeyFrameBChanged));
 
         /// <summary>
         /// Gets or sets the KeyFrameB property. This dependency property 
@@ -537,8 +536,8 @@ namespace Orc.Controls
         /// Oscillate Dependency Property
         /// </summary>
         public static readonly DependencyProperty OscillateProperty =
-            DependencyProperty.Register("Oscillate", typeof(bool), typeof(FluidProgressBar),
-                new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnOscillateChanged)));
+            DependencyProperty.Register(nameof(Oscillate), typeof(bool), typeof(FluidProgressBar),
+                new FrameworkPropertyMetadata(false, OnOscillateChanged));
 
         /// <summary>
         /// Gets or sets the Oscillate property. This dependency property 
@@ -589,8 +588,8 @@ namespace Orc.Controls
         /// ReverseDuration Dependency Property
         /// </summary>
         public static readonly DependencyProperty ReverseDurationProperty =
-            DependencyProperty.Register("ReverseDuration", typeof(Duration), typeof(FluidProgressBar),
-                new FrameworkPropertyMetadata(new Duration(TimeSpan.FromSeconds(2.9)), new PropertyChangedCallback(OnReverseDurationChanged)));
+            DependencyProperty.Register(nameof(ReverseDuration), typeof(Duration), typeof(FluidProgressBar),
+                new FrameworkPropertyMetadata(new Duration(TimeSpan.FromSeconds(2.9)), OnReverseDurationChanged));
 
         /// <summary>
         /// Gets or sets the ReverseDuration property. This dependency property 
@@ -637,8 +636,8 @@ namespace Orc.Controls
         /// TotalDuration Dependency Property
         /// </summary>
         public static readonly DependencyProperty TotalDurationProperty =
-            DependencyProperty.Register("TotalDuration", typeof(Duration), typeof(FluidProgressBar),
-                new FrameworkPropertyMetadata(new Duration(TimeSpan.FromSeconds(4.4)), new PropertyChangedCallback(OnTotalDurationChanged)));
+            DependencyProperty.Register(nameof(TotalDuration), typeof(Duration), typeof(FluidProgressBar),
+                new FrameworkPropertyMetadata(new Duration(TimeSpan.FromSeconds(4.4)), OnTotalDurationChanged));
 
         /// <summary>
         /// Gets or sets the TotalDuration property. This dependency property 
@@ -780,35 +779,33 @@ namespace Orc.Controls
 
             foreach (var timeline in _sb.Children)
             {
-                if (!(timeline is DoubleAnimationUsingKeyFrames dakeys))
+                if (!(timeline is DoubleAnimationUsingKeyFrames daKeys))
                 {
                     continue;
                 }
 
-                var targetName = Storyboard.GetTargetName(dakeys);
-                ProcessDoubleAnimationWithKeys(dakeys, !targetName.StartsWith("Trans"));
+                var targetName = Storyboard.GetTargetName(daKeys);
+                ProcessDoubleAnimationWithKeys(daKeys, !targetName.StartsWith("Trans"));
             }
         }
 
         /// <summary>
         /// Gets the keyframes in the given animation and stores them in a map
         /// </summary>
-        /// <param name="dakeys">Animation containg keyframes</param>
+        /// <param name="daKeys">Animation containg keyframes</param>
         /// <param name="isOpacityAnim">Flag to indicate whether the animation targets the opacity or the translate transform</param>
-        private void ProcessDoubleAnimationWithKeys(DoubleAnimationUsingKeyFrames dakeys, bool isOpacityAnim = false)
+        private void ProcessDoubleAnimationWithKeys(DoubleAnimationUsingKeyFrames daKeys, bool isOpacityAnim = false)
         {
             // Get all the keyframes in the instance.
-            for (var i = 0; i < dakeys.KeyFrames.Count; i++)
+            for (var i = 0; i < daKeys.KeyFrames.Count; i++)
             {
-                var frame = dakeys.KeyFrames[i];
+                var frame = daKeys.KeyFrames[i];
 
-                Dictionary<int, KeyFrameDetails> targetMap = null;
-
-                targetMap = isOpacityAnim ? _opKeyFrameMap : _keyFrameMap;
+                var targetMap = isOpacityAnim ? _opKeyFrameMap : _keyFrameMap;
 
                 if (!targetMap.ContainsKey(i))
                 {
-                    targetMap[i] = new KeyFrameDetails() { KeyFrames = new List<DoubleKeyFrame>() };
+                    targetMap[i] = new KeyFrameDetails { KeyFrames = new List<DoubleKeyFrame>() };
                 }
 
                 // Update the keyframe time and add it to the map
@@ -934,7 +931,7 @@ namespace Orc.Controls
         }
 
         /// <summary>
-        /// Updates the delay between consecutive timelines
+        /// Updates the delay between consecutive timeLines
         /// </summary>
         /// <param name="newDelay">Delay duration</param>
         private void UpdateTimelineDelay(Duration newDelay)
