@@ -8,7 +8,6 @@
     using System.Windows.Shapes;
     using System.Windows.Threading;
     using Catel.Windows;
-    using Catel.Windows.Threading;
 
     [TemplatePart(Name = "PART_TrackBackground", Type = typeof(Border))]
     [TemplatePart(Name = "PART_SelectedRange", Type = typeof(Rectangle))]
@@ -130,7 +129,7 @@
             {
                 if (Minimum > LowerValue)
                 {
-                    LowerValue = Minimum;
+                    SetCurrentValue(LowerValueProperty, Minimum);
                 }
                 else
                 {
@@ -145,7 +144,7 @@
 
             if (Maximum < UpperValue)
             {
-                UpperValue = Maximum;
+                SetCurrentValue(UpperValueProperty, Maximum);
             }
             else
             {
@@ -182,7 +181,7 @@
                 return;
             }
 
-            if (_upperSlider is null)
+            if (_upperSlider is null || _lowerSlider is null)
             {
                 return;
             }
@@ -193,11 +192,11 @@
 
                 if (ReferenceEquals(sender, _lowerSlider))
                 {
-                    _upperSlider.Value = Math.Max(_upperSlider.Value, _lowerSlider.Value);
+                    _upperSlider.SetCurrentValue(ValueProperty, Math.Max(_upperSlider.Value, _lowerSlider.Value));
                 }
                 else if (ReferenceEquals(sender, _upperSlider))
                 {
-                    _lowerSlider.Value = Math.Min(_upperSlider.Value, _lowerSlider.Value);
+                    _lowerSlider.SetCurrentValue(ValueProperty, Math.Min(_upperSlider.Value, _lowerSlider.Value));
                 }
             }
             finally
@@ -330,7 +329,7 @@
             }
 
             // As a bonus, the value will show the average
-            Value = (_lowerSlider.Value + _upperSlider.Value) / 2;
+            SetCurrentValue(ValueProperty, (_lowerSlider.Value + _upperSlider.Value) / 2);
 
             var lowerThumb = _lowerThumb;
             var upperThumb = _upperThumb;
