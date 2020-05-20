@@ -24,10 +24,10 @@ namespace Orc.Controls
     /// <summary>
     /// The pinnable toolTip control.
     /// </summary>
-    [TemplatePart(Name = "PinButton", Type = typeof(ToggleButton))]
-    [TemplatePart(Name = "CloseButton", Type = typeof(Button))]
-    [TemplatePart(Name = "DragGrip", Type = typeof(FrameworkElement))]
-    [TemplatePart(Name = "GripDrawing", Type = typeof(GeometryDrawing))]
+    [TemplatePart(Name = "PART_PinButton", Type = typeof(ToggleButton))]
+    [TemplatePart(Name = "PART_CloseButton", Type = typeof(Button))]
+    [TemplatePart(Name = "PART_DragGrip", Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = "PART_GripDrawing", Type = typeof(GeometryDrawing))]
     public class PinnableToolTip : ContentControl, IControlAdornerChild
     {
         #region Constants
@@ -285,7 +285,7 @@ namespace Orc.Controls
                     return popupLocation;
             }
 
-            return default(Point);
+            return default;
         }
 
         private Point GetPostionForNonUiElement(FrameworkElement rootVisual, Point mousePosition, double horizontalOffset, double verticalOffset)
@@ -370,19 +370,19 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
-            _closeButton = GetTemplateChild("CloseButton") as Button;
+            _closeButton = GetTemplateChild("PART_CloseButton") as Button;
             if (_closeButton != null)
             {
                 _closeButton.Click += OnCloseButtonClick;
             }
 
-            _dragGrip = GetTemplateChild("DragGrip") as FrameworkElement;
+            _dragGrip = GetTemplateChild("PART_DragGrip") as FrameworkElement;
             if (_dragGrip != null)
             {
                 _dragGrip.PreviewMouseLeftButtonDown += OnDragGripPreviewMouseLeftButtonDown;
             }
 
-            _gripDrawing = GetTemplateChild("GripDrawing") as GeometryDrawing;
+            _gripDrawing = GetTemplateChild("PART_GripDrawing") as GeometryDrawing;
         }
         #endregion
 
@@ -431,9 +431,9 @@ namespace Orc.Controls
             return new Point(x, y);
         }
 
-        private static double CalculateLinearSize(double pluginLength, double length, double boundsStart, double boundLenght)
+        private static double CalculateLinearSize(double pluginLength, double length, double boundsStart, double boundLength)
         {
-            var middle = boundsStart + boundLenght / 2.0;
+            var middle = boundsStart + boundLength / 2.0;
             if (middle > 0.0 && middle - 0.0 > pluginLength - middle)
             {
                 return pluginLength - length;
@@ -967,10 +967,15 @@ namespace Orc.Controls
                 return;
             }
 
-            const string FLUENT_RIBBON_TYPE_NAME = "Fluent.BackstageAdorner";
+            const string fluentRibbonTypeName = "Fluent.BackstageAdorner";
             foreach (var adorner in adorners)
             {
-                if (!adorner.GetType().FullName.Equals(FLUENT_RIBBON_TYPE_NAME))
+                if (adorner is null)
+                {
+                    continue;
+                }
+
+                if (! Equals(adorner.GetType().FullName, fluentRibbonTypeName))
                 {
                     continue;
                 }
