@@ -26,7 +26,7 @@ namespace Orc.Controls
         /// <summary>
         /// Dependency property registration for the <see cref="LoadTabItems"/> property.
         /// </summary>
-        public static readonly DependencyProperty LoadTabItemsProperty = DependencyProperty.Register("LoadTabItems",
+        public static readonly DependencyProperty LoadTabItemsProperty = DependencyProperty.Register(nameof(LoadTabItems),
             typeof(LoadTabItemsBehavior), typeof(TabControl), new PropertyMetadata(LoadTabItemsBehavior.LazyLoading,
                 (sender, e) => ((TabControl)sender).OnLoadTabItemsChanged()));
 
