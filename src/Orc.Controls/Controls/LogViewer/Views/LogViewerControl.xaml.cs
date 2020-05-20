@@ -208,11 +208,12 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ScrollModeProperty = DependencyProperty.Register(nameof(ScrollMode), typeof(ScrollMode),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(ScrollMode.ManualScrollPriority, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (s, e) => ((LogViewerControl)s).OnScrollModePropertyChanged(s, e)));
+            typeof(LogViewerControl), new FrameworkPropertyMetadata(ScrollMode.ManualScrollPriority, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, 
+                (s, args) => ((LogViewerControl)s).OnScrollModeChanged(args)));
 
-        private void OnScrollModePropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        private void OnScrollModeChanged(DependencyPropertyChangedEventArgs args)
         {
-            var newScrollModeValue = (ScrollMode)e.NewValue;
+            var newScrollModeValue = (ScrollMode)args.NewValue;
 
             //when ManualScrollPriority set we enabled AutoScroll at first, and handle AutoScroll in ScrollChanged event later
             switch (newScrollModeValue)
