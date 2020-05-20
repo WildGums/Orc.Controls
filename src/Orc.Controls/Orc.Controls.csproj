@@ -23,7 +23,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Catel.Analyzers" Version="1.0.0" PrivateAssets="all" />
     <PackageReference Include="Catel.Fody" Version="4.4.2" PrivateAssets="all" />
     <PackageReference Include="Catel.MVVM" Version="5.12.6-beta0005" />
     <PackageReference Include="Costura.Fody" Version="4.1.0" PrivateAssets="all" />
