@@ -991,11 +991,14 @@ namespace Orc.Controls
     {
         public static readonly System.Windows.DependencyProperty ActiveFilterGroupProperty;
         public static readonly System.Windows.DependencyProperty AutoScrollProperty;
+        public static readonly System.Windows.DependencyProperty DebugMessageBrushProperty;
         public static readonly System.Windows.DependencyProperty EnableIconsProperty;
         public static readonly System.Windows.DependencyProperty EnableTextColoringProperty;
         public static readonly System.Windows.DependencyProperty EnableThreadIdProperty;
         public static readonly System.Windows.DependencyProperty EnableTimestampProperty;
+        public static readonly System.Windows.DependencyProperty ErrorMessageBrushProperty;
         public static readonly System.Windows.DependencyProperty IgnoreCatelLoggingProperty;
+        public static readonly System.Windows.DependencyProperty InfoMessageBrushProperty;
         public static readonly System.Windows.DependencyProperty LogFilterProperty;
         public static readonly System.Windows.DependencyProperty LogListenerTypeProperty;
         public static readonly System.Windows.DependencyProperty MaximumUpdateBatchSizeProperty;
@@ -1006,17 +1009,21 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ShowMultilineMessagesExpandedProperty;
         public static readonly System.Windows.DependencyProperty ShowWarningProperty;
         public static readonly System.Windows.DependencyProperty SupportCommandManagerProperty;
+        public static readonly System.Windows.DependencyProperty WarningMessageBrushProperty;
         public LogViewerControl() { }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public Orc.Controls.LogFilterGroup ActiveFilterGroup { get; set; }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool AutoScroll { get; set; }
+        public System.Windows.Media.Brush DebugMessageBrush { get; set; }
         public bool EnableIcons { get; set; }
         public bool EnableTextColoring { get; set; }
         public bool EnableThreadId { get; set; }
         public bool EnableTimestamp { get; set; }
+        public System.Windows.Media.Brush ErrorMessageBrush { get; set; }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool IgnoreCatelLogging { get; set; }
+        public System.Windows.Media.Brush InfoMessageBrush { get; set; }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string LogFilter { get; set; }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
@@ -1036,6 +1043,7 @@ namespace Orc.Controls
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowWarning { get; set; }
         public bool SupportCommandManager { get; set; }
+        public System.Windows.Media.Brush WarningMessageBrush { get; set; }
         public event System.EventHandler<Orc.Controls.LogEntryDoubleClickEventArgs> LogEntryDoubleClick;
         public void Clear() { }
         public void CollapseAllMultilineLogMessages() { }
