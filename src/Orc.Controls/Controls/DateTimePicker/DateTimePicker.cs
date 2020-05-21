@@ -62,6 +62,8 @@ namespace Orc.Controls
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
+        private bool _isTemplateApplied;
+
         private List<TextBox> _textBoxes;
         private DateTime _todayValue;
         private DateTimeFormatInfo _formatInfo;
@@ -500,6 +502,8 @@ namespace Orc.Controls
             var now = DateTime.Now;
             _todayValue = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
 
+            _isTemplateApplied = true;
+
             ApplyFormat();
 
             UpdateUi();
@@ -827,6 +831,11 @@ namespace Orc.Controls
 
         private void UpdateUi()
         {
+            if (!_isTemplateApplied)
+            {
+                return;
+            }
+
             var value = Value;
 
             Day = value?.Day;
