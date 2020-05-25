@@ -33,7 +33,9 @@
                                        HideTime="{Binding IsChecked, ElementName=hideTimeCheckbox}"
                                        HideSeconds="{Binding IsChecked, ElementName=hideSecondsCheckbox}"
                                        IsReadOnly="{Binding IsChecked, ElementName=readOnlyCheckbox}"
-                                       ShowOptionsButton="{Binding IsChecked, ElementName=showOptionsButtonCheckbox}" />
+                                       ShowOptionsButton="{Binding IsChecked, ElementName=showOptionsButtonCheckbox}" 
+                                       EditStarted="DateTimePicker_OnEditStarted"
+                                       EditEnded="DateTimePicker_OnEditEnded"/>
         </StackPanel>
         
         <StackPanel Orientation="Horizontal">
