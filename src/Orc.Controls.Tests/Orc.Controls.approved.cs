@@ -518,29 +518,27 @@ namespace Orc.Controls
         protected override void OnAssociatedObjectLoaded() { }
         protected override void OnAssociatedObjectUnloaded() { }
     }
-    public class DropDownButton : System.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    [System.Windows.TemplatePart(Name="PART_Arrow", Type=typeof(System.Windows.Shapes.Path))]
+    [System.Windows.TemplatePart(Name="PART_ArrowBorder", Type=typeof(System.Windows.Controls.Border))]
+    public class DropDownButton : System.Windows.Controls.Primitives.ToggleButton
     {
         public static readonly System.Windows.DependencyProperty ArrowLocationProperty;
         public static readonly System.Windows.DependencyProperty ArrowMarginProperty;
-        public static readonly System.Windows.DependencyProperty CommandParameterProperty;
-        public static readonly System.Windows.DependencyProperty CommandProperty;
         public static readonly System.Windows.DependencyProperty DropDownProperty;
-        public static readonly System.Windows.DependencyProperty EnableTransparentBackgroundProperty;
         public static readonly System.Windows.DependencyProperty HeaderProperty;
         public static readonly System.Windows.DependencyProperty IsArrowVisibleProperty;
-        public static readonly System.Windows.DependencyProperty ShowDefaultButtonProperty;
         public DropDownButton() { }
         public Orc.Controls.DropdownArrowLocation ArrowLocation { get; set; }
         public System.Windows.Thickness ArrowMargin { get; set; }
-        public System.Windows.Input.ICommand Command { get; set; }
-        public object CommandParameter { get; set; }
         public System.Windows.Controls.ContextMenu DropDown { get; set; }
-        public bool EnableTransparentBackground { get; set; }
         public object Header { get; set; }
         public bool IsArrowVisible { get; set; }
-        public bool ShowDefaultButton { get; set; }
-        public event System.EventHandler<System.EventArgs> ContentLayoutUpdated;
-        public void InitializeComponent() { }
+        public override void OnApplyTemplate() { }
+        protected override void OnChecked(System.Windows.RoutedEventArgs e) { }
+        protected override void OnContentChanged(object oldContent, object newContent) { }
+        protected override void OnMouseDown(System.Windows.Input.MouseButtonEventArgs e) { }
+        protected override void OnPreviewMouseDown(System.Windows.Input.MouseButtonEventArgs e) { }
+        protected override void OnUnchecked(System.Windows.RoutedEventArgs e) { }
     }
     public enum DropdownArrowLocation
     {
@@ -1657,15 +1655,6 @@ namespace Orc.Controls
         protected override System.Windows.Size MeasureOverride(System.Windows.Size availableSize) { }
     }
 }
-namespace Orc.Controls.Behavior
-{
-    public class DropDownButtonBehavior : Catel.Windows.Interactivity.BehaviorBase<Orc.Controls.DropDownButton>
-    {
-        public DropDownButtonBehavior() { }
-        protected override void OnAssociatedObjectLoaded() { }
-        protected override void OnAssociatedObjectUnloaded() { }
-    }
-}
 namespace Orc.Controls.Converters
 {
     public class BooleanAndToCollapsingVisibilityMultiValueConverter : System.Windows.Markup.MarkupExtension, System.Windows.Data.IMultiValueConverter
@@ -1840,5 +1829,17 @@ namespace Orc.Controls.Views
     {
         public FindReplaceView() { }
         public void InitializeComponent() { }
+    }
+}
+namespace XamlGeneratedNamespace
+{
+    public sealed class GeneratedInternalTypeHelper : System.Windows.Markup.InternalTypeHelper
+    {
+        public GeneratedInternalTypeHelper() { }
+        protected override void AddEventHandler(System.Reflection.EventInfo eventInfo, object target, System.Delegate handler) { }
+        protected override System.Delegate CreateDelegate(System.Type delegateType, object target, string handler) { }
+        protected override object CreateInstance(System.Type type, System.Globalization.CultureInfo culture) { }
+        protected override object GetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, System.Globalization.CultureInfo culture) { }
+        protected override void SetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, object value, System.Globalization.CultureInfo culture) { }
     }
 }
