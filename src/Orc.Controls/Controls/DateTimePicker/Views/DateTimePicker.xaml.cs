@@ -18,6 +18,7 @@ namespace Orc.Controls
     using System.Windows.Input;
     using System.Windows.Media;
     using Catel.MVVM.Views;
+    using Catel.Windows;
     using Catel.Windows.Threading;
     using Calendar = System.Windows.Controls.Calendar;
     using Converters;
@@ -25,7 +26,7 @@ namespace Orc.Controls
     /// <summary>
     /// Interaction logic for DateTimePicker.xaml
     /// </summary>
-    public partial class DateTimePicker
+    public partial class DateTimePicker : IEditableControl
     {
         #region Fields
         private readonly List<TextBox> _textBoxes;
@@ -222,9 +223,79 @@ namespace Orc.Controls
             typeof(DateTimePicker), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern.Count(x => x == 't') < 2));
 
         public static readonly DependencyProperty IsAmPmShortFormatProperty = IsAmPmShortFormatPropertyKey.DependencyProperty;
+        private Popup _calendarPopup;
         #endregion
 
         #region Methods
+        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            base.OnGotKeyboardFocus(e);
+
+            IsInEditMode = true;
+
+            EditStarted?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            base.OnLostKeyboardFocus(e);
+
+            InvalidateEditMode();
+        }
+
+        private void CalendarPopupOnClosed(object sender, EventArgs e)
+        {
+            InvalidateEditMode();
+
+            _calendarPopup.Closed -= CalendarPopupOnClosed;
+        }
+
+        private void InvalidateEditMode()
+        {
+            if (!IsInEditMode)
+            {
+                return;
+            }
+
+            if (IsKeyboardFocusWithin || IsKeyboardFocused || IsFocused)
+            {
+                return;
+            }
+
+            var focusedControl = FocusManager.GetFocusedElement(this) as FrameworkElement;
+            var keyboardFocusedControl = focusedControl ?? Keyboard.FocusedElement as FrameworkElement;
+            var root = keyboardFocusedControl?.FindLogicalOrVisualAncestor(x => Equals(this, x));
+            if (root != null)
+            {
+                return;
+            }
+
+            if (DatePickerIcon.IsChecked == true)
+            {
+                return;
+            }
+
+            if (_calendarPopup != null && _calendarPopup.IsOpen)
+            {
+                _calendarPopup.Closed += CalendarPopupOnClosed;
+                return;
+            }
+
+            if (ToggleButtonD.IsChecked == true 
+                || ToggleButtonM.IsChecked == true 
+                || ToggleButtonH.IsChecked == true 
+                || ToggleButtonMo.IsChecked == true
+                || ToggleButtonT.IsChecked == true
+                || ToggleButtonS.IsChecked == true)
+            {
+                return;
+            }
+
+            IsInEditMode = false;
+
+            EditEnded?.Invoke(this, EventArgs.Empty);
+        }
+
         private void OnTextBoxLeftBoundReached(object sender, EventArgs e)
         {
             var currentTextBoxIndex = _textBoxes.IndexOf((TextBox)sender);
@@ -384,9 +455,9 @@ namespace Orc.Controls
         {
             DatePickerIcon.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
 
-            var calendarPopup = CreateCalendarPopup();
+            _calendarPopup = CreateCalendarPopup();
             var calendarPopupSource = CreateCalendarPopupSource();
-            calendarPopup.SetCurrentValue(Popup.ChildProperty, calendarPopupSource);
+            _calendarPopup.SetCurrentValue(Popup.ChildProperty, calendarPopupSource);
 
             calendarPopupSource.Focus();
         }
@@ -699,5 +770,9 @@ namespace Orc.Controls
             amPmPosition = dict["amPmPosition"];
         }
         #endregion
+
+        public bool IsInEditMode { get; private set; }
+        public event EventHandler<EventArgs> EditStarted;
+        public event EventHandler<EventArgs> EditEnded;
     }
 }

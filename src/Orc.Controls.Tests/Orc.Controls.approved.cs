@@ -580,7 +580,7 @@ namespace Orc.Controls
         public DateTimePartHelper(System.DateTime dateTime, Orc.Controls.DateTimePart dateTimePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo, System.Windows.Controls.TextBox textBox, System.Windows.Controls.Primitives.ToggleButton activeToggleButton) { }
         public System.Windows.Controls.Primitives.Popup CreatePopup() { }
     }
-    public class DateTimePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    public class DateTimePicker : Catel.Windows.Controls.UserControl, Orc.Controls.IEditableControl, System.Windows.Markup.IComponentConnector
     {
         [System.ObsoleteAttribute("Use AccentColorBrush markup extension instead. Will be removed in version 4.0.0.", true)]
         public static readonly System.Windows.DependencyProperty AccentColorBrushProperty;
@@ -607,15 +607,20 @@ namespace Orc.Controls
         public bool HideTime { get; set; }
         public bool IsAmPmShortFormat { get; }
         public bool IsHour12Format { get; }
+        public bool IsInEditMode { get; }
         public bool IsReadOnly { get; set; }
         public bool IsYearShortFormat { get; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowOptionsButton { get; set; }
         [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.Nullable<System.DateTime> Value { get; set; }
+        public event System.EventHandler<System.EventArgs> EditEnded;
+        public event System.EventHandler<System.EventArgs> EditStarted;
         public void InitializeComponent() { }
         public override void OnApplyTemplate() { }
+        protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e) { }
         protected override void OnLoaded(System.EventArgs e) { }
+        protected override void OnLostKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e) { }
         protected override void OnUnloaded(System.EventArgs e) { }
     }
     public class DateTimePickerViewModel : Catel.MVVM.ViewModelBase
@@ -1008,6 +1013,12 @@ namespace Orc.Controls
     {
         string DataBasesQuery { get; }
         System.Collections.Generic.IList<string> GetDataSources();
+    }
+    public interface IEditableControl
+    {
+        bool IsInEditMode { get; }
+        public event System.EventHandler<System.EventArgs> EditEnded;
+        public event System.EventHandler<System.EventArgs> EditStarted;
     }
     public class InitializingAutoCompletionServiceEventArgs : System.Windows.RoutedEventArgs
     {
