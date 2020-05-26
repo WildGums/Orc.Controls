@@ -410,7 +410,6 @@ namespace Orc.Controls
         public DateTimePartHelper(System.DateTime dateTime, Orc.Controls.DateTimePart dateTimePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo, System.Windows.Controls.TextBox textBox, System.Windows.Controls.Primitives.ToggleButton activeToggleButton) { }
         public System.Windows.Controls.Primitives.Popup CreatePopup() { }
     }
-<<<<<<< HEAD
     [System.Windows.TemplatePart(Name="PART_AmPmListTextBox", Type=typeof(Orc.Controls.ListTextBox))]
     [System.Windows.TemplatePart(Name="PART_AmPmSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
     [System.Windows.TemplatePart(Name="PART_AmPmToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
@@ -440,10 +439,7 @@ namespace Orc.Controls
     [System.Windows.TemplatePart(Name="PART_YearNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
     [System.Windows.TemplatePart(Name="PART_YearSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
     [System.Windows.TemplatePart(Name="PART_YearToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
-    public class DateTimePicker : System.Windows.Controls.Control
-=======
-    public class DateTimePicker : Catel.Windows.Controls.UserControl, Orc.Controls.IEditableControl, System.Windows.Markup.IComponentConnector
->>>>>>> 3.4.1
+    public class DateTimePicker : System.Windows.Controls.Control, Orc.Controls.IEditableControl
     {
         public static readonly System.Windows.DependencyProperty AllowCopyPasteProperty;
         public static readonly System.Windows.DependencyProperty AllowNullProperty;
@@ -468,21 +464,12 @@ namespace Orc.Controls
         public bool IsReadOnly { get; set; }
         public bool IsYearShortFormat { get; }
         public bool ShowOptionsButton { get; set; }
-<<<<<<< HEAD
         public System.DateTime? Value { get; set; }
-        public override void OnApplyTemplate() { }
-=======
-        [Catel.MVVM.Views.ViewToViewModelAttribute("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
-        public System.Nullable<System.DateTime> Value { get; set; }
         public event System.EventHandler<System.EventArgs> EditEnded;
         public event System.EventHandler<System.EventArgs> EditStarted;
-        public void InitializeComponent() { }
         public override void OnApplyTemplate() { }
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e) { }
-        protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnLostKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e) { }
-        protected override void OnUnloaded(System.EventArgs e) { }
->>>>>>> 3.4.1
     }
     public static class DependencyObjectExtensions
     {
@@ -759,32 +746,12 @@ namespace Orc.Controls
         void Detach();
         void Open(object parameter);
     }
-<<<<<<< HEAD
-=======
-    [System.ObsoleteAttribute("Deprecated. Will be removed in version 4.0.0.", true)]
-    public interface IDataSourceProvider
-    {
-        string DataBasesQuery { get; }
-        System.Collections.Generic.IList<string> GetDataSources();
-    }
     public interface IEditableControl
     {
         bool IsInEditMode { get; }
-        public event System.EventHandler<System.EventArgs> EditEnded;
-        public event System.EventHandler<System.EventArgs> EditStarted;
+        event System.EventHandler<System.EventArgs> EditEnded;
+        event System.EventHandler<System.EventArgs> EditStarted;
     }
-    public class InitializingAutoCompletionServiceEventArgs : System.Windows.RoutedEventArgs
-    {
-        public InitializingAutoCompletionServiceEventArgs() { }
-        public Catel.Services.IAutoCompletionService AutoCompletionService { get; set; }
-    }
-    public class static InlineExtensions
-    {
-        public static System.Windows.Documents.Inline Append(this System.Windows.Documents.Inline inline, System.Windows.Documents.Inline inlineToAdd) { }
-        public static System.Windows.Documents.Inline AppendRange(this System.Windows.Documents.Inline inline, System.Collections.Generic.IEnumerable<System.Windows.Documents.Inline> inlines) { }
-        public static System.Windows.Documents.Bold Bold(this System.Windows.Documents.Inline inline) { }
-    }
->>>>>>> 3.4.1
     public interface ISuggestionListService
     {
         System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> GetSuggestionList(System.DateTime dateTime, Orc.Controls.DateTimePart editablePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo);
