@@ -60,9 +60,8 @@
 
                                     <controls:DropDownButton x:Name="PART_Settings_Button" 
                                                              Grid.Column="0"
+                                                             BorderThickness="0"
                                                              Width="40"
-                                                             ShowDefaultButton="False" 
-                                                             EnableTransparentBackground="True"
                                                              Visibility="{Binding ShowSettingsBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
                                         <controls:DropDownButton.Header>
                                             <Grid>

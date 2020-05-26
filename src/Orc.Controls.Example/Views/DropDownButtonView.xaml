@@ -15,8 +15,8 @@
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0 0 0 20">
             <TextBlock Text="DropDownButton with default button" VerticalAlignment="Center" Width="350" />
             
-            <orccontrols:DropDownButton Header="Action" Height="25" Width="200" 
-                                        Command="{Binding DefaultAction}">
+            <orccontrols:DropDownButton Content="Action" Height="25" Width="200" 
+                                         Command="{Binding DefaultAction}">
                 <orccontrols:DropDownButton.DropDown>
                     <ContextMenu>
                         <MenuItem Header="Item 1 veeeery looooooooooong"/>
@@ -27,16 +27,24 @@
                 </orccontrols:DropDownButton.DropDown>
             </orccontrols:DropDownButton>
 
-            <orccontrols:DropDownButton Height="25" Width="40" Margin="10 0 0 0" Command="{Binding DefaultAction}">
-                <orccontrols:DropDownButton.Header>
+            <orccontrols:DropDownButton Height="25"
+                                         Width="40"
+                                         Margin="10 0 0 0"
+                                         Command="{Binding DefaultAction}">
+                <orccontrols:DropDownButton.Content>
                     <Grid>
                         <Viewbox Height="15">
                             <Path Data="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"
-                                  Fill="Black" HorizontalAlignment="Center" Margin="0" SnapsToDevicePixels="True"
-                                  Stretch="Fill" UseLayoutRounding="True" VerticalAlignment="Center"/>
+                                  Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
+                                  HorizontalAlignment="Center"
+                                  Margin="0"
+                                  SnapsToDevicePixels="True"
+                                  Stretch="Fill"
+                                  UseLayoutRounding="True"
+                                  VerticalAlignment="Center"/>
                         </Viewbox>
                     </Grid>
-                </orccontrols:DropDownButton.Header>
+                </orccontrols:DropDownButton.Content>
                 <orccontrols:DropDownButton.DropDown>
                     <ContextMenu>
                         <MenuItem Header="Item 1"/>
@@ -47,8 +55,12 @@
         
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0 0 0 20">
             <TextBlock Text="DropDownButton without default button (ArrowLocation.Right)" VerticalAlignment="Center" Width="350" />
-            
-            <orccontrols:DropDownButton Header="Action" Height="25" Width="200" Command="{Binding DefaultAction}" ShowDefaultButton="False" IsArrowVisible="False">
+
+            <orccontrols:DropDownButton Content="Action"
+                                         Height="25"
+                                         Width="200" 
+                                         Command="{Binding DefaultAction}" 
+                                         IsArrowVisible="False">
                 <orccontrols:DropDownButton.DropDown>
                     <ContextMenu>
                         <MenuItem Header="Item 1 veeeery looooooooooong"/>
@@ -59,16 +71,16 @@
                 </orccontrols:DropDownButton.DropDown>
             </orccontrols:DropDownButton>
 
-            <orccontrols:DropDownButton Height="25" Width="40" Margin="10 0 0 0" EnableTransparentBackground="True" ShowDefaultButton="False">
-                <orccontrols:DropDownButton.Header>
+            <orccontrols:DropDownButton Height="25" Width="40" Margin="10 0 0 0">
+                <orccontrols:DropDownButton.Content>
                     <Grid>
                         <Viewbox Height="15">
                             <Path Data="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"
-                                  Fill="Black" HorizontalAlignment="Center" Margin="0" SnapsToDevicePixels="True"
+                                  Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}" HorizontalAlignment="Center" Margin="0" SnapsToDevicePixels="True"
                                   Stretch="Fill" UseLayoutRounding="True" VerticalAlignment="Center"/>
                         </Viewbox>
                     </Grid>
-                </orccontrols:DropDownButton.Header>
+                </orccontrols:DropDownButton.Content>
                 <orccontrols:DropDownButton.DropDown>
                     <ContextMenu>
                         <MenuItem Header="Item 1"/>
@@ -79,8 +91,8 @@
         
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0 0 0 20">
             <TextBlock Text="DropDownButton without default button (ArrowLocation.Left)" VerticalAlignment="Center" Width="350" />
-            
-            <orccontrols:DropDownButton Header="Action" Height="25" Width="200" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Left">
+
+            <orccontrols:DropDownButton Content="Action" Height="25" Width="200" Command="{Binding DefaultAction}" ArrowLocation="Left">
                 <orccontrols:DropDownButton.DropDown>
                     <ContextMenu>
                         <MenuItem Header="Item 1 veeeery looooooooooong"/>
@@ -91,16 +103,17 @@
                 </orccontrols:DropDownButton.DropDown>
             </orccontrols:DropDownButton>
 
-            <orccontrols:DropDownButton Height="25" Width="40" Margin="10 0 0 0" EnableTransparentBackground="True" ShowDefaultButton="False" ArrowLocation="Left">
-                <orccontrols:DropDownButton.Header>
+            <orccontrols:DropDownButton Height="25" Width="40" Margin="10 0 0 0" 
+                                         ArrowLocation="Left">
+                <orccontrols:DropDownButton.Content>
                     <Grid>
                         <Viewbox Height="15">
                             <Path Data="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"
-                                  Fill="Black" HorizontalAlignment="Center" Margin="0" SnapsToDevicePixels="True"
+                                  Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}" HorizontalAlignment="Center" Margin="0" SnapsToDevicePixels="True"
                                   Stretch="Fill" UseLayoutRounding="True" VerticalAlignment="Center"/>
                         </Viewbox>
                     </Grid>
-                </orccontrols:DropDownButton.Header>
+                </orccontrols:DropDownButton.Content>
                 <orccontrols:DropDownButton.DropDown>
                     <ContextMenu>
                         <MenuItem Header="Item 1"/>
@@ -112,7 +125,7 @@
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0 0 0 20">
             <TextBlock Text="DropDownButton without default button (ArrowLocation.Top)" VerticalAlignment="Center" Width="350" />
 
-            <orccontrols:DropDownButton Header="Action" Height="25" Width="200" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Top">
+            <orccontrols:DropDownButton Content="Action" Height="25" Width="200" Command="{Binding DefaultAction}" ArrowLocation="Top">
                 <orccontrols:DropDownButton.DropDown>
                     <ContextMenu>
                         <MenuItem Header="Item 1 veeeery looooooooooong"/>
@@ -123,16 +136,16 @@
                 </orccontrols:DropDownButton.DropDown>
             </orccontrols:DropDownButton>
 
-            <orccontrols:DropDownButton Height="25" Width="40" Margin="10 0 0 0" EnableTransparentBackground="True" ShowDefaultButton="False" ArrowLocation="Top">
-                <orccontrols:DropDownButton.Header>
+            <orccontrols:DropDownButton Height="25" Width="40" Margin="10 0 0 0" ArrowLocation="Top">
+                <orccontrols:DropDownButton.Content>
                     <Grid>
                         <Viewbox Height="15">
                             <Path Data="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"
-                                  Fill="Black" HorizontalAlignment="Center" Margin="0" SnapsToDevicePixels="True"
+                                  Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}" HorizontalAlignment="Center" Margin="0" SnapsToDevicePixels="True"
                                   Stretch="Fill" UseLayoutRounding="True" VerticalAlignment="Center"/>
                         </Viewbox>
                     </Grid>
-                </orccontrols:DropDownButton.Header>
+                </orccontrols:DropDownButton.Content>
                 <orccontrols:DropDownButton.DropDown>
                     <ContextMenu>
                         <MenuItem Header="Item 1"/>
@@ -144,7 +157,7 @@
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0 0 0 20">
             <TextBlock Text="DropDownButton without default button (ArrowLocation.Bottom)" VerticalAlignment="Center" Width="350" />
 
-            <orccontrols:DropDownButton Header="Action" Height="25" Width="200" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Bottom">
+            <orccontrols:DropDownButton Content="Action" Height="25" Width="200" Command="{Binding DefaultAction}" ArrowLocation="Bottom">
                 <orccontrols:DropDownButton.DropDown>
                     <ContextMenu>
                         <MenuItem Header="Item 1 veeeery looooooooooong"/>
@@ -155,16 +168,16 @@
                 </orccontrols:DropDownButton.DropDown>
             </orccontrols:DropDownButton>
 
-            <orccontrols:DropDownButton Height="25" Width="40" Margin="10 0 0 0" EnableTransparentBackground="True" ShowDefaultButton="False" ArrowLocation="Bottom">
-                <orccontrols:DropDownButton.Header>
+            <orccontrols:DropDownButton Height="25" Width="40" Margin="10 0 0 0" ArrowLocation="Bottom">
+                <orccontrols:DropDownButton.Content>
                     <Grid>
                         <Viewbox Height="15">
                             <Path Data="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"
-                                  Fill="Black" HorizontalAlignment="Center" Margin="0" SnapsToDevicePixels="True"
+                                  Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}" HorizontalAlignment="Center" Margin="0" SnapsToDevicePixels="True"
                                   Stretch="Fill" UseLayoutRounding="True" VerticalAlignment="Center"/>
                         </Viewbox>
                     </Grid>
-                </orccontrols:DropDownButton.Header>
+                </orccontrols:DropDownButton.Content>
                 <orccontrols:DropDownButton.DropDown>
                     <ContextMenu>
                         <MenuItem Header="Item 1"/>
@@ -178,10 +191,10 @@
 
             <StackPanel VerticalAlignment="Top">
                 <StackPanel Orientation="Horizontal">
-                    <orccontrols:DropDownButton Margin="5" Height="75" Width="75" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Left">
-                        <orccontrols:DropDownButton.Header>
+                    <orccontrols:DropDownButton Margin="5" Height="75" Width="75" ArrowLocation="Left">
+                        <orccontrols:DropDownButton.Content>
                             <Image Source="{orctheming:FontImage {x:Static ribbon:FontAwesome.Refresh}}"/>
-                        </orccontrols:DropDownButton.Header>
+                        </orccontrols:DropDownButton.Content>
                         <orccontrols:DropDownButton.DropDown>
                             <ContextMenu>
                                 <MenuItem Header="Item 1 veeeery looooooooooong"/>
@@ -192,10 +205,10 @@
                         </orccontrols:DropDownButton.DropDown>
                     </orccontrols:DropDownButton>
 
-                    <orccontrols:DropDownButton Margin="5" Height="75" Width="75" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Top">
-                        <orccontrols:DropDownButton.Header>
+                    <orccontrols:DropDownButton Margin="5" Height="75" Width="75" Command="{Binding DefaultAction}" ArrowLocation="Top">
+                        <orccontrols:DropDownButton.Content>
                             <Image Source="{orctheming:FontImage {x:Static ribbon:FontAwesome.Medkit}}"/>
-                        </orccontrols:DropDownButton.Header>
+                        </orccontrols:DropDownButton.Content>
                         <orccontrols:DropDownButton.DropDown>
                             <ContextMenu>
                                 <MenuItem Header="Item 1 veeeery looooooooooong"/>
@@ -209,10 +222,10 @@
 
                 <StackPanel Orientation="Horizontal" >
 
-                    <orccontrols:DropDownButton Margin="5" Height="75" Width="75" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Right">
-                        <orccontrols:DropDownButton.Header>
+                    <orccontrols:DropDownButton Margin="5" Height="75" Width="75" Command="{Binding DefaultAction}" ArrowLocation="Right">
+                        <orccontrols:DropDownButton.Content>
                             <Image Source="{orctheming:FontImage {x:Static ribbon:FontAwesome.MailReply}}"/>
-                        </orccontrols:DropDownButton.Header>
+                        </orccontrols:DropDownButton.Content>
                         <orccontrols:DropDownButton.DropDown>
                             <ContextMenu>
                                 <MenuItem Header="Item 1 veeeery looooooooooong"/>
@@ -223,10 +236,10 @@
                         </orccontrols:DropDownButton.DropDown>
                     </orccontrols:DropDownButton>
 
-                    <orccontrols:DropDownButton Margin="5" Height="75" Width="75" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Bottom">
-                        <orccontrols:DropDownButton.Header>
+                    <orccontrols:DropDownButton Margin="5" Height="75" Width="75" Command="{Binding DefaultAction}" ArrowLocation="Bottom">
+                        <orccontrols:DropDownButton.Content>
                             <Image Source="{orctheming:FontImage {x:Static ribbon:FontAwesome.Ambulance}}"/>
-                        </orccontrols:DropDownButton.Header>
+                        </orccontrols:DropDownButton.Content>
                         <orccontrols:DropDownButton.DropDown>
                             <ContextMenu>
                                 <MenuItem Header="Item 1 veeeery looooooooooong"/>
@@ -245,10 +258,10 @@
 
             <StackPanel VerticalAlignment="Top">
                 <StackPanel Orientation="Horizontal"  >
-                    <orccontrols:DropDownButton Margin="5" Height="50" Width="50" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Left" ArrowMargin="5" >
-                        <orccontrols:DropDownButton.Header>
+                    <orccontrols:DropDownButton Margin="5" Height="50" Width="50" Command="{Binding DefaultAction}" ArrowLocation="Left" ArrowMargin="5" >
+                        <orccontrols:DropDownButton.Content>
                             <Image Source="{orctheming:FontImage {x:Static ribbon:FontAwesome.Warning}}"/>
-                        </orccontrols:DropDownButton.Header>
+                        </orccontrols:DropDownButton.Content>
                         <orccontrols:DropDownButton.DropDown>
                             <ContextMenu>
                                 <MenuItem Header="Item 1 veeeery looooooooooong"/>
@@ -259,10 +272,10 @@
                         </orccontrols:DropDownButton.DropDown>
                     </orccontrols:DropDownButton>
 
-                    <orccontrols:DropDownButton Margin="5" Height="50" Width="50" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Top" ArrowMargin="4">
-                        <orccontrols:DropDownButton.Header>
+                    <orccontrols:DropDownButton Margin="5" Height="50" Width="50" Command="{Binding DefaultAction}" ArrowLocation="Top" ArrowMargin="4">
+                        <orccontrols:DropDownButton.Content>
                             <Image Source="{orctheming:FontImage {x:Static ribbon:FontAwesome.Edit}}"/>
-                        </orccontrols:DropDownButton.Header>
+                        </orccontrols:DropDownButton.Content>
                         <orccontrols:DropDownButton.DropDown>
                             <ContextMenu>
                                 <MenuItem Header="Item 1 veeeery looooooooooong"/>
@@ -275,10 +288,10 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" >
-                    <orccontrols:DropDownButton Margin="5" Height="50" Width="50" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Right" ArrowMargin="3">
-                        <orccontrols:DropDownButton.Header>
+                    <orccontrols:DropDownButton Margin="5" Height="50" Width="50" Command="{Binding DefaultAction}" ArrowLocation="Right" ArrowMargin="3">
+                        <orccontrols:DropDownButton.Content>
                             <Image Source="{orctheming:FontImage {x:Static ribbon:FontAwesome.PowerOff}}"/>
-                        </orccontrols:DropDownButton.Header>
+                        </orccontrols:DropDownButton.Content>
                         <orccontrols:DropDownButton.DropDown>
                             <ContextMenu>
                                 <MenuItem Header="Item 1 veeeery looooooooooong"/>
@@ -289,10 +302,10 @@
                         </orccontrols:DropDownButton.DropDown>
                     </orccontrols:DropDownButton>
 
-                    <orccontrols:DropDownButton Margin="5" Height="50" Width="50" Command="{Binding DefaultAction}" ShowDefaultButton="False" ArrowLocation="Bottom" ArrowMargin="2">
-                        <orccontrols:DropDownButton.Header>
+                    <orccontrols:DropDownButton Margin="5" Height="50" Width="50" Command="{Binding DefaultAction}" ArrowLocation="Bottom" ArrowMargin="2">
+                        <orccontrols:DropDownButton.Content>
                             <Image Source="{orctheming:FontImage {x:Static ribbon:FontAwesome.PaintBrush}}"/>
-                        </orccontrols:DropDownButton.Header>
+                        </orccontrols:DropDownButton.Content>
                         <orccontrols:DropDownButton.DropDown>
                             <ContextMenu>
                                 <MenuItem Header="Item 1 veeeery looooooooooong"/>
