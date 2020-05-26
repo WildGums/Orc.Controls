@@ -19,6 +19,7 @@ namespace Orc.Controls
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Services;
+    using Catel.Windows;
     using Converters;
     using Calendar = System.Windows.Controls.Calendar;
 
@@ -58,7 +59,7 @@ namespace Orc.Controls
 
     [TemplatePart(Name = "PART_AmPmListTextBox", Type = typeof(ListTextBox))]
 
-    public class DateTimePicker : Control
+    public class DateTimePicker : Control, IEditableControl
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
@@ -108,6 +109,8 @@ namespace Orc.Controls
         private Grid _mainGrid;
 
         private ListTextBox _amPmListTextBox;
+
+        private Popup _calendarPopup;
 
         #region Dependency properties
         public DateTime? Value
@@ -220,6 +223,8 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
+        public bool IsInEditMode { get; private set; }
+
         private int? Day
         {
             get => (int?)_daysNumericTextBox.Value;
@@ -525,9 +530,9 @@ namespace Orc.Controls
         {
             _datePickerIconToggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
 
-            var calendarPopup = CreateCalendarPopup();
+            _calendarPopup = CreateCalendarPopup();
             var calendarPopupSource = CreateCalendarPopupSource();
-            calendarPopup.SetCurrentValue(Popup.ChildProperty, calendarPopupSource);
+            _calendarPopup.SetCurrentValue(Popup.ChildProperty, calendarPopupSource);
 
             calendarPopupSource.Focus();
         }
@@ -1208,6 +1213,78 @@ namespace Orc.Controls
 
             e.Handled = true;
         }
+
+        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            base.OnGotKeyboardFocus(e);
+
+            IsInEditMode = true;
+
+            EditStarted?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            base.OnLostKeyboardFocus(e);
+
+            InvalidateEditMode();
+        }
+
+        private void CalendarPopupOnClosed(object sender, EventArgs e)
+        {
+            InvalidateEditMode();
+
+            _calendarPopup.Closed -= CalendarPopupOnClosed;
+        }
+
+        private void InvalidateEditMode()
+        {
+            if (!IsInEditMode)
+            {
+                return;
+            }
+
+            if (IsKeyboardFocusWithin || IsKeyboardFocused || IsFocused)
+            {
+                return;
+            }
+
+            var focusedControl = FocusManager.GetFocusedElement(this) as FrameworkElement;
+            var keyboardFocusedControl = focusedControl ?? Keyboard.FocusedElement as FrameworkElement;
+            var root = keyboardFocusedControl?.FindLogicalOrVisualAncestor(x => Equals(this, x));
+            if (root != null)
+            {
+                return;
+            }
+
+            if (_datePickerIconToggleButton.IsChecked == true)
+            {
+                return;
+            }
+
+            if (_calendarPopup != null && _calendarPopup.IsOpen)
+            {
+                _calendarPopup.Closed += CalendarPopupOnClosed;
+                return;
+            }
+
+            if (_daysToggleButton.IsChecked == true
+                || _minuteToggleButton.IsChecked == true
+                || _hourToggleButton.IsChecked == true
+                || _monthToggleButton.IsChecked == true
+                || _amPmToggleButton.IsChecked == true
+                || _secondToggleButton.IsChecked == true)
+            {
+                return;
+            }
+
+            IsInEditMode = false;
+
+            EditEnded?.Invoke(this, EventArgs.Empty);
+        }
         #endregion
+
+        public event EventHandler<EventArgs> EditStarted;
+        public event EventHandler<EventArgs> EditEnded;
     }
 }

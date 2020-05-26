@@ -27,13 +27,15 @@
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="DateTimePicker Control" VerticalAlignment="Center" Width="150"/>
             <orccontrols:DateTimePicker Value="{Binding DateTimeValue}"
-                                         Format="{Binding SelectedFormat.FormatValue}" HorizontalAlignment="Left"
-                                         AllowNull="{Binding IsChecked, ElementName=allowNullCheckbox}"
-                                         AllowCopyPaste="{Binding IsChecked, ElementName=allowCopyPasteCheckbox}"
-                                         HideTime="{Binding IsChecked, ElementName=hideTimeCheckbox}"
-                                         HideSeconds="{Binding IsChecked, ElementName=hideSecondsCheckbox}"
-                                         IsReadOnly="{Binding IsChecked, ElementName=readOnlyCheckbox}"
-                                         ShowOptionsButton="{Binding IsChecked, ElementName=showOptionsButtonCheckbox}" />
+                                       Format="{Binding SelectedFormat.FormatValue}" HorizontalAlignment="Left"
+                                       AllowNull="{Binding IsChecked, ElementName=allowNullCheckbox}"
+                                       AllowCopyPaste="{Binding IsChecked, ElementName=allowCopyPasteCheckbox}"
+                                       HideTime="{Binding IsChecked, ElementName=hideTimeCheckbox}"
+                                       HideSeconds="{Binding IsChecked, ElementName=hideSecondsCheckbox}"
+                                       IsReadOnly="{Binding IsChecked, ElementName=readOnlyCheckbox}"
+                                       ShowOptionsButton="{Binding IsChecked, ElementName=showOptionsButtonCheckbox}" 
+                                       EditStarted="DateTimePicker_OnEditStarted"
+                                       EditEnded="DateTimePicker_OnEditEnded"/>
         </StackPanel>
         
         <StackPanel Orientation="Horizontal">
