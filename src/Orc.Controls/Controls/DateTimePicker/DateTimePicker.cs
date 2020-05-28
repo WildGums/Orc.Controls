@@ -581,6 +581,11 @@ namespace Orc.Controls
 
         private void ApplyFormat()
         {
+            if (!IsLoaded)
+            {
+                return;
+            }
+
             _applyingFormat = true;
 
             try
