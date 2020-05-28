@@ -216,6 +216,12 @@ namespace Orc.Controls
         public event System.EventHandler<Orc.Controls.ColorChangedEventArgs> ColorChanged;
         public override void OnApplyTemplate() { }
     }
+    public class ComboboxEditableControlBehavior : Orc.Controls.EditableControlBehaviorBase<System.Windows.Controls.ComboBox>
+    {
+        public ComboboxEditableControlBehavior() { }
+        protected override void OnAssociatedObjectLoaded() { }
+        protected override void OnAssociatedObjectUnloaded() { }
+    }
     public abstract class ControlToolBase : Catel.Data.ModelBase, Orc.Controls.IControlTool
     {
         protected object Target;
@@ -556,6 +562,17 @@ namespace Orc.Controls
     {
         public DropdownArrowLocationConverter() { }
         protected override object Convert(object value, System.Type targetType, object parameter) { }
+    }
+    public abstract class EditableControlBehaviorBase<T> : Catel.Windows.Interactivity.BehaviorBase<T>, Orc.Controls.IEditableControl
+        where T : System.Windows.FrameworkElement
+    {
+        public static readonly System.Windows.DependencyProperty IsInEditModeProperty;
+        protected EditableControlBehaviorBase() { }
+        public bool IsInEditMode { get; set; }
+        public event System.EventHandler<System.EventArgs> EditEnded;
+        public event System.EventHandler<System.EventArgs> EditStarted;
+        protected void RaiseEditEnded() { }
+        protected void RaiseEditStarted() { }
     }
     public class EmptyCell : System.Windows.Controls.Control
     {
