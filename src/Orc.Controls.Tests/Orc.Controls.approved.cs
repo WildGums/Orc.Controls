@@ -727,6 +727,7 @@ namespace Orc.Controls
         public static System.Windows.Point GetCenterPointInRoot(this System.Windows.FrameworkElement frameworkElement, System.Windows.FrameworkElement root) { }
         public static Orc.Controls.Tools.IControlToolManager GetControlToolManager(this System.Windows.FrameworkElement frameworkElement) { }
         public static System.Collections.Generic.IList<Orc.Controls.IControlTool> GetTools(this System.Windows.FrameworkElement frameworkElement) { }
+        public static Orc.Controls.IEditableControl TryGetEditableControl(this System.Windows.FrameworkElement frameworkElement) { }
     }
     public class HeaderBar : System.Windows.Controls.Control
     {
