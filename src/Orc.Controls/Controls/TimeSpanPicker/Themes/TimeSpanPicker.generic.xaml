@@ -101,7 +101,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:TimeSpanPicker}">
-                    <Grid VerticalAlignment="Center">
+                    <Grid VerticalAlignment="Stretch">
                         <Border x:Name="PART_MainContainer"
                                 Margin="0"
                                 Padding="{TemplateBinding Padding}"
@@ -109,7 +109,8 @@
                                 Visibility="{Binding ElementName=PART_NumericTBEditorContainer, Path=IsVisible, Converter={catel:BooleanToCollapsingVisibilityConverter SupportInversionUsingCommandParameter=True}, ConverterParameter=True}"
                                 Style="{DynamicResource TimeSpanBorderStyle}">
 
-                            <Grid HorizontalAlignment="Stretch" controls:EnterKeyTraversal.IsEnabled="True">
+                            <Grid HorizontalAlignment="Stretch"
+                                  controls:EnterKeyTraversal.IsEnabled="True">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
