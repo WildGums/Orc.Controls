@@ -21,6 +21,7 @@ namespace Orc.Controls
     using Catel.Services;
     using Catel.Windows;
     using Converters;
+    using Extensions;
     using Calendar = System.Windows.Controls.Calendar;
 
     [TemplatePart(Name = "PART_DaysNumericTextBox", Type = typeof(NumericTextBox))]
@@ -490,7 +491,10 @@ namespace Orc.Controls
             {
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MainGrid'");
             }
-            
+            _mainGrid.MouseEnter += OnMouseEnter;
+            _mainGrid.MouseLeave += OnMouseLeave;
+            _mainGrid.IsKeyboardFocusWithinChanged += OnIsKeyboardFocusWithinChanged;
+
             _textBoxes = new List<TextBox>
             {
                 _daysNumericTextBox,
@@ -622,8 +626,7 @@ namespace Orc.Controls
                     _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(format);
                 }
 
-                if (!hasAnyTimeFormat)
-                { }
+                UpdateUiPartVisibility();
 
                 var hourPosition = _formatInfo?.HourPosition;
                 if (hourPosition is null)
@@ -667,9 +670,7 @@ namespace Orc.Controls
                 _secondNumericTextBox.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.SecondFormat?.Length ?? 0));
 
                 UnsubscribeNumericTextBoxes();
-
-
-
+                
                 Grid.SetColumn(_daysNumericTextBox, GetPosition(_formatInfo.DayPosition));
                 Grid.SetColumn(_monthNumericTextBox, GetPosition(_formatInfo.MonthPosition));
                 Grid.SetColumn(_yearNumericTextBox, GetPosition(_formatInfo.YearPosition));
@@ -684,12 +685,6 @@ namespace Orc.Controls
                 Grid.SetColumn(_hourToggleButton, GetPosition(hourPosition.Value) + 1);
                 Grid.SetColumn(_minuteToggleButton, GetPosition(minutePosition.Value) + 1);
                 Grid.SetColumn(_secondToggleButton, GetPosition(_formatInfo.SecondPosition ?? _defaultSecondFormatPosition) + 1);
-
-                //hide parts according to Hide options and format
-                var isHiddenManual = HideSeconds || HideTime;
-
-                _secondNumericTextBox.SetCurrentValue(NumericTextBox.VisibilityProperty, _formatInfo.SecondFormat is null || isHiddenManual ? Visibility.Collapsed : Visibility.Visible);
-                _secondToggleButton.SetCurrentValue(NumericTextBox.VisibilityProperty, _formatInfo.SecondFormat is null || isHiddenManual ? Visibility.Collapsed : Visibility.Visible);
 
                 Grid.SetColumn(_amPmToggleButton, GetPosition((_formatInfo.AmPmPosition ?? _defaultAmPmFormatPosition) + 1));
 
@@ -732,6 +727,84 @@ namespace Orc.Controls
             {
                 _applyingFormat = false;
             }
+        }
+        
+        private void OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            UpdateUiPartVisibility();
+        }
+
+        private void OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            UpdateUiPartVisibility();
+        }
+
+        private void OnIsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            UpdateUiPartVisibility();
+        }
+
+        private void UpdateUiPartVisibility()
+        {
+            //hide parts according to Hide options and format
+            var isHiglighted = _mainGrid.IsMouseOver || _mainGrid.IsKeyboardFocusWithin;
+
+            /**** date parts ****/
+            var isYearVisible = _formatInfo.YearFormat != null;
+            var isMonthVisible = _formatInfo.MonthFormat != null;
+            var isDayVisible = _formatInfo.DayFormat != null;
+
+            var yearHiddenVisibility = isYearVisible ? Visibility.Hidden : Visibility.Collapsed;
+            var monthHiddenVisibility = isMonthVisible ? Visibility.Hidden : Visibility.Collapsed;
+            var dayHiddenVisibility = isDayVisible ? Visibility.Hidden : Visibility.Collapsed;
+
+            /* year parts */
+            _yearNumericTextBox.SetCurrentValue(VisibilityProperty, isYearVisible.ToVisibility());
+            _yearSeparatorTextBlock.SetCurrentValue(VisibilityProperty, (isYearVisible && !isHiglighted).ToVisibility(yearHiddenVisibility));
+            _monthsYearSeparatorTextBlock.SetCurrentValue(VisibilityProperty, (isYearVisible && !isHiglighted).ToVisibility(yearHiddenVisibility));
+            _yearToggleButton.SetCurrentValue(VisibilityProperty, (isYearVisible && isHiglighted).ToVisibility(yearHiddenVisibility));
+
+            /* month parts */
+            _monthNumericTextBox.SetCurrentValue(VisibilityProperty, isMonthVisible.ToVisibility());
+            _daysMonthsSeparatorTextBlock.SetCurrentValue(VisibilityProperty, (isMonthVisible && !isHiglighted).ToVisibility(monthHiddenVisibility));
+            _monthToggleButton.SetCurrentValue(VisibilityProperty, (isMonthVisible && isHiglighted).ToVisibility(monthHiddenVisibility));
+
+            /* day parts*/
+            _daysNumericTextBox.SetCurrentValue(VisibilityProperty, isDayVisible.ToVisibility());
+            _daysToggleButton.SetCurrentValue(VisibilityProperty, (isDayVisible && isHiglighted).ToVisibility(dayHiddenVisibility));
+
+
+            /**** time parts ****/
+            var isTimeVisible = !HideTime;
+            var isAmPmVisible = _formatInfo.AmPmFormat != null && isTimeVisible;
+            var isSecondsVisible = _formatInfo.SecondFormat != null && !HideSeconds && isTimeVisible;
+            var isMinutesVisible = _formatInfo.MinuteFormat != null && isTimeVisible;
+            var isHoursVisible = _formatInfo.HourFormat != null && isTimeVisible;
+
+            var secondsHiddenVisibility = isSecondsVisible ? Visibility.Hidden : Visibility.Collapsed;
+            var minutesHiddenVisibility = isMinutesVisible ? Visibility.Hidden : Visibility.Collapsed;
+            var hoursHiddenVisibility = isHoursVisible ? Visibility.Hidden : Visibility.Collapsed;
+            var ampmHiddenVisibility = isAmPmVisible ? Visibility.Hidden : Visibility.Collapsed;
+
+            /* second parts */
+            _secondNumericTextBox.SetCurrentValue(VisibilityProperty, isSecondsVisible.ToVisibility());
+            _minuteSecondSeparatorTextBlock.SetCurrentValue(VisibilityProperty, (isSecondsVisible && !isHiglighted).ToVisibility(secondsHiddenVisibility));
+            _secondToggleButton.SetCurrentValue(VisibilityProperty, (isSecondsVisible && isHiglighted).ToVisibility(secondsHiddenVisibility));
+            
+            /* minute parts */
+            _minuteNumericTextBox.SetCurrentValue(VisibilityProperty, isMinutesVisible.ToVisibility());
+            _hourMinuteSeparatorTextBlock.SetCurrentValue(VisibilityProperty, (isMinutesVisible && !isHiglighted).ToVisibility(minutesHiddenVisibility));
+            _minuteToggleButton.SetCurrentValue(VisibilityProperty, (isMinutesVisible && isHiglighted).ToVisibility(minutesHiddenVisibility));
+
+            /* hour parts */
+            _hourNumericTextBox.SetCurrentValue(VisibilityProperty, isHoursVisible.ToVisibility());
+            _hourToggleButton.SetCurrentValue(VisibilityProperty, (isHoursVisible && isHiglighted).ToVisibility(hoursHiddenVisibility));
+          
+            /* am pm parts */
+            _amPmListTextBox.SetCurrentValue(VisibilityProperty, isAmPmVisible.ToVisibility());
+            _secondAmPmSeparatorTextBlock.SetCurrentValue(VisibilityProperty, (isAmPmVisible && !isHiglighted).ToVisibility(ampmHiddenVisibility));
+            _amPmSeparatorTextBlock.SetCurrentValue(VisibilityProperty, (isAmPmVisible && !isHiglighted).ToVisibility(ampmHiddenVisibility));
+            _amPmToggleButton.SetCurrentValue(VisibilityProperty, (isAmPmVisible && isHiglighted).ToVisibility(ampmHiddenVisibility));
         }
 
         private void OnToggleButtonChecked(object sender, RoutedEventArgs e)
@@ -1009,7 +1082,6 @@ namespace Orc.Controls
 
                 SetCurrentValue(ValueProperty, newValue);
             }
-
         }
 
         private void OnMonthTextChanged(object sender, TextChangedEventArgs e)
