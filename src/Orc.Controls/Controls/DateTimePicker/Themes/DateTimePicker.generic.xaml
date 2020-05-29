@@ -20,10 +20,10 @@
                 <Setter Property="TextAlignment" Value="Center"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True">
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:DateTimePicker}}, Path=IsMouseOver}" Value="True">
                         <Setter Property="Visibility" Value="Hidden"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsKeyboardFocusWithin}" Value="True">
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:DateTimePicker}}, Path=IsKeyboardFocusWithin}" Value="True">
                         <Setter Property="Visibility" Value="Hidden"/>
                     </DataTrigger>
                 </Style.Triggers>

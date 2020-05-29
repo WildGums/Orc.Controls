@@ -433,9 +433,7 @@ namespace Orc.Controls
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_AmPmToggleButton'");
             }
             _amPmToggleButton.Checked += OnToggleButtonChecked;
-
-
-
+            
             _datePickerIconToggleButton = GetTemplateChild("PART_DatePickerIconToggleButton") as ToggleButton;
             if (_datePickerIconToggleButton is null)
             {
@@ -577,6 +575,8 @@ namespace Orc.Controls
         private void OnFormatChanged()
         {
             ApplyFormat();
+
+            UpdateUi();
         }
 
         private void ApplyFormat()
@@ -804,7 +804,7 @@ namespace Orc.Controls
                 var dispatcherService = this.GetServiceLocator().ResolveType<IDispatcherService>();
                 dispatcherService.Invoke(() => SetCurrentValue(ValueProperty, nv));
             }
-
+            
             UpdateUi();
         }
 
@@ -851,7 +851,14 @@ namespace Orc.Controls
             Day = value?.Day;
             Month = value?.Month;
             Year = value?.Year;
-            Hour = value?.Hour;
+
+            var hour = value?.Hour;
+            if (hour != null && IsHour12Format && hour > 12)
+            {
+                hour -= 12;
+            }
+
+            Hour = hour;
             Minute = value?.Minute;
             Second = value?.Second;
             AmPm = value != null ? value.Value >= value.Value.Date.AddHours(12) ? Meridiems.LongPM : Meridiems.LongAM : null;

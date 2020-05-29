@@ -374,6 +374,8 @@ namespace Orc.Controls
         private void OnFormatChanged()
         {
             ApplyFormat();
+
+            UpdateUi();
         }
 
         private void ApplyFormat()
