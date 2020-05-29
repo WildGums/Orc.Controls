@@ -59,6 +59,8 @@ namespace Orc.Controls
         private TextBlock _editedUnitTextBlock;
 
         private Border _numericTbEditorContainerBorder;
+
+        private bool _isTemplateApplied;
         #endregion
 
         #region Properties
@@ -228,6 +230,8 @@ namespace Orc.Controls
             {
                 throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_MinutesSecondsSeparatorTextBlock'");
             }
+
+            _isTemplateApplied = true;
         }
 
         private void OnEditorNumericTextBoxIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -326,6 +330,11 @@ namespace Orc.Controls
 
         private void OnValueChanged(TimeSpan? value)
         {
+            if (!_isTemplateApplied)
+            {
+                return;
+            }
+
             _daysNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?) (value?.Days ?? 0));
             _hoursNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?) (value?.Hours ?? 0));
             _minutesNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?) (value?.Minutes ?? 0));
