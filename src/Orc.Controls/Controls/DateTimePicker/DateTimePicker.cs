@@ -585,7 +585,7 @@ namespace Orc.Controls
 
         private void ApplyFormat()
         {
-            if (!IsLoaded)
+            if (!_isTemplateApplied)
             {
                 return;
             }
@@ -746,6 +746,11 @@ namespace Orc.Controls
 
         private void UpdateUiPartVisibility()
         {
+            if(_formatInfo is null)
+            {
+                return;
+            }
+
             //hide parts according to Hide options and format
             var isHiglighted = _mainGrid.IsMouseOver || _mainGrid.IsKeyboardFocusWithin;
 

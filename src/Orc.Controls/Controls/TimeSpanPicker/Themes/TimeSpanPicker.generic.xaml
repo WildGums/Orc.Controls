@@ -24,8 +24,13 @@
                 <Setter Property="TextAlignment" Value="Center"/>
                 <Setter Property="Visibility" Value="Hidden"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Foreground" Value="DarkGray"/>
+                <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}"/>
+
                 <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush}"/>
+                    </Trigger>
+
                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True">
                         <Setter Property="Visibility" Value="Visible"/>
                     </DataTrigger>
