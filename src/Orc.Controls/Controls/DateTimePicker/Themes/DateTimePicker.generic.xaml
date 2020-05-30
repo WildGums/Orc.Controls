@@ -224,6 +224,8 @@
 
                                     <controls:ListTextBox x:Name="PART_AmPmListTextBox" 
                                                           Grid.Column="12"
+                                                          VerticalAlignment="Center"
+                                                          VerticalContentAlignment="Center"
                                                           IsReadOnly="{TemplateBinding IsReadOnly}"/>
 
                                     <TextBlock x:Name="PART_AmPmSeparatorTextBlock" 
