@@ -88,7 +88,6 @@ namespace Orc.Controls
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ClearButton'");
             }
             _clearButton.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, _clearFilter);
-            _clearButton.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, null);
 
             this.AttachBehavior<UpdateBindingOnTextChanged>();
             this.AttachBehavior<SelectTextOnFocus>();
