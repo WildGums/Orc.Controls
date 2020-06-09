@@ -406,11 +406,6 @@ namespace Orc.Controls
         Second = 6,
         AmPmDesignator = 7,
     }
-    public static class DateTimePartExtensions
-    {
-        public static string GetDateTimePartName(this Orc.Controls.DateTimePart dateTimePart) { }
-        public static string GetDateTimePartToggleButtonName(this Orc.Controls.DateTimePart dateTimePart) { }
-    }
     public class DateTimePartHelper
     {
         public DateTimePartHelper(System.DateTime dateTime, Orc.Controls.DateTimePart dateTimePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo, System.Windows.Controls.TextBox textBox, System.Windows.Controls.Primitives.ToggleButton activeToggleButton) { }
@@ -1146,6 +1141,7 @@ namespace Orc.Controls
     }
     public class NumericTextBox : System.Windows.Controls.TextBox
     {
+        public static readonly System.Windows.DependencyProperty CultureInfoProperty;
         public static readonly System.Windows.DependencyProperty FormatProperty;
         public static readonly System.Windows.DependencyProperty IsDecimalAllowedProperty;
         public static readonly System.Windows.DependencyProperty IsNegativeAllowedProperty;
@@ -1154,6 +1150,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty MinValueProperty;
         public static readonly System.Windows.DependencyProperty ValueProperty;
         public NumericTextBox() { }
+        public System.Globalization.CultureInfo CultureInfo { get; set; }
         public string Format { get; set; }
         public bool IsDecimalAllowed { get; set; }
         public bool IsNegativeAllowed { get; set; }
@@ -1166,6 +1163,18 @@ namespace Orc.Controls
         public event System.EventHandler ValueChanged;
         protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
         protected override void OnPreviewTextInput(System.Windows.Input.TextCompositionEventArgs e) { }
+    }
+    public class NumericTextBoxAdapterBehavior : Catel.Windows.Interactivity.BehaviorBase<Orc.Controls.NumericTextBox>
+    {
+        public static readonly System.Windows.DependencyProperty ValueProperty;
+        public static readonly System.Windows.DependencyProperty ValueTypeProperty;
+        public NumericTextBoxAdapterBehavior() { }
+        public object Value { get; set; }
+        public System.Type ValueType { get; set; }
+        protected virtual object Convert(double? value) { }
+        protected virtual double? ConvertBack(object value) { }
+        protected override void OnAssociatedObjectLoaded() { }
+        protected override void OnAssociatedObjectUnloaded() { }
     }
     public class OpenFilePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
@@ -1509,6 +1518,11 @@ namespace Orc.Controls
     public static class TreeViewItemExtensions
     {
         public static int GetDepth(this System.Windows.Controls.TreeViewItem item) { }
+    }
+    public static class TypeExtensions
+    {
+        public static System.Array GetEnumValues(this System.Type enumType) { }
+        public static T[] GetEnumValues<T>() { }
     }
     public class ValidationContextTreeNode : Catel.Data.ChildAwareModelBase, Orc.Controls.IValidationContextTreeNode, System.IComparable
     {
@@ -1858,5 +1872,17 @@ namespace Orc.Controls.Views
     {
         public FindReplaceView() { }
         public void InitializeComponent() { }
+    }
+}
+namespace XamlGeneratedNamespace
+{
+    public sealed class GeneratedInternalTypeHelper : System.Windows.Markup.InternalTypeHelper
+    {
+        public GeneratedInternalTypeHelper() { }
+        protected override void AddEventHandler(System.Reflection.EventInfo eventInfo, object target, System.Delegate handler) { }
+        protected override System.Delegate CreateDelegate(System.Type delegateType, object target, string handler) { }
+        protected override object CreateInstance(System.Type type, System.Globalization.CultureInfo culture) { }
+        protected override object GetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, System.Globalization.CultureInfo culture) { }
+        protected override void SetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, object value, System.Globalization.CultureInfo culture) { }
     }
 }
