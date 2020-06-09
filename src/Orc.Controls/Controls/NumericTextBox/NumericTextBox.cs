@@ -10,11 +10,14 @@ namespace Orc.Controls
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Text;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
+    using Catel;
+    using Catel.Fody;
     using Catel.Logging;
     using Catel.Windows.Input;
 
@@ -45,7 +48,8 @@ namespace Orc.Controls
             Key.LeftShift,
             Key.RightShift,
             Key.Tab,
-            Key.Up
+            Key.Up,
+            Key.Delete
         };
 
         private readonly MouseButtonEventHandler _selectivelyIgnoreMouseButtonDelegate;
@@ -74,6 +78,15 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
+        public CultureInfo CultureInfo
+        {
+            get { return (CultureInfo)GetValue(CultureInfoProperty); }
+            set { SetValue(CultureInfoProperty, value); }
+        }
+
+        public static readonly DependencyProperty CultureInfoProperty = DependencyProperty.Register(
+            nameof(CultureInfo), typeof(CultureInfo), typeof(NumericTextBox), new PropertyMetadata(default(CultureInfo)));
+
         public bool IsNullValueAllowed
         {
             get { return (bool)GetValue(IsNullValueAllowedProperty); }
@@ -212,7 +225,7 @@ namespace Orc.Controls
 
         private void OnIsNullValueAllowedChanged()
         {
-            EnforceRules();
+            //EnforceRules();
         }
 
         private void OnIsNegativeAllowedChanged()
@@ -229,12 +242,12 @@ namespace Orc.Controls
                 }
             }
 
-            EnforceRules();
+           // EnforceRules();
         }
 
         private void OnIsDecimalAllowedChanged()
         {
-            EnforceRules();
+          // EnforceRules();
         }
 
         private static bool DoesStringValueRequireUpdate(string text)
@@ -307,16 +320,30 @@ namespace Orc.Controls
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            _textChangingIsInProgress = true;
+            Argument.IsNotNull(() => sender);
 
-            var text = Text;
-
-            if (DoesStringValueRequireUpdate(text))
+            if (_textChangingIsInProgress)
             {
-                SetCurrentValue(ValueProperty, GetDoubleValue(text));
+                return;
             }
 
-            _textChangingIsInProgress = false;
+            using (new DisposableToken<NumericTextBox>(this, x => x.Instance._textChangingIsInProgress = false,
+                x => x.Instance._textChangingIsInProgress = true))
+            {
+                var text = Text;
+
+                if (!IsNegativeAllowed && text.StartsWith("-"))
+                {
+                    SetCurrentValue(TextProperty, text.Replace("-", string.Empty));
+
+                    return;
+                }
+
+                if (DoesStringValueRequireUpdate(text))
+                {
+                    SetCurrentValue(ValueProperty, GetDoubleValue(text));
+                }
+            }
         }
 
         private double? GetDoubleValue(string text)
@@ -351,6 +378,13 @@ namespace Orc.Controls
             var text = GetText(e.Text);
             if (text == string.Empty)
             {
+                return;
+            }
+
+            if (!IsNegativeAllowed && text.StartsWith("-"))
+            {
+                SetCurrentValue(TextProperty, text.Replace("-", string.Empty));
+
                 return;
             }
 
@@ -448,7 +482,7 @@ namespace Orc.Controls
                 return MaxValue;
             }
 
-            return oldValue + Convert.ToDouble(increment, CultureInfo.CurrentCulture);
+            return oldValue + Convert.ToDouble(increment, CultureInfo ?? CultureInfo.CurrentCulture);
         }
 
         private void RaiseRightBoundReachedEvent()
@@ -523,7 +557,7 @@ namespace Orc.Controls
 
         private void UpdateText()
         {
-            var textValue = Value == null ? string.Empty : Value.Value.ToString(Format);
+            var textValue = Value == null ? string.Empty : Value.Value.ToString(Format, CultureInfo ?? CultureInfo.CurrentCulture);
 
             SetCurrentValue(TextProperty, textValue);
         }
@@ -556,21 +590,15 @@ namespace Orc.Controls
 
         private string GetDecimalSeparator()
         {
-            var numberDecimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            var culture = CultureInfo ?? CultureInfo.CurrentCulture;
+
+            var numberDecimalSeparator = culture.NumberFormat.NumberDecimalSeparator;
             return numberDecimalSeparator;
         }
 
         private bool IsDigitsOnly(string input)
         {
-            foreach (var c in input)
-            {
-                if (c < '0' || c > '9')
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return input.All(c => c >= '0' && c <= '9');
         }
 
         private static bool IsDigit(Key key)
