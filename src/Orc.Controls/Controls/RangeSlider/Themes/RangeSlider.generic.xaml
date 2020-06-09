@@ -9,7 +9,8 @@
         <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="Orc.Styles.RangeSlider" TargetType="{x:Type controls:RangeSlider}">
+    <Style x:Key="Orc.Styles.RangeSlider" TargetType="{x:Type controls:RangeSlider}"
+           BasedOn="{StaticResource Orc.Styles.Control}">
         <Style.Resources>
             <sys:Double x:Key="TrackSizeValue">3</sys:Double>
 
