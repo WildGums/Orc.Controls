@@ -9,6 +9,7 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Windows;
     using Catel;
     using Catel.Windows.Interactivity;
@@ -22,7 +23,7 @@ namespace Orc.Controls
             public bool IsNullable { get; set; }
             public bool IsNegativeAllowed { get; set; }
             public bool IsDecimalAllowed { get; set; }
-            public Func<double?, object> ConvertFunc { get; set; }
+            public Func<double?, CultureInfo, object> ConvertFunc { get; set; }
         }
 
         #region Fields
@@ -37,7 +38,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = true,
                     IsNullable = false,
                     IsDecimalAllowed = false,
-                    ConvertFunc = x => System.Convert.ToSByte(x),
+                    ConvertFunc = (x, c) => System.Convert.ToSByte(x, c),
                 }
             },
 
@@ -50,7 +51,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = true,
                     IsNullable = true,
                     IsDecimalAllowed = false,
-                    ConvertFunc = x => System.Convert.ToSByte(x),
+                    ConvertFunc = (x, c) => System.Convert.ToSByte(x, c),
                 }
             },
 
@@ -63,7 +64,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = false,
                     IsNullable = false,
                     IsDecimalAllowed = false,
-                    ConvertFunc = x => System.Convert.ToByte(x),
+                    ConvertFunc = (x, c) => System.Convert.ToByte(x, c),
                 }
             },
 
@@ -76,7 +77,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = false,
                     IsNullable = true,
                     IsDecimalAllowed = false,
-                    ConvertFunc = x => System.Convert.ToByte(x),
+                    ConvertFunc = (x, c) => System.Convert.ToByte(x, c),
                 }
             },
 
@@ -89,7 +90,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = true,
                     IsNullable = false,
                     IsDecimalAllowed = false,
-                    ConvertFunc = x => System.Convert.ToInt16(x),
+                    ConvertFunc = (x, c) => System.Convert.ToInt16(x, c),
                 }
             },
 
@@ -102,7 +103,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = true,
                     IsNullable = true,
                     IsDecimalAllowed = false,
-                    ConvertFunc = x => System.Convert.ToInt16(x),
+                    ConvertFunc = (x, c) => System.Convert.ToInt16(x, c),
                 }
             },
 
@@ -115,7 +116,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = false,
                     IsNullable = false,
                     IsDecimalAllowed = false,
-                    ConvertFunc = x => System.Convert.ToUInt16(x),
+                    ConvertFunc = (x, c) => System.Convert.ToUInt16(x, c),
                 }
             },
 
@@ -128,7 +129,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = false,
                     IsNullable = true,
                     IsDecimalAllowed = false,
-                    ConvertFunc = x => System.Convert.ToUInt16(x),
+                    ConvertFunc = (x, c) => System.Convert.ToUInt16(x, c),
                 }
             },
 
@@ -141,7 +142,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = true,
                     IsNullable = false,
                     IsDecimalAllowed = false,
-                    ConvertFunc = x => System.Convert.ToInt32(x),
+                    ConvertFunc = (x, c) => System.Convert.ToInt32(x, c),
                 }
             },
 
@@ -154,7 +155,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = true,
                     IsNullable = true,
                     IsDecimalAllowed = false,
-                    ConvertFunc = x => System.Convert.ToInt32(x),
+                    ConvertFunc = (x, c) => System.Convert.ToInt32(x, c),
                 }
             },
 
@@ -167,7 +168,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = false,
                     IsNullable = false,
                     IsDecimalAllowed = false,
-                    ConvertFunc = x => System.Convert.ToUInt32(x),
+                    ConvertFunc = (x, c) => System.Convert.ToUInt32(x, c),
                 }
             },
 
@@ -180,7 +181,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = false,
                     IsNullable = true,
                     IsDecimalAllowed = false,
-                    ConvertFunc = x => System.Convert.ToUInt32(x),
+                    ConvertFunc = (x, c) => System.Convert.ToUInt32(x, c),
                 }
             },
 
@@ -193,7 +194,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = true,
                     IsNullable = false,
                     IsDecimalAllowed = false,
-                    ConvertFunc = x => System.Convert.ToInt64(x),
+                    ConvertFunc = (x, c) => System.Convert.ToInt64(x, c),
                 }
             },
 
@@ -206,7 +207,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = true,
                     IsNullable = true,
                     IsDecimalAllowed = false,
-                    ConvertFunc = x => System.Convert.ToInt64(x),
+                    ConvertFunc = (x, c) => System.Convert.ToInt64(x, c),
                 }
             },
 
@@ -219,7 +220,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = false,
                     IsNullable = false,
                     IsDecimalAllowed = false,
-                    ConvertFunc = x => System.Convert.ToUInt64(x),
+                    ConvertFunc = (x, c) => System.Convert.ToUInt64(x, c),
                 }
             },
 
@@ -232,7 +233,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = false,
                     IsNullable = true,
                     IsDecimalAllowed = false,
-                    ConvertFunc = x => System.Convert.ToUInt64(x),
+                    ConvertFunc = (x, c) => System.Convert.ToUInt64(x, c),
                 }
             },
 
@@ -245,7 +246,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = true,
                     IsNullable = false,
                     IsDecimalAllowed = true,
-                    ConvertFunc = x => System.Convert.ToDouble(x),
+                    ConvertFunc = (x, c) => System.Convert.ToDouble(x, c),
                 }
             },
 
@@ -258,7 +259,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = true,
                     IsNullable = true,
                     IsDecimalAllowed = true,
-                    ConvertFunc = x => System.Convert.ToDouble(x),
+                    ConvertFunc = (x, c) => System.Convert.ToDouble(x, c),
                 }
             },
 
@@ -271,7 +272,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = true,
                     IsNullable = false,
                     IsDecimalAllowed = true,
-                    ConvertFunc = x => System.Convert.ToSingle(x),
+                    ConvertFunc = (x, c) => System.Convert.ToSingle(x, c),
                 }
             },
 
@@ -284,7 +285,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = true,
                     IsNullable = true,
                     IsDecimalAllowed = true,
-                    ConvertFunc = x => System.Convert.ToSingle(x),
+                    ConvertFunc = (x, c) => System.Convert.ToSingle(x, c),
                 }
             },
 
@@ -297,7 +298,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = true,
                     IsNullable = false,
                     IsDecimalAllowed = true,
-                    ConvertFunc = x => System.Convert.ToDecimal(x),
+                    ConvertFunc = (x, c) => System.Convert.ToDecimal(x, c),
                 }
             },
 
@@ -310,7 +311,7 @@ namespace Orc.Controls
                     IsNegativeAllowed = true,
                     IsNullable = true,
                     IsDecimalAllowed = true,
-                    ConvertFunc = x => System.Convert.ToDecimal(x),
+                    ConvertFunc = (x, c) => System.Convert.ToDecimal(x, c),
                 }
             },
         };
@@ -385,7 +386,7 @@ namespace Orc.Controls
 
         protected virtual double? ConvertBack(object value)
         {
-            return value != null ? System.Convert.ToDouble(value) : (double?)null;
+            return value != null ? System.Convert.ToDouble(value, GetCulture()) : (double?)null;
         }
 
         protected virtual object Convert(double? value)
@@ -395,7 +396,7 @@ namespace Orc.Controls
                 return default;
             }
 
-            return _typeDescription.ConvertFunc.Invoke(value);
+            return _typeDescription.ConvertFunc.Invoke(value, GetCulture());
         }
 
         private void OnValueChanged(DependencyPropertyChangedEventArgs args)
@@ -417,7 +418,10 @@ namespace Orc.Controls
             }
         }
 
-
+        private CultureInfo GetCulture()
+        {
+            return AssociatedObject.CultureInfo ?? CultureInfo.CurrentCulture;
+        }
         #endregion
     }
 }

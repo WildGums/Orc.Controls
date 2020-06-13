@@ -315,14 +315,14 @@ namespace Orc.Controls
         {
             SetCurrentValue(ValueProperty, GetDoubleValue(Text));
 
-            UpdateText();
+          //  UpdateText();
         }
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
             Argument.IsNotNull(() => sender);
 
-            if (_textChangingIsInProgress)
+            if (_textChangingIsInProgress && IsKeyboardFocused)
             {
                 return;
             }
@@ -355,7 +355,7 @@ namespace Orc.Controls
                 if (!string.IsNullOrEmpty(text))
                 {
                     // TODO: Do we want to handle P2, etc (e.g. 50.00%)
-                    doubleValue = Convert.ToDouble(text, CultureInfo.CurrentCulture);
+                    doubleValue = Convert.ToDouble(text, CultureInfo ?? CultureInfo.CurrentCulture);
                 }
             }
             catch (Exception)
