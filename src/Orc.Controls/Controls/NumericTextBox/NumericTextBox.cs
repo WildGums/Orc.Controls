@@ -17,7 +17,6 @@ namespace Orc.Controls
     using System.Windows.Input;
     using System.Windows.Media;
     using Catel;
-    using Catel.Fody;
     using Catel.Logging;
     using Catel.Windows.Input;
 
@@ -315,7 +314,7 @@ namespace Orc.Controls
         {
             SetCurrentValue(ValueProperty, GetDoubleValue(Text));
 
-          //  UpdateText();
+           // UpdateText();
         }
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
@@ -542,7 +541,7 @@ namespace Orc.Controls
         {
             ValueChanged?.Invoke(this, EventArgs.Empty);
 
-            if (_textChangingIsInProgress)
+            if (_textChangingIsInProgress && IsKeyboardFocused)
             {
                 return;
             }
