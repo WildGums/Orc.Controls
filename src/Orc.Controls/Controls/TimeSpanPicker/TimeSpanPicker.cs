@@ -160,7 +160,7 @@ namespace Orc.Controls
             {
                 throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_EditorNumericTextBox'");
             }
-            _editorNumericTextBox.ValueChanged += OnSecondsValueChanged;
+            _editorNumericTextBox.ValueChanged += OnEditorValueChanged;
             _editorNumericTextBox.IsKeyboardFocusWithinChanged += OnEditorNumericTextBoxIsKeyboardFocusWithinChanged;
             _editorNumericTextBox.IsVisibleChanged += OnEditorNumericTextBoxIsVisibleChanged;
 
@@ -232,6 +232,11 @@ namespace Orc.Controls
             }
 
             _isTemplateApplied = true;
+        }
+
+        private void OnEditorValueChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void OnEditorNumericTextBoxIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)

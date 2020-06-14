@@ -314,7 +314,7 @@ namespace Orc.Controls
         {
             SetCurrentValue(ValueProperty, GetDoubleValue(Text));
 
-           // UpdateText();
+            //UpdateText();
         }
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
