@@ -236,7 +236,13 @@ namespace Orc.Controls
 
         private void OnEditorValueChanged(object sender, EventArgs e)
         {
-
+            if (!IsReadOnly)
+            {
+                var value = _editorNumericTextBox.Value ?? _editorNumericTextBox.MinValue;
+                var timeSpan = _activeTextBoxPart.CreateTimeSpan(value).RoundTimeSpan();
+                
+                SetCurrentValue(ValueProperty, timeSpan);
+            }
         }
 
         private void OnEditorNumericTextBoxIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -245,12 +251,14 @@ namespace Orc.Controls
             _editorNumericTextBox.Focus();
         }
 
+
         private void OnEditorNumericTextBoxIsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var timeSpan = Value ?? TimeSpan.Zero;
             if (IsKeyboardFocusWithin)
             {
-                _editorNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, timeSpan.GetTimeSpanPartValue(_activeTextBoxPart));
+                var textBoxValue = timeSpan.GetTimeSpanPartValue(_activeTextBoxPart);
+                _editorNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, textBoxValue);
                 return;
             }
 
@@ -370,11 +378,11 @@ namespace Orc.Controls
             _numericTbEditorContainerBorder.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
             _isInEditMode = false;
 
-            if (!IsReadOnly)
-            {
-                var value = _editorNumericTextBox.Value ?? _editorNumericTextBox.MinValue;
-                SetCurrentValue(ValueProperty, _activeTextBoxPart.CreateTimeSpan(value).RoundTimeSpan());
-            }
+         //   if (!IsReadOnly)
+        //    {
+          //      var value = _editorNumericTextBox.Value ?? _editorNumericTextBox.MinValue;
+            //    SetCurrentValue(ValueProperty, _activeTextBoxPart.CreateTimeSpan(value).RoundTimeSpan());
+      //      }
 
             e.Handled = !isTabPressed;
         }

@@ -541,10 +541,10 @@ namespace Orc.Controls
         {
             ValueChanged?.Invoke(this, EventArgs.Empty);
 
-            if (_textChangingIsInProgress && IsKeyboardFocused)
-            {
-                return;
-            }
+            //if (_textChangingIsInProgress && IsKeyboardFocused)
+            //{
+            //    return;
+            //}
 
             UpdateText();
         }
