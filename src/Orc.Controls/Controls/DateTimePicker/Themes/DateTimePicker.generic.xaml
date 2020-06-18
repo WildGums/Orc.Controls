@@ -242,12 +242,73 @@
                                 </Grid>
 
                                 <Grid Grid.Column="1">
-                                    <ToggleButton x:Name="PART_DatePickerIconToggleButton" 
-                                                  DockPanel.Dock="Right"
-                                                  Margin="0"
-                                                  Height="19"
-                                                  Width="19"
-                                                  VerticalAlignment="Stretch">
+
+                                    <controls:DropDownButton x:Name="PART_DatePickerIconDropDownButton"
+                                                             DockPanel.Dock="Right"
+                                                             IsArrowVisible="False"
+                                                             TabIndex="30"
+                                                             Margin="2 0 2 0"
+                                                             Height="19"
+                                                             Width="19"
+                                                             VerticalAlignment="Stretch">
+                                        <controls:DropDownButton.DropDown>
+                                            <ContextMenu>
+
+                                                <MenuItem x:Name="PART_TodayMenuItem"
+                                                          HorizontalAlignment="Stretch"
+                                                          HorizontalContentAlignment="Left"
+                                                          BorderThickness="0"
+                                                          Margin="0"
+                                                          Header="{catel:LanguageBinding Controls_DatePicker_Button_Content_Today}" 
+                                                          IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}" />
+
+                                                <MenuItem x:Name="PART_NowMenuItem" 
+                                                          HorizontalAlignment="Stretch"
+                                                          HorizontalContentAlignment="Left"
+                                                          BorderThickness="0"
+                                                          Margin="0"
+                                                          Header="{catel:LanguageBinding Controls_DateTimePicker_Button_Content_Now}" 
+                                                          IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
+
+                                                <MenuItem x:Name="PART_SelectDateMenuItem"
+                                                          Header="{catel:LanguageBinding Controls_DatePicker_Button_Content_SelectDate}"
+                                                          HorizontalAlignment="Stretch"
+                                                          HorizontalContentAlignment="Left"
+                                                          BorderThickness="0"
+                                                          Margin="0"
+                                                          IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
+
+                                                <Separator Visibility="{TemplateBinding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+
+                                                <MenuItem x:Name="PART_ClearMenuItem"
+                                                          HorizontalAlignment="Stretch"
+                                                          HorizontalContentAlignment="Left"
+                                                          BorderThickness="0"
+                                                          Margin="0"
+                                                          Header="{catel:LanguageBinding Controls_DatePicker_Button_Content_Clear}"
+                                                          IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"
+                                                          Visibility="{TemplateBinding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+
+                                                <Separator Visibility="{TemplateBinding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+
+                                                <MenuItem x:Name="PART_CopyMenuItem"
+                                                          HorizontalAlignment="Stretch"
+                                                          HorizontalContentAlignment="Left"
+                                                          BorderThickness="0"
+                                                          Margin="0"
+                                                          Header="{catel:LanguageBinding Controls_DatePicker_Button_Content_Copy}"
+                                                          Visibility="{TemplateBinding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+
+                                                <MenuItem x:Name="PART_PasteMenuItem"
+                                                          HorizontalAlignment="Stretch"
+                                                          HorizontalContentAlignment="Left"
+                                                          BorderThickness="0"
+                                                          Margin="0"
+                                                          Header="{catel:LanguageBinding Controls_DatePicker_Button_Content_Paste}"
+                                                          IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"
+                                                          Visibility="{TemplateBinding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+                                            </ContextMenu>
+                                        </controls:DropDownButton.DropDown>
 
                                         <Grid VerticalAlignment="Stretch">
                                             <Border Grid.Row="0" 
@@ -270,77 +331,22 @@
                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                         </Grid>
 
-                                    </ToggleButton>
+                                    </controls:DropDownButton>
 
-                                    <Popup Placement="Bottom" 
-                                           VerticalOffset="2" 
-                                           StaysOpen="False"
-                                           PlacementTarget="{Binding ElementName=PART_DatePickerIconToggleButton}" 
-                                           IsOpen="{Binding IsChecked, ElementName=PART_DatePickerIconToggleButton}">
-
-                                        <Border BorderBrush="{DynamicResource Orc.Brushes.Control.Disabled.Border}" 
-                                                BorderThickness="{TemplateBinding BorderThickness}">
-
-                                            <StackPanel Background="{TemplateBinding Background}">
-                                                <Button x:Name="PART_TodayButton" 
-                                                        HorizontalAlignment="Stretch"
-                                                        HorizontalContentAlignment="Left"
-                                                        BorderThickness="0"
-                                                        Margin="0"
-                                                        Content="{catel:LanguageBinding Controls_DatePicker_Button_Content_Today}" 
-                                                        IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
-
-                                                <Button x:Name="PART_NowButton" 
-                                                        HorizontalAlignment="Stretch"
-                                                        HorizontalContentAlignment="Left"
-                                                        BorderThickness="0"
-                                                        Margin="0"
-                                                        Content="{catel:LanguageBinding Controls_DateTimePicker_Button_Content_Now}" 
-                                                        IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
-
-                                                <Button x:Name="PART_SelectDateButton"
-                                                        Content="{catel:LanguageBinding Controls_DatePicker_Button_Content_SelectDate}"
-                                                        HorizontalAlignment="Stretch"
-                                                        HorizontalContentAlignment="Left"
-                                                        BorderThickness="0"
-                                                        Margin="0"
-                                                        IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
-
-                                                <Separator Visibility="{TemplateBinding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
-
-                                                <Button x:Name="PART_ClearButton"
-                                                        HorizontalAlignment="Stretch"
-                                                        HorizontalContentAlignment="Left"
-                                                        BorderThickness="0"
-                                                        Margin="0"
-                                                        Content="{catel:LanguageBinding Controls_DatePicker_Button_Content_Clear}"
-                                                        IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"
-                                                        Visibility="{TemplateBinding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
-
-                                                <Separator Visibility="{TemplateBinding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
-
-                                                <Button x:Name="PART_CopyButton"
-                                                        HorizontalAlignment="Stretch"
-                                                        HorizontalContentAlignment="Left"
-                                                        BorderThickness="0"
-                                                        Margin="0"
-                                                        Content="{catel:LanguageBinding Controls_DatePicker_Button_Content_Copy}"
-                                                        Visibility="{TemplateBinding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
-
-                                                <Button x:Name="PART_PasteButton"
-                                                        HorizontalAlignment="Stretch"
-                                                        HorizontalContentAlignment="Left"
-                                                        BorderThickness="0"
-                                                        Margin="0"
-                                                        Content="{catel:LanguageBinding Controls_DatePicker_Button_Content_Paste}"
-                                                        IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"
-                                                        Visibility="{TemplateBinding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
-                                            </StackPanel>
-                                        </Border>
-                                    </Popup>
                                 </Grid>
                             </Grid>
                         </Border>
+
+                        <Popup x:Name="PART_CalendarPopup"
+                               PlacementTarget="{Binding ElementName=PART_MainGrid}"
+                               Placement="Bottom"
+                               VerticalOffset="-4"
+                               StaysOpen="False">
+
+                            <Calendar x:Name="PART_Calendar"
+                                      Margin="0 -3 0 -3"/>
+
+                        </Popup>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

@@ -20,6 +20,7 @@ namespace Orc.Controls
     using Catel.Logging;
     using Catel.Services;
     using Catel.Windows;
+    using Catel.Windows.Input;
     using Converters;
     using Extensions;
     using Calendar = System.Windows.Controls.Calendar;
@@ -47,18 +48,21 @@ namespace Orc.Controls
     [TemplatePart(Name = "PART_SecondToggleButton", Type = typeof(ToggleButton))]
     [TemplatePart(Name = "PART_AmPmToggleButton", Type = typeof(ToggleButton))]
 
-    [TemplatePart(Name = "PART_DatePickerIconToggleButton", Type = typeof(ToggleButton))]
+    [TemplatePart(Name = "PART_DatePickerIconDropDownButton", Type = typeof(DropDownButton))]
 
-    [TemplatePart(Name = "PART_TodayButton", Type = typeof(Button))]
-    [TemplatePart(Name = "PART_NowButton", Type = typeof(Button))]
-    [TemplatePart(Name = "PART_SelectDateButton", Type = typeof(Button))]
-    [TemplatePart(Name = "PART_ClearButton", Type = typeof(Button))]
-    [TemplatePart(Name = "PART_CopyButton", Type = typeof(Button))]
-    [TemplatePart(Name = "PART_PasteButton", Type = typeof(Button))]
+    [TemplatePart(Name = "PART_TodayMenuItem", Type = typeof(MenuItem))]
+    [TemplatePart(Name = "PART_NowMenuItem", Type = typeof(MenuItem))]
+    [TemplatePart(Name = "PART_SelectDateMenuItem", Type = typeof(MenuItem))]
+    [TemplatePart(Name = "PART_ClearMenuItem", Type = typeof(MenuItem))]
+    [TemplatePart(Name = "PART_CopyMenuItem", Type = typeof(MenuItem))]
+    [TemplatePart(Name = "PART_PasteMenuItem", Type = typeof(MenuItem))]
 
     [TemplatePart(Name = "PART_MainGrid", Type = typeof(Grid))]
 
     [TemplatePart(Name = "PART_AmPmListTextBox", Type = typeof(ListTextBox))]
+
+    [TemplatePart(Name = "PART_CalendarPopup", Type = typeof(Popup))]
+    [TemplatePart(Name = "PART_Calendar", Type = typeof(Calendar))]
 
     public class DateTimePicker : Control, IEditableControl
     {
@@ -98,22 +102,43 @@ namespace Orc.Controls
         private ToggleButton _secondToggleButton;
         private ToggleButton _amPmToggleButton;
         
-        private ToggleButton _datePickerIconToggleButton;
+        private DropDownButton _datePickerIconDropDownButton;
 
-        private Button _todayButton;
-        private Button _nowButton;
-        private Button _selectDateButton;
-        private Button _clearButton;
-        private Button _copyButton;
-        private Button _pasteButton;
+        private MenuItem _todayMenuItem;
+        private MenuItem _nowMenuItem;
+        private MenuItem _selectDateMenuItem;
+        private MenuItem _clearMenuItem;
+        private MenuItem _copyMenuItem;
+        private MenuItem _pasteMenuItem;
 
         private Grid _mainGrid;
-
+        
         private ListTextBox _amPmListTextBox;
 
         private Popup _calendarPopup;
+        private Calendar _calendar;
 
         #region Dependency properties
+        public DayOfWeek? FirstDayOfWeek
+        {
+            get { return (DayOfWeek?)GetValue(FirstDayOfWeekProperty); }
+            set { SetValue(FirstDayOfWeekProperty, value); }
+        }
+
+        public static readonly DependencyProperty FirstDayOfWeekProperty = DependencyProperty.Register(
+            nameof(FirstDayOfWeek), typeof(DayOfWeek?), typeof(DateTimePicker), new PropertyMetadata(default(DayOfWeek?),
+                (sender, args) => ((DateTimePicker)sender).OnFirstDayOfWeekChanged(args)));
+
+        public CultureInfo Culture
+        {
+            get { return (CultureInfo)GetValue(CultureProperty); }
+            set { SetValue(CultureProperty, value); }
+        }
+
+        public static readonly DependencyProperty CultureProperty = DependencyProperty.Register(
+            nameof(Culture), typeof(CultureInfo), typeof(DateTimePicker), new PropertyMetadata(default(CultureInfo),
+                (sender, args) => ((DateTimePicker)sender).OnCultureChanged(args)));
+
         public DateTime? Value
         {
             get { return (DateTime?)GetValue(ValueProperty); }
@@ -434,56 +459,56 @@ namespace Orc.Controls
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_AmPmToggleButton'");
             }
             _amPmToggleButton.Checked += OnToggleButtonChecked;
-            
-            _datePickerIconToggleButton = GetTemplateChild("PART_DatePickerIconToggleButton") as ToggleButton;
-            if (_datePickerIconToggleButton is null)
-            {
-                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DatePickerIconToggleButton'");
-            }
-            _datePickerIconToggleButton.SetCurrentValue(VisibilityProperty, ShowOptionsButton ? Visibility.Visible : Visibility.Hidden);
 
-            /*Buttons*/
-            _todayButton = GetTemplateChild("PART_TodayButton") as Button;
-            if (_todayButton is null)
+            _datePickerIconDropDownButton = GetTemplateChild("PART_DatePickerIconDropDownButton") as DropDownButton;
+            if (_datePickerIconDropDownButton is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TodayButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DatePickerIconDropDownButton'");
             }
-            _todayButton.Click += OnTodayButtonClick;     
-            
-            _nowButton = GetTemplateChild("PART_NowButton") as Button;
-            if (_nowButton is null)
-            {
-                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_NowButton'");
-            }
-            _nowButton.Click += OnNowButtonClick;
+            _datePickerIconDropDownButton.SetCurrentValue(VisibilityProperty, ShowOptionsButton ? Visibility.Visible : Visibility.Hidden);
 
-            _selectDateButton = GetTemplateChild("PART_SelectDateButton") as Button;
-            if (_selectDateButton is null)
+            /*Menu items*/
+            _todayMenuItem = GetTemplateChild("PART_TodayMenuItem") as MenuItem;
+            if (_todayMenuItem is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SelectDateButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TodayMenuItem'");
             }
-            _selectDateButton.Click += OnSelectDateButtonClick;
+            _todayMenuItem.Click += OnTodayMenuItemClick;
 
-            _clearButton = GetTemplateChild("PART_ClearButton") as Button;
-            if (_clearButton is null)
+            _nowMenuItem = GetTemplateChild("PART_NowMenuItem") as MenuItem;
+            if (_nowMenuItem is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ClearButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_NowMenuItem'");
             }
-            _clearButton.Click += OnClearButtonClick;
+            _nowMenuItem.Click += OnNowMenuItemClick;
 
-            _copyButton = GetTemplateChild("PART_CopyButton") as Button;
-            if (_copyButton is null)
+            _selectDateMenuItem = GetTemplateChild("PART_SelectDateMenuItem") as MenuItem;
+            if (_selectDateMenuItem is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_CopyButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SelectDateMenuItem'");
             }
-            _copyButton.Click += OnCopyButtonClick;
+            _selectDateMenuItem.Click += OnSelectDateMenuItemClick;
 
-            _pasteButton = GetTemplateChild("PART_PasteButton") as Button;
-            if (_pasteButton is null)
+            _clearMenuItem = GetTemplateChild("PART_ClearMenuItem") as MenuItem;
+            if (_clearMenuItem is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_PasteButton'");
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ClearMenuItem'");
             }
-            _pasteButton.Click += OnPasteButtonClick;
+            _clearMenuItem.Click += OnClearMenuItemClick;
+
+            _copyMenuItem = GetTemplateChild("PART_CopyMenuItem") as MenuItem;
+            if (_copyMenuItem is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_CopyMenuItem'");
+            }
+            _copyMenuItem.Click += OnCopyMenuItemClick;
+
+            _pasteMenuItem = GetTemplateChild("PART_PasteMenuItem") as MenuItem;
+            if (_pasteMenuItem is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_PasteMenuItem'");
+            }
+            _pasteMenuItem.Click += OnPasteMenuItemClick;
 
             /*Main grid*/
             _mainGrid = GetTemplateChild("PART_MainGrid") as Grid;
@@ -494,6 +519,21 @@ namespace Orc.Controls
             _mainGrid.MouseEnter += OnMouseEnter;
             _mainGrid.MouseLeave += OnMouseLeave;
             _mainGrid.IsKeyboardFocusWithinChanged += OnIsKeyboardFocusWithinChanged;
+
+            /*Pop up*/
+            _calendarPopup = GetTemplateChild("PART_CalendarPopup") as Popup;
+            if (_calendarPopup is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_CalendarPopup'");
+            }
+            _calendarPopup.Closed += OnCalendarPopupClosed;
+
+            _calendar = GetTemplateChild("PART_Calendar") as Calendar;
+            if (_calendar is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Calendar'");
+            }
+
 
             _textBoxes = new List<TextBox>
             {
@@ -516,39 +556,67 @@ namespace Orc.Controls
             UpdateUi();
         }
 
-        private void OnTodayButtonClick(object sender, RoutedEventArgs e)
+        protected override void OnIsKeyboardFocusedChanged(DependencyPropertyChangedEventArgs e)
         {
-            _datePickerIconToggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
+            base.OnIsKeyboardFocusedChanged(e);
+
+            var textBox = _textBoxes[0];
+
+            textBox.SetCurrentValue(FocusableProperty, true);
+            Keyboard.Focus(textBox);
+        }
+
+        private void OnTodayMenuItemClick(object sender, RoutedEventArgs e)
+        {
             UpdateDateTime(DateTime.Today.Date);
+
+            RaiseStopEdit();
         }
 
-        private void OnNowButtonClick(object sender, RoutedEventArgs e)
+        private void OnNowMenuItemClick(object sender, RoutedEventArgs e)
         {
-            _datePickerIconToggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
             UpdateDateTime(DateTime.Now);
+
+            RaiseStopEdit();
         }
 
-        private void OnSelectDateButtonClick(object sender, RoutedEventArgs e)
+        private void OnSelectDateMenuItemClick(object sender, RoutedEventArgs e)
         {
-            _datePickerIconToggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
+            UnsubscribeFromCalendarEvents();
 
-            _calendarPopup = CreateCalendarPopup();
-            var calendarPopupSource = CreateCalendarPopupSource();
-            _calendarPopup.SetCurrentValue(Popup.ChildProperty, calendarPopupSource);
+            _calendarPopup.SetCurrentValue(Popup.IsOpenProperty, true);
 
-            calendarPopupSource.Focus();
+            var dateTime = Value ?? _todayValue;
+            _calendar.SetCurrentValue(Calendar.DisplayDateProperty, dateTime);
+            _calendar.SetCurrentValue(Calendar.SelectedDateProperty, Value);
+
+            _calendar.Focus();
+            Keyboard.Focus(_calendar);
+
+            SubscribeToCalendarEvents();
         }
 
-        private void OnClearButtonClick(object sender, RoutedEventArgs e)
+        private void SubscribeToCalendarEvents()
         {
-            _datePickerIconToggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
+            _calendar.PreviewKeyDown += CalendarOnPreviewKeyDown;
+            _calendar.SelectedDatesChanged += CalendarOnSelectedDatesChanged;
+        }
+
+        private void UnsubscribeFromCalendarEvents()
+        {
+            _calendar.PreviewKeyDown -= CalendarOnPreviewKeyDown;
+            _calendar.SelectedDatesChanged -= CalendarOnSelectedDatesChanged;
+        }
+
+        private void OnClearMenuItemClick(object sender, RoutedEventArgs e)
+        {
             UpdateDateTime(null);
+
+            RaiseStopEdit();
         }
 
-        private void OnCopyButtonClick(object sender, RoutedEventArgs e)
+        private void OnCopyMenuItemClick(object sender, RoutedEventArgs e)
         {
-            _datePickerIconToggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
-
             var value = Value;
             if (value != null)
             {
@@ -556,10 +624,8 @@ namespace Orc.Controls
             }
         }
 
-        private void OnPasteButtonClick(object sender, RoutedEventArgs e)
+        private void OnPasteMenuItemClick(object sender, RoutedEventArgs e)
         {
-            _datePickerIconToggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
-
             if (!Clipboard.ContainsData(DataFormats.Text))
             {
                 return;
@@ -577,6 +643,20 @@ namespace Orc.Controls
         }
 
         private void OnFormatChanged()
+        {
+            ApplyFormat();
+
+            UpdateUi();
+        }
+
+        private void OnFirstDayOfWeekChanged(DependencyPropertyChangedEventArgs args)
+        {
+            ApplyFormat();
+
+            UpdateUi();
+        }
+
+        private void OnCultureChanged(DependencyPropertyChangedEventArgs args)
         {
             ApplyFormat();
 
@@ -606,17 +686,22 @@ namespace Orc.Controls
 
                 SetCurrentValue(HideTimeProperty, !hasAnyTimeFormat || _hideTime);
 
+                var culture = GetCulture();
+                var firstDayOfWeek = FirstDayOfWeek ?? culture.DateTimeFormat.FirstDayOfWeek;
+
+                _calendar.SetCurrentValue(Calendar.FirstDayOfWeekProperty, firstDayOfWeek);
+
                 if (!hasLongTimeFormat)
                 {
                     var timePattern = DateTimeFormatHelper.ExtractTimePatternFromFormat(format);
                     if (!string.IsNullOrEmpty(timePattern))
                     {
-                        timePattern = DateTimeFormatHelper.FindMatchedLongTimePattern(CultureInfo.CurrentUICulture, timePattern);
+                        timePattern = DateTimeFormatHelper.FindMatchedLongTimePattern(culture, timePattern);
                     }
 
                     if (string.IsNullOrEmpty(timePattern))
                     {
-                        timePattern = CultureInfo.CurrentUICulture.DateTimeFormat.LongTimePattern;
+                        timePattern = culture.DateTimeFormat.LongTimePattern;
                     }
 
                     var datePattern = DateTimeFormatHelper.ExtractDatePatternFromFormat(format);
@@ -711,7 +796,7 @@ namespace Orc.Controls
                 _minuteNumericTextBox.SetCurrentValue(TabIndexProperty, minutePos);
                 _secondNumericTextBox.SetCurrentValue(TabIndexProperty, secondPos);
                 _amPmListTextBox.SetCurrentValue(TabIndexProperty, amPmPos);
-                _datePickerIconToggleButton.SetCurrentValue(TabIndexProperty, int.MaxValue);
+                _datePickerIconDropDownButton.SetCurrentValue(TabIndexProperty, amPmPos + 1);
 
                 SubscribeNumericTextBoxes();
 
@@ -1091,6 +1176,11 @@ namespace Orc.Controls
 
         private void OnMonthTextChanged(object sender, TextChangedEventArgs e)
         {
+            UpdateMaxDaysInMonth();
+        }
+
+        private void UpdateMaxDaysInMonth()
+        {
             if (!int.TryParse(_monthNumericTextBox.Text, out var month))
             {
                 return;
@@ -1107,7 +1197,7 @@ namespace Orc.Controls
 
         private void OnShowOptionsButtonChanged()
         {
-            _datePickerIconToggleButton.SetCurrentValue(VisibilityProperty, ShowOptionsButton ? Visibility.Visible : Visibility.Collapsed);
+            _datePickerIconDropDownButton.SetCurrentValue(VisibilityProperty, ShowOptionsButton ? Visibility.Visible : Visibility.Collapsed);
         }
 
         private void OnHideTimeChanged()
@@ -1179,29 +1269,35 @@ namespace Orc.Controls
 
         private void EnableOrDisableHourConverterDependingOnFormat()
         {
-            if (TryFindResource(nameof(Hour24ToHour12Converter)) is Hour24ToHour12Converter converter)
+            if (!(TryFindResource(nameof(Hour24ToHour12Converter)) is Hour24ToHour12Converter converter))
             {
-                converter.IsEnabled = IsHour12Format;
-                BindingOperations.GetBindingExpression(_hourNumericTextBox, NumericTextBox.ValueProperty)?.UpdateTarget();
+                return;
             }
+
+            converter.IsEnabled = IsHour12Format;
+            BindingOperations.GetBindingExpression(_hourNumericTextBox, NumericTextBox.ValueProperty)?.UpdateTarget();
         }
 
         private void EnableOrDisableAmPmConverterDependingOnFormat()
         {
-            if (TryFindResource(nameof(AmPmLongToAmPmShortConverter)) is AmPmLongToAmPmShortConverter converter)
+            if (!(TryFindResource(nameof(AmPmLongToAmPmShortConverter)) is AmPmLongToAmPmShortConverter converter))
             {
-                converter.IsEnabled = IsAmPmShortFormat;
-                BindingOperations.GetBindingExpression(_amPmListTextBox, ListTextBox.ValueProperty)?.UpdateTarget();
+                return;
             }
+
+            converter.IsEnabled = IsAmPmShortFormat;
+            BindingOperations.GetBindingExpression(_amPmListTextBox, ListTextBox.ValueProperty)?.UpdateTarget();
         }
 
         private void EnableOrDisableYearConverterDependingOnFormat()
         {
-            if (TryFindResource(nameof(YearLongToYearShortConverter)) is YearLongToYearShortConverter converter)
+            if (!(TryFindResource(nameof(YearLongToYearShortConverter)) is YearLongToYearShortConverter converter))
             {
-                converter.IsEnabled = IsYearShortFormat;
-                BindingOperations.GetBindingExpression(_amPmListTextBox, NumericTextBox.ValueProperty)?.UpdateTarget();
+                return;
             }
+
+            converter.IsEnabled = IsYearShortFormat;
+            BindingOperations.GetBindingExpression(_amPmListTextBox, NumericTextBox.ValueProperty)?.UpdateTarget();
         }
 
         private static void FixNumericTextBoxesPositions(ref int dayPosition, ref int monthPosition, ref int yearPosition, ref int hourPosition, ref int minutePosition, ref int secondPosition, ref int amPmPosition)
@@ -1237,46 +1333,51 @@ namespace Orc.Controls
             return index * 2;
         }
 
-        private Popup CreateCalendarPopup()
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-            var popup = new Popup
-            {
-                PlacementTarget = _mainGrid,
-                Placement = PlacementMode.Bottom,
-                VerticalOffset = -4,
-                IsOpen = true,
-                StaysOpen = false,
-            };
+            base.OnPreviewKeyDown(e);
 
-            return popup;
+            if (e.Key == Key.OemSemicolon)
+            {
+                if (KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Control))
+                {
+                    UpdateDateTime(DateTime.Today.Date);
+                    e.Handled = true;
+                }
+
+                if (KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Control | ModifierKeys.Shift))
+                {
+                    UpdateDateTime(DateTime.Now);
+                    e.Handled = true;
+                }
+            }
         }
 
-        private Calendar CreateCalendarPopupSource()
+        private void CalendarOnSelectedDatesChanged(object sender, SelectionChangedEventArgs args)
         {
-            var dateTime = Value ?? _todayValue;
-            var calendar = new Calendar
+            if (!(sender is Calendar calendar))
             {
-                Margin = new Thickness(0, -3, 0, -3),
-                DisplayDate = dateTime,
-                SelectedDate = Value
-            };
+                return;
+            }
 
-            calendar.PreviewKeyDown += CalendarOnPreviewKeyDown;
-            calendar.SelectedDatesChanged += CalendarOnSelectedDatesChanged;
+            if (_calendarSelectionChangedByKey)
+            {
+                _calendarSelectionChangedByKey = false;
 
-            return calendar;
-        }
+                return;
+            }
 
-        private void CalendarOnSelectedDatesChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
-        {
-            var calendar = (((Calendar)sender));
             if (AllowNull || calendar.SelectedDate.HasValue)
             {
                 UpdateDate(calendar.SelectedDate);
             }
 
-            ((Popup)calendar.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
+            ((Popup)calendar.Parent).SetCurrentValue(Popup.IsOpenProperty, _calendarSelectionChangedByKey);
+
+            _calendarSelectionChangedByKey = false;
         }
+
+        private bool _calendarSelectionChangedByKey = false;
 
         private void CalendarOnPreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -1290,6 +1391,8 @@ namespace Orc.Controls
 
             if (e.Key != Key.Enter)
             {
+                _calendarSelectionChangedByKey = true;
+
                 return;
             }
 
@@ -1297,7 +1400,7 @@ namespace Orc.Controls
             {
                 UpdateDate(calendar.SelectedDate.Value);
             }
-
+            
             ((Popup)calendar.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
 
             e.Handled = true;
@@ -1306,6 +1409,8 @@ namespace Orc.Controls
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
             base.OnGotKeyboardFocus(e);
+
+            UpdateMaxDaysInMonth();
 
             IsInEditMode = true;
 
@@ -1319,11 +1424,11 @@ namespace Orc.Controls
             InvalidateEditMode();
         }
 
-        private void CalendarPopupOnClosed(object sender, EventArgs e)
+        private void OnCalendarPopupClosed(object sender, EventArgs e)
         {
             InvalidateEditMode();
 
-            _calendarPopup.Closed -= CalendarPopupOnClosed;
+            _calendarPopup.Closed -= OnCalendarPopupClosed;
         }
 
         private void InvalidateEditMode()
@@ -1346,14 +1451,14 @@ namespace Orc.Controls
                 return;
             }
 
-            if (_datePickerIconToggleButton.IsChecked == true)
+            if (_datePickerIconDropDownButton.IsChecked == true)
             {
                 return;
             }
 
             if (_calendarPopup != null && _calendarPopup.IsOpen)
             {
-                _calendarPopup.Closed += CalendarPopupOnClosed;
+                _calendarPopup.Closed += OnCalendarPopupClosed;
                 return;
             }
 
@@ -1367,9 +1472,19 @@ namespace Orc.Controls
                 return;
             }
 
+            RaiseStopEdit();
+        }
+
+        private void RaiseStopEdit()
+        {
             IsInEditMode = false;
 
             EditEnded?.Invoke(this, EventArgs.Empty);
+        }
+
+        private CultureInfo GetCulture()
+        {
+            return Culture ?? CultureInfo.CurrentUICulture;
         }
         #endregion
 

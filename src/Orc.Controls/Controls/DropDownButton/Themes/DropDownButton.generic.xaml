@@ -5,14 +5,16 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.togglebutton.xaml" />
+        <ResourceDictionary Source="/Orc.Theming;component/themes/Controls.implicit.wpf.focusvisual.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="Orc.Styles.DropDownButton" TargetType="{x:Type controls:DropDownButton}"
            BasedOn="{StaticResource Orc.Styles.ToggleButton}">
 
-        <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="Focusable" Value="False" />
-        <Setter Property="ClickMode" Value="Press" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource Orc.Styles.Control.Inside.FocusVisual}"/>
+
+        <!--<Setter Property="IsTabStop" Value="False" />
+        <Setter Property="ClickMode" Value="Press" />-->
 
         <Setter Property="Template">
             <Setter.Value>
@@ -32,6 +34,7 @@
                                 <Grid x:Name="PathGrid"
                                       VerticalAlignment="Stretch"
                                       IsHitTestVisible="True"
+                                      Visibility="{TemplateBinding IsArrowVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}}"
                                       Margin="{TemplateBinding ArrowMargin}"
                                       HorizontalAlignment="Stretch"
                                       DockPanel.Dock="{TemplateBinding ArrowLocation, Converter={controls:DropdownArrowLocationConverter}}">
@@ -74,7 +77,6 @@
 
                             </DockPanel>
                         </Border>
-
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

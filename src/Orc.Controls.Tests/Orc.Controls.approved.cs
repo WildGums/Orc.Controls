@@ -414,9 +414,11 @@ namespace Orc.Controls
     [System.Windows.TemplatePart(Name="PART_AmPmListTextBox", Type=typeof(Orc.Controls.ListTextBox))]
     [System.Windows.TemplatePart(Name="PART_AmPmSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
     [System.Windows.TemplatePart(Name="PART_AmPmToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
-    [System.Windows.TemplatePart(Name="PART_ClearButton", Type=typeof(System.Windows.Controls.Button))]
-    [System.Windows.TemplatePart(Name="PART_CopyButton", Type=typeof(System.Windows.Controls.Button))]
-    [System.Windows.TemplatePart(Name="PART_DatePickerIconToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
+    [System.Windows.TemplatePart(Name="PART_Calendar", Type=typeof(System.Windows.Controls.Calendar))]
+    [System.Windows.TemplatePart(Name="PART_CalendarPopup", Type=typeof(System.Windows.Controls.Primitives.Popup))]
+    [System.Windows.TemplatePart(Name="PART_ClearMenuItem", Type=typeof(System.Windows.Controls.MenuItem))]
+    [System.Windows.TemplatePart(Name="PART_CopyMenuItem", Type=typeof(System.Windows.Controls.MenuItem))]
+    [System.Windows.TemplatePart(Name="PART_DatePickerIconDropDownButton", Type=typeof(Orc.Controls.DropDownButton))]
     [System.Windows.TemplatePart(Name="PART_DaysMonthsSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
     [System.Windows.TemplatePart(Name="PART_DaysNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
     [System.Windows.TemplatePart(Name="PART_DaysToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
@@ -430,13 +432,13 @@ namespace Orc.Controls
     [System.Windows.TemplatePart(Name="PART_MonthNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
     [System.Windows.TemplatePart(Name="PART_MonthToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
     [System.Windows.TemplatePart(Name="PART_MonthsYearSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
-    [System.Windows.TemplatePart(Name="PART_NowButton", Type=typeof(System.Windows.Controls.Button))]
-    [System.Windows.TemplatePart(Name="PART_PasteButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_NowMenuItem", Type=typeof(System.Windows.Controls.MenuItem))]
+    [System.Windows.TemplatePart(Name="PART_PasteMenuItem", Type=typeof(System.Windows.Controls.MenuItem))]
     [System.Windows.TemplatePart(Name="PART_SecondAmPmSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
     [System.Windows.TemplatePart(Name="PART_SecondNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
     [System.Windows.TemplatePart(Name="PART_SecondToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
-    [System.Windows.TemplatePart(Name="PART_SelectDateButton", Type=typeof(System.Windows.Controls.Button))]
-    [System.Windows.TemplatePart(Name="PART_TodayButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_SelectDateMenuItem", Type=typeof(System.Windows.Controls.MenuItem))]
+    [System.Windows.TemplatePart(Name="PART_TodayMenuItem", Type=typeof(System.Windows.Controls.MenuItem))]
     [System.Windows.TemplatePart(Name="PART_YearNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
     [System.Windows.TemplatePart(Name="PART_YearSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
     [System.Windows.TemplatePart(Name="PART_YearToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
@@ -444,6 +446,8 @@ namespace Orc.Controls
     {
         public static readonly System.Windows.DependencyProperty AllowCopyPasteProperty;
         public static readonly System.Windows.DependencyProperty AllowNullProperty;
+        public static readonly System.Windows.DependencyProperty CultureProperty;
+        public static readonly System.Windows.DependencyProperty FirstDayOfWeekProperty;
         public static readonly System.Windows.DependencyProperty FormatProperty;
         public static readonly System.Windows.DependencyProperty HideSecondsProperty;
         public static readonly System.Windows.DependencyProperty HideTimeProperty;
@@ -456,6 +460,8 @@ namespace Orc.Controls
         public DateTimePicker() { }
         public bool AllowCopyPaste { get; set; }
         public bool AllowNull { get; set; }
+        public System.Globalization.CultureInfo Culture { get; set; }
+        public System.DayOfWeek? FirstDayOfWeek { get; set; }
         public string Format { get; set; }
         public bool HideSeconds { get; set; }
         public bool HideTime { get; set; }
@@ -470,7 +476,9 @@ namespace Orc.Controls
         public event System.EventHandler<System.EventArgs> EditStarted;
         public override void OnApplyTemplate() { }
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e) { }
+        protected override void OnIsKeyboardFocusedChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
         protected override void OnLostKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e) { }
+        protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
     }
     public static class DependencyObjectExtensions
     {

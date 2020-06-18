@@ -16,6 +16,7 @@ namespace Orc.Controls
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
+    using System.Windows.Threading;
     using Catel;
     using Catel.Logging;
     using Catel.Windows.Input;
@@ -284,7 +285,7 @@ namespace Orc.Controls
             // CTL-761
             if (string.Equals(text, "-") || string.Equals(text, "-0"))
             {
-                // User is typing -0 (whould would result in 0, which we don't want yet, maybe they are typing -0.5)
+                // User is typing -0 (would result in 0, which we don't want yet, maybe they are typing -0.5)
                 update = false;
             }
 
@@ -466,7 +467,7 @@ namespace Orc.Controls
 
             SetCurrentValue(ValueProperty, newValue);
 
-            SelectAll();
+            PendingMethod.InvokeDispatcher(SelectAll, 1);
         }
 
         private double GetNewValue(double oldValue, int increment)

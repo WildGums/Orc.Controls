@@ -53,5 +53,7 @@
         </StackPanel>
 
         <Button Content="Set value to null" Command="{Binding SetNull}" HorizontalAlignment="Left" Width="150"/>
+
+        <Calendar/>
     </StackPanel>
 </catel:UserControl>
