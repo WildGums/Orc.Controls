@@ -232,6 +232,16 @@ namespace Orc.Controls
             }
 
             _isTemplateApplied = true;
+
+            UpdateUi();
+        }
+
+        protected override void OnIsKeyboardFocusedChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnIsKeyboardFocusedChanged(e);
+
+            _daysNumericTextBox.SetCurrentValue(FocusableProperty, true);
+            Keyboard.Focus(_daysNumericTextBox);
         }
 
         private void OnEditorValueChanged(object sender, EventArgs e)
@@ -348,10 +358,17 @@ namespace Orc.Controls
                 return;
             }
 
-            _daysNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?) (value?.Days ?? 0));
-            _hoursNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?) (value?.Hours ?? 0));
-            _minutesNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?) (value?.Minutes ?? 0));
-            _secondsNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?) (value?.Seconds ?? 0));
+            UpdateUi();
+        }
+
+        private void UpdateUi()
+        {
+            var value = Value;
+
+            _daysNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)(value?.Days ?? 0));
+            _hoursNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)(value?.Hours ?? 0));
+            _minutesNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)(value?.Minutes ?? 0));
+            _secondsNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)(value?.Seconds ?? 0));
 
             _daysHoursSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, value == null ? string.Empty : ".");
             _hoursMinutesSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, value == null ? string.Empty : ":");
