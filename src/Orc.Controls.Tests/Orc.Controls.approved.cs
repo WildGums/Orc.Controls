@@ -1304,11 +1304,11 @@ namespace Orc.Controls
         public bool Equals(Orc.Controls.PredefinedColor other) { }
         public override bool Equals(object obj) { }
         public override int GetHashCode() { }
-        public static bool !=(Orc.Controls.PredefinedColor color1, Orc.Controls.PredefinedColor color2) { }
-        public static bool ==(Orc.Controls.PredefinedColor color1, Orc.Controls.PredefinedColor color2) { }
         public static string GetColorName(System.Windows.Media.Color color) { }
         public static Orc.Controls.PredefinedColor GetPredefinedColor(System.Windows.Media.Color color) { }
         public static bool IsPredefined(System.Windows.Media.Color color) { }
+        public static bool operator !=(Orc.Controls.PredefinedColor color1, Orc.Controls.PredefinedColor color2) { }
+        public static bool operator ==(Orc.Controls.PredefinedColor color1, Orc.Controls.PredefinedColor color2) { }
     }
     public class PredefinedColorItem : System.Windows.Controls.Control
     {
@@ -1521,6 +1521,7 @@ namespace Orc.Controls
         public bool IsReadOnly { get; set; }
         public System.TimeSpan? Value { get; set; }
         public override void OnApplyTemplate() { }
+        protected override void OnIsKeyboardFocusedChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
         protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
     }
     public static class TreeViewItemExtensions
