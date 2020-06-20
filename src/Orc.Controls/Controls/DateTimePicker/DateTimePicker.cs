@@ -1427,8 +1427,6 @@ namespace Orc.Controls
         private void OnCalendarPopupClosed(object sender, EventArgs e)
         {
             InvalidateEditMode();
-
-            _calendarPopup.Closed -= OnCalendarPopupClosed;
         }
 
         private void InvalidateEditMode()

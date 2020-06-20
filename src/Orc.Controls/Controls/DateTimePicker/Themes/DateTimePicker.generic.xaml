@@ -78,6 +78,8 @@
           
         </Style.Resources>
 
+        <Setter Property="controls:EnterKeyTraversal.IsEnabled" Value="True"/>
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:DateTimePicker}">
@@ -92,7 +94,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Grid controls:EnterKeyTraversal.IsEnabled="True">
+                                <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="Auto"/>
