@@ -216,6 +216,7 @@
            TargetType="{x:Type orccontrols:NumericTextBox}" 
            BasedOn="{StaticResource {x:Type orccontrols:NumericTextBox}}">
 
+        <Setter Property="Height" Value="{DynamicResource Size.Height}" />
         <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
         <Setter Property="Padding" Value="{DynamicResource Padding.TextBox}" />
         <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
@@ -247,6 +248,7 @@
            TargetType="{x:Type orccontrols:ListTextBox}" 
            BasedOn="{StaticResource {x:Type orccontrols:ListTextBox}}">
 
+        <Setter Property="Height" Value="{DynamicResource Size.Height}" />
         <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
         <Setter Property="Padding" Value="{DynamicResource Padding.TextBox}" />
         <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
@@ -287,6 +289,8 @@
 
     <!-- WatermarkTextBox -->
     <Style x:Key="DefaultWatermarkTextBoxStyle" TargetType="{x:Type orccontrols:WatermarkTextBox}" BasedOn="{StaticResource {x:Type orccontrols:WatermarkTextBox}}">
+
+        <Setter Property="Height" Value="{DynamicResource Size.Height}" />
         <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
         <Setter Property="Padding" Value="{DynamicResource Padding.TextBox}" />
         <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
