@@ -108,6 +108,10 @@
                 <views:SaveFilePickerView />
             </TabItem>
 
+            <TabItem Header="StaggeredPanel">
+                <views:StaggeredPanelView/>
+            </TabItem>
+
             <TabItem Header="TimeSpanPicker">
                 <views:TimeSpanPickerView />
             </TabItem>
