@@ -1,0 +1,80 @@
+﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.StaggeredPanelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:catel="http://schemas.catelproject.com"
+             xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
+             xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
+             xmlns:example="clr-namespace:Orc.Controls.Example">
+    <orccontrols:StackGrid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Label FontWeight="SemiBold">StaggeredPanel</Label>
+        <orccontrols:EmptyCell/>
+
+        <ItemsControl ItemsSource="{Binding Items}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <orccontrols:StaggeredPanel DesiredColumnWidth="{Binding DesiredColumnWidth}"
+                                                ColumnSpacing="{Binding ColumnSpacing}"
+                                                RowSpacing="{Binding RowSpacing}"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="{Binding Image, Mode=TwoWay}" Margin="0"/>
+                        <TextBlock Text="Name" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <StackPanel>
+            <TextBlock Text="DesiredColumnWidth"/>
+            <Slider Value="{Binding DesiredColumnWidth}"
+                    Minimum="10" Maximum="300"/>
+            <TextBlock Text="ColumnSpacing"/>
+            <Slider Value="{Binding ColumnSpacing}"
+                    Minimum="1" Maximum="20"/>
+            <TextBlock Text="RowSpacing"/>
+            <Slider Value="{Binding RowSpacing}"
+                    Minimum="1" Maximum="40"/>
+        </StackPanel>
+        
+        <Label FontWeight="SemiBold">Compare with WrapPanel</Label>
+        <orccontrols:EmptyCell/>
+
+        <ItemsControl ItemsSource="{Binding Items}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel ItemWidth="{Binding ItemWidth}"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="{Binding Image, Mode=TwoWay}" Margin="0"/>
+                        <TextBlock Text="Name" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+
+        <StackPanel>
+            <TextBlock Text="ItemWidth"/>
+            <Slider Value="{Binding ItemWidth}" Minimum="10" Maximum="300"/>
+        </StackPanel>
+    </orccontrols:StackGrid>
+</catel:UserControl>
