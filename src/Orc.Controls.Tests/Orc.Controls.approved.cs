@@ -1423,6 +1423,20 @@ namespace Orc.Controls
     {
         public StackGrid() { }
     }
+    public class StaggeredPanel : System.Windows.Controls.Panel
+    {
+        public static readonly System.Windows.DependencyProperty ColumnSpacingProperty;
+        public static readonly System.Windows.DependencyProperty DesiredColumnWidthProperty;
+        public static readonly System.Windows.DependencyProperty PaddingProperty;
+        public static readonly System.Windows.DependencyProperty RowSpacingProperty;
+        public StaggeredPanel() { }
+        public double ColumnSpacing { get; set; }
+        public double DesiredColumnWidth { get; set; }
+        public System.Windows.Thickness Padding { get; set; }
+        public double RowSpacing { get; set; }
+        protected override System.Windows.Size ArrangeOverride(System.Windows.Size finalSize) { }
+        protected override System.Windows.Size MeasureOverride(System.Windows.Size availableSize) { }
+    }
     public static class StringExtensions
     {
         public static string ConstructWildcardRegex(this string pattern) { }
