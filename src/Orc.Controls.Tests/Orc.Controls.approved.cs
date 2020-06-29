@@ -1151,6 +1151,7 @@ namespace Orc.Controls
     {
         public static readonly System.Windows.DependencyProperty CultureInfoProperty;
         public static readonly System.Windows.DependencyProperty FormatProperty;
+        public static readonly System.Windows.DependencyProperty IsChangeValueByUpDownKeyEnabledProperty;
         public static readonly System.Windows.DependencyProperty IsDecimalAllowedProperty;
         public static readonly System.Windows.DependencyProperty IsNegativeAllowedProperty;
         public static readonly System.Windows.DependencyProperty IsNullValueAllowedProperty;
@@ -1160,6 +1161,7 @@ namespace Orc.Controls
         public NumericTextBox() { }
         public System.Globalization.CultureInfo CultureInfo { get; set; }
         public string Format { get; set; }
+        public bool IsChangeValueByUpDownKeyEnabled { get; set; }
         public bool IsDecimalAllowed { get; set; }
         public bool IsNegativeAllowed { get; set; }
         public bool IsNullValueAllowed { get; set; }
@@ -1895,5 +1897,17 @@ namespace Orc.Controls.Views
     {
         public FindReplaceView() { }
         public void InitializeComponent() { }
+    }
+}
+namespace XamlGeneratedNamespace
+{
+    public sealed class GeneratedInternalTypeHelper : System.Windows.Markup.InternalTypeHelper
+    {
+        public GeneratedInternalTypeHelper() { }
+        protected override void AddEventHandler(System.Reflection.EventInfo eventInfo, object target, System.Delegate handler) { }
+        protected override System.Delegate CreateDelegate(System.Type delegateType, object target, string handler) { }
+        protected override object CreateInstance(System.Type type, System.Globalization.CultureInfo culture) { }
+        protected override object GetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, System.Globalization.CultureInfo culture) { }
+        protected override void SetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, object value, System.Globalization.CultureInfo culture) { }
     }
 }

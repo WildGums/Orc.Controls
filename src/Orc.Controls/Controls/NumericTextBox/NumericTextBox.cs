@@ -87,6 +87,17 @@ namespace Orc.Controls
         public static readonly DependencyProperty CultureInfoProperty = DependencyProperty.Register(
             nameof(CultureInfo), typeof(CultureInfo), typeof(NumericTextBox), new PropertyMetadata(default(CultureInfo)));
 
+
+        public bool IsChangeValueByUpDownKeyEnabled
+        {
+            get { return (bool)GetValue(IsChangeValueByUpDownKeyEnabledProperty); }
+            set { SetValue(IsChangeValueByUpDownKeyEnabledProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsChangeValueByUpDownKeyEnabledProperty = DependencyProperty.Register(
+            nameof(IsChangeValueByUpDownKeyEnabled), typeof(bool), typeof(NumericTextBox), new PropertyMetadata(true));
+        
+
         public bool IsNullValueAllowed
         {
             get { return (bool)GetValue(IsNullValueAllowedProperty); }
@@ -421,13 +432,13 @@ namespace Orc.Controls
                 e.Handled = true;
             }
 
-            if (e.Key == Key.Up && AllTextSelected && !IsReadOnly)
+            if (IsChangeValueByUpDownKeyEnabled && e.Key == Key.Up && AllTextSelected && !IsReadOnly)
             {
                 OnUpDown(1);
                 e.Handled = true;
             }
 
-            if (e.Key == Key.Down && AllTextSelected && !IsReadOnly)
+            if (IsChangeValueByUpDownKeyEnabled && e.Key == Key.Down && AllTextSelected && !IsReadOnly)
             {
                 OnUpDown(-1);
                 e.Handled = true;
