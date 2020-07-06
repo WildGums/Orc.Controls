@@ -3,6 +3,8 @@
   <Costura DisableCleanup="true">
     <IncludeAssemblies>
     </IncludeAssemblies>
+    <IncludeRuntimeAssemblies>
+    </IncludeRuntimeAssemblies>
   </Costura>
   <LoadAssembliesOnStartup>
     <ExcludeAssemblies>
