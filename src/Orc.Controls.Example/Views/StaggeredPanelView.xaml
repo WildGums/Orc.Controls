@@ -33,7 +33,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
                         <Image Source="{Binding Image, Mode=TwoWay}" Margin="0"/>
-                        <TextBlock Text="Name" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

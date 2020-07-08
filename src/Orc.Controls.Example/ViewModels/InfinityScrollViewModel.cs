@@ -2,45 +2,57 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Drawing;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
     using System.Windows.Media;
+    using Catel.Collections;
     using Catel.MVVM;
-    using Catel.Reflection;
     using Orc.Theming;
 
-    public class StaggeredPanelViewModel : ViewModelBase
+    public class InfinityScrollViewModel : ViewModelBase
     {
-        public StaggeredPanelViewModel()
+        private readonly List<FontItem> _source = GetFontItems();
+        private readonly Random _randomizer = new Random(DateTime.Now.Millisecond);
+
+        public InfinityScrollViewModel()
         {
-            ColumnSpacing = 10;
-            RowSpacing = 10;
-            DesiredColumnWidth = 50;
-            ItemWidth = 50;
+            ListItems = new ObservableCollection<FontItem>();
+            AddItems = new TaskCommand(OnAddItemsExecuteAsync);
+
+            Count = 10;
+            ListItems.AddRange(GetNextItems(30));
         }
 
-        protected override Task InitializeAsync()
+        public ObservableCollection<FontItem> ListItems { get; set; }
+
+        public TaskCommand AddItems { get; set; }
+
+        public int Count { get; set; }
+
+        private async Task OnAddItemsExecuteAsync()
         {
-            Items = GetFontItems();
-            return base.InitializeAsync();
+            ListItems.AddRange(GetNextItems(Count));
         }
 
-        public double DesiredColumnWidth { get; set; }
-
-        public double ColumnSpacing { get; set; }
-
-        public double RowSpacing { get; set; }
-
-        public double ItemWidth { get; set; }
-
-        public IEnumerable<FontItem> Items { get; set; }
-
-        private List<FontItem> GetFontItems()
+        private List<FontItem> GetNextItems(int count)
         {
             var items = new List<FontItem>();
-            var ambulance = new FontImage(FontAwesome.Ambulance) { FontFamily =  nameof(FontAwesome) };
+
+            for (int i = 0; i < count; i++)
+            {
+                var randomIndex = _randomizer.Next(0, _source.Count - 1);
+                items.Add(_source[randomIndex]);
+            }
+
+            return items;
+        }
+
+        private static List<FontItem> GetFontItems()
+        {
+            var items = new List<FontItem>();
+            var ambulance = new FontImage(FontAwesome.Ambulance) { FontFamily = nameof(FontAwesome) };
             var cab = new FontImage(FontAwesome.Cab) { FontFamily = nameof(FontAwesome) };
             var plane = new FontImage(FontAwesome.Plane) { FontFamily = nameof(FontAwesome) };
             var wheelchair = new FontImage(FontAwesome.Wheelchair) { FontFamily = nameof(FontAwesome) };

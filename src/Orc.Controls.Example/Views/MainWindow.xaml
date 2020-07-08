@@ -80,6 +80,10 @@
                 <views:FluidProgressBar />
             </TabItem>
 
+            <TabItem Header="InfinityScroll">
+                <views:InfinityScroll/>
+            </TabItem>
+
             <TabItem Header="LinkLabel">
                 <views:LinkLabel />
             </TabItem>
