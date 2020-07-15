@@ -805,6 +805,20 @@ namespace Orc.Controls
         int? GetLineNumber(Catel.Data.IValidationResult validationResult);
         string GetTagName(Catel.Data.IValidationResult validationResult);
     }
+    public class InfinityScrollListBoxBehavior : Catel.Windows.Interactivity.BehaviorBase<System.Windows.Controls.ListBox>
+    {
+        public static readonly System.Windows.DependencyProperty CommandParameterProperty;
+        public static readonly System.Windows.DependencyProperty CommandProperty;
+        public static readonly System.Windows.DependencyProperty IsCommandExecutingProperty;
+        public static readonly System.Windows.DependencyProperty ScrollSizeProperty;
+        public InfinityScrollListBoxBehavior() { }
+        public Catel.MVVM.TaskCommand Command { get; set; }
+        public object CommandParameter { get; set; }
+        public bool IsCommandExecuting { get; set; }
+        public int ScrollSize { get; set; }
+        protected override void OnAssociatedObjectLoaded() { }
+        protected override void OnAssociatedObjectUnloaded() { }
+    }
     public class InitializingAutoCompletionServiceEventArgs : System.Windows.RoutedEventArgs
     {
         public InitializingAutoCompletionServiceEventArgs() { }
