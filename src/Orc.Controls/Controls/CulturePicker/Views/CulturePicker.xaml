@@ -7,7 +7,8 @@
                    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
 
     <Grid>
-        <ComboBox ItemsSource="{Binding AvailableCultures}" SelectedIndex="{Binding SelectedIndex}">
+        <ComboBox ItemsSource="{Binding AvailableCultures}"
+                  SelectedIndex="{Binding SelectedIndex}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding EnglishName}"/>

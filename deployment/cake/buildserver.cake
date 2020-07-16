@@ -135,7 +135,7 @@ public class BuildServerIntegration : IIntegration
             }
         }
 
-        var overrideFile = "./build.cakeoverrides";
+        var overrideFile = System.IO.Path.Combine(".", "build.cakeoverrides");
         if (System.IO.File.Exists(overrideFile))
         {
             var sb = new StringBuilder(string.Empty, 256);
@@ -144,7 +144,14 @@ public class BuildServerIntegration : IIntegration
             {
                 CakeContext.Information("Variable '{0}' is specified via build.cakeoverrides", variableName);
             
-                return sb.ToString();
+                var sbValue = sb.ToString();
+                if (sbValue == "[ignore]" ||
+                    sbValue == "[empty]")
+                {
+                    return string.Empty;
+                }
+
+                return sbValue;
             }
         }
         

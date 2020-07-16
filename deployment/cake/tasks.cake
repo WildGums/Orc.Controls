@@ -22,7 +22,6 @@
 #addin "nuget:?package=Cake.Sonar&version=1.1.25"
 
 #tool "nuget:?package=MSBuild.SonarQube.Runner.Tool&version=4.8.0"
-#tool "nuget:?package=GitVersion.CommandLine&version=5.1.2-beta1.17&prerelease"
 
 //-------------------------------------------------------------
 // BACKWARDS COMPATIBILITY CODE - START
@@ -441,8 +440,9 @@ Task("PackageLocal")
         {
             Information("Copying build artifact for '{0}'", component);
         
-            var sourceFile = string.Format("{0}/{1}.{2}.nupkg", buildContext.General.OutputRootDirectory, 
-                component, buildContext.General.Version.NuGet);
+            var sourceFile = System.IO.Path.Combine(buildContext.General.OutputRootDirectory, 
+                $"{component}.{buildContext.General.Version.NuGet}.nupkg");
+                
             CopyFiles(new [] { sourceFile }, localPackagesDirectory);
         }
         catch (Exception)

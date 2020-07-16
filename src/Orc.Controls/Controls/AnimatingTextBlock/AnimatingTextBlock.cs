@@ -47,7 +47,7 @@ namespace Orc.Controls
         /// <summary>
         /// The text property.
         /// </summary>
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(AnimatingTextBlock),
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(AnimatingTextBlock),
             new PropertyMetadata(string.Empty, (sender, e) => ((AnimatingTextBlock)sender).OnTextChanged()));
         
         /// <summary>
@@ -64,7 +64,7 @@ namespace Orc.Controls
         /// The hide storyboard property.
         /// </summary>
         public static readonly DependencyProperty HideStoryboardProperty =
-            DependencyProperty.Register("HideStoryboard", typeof(Storyboard), typeof(AnimatingTextBlock), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(HideStoryboard), typeof(Storyboard), typeof(AnimatingTextBlock), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets the show storyboard.
@@ -80,7 +80,7 @@ namespace Orc.Controls
         /// The show storyboard property.
         /// </summary>
         public static readonly DependencyProperty ShowStoryboardProperty =
-            DependencyProperty.Register("ShowStoryboard", typeof(Storyboard), typeof(AnimatingTextBlock), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ShowStoryboard), typeof(Storyboard), typeof(AnimatingTextBlock), new PropertyMetadata(null));
 
         #endregion
 

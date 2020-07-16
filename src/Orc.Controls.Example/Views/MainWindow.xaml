@@ -1,0 +1,169 @@
+﻿<catel:Window x:Class="Orc.Controls.Example.Views.MainWindow"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:catel="http://schemas.catelproject.com"
+              xmlns:views="clr-namespace:Orc.Controls.Example.Views"
+              xmlns:orccontrols="http://schemas.wildgums.com/orc/controls" 
+              xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
+              Height="800" Width="1000">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <orctheming:ThemeSwitcherView Grid.Row="0" />
+
+        <orccontrols:TabControl Grid.Row="1" Padding="10" 
+                                TabStripPlacement="Left" 
+                                LoadTabItems="EagerLoading">
+
+            <TabItem Header="AlignmentGrid">
+                <views:AlignmentGrid />
+            </TabItem>
+
+            <TabItem Header="AnimatedGif">
+                <views:AnimatedGif />
+            </TabItem>
+
+            <TabItem Header="BindableRichTextBox">
+                <views:BindableRichTextBox />
+            </TabItem>
+
+
+            <TabItem Header="BusyIndicator">
+                <views:BusyIndicator/>
+            </TabItem>
+
+            <TabItem Header="ColorLegend">
+                <views:ColorLegendView />
+            </TabItem>
+
+            <TabItem Header="ColorPicker">
+                <views:ColorPicker/>
+            </TabItem>
+
+            <TabItem Header="CulturePicker">
+                <views:CulturePickerView/>
+            </TabItem>
+
+            <TabItem Header="DatePicker">
+                <views:DatePicker />
+            </TabItem>
+
+            <TabItem Header="DateTimePicker">
+                <views:DateTimePicker />
+            </TabItem>
+
+            <TabItem Header="DateRangePicker">
+                <views:DateRangePicker />
+            </TabItem>
+
+            <TabItem Header="DirectoryPicker">
+                <views:DirectoryPickerView />
+            </TabItem>
+
+            <TabItem Header="DropDownButton">
+                <views:DropDownButtonView />
+            </TabItem>
+
+            <TabItem Header="Expander">
+                <views:Expander />
+            </TabItem>
+
+            <TabItem Header="FilterBox">
+                <views:FilterBox />
+            </TabItem>
+
+            <TabItem Header="FluidProgressBar">
+                <views:FluidProgressBar />
+            </TabItem>
+
+            <TabItem Header="InfinityScroll">
+                <views:InfinityScroll/>
+            </TabItem>
+
+            <TabItem Header="LinkLabel">
+                <views:LinkLabel />
+            </TabItem>
+
+            <TabItem Header="LogViewer">
+                <views:LogViewer />
+            </TabItem>
+
+            <TabItem Header="NumericTextBox">
+                <views:NumericTextBox />
+            </TabItem>
+
+            <TabItem Header="OpenFilePicker">
+                <views:OpenFilePickerView />
+            </TabItem>
+
+            <TabItem Header="PinnableToolTip">
+                <views:PinnableToolTip />
+            </TabItem>
+
+            <TabItem Header="RangeSlider">
+                <views:RangeSliderView />
+            </TabItem>
+
+            <TabItem Header="SaveFilePicker">
+                <views:SaveFilePickerView />
+            </TabItem>
+
+            <TabItem Header="StaggeredPanel">
+                <views:StaggeredPanelView/>
+            </TabItem>
+
+            <TabItem Header="TimeSpanPicker">
+                <views:TimeSpanPickerView />
+            </TabItem>
+
+            <TabItem Header="ValidationContextControl">
+                <views:ValidationContextView />
+            </TabItem>
+
+            <TabItem Header="WatermarkTextBox">
+                <views:Watermark />
+            </TabItem>
+
+            <!--<TabItem Header="Combobox">
+            <orc:StackGrid>
+                <orc:StackGrid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </orc:StackGrid.RowDefinitions>
+
+                <TextBlock Text="Just for test. Please remove it before merging with develop" 
+                           FontWeight="Bold"
+                           Foreground="DarkRed"/>
+                
+                <ComboBox IsEditable="{Binding ElementName=IsEditableCheckBox, Path=IsChecked, UpdateSourceTrigger=PropertyChanged}"
+                          Text="{Binding ElementName=ComboboxResultTextBlock, Path=Text, UpdateSourceTrigger=PropertyChanged}">
+                    <ComboBox.ItemsSource>
+                        <x:Array Type="sys:String" 
+                                 xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <sys:String>first</sys:String>
+                            <sys:String>second</sys:String>
+                        </x:Array>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+                    
+                <CheckBox x:Name="IsEditableCheckBox" 
+                          Content="Is Editable"/>
+
+                <TextBlock Text="Result text:" Margin="0 10 0 0" FontWeight="Bold"/>
+                <GridSplitter Height="1" HorizontalAlignment="Stretch" Background="Black" Margin="0 0 0 2" BorderBrush="Black" BorderThickness="1"/>
+                
+                <TextBlock x:Name="ComboboxResultTextBlock"/>
+            </orc:StackGrid>
+        </TabItem>-->
+
+        </orccontrols:TabControl>
+    </Grid>
+</catel:Window>

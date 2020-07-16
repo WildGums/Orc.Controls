@@ -23,4 +23,4 @@ This library contains simple (yet useful) controls for viewing and editing data,
 - **DirectoryPicker**
 - **SaveFilePicker**
 
-For documentation, please visit the [documentation portal](http://opensource.wildgums.com)
+For documentation, please visit the [documentation portal](https://opensource.wildgums.com)

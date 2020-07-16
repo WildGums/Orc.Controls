@@ -11,11 +11,14 @@ namespace Orc.Controls
     using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Shapes;
+    using ControlzEx.Theming;
+    using Theming;
 
     public class AlignmentGrid : ContentControl
     {
         #region Fields
         private readonly Canvas _containerCanvas = new Canvas();
+        private readonly ControlzEx.Theming.ThemeManager _themeManager;
         #endregion
 
         #region Constructors
@@ -25,6 +28,7 @@ namespace Orc.Controls
         public AlignmentGrid()
         {
             Loaded += OnLoaded;
+            Unloaded += OnUnloaded;
             SizeChanged += OnAlignmentGridSizeChanged;
 
             IsHitTestVisible = false;
@@ -32,7 +36,10 @@ namespace Orc.Controls
             HorizontalContentAlignment = HorizontalAlignment.Stretch;
             VerticalContentAlignment = VerticalAlignment.Stretch;
             Content = _containerCanvas;
+
+            _themeManager = ControlzEx.Theming.ThemeManager.Current;
         }
+
         #endregion
 
         #region Dependency properties
@@ -78,11 +85,22 @@ namespace Orc.Controls
         /// </summary>
         public static readonly DependencyProperty VerticalStepProperty = DependencyProperty.Register(nameof(VerticalStep),
             typeof(double), typeof(AlignmentGrid), new PropertyMetadata(20.0, (sender, e) => ((AlignmentGrid)sender).Rebuild()));
-
         #endregion
 
         #region Methods
         private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Rebuild();
+
+            _themeManager.ThemeChanged += OnThemeManagerThemeChanged;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            _themeManager.ThemeChanged -= OnThemeManagerThemeChanged;
+        }
+
+        private void OnThemeManagerThemeChanged(object sender, ThemeChangedEventArgs e)
         {
             Rebuild();
         }
@@ -93,11 +111,16 @@ namespace Orc.Controls
 
             var horizontalStep = HorizontalStep;
             var verticalStep = VerticalStep;
-            var brush = LineBrush ?? ThemeHelper.GetThemeColorBrush(ThemeColorStyle.AccentColor4);
+            var brush = LineBrush ?? Theming.ThemeManager.Current.GetThemeColorBrush(ThemeColorStyle.AccentColor20);
 
             for (double x = 0; x < ActualWidth; x += horizontalStep)
             {
-                var line = new Rectangle {Width = 1, Height = ActualHeight, Fill = brush};
+                var line = new Rectangle
+                {
+                    Width = 1,
+                    Height = ActualHeight,
+                    Fill = brush
+                };
 
                 Canvas.SetLeft(line, x);
 
@@ -106,7 +129,12 @@ namespace Orc.Controls
 
             for (double y = 0; y < ActualHeight; y += verticalStep)
             {
-                var line = new Rectangle {Width = ActualWidth, Height = 1, Fill = brush};
+                var line = new Rectangle
+                {
+                    Width = ActualWidth, 
+                    Height = 1,
+                    Fill = brush
+                };
 
                 Canvas.SetTop(line, y);
 

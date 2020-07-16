@@ -12,7 +12,10 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <ListBox Grid.Column="0" ItemsSource="{Binding FilterGroups}" SelectedItem="{Binding SelectedFilterGroup}" VerticalAlignment="Stretch">
+        <ListBox Grid.Column="0" 
+                 ItemsSource="{Binding FilterGroups}" 
+                 SelectedItem="{Binding SelectedFilterGroup}" 
+                 VerticalAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <DataTemplate.Resources>
@@ -26,7 +29,9 @@
                             </Style.Triggers>
                         </Style>
                     </DataTemplate.Resources>
-                    <TextBlock Text="{Binding Name}" IsEnabled="{Binding IsEnabled}" Style="{StaticResource ResourceKey=TextBlockResourceKey}"/>
+                    <TextBlock Text="{Binding Name}"
+                               IsEnabled="{Binding IsEnabled}"
+                               Style="{StaticResource ResourceKey=TextBlockResourceKey}"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

@@ -33,7 +33,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ValidationContextProperty = DependencyProperty.Register(
-            "ValidationContext", typeof(IValidationContext), typeof(ValidationContextView), new PropertyMetadata(null));
+            nameof(ValidationContext), typeof(IValidationContext), typeof(ValidationContextView), new PropertyMetadata(null));
 
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -44,20 +44,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ShowFilterBoxProperty = DependencyProperty.Register(
-            "ShowFilterBox", typeof(bool), typeof(ValidationContextView), new PropertyMetadata(true));
-
-
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public Brush AccentColorBrush
-        {
-            get { return (Brush)GetValue(AccentColorBrushProperty); }
-            set { SetValue(AccentColorBrushProperty, value); }
-        }
-
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(
-            "AccentColorBrush", typeof(Brush), typeof(ValidationContextView), new PropertyMetadata(Brushes.LightGray,
-                (sender, e) => ((ValidationContextView)sender).OnAccentColorBrushChanged()));
+            nameof(ShowFilterBox), typeof(bool), typeof(ValidationContextView), new PropertyMetadata(true));
 
 
         public bool ShowButtons
@@ -66,7 +53,7 @@ namespace Orc.Controls
             set { SetValue(ShowButtonsProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowButtonsProperty = DependencyProperty.Register("ShowButtons",
+        public static readonly DependencyProperty ShowButtonsProperty = DependencyProperty.Register(nameof(ShowButtons),
             typeof(bool), typeof(ValidationContextView), new PropertyMetadata(true));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -77,24 +64,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty IsExpandedAllOnStartupProperty = DependencyProperty.Register(
-            "IsExpandedAllOnStartup", typeof(bool), typeof(ValidationContextView), new PropertyMetadata(true));
+            nameof(IsExpandedAllOnStartup), typeof(bool), typeof(ValidationContextView), new PropertyMetadata(true));
         #endregion
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
-        }
-
-        private void OnAccentColorBrushChanged()
-        {
-            var solidColorBrush = AccentColorBrush as SolidColorBrush;
-            if (solidColorBrush != null)
-            {
-                var accentColor = ((SolidColorBrush)AccentColorBrush).Color;
-                accentColor.CreateAccentColorResourceDictionary("ValidationContextControl");
-            }
-        }
     }
 }

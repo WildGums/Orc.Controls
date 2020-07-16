@@ -10,19 +10,24 @@ namespace Orc.Controls
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
+    using Catel.IoC;
+    using Catel.Services;
     using Catel.Windows.Threading;
 
     /// <summary>
     /// Interaction logic for BusyIndicator.xaml
     /// </summary>
-    public partial class BusyIndicator : VisualWrapper
+    public partial class BusyIndicator
     {
         #region Fields
         private MediaElementThreadInfo _mediaElementThreadInfo;
         private Grid _grid;
 
         private Brush _foreground;
+        private FluidProgressBar _fluidProgressBar;
         private int _ignoreUnloadedEventCount;
+
+        private readonly IDispatcherService _dispatcherService;
         #endregion
 
         #region Constructors
@@ -33,10 +38,10 @@ namespace Orc.Controls
         {
             InitializeComponent();
 
-            _foreground = Foreground;
-
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
+
+            _dispatcherService = this.GetServiceLocator().ResolveType<IDispatcherService>();
         }
         #endregion
 
@@ -47,9 +52,9 @@ namespace Orc.Controls
             set { SetValue(ForegroundProperty, value); }
         }
 
-        public static readonly DependencyProperty ForegroundProperty = DependencyProperty.Register(nameof(Foreground), typeof(Brush),
-            typeof(BusyIndicator), new PropertyMetadata(Brushes.White, (sender, e) => ((BusyIndicator)sender)._foreground = e.NewValue as Brush));
-
+        public static readonly DependencyProperty ForegroundProperty = DependencyProperty.Register(
+            nameof(Foreground), typeof(Brush), typeof(BusyIndicator),
+            new PropertyMetadata(Brushes.White, (sender, args) => ((BusyIndicator)sender).OnForegroundChanged(args)));
 
         public int IgnoreUnloadedEventCount
         {
@@ -106,9 +111,19 @@ namespace Orc.Controls
             _ignoreUnloadedEventCount = IgnoreUnloadedEventCount;
         }
 
+        private void OnForegroundChanged(DependencyPropertyChangedEventArgs args)
+        {
+            _foreground = Foreground;
+            
+            _mediaElementThreadInfo?.Dispatcher.Invoke(() =>
+            {
+                _fluidProgressBar.SetCurrentValue(Control.ForegroundProperty, _foreground);
+            });
+        }
+
         private FrameworkElement CreateBusyIndicator()
         {
-            var fluidProgressBar = new FluidProgressBar
+            _fluidProgressBar = new FluidProgressBar
             {
                 HorizontalContentAlignment = HorizontalAlignment.Stretch,
                 Foreground = _foreground
@@ -119,7 +134,7 @@ namespace Orc.Controls
                 Width = ActualWidth,
                 HorizontalAlignment = HorizontalAlignment.Stretch
             };
-            grid.Children.Add(fluidProgressBar);
+            grid.Children.Add(_fluidProgressBar);
 
             _grid = grid;
 

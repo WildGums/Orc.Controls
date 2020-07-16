@@ -8,7 +8,6 @@
     using System.Windows.Shapes;
     using System.Windows.Threading;
     using Catel.Windows;
-    using Catel.Windows.Threading;
 
     [TemplatePart(Name = "PART_TrackBackground", Type = typeof(Border))]
     [TemplatePart(Name = "PART_SelectedRange", Type = typeof(Rectangle))]
@@ -16,8 +15,7 @@
     [TemplatePart(Name = "PART_UpperSlider", Type = typeof(Slider))]
     public class RangeSlider : RangeBase
     {
-        private static readonly Point LeftTop = new Point(0, 0);
-
+        #region Fields
         private readonly DispatcherTimer _dispatcherTimer;
 
         private bool _ignoreSliderValueChanging;
@@ -29,7 +27,9 @@
         private Track _upperTrack;
         private Thumb _lowerThumb;
         private Thumb _upperThumb;
-
+        #endregion
+        
+        #region Constructors
         static RangeSlider()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(RangeSlider), new FrameworkPropertyMetadata(typeof(RangeSlider)));
@@ -43,8 +43,12 @@
             };
 
             _dispatcherTimer.Tick += OnDispatcherTimerTick;
-        }
 
+            IsVisibleChanged += OnIsVisibleChanged;
+        }
+        #endregion
+
+        #region Dependency properties
         [Category("Behavior"), Bindable(true)]
         public double LowerValue
         {
@@ -66,7 +70,6 @@
         public static readonly DependencyProperty UpperValueProperty = DependencyProperty.Register(nameof(UpperValue), typeof(double),
             typeof(RangeSlider), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((RangeSlider)sender).OnUpperValueChanged(e)));
 
-
         [Category("Behavior"), Bindable(true)]
         public bool HighlightSelectedRange
         {
@@ -77,7 +80,6 @@
         public static readonly DependencyProperty HighlightSelectedRangeProperty = DependencyProperty.Register(nameof(HighlightSelectedRange),
             typeof(bool), typeof(RangeSlider), new PropertyMetadata(true));
 
-
         [Category("Behavior"), Bindable(true)]
         public Orientation Orientation
         {
@@ -87,8 +89,9 @@
 
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation),
             typeof(RangeSlider), new PropertyMetadata(Orientation.Horizontal, (sender, e) => ((RangeSlider)sender).OnOrientationChanged()));
+        #endregion
 
-
+        #region Routed events
         [Category("Behavior")]
         public event RoutedPropertyChangedEventHandler<double> LowerValueChanged
         {
@@ -109,7 +112,9 @@
 
         public static readonly RoutedEvent UpperValueChangedEvent = EventManager.RegisterRoutedEvent(nameof(UpperValueChanged),
             RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<double>), typeof(RangeSlider));
+        #endregion
 
+        #region Methods
         private void OnOrientationChanged()
         {
             UpdateState();
@@ -124,7 +129,7 @@
             {
                 if (Minimum > LowerValue)
                 {
-                    LowerValue = Minimum;
+                    SetCurrentValue(LowerValueProperty, Minimum);
                 }
                 else
                 {
@@ -139,7 +144,7 @@
 
             if (Maximum < UpperValue)
             {
-                UpperValue = Maximum;
+                SetCurrentValue(UpperValueProperty, Maximum);
             }
             else
             {
@@ -166,12 +171,17 @@
             _trackBackgroundBorder = GetTemplateChild("PART_TrackBackground") as Border;
             _selectedRangeRectangle = GetTemplateChild("PART_SelectedRange") as Rectangle;
 
-            Dispatcher.BeginInvoke(UpdateState, false);
+            UpdateState();
         }
 
         private void OnSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (_ignoreSliderValueChanging)
+            {
+                return;
+            }
+
+            if (_upperSlider is null || _lowerSlider is null)
             {
                 return;
             }
@@ -182,11 +192,11 @@
 
                 if (ReferenceEquals(sender, _lowerSlider))
                 {
-                    _upperSlider.Value = Math.Max(_upperSlider.Value, _lowerSlider.Value);
+                    _upperSlider.SetCurrentValue(ValueProperty, Math.Max(_upperSlider.Value, _lowerSlider.Value));
                 }
                 else if (ReferenceEquals(sender, _upperSlider))
                 {
-                    _lowerSlider.Value = Math.Min(_upperSlider.Value, _lowerSlider.Value);
+                    _lowerSlider.SetCurrentValue(ValueProperty, Math.Min(_upperSlider.Value, _lowerSlider.Value));
                 }
             }
             finally
@@ -199,13 +209,6 @@
 
             // In case the thumbs not moved yet
             StartUpdate();
-        }
-
-        private void OnUpperSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            _lowerSlider.Value = Math.Min(_upperSlider.Value, _lowerSlider.Value);
-
-            StartUpdate(false);
         }
 
         private void OnLowerValueChanged(DependencyPropertyChangedEventArgs e)
@@ -234,6 +237,13 @@
                 return;
             }
 
+            ReloadThumbs();
+
+            StartUpdate();
+        }
+
+        private void ReloadThumbs()
+        {
             _lowerSlider?.ApplyTemplate();
             _lowerTrack = _lowerSlider?.Template?.FindName("PART_Track", _lowerSlider) as Track;
             _lowerThumb = _lowerTrack?.FindVisualDescendantByType<Thumb>();
@@ -241,8 +251,6 @@
             _upperSlider?.ApplyTemplate();
             _upperTrack = _upperSlider?.Template?.FindName("PART_Track", _upperSlider) as Track;
             _upperThumb = _upperTrack?.FindVisualDescendantByType<Thumb>();
-
-            StartUpdate();
         }
 
         private void StartUpdate(bool dispatch = true)
@@ -262,7 +270,50 @@
         {
             _dispatcherTimer.Stop();
 
+            if (_lowerThumb is null)
+            {
+                UpdateState();
+            }
+
             UpdateRelatedValues();
+        }
+
+        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (!IsVisible)
+            {
+                return;
+            }
+
+            if (_lowerThumb != null)
+            {
+                if (!_lowerThumb.IsVisible)
+                {
+                    _lowerThumb.IsVisibleChanged += OnLowerThumbIsVisibleChanged;
+                }
+            }
+            
+            if (_upperThumb != null)
+            {
+                if (!_upperThumb.IsVisible)
+                {
+                    _upperThumb.IsVisibleChanged += OnUpperThumbIsVisibleChanged;
+                }
+            }
+
+            IsVisibleChanged -= OnIsVisibleChanged;
+        }
+
+        private void OnUpperThumbIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            StartUpdate();
+            _upperThumb.IsVisibleChanged -= OnLowerThumbIsVisibleChanged;
+        }
+
+        private void OnLowerThumbIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            StartUpdate();
+            _lowerThumb.IsVisibleChanged -= OnLowerThumbIsVisibleChanged;
         }
 
         private void UpdateRelatedValues()
@@ -278,7 +329,7 @@
             }
 
             // As a bonus, the value will show the average
-            Value = (_lowerSlider.Value + _upperSlider.Value) / 2;
+            SetCurrentValue(ValueProperty, (_lowerSlider.Value + _upperSlider.Value) / 2);
 
             var lowerThumb = _lowerThumb;
             var upperThumb = _upperThumb;
@@ -296,52 +347,42 @@
             {
                 return;
             }
-
-            var lowerThumbPosition = lowerThumb.PointToScreen(LeftTop);
-            var upperThumbPosition = upperThumb.PointToScreen(LeftTop);
-            var leftTop = PointToScreen(LeftTop);
+            
+            var lowerThumbPosition = lowerThumb.GetCenterPointInRoot(this);
+            var upperThumbPosition = upperThumb.GetCenterPointInRoot(this);
 
             switch (Orientation)
             {
                 case Orientation.Horizontal:
-                    // Draw left => right
-                    var lowerThumbCenterX = lowerThumb.Width / 2;
-                    var upperThumbCenterX = upperThumb.Width / 2;
-                    var containerWidth = trackBackgroundBorder.ActualWidth;
-                    var width = ActualWidth;
-                    var widthRatio = (containerWidth * 100) / width;
-                    var left = (lowerThumbPosition.X - leftTop.X) + lowerThumbCenterX;
-                    var finalLeft = (left / 100) * widthRatio;
 
-                    var right = (upperThumbPosition.X - leftTop.X) + upperThumbCenterX;
+                    var selectionRectLeft = lowerThumbPosition.X;
+                    var selectionRectWidth = upperThumbPosition.X - lowerThumbPosition.X;
 
-                    selectedRangeRectangle.Height = double.NaN;
-                    selectedRangeRectangle.Width = right - left;
+                    selectedRangeRectangle.Width = selectionRectWidth;
+                    selectedRangeRectangle.Height = 3;
 
-                    Canvas.SetTop(selectedRangeRectangle, double.NaN);
-                    Canvas.SetLeft(selectedRangeRectangle, finalLeft);
+                    Canvas.SetTop(selectedRangeRectangle, -1d);
+                    Canvas.SetLeft(selectedRangeRectangle, selectionRectLeft);
 
                     break;
 
                 case Orientation.Vertical:
-                    // Draw bottom => top
-                    var lowerThumbCenterY = lowerThumb.Height / 2;
-                    var upperThumbCenterY = upperThumb.Height / 2;
-                    var containerHeight = trackBackgroundBorder.ActualHeight;
-                    var height = ActualHeight;
-                    var heightRatio = (containerHeight * 100) / height;
-                    var bottom = (lowerThumbPosition.Y - leftTop.Y) + lowerThumbCenterY;
-                    var top = (upperThumbPosition.Y - leftTop.Y) + upperThumbCenterY;
-                    var finalTop = (top / 100) * heightRatio;
 
-                    selectedRangeRectangle.Width = double.NaN;
-                    selectedRangeRectangle.Height = bottom - top;
+                    var selectionRectTop = upperThumbPosition.Y;
+                    var selectionRectHeight = lowerThumbPosition.Y - upperThumbPosition.Y;
 
-                    Canvas.SetLeft(selectedRangeRectangle, double.NaN);
-                    Canvas.SetTop(selectedRangeRectangle, finalTop);
+                    selectedRangeRectangle.Width = 3;
+                    selectedRangeRectangle.Height = selectionRectHeight;
+
+                    Canvas.SetTop(selectedRangeRectangle, selectionRectTop);
+                    Canvas.SetLeft(selectedRangeRectangle, -1d);
 
                     break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
+            #endregion
         }
     }
 }

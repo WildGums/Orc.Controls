@@ -4,153 +4,90 @@
                     xmlns:catel="http://schemas.catelproject.com"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <SolidColorBrush x:Key="RangeSliderTrackNormalBackground" Color="#D4D4D4"/>
-    <SolidColorBrush x:Key="RangeSliderTrackNormalBorder" Color="#D4D4D4"/>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.slider.xaml" />
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="RangeSliderRepeatButtonStyle" TargetType="{x:Type RepeatButton}">
-        <Setter Property="Margin" Value="{DynamicResource Margin.Default}" />
-        <Setter Property="OverridesDefaultStyle" Value="true"/>
-        <Setter Property="IsTabStop" Value="false"/>
-        <Setter Property="Focusable" Value="false"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Rectangle Fill="Transparent"/>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <ControlTemplate x:Key="RangeSliderThumbControlTemplate" TargetType="{x:Type Thumb}">
-        <Grid>
-            <Ellipse x:Name="BackEllipse" Width="13" Height="13" Stroke="#D4D4D4" Fill="#F4F4F4" StrokeThickness="1"/>
-            <Ellipse x:Name="ThumbEllipse" Width="13" Height="13" Stroke="#D4D4D4" Fill="#F4F4F4" StrokeThickness="1"/>
-        </Grid>
-        
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
-                <Setter Property="Fill" TargetName="ThumbEllipse" Value="{controls:ThemeColorBrush ThemeColorStyle=Highlight}"/>
-            </Trigger>
-            <Trigger Property="IsDragging" Value="true">
-                <Setter Property="Fill" TargetName="ThumbEllipse" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
-                <Setter Property="Stroke" TargetName="ThumbEllipse" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Fill" TargetName="ThumbEllipse" Value="#FFF4F4F4"/>
-                <Setter Property="Stroke" TargetName="ThumbEllipse" Value="#FFAEB1AF"/>
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
-
-    <Style x:Key="VerticalRangeSliderThumbStyle" TargetType="{x:Type Thumb}">
-        <Setter Property="Focusable" Value="false"/>
-        <Setter Property="OverridesDefaultStyle" Value="true"/>
-        <Setter Property="Height" Value="15"/>
-        <Setter Property="Width" Value="15"/>
-        <Setter Property="Template" Value="{StaticResource RangeSliderThumbControlTemplate}"/>
-    </Style>
-
-    <Style x:Key="HorizontalRangeSliderThumbStyle" TargetType="{x:Type Thumb}">
-        <Setter Property="Focusable" Value="false"/>
-        <Setter Property="OverridesDefaultStyle" Value="true"/>
-        <Setter Property="Height" Value="15"/>
-        <Setter Property="Width" Value="15"/>
-        <Setter Property="Foreground" Value="Gray"/>
-        <Setter Property="Template" Value="{StaticResource RangeSliderThumbControlTemplate}"/>
-    </Style>
-
-    <Style x:Key="SimpleSliderStyle" TargetType="{x:Type Slider}">
-        <Setter Property="Margin" Value="{DynamicResource Margin.Default}" />
-        <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
-        <Setter Property="Background" Value="{x:Null}"/>
-        <Setter Property="Foreground" Value="#FFC4C4C4"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Slider}">
-                    <Border BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{x:Null}"
-                            SnapsToDevicePixels="true">
-                        <Track x:Name="PART_Track" MinHeight="{TemplateBinding MinHeight}">
-                            <Track.Thumb>
-                                <Thumb x:Name="Thumb" 
-                                           Style="{StaticResource HorizontalRangeSliderThumbStyle}">
-                                    <Thumb.ToolTip>
-                                        <ToolTip Content="{TemplateBinding Value}"
-                                                     ContentStringFormat="N1" />
-                                    </Thumb.ToolTip>
-                                </Thumb>
-                            </Track.Thumb>
-                        </Track>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsKeyboardFocused" Value="true">
-                            <Setter Property="Foreground" TargetName="Thumb" Value="Gray"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="{x:Type controls:RangeSlider}">
+    <Style x:Key="Orc.Styles.RangeSlider" TargetType="{x:Type controls:RangeSlider}"
+           BasedOn="{StaticResource Orc.Styles.Control}">
         <Style.Resources>
             <sys:Double x:Key="TrackSizeValue">3</sys:Double>
+
+            <Style x:Key="SimpleSliderStyle" TargetType="{x:Type Slider}">
+                <Setter Property="Margin" Value="{DynamicResource Margin.Default}" />
+                <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
+                <Setter Property="Background" Value="{x:Null}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Slider}">
+                            <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Background="{x:Null}"
+                                    SnapsToDevicePixels="true">
+                                <Track x:Name="PART_Track" MinHeight="{TemplateBinding MinHeight}">
+                                    <Track.Thumb>
+                                        <Thumb x:Name="Thumb" 
+                                               Style="{StaticResource Orc.Styles.Slider.Thumb}">
+                                            <Thumb.ToolTip>
+                                                <ToolTip Content="{TemplateBinding Value}"
+                                                         ContentStringFormat="N1" />
+                                            </Thumb.ToolTip>
+                                        </Thumb>
+                                    </Track.Thumb>
+                                </Track>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsKeyboardFocused" Value="true">
+                                    <Setter Property="Foreground" TargetName="Thumb" Value="Gray"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </Style.Resources>
-        <Setter Property="Margin" Value="{DynamicResource Margin.Default}" />
+       
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="#FFC4C4C4" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush}"/>
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:RangeSlider}">
-                    <Border BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{TemplateBinding Background}"
-                            SnapsToDevicePixels="true">
-                        <Grid>
-                            <TickBar x:Name="TopTick" 
-                                     Fill="{TemplateBinding Foreground}" 
-                                     Height="4" 
-                                     Placement="Top" 
-                                     Grid.Row="0"
-                                     Visibility="Collapsed"/>
-                            <TickBar x:Name="BottomTick" 
-                                     Fill="{TemplateBinding Foreground}"
-                                     Height="4" 
-                                     Placement="Bottom" 
-                                     Grid.Row="2" 
-                                     Visibility="Collapsed"/>
+                    <Grid>
 
-                            <Border x:Name="PART_TrackBackground" BorderBrush="{StaticResource RangeSliderTrackNormalBorder}"
-                                    BorderThickness="1" Background="{StaticResource RangeSliderTrackNormalBackground}"
-                                    CornerRadius="1" Grid.Row="1" >
-                                <Canvas Margin="-1">
-                                    <Rectangle x:Name="PART_SelectedRange" 
-                                               Fill="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"
-                                               Stroke="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"
-                                               StrokeThickness="3.0" Visibility="{TemplateBinding HighlightSelectedRange, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+                        <Border x:Name="PART_TrackBackground"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="1" >
 
-                                    <Rectangle x:Name="PART_SelectionRange"
-                                               Fill="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"
-                                               Stroke="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}"
-                                               StrokeThickness="3.0" Visibility="Hidden" />
-                                </Canvas>
-                            </Border>
+                            <Canvas Margin="0">
+                                <Rectangle x:Name="PART_SelectedRange" 
+                                               Fill="{TemplateBinding Foreground}"
+                                               Stroke="{TemplateBinding Foreground}"
+                                               StrokeThickness="1" 
+                                               Visibility="{TemplateBinding HighlightSelectedRange, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+                            </Canvas>
+                        </Border>
 
-                            <Slider x:Name="PART_LowerSlider" Style="{StaticResource SimpleSliderStyle}" 
+                        <Slider x:Name="PART_LowerSlider" 
+                                    Style="{StaticResource SimpleSliderStyle}" 
                                     Minimum="{TemplateBinding Minimum}"
                                     Maximum="{TemplateBinding Maximum}"
                                     Orientation="{TemplateBinding Orientation}"
                                     Value="{Binding LowerValue, RelativeSource={RelativeSource AncestorType={x:Type controls:RangeSlider}}, Mode=TwoWay}" />
 
-                            <Slider x:Name="PART_UpperSlider" Style="{StaticResource SimpleSliderStyle}" 
+                        <Slider x:Name="PART_UpperSlider" 
+                                    Style="{StaticResource SimpleSliderStyle}" 
                                     Minimum="{TemplateBinding Minimum}"
                                     Maximum="{TemplateBinding Maximum}"
                                     Orientation="{TemplateBinding Orientation}"
                                     Value="{Binding UpperValue, RelativeSource={RelativeSource AncestorType={x:Type controls:RangeSlider}}, Mode=TwoWay}" />
-                        </Grid>
-                    </Border>
+                    </Grid>
+
+                    
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="Orientation" Value="Vertical">
                             <Setter TargetName="PART_LowerSlider" Property="Margin" Value="0,10,0,0" />
@@ -162,11 +99,9 @@
                             <Setter TargetName="PART_TrackBackground" Property="Height"  Value="{x:Static sys:Double.NaN}" />
                             <Setter TargetName="PART_TrackBackground" Property="Width"  Value="{StaticResource TrackSizeValue}" />
                             <Setter TargetName="PART_TrackBackground" Property="Margin"  Value="0,5" />
-                            <Setter TargetName="PART_SelectedRange" Property="Height"  Value="{x:Static sys:Double.NaN}" />
-                            <Setter TargetName="PART_SelectedRange" Property="Width"  Value="{StaticResource TrackSizeValue}" />
-                            <Setter TargetName="PART_SelectionRange" Property="Height"  Value="{x:Static sys:Double.NaN}" />
-                            <Setter TargetName="PART_SelectionRange" Property="Width"  Value="{StaticResource TrackSizeValue}" />
-                        </Trigger>
+                            <Setter TargetName="PART_TrackBackground" Property="VerticalAlignment" Value="Stretch" />
+                            <Setter TargetName="PART_TrackBackground" Property="HorizontalAlignment" Value="Center" />
+                         </Trigger>
                         <Trigger Property="Orientation" Value="Horizontal">
                             <Setter TargetName="PART_LowerSlider" Property="Margin" Value="0,0,10,0" />
                             <Setter TargetName="PART_LowerSlider" Property="VerticalAlignment" Value="Center" />
@@ -179,11 +114,7 @@
                             <Setter TargetName="PART_TrackBackground" Property="Margin"  Value="5,0" />
                             <Setter TargetName="PART_TrackBackground" Property="VerticalAlignment" Value="Center" />
                             <Setter TargetName="PART_TrackBackground" Property="HorizontalAlignment" Value="Stretch" />
-                            <Setter TargetName="PART_SelectedRange" Property="Height"  Value="{StaticResource TrackSizeValue}" />
-                            <Setter TargetName="PART_SelectedRange" Property="Width"  Value="{x:Static sys:Double.NaN}" />
-                            <Setter TargetName="PART_SelectionRange" Property="Height"  Value="{StaticResource TrackSizeValue}" />
-                            <Setter TargetName="PART_SelectionRange" Property="Width"  Value="{x:Static sys:Double.NaN}" />
-                        </Trigger>
+                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

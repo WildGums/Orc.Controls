@@ -52,7 +52,8 @@ public class ComponentsProcessor : ProcessorBase
         {
             foreach (var component in BuildContext.Components.Items)
             {
-                var cacheDirectory = Environment.ExpandEnvironmentVariables(string.Format("%userprofile%/.nuget/packages/{0}/{1}", component, BuildContext.General.Version.NuGet));
+                var expandableCacheDirectory = System.IO.Path.Combine("%userprofile%", ".nuget", "packages", component, BuildContext.General.Version.NuGet);
+                var cacheDirectory = Environment.ExpandEnvironmentVariables(expandableCacheDirectory);
 
                 CakeContext.Information("Checking for existing local NuGet cached version at '{0}'", cacheDirectory);
 
@@ -175,10 +176,19 @@ public class ComponentsProcessor : ProcessorBase
 
         foreach (var component in BuildContext.Components.Items)
         {
+            // Note: some projects, such as Catel.Fody, require packaging
+            // of non-deployable projects
+            if (BuildContext.General.SkipComponentsThatAreNotDeployable && 
+                !ShouldDeployProject(BuildContext, component))
+            {
+                CakeContext.Information("Component '{0}' should not be deployed", component);
+                continue;
+            }
+
             BuildContext.CakeContext.LogSeparator("Packaging component '{0}'", component);
 
-            var projectDirectory = string.Format("./src/{0}", component);
-            var projectFileName = string.Format("{0}/{1}.csproj", projectDirectory, component);
+            var projectDirectory = GetProjectDirectory(component);
+            var projectFileName = GetProjectFileName(BuildContext, component);
             var outputDirectory = GetProjectOutputDirectory(BuildContext, component);
             CakeContext.Information("Output directory: '{0}'", outputDirectory);
 
@@ -297,7 +307,7 @@ public class ComponentsProcessor : ProcessorBase
 
             BuildContext.CakeContext.LogSeparator("Deploying component '{0}'", component);
 
-            var packageToPush = string.Format("{0}/{1}.{2}.nupkg", BuildContext.General.OutputRootDirectory, component, BuildContext.General.Version.NuGet);
+            var packageToPush = System.IO.Path.Combine(BuildContext.General.OutputRootDirectory, $"{component}.{BuildContext.General.Version.NuGet}.nupkg");
             var nuGetRepositoryUrl = GetComponentNuGetRepositoryUrl(component);
             var nuGetRepositoryApiKey = GetComponentNuGetRepositoryApiKey(component);
 

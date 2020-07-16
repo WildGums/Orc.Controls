@@ -2,15 +2,24 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Orc.Controls">
 
-    <Style x:Key="{x:Type controls:HeaderBar}"
-           TargetType="{x:Type controls:HeaderBar}">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{x:Type controls:HeaderBar}" TargetType="{x:Type controls:HeaderBar}"
+           BasedOn="{StaticResource Orc.Styles.Control}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border BorderBrush="{controls:ThemeColorBrush ThemeColorStyle=BorderColor}" BorderThickness="0" Background="WhiteSmoke">
-                        <TextBlock FontWeight="Medium" FontSize="14" Margin="4" TextAlignment="Left"
-                                   Text="{Binding Path=Header, RelativeSource={RelativeSource TemplatedParent}}">
-                        </TextBlock>
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="0" >
+                        <TextBlock FontWeight="Medium" 
+                                   Foreground="{TemplateBinding Foreground}"
+                                   FontSize="14"
+                                   Margin="4" 
+                                   TextAlignment="Left"
+                                   Text="{Binding Path=Header, RelativeSource={RelativeSource TemplatedParent}}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

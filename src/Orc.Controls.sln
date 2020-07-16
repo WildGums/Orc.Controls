@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{59924607
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Controls", "Orc.Controls\Orc.Controls.csproj", "{84E22240-D816-4B43-AC37-92B805A2BEE3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Controls.Example.NET", "Orc.Controls.Example.NET\Orc.Controls.Example.NET.csproj", "{C511A6B6-089C-4032-8E10-C46447FB8CBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Controls.Example", "Orc.Controls.Example\Orc.Controls.Example.csproj", "{C511A6B6-089C-4032-8E10-C46447FB8CBA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Controls.Tests", "Orc.Controls.Tests\Orc.Controls.Tests.csproj", "{132E6A32-9BC2-4284-B4C6-FA0E8A05B382}"
 EndProject

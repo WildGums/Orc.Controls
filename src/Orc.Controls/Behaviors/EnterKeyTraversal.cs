@@ -25,7 +25,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.RegisterAttached("IsEnabled", typeof(bool),
-            typeof(EnterKeyTraversal), new UIPropertyMetadata(false, IsEnabledChanged));
+            typeof(EnterKeyTraversal), new UIPropertyMetadata(false, OnIsEnabledChanged));
 
         private static void OnPreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -54,7 +54,7 @@ namespace Orc.Controls
             frameworkElement.PreviewKeyDown -= OnPreviewKeyDown;
         }
 
-        private static void IsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnIsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (!(d is FrameworkElement frameworkElement))
             {

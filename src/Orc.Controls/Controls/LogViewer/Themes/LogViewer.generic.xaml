@@ -2,8 +2,18 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Orc.Controls">
 
-    <Style x:Key="{x:Type local:LogViewerControl}"
-           TargetType="{x:Type local:LogViewerControl}">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{x:Type local:LogViewerControl}" TargetType="{x:Type local:LogViewerControl}"
+           BasedOn="{StaticResource Orc.Styles.Control}">
+
+        <Setter Property="InfoMessageBrush" Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}"/>
+        <Setter Property="DebugMessageBrush" Value="{DynamicResource Orc.Brushes.Control.Disabled.Border}"/>
+        <Setter Property="WarningMessageBrush" Value="DarkOrange"/>
+        <Setter Property="ErrorMessageBrush" Value="Red"/>
+        
         <Style.Resources>
             <Style TargetType="{x:Type local:RichTextBoxParagraph}">
                 <Setter Property="Margin" Value="0" />
@@ -21,9 +31,14 @@
                         <ControlTemplate TargetType="{x:Type Label}">
                             <Grid Margin="0 0 6 0" >
                                 <Viewbox x:Name="Viewbox" Height="9" Width="9">
-                                    <Path Data="{TemplateBinding Path.Data}" Fill="{TemplateBinding BorderBrush}"
-                                      HorizontalAlignment="Center" Margin="0" SnapsToDevicePixels="True" 
-                                      Stretch="Fill" UseLayoutRounding="True" VerticalAlignment="Center"/>
+                                    <Path Data="{TemplateBinding Path.Data}"
+                                          Fill="{TemplateBinding BorderBrush}"
+                                          HorizontalAlignment="Center"
+                                          Margin="0" 
+                                          SnapsToDevicePixels="True"
+                                          Stretch="Fill"
+                                          UseLayoutRounding="True"
+                                          VerticalAlignment="Center"/>
                                 </Viewbox>
                             </Grid>
                             <ControlTemplate.Triggers>

@@ -2,10 +2,15 @@
 <Weavers VerifyAssembly="true" VerifyIgnoreCodes="0x80131869" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
   <Costura DisableCleanup="true">
     <IncludeAssemblies>
-      Microsoft.WindowsAPICodePack
-      Microsoft.WindowsAPICodePack.Shell
     </IncludeAssemblies>
+    <IncludeRuntimeAssemblies>
+    </IncludeRuntimeAssemblies>
   </Costura>
+  <LoadAssembliesOnStartup>
+    <ExcludeAssemblies>
+      <!-- Add excluded assemblies here -->
+    </ExcludeAssemblies>
+  </LoadAssembliesOnStartup>
   <ModuleInit />
   <Obsolete />
   <Catel />

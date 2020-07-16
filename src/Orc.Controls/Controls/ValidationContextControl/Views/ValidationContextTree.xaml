@@ -11,32 +11,34 @@
                    x:ClassModifier="internal">
 
     <UserControl.Resources>
-        <controls:ValidationResultTypeToColorConverter DefaultColor="Black"
-                                                       ErrorColor="Red"
-                                                       WarningColor="DarkOrange"
-                                                       x:Key="ResultTypeToColorConverter" />
+        <controls:ValidationResultTypeToColorMultiValueConverter x:Key="ValidationResultTypeToColorMultiValueConverter"
+                                                                 DefaultBrush="Black"
+                                                                 ErrorBrush="Red"
+                                                                 WarningBrush="DarkOrange"/>
     </UserControl.Resources>
 
     <Grid>
         <TreeView ItemsSource="{Binding ValidationResultTags}"
                   ItemContainerStyle="{StaticResource ValidationContextTreeViewItemStyle}">
             <TreeView.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                                 Color="#EBDFEC" />
-                
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
-                                 Color="Black" />
-
                 <HierarchicalDataTemplate DataType="{x:Type controls:ValidationContextTreeNode}"
                                           ItemsSource="{Binding Children}">
-                    <StackPanel Orientation="Horizontal"
+                    <StackPanel x:Name="ColorGetterStackPanel"
+                                Orientation="Horizontal"
                                 VerticalAlignment="Stretch"
+                                Tag="{DynamicResource Orc.Brushes.Control.Foreground}"
                                 Margin="0">
                         <TextBlock Text="{Binding DisplayName}"
                                    Margin="5,0,0,0"
                                    VerticalAlignment="Center"
-                                   Foreground="{Binding ResultType, Converter={StaticResource ResultTypeToColorConverter}}"
-                                   TextWrapping="Wrap"/>
+                                   TextWrapping="Wrap">
+                            <TextBlock.Foreground>
+                                <MultiBinding Converter="{StaticResource ValidationResultTypeToColorMultiValueConverter}">
+                                    <Binding ElementName="ColorGetterStackPanel" Path="Tag"/>
+                                    <Binding Path="ResultType"/>
+                                </MultiBinding>
+                            </TextBlock.Foreground>
+                        </TextBlock>
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>

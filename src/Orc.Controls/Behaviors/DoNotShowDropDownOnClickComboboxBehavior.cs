@@ -49,7 +49,7 @@ namespace Orc.Controls
             var originalSource = args.OriginalSource;
             if (originalSource is Border)
             {
-                AssociatedObject.IsDropDownOpen = true;
+                AssociatedObject.SetCurrentValue(ComboBox.IsDropDownOpenProperty, true);
                 args.Handled = true;
             }
         }

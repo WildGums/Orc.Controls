@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ValidationResultTypeToColorConverter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2020 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -8,30 +8,44 @@
 namespace Orc.Controls
 {
     using System;
+    using System.Globalization;
+    using System.Windows.Data;
     using System.Windows.Media;
     using Catel.Data;
-    using Catel.MVVM.Converters;
 
-    public class ValidationResultTypeToColorConverter : ValueConverterBase
+    public class ValidationResultTypeToColorMultiValueConverter : IMultiValueConverter
     {
         #region Properties
-        public Color DefaultColor { get; set; }
-        public Color ErrorColor { get; set; }
-        public Color WarningColor { get; set; }
+        public SolidColorBrush DefaultBrush { get; set; } = new SolidColorBrush(Colors.Black);
+        public SolidColorBrush ErrorBrush { get; set; }
+        public SolidColorBrush WarningBrush { get; set; }
         #endregion
 
-        #region Methods
-        protected override object Convert(object value, Type targetType, object parameter)
+        #region IMultiValueConverter Members
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(value is ValidationResultType validationResultType))
+            if (values.Length != 2)
             {
-                return new SolidColorBrush(DefaultColor);
+                return DefaultBrush;
             }
 
-            var color = validationResultType == ValidationResultType.Error ? ErrorColor : WarningColor;
+            if (!(values[0] is SolidColorBrush defaultColorBrush))
+            {
+                return DefaultBrush;
+            }
 
-            return new SolidColorBrush(color);
+            if (!(values[1] is ValidationResultType validationResultType))
+            {
+                return defaultColorBrush;
+            }
 
+            var colorBrush = validationResultType == ValidationResultType.Error ? ErrorBrush : WarningBrush;
+            return colorBrush;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            return null;
         }
         #endregion
     }

@@ -2,127 +2,168 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Orc.Controls">
 
-    <Geometry x:Key="PinnedGeometry">M271.481,217.02L496.519,217.02C498.998,233.046 480.395,252.6 456.338,257.019L461.359,337.306C499.288,346.952 513.621,378.883 511.94,397.774L401.232,397.356L400.802,493.955L384,550.98L367.198,493.953L366.768,397.356L256.06,397.774C254.379,378.883 268.712,346.952 306.641,337.306L311.662,257.019C287.605,252.6 269.002,233.046 271.481,217.02Z</Geometry>
-    <Geometry x:Key="UnpinnedGeometry">M550.98,271.481L550.98,496.519C534.954,498.998 515.4,480.395 510.981,456.338L430.694,461.359C421.048,499.288 389.117,513.621 370.226,511.94L370.644,401.232L274.045,400.802L217.02,384L274.047,367.198L370.644,366.768L370.226,256.06C389.117,254.379 421.048,268.712 430.694,306.641L510.981,311.662C515.4,287.605 534.954,269.002 550.98,271.481Z</Geometry>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.buttonbase.xaml" />
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-    <!-- Dummy base style -->
-    <Style x:Key="{x:Type controls:Expander}"
-           TargetType="{x:Type controls:Expander}"/>
+    <Style x:Key="{x:Type controls:Expander}" TargetType="{x:Type controls:Expander}"
+           BasedOn="{StaticResource Orc.Styles.Control}">
+        <Style.Resources>
+            <Geometry x:Key="ExpanderUpArrow">M 1,4.5  L 4.5,1  L 8,4.5</Geometry>
+            <Geometry x:Key="ExpanderDownArrow">M 1,1.5 L 4.5,5 L 8,1.5</Geometry>
+            <Geometry x:Key="ExpanderLeftArrow">M 4.5,8 L 1,4.5 L 4.5,1</Geometry>
+            <Geometry x:Key="ExpanderRightArrow">M 1.5,8 L 5,4.5 L 1,1.5</Geometry>
 
-    <Style x:Key="Pin_ToggleButton" TargetType="{x:Type ToggleButton}">
-        <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Grid x:Name="BorderButton" Background="Transparent" Height="14" Width="14">
-                        <Viewbox x:Name="Viewbox" Height="9" Width="9">
-                            <Path x:Name="Path"  HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" 
-                                  UseLayoutRounding="True" Margin="0" SnapsToDevicePixels="True"
-                                  Data="{StaticResource UnpinnedGeometry}" Fill="#575757" >
-                            </Path>
-                        </Viewbox>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="Path" Property="Data" Value="{StaticResource PinnedGeometry}"/>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:ThemeColorBrush ThemeColorStyle=Highlight}"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="BorderButton" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
-                            <Setter Property="Fill" TargetName="Path" Value="White"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Fill" TargetName="Path" Value="#FFADADAD"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+            <Style x:Key="ExpanderHeaderToggleButtonStyle" TargetType="{x:Type ToggleButton}"
+                   BasedOn="{StaticResource Orc.Styles.ButtonBase}">
 
-    <Style x:Key="Header_ToggleButton" TargetType="{x:Type ToggleButton}">
-        <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Grid Background="White" Margin="{TemplateBinding Padding}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="4"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Border x:Name="line" Grid.Row="0" Background="LightGray"/>
-                        <ContentPresenter Grid.Row="1" Margin="2"/>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="line" Property="Background" Value="{controls:ThemeColorBrush ThemeColorStyle=DarkHighlight}"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="line" Property="Background" Value="{controls:ThemeColorBrush ThemeColorStyle=AccentColor}"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
-    <Style x:Key="ExpandLeftStyle" TargetType="{x:Type controls:Expander}">
-        <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border Padding="{TemplateBinding Padding}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    Background="{TemplateBinding Background}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
+                                        <VisualState Name="Unchecked" >
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="RotateTransform"
+                                                                 Storyboard.TargetProperty="Angle" 
+                                                                 From="180"
+                                                                 To="0"
+                                                                 Duration="0:0:0.3" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState Name="Checked">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="RotateTransform"
+                                                                 Storyboard.TargetProperty="Angle" 
+                                                                 From="0"
+                                                                 To="180"
+                                                                 Duration="0:0:0.25" />
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+
+                                <Grid Background="Transparent" 
+                                    SnapsToDevicePixels="False">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="16"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid>
+                                        <Grid.LayoutTransform>
+                                            <TransformGroup>
+                                                <TransformGroup.Children>
+                                                    <TransformCollection>
+                                                        <RotateTransform x:Name="RotateTransform" Angle="0"/>
+                                                    </TransformCollection>
+                                                </TransformGroup.Children>
+                                            </TransformGroup>
+                                        </Grid.LayoutTransform>
+
+                                        <Path x:Name="arrow" 
+                                              Data="{TemplateBinding Path.Data}"
+                                              HorizontalAlignment="Center"
+                                              SnapsToDevicePixels="false" 
+                                              Stroke="{TemplateBinding Foreground}"
+                                              StrokeThickness="2"
+                                              VerticalAlignment="Center"/>
+
+                                    </Grid>
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                                      Margin="0"
+                                                      Grid.Column="1"
+                                                      RecognizesAccessKey="True"
+                                                      SnapsToDevicePixels="True"/>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.Resources>
+
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:Expander}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition  Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" 
+						    BorderThickness="0" 
+						    Background="{TemplateBinding Background}" 
+						    SnapsToDevicePixels="true">
 
-                        <Border x:Name="HeaderBorder" Grid.Column="1" Background="White">
-                            <ToggleButton VerticalAlignment="Top" Margin="1" Content="{TemplateBinding Header}"
-                                          Style="{StaticResource Header_ToggleButton}" MinWidth="20" MinHeight="20"
-                                          IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
-                                <ToggleButton.LayoutTransform>
-                                    <RotateTransform Angle="90"/>
-                                </ToggleButton.LayoutTransform>
-                            </ToggleButton>
-                        </Border>
+                        <DockPanel>
+                            <Border x:Name="PART_HeaderSiteBorder"
+                                    Background="Transparent" 
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <ToggleButton x:Name="HeaderSite"
+                                              Style="{StaticResource ExpanderHeaderToggleButtonStyle}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}" 
+								              ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" 
+								              Content="{TemplateBinding Header}" 
+								              Foreground="{TemplateBinding Foreground}" 
+								              FontWeight="{TemplateBinding FontWeight}" 
+								              FontStyle="{TemplateBinding FontStyle}" 
+								              FontStretch="{TemplateBinding FontStretch}" 
+								              FontSize="{TemplateBinding FontSize}" 
+								              FontFamily="{TemplateBinding FontFamily}" 
+								              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+								              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+								              Padding="{TemplateBinding Padding}" 								            
+								              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
 
-                        <Grid x:Name="ContentPresenterGrid" Visibility="Collapsed">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition  Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Border Margin="0" Grid.ColumnSpan="2" BorderBrush="{controls:ThemeColorBrush ThemeColorStyle=BorderColor}"
-                                    BorderThickness="1" Background="WhiteSmoke"/>
-                            <ContentControl Content="{TemplateBinding Header}" FontWeight="Medium" Margin="4"
-                                            HorizontalAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
-                            <ToggleButton Grid.Column="1" Style="{StaticResource Pin_ToggleButton}" Margin="4"
-                                          IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                            <ContentPresenter x:Name="contentPresenter" Grid.Row="1" Grid.ColumnSpan="2"/>
-                        </Grid>
-
-                    </Grid>
-
+                            <ContentPresenter x:Name="PART_ExpandSite"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}" 
+                                              Focusable="false"/>
+                        </DockPanel>
+                    </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsExpanded" Value="True">
-                            <Trigger.Setters>
-                                <Setter TargetName="ContentPresenterGrid" Property="Visibility" Value="Visible"/>
-                                <Setter TargetName="HeaderBorder" Property="Visibility" Value="Collapsed"/>
-                            </Trigger.Setters>
+                        <Trigger Property="ExpandDirection" Value="Down">
+                            <Setter Property="DockPanel.Dock" TargetName="PART_ExpandSite" Value="Top" />
+                            <Setter Property="DockPanel.Dock" TargetName="PART_HeaderSiteBorder" Value="Bottom" />
+                            <Setter Property="Path.Data" TargetName="HeaderSite" Value="{StaticResource ExpanderDownArrow}" />
                         </Trigger>
+
+                        <Trigger Property="ExpandDirection" Value="Up">
+                            <Setter Property="DockPanel.Dock" TargetName="PART_ExpandSite" Value="Bottom" />
+                            <Setter Property="DockPanel.Dock" TargetName="PART_HeaderSiteBorder" Value="Top" />
+                            <Setter Property="Path.Data" TargetName="HeaderSite" Value="{StaticResource ExpanderUpArrow}" />
+                        </Trigger>
+
+                        <Trigger Property="ExpandDirection" Value="Right">
+                            <Setter Property="DockPanel.Dock" TargetName="PART_ExpandSite" Value="Left" />
+                            <Setter Property="DockPanel.Dock" TargetName="PART_HeaderSiteBorder" Value="Right" />
+                            <Setter Property="Path.Data" TargetName="HeaderSite" Value="{StaticResource ExpanderRightArrow}" />
+                        </Trigger>
+
+                        <Trigger Property="ExpandDirection" Value="Left">
+                            <Setter Property="DockPanel.Dock" TargetName="PART_ExpandSite" Value="Right" />
+                            <Setter Property="DockPanel.Dock" TargetName="PART_HeaderSiteBorder" Value="Left" />
+                            <Setter Property="Path.Data" TargetName="HeaderSite" Value="{StaticResource ExpanderLeftArrow}" />
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Visibility" TargetName="PART_ExpandSite" Value="Hidden"/>
+                        </Trigger>
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
 </ResourceDictionary>

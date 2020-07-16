@@ -11,7 +11,6 @@ namespace Orc.Controls
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
@@ -25,16 +24,16 @@ namespace Orc.Controls
     /// <summary>
     /// The pinnable toolTip control.
     /// </summary>
-    [TemplatePart(Name = "PinButton", Type = typeof(ToggleButton))]
-    [TemplatePart(Name = "CloseButton", Type = typeof(Button))]
-    [TemplatePart(Name = "DragGrip", Type = typeof(FrameworkElement))]
-    [TemplatePart(Name = "GripDrawing", Type = typeof(GeometryDrawing))]
+    [TemplatePart(Name = "PART_PinButton", Type = typeof(ToggleButton))]
+    [TemplatePart(Name = "PART_CloseButton", Type = typeof(Button))]
+    [TemplatePart(Name = "PART_DragGrip", Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = "PART_GripDrawing", Type = typeof(GeometryDrawing))]
     public class PinnableToolTip : ContentControl, IControlAdornerChild
     {
         #region Constants
         private const double Epsilon = 1E-7;
 
-        private static int _counter = 0;
+        private static int Counter = 0;
         #endregion
 
         #region Fields
@@ -65,7 +64,7 @@ namespace Orc.Controls
         public PinnableToolTip()
         {
             DefaultStyleKey = typeof(PinnableToolTip);
-            _id = System.Threading.Interlocked.Increment(ref _counter);
+            _id = System.Threading.Interlocked.Increment(ref Counter);
 
             SizeChanged += OnSizeChanged;
             MouseEnter += OnPinnableToolTipMouseEnter;
@@ -173,18 +172,6 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty OpenLinkCommandProperty = DependencyProperty.Register(nameof(OpenLinkCommand),
             typeof(ICommand), typeof(PinnableToolTip), new PropertyMetadata(null));
-
-
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public Brush AccentColorBrush
-        {
-            get { return (Brush)GetValue(AccentColorBrushProperty); }
-            set { SetValue(AccentColorBrushProperty, value); }
-        }
-
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), typeof(Brush),
-            typeof(PinnableToolTip), new PropertyMetadata(Brushes.LightGray, (sender, e) => ((PinnableToolTip)sender).OnAccentColorBrushChanged()));
 
 
         public ResizeMode ResizeMode
@@ -298,7 +285,7 @@ namespace Orc.Controls
                     return popupLocation;
             }
 
-            return default(Point);
+            return default;
         }
 
         private Point GetPostionForNonUiElement(FrameworkElement rootVisual, Point mousePosition, double horizontalOffset, double verticalOffset)
@@ -383,21 +370,19 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
-            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
-
-            _closeButton = GetTemplateChild("CloseButton") as Button;
+            _closeButton = GetTemplateChild("PART_CloseButton") as Button;
             if (_closeButton != null)
             {
                 _closeButton.Click += OnCloseButtonClick;
             }
 
-            _dragGrip = GetTemplateChild("DragGrip") as FrameworkElement;
+            _dragGrip = GetTemplateChild("PART_DragGrip") as FrameworkElement;
             if (_dragGrip != null)
             {
                 _dragGrip.PreviewMouseLeftButtonDown += OnDragGripPreviewMouseLeftButtonDown;
             }
 
-            _gripDrawing = GetTemplateChild("GripDrawing") as GeometryDrawing;
+            _gripDrawing = GetTemplateChild("PART_GripDrawing") as GeometryDrawing;
         }
         #endregion
 
@@ -446,9 +431,9 @@ namespace Orc.Controls
             return new Point(x, y);
         }
 
-        private static double CalculateLinearSize(double pluginLength, double length, double boundsStart, double boundLenght)
+        private static double CalculateLinearSize(double pluginLength, double length, double boundsStart, double boundLength)
         {
-            var middle = boundsStart + boundLenght / 2.0;
+            var middle = boundsStart + boundLength / 2.0;
             if (middle > 0.0 && middle - 0.0 > pluginLength - middle)
             {
                 return pluginLength - length;
@@ -982,10 +967,15 @@ namespace Orc.Controls
                 return;
             }
 
-            const string FLUENT_RIBBON_TYPE_NAME = "Fluent.BackstageAdorner";
+            const string fluentRibbonTypeName = "Fluent.BackstageAdorner";
             foreach (var adorner in adorners)
             {
-                if (!adorner.GetType().FullName.Equals(FLUENT_RIBBON_TYPE_NAME))
+                if (adorner is null)
+                {
+                    continue;
+                }
+
+                if (! Equals(adorner.GetType().FullName, fluentRibbonTypeName))
                 {
                     continue;
                 }
@@ -1103,17 +1093,6 @@ namespace Orc.Controls
         private bool IsInFront()
         {
             return GetInFrontId() == _id;
-        }
-
-        private void OnAccentColorBrushChanged()
-        {
-            if (!(AccentColorBrush is SolidColorBrush brush))
-            {
-                return;
-            }
-
-            var accentColor = brush.Color;
-            accentColor.CreateAccentColorResourceDictionary("PinnableToolTip");
         }
 
         private void OnResizeModeChanged()

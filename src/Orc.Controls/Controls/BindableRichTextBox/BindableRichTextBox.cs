@@ -44,7 +44,7 @@ namespace Orc.Controls
         #region Methods
         private void OnBindableDocumentChanged(DependencyPropertyChangedEventArgs args)
         {
-            Document = (args.NewValue == null) ? new FlowDocument() : (FlowDocument)args.NewValue;
+            Document = args.NewValue is null ? new FlowDocument() : (FlowDocument)args.NewValue;
         }
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)

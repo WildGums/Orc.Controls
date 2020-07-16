@@ -8,7 +8,7 @@
 using ApprovalTests.Reporters;
 
 #if DEBUG
-[assembly: UseReporter(typeof(BeyondCompare4Reporter), typeof(DiffReporter), typeof(AllFailingTestsClipboardReporter))]
+[assembly: UseReporter(typeof(BeyondCompareReporter))]
 #else
 [assembly: UseReporter(typeof(DiffReporter))]
 #endif

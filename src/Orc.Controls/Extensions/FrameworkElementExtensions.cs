@@ -9,9 +9,11 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Windows;
     using Catel;
     using Catel.IoC;
+    using Microsoft.Xaml.Behaviors;
     using Tools;
 
     public static class FrameworkElementExtensions
@@ -28,6 +30,32 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
+        public static IEditableControl TryGetEditableControl(this FrameworkElement frameworkElement)
+        {
+            Argument.IsNotNull(() => frameworkElement);
+
+            if (frameworkElement is IEditableControl editableControl)
+            {
+                return editableControl;
+            }
+
+            var behaviors = Interaction.GetBehaviors(frameworkElement);
+            editableControl = behaviors.OfType<IEditableControl>().FirstOrDefault();
+
+            return editableControl;
+        }
+
+        public static Point GetCenterPointInRoot(this FrameworkElement frameworkElement, FrameworkElement root)
+        {
+            Argument.IsNotNull(() => frameworkElement);
+            Argument.IsNotNull(() => root);
+
+            var lowerThumbRelativePoint = frameworkElement.TransformToAncestor(root)
+                .Transform(new Point(0, 0));
+
+            return new Point(lowerThumbRelativePoint.X + frameworkElement.ActualWidth / 2, lowerThumbRelativePoint.Y + frameworkElement.ActualHeight / 2);
+        }
+
         public static IControlToolManager GetControlToolManager(this FrameworkElement frameworkElement)
         {
             Argument.IsNotNull(() => frameworkElement);

@@ -62,13 +62,13 @@ public class WpfProcessor : ProcessorBase
             
             var channelSuffix = BuildContext.Installer.GetDeploymentChannelSuffix();
 
-            var sourceFileName = $"./design/logo/logo{channelSuffix}.ico";
+            var sourceFileName = System.IO.Path.Combine(".", "design", "logo", $"logo{channelSuffix}.ico");
             if (BuildContext.CakeContext.FileExists(sourceFileName))
             {
                 CakeContext.Information("Enforcing channel specific icon '{0}'", sourceFileName);
 
                 var projectDirectory = GetProjectDirectory(wpfApp);
-                var targetFileName = $"{projectDirectory}/Resources/Icons/logo.ico";
+                var targetFileName = System.IO.Path.Combine(projectDirectory, "Resources", "Icons", "logo.ico");
 
                 BuildContext.CakeContext.CopyFile(sourceFileName, targetFileName);
             }
@@ -117,15 +117,12 @@ public class WpfProcessor : ProcessorBase
 
         if (BuildContext.General.IsOfficialBuild)
         {
-            // All channels
-            channels.Add("alpha");
-            channels.Add("beta");
+            // Note: we used to deploy stable to stable, beta and alpha, but want to keep things separated now
             channels.Add("stable");
         }
         else if (BuildContext.General.IsBetaBuild)
         {
-            // Both alpha and beta, since MyApp.beta1 should also be available on the alpha channel
-            channels.Add("alpha");
+            // Note: we used to deploy beta to beta and alpha, but want to keep things separated now
             channels.Add("beta");
         }
         else if (BuildContext.General.IsAlphaBuild)
@@ -143,6 +140,12 @@ public class WpfProcessor : ProcessorBase
 
         foreach (var wpfApp in BuildContext.Wpf.Items)
         {
+            if (!ShouldDeployProject(BuildContext, wpfApp))
+            {
+                CakeContext.Information("WPF app '{0}' should not be deployed", wpfApp);
+                continue;
+            }
+
             CakeContext.Information("Deleting unnecessary files for WPF app '{0}'", wpfApp);
             
             var outputDirectory = GetProjectOutputDirectory(BuildContext, wpfApp);
@@ -199,7 +202,7 @@ public class WpfProcessor : ProcessorBase
             BuildContext.CakeContext.LogSeparator("Deploying WPF app '{0}'", wpfApp);
 
             //%DeploymentsShare%\%ProjectName% /%ProjectName% -c %AzureDeploymentsStorageConnectionString%
-            var deploymentShare = string.Format("{0}/{1}", BuildContext.Wpf.DeploymentsShare, wpfApp);
+            var deploymentShare = System.IO.Path.Combine(BuildContext.Wpf.DeploymentsShare, wpfApp);
 
             var exitCode = CakeContext.StartProcess(azureStorageSyncExe, new ProcessSettings
             {

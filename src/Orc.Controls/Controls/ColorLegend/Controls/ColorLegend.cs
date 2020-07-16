@@ -152,6 +152,19 @@ namespace Orc.Controls
             typeof(bool), typeof(ColorLegend), new PropertyMetadata(true, (sender, e) => ((ColorLegend)sender).OnShowColorVisibilityControlsChanged()));
 
         /// <summary>
+        /// Property indicating whether color picker color rounds are shown or not
+        /// </summary>
+        public bool ShowColorPicker
+        {
+            get { return (bool)GetValue(ShowColorPickerProperty); }
+            set { SetValue(ShowColorPickerProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowColorPickerProperty = DependencyProperty.Register(nameof(ShowColorPicker), 
+            typeof(bool), typeof(ColorLegend), new PropertyMetadata(true, (sender, e) => ((ColorLegend)sender).OnShowColorPickerChanged()));
+
+
+        /// <summary>
         /// Gets or sets a value indicating whether user editing current color.
         /// </summary>
         public bool IsColorSelecting
@@ -280,17 +293,6 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty SelectedColorItemsProperty = DependencyProperty.RegisterAttached(nameof(SelectedColorItems),
             typeof(IEnumerable<IColorLegendItem>), typeof(ColorLegend), new PropertyMetadata(null, (sender, e) => ((ColorLegend)sender).OnSelectedColorItemsChanged()));
-
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public Brush AccentColorBrush
-        {
-            get { return (Brush)GetValue(AccentColorBrushProperty); }
-            set { SetValue(AccentColorBrushProperty, value); }
-        }
-
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use AccentColorBrush markup extension instead")]
-        public static readonly DependencyProperty AccentColorBrushProperty = DependencyProperty.Register(nameof(AccentColorBrush), typeof(Brush),
-            typeof(ColorLegend), new FrameworkPropertyMetadata(Brushes.LightGray, (sender, e) => ((ColorLegend)sender).OnAccentColorBrushChanged()));
         #endregion
 
         #region Methods
@@ -400,6 +402,11 @@ namespace Orc.Controls
             UpdateVisibilityControlsVisibility();
         }
 
+        private void OnShowColorPickerChanged()
+        {
+            UpdateColorPickerColorVisibility();
+        }
+
         private void OnAllowColorEditingChanged()
         {
             UpdateColorEditingControlsVisibility();
@@ -423,7 +430,6 @@ namespace Orc.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            SetCurrentValue(AccentColorBrushProperty, TryFindResource("AccentColorBrush") as SolidColorBrush);
 
             _listBox = (ListBox)GetTemplateChild("PART_List");
             _popup = (Popup)GetTemplateChild("PART_Popup_Color_Board");
@@ -440,6 +446,7 @@ namespace Orc.Controls
                 {
                     UpdateVisibilityControlsVisibility();
                     UpdateColorEditingControlsVisibility();
+                    UpdateColorPickerColorVisibility();
                 };
             }
 
@@ -518,6 +525,20 @@ namespace Orc.Controls
             foreach (var path in qryAllArrows)
             {
                 path.SetCurrentValue(VisibilityProperty, AllowColorEditing ? Visibility.Visible : Visibility.Collapsed);
+            }
+        }
+
+        public void UpdateColorPickerColorVisibility()
+        {
+            if (_listBox == null)
+            {
+                return;
+            }
+
+            var colorChangeButtonParts = _listBox.GetDescendents().OfType<Button>().Where(b => string.Equals(b.Name, "PART_ButtonColorChange"));
+            foreach (var button in colorChangeButtonParts)
+            {
+                button.SetCurrentValue(VisibilityProperty, ShowColorPicker ? Visibility.Visible : Visibility.Collapsed);
             }
         }
 
@@ -602,17 +623,6 @@ namespace Orc.Controls
         {
             _colorBoard.SetCurrentValue(ColorBoard.ColorProperty, _previousColor);
             _popup.SetCurrentValue(Popup.IsOpenProperty, false);
-        }
-
-        private void OnAccentColorBrushChanged()
-        {
-            if (!(AccentColorBrush is SolidColorBrush solidColorBrush))
-            {
-                return;
-            }
-
-            var accentColor = solidColorBrush.Color;
-            accentColor.CreateAccentColorResourceDictionary(nameof(ColorLegend));
         }
         #endregion
 

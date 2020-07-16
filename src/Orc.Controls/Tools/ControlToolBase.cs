@@ -37,12 +37,6 @@ namespace Orc.Controls
             Detached?.Invoke(this, EventArgs.Empty);
         }
 
-        [ObsoleteEx(TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0", Message = "Use Open() with parameter instead")]
-        public void Open()
-        {
-            Open(null);
-        }
-
         public void Open(object parameter = null)
         {
             if (IsOpened)

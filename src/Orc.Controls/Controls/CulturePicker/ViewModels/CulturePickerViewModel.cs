@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CulturePickerViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+//   Copyright (c) 2008 - 2020 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,19 +14,26 @@ namespace Orc.Controls
 
     internal class CulturePickerViewModel : ViewModelBase
     {
+        #region Fields
         private bool _changingSelectedIndex;
+        #endregion
 
+        #region Constructors
         public CulturePickerViewModel()
         {
             AvailableCultures = CultureInfo.GetCultures(CultureTypes.AllCultures)
                 .Where(culture => !string.IsNullOrEmpty(culture.Name) && !string.IsNullOrEmpty(culture.Parent.Name))
                 .OrderBy(culture => culture.DisplayName).ToList();
         }
+        #endregion
 
+        #region Properties
         public CultureInfo SelectedCulture { get; set; }
         public List<CultureInfo> AvailableCultures { get; private set; }
         public int SelectedIndex { get; set; }
+        #endregion
 
+        #region Methods
         private void OnSelectedCultureChanged()
         {
             if (_changingSelectedIndex)
@@ -62,5 +69,6 @@ namespace Orc.Controls
                 _changingSelectedIndex = false;
             }
         }
+        #endregion
     }
 }
