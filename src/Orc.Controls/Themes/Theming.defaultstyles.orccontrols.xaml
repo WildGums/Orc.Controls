@@ -17,6 +17,7 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/DropDownButton/Themes/DropDownButton.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/Expander/Themes/Expander.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/FilterBox/Themes/FilterBox.generic.xaml" />
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/FluidProgressBar/Themes/FluidProgressBar.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/SaveFilePicker/Themes/SaveFilePicker.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/HeaderBar/Themes/HeaderBar.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/LinkLabel/Themes/LinkLabel.generic.xaml" />
@@ -115,6 +116,10 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <!-- FluidProgressBar  -->
+    <Style x:Key="DefaultFluidProgressBarStyle" TargetType="{x:Type orccontrols:FluidProgressBar}" 
+           BasedOn="{StaticResource {x:Type orccontrols:FluidProgressBar}}"/>
 
     <Style x:Key="DefaultExpanderStyle" TargetType="{x:Type orccontrols:Expander}" 
            BasedOn="{StaticResource {x:Type orccontrols:Expander}}"/>

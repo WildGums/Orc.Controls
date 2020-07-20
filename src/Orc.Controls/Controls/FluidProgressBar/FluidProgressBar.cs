@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FluidProgressBar.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
+// <copyright file="FluidProgressBar1.cs" company="WildGums">
+//   Copyright (c) 2008 - 2020 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -11,31 +11,42 @@ namespace Orc.Controls
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Media;
     using System.Windows.Media.Animation;
+    using System.Windows.Shapes;
+    using Catel.Logging;
 
-    /// <summary>
-    /// Interaction logic for FluidProgressBar.xaml
-    /// </summary>
-    public partial class FluidProgressBar : IDisposable
+    [TemplatePart(Name = "PART_Dot1", Type = typeof(Rectangle))]
+    [TemplatePart(Name = "PART_Dot2", Type = typeof(Rectangle))]
+    [TemplatePart(Name = "PART_Dot3", Type = typeof(Rectangle))]
+    [TemplatePart(Name = "PART_Dot4", Type = typeof(Rectangle))]
+    [TemplatePart(Name = "PART_Dot5", Type = typeof(Rectangle))]
+    [TemplatePart(Name = "PART_Canvas", Type = typeof(Canvas))]
+    public class FluidProgressBar : Control, IDisposable
     {
         #region Fields
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
         private readonly Dictionary<int, KeyFrameDetails> _keyFrameMap;
         private readonly Dictionary<int, KeyFrameDetails> _opKeyFrameMap;
         private bool _isStoryboardRunning;
+
         private Storyboard _sb;
+
+        private Canvas _canvas;
+        private Rectangle _dot1;
+        private Rectangle _dot2;
+        private Rectangle _dot3;
+        private Rectangle _dot4;
+        private Rectangle _dot5;
         #endregion
 
         #region Constructors
-
-        #region Construction / Initialization
         public FluidProgressBar()
         {
-            InitializeComponent();
-
             _keyFrameMap = new Dictionary<int, KeyFrameDetails>();
             _opKeyFrameMap = new Dictionary<int, KeyFrameDetails>();
-
-            GetKeyFramesFromStoryboard();
 
             SizeChanged += OnSizeChanged;
             Loaded += OnLoaded;
@@ -43,11 +54,202 @@ namespace Orc.Controls
         }
         #endregion
 
+        #region Method
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            _canvas = GetTemplateChild("PART_Canvas") as Canvas;
+            if (_canvas is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Canvas'");
+            }
+            
+
+            _dot1 = GetTemplateChild("PART_Dot1") as Rectangle;
+            if (_dot1 is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Dot1'");
+            }
+
+            _dot2 = GetTemplateChild("PART_Dot2") as Rectangle;
+            if (_dot2 is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Dot2'");
+            }
+
+            _dot3 = GetTemplateChild("PART_Dot3") as Rectangle;
+            if (_dot3 is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Dot3'");
+            }
+
+            _dot4 = GetTemplateChild("PART_Dot4") as Rectangle;
+            if (_dot4 is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Dot4'");
+            }
+
+            _dot5 = GetTemplateChild("PART_Dot5") as Rectangle;
+            if (_dot5 is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Dot5'");
+            }
+
+            _sb = CreateStoryBoard();
+        }
         #endregion
+
+        private Storyboard CreateStoryBoard()
+        {
+            var storyboard = new Storyboard
+            {
+                RepeatBehavior = RepeatBehavior.Forever,
+                AutoReverse = false,
+                Duration = new Duration(TimeSpan.FromMilliseconds(4400))
+            };
+
+            var xFrame1 = CreateXFrames(0d, _dot1, 0d, 0d, 0d, 0d);
+            var xFrame2 = CreateXFrames(100d, _dot2, 0.1d, 3.1d, 5.1d, 8.1d);
+            var xFrame3 = CreateXFrames(200d, _dot3, 0.1d, 3.1d, 5.1d, 8.1d);
+            var xFrame4 = CreateXFrames(300d, _dot4, 0.1d, 3.1d, 5.1d, 8.1d);
+            var xFrame5 = CreateXFrames(400d, _dot5, 0.1d, 3.1d, 5.1d, 8.1d);
+
+            var opacityFrame1 = CreateOpacityFrames(0d, _dot1);
+            var opacityFrame2 = CreateOpacityFrames(100d, _dot2);
+            var opacityFrame3 = CreateOpacityFrames(200d, _dot3);
+            var opacityFrame4 = CreateOpacityFrames(300d, _dot4);
+            var opacityFrame5 = CreateOpacityFrames(400d, _dot5);
+
+            var children = storyboard.Children;
+
+            children.Add(xFrame1);
+            children.Add(xFrame2);
+            children.Add(xFrame3);
+            children.Add(xFrame4);
+            children.Add(xFrame5);
+
+            children.Add(opacityFrame1);
+            children.Add(opacityFrame2);
+            children.Add(opacityFrame3);
+            children.Add(opacityFrame4);
+            children.Add(opacityFrame5);
+
+            return storyboard;
+        }
+
+        private DoubleAnimationUsingKeyFrames CreateOpacityFrames(double beginTime, object target)
+        {
+            var frames = new DoubleAnimationUsingKeyFrames
+            {
+                BeginTime = TimeSpan.FromMilliseconds(beginTime)
+            };
+
+            frames.SetCurrentValue(Storyboard.TargetPropertyProperty, new PropertyPath(nameof(Opacity)));
+            frames.SetCurrentValue(Storyboard.TargetProperty, target);
+
+            StoreOpacityFrame(0, new DiscreteDoubleKeyFrame
+            {
+                KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(0)), 
+                Value = 1d
+            }, frames);
+
+            StoreOpacityFrame(1, new DiscreteDoubleKeyFrame
+            {
+                KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(2500)), 
+                Value = 0d
+            }, frames);
+
+            return frames;
+        }
+
+        private DoubleAnimationUsingKeyFrames CreateXFrames(double beginTime, object target, params double[] values)
+        {
+            var frames = new DoubleAnimationUsingKeyFrames
+            {
+                BeginTime = TimeSpan.FromMilliseconds(beginTime)
+            };
+            
+            frames.SetCurrentValue(Storyboard.TargetPropertyProperty, new PropertyPath("(Canvas.Left)"));
+            frames.SetCurrentValue(Storyboard.TargetProperty, target);
+
+            var progressBarEaseOut = new ExponentialEase
+            {
+                EasingMode = EasingMode.EaseOut,
+                Exponent = 2d
+            };
+
+            var progressBarEaseIn = new ExponentialEase
+            {
+                EasingMode = EasingMode.EaseIn,
+                Exponent = 2d
+            };
+            
+            StoreKeyFrame(0, new LinearDoubleKeyFrame
+            {
+                KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(0)), 
+                Value = values[0]
+            }, frames);
+
+            StoreKeyFrame(1, new EasingDoubleKeyFrame
+            {
+                KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(500)),
+                Value = values[1],
+                EasingFunction = progressBarEaseOut
+            }, frames);
+
+            StoreKeyFrame(2, new LinearDoubleKeyFrame
+            {
+                KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(2000)),
+                Value = values[2]
+            }, frames);
+
+            StoreKeyFrame(3, new EasingDoubleKeyFrame
+            {
+                KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(2500)),
+                Value = values[3], 
+                EasingFunction = progressBarEaseIn
+            }, frames);
+
+            return frames;
+        }
+
+        private void StoreKeyFrame(int index, DoubleKeyFrame doubleKeyFrame, DoubleAnimationUsingKeyFrames keyFrames)
+        {
+            if (!_keyFrameMap.TryGetValue(index, out var keyFrame))
+            {
+                keyFrame = new KeyFrameDetails();
+                _keyFrameMap[index] = keyFrame;
+            }
+
+            keyFrame.KeyFrameTime = doubleKeyFrame.KeyTime;
+            keyFrame.KeyFrames.Add(doubleKeyFrame);
+
+            keyFrames.KeyFrames.Add(doubleKeyFrame);
+        }
+
+        private void StoreOpacityFrame(int index, DoubleKeyFrame doubleOpacityFrame, DoubleAnimationUsingKeyFrames keyFrames)
+        {
+            if (!_opKeyFrameMap.TryGetValue(index, out var opFrame))
+            {
+                opFrame = new KeyFrameDetails();
+                _opKeyFrameMap[index] = opFrame;
+            }
+
+            opFrame.KeyFrameTime = doubleOpacityFrame.KeyTime;
+            opFrame.KeyFrames.Add(doubleOpacityFrame);
+
+            keyFrames.KeyFrames.Add(doubleOpacityFrame);
+        }
 
         #region Internal class
         private class KeyFrameDetails
         {
+            public KeyFrameDetails()
+            {
+                KeyFrames = new List<DoubleKeyFrame>();
+            }
+
             #region Properties
             public KeyTime KeyFrameTime { get; set; }
             public List<DoubleKeyFrame> KeyFrames { get; set; }
@@ -766,55 +968,6 @@ namespace Orc.Controls
         }
 
         /// <summary>
-        /// Obtains the keyframes for each animation in the storyboard so that
-        /// they can be updated when required.
-        /// </summary>
-        private void GetKeyFramesFromStoryboard()
-        {
-            _sb = (Storyboard)Resources["FluidStoryboard"];
-            if (_sb == null)
-            {
-                return;
-            }
-
-            foreach (var timeline in _sb.Children)
-            {
-                if (!(timeline is DoubleAnimationUsingKeyFrames daKeys))
-                {
-                    continue;
-                }
-
-                var targetName = Storyboard.GetTargetName(daKeys);
-                ProcessDoubleAnimationWithKeys(daKeys, !targetName.StartsWith("Trans"));
-            }
-        }
-
-        /// <summary>
-        /// Gets the keyframes in the given animation and stores them in a map
-        /// </summary>
-        /// <param name="daKeys">Animation containg keyframes</param>
-        /// <param name="isOpacityAnim">Flag to indicate whether the animation targets the opacity or the translate transform</param>
-        private void ProcessDoubleAnimationWithKeys(DoubleAnimationUsingKeyFrames daKeys, bool isOpacityAnim = false)
-        {
-            // Get all the keyframes in the instance.
-            for (var i = 0; i < daKeys.KeyFrames.Count; i++)
-            {
-                var frame = daKeys.KeyFrames[i];
-
-                var targetMap = isOpacityAnim ? _opKeyFrameMap : _keyFrameMap;
-
-                if (!targetMap.ContainsKey(i))
-                {
-                    targetMap[i] = new KeyFrameDetails { KeyFrames = new List<DoubleKeyFrame>() };
-                }
-
-                // Update the keyframe time and add it to the map
-                targetMap[i].KeyFrameTime = frame.KeyTime;
-                targetMap[i].KeyFrames.Add(frame);
-            }
-        }
-
-        /// <summary>
         /// Update the key value of each keyframe based on the current width of the FluidProgressBar
         /// </summary>
         private void UpdateKeyFrames()
@@ -822,19 +975,30 @@ namespace Orc.Controls
             // Get the current width of the FluidProgressBar
             var width = ActualWidth;
             // Update the values only if the current width is greater than Zero and is visible
-            if ((width > 0.0) && (Visibility == Visibility.Visible))
+            if (!(width > 0.0) || Visibility != Visibility.Visible)
             {
-                var point0 = -10;
-                var pointA = width * KeyFrameA;
-                var pointB = width * KeyFrameB;
-                var pointC = width + 10;
-
-                // Update the keyframes stored in the map
-                UpdateKeyFrame(0, point0);
-                UpdateKeyFrame(1, pointA);
-                UpdateKeyFrame(2, pointB);
-                UpdateKeyFrame(3, pointC);
+                return;
             }
+
+            const int point0 = 0;
+            var pointA = width * KeyFrameA;
+            var pointB = width * KeyFrameB;
+            var pointC = width - DotWidth;
+
+            // Update the keyframes stored in the map
+            UpdateKeyFrame(0, point0);
+            UpdateKeyFrame(1, pointA);
+            UpdateKeyFrame(2, pointB);
+            UpdateKeyFrame(3, pointC);
+
+            var height = ActualHeight;
+            var dotHeight = DotHeight;
+
+            _dot1.SetCurrentValue(Canvas.TopProperty, (height - dotHeight) / 2);
+            _dot2.SetCurrentValue(Canvas.TopProperty, (height - dotHeight) / 2);
+            _dot3.SetCurrentValue(Canvas.TopProperty, (height - dotHeight) / 2);
+            _dot4.SetCurrentValue(Canvas.TopProperty, (height - dotHeight) / 2);
+            _dot5.SetCurrentValue(Canvas.TopProperty, (height - dotHeight) / 2);
         }
 
         /// <summary>
