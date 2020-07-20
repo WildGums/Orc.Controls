@@ -8,7 +8,9 @@
                    mc:Ignorable="d" 
                    d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <orccontrols:FluidProgressBar ToolTip="Orchestra: FluidProgressBar" Width="100" Height="12" />
+        <orccontrols:FluidProgressBar ToolTip="Orchestra: FluidProgressBar" 
+                                      Width="100" 
+                                      Height="12" />
     </Grid>
 </catel:UserControl>
 
