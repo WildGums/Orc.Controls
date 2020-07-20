@@ -664,7 +664,13 @@ namespace Orc.Controls
         public override void Detach() { }
         protected override void OnOpen(object parameter = null) { }
     }
-    public class FluidProgressBar : System.Windows.Controls.UserControl, System.IDisposable, System.Windows.Markup.IComponentConnector
+    [System.Windows.TemplatePart(Name="PART_Canvas", Type=typeof(System.Windows.Controls.Canvas))]
+    [System.Windows.TemplatePart(Name="PART_Dot1", Type=typeof(System.Windows.Shapes.Rectangle))]
+    [System.Windows.TemplatePart(Name="PART_Dot2", Type=typeof(System.Windows.Shapes.Rectangle))]
+    [System.Windows.TemplatePart(Name="PART_Dot3", Type=typeof(System.Windows.Shapes.Rectangle))]
+    [System.Windows.TemplatePart(Name="PART_Dot4", Type=typeof(System.Windows.Shapes.Rectangle))]
+    [System.Windows.TemplatePart(Name="PART_Dot5", Type=typeof(System.Windows.Shapes.Rectangle))]
+    public class FluidProgressBar : System.Windows.Controls.Control, System.IDisposable
     {
         public static readonly System.Windows.DependencyProperty DelayProperty;
         public static readonly System.Windows.DependencyProperty DotHeightProperty;
@@ -696,7 +702,7 @@ namespace Orc.Controls
         public void Dispose() { }
         protected virtual void Dispose(bool disposing) { }
         protected override void Finalize() { }
-        public void InitializeComponent() { }
+        public override void OnApplyTemplate() { }
         protected virtual void OnDelayChanged(System.Windows.Duration oldDelay, System.Windows.Duration newDelay) { }
         protected virtual void OnDotHeightChanged(double oldDotHeight, double newDotHeight) { }
         protected virtual void OnDotRadiusXChanged(double oldDotRadiusX, double newDotRadiusX) { }
