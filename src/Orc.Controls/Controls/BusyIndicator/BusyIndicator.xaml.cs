@@ -126,13 +126,16 @@ namespace Orc.Controls
             _fluidProgressBar = new FluidProgressBar
             {
                 HorizontalContentAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center,
                 Foreground = _foreground
             };
 
             var grid = new Grid
             {
                 Width = ActualWidth,
-                HorizontalAlignment = HorizontalAlignment.Stretch
+                Height = ActualHeight,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center
             };
             grid.Children.Add(_fluidProgressBar);
 
