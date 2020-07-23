@@ -15,6 +15,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModels\TimePicker.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Catel.Fody" Version="4.4.4" PrivateAssets="all" />
     <PackageReference Include="Fody" Version="6.2.0" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

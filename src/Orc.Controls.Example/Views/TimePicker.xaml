@@ -1,0 +1,65 @@
+﻿<Page x:Class="Orc.Controls.Example.Views.TimePicker"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:tp="Orc.Controls.Controls.TimePicker.TimePicker"
+      xmlns:local="clr-namespace:Orc.Controls.Example.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="500"
+      Title="TimePicker">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <UniformGrid Columns="2" Rows="2">
+            <tp:TimePicker Margin="10"
+                              BorderBrush="Black"
+                              BorderThickness="5"
+                              Time="{Binding Time,
+                                             Mode=TwoWay}" />
+            <tp:TimePicker Margin="10"
+                              BorderBrush="Blue"
+                              BorderThickness="10"
+                              HourThickness="8"
+                              HourTickThickness="8"
+                              MinuteThickness="4"
+                              MinuteTickThickness="4"
+                              Time="{Binding Time,
+                                             Mode=TwoWay}">
+                <tp:TimePicker.HourBrush>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1.0">
+                        <GradientStop Offset="0.0" Color="DarkSlateBlue" />
+                        <GradientStop Offset="1.0" Color="SkyBlue" />
+                    </LinearGradientBrush>
+                </tp:TimePicker.HourBrush>
+            </tp:TimePicker>
+            <tp:TimePicker Margin="10"
+                              BorderBrush="Transparent"
+                              BorderThickness="5"
+                              Time="{Binding Time,
+                                             Mode=TwoWay}" />
+            <tp:TimePicker Margin="10"
+                              Background="Teal"
+                              BorderBrush="Black"
+                              BorderThickness="5"
+                              HourTickBrush="White"
+                              MinuteTickBrush="DarkGray"
+                              Time="{Binding Time,
+                                             Mode=TwoWay}" />
+        </UniformGrid>
+
+        <!-->tp:TimePickerSlider Grid.Row="1" Time="{Binding DigitalTime, Mode=TwoWay}" MinTime="{Binding MinTime}" MaxTime="{Binding MaxTime}"/-->
+        <TextBlock Grid.Row="2"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="32"
+                   Text="{Binding Time}" />
+
+        <Button Grid.Row="3" Content="AM/PM" Click="AMPMButton_Click" />
+    </Grid>
+</Page>

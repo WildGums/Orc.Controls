@@ -19,7 +19,7 @@
                                 TabStripPlacement="Left" 
                                 LoadTabItems="EagerLoading">
 
-            <TabItem Header="AlignmentGrid">
+            <!--><TabItem Header="AlignmentGrid">
                 <views:AlignmentGrid />
             </TabItem>
 
@@ -46,17 +46,21 @@
 
             <TabItem Header="CulturePicker">
                 <views:CulturePickerView/>
-            </TabItem>
+            </TabItem>-->
 
             <TabItem Header="DatePicker">
                 <views:DatePicker />
             </TabItem>
 
+            <TabItem Header="TimePicker">
+                <views:TimePicker />
+            </TabItem>
+            
             <TabItem Header="DateTimePicker">
                 <views:DateTimePicker />
             </TabItem>
 
-            <TabItem Header="DateRangePicker">
+            <!--<TabItem Header="DateRangePicker">
                 <views:DateRangePicker />
             </TabItem>
 
@@ -126,7 +130,7 @@
 
             <TabItem Header="WatermarkTextBox">
                 <views:Watermark />
-            </TabItem>
+            </TabItem>-->
 
             <!--<TabItem Header="Combobox">
             <orc:StackGrid>

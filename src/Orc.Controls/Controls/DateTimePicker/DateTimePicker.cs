@@ -19,6 +19,7 @@ namespace Orc.Controls
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Services;
+    using Catel.Threading;
     using Catel.Windows;
     using Catel.Windows.Input;
     using Converters;
@@ -1215,21 +1216,27 @@ namespace Orc.Controls
             ApplyFormat();
         }
 
-        private void OnTextBoxLeftBoundReached(object sender, EventArgs e)
+        private async void OnTextBoxLeftBoundReached(object sender, EventArgs e)
         {
             var currentTextBoxIndex = _textBoxes.IndexOf((TextBox)sender);
             var prevTextBox = _textBoxes[currentTextBoxIndex - 1];
 
             prevTextBox.CaretIndex = prevTextBox.Text.Length;
+
+            await TaskShim.Delay(1); // Note: this is a hack. without this delay it is not possible to set focus
+
             prevTextBox.Focus();
         }
 
-        private void OnTextBoxRightBoundReached(object sender, EventArgs eventArgs)
+        private async void OnTextBoxRightBoundReached(object sender, EventArgs eventArgs)
         {
             var currentTextBoxIndex = _textBoxes.IndexOf((TextBox)sender);
             var nextTextBox = _textBoxes[currentTextBoxIndex + 1];
 
             nextTextBox.CaretIndex = 0;
+
+            await TaskShim.Delay(1); // Note: this is a hack. without this delay it is not possible to set focus
+
             nextTextBox.Focus();
         }
 
