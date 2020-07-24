@@ -10,9 +10,8 @@ namespace Orc.Controls
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
-    using Orc.Controls.Controls.TimePicker;
     using Orc.Controls.Enums;
-    using static Controls.TimePicker.ClockMath;
+    using static Controls.ClockMath;
     public class TimePicker : Control
     {
         public const double HourTickRatio = 0.20;
@@ -22,10 +21,7 @@ namespace Orc.Controls
 
         private readonly TimePickerInputController _inputController;
 
-        public TimePicker()
-        {
-            _inputController = new TimePickerInputController(this);
-        }
+        public TimePicker() => _inputController = new TimePickerInputController(this);
 
         public AnalogueTime Time
         {

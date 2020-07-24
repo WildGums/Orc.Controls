@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DateTimePickerViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Example.ViewModels
+﻿namespace Orc.Controls.Example.ViewModels
 {
     using System;
     using Catel.Collections;
@@ -15,7 +8,6 @@ namespace Orc.Controls.Example.ViewModels
     using System.ComponentModel;
     using Catel.Data;
     using Models;
-    using Orc.Controls.Controls.TimePicker;
     using Orc.Controls.Enums;
 
     public class TimePickerViewModel : ViewModelBase
@@ -29,6 +21,8 @@ namespace Orc.Controls.Example.ViewModels
 
         #region Properties
         private AnalogueTime _time;
+
+        
 
         private readonly DigitalTime _digitalTime;
         public DigitalTime MinTime { get { return new DigitalTime(9, 0); } }

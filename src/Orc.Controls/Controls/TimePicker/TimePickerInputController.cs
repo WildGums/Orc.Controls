@@ -1,8 +1,8 @@
-﻿namespace Orc.Controls.Controls.TimePicker
+﻿namespace Orc.Controls
 {
     using System;
     using System.Windows;
-    using static Orc.Controls.TimePicker.ClockMath;
+    using static Orc.Controls.ClockMath;
     using static Orc.Controls.TimePicker;
     public class TimePickerInputController
     {
@@ -15,8 +15,6 @@
 
         private Indicator _indicator;
         private bool _isDragging;
-        private Orc.Controls.TimePicker _timePicker1;
-
         public TimePickerInputController(TimePicker timePicker)
         {
             _timePicker = timePicker;
@@ -25,11 +23,6 @@
             _timePicker.PreviewMouseMove += TimePicker_MouseMove;
             _timePicker.MouseLeave += TimePicker_MouseLeave;
             _timePicker.PreviewMouseLeftButtonUp += TimePicker_MouseLeftButtonUp;
-        }
-
-        public TimePickerInputController(Orc.Controls.TimePicker timePicker1)
-        {
-            _timePicker1 = timePicker1;
         }
 
         private void StartDragging(Point mouse)

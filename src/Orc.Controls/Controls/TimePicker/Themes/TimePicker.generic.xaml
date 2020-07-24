@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Orc.Controls.Controls.TimePicker">
+                    xmlns:local="clr-namespace:Orc.Controls">
     <Style TargetType="{x:Type local:TimePickerSlider}">
         <Setter Property="Template">
             <Setter.Value>

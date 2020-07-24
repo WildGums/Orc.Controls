@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Controls.TimePicker
+﻿namespace Orc.Controls
 {
     using System;
     public struct DigitalTime : IComparable<DigitalTime>, IEquatable<DigitalTime>

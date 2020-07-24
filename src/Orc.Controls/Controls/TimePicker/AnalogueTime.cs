@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Controls.TimePicker
+﻿namespace Orc.Controls
 {
     using System;
     using Orc.Controls.Enums;
