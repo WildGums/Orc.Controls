@@ -3,11 +3,23 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:tp="clr-namespace:ORC.Controls;assembly=Orc.Controls"
+      xmlns:tp="clr-namespace:Orc.Controls;assembly=Orc.Controls"
       xmlns:local="clr-namespace:Orc.Controls.Example.Views"
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="500">
-
+<!--<StackPanel>
+    <tp:TimePicker Margin="10"
+                       BorderBrush="Transparent"
+                       BorderThickness="5"
+                       Time="{Binding Time,
+                                             Mode=TwoWay}" />
+    <tp:TimePickerSlider Time="{Binding DigitalTime, Mode=TwoWay}" MinTime="{Binding MinTime}" MaxTime="{Binding MaxTime}"/>
+   <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="32"
+                   Text="{Binding Time}" />
+    <Button Content="AM/PM" Click="AMPMButton_Click" />
+</StackPanel>-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

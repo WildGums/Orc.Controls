@@ -24,7 +24,7 @@
 
         
 
-        private readonly DigitalTime _digitalTime;
+        //private readonly DigitalTime _digitalTime;
         public DigitalTime MinTime { get { return new DigitalTime(9, 0); } }
         public DigitalTime MaxTime { get { return new DigitalTime(21, 0); } }
         public AnalogueTime Time
