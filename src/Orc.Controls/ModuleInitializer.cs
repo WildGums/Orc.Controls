@@ -4,6 +4,7 @@ using Catel.Logging;
 using Catel.MVVM;
 using Catel.Services;
 using Orc.Controls;
+using Orc.Controls.Services;
 using Orc.Controls.Tools;
 
 /// <summary>
@@ -41,6 +42,7 @@ public static class ModuleInitializer
 
         serviceLocator.RegisterType<ISuggestionListService, SuggestionListService>();
         serviceLocator.RegisterType<IValidationNamesService, ValidationNamesService>();
+        serviceLocator.RegisterType<ITextInputWindowService, TextInputWindowService>();
         serviceLocator.RegisterTypeIfNotYetRegistered<IControlToolManagerFactory, ControlToolManagerFactory>();
 
         serviceLocator.RegisterType<ITimeAdjustmentProvider, TimeAdjustmentProvider>();
