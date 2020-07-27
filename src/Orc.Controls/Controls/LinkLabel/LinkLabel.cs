@@ -366,8 +366,21 @@ namespace Orc.Controls
 
                 try
                 {
+#if NET
                     //[SL:20090827] Changed hardcoded call to IE and let the OS determine what program to use.
                     Process.Start(destinationUrl.ToString());
+#endif
+
+#if NETCORE
+                    // UseShellExecute is disabled by default in NETCORE
+                    var processStartInfo = new ProcessStartInfo
+                    {
+                        FileName = destinationUrl.ToString(),
+                        UseShellExecute = true
+                    };
+
+                    Process.Start(processStartInfo);
+#endif
                 }
                 catch (Win32Exception ex)
                 {
@@ -389,7 +402,7 @@ namespace Orc.Controls
                 Mouse.OverrideCursor = null;
             }
         }
-        #endregion
+#endregion
     }
 }
 
