@@ -1441,6 +1441,12 @@ namespace Orc.Controls
         AutoScrollPriority = 1,
         ManualScrollPriority = 2,
     }
+    public class SelectTextOnLoaded : Catel.Windows.Interactivity.BehaviorBase<System.Windows.Controls.TextBox>
+    {
+        public SelectTextOnLoaded() { }
+        protected override void OnAssociatedObjectLoaded() { }
+        protected override void OnAssociatedObjectUnloaded() { }
+    }
     public class StackGrid : System.Windows.Controls.Grid
     {
         public StackGrid() { }
@@ -1495,6 +1501,12 @@ namespace Orc.Controls
         public System.Windows.Controls.TabItem TabItem { get; }
     }
     public static class TextBoxExtensions { }
+    public class TextInputDialogResult
+    {
+        public TextInputDialogResult() { }
+        public bool? Result { get; set; }
+        public string Text { get; set; }
+    }
     public class TimeAdjustment
     {
         public TimeAdjustment() { }
@@ -1792,6 +1804,15 @@ namespace Orc.Controls.Services
     {
         void UpdateStatus(string status);
     }
+    public interface ITextInputWindowService
+    {
+        System.Threading.Tasks.Task<Orc.Controls.TextInputDialogResult> ShowDialogAsync(string title, string initialText);
+    }
+    public class TextInputWindowService : Orc.Controls.Services.ITextInputWindowService
+    {
+        public TextInputWindowService(Catel.IoC.ITypeFactory typeFactory, Catel.Services.IUIVisualizerService uiVisualizerService) { }
+        public System.Threading.Tasks.Task<Orc.Controls.TextInputDialogResult> ShowDialogAsync(string title, string initialText) { }
+    }
 }
 namespace Orc.Controls.Tools.Attributes
 {
@@ -1910,12 +1931,23 @@ namespace Orc.Controls.ViewModels
         protected override System.Threading.Tasks.Task InitializeAsync() { }
         public bool IsValidLogEntry(Catel.Logging.LogEntry logEntry) { }
     }
+    public class TextInputViewModel : Catel.MVVM.ViewModelBase
+    {
+        public static readonly Catel.Data.PropertyData TextProperty;
+        public TextInputViewModel(string title) { }
+        public string Text { get; set; }
+    }
 }
 namespace Orc.Controls.Views
 {
     public class FindReplaceView : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
         public FindReplaceView() { }
+        public void InitializeComponent() { }
+    }
+    public class TextInputWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
+    {
+        public TextInputWindow() { }
         public void InitializeComponent() { }
     }
 }
