@@ -1,9 +1,12 @@
-﻿namespace Orc.Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="InfinityScrollListBoxBehavior.cs" company="WildGums">
+//   Copyright (c) 2008 - 2020 WildGums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+namespace Orc.Controls
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
@@ -13,23 +16,26 @@
 
     public class InfinityScrollListBoxBehavior : BehaviorBase<ListBox>
     {
+        #region Constants
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register(nameof(Command), typeof(TaskCommand), typeof(InfinityScrollListBoxBehavior), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(InfinityScrollListBoxBehavior), new PropertyMetadata(0));
+
+        public static readonly DependencyProperty IsCommandExecutingProperty =
+            DependencyProperty.RegisterAttached(nameof(IsCommandExecuting), typeof(bool), typeof(InfinityScrollListBoxBehavior),
+                new PropertyMetadata(false));
+
+        public static readonly DependencyProperty ScrollSizeProperty =
+            DependencyProperty.RegisterAttached(nameof(ScrollSize), typeof(int), typeof(InfinityScrollListBoxBehavior), new PropertyMetadata(0));
+        #endregion
+
+        #region Fields
         private ScrollViewer _scrollViewer;
+        #endregion
 
-        protected override void OnAssociatedObjectLoaded()
-        {
-            FindVisualScroll();
-        }
-
-        protected override void OnAssociatedObjectUnloaded()
-        {
-            base.OnAssociatedObjectUnloaded();
-        }
-
-        private void FindVisualScroll()
-        {
-            ScrollViewer = AssociatedObject.FindVisualDescendantByType<ScrollViewer>();
-        }
-
+        #region Properties
         private ScrollViewer ScrollViewer
         {
             get { return _scrollViewer; }
@@ -52,6 +58,47 @@
             }
         }
 
+        public TaskCommand Command
+        {
+            get { return (TaskCommand)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
+        }
+
+        public object CommandParameter
+        {
+            get { return GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
+        }
+
+        public bool IsCommandExecuting
+        {
+            get { return (bool)GetValue(IsCommandExecutingProperty); }
+            set { SetValue(IsCommandExecutingProperty, value); }
+        }
+
+        public int ScrollSize
+        {
+            get { return (int)GetValue(ScrollSizeProperty); }
+            set { SetValue(ScrollSizeProperty, value); }
+        }
+        #endregion
+
+        #region Methods
+        protected override void OnAssociatedObjectLoaded()
+        {
+            FindVisualScroll();
+        }
+
+        protected override void OnAssociatedObjectUnloaded()
+        {
+            base.OnAssociatedObjectUnloaded();
+        }
+
+        private void FindVisualScroll()
+        {
+            ScrollViewer = AssociatedObject.FindVisualDescendantByType<ScrollViewer>();
+        }
+
         private async void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             var scrolled = _scrollViewer.VerticalOffset;
@@ -70,50 +117,10 @@
             }
         }
 
-        public TaskCommand Command
-        {
-            get { return (TaskCommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
-        }
-
-        public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register(nameof(Command), typeof(TaskCommand), typeof(InfinityScrollListBoxBehavior), new PropertyMetadata(null));
-
-
-        public object CommandParameter
-        {
-            get { return GetValue(CommandParameterProperty); }
-            set { SetValue(CommandParameterProperty, value); }
-        }
-
-        public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(InfinityScrollListBoxBehavior), new PropertyMetadata(0));
-
-
-        public bool IsCommandExecuting
-        {
-            get { return (bool)GetValue(IsCommandExecutingProperty); }
-            set { SetValue(IsCommandExecutingProperty, value); }
-        }
-
-        public static readonly DependencyProperty IsCommandExecutingProperty =
-            DependencyProperty.RegisterAttached(nameof(IsCommandExecuting), typeof(bool), typeof(InfinityScrollListBoxBehavior),
-                new PropertyMetadata(false));
-
-
-        public int ScrollSize
-        {
-            get { return (int)GetValue(ScrollSizeProperty); }
-            set { SetValue(ScrollSizeProperty, value); }
-        }
-
-        public static readonly DependencyProperty ScrollSizeProperty =
-            DependencyProperty.RegisterAttached(nameof(ScrollSize), typeof(int), typeof(InfinityScrollListBoxBehavior), new PropertyMetadata(0));
-
-
         private async Task ExecuteLoadingItemsCommandAsync()
         {
             Command?.Execute(CommandParameter);
         }
+        #endregion
     }
 }
