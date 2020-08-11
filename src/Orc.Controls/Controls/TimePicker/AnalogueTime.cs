@@ -94,6 +94,36 @@
             }
         }
 
+        public DateTime ToDateTime()
+        {
+            if (Meridiem == Meridiem.AM)
+            {
+                if (Hour == 12)
+                {
+                    // 12:00 AM to 12:59 AM is 00:00 to 00:59
+                    return new DateTime(0000, 00, 00, Hour - 12, Minute, 0);
+                }
+                else
+                {
+                    // 01:00 AM to 11:59 AM is 01:00 to 11:59
+                    return new DateTime(0000, 00, 00, Hour, Minute, 0);
+                }
+            }
+            else
+            {
+                if (Hour == 12)
+                {
+                    // 12:00 PM to 12:59 PM is 12:00 to 12:59
+                    return new DateTime(0000, 00, 00, Hour, Minute, 0);
+                }
+                else
+                {
+                    // 01:00 PM to 11:59 PM is 13:00 to 23:59 
+                    return new DateTime(0000, 00, 00, Hour + 12, Minute, 0);
+                }
+            }
+        }
+
         public DigitalTime ToDigitalTime()
         {
             return new DigitalTime(ToTimeSpan());

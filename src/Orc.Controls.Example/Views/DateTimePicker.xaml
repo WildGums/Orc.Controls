@@ -8,8 +8,7 @@
     <UserControl.Resources>
     </UserControl.Resources>
 
-    <!-- Content -->
-    <StackPanel>
+    <!-- Content -->    <StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Select format" VerticalAlignment="Center" Width="150"/>
             <ComboBox MinWidth="250" ItemsSource="{Binding AvailableFormats}" SelectedItem="{Binding SelectedFormat}">
@@ -56,4 +55,5 @@
 
         <Calendar/>
     </StackPanel>
+
 </catel:UserControl>

@@ -3,10 +3,10 @@
     using System;
     using System.Windows;
     using static Orc.Controls.ClockMath;
-    using static Orc.Controls.TimePicker;
-    public class TimePickerInputController
+    using static Orc.Controls.ClockFace;
+    public class ClockFaceInputController
     {
-        private readonly TimePicker _timePicker;
+        private readonly ClockFace _clockFace;
 
         // TimePicker.ActualHeight * MinDistanceRatio is the max
         // distance away from the tip of the indicator you can 
@@ -15,21 +15,22 @@
 
         private Indicator _indicator;
         private bool _isDragging;
-        public TimePickerInputController(TimePicker timePicker)
+        public ClockFaceInputController(ClockFace clockFace)
         {
-            _timePicker = timePicker;
+            _clockFace = clockFace;
 
-            _timePicker.PreviewMouseLeftButtonDown += TimePicker_MouseLeftButtonDown;
-            _timePicker.PreviewMouseMove += TimePicker_MouseMove;
-            _timePicker.MouseLeave += TimePicker_MouseLeave;
-            _timePicker.PreviewMouseLeftButtonUp += TimePicker_MouseLeftButtonUp;
+            _clockFace.PreviewMouseLeftButtonDown += _clockFace_PreviewMouseLeftButtonDown;
+            _clockFace.PreviewMouseMove += _clockFace_PreviewMouseMove;
+            _clockFace.MouseLeave += _clockFace_MouseLeave; ;
+            _clockFace.PreviewMouseLeftButtonUp += _clockFace_PreviewMouseLeftButtonUp; ;
         }
+
 
         private void StartDragging(Point mouse)
         {
-            var width = _timePicker.ActualWidth;
-            var height = _timePicker.ActualHeight;
-            var radius = (Math.Min(width, height) - _timePicker.BorderThickness.Left) / 2.0;
+            var width = _clockFace.ActualWidth;
+            var height = _clockFace.ActualHeight;
+            var radius = (Math.Min(width, height) - _clockFace.BorderThickness.Left) / 2.0;
             var center = new Point(width / 2.0, height / 2.0);
 
             // TODO: highlight indicator that you're dragging
@@ -44,36 +45,36 @@
             _isDragging = false;
         }
 
-        private void TimePicker_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void _clockFace_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (_isDragging)
             {
-                var width = _timePicker.ActualWidth;
-                var height = _timePicker.ActualHeight;
-                var radius = (Math.Min(width, height) - _timePicker.BorderThickness.Left) / 2.0;
+                var width = _clockFace.ActualWidth;
+                var height = _clockFace.ActualHeight;
+                var radius = (Math.Min(width, height) - _clockFace.BorderThickness.Left) / 2.0;
                 var center = new Point(width / 2.0, height / 2.0);
-                var mouse = e.GetPosition(_timePicker);
+                var mouse = e.GetPosition(_clockFace);
 
-                var time = _timePicker.Time;
+                var time = _clockFace.TimeValue;
 
                 if (_indicator == Indicator.HourIndicator)
                 {
                     var hour = AngleToHour(center, mouse);
-                    _timePicker.SetCurrentValue(TimeProperty, new AnalogueTime(hour, time.Minute, time.Meridiem));
+                    _clockFace.SetCurrentValue(TimeValueProperty, new TimeSpan(hour, time.Minutes, time.Seconds));
                 }
 
                 if (_indicator == Indicator.MinuteIndicator)
                 {
                     var minutes = AngleToMinutes(center, mouse);
-                    _timePicker.SetCurrentValue(TimeProperty, new AnalogueTime(time.Hour, minutes, time.Meridiem));
+                    _clockFace.SetCurrentValue(TimeValueProperty, new TimeSpan(time.Hours, minutes, time.Seconds));
                 }
             }
         }
 
         private void FindIndicator(double width, double height, double radius, Point center, Point mouse)
         {
-            var minuteTip = LineOnCircle((Math.PI * 2 * _timePicker.Time.Minute / 60) - Math.PI / 2.0, center, 0, radius * MinuteIndicatorRatio)[1];
-            var hourTip = LineOnCircle((Math.PI * 2 * _timePicker.Time.Hour / 12) - Math.PI / 2.0, center, 0, radius * HourIndicatorRatio)[1];
+            var minuteTip = LineOnCircle((Math.PI * 2 * _clockFace.TimeValue.Minutes / 60) - Math.PI / 2.0, center, 0, radius * MinuteIndicatorRatio)[1];
+            var hourTip = LineOnCircle((Math.PI * 2 * _clockFace.TimeValue.Hours / 12) - Math.PI / 2.0, center, 0, radius * HourIndicatorRatio)[1];
 
             var maxDistance = width * MinDistanceRatio;
 
@@ -90,17 +91,17 @@
             }
         }
 
-        private void TimePicker_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void _clockFace_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            StartDragging(e.GetPosition(_timePicker));
+            StartDragging(e.GetPosition(_clockFace));
         }
 
-        private void TimePicker_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void _clockFace_PreviewMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             StopDragging();
         }
 
-        private void TimePicker_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        private void _clockFace_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             StopDragging();
         }

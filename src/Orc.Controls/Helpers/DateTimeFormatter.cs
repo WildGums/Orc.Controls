@@ -23,7 +23,7 @@ namespace Orc.Controls
         #region Methods
         public static string Format(DateTime dateTime, string format, bool isDateOnly = false)
         {
-            return Format(dateTime, DateTimeFormatHelper.GetDateTimeFormatInfo(format, isDateOnly));
+            return Format(dateTime, DateTimeFormatHelper.GetDateTimeFormatInfo(format, true, isDateOnly));
         }
 
         internal static string Format(DateTime dateTime, DateTimeFormatInfo formatInfo)

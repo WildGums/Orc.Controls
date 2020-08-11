@@ -1,82 +1,92 @@
-﻿namespace Orc.Controls.Example.ViewModels
+﻿
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TimePicker.cs" company="">
+// Clock-like TimePicker control https://github.com/roy-t/TimePicker
+// </copyright>
+//---------------------------------------------------------------------------------------------------------------
+
+
+namespace Orc.Controls.Example.ViewModels
 {
     using System;
-    using Catel.Collections;
+    using System.ComponentModel;
     using System.Globalization;
     using System.Threading.Tasks;
-    using Catel.MVVM;
-    using System.ComponentModel;
+    using System.Windows;
+    using Catel.Collections;
     using Catel.Data;
+    using Catel.MVVM;
+    using Enums;
     using Models;
-    using Orc.Controls.Enums;
 
     public class TimePickerViewModel : ViewModelBase
     {
-        #region Constructors
         public TimePickerViewModel()
         {
-            _time = new AnalogueTime(0, 0, Meridiem.AM);
+            AvailableFormats = new FastObservableCollection<CultureFormat>();
+            TimeValue = TimeSpan.Zero;
+            TimeValueString = string.Empty;
+            SetNull = new Command(OnSetNullExecute);
         }
-        #endregion
 
-        #region Properties
-        private AnalogueTime _time;
+        public TimeSpan? TimeValue { get; set; }
+        public string TimeValueString { get; set; }
+        public FastObservableCollection<CultureFormat> AvailableFormats { get; private set; }
+        public CultureFormat SelectedFormat { get; set; }
 
-        
+        public Command SetNull { get; }
 
-        //private readonly DigitalTime _digitalTime;
-        public DigitalTime MinTime { get { return new DigitalTime(9, 0); } }
-        public DigitalTime MaxTime { get { return new DigitalTime(21, 0); } }
-        public AnalogueTime Time
+
+        protected override async Task InitializeAsync()
         {
-            get { return _time; }
-            set
+            await base.InitializeAsync();
+
+            using (AvailableFormats.SuspendChangeNotifications())
             {
-                if (!_time.Equals(value))
+                foreach (var cultureInfo in CultureInfo.GetCultures(CultureTypes.AllCultures))
                 {
-                    _time = value;
-                    //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Time)));
-                    //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DigitalTime)));
+                    var format = new CultureFormat
+                    {
+                        CultureCode = $"[{cultureInfo.IetfLanguageTag}]",
+                        FormatValue = cultureInfo.DateTimeFormat.LongTimePattern
+                    };
+
+                    AvailableFormats.Add(format);
+
+                    format = new CultureFormat
+                    {
+                        CultureCode = $"[{cultureInfo.IetfLanguageTag}]",
+                        FormatValue = cultureInfo.DateTimeFormat.ShortTimePattern
+                    };
+
+                    AvailableFormats.Add(format);
+
+                    if (cultureInfo.Equals(CultureInfo.CurrentCulture))
+                    {
+                        SelectedFormat = format;
+                    }
                 }
             }
         }
-        public DigitalTime DigitalTime
+
+        private void OnSetNullExecute()
         {
-            get { return Time.ToDigitalTime(); }
-            set
-            {
-                Time = value.ToAnalogueTime();
-            }
+            TimeValue = null;
         }
-        #endregion
 
-        #region Methods
-        //public event PropertyChangedEventHandler PropertyChanged;
-        //protected override void OnPropertyChanged(AdvancedPropertyChangedEventArgs e)
-        //{
-        //    base.OnPropertyChanged(e);
-
-        //    if (Time != null && !string.IsNullOrEmpty(e.PropertyName) && e.HasPropertyChanged(e.PropertyName))
-        //    {
-        //        Time = Time.ToString();
-        //    }
-        //    else
-        //    {
-        //        Time = string.Empty;
-        //    }
-        //}
-
-        private void AMPMButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        protected override void OnPropertyChanged(AdvancedPropertyChangedEventArgs e)
         {
-            if (Time.Meridiem == Meridiem.AM)
+            base.OnPropertyChanged(e);
+
+            if (TimeValue != null && !string.IsNullOrEmpty(e.PropertyName) && e.HasPropertyChanged(e.PropertyName) && TimeValue.Value != null && SelectedFormat != null)
             {
-                Time = new AnalogueTime(Time.Hour, Time.Minute, Meridiem.PM);
+                TimeValueString = TimeValue.Value.ToString();
             }
             else
             {
-                Time = new AnalogueTime(Time.Hour, Time.Minute, Meridiem.AM);
+                TimeValueString = string.Empty;
             }
         }
-        #endregion
     }
+
 }

@@ -21,7 +21,7 @@ namespace Orc.Controls
         #region Methods
         public static DateTime Parse(string input, string format, bool isDateOnly = false)
         {
-            return Parse(input, DateTimeFormatHelper.GetDateTimeFormatInfo(format, isDateOnly));
+            return Parse(input, DateTimeFormatHelper.GetDateTimeFormatInfo(format, true, isDateOnly));
         }
 
         internal static DateTime Parse(string input, DateTimeFormatInfo formatInfo)
@@ -33,7 +33,7 @@ namespace Orc.Controls
 
         public static bool TryParse(string input, string format, out DateTime dateTime, bool isDateOnly = false)
         {
-            return TryParse(input, DateTimeFormatHelper.GetDateTimeFormatInfo(format, isDateOnly), out dateTime);
+            return TryParse(input, DateTimeFormatHelper.GetDateTimeFormatInfo(format, true, isDateOnly), out dateTime);
         }
 
         internal static bool TryParse(string input, DateTimeFormatInfo formatInfo, out DateTime dateTime)

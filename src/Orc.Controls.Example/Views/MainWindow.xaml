@@ -19,7 +19,7 @@
                                 TabStripPlacement="Left" 
                                 LoadTabItems="EagerLoading">
 
-            <!--><TabItem Header="AlignmentGrid">
+            <TabItem Header="AlignmentGrid">
                 <views:AlignmentGrid />
             </TabItem>
 
@@ -46,7 +46,7 @@
 
             <TabItem Header="CulturePicker">
                 <views:CulturePickerView/>
-            </TabItem>-->
+            </TabItem>
 
             <TabItem Header="DatePicker">
                 <views:DatePicker />
@@ -60,7 +60,7 @@
                 <views:DateTimePicker />
             </TabItem>
 
-            <!--<TabItem Header="DateRangePicker">
+            <TabItem Header="DateRangePicker">
                 <views:DateRangePicker />
             </TabItem>
 
@@ -130,18 +130,18 @@
 
             <TabItem Header="WatermarkTextBox">
                 <views:Watermark />
-            </TabItem>-->
+            </TabItem>
 
-            <!--<TabItem Header="Combobox">
-            <orc:StackGrid>
-                <orc:StackGrid.RowDefinitions>
+            <TabItem Header="Combobox">
+            <orccontrols:StackGrid>
+                <orccontrols:StackGrid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                </orc:StackGrid.RowDefinitions>
+                </orccontrols:StackGrid.RowDefinitions>
 
                 <TextBlock Text="Just for test. Please remove it before merging with develop" 
                            FontWeight="Bold"
@@ -165,8 +165,8 @@
                 <GridSplitter Height="1" HorizontalAlignment="Stretch" Background="Black" Margin="0 0 0 2" BorderBrush="Black" BorderThickness="1"/>
                 
                 <TextBlock x:Name="ComboboxResultTextBlock"/>
-            </orc:StackGrid>
-        </TabItem>-->
+            </orccontrols:StackGrid>
+        </TabItem>
 
         </orccontrols:TabControl>
     </Grid>

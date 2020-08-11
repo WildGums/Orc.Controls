@@ -64,7 +64,7 @@ namespace Orc.Controls
             return parts.ToArray();
         }
 
-        public static DateTimeFormatInfo GetDateTimeFormatInfo(string format, bool isDateOnly = false)
+        public static DateTimeFormatInfo GetDateTimeFormatInfo(string format, bool isDateRequired, bool isDateOnly = false)
         {
             if (string.IsNullOrWhiteSpace(format))
             {
@@ -90,7 +90,7 @@ namespace Orc.Controls
                 current = result.FormatPart(part, current, isDateOnly);
             }
 
-            if (!result.IsCorrect(true, !isDateOnly, out var errorMessage))
+            if (!result.IsCorrect(isDateRequired, !isDateOnly, out var errorMessage))
             {
                 throw Log.ErrorAndCreateException<FormatException>(errorMessage);
             }

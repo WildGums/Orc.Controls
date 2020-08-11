@@ -190,8 +190,7 @@
                                                              Format="00" 
                                                              MaxValue="59"
                                                              MinValue="00"
-                                                             IsReadOnly="{TemplateBinding IsReadOnly}"
-                                                             Visibility="{TemplateBinding HideTime, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
+                                                             IsReadOnly="{TemplateBinding IsReadOnly}"/>
 
                                     <TextBlock x:Name="PART_MinuteSecondSeparatorTextBlock" 
                                                Grid.Column="9"

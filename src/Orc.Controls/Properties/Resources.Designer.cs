@@ -981,6 +981,51 @@ namespace Orc.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        internal static string Controls_TimePickerControl_Button_Content_Clear {
+            get {
+                return ResourceManager.GetString("Controls_TimePickerControl_Button_Content_Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        internal static string Controls_TimePickerControl_Button_Content_Copy {
+            get {
+                return ResourceManager.GetString("Controls_TimePickerControl_Button_Content_Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Now.
+        /// </summary>
+        internal static string Controls_TimePickerControl_Button_Content_Now {
+            get {
+                return ResourceManager.GetString("Controls_TimePickerControl_Button_Content_Now", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste.
+        /// </summary>
+        internal static string Controls_TimePickerControl_Button_Content_Paste {
+            get {
+                return ResourceManager.GetString("Controls_TimePickerControl_Button_Content_Paste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select time.
+        /// </summary>
+        internal static string Controls_TimePickerControl_Button_Content_SelectTime {
+            get {
+                return ResourceManager.GetString("Controls_TimePickerControl_Button_Content_SelectTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to d.
         /// </summary>
         internal static string Controls_TimeSpanControl_TextBlock_Text_DaysAbbreviation {
