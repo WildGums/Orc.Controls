@@ -80,5 +80,4 @@ namespace Orc.Controls.Example.Views
         //}
 
     }
-        
 }

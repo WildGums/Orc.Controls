@@ -50,7 +50,6 @@ namespace Orc.Controls.Example.ViewModels
                         CultureCode = $"[{cultureInfo.IetfLanguageTag}]",
                         FormatValue = cultureInfo.DateTimeFormat.LongTimePattern
                     };
-
                     AvailableFormats.Add(format);
 
                     format = new CultureFormat
@@ -80,7 +79,11 @@ namespace Orc.Controls.Example.ViewModels
 
             if (TimeValue != null && !string.IsNullOrEmpty(e.PropertyName) && e.HasPropertyChanged(e.PropertyName) && TimeValue.Value != null && SelectedFormat != null)
             {
-                TimeValueString = TimeValue.Value.ToString();
+                //TimeValueString = String.Format(CultureInfo.CurrentCulture, "g", TimeValue.Value);
+                var dateTime = new DateTime(TimeValue.Value.Ticks);
+                string str = dateTime.ToString(SelectedFormat.FormatValue);
+                TimeValueString = TimeValue.Value.ToString(SelectedFormat.FormatValue);
+                 = new DateTime(timespan.Ticks).ToLongTimeString();
             }
             else
             {

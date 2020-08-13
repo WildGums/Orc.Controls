@@ -36,8 +36,8 @@
     [TemplatePart(Name = "PART_ClockFaceIconDropDownButton", Type = typeof(DropDownButton))]
 
     [TemplatePart(Name = "PART_NowMenuItem", Type = typeof(MenuItem))]
-    [TemplatePart(Name = "PART_ClearMenuItem", Type = typeof(MenuItem))]
     [TemplatePart(Name = "PART_SelectTimeMenuItem", Type = typeof(MenuItem))]
+    [TemplatePart(Name = "PART_ClearMenuItem", Type = typeof(MenuItem))]
     [TemplatePart(Name = "PART_CopyMenuItem", Type = typeof(MenuItem))]
     [TemplatePart(Name = "PART_PasteMenuItem", Type = typeof(MenuItem))]
 
@@ -54,8 +54,9 @@
 
         private bool _isTemplateApplied;
 
-        private List<TextBox> _textBoxes;
         private TimeSpan _nowValue;
+
+        private List<TextBox> _textBoxes;
         private DateTimeFormatInfo _formatInfo;
 
         private readonly int _defaultSecondFormatPosition = 5;
@@ -374,7 +375,7 @@
             {
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ClockFacePopup'");
             }
-            _clockFacePopup.Closed += OnClockFacePopupClosed;
+            //_clockFacePopup.Closed += OnClockFacePopupClosed;
 
 #pragma warning disable WPF0131 // Use correct [TemplatePart] type.
             _clockFace = GetTemplateChild("PART_ClockFace") as Orc.Controls.ClockFace;
@@ -393,8 +394,7 @@
                 _amPmListTextBox
             };
 
-
-            _nowValue = DateTime.Now.TimeOfDay;
+            _nowValue = new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds);
             
             _isTemplateApplied = true;
 
@@ -420,7 +420,7 @@
 
         private void OnNowMenuItemClick(object sender, RoutedEventArgs e)
         {
-            UpdateTime(DateTime.Now.TimeOfDay);
+            UpdateTime(_nowValue);
 
             RaiseStopEdit();
         }
@@ -732,7 +732,7 @@
 
             if (!AllowNull && newValue == null)
             {
-                nv = DateTime.Now.TimeOfDay;
+                nv = _nowValue;
             }
 
             if (ov == null && nv != null || ov != null && nv == null)
@@ -845,7 +845,7 @@
 
             if (value == null)
             {
-                SetCurrentValue(ValueProperty, new TimeSpan(_nowValue.Hours, _nowValue.Minutes, _nowValue.Seconds));
+                SetCurrentValue(ValueProperty, _nowValue);
             }
             else
             {
@@ -988,13 +988,13 @@
             {
                 if (KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Control))
                 {
-                    UpdateTime(DateTime.Now.TimeOfDay);
+                    UpdateTime(_nowValue);
                     e.Handled = true;
                 }
 
                 if (KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Control | ModifierKeys.Shift))
                 {
-                    UpdateTime(DateTime.Now.TimeOfDay);
+                    UpdateTime(_nowValue);
                     e.Handled = true;
                 }
             }
@@ -1096,7 +1096,7 @@
 
             if (_clockFacePopup != null && _clockFacePopup.IsOpen)
             {
-                _clockFacePopup.Closed += OnClockFacePopupClosed;
+                //_clockFacePopup.Closed += OnClockFacePopupClosed;
                 return;
             }
 

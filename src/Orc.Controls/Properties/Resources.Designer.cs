@@ -1204,5 +1204,105 @@ namespace Orc.Controls.Properties {
                 return ResourceManager.GetString("Controls_ValidationContextControl_Warnings", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        internal static string Controls_TimePicker_Button_Content_Clear
+        {
+            get
+            {
+                return ResourceManager.GetString("Controls_TimePicker_Button_Content_Clear", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        internal static string Controls_TimePicker_Button_Content_Copy
+        {
+            get
+            {
+                return ResourceManager.GetString("Controls_TimePicker_Button_Content_Copy", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Now.
+        /// </summary>
+        internal static string Controls_TimePicker_Button_Content_Now
+        {
+            get
+            {
+                return ResourceManager.GetString("Controls_TimePicker_Button_Content_Now", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Paste.
+        /// </summary>
+        internal static string Controls_TimePicker_Button_Content_Paste
+        {
+            get
+            {
+                return ResourceManager.GetString("Controls_TimePicker_Button_Content_Paste", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Select time.
+        /// </summary>
+        internal static string Controls_TimePicker_Button_Content_SelectTime
+        {
+            get
+            {
+                return ResourceManager.GetString("Controls_TimePicker_Button_Content_SelectTime", resourceCulture);
+            }
+        }
+
+
+        /// <summary>
+        ///   Looks up a localized string similar to t.
+        /// </summary>
+        internal static string Controls_TimePicker_ToggleButton_Content_AmPmAbbreviation
+        {
+            get
+            {
+                return ResourceManager.GetString("Controls_TimePicker_ToggleButton_Content_AmPmAbbreviation", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to h.
+        /// </summary>
+        internal static string Controls_TimePicker_ToggleButton_Content_HourAbbreviation
+        {
+            get
+            {
+                return ResourceManager.GetString("Controls_TimePicker_ToggleButton_Content_HourAbbreviation", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to m.
+        /// </summary>
+        internal static string Controls_TimePicker_ToggleButton_Content_MinuteAbbreviation
+        {
+            get
+            {
+                return ResourceManager.GetString("Controls_TimePicker_ToggleButton_Content_MinuteAbbreviation", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to s.
+        /// </summary>
+        internal static string Controls_TimePicker_ToggleButton_Content_SecondAbbreviation
+        {
+            get
+            {
+                return ResourceManager.GetString("Controls_TimePicker_ToggleButton_Content_SecondAbbreviation", resourceCulture);
+            }
+        }
     }
 }

@@ -208,14 +208,6 @@
                                                           Margin="0"
                                                           Header="{catel:LanguageBinding Controls_DateTimePicker_Button_Content_Now}" 
                                                           IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
-                                               
-                                                <MenuItem x:Name="PART_SelectDateMenuItem"
-                                                          Header="{catel:LanguageBinding Controls_DatePicker_Button_Content_SelectDate}"
-                                                          HorizontalAlignment="Stretch"
-                                                          HorizontalContentAlignment="Left"
-                                                          BorderThickness="0"
-                                                          Margin="0"
-                                                          IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
                                                 <MenuItem x:Name="PART_SelectTimeMenuItem"
                                                           Header="{catel:LanguageBinding Controls_TimePicker_Button_Content_SelectDate}"

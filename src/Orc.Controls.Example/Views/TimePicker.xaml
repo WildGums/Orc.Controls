@@ -44,10 +44,6 @@
 
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Selected Time" VerticalAlignment="Center" Width="150"/>
-            <TextBlock HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontSize="32"
-                       Text="{Binding TimeValue}" />
             <TextBox Text="{Binding TimeValueString}"  IsReadOnly="True" Width="300" HorizontalAlignment="Left"/>
         </StackPanel>
 

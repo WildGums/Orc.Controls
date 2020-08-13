@@ -316,7 +316,7 @@
     <value>Now</value>
   </data>
   <data name="Controls_TimePickerControl_Button_Content_SelectTime" xml:space="preserve">
-    <value>Select date</value>
+    <value>Select time</value>
   </data>
   <data name="Controls_TimePickerControl_Button_Content_Clear" xml:space="preserve">
     <value>Clear</value>
