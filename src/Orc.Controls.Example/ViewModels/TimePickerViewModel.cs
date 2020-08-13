@@ -80,10 +80,12 @@ namespace Orc.Controls.Example.ViewModels
             if (TimeValue != null && !string.IsNullOrEmpty(e.PropertyName) && e.HasPropertyChanged(e.PropertyName) && TimeValue.Value != null && SelectedFormat != null)
             {
                 //TimeValueString = String.Format(CultureInfo.CurrentCulture, "g", TimeValue.Value);
-                var dateTime = new DateTime(TimeValue.Value.Ticks);
-                string str = dateTime.ToString(SelectedFormat.FormatValue);
-                TimeValueString = TimeValue.Value.ToString(SelectedFormat.FormatValue);
-                 = new DateTime(timespan.Ticks).ToLongTimeString();
+                //var dateTime = new DateTime(TimeValue.Value.Ticks);
+                //string str = dateTime.ToString(SelectedFormat.FormatValue);
+                //TimeValueString = TimeValue.Value.ToString(SelectedFormat.FormatValue);
+                // = new DateTime(timespan.Ticks).ToLongTimeString();
+                var timeSpanFormat = Orc.Controls.TimeSpanFormatter.ChangeFormat(SelectedFormat.FormatValue);
+                TimeValueString = TimeValue.Value.ToString(@"H\:mm");
             }
             else
             {

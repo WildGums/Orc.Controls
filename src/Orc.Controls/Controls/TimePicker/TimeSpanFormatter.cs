@@ -1,23 +1,34 @@
 ﻿namespace Orc.Controls
 {
     using System;
+    using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Documents;
 
     public class TimeSpanFormatter
     {
-        public TimeSpanFormatter(string dateTimeFormat)
+        public TimeSpanFormatter()
         {
-            //string sh = String.Empty;
-            //List<char> timeLetters = ;
-            //for (int k = 0; k < dateTimeFormat.Length; k++)
-            //{
-            //    char i = dateTimeFormat[k];
-            //    if (i == 'h' || i == 'H' || i == 't' || i == 'T' || (i == ' ' && (sh.Length == 0 || sh[sh.Length - 1] != ' ')))
-            //    {
-            //        sh = sh + i;
-            //    }
-            //}
+
+        }
+
+        public static string ChangeFormat(string dateTimeFormat)
+        {
+            string timeSpanFormat = String.Empty;
+            for (int k = 0; k < dateTimeFormat.Length; k++)
+            {
+                char i = dateTimeFormat[k];
+                if (i == 'h' || i == 'H' || i == 'm' || i == 'M' || i == 's' || i == 'S' || i == 't' || i == 'T')
+                {
+                    timeSpanFormat = timeSpanFormat + i;
+                }
+                else
+                {
+                    timeSpanFormat = timeSpanFormat + @"'" + i + @"'";
+                }
+            }
+
+            return timeSpanFormat;
         }
     }
 }

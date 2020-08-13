@@ -1067,6 +1067,7 @@
             base.OnLostKeyboardFocus(e);
 
             InvalidateEditMode();
+
         }
 
         private void InvalidateEditMode()
