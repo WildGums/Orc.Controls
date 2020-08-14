@@ -375,7 +375,7 @@
             {
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ClockFacePopup'");
             }
-            //_clockFacePopup.Closed += OnClockFacePopupClosed;
+            _clockFacePopup.Closed += OnClockFacePopupClosed;
 
 #pragma warning disable WPF0131 // Use correct [TemplatePart] type.
             _clockFace = GetTemplateChild("PART_ClockFace") as Orc.Controls.ClockFace;
@@ -405,7 +405,7 @@
 
         private void OnClockFacePopupClosed(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            InvalidateEditMode();
         }
 
         protected override void OnIsKeyboardFocusedChanged(DependencyPropertyChangedEventArgs e)
@@ -420,7 +420,7 @@
 
         private void OnNowMenuItemClick(object sender, RoutedEventArgs e)
         {
-            UpdateTime(_nowValue);
+            UpdateTime(new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds));
 
             RaiseStopEdit();
         }
@@ -431,10 +431,9 @@
 
             _clockFacePopup.SetCurrentValue(Popup.IsOpenProperty, true);
 
-            var time = Value ?? _nowValue;
+            var time = Value ?? new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds);
             _clockFace.SetCurrentValue(Controls.ClockFace.TimeValueProperty, time);
-            //_clockFace.SetCurrentValue(Controls.ClockFace.SelectedTimeProperty, Value);
-
+            
             _clockFace.Focus();
             Keyboard.Focus(_clockFace);
 
@@ -719,8 +718,7 @@
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            // TODO: Переделать
-            var dateTime = Value ?? _nowValue;
+            var dateTime = Value ?? new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds);
             var dateTimePartHelper = new DateTimePartHelper(new DateTime(0001,01,01, dateTime.Hours, dateTime.Minutes, dateTime.Seconds), activeTimePart, _formatInfo, activeTextBox, toggleButton);
             dateTimePartHelper.CreatePopup();
         }
@@ -732,7 +730,7 @@
 
             if (!AllowNull && newValue == null)
             {
-                nv = _nowValue;
+                nv = new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds);
             }
 
             if (ov == null && nv != null || ov != null && nv == null)
@@ -753,7 +751,7 @@
         {
             if (!AllowNull && !time.HasValue)
             {
-                time = _nowValue;
+                time = new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds);
             }
 
             SetCurrentValue(ValueProperty, time);
@@ -793,7 +791,7 @@
                 return;
             }
 
-            var currentValue = value ?? _nowValue;
+            var currentValue = value ?? new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds);
             SetCurrentValue(ValueProperty, new TimeSpan(hour.Value, currentValue.Minutes, currentValue.Seconds));
         }
 
@@ -811,7 +809,7 @@
                 return;
             }
 
-            var currentValue = value ?? _nowValue;
+            var currentValue = value ?? new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds);
             SetCurrentValue(ValueProperty, new TimeSpan(currentValue.Hours, minute.Value, currentValue.Seconds));
         }
 
@@ -829,7 +827,7 @@
                 return;
             }
 
-            var currentValue = value ?? _nowValue;
+            var currentValue = value ?? new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds);
             SetCurrentValue(ValueProperty, new TimeSpan(currentValue.Hours, currentValue.Minutes, second.Value));
         }
 
@@ -845,7 +843,7 @@
 
             if (value == null)
             {
-                SetCurrentValue(ValueProperty, _nowValue);
+                SetCurrentValue(ValueProperty, new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds));
             }
             else
             {
@@ -988,13 +986,13 @@
             {
                 if (KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Control))
                 {
-                    UpdateTime(_nowValue);
+                    UpdateTime(new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds));
                     e.Handled = true;
                 }
 
                 if (KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Control | ModifierKeys.Shift))
                 {
-                    UpdateTime(_nowValue);
+                    UpdateTime(new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds));
                     e.Handled = true;
                 }
             }
@@ -1097,7 +1095,7 @@
 
             if (_clockFacePopup != null && _clockFacePopup.IsOpen)
             {
-                //_clockFacePopup.Closed += OnClockFacePopupClosed;
+                _clockFacePopup.Closed += OnClockFacePopupClosed;
                 return;
             }
 

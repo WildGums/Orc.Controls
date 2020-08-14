@@ -18,11 +18,11 @@
             for (int k = 0; k < dateTimeFormat.Length; k++)
             {
                 char i = dateTimeFormat[k];
-                if (i == 'h' || i == 'H' || i == 'm' || i == 'M' || i == 's' || i == 'S' || i == 't' || i == 'T')
+                if (i == 'h' || i == 'H' || i == 'm' || i == 'M' || i == 's' || i == 'S')
                 {
-                    timeSpanFormat = timeSpanFormat + i;
+                    timeSpanFormat = timeSpanFormat + i.ToString().ToLower();
                 }
-                else
+                else if (i != '\'' && i != 't' && i != 'T')
                 {
                     timeSpanFormat = timeSpanFormat + @"'" + i + @"'";
                 }
