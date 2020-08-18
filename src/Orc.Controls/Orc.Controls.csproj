@@ -52,6 +52,9 @@
     <None Remove="**/GeneratorParameters.json" />
     <EmbeddedResource Include="**/GeneratorParameters.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Page Remove="Controls\TimePicker\Themes\TimePicker.generic.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Update="NETStandard.Library" Version="2.0.3" />
@@ -59,6 +62,7 @@
 
   <ItemGroup>
     <Folder Include="Controls\EditableControls\Behaviors\Base\" />
+    <Folder Include="Controls\TimePicker\Themes\" />
   </ItemGroup>
 
   <ItemGroup>

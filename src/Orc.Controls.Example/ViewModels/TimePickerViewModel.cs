@@ -23,10 +23,8 @@ namespace Orc.Controls.Example.ViewModels
     {
         public TimePickerViewModel()
         {
-            AvailableFormats = new FastObservableCollection<CultureFormat>();
-            TimeValue = TimeSpan.Zero;
-            TimeValueString = string.Empty;
-            SetNull = new Command(OnSetNullExecute);
+            Time = new AnalogueTime(12, 00, Meridiem.AM);
+            SetAmPm = new Command(OnSetAmPm);
         }
 
         public TimeSpan? TimeValue { get; set; }

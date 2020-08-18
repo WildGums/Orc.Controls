@@ -1,8 +1,8 @@
 ﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.TimePicker"
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                   xmlns:catel="http://schemas.catelproject.com"
-                   xmlns:c="clr-namespace:Orc.Controls;assembly=Orc.Controls">
+				   xmlns:catel="http://schemas.catelproject.com"
+				   xmlns:orccontrols="clr-namespace:Orc.Controls">
     
     <!-- Resources -->
     <UserControl.Resources>
