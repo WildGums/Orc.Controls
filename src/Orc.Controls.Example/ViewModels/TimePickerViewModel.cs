@@ -23,47 +23,22 @@ namespace Orc.Controls.Example.ViewModels
     {
         public TimePickerViewModel()
         {
-            Time = new AnalogueTime(12, 00, Meridiem.AM);
+            TimeValue = TimeSpan.Zero;
+            TimeValueString = string.Empty;
+            AmPm = Meridiem.AM;
+            SetNull = new Command(OnSetNullExecute);
             SetAmPm = new Command(OnSetAmPm);
         }
 
         public TimeSpan? TimeValue { get; set; }
         public string TimeValueString { get; set; }
-        public FastObservableCollection<CultureFormat> AvailableFormats { get; private set; }
-        public CultureFormat SelectedFormat { get; set; }
+        public Meridiem AmPm { get; set; }
 
         public Command SetNull { get; }
-
-
+        public Command SetAmPm { get; }
         protected override async Task InitializeAsync()
         {
             await base.InitializeAsync();
-
-            using (AvailableFormats.SuspendChangeNotifications())
-            {
-                foreach (var cultureInfo in CultureInfo.GetCultures(CultureTypes.AllCultures))
-                {
-                    var format = new CultureFormat
-                    {
-                        CultureCode = $"[{cultureInfo.IetfLanguageTag}]",
-                        FormatValue = cultureInfo.DateTimeFormat.LongTimePattern
-                    };
-                    AvailableFormats.Add(format);
-
-                    format = new CultureFormat
-                    {
-                        CultureCode = $"[{cultureInfo.IetfLanguageTag}]",
-                        FormatValue = cultureInfo.DateTimeFormat.ShortTimePattern
-                    };
-
-                    AvailableFormats.Add(format);
-
-                    if (cultureInfo.Equals(CultureInfo.CurrentCulture))
-                    {
-                        SelectedFormat = format;
-                    }
-                }
-            }
         }
 
         private void OnSetNullExecute()
@@ -71,14 +46,27 @@ namespace Orc.Controls.Example.ViewModels
             TimeValue = null;
         }
 
+        private void OnSetAmPm()
+        {
+            switch
+                (AmPm)
+            {
+                case Meridiem.AM:
+                    AmPm = Meridiem.PM;
+                    break;
+                default:
+                    AmPm = Meridiem.AM;
+                    break;
+            }
+        }
+
         protected override void OnPropertyChanged(AdvancedPropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
 
-            if (TimeValue != null && !string.IsNullOrEmpty(e.PropertyName) && e.HasPropertyChanged(e.PropertyName) && TimeValue.Value != null && SelectedFormat != null)
+            if (TimeValue != null && !string.IsNullOrEmpty(e.PropertyName) && e.HasPropertyChanged(e.PropertyName) && TimeValue.Value != null)
             {
-                var timeSpanFormat = Orc.Controls.TimeSpanFormatter.ChangeFormat(SelectedFormat.FormatValue);
-                TimeValueString = TimeValue.Value.ToString(timeSpanFormat);
+                TimeValueString = TimeValue.Value.ToString() + " " + AmPm.ToString();
             }
             else
             {

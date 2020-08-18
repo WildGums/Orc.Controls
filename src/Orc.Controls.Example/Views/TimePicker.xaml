@@ -2,55 +2,58 @@
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 				   xmlns:catel="http://schemas.catelproject.com"
-				   xmlns:orccontrols="clr-namespace:Orc.Controls">
+				   xmlns:tp="clr-namespace:Orc.Controls;assembly=Orc.Controls">
     
     <!-- Resources -->
     <UserControl.Resources>
     </UserControl.Resources>
 
-    <!-- Content -->  <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Select format" VerticalAlignment="Center" Width="150"/>
-            <ComboBox MinWidth="250" ItemsSource="{Binding AvailableFormats}" SelectedItem="{Binding SelectedFormat}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding CultureCode}" />
-                            <TextBlock Text="{Binding FormatValue}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="TimePicker Control" VerticalAlignment="Center" Width="150"/>
-            <c:TimePicker Value="{Binding TimeValue, Mode=TwoWay}"
-                          Format="{Binding SelectedFormat.FormatValue}" HorizontalAlignment="Left"
-                          AllowNull="{Binding IsChecked, ElementName=allowNullCheckbox}"
-                          AllowCopyPaste="{Binding IsChecked, ElementName=allowCopyPasteCheckbox}"
-                          HideSeconds="{Binding IsChecked, ElementName=hideSecondsCheckbox}"
-                          IsReadOnly="{Binding IsChecked, ElementName=readOnlyCheckbox}"
-                          ShowOptionsButton="{Binding IsChecked, ElementName=showOptionsButtonCheckbox}"/>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal">
-            <CheckBox x:Name="allowNullCheckbox" Content="Allow null" IsChecked="True" />
-            <CheckBox x:Name="allowCopyPasteCheckbox" Content="Allow copy/paste" IsChecked="True" />
-            <CheckBox x:Name="hideSecondsCheckbox" Content="Hide seconds" IsChecked="False" />
-            <CheckBox x:Name="readOnlyCheckbox" Content="Read only" IsChecked="False" />
-            <CheckBox x:Name="showOptionsButtonCheckbox" Content="Show options button" IsChecked="True"/>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Selected Time" VerticalAlignment="Center" Width="150"/>
-            <TextBox Text="{Binding TimeValueString}"  IsReadOnly="True" Width="300" HorizontalAlignment="Left"/>
-        </StackPanel>
-
-        <Button Content="Set value to null" Command="{Binding SetNull}" HorizontalAlignment="Left" Width="150"/>
-        <c:ClockFace Margin="10"
-                       BorderBrush="Transparent"
-                       BorderThickness="5"
-                       TimeValue="{Binding TimeValue, Mode=TwoWay}" Width="226" Height="226" />
-    </StackPanel>
+    <!-- Content -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <UniformGrid Columns="2" Rows="2">
+            <tp:TimePicker Margin="10"
+                              BorderBrush="Black"
+                              BorderThickness="5"
+                              TimeValue="{Binding TimeValue,
+                                             Mode=TwoWay}" />
+            <tp:TimePicker Margin="10"
+                              BorderBrush="Blue"
+                              BorderThickness="10"
+                              HourThickness="8"
+                              HourTickThickness="8"
+                              MinuteThickness="4"
+                              MinuteTickThickness="4"
+                              TimeValue="{Binding TimeValue,
+                                             Mode=TwoWay}">
+                <tp:TimePicker.HourBrush>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1.0">
+                        <GradientStop Offset="0.0" Color="DarkSlateBlue" />
+                        <GradientStop Offset="1.0" Color="SkyBlue" />
+                    </LinearGradientBrush>
+                </tp:TimePicker.HourBrush>
+            </tp:TimePicker>
+            <tp:TimePicker Margin="10"
+                              BorderBrush="Transparent"
+                              BorderThickness="5"
+                              TimeValue="{Binding TimeValue,
+                                             Mode=TwoWay}" />
+            <tp:TimePicker Margin="10"
+                              Background="Teal"
+                              BorderBrush="Black"
+                              BorderThickness="5"
+                              HourTickBrush="White"
+                              MinuteTickBrush="DarkGray"
+                              TimeValue="{Binding TimeValue,
+                                             Mode=TwoWay}" />
+        </UniformGrid>
+        <TextBox Grid.Row="1" Text="{Binding TimeValueString}"  IsReadOnly="True" Width="150" HorizontalAlignment="Left"/>
+        <Button Grid.Row="2" Content="Set value to null" Command="{Binding SetNull}" HorizontalAlignment="Left" Width="150"/>
+        <Button Grid.Row="3" Content="AM/PM" Command="{Binding SetAmPm}" HorizontalAlignment="Left" Width="100"/>
+    </Grid>
 </catel:UserControl>
