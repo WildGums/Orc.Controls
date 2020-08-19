@@ -285,6 +285,9 @@
   <data name="Controls_DateTimePicker_Button_Content_SelectDate" xml:space="preserve">
     <value>Selecteer datum</value>
   </data>
+  <data name="Controls_DateTimePicker_Button_Content_SelectTime" xml:space="preserve">
+    <value>Selecteer tijd</value>
+  </data>
   <data name="Controls_DateTimePicker_Button_Content_Today" xml:space="preserve">
     <value>Vandaag</value>
   </data>

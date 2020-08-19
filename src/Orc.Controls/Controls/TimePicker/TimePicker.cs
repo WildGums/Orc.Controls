@@ -118,7 +118,6 @@ namespace Orc.Controls
             base.OnMouseDown(e);
         }
 
-
         protected override void OnRender(DrawingContext drawingContext)
         {
             var width = ActualWidth;

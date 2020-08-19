@@ -54,6 +54,7 @@ namespace Orc.Controls
     [TemplatePart(Name = "PART_TodayMenuItem", Type = typeof(MenuItem))]
     [TemplatePart(Name = "PART_NowMenuItem", Type = typeof(MenuItem))]
     [TemplatePart(Name = "PART_SelectDateMenuItem", Type = typeof(MenuItem))]
+    [TemplatePart(Name = "PART_SelectTimeMenuItem", Type = typeof(MenuItem))]
     [TemplatePart(Name = "PART_ClearMenuItem", Type = typeof(MenuItem))]
     [TemplatePart(Name = "PART_CopyMenuItem", Type = typeof(MenuItem))]
     [TemplatePart(Name = "PART_PasteMenuItem", Type = typeof(MenuItem))]
@@ -65,6 +66,8 @@ namespace Orc.Controls
     [TemplatePart(Name = "PART_CalendarPopup", Type = typeof(Popup))]
     [TemplatePart(Name = "PART_Calendar", Type = typeof(Calendar))]
 
+    [TemplatePart(Name = "PART_TimePickerPopup", Type = typeof(Popup))]
+    [TemplatePart(Name = "PART_TimePicker", Type = typeof(TimePicker))]
     public class DateTimePicker : Control, IEditableControl
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
@@ -108,6 +111,7 @@ namespace Orc.Controls
         private MenuItem _todayMenuItem;
         private MenuItem _nowMenuItem;
         private MenuItem _selectDateMenuItem;
+        private MenuItem _selectTimeMenuItem;
         private MenuItem _clearMenuItem;
         private MenuItem _copyMenuItem;
         private MenuItem _pasteMenuItem;
@@ -118,6 +122,9 @@ namespace Orc.Controls
 
         private Popup _calendarPopup;
         private Calendar _calendar;
+
+        private Popup _timePickerPopup;
+        private TimePicker _timePicker;
 
         #region Dependency properties
         public DayOfWeek? FirstDayOfWeek
@@ -490,6 +497,13 @@ namespace Orc.Controls
             }
             _selectDateMenuItem.Click += OnSelectDateMenuItemClick;
 
+            _selectTimeMenuItem = GetTemplateChild("PART_SelectTimeMenuItem") as MenuItem;
+            if (_selectTimeMenuItem is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SelectTimeMenuItem'");
+            }
+            _selectTimeMenuItem.Click += OnSelectTimeMenuItemClick;
+
             _clearMenuItem = GetTemplateChild("PART_ClearMenuItem") as MenuItem;
             if (_clearMenuItem is null)
             {
@@ -533,6 +547,20 @@ namespace Orc.Controls
             if (_calendar is null)
             {
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Calendar'");
+            }
+
+            /*Time picker Pop up*/
+            _timePickerPopup = GetTemplateChild("PART_TimePickerPopup") as Popup;
+            if (_timePickerPopup is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TimePickerPopup'");
+            }
+            _timePickerPopup.Closed += OnTimePickerPopupClosed;
+
+            _timePicker = GetTemplateChild("PART_TimePicker") as TimePicker;
+            if (_timePicker is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TimePicker'");
             }
 
 
@@ -608,6 +636,49 @@ namespace Orc.Controls
             _calendar.PreviewKeyDown -= CalendarOnPreviewKeyDown;
             _calendar.SelectedDatesChanged -= CalendarOnSelectedDatesChanged;
         }
+
+        private void OnSelectTimeMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            UnsubscribeFromTimePickerEvents();
+
+            _timePickerPopup.SetCurrentValue(Popup.IsOpenProperty, true);
+
+            var dateTime = Value ?? _todayValue;
+
+            _timePicker.SetCurrentValue(TimePicker.TimeValueProperty, dateTime.TimeOfDay);
+
+            _timePicker.Focus();
+
+            SubscribeToTimePickerEvents();
+        }
+
+        private void SubscribeToTimePickerEvents()
+        {
+            _timePicker.MouseLeftButtonUp += _timePicker_MouseLeftButtonUp;
+        }
+
+        private void _timePicker_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(sender is TimePicker timePicker))
+            {
+                return;
+            }
+
+            if (AllowNull || timePicker.TimeValue != null)
+            {
+                var date = Value.Value;
+                var dateTime = new DateTime(date.Year, date.Month, date.Day, timePicker.TimeValue.Hours, timePicker.TimeValue.Minutes, timePicker.TimeValue.Seconds);
+                UpdateDateTime(dateTime);
+            }
+
+            ((Popup)timePicker.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
+        }
+
+        private void UnsubscribeFromTimePickerEvents()
+        {
+            _timePicker.MouseLeftButtonUp -= _timePicker_MouseLeftButtonUp;
+        }
+
 
         private void OnClearMenuItemClick(object sender, RoutedEventArgs e)
         {
@@ -1407,7 +1478,7 @@ namespace Orc.Controls
             {
                 UpdateDate(calendar.SelectedDate.Value);
             }
-            
+
             ((Popup)calendar.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
 
             e.Handled = true;
@@ -1432,6 +1503,11 @@ namespace Orc.Controls
         }
 
         private void OnCalendarPopupClosed(object sender, EventArgs e)
+        {
+            InvalidateEditMode();
+        }
+
+        private void OnTimePickerPopupClosed(object sender, EventArgs e)
         {
             InvalidateEditMode();
         }
@@ -1464,6 +1540,12 @@ namespace Orc.Controls
             if (_calendarPopup != null && _calendarPopup.IsOpen)
             {
                 _calendarPopup.Closed += OnCalendarPopupClosed;
+                return;
+            }
+
+            if (_timePickerPopup != null && _timePickerPopup.IsOpen)
+            {
+                _timePickerPopup.Closed += OnTimePickerPopupClosed;
                 return;
             }
 

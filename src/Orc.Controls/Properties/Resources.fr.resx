@@ -285,6 +285,9 @@
   <data name="Controls_DateTimePicker_Button_Content_SelectDate" xml:space="preserve">
     <value>Select date</value>
   </data>
+  <data name="Controls_DateTimePicker_Button_Content_SelectTime" xml:space="preserve">
+    <value>Select time</value>
+  </data>
   <data name="Controls_DateTimePicker_Button_Content_Today" xml:space="preserve">
     <value>Today</value>
   </data>

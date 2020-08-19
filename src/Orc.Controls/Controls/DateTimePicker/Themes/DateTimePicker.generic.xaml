@@ -279,6 +279,14 @@
                                                           Margin="0"
                                                           IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
+                                                <MenuItem x:Name="PART_SelectTimeMenuItem"
+                                                          Header="{catel:LanguageBinding Controls_DateTimePicker_Button_Content_SelectTime}"
+                                                          HorizontalAlignment="Stretch"
+                                                          HorizontalContentAlignment="Left"
+                                                          BorderThickness="0"
+                                                          Margin="0"
+                                                          IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
+                                                
                                                 <Separator Visibility="{TemplateBinding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
 
                                                 <MenuItem x:Name="PART_ClearMenuItem"
@@ -346,6 +354,31 @@
 
                             <Calendar x:Name="PART_Calendar"
                                       Margin="0 -3 0 -3"/>
+
+                        </Popup>
+
+                        <Popup x:Name="PART_TimePickerPopup"
+                               PlacementTarget="{Binding ElementName=PART_MainGrid}"
+                               Placement="Bottom"
+                               StaysOpen="False">
+
+                            <controls:TimePicker x:Name="PART_TimePicker"
+                                                 Background="Transparent"
+                              BorderBrush="White"
+                              BorderThickness="5"
+                              HourTickBrush="White"
+                              MinuteTickBrush="White"
+                                                 Width="220"
+                                                 Height="220"
+                              TimeValue="{Binding TimeValue,
+                                             Mode=TwoWay}">
+                                <controls:TimePicker.HourBrush>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1.0">
+                                        <GradientStop Offset="0.0" Color="DarkSlateBlue" />
+                                        <GradientStop Offset="1.0" Color="SkyBlue" />
+                                    </LinearGradientBrush>
+                                </controls:TimePicker.HourBrush>
+                            </controls:TimePicker>
 
                         </Popup>
                     </Grid>
