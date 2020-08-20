@@ -16,6 +16,7 @@ namespace Orc.Controls
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using System.Windows.Input;
+    using Catel;
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Services;
@@ -654,10 +655,20 @@ namespace Orc.Controls
 
         private void SubscribeToTimePickerEvents()
         {
-            _timePicker.MouseLeftButtonUp += _timePicker_MouseLeftButtonUp;
+            //_timePicker.PreviewMouseMove += _timePicker_PreviewMouseMove;
+            _timePicker.PreviewMouseLeftButtonUp += _timePicker_PreviewMouseLeftButtonUp;
         }
 
-        private void _timePicker_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void _timePicker_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(sender is TimePicker timePicker))
+            {
+                return;
+            }
+            ((Popup)timePicker.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
+        }
+
+        private void _timePicker_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (!(sender is TimePicker timePicker))
             {
@@ -670,13 +681,11 @@ namespace Orc.Controls
                 var dateTime = new DateTime(date.Year, date.Month, date.Day, timePicker.TimeValue.Hours, timePicker.TimeValue.Minutes, timePicker.TimeValue.Seconds);
                 UpdateDateTime(dateTime);
             }
-
-            ((Popup)timePicker.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
         }
 
         private void UnsubscribeFromTimePickerEvents()
         {
-            _timePicker.MouseLeftButtonUp -= _timePicker_MouseLeftButtonUp;
+            _timePicker.PreviewMouseLeftButtonUp += _timePicker_PreviewMouseLeftButtonUp;
         }
 
 

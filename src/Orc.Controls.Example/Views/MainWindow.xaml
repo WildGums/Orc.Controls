@@ -51,11 +51,7 @@
             <TabItem Header="DatePicker">
                 <views:DatePicker />
             </TabItem>
-
-            <TabItem Header="TimePicker">
-                <views:TimePicker />
-            </TabItem>
-            
+          
             <TabItem Header="DateTimePicker">
                 <views:DateTimePicker />
             </TabItem>
@@ -119,7 +115,11 @@
             <TabItem Header="StaggeredPanel">
                 <views:StaggeredPanelView/>
             </TabItem>
-
+            
+            <TabItem Header="TimePicker">
+                <views:TimePicker />
+            </TabItem>
+            
             <TabItem Header="TimeSpanPicker">
                 <views:TimeSpanPickerView />
             </TabItem>

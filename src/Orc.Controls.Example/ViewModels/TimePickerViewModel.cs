@@ -28,12 +28,19 @@ namespace Orc.Controls.Example.ViewModels
             AmPm = Meridiem.AM;
             SetNull = new Command(OnSetNullExecute);
             SetAmPm = new Command(OnSetAmPm);
+            HourThickness = 6;
+            MinuteThickness = 4;
+            HourTickThickness = 3;
+            MinuteTickThickness = 2;
         }
 
         public TimeSpan? TimeValue { get; set; }
         public string TimeValueString { get; set; }
         public Meridiem AmPm { get; set; }
-
+        public double HourThickness { get; set; }
+        public double MinuteThickness { get; set; }
+        public double HourTickThickness { get; set; }
+        public double MinuteTickThickness { get; set; }
         public Command SetNull { get; }
         public Command SetAmPm { get; }
         protected override async Task InitializeAsync()

@@ -10,7 +10,9 @@ namespace Orc.Controls
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
+    using ControlzEx.Theming;
     using Orc.Controls.Enums;
+    using Orc.Theming;
     using static Orc.Controls.ClockMath;
     public class TimePicker : Control
     {
@@ -19,9 +21,16 @@ namespace Orc.Controls
         public const double HourIndicatorRatio = 0.70;
         public const double MinuteIndicatorRatio = 0.95;
 
+        private DrawingContext _drawingContext;
+
         private readonly TimePickerInputController _inputController;
 
-        public TimePicker() => _inputController = new TimePickerInputController(this);
+        private readonly ControlzEx.Theming.ThemeManager _themeManager;
+        public TimePicker()
+        {
+            _inputController = new TimePickerInputController(this);
+            _themeManager = ControlzEx.Theming.ThemeManager.Current;
+        }
 
         public TimeSpan TimeValue
         {
@@ -120,23 +129,44 @@ namespace Orc.Controls
 
         protected override void OnRender(DrawingContext drawingContext)
         {
+            _drawingContext = drawingContext;
+            Render();
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Render();
+
+            _themeManager.ThemeChanged += OnThemeManagerThemeChanged;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            _themeManager.ThemeChanged -= OnThemeManagerThemeChanged;
+        }
+        private void OnThemeManagerThemeChanged(object sender, ThemeChangedEventArgs e)
+        {
+            Render();
+        }
+
+        private void Render()
+        {
             var width = ActualWidth;
             var height = ActualHeight;
             var radius = (Math.Min(width, height) - BorderThickness.Left) / 2.0;
             var center = new Point(width / 2.0, height / 2.0);
 
-            RenderBackground(drawingContext, width, height);
+            RenderBackground(_drawingContext, width, height);
 
-            RenderBorder(drawingContext, radius, center);
-            RenderHourTicks(drawingContext, radius, center);
-            RenderMinuteTicks(drawingContext, radius, center);
+            RenderBorder(_drawingContext, radius, center);
+            RenderHourTicks(_drawingContext, radius, center);
+            RenderMinuteTicks(_drawingContext, radius, center);
 
-            RenderHour(drawingContext, radius, center);
-            RenderMinute(drawingContext, radius, center);
+            RenderHour(_drawingContext, radius, center);
+            RenderMinute(_drawingContext, radius, center);
 
-            base.OnRender(drawingContext);
+            base.OnRender(_drawingContext);
         }
-
         private void RenderBackground(DrawingContext drawingContext, double width, double height)
         {
             // Always draw a transparent rectangle for hit tests
@@ -145,7 +175,7 @@ namespace Orc.Controls
 
         private void RenderMinute(DrawingContext drawingContext, double radius, Point center)
         {
-            var pen = new Pen(MinuteBrush, MinuteThickness);
+            var pen = new Pen(Theming.ThemeManager.Current.GetThemeColorBrush(ThemeColorStyle.AccentColor), MinuteThickness);
 
             drawingContext.DrawEllipse(MinuteBrush, pen, center, MinuteThickness * 1, MinuteThickness * 1);
             var points = LineOnCircle((Math.PI * 2.0 * TimeValue.Minutes / 60.0) - Math.PI / 2.0, center, 0, radius * MinuteIndicatorRatio);
@@ -154,7 +184,7 @@ namespace Orc.Controls
 
         private void RenderHour(DrawingContext drawingContext, double radius, Point center)
         {
-            var pen = new Pen(HourBrush, HourThickness);
+            var pen = new Pen(Theming.ThemeManager.Current.GetThemeColorBrush(ThemeColorStyle.AccentColor), HourThickness);
 
             drawingContext.DrawEllipse(HourBrush, pen, center, HourThickness * 1, HourThickness * 1);
             var points = LineOnCircle((Math.PI * 2.0 * TimeValue.Hours / 12.0) - Math.PI / 2.0, center, 0, radius * HourIndicatorRatio);

@@ -11,49 +11,33 @@
     <!-- Content -->
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <UniformGrid Columns="2" Rows="2">
-            <tp:TimePicker Margin="10"
-                              BorderBrush="Black"
-                              BorderThickness="5"
-                              TimeValue="{Binding TimeValue,
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <tp:TimePicker Grid.Row="0"
+                       Grid.Column="1"
+                       Grid.RowSpan="3"
+                       Grid.ColumnSpan="4"
+                       Margin="10"
+                       BorderBrush="Transparent"
+                       BorderThickness="5"
+                       TimeValue="{Binding TimeValue,
                                              Mode=TwoWay}" />
-            <tp:TimePicker Margin="10"
-                              BorderBrush="Blue"
-                              BorderThickness="10"
-                              HourThickness="8"
-                              HourTickThickness="8"
-                              MinuteThickness="4"
-                              MinuteTickThickness="4"
-                              TimeValue="{Binding TimeValue,
-                                             Mode=TwoWay}">
-                <tp:TimePicker.HourBrush>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1.0">
-                        <GradientStop Offset="0.0" Color="DarkSlateBlue" />
-                        <GradientStop Offset="1.0" Color="SkyBlue" />
-                    </LinearGradientBrush>
-                </tp:TimePicker.HourBrush>
-            </tp:TimePicker>
-            <tp:TimePicker Margin="10"
-                              BorderBrush="Transparent"
-                              BorderThickness="5"
-                              TimeValue="{Binding TimeValue,
-                                             Mode=TwoWay}" />
-            <tp:TimePicker Margin="10"
-                              Background="Teal"
-                              BorderBrush="Black"
-                              BorderThickness="5"
-                              HourTickBrush="White"
-                              MinuteTickBrush="DarkGray"
-                              TimeValue="{Binding TimeValue,
-                                             Mode=TwoWay}" />
-        </UniformGrid>
-        <TextBox Grid.Row="1" Text="{Binding TimeValueString}"  IsReadOnly="True" Width="150" HorizontalAlignment="Left"/>
-        <Button Grid.Row="2" Content="Set value to null" Command="{Binding SetNull}" HorizontalAlignment="Left" Width="150"/>
-        <Button Grid.Row="3" Content="AM/PM" Command="{Binding SetAmPm}" HorizontalAlignment="Left" Width="100"/>
+        <TextBox Grid.Row="0" Grid.Column= "0" Text="{Binding TimeValueString}"  IsReadOnly="True" Width="150" HorizontalAlignment="Left"/>
+        <Button Grid.Row="1" Grid.Column= "0" Content="Set value to null" Command="{Binding SetNull}" HorizontalAlignment="Left" Width="150"/>
+        <TextBox Grid.Row="3" Grid.Column= "1" Text="{Binding HourThickness}" IsReadOnly="False" Width="150" HorizontalAlignment="Left"/>
+        <TextBox Grid.Row="3" Grid.Column= "2" Text="{Binding MinuteThickness}" IsReadOnly="False" Width="150" HorizontalAlignment="Left"/>
+        <TextBox Grid.Row="3" Grid.Column= "3" Text="{Binding HourTickThickness}" IsReadOnly="False" Width="150" HorizontalAlignment="Left"/>
+        <TextBox Grid.Row="3" Grid.Column= "4" Text="{Binding MinuteTickThickness}" IsReadOnly="False" Width="150" HorizontalAlignment="Left"/>
+
     </Grid>
 </catel:UserControl>
