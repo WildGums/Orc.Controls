@@ -36,6 +36,9 @@ namespace Orc.Controls
         public Expander()
         {
             DefaultStyleKey = typeof(Expander);
+
+            IsVisibleChanged += OnIsVisibleChanged;
+            Loaded += OnLoaded;
         }
         #endregion
 
@@ -94,11 +97,35 @@ namespace Orc.Controls
             UpdateStates(true);
         }
 
+        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (IsVisible && _isTemplateApplyPostponed)
+            {
+                OnApplyTemplate();
+            }
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (IsVisible && _isTemplateApplyPostponed)
+            {
+                OnApplyTemplate();
+            }
+        }
+
+        private bool _isTemplateApplyPostponed = false;
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
             _expandSite = GetTemplateChild("PART_ExpandSite") as ContentPresenter;
+            if (_expandSite is null)
+            {
+                _isTemplateApplyPostponed = true;
+                return;
+            }
+
             if (_expandSite is null)
             {
                 throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_ExpandSite'");
@@ -111,6 +138,8 @@ namespace Orc.Controls
             }
             
             UpdateStates(false);
+
+            _isTemplateApplyPostponed = false;
         }
 
         private void AnimateMaxHeight(RowDefinition rowDefinition, double from, double to, double duration)
@@ -225,6 +254,11 @@ namespace Orc.Controls
 
         protected virtual void OnCollapsed()
         {
+            if (IsVisible && _isTemplateApplyPostponed)
+            {
+                OnApplyTemplate();
+            }
+
             if (!AutoResizeGrid)
             {
                 _expandSite.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
