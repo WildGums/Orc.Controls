@@ -38,6 +38,7 @@ namespace Orc.Controls
             DefaultStyleKey = typeof(Expander);
 
             IsVisibleChanged += OnIsVisibleChanged;
+            Loaded += OnLoaded;
         }
         #endregion
 
@@ -97,6 +98,14 @@ namespace Orc.Controls
         }
 
         private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (IsVisible && _isTemplateApplyPostponed)
+            {
+                OnApplyTemplate();
+            }
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
         {
             if (IsVisible && _isTemplateApplyPostponed)
             {
