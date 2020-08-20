@@ -254,6 +254,11 @@ namespace Orc.Controls
 
         protected virtual void OnCollapsed()
         {
+            if (IsVisible && _isTemplateApplyPostponed)
+            {
+                OnApplyTemplate();
+            }
+
             if (!AutoResizeGrid)
             {
                 _expandSite.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
