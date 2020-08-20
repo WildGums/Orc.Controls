@@ -121,8 +121,8 @@
     <Style x:Key="DefaultFluidProgressBarStyle" TargetType="{x:Type orccontrols:FluidProgressBar}" 
            BasedOn="{StaticResource {x:Type orccontrols:FluidProgressBar}}"/>
 
-    <!--<Style x:Key="DefaultExpanderStyle" TargetType="{x:Type orccontrols:Expander}" 
-           BasedOn="{StaticResource {x:Type orccontrols:Expander}}"/>-->
+    <Style x:Key="DefaultExpanderStyle" TargetType="{x:Type orccontrols:Expander}" 
+           BasedOn="{StaticResource {x:Type orccontrols:Expander}}"/>
 
     <Style x:Key="DefaultTimeSpanPickerStyle" 
            TargetType="{x:Type orccontrols:TimeSpanPicker}" 
