@@ -6,12 +6,12 @@
     using static Orc.Controls.TimePicker;
     public class TimePickerInputController
     {
-        private readonly TimePicker _timePicker;
-
         // TimePicker.ActualHeight * MinDistanceRatio is the max
         // distance away from the tip of the indicator you can 
         // click to still start dragging it
         private const double MinDistanceRatio = 0.2;
+
+        private readonly TimePicker _timePicker;
 
         private Indicator _indicator;
         private bool _isDragging;
@@ -19,10 +19,10 @@
         {
             _timePicker = timePicker;
 
-            _timePicker.PreviewMouseLeftButtonDown += _timePicker_PreviewMouseLeftButtonDown;
-            _timePicker.PreviewMouseMove += _timePicker_PreviewMouseMove;
-            _timePicker.MouseLeave += _timePicker_MouseLeave; ;
-            _timePicker.PreviewMouseLeftButtonUp += _timePicker_PreviewMouseLeftButtonUp; ;
+            _timePicker.PreviewMouseLeftButtonDown += OnTimePickerPreviewMouseLeftButtonDown;
+            _timePicker.PreviewMouseMove += OnTimePickerPreviewMouseMove;
+            _timePicker.MouseLeave += OnTimePickerMouseLeave; ;
+            _timePicker.PreviewMouseLeftButtonUp += OnTimePickerPreviewMouseLeftButtonUp; ;
         }
 
 
@@ -45,7 +45,7 @@
             _isDragging = false;
         }
 
-        private void _timePicker_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void OnTimePickerPreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (_isDragging)
             {
@@ -91,17 +91,17 @@
             }
         }
 
-        private void _timePicker_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void OnTimePickerPreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             StartDragging(e.GetPosition(_timePicker));
         }
 
-        private void _timePicker_PreviewMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void OnTimePickerPreviewMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             StopDragging();
         }
 
-        private void _timePicker_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        private void OnTimePickerMouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             StopDragging();
         }

@@ -10,14 +10,10 @@ namespace Orc.Controls.Example.ViewModels
 {
     using System;
     using System.ComponentModel;
-    using System.Globalization;
     using System.Threading.Tasks;
-    using System.Windows;
-    using Catel.Collections;
     using Catel.Data;
     using Catel.MVVM;
     using Enums;
-    using Models;
 
     public class TimePickerViewModel : ViewModelBase
     {

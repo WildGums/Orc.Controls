@@ -6,12 +6,13 @@
 namespace Orc.Controls
 {
     using System;
+    using System.Globalization;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Media;
     using ControlzEx.Theming;
-    using Orc.Controls.Enums;
     using Orc.Theming;
     using static Orc.Controls.ClockMath;
     public class TimePicker : Control
@@ -21,14 +22,16 @@ namespace Orc.Controls
         public const double HourIndicatorRatio = 0.70;
         public const double MinuteIndicatorRatio = 0.95;
 
-        private DrawingContext _drawingContext;
-
         private readonly TimePickerInputController _inputController;
-
         private readonly ControlzEx.Theming.ThemeManager _themeManager;
+
+        private DrawingContext _drawingContext;
+        private readonly ToggleButton _amPmButton;
+
         public TimePicker()
         {
             _inputController = new TimePickerInputController(this);
+            _amPmButton = new ToggleButton();
             _themeManager = ControlzEx.Theming.ThemeManager.Current;
         }
 
@@ -161,7 +164,7 @@ namespace Orc.Controls
             RenderBorder(_drawingContext, radius, center);
             RenderHourTicks(_drawingContext, radius, center);
             RenderMinuteTicks(_drawingContext, radius, center);
-
+            RenderAmPmButton(_drawingContext, radius, center);
             RenderHour(_drawingContext, radius, center);
             RenderMinute(_drawingContext, radius, center);
 
@@ -218,5 +221,23 @@ namespace Orc.Controls
                 drawingContext.DrawLine(pen, points[0], points[1]);
             }
         }
+
+        private void RenderAmPmButton(DrawingContext drawingContext, double radius, Point center) 
+        {
+            Point startPoint = new Point(center.X + radius / 6, center.Y + radius / 6);
+            Size size = new Size(radius / 3, radius / 4);
+            drawingContext.DrawRectangle(Theming.ThemeManager.Current.GetThemeColorBrush(ThemeColorStyle.AccentColor), null, new Rect(startPoint, size));
+            PresentationSource source = PresentationSource.FromVisual(this);
+            double dpiX, dpiY;
+            if (source != null)
+            {
+                dpiX = 96.0 * source.CompositionTarget.TransformToDevice.M11;
+                dpiY = 96.0 * source.CompositionTarget.TransformToDevice.M22;
+            }
+                FormattedText text = new FormattedText("AM", CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface("Italic"), radius/6, Brushes.Black);
+            Point textPoint = new Point(startPoint.X + radius / 15, startPoint.Y + radius / 20);
+            drawingContext.DrawText(text, textPoint);
+        }
+
     }
 }

@@ -11,33 +11,39 @@
     <!-- Content -->
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="50" />
             <RowDefinition Height="50" />
             <RowDefinition Height="50" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <tp:TimePicker Grid.Row="0"
                        Grid.Column="1"
-                       Grid.RowSpan="3"
-                       Grid.ColumnSpan="4"
+                       Grid.RowSpan="6"
+                       Width="300"
+                       Height="300"
                        Margin="10"
                        BorderBrush="Transparent"
                        BorderThickness="5"
                        TimeValue="{Binding TimeValue,
                                              Mode=TwoWay}" />
-        <TextBox Grid.Row="0" Grid.Column= "0" Text="{Binding TimeValueString}"  IsReadOnly="True" Width="150" HorizontalAlignment="Left"/>
-        <Button Grid.Row="1" Grid.Column= "0" Content="Set value to null" Command="{Binding SetNull}" HorizontalAlignment="Left" Width="150"/>
-        <TextBox Grid.Row="3" Grid.Column= "1" Text="{Binding HourThickness}" IsReadOnly="False" Width="150" HorizontalAlignment="Left"/>
-        <TextBox Grid.Row="3" Grid.Column= "2" Text="{Binding MinuteThickness}" IsReadOnly="False" Width="150" HorizontalAlignment="Left"/>
-        <TextBox Grid.Row="3" Grid.Column= "3" Text="{Binding HourTickThickness}" IsReadOnly="False" Width="150" HorizontalAlignment="Left"/>
-        <TextBox Grid.Row="3" Grid.Column= "4" Text="{Binding MinuteTickThickness}" IsReadOnly="False" Width="150" HorizontalAlignment="Left"/>
+        <TextBox Grid.Row="0" Grid.Column= "0" Text="{Binding TimeValueString}"  IsReadOnly="True" Width="150" Height ="50" HorizontalAlignment="Left"/>
+        <Button Grid.Row="1" Grid.Column= "0" Content="Set value to null" Command="{Binding SetNull}" HorizontalAlignment="Left" Width="150" Height="50"/>
+        <TextBox Grid.Row="2" Grid.Column= "0" Text="{Binding HourThickness}" IsReadOnly="False" Width="50" HorizontalAlignment="Left"/>
+        <TextBox Grid.Row="3" Grid.Column= "0" Text="{Binding MinuteThickness}" IsReadOnly="False" Width="50" HorizontalAlignment="Left"/>
+        <TextBox Grid.Row="4" Grid.Column= "0" Text="{Binding HourTickThickness}" IsReadOnly="False" Width="50" HorizontalAlignment="Left"/>
+        <TextBox Grid.Row="5" Grid.Column= "0" Text="{Binding MinuteTickThickness}" IsReadOnly="False" Width="50" HorizontalAlignment="Left"/>
 
     </Grid>
+    <!--<Canvas Width="300" Height="300" Background="White">
+        <Canvas Width="250" Height="250" Canvas.Left="30" Canvas.Top="30" Background="blue">
+            <Rectangle Canvas.Left="30" Canvas.Top="30" Fill="red" Width="200" Height="200" />
+        </Canvas>
+    </Canvas>-->
 </catel:UserControl>
