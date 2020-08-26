@@ -7,12 +7,14 @@ namespace Orc.Controls
 {
     using System;
     using System.Globalization;
+    using System.Security;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Media;
     using ControlzEx.Theming;
+    using Orc.Controls.Enums;
     using Orc.Theming;
     using static Orc.Controls.ClockMath;
     public class TimePicker : Control
@@ -26,12 +28,10 @@ namespace Orc.Controls
         private readonly ControlzEx.Theming.ThemeManager _themeManager;
 
         private DrawingContext _drawingContext;
-        private readonly ToggleButton _amPmButton;
 
         public TimePicker()
         {
             _inputController = new TimePickerInputController(this);
-            _amPmButton = new ToggleButton();
             _themeManager = ControlzEx.Theming.ThemeManager.Current;
         }
 
@@ -43,6 +43,14 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty TimeValueProperty =
             DependencyProperty.Register(nameof(TimeValue), typeof(TimeSpan), typeof(TimePicker), new PropertyMetadata(new TimeSpan(0, 0, 0), new PropertyChangedCallback(OnTimeValueChanged)));
+
+        public Meridiem AmPmValue
+        {
+            get { return (Meridiem)GetValue(AmPmValueProperty); }
+            set { SetValue(AmPmValueProperty, value); }
+        }
+
+        public static readonly DependencyProperty AmPmValueProperty = DependencyProperty.Register(nameof(AmPmValue), typeof(Meridiem), typeof(TimePicker), new PropertyMetadata(Meridiem.AM, new PropertyChangedCallback(OnAmPmValueChanged)));
 
         public Brush HourBrush
         {
@@ -60,7 +68,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty HourThicknessProperty =
-            DependencyProperty.Register(nameof(HourThickness), typeof(double), typeof(TimePicker), new PropertyMetadata(5.0));
+            DependencyProperty.Register(nameof(HourThickness), typeof(double), typeof(TimePicker), new PropertyMetadata(5.0, new PropertyChangedCallback(OnThicknessChanged)));
 
         public Brush MinuteBrush
         {
@@ -78,7 +86,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty MinuteThicknessProperty =
-            DependencyProperty.Register(nameof(MinuteThickness), typeof(double), typeof(TimePicker), new PropertyMetadata(3.0));
+            DependencyProperty.Register(nameof(MinuteThickness), typeof(double), typeof(TimePicker), new PropertyMetadata(3.0, new PropertyChangedCallback(OnThicknessChanged)));
 
         public Brush HourTickBrush
         {
@@ -96,7 +104,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty HourTickThicknessProperty =
-            DependencyProperty.Register(nameof(HourTickThickness), typeof(double), typeof(TimePicker), new PropertyMetadata(2.0));
+            DependencyProperty.Register(nameof(HourTickThickness), typeof(double), typeof(TimePicker), new PropertyMetadata(2.0, new PropertyChangedCallback(OnThicknessChanged)));
 
         public Brush MinuteTickBrush
         {
@@ -114,9 +122,27 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty MinuteTickThicknessProperty =
-            DependencyProperty.Register(nameof(MinuteTickThickness), typeof(double), typeof(TimePicker), new PropertyMetadata(2.0));
+            DependencyProperty.Register(nameof(MinuteTickThickness), typeof(double), typeof(TimePicker), new PropertyMetadata(2.0, new PropertyChangedCallback(OnThicknessChanged)));
+
+        public double ClockBorderThickness
+        {
+            get { return (double)GetValue(ClockBorderThicknessProperty); }
+            set { SetValue(ClockBorderThicknessProperty, value); }
+        }
+
+        public static readonly DependencyProperty ClockBorderThicknessProperty =
+            DependencyProperty.Register(nameof(ClockBorderThickness), typeof(double), typeof(TimePicker), new PropertyMetadata(2.0, new PropertyChangedCallback(OnThicknessChanged)));
 
         private static void OnTimeValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
+        {
+            var timePicker = d as TimePicker;
+            if (timePicker != null)
+            {
+                timePicker.InvalidateVisual();
+            }
+        }
+
+        private static void OnAmPmValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
             var timePicker = d as TimePicker;
             if (timePicker != null)
@@ -152,11 +178,20 @@ namespace Orc.Controls
             Render();
         }
 
+        private static void OnThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
+        {
+            var timePicker = d as TimePicker;
+            if (timePicker != null)
+            {
+                timePicker.InvalidateVisual();
+            }
+        }
+
         private void Render()
         {
             var width = ActualWidth;
             var height = ActualHeight;
-            var radius = (Math.Min(width, height) - BorderThickness.Left) / 2.0;
+            var radius = (Math.Min(width, height) - ClockBorderThickness) / 2.0;
             var center = new Point(width / 2.0, height / 2.0);
 
             RenderBackground(_drawingContext, width, height);
@@ -164,7 +199,6 @@ namespace Orc.Controls
             RenderBorder(_drawingContext, radius, center);
             RenderHourTicks(_drawingContext, radius, center);
             RenderMinuteTicks(_drawingContext, radius, center);
-            RenderAmPmButton(_drawingContext, radius, center);
             RenderHour(_drawingContext, radius, center);
             RenderMinute(_drawingContext, radius, center);
 
@@ -197,7 +231,7 @@ namespace Orc.Controls
 
         private void RenderBorder(DrawingContext drawingContext, double radius, Point center)
         {
-            drawingContext.DrawEllipse(Background, new Pen(BorderBrush, BorderThickness.Left), center, radius, radius);
+            drawingContext.DrawEllipse(Background, new Pen(Theming.ThemeManager.Current.GetThemeColorBrush(ThemeColorStyle.AccentColor), ClockBorderThickness), center, radius, radius);
         }
 
         private void RenderHourTicks(DrawingContext drawingContext, double radius, Point center)
@@ -205,7 +239,7 @@ namespace Orc.Controls
             var pen = new Pen(HourTickBrush, HourTickThickness);
             for (int i = 0; i < 12; i++)
             {
-                var points = LineOnCircle(Math.PI * 2 * i / 12, center, radius * (1 - HourTickRatio), radius - BorderThickness.Left * 0.5);
+                var points = LineOnCircle(Math.PI * 2 * i / 12, center, radius * (1 - HourTickRatio), radius - ClockBorderThickness * 0.5);
                 drawingContext.DrawLine(pen, points[0], points[1]);
             }
         }
@@ -217,27 +251,9 @@ namespace Orc.Controls
             {
                 if (i % 5 == 0) continue; // Skip places where we already have an hour tick
 
-                var points = LineOnCircle(Math.PI * 2 * i / 60, center, radius * (1 - MinuteTickRatio), radius - BorderThickness.Left * 0.5);
+                var points = LineOnCircle(Math.PI * 2 * i / 60, center, radius * (1 - MinuteTickRatio), radius - ClockBorderThickness * 0.5);
                 drawingContext.DrawLine(pen, points[0], points[1]);
             }
         }
-
-        private void RenderAmPmButton(DrawingContext drawingContext, double radius, Point center) 
-        {
-            Point startPoint = new Point(center.X + radius / 6, center.Y + radius / 6);
-            Size size = new Size(radius / 3, radius / 4);
-            drawingContext.DrawRectangle(Theming.ThemeManager.Current.GetThemeColorBrush(ThemeColorStyle.AccentColor), null, new Rect(startPoint, size));
-            PresentationSource source = PresentationSource.FromVisual(this);
-            double dpiX, dpiY;
-            if (source != null)
-            {
-                dpiX = 96.0 * source.CompositionTarget.TransformToDevice.M11;
-                dpiY = 96.0 * source.CompositionTarget.TransformToDevice.M22;
-            }
-                FormattedText text = new FormattedText("AM", CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface("Italic"), radius/6, Brushes.Black);
-            Point textPoint = new Point(startPoint.X + radius / 15, startPoint.Y + radius / 20);
-            drawingContext.DrawText(text, textPoint);
-        }
-
     }
 }

@@ -21,8 +21,8 @@
 
             _timePicker.PreviewMouseLeftButtonDown += OnTimePickerPreviewMouseLeftButtonDown;
             _timePicker.PreviewMouseMove += OnTimePickerPreviewMouseMove;
-            _timePicker.MouseLeave += OnTimePickerMouseLeave; ;
-            _timePicker.PreviewMouseLeftButtonUp += OnTimePickerPreviewMouseLeftButtonUp; ;
+            _timePicker.MouseLeave += OnTimePickerMouseLeave;
+            _timePicker.PreviewMouseLeftButtonUp += OnTimePickerPreviewMouseLeftButtonUp;
         }
 
 
@@ -30,7 +30,7 @@
         {
             var width = _timePicker.ActualWidth;
             var height = _timePicker.ActualHeight;
-            var radius = (Math.Min(width, height) - _timePicker.BorderThickness.Left) / 2.0;
+            var radius = (Math.Min(width, height) - _timePicker.ClockBorderThickness) / 2.0;
             var center = new Point(width / 2.0, height / 2.0);
 
             // TODO: highlight indicator that you're dragging
@@ -51,7 +51,7 @@
             {
                 var width = _timePicker.ActualWidth;
                 var height = _timePicker.ActualHeight;
-                var radius = (Math.Min(width, height) - _timePicker.BorderThickness.Left) / 2.0;
+                var radius = (Math.Min(width, height) - _timePicker.ClockBorderThickness) / 2.0;
                 var center = new Point(width / 2.0, height / 2.0);
                 var mouse = e.GetPosition(_timePicker);
 
