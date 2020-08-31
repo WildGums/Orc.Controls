@@ -643,7 +643,6 @@ namespace Orc.Controls
             UnsubscribeFromTimePickerEvents();
 
             _timePickerPopup.SetCurrentValue(Popup.IsOpenProperty, true);
-
             var dateTime = Value ?? _todayValue;
 
             _timePicker.SetCurrentValue(TimePicker.TimeValueProperty, dateTime.TimeOfDay);
@@ -657,6 +656,22 @@ namespace Orc.Controls
         {
             //_timePicker.PreviewMouseMove += _timePicker_PreviewMouseMove;
             _timePicker.PreviewMouseLeftButtonUp += _timePicker_PreviewMouseLeftButtonUp;
+            _timePicker.PropertyChanged += _timePicker_PropertyChanged;
+        }
+
+        private void _timePicker_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (!(sender is TimePicker timePicker))
+            {
+                return;
+            }
+
+            if (AllowNull || timePicker.TimeValue != null)
+            {
+                var date = Value.Value;
+                var dateTime = new DateTime(date.Year, date.Month, date.Day, timePicker.TimeValue.Hours, timePicker.TimeValue.Minutes, timePicker.TimeValue.Seconds);
+                UpdateDateTime(dateTime);
+            }
         }
 
         private void _timePicker_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -665,7 +680,8 @@ namespace Orc.Controls
             {
                 return;
             }
-            ((Popup)timePicker.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
+
+            //((Popup)timePicker.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
         }
 
         private void _timePicker_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

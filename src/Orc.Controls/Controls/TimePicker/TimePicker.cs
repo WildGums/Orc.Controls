@@ -6,6 +6,7 @@
 namespace Orc.Controls
 {
     using System;
+    using System.ComponentModel;
     using System.Globalization;
     using System.Security;
     using System.Windows;
@@ -38,7 +39,9 @@ namespace Orc.Controls
         public TimeSpan TimeValue
         {
             get { return (TimeSpan)GetValue(TimeValueProperty); }
-            set { SetValue(TimeValueProperty, value); }
+#pragma warning disable WPF0036 // Avoid side effects in CLR accessors.
+            set { SetValue(TimeValueProperty, value); OnPropertyChanged(TimeValueProperty.Name); }
+#pragma warning restore WPF0036 // Avoid side effects in CLR accessors.
         }
 
         public static readonly DependencyProperty TimeValueProperty =
@@ -207,7 +210,7 @@ namespace Orc.Controls
         private void RenderBackground(DrawingContext drawingContext, double width, double height)
         {
             // Always draw a transparent rectangle for hit tests
-            drawingContext.DrawRectangle(Brushes.Transparent, null, new Rect(0, 0, width, height));
+            drawingContext.DrawRectangle(Brushes.White, null, new Rect(0, 0, width, height));
         }
 
         private void RenderMinute(DrawingContext drawingContext, double radius, Point center)
@@ -254,6 +257,13 @@ namespace Orc.Controls
                 var points = LineOnCircle(Math.PI * 2 * i / 60, center, radius * (1 - MinuteTickRatio), radius - ClockBorderThickness * 0.5);
                 drawingContext.DrawLine(pen, points[0], points[1]);
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
