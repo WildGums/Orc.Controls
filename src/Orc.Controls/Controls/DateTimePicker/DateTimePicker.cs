@@ -9,6 +9,7 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Globalization;
     using System.Linq;
     using System.Windows;
@@ -16,6 +17,8 @@ namespace Orc.Controls
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using System.Windows.Input;
+    using System.Windows.Media;
+    using System.Xml;
     using Catel;
     using Catel.IoC;
     using Catel.Logging;
@@ -641,36 +644,47 @@ namespace Orc.Controls
         private void OnSelectTimeMenuItemClick(object sender, RoutedEventArgs e)
         {
             UnsubscribeFromTimePickerEvents();
-
+            DockPanel dockPanel = new DockPanel();
+            _timePickerPopup.SetCurrentValue(Popup.ChildProperty, dockPanel);
+            dockPanel.Background = System.Windows.Media.Brushes.White;
+            dockPanel.Children.Add(_timePicker);
+            _timePickerPopup.SetCurrentValue(Popup.AllowsTransparencyProperty, true);
             _timePickerPopup.SetCurrentValue(Popup.IsOpenProperty, true);
             var dateTime = Value ?? _todayValue;
-
+            _timePicker.SetCurrentValue(TimePicker.HourThicknessProperty, 4.0);
+            _timePicker.SetCurrentValue(TimePicker.MinuteThicknessProperty, 3.0);
+            _timePicker.SetCurrentValue(TimePicker.HourTickBrushProperty, System.Windows.Media.Brushes.Black);
+            _timePicker.SetCurrentValue(TimePicker.MinuteTickBrushProperty, System.Windows.Media.Brushes.DarkGray);
             _timePicker.SetCurrentValue(TimePicker.TimeValueProperty, dateTime.TimeOfDay);
-
             _timePicker.Focus();
 
             SubscribeToTimePickerEvents();
         }
 
+        private bool _isDragging = false;
+
         private void SubscribeToTimePickerEvents()
         {
-            //_timePicker.PreviewMouseMove += _timePicker_PreviewMouseMove;
             _timePicker.PreviewMouseLeftButtonUp += _timePicker_PreviewMouseLeftButtonUp;
-            _timePicker.PropertyChanged += _timePicker_PropertyChanged;
+            _timePicker.PreviewMouseLeftButtonDown += _timePicker_PreviewMouseLeftButtonDown;
+            _timePicker.PreviewMouseMove += _timePicker_PreviewMouseMove;
         }
 
-        private void _timePicker_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void _timePicker_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (!(sender is TimePicker timePicker))
+            if(_isDragging)
             {
-                return;
-            }
+                if (!(sender is TimePicker timePicker))
+                {
+                    return;
+                }
 
-            if (AllowNull || timePicker.TimeValue != null)
-            {
-                var date = Value.Value;
-                var dateTime = new DateTime(date.Year, date.Month, date.Day, timePicker.TimeValue.Hours, timePicker.TimeValue.Minutes, timePicker.TimeValue.Seconds);
-                UpdateDateTime(dateTime);
+                if (AllowNull || timePicker.TimeValue != null)
+                {
+                    var date = Value.Value;
+                    var dateTime = new DateTime(date.Year, date.Month, date.Day, timePicker.TimeValue.Hours, timePicker.TimeValue.Minutes, timePicker.TimeValue.Seconds);
+                    UpdateDateTime(dateTime);
+                }
             }
         }
 
@@ -680,8 +694,7 @@ namespace Orc.Controls
             {
                 return;
             }
-
-            //((Popup)timePicker.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
+            _isDragging = false;
         }
 
         private void _timePicker_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -690,18 +703,14 @@ namespace Orc.Controls
             {
                 return;
             }
-
-            if (AllowNull || timePicker.TimeValue != null)
-            {
-                var date = Value.Value;
-                var dateTime = new DateTime(date.Year, date.Month, date.Day, timePicker.TimeValue.Hours, timePicker.TimeValue.Minutes, timePicker.TimeValue.Seconds);
-                UpdateDateTime(dateTime);
-            }
+            _isDragging = true;
         }
 
         private void UnsubscribeFromTimePickerEvents()
         {
-            _timePicker.PreviewMouseLeftButtonUp += _timePicker_PreviewMouseLeftButtonUp;
+            _timePicker.PreviewMouseLeftButtonUp -= _timePicker_PreviewMouseLeftButtonUp;
+            _timePicker.PreviewMouseLeftButtonDown -= _timePicker_PreviewMouseLeftButtonDown;
+            _timePicker.PreviewMouseMove -= _timePicker_PreviewMouseMove;
         }
 
 

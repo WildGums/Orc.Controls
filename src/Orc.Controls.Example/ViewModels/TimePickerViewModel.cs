@@ -19,7 +19,7 @@ namespace Orc.Controls.Example.ViewModels
     {
         public TimePickerViewModel()
         {
-            TimeValue = TimeSpan.Zero;
+            Time = TimeSpan.Zero;
             TimeValueString = string.Empty;
             AmPmValue = Meridiem.AM;
             SetNull = new Command(OnSetNullExecute);
@@ -31,7 +31,7 @@ namespace Orc.Controls.Example.ViewModels
             ClockBorderThickness = 0;
         }
 
-        public TimeSpan? TimeValue { get; set; }
+        public TimeSpan? Time { get; set; }
         public string TimeValueString { get; set; }
         public Meridiem AmPmValue { get; set; }
         public double HourThickness { get; set; }
@@ -48,7 +48,7 @@ namespace Orc.Controls.Example.ViewModels
 
         private void OnSetNullExecute()
         {
-            TimeValue = null;
+            Time = null;
         }
 
         private void OnSetAmPm()
@@ -69,9 +69,9 @@ namespace Orc.Controls.Example.ViewModels
         {
             base.OnPropertyChanged(e);
 
-            if (TimeValue != null && !string.IsNullOrEmpty(e.PropertyName) && e.HasPropertyChanged(e.PropertyName) && TimeValue.Value != null)
+            if (Time != null && !string.IsNullOrEmpty(e.PropertyName) && e.HasPropertyChanged(e.PropertyName) && Time.Value != null)
             {
-                TimeValueString = TimeValue.Value.ToString() + " " + AmPmValue.ToString();
+                TimeValueString = Time.Value.ToString() + " " + AmPmValue.ToString();
             }
             else
             {

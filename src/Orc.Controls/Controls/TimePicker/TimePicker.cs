@@ -39,9 +39,7 @@ namespace Orc.Controls
         public TimeSpan TimeValue
         {
             get { return (TimeSpan)GetValue(TimeValueProperty); }
-#pragma warning disable WPF0036 // Avoid side effects in CLR accessors.
-            set { SetValue(TimeValueProperty, value); OnPropertyChanged(TimeValueProperty.Name); }
-#pragma warning restore WPF0036 // Avoid side effects in CLR accessors.
+            set { SetValue(TimeValueProperty, value); }
         }
 
         public static readonly DependencyProperty TimeValueProperty =
@@ -80,7 +78,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty MinuteBrushProperty =
-            DependencyProperty.Register(nameof(MinuteBrush), typeof(Brush), typeof(TimePicker), new PropertyMetadata(Brushes.DarkBlue));
+            DependencyProperty.Register(nameof(MinuteBrush), typeof(Brush), typeof(TimePicker), new PropertyMetadata(Brushes.Black));
 
         public double MinuteThickness
         {
@@ -198,7 +196,6 @@ namespace Orc.Controls
             var center = new Point(width / 2.0, height / 2.0);
 
             RenderBackground(_drawingContext, width, height);
-
             RenderBorder(_drawingContext, radius, center);
             RenderHourTicks(_drawingContext, radius, center);
             RenderMinuteTicks(_drawingContext, radius, center);
@@ -210,7 +207,7 @@ namespace Orc.Controls
         private void RenderBackground(DrawingContext drawingContext, double width, double height)
         {
             // Always draw a transparent rectangle for hit tests
-            drawingContext.DrawRectangle(Brushes.White, null, new Rect(0, 0, width, height));
+            drawingContext.DrawRectangle(Brushes.Transparent, null, new Rect(0, 0, width, height));
         }
 
         private void RenderMinute(DrawingContext drawingContext, double radius, Point center)
@@ -218,7 +215,7 @@ namespace Orc.Controls
             var pen = new Pen(Theming.ThemeManager.Current.GetThemeColorBrush(ThemeColorStyle.AccentColor), MinuteThickness);
 
             drawingContext.DrawEllipse(MinuteBrush, pen, center, MinuteThickness * 1, MinuteThickness * 1);
-            var points = LineOnCircle((Math.PI * 2.0 * TimeValue.Minutes / 60.0) - Math.PI / 2.0, center, 0, radius * MinuteIndicatorRatio);
+            var points = LineOnCircle((Math.PI * 2.0 * TimeValue.Minutes / 60.0) - Math.PI / 2.0, center, MinuteThickness, radius * MinuteIndicatorRatio);
             drawingContext.DrawLine(pen, points[0], points[1]);
         }
 
@@ -227,10 +224,9 @@ namespace Orc.Controls
             var pen = new Pen(Theming.ThemeManager.Current.GetThemeColorBrush(ThemeColorStyle.AccentColor), HourThickness);
 
             drawingContext.DrawEllipse(HourBrush, pen, center, HourThickness * 1, HourThickness * 1);
-            var points = LineOnCircle((Math.PI * 2.0 * TimeValue.Hours / 12.0) - Math.PI / 2.0, center, 0, radius * HourIndicatorRatio);
+            var points = LineOnCircle((Math.PI * 2.0 * TimeValue.Hours / 12.0) - Math.PI / 2.0, center, HourThickness, radius * HourIndicatorRatio);
             drawingContext.DrawLine(pen, points[0], points[1]);
         }
-
 
         private void RenderBorder(DrawingContext drawingContext, double radius, Point center)
         {
@@ -252,18 +248,14 @@ namespace Orc.Controls
             var pen = new Pen(MinuteTickBrush, MinuteTickThickness);
             for (int i = 0; i < 60; i++)
             {
-                if (i % 5 == 0) continue; // Skip places where we already have an hour tick
+                if (i % 5 == 0) // Skip places where we already have an hour tick
+                {
+                    continue;
+                } 
 
                 var points = LineOnCircle(Math.PI * 2 * i / 60, center, radius * (1 - MinuteTickRatio), radius - ClockBorderThickness * 0.5);
                 drawingContext.DrawLine(pen, points[0], points[1]);
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

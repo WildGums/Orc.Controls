@@ -4,7 +4,7 @@
     using System.Windows;
     using static Orc.Controls.ClockMath;
     using static Orc.Controls.TimePicker;
-    public class TimePickerInputController
+    internal class TimePickerInputController
     {
         // TimePicker.ActualHeight * MinDistanceRatio is the max
         // distance away from the tip of the indicator you can 
@@ -81,13 +81,19 @@
             var minuteDistance = Distance(mouse, minuteTip);
             var hourDistance = Distance(mouse, hourTip);
 
-            if (minuteDistance < hourDistance && minuteDistance < maxDistance)
+            if (minuteDistance < hourDistance)
             {
-                _indicator = Indicator.MinuteIndicator;
+                if (minuteDistance < maxDistance)
+                {
+                    _indicator = Indicator.MinuteIndicator;
+                }
             }
-            else if (hourDistance <= minuteDistance && hourDistance < maxDistance)
-            {
-                _indicator = Indicator.HourIndicator;
+            else
+            { 
+                if (hourDistance < maxDistance)
+                {
+                    _indicator = Indicator.HourIndicator;
+                } 
             }
         }
 

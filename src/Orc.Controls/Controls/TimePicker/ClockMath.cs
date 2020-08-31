@@ -2,7 +2,7 @@
 {
     using System;
     using System.Windows;
-    public static class ClockMath
+    internal static class ClockMath
     {
         /// <summary>
         /// Computes the two points required for an indicator line on a circle
