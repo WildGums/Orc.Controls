@@ -1197,7 +1197,7 @@ namespace Orc.Controls
 
         private void OnShowOptionsButtonChanged()
         {
-            _datePickerIconDropDownButton.SetCurrentValue(VisibilityProperty, ShowOptionsButton ? Visibility.Visible : Visibility.Collapsed);
+            _datePickerIconDropDownButton?.SetCurrentValue(VisibilityProperty, ShowOptionsButton ? Visibility.Visible : Visibility.Collapsed);
         }
 
         private void OnHideTimeChanged()
