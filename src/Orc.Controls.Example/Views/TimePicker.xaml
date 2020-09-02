@@ -44,8 +44,6 @@
             <Button Grid.Row="2" Grid.Column= "0" Grid.ColumnSpan="2" Content="Set value to null" Command="{Binding SetNull}" 
                HorizontalContentAlignment="Center" HorizontalAlignment="Left" Width="100" />
         </Grid>
-        <Canvas Width="310" Height="310" Background="Transparent">
-            <ToggleButton Canvas.Left="235" Canvas.Top="135" x:Name="AmPm" Content="{Binding AmPmValue}" Command="{Binding SetAmPm}"/>
             <tp:TimePicker     Width="300"
                                Height="300"
                                HourThickness="{Binding Path=HourThickness}"
@@ -53,7 +51,7 @@
                                HourTickThickness="{Binding Path=HourTickThickness}"
                                MinuteTickThickness="{Binding Path=MinuteTickThickness}"
                                ClockBorderThickness="{Binding Path=ClockBorderThickness}"
-                               TimeValue="{Binding Path=Time, Mode=TwoWay}"/>
-        </Canvas>
+                               TimeValue="{Binding Path=Time, Mode=TwoWay}"
+                               AmPmValue="{Binding Path=AmPm, Mode=TwoWay}"/>
     </StackPanel>
 </catel:UserControl>

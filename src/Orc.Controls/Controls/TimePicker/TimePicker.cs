@@ -18,22 +18,43 @@ namespace Orc.Controls
     using Orc.Controls.Enums;
     using Orc.Theming;
     using static Orc.Controls.ClockMath;
-    public class TimePicker : Control
+    public class TimePicker : ContentControl
     {
         public const double HourTickRatio = 0.20;
         public const double MinuteTickRatio = 0.10;
         public const double HourIndicatorRatio = 0.70;
         public const double MinuteIndicatorRatio = 0.95;
 
+        private readonly Canvas _containerCanvas;
+        private readonly ToggleButton _amPmButton;
         private readonly TimePickerInputController _inputController;
         private readonly ControlzEx.Theming.ThemeManager _themeManager;
-
-        private DrawingContext _drawingContext;
 
         public TimePicker()
         {
             _inputController = new TimePickerInputController(this);
             _themeManager = ControlzEx.Theming.ThemeManager.Current;
+            _containerCanvas = new Canvas();
+            _amPmButton = new ToggleButton();
+            _amPmButton.SetCurrentValue(ContentProperty, AmPmValue);
+            _amPmButton.IsChecked = false;
+            _amPmButton.Checked += OnAmPmButtonCheckedChanged;
+            _amPmButton.Unchecked += OnAmPmButtonCheckedChanged;
+        }
+
+        private void OnAmPmButtonCheckedChanged(object sender, RoutedEventArgs e)
+        {
+            switch
+                    (_amPmButton.IsChecked)
+            {
+                case true:
+                    SetCurrentValue(AmPmValueProperty, Meridiem.PM);
+                    break;
+                default:
+                    SetCurrentValue(AmPmValueProperty, Meridiem.AM);
+                    break;
+            }
+            _amPmButton.SetCurrentValue(ContentProperty, AmPmValue);
         }
 
         public TimeSpan TimeValue
@@ -159,14 +180,12 @@ namespace Orc.Controls
 
         protected override void OnRender(DrawingContext drawingContext)
         {
-            _drawingContext = drawingContext;
             Render();
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             Render();
-
             _themeManager.ThemeChanged += OnThemeManagerThemeChanged;
         }
 
@@ -195,14 +214,31 @@ namespace Orc.Controls
             var radius = (Math.Min(width, height) - ClockBorderThickness) / 2.0;
             var center = new Point(width / 2.0, height / 2.0);
 
-            RenderBackground(_drawingContext, width, height);
-            RenderBorder(_drawingContext, radius, center);
-            RenderHourTicks(_drawingContext, radius, center);
-            RenderMinuteTicks(_drawingContext, radius, center);
-            RenderHour(_drawingContext, radius, center);
-            RenderMinute(_drawingContext, radius, center);
+            _containerCanvas.Children.Clear();
 
-            base.OnRender(_drawingContext);
+            DrawingGroup drawingGroup = new DrawingGroup();
+            using (DrawingContext drawingContext = drawingGroup.Open())
+            {
+                RenderBackground(drawingContext, width, height);
+                RenderBorder(drawingContext, radius, center);
+                RenderHourTicks(drawingContext, radius, center);
+                RenderMinuteTicks(drawingContext, radius, center);
+                RenderHour(drawingContext, radius, center);
+                RenderMinute(drawingContext, radius, center);
+                base.OnRender(drawingContext);
+            }
+            Image theImage = new Image();
+            DrawingImage dImageSource = new DrawingImage(drawingGroup);
+            theImage.Source = dImageSource;
+            _containerCanvas.Children.Add(theImage);
+
+            _amPmButton.SetCurrentValue(WidthProperty, width * 0.098);
+            _amPmButton.SetCurrentValue(HeightProperty, height * 0.089);
+            _containerCanvas.Children.Add(_amPmButton);
+            Canvas.SetLeft(_amPmButton, width * 0.73);
+            Canvas.SetTop(_amPmButton, height * 0.43);
+
+            SetCurrentValue(ContentProperty, _containerCanvas);
         }
         private void RenderBackground(DrawingContext drawingContext, double width, double height)
         {

@@ -566,7 +566,15 @@ namespace Orc.Controls
             {
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TimePicker'");
             }
-
+            DockPanel dockPanel = new DockPanel();
+            _timePickerPopup.SetCurrentValue(Popup.ChildProperty, dockPanel);
+            dockPanel.Background = System.Windows.Media.Brushes.White;
+            dockPanel.Children.Add(_timePicker);
+            _timePickerPopup.SetCurrentValue(Popup.AllowsTransparencyProperty, true);
+            _timePicker.SetCurrentValue(TimePicker.HourThicknessProperty, 4.0);
+            _timePicker.SetCurrentValue(TimePicker.MinuteThicknessProperty, 3.0);
+            _timePicker.SetCurrentValue(TimePicker.HourTickBrushProperty, System.Windows.Media.Brushes.Black);
+            _timePicker.SetCurrentValue(TimePicker.MinuteTickBrushProperty, System.Windows.Media.Brushes.DarkGray);
 
             _textBoxes = new List<TextBox>
             {
@@ -644,17 +652,8 @@ namespace Orc.Controls
         private void OnSelectTimeMenuItemClick(object sender, RoutedEventArgs e)
         {
             UnsubscribeFromTimePickerEvents();
-            DockPanel dockPanel = new DockPanel();
-            _timePickerPopup.SetCurrentValue(Popup.ChildProperty, dockPanel);
-            dockPanel.Background = System.Windows.Media.Brushes.White;
-            dockPanel.Children.Add(_timePicker);
-            _timePickerPopup.SetCurrentValue(Popup.AllowsTransparencyProperty, true);
             _timePickerPopup.SetCurrentValue(Popup.IsOpenProperty, true);
             var dateTime = Value ?? _todayValue;
-            _timePicker.SetCurrentValue(TimePicker.HourThicknessProperty, 4.0);
-            _timePicker.SetCurrentValue(TimePicker.MinuteThicknessProperty, 3.0);
-            _timePicker.SetCurrentValue(TimePicker.HourTickBrushProperty, System.Windows.Media.Brushes.Black);
-            _timePicker.SetCurrentValue(TimePicker.MinuteTickBrushProperty, System.Windows.Media.Brushes.DarkGray);
             _timePicker.SetCurrentValue(TimePicker.TimeValueProperty, dateTime.TimeOfDay);
             _timePicker.Focus();
 
@@ -668,6 +667,7 @@ namespace Orc.Controls
             _timePicker.PreviewMouseLeftButtonUp += _timePicker_PreviewMouseLeftButtonUp;
             _timePicker.PreviewMouseLeftButtonDown += _timePicker_PreviewMouseLeftButtonDown;
             _timePicker.PreviewMouseMove += _timePicker_PreviewMouseMove;
+            
         }
 
         private void _timePicker_PreviewMouseMove(object sender, MouseEventArgs e)

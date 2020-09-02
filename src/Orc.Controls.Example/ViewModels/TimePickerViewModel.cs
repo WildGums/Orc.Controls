@@ -21,9 +21,8 @@ namespace Orc.Controls.Example.ViewModels
         {
             Time = TimeSpan.Zero;
             TimeValueString = string.Empty;
-            AmPmValue = Meridiem.AM;
+            AmPm = Meridiem.AM;
             SetNull = new Command(OnSetNullExecute);
-            SetAmPm = new Command(OnSetAmPm);
             HourThickness = 6;
             MinuteThickness = 4;
             HourTickThickness = 3;
@@ -33,7 +32,7 @@ namespace Orc.Controls.Example.ViewModels
 
         public TimeSpan? Time { get; set; }
         public string TimeValueString { get; set; }
-        public Meridiem AmPmValue { get; set; }
+        public Meridiem AmPm { get; set; }
         public double HourThickness { get; set; }
         public double MinuteThickness { get; set; }
         public double HourTickThickness { get; set; }
@@ -51,27 +50,13 @@ namespace Orc.Controls.Example.ViewModels
             Time = null;
         }
 
-        private void OnSetAmPm()
-        {
-            switch
-                (AmPmValue)
-            {
-                case Meridiem.AM:
-                    AmPmValue = Meridiem.PM;
-                    break;
-                default:
-                    AmPmValue = Meridiem.AM;
-                    break;
-            }
-        }
-
         protected override void OnPropertyChanged(AdvancedPropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
 
             if (Time != null && !string.IsNullOrEmpty(e.PropertyName) && e.HasPropertyChanged(e.PropertyName) && Time.Value != null)
             {
-                TimeValueString = Time.Value.ToString() + " " + AmPmValue.ToString();
+                TimeValueString = Time.Value.ToString() + " " + AmPm.ToString();
             }
             else
             {
