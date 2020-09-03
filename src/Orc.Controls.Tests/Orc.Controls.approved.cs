@@ -717,6 +717,14 @@ namespace Orc.Controls
         protected virtual void OnReverseDurationChanged(System.Windows.Duration oldReverseDuration, System.Windows.Duration newReverseDuration) { }
         protected virtual void OnTotalDurationChanged(System.Windows.Duration oldTotalDuration, System.Windows.Duration newTotalDuration) { }
     }
+    public class FrameCounter : System.Windows.Controls.TextBlock
+    {
+        public static readonly System.Windows.DependencyProperty PrefixProperty;
+        public static readonly System.Windows.DependencyProperty ResetCountProperty;
+        public FrameCounter() { }
+        public string Prefix { get; set; }
+        public int ResetCount { get; set; }
+    }
     public class FrameRateCounter : System.Windows.Controls.TextBlock
     {
         public static readonly System.Windows.DependencyProperty PrefixProperty;
