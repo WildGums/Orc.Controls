@@ -234,6 +234,7 @@ namespace Orc.Controls
 
             _amPmButton.SetCurrentValue(WidthProperty, width * 0.098);
             _amPmButton.SetCurrentValue(HeightProperty, height * 0.089);
+            _amPmButton.SetCurrentValue(ContentProperty, AmPmValue); 
             _containerCanvas.Children.Add(_amPmButton);
             Canvas.SetLeft(_amPmButton, width * 0.73);
             Canvas.SetTop(_amPmButton, height * 0.43);

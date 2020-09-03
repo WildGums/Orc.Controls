@@ -28,6 +28,7 @@ namespace Orc.Controls
     using Catel.Windows.Input;
     using Converters;
     using Extensions;
+    using Orc.Controls.Enums;
     using Calendar = System.Windows.Controls.Calendar;
 
     [TemplatePart(Name = "PART_DaysNumericTextBox", Type = typeof(NumericTextBox))]
@@ -258,6 +259,27 @@ namespace Orc.Controls
             typeof(DateTimePicker), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern.Count(x => x == 't') < 2));
 
         public static readonly DependencyProperty IsAmPmShortFormatProperty = IsAmPmShortFormatPropertyKey.DependencyProperty;
+
+        public TimeSpan? TimeValue
+        {
+            get { return (TimeSpan?)GetValue(TimeValueProperty); }
+            set { SetValue(TimeValueProperty, value); }
+        }
+
+        public static readonly DependencyProperty TimeValueProperty = DependencyProperty.Register(nameof(TimeValue), typeof(TimeSpan?),
+            typeof(DateTimePicker), new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((DateTimePicker)sender).OnTimeValueChanged((TimeSpan?)e.NewValue)));
+
+        public Meridiem AmPmValue
+        {
+            get { return (Meridiem)GetValue(AmPmValueProperty); }
+            set { SetValue(AmPmValueProperty, value); }
+        }
+
+        public static readonly DependencyProperty AmPmValueProperty = DependencyProperty.Register(nameof(AmPmValue), typeof(Meridiem),
+            typeof(DateTimePicker), new FrameworkPropertyMetadata(Meridiem.AM, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((DateTimePicker)sender).OnAmPmValueChanged((Meridiem)e.NewValue)));
+
         #endregion
 
         #region Properties
@@ -566,15 +588,6 @@ namespace Orc.Controls
             {
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TimePicker'");
             }
-            DockPanel dockPanel = new DockPanel();
-            _timePickerPopup.SetCurrentValue(Popup.ChildProperty, dockPanel);
-            dockPanel.Background = System.Windows.Media.Brushes.White;
-            dockPanel.Children.Add(_timePicker);
-            _timePickerPopup.SetCurrentValue(Popup.AllowsTransparencyProperty, true);
-            _timePicker.SetCurrentValue(TimePicker.HourThicknessProperty, 4.0);
-            _timePicker.SetCurrentValue(TimePicker.MinuteThicknessProperty, 3.0);
-            _timePicker.SetCurrentValue(TimePicker.HourTickBrushProperty, System.Windows.Media.Brushes.Black);
-            _timePicker.SetCurrentValue(TimePicker.MinuteTickBrushProperty, System.Windows.Media.Brushes.DarkGray);
 
             _textBoxes = new List<TextBox>
             {
@@ -651,68 +664,47 @@ namespace Orc.Controls
 
         private void OnSelectTimeMenuItemClick(object sender, RoutedEventArgs e)
         {
-            UnsubscribeFromTimePickerEvents();
             _timePickerPopup.SetCurrentValue(Popup.IsOpenProperty, true);
             var dateTime = Value ?? _todayValue;
             _timePicker.SetCurrentValue(TimePicker.TimeValueProperty, dateTime.TimeOfDay);
+            if (dateTime.TimeOfDay.Hours < 12)
+            {
+                _timePicker.SetCurrentValue(TimePicker.AmPmValueProperty, Meridiem.AM);
+            }
+            else
+            {
+                _timePicker.SetCurrentValue(TimePicker.AmPmValueProperty, Meridiem.PM);
+            }
             _timePicker.Focus();
-
-            SubscribeToTimePickerEvents();
         }
-
-        private bool _isDragging = false;
-
-        private void SubscribeToTimePickerEvents()
+        private void OnTimeValueChanged(TimeSpan? newTimeValue)
         {
-            _timePicker.PreviewMouseLeftButtonUp += _timePicker_PreviewMouseLeftButtonUp;
-            _timePicker.PreviewMouseLeftButtonDown += _timePicker_PreviewMouseLeftButtonDown;
-            _timePicker.PreviewMouseMove += _timePicker_PreviewMouseMove;
-            
-        }
-
-        private void _timePicker_PreviewMouseMove(object sender, MouseEventArgs e)
-        {
-            if(_isDragging)
+            if (newTimeValue != null)
             {
-                if (!(sender is TimePicker timePicker))
+                DateTime newDateTime;
+                if (HideTime == true)
                 {
-                    return;
+                    SetCurrentValue(HideTimeProperty, false);
                 }
-
-                if (AllowNull || timePicker.TimeValue != null)
+                if(Value != null)
                 {
-                    var date = Value.Value;
-                    var dateTime = new DateTime(date.Year, date.Month, date.Day, timePicker.TimeValue.Hours, timePicker.TimeValue.Minutes, timePicker.TimeValue.Seconds);
-                    UpdateDateTime(dateTime);
+                    newDateTime = Value.Value;
                 }
+                else
+                {
+                    newDateTime = DateTime.Now;
+                }
+                if(AmPmValue.Equals(Meridiem.PM) && newTimeValue.Value.Hours < 12)
+                {
+                    SetCurrentValue(ValueProperty, new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newTimeValue.Value.Hours + 12, newTimeValue.Value.Minutes, newTimeValue.Value.Seconds));
+                }
+                else 
+                {
+                    SetCurrentValue(ValueProperty, new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newTimeValue.Value.Hours, newTimeValue.Value.Minutes, newTimeValue.Value.Seconds));
+                }
+                
             }
         }
-
-        private void _timePicker_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (!(sender is TimePicker timePicker))
-            {
-                return;
-            }
-            _isDragging = false;
-        }
-
-        private void _timePicker_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (!(sender is TimePicker timePicker))
-            {
-                return;
-            }
-            _isDragging = true;
-        }
-
-        private void UnsubscribeFromTimePickerEvents()
-        {
-            _timePicker.PreviewMouseLeftButtonUp -= _timePicker_PreviewMouseLeftButtonUp;
-            _timePicker.PreviewMouseLeftButtonDown -= _timePicker_PreviewMouseLeftButtonDown;
-            _timePicker.PreviewMouseMove -= _timePicker_PreviewMouseMove;
-        }
-
 
         private void OnClearMenuItemClick(object sender, RoutedEventArgs e)
         {
@@ -1277,6 +1269,40 @@ namespace Orc.Controls
                 newValue = newValue.AddHours(Meridiems.LongAM.Equals(amPm) ? -12 : 12);
 
                 SetCurrentValue(ValueProperty, newValue);
+            }
+        }
+
+        private void OnAmPmValueChanged(Meridiem newValue)
+        {
+            DateTime newDateTime;
+            if (Value != null)
+            {
+                newDateTime = Value.Value;
+            }
+            else
+            {
+                newDateTime = DateTime.Now;
+            }
+
+            TimeSpan diffTime;
+            TimeSpan hours = new TimeSpan(12, 0, 0);
+            if (newValue == Meridiem.AM)
+            {
+                if (newDateTime.Hour >= 12)
+                {
+                    diffTime = newDateTime.TimeOfDay.Subtract(hours);
+                    var diffDate = new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newDateTime.Hour - 12, newDateTime.Minute, newDateTime.Second);
+                    SetCurrentValue(ValueProperty, diffDate);
+                }
+            }
+            else
+            {
+                if (newDateTime.Hour < 12)
+                {
+                    diffTime = newDateTime.TimeOfDay.Add(hours);
+                    var diffDate = new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newDateTime.Hour + 12, newDateTime.Minute, newDateTime.Second);
+                    SetCurrentValue(ValueProperty, diffDate);
+                }
             }
         }
 
