@@ -79,7 +79,11 @@
             <TabItem Header="FluidProgressBar">
                 <views:FluidProgressBar />
             </TabItem>
-
+            
+            <TabItem Header="FrameRateCounter">
+                <views:FrameRateCounterView />
+            </TabItem>
+            
             <TabItem Header="InfinityScroll">
                 <views:InfinityScroll/>
             </TabItem>

@@ -1,0 +1,19 @@
+﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.FrameRateCounterView"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:catel="http://schemas.catelproject.com"
+                   xmlns:orccontrols="http://schemas.wildgums.com/orc/controls">
+    
+    <StackPanel>
+        <orccontrols:FrameRateCounter FontSize="16" 
+                                      FontWeight="SemiBold"
+                                      Margin="6"
+                                      FontFamily="Consolas" />
+        
+        <orccontrols:FrameCounter FontSize="16" 
+                                  FontWeight="SemiBold"
+                                  Margin="6"
+                                  FontFamily="Consolas" />
+    </StackPanel>
+    
+</catel:UserControl>
