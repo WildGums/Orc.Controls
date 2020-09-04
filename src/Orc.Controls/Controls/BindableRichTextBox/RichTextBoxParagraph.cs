@@ -9,6 +9,7 @@ namespace Orc.Controls
 {
     using System.Windows.Documents;
     using Catel.Logging;
+    using Catel.Pooling;
 
     public class RichTextBoxParagraph : Paragraph
     {
@@ -20,7 +21,7 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
-        public LogEntry LogEntry { get; }
+        public LogEntry LogEntry { get; set; }
         #endregion
     }
 }

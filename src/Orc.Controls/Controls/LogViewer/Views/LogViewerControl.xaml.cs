@@ -16,7 +16,6 @@ namespace Orc.Controls
     using System.Windows.Documents;
     using System.Windows.Input;
     using System.Windows.Media;
-    using Catel.Collections;
     using Catel.IoC;
     using Catel.Logging;
     using Catel.MVVM;
@@ -55,7 +54,7 @@ namespace Orc.Controls
         public LogViewerControl()
         {
             InitializeComponent();
-
+            
             _commandManager = ServiceLocator.Default.ResolveType<ICommandManager>();
 
             UpdateMessageBrushes();
@@ -421,15 +420,14 @@ namespace Orc.Controls
         {
             rtb.BeginChange();
 
-            if (rtb.Document == null)
-            {
-                rtb.Document = CreateFlowDocument();
-            }
+            rtb.Document ??= CreateFlowDocument();
 
             var document = rtb.Document;
-            logEntries.Select(CreateLogEntryParagraph)
+            var paragraphs = logEntries.Select(CreateLogEntryParagraph)
                 .Where(x => x != null)
-                .ForEach(x => document.Blocks.Add(x));
+                .ToList();
+
+            paragraphs.ForEach(x => document.Blocks.Add(x));
 
             document.SetCurrentValue(FrameworkContentElement.TagProperty, logEntries.Last().Time);
 
@@ -443,9 +441,19 @@ namespace Orc.Controls
             UpdateControl(scrollToEnd: true);
         }
 
+        private Dictionary<LogEntry, RichTextBoxParagraph> _paragraphCache 
+            = new Dictionary<LogEntry, RichTextBoxParagraph>();
+
         private RichTextBoxParagraph CreateLogEntryParagraph(LogEntry logEntry)
         {
-            var paragraph = new RichTextBoxParagraph(logEntry);
+            if (_paragraphCache.TryGetValue(logEntry, out var paragraph))
+            {
+                return paragraph;
+            }
+
+            paragraph = new RichTextBoxParagraph(logEntry);
+            _paragraphCache[logEntry] = paragraph;
+
             paragraph.MouseLeftButtonDown += OnParagraphMouseLeftButton;
 
             if (EnableIcons)
@@ -497,6 +505,7 @@ namespace Orc.Controls
             var rtb = LogRecordsRichTextBox;
 
             rtb.Document = CreateFlowDocument();
+
             var oldDoc = rtb.Document;
             if (oldDoc == null)
             {
@@ -516,17 +525,59 @@ namespace Orc.Controls
             //oldDoc.Blocks.Clear();
         }
 
+        private class SkPaintPool
+        {
+            #region Fields
+            private readonly FlowDocument[] _docs;
+            private int _skPaintIndex;
+            #endregion
+
+            #region Constructors
+            public SkPaintPool(int poolSize, Func<FlowDocument> createPaintFunc = null)
+            {
+                createPaintFunc ??= () => new FlowDocument();
+
+                _docs = Enumerable.Range(1, poolSize)
+                    .Select(i => createPaintFunc())
+                    .ToArray();
+            }
+            #endregion
+
+            #region Methods
+            public FlowDocument GetDocument()
+            {
+                var paint = _docs[_skPaintIndex];
+
+                _skPaintIndex++;
+                if (_skPaintIndex >= _docs.Length)
+                {
+                    _skPaintIndex = 0;
+                }
+
+                return paint;
+            }
+            #endregion
+        }
+
+        private static SkPaintPool _docPool = new SkPaintPool(10, () => new FlowDocument
+        {
+            Tag = DateTime.MinValue,
+            AllowDrop = false,
+            IsHyphenationEnabled = false,
+            IsOptimalParagraphEnabled = false
+        });
+
         private static FlowDocument CreateFlowDocument()
         {
-            var flowDocument = new FlowDocument
-            {
-                Tag = DateTime.MinValue,
-                AllowDrop = false,
-                IsHyphenationEnabled = false,
-                IsOptimalParagraphEnabled = false
-            };
+            //var flowDocument = new FlowDocument
+            //{
+            //    Tag = DateTime.MinValue,
+            //    AllowDrop = false,
+            //    IsHyphenationEnabled = false,
+            //    IsOptimalParagraphEnabled = false
+            //};
 
-            return flowDocument;
+            return _docPool.GetDocument();
         }
 
         public void Clear()
