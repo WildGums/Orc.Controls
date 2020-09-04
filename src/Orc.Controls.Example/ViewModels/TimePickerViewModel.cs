@@ -17,19 +17,22 @@ namespace Orc.Controls.Example.ViewModels
 
     public class TimePickerViewModel : ViewModelBase
     {
+        #region Constructors
         public TimePickerViewModel()
         {
             Time = TimeSpan.Zero;
             TimeValueString = string.Empty;
             AmPm = Meridiem.AM;
-            SetNull = new Command(OnSetNullExecute);
             HourThickness = 6;
             MinuteThickness = 4;
             HourTickThickness = 3;
             MinuteTickThickness = 2;
             ClockBorderThickness = 0;
+            SetNull = new Command(OnSetNullExecute);
         }
+        #endregion
 
+        #region Properties
         public TimeSpan? Time { get; set; }
         public string TimeValueString { get; set; }
         public Meridiem AmPm { get; set; }
@@ -38,18 +41,13 @@ namespace Orc.Controls.Example.ViewModels
         public double HourTickThickness { get; set; }
         public double MinuteTickThickness { get; set; }
         public double ClockBorderThickness { get; set; }
-        public Command SetNull { get; }
-        public Command SetAmPm { get; }
+        #endregion
+
+        #region Methods
         protected override async Task InitializeAsync()
         {
             await base.InitializeAsync();
         }
-
-        private void OnSetNullExecute()
-        {
-            Time = null;
-        }
-
         protected override void OnPropertyChanged(AdvancedPropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
@@ -63,6 +61,15 @@ namespace Orc.Controls.Example.ViewModels
                 TimeValueString = string.Empty;
             }
         }
+        #endregion
+
+        #region Commands
+        public Command SetNull { get; }
+        private void OnSetNullExecute()
+        {
+            Time = null;
+        }
+        #endregion
     }
 
 }

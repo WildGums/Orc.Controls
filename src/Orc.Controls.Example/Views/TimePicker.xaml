@@ -4,12 +4,8 @@
 				   xmlns:catel="http://schemas.catelproject.com"
 				   xmlns:tp="clr-namespace:Orc.Controls;assembly=Orc.Controls">
 
-    <!-- Resources -->
-    <UserControl.Resources>
-    </UserControl.Resources>
-
     <!-- Content -->
-    <StackPanel>
+    <tp:StackGrid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -53,5 +49,5 @@
                                ClockBorderThickness="{Binding Path=ClockBorderThickness}"
                                TimeValue="{Binding Path=Time, Mode=TwoWay}"
                                AmPmValue="{Binding Path=AmPm, Mode=TwoWay}"/>
-    </StackPanel>
+    </tp:StackGrid>
 </catel:UserControl>

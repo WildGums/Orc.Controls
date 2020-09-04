@@ -380,7 +380,7 @@ namespace Orc.Controls
 
         private void ApplyFormat()
         {
-            _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format, true, true);
+            _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format, true);
 
             IsYearShortFormat = _formatInfo.IsYearShortFormat;
             _yearNumericTextBox.SetCurrentValue(NumericTextBox.MinValueProperty, (double)(_formatInfo.IsYearShortFormat ? 0 : 1));

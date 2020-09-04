@@ -14,7 +14,7 @@ namespace Orc.Controls.Example.Views
     using Catel.Data;
     using Enums;
 
-    public partial class TimePicker: INotifyPropertyChanged
+    public partial class TimePicker
     {
 
         public TimePicker()

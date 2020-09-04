@@ -6,6 +6,7 @@
     using static Orc.Controls.TimePicker;
     internal class TimePickerInputController
     {
+        #region Fields
         // TimePicker.ActualHeight * MinDistanceRatio is the max
         // distance away from the tip of the indicator you can 
         // click to still start dragging it
@@ -15,6 +16,9 @@
 
         private Indicator _indicator;
         private bool _isDragging;
+        #endregion
+
+        #region Constructors
         public TimePickerInputController(TimePicker timePicker)
         {
             _timePicker = timePicker;
@@ -24,8 +28,18 @@
             _timePicker.MouseLeave += OnTimePickerMouseLeave;
             _timePicker.PreviewMouseLeftButtonUp += OnTimePickerPreviewMouseLeftButtonUp;
         }
+        #endregion
 
-
+        #region Enums
+        private enum Indicator
+        {
+            None,
+            HourIndicator,
+            MinuteIndicator
+        }
+        #endregion
+        
+        #region Methods
         private void StartDragging(Point mouse)
         {
             var width = _timePicker.ActualWidth;
@@ -38,13 +52,11 @@
 
             _isDragging = true;
         }
-
         private void StopDragging()
         {
             _indicator = Indicator.None;
             _isDragging = false;
         }
-
         private void OnTimePickerPreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (_isDragging)
@@ -70,7 +82,6 @@
                 }
             }
         }
-
         private void FindIndicator(double width, double height, double radius, Point center, Point mouse)
         {
             var minuteTip = LineOnCircle((Math.PI * 2 * _timePicker.TimeValue.Minutes / 60) - Math.PI / 2.0, center, 0, radius * MinuteIndicatorRatio)[1];
@@ -96,28 +107,18 @@
                 } 
             }
         }
-
         private void OnTimePickerPreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             StartDragging(e.GetPosition(_timePicker));
         }
-
         private void OnTimePickerPreviewMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             StopDragging();
         }
-
         private void OnTimePickerMouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             StopDragging();
         }
-
-        private enum Indicator
-        {
-            None,
-            HourIndicator,
-            MinuteIndicator
-        }
-
+        #endregion
     }
 }

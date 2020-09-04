@@ -773,7 +773,7 @@ namespace Orc.Controls
             try
             {
                 var format = Format;
-                _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(format, true);
+                _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(format);
                 var hasLongTimeFormat = !(_formatInfo.HourFormat is null
                                        || _formatInfo.MinuteFormat is null
                                        || _formatInfo.SecondFormat is null);
@@ -806,7 +806,7 @@ namespace Orc.Controls
 
                     format = $"{datePattern} {timePattern}";
 
-                    _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(format, true);
+                    _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(format);
                 }
 
                 UpdateUiPartVisibility();

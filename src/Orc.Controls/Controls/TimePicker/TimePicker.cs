@@ -20,6 +20,7 @@ namespace Orc.Controls
     using static Orc.Controls.ClockMath;
     public class TimePicker : ContentControl
     {
+        #region Fields
         public const double HourTickRatio = 0.20;
         public const double MinuteTickRatio = 0.10;
         public const double HourIndicatorRatio = 0.70;
@@ -29,7 +30,9 @@ namespace Orc.Controls
         private readonly ToggleButton _amPmButton;
         private readonly TimePickerInputController _inputController;
         private readonly ControlzEx.Theming.ThemeManager _themeManager;
+        #endregion
 
+        #region Constructors
         public TimePicker()
         {
             _inputController = new TimePickerInputController(this);
@@ -41,22 +44,9 @@ namespace Orc.Controls
             _amPmButton.Checked += OnAmPmButtonCheckedChanged;
             _amPmButton.Unchecked += OnAmPmButtonCheckedChanged;
         }
+        #endregion
 
-        private void OnAmPmButtonCheckedChanged(object sender, RoutedEventArgs e)
-        {
-            switch
-                    (_amPmButton.IsChecked)
-            {
-                case true:
-                    SetCurrentValue(AmPmValueProperty, Meridiem.PM);
-                    break;
-                default:
-                    SetCurrentValue(AmPmValueProperty, Meridiem.AM);
-                    break;
-            }
-            _amPmButton.SetCurrentValue(ContentProperty, AmPmValue);
-        }
-
+        #region Dependency properties
         public TimeSpan TimeValue
         {
             get { return (TimeSpan)GetValue(TimeValueProperty); }
@@ -154,7 +144,9 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty ClockBorderThicknessProperty =
             DependencyProperty.Register(nameof(ClockBorderThickness), typeof(double), typeof(TimePicker), new PropertyMetadata(2.0, new PropertyChangedCallback(OnThicknessChanged)));
+        #endregion
 
+        #region Methods
         private static void OnTimeValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
             var timePicker = d as TimePicker;
@@ -163,7 +155,6 @@ namespace Orc.Controls
                 timePicker.InvalidateVisual();
             }
         }
-
         private static void OnAmPmValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
             var timePicker = d as TimePicker;
@@ -172,23 +163,33 @@ namespace Orc.Controls
                 timePicker.InvalidateVisual();
             }
         }
-
+        private void OnAmPmButtonCheckedChanged(object sender, RoutedEventArgs e)
+        {
+            switch
+                    (_amPmButton.IsChecked)
+            {
+                case true:
+                    SetCurrentValue(AmPmValueProperty, Meridiem.PM);
+                    break;
+                default:
+                    SetCurrentValue(AmPmValueProperty, Meridiem.AM);
+                    break;
+            }
+            _amPmButton.SetCurrentValue(ContentProperty, AmPmValue);
+        }
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);
         }
-
         protected override void OnRender(DrawingContext drawingContext)
         {
             Render();
         }
-
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             Render();
             _themeManager.ThemeChanged += OnThemeManagerThemeChanged;
         }
-
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
             _themeManager.ThemeChanged -= OnThemeManagerThemeChanged;
@@ -197,7 +198,6 @@ namespace Orc.Controls
         {
             Render();
         }
-
         private static void OnThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
             var timePicker = d as TimePicker;
@@ -206,7 +206,6 @@ namespace Orc.Controls
                 timePicker.InvalidateVisual();
             }
         }
-
         private void Render()
         {
             var width = ActualWidth;
@@ -246,7 +245,6 @@ namespace Orc.Controls
             // Always draw a transparent rectangle for hit tests
             drawingContext.DrawRectangle(Brushes.Transparent, null, new Rect(0, 0, width, height));
         }
-
         private void RenderMinute(DrawingContext drawingContext, double radius, Point center)
         {
             var pen = new Pen(Theming.ThemeManager.Current.GetThemeColorBrush(ThemeColorStyle.AccentColor), MinuteThickness);
@@ -255,7 +253,6 @@ namespace Orc.Controls
             var points = LineOnCircle((Math.PI * 2.0 * TimeValue.Minutes / 60.0) - Math.PI / 2.0, center, MinuteThickness, radius * MinuteIndicatorRatio);
             drawingContext.DrawLine(pen, points[0], points[1]);
         }
-
         private void RenderHour(DrawingContext drawingContext, double radius, Point center)
         {
             var pen = new Pen(Theming.ThemeManager.Current.GetThemeColorBrush(ThemeColorStyle.AccentColor), HourThickness);
@@ -264,12 +261,10 @@ namespace Orc.Controls
             var points = LineOnCircle((Math.PI * 2.0 * TimeValue.Hours / 12.0) - Math.PI / 2.0, center, HourThickness, radius * HourIndicatorRatio);
             drawingContext.DrawLine(pen, points[0], points[1]);
         }
-
         private void RenderBorder(DrawingContext drawingContext, double radius, Point center)
         {
             drawingContext.DrawEllipse(Background, new Pen(Theming.ThemeManager.Current.GetThemeColorBrush(ThemeColorStyle.AccentColor), ClockBorderThickness), center, radius, radius);
         }
-
         private void RenderHourTicks(DrawingContext drawingContext, double radius, Point center)
         {
             var pen = new Pen(HourTickBrush, HourTickThickness);
@@ -279,7 +274,6 @@ namespace Orc.Controls
                 drawingContext.DrawLine(pen, points[0], points[1]);
             }
         }
-
         private void RenderMinuteTicks(DrawingContext drawingContext, double radius, Point center)
         {
             var pen = new Pen(MinuteTickBrush, MinuteTickThickness);
@@ -294,5 +288,6 @@ namespace Orc.Controls
                 drawingContext.DrawLine(pen, points[0], points[1]);
             }
         }
+        #endregion
     }
 }
