@@ -16,7 +16,6 @@ namespace Orc.Controls
     using System.Windows.Documents;
     using System.Windows.Input;
     using System.Windows.Media;
-    using Catel.Collections;
     using Catel.IoC;
     using Catel.Logging;
     using Catel.MVVM;
@@ -36,6 +35,7 @@ namespace Orc.Controls
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private readonly ICommandManager _commandManager;
+        private readonly Dictionary<LogEntry, RichTextBoxParagraph> _paragraphCache = new Dictionary<LogEntry, RichTextBoxParagraph>();
 
         private LogViewerViewModel _lastKnownViewModel;
         private bool _hasClearedEntries;
@@ -55,7 +55,7 @@ namespace Orc.Controls
         public LogViewerControl()
         {
             InitializeComponent();
-
+            
             _commandManager = ServiceLocator.Default.ResolveType<ICommandManager>();
 
             UpdateMessageBrushes();
@@ -71,8 +71,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty EnableTimestampProperty = DependencyProperty.Register(nameof(EnableTimestamp), typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
+                (sender, e) => ((LogViewerControl)sender).OnEnableTimestampChanged()));
 
         public bool EnableIcons
         {
@@ -82,8 +81,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty EnableIconsProperty = DependencyProperty.Register(nameof(EnableIcons), typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
+                (sender, e) => ((LogViewerControl)sender).OnEnableIconsChanged()));
 
         public bool EnableThreadId
         {
@@ -92,8 +90,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty EnableThreadIdProperty = DependencyProperty.Register(nameof(EnableThreadId), typeof(bool), typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
+            (sender, e) => ((LogViewerControl)sender).OnEnableThreadIdChanged()));
 
         public bool EnableTextColoring
         {
@@ -103,8 +100,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty EnableTextColoringProperty = DependencyProperty.Register(nameof(EnableTextColoring), typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
+                (sender, e) => ((LogViewerControl)sender).OnEnableTextColoringChanged()));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string LogFilter
@@ -239,8 +235,8 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty ShowMultilineMessagesExpandedProperty = DependencyProperty.Register(nameof(ShowMultilineMessagesExpanded),
             typeof(bool), typeof(LogViewerControl),
-            new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
+            new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, 
+                (sender, e) => ((LogViewerControl)sender).OnShowMultilineMessagesExpandedChanged()));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public LogFilterGroup ActiveFilterGroup
@@ -357,7 +353,7 @@ namespace Orc.Controls
 
             if (e.HasPropertyChanged(nameof(LogViewerViewModel.LogListenerType)))
             {
-                UpdateControl();
+                ClearCacheAndUpdate();
             }
         }
 
@@ -421,15 +417,14 @@ namespace Orc.Controls
         {
             rtb.BeginChange();
 
-            if (rtb.Document == null)
-            {
-                rtb.Document = CreateFlowDocument();
-            }
+            rtb.Document ??= CreateFlowDocument();
 
             var document = rtb.Document;
-            logEntries.Select(CreateLogEntryParagraph)
+            var paragraphs = logEntries.Select(CreateLogEntryParagraph)
                 .Where(x => x != null)
-                .ForEach(x => document.Blocks.Add(x));
+                .ToList();
+
+            paragraphs.ForEach(x => document.Blocks.Add(x));
 
             document.SetCurrentValue(FrameworkContentElement.TagProperty, logEntries.Last().Time);
 
@@ -445,7 +440,14 @@ namespace Orc.Controls
 
         private RichTextBoxParagraph CreateLogEntryParagraph(LogEntry logEntry)
         {
-            var paragraph = new RichTextBoxParagraph(logEntry);
+            if (_paragraphCache.TryGetValue(logEntry, out var paragraph))
+            {
+                return paragraph;
+            }
+
+            paragraph = new RichTextBoxParagraph(logEntry);
+            _paragraphCache[logEntry] = paragraph;
+
             paragraph.MouseLeftButtonDown += OnParagraphMouseLeftButton;
 
             if (EnableIcons)
@@ -496,7 +498,11 @@ namespace Orc.Controls
         {
             var rtb = LogRecordsRichTextBox;
 
-            rtb.Document = CreateFlowDocument();
+            var flowDoc = CreateFlowDocument();
+            rtb.Visibility = Visibility.Hidden;
+            rtb.Document = flowDoc;
+            rtb.Visibility = Visibility.Visible;
+
             var oldDoc = rtb.Document;
             if (oldDoc == null)
             {
@@ -521,7 +527,7 @@ namespace Orc.Controls
             var flowDocument = new FlowDocument
             {
                 Tag = DateTime.MinValue,
-                AllowDrop = false,
+                AllowDrop = false, 
                 IsHyphenationEnabled = false,
                 IsOptimalParagraphEnabled = false
             };
@@ -535,6 +541,8 @@ namespace Orc.Controls
 
             var vm = ViewModel as LogViewerViewModel;
             vm?.ClearEntries();
+
+            _paragraphCache.Clear();
 
             ClearScreen();
         }
@@ -658,6 +666,19 @@ namespace Orc.Controls
             }
 
             _lastKnownScrollHeight = scrollHeight;
+        }
+
+        private void OnEnableTimestampChanged() => ClearCacheAndUpdate();
+        private void OnEnableIconsChanged() => ClearCacheAndUpdate();
+        private void OnEnableTextColoringChanged() => ClearCacheAndUpdate();
+        private void OnEnableThreadIdChanged() => ClearCacheAndUpdate();
+        private void OnShowMultilineMessagesExpandedChanged() => ClearCacheAndUpdate();
+
+        private void ClearCacheAndUpdate()
+        {
+            _paragraphCache.Clear();
+
+            UpdateControl();
         }
     }
 }
