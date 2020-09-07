@@ -35,6 +35,7 @@ namespace Orc.Controls
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private readonly ICommandManager _commandManager;
+        private readonly Dictionary<LogEntry, RichTextBoxParagraph> _paragraphCache = new Dictionary<LogEntry, RichTextBoxParagraph>();
 
         private LogViewerViewModel _lastKnownViewModel;
         private bool _hasClearedEntries;
@@ -70,8 +71,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty EnableTimestampProperty = DependencyProperty.Register(nameof(EnableTimestamp), typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
+                (sender, e) => ((LogViewerControl)sender).OnEnableTimestampChanged()));
 
         public bool EnableIcons
         {
@@ -81,8 +81,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty EnableIconsProperty = DependencyProperty.Register(nameof(EnableIcons), typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
+                (sender, e) => ((LogViewerControl)sender).OnEnableIconsChanged()));
 
         public bool EnableThreadId
         {
@@ -91,8 +90,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty EnableThreadIdProperty = DependencyProperty.Register(nameof(EnableThreadId), typeof(bool), typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
+            (sender, e) => ((LogViewerControl)sender).OnEnableThreadIdChanged()));
 
         public bool EnableTextColoring
         {
@@ -102,8 +100,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty EnableTextColoringProperty = DependencyProperty.Register(nameof(EnableTextColoring), typeof(bool),
             typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
+                (sender, e) => ((LogViewerControl)sender).OnEnableTextColoringChanged()));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string LogFilter
@@ -238,8 +235,8 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty ShowMultilineMessagesExpandedProperty = DependencyProperty.Register(nameof(ShowMultilineMessagesExpanded),
             typeof(bool), typeof(LogViewerControl),
-            new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
+            new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, 
+                (sender, e) => ((LogViewerControl)sender).OnShowMultilineMessagesExpandedChanged()));
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public LogFilterGroup ActiveFilterGroup
@@ -356,7 +353,7 @@ namespace Orc.Controls
 
             if (e.HasPropertyChanged(nameof(LogViewerViewModel.LogListenerType)))
             {
-                UpdateControl();
+                ClearCacheAndUpdate();
             }
         }
 
@@ -441,9 +438,6 @@ namespace Orc.Controls
             UpdateControl(scrollToEnd: true);
         }
 
-        private Dictionary<LogEntry, RichTextBoxParagraph> _paragraphCache 
-            = new Dictionary<LogEntry, RichTextBoxParagraph>();
-
         private RichTextBoxParagraph CreateLogEntryParagraph(LogEntry logEntry)
         {
             if (_paragraphCache.TryGetValue(logEntry, out var paragraph))
@@ -504,7 +498,10 @@ namespace Orc.Controls
         {
             var rtb = LogRecordsRichTextBox;
 
-            rtb.Document = CreateFlowDocument();
+            var flowDoc = CreateFlowDocument();
+            rtb.Visibility = Visibility.Hidden;
+            rtb.Document = flowDoc;
+            rtb.Visibility = Visibility.Visible;
 
             var oldDoc = rtb.Document;
             if (oldDoc == null)
@@ -525,59 +522,17 @@ namespace Orc.Controls
             //oldDoc.Blocks.Clear();
         }
 
-        private class SkPaintPool
-        {
-            #region Fields
-            private readonly FlowDocument[] _docs;
-            private int _skPaintIndex;
-            #endregion
-
-            #region Constructors
-            public SkPaintPool(int poolSize, Func<FlowDocument> createPaintFunc = null)
-            {
-                createPaintFunc ??= () => new FlowDocument();
-
-                _docs = Enumerable.Range(1, poolSize)
-                    .Select(i => createPaintFunc())
-                    .ToArray();
-            }
-            #endregion
-
-            #region Methods
-            public FlowDocument GetDocument()
-            {
-                var paint = _docs[_skPaintIndex];
-
-                _skPaintIndex++;
-                if (_skPaintIndex >= _docs.Length)
-                {
-                    _skPaintIndex = 0;
-                }
-
-                return paint;
-            }
-            #endregion
-        }
-
-        private static SkPaintPool _docPool = new SkPaintPool(10, () => new FlowDocument
-        {
-            Tag = DateTime.MinValue,
-            AllowDrop = false,
-            IsHyphenationEnabled = false,
-            IsOptimalParagraphEnabled = false
-        });
-
         private static FlowDocument CreateFlowDocument()
         {
-            //var flowDocument = new FlowDocument
-            //{
-            //    Tag = DateTime.MinValue,
-            //    AllowDrop = false,
-            //    IsHyphenationEnabled = false,
-            //    IsOptimalParagraphEnabled = false
-            //};
+            var flowDocument = new FlowDocument
+            {
+                Tag = DateTime.MinValue,
+                AllowDrop = false, 
+                IsHyphenationEnabled = false,
+                IsOptimalParagraphEnabled = false
+            };
 
-            return _docPool.GetDocument();
+            return flowDocument;
         }
 
         public void Clear()
@@ -586,6 +541,8 @@ namespace Orc.Controls
 
             var vm = ViewModel as LogViewerViewModel;
             vm?.ClearEntries();
+
+            _paragraphCache.Clear();
 
             ClearScreen();
         }
@@ -709,6 +666,19 @@ namespace Orc.Controls
             }
 
             _lastKnownScrollHeight = scrollHeight;
+        }
+
+        private void OnEnableTimestampChanged() => ClearCacheAndUpdate();
+        private void OnEnableIconsChanged() => ClearCacheAndUpdate();
+        private void OnEnableTextColoringChanged() => ClearCacheAndUpdate();
+        private void OnEnableThreadIdChanged() => ClearCacheAndUpdate();
+        private void OnShowMultilineMessagesExpandedChanged() => ClearCacheAndUpdate();
+
+        private void ClearCacheAndUpdate()
+        {
+            _paragraphCache.Clear();
+
+            UpdateControl();
         }
     }
 }
