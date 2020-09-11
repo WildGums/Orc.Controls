@@ -1736,6 +1736,7 @@ namespace Orc.Controls
         protected override int VisualChildrenCount { get; }
         protected override System.Windows.Media.Visual GetVisualChild(int index) { }
     }
+    [System.Windows.TemplatePart(Name="PART_WatermarkHost", Type=typeof(System.Windows.Controls.ContentPresenter))]
     public class WatermarkTextBox : System.Windows.Controls.TextBox
     {
         public static readonly System.Windows.DependencyProperty SelectAllOnGotFocusProperty;
@@ -1744,6 +1745,7 @@ namespace Orc.Controls
         public WatermarkTextBox() { }
         public object Watermark { get; set; }
         public System.Windows.DataTemplate WatermarkTemplate { get; set; }
+        public override void OnApplyTemplate() { }
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e) { }
         protected override void OnPreviewMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e) { }
     }
