@@ -9,15 +9,29 @@
 
 namespace Orc.Controls
 {
+    using System;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
+    using Catel.Logging;
+    using Catel.Windows;
+    using Catel.Windows.Data;
 
     /// <summary>
     /// WatermarkTextBox which is a simple <see cref="TextBox"/> that is able to show simple and complex watermarks.
     /// </summary>
+    [TemplatePart(Name = "PART_WatermarkHost", Type = typeof(ContentPresenter))]
+    [TemplatePart(Name = "PART_ContentHost", Type = typeof(ScrollViewer))]
     public class WatermarkTextBox : TextBox
     {
+        #region Fields
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
+        private ContentPresenter _watermarkHost;
+        private ScrollViewer _contentHost;
+        #endregion
+
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Windows.Controls.TextBox"/> class.
@@ -32,6 +46,7 @@ namespace Orc.Controls
         /// </summary>
         public WatermarkTextBox()
         {
+            this.SubscribeToDependencyProperty(nameof(Padding), OnPaddingChanged);
         }
         #endregion
 
@@ -91,6 +106,40 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
+        public override void OnApplyTemplate()
+        {
+            _watermarkHost = GetTemplateChild("PART_WatermarkHost") as ContentPresenter;
+            if (_watermarkHost is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_WatermarkHost'");
+            }
+
+            _contentHost = GetTemplateChild("PART_ContentHost") as ScrollViewer;
+            if (_contentHost is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ContentHost'");
+            }
+
+            UpdateWaterMarkMargin();
+        }
+
+        private void OnPaddingChanged(object sender, DependencyPropertyValueChangedEventArgs e)
+        {
+            UpdateWaterMarkMargin();
+        }
+
+        private void UpdateWaterMarkMargin()
+        {
+            if (_watermarkHost is null)
+            {
+                return;
+            }
+
+            var padding = Padding;
+            var margin = new Thickness(padding.Left + 2d, padding.Top, padding.Right + 2d, padding.Bottom);
+            _watermarkHost.SetCurrentValue(MarginProperty, margin);
+        }
+
         /// <summary>
         /// Invoked whenever an unhandled <c>System.Windows.Input.Keyboard.GotKeyboardFocus</c> attached routed event reaches an element derived from this class in its route. Implement this method to add class handling for this event.
         /// </summary>

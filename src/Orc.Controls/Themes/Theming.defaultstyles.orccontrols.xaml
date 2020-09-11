@@ -34,8 +34,12 @@
     </ResourceDictionary.MergedDictionaries>
     
     <!-- TabControl -->
-    <Style x:Key="DefaultTabControlStyle" TargetType="{x:Type orccontrols:TabControl}" BasedOn="{StaticResource {x:Type orccontrols:TabControl}}">
+    <Style x:Key="DefaultTabControlStyle" 
+           TargetType="{x:Type orccontrols:TabControl}" 
+           BasedOn="{StaticResource {x:Type orccontrols:TabControl}}">
+
         <Setter Property="Margin" Value="{DynamicResource Margin.Default}" />
+
     </Style>
 
     <Style x:Key="DefaultDropDownButtonStyle" TargetType="{x:Type orccontrols:DropDownButton}"
