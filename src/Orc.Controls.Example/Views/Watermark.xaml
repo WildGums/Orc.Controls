@@ -23,6 +23,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -38,6 +39,9 @@
 
         <TextBlock Text="Last Name:" />
         <orccontrols:WatermarkTextBox Watermark="Enter the last name" />
+
+        <TextBlock Text="E-mail:"  />
+        <TextBox Text="Last Name:" />
 
         <TextBlock Text="Phone Number:" />
         <orccontrols:WatermarkTextBox>
@@ -58,6 +62,8 @@
                 </StackPanel>
             </orccontrols:WatermarkTextBox.Watermark>
         </orccontrols:WatermarkTextBox>
+
+   
 
     </orccontrols:StackGrid>
 </catel:UserControl>
