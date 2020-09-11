@@ -12,12 +12,18 @@ namespace Orc.Controls
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
+    using Catel.Windows.Data;
 
     /// <summary>
     /// WatermarkTextBox which is a simple <see cref="TextBox"/> that is able to show simple and complex watermarks.
     /// </summary>
+    [TemplatePart(Name = "PART_WatermarkHost", Type = typeof(ContentPresenter))]
     public class WatermarkTextBox : TextBox
     {
+        #region Fields
+        private ContentPresenter _watermarkHost;
+        #endregion
+
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Windows.Controls.TextBox"/> class.
@@ -32,6 +38,7 @@ namespace Orc.Controls
         /// </summary>
         public WatermarkTextBox()
         {
+            this.SubscribeToDependencyProperty(nameof(Padding), OnPaddingChanged);
         }
         #endregion
 
@@ -120,6 +127,32 @@ namespace Orc.Controls
             }
 
             base.OnPreviewMouseLeftButtonDown(e);
+        }
+
+        public override void OnApplyTemplate()
+        {
+            _watermarkHost = GetTemplateChild("PART_WatermarkHost") as ContentPresenter;
+
+            UpdateWaterMarkMargin();
+
+            base.OnApplyTemplate();
+        }
+
+        private void OnPaddingChanged(object sender, DependencyPropertyValueChangedEventArgs e)
+        {
+            UpdateWaterMarkMargin();
+        }
+
+        private void UpdateWaterMarkMargin()
+        {
+            if (_watermarkHost is null)
+            {
+                return;
+            }
+
+            var padding = Padding;
+            var margin = new Thickness(padding.Left + 2d, padding.Top, padding.Right + 2d, padding.Bottom);
+            _watermarkHost.SetCurrentValue(MarginProperty, margin);
         }
         #endregion
     }
