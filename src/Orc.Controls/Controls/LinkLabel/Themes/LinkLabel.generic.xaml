@@ -5,6 +5,7 @@
     <Style x:Key="{x:Type controls:LinkLabel}" TargetType="{x:Type controls:LinkLabel}" BasedOn="{StaticResource {x:Type Label}}">
         <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.AccentColor80}" />
         <Setter Property="HoverForeground" Value="{DynamicResource Orc.Brushes.AccentColor}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HyperlinkStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type Hyperlink}">
@@ -31,6 +32,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             Padding="{TemplateBinding Padding}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                             SnapsToDevicePixels="true">
                         <TextBlock Background="{TemplateBinding Background}"
                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
