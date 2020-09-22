@@ -1,4 +1,9 @@
-﻿namespace Orc.Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TimePicker.cs" company="">
+// Clock-like TimePicker control https://github.com/roy-t/TimePicker
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+namespace Orc.Controls
 {
     using System;
     using System.Windows;

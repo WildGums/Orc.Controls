@@ -5,8 +5,8 @@
                     xmlns:converters="clr-namespace:Orc.Controls.Converters"
                     xmlns:catel="http://schemas.catelproject.com">
 
-    <ResourceDictionary.MergedDictionaries>
+    <!--<ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
-    </ResourceDictionary.MergedDictionaries>
-
+    </ResourceDictionary.MergedDictionaries>-->
+   
 </ResourceDictionary>

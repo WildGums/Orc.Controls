@@ -679,32 +679,35 @@ namespace Orc.Controls
         }
         private void OnTimeValueChanged(TimeSpan? newTimeValue)
         {
-            if (newTimeValue != null)
+            if (newTimeValue == null)
             {
-                DateTime newDateTime;
-                if (HideTime == true)
-                {
-                    SetCurrentValue(HideTimeProperty, false);
-                }
-                if(Value != null)
-                {
-                    newDateTime = Value.Value;
-                }
-                else
-                {
-                    newDateTime = DateTime.Now;
-                }
-                if(AmPmValue.Equals(Meridiem.PM) && newTimeValue.Value.Hours < 12)
-                {
-                    SetCurrentValue(ValueProperty, new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newTimeValue.Value.Hours + 12, newTimeValue.Value.Minutes, newTimeValue.Value.Seconds));
-                }
-                else 
-                {
-                    SetCurrentValue(ValueProperty, new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newTimeValue.Value.Hours, newTimeValue.Value.Minutes, newTimeValue.Value.Seconds));
-                }
-                
+                return;
             }
-        }
+
+            DateTime newDateTime;
+            if (HideTime == true)
+            {
+                SetCurrentValue(HideTimeProperty, false);
+            }
+
+            if(Value != null)
+            {
+                newDateTime = Value.Value;
+            }
+            else
+            {
+                newDateTime = DateTime.Now;
+            }
+
+            if(AmPmValue.Equals(Meridiem.PM) && newTimeValue.Value.Hours < 12)
+            {
+                SetCurrentValue(ValueProperty, new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newTimeValue.Value.Hours + 12, newTimeValue.Value.Minutes, newTimeValue.Value.Seconds));
+            }
+            else 
+            {
+                SetCurrentValue(ValueProperty, new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newTimeValue.Value.Hours, newTimeValue.Value.Minutes, newTimeValue.Value.Seconds));
+            }
+         }
 
         private void OnClearMenuItemClick(object sender, RoutedEventArgs e)
         {
@@ -1275,6 +1278,7 @@ namespace Orc.Controls
         private void OnAmPmValueChanged(Meridiem newValue)
         {
             DateTime newDateTime;
+
             if (Value != null)
             {
                 newDateTime = Value.Value;
@@ -1284,26 +1288,30 @@ namespace Orc.Controls
                 newDateTime = DateTime.Now;
             }
 
-            TimeSpan diffTime;
+            bool isMeridiemAm = newValue == Meridiem.AM;
+            bool isTimeAm = newDateTime.Hour < 12;
+
+            TimeSpan diffTime = TimeSpan.Zero;
             TimeSpan hours = new TimeSpan(12, 0, 0);
-            if (newValue == Meridiem.AM)
+
+            if (!(isMeridiemAm ^ isTimeAm))
             {
-                if (newDateTime.Hour >= 12)
-                {
-                    diffTime = newDateTime.TimeOfDay.Subtract(hours);
-                    var diffDate = new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newDateTime.Hour - 12, newDateTime.Minute, newDateTime.Second);
-                    SetCurrentValue(ValueProperty, diffDate);
-                }
+                return;
             }
-            else
+
+            if (isMeridiemAm && !isTimeAm)
             {
-                if (newDateTime.Hour < 12)
-                {
-                    diffTime = newDateTime.TimeOfDay.Add(hours);
-                    var diffDate = new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newDateTime.Hour + 12, newDateTime.Minute, newDateTime.Second);
-                    SetCurrentValue(ValueProperty, diffDate);
-                }
+                diffTime = newDateTime.TimeOfDay.Subtract(hours);
             }
+
+            if (!isMeridiemAm && isTimeAm)
+            {
+                diffTime = newDateTime.TimeOfDay.Add(hours);
+            }
+
+            var diffDate = new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, diffTime.Hours, diffTime.Minutes, diffTime.Seconds);
+            SetCurrentValue(ValueProperty, diffDate);
+
         }
 
         private void OnMonthTextChanged(object sender, TextChangedEventArgs e)

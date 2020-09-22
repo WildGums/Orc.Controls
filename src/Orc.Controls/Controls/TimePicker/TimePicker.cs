@@ -30,17 +30,18 @@ namespace Orc.Controls
         private readonly ToggleButton _amPmButton;
         private readonly TimePickerInputController _inputController;
         private readonly ControlzEx.Theming.ThemeManager _themeManager;
-        #endregion
 
+        #endregion
         #region Constructors
         public TimePicker()
         {
             _inputController = new TimePickerInputController(this);
             _themeManager = ControlzEx.Theming.ThemeManager.Current;
             _containerCanvas = new Canvas();
-            _amPmButton = new ToggleButton();
-            _amPmButton.SetCurrentValue(ContentProperty, AmPmValue);
-            _amPmButton.IsChecked = false;
+            _amPmButton = new ToggleButton
+            {
+                IsChecked = false
+            };
             _amPmButton.Checked += OnAmPmButtonCheckedChanged;
             _amPmButton.Unchecked += OnAmPmButtonCheckedChanged;
         }
@@ -144,9 +145,29 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty ClockBorderThicknessProperty =
             DependencyProperty.Register(nameof(ClockBorderThickness), typeof(double), typeof(TimePicker), new PropertyMetadata(2.0, new PropertyChangedCallback(OnThicknessChanged)));
+
+        public bool ShowNumbers
+        {
+            get { return (bool)GetValue(ShowNumbersProperty); }
+            set { SetValue(ShowNumbersProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowNumbersProperty =
+            DependencyProperty.Register(nameof(ShowNumbers), typeof(bool), typeof(TimePicker), new PropertyMetadata(false, new PropertyChangedCallback(OnShowNumbersChanged)));
+
+
         #endregion
 
         #region Methods
+
+        private static void OnShowNumbersChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
+        {
+            var timePicker = d as TimePicker;
+            if (timePicker != null)
+            {
+                timePicker.InvalidateVisual();
+            }
+        }
         private static void OnTimeValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
             var timePicker = d as TimePicker;
@@ -212,15 +233,20 @@ namespace Orc.Controls
             var height = ActualHeight;
             var radius = (Math.Min(width, height) - ClockBorderThickness) / 2.0;
             var center = new Point(width / 2.0, height / 2.0);
-
             _containerCanvas.Children.Clear();
-
             DrawingGroup drawingGroup = new DrawingGroup();
             using (DrawingContext drawingContext = drawingGroup.Open())
             {
                 RenderBackground(drawingContext, width, height);
                 RenderBorder(drawingContext, radius, center);
-                RenderHourTicks(drawingContext, radius, center);
+                if (ShowNumbers)
+                {
+                    RenderNumbers(drawingContext, radius, center);
+                }
+                else
+                {
+                    RenderHourTicks(drawingContext, radius, center);
+                }
                 RenderMinuteTicks(drawingContext, radius, center);
                 RenderHour(drawingContext, radius, center);
                 RenderMinute(drawingContext, radius, center);
@@ -231,14 +257,50 @@ namespace Orc.Controls
             theImage.Source = dImageSource;
             _containerCanvas.Children.Add(theImage);
 
-            _amPmButton.SetCurrentValue(WidthProperty, width * 0.098);
-            _amPmButton.SetCurrentValue(HeightProperty, height * 0.089);
-            _amPmButton.SetCurrentValue(ContentProperty, AmPmValue); 
+            _amPmButton.SetCurrentValue(ContentProperty, AmPmValue);
             _containerCanvas.Children.Add(_amPmButton);
+            _amPmButton.SetCurrentValue(StyleProperty, null);
+            var amPmButtonWidth = width * 0.098;
+            var amPmButtonHeight = height * 0.076;
+            var stringSize = new Size(double.PositiveInfinity, double.PositiveInfinity);
+            var fontSize = 14d;
+            while (stringSize.Width > amPmButtonWidth || stringSize.Height > amPmButtonHeight)
+            {
+                stringSize = MeasureString(_amPmButton.Content.ToString(), fontSize);
+                fontSize -= 1;
+            }
+            if (fontSize > 1.0)
+            {
+                _amPmButton.SetCurrentValue(FontSizeProperty, fontSize - 1);
+            }
+            else
+            {
+                _amPmButton.SetCurrentValue(ContentProperty, null);
+            }
             Canvas.SetLeft(_amPmButton, width * 0.73);
-            Canvas.SetTop(_amPmButton, height * 0.43);
+            Canvas.SetTop(_amPmButton, height * 0.45);
 
             SetCurrentValue(ContentProperty, _containerCanvas);
+
+            _amPmButton.SetCurrentValue(StyleProperty, new Style(typeof(ToggleButton))
+            {
+                BasedOn = _amPmButton.Style,
+                Setters =
+                {
+                    new Setter(WidthProperty, amPmButtonWidth),
+                    new Setter(HeightProperty, amPmButtonHeight),
+                }
+            });
+        }
+        private Size MeasureString(string s, double fontSize)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return new Size(0, 0);
+            }
+            var textBlock = new TextBlock { Text = s, FontSize = fontSize };
+            textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            return new Size(textBlock.DesiredSize.Width, textBlock.DesiredSize.Height);
         }
         private void RenderBackground(DrawingContext drawingContext, double width, double height)
         {
@@ -273,6 +335,24 @@ namespace Orc.Controls
                 var points = LineOnCircle(Math.PI * 2 * i / 12, center, radius * (1 - HourTickRatio), radius - ClockBorderThickness * 0.5);
                 drawingContext.DrawLine(pen, points[0], points[1]);
             }
+        }
+
+        private void RenderNumbers(DrawingContext drawingContext, double radius, Point center) 
+        {
+            var pen = new Pen(HourTickBrush, HourTickThickness);
+            for (int i = 1; i <= 12; i++)
+            {
+                var points = LineOnCircle(Math.PI * 2 * (i - 3) / 12, center, radius * (1 - MinuteTickRatio), radius - ClockBorderThickness * 0.5);
+                drawingContext.DrawLine(pen, points[0], points[1]);
+                
+#pragma warning disable 0618
+                var formattedText = new FormattedText(i.ToString(), CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface("Impact"), radius * 0.2, HourTickBrush, new NumberSubstitution(), TextFormattingMode.Display);
+#pragma warning restore 0618
+                var numberPoints = LineOnCircle(Math.PI * 2 * (i - 3) / 12, center, radius * (1 - HourTickRatio), radius - ClockBorderThickness * 0.5);
+                var point = new Point(numberPoints[0].X - radius * 0.06, numberPoints[0].Y - radius * 0.13);
+                drawingContext.DrawText(formattedText, point);
+            }
+
         }
         private void RenderMinuteTicks(DrawingContext drawingContext, double radius, Point center)
         {

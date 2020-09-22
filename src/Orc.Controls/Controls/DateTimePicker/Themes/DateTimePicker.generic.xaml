@@ -358,25 +358,26 @@
                         </Popup>
 
                         <Popup x:Name="PART_TimePickerPopup"
-                               AllowsTransparency="True"
                                PlacementTarget="{Binding ElementName=PART_MainGrid}"
                                Placement="Bottom"
                                VerticalOffset="-4"
                                StaysOpen="False">
-                            <DockPanel Background="Transparent">
-                                <controls:TimePicker x:Name="PART_TimePicker"
-                                                    Background="White"
-                                                    BorderThickness="5"
-                                                    HourTickBrush="Black"
-                                                    HourThickness="5"
-                                                    MinuteTickBrush="DarkGray"
-                                                    MinuteThickness="4"
-                                                    Width="220"
-                                                    Height="220"
-                                                    AmPmValue="{Binding Path=AmPmValue, RelativeSource={RelativeSource AncestorType={x:Type controls:DateTimePicker}}, Mode=TwoWay}"
-                                                    TimeValue="{Binding Path=TimeValue, RelativeSource={RelativeSource AncestorType={x:Type controls:DateTimePicker}}, Mode=TwoWay}">
-                                </controls:TimePicker>
-                            </DockPanel>
+                            <Border BorderBrush="LightGray" BorderThickness="3">
+                                <DockPanel Background="{TemplateBinding Background}">
+                                        <controls:TimePicker x:Name="PART_TimePicker"
+                                                        Background="Transparent"
+                                                        BorderThickness="5"
+                                                        HourTickBrush="Black"
+                                                        HourThickness="5"
+                                                        MinuteTickBrush="DarkGray"
+                                                        MinuteThickness="4"
+                                                        Height="156"
+                                                        Width="156"
+                                                        AmPmValue="{Binding Path=AmPmValue, RelativeSource={RelativeSource AncestorType={x:Type controls:DateTimePicker}}, Mode=TwoWay}"
+                                                        TimeValue="{Binding Path=TimeValue, RelativeSource={RelativeSource AncestorType={x:Type controls:DateTimePicker}}, Mode=TwoWay}">
+                                        </controls:TimePicker>
+                                </DockPanel>
+                            </Border>
                         </Popup>
                     </Grid>
                 </ControlTemplate>
