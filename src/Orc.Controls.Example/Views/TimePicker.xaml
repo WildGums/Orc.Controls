@@ -37,8 +37,8 @@
             <TextBlock Text="Selected Time" HorizontalAlignment="Center"/>
             <TextBox Grid.ColumnSpan="9" Text="{Binding TimeValueString}" IsReadOnly="True" Width="90" Height="25" HorizontalAlignment="Left" HorizontalContentAlignment="Center"/>
             <Button Grid.ColumnSpan="10" Content="Set value to null" Command="{Binding SetNull}" Width="100" Height="25" HorizontalAlignment="Left"/>
-            <CheckBox Grid.ColumnSpan="10" Content="ShowNumbers" IsChecked="{Binding ElementName=controls:TimePicker, Path= ShowNumbers, Mode=TwoWay}"/>
-            <controls:TimePicker Grid.ColumnSpan="10"
+            <CheckBox x:Name="showNumbersCheckbox" Grid.ColumnSpan="10"  Content="Show numbers" IsChecked="False" />
+        <controls:TimePicker Grid.ColumnSpan="10"
                                  Width="300"
                                  Height="300"
                                  HourThickness="{Binding Path=HourThickness}"
@@ -48,7 +48,7 @@
                                  ClockBorderThickness="{Binding Path=ClockBorderThickness}"
                                  TimeValue="{Binding Path=Time, Mode=TwoWay}"
                                  AmPmValue="{Binding Path=AmPm, Mode=TwoWay}"
-                                 ShowNumbers="{Binding Path=ShowNumbers, Mode=TwoWay}"/>
+                                 ShowNumbers="{Binding IsChecked, ElementName=showNumbersCheckbox}"/>
     </controls:StackGrid>
 
 </catel:UserControl>

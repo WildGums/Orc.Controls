@@ -31,6 +31,7 @@ namespace Orc.Controls
         private readonly TimePickerInputController _inputController;
         private readonly ControlzEx.Theming.ThemeManager _themeManager;
 
+        private bool _showNumbers;
         #endregion
         #region Constructors
         public TimePicker()
@@ -152,21 +153,19 @@ namespace Orc.Controls
             set { SetValue(ShowNumbersProperty, value); }
         }
 
-        public static readonly DependencyProperty ShowNumbersProperty =
-            DependencyProperty.Register(nameof(ShowNumbers), typeof(bool), typeof(TimePicker), new PropertyMetadata(false, new PropertyChangedCallback(OnShowNumbersChanged)));
+        public static readonly DependencyProperty ShowNumbersProperty = DependencyProperty.Register(nameof(ShowNumbers), typeof(bool),
+            typeof(TimePicker), new FrameworkPropertyMetadata(false,
+                (sender, e) => ((TimePicker)sender).OnShowNumbersChanged()));
 
 
         #endregion
 
         #region Methods
 
-        private static void OnShowNumbersChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
+        private void OnShowNumbersChanged()
         {
-            var timePicker = d as TimePicker;
-            if (timePicker != null)
-            {
-                timePicker.InvalidateVisual();
-            }
+            _showNumbers = ShowNumbers;
+            Render();
         }
         private static void OnTimeValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
@@ -233,7 +232,10 @@ namespace Orc.Controls
             var height = ActualHeight;
             var radius = (Math.Min(width, height) - ClockBorderThickness) / 2.0;
             var center = new Point(width / 2.0, height / 2.0);
+
+            SetCurrentValue(ShowNumbersProperty, _showNumbers);
             _containerCanvas.Children.Clear();
+
             DrawingGroup drawingGroup = new DrawingGroup();
             using (DrawingContext drawingContext = drawingGroup.Open())
             {
@@ -256,7 +258,6 @@ namespace Orc.Controls
             DrawingImage dImageSource = new DrawingImage(drawingGroup);
             theImage.Source = dImageSource;
             _containerCanvas.Children.Add(theImage);
-
             _amPmButton.SetCurrentValue(ContentProperty, AmPmValue);
             _containerCanvas.Children.Add(_amPmButton);
             _amPmButton.SetCurrentValue(StyleProperty, null);
@@ -264,31 +265,22 @@ namespace Orc.Controls
             var amPmButtonHeight = height * 0.076;
             var stringSize = new Size(double.PositiveInfinity, double.PositiveInfinity);
             var fontSize = 14d;
-            while (stringSize.Width > amPmButtonWidth || stringSize.Height > amPmButtonHeight)
+            while ((stringSize.Width > amPmButtonWidth || stringSize.Height > amPmButtonHeight) && fontSize > 1)
             {
                 stringSize = MeasureString(_amPmButton.Content.ToString(), fontSize);
                 fontSize -= 1;
             }
-            if (fontSize > 1.0)
-            {
-                _amPmButton.SetCurrentValue(FontSizeProperty, fontSize - 1);
-            }
-            else
-            {
-                _amPmButton.SetCurrentValue(ContentProperty, null);
-            }
+            _amPmButton.SetCurrentValue(FontSizeProperty, fontSize - 1);
             Canvas.SetLeft(_amPmButton, width * 0.73);
-            Canvas.SetTop(_amPmButton, height * 0.45);
-
+            Canvas.SetTop(_amPmButton, height * 0.47);
             SetCurrentValue(ContentProperty, _containerCanvas);
-
             _amPmButton.SetCurrentValue(StyleProperty, new Style(typeof(ToggleButton))
             {
                 BasedOn = _amPmButton.Style,
                 Setters =
                 {
                     new Setter(WidthProperty, amPmButtonWidth),
-                    new Setter(HeightProperty, amPmButtonHeight),
+                    new Setter(HeightProperty, amPmButtonHeight)
                 }
             });
         }
@@ -318,7 +310,6 @@ namespace Orc.Controls
         private void RenderHour(DrawingContext drawingContext, double radius, Point center)
         {
             var pen = new Pen(Theming.ThemeManager.Current.GetThemeColorBrush(ThemeColorStyle.AccentColor), HourThickness);
-
             drawingContext.DrawEllipse(HourBrush, pen, center, HourThickness * 1, HourThickness * 1);
             var points = LineOnCircle((Math.PI * 2.0 * TimeValue.Hours / 12.0) - Math.PI / 2.0, center, HourThickness, radius * HourIndicatorRatio);
             drawingContext.DrawLine(pen, points[0], points[1]);
@@ -336,7 +327,6 @@ namespace Orc.Controls
                 drawingContext.DrawLine(pen, points[0], points[1]);
             }
         }
-
         private void RenderNumbers(DrawingContext drawingContext, double radius, Point center) 
         {
             var pen = new Pen(HourTickBrush, HourTickThickness);
@@ -344,7 +334,6 @@ namespace Orc.Controls
             {
                 var points = LineOnCircle(Math.PI * 2 * (i - 3) / 12, center, radius * (1 - MinuteTickRatio), radius - ClockBorderThickness * 0.5);
                 drawingContext.DrawLine(pen, points[0], points[1]);
-                
 #pragma warning disable 0618
                 var formattedText = new FormattedText(i.ToString(), CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface("Impact"), radius * 0.2, HourTickBrush, new NumberSubstitution(), TextFormattingMode.Display);
 #pragma warning restore 0618
@@ -352,7 +341,6 @@ namespace Orc.Controls
                 var point = new Point(numberPoints[0].X - radius * 0.06, numberPoints[0].Y - radius * 0.13);
                 drawingContext.DrawText(formattedText, point);
             }
-
         }
         private void RenderMinuteTicks(DrawingContext drawingContext, double radius, Point center)
         {
@@ -363,7 +351,6 @@ namespace Orc.Controls
                 {
                     continue;
                 } 
-
                 var points = LineOnCircle(Math.PI * 2 * i / 60, center, radius * (1 - MinuteTickRatio), radius - ClockBorderThickness * 0.5);
                 drawingContext.DrawLine(pen, points[0], points[1]);
             }
