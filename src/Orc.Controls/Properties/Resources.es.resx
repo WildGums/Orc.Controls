@@ -285,6 +285,9 @@
   <data name="Controls_DateTimePicker_Button_Content_SelectDate" xml:space="preserve">
     <value>Select date</value>
   </data>
+  <data name="Controls_DateTimePicker_Button_Content_SelectTime" xml:space="preserve">
+    <value>Select time</value>
+  </data>
   <data name="Controls_DateTimePicker_Button_Content_Today" xml:space="preserve">
     <value>Today</value>
   </data>
@@ -311,5 +314,20 @@
   </data>
   <data name="Controls_DbProviderPicker_Button_Content_Change" xml:space="preserve">
     <value>Change...</value>
+  </data>
+  <data name="Controls_TimePickerControl_Button_Content_Now" xml:space="preserve">
+    <value>Now</value>
+  </data>
+  <data name="Controls_TimePickerControl_Button_Content_SelectTime" xml:space="preserve">
+    <value>Select time</value>
+  </data>
+  <data name="Controls_TimePickerControl_Button_Content_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Controls_TimePickerControl_Button_Content_Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Controls_TimePickerControl_Button_Content_Paste" xml:space="preserve">
+    <value>Paste</value>
   </data>
 </root>

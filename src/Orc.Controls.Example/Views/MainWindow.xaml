@@ -51,7 +51,7 @@
             <TabItem Header="DatePicker">
                 <views:DatePicker />
             </TabItem>
-
+          
             <TabItem Header="DateTimePicker">
                 <views:DateTimePicker />
             </TabItem>
@@ -119,7 +119,11 @@
             <TabItem Header="StaggeredPanel">
                 <views:StaggeredPanelView/>
             </TabItem>
-
+            
+            <TabItem Header="TimePicker">
+                <views:TimePicker />
+            </TabItem>
+            
             <TabItem Header="TimeSpanPicker">
                 <views:TimeSpanPickerView />
             </TabItem>
@@ -132,16 +136,16 @@
                 <views:Watermark />
             </TabItem>
 
-            <!--<TabItem Header="Combobox">
-            <orc:StackGrid>
-                <orc:StackGrid.RowDefinitions>
+            <TabItem Header="Combobox">
+            <orccontrols:StackGrid>
+                <orccontrols:StackGrid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                </orc:StackGrid.RowDefinitions>
+                </orccontrols:StackGrid.RowDefinitions>
 
                 <TextBlock Text="Just for test. Please remove it before merging with develop" 
                            FontWeight="Bold"
@@ -165,8 +169,8 @@
                 <GridSplitter Height="1" HorizontalAlignment="Stretch" Background="Black" Margin="0 0 0 2" BorderBrush="Black" BorderThickness="1"/>
                 
                 <TextBlock x:Name="ComboboxResultTextBlock"/>
-            </orc:StackGrid>
-        </TabItem>-->
+            </orccontrols:StackGrid>
+        </TabItem>
 
         </orccontrols:TabControl>
     </Grid>

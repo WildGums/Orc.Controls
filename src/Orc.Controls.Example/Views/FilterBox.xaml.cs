@@ -17,7 +17,7 @@ namespace Orc.Controls.Example.Views
             InitializeComponent();
         }
 
-        private void OnFilterBoxControlInitializingAutoCompletionService(object sender, Controls.InitializingAutoCompletionServiceEventArgs e)
+        private void OnFilterBoxControlInitializingAutoCompletionService(object sender, InitializingAutoCompletionServiceEventArgs e)
         {
             e.AutoCompletionService = this.GetTypeFactory().CreateInstance<ReverseAutoCompletionService>();
         }
