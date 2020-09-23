@@ -258,11 +258,14 @@ namespace Orc.Controls
             DrawingImage dImageSource = new DrawingImage(drawingGroup);
             theImage.Source = dImageSource;
             _containerCanvas.Children.Add(theImage);
-            _amPmButton.SetCurrentValue(ContentProperty, AmPmValue);
+
             _containerCanvas.Children.Add(_amPmButton);
             _amPmButton.SetCurrentValue(StyleProperty, null);
-            var amPmButtonWidth = width * 0.098;
-            var amPmButtonHeight = height * 0.076;
+            _amPmButton.SetCurrentValue(ContentProperty, AmPmValue);
+            _amPmButton.SetCurrentValue(MinHeightProperty, 18.0);
+            _amPmButton.SetCurrentValue(MinWidthProperty, 22.0);
+            var amPmButtonWidth = width * 0.1;
+            var amPmButtonHeight = height * 0.08;
             var stringSize = new Size(double.PositiveInfinity, double.PositiveInfinity);
             var fontSize = 14d;
             while ((stringSize.Width > amPmButtonWidth || stringSize.Height > amPmButtonHeight) && fontSize > 1)
@@ -271,9 +274,10 @@ namespace Orc.Controls
                 fontSize -= 1;
             }
             _amPmButton.SetCurrentValue(FontSizeProperty, fontSize - 1);
+
             Canvas.SetLeft(_amPmButton, width * 0.73);
             Canvas.SetTop(_amPmButton, height * 0.47);
-            SetCurrentValue(ContentProperty, _containerCanvas);
+
             _amPmButton.SetCurrentValue(StyleProperty, new Style(typeof(ToggleButton))
             {
                 BasedOn = _amPmButton.Style,
@@ -283,6 +287,8 @@ namespace Orc.Controls
                     new Setter(HeightProperty, amPmButtonHeight)
                 }
             });
+
+            SetCurrentValue(ContentProperty, _containerCanvas);
         }
         private Size MeasureString(string s, double fontSize)
         {

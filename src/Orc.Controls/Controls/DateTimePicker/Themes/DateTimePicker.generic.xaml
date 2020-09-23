@@ -360,7 +360,7 @@
                         <Popup x:Name="PART_TimePickerPopup"
                                PlacementTarget="{Binding ElementName=PART_MainGrid}"
                                Placement="Bottom"
-                               VerticalOffset="-4"
+                               VerticalOffset="0"
                                StaysOpen="False">
                             <Border BorderBrush="LightGray" BorderThickness="3">
                                 <DockPanel Background="{TemplateBinding Background}">
@@ -371,8 +371,10 @@
                                                         HourThickness="5"
                                                         MinuteTickBrush="DarkGray"
                                                         MinuteThickness="4"
-                                                        Height="156"
-                                                        Width="156"
+                                                        MinHeight="180"
+                                                        MinWidth="180"
+                                                        Width="{Binding Path=ActualWidth, ElementName=PART_MainGrid}"
+                                                        Height="{Binding Path=ActualWidth, ElementName=PART_MainGrid}"
                                                         AmPmValue="{Binding Path=AmPmValue, RelativeSource={RelativeSource AncestorType={x:Type controls:DateTimePicker}}, Mode=TwoWay}"
                                                         TimeValue="{Binding Path=TimeValue, RelativeSource={RelativeSource AncestorType={x:Type controls:DateTimePicker}}, Mode=TwoWay}">
                                         </controls:TimePicker>
