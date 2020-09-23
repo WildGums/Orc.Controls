@@ -217,6 +217,11 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="DefaultLinkLabelStyle" TargetType="{x:Type orccontrols:LinkLabel}" 
+           BasedOn="{StaticResource {x:Type orccontrols:LinkLabel}}">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+
     <Style x:Key="DefaultNumericTextBoxStyle" 
            TargetType="{x:Type orccontrols:NumericTextBox}" 
            BasedOn="{StaticResource {x:Type orccontrols:NumericTextBox}}">
