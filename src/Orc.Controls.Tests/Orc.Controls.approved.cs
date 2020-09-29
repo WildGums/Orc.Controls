@@ -438,6 +438,9 @@ namespace Orc.Controls
     [System.Windows.TemplatePart(Name="PART_SecondNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
     [System.Windows.TemplatePart(Name="PART_SecondToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
     [System.Windows.TemplatePart(Name="PART_SelectDateMenuItem", Type=typeof(System.Windows.Controls.MenuItem))]
+    [System.Windows.TemplatePart(Name="PART_SelectTimeMenuItem", Type=typeof(System.Windows.Controls.MenuItem))]
+    [System.Windows.TemplatePart(Name="PART_TimePicker", Type=typeof(Orc.Controls.TimePicker))]
+    [System.Windows.TemplatePart(Name="PART_TimePickerPopup", Type=typeof(System.Windows.Controls.Primitives.Popup))]
     [System.Windows.TemplatePart(Name="PART_TodayMenuItem", Type=typeof(System.Windows.Controls.MenuItem))]
     [System.Windows.TemplatePart(Name="PART_YearNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
     [System.Windows.TemplatePart(Name="PART_YearSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
@@ -446,6 +449,7 @@ namespace Orc.Controls
     {
         public static readonly System.Windows.DependencyProperty AllowCopyPasteProperty;
         public static readonly System.Windows.DependencyProperty AllowNullProperty;
+        public static readonly System.Windows.DependencyProperty AmPmValueProperty;
         public static readonly System.Windows.DependencyProperty CultureProperty;
         public static readonly System.Windows.DependencyProperty FirstDayOfWeekProperty;
         public static readonly System.Windows.DependencyProperty FormatProperty;
@@ -456,10 +460,12 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty IsReadOnlyProperty;
         public static readonly System.Windows.DependencyProperty IsYearShortFormatProperty;
         public static readonly System.Windows.DependencyProperty ShowOptionsButtonProperty;
+        public static readonly System.Windows.DependencyProperty TimeValueProperty;
         public static readonly System.Windows.DependencyProperty ValueProperty;
         public DateTimePicker() { }
         public bool AllowCopyPaste { get; set; }
         public bool AllowNull { get; set; }
+        public Orc.Controls.Enums.Meridiem AmPmValue { get; set; }
         public System.Globalization.CultureInfo Culture { get; set; }
         public System.DayOfWeek? FirstDayOfWeek { get; set; }
         public string Format { get; set; }
@@ -471,6 +477,7 @@ namespace Orc.Controls
         public bool IsReadOnly { get; set; }
         public bool IsYearShortFormat { get; }
         public bool ShowOptionsButton { get; set; }
+        public System.TimeSpan? TimeValue { get; set; }
         public System.DateTime? Value { get; set; }
         public event System.EventHandler<System.EventArgs> EditEnded;
         public event System.EventHandler<System.EventArgs> EditStarted;
@@ -1542,6 +1549,40 @@ namespace Orc.Controls
         AdjustEndTime = 0,
         AdjustDuration = 1,
     }
+    public class TimePicker : System.Windows.Controls.ContentControl
+    {
+        public const double HourIndicatorRatio = 0.7D;
+        public const double HourTickRatio = 0.2D;
+        public const double MinuteIndicatorRatio = 0.95D;
+        public const double MinuteTickRatio = 0.1D;
+        public static readonly System.Windows.DependencyProperty AmPmValueProperty;
+        public static readonly System.Windows.DependencyProperty ClockBorderThicknessProperty;
+        public static readonly System.Windows.DependencyProperty HourBrushProperty;
+        public static readonly System.Windows.DependencyProperty HourThicknessProperty;
+        public static readonly System.Windows.DependencyProperty HourTickBrushProperty;
+        public static readonly System.Windows.DependencyProperty HourTickThicknessProperty;
+        public static readonly System.Windows.DependencyProperty MinuteBrushProperty;
+        public static readonly System.Windows.DependencyProperty MinuteThicknessProperty;
+        public static readonly System.Windows.DependencyProperty MinuteTickBrushProperty;
+        public static readonly System.Windows.DependencyProperty MinuteTickThicknessProperty;
+        public static readonly System.Windows.DependencyProperty ShowNumbersProperty;
+        public static readonly System.Windows.DependencyProperty TimeValueProperty;
+        public TimePicker() { }
+        public Orc.Controls.Enums.Meridiem AmPmValue { get; set; }
+        public double ClockBorderThickness { get; set; }
+        public System.Windows.Media.Brush HourBrush { get; set; }
+        public double HourThickness { get; set; }
+        public System.Windows.Media.Brush HourTickBrush { get; set; }
+        public double HourTickThickness { get; set; }
+        public System.Windows.Media.Brush MinuteBrush { get; set; }
+        public double MinuteThickness { get; set; }
+        public System.Windows.Media.Brush MinuteTickBrush { get; set; }
+        public double MinuteTickThickness { get; set; }
+        public bool ShowNumbers { get; set; }
+        public System.TimeSpan TimeValue { get; set; }
+        protected override void OnMouseDown(System.Windows.Input.MouseButtonEventArgs e) { }
+        protected override void OnRender(System.Windows.Media.DrawingContext drawingContext) { }
+    }
     public enum TimeSpanPart
     {
         Days = 0,
@@ -1792,6 +1833,14 @@ namespace Orc.Controls.Converters
         public bool IsEnabled { get; set; }
         protected override object Convert(object value, System.Type targetType, object parameter) { }
         protected override object ConvertBack(object value, System.Type targetType, object parameter) { }
+    }
+}
+namespace Orc.Controls.Enums
+{
+    public enum Meridiem
+    {
+        AM = 0,
+        PM = 1,
     }
 }
 namespace Orc.Controls.Extensions
