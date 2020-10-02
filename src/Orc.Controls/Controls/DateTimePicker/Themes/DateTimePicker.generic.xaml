@@ -373,8 +373,6 @@
                                                         MinuteThickness="4"
                                                         MinHeight="180"
                                                         MinWidth="180"
-                                                        Width="{Binding Path=ActualWidth, ElementName=PART_MainGrid}"
-                                                        Height="{Binding Path=ActualWidth, ElementName=PART_MainGrid}"
                                                         AmPmValue="{Binding Path=AmPmValue, RelativeSource={RelativeSource AncestorType={x:Type controls:DateTimePicker}}, Mode=TwoWay}"
                                                         TimeValue="{Binding Path=TimeValue, RelativeSource={RelativeSource AncestorType={x:Type controls:DateTimePicker}}, Mode=TwoWay}">
                                         </controls:TimePicker>
