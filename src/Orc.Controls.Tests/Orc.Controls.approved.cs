@@ -1561,6 +1561,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty HourThicknessProperty;
         public static readonly System.Windows.DependencyProperty HourTickBrushProperty;
         public static readonly System.Windows.DependencyProperty HourTickThicknessProperty;
+        public static readonly System.Windows.DependencyProperty Is24HourFormatProperty;
         public static readonly System.Windows.DependencyProperty MinuteBrushProperty;
         public static readonly System.Windows.DependencyProperty MinuteThicknessProperty;
         public static readonly System.Windows.DependencyProperty MinuteTickBrushProperty;
@@ -1574,6 +1575,7 @@ namespace Orc.Controls
         public double HourThickness { get; set; }
         public System.Windows.Media.Brush HourTickBrush { get; set; }
         public double HourTickThickness { get; set; }
+        public bool Is24HourFormat { get; set; }
         public System.Windows.Media.Brush MinuteBrush { get; set; }
         public double MinuteThickness { get; set; }
         public System.Windows.Media.Brush MinuteTickBrush { get; set; }
