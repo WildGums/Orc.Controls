@@ -23,6 +23,7 @@ namespace Orc.Controls.Example.ViewModels
             Time = TimeSpan.Zero;
             TimeValueString = string.Empty;
             AmPm = Meridiem.AM;
+            Is24Hour = true;
             HourThickness = 6;
             MinuteThickness = 4;
             HourTickThickness = 3;
@@ -36,6 +37,7 @@ namespace Orc.Controls.Example.ViewModels
         public TimeSpan? Time { get; set; }
         public string TimeValueString { get; set; }
         public Meridiem AmPm { get; set; }
+        public bool Is24Hour { get; set; }
         public double HourThickness { get; set; }
         public double MinuteThickness { get; set; }
         public double HourTickThickness { get; set; }
@@ -54,7 +56,32 @@ namespace Orc.Controls.Example.ViewModels
 
             if (Time != null && !string.IsNullOrEmpty(e.PropertyName) && e.HasPropertyChanged(e.PropertyName) && Time.Value != null)
             {
-                TimeValueString = Time.Value.ToString() + " " + AmPm.ToString();
+                if (Is24Hour)
+                {
+                    if (AmPm == Meridiem.PM)
+                    {
+                        if (Time.Value.Hours < 12)
+                        {
+                            var newTimeValue = new TimeSpan(Time.Value.Hours + 12, Time.Value.Minutes, Time.Value.Seconds);
+                            TimeValueString = newTimeValue.ToString();
+                        }
+                        else
+                        {
+                            var newTimeValue = new TimeSpan(Time.Value.Hours - 12, Time.Value.Minutes, Time.Value.Seconds);
+                            TimeValueString = newTimeValue.ToString();
+                        }
+                    }
+                    else 
+                    {
+                        TimeValueString = Time.Value.ToString();
+                    }
+
+                }
+                else
+                {
+                    TimeValueString = Time.Value.ToString() + " " + AmPm.ToString();
+                }
+
             }
             else
             {

@@ -10,6 +10,7 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="320"/>
         </controls:StackGrid.RowDefinitions>
         <controls:StackGrid.ColumnDefinitions>
@@ -38,6 +39,7 @@
             <TextBox Grid.ColumnSpan="9" Text="{Binding TimeValueString}" IsReadOnly="True" Width="90" Height="25" HorizontalAlignment="Left" HorizontalContentAlignment="Center"/>
             <Button Grid.ColumnSpan="10" Content="Set value to null" Command="{Binding SetNull}" Width="100" Height="25" HorizontalAlignment="Left"/>
             <CheckBox x:Name="showNumbersCheckbox" Grid.ColumnSpan="10"  Content="Show numbers" IsChecked="False" />
+            <CheckBox x:Name="is24HourFormat" Grid.ColumnSpan="10"  Content="Is 24-hour Format" IsChecked="{Binding Is24Hour}" />
         <controls:TimePicker Grid.ColumnSpan="10"
                                  Width="300"
                                  Height="300"
@@ -48,7 +50,7 @@
                                  ClockBorderThickness="{Binding Path=ClockBorderThickness}"
                                  TimeValue="{Binding Path=Time, Mode=TwoWay}"
                                  AmPmValue="{Binding Path=AmPm, Mode=TwoWay}"
-                                 ShowNumbers="{Binding IsChecked, ElementName=showNumbersCheckbox}"/>
+                                 ShowNumbers="{Binding IsChecked, ElementName=showNumbersCheckbox}"
+                                 Is24HourFormat="{Binding Path=Is24Hour, Mode=TwoWay}"/>
     </controls:StackGrid>
-
 </catel:UserControl>

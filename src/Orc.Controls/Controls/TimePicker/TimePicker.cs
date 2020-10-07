@@ -66,6 +66,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty AmPmValueProperty = DependencyProperty.Register(nameof(AmPmValue), typeof(Meridiem), typeof(TimePicker), new PropertyMetadata(Meridiem.AM, new PropertyChangedCallback(OnAmPmValueChanged)));
 
+
         public Brush HourBrush
         {
             get { return (Brush)GetValue(HourBrushProperty); }
@@ -158,10 +159,25 @@ namespace Orc.Controls
                 (sender, e) => ((TimePicker)sender).OnShowNumbersChanged()));
 
 
+        public bool Is24HourFormat
+        {
+            get { return (bool)GetValue(Is24HourFormatProperty); }
+            set { SetValue(Is24HourFormatProperty, value); }
+        }
+
+        public static readonly DependencyProperty Is24HourFormatProperty = DependencyProperty.Register(nameof(Is24HourFormat), typeof(bool),
+        typeof(TimePicker), new PropertyMetadata(false, new PropertyChangedCallback(OnIs24HourFormatChanged)));
         #endregion
 
         #region Methods
-
+        private static void OnIs24HourFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
+        {
+            var timePicker = d as TimePicker;
+            if (timePicker != null)
+            {
+                timePicker.InvalidateVisual();
+            }
+        }
         private void OnShowNumbersChanged()
         {
             _showNumbers = ShowNumbers;
@@ -195,7 +211,7 @@ namespace Orc.Controls
                     SetCurrentValue(AmPmValueProperty, Meridiem.AM);
                     break;
             }
-            _amPmButton.SetCurrentValue(ContentProperty, AmPmValue);
+            SetAmPmButtonContent();
         }
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
@@ -230,11 +246,19 @@ namespace Orc.Controls
         {
             var width = ActualWidth;
             var height = ActualHeight;
-            var radius = (Math.Min(width, height) - ClockBorderThickness) / 2.0;
-            var center = new Point(width / 2.0, height / 2.0);
-
             SetCurrentValue(ShowNumbersProperty, _showNumbers);
             _containerCanvas.Children.Clear();
+
+            RenderClock(width, height);
+            RenderAmPmButton(width, height);
+            
+            SetCurrentValue(ContentProperty, _containerCanvas);
+        }
+
+        private void RenderClock(double width, double height)
+        {
+            var radius = (Math.Min(width, height) - ClockBorderThickness) / 2.0;
+            var center = new Point(width / 2.0, height / 2.0);
 
             DrawingGroup drawingGroup = new DrawingGroup();
             using (DrawingContext drawingContext = drawingGroup.Open())
@@ -258,10 +282,15 @@ namespace Orc.Controls
             DrawingImage dImageSource = new DrawingImage(drawingGroup);
             theImage.Source = dImageSource;
             _containerCanvas.Children.Add(theImage);
+        }
 
+        private void RenderAmPmButton(double width, double height)
+        {
             _containerCanvas.Children.Add(_amPmButton);
             _amPmButton.SetCurrentValue(StyleProperty, null);
-            _amPmButton.SetCurrentValue(ContentProperty, AmPmValue);
+
+            SetAmPmButtonContent();
+
             _amPmButton.SetCurrentValue(MinHeightProperty, 18.0);
             _amPmButton.SetCurrentValue(MinWidthProperty, 22.0);
             var amPmButtonWidth = width * 0.1;
@@ -276,20 +305,19 @@ namespace Orc.Controls
             _amPmButton.SetCurrentValue(FontSizeProperty, fontSize - 1);
 
             Canvas.SetLeft(_amPmButton, width * 0.73);
-            Canvas.SetTop(_amPmButton, height * 0.47);
+            Canvas.SetTop(_amPmButton, height * 0.46);
 
             _amPmButton.SetCurrentValue(StyleProperty, new Style(typeof(ToggleButton))
             {
-                BasedOn = _amPmButton.Style,
+                BasedOn = FindResource("Orc.Styles.ToggleButton") as Style,
                 Setters =
                 {
                     new Setter(WidthProperty, amPmButtonWidth),
-                    new Setter(HeightProperty, amPmButtonHeight)
+                    new Setter(HeightProperty, amPmButtonHeight),
                 }
             });
-
-            SetCurrentValue(ContentProperty, _containerCanvas);
         }
+
         private Size MeasureString(string s, double fontSize)
         {
             if (string.IsNullOrEmpty(s))
@@ -299,6 +327,25 @@ namespace Orc.Controls
             var textBlock = new TextBlock { Text = s, FontSize = fontSize };
             textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             return new Size(textBlock.DesiredSize.Width, textBlock.DesiredSize.Height);
+        }
+
+        private void SetAmPmButtonContent() 
+        {
+            if (Is24HourFormat)
+            {
+                if (AmPmValue == Meridiem.AM)
+                {
+                    _amPmButton.SetCurrentValue(ContentProperty, 12); 
+                }
+                else 
+                {
+                    _amPmButton.SetCurrentValue(ContentProperty, 24);
+                }
+            }
+            else
+            { 
+                _amPmButton.SetCurrentValue(ContentProperty, AmPmValue);
+            }
         }
         private void RenderBackground(DrawingContext drawingContext, double width, double height)
         {
@@ -312,6 +359,7 @@ namespace Orc.Controls
             drawingContext.DrawEllipse(MinuteBrush, pen, center, MinuteThickness * 1, MinuteThickness * 1);
             var points = LineOnCircle((Math.PI * 2.0 * TimeValue.Minutes / 60.0) - Math.PI / 2.0, center, MinuteThickness, radius * MinuteIndicatorRatio);
             drawingContext.DrawLine(pen, points[0], points[1]);
+
         }
         private void RenderHour(DrawingContext drawingContext, double radius, Point center)
         {
