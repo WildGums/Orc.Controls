@@ -21,7 +21,7 @@ namespace Orc.Controls
             var outerX = center.X + Math.Cos(radians) * endRadius;
             var outerY = center.Y + Math.Sin(radians) * endRadius;
 
-            return new Point[] { new Point(innerX, innerY), new Point(outerX, outerY) };
+            return new[] { new Point(innerX, innerY), new Point(outerX, outerY) };
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Orc.Controls
         {
             var angle = PointToAngle(center, point);
 
-            angle = angle % (Math.PI * 2);
+            angle %= (Math.PI * 2);
             angle += Math.PI / 2;
             angle /= Math.PI;
             angle *= 30;

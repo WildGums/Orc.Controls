@@ -7,8 +7,8 @@ namespace Orc.Controls
 {
     using System;
     using System.Windows;
-    using static Orc.Controls.ClockMath;
-    using static Orc.Controls.TimePicker;
+    using static ClockMath;
+    using static TimePicker;
     internal class TimePickerInputController
     {
         #region Fields
@@ -57,36 +57,45 @@ namespace Orc.Controls
 
             _isDragging = true;
         }
+
         private void StopDragging()
         {
             _indicator = Indicator.None;
             _isDragging = false;
         }
+
         private void OnTimePickerPreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            if (_isDragging)
+            if (!_isDragging)
             {
-                var width = _timePicker.ActualWidth;
-                var height = _timePicker.ActualHeight;
-                var radius = (Math.Min(width, height) - _timePicker.ClockBorderThickness) / 2.0;
-                var center = new Point(width / 2.0, height / 2.0);
-                var mouse = e.GetPosition(_timePicker);
+                return;
+            }
 
-                var time = _timePicker.TimeValue;
+            var width = _timePicker.ActualWidth;
+            var height = _timePicker.ActualHeight;
+            var center = new Point(width / 2.0, height / 2.0);
+            var mouse = e.GetPosition(_timePicker);
 
-                if (_indicator == Indicator.HourIndicator)
+            var time = _timePicker.TimeValue;
+
+            switch (_indicator)
+            {
+                case Indicator.HourIndicator:
                 {
                     var hour = AngleToHour(center, mouse);
                     _timePicker.SetCurrentValue(TimeValueProperty, new TimeSpan(hour, time.Minutes, time.Seconds));
+                    break;
                 }
 
-                if (_indicator == Indicator.MinuteIndicator)
+                case Indicator.MinuteIndicator:
                 {
                     var minutes = AngleToMinutes(center, mouse);
                     _timePicker.SetCurrentValue(TimeValueProperty, new TimeSpan(time.Hours, minutes, time.Seconds));
+                    break;
                 }
             }
         }
+
         private void FindIndicator(double width, double height, double radius, Point center, Point mouse)
         {
             var minuteTip = LineOnCircle((Math.PI * 2 * _timePicker.TimeValue.Minutes / 60) - Math.PI / 2.0, center, 0, radius * MinuteIndicatorRatio)[1];
@@ -112,14 +121,17 @@ namespace Orc.Controls
                 } 
             }
         }
+
         private void OnTimePickerPreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             StartDragging(e.GetPosition(_timePicker));
         }
+
         private void OnTimePickerPreviewMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             StopDragging();
         }
+
         private void OnTimePickerMouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             StopDragging();

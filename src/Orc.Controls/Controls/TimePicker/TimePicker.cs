@@ -6,18 +6,16 @@
 namespace Orc.Controls
 {
     using System;
-    using System.ComponentModel;
     using System.Globalization;
-    using System.Security;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Media;
     using ControlzEx.Theming;
-    using Orc.Controls.Enums;
-    using Orc.Theming;
-    using static Orc.Controls.ClockMath;
+    using Enums;
+    using Theming;
+    using static ClockMath;
     public class TimePicker : ContentControl
     {
         #region Fields
@@ -33,6 +31,7 @@ namespace Orc.Controls
 
         private bool _showNumbers;
         #endregion
+
         #region Constructors
         public TimePicker()
         {
@@ -64,9 +63,9 @@ namespace Orc.Controls
             set { SetValue(AmPmValueProperty, value); }
         }
 
-        public static readonly DependencyProperty AmPmValueProperty = DependencyProperty.Register(nameof(AmPmValue), typeof(Meridiem), typeof(TimePicker), new PropertyMetadata(Meridiem.AM, new PropertyChangedCallback(OnAmPmValueChanged)));
-
-
+        public static readonly DependencyProperty AmPmValueProperty = DependencyProperty.Register(nameof(AmPmValue), 
+            typeof(Meridiem), typeof(TimePicker), new PropertyMetadata(Meridiem.AM, new PropertyChangedCallback(OnAmPmValueChanged)));
+        
         public Brush HourBrush
         {
             get { return (Brush)GetValue(HourBrushProperty); }
@@ -172,8 +171,7 @@ namespace Orc.Controls
         #region Methods
         private static void OnIs24HourFormatChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
-            var timePicker = d as TimePicker;
-            if (timePicker != null)
+            if (d is TimePicker timePicker)
             {
                 timePicker.InvalidateVisual();
             }
@@ -185,24 +183,21 @@ namespace Orc.Controls
         }
         private static void OnTimeValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
-            var timePicker = d as TimePicker;
-            if (timePicker != null)
+            if (d is TimePicker timePicker)
             {
                 timePicker.InvalidateVisual();
             }
         }
         private static void OnAmPmValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
-            var timePicker = d as TimePicker;
-            if (timePicker != null)
+            if (d is TimePicker timePicker)
             {
                 timePicker.InvalidateVisual();
             }
         }
         private void OnAmPmButtonCheckedChanged(object sender, RoutedEventArgs e)
         {
-            switch
-                    (_amPmButton.IsChecked)
+            switch (_amPmButton.IsChecked)
             {
                 case true:
                     SetCurrentValue(AmPmValueProperty, Meridiem.PM);
@@ -236,8 +231,7 @@ namespace Orc.Controls
         }
         private static void OnThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
-            var timePicker = d as TimePicker;
-            if (timePicker != null)
+            if (d is TimePicker timePicker)
             {
                 timePicker.InvalidateVisual();
             }
@@ -260,8 +254,8 @@ namespace Orc.Controls
             var radius = (Math.Min(width, height) - ClockBorderThickness) / 2.0;
             var center = new Point(width / 2.0, height / 2.0);
 
-            DrawingGroup drawingGroup = new DrawingGroup();
-            using (DrawingContext drawingContext = drawingGroup.Open())
+            var drawingGroup = new DrawingGroup();
+            using (var drawingContext = drawingGroup.Open())
             {
                 RenderBackground(drawingContext, width, height);
                 RenderBorder(drawingContext, radius, center);
@@ -278,8 +272,8 @@ namespace Orc.Controls
                 RenderMinute(drawingContext, radius, center);
                 base.OnRender(drawingContext);
             }
-            Image theImage = new Image();
-            DrawingImage dImageSource = new DrawingImage(drawingGroup);
+            var theImage = new Image();
+            var dImageSource = new DrawingImage(drawingGroup);
             theImage.Source = dImageSource;
             _containerCanvas.Children.Add(theImage);
         }
@@ -375,7 +369,7 @@ namespace Orc.Controls
         private void RenderHourTicks(DrawingContext drawingContext, double radius, Point center)
         {
             var pen = new Pen(HourTickBrush, HourTickThickness);
-            for (int i = 0; i < 12; i++)
+            for (var i = 0; i < 12; i++)
             {
                 var points = LineOnCircle(Math.PI * 2 * i / 12, center, radius * (1 - HourTickRatio), radius - ClockBorderThickness * 0.5);
                 drawingContext.DrawLine(pen, points[0], points[1]);
@@ -384,7 +378,7 @@ namespace Orc.Controls
         private void RenderNumbers(DrawingContext drawingContext, double radius, Point center) 
         {
             var pen = new Pen(HourTickBrush, HourTickThickness);
-            for (int i = 1; i <= 12; i++)
+            for (var i = 1; i <= 12; i++)
             {
                 var points = LineOnCircle(Math.PI * 2 * (i - 3) / 12, center, radius * (1 - MinuteTickRatio), radius - ClockBorderThickness * 0.5);
                 drawingContext.DrawLine(pen, points[0], points[1]);
@@ -399,7 +393,7 @@ namespace Orc.Controls
         private void RenderMinuteTicks(DrawingContext drawingContext, double radius, Point center)
         {
             var pen = new Pen(MinuteTickBrush, MinuteTickThickness);
-            for (int i = 0; i < 60; i++)
+            for (var i = 0; i < 60; i++)
             {
                 if (i % 5 == 0) // Skip places where we already have an hour tick
                 {
