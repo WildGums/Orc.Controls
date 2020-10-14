@@ -8,7 +8,7 @@
     <UserControl.Resources>
     </UserControl.Resources>
 
-    <!-- Content -->
+    <!-- Content --> 
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Select format" VerticalAlignment="Center" Width="150"/>
@@ -56,4 +56,5 @@
 
         <Calendar/>
     </StackPanel>
+
 </catel:UserControl>

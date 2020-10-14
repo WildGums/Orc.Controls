@@ -9,6 +9,7 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Globalization;
     using System.Linq;
     using System.Windows;
@@ -16,13 +17,18 @@ namespace Orc.Controls
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using System.Windows.Input;
+    using System.Windows.Media;
+    using System.Xml;
+    using Catel;
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Services;
+    using Catel.Threading;
     using Catel.Windows;
     using Catel.Windows.Input;
     using Converters;
     using Extensions;
+    using Orc.Controls.Enums;
     using Calendar = System.Windows.Controls.Calendar;
 
     [TemplatePart(Name = "PART_DaysNumericTextBox", Type = typeof(NumericTextBox))]
@@ -53,6 +59,7 @@ namespace Orc.Controls
     [TemplatePart(Name = "PART_TodayMenuItem", Type = typeof(MenuItem))]
     [TemplatePart(Name = "PART_NowMenuItem", Type = typeof(MenuItem))]
     [TemplatePart(Name = "PART_SelectDateMenuItem", Type = typeof(MenuItem))]
+    [TemplatePart(Name = "PART_SelectTimeMenuItem", Type = typeof(MenuItem))]
     [TemplatePart(Name = "PART_ClearMenuItem", Type = typeof(MenuItem))]
     [TemplatePart(Name = "PART_CopyMenuItem", Type = typeof(MenuItem))]
     [TemplatePart(Name = "PART_PasteMenuItem", Type = typeof(MenuItem))]
@@ -64,6 +71,8 @@ namespace Orc.Controls
     [TemplatePart(Name = "PART_CalendarPopup", Type = typeof(Popup))]
     [TemplatePart(Name = "PART_Calendar", Type = typeof(Calendar))]
 
+    [TemplatePart(Name = "PART_TimePickerPopup", Type = typeof(Popup))]
+    [TemplatePart(Name = "PART_TimePicker", Type = typeof(TimePicker))]
     public class DateTimePicker : Control, IEditableControl
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
@@ -107,6 +116,7 @@ namespace Orc.Controls
         private MenuItem _todayMenuItem;
         private MenuItem _nowMenuItem;
         private MenuItem _selectDateMenuItem;
+        private MenuItem _selectTimeMenuItem;
         private MenuItem _clearMenuItem;
         private MenuItem _copyMenuItem;
         private MenuItem _pasteMenuItem;
@@ -117,6 +127,9 @@ namespace Orc.Controls
 
         private Popup _calendarPopup;
         private Calendar _calendar;
+
+        private Popup _timePickerPopup;
+        private TimePicker _timePicker;
 
         #region Dependency properties
         public DayOfWeek? FirstDayOfWeek
@@ -246,6 +259,27 @@ namespace Orc.Controls
             typeof(DateTimePicker), new PropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern.Count(x => x == 't') < 2));
 
         public static readonly DependencyProperty IsAmPmShortFormatProperty = IsAmPmShortFormatPropertyKey.DependencyProperty;
+
+        public TimeSpan? TimeValue
+        {
+            get { return (TimeSpan?)GetValue(TimeValueProperty); }
+            set { SetValue(TimeValueProperty, value); }
+        }
+
+        public static readonly DependencyProperty TimeValueProperty = DependencyProperty.Register(nameof(TimeValue), typeof(TimeSpan?),
+            typeof(DateTimePicker), new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((DateTimePicker)sender).OnTimeValueChanged((TimeSpan?)e.NewValue)));
+
+        public Meridiem AmPmValue
+        {
+            get { return (Meridiem)GetValue(AmPmValueProperty); }
+            set { SetValue(AmPmValueProperty, value); }
+        }
+
+        public static readonly DependencyProperty AmPmValueProperty = DependencyProperty.Register(nameof(AmPmValue), typeof(Meridiem),
+            typeof(DateTimePicker), new FrameworkPropertyMetadata(Meridiem.AM, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, e) => ((DateTimePicker)sender).OnAmPmValueChanged((Meridiem)e.NewValue)));
+
         #endregion
 
         #region Properties
@@ -489,6 +523,13 @@ namespace Orc.Controls
             }
             _selectDateMenuItem.Click += OnSelectDateMenuItemClick;
 
+            _selectTimeMenuItem = GetTemplateChild("PART_SelectTimeMenuItem") as MenuItem;
+            if (_selectTimeMenuItem is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SelectTimeMenuItem'");
+            }
+            _selectTimeMenuItem.Click += OnSelectTimeMenuItemClick;
+
             _clearMenuItem = GetTemplateChild("PART_ClearMenuItem") as MenuItem;
             if (_clearMenuItem is null)
             {
@@ -534,6 +575,19 @@ namespace Orc.Controls
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Calendar'");
             }
 
+            /*Time picker Pop up*/
+            _timePickerPopup = GetTemplateChild("PART_TimePickerPopup") as Popup;
+            if (_timePickerPopup is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TimePickerPopup'");
+            }
+            _timePickerPopup.Closed += OnTimePickerPopupClosed;
+
+            _timePicker = GetTemplateChild("PART_TimePicker") as TimePicker;
+            if (_timePicker is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TimePicker'");
+            }
 
             _textBoxes = new List<TextBox>
             {
@@ -607,6 +661,53 @@ namespace Orc.Controls
             _calendar.PreviewKeyDown -= CalendarOnPreviewKeyDown;
             _calendar.SelectedDatesChanged -= CalendarOnSelectedDatesChanged;
         }
+
+        private void OnSelectTimeMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            _timePickerPopup.SetCurrentValue(Popup.IsOpenProperty, true);
+            var dateTime = Value ?? _todayValue;
+            _timePicker.SetCurrentValue(TimePicker.TimeValueProperty, dateTime.TimeOfDay);
+            if (dateTime.TimeOfDay.Hours < 12)
+            {
+                _timePicker.SetCurrentValue(TimePicker.AmPmValueProperty, Meridiem.AM);
+            }
+            else
+            {
+                _timePicker.SetCurrentValue(TimePicker.AmPmValueProperty, Meridiem.PM);
+            }
+            _timePicker.Focus();
+        }
+        private void OnTimeValueChanged(TimeSpan? newTimeValue)
+        {
+            if (newTimeValue == null)
+            {
+                return;
+            }
+
+            DateTime newDateTime;
+            if (HideTime == true)
+            {
+                SetCurrentValue(HideTimeProperty, false);
+            }
+
+            if(Value != null)
+            {
+                newDateTime = Value.Value;
+            }
+            else
+            {
+                newDateTime = DateTime.Now;
+            }
+
+            if(AmPmValue.Equals(Meridiem.PM) && newTimeValue.Value.Hours < 12)
+            {
+                SetCurrentValue(ValueProperty, new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newTimeValue.Value.Hours + 12, newTimeValue.Value.Minutes, newTimeValue.Value.Seconds));
+            }
+            else 
+            {
+                SetCurrentValue(ValueProperty, new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newTimeValue.Value.Hours, newTimeValue.Value.Minutes, newTimeValue.Value.Seconds));
+            }
+         }
 
         private void OnClearMenuItemClick(object sender, RoutedEventArgs e)
         {
@@ -1174,6 +1275,45 @@ namespace Orc.Controls
             }
         }
 
+        private void OnAmPmValueChanged(Meridiem newValue)
+        {
+            DateTime newDateTime;
+
+            if (Value != null)
+            {
+                newDateTime = Value.Value;
+            }
+            else
+            {
+                newDateTime = DateTime.Now;
+            }
+
+            bool isMeridiemAm = newValue == Meridiem.AM;
+            bool isTimeAm = newDateTime.Hour < 12;
+
+            TimeSpan diffTime = TimeSpan.Zero;
+            TimeSpan hours = new TimeSpan(12, 0, 0);
+
+            if (!(isMeridiemAm ^ isTimeAm))
+            {
+                return;
+            }
+
+            if (isMeridiemAm && !isTimeAm)
+            {
+                diffTime = newDateTime.TimeOfDay.Subtract(hours);
+            }
+
+            if (!isMeridiemAm && isTimeAm)
+            {
+                diffTime = newDateTime.TimeOfDay.Add(hours);
+            }
+
+            var diffDate = new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, diffTime.Hours, diffTime.Minutes, diffTime.Seconds);
+            SetCurrentValue(ValueProperty, diffDate);
+
+        }
+
         private void OnMonthTextChanged(object sender, TextChangedEventArgs e)
         {
             UpdateMaxDaysInMonth();
@@ -1215,21 +1355,27 @@ namespace Orc.Controls
             ApplyFormat();
         }
 
-        private void OnTextBoxLeftBoundReached(object sender, EventArgs e)
+        private async void OnTextBoxLeftBoundReached(object sender, EventArgs e)
         {
             var currentTextBoxIndex = _textBoxes.IndexOf((TextBox)sender);
             var prevTextBox = _textBoxes[currentTextBoxIndex - 1];
 
             prevTextBox.CaretIndex = prevTextBox.Text.Length;
+
+            await TaskShim.Delay(1); // Note: this is a hack. without this delay it is not possible to set focus
+
             prevTextBox.Focus();
         }
 
-        private void OnTextBoxRightBoundReached(object sender, EventArgs eventArgs)
+        private async void OnTextBoxRightBoundReached(object sender, EventArgs eventArgs)
         {
             var currentTextBoxIndex = _textBoxes.IndexOf((TextBox)sender);
             var nextTextBox = _textBoxes[currentTextBoxIndex + 1];
 
             nextTextBox.CaretIndex = 0;
+
+            await TaskShim.Delay(1); // Note: this is a hack. without this delay it is not possible to set focus
+
             nextTextBox.Focus();
         }
 
@@ -1400,7 +1546,7 @@ namespace Orc.Controls
             {
                 UpdateDate(calendar.SelectedDate.Value);
             }
-            
+
             ((Popup)calendar.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
 
             e.Handled = true;
@@ -1425,6 +1571,11 @@ namespace Orc.Controls
         }
 
         private void OnCalendarPopupClosed(object sender, EventArgs e)
+        {
+            InvalidateEditMode();
+        }
+
+        private void OnTimePickerPopupClosed(object sender, EventArgs e)
         {
             InvalidateEditMode();
         }
@@ -1457,6 +1608,12 @@ namespace Orc.Controls
             if (_calendarPopup != null && _calendarPopup.IsOpen)
             {
                 _calendarPopup.Closed += OnCalendarPopupClosed;
+                return;
+            }
+
+            if (_timePickerPopup != null && _timePickerPopup.IsOpen)
+            {
+                _timePickerPopup.Closed += OnTimePickerPopupClosed;
                 return;
             }
 

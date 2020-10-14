@@ -33,7 +33,6 @@ namespace Orc.Controls.Example.ViewModels
         public string DateTimeValueString { get; set; }
         public FastObservableCollection<CultureFormat> AvailableFormats { get; private set; }
         public CultureFormat SelectedFormat { get; set; }
-
         public Command SetNull { get; }
         #endregion
 

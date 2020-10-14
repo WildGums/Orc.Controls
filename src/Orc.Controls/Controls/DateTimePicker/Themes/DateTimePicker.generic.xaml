@@ -190,8 +190,7 @@
                                                              Format="00" 
                                                              MaxValue="59"
                                                              MinValue="00"
-                                                             IsReadOnly="{TemplateBinding IsReadOnly}"
-                                                             Visibility="{TemplateBinding HideTime, Converter={catel:BooleanToCollapsingVisibilityConverter Link={catel:BooleanToOppositeBooleanConverter}}}"/>
+                                                             IsReadOnly="{TemplateBinding IsReadOnly}"/>
 
                                     <TextBlock x:Name="PART_MinuteSecondSeparatorTextBlock" 
                                                Grid.Column="9"
@@ -280,6 +279,14 @@
                                                           Margin="0"
                                                           IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
+                                                <MenuItem x:Name="PART_SelectTimeMenuItem"
+                                                          Header="{catel:LanguageBinding Controls_DateTimePicker_Button_Content_SelectTime}"
+                                                          HorizontalAlignment="Stretch"
+                                                          HorizontalContentAlignment="Left"
+                                                          BorderThickness="0"
+                                                          Margin="0"
+                                                          IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
+                                                
                                                 <Separator Visibility="{TemplateBinding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
 
                                                 <MenuItem x:Name="PART_ClearMenuItem"
@@ -348,6 +355,29 @@
                             <Calendar x:Name="PART_Calendar"
                                       Margin="0 -3 0 -3"/>
 
+                        </Popup>
+
+                        <Popup x:Name="PART_TimePickerPopup"
+                               PlacementTarget="{Binding ElementName=PART_MainGrid}"
+                               Placement="Bottom"
+                               VerticalOffset="0"
+                               StaysOpen="False">
+                            <Border BorderBrush="LightGray" BorderThickness="3">
+                                <DockPanel Background="{TemplateBinding Background}">
+                                        <controls:TimePicker x:Name="PART_TimePicker"
+                                                        Background="Transparent"
+                                                        BorderThickness="5"
+                                                        HourTickBrush="Black"
+                                                        HourThickness="5"
+                                                        MinuteTickBrush="DarkGray"
+                                                        MinuteThickness="4"
+                                                        MinHeight="180"
+                                                        MinWidth="180"
+                                                        AmPmValue="{Binding Path=AmPmValue, RelativeSource={RelativeSource AncestorType={x:Type controls:DateTimePicker}}, Mode=TwoWay}"
+                                                        TimeValue="{Binding Path=TimeValue, RelativeSource={RelativeSource AncestorType={x:Type controls:DateTimePicker}}, Mode=TwoWay}">
+                                        </controls:TimePicker>
+                                </DockPanel>
+                            </Border>
                         </Popup>
                     </Grid>
                 </ControlTemplate>

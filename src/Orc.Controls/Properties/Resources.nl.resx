@@ -285,6 +285,9 @@
   <data name="Controls_DateTimePicker_Button_Content_SelectDate" xml:space="preserve">
     <value>Selecteer datum</value>
   </data>
+  <data name="Controls_DateTimePicker_Button_Content_SelectTime" xml:space="preserve">
+    <value>Selecteer tijd</value>
+  </data>
   <data name="Controls_DateTimePicker_Button_Content_Today" xml:space="preserve">
     <value>Vandaag</value>
   </data>
@@ -359,5 +362,17 @@
   </data>
   <data name="Controls_LogViewer_LogFilterGroupEditor_LogFilters" xml:space="preserve">
     <value>Log filters</value>
+  </data>
+  <data name="Controls_TimePickerControl_Button_Content_SelectTime" xml:space="preserve">
+    <value>Select time</value>
+  </data>
+  <data name="Controls_TimePickerControl_Button_Content_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Controls_TimePickerControl_Button_Content_Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Controls_TimePickerControl_Button_Content_Paste" xml:space="preserve">
+    <value>Paste</value>
   </data>
 </root>

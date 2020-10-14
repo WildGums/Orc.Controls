@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) 2014-2016 WildGums
+Copyright (c) 2014-2020 WildGums
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,6 +33,10 @@ Note: if you feel an item is missing in this list, please let us know!
 
 * Catel
   http://github.com/catel/catel
+  Original license: MIT
+
+* TimePicker
+  https://github.com/roy-t/TimePicker
   Original license: MIT
 
 * Windows API Code Pack

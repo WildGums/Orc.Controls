@@ -1,6 +1,6 @@
-#addin "nuget:?package=Cake.Squirrel&version=0.13.0"
+#addin "nuget:?package=Cake.Squirrel&version=0.15.1"
 
-#tool "nuget:?package=Squirrel.Windows&version=1.9.1"
+#tool "nuget:?package=Squirrel.Windows&version=2.0.1"
 
 //-------------------------------------------------------------
 
@@ -56,11 +56,14 @@ public class SquirrelInstaller : IInstaller
         BuildContext.CakeContext.CopyFile(nuSpecTemplateFileName, nuSpecFileName);
 
         var setupSuffix = BuildContext.Installer.GetDeploymentChannelSuffix();
+        
+        // Squirrel does not seem to support . in the names
+        var projectSlug = GetProjectSlug(projectName, "_");
 
         BuildContext.CakeContext.TransformConfig(nuSpecFileName,
             new TransformationCollection 
             {
-                { "package/metadata/id", $"{projectName}{setupSuffix}" },
+                { "package/metadata/id", $"{projectSlug}{setupSuffix}" },
                 { "package/metadata/version", BuildContext.General.Version.NuGet },
                 { "package/metadata/authors", BuildContext.General.Copyright.Company },
                 { "package/metadata/owners", BuildContext.General.Copyright.Company },
@@ -80,6 +83,28 @@ public class SquirrelInstaller : IInstaller
 
         BuildContext.CakeContext.CopyDirectory(appSourceDirectory, appTargetDirectory);
 
+        var squirrelSourceFile = BuildContext.CakeContext.GetFiles("./tools/squirrel.windows.*/tools/Squirrel.exe").Single();
+
+        // We need to be 1 level deeper, let's just walk each directory in case we can support multi-platform releases
+        // in the future
+        foreach (var subDirectory in BuildContext.CakeContext.GetSubDirectories(appTargetDirectory))
+        {
+            var squirrelTargetFile = System.IO.Path.Combine(appTargetDirectory, subDirectory.Segments[subDirectory.Segments.Length - 1], "Squirrel.exe");
+
+            BuildContext.CakeContext.Information("Copying Squirrel.exe to support self-updates from '{0}' => '{1}'", squirrelSourceFile, squirrelTargetFile);
+
+            BuildContext.CakeContext.CopyFile(squirrelSourceFile, squirrelTargetFile);
+        }
+
+        // Make sure all files are signed before we package them for Squirrel (saves potential errors occurring later in squirrel releasify)
+        var signToolCommand = string.Empty;
+
+        if (!string.IsNullOrWhiteSpace(BuildContext.General.CodeSign.CertificateSubjectName))
+        {
+            signToolCommand = string.Format("/a /t {0} /n {1}", BuildContext.General.CodeSign.TimeStampUri, 
+                BuildContext.General.CodeSign.CertificateSubjectName);
+        }
+
         // Create NuGet package
         BuildContext.CakeContext.NuGetPack(nuSpecFileName, new NuGetPackSettings
         {
@@ -89,7 +114,7 @@ public class SquirrelInstaller : IInstaller
         // Rename so we have the right nuget package file names (without the channel)
         if (!string.IsNullOrWhiteSpace(setupSuffix))
         {
-            var sourcePackageFileName = System.IO.Path.Combine(squirrelOutputIntermediate, $"{projectName}{setupSuffix}.{BuildContext.General.Version.NuGet}.nupkg");
+            var sourcePackageFileName = System.IO.Path.Combine(squirrelOutputIntermediate, $"{projectSlug}{setupSuffix}.{BuildContext.General.Version.NuGet}.nupkg");
             var targetPackageFileName = System.IO.Path.Combine(squirrelOutputIntermediate, $"{projectName}.{BuildContext.General.Version.NuGet}.nupkg");
 
             BuildContext.CakeContext.Information("Moving file from '{0}' => '{1}'", sourcePackageFileName, targetPackageFileName);
@@ -97,8 +122,10 @@ public class SquirrelInstaller : IInstaller
             BuildContext.CakeContext.MoveFile(sourcePackageFileName, targetPackageFileName);
         }
         
+        var deploymentShare = BuildContext.Wpf.GetDeploymentShareForProject(projectName);
+
         // Copy deployments share to the intermediate root so we can locally create the Squirrel releases
-        var releasesSourceDirectory = System.IO.Path.Combine(BuildContext.Wpf.DeploymentsShare, projectName, channel);
+        var releasesSourceDirectory = System.IO.Path.Combine(deploymentShare, channel);
         var releasesTargetDirectory = squirrelReleasesRoot;
 
         BuildContext.CakeContext.Information("Copying releases from '{0}' => '{1}'", releasesSourceDirectory, releasesTargetDirectory);
@@ -107,6 +134,7 @@ public class SquirrelInstaller : IInstaller
 
         // Squirrelify!
         var squirrelSettings = new SquirrelSettings();
+        squirrelSettings.Silent = false;
         squirrelSettings.NoMsi = false;
         squirrelSettings.ReleaseDirectory = squirrelReleasesRoot;
         squirrelSettings.LoadingGif = System.IO.Path.Combine(".", "deployment", "squirrel", "loading.gif");
@@ -117,15 +145,14 @@ public class SquirrelInstaller : IInstaller
         squirrelSettings.Icon = iconFileName;
         squirrelSettings.SetupIcon = iconFileName;
 
-        if (!string.IsNullOrWhiteSpace(BuildContext.General.CodeSign.CertificateSubjectName))
+        if (!string.IsNullOrWhiteSpace(signToolCommand))
         {
-            squirrelSettings.SigningParameters = string.Format("/a /t {0} /n {1}", BuildContext.General.CodeSign.TimeStampUri, 
-                BuildContext.General.CodeSign.CertificateSubjectName);
+            squirrelSettings.SigningParameters = signToolCommand;
         }
 
         BuildContext.CakeContext.Information("Generating Squirrel packages, this can take a while, especially when signing is enabled...");
 
-        BuildContext.CakeContext.Squirrel(nuGetFileName, squirrelSettings);
+        BuildContext.CakeContext.Squirrel(nuGetFileName, squirrelSettings, true, false);
 
         if (BuildContext.Wpf.UpdateDeploymentsShare)
         {
@@ -138,7 +165,7 @@ public class SquirrelInstaller : IInstaller
             // - Setup.msi
             // - RELEASES
 
-            var squirrelFiles = BuildContext.CakeContext.GetFiles($"{squirrelReleasesRoot}/{projectName}{setupSuffix}-{BuildContext.General.Version.NuGet}*.nupkg");
+            var squirrelFiles = BuildContext.CakeContext.GetFiles($"{squirrelReleasesRoot}/{projectSlug}{setupSuffix}-{BuildContext.General.Version.NuGet}*.nupkg");
             BuildContext.CakeContext.CopyFiles(squirrelFiles, releasesSourceDirectory);
             BuildContext.CakeContext.CopyFile(System.IO.Path.Combine(squirrelReleasesRoot, "Setup.exe"), System.IO.Path.Combine(releasesSourceDirectory, "Setup.exe"));
             BuildContext.CakeContext.CopyFile(System.IO.Path.Combine(squirrelReleasesRoot, "Setup.exe"), System.IO.Path.Combine(releasesSourceDirectory, $"{projectName}.exe"));

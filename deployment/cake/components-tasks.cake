@@ -254,6 +254,9 @@ public class ComponentsProcessor : ProcessorBase
                 msBuildSettings.WithProperty("RevisionId", repositoryCommitId);
             }
             
+            // Disable Multilingual App Toolkit (MAT) during packaging
+            msBuildSettings.WithProperty("DisableMAT", "true");
+
             // Fix for .NET Core 3.0, see https://github.com/dotnet/core-sdk/issues/192, it
             // uses obj/release instead of [outputdirectory]
             msBuildSettings.WithProperty("DotNetPackIntermediateOutputPath", outputDirectory);
@@ -273,16 +276,15 @@ public class ComponentsProcessor : ProcessorBase
         {
             // For details, see https://docs.microsoft.com/en-us/nuget/create-packages/sign-a-package
             // nuget sign MyPackage.nupkg -CertificateSubjectName <MyCertSubjectName> -Timestamper <TimestampServiceURL>
-            var filesToSign = CakeContext.GetFiles(string.Format("{0}/*.nupkg", BuildContext.General.OutputRootDirectory));
-
+            var filesToSign = CakeContext.GetFiles($"{BuildContext.General.OutputRootDirectory}/*.nupkg");
+            
             foreach (var fileToSign in filesToSign)
             {
-                CakeContext.Information("Signing NuGet package '{0}' using certificate subject '{1}'", fileToSign, BuildContext.General.CodeSign.CertificateSubjectName);
+                CakeContext.Information($"Signing NuGet package '{fileToSign}' using certificate subject '{BuildContext.General.CodeSign.CertificateSubjectName}'");
 
                 var exitCode = CakeContext.StartProcess(BuildContext.General.NuGet.Executable, new ProcessSettings
                 {
-                    Arguments = string.Format("sign \"{0}\" -CertificateSubjectName \"{1}\" -Timestamper \"{2}\"", 
-                        fileToSign, BuildContext.General.CodeSign.CertificateSubjectName, BuildContext.General.CodeSign.TimeStampUri)
+                    Arguments = $"sign \"{fileToSign}\" -CertificateSubjectName \"{BuildContext.General.CodeSign.CertificateSubjectName}\" -Timestamper \"{BuildContext.General.CodeSign.TimeStampUri}\""
                 });
 
                 CakeContext.Information("Signing NuGet package exited with '{0}'", exitCode);

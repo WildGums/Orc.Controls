@@ -366,11 +366,6 @@ namespace Orc.Controls
 
                 try
                 {
-#if NET
-                    //[SL:20090827] Changed hardcoded call to IE and let the OS determine what program to use.
-                    Process.Start(destinationUrl.ToString());
-#endif
-
 #if NETCORE
                     // UseShellExecute is disabled by default in NETCORE
                     var processStartInfo = new ProcessStartInfo
@@ -380,6 +375,9 @@ namespace Orc.Controls
                     };
 
                     Process.Start(processStartInfo);
+#else
+                   //[SL:20090827] Changed hardcoded call to IE and let the OS determine what program to use.
+                    Process.Start(destinationUrl.ToString()); 
 #endif
                 }
                 catch (Win32Exception ex)
