@@ -23,9 +23,9 @@ namespace Orc.Controls
         private MediaElementThreadInfo _mediaElementThreadInfo;
         private Grid _grid;
 
-        private Brush _foreground;
+        private Brush _fluidProgressBarForeground;
         private FluidProgressBar _fluidProgressBar;
-        private int _ignoreUnloadedEventCount;
+        private int _ignoreUnloadedEventCounter;
 
         private readonly IDispatcherService _dispatcherService;
         #endregion
@@ -80,9 +80,9 @@ namespace Orc.Controls
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            if (_ignoreUnloadedEventCount > 0)
+            if (_ignoreUnloadedEventCounter > 0)
             {
-                _ignoreUnloadedEventCount--;
+                _ignoreUnloadedEventCounter--;
                 return;
             }
 
@@ -108,16 +108,16 @@ namespace Orc.Controls
 
         private void OnIgnoreUnloadedEventCountChanged()
         {
-            _ignoreUnloadedEventCount = IgnoreUnloadedEventCount;
+            _ignoreUnloadedEventCounter = IgnoreUnloadedEventCount;
         }
 
         private void OnForegroundChanged(DependencyPropertyChangedEventArgs args)
         {
-            _foreground = Foreground;
+            _fluidProgressBarForeground = Foreground;
             
             _mediaElementThreadInfo?.Dispatcher.Invoke(() =>
             {
-                _fluidProgressBar.SetCurrentValue(Control.ForegroundProperty, _foreground);
+                _fluidProgressBar.SetCurrentValue(Control.ForegroundProperty, _fluidProgressBarForeground);
             });
         }
 
@@ -127,7 +127,7 @@ namespace Orc.Controls
             {
                 HorizontalContentAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Center,
-                Foreground = _foreground
+                Foreground = _fluidProgressBarForeground
             };
 
             var grid = new Grid
