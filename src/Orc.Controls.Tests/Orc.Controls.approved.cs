@@ -629,6 +629,7 @@ namespace Orc.Controls
         protected virtual void OnExpanded() { }
     }
     [System.Windows.TemplatePart(Name="PART_ClearButton", Type=typeof(System.Windows.Controls.Button))]
+    [System.Windows.TemplatePart(Name="PART_WatermarkHost", Type=typeof(System.Windows.Controls.ContentPresenter))]
     public class FilterBox : System.Windows.Controls.TextBox
     {
         public static readonly System.Windows.DependencyProperty AllowAutoCompletionProperty;
