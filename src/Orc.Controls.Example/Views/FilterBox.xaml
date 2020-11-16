@@ -26,15 +26,23 @@
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Filtered Text" VerticalAlignment="Center" Width="150" />
-                <TextBox Text="{Binding FilterText}" VerticalAlignment="Center" Width="200" HorizontalAlignment="Left"/>
+                <TextBox Text="{Binding FilterText}"
+                         VerticalAlignment="Center" 
+                         Width="200" 
+                         HorizontalAlignment="Left"/>
             </StackPanel>
         </StackPanel>
 
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="FilterBox Control (Reverse)" VerticalAlignment="Center" Width="150"/>
-                <orccontrols:FilterBox Width="200" HorizontalAlignment="Left" PropertyName="Value"
-                                      FilterSource="{Binding FilterSource}" Text="{Binding CustomServiceFilterText}" Watermark="Filter" InitializingAutoCompletionService="OnFilterBoxControlInitializingAutoCompletionService"/>
+                <orccontrols:FilterBox Width="200" 
+                                       HorizontalAlignment="Left" 
+                                       PropertyName="Value"
+                                       FilterSource="{Binding FilterSource}" 
+                                       Text="{Binding CustomServiceFilterText}"
+                                       Watermark="Filter" 
+                                       InitializingAutoCompletionService="OnFilterBoxControlInitializingAutoCompletionService"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Filtered Text" VerticalAlignment="Center" Width="150" />
