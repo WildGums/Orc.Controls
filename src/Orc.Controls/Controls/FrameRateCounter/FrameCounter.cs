@@ -14,8 +14,8 @@
         private int _frameCounter;
 
         // Note: we cache dependency properties for performance
-        private int _resetCount;
-        private string _prefix;
+        private int _resetCountThreadSafe;
+        private string _prefixThreadSafe;
 
         static FrameCounter()
         {
@@ -27,8 +27,8 @@
             Loaded += OnControlLoaded;
             Unloaded += OnControlUnloaded;
 
-            _resetCount = ResetCount;
-            _prefix = Prefix;   
+            _resetCountThreadSafe = ResetCount;
+            _prefixThreadSafe = Prefix;   
         }
 
         public string Prefix
@@ -38,7 +38,7 @@
         }
 
         public static readonly DependencyProperty PrefixProperty = DependencyProperty.Register(nameof(Prefix),
-            typeof(string), typeof(FrameCounter), new PropertyMetadata("Frame no: ", (sender, e) => ((FrameCounter)sender)._prefix = (string)e.NewValue));
+            typeof(string), typeof(FrameCounter), new PropertyMetadata("Frame no: ", (sender, e) => ((FrameCounter)sender)._prefixThreadSafe = (string)e.NewValue));
 
 
         public int ResetCount
@@ -48,7 +48,7 @@
         }
 
         public static readonly DependencyProperty ResetCountProperty = DependencyProperty.Register(nameof(ResetCount), 
-            typeof(int), typeof(FrameCounter), new PropertyMetadata(1000, (sender, e) => ((FrameCounter)sender)._resetCount = (int)e.NewValue));
+            typeof(int), typeof(FrameCounter), new PropertyMetadata(1000, (sender, e) => ((FrameCounter)sender)._resetCountThreadSafe = (int)e.NewValue));
 
 
         private void OnControlLoaded(object sender, RoutedEventArgs e)
@@ -65,7 +65,7 @@
         {
             _frameCounter++;
 
-            if (_frameCounter > _resetCount)
+            if (_frameCounter > _resetCountThreadSafe)
             {
                 _frameCounter = 0;
             }
@@ -75,7 +75,7 @@
 
         private void Update()
         {
-            var text = $"{_prefix}{_frameCounter}";
+            var text = $"{_prefixThreadSafe}{_frameCounter}";
 
             SetCurrentValue(TextProperty, text);
         }
