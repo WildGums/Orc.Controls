@@ -14,10 +14,11 @@ namespace Orc.Controls
     using System.Windows.Input;
     using Catel.Logging;
     using Catel.MVVM;
+    using Catel.Windows.Data;
     using Catel.Windows.Interactivity;
     using Theming;
-
-   // [TemplatePart(Name = "PART_FilterTextBox", Type = typeof(TextBox))]
+    
+    [TemplatePart(Name = "PART_WatermarkHost", Type = typeof(ContentPresenter))]
     [TemplatePart(Name = "PART_ClearButton", Type = typeof(Button))]
     public class FilterBox : TextBox
     {
@@ -27,12 +28,15 @@ namespace Orc.Controls
         private readonly Command _clearFilter;
         private Button _clearButton;
         private AutoCompletion _autoCompletion;
+        private ContentPresenter _watermarkHost;
         #endregion
 
         #region Constructors
         public FilterBox()
         {
             _clearFilter = new Command(OnClearFilter, CanClearFilter);
+
+            this.SubscribeToDependencyProperty(nameof(Padding), OnPaddingChanged);
         }
         #endregion
 
@@ -89,6 +93,13 @@ namespace Orc.Controls
             }
             _clearButton.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, _clearFilter);
 
+            _watermarkHost = GetTemplateChild("PART_WatermarkHost") as ContentPresenter;
+            if (_watermarkHost is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_WatermarkHost'");
+            }
+            UpdateWaterMarkMargin();
+
             this.AttachBehavior<UpdateBindingOnTextChanged>();
             this.AttachBehavior<SelectTextOnFocus>();
 
@@ -102,13 +113,30 @@ namespace Orc.Controls
             {
                 return;
             }
-            
+
             //Hack
             var autoCompletionServiceFieldInfo = _autoCompletion.GetType().GetField("_autoCompletionService", BindingFlags.Instance | BindingFlags.NonPublic);
             if (autoCompletionServiceFieldInfo != null)
             {
                 autoCompletionServiceFieldInfo.SetValue(_autoCompletion, autoCompletionService);
             }
+        }
+
+        private void OnPaddingChanged(object sender, DependencyPropertyValueChangedEventArgs e)
+        {
+            UpdateWaterMarkMargin();
+        }
+
+        private void UpdateWaterMarkMargin()
+        {
+            if (_watermarkHost is null)
+            {
+                return;
+            }
+
+            var padding = Padding;
+            var margin = new Thickness(padding.Left + 2d, padding.Top, padding.Right + 2d, padding.Bottom);
+            _watermarkHost.SetCurrentValue(MarginProperty, margin);
         }
 
         private void UpdateAutoCompletion()
