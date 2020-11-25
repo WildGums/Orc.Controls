@@ -20,8 +20,6 @@ namespace Orc.Controls
     /// <remarks>
     /// The original code can be found here: http://blogs.msdn.com/b/dwayneneed/archive/2007/04/26/multithreaded-ui-hostvisual.aspx.
     /// </remarks>
-    [UIPermission(SecurityAction.LinkDemand, Window = UIPermissionWindow.AllWindows)]
-    [UIPermission(SecurityAction.InheritanceDemand, Window = UIPermissionWindow.AllWindows)]
     public class VisualTargetPresentationSource : PresentationSource
     {
         #region Fields
