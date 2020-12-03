@@ -26,8 +26,6 @@ namespace Orc.Controls
         private Brush _fluidProgressBarForeground;
         private FluidProgressBar _fluidProgressBar;
         private int _ignoreUnloadedEventCounter;
-
-        private readonly IDispatcherService _dispatcherService;
         #endregion
 
         #region Constructors
@@ -40,8 +38,6 @@ namespace Orc.Controls
 
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
-
-            _dispatcherService = this.GetServiceLocator().ResolveType<IDispatcherService>();
         }
         #endregion
 

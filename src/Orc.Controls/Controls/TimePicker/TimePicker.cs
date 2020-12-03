@@ -26,7 +26,6 @@ namespace Orc.Controls
 
         private readonly Canvas _containerCanvas;
         private readonly ToggleButton _amPmButton;
-        private readonly TimePickerInputController _inputController;
         private readonly ControlzEx.Theming.ThemeManager _themeManager;
 
         private bool _renderShowNumbers;
@@ -35,7 +34,6 @@ namespace Orc.Controls
         #region Constructors
         public TimePicker()
         {
-            _inputController = new TimePickerInputController(this);
             _themeManager = ControlzEx.Theming.ThemeManager.Current;
             _containerCanvas = new Canvas();
             _amPmButton = new ToggleButton
