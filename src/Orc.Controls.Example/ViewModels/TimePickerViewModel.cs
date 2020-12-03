@@ -54,7 +54,7 @@ namespace Orc.Controls.Example.ViewModels
         {
             base.OnPropertyChanged(e);
 
-            if (Time != null && !string.IsNullOrEmpty(e.PropertyName) && e.HasPropertyChanged(e.PropertyName) && Time.Value != null)
+            if (Time != null && !string.IsNullOrEmpty(e.PropertyName) && e.HasPropertyChanged(e.PropertyName))
             {
                 if (Is24Hour)
                 {

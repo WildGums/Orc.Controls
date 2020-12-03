@@ -27,7 +27,6 @@ namespace Orc.Controls.ViewModels
         #endregion
 
         #region Fields
-        private readonly IApplicationLogFilterGroupService _applicationLogFilterGroupService;
         private readonly IDispatcherService _dispatcherService;
 
         private readonly object _lock = new object();
@@ -47,16 +46,14 @@ namespace Orc.Controls.ViewModels
 
         #region Constructors
         public LogViewerViewModel(ITypeFactory typeFactory, IDispatcherService dispatcherService,
-            IApplicationLogFilterGroupService applicationLogFilterGroupService, LogViewerLogListener logViewerLogListener)
+            LogViewerLogListener logViewerLogListener)
         {
             Argument.IsNotNull(() => typeFactory);
             Argument.IsNotNull(() => dispatcherService);
-            Argument.IsNotNull(() => applicationLogFilterGroupService);
             Argument.IsNotNull(() => logViewerLogListener);
 
             _typeFactory = typeFactory;
             _dispatcherService = dispatcherService;
-            _applicationLogFilterGroupService = applicationLogFilterGroupService;
             _logViewerLogListener = logViewerLogListener;
 
             _timer = new Timer(OnTimerTick);

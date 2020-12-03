@@ -7,6 +7,7 @@
 
 namespace Orc.Controls
 {
+    using System;
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows.Documents;
@@ -75,18 +76,18 @@ namespace Orc.Controls
 
         public static bool IsValidRegexPattern(this string pattern)
         {
+            if (string.IsNullOrWhiteSpace(pattern)) return false;
+
             try
             {
-                // ReSharper disable once ObjectCreationAsStatement
-                new Regex(pattern);
-                return true;
+                var regEx = Regex.Match("", pattern);
             }
-            catch
+            catch (ArgumentException)
             {
-                // ignored
+                return false;
             }
 
-            return false;
+            return true;
         }
         #endregion
     }

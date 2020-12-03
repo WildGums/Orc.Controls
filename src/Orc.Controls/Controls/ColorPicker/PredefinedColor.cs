@@ -582,10 +582,13 @@ namespace Orc.Controls
 
         public override int GetHashCode()
         {
-            var hashCode = -244751520;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
-            hashCode = hashCode * -1521134295 + EqualityComparer<Color>.Default.GetHashCode(Value);
-            return hashCode;
+            unchecked
+            {
+                var hashCode = -244751520;
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+                hashCode = hashCode * -1521134295 + EqualityComparer<Color>.Default.GetHashCode(Value);
+                return hashCode;
+            }
         }
 
         public static bool operator ==(PredefinedColor color1, PredefinedColor color2)

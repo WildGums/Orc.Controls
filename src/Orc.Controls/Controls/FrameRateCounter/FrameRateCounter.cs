@@ -16,7 +16,7 @@
         private int _frameRateCounter;
 
         // Note: we cache dependency properties for performance
-        private string _prefix;
+        private string _prefixThreadSafe;
 
         static FrameRateCounter()
         {
@@ -28,7 +28,7 @@
             Loaded += OnControlLoaded;
             Unloaded += OnControlUnloaded;
 
-            _prefix = Prefix;
+            _prefixThreadSafe = Prefix;
 
             _frameRateTimer.Interval = new TimeSpan(0, 0, 0, 1);
             _frameRateTimer.Tick += (sender, e) => OnFrameRateCounterElapsed();
@@ -41,7 +41,7 @@
         }
 
         public static readonly DependencyProperty PrefixProperty = DependencyProperty.Register(nameof(Prefix),
-            typeof(string), typeof(FrameRateCounter), new PropertyMetadata("Frame rate: ", (sender, e) => ((FrameRateCounter)sender)._prefix = (string)e.NewValue));
+            typeof(string), typeof(FrameRateCounter), new PropertyMetadata("Frame rate: ", (sender, e) => ((FrameRateCounter)sender)._prefixThreadSafe = (string)e.NewValue));
 
         private void OnControlLoaded(object sender, RoutedEventArgs e)
         {
@@ -71,7 +71,7 @@
 
         private void Update()
         {
-            var text = $"{_prefix}{_frameRateCounter}";
+            var text = $"{_prefixThreadSafe}{_frameRateCounter}";
 
             SetCurrentValue(TextProperty, text);
         }

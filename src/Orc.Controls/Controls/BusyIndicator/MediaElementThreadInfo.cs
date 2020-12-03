@@ -121,7 +121,9 @@ namespace Orc.Controls
             {
                 Log.Warning($"[{Id}] No dispatcher object was available, aborting the thread");
 
+#if NETCOREAPP3_1
                 thread.Abort();
+#endif
             }
         }
         #endregion

@@ -74,7 +74,7 @@ namespace Orc.Controls.Example.ViewModels
         {
             base.OnPropertyChanged(e);
 
-            if (DateValue != null && !string.IsNullOrEmpty(e.PropertyName) && e.HasPropertyChanged(e.PropertyName) && DateValue.Value != null && SelectedFormat != null)
+            if (DateValue != null && !string.IsNullOrEmpty(e.PropertyName) && e.HasPropertyChanged(e.PropertyName) && SelectedFormat != null)
             {
                 DateValueString = DateValue.Value.ToString(SelectedFormat.FormatValue);
             }

@@ -82,7 +82,7 @@ namespace Orc.Controls
         private List<TextBox> _textBoxes;
         private DateTime _todayValue;
         private DateTimeFormatInfo _formatInfo;
-        private bool _hideTime;
+        private bool _safeHideTimeValue;
         private bool _applyingFormat;
 
         private readonly int _defaultSecondFormatPosition = 5;
@@ -785,7 +785,7 @@ namespace Orc.Controls
                                    && _formatInfo.MinuteFormat is null
                                    && _formatInfo.SecondFormat is null);
 
-                SetCurrentValue(HideTimeProperty, !hasAnyTimeFormat || _hideTime);
+                SetCurrentValue(HideTimeProperty, !hasAnyTimeFormat || _safeHideTimeValue);
 
                 var culture = GetCulture();
                 var firstDayOfWeek = FirstDayOfWeek ?? culture.DateTimeFormat.FirstDayOfWeek;
@@ -1344,7 +1344,7 @@ namespace Orc.Controls
         {
             if (!_applyingFormat)
             {
-                _hideTime = HideTime;
+                _safeHideTimeValue = HideTime;
             }
 
             ApplyFormat();

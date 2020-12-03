@@ -26,16 +26,14 @@ namespace Orc.Controls
 
         private readonly Canvas _containerCanvas;
         private readonly ToggleButton _amPmButton;
-        private readonly TimePickerInputController _inputController;
         private readonly ControlzEx.Theming.ThemeManager _themeManager;
 
-        private bool _showNumbers;
+        private bool _renderShowNumbers;
         #endregion
 
         #region Constructors
         public TimePicker()
         {
-            _inputController = new TimePickerInputController(this);
             _themeManager = ControlzEx.Theming.ThemeManager.Current;
             _containerCanvas = new Canvas();
             _amPmButton = new ToggleButton
@@ -178,7 +176,7 @@ namespace Orc.Controls
         }
         private void OnShowNumbersChanged()
         {
-            _showNumbers = ShowNumbers;
+            _renderShowNumbers = ShowNumbers;
             Render();
         }
         private static void OnTimeValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
@@ -240,7 +238,7 @@ namespace Orc.Controls
         {
             var width = ActualWidth;
             var height = ActualHeight;
-            SetCurrentValue(ShowNumbersProperty, _showNumbers);
+            SetCurrentValue(ShowNumbersProperty, _renderShowNumbers);
             _containerCanvas.Children.Clear();
 
             RenderClock(width, height);

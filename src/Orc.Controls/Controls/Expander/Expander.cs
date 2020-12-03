@@ -126,11 +126,6 @@ namespace Orc.Controls
                 return;
             }
 
-            if (_expandSite is null)
-            {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_ExpandSite'");
-            }
-
             _headerSiteBorder = GetTemplateChild("PART_HeaderSiteBorder") as Border;
             if (_headerSiteBorder is null)
             {
