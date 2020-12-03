@@ -69,9 +69,9 @@ namespace Orc.Controls
 
         public override void Detach()
         {
-            var target = _target;
+            var target = Target;
 
-            var serviceLocator = _target.GetServiceLocator();
+            var serviceLocator = Target.GetServiceLocator();
             if (serviceLocator.IsTypeRegistered<IFindReplaceService>(target))
             {
                 serviceLocator.RemoveType<IFindReplaceService>(target);

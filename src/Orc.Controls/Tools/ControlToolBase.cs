@@ -13,7 +13,7 @@ namespace Orc.Controls
     public abstract class ControlToolBase : ModelBase, IControlTool
     {
         #region Fields
-        protected object _target;
+        protected object Target;
         #endregion
 
         #region Properties
@@ -25,14 +25,14 @@ namespace Orc.Controls
         #region IControlTool Members
         public virtual void Attach(object target)
         {
-            _target = target;
+            Target = target;
 
             Attached?.Invoke(this, EventArgs.Empty);
         }
 
         public virtual void Detach()
         {
-            _target = null;
+            Target = null;
 
             Detached?.Invoke(this, EventArgs.Empty);
         }
