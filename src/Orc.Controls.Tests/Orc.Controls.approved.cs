@@ -1,4 +1,4 @@
-﻿[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
+[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
 [assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v5.0", FrameworkDisplayName="")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Converters")]
@@ -1965,7 +1965,7 @@ namespace Orc.Controls.ViewModels
         public static readonly Catel.Data.PropertyData TypeFilterProperty;
         public static readonly Catel.Data.PropertyData TypeNamesProperty;
         public static readonly Catel.Data.PropertyData WarningEntriesCountProperty;
-        public LogViewerViewModel(Catel.IoC.ITypeFactory typeFactory, Catel.Services.IDispatcherService dispatcherService, Orc.Controls.IApplicationLogFilterGroupService applicationLogFilterGroupService, Orc.Controls.LogViewerLogListener logViewerLogListener) { }
+        public LogViewerViewModel(Catel.IoC.ITypeFactory typeFactory, Catel.Services.IDispatcherService dispatcherService, Orc.Controls.LogViewerLogListener logViewerLogListener) { }
         public Orc.Controls.LogFilterGroup ActiveFilterGroup { get; set; }
         public bool AutoScroll { get; set; }
         public int DebugEntriesCount { get; }
