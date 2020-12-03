@@ -19,10 +19,10 @@ namespace Orc.Controls
     {
         #region Fields
         private readonly IUIVisualizerService _uiVisualizerService;
-        protected readonly ITypeFactory _typeFactory;
-        protected object _parameter;
+        protected readonly ITypeFactory TypeFactory;
+        protected object Parameter;
 
-        protected T _windowViewModel;
+        protected T WindowViewModel;
         #endregion
 
         #region Constructors
@@ -31,7 +31,7 @@ namespace Orc.Controls
             Argument.IsNotNull(() => typeFactory);
             Argument.IsNotNull(() => uiVisualizerService);
 
-            _typeFactory = typeFactory;
+            TypeFactory = typeFactory;
             _uiVisualizerService = uiVisualizerService;
         }
         #endregion
@@ -43,19 +43,19 @@ namespace Orc.Controls
         #region Methods
         protected override void OnOpen(object parameter = null)
         {
-            _parameter = parameter;
+            Parameter = parameter;
 
-            _windowViewModel = InitializeViewModel();
-            _windowViewModel.ClosedAsync += OnClosedAsync;
+            WindowViewModel = InitializeViewModel();
+            WindowViewModel.ClosedAsync += OnClosedAsync;
             ApplyParameter(parameter);
 
             if (IsModal)
             {
-                _uiVisualizerService.ShowDialogAsync(_windowViewModel, OnWindowCompleted);
+                _uiVisualizerService.ShowDialogAsync(WindowViewModel, OnWindowCompleted);
             }
             else
             {
-                _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted);
+                _uiVisualizerService.ShowAsync(WindowViewModel, OnWindowCompleted);
             }
         }
 
@@ -80,15 +80,15 @@ namespace Orc.Controls
         {
             base.Close();
 
-            if (_windowViewModel == null)
+            if (WindowViewModel == null)
             {
                 return;
             }
 
-            _windowViewModel.ClosedAsync -= OnClosedAsync;
+            WindowViewModel.ClosedAsync -= OnClosedAsync;
 
 #pragma warning disable 4014
-            _windowViewModel.CloseViewModelAsync(null);
+            WindowViewModel.CloseViewModelAsync(null);
 #pragma warning restore 4014
         }
 
