@@ -856,6 +856,8 @@ namespace Orc.Controls
                         _colorComboBox.SetCurrentValue(Selector.SelectedItemProperty, null);
                         _colorTextBox.SetCurrentValue(TextBox.TextProperty, color.ToString());
                     }
+
+                    Keyboard.Focus(_colorComboBox);
                 }
 
                 SetCurrentValue(ColorProperty, color);
