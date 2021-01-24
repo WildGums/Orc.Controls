@@ -616,7 +616,7 @@
                                               HorizontalAlignment="Stretch"/>
 
                                     <StackPanel Orientation="Horizontal" 
-                                                Margin="8,0,0,0" 
+                                                Margin="4,0,0,0" 
                                                 HorizontalAlignment="Stretch">
 
                                         <Rectangle x:Name="RectangleColor" 
