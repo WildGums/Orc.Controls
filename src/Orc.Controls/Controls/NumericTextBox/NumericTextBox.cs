@@ -16,7 +16,6 @@ namespace Orc.Controls
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
-    using System.Windows.Threading;
     using Catel;
     using Catel.Logging;
     using Catel.Windows.Input;
@@ -553,10 +552,10 @@ namespace Orc.Controls
         {
             ValueChanged?.Invoke(this, EventArgs.Empty);
 
-            //if (_textChangingIsInProgress && IsKeyboardFocused)
-            //{
-            //    return;
-            //}
+            if (_textChangingIsInProgress && IsKeyboardFocused)
+            {
+                return;
+            }
 
             UpdateText();
         }
@@ -568,7 +567,7 @@ namespace Orc.Controls
 
         private void UpdateText()
         {
-            var textValue = Value == null ? string.Empty : Value.Value.ToString(Format, CultureInfo ?? CultureInfo.CurrentCulture);
+            var textValue = Value == null ? "null" : Value.Value.ToString(Format, CultureInfo ?? CultureInfo.CurrentCulture);
 
             SetCurrentValue(TextProperty, textValue);
         }
