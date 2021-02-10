@@ -87,7 +87,11 @@ namespace Orc.Controls
             var initialDirectory = GetInitialDirectory();
             if (!string.IsNullOrWhiteSpace(initialDirectory))
             {
-                _processService.StartProcess(initialDirectory);
+                _processService.StartProcess(new ProcessContext
+                {
+                    FileName = initialDirectory,
+                    UseShellExecute = true
+                });
             }
         }
 

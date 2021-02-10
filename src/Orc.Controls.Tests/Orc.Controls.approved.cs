@@ -525,7 +525,7 @@ namespace Orc.Controls
         public static readonly Catel.Data.PropertyData LabelTextProperty;
         public static readonly Catel.Data.PropertyData LabelWidthProperty;
         public static readonly Catel.Data.PropertyData SelectedDirectoryProperty;
-        public DirectoryPickerViewModel(Catel.Services.ISelectDirectoryService selectDirectoryService, Catel.Services.IProcessService processService) { }
+        public DirectoryPickerViewModel(Catel.Services.ISelectDirectoryService selectDirectoryService, Orc.FileSystem.IDirectoryService directoryService, Catel.Services.IProcessService processService) { }
         public Catel.MVVM.Command Clear { get; }
         public string LabelText { get; set; }
         public double LabelWidth { get; set; }

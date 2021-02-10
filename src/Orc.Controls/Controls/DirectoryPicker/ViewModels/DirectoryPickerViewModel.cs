@@ -12,21 +12,25 @@ namespace Orc.Controls
     using Catel;
     using Catel.MVVM;
     using Catel.Services;
+    using FileSystem;
 
     public class DirectoryPickerViewModel : ViewModelBase
     {
         #region Fields
         private readonly IProcessService _processService;
         private readonly ISelectDirectoryService _selectDirectoryService;
+        private readonly IDirectoryService _directoryService;
         #endregion
 
         #region Constructors
-        public DirectoryPickerViewModel(ISelectDirectoryService selectDirectoryService, IProcessService processService)
+        public DirectoryPickerViewModel(ISelectDirectoryService selectDirectoryService, IDirectoryService directoryService, IProcessService processService)
         {
             Argument.IsNotNull(() => selectDirectoryService);
+            Argument.IsNotNull(() => directoryService);
             Argument.IsNotNull(() => processService);
 
             _selectDirectoryService = selectDirectoryService;
+            _directoryService = directoryService;
             _processService = processService;
 
             OpenDirectory = new Command(OnOpenDirectoryExecute, OnOpenDirectoryCanExecute);
@@ -75,10 +79,14 @@ namespace Orc.Controls
         /// </summary>
         private void OnOpenDirectoryExecute()
         {
-            if (Directory.Exists(SelectedDirectory))
+            if (_directoryService.Exists(SelectedDirectory))
             {
                 var fullPath = Path.GetFullPath(SelectedDirectory);
-                _processService.StartProcess(fullPath);
+                _processService.StartProcess(new ProcessContext
+                {
+                    FileName = fullPath,
+                    UseShellExecute = true
+                });
             }
         }
 
