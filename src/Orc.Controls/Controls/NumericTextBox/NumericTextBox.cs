@@ -77,6 +77,16 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
+        public string NullString
+        {
+            get { return (string)GetValue(NullStringProperty); }
+            set { SetValue(NullStringProperty, value); }
+        }
+
+        public static readonly DependencyProperty NullStringProperty = DependencyProperty.Register(
+            nameof(NullString), typeof(string), typeof(NumericTextBox), new PropertyMetadata(" "));
+
+
         public CultureInfo CultureInfo
         {
             get { return (CultureInfo)GetValue(CultureInfoProperty); }
@@ -567,7 +577,7 @@ namespace Orc.Controls
 
         private void UpdateText()
         {
-            var textValue = Value == null ? "null" : Value.Value.ToString(Format, CultureInfo ?? CultureInfo.CurrentCulture);
+            var textValue = Value == null ? NullString : Value.Value.ToString(Format, CultureInfo ?? CultureInfo.CurrentCulture);
 
             SetCurrentValue(TextProperty, textValue);
         }
