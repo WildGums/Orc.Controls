@@ -1193,6 +1193,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty IsNullValueAllowedProperty;
         public static readonly System.Windows.DependencyProperty MaxValueProperty;
         public static readonly System.Windows.DependencyProperty MinValueProperty;
+        public static readonly System.Windows.DependencyProperty NullStringProperty;
         public static readonly System.Windows.DependencyProperty ValueProperty;
         public NumericTextBox() { }
         public System.Globalization.CultureInfo CultureInfo { get; set; }
@@ -1203,6 +1204,7 @@ namespace Orc.Controls
         public bool IsNullValueAllowed { get; set; }
         public double MaxValue { get; set; }
         public double MinValue { get; set; }
+        public string NullString { get; set; }
         public double? Value { get; set; }
         public event System.EventHandler LeftBoundReached;
         public event System.EventHandler RightBoundReached;

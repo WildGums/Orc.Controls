@@ -116,7 +116,7 @@
                                 Visibility="{Binding ElementName=PART_NumericTBEditorContainer, Path=IsVisible, Converter={catel:BooleanToCollapsingVisibilityConverter SupportInversionUsingCommandParameter=True}, ConverterParameter=True}"
                                 Style="{DynamicResource TimeSpanBorderStyle}">
 
-                            <Grid HorizontalAlignment="Stretch">
+                            <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>

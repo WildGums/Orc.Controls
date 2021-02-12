@@ -54,7 +54,8 @@ namespace Orc.Controls
         private readonly MouseButtonEventHandler _selectivelyIgnoreMouseButtonDelegate;
         private readonly RoutedEventHandler _selectAllTextDelegate;
 
-        private bool _textChangingIsInProgress = false;
+        private bool _textChangingIsInProgress = true;
+        private bool _suspendTextChanged = false;
 
         #region Constructors
         static NumericTextBox()
@@ -77,6 +78,16 @@ namespace Orc.Controls
         #endregion
 
         #region Properties
+        public string NullString
+        {
+            get { return (string)GetValue(NullStringProperty); }
+            set { SetValue(NullStringProperty, value); }
+        }
+
+        public static readonly DependencyProperty NullStringProperty = DependencyProperty.Register(
+            nameof(NullString), typeof(string), typeof(NumericTextBox), new PropertyMetadata(default(string)));
+
+
         public CultureInfo CultureInfo
         {
             get { return (CultureInfo)GetValue(CultureInfoProperty); }
@@ -154,7 +165,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty FormatProperty = DependencyProperty.Register(nameof(Format), typeof(string),
-            typeof(NumericTextBox), new UIPropertyMetadata("F0", (sender, e) => ((NumericTextBox)sender).OnFormatChanged()));
+            typeof(NumericTextBox), new UIPropertyMetadata("F2", (sender, e) => ((NumericTextBox)sender).OnFormatChanged()));
 
 
         public double? Value
@@ -325,12 +336,21 @@ namespace Orc.Controls
         {
             SetCurrentValue(ValueProperty, GetDoubleValue(Text));
 
-            //UpdateText();
+            using (new DisposableToken<NumericTextBox>(this, x => x.Instance._suspendTextChanged = true,
+                x => x.Instance._suspendTextChanged = false))
+            {
+                UpdateText();
+            }
         }
-
+        
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
             Argument.IsNotNull(() => sender);
+
+            if (_suspendTextChanged)
+            {
+                return;
+            }
 
             if (_textChangingIsInProgress && IsKeyboardFocused)
             {
@@ -567,7 +587,7 @@ namespace Orc.Controls
 
         private void UpdateText()
         {
-            var textValue = Value == null ? "null" : Value.Value.ToString(Format, CultureInfo ?? CultureInfo.CurrentCulture);
+            var textValue = Value == null ? NullString : Value.Value.ToString(Format, CultureInfo ?? CultureInfo.CurrentCulture);
 
             SetCurrentValue(TextProperty, textValue);
         }
