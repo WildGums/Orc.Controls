@@ -54,7 +54,8 @@ namespace Orc.Controls
         private readonly MouseButtonEventHandler _selectivelyIgnoreMouseButtonDelegate;
         private readonly RoutedEventHandler _selectAllTextDelegate;
 
-        private bool _textChangingIsInProgress = false;
+        private bool _textChangingIsInProgress = true;
+        private bool _suspendTextChanged = false;
 
         #region Constructors
         static NumericTextBox()
@@ -84,7 +85,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty NullStringProperty = DependencyProperty.Register(
-            nameof(NullString), typeof(string), typeof(NumericTextBox), new PropertyMetadata(" "));
+            nameof(NullString), typeof(string), typeof(NumericTextBox), new PropertyMetadata(default(string)));
 
 
         public CultureInfo CultureInfo
@@ -164,7 +165,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty FormatProperty = DependencyProperty.Register(nameof(Format), typeof(string),
-            typeof(NumericTextBox), new UIPropertyMetadata("F0", (sender, e) => ((NumericTextBox)sender).OnFormatChanged()));
+            typeof(NumericTextBox), new UIPropertyMetadata("F2", (sender, e) => ((NumericTextBox)sender).OnFormatChanged()));
 
 
         public double? Value
@@ -335,12 +336,21 @@ namespace Orc.Controls
         {
             SetCurrentValue(ValueProperty, GetDoubleValue(Text));
 
-            //UpdateText();
+            using (new DisposableToken<NumericTextBox>(this, x => x.Instance._suspendTextChanged = true,
+                x => x.Instance._suspendTextChanged = false))
+            {
+                UpdateText();
+            }
         }
-
+        
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
             Argument.IsNotNull(() => sender);
+
+            if (_suspendTextChanged)
+            {
+                return;
+            }
 
             if (_textChangingIsInProgress && IsKeyboardFocused)
             {
