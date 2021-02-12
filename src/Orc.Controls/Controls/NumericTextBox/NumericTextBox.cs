@@ -165,7 +165,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty FormatProperty = DependencyProperty.Register(nameof(Format), typeof(string),
-            typeof(NumericTextBox), new UIPropertyMetadata("F2", (sender, e) => ((NumericTextBox)sender).OnFormatChanged()));
+            typeof(NumericTextBox), new UIPropertyMetadata("F0", (sender, e) => ((NumericTextBox)sender).OnFormatChanged()));
 
 
         public double? Value
