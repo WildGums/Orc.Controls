@@ -3,7 +3,9 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Orc.Controls;component/Themes/Theming.defaultstyles.orccontrols.xaml" />
 
+        <ResourceDictionary Source="/Orc.Controls;component/Themes/Geometry.xaml" />
+
         <ResourceDictionary Source="/Orc.Controls;component/Themes/Styles.xaml" />
     </ResourceDictionary.MergedDictionaries>
-
+   
 </ResourceDictionary>

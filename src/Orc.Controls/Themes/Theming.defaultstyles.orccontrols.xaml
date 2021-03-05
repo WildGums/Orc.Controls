@@ -22,6 +22,8 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/HeaderBar/Themes/HeaderBar.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/LinkLabel/Themes/LinkLabel.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ListTextBox/Themes/ListTextBox.generic.xaml" />
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/LogMessageCategoryToggleButton/Themes/LogMessageCategoryControl.generic.xaml" />
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/LogMessageCategoryToggleButton/Themes/LogMessageCategoryToggleButton.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/LogViewer/Themes/LogViewer.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/NumericTextBox/Themes/NumericTextBox.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/PinnableToolTips/Themes/PinnableToolTip.xaml" />
@@ -257,6 +259,16 @@
            BasedOn="{StaticResource {x:Type orccontrols:LinkLabel}}">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
+
+    <Style x:Key="DefaultLogMessageCategoryControlStyle" TargetType="{x:Type orccontrols:LogMessageCategoryControl}" 
+           BasedOn="{StaticResource {x:Type orccontrols:LogMessageCategoryControl}}">
+    </Style>
+
+
+    <Style x:Key="DefaultLogMessageCategoryToggleButtonStyle" TargetType="{x:Type orccontrols:LogMessageCategoryToggleButton}" 
+           BasedOn="{StaticResource {x:Type orccontrols:LogMessageCategoryToggleButton}}">
+    </Style>
+
 
     <Style x:Key="DefaultNumericTextBoxStyle" 
            TargetType="{x:Type orccontrols:NumericTextBox}" 

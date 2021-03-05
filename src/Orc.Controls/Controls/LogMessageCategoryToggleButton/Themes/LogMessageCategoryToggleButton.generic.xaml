@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:orccontrols="clr-namespace:Orc.Controls"
+                    xmlns:converters="clr-namespace:Orc.Controls.Converters">
+
+    <Style x:Key="{x:Type orccontrols:LogMessageCategoryToggleButton}" TargetType="{x:Type orccontrols:LogMessageCategoryToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type orccontrols:LogMessageCategoryToggleButton}">
+                    <ToggleButton x:Name="PART_Toggle" 
+                                  IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:LogMessageCategoryToggleButton}}, Path=IsChecked}"
+                                  Width="100"
+                                  Margin="0"
+                                  HorizontalContentAlignment="Stretch">
+
+                        <Grid HorizontalAlignment="Stretch"
+                              Margin="0,0,4,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <orccontrols:LogMessageCategoryControl Grid.Column="0" 
+                                                                   Category="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:LogMessageCategoryToggleButton}}, Path= Category}" />
+
+                            <TextBlock Grid.Column="2" 
+                                       Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:LogMessageCategoryToggleButton}}, Path=EntryCount}"
+                                       VerticalAlignment="Center" />
+
+                            <TextBlock Grid.Column="3" 
+                                       Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:LogMessageCategoryToggleButton}}, Path=Category, Converter={converters:LogMessageCategoryTextConverter}}"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </ToggleButton>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

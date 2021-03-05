@@ -837,6 +837,42 @@ namespace Orc.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Debug.
+        /// </summary>
+        internal static string Controls_LogMessageCategoryToggleButton_Text_Debug {
+            get {
+                return ResourceManager.GetString("Controls_LogMessageCategoryToggleButton_Text_Debug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string Controls_LogMessageCategoryToggleButton_Text_Error {
+            get {
+                return ResourceManager.GetString("Controls_LogMessageCategoryToggleButton_Text_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Info.
+        /// </summary>
+        internal static string Controls_LogMessageCategoryToggleButton_Text_Info {
+            get {
+                return ResourceManager.GetString("Controls_LogMessageCategoryToggleButton_Text_Info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string Controls_LogMessageCategoryToggleButton_Text_Warning {
+            get {
+                return ResourceManager.GetString("Controls_LogMessageCategoryToggleButton_Text_Warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         internal static string Controls_LogViewer_Add {
