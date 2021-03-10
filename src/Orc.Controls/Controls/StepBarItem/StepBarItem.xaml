@@ -5,21 +5,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:catel="http://schemas.catelproject.com"
-             xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
+             xmlns:orccontrols="clr-namespace:Orc.Controls.Controls.StepBarItem"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400"
              >
 
-    <!--<xamlbehaviors:Interaction.Triggers>
+    <xamlbehaviors:Interaction.Triggers>
         <xamlbehaviors:EventTrigger EventName="Loaded">
-            <xamlbehaviors:InvokeCommandAction Command="{Binding Path=DataContext.CurrentPage.ViewModel.ContentLoaded, RelativeSource={RelativeSource AncestorType={x:Type catel:DataWindow}}}" 
-                                               CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:StepBarItem}}}"/>
+            <!--<xamlbehaviors:InvokeCommandAction Command="{Binding Path=DataContext.CurrentPage.ViewModel.ContentLoaded, RelativeSource={RelativeSource AncestorType={x:Type catel:DataWindow}}}" 
+                                               CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:StepBarItem}}}"/>-->
+            <xamlbehaviors:InvokeCommandAction Command="{Binding Path=DataContext.CurrentPage.ViewModel.ContentLoaded}" 
+                                               CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:StepBarItem}}}"/>
         </xamlbehaviors:EventTrigger>
-        <xamlbehaviors:EventTrigger EventName="MouseDown">
+        <!--<xamlbehaviors:EventTrigger EventName="MouseDown">
             <xamlbehaviors:InvokeCommandAction Command="{Binding Path=DataContext.CurrentPage.ViewModel.QuickNavigateToPage, RelativeSource={RelativeSource AncestorType={x:Type catel:DataWindow}}}" 
                                                CommandParameter="{Binding}"/>
-        </xamlbehaviors:EventTrigger>
-    </xamlbehaviors:Interaction.Triggers>-->
+        </xamlbehaviors:EventTrigger>-->
+    </xamlbehaviors:Interaction.Triggers>
 
     <!--<Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:StepBarItem}}}">-->
     <Grid>

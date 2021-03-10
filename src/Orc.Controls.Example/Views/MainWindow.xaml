@@ -137,7 +137,10 @@
             </TabItem>
 
             <TabItem Header="Combobox">
-            <orccontrols:StackGrid>
+
+                
+
+                <orccontrols:StackGrid>
                 <orccontrols:StackGrid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -171,6 +174,10 @@
                 <TextBlock x:Name="ComboboxResultTextBlock"/>
             </orccontrols:StackGrid>
         </TabItem>
+
+            <TabItem Header="SideNavigationWizardWindow">
+                <views:SideNavigationWizardWindow/>
+            </TabItem>
 
         </orccontrols:TabControl>
     </Grid>

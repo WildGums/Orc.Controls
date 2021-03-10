@@ -1,4 +1,5 @@
-﻿<catel:DataWindow x:Class="Orc.Controls.Example.Views.SideNavigationWizardWindow"
+﻿
+    <!--<catel:Window x:Class="Orc.Controls.Example.Views.SideNavigationWizardWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -15,16 +16,25 @@
         ShowInTaskbar="{Binding ElementName=layoutRoot, Path=DataContext.ShowInTaskbar, Mode=OneWay}"
         x:Name="wizardWindow"
         CanCloseUsingEscape="False"
+        Background="{DynamicResource Orc.Brushes.GrayBrush10}">-->
+<catel:UserControl x:Class="Orc.Controls.Example.Views.SideNavigationWizardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:catel="http://schemas.catelproject.com"
+        xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:orccontrols="clr-namespace:Orc.Controls.Controls.StepBar;assembly=Orc.Controls"
         Background="{DynamicResource Orc.Brushes.GrayBrush10}">
     <Grid x:Name="layoutRoot" >
         <!-- Wizard content -->
         <Grid Background="{DynamicResource White}">
             <Grid.RowDefinitions>
-                <!-- First row is for InfoBarMessageControl -->
+                <!--First row is for InfoBarMessageControl-->
                 <RowDefinition Height="Auto" />
-                <!-- Title -->
+                <!--Title-->
                 <RowDefinition Height="Auto" />
-                <!-- Description -->
+                <!--Description-->
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -111,4 +121,4 @@
 
         <Grid x:Name="FullScreenContent" Margin="-8" />
     </Grid>
-</catel:DataWindow>
+</catel:UserControl>
