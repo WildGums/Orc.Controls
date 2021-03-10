@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:catel="http://schemas.catelproject.com"
         xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
+        xmlns:orccontrols="clr-namespace:Orc.Controls.Controls.StepBar;assembly=Orc.Controls"
         SizeToContent="Manual"
         ResizeMode="{Binding ResizeMode, Mode=OneWay}"
         MinWidth="{Binding MinSize.Width, Mode=OneWay}"

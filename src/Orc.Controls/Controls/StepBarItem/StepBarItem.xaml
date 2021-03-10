@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Orc.Controls.Example.Views"
              xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:catel="http://schemas.catelproject.com"
              xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
@@ -22,7 +21,8 @@
         </xamlbehaviors:EventTrigger>
     </xamlbehaviors:Interaction.Triggers>-->
 
-    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:StepBarItem}, Mode=FindAncestor}}">
+    <!--<Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:StepBarItem}}}">-->
+    <Grid>
         <Grid x:Name="grid" ToolTip="{Binding Description}" MinWidth="100" MaxWidth="100" Margin="0 0 0 8">
 
             <Grid Margin="5" Grid.Column="0">
