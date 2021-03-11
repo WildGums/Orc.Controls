@@ -23,7 +23,7 @@
                             </Grid.ColumnDefinitions>
 
                             <orccontrols:LogMessageCategoryControl Grid.Column="0" 
-                                                                   Category="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:LogMessageCategoryToggleButton}}, Path= Category}" />
+                                                                   Category="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:LogMessageCategoryToggleButton}}, Path=Category}" />
 
                             <TextBlock Grid.Column="2" 
                                        Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:LogMessageCategoryToggleButton}}, Path=EntryCount}"
