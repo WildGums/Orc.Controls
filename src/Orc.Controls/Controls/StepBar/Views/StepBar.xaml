@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="Orc.Controls.Controls.StepBar.StepBar"
+﻿<catel:UserControl x:Class="Orc.Controls.StepBar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:catel="http://schemas.catelproject.com" 
-             xmlns:orccontrols="clr-namespace:Orc.Controls.Controls.StepBar"
+             xmlns:orccontrols="clr-namespace:Orc.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
     <Grid>
@@ -15,7 +15,7 @@
 
         <Grid Background="{DynamicResource Orc.Brushes.GrayBrush10}">
             <ListBox x:Name="stepbarListBox" 
-                     ItemsSource="{Binding WizardPages}" 
+                     ItemsSource="{Binding Pages}" 
                      SelectedItem="{Binding CurrentPage, Mode=OneWay}"
                      Focusable="False" 
                      HorizontalAlignment="Center" Margin="0 5 0 5">
@@ -46,13 +46,13 @@
                     </Style>
                 </ListBox.ItemContainerStyle>
 
-                <!--<ItemsControl.ItemTemplate>
+                <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <orccontrols:StepBarItem Page="{Binding}"
                                               Orientation="{Binding ElementName=stepbarItemsPresenter, Path=DataContext.Orientation}"
                                               CurrentPage="{Binding ElementName=stepbarListBox, Path=DataContext.CurrentPage}" />
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>-->
+                </ItemsControl.ItemTemplate>
             </ListBox>
         </Grid>
 
@@ -105,4 +105,4 @@
         </ProgressBar>
 
     </Grid>
-</UserControl>
+</catel:UserControl>

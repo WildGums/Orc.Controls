@@ -176,7 +176,7 @@
         </TabItem>
 
             <TabItem Header="SideNavigationWizardWindow">
-                <views:SideNavigationWizardWindow/>
+                <views:SideNavigationWizardView/>
             </TabItem>
 
         </orccontrols:TabControl>
