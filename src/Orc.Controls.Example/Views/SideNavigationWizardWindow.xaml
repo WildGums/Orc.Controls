@@ -24,7 +24,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:catel="http://schemas.catelproject.com"
         xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:orccontrols="clr-namespace:Orc.Controls.Controls.StepBar;assembly=Orc.Controls"
+        xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
         Background="{DynamicResource Orc.Brushes.GrayBrush10}">
     <Grid x:Name="layoutRoot" >
         <!-- Wizard content -->
