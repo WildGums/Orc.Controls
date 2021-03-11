@@ -1,40 +1,15 @@
 ﻿namespace Orc.Controls
 {
-    using System;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Media.Animation;
     using System.Windows.Shapes;
     using Catel.Collections;
-    using Catel.MVVM.Views;
     using Orc.Controls.Controls.StepBar.Models;
 
-    public static class WizardConfiguration
+    public sealed partial class StepBarItem
     {
-        public static TimeSpan AnimationDuration { get; set; } = TimeSpan.FromMilliseconds(300);
-
-        public static readonly int CannotNavigate = -1;
-    }
-
-    public static class ThemingKeys
-    {
-        public const string AccentColorBrush = "Orc.Brushes.AccentColorBrush";
-        public const string AccentColorBrush40 = "Orc.Brushes.AccentColorBrush40";
-        public const string AccentColor = "Orc.Colors.AccentColor";
-        public const string AccentColor40 = "Orc.Colors.AccentColor40";
-    }
-
-    public partial class StepBarItem
-    {
-        static StepBarItem()
-        {
-            typeof(StepBarItem).AutoDetectViewPropertiesToSubscribe();
-        }
-
-        /// <summary>
-        /// Interaction logic for StepBarItem.xaml
-        /// </summary>
         public StepBarItem()
         {
             InitializeComponent();
@@ -47,7 +22,7 @@
         }
 
         public static readonly DependencyProperty PageProperty = DependencyProperty.Register(nameof(Page), typeof(IWizardPage),
-            typeof(StepBarItem)/*, new PropertyMetadata(null, (sender, e) => ((StepBarItem)sender).OnPageChanged())*/);
+            typeof(StepBarItem), new PropertyMetadata(null, (sender, e) => ((StepBarItem)sender).OnPageChanged()));
 
 
         public IWizardPage CurrentPage
@@ -57,7 +32,7 @@
         }
 
         public static readonly DependencyProperty CurrentPageProperty = DependencyProperty.Register(nameof(CurrentPage), typeof(IWizardPage),
-            typeof(StepBarItem)/*, new PropertyMetadata(null, (sender, e) => ((StepBarItem)sender).OnCurrentPageChanged())*/);
+            typeof(StepBarItem), new PropertyMetadata(null, (sender, e) => ((StepBarItem)sender).OnCurrentPageChanged()));
 
 
         public string Title
@@ -98,7 +73,7 @@
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation),
             typeof(StepBarItem), new PropertyMetadata(Orientation.Vertical));
 
-        /*private void OnPageChanged()
+        private void OnPageChanged()
         {
             var page = Page;
             if (page != null)
@@ -120,7 +95,7 @@
             SetCurrentValue(CursorProperty, (Page.Wizard.AllowQuickNavigation && isVisited) ? System.Windows.Input.Cursors.Hand : null);
             UpdateContent(isCompleted);
             UpdateSelection(isSelected, isCompleted, isVisited);
-        }*/
+        }
 
         private void UpdateSelection(bool isSelected, bool isCompleted, bool isVisited)
         {
@@ -147,15 +122,13 @@
             {
 #pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
                 shape.Fill = (SolidColorBrush)TryFindResource(ThemingKeys.AccentColorBrush40);
-
 #pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
             }
 
             var fromColor = ((SolidColorBrush)shape?.Fill)?.Color ?? Colors.Transparent;
-            var targetColor = FrameworkElementExtensions.GetAccentColorBrush(this, isSelected).Color;
+            var targetColor = this.GetAccentColorBrush(isSelected).Color;
 
             var colorAnimation = new ColorAnimation(fromColor, (Color)targetColor, WizardConfiguration.AnimationDuration);
-
             Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("Fill.(SolidColorBrush.Color)", ArrayShim.Empty<object>()));
 
             storyboard.Children.Add(colorAnimation);

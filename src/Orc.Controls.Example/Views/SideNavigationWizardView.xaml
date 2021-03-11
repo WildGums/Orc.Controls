@@ -6,16 +6,18 @@
         xmlns:catel="http://schemas.catelproject.com"
         xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
+        xmlns:orccontrols1="clr-namespace:Orc.Controls.Controls.StepBar.Models;assembly=Orc.Controls"
         Background="{DynamicResource Orc.Brushes.GrayBrush10}">
+
     <Grid x:Name="layoutRoot" >
         <!-- Wizard content -->
         <Grid Background="{DynamicResource White}">
             <Grid.RowDefinitions>
-                <!--First row is for InfoBarMessageControl-->
+                <!-- First row is for InfoBarMessageControl -->
                 <RowDefinition Height="Auto" />
-                <!--Title-->
+                <!-- Title -->
                 <RowDefinition Height="Auto" />
-                <!--Description-->
+                <!-- Description -->
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -28,12 +30,12 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <orccontrols:StepBar x:Name="stepbar" Grid.Row="1" Grid.RowSpan="5" Orientation="Vertical" />
+            <orccontrols:StepBar x:Name="stepbar" Grid.Row="1" Grid.RowSpan="5" Orientation="Horizontal" />
 
-            <!--<orccontrols:WizardPageHeader Grid.Row="1" 
+            <orccontrols:WizardPageHeader Grid.Row="1" 
                                        Grid.Column="3"  
                                        Title="{Binding PageTitle}"
-                                       Description="{Binding PageDescription}" />-->
+                                       Description="{Binding PageDescription}" />
 
             <Rectangle Grid.RowSpan="6" 
                        Grid.Column="1" 
@@ -49,21 +51,21 @@
                           Margin="6,4,12,4" 
                           HorizontalScrollBarVisibility="Disabled"
                           VerticalScrollBarVisibility="Auto">
-                <!--<ContentControl Focusable="False">
+                <ContentControl Focusable="False">
                     <xamlbehaviors:Interaction.Behaviors>
-                        <wizard:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
+                        <orccontrols1:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
                     </xamlbehaviors:Interaction.Behaviors>
-                </ContentControl>-->
+                </ContentControl>
             </ScrollViewer>
 
             <Label Grid.Column="2" Grid.Row="4" 
-                   Margin="10,4,10,4" Visibility="Visible">
+                   Margin="10,4,10,4" Visibility="{Binding IsPageOptional, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
                 <TextBlock TextWrapping="Wrap" FontStyle="Italic" Text="{catel:LanguageBinding Wizard_OptionalWizardStep}" />
             </Label>
 
             <Grid Grid.Column="2" Grid.Row="5" 
                   Background="{DynamicResource Orc.Brushes.Control.Background}"
-                  Visibility="Visible">
+                  Visibility="{Binding Wizard.HideNavigationSystem, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -74,7 +76,7 @@
 	                       Style="{DynamicResource DataWindowButtonContainerStyle}">
                     <Button Command="{Binding ShowHelp}" Content="{catel:LanguageBinding Wizard_Help}" 
                             Style="{DynamicResource DataWindowButtonStyle}" 
-                            Visibility="Visible" />
+                            Visibility="{Binding IsHelpVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
                 </WrapPanel>
 
                 <ItemsControl Grid.Column="2"
@@ -102,4 +104,4 @@
 
         <Grid x:Name="FullScreenContent" Margin="-8" />
     </Grid>
-</catel:UserControl>
+ </catel:UserControl>

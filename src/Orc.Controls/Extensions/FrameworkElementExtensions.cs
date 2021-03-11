@@ -16,6 +16,7 @@ namespace Orc.Controls
     using Catel.IoC;
     using Catel.Logging;
     using Microsoft.Xaml.Behaviors;
+    using Orc.Controls.Controls.StepBar.Models;
     using Tools;
 
     public static class FrameworkElementExtensions

@@ -1,151 +1,238 @@
 ﻿namespace Orc.Controls.Example.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Shapes;
     using Catel;
+    using Catel.Collections;
+    using Catel.Fody;
     using Catel.IoC;
     using Catel.MVVM;
+    using Catel.Services;
     using Orc.Controls.Controls.StepBar.Models;
 
-    //public class WizardPageViewModelBase<TWizardPage> : ViewModelBase, IWizardPageViewModel
-    //    where TWizardPage : class, IWizardPage
     public class SideNavigationWizardViewModel : ViewModelBase
     {
-        #region Constructors
-        //public WizardPageViewModelBase(TWizardPage wizardPage)
-        //{
-        //    Argument.IsNotNull(() => wizardPage);
+        private readonly IMessageService _messageService;
+        private readonly ILanguageService _languageService;
 
-        //    DeferValidationUntilFirstSaveCall = true;
-        //    WizardPage = wizardPage;
-        //    QuickNavigateToPage = new TaskCommand<IWizardPage>(QuickNavigateToPageExecuteAsync, QuickNavigateToPageCanExecute);
-        //    ContentLoaded = new TaskCommand<StepBarItem>(ContentLoadedExecuteAsync, ContentLoadedCanExecute);
-        //}
-        public SideNavigationWizardViewModel()
+        private bool _isCanceling;
+
+        #region Constructors
+        public SideNavigationWizardViewModel(ITypeFactory typeFactory)
         {
+            var wizard = typeFactory.CreateInstance(typeof(ExampleSideNavigationWizard)) as IExampleWizard;
+
+            //typeFactory.RegisterType<IWizardService, WizardService>();
+            ServiceLocator.Default.RegisterType<IWizardPageViewModelLocator, WizardPageViewModelLocator>();
+
+            wizard.ShowInTaskbarWrapper = ShowInTaskbar;
+            wizard.ShowHelpWrapper = ShowHelp;
+            wizard.AllowQuickNavigationWrapper = AllowQuickNavigation;
+            wizard.HandleNavigationStatesWrapper = HandleNavigationStates;
+
+            if (UseFastForwardNavigationController)
+            {
+                wizard.NavigationControllerWrapper = typeFactory.CreateInstanceWithParametersAndAutoCompletion<FastForwardNavigationController>(wizard);
+            }
+
+            if (!ShowSummaryPage)
+            {
+                var lastPage = wizard.Pages.Last();
+                wizard.RemovePage(lastPage);
+            }
+
+
             DeferValidationUntilFirstSaveCall = true;
-            ContentLoaded = new TaskCommand<StepBarItem>(ContentLoadedExecuteAsync, ContentLoadedCanExecute);
-            
+
+            Wizard = wizard;
+            WizardPages = new List<IWizardPage>(wizard.Pages);
+            //_messageService = messageService;
+            //_languageService = languageService;
+
+            //ShowHelp = new TaskCommand(OnShowHelpExecuteAsync, OnShowHelpCanExecute);
+        }
+
+        public SideNavigationWizardViewModel(IWizard wizard, IMessageService messageService, ILanguageService languageService)
+        {
+            Argument.IsNotNull(() => wizard);
+            Argument.IsNotNull(() => messageService);
+            Argument.IsNotNull(() => languageService);
+
+            DeferValidationUntilFirstSaveCall = true;
+
+            Wizard = wizard;
+            WizardPages = new List<IWizardPage>(wizard.Pages);
+            _messageService = messageService;
+            _languageService = languageService;
+
+            //ShowHelp = new TaskCommand(OnShowHelpExecuteAsync, OnShowHelpCanExecute);
         }
         #endregion
 
         #region Properties
-        public IWizardPage CurrentPage { get; }
-        public IList<IWizardPage> Pages { get; } = new List<IWizardPage>();
+        [Model(SupportIEditableObject = false)]
+        [Expose(nameof(IWizard.CurrentPage))]
+        [Expose(nameof(IWizard.ResizeMode))]
+        [Expose(nameof(IWizard.MinSize))]
+        [Expose(nameof(IWizard.MaxSize))]
+        [Expose(nameof(IWizard.IsHelpVisible))]
+        [Expose(nameof(IWizard.ShowInTaskbar))]
+        public IWizard Wizard { get; set; }
 
-        //[Model(SupportIEditableObject = false)]
-        //public TWizardPage WizardPage { get; private set; }
+        public IEnumerable<IWizardPage> WizardPages { get; private set; }
 
-        //public IWizard Wizard
-        //{
-        //    get
-        //    {
-        //        var wizardPage = WizardPage;
-        //        if (wizardPage is null)
-        //        {
-        //            return null;
-        //        }
+        public IEnumerable<IWizardNavigationButton> WizardButtons { get; private set; }
 
-        //        return wizardPage.Wizard;
-        //    }
-        //}
+        public string PageTitle { get; private set; }
 
-        public virtual void EnableValidationExposure()
-        {
-            DeferValidationUntilFirstSaveCall = false;
+        public string PageDescription { get; private set; }
 
-            Validate(true);
-        }
+        public bool IsPageOptional { get; private set; }
         #endregion
 
         #region Commands
+        //public TaskCommand ShowHelp { get; set; }
 
-        //public TaskCommand<IWizardPage> QuickNavigateToPage { get; private set; }
-
-        //public bool QuickNavigateToPageCanExecute(IWizardPage parameter)
-        //{
-        //    if (!Wizard.AllowQuickNavigation)
-        //    {
-        //        return false;
-        //    }
-
-        //    if (!parameter.IsVisited)
-        //    {
-        //        return false;
-        //    }
-
-        //    if (Wizard.CurrentPage == parameter)
-        //    {
-        //        return false;
-        //    }
-
-        //    return true;
-        //}
-
-        //public async Task QuickNavigateToPageExecuteAsync(IWizardPage parameter)
-        //{
-        //    var page = parameter;
-        //    if (page != null && page.IsVisited && Wizard.Pages is System.Collections.Generic.List<IWizardPage>)
-        //    {
-        //        var list = Wizard.Pages.ToList();
-        //        var index = list.IndexOf(page);
-
-        //        await Wizard.MoveToPageAsync(index);
-        //    }
-        //}
-
-        public TaskCommand<StepBarItem> ContentLoaded { get; private set; }
-
-        public bool ContentLoadedCanExecute(StepBarItem stepBarItem)
-            => true;
-
-        public async Task ContentLoadedExecuteAsync(StepBarItem stepBarItem)
+        private bool OnShowHelpCanExecute()
         {
-            Grid grid = (Grid)stepBarItem.GetType().GetField("grid").GetValue(this);
-            TextBlock txtTitle = (TextBlock)stepBarItem.GetType().GetField("txtTitle").GetValue(this);
-            Rectangle pathline = (Rectangle)stepBarItem.GetType().GetField("pathline").GetValue(this);
-            Ellipse ellipse = (Ellipse)stepBarItem.GetType().GetField("ellipse").GetValue(this);
+            return Wizard.CanShowHelp;
+        }
 
-            if (stepBarItem.Orientation == Orientation.Horizontal)
+        private Task OnShowHelpExecuteAsync()
+        {
+            return Wizard.ShowHelpAsync();
+        }
+
+        public bool ShowInTaskbar { get; set; } = true;
+
+        public bool ShowHelp { get; set; } = true;
+
+        public bool AllowQuickNavigation { get; set; } = true;
+
+        public bool UseFastForwardNavigationController { get; set; } = true;
+
+        public bool ShowSummaryPage { get; set; } = true;
+
+        public bool HandleNavigationStates { get; set; } = true;
+        #endregion
+
+        #region Methods
+        protected override async Task InitializeAsync()
+        {
+            await base.InitializeAsync();
+
+            Wizard.CurrentPageChanged += OnWizardCurrentPageChanged;
+            Wizard.MovedBack += OnWizardMovedBack;
+            Wizard.MovedForward += OnWizardMovedForward;
+            Wizard.Canceled += OnWizardCanceled;
+            Wizard.Resumed += OnWizardResumed;
+
+            await Wizard.InitializeAsync();
+
+            UpdateState();
+        }
+
+        protected override async Task<bool> CancelAsync()
+        {
+            if (!_isCanceling)
             {
-                //stepBarItem.grid.ColumnDefinitions.Add(new ColumnDefinition());
-                grid.RowDefinitions.Add(new RowDefinition());
-                grid.RowDefinitions.Add(new RowDefinition());
-                grid.SetCurrentValue(FrameworkElement.MinWidthProperty, 100.0);
-                grid.SetCurrentValue(FrameworkElement.MaxWidthProperty, 100.0);
-                grid.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Bottom = 8 });
-                txtTitle.SetCurrentValue(Grid.ColumnProperty, 0);
-                txtTitle.SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Center);
-                pathline.SetCurrentValue(Grid.ColumnProperty, 1);
-                pathline.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness(5));
-                pathline.Parent.SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Center);
-                pathline.SetCurrentValue(FrameworkElement.WidthProperty, 48.0);
-                pathline.SetCurrentValue(FrameworkElement.HeightProperty, 2.0);
-                pathline.SetCurrentValue(Canvas.TopProperty, 13.0);
-                ellipse.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness(5));
+                // Special case, we need to execute the cancel command if users are using ALT + F4
+                if (!Wizard.CanCancel)
+                {
+                    return false;
+                }
+
+                if (!await CancelWizardAsync())
+                {
+                    return false;
+                }
             }
-            else
+
+            return await base.CancelAsync();
+        }
+
+        protected override async Task CloseAsync()
+        {
+            Wizard.CurrentPageChanged -= OnWizardCurrentPageChanged;
+            Wizard.MovedBack -= OnWizardMovedBack;
+            Wizard.MovedForward -= OnWizardMovedForward;
+            Wizard.Canceled -= OnWizardCanceled;
+            Wizard.Resumed -= OnWizardResumed;
+
+            WizardButtons = null;
+
+            await Wizard.CloseAsync();
+
+            await base.CloseAsync();
+        }
+
+        private async Task<bool> CancelWizardAsync()
+        {
+            using (new DisposableToken<SideNavigationWizardViewModel>(this, x => x.Instance._isCanceling = true, x => x.Instance._isCanceling = false))
             {
-                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
-                grid.ColumnDefinitions.Add(new ColumnDefinition());
-                grid.RowDefinitions.Add(new RowDefinition());
-                grid.SetCurrentValue(FrameworkElement.MinWidthProperty, 240.0);
-                grid.SetCurrentValue(FrameworkElement.MaxWidthProperty, 240.0);
-                grid.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Bottom = 56 });
-                txtTitle.SetCurrentValue(Grid.ColumnProperty, 1);
-                txtTitle.SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Left);
-                pathline.SetCurrentValue(Grid.ColumnProperty, 0);
-                pathline.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness(2));
-                pathline.Parent.SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Left);
-                pathline.SetCurrentValue(FrameworkElement.WidthProperty, 2.0);
-                pathline.SetCurrentValue(FrameworkElement.HeightProperty, 48.0);
-                pathline.SetCurrentValue(Canvas.TopProperty, 35.0);
-                ellipse.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Left = 15, Top = 5, Right = 25, Bottom = 5 });
+                if (await _messageService.ShowAsync(_languageService.GetString("Wizard_AreYouSureYouWantToCancelWizard"), button: MessageButton.YesNo) == MessageResult.No)
+                {
+                    return false;
+                }
+
+                if (!await CancelAsync())
+                {
+                    return false;
+                }
+
+                await Wizard.CancelAsync();
+                return true;
             }
+        }
+
+        private void OnWizardCurrentPageChanged(object sender, EventArgs e)
+        {
+            UpdateState();
+        }
+
+        private void OnWizardMovedBack(object sender, EventArgs e)
+        {
+            UpdateState();
+        }
+
+        private void OnWizardMovedForward(object sender, EventArgs e)
+        {
+            UpdateState();
+        }
+
+        private void OnWizardCanceled(object sender, EventArgs e)
+        {
+            CloseViewModelAsync(false);
+        }
+
+        private void OnWizardResumed(object sender, EventArgs e)
+        {
+            CloseViewModelAsync(true);
+        }
+
+        private void UpdateState()
+        {
+            var page = Wizard.CurrentPage;
+
+            PageTitle = page?.Title ?? string.Empty;
+            PageDescription = page?.Description ?? string.Empty;
+            IsPageOptional = page?.IsOptional ?? false;
+
+            var currentIndex = Wizard.Pages.TakeWhile(wizardPage => !ReferenceEquals(wizardPage, page)).Count() + 1;
+            var totalPages = Wizard.Pages.Count();
+
+            var title = Wizard.Title;
+            if (!string.IsNullOrEmpty(title))
+            {
+                title += " - ";
+            }
+
+            //title += string.Format(_languageService.GetString("Wizard_XofY"), currentIndex, totalPages);
+            Title = title;
+
+            WizardButtons = Wizard.NavigationController.GetNavigationButtons();
         }
         #endregion
     }

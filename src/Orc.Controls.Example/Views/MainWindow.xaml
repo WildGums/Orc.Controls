@@ -19,6 +19,10 @@
                                 TabStripPlacement="Left" 
                                 LoadTabItems="EagerLoading">
 
+            <TabItem Header="SideNavigationWizardWindow">
+                <views:SideNavigationWizardView/>
+            </TabItem>
+
             <TabItem Header="AlignmentGrid">
                 <views:AlignmentGrid />
             </TabItem>
@@ -138,45 +142,41 @@
 
             <TabItem Header="Combobox">
 
-                
+
 
                 <orccontrols:StackGrid>
-                <orccontrols:StackGrid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </orccontrols:StackGrid.RowDefinitions>
+                    <orccontrols:StackGrid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </orccontrols:StackGrid.RowDefinitions>
 
-                <TextBlock Text="Just for test. Please remove it before merging with develop" 
+                    <TextBlock Text="Just for test. Please remove it before merging with develop" 
                            FontWeight="Bold"
                            Foreground="DarkRed"/>
-                
-                <ComboBox IsEditable="{Binding ElementName=IsEditableCheckBox, Path=IsChecked, UpdateSourceTrigger=PropertyChanged}"
+
+                    <ComboBox IsEditable="{Binding ElementName=IsEditableCheckBox, Path=IsChecked, UpdateSourceTrigger=PropertyChanged}"
                           Text="{Binding ElementName=ComboboxResultTextBlock, Path=Text, UpdateSourceTrigger=PropertyChanged}">
-                    <ComboBox.ItemsSource>
-                        <x:Array Type="sys:String" 
+                        <ComboBox.ItemsSource>
+                            <x:Array Type="sys:String" 
                                  xmlns:sys="clr-namespace:System;assembly=mscorlib">
-                            <sys:String>first</sys:String>
-                            <sys:String>second</sys:String>
-                        </x:Array>
-                    </ComboBox.ItemsSource>
-                </ComboBox>
-                    
-                <CheckBox x:Name="IsEditableCheckBox" 
+                                <sys:String>first</sys:String>
+                                <sys:String>second</sys:String>
+                            </x:Array>
+                        </ComboBox.ItemsSource>
+                    </ComboBox>
+
+                    <CheckBox x:Name="IsEditableCheckBox" 
                           Content="Is Editable"/>
 
-                <TextBlock Text="Result text:" Margin="0 10 0 0" FontWeight="Bold"/>
-                <GridSplitter Height="1" HorizontalAlignment="Stretch" Background="Black" Margin="0 0 0 2" BorderBrush="Black" BorderThickness="1"/>
-                
-                <TextBlock x:Name="ComboboxResultTextBlock"/>
-            </orccontrols:StackGrid>
-        </TabItem>
+                    <TextBlock Text="Result text:" Margin="0 10 0 0" FontWeight="Bold"/>
+                    <GridSplitter Height="1" HorizontalAlignment="Stretch" Background="Black" Margin="0 0 0 2" BorderBrush="Black" BorderThickness="1"/>
 
-            <TabItem Header="SideNavigationWizardWindow">
-                <views:SideNavigationWizardView/>
+                    <TextBlock x:Name="ComboboxResultTextBlock"/>
+                </orccontrols:StackGrid>
             </TabItem>
 
         </orccontrols:TabControl>

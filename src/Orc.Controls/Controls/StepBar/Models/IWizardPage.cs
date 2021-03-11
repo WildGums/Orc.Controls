@@ -7,6 +7,14 @@
 
     public interface IWizardPage
     {
+        ISummaryItem GetSummary();
+
+        IWizard Wizard { get; set; }
+
+        IViewModel ViewModel { get; set; }
+
+        event EventHandler<ViewModelChangedEventArgs> ViewModelChanged;
+
         string Title { get; set; }
 
         string BreadcrumbTitle { get; set; }
