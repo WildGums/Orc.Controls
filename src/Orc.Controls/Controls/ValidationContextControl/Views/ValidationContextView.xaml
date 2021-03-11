@@ -9,7 +9,15 @@
                    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
 
     <UserControl.Resources>
-        <Style TargetType="TextBlock" BasedOn="{StaticResource ValidationContextTextBlock}" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Orc.Controls;component/Controls/ValidationContextControl/Themes/ValidationContextControl.generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Geometry x:Key="ArrowsOutGeometry">M9.5,13.09L10.91,14.5L6.41,19H10V21H3V14H5V17.59L9.5,13.09M10.91,9.5L9.5,10.91L5,6.41V10H3V3H10V5H6.41L10.91,9.5M14.5,13.09L19,17.59V14H21V21H14V19H17.59L13.09,14.5L14.5,13.09M13.09,9.5L17.59,5H14V3H21V10H19V6.41L14.5,10.91L13.09,9.5Z</Geometry>
+            <Geometry x:Key="ArrowsInGeometry">M19.5,3.09L20.91,4.5L16.41,9H20V11H13V4H15V7.59L19.5,3.09M20.91,19.5L19.5,20.91L15,16.41V20H13V13H20V15H16.41L20.91,19.5M4.5,3.09L9,7.59V4H11V11H4V9H7.59L3.09,4.5L4.5,3.09M3.09,19.5L7.59,15H4V13H11V20H9V16.41L4.5,20.91L3.09,19.5Z</Geometry>
+
+        </ResourceDictionary>
     </UserControl.Resources>
     
     <Grid>
@@ -20,43 +28,60 @@
         </Grid.RowDefinitions>
 
         <DockPanel LastChildFill="False">
-            <ToggleButton Margin="2 0"
-                          Tag="Error"
-                          IsChecked="{Binding ShowErrors}"
-                          Style="{StaticResource ValidationContextToggleButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding ErrorsCount}" />
 
-                    <TextBlock Text="{catel:LanguageBinding Controls_ValidationContextControl_Errors}" />
-                </StackPanel>
-            </ToggleButton>
+            <controls:LogMessageCategoryToggleButton Margin="6,4,2,4"
+                                                     Tag="Error"
+                                                     IsChecked="{Binding ShowErrors}"
+                                                     EntryCount="{Binding ErrorsCount, Mode=OneWay}"
+                                                     Category="Error" />
 
-            <ToggleButton Margin="0"
-                          Tag="Warning"
-                          IsChecked="{Binding ShowWarnings}"
-                          Style="{StaticResource ValidationContextToggleButtonStyle}">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding WarningsCount}" />
+            <controls:LogMessageCategoryToggleButton Margin="2,4,2,4"
+                                                     Tag="Warning"
+                                                     IsChecked="{Binding ShowWarnings}"
+                                                     EntryCount="{Binding WarningsCount, Mode=OneWay}"
+                                                     Category="Warning" />
 
-                    <TextBlock Text="{catel:LanguageBinding Controls_ValidationContextControl_Warnings}" />
-                </StackPanel>
-            </ToggleButton>
-
-            <Button Style="{StaticResource ValidationContextButtonWithIconStyle}"
-                    Tag="ExpandAll"
+            <Button Tag="ExpandAll"
+                    Width="20"
+                    Margin="2,4,2,4"
                     ToolTip="{catel:LanguageBinding Controls_ValidationContextControl_ExpandAll}"
                     Command="{Binding ExpandAll}"
-                    Visibility="{Binding IsCollapsed, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+                    Visibility="{Binding IsCollapsed, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
 
-            <Button Style="{StaticResource ValidationContextButtonWithIconStyle}"
-                    Tag="CollapseAll"
+                <Path Height="12" 
+                      Width="12"
+                      Data="{StaticResource ArrowsOutGeometry}" 
+                      HorizontalAlignment="Center"
+                      Margin="0" 
+                      Fill="{DynamicResource Orc.Brushes.Control.Default.Border}"
+                      SnapsToDevicePixels="True" 
+                      Stretch="Fill"
+                      UseLayoutRounding="True"
+                      VerticalAlignment="Center"/>
+
+            </Button>
+
+            <Button Tag="CollapseAll"
+                    Width="20"
+                    Margin="2,4,2,4"
                     ToolTip="{catel:LanguageBinding Controls_ValidationContextControl_CollapseAll}"
                     Command="{Binding CollapseAll}"
-                    Visibility="{Binding IsExpanded, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+                    Visibility="{Binding IsExpanded, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+
+                <Path Height="12" Width="12" Data="{StaticResource ArrowsInGeometry}" 
+                      HorizontalAlignment="Center"
+                      Margin="0" 
+                      SnapsToDevicePixels="True" 
+                      Fill="{DynamicResource Orc.Brushes.Control.Default.Border}"
+                      Stretch="Fill"
+                      UseLayoutRounding="True"
+                      VerticalAlignment="Center"/>
+
+            </Button>
 
             <StackPanel Orientation="Horizontal"
                         DockPanel.Dock="Right">
-                <controls:FilterBox Margin="0 0 6 0"
+                <controls:FilterBox Margin="0 4 6 4"
                                     Width="200"
                                     PropertyName="Message"
                                     FilterSource="{Binding ValidationResults}"

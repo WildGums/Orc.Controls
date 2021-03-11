@@ -501,4 +501,16 @@
   <data name="Controls_Clear" xml:space="preserve">
     <value>Clear</value>
   </data>
+  <data name="Controls_LogMessageCategoryToggleButton_Text_Debug" xml:space="preserve">
+    <value>Debug</value>
+  </data>
+  <data name="Controls_LogMessageCategoryToggleButton_Text_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Controls_LogMessageCategoryToggleButton_Text_Info" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="Controls_LogMessageCategoryToggleButton_Text_Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
 </root>
