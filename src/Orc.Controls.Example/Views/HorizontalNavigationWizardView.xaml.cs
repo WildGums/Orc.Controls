@@ -16,14 +16,14 @@
     /// <summary>
     /// Interaction logic for SideNavigationWizardWindow.xaml
     /// </summary>
-    public partial class SideNavigationWizardView
+    public partial class HorizontalNavigationWizardView
     {
-        public SideNavigationWizardView()
+        public HorizontalNavigationWizardView()
         {
             InitializeComponent();
         }
 
-        public SideNavigationWizardView(HorizontalNavigationWizardViewModel viewModel)
+        public HorizontalNavigationWizardView(HorizontalNavigationWizardViewModel viewModel)
         {
             InitializeComponent();
         }

@@ -1,4 +1,4 @@
-﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.SideNavigationWizardView"
+﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.HorizontalNavigationWizardView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -30,7 +30,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <orccontrols:StepBar x:Name="stepbar" Grid.Row="1" Grid.RowSpan="5" Orientation="Vertical" />
+            <orccontrols:StepBar x:Name="stepbar" Grid.Row="1" Grid.RowSpan="5" Orientation="Horizontal" />
 
             <orccontrols:WizardPageHeader Grid.Row="1" 
                                        Grid.Column="3"  
