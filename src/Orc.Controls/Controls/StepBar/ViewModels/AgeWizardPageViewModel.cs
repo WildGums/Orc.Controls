@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Controls.StepBar.Models.ViewModels
+﻿namespace Orc.Controls.Controls.StepBar.ViewModels
 {
     using Catel.MVVM;
     using Orc.Controls.Controls.StepBar.Models;

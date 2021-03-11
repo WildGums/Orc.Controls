@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls.Controls.StepBar.Views
 {
     using System.Windows;
     using System.Windows.Controls;

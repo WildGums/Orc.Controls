@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Controls.StepBar.Models.Views
+﻿namespace Orc.Controls.Controls.StepBar.Views
 {
     using System.Threading.Tasks;
     using System.Windows;

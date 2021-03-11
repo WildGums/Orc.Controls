@@ -7,7 +7,7 @@
     using System.Windows.Shapes;
     using Catel;
     using Catel.MVVM;
-    using Orc.Controls;
+    using Orc.Controls.Controls.StepBar.Views;
 
     //public class WizardPageViewModelBase<TWizardPage> : ViewModelBase, IWizardPageViewModel
     //    where TWizardPage : class, IWizardPage

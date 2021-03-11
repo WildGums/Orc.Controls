@@ -23,7 +23,7 @@
             InitializeComponent();
         }
 
-        public SideNavigationWizardView(HorizontalNavigationWizardViewModel viewModel)
+        public SideNavigationWizardView(SideNavigationWizardViewModel viewModel)
         {
             InitializeComponent();
         }
