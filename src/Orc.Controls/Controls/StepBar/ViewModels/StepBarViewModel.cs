@@ -29,7 +29,7 @@
             Pages.Add(new AgeWizardPage());
             Pages.Add(new AgeWizardPage());
             Pages.Add(new AgeWizardPage());
-            //Pages.Add(new SummaryWizardPage());
+            Pages.Add(new SummaryWizardPage());
 
             CurrentPage = Pages.First();
 

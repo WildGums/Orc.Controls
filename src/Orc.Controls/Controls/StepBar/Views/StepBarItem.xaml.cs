@@ -13,18 +13,19 @@
 
     public sealed partial class StepBarItem
     {
-        private StepBarViewModel _sbvm;
+        private StepBarViewModel stepBarvm { get; set; }
 
         public StepBarItem()
         {
             InitializeComponent();
+            stepBarvm = ServiceLocator.Default.ResolveType<StepBarViewModel>();
         }
 
         protected override void OnViewModelChanged()
         {
             base.OnViewModelChanged();
 
-            _sbvm = ServiceLocator.Default.ResolveType<StepBarViewModel>();
+            
             OnPageChanged();
         }
 
@@ -95,8 +96,8 @@
                 SetCurrentValue(TitleProperty, page.BreadcrumbTitle ?? page.Title);
                 SetCurrentValue(DescriptionProperty, page.Description);
 
-                if (_sbvm != null)
-                    pathline.SetCurrentValue(VisibilityProperty, _sbvm.IsLastPage(page) ? Visibility.Collapsed : Visibility.Visible);
+                if (stepBarvm != null)
+                    pathline.SetCurrentValue(VisibilityProperty, stepBarvm.IsLastPage(page) ? Visibility.Collapsed : Visibility.Visible);
             }
         }
 
@@ -106,8 +107,8 @@
             var isCompleted = Page.Number < CurrentPage.Number;
             var isVisited = Page.IsVisited;
 
-            if (_sbvm != null)
-                SetCurrentValue(CursorProperty, (_sbvm.AllowQuickNavigation && isVisited) ? System.Windows.Input.Cursors.Hand : null);
+            if (stepBarvm != null)
+                SetCurrentValue(CursorProperty, (stepBarvm.AllowQuickNavigation && isVisited) ? System.Windows.Input.Cursors.Hand : null);
             UpdateContent(isCompleted);
             UpdateSelection(isSelected, isCompleted, isVisited);
         }
