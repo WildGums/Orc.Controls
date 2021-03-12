@@ -8,24 +8,30 @@
     using Catel.Collections;
     using Catel.Data;
     using Catel.IoC;
+    using Catel.MVVM;
     using Orc.Controls.Controls.StepBar.Models;
     using Orc.Controls.Controls.StepBar.ViewModels;
 
     public sealed partial class StepBarItem
     {
-        private StepBarViewModel stepBarvm { get; set; }
+        public StepBarViewModel StepBarViewModel
+        {
+            get { return (StepBarViewModel)GetValue(StepBarViewModelProperty); }
+            set { SetValue(StepBarViewModelProperty, value); }
+        }
+
+        public static readonly DependencyProperty StepBarViewModelProperty = DependencyProperty.Register(nameof(StepBarViewModel), typeof(StepBarViewModel),
+            typeof(StepBarItem));
 
         public StepBarItem()
         {
             InitializeComponent();
-            stepBarvm = ServiceLocator.Default.ResolveType<StepBarViewModel>();
         }
 
         protected override void OnViewModelChanged()
         {
             base.OnViewModelChanged();
 
-            
             OnPageChanged();
         }
 
@@ -96,8 +102,8 @@
                 SetCurrentValue(TitleProperty, page.BreadcrumbTitle ?? page.Title);
                 SetCurrentValue(DescriptionProperty, page.Description);
 
-                if (stepBarvm != null)
-                    pathline.SetCurrentValue(VisibilityProperty, stepBarvm.IsLastPage(page) ? Visibility.Collapsed : Visibility.Visible);
+                if (StepBarViewModel != null)
+                    pathline.SetCurrentValue(VisibilityProperty, StepBarViewModel.IsLastPage(Page) ? Visibility.Collapsed : Visibility.Visible);
             }
         }
 
@@ -107,8 +113,8 @@
             var isCompleted = Page.Number < CurrentPage.Number;
             var isVisited = Page.IsVisited;
 
-            if (stepBarvm != null)
-                SetCurrentValue(CursorProperty, (stepBarvm.AllowQuickNavigation && isVisited) ? System.Windows.Input.Cursors.Hand : null);
+            if (StepBarViewModel != null)
+                SetCurrentValue(CursorProperty, (StepBarViewModel.AllowQuickNavigation && isVisited) ? System.Windows.Input.Cursors.Hand : null);
             UpdateContent(isCompleted);
             UpdateSelection(isSelected, isCompleted, isVisited);
         }

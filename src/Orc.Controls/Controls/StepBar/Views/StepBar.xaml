@@ -49,7 +49,7 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <orccontrols:StepBarItem Page="{Binding}"
+                        <orccontrols:StepBarItem Page="{Binding}" StepBarViewModel="{Binding ViewModel, RelativeSource={RelativeSource AncestorType={x:Type catel:UserControl}}}"
                                               Orientation="{Binding ElementName=stepbarItemsPresenter, Path=DataContext.Orientation}"
                                               CurrentPage="{Binding ElementName=stepbarListBox, Path=DataContext.CurrentPage}" />
                     </DataTemplate>
