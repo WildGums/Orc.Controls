@@ -23,6 +23,9 @@
 
             //this.AddPage<PersonWizardPage>();
             this.AddPage<AgeWizardPage>();
+            this.AddPage<AgeWizardPage>();
+            this.AddPage<AgeWizardPage>();
+            this.AddPage<AgeWizardPage>();
             //this.AddPage<SkillsWizardPage>();
             //this.AddPage<ComponentsWizardPage>();
             this.AddPage<SummaryWizardPage>();

@@ -9,12 +9,12 @@
     {
         public StepBarViewModel()
         {
+            /*Pages.Add(ServiceLocator.Default.RegisterTypeAndInstantiate<AgeWizardPage>());
             Pages.Add(ServiceLocator.Default.RegisterTypeAndInstantiate<AgeWizardPage>());
             Pages.Add(ServiceLocator.Default.RegisterTypeAndInstantiate<AgeWizardPage>());
-            Pages.Add(ServiceLocator.Default.RegisterTypeAndInstantiate<AgeWizardPage>());
-            Pages.Add(ServiceLocator.Default.RegisterTypeAndInstantiate<AgeWizardPage>());
+            Pages.Add(ServiceLocator.Default.RegisterTypeAndInstantiate<AgeWizardPage>());*/
         }
 
-        public IList<IWizardPage> Pages { get; } = new List<IWizardPage>();
+        //public IList<IWizardPage> Pages { get; } = new List<IWizardPage>();
     }
 }

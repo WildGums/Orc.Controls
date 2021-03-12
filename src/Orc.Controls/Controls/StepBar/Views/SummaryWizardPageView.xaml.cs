@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Wizard.Views
+namespace Orc.Controls.Controls.StepBar.Views
 {
     public partial class SummaryWizardPageView
     {

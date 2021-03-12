@@ -1,4 +1,4 @@
-﻿namespace Orc.Wizard.ViewModels
+﻿namespace Orc.Controls.Controls.StepBar.ViewModels
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
