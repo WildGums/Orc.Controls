@@ -105,6 +105,22 @@
 
             stepbar.SetCurrentValue(OpacityMaskProperty, opacityMask.GradientStops.Count > 0 ? opacityMask : null);*/
         }
+
+        private void Next_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel is HorizontalNavigationWizardViewModel vm)
+            {
+                vm.Wizard.MoveForwardAsync();
+            }
+        }
+
+        private void Previous_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel is HorizontalNavigationWizardViewModel vm)
+            {
+                vm.Wizard.MoveBackAsync();
+            }
+        }
     }
 }
 

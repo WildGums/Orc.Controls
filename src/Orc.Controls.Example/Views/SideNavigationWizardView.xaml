@@ -10,98 +10,20 @@
         Background="{DynamicResource Orc.Brushes.GrayBrush10}">
 
     <Grid x:Name="layoutRoot" >
-        <!-- Wizard content -->
-        <Grid Background="{DynamicResource White}">
-            <Grid.RowDefinitions>
-                <!-- First row is for InfoBarMessageControl -->
-                <RowDefinition Height="Auto" />
-                <!-- Title -->
-                <RowDefinition Height="Auto" />
-                <!-- Description -->
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="120" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <orccontrols:StepBar x:Name="stepbar" Grid.Row="0" Grid.RowSpan="5" Orientation="Vertical" />
 
-            <orccontrols:StepBar x:Name="stepbar" Grid.Row="1" Grid.RowSpan="5" Orientation="Vertical" />
+        <StackPanel Grid.Column="1" Orientation="Horizontal">
+            <Button Content="Previous" Click="Previous_Button_Click" />
+            <Button Content="Next" Click="Next_Button_Click" />
+        </StackPanel>
 
-            <orccontrols:WizardPageHeader Grid.Row="1" 
-                                       Grid.Column="3"  
-                                       Title="{Binding PageTitle}"
-                                       Description="{Binding PageDescription}" />
-
-            <Rectangle Grid.RowSpan="6" 
-                       Grid.Column="1" 
-                       HorizontalAlignment="Stretch"
-                       VerticalAlignment="Stretch"
-                       Focusable="False"
-	                   Margin="0" 
-                       Width="1"
-                       Fill="{DynamicResource Orc.Brushes.GrayBrush3}" />
-
-            <ScrollViewer Grid.Row="3" 
-                          Grid.Column="2" 
-                          Margin="6,4,12,4" 
-                          HorizontalScrollBarVisibility="Disabled"
-                          VerticalScrollBarVisibility="Auto">
-                <ContentControl Focusable="False">
-                    <xamlbehaviors:Interaction.Behaviors>
-                        <orccontrols1:WizardPageSelectionBehavior Wizard="{Binding Wizard}"/>
-                    </xamlbehaviors:Interaction.Behaviors>
-                </ContentControl>
-            </ScrollViewer>
-
-            <Label Grid.Column="2" Grid.Row="4" 
-                   Margin="10,4,10,4" Visibility="{Binding IsPageOptional, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
-                <TextBlock TextWrapping="Wrap" FontStyle="Italic" Text="{catel:LanguageBinding Wizard_OptionalWizardStep}" />
-            </Label>
-
-            <Grid Grid.Column="2" Grid.Row="5" 
-                  Background="{DynamicResource Orc.Brushes.Control.Background}"
-                  Visibility="{Binding Wizard.HideNavigationSystem, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=True}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <WrapPanel Grid.Column="0" 
-	                       Style="{DynamicResource DataWindowButtonContainerStyle}">
-                    <Button Command="{Binding ShowHelp}" Content="{catel:LanguageBinding Wizard_Help}" 
-                            Style="{DynamicResource DataWindowButtonStyle}" 
-                            Visibility="{Binding IsHelpVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
-                </WrapPanel>
-
-                <ItemsControl Grid.Column="2"
-                              Focusable="False"
-                              Margin="0,0,6,6"
-                              ItemsSource="{Binding WizardButtons}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel IsItemsHost="True"
-                                   Style="{DynamicResource DataWindowButtonContainerStyle}" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Command="{Binding Command}" 
-                                Content="{Binding Content}" 
-                                Style="{DynamicResource DataWindowButtonStyle}" 
-                                Visibility="{Binding IsVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Grid>
-        </Grid>
-
-        <Grid x:Name="FullScreenContent" Margin="-8" />
     </Grid>
  </catel:UserControl>
