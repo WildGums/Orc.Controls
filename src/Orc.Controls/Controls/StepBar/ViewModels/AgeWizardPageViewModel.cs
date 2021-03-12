@@ -3,10 +3,9 @@
     using Catel.MVVM;
     using Orc.Controls.Controls.StepBar.Models;
 
-    public class AgeWizardPageViewModel : WizardPageViewModelBase<AgeWizardPage>
+    public class AgeWizardPageViewModel
     {
-        public AgeWizardPageViewModel(AgeWizardPage wizardPage)
-            : base(wizardPage)
+        public AgeWizardPageViewModel()
         {
         }
 

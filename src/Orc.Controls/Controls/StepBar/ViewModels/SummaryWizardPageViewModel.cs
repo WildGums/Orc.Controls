@@ -4,14 +4,13 @@
     using System.Threading.Tasks;
     using Orc.Controls.Controls.StepBar.Models;
 
-    public class SummaryWizardPageViewModel : WizardPageViewModelBase<SummaryWizardPage>
+    public class SummaryWizardPageViewModel
     {
-        public SummaryWizardPageViewModel(SummaryWizardPage wizardPage) 
-            : base(wizardPage)
+        public SummaryWizardPageViewModel()
         {
         }
 
-        public List<ISummaryItem> SummaryItems { get; private set; }
+        /*public List<ISummaryItem> SummaryItems { get; private set; }
 
         protected override async Task InitializeAsync()
         {
@@ -46,6 +45,6 @@
             }
 
             SummaryItems = items;
-        }
+        }*/
     }
 }

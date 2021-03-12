@@ -6,32 +6,45 @@
     using System.Windows.Media.Animation;
     using System.Windows.Shapes;
     using Catel.Collections;
+    using Catel.Data;
+    using Catel.IoC;
     using Orc.Controls.Controls.StepBar.Models;
+    using Orc.Controls.Controls.StepBar.ViewModels;
 
     public sealed partial class StepBarItem
     {
+        private StepBarViewModel _sbvm;
+
         public StepBarItem()
         {
             InitializeComponent();
         }
 
-        public IWizardPage Page
+        protected override void OnViewModelChanged()
         {
-            get { return (IWizardPage)GetValue(PageProperty); }
+            base.OnViewModelChanged();
+
+            _sbvm = ServiceLocator.Default.ResolveType<StepBarViewModel>();
+            OnPageChanged();
+        }
+
+        public IStepBarPage Page
+        {
+            get { return (IStepBarPage)GetValue(PageProperty); }
             set { SetValue(PageProperty, value); }
         }
 
-        public static readonly DependencyProperty PageProperty = DependencyProperty.Register(nameof(Page), typeof(IWizardPage),
+        public static readonly DependencyProperty PageProperty = DependencyProperty.Register(nameof(Page), typeof(IStepBarPage),
             typeof(StepBarItem), new PropertyMetadata(null, (sender, e) => ((StepBarItem)sender).OnPageChanged()));
 
 
-        public IWizardPage CurrentPage
+        public IStepBarPage CurrentPage
         {
-            get { return (IWizardPage)GetValue(CurrentPageProperty); }
+            get { return (IStepBarPage)GetValue(CurrentPageProperty); }
             set { SetValue(CurrentPageProperty, value); }
         }
 
-        public static readonly DependencyProperty CurrentPageProperty = DependencyProperty.Register(nameof(CurrentPage), typeof(IWizardPage),
+        public static readonly DependencyProperty CurrentPageProperty = DependencyProperty.Register(nameof(CurrentPage), typeof(IStepBarPage),
             typeof(StepBarItem), new PropertyMetadata(null, (sender, e) => ((StepBarItem)sender).OnCurrentPageChanged()));
 
 
@@ -82,7 +95,8 @@
                 SetCurrentValue(TitleProperty, page.BreadcrumbTitle ?? page.Title);
                 SetCurrentValue(DescriptionProperty, page.Description);
 
-                pathline.SetCurrentValue(VisibilityProperty, page.Wizard.IsLastPage(page) ? Visibility.Collapsed : Visibility.Visible);
+                if (_sbvm != null)
+                    pathline.SetCurrentValue(VisibilityProperty, _sbvm.IsLastPage(page) ? Visibility.Collapsed : Visibility.Visible);
             }
         }
 
@@ -92,7 +106,8 @@
             var isCompleted = Page.Number < CurrentPage.Number;
             var isVisited = Page.IsVisited;
 
-            SetCurrentValue(CursorProperty, (Page.Wizard.AllowQuickNavigation && isVisited) ? System.Windows.Input.Cursors.Hand : null);
+            if (_sbvm != null)
+                SetCurrentValue(CursorProperty, (_sbvm.AllowQuickNavigation && isVisited) ? System.Windows.Input.Cursors.Hand : null);
             UpdateContent(isCompleted);
             UpdateSelection(isSelected, isCompleted, isVisited);
         }

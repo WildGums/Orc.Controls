@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Text;
 
-    public class AgeWizardPage : WizardPageBase
+    public class AgeWizardPage : StepBarPageBase
     {
         public AgeWizardPage()
         {

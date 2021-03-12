@@ -8,7 +8,7 @@
     using Catel.MVVM;
     using Catel.Threading;
 
-    public abstract class WizardPageBase : ModelBase, IWizardPage
+    public abstract class StepBarPageBase : ModelBase, IStepBarPage
     {
         private IViewModel _viewModel;
 
@@ -32,9 +32,6 @@
         {
             return null;
         }
-
-        [NoWeaving]
-        public IWizard Wizard { get; set; }
 
         public event EventHandler<ViewModelChangedEventArgs> ViewModelChanged;
         public string Title { get; set; }

@@ -2,7 +2,7 @@
 {
     public class SummaryItem : ISummaryItem
     {
-        public IWizardPage Page { get; set; }
+        public IStepBarPage Page { get; set; }
 
         public string Title { get; set; }
 

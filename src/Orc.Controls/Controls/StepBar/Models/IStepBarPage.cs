@@ -1,15 +1,14 @@
 ﻿namespace Orc.Controls.Controls.StepBar.Models
 {
     using System;
-    using System.Security.RightsManagement;
+    using System.Collections.Generic;
+    using System.Text;
     using System.Threading.Tasks;
     using Catel.MVVM;
 
-    public interface IWizardPage
+    public interface IStepBarPage
     {
         ISummaryItem GetSummary();
-
-        IWizard Wizard { get; set; }
 
         IViewModel ViewModel { get; set; }
 

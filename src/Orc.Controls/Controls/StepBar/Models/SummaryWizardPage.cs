@@ -3,14 +3,14 @@
     using Catel;
     using Catel.Services;
 
-    public class SummaryWizardPage : WizardPageBase
+    public class SummaryWizardPage : StepBarPageBase
     {
-        public SummaryWizardPage(ILanguageService languageService)
+        public SummaryWizardPage()
         {
-            Argument.IsNotNull(() => languageService);
+            /*Argument.IsNotNull(() => languageService);
 
             Title = languageService.GetString("Wizard_SummaryTitle");
-            Description = languageService.GetString("Wizard_SummaryDescription");
+            Description = languageService.GetString("Wizard_SummaryDescription");*/
         }
     }
 }
