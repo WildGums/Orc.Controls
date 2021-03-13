@@ -1,15 +1,10 @@
 ﻿namespace Orc.Controls.Controls.StepBar.ViewModels
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
-    using Catel;
-    using Catel.Data;
-    using Catel.IoC;
-    using Catel.Logging;
     using Catel.MVVM;
     using Orc.Controls.Controls.StepBar.Models;
     using Orc.Controls.Controls.StepBar.Views;

@@ -2,8 +2,6 @@
 {
     using System.Windows;
     using System.Windows.Controls;
-    using Catel.IoC;
-    using Catel.MVVM.Views;
     using Orc.Controls.Controls.StepBar.ViewModels;
 
     /// <summary>
