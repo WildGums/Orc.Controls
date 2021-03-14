@@ -1,23 +1,26 @@
 ﻿namespace Orc.Controls.Example.ViewModels
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Catel;
-    using Catel.Collections;
-    using Catel.Fody;
-    using Catel.IoC;
     using Catel.MVVM;
-    using Catel.Services;
     using Orc.Controls.Controls.StepBar.Models;
 
     public class SideNavigationWizardViewModel : ViewModelBase
     {
-        #region Constructors
+        public IList<IStepBarItem> Items { get; }
+
         public SideNavigationWizardViewModel()
         {
+            var items = new List<IStepBarItem>()
+            {
+                new AgeExampleItem(),
+                new AgeExampleItem(),
+                new AgeExampleItem(),
+                new AgeExampleItem(),
+            };
+            var num = 0;
+            foreach (var page in items)
+                page.Number = num++;
+            Items = items;
         }
-        #endregion
     }
 }

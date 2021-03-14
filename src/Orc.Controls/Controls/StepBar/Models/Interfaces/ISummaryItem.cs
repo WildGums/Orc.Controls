@@ -2,7 +2,7 @@
 {
     public interface ISummaryItem
     {
-        IStepBarPage Page { get; set; }
+        IStepBarItem Page { get; set; }
 
         string Title { get; set; }
         string Summary { get; set; }

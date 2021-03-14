@@ -1,7 +1,6 @@
 ﻿namespace Orc.Controls.Controls.StepBar.Models
 {
     using System;
-    using System.Windows.Media;
 
     public static class WizardConfiguration
     {

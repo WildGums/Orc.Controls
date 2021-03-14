@@ -18,7 +18,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <orccontrols:StepBar x:Name="stepbar" Grid.Row="0" Grid.RowSpan="5" Orientation="Vertical" />
+        <orccontrols:StepBar x:Name="stepbar" Grid.Row="0" Grid.RowSpan="5" Orientation="Vertical" Items="{Binding Items}" />
 
         <StackPanel Grid.Column="1" Orientation="Horizontal">
             <Button Content="Previous" Click="Previous_Button_Click" />

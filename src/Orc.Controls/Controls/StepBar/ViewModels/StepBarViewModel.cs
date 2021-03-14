@@ -3,43 +3,40 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Windows;
-    using System.Windows.Controls;
     using Catel.MVVM;
     using Orc.Controls.Controls.StepBar.Models;
-    using Orc.Controls.Controls.StepBar.Views;
 
     public class StepBarViewModel : ViewModelBase
     {
+        #region Fields
         private int _currentIndex = 0;
-        public IStepBarPage CurrentPage { get; set; }
+        #endregion Fields
 
-        public IList<IStepBarPage> Pages { get; set; } = new List<IStepBarPage>();
-
-        public bool AllowQuickNavigation { get; set; } = true;
-
+        #region Constructors
         public StepBarViewModel()
         {
-            Pages.Add(new AgeWizardPage());
-            Pages.Add(new AgeWizardPage());
-            Pages.Add(new AgeWizardPage());
-            Pages.Add(new AgeWizardPage());
-            Pages.Add(new SummaryWizardPage());
-
-            CurrentPage = Pages.First();
-
-            QuickNavigateToPage = new TaskCommand<IStepBarPage>(QuickNavigateToPageExecuteAsync, QuickNavigateToPageCanExecute);
-            ContentLoaded = new TaskCommand<StepBarItem>(ContentLoadedExecuteAsync, ContentLoadedCanExecute);
+            ContentLoaded = new TaskCommand<Views.StepBar>(ContentLoadedExecuteAsync, ContentLoadedCanExecute);
+            QuickNavigateToItem = new TaskCommand<IStepBarItem>(QuickNavigateToItemExecuteAsync, QuickNavigateToItemCanExecute);
         }
+        #endregion Constructors
 
+        #region Properties
+        public IList<IStepBarItem> Items { get; set; }
+
+        public IStepBarItem SelectedItem { get; set; }
+
+        public bool AllowQuickNavigation { get; set; }
+        #endregion Properties
+
+        #region Methods
         public virtual async Task MoveForwardAsync()
         {
-            if (_currentIndex < Pages.Count - 1)
+            if (_currentIndex < Items.Count - 1)
             {
-                Pages[_currentIndex].IsVisited = true;
+                Items[_currentIndex].IsVisited = true;
                 _currentIndex++;
-                CurrentPage = Pages[_currentIndex];
-                Pages[_currentIndex].IsVisited = true;
+                SelectedItem = Items[_currentIndex];
+                Items[_currentIndex].IsVisited = true;
             }
         }
 
@@ -48,29 +45,31 @@
             if (_currentIndex > 0)
             {
                 _currentIndex--;
-                CurrentPage = Pages[_currentIndex];
+                SelectedItem = Items[_currentIndex];
             }
         }
 
-        protected internal async Task SetCurrentPage(int newIndex)
+        protected internal async Task SetSelectedItem(int newIndex)
         {
-            if (_currentIndex >= 0 && _currentIndex < Pages.Count)
+            if (_currentIndex >= 0 && _currentIndex < Items.Count)
             {
                 _currentIndex = newIndex;
-                CurrentPage = Pages[_currentIndex];
+                SelectedItem = Items[_currentIndex];
             }
         }
 
-        public bool IsLastPage(IStepBarPage page)
+        public bool IsLastItem(IStepBarItem item)
         {
-            return page.Equals(Pages.LastOrDefault());
+            return item.Equals(Items.LastOrDefault());
         }
+        #endregion Methods
 
-        public TaskCommand<IStepBarPage> QuickNavigateToPage { get; private set; }
+        #region Commands
+        public TaskCommand<IStepBarItem> QuickNavigateToItem { get; private set; }
 
-        public bool QuickNavigateToPageCanExecute(IStepBarPage parameter)
+        public bool QuickNavigateToItemCanExecute(IStepBarItem parameter)
         {
-            /*if (!Wizard.AllowQuickNavigation)
+            if (!AllowQuickNavigation)
             {
                 return false;
             }
@@ -80,68 +79,43 @@
                 return false;
             }
 
-            if (Wizard.CurrentPage == parameter)
+            if (SelectedItem == parameter)
             {
                 return false;
-            }*/
+            }
 
             return true;
         }
 
-        public async Task QuickNavigateToPageExecuteAsync(IStepBarPage parameter)
+        public async Task QuickNavigateToItemExecuteAsync(IStepBarItem parameter)
         {
-            var page = parameter;
-            if (page != null && page.IsVisited && Pages is List<IStepBarPage>)
+            var item = parameter;
+            if (item != null && item.IsVisited && Items is List<IStepBarItem>)
             {
-                var index = Pages.IndexOf(page);
+                var index = Items.IndexOf(item);
 
-                await SetCurrentPage(index);
+                await SetSelectedItem(index);
             }
         }
 
-        public TaskCommand<StepBarItem> ContentLoaded { get; private set; }
+        public TaskCommand<Views.StepBar> ContentLoaded { get; private set; }
 
-        public bool ContentLoadedCanExecute(StepBarItem stepBarItem)
-            => true;
-
-        public async Task ContentLoadedExecuteAsync(StepBarItem stepBarItem)
+        public bool ContentLoadedCanExecute(Views.StepBar parameter)
         {
-            if (stepBarItem.Orientation == Orientation.Horizontal)
+            return true;
+        }
+
+        public async Task ContentLoadedExecuteAsync(Views.StepBar parameter)
+        {
+            if (parameter.Items != null)
             {
-                stepBarItem.grid.ColumnDefinitions.Add(new ColumnDefinition());
-                stepBarItem.grid.RowDefinitions.Add(new RowDefinition());
-                stepBarItem.grid.RowDefinitions.Add(new RowDefinition());
-                stepBarItem.grid.SetCurrentValue(FrameworkElement.MinWidthProperty, 100.0);
-                stepBarItem.grid.SetCurrentValue(FrameworkElement.MaxWidthProperty, 100.0);
-                stepBarItem.grid.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Bottom = 8 });
-                stepBarItem.txtTitle.SetCurrentValue(Grid.ColumnProperty, 0);
-                stepBarItem.txtTitle.SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Center);
-                stepBarItem.pathline.SetCurrentValue(Grid.ColumnProperty, 1);
-                stepBarItem.pathline.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness(5));
-                stepBarItem.pathline.Parent.SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Center);
-                stepBarItem.pathline.SetCurrentValue(FrameworkElement.WidthProperty, 48.0);
-                stepBarItem.pathline.SetCurrentValue(FrameworkElement.HeightProperty, 2.0);
-                stepBarItem.pathline.SetCurrentValue(Canvas.TopProperty, 13.0);
-                stepBarItem.ellipse.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness(5));
-            }
-            else
-            {
-                stepBarItem.grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
-                stepBarItem.grid.ColumnDefinitions.Add(new ColumnDefinition());
-                stepBarItem.grid.RowDefinitions.Add(new RowDefinition());
-                stepBarItem.grid.SetCurrentValue(FrameworkElement.MinWidthProperty, 240.0);
-                stepBarItem.grid.SetCurrentValue(FrameworkElement.MaxWidthProperty, 240.0);
-                stepBarItem.grid.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Bottom = 56 });
-                stepBarItem.txtTitle.SetCurrentValue(Grid.ColumnProperty, 1);
-                stepBarItem.txtTitle.SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Left);
-                stepBarItem.pathline.SetCurrentValue(Grid.ColumnProperty, 0);
-                stepBarItem.pathline.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness(2));
-                stepBarItem.pathline.Parent.SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Left);
-                stepBarItem.pathline.SetCurrentValue(FrameworkElement.WidthProperty, 2.0);
-                stepBarItem.pathline.SetCurrentValue(FrameworkElement.HeightProperty, 48.0);
-                stepBarItem.pathline.SetCurrentValue(Canvas.TopProperty, 35.0);
-                stepBarItem.ellipse.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Left = 15, Top = 5, Right = 25, Bottom = 5 });
+                AllowQuickNavigation = parameter.AllowQuickNavigation;
+                Items = parameter.Items;
+                SelectedItem = Items.First();
+                _currentIndex = 0;
+                await SetSelectedItem(0);
             }
         }
+        #endregion Commands
     }
 }

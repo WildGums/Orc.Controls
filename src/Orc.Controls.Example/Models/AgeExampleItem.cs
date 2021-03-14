@@ -1,12 +1,8 @@
 ﻿namespace Orc.Controls.Controls.StepBar.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
-    public class AgeWizardPage : StepBarPageBase
+    public class AgeExampleItem : StepBarPageBase
     {
-        public AgeWizardPage()
+        public AgeExampleItem()
         {
             Title = "Age";
             Description = "Specify the age of the person";

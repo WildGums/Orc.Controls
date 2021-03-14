@@ -11,6 +11,14 @@
 
     public sealed partial class StepBarItem
     {
+        #region Constructors
+        public StepBarItem()
+        {
+            InitializeComponent();
+        }
+        #endregion Constructors
+
+        #region Properties
         public StepBarViewModel StepBarViewModel
         {
             get { return (StepBarViewModel)GetValue(StepBarViewModelProperty); }
@@ -18,38 +26,26 @@
         }
 
         public static readonly DependencyProperty StepBarViewModelProperty = DependencyProperty.Register(nameof(StepBarViewModel), typeof(StepBarViewModel),
-            typeof(StepBarItem));
+            typeof(StepBarItem), new PropertyMetadata(null, (sender, e) => ((StepBarItem)sender).OnStepBarViewModelChanged()));
 
-        public StepBarItem()
+        public IStepBarItem Item
         {
-            InitializeComponent();
+            get { return (IStepBarItem)GetValue(ItemProperty); }
+            set { SetValue(ItemProperty, value); }
         }
 
-        protected override void OnViewModelChanged()
-        {
-            base.OnViewModelChanged();
+        public static readonly DependencyProperty ItemProperty = DependencyProperty.Register(nameof(Item), typeof(IStepBarItem),
+            typeof(StepBarItem), new PropertyMetadata(null, (sender, e) => ((StepBarItem)sender).OnItemChanged()));
 
-            OnPageChanged();
+
+        public IStepBarItem SelectedItem
+        {
+            get { return (IStepBarItem)GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
         }
 
-        public IStepBarPage Page
-        {
-            get { return (IStepBarPage)GetValue(PageProperty); }
-            set { SetValue(PageProperty, value); }
-        }
-
-        public static readonly DependencyProperty PageProperty = DependencyProperty.Register(nameof(Page), typeof(IStepBarPage),
-            typeof(StepBarItem), new PropertyMetadata(null, (sender, e) => ((StepBarItem)sender).OnPageChanged()));
-
-
-        public IStepBarPage CurrentPage
-        {
-            get { return (IStepBarPage)GetValue(CurrentPageProperty); }
-            set { SetValue(CurrentPageProperty, value); }
-        }
-
-        public static readonly DependencyProperty CurrentPageProperty = DependencyProperty.Register(nameof(CurrentPage), typeof(IStepBarPage),
-            typeof(StepBarItem), new PropertyMetadata(null, (sender, e) => ((StepBarItem)sender).OnCurrentPageChanged()));
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(IStepBarItem),
+            typeof(StepBarItem), new PropertyMetadata(null, (sender, e) => ((StepBarItem)sender).OnSelectedItemChanged()));
 
 
         public string Title
@@ -89,26 +85,33 @@
 
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation),
             typeof(StepBarItem), new PropertyMetadata(Orientation.Vertical));
+        #endregion Properties
 
-        private void OnPageChanged()
+        #region Methods
+        private void OnStepBarViewModelChanged()
         {
-            var page = Page;
-            if (page != null)
+            OnItemChanged();
+        }
+
+        private void OnItemChanged()
+        {
+            var item = Item;
+            if (item != null)
             {
-                SetCurrentValue(NumberProperty, page.Number);
-                SetCurrentValue(TitleProperty, page.BreadcrumbTitle ?? page.Title);
-                SetCurrentValue(DescriptionProperty, page.Description);
+                SetCurrentValue(NumberProperty, item.Number);
+                SetCurrentValue(TitleProperty, item.BreadcrumbTitle ?? item.Title);
+                SetCurrentValue(DescriptionProperty, item.Description);
 
                 if (StepBarViewModel != null)
-                    pathline.SetCurrentValue(VisibilityProperty, StepBarViewModel.IsLastPage(Page) ? Visibility.Collapsed : Visibility.Visible);
+                    pathline.SetCurrentValue(VisibilityProperty, StepBarViewModel.IsLastItem(item) ? Visibility.Collapsed : Visibility.Visible);
             }
         }
 
-        private void OnCurrentPageChanged()
+        private void OnSelectedItemChanged()
         {
-            var isSelected = ReferenceEquals(CurrentPage, Page);
-            var isCompleted = Page.Number < CurrentPage.Number;
-            var isVisited = Page.IsVisited;
+            var isSelected = ReferenceEquals(SelectedItem, Item);
+            var isCompleted = Item.Number < SelectedItem.Number;
+            var isVisited = Item.IsVisited;
 
             if (StepBarViewModel != null)
                 SetCurrentValue(CursorProperty, (StepBarViewModel.AllowQuickNavigation && isVisited) ? System.Windows.Input.Cursors.Hand : null);
@@ -121,7 +124,7 @@
             UpdateShapeColor(pathline, isCompleted && !isSelected);
             UpdateShapeColor(ellipse, isSelected || isVisited);
 
-            txtTitle.SetCurrentValue(System.Windows.Controls.TextBlock.ForegroundProperty, isSelected ?
+            txtTitle.SetCurrentValue(TextBlock.ForegroundProperty, isSelected ?
                 TryFindResource("Orc.Brushes.Black") : (isVisited ?
                 TryFindResource("Orc.Brushes.GrayBrush2") :
                 TryFindResource("Orc.Brushes.GrayBrush1")));
@@ -154,5 +157,6 @@
 
             storyboard.Begin(shape);
         }
+        #endregion Methods
     }
 }

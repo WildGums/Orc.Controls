@@ -1,14 +1,11 @@
 ﻿namespace Orc.Controls.Controls.StepBar.Models
 {
     using System;
-    using System.Threading.Tasks;
     using Catel;
     using Catel.Data;
-    using Catel.Fody;
     using Catel.MVVM;
-    using Catel.Threading;
 
-    public abstract class StepBarPageBase : ModelBase, IStepBarPage
+    public abstract class StepBarPageBase : ModelBase, IStepBarItem
     {
         private IViewModel _viewModel;
 
@@ -40,21 +37,5 @@
         public int Number { get; set; }
         public bool IsOptional { get; protected set; }
         public bool IsVisited { get; set; }
-        public System.Windows.Controls.Orientation Orientation { get; private set; } = System.Windows.Controls.Orientation.Vertical;
-
-        public virtual Task CancelAsync()
-        {
-            return TaskHelper.Completed;
-        }
-
-        public virtual Task SaveAsync()
-        {
-            return TaskHelper.Completed;
-        }
-
-        public virtual Task AfterWizardPagesSavedAsync()
-        {
-            return Task.CompletedTask;
-        }
     }
 }

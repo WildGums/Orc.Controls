@@ -1,12 +1,9 @@
 ﻿namespace Orc.Controls.Controls.StepBar.Models
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Threading.Tasks;
     using Catel.MVVM;
 
-    public interface IStepBarPage
+    public interface IStepBarItem
     {
         ISummaryItem GetSummary();
 
@@ -25,14 +22,5 @@
         bool IsOptional { get; }
 
         bool IsVisited { get; set; }
-
-        Task CancelAsync();
-        Task SaveAsync();
-
-        /// <summary>
-        /// Executes once all the pages of the wizard have been saved.
-        /// </summary>
-        /// <returns></returns>
-        Task AfterWizardPagesSavedAsync();
     }
 }
