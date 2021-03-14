@@ -25,6 +25,8 @@
             <Grid Margin="5" Grid.Column="0">
                 <Ellipse x:Name="ellipse" Width="26" Height="26" StrokeThickness="0"
                            HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <Image x:Name="icon" Width="26" Height="26" Visibility="Collapsed"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" />
                 <TextBlock x:Name="ellipseText" Text="{Binding Number}" HorizontalAlignment="Center" 
                            Foreground="{DynamicResource Orc.Brushes.White}"
                            VerticalAlignment="Center" 

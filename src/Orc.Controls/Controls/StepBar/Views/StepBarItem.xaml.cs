@@ -1,9 +1,11 @@
 ﻿namespace Orc.Controls.Controls.StepBar.Views
 {
+    using System;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Media.Animation;
+    using System.Windows.Media.Imaging;
     using System.Windows.Shapes;
     using Catel.Collections;
     using Orc.Controls.Controls.StepBar.Models;
@@ -85,12 +87,29 @@
 
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation),
             typeof(StepBarItem), new PropertyMetadata(Orientation.Vertical));
+
+        public string IconUri
+        {
+            get { return (string)GetValue(IconUriProperty); }
+            set { SetValue(IconUriProperty, value); }
+        }
+
+        public static readonly DependencyProperty IconUriProperty = DependencyProperty.Register(nameof(IconUri), typeof(string),
+            typeof(StepBarItem));
         #endregion Properties
 
         #region Methods
         private void OnStepBarViewModelChanged()
         {
             OnItemChanged();
+
+            if (IconUri != null)
+            {
+                ellipse.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
+                icon.SetCurrentValue(Image.SourceProperty, new BitmapImage(
+                    new Uri($"/Orc.Controls;component/{IconUri}")));
+                icon.SetCurrentValue(VisibilityProperty, Visibility.Visible);
+            }
         }
 
         private void OnItemChanged()
@@ -109,6 +128,9 @@
 
         private void OnSelectedItemChanged()
         {
+            if (SelectedItem == null)
+                return;
+
             var isSelected = ReferenceEquals(SelectedItem, Item);
             var isCompleted = Item.Number < SelectedItem.Number;
             var isVisited = Item.IsVisited;
