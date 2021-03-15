@@ -3,11 +3,11 @@
     using System.Windows;
 
     /// <summary>
-    /// Interaction logic for SideNavigationWizardWindow.xaml
+    /// Interaction logic for HorizontalNavigationWizardView.xaml
     /// </summary>
-    public partial class SideNavigationWizardView
+    public partial class HorizontalNavigationStepBarView
     {
-        public SideNavigationWizardView()
+        public HorizontalNavigationStepBarView()
         {
             InitializeComponent();
         }

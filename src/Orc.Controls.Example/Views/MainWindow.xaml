@@ -20,11 +20,11 @@
                                 LoadTabItems="EagerLoading">
 
             <TabItem Header="SideNavigationWizardWindow">
-                <views:SideNavigationWizardView/>
+                <views:SideNavigationStepBarView/>
             </TabItem>
 
             <TabItem Header="HorizontalNavigationWizardWindow">
-                <views:HorizontalNavigationWizardView/>
+                <views:HorizontalNavigationStepBarView/>
             </TabItem>
 
             <TabItem Header="AlignmentGrid">
