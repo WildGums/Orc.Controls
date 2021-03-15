@@ -1,6 +1,6 @@
 ﻿namespace Orc.Controls.Controls.StepBar.Models
 {
-    public class AgeExampleItem : StepBarPageBase
+    public class AgeExampleItem : StepBarItemBase
     {
         public AgeExampleItem()
         {

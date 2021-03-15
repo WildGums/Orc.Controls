@@ -5,7 +5,7 @@
     using Catel.Data;
     using Catel.MVVM;
 
-    public abstract class StepBarPageBase : ModelBase, IStepBarItem
+    public abstract class StepBarItemBase : ModelBase, IStepBarItem
     {
         private IViewModel _viewModel;
 
