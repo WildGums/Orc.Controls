@@ -11,28 +11,12 @@
     /// </summary>
     public sealed partial class StepBar
     {
-        #region Fields
-        private StepBarViewModel _stepBarViewModel;
-        #endregion Fields
-
         #region Constructors
         public StepBar()
         {
             InitializeComponent();
         }
         #endregion Constructors
-
-        #region Methods
-        protected override void OnViewModelChanged()
-        {
-            base.OnViewModelChanged();
-
-            if (ViewModel is StepBarViewModel vm)
-            {
-                _stepBarViewModel = vm;
-            }
-        }
-        #endregion Methods
 
         #region Properties
         public Orientation Orientation
@@ -62,17 +46,5 @@
         public static readonly DependencyProperty AllowQuickNavigationProperty = DependencyProperty.Register(nameof(AllowQuickNavigation), typeof(bool),
             typeof(StepBar), new PropertyMetadata(true));
         #endregion Properties
-
-        #region Commands
-        public void MoveForwardAsync()
-        {
-            _stepBarViewModel?.MoveForwardAsync();
-        }
-
-        public void MoveBackAsync()
-        {
-            _stepBarViewModel?.MoveBackAsync();
-        }
-        #endregion Commands
     }
 }

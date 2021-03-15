@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
     using Catel.MVVM;
     using Orc.Controls.Controls.StepBar.Models;
+    using Orc.Controls.Controls.StepBar.ViewModels;
     using Orc.Controls.Controls.StepBar.Views;
 
     public class HorizontalNavigationStepBarViewModel : ViewModelBase
@@ -37,7 +38,10 @@
 
         public async Task MoveBackItemExecuteAsync(StepBar stepBar)
         {
-            stepBar.MoveBackAsync();
+            if (stepBar.ViewModel is StepBarViewModel)
+            {
+                await ((StepBarViewModel)stepBar.ViewModel).MoveBackAsync();
+            }
         }
 
         public TaskCommand<StepBar> MoveForwardItem { get; private set; }
@@ -49,7 +53,10 @@
 
         public async Task MoveForwardItemExecuteAsync(StepBar stepBar)
         {
-            stepBar.MoveForwardAsync();
+            if (stepBar.ViewModel is StepBarViewModel)
+            {
+                await ((StepBarViewModel)stepBar.ViewModel).MoveForwardAsync();
+            }
         }
     }
 }
