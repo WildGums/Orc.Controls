@@ -20,7 +20,7 @@
                 new AgeExampleItem(),
                 new AgeExampleItem(),
             };
-            var num = 0;
+            var num = 1;
             foreach (var page in items)
                 page.Number = num++;
             Items = items;
