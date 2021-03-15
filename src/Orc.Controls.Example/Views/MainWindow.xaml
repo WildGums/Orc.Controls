@@ -19,11 +19,11 @@
                                 TabStripPlacement="Left" 
                                 LoadTabItems="EagerLoading">
 
-            <TabItem Header="SideNavigationWizardWindow">
+            <TabItem Header="SideNavigationStepBar">
                 <views:SideNavigationStepBarView/>
             </TabItem>
 
-            <TabItem Header="HorizontalNavigationWizardWindow">
+            <TabItem Header="HorizontalNavigationStepBar">
                 <views:HorizontalNavigationStepBarView/>
             </TabItem>
 

@@ -3,7 +3,7 @@
     using System.Windows;
 
     /// <summary>
-    /// Interaction logic for SideNavigationWizardWindow.xaml
+    /// Interaction logic for SideNavigationStepBarView.xaml
     /// </summary>
     public partial class SideNavigationStepBarView
     {

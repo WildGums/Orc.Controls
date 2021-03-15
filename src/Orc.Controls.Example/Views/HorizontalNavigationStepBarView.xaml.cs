@@ -3,7 +3,7 @@
     using System.Windows;
 
     /// <summary>
-    /// Interaction logic for HorizontalNavigationWizardView.xaml
+    /// Interaction logic for HorizontalNavigationStepBarView.xaml
     /// </summary>
     public partial class HorizontalNavigationStepBarView
     {
