@@ -19,6 +19,10 @@
                                 TabStripPlacement="Left" 
                                 LoadTabItems="EagerLoading">
 
+            <TabItem Header="Callout">
+                <views:CalloutView />
+            </TabItem>
+            
             <TabItem Header="AlignmentGrid">
                 <views:AlignmentGrid />
             </TabItem>
