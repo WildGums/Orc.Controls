@@ -518,6 +518,22 @@
           <source>Select time</source>
           <target state="new">Select time</target>
         </trans-unit>
+        <trans-unit id="Controls_LogMessageCategoryToggleButton_Text_Debug" translate="yes" xml:space="preserve">
+          <source>Debug</source>
+          <target state="new">Debug</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogMessageCategoryToggleButton_Text_Error" translate="yes" xml:space="preserve">
+          <source>Error</source>
+          <target state="new">Error</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogMessageCategoryToggleButton_Text_Info" translate="yes" xml:space="preserve">
+          <source>Info</source>
+          <target state="new">Info</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogMessageCategoryToggleButton_Text_Warning" translate="yes" xml:space="preserve">
+          <source>Warning</source>
+          <target state="new">Warning</target>
+        </trans-unit>
       </group>
     </body>
   </file>
