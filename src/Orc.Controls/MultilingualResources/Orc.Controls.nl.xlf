@@ -494,6 +494,30 @@
           <source>Clear</source>
           <target state="new">Clear</target>
         </trans-unit>
+        <trans-unit id="Controls_TimePickerControl_Button_Content_Now" translate="yes" xml:space="preserve">
+          <source>Now</source>
+          <target state="new">Now</target>
+        </trans-unit>
+        <trans-unit id="Controls_TimePickerControl_Button_Content_SelectTime" translate="yes" xml:space="preserve">
+          <source>Select time</source>
+          <target state="new">Select time</target>
+        </trans-unit>
+        <trans-unit id="Controls_TimePickerControl_Button_Content_Clear" translate="yes" xml:space="preserve">
+          <source>Clear</source>
+          <target state="new">Clear</target>
+        </trans-unit>
+        <trans-unit id="Controls_TimePickerControl_Button_Content_Copy" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="new">Copy</target>
+        </trans-unit>
+        <trans-unit id="Controls_TimePickerControl_Button_Content_Paste" translate="yes" xml:space="preserve">
+          <source>Paste</source>
+          <target state="new">Paste</target>
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePicker_Button_Content_SelectTime" translate="yes" xml:space="preserve">
+          <source>Select time</source>
+          <target state="new">Select time</target>
+        </trans-unit>
       </group>
     </body>
   </file>
