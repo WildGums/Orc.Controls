@@ -20,7 +20,7 @@
                                 LoadTabItems="EagerLoading">
 
             <TabItem Header="Callout">
-                <views:CalloutView />
+                <views:ViewWithCallouts />
             </TabItem>
             
             <TabItem Header="AlignmentGrid">
