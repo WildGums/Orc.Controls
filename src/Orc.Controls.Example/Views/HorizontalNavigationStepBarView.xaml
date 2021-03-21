@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:catel="http://schemas.catelproject.com"
         xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:orccontrols="clr-namespace:Orc.Controls.Controls.StepBar.Views;assembly=Orc.Controls"
-        xmlns:orccontrols1="clr-namespace:Orc.Controls.Controls.StepBar.Models;assembly=Orc.Controls"
+        xmlns:orccontrols="clr-namespace:Orc.Controls;assembly=Orc.Controls"
         Background="{DynamicResource Orc.Brushes.GrayBrush10}">
 
     <Grid x:Name="layoutRoot" >

@@ -11,12 +11,9 @@ namespace Orc.Controls
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
-    using System.Windows.Media;
     using Catel;
     using Catel.IoC;
-    using Catel.Logging;
     using Microsoft.Xaml.Behaviors;
-    using Orc.Controls.Controls.StepBar.Models;
     using Tools;
 
     public static class FrameworkElementExtensions
@@ -112,23 +109,6 @@ namespace Orc.Controls
         {
             var controlToolManager = frameworkElement.GetControlToolManager();
             return controlToolManager.DetachTool(toolType);
-        }
-
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-
-        public static SolidColorBrush GetAccentColorBrush(this FrameworkElement frameworkElement, bool isSelected = true)
-        {
-            Argument.IsNotNull(() => frameworkElement);
-
-            var resourceName = isSelected ? ThemingKeys.AccentColorBrush : ThemingKeys.AccentColorBrush40;
-
-            var brush = frameworkElement.TryFindResource(resourceName) as SolidColorBrush;
-            if (brush is null)
-            {
-                throw Log.ErrorAndCreateException<InvalidOperationException>("Theming is not yet initialized, make sure to initialize a theme via ThemeManager first");
-            }
-
-            return brush;
         }
         #endregion
     }

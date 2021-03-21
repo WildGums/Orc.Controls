@@ -33,11 +33,5 @@
     <ProjectReference Include="..\Orc.Controls\Orc.Controls.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Page Update="Views\HorizontalNavigationStepBarView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-  </ItemGroup>
-
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props')" />
 </Project>

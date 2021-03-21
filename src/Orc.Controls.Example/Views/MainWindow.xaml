@@ -19,8 +19,8 @@
                                 TabStripPlacement="Left" 
                                 LoadTabItems="EagerLoading">
 
-            <TabItem Header="SideNavigationStepBar">
-                <views:SideNavigationStepBarView/>
+            <TabItem Header="VerticalNavigationStepBar">
+                <views:VerticalNavigationStepBarView/>
             </TabItem>
 
             <TabItem Header="HorizontalNavigationStepBar">

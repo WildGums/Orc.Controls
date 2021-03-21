@@ -1,12 +1,11 @@
-﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.SideNavigationStepBarView"
+﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.VerticalNavigationStepBarView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:catel="http://schemas.catelproject.com"
         xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:orccontrols="clr-namespace:Orc.Controls.Controls.StepBar.Views;assembly=Orc.Controls"
-        xmlns:orccontrols1="clr-namespace:Orc.Controls.Controls.StepBar.Models;assembly=Orc.Controls"
+        xmlns:orccontrols="clr-namespace:Orc.Controls;assembly=Orc.Controls"
         Background="{DynamicResource Orc.Brushes.GrayBrush10}">
 
     <Grid x:Name="layoutRoot" >

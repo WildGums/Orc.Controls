@@ -1,20 +1,13 @@
-﻿<catel:UserControl x:Class="Orc.Controls.Controls.StepBar.Views.StepBar"
+﻿<catel:UserControl x:Class="Orc.Controls.StepBar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:catel="http://schemas.catelproject.com" 
-             xmlns:orccontrols="clr-namespace:Orc.Controls.Controls.StepBar.Views"
+             xmlns:orccontrols="clr-namespace:Orc.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
-
-    <xamlbehaviors:Interaction.Triggers>
-        <xamlbehaviors:EventTrigger EventName="Loaded">
-            <xamlbehaviors:InvokeCommandAction Command="{Binding Path=ViewModel.ContentLoaded, RelativeSource={RelativeSource AncestorType={x:Type orccontrols:StepBar}}}"
-                                               CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:StepBar}}}"/>
-        </xamlbehaviors:EventTrigger>
-    </xamlbehaviors:Interaction.Triggers>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -58,8 +51,8 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <orccontrols:StepBarItem Item="{Binding}" StepBarViewModel="{Binding ViewModel, RelativeSource={RelativeSource AncestorType={x:Type catel:UserControl}}}"
-                                              Orientation="{Binding ElementName=stepbarItemsPresenter, Path=DataContext.Orientation}"
-                                              SelectedItem="{Binding ElementName=stepbarListBox, Path=DataContext.SelectedItem}" />
+                                                 Orientation="{Binding ElementName=stepbarItemsPresenter, Path=DataContext.Orientation}"
+                                                 SelectedItem="{Binding ElementName=stepbarListBox, Path=DataContext.SelectedItem}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ListBox>

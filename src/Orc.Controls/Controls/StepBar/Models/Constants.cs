@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Controls.StepBar.Models
+﻿namespace Orc.Controls
 {
     using System;
 

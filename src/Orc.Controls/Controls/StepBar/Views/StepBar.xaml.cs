@@ -1,10 +1,9 @@
-﻿namespace Orc.Controls.Controls.StepBar.Views
+﻿namespace Orc.Controls
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
-    using Orc.Controls.Controls.StepBar.Models;
-    using Orc.Controls.Controls.StepBar.ViewModels;
 
     /// <summary>
     /// Interaction logic for StepBar.xaml
@@ -14,6 +13,8 @@
         #region Constructors
         public StepBar()
         {
+            Loaded += OnLoaded;
+
             InitializeComponent();
         }
         #endregion Constructors
@@ -46,5 +47,17 @@
         public static readonly DependencyProperty AllowQuickNavigationProperty = DependencyProperty.Register(nameof(AllowQuickNavigation), typeof(bool),
             typeof(StepBar), new PropertyMetadata(true));
         #endregion Properties
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel is StepBarViewModel && Items != null)
+            {
+                var vm = (StepBarViewModel)ViewModel;
+                vm.AllowQuickNavigation = AllowQuickNavigation;
+                vm.Items = Items;
+                vm.SelectedItem = Items.First();
+                vm.SetSelectedItem(0);
+            }
+        }
     }
 }

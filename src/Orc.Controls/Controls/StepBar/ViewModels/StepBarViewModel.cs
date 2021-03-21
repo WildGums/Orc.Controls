@@ -1,10 +1,9 @@
-﻿namespace Orc.Controls.Controls.StepBar.ViewModels
+﻿namespace Orc.Controls
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Catel.MVVM;
-    using Orc.Controls.Controls.StepBar.Models;
 
     public class StepBarViewModel : ViewModelBase
     {
@@ -15,7 +14,6 @@
         #region Constructors
         public StepBarViewModel()
         {
-            ContentLoaded = new TaskCommand<Views.StepBar>(ContentLoadedExecuteAsync, ContentLoadedCanExecute);
             QuickNavigateToItem = new TaskCommand<IStepBarItem>(QuickNavigateToItemExecuteAsync, QuickNavigateToItemCanExecute);
         }
         #endregion Constructors
@@ -29,7 +27,7 @@
         #endregion Properties
 
         #region Methods
-        public virtual async Task MoveForwardAsync()
+        public void MoveForwardAsync()
         {
             if (_currentIndex < Items.Count - 1)
             {
@@ -40,7 +38,7 @@
             }
         }
 
-        public virtual async Task MoveBackAsync()
+        public void MoveBackAsync()
         {
             if (_currentIndex > 0)
             {
@@ -49,7 +47,7 @@
             }
         }
 
-        protected internal async Task SetSelectedItem(int newIndex)
+        public void SetSelectedItem(int newIndex)
         {
             if (_currentIndex >= 0 && _currentIndex < Items.Count)
             {
@@ -94,26 +92,7 @@
             {
                 var index = Items.IndexOf(item);
 
-                await SetSelectedItem(index);
-            }
-        }
-
-        public TaskCommand<Views.StepBar> ContentLoaded { get; private set; }
-
-        public bool ContentLoadedCanExecute(Views.StepBar parameter)
-        {
-            return true;
-        }
-
-        public async Task ContentLoadedExecuteAsync(Views.StepBar parameter)
-        {
-            if (parameter.Items != null)
-            {
-                AllowQuickNavigation = parameter.AllowQuickNavigation;
-                Items = parameter.Items;
-                SelectedItem = Items.First();
-                _currentIndex = 0;
-                await SetSelectedItem(0);
+                SetSelectedItem(index);
             }
         }
         #endregion Commands

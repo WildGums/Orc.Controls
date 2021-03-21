@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Controls.StepBar.Views
+﻿namespace Orc.Controls
 {
     using System;
     using System.Windows;
@@ -8,14 +8,14 @@
     using System.Windows.Media.Imaging;
     using System.Windows.Shapes;
     using Catel.Collections;
-    using Orc.Controls.Controls.StepBar.Models;
-    using Orc.Controls.Controls.StepBar.ViewModels;
 
     public sealed partial class StepBarItem
     {
         #region Constructors
         public StepBarItem()
         {
+            Loaded += OnLoaded;
+
             InitializeComponent();
         }
         #endregion Constructors
@@ -158,6 +158,21 @@
             ellipseCheck.SetCurrentValue(VisibilityProperty, isCompleted ? Visibility.Visible : Visibility.Hidden);
         }
 
+        private SolidColorBrush GetAccentColorBrush(bool isSelected = true)
+        {
+            //Argument.IsNotNull(() => frameworkElement);
+
+            var resourceName = isSelected ? ThemingKeys.AccentColorBrush : ThemingKeys.AccentColorBrush40;
+
+            var brush = (SolidColorBrush)TryFindResource(resourceName);
+            /*if (brush is null)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>("Theming is not yet initialized, make sure to initialize a theme via ThemeManager first");
+            }*/
+
+            return brush;
+        }
+
         private void UpdateShapeColor(Shape shape, bool isSelected)
         {
             var storyboard = new Storyboard();
@@ -170,7 +185,7 @@
             }
 
             var fromColor = ((SolidColorBrush)shape?.Fill)?.Color ?? Colors.Transparent;
-            var targetColor = this.GetAccentColorBrush(isSelected).Color;
+            var targetColor = GetAccentColorBrush(isSelected).Color;
 
             var colorAnimation = new ColorAnimation(fromColor, (Color)targetColor, WizardConfiguration.AnimationDuration);
             Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("Fill.(SolidColorBrush.Color)", ArrayShim.Empty<object>()));
@@ -180,5 +195,45 @@
             storyboard.Begin(shape);
         }
         #endregion Methods
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (Orientation == Orientation.Horizontal)
+            {
+                grid.ColumnDefinitions.Add(new ColumnDefinition());
+                grid.RowDefinitions.Add(new RowDefinition());
+                grid.RowDefinitions.Add(new RowDefinition());
+                grid.SetCurrentValue(FrameworkElement.MinWidthProperty, 100.0);
+                grid.SetCurrentValue(FrameworkElement.MaxWidthProperty, 100.0);
+                grid.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Bottom = 8 });
+                txtTitle.SetCurrentValue(Grid.ColumnProperty, 0);
+                txtTitle.SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+                pathline.SetCurrentValue(Grid.ColumnProperty, 1);
+                pathline.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness(5));
+                pathline.Parent.SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+                pathline.SetCurrentValue(FrameworkElement.WidthProperty, 48.0);
+                pathline.SetCurrentValue(FrameworkElement.HeightProperty, 2.0);
+                pathline.SetCurrentValue(Canvas.TopProperty, 13.0);
+                ellipse.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness(5));
+            }
+            else
+            {
+                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+                grid.ColumnDefinitions.Add(new ColumnDefinition());
+                grid.RowDefinitions.Add(new RowDefinition());
+                grid.SetCurrentValue(FrameworkElement.MinWidthProperty, 240.0);
+                grid.SetCurrentValue(FrameworkElement.MaxWidthProperty, 240.0);
+                grid.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Bottom = 56 });
+                txtTitle.SetCurrentValue(Grid.ColumnProperty, 1);
+                txtTitle.SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Left);
+                pathline.SetCurrentValue(Grid.ColumnProperty, 0);
+                pathline.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness(2));
+                pathline.Parent.SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Left);
+                pathline.SetCurrentValue(FrameworkElement.WidthProperty, 2.0);
+                pathline.SetCurrentValue(FrameworkElement.HeightProperty, 48.0);
+                pathline.SetCurrentValue(Canvas.TopProperty, 35.0);
+                ellipse.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Left = 15, Top = 5, Right = 25, Bottom = 5 });
+            }
+        }
     }
 }

@@ -3,9 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Catel.MVVM;
-    using Orc.Controls.Controls.StepBar.Models;
-    using Orc.Controls.Controls.StepBar.ViewModels;
-    using Orc.Controls.Controls.StepBar.Views;
+    using Orc.Controls.Example.Models.StepBar;
 
     public class HorizontalNavigationStepBarViewModel : ViewModelBase
     {
@@ -40,7 +38,7 @@
         {
             if (stepBar.ViewModel is StepBarViewModel)
             {
-                await ((StepBarViewModel)stepBar.ViewModel).MoveBackAsync();
+                ((StepBarViewModel)stepBar.ViewModel).MoveBackAsync();
             }
         }
 
@@ -55,7 +53,7 @@
         {
             if (stepBar.ViewModel is StepBarViewModel)
             {
-                await ((StepBarViewModel)stepBar.ViewModel).MoveForwardAsync();
+                ((StepBarViewModel)stepBar.ViewModel).MoveForwardAsync();
             }
         }
     }

@@ -1,5 +1,7 @@
-﻿namespace Orc.Controls.Controls.StepBar.Models
+﻿namespace Orc.Controls.Example.Models.StepBar
 {
+    using Orc.Controls;
+
     public class AgeExampleItem : StepBarItemBase
     {
         public AgeExampleItem()
@@ -10,14 +12,5 @@
         }
 
         public string Age { get; set; }
-
-        public override ISummaryItem GetSummary()
-        {
-            return new SummaryItem
-            {
-                Title = "Age",
-                Summary = Age
-            };
-        }
     }
 }
