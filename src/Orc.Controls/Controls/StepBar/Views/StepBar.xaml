@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:catel="http://schemas.catelproject.com" 
              xmlns:orccontrols="clr-namespace:Orc.Controls"
              mc:Ignorable="d" 
@@ -50,61 +49,14 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <orccontrols:StepBarItem Item="{Binding}" StepBarViewModel="{Binding ViewModel, RelativeSource={RelativeSource AncestorType={x:Type catel:UserControl}}}"
-                                                 Orientation="{Binding ElementName=stepbarItemsPresenter, Path=DataContext.Orientation}"
-                                                 SelectedItem="{Binding ElementName=stepbarListBox, Path=DataContext.SelectedItem}" />
+                        <orccontrols:StepBarItem Number="{Binding Number}"
+                                                 Title="{Binding Title}"
+                                                 State="{Binding State}"
+                                                 Orientation="{Binding ElementName=stepbarItemsPresenter, Path=DataContext.Orientation}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ListBox>
         </Grid>
-
-        <ProgressBar Grid.Row="1" x:Name="stepbarProgress" Height="2">
-            <ProgressBar.Style>
-                <Style TargetType="{x:Type ProgressBar}">
-                    <Setter Property="Margin" Value="0"/>
-                    <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.AccentColorBrush}"/>
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="BorderThickness" Value="0"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ProgressBar}">
-                                <Grid Name="TemplateRoot" SnapsToDevicePixels="true">
-                                    <Rectangle Fill="{TemplateBinding Background}"/>
-                                    <Rectangle Name="PART_Track" Margin="0"/>
-                                    <Decorator x:Name="PART_Indicator" HorizontalAlignment="Left" Margin="0">
-                                        <Grid Name="Foreground">
-                                            <Rectangle Fill="{TemplateBinding Foreground}" Name="Indicator" />
-                                            <Grid x:Name="Animation" ClipToBounds="true" Visibility="Hidden">
-                                                <Rectangle Fill="{TemplateBinding Background}" Name="HiderPre" Margin="0,0,50,0">
-                                                    <Rectangle.RenderTransform>
-                                                        <ScaleTransform x:Name="HiderPreTransform" ScaleX="0"/>
-                                                    </Rectangle.RenderTransform>
-                                                </Rectangle>
-                                                <Rectangle Fill="{TemplateBinding Background}" Name="HiderPost" RenderTransformOrigin="1, 0" Margin="50,0,0,0">
-                                                    <Rectangle.RenderTransform>
-                                                        <ScaleTransform x:Name="HiderPostTransform" ScaleX="1" />
-                                                    </Rectangle.RenderTransform>
-                                                </Rectangle>
-                                            </Grid>
-                                            <Grid Name="Overlay">
-                                            </Grid>
-                                        </Grid>
-                                    </Decorator>
-
-                                    <Border BorderThickness="{TemplateBinding BorderThickness}" 
-                                                BorderBrush="{TemplateBinding BorderBrush}"/>
-                                </Grid>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{DynamicResource White}" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </ProgressBar.Style>
-        </ProgressBar>
 
     </Grid>
 </catel:UserControl>

@@ -1,7 +1,6 @@
 ﻿namespace Orc.Controls
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Catel.MVVM;
 
@@ -23,22 +22,22 @@
 
         public IStepBarItem SelectedItem { get; set; }
 
-        public bool AllowQuickNavigation { get; set; }
+        public bool AllowSelection { get; set; }
         #endregion Properties
 
         #region Methods
-        public void MoveForwardAsync()
+        public void MoveForward()
         {
             if (_currentIndex < Items.Count - 1)
             {
-                Items[_currentIndex].IsVisited = true;
+                Items[_currentIndex].State |= StepBarItemStates.IsVisited;
                 _currentIndex++;
                 SelectedItem = Items[_currentIndex];
-                Items[_currentIndex].IsVisited = true;
+                Items[_currentIndex].State |= StepBarItemStates.IsVisited;
             }
         }
 
-        public void MoveBackAsync()
+        public void MoveBack()
         {
             if (_currentIndex > 0)
             {
@@ -55,11 +54,6 @@
                 SelectedItem = Items[_currentIndex];
             }
         }
-
-        public bool IsLastItem(IStepBarItem item)
-        {
-            return item.Equals(Items.LastOrDefault());
-        }
         #endregion Methods
 
         #region Commands
@@ -67,12 +61,12 @@
 
         public bool QuickNavigateToItemCanExecute(IStepBarItem parameter)
         {
-            if (!AllowQuickNavigation)
+            if (!AllowSelection)
             {
                 return false;
             }
 
-            if (!parameter.IsVisited)
+            if ((parameter.State & StepBarItemStates.IsVisited) == 0)
             {
                 return false;
             }
@@ -88,7 +82,8 @@
         public async Task QuickNavigateToItemExecuteAsync(IStepBarItem parameter)
         {
             var item = parameter;
-            if (item != null && item.IsVisited && Items is List<IStepBarItem>)
+            var isVisited = (parameter.State & StepBarItemStates.IsVisited) != 0;
+            if (item != null && isVisited && Items is List<IStepBarItem>)
             {
                 var index = Items.IndexOf(item);
 

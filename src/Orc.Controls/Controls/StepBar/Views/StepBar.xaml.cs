@@ -1,7 +1,6 @@
 ﻿namespace Orc.Controls
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -38,24 +37,24 @@
         public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register(nameof(Items), typeof(IList<IStepBarItem>),
             typeof(StepBar));
 
-        public bool AllowQuickNavigation
+        public bool AllowSelection
         {
-            get { return (bool)GetValue(AllowQuickNavigationProperty); }
-            set { SetValue(AllowQuickNavigationProperty, value); }
+            get { return (bool)GetValue(AllowSelectionProperty); }
+            set { SetValue(AllowSelectionProperty, value); }
         }
 
-        public static readonly DependencyProperty AllowQuickNavigationProperty = DependencyProperty.Register(nameof(AllowQuickNavigation), typeof(bool),
+        public static readonly DependencyProperty AllowSelectionProperty = DependencyProperty.Register(nameof(AllowSelection), typeof(bool),
             typeof(StepBar), new PropertyMetadata(true));
         #endregion Properties
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (ViewModel is StepBarViewModel && Items != null)
+            if (ViewModel is StepBarViewModel && Items != null && Items.Count > 0)
             {
                 var vm = (StepBarViewModel)ViewModel;
-                vm.AllowQuickNavigation = AllowQuickNavigation;
                 vm.Items = Items;
-                vm.SelectedItem = Items.First();
+                vm.AllowSelection = AllowSelection;
+                Items[Items.Count - 1].State |= StepBarItemStates.IsLast;
                 vm.SetSelectedItem(0);
             }
         }

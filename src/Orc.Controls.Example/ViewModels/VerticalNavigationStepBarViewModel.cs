@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Catel.MVVM;
-    using Orc.Controls.Example.Models.StepBar;
 
     public class VerticalNavigationStepBarViewModel : ViewModelBase
     {
@@ -13,14 +12,11 @@
         {
             var items = new List<IStepBarItem>()
             {
-                new AgeExampleItem(),
-                new AgeExampleItem(),
-                new AgeExampleItem(),
-                new AgeExampleItem(),
+                new StepBarItemBase { Title = "Person", Number = 1 },
+                new StepBarItemBase { Title = "Age", Number = 2 },
+                new StepBarItemBase { Title = "Skills", Number = 3 },
+                new StepBarItemBase { Title = "Gadgets", Number = 4 },
             };
-            var num = 1;
-            foreach (var page in items)
-                page.Number = num++;
             Items = items;
 
             MoveBackItem = new TaskCommand<StepBar>(MoveBackItemExecuteAsync, MoveBackItemCanExecute);
@@ -38,7 +34,7 @@
         {
             if (stepBar.ViewModel is StepBarViewModel)
             {
-                ((StepBarViewModel)stepBar.ViewModel).MoveBackAsync();
+                ((StepBarViewModel)stepBar.ViewModel).MoveBack();
             }
         }
 
@@ -53,7 +49,7 @@
         {
             if (stepBar.ViewModel is StepBarViewModel)
             {
-                ((StepBarViewModel)stepBar.ViewModel).MoveForwardAsync();
+                ((StepBarViewModel)stepBar.ViewModel).MoveForward();
             }
         }
     }
