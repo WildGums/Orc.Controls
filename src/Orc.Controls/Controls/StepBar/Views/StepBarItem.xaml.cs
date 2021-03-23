@@ -14,23 +14,14 @@
         #endregion Constructors
 
         #region Properties
-        public string Title
+        public IStepBarItem Item
         {
-            get { return (string)GetValue(TitleProperty); }
-            set { SetValue(TitleProperty, value); }
+            get { return (IStepBarItem)GetValue(ItemProperty); }
+            set { SetValue(ItemProperty, value); }
         }
 
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string),
-            typeof(StepBarItem), new PropertyMetadata(string.Empty));
-
-        public int Number
-        {
-            get { return (int)GetValue(NumberProperty); }
-            set { SetValue(NumberProperty, value); }
-        }
-
-        public static readonly DependencyProperty NumberProperty = DependencyProperty.Register(nameof(Number), typeof(int),
-            typeof(StepBarItem), new PropertyMetadata(0));
+        public static readonly DependencyProperty ItemProperty = DependencyProperty.Register(nameof(Item), typeof(IStepBarItem),
+            typeof(StepBarItem));
 
         public Orientation Orientation
         {
@@ -40,15 +31,6 @@
 
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation),
             typeof(StepBarItem), new PropertyMetadata(Orientation.Vertical));
-
-        public StepBarItemStates State
-        {
-            get { return (StepBarItemStates)GetValue(StateProperty); }
-            set { SetValue(StateProperty, value); }
-        }
-
-        public static readonly DependencyProperty StateProperty = DependencyProperty.Register(nameof(State), typeof(StepBarItemStates),
-            typeof(StepBarItem), new PropertyMetadata(StepBarItemStates.None));
         #endregion Properties
 
         #region Methods
@@ -90,7 +72,7 @@
                 pathline.SetCurrentValue(Canvas.TopProperty, 35.0);
                 ellipse.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Left = 15, Top = 5, Right = 25, Bottom = 5 });
             }
-            if ((State & StepBarItemStates.IsLast) != 0)
+            if (Item != null && (Item.State & StepBarItemStates.IsLast) != 0)
             {
                 pathline.SetCurrentValue(VisibilityProperty, Visibility.Hidden);
             }

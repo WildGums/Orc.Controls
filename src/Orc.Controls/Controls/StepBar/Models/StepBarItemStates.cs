@@ -1,5 +1,4 @@
-﻿
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
 

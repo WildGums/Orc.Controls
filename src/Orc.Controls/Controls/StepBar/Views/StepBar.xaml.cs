@@ -25,7 +25,6 @@
         #endregion Constructors
 
         #region Properties
-        [ViewToViewModel]
         public Orientation Orientation
         {
             get { return (Orientation)GetValue(OrientationProperty); }
@@ -53,27 +52,7 @@
         }
 
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(IStepBarItem),
-            typeof(StepBar));
-
-        public TaskCommand<IStepBarItem> NavigateToItem
-        {
-            get { return (TaskCommand<IStepBarItem>)GetValue(NavigateToItemProperty); }
-            set { SetValue(NavigateToItemProperty, value); }
-        }
-
-        public static readonly DependencyProperty NavigateToItemProperty = DependencyProperty.Register(nameof(NavigateToItem), typeof(TaskCommand<IStepBarItem>),
-            typeof(StepBar));
+            typeof(StepBar), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion Properties
-
-        #region Methods
-        protected override void OnLoaded(EventArgs e)
-        {
-            if (ViewModel is StepBarViewModel vm && Items != null && Items.Count > 0)
-            {
-                Items[Items.Count - 1].State |= StepBarItemStates.IsLast;
-                vm.SetSelectedItem(0);
-            }
-        }
-        #endregion Methods
     }
 }

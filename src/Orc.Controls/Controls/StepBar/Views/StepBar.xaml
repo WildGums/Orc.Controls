@@ -49,9 +49,7 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <orccontrols:StepBarItem Number="{Binding Number}"
-                                                 Title="{Binding Title}"
-                                                 State="{Binding State}"
+                        <orccontrols:StepBarItem Item="{Binding}"
                                                  Orientation="{Binding ElementName=stepbarItemsPresenter, Path=DataContext.Orientation}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

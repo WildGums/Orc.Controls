@@ -1,7 +1,7 @@
 ﻿namespace Orc.Controls
 {
     using System.Collections.Generic;
-    using System.Windows.Controls;
+    using System.Threading.Tasks;
     using Catel.MVVM;
 
     public class StepBarViewModel : ViewModelBase
@@ -17,8 +17,6 @@
         #endregion Constructors
 
         #region Properties
-        public Orientation Orientation { get; set; }
-
         public IList<IStepBarItem> Items { get; set; }
 
         public IStepBarItem SelectedItem { get; set; }
@@ -44,6 +42,16 @@
                 SelectedItem = Items[_currentIndex];
                 SelectedItem.State |= StepBarItemStates.IsVisited;
             }
+        }
+
+        protected override Task InitializeAsync()
+        {
+            if (Items != null && Items.Count > 0)
+            {
+                Items[Items.Count - 1].State |= StepBarItemStates.IsLast;
+                SetSelectedItem(0);
+            }
+            return Task.CompletedTask;
         }
         #endregion Methods
     }

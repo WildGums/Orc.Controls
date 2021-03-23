@@ -1,11 +1,13 @@
 ﻿namespace Orc.Controls
 {
+    using System.Windows.Input;
     using Catel.Data;
 
     public class StepBarItemBase : ModelBase, IStepBarItem
     {
-        public string Title { get; }
-        public int Number { get; }
+        public string Title { get; set; }
+        public int Number { get; set; }
         public StepBarItemStates State { get; set; }
+        public ICommand Command { get; set; }
     }
 }
