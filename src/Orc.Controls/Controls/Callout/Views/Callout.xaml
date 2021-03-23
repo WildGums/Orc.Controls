@@ -11,10 +11,9 @@
     <Grid>
         <StackPanel Width="200">
             <StackPanel Orientation="Horizontal" Background="Tan" Width="200">
-                <!--<Image Source="icon.png" Margin="10 5"></Image>-->
-                <Label Content="Print" Margin="10 5" FontSize="20" FontWeight="Bold"></Label>
+                <Label Content="{Binding ControlName}" Margin="10 5" FontSize="20" FontWeight="Bold"></Label>
             </StackPanel>
-            <TextBlock Text="Please Select your printer before giving Print Command" FontSize="14" TextWrapping="WrapWithOverflow"></TextBlock>
+            <TextBlock Text="{Binding Description}" FontSize="14" TextWrapping="WrapWithOverflow"></TextBlock>
             <Line Stroke="Gray" StrokeThickness="2" X2="200"></Line>
             <TextBlock Text="Press F1 for Help" FontWeight="ExtraBold"></TextBlock>
         </StackPanel>

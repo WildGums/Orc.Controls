@@ -8,6 +8,7 @@
     using Catel.IoC;
     using Catel.MVVM;
     using Orc.Controls.Controls.Callout.Models;
+    using Orc.Controls.Controls.Callout.ViewModels;
     using Orc.Controls.Example.Views;
 
     public class ViewWithCalloutsViewModel : ViewModelBase
@@ -33,13 +34,20 @@
 
         public async Task ContentLoadedExecuteAsync(ViewWithCallouts view)
         {
+            var buttonCallout = view.buttonCallout;
+            CalloutViewModel printButtonCalloutVM = new CalloutViewModel()
+            {
+                ControlName = "Print Button.",
+                Description = "This is a print button.",
+                Visible = true
+            };
 
-            var buttonData = view.buttonCallout.DataContext;
+            CalloutManager.Register(printButtonCalloutVM, buttonCallout);
         }
 
         public Task ContentUnLoadedExecuteAsync(ViewWithCallouts view)
         {
-            CalloutManager.Callouts.Clear();
+            CalloutManager.RemoveAllCallouts();
             return Task.CompletedTask;
         }
     }

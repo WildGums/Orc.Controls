@@ -9,9 +9,7 @@
 
         public CalloutViewModel()
         {
-            ControlName = "";
-            Description = "";
-            Visible = false;
+            
         }
 
         public string ControlName { get; set; } 

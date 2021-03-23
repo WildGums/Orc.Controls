@@ -3,11 +3,12 @@
     using System;
     using System.Collections.Generic;
     using Orc.Controls.Controls.Callout.ViewModels;
+    using Orc.Controls.Controls.Callout.Views;
 
     public interface ICalloutManager
     {
         IList<CalloutViewModel> Callouts { get; set; }
-        void Register(CalloutViewModel callout);
+        void Register(CalloutViewModel calloutViewModel, Callout callout);
         void UnRegister(CalloutViewModel callout);
     }
 }
