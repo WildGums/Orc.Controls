@@ -21,7 +21,7 @@
     /// <summary>
     /// Interaction logic for ViewWithCallouts.xaml
     /// </summary>
-    public partial class ViewWithCallouts : UserControl
+    public partial class ViewWithCallouts
     {
         public ViewWithCallouts()
         {
