@@ -49,8 +49,7 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <orccontrols:StepBarItem Item="{Binding}"
-                                                 Orientation="{Binding ElementName=stepbarItemsPresenter, Path=DataContext.Orientation}" />
+                        <orccontrols:StepBarItem Orientation="{Binding ElementName=stepbarItemsPresenter, Path=DataContext.Orientation}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ListBox>

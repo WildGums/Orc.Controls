@@ -11,7 +11,7 @@
 
     <xamlbehaviors:Interaction.Triggers>
         <xamlbehaviors:EventTrigger EventName="MouseDown">
-            <xamlbehaviors:InvokeCommandAction Command="{Binding Path=Item.Command, RelativeSource={RelativeSource AncestorType={x:Type orccontrols:StepBarItem}}}" 
+            <xamlbehaviors:InvokeCommandAction Command="{Binding Path=DataContext.Command, RelativeSource={RelativeSource AncestorType={x:Type orccontrols:StepBarItem}}}" 
                                                CommandParameter="{Binding}"/>
         </xamlbehaviors:EventTrigger>
     </xamlbehaviors:Interaction.Triggers>
@@ -24,7 +24,7 @@
                            HorizontalAlignment="Center" VerticalAlignment="Center" />
                 <Image x:Name="icon" Width="26" Height="26" Visibility="Collapsed"
                            HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <TextBlock x:Name="ellipseText" Text="{Binding Item.Number}" HorizontalAlignment="Center" 
+                <TextBlock x:Name="ellipseText" Text="{Binding DataContext.Number}" HorizontalAlignment="Center" 
                            Foreground="{DynamicResource Orc.Brushes.White}"
                            VerticalAlignment="Center" 
                            FontWeight="Medium" 
@@ -32,7 +32,7 @@
                            Margin="0,-2,0,0"/>
             </Grid>
             <TextBlock Name="txtTitle" 
-                       Text="{Binding Item.Title}" 
+                       Text="{Binding DataContext.Title}" 
                        FontSize="14" 
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center" 

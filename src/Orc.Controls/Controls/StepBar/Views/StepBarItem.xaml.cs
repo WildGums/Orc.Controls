@@ -14,15 +14,6 @@
         #endregion Constructors
 
         #region Properties
-        public IStepBarItem Item
-        {
-            get { return (IStepBarItem)GetValue(ItemProperty); }
-            set { SetValue(ItemProperty, value); }
-        }
-
-        public static readonly DependencyProperty ItemProperty = DependencyProperty.Register(nameof(Item), typeof(IStepBarItem),
-            typeof(StepBarItem));
-
         public Orientation Orientation
         {
             get { return (Orientation)GetValue(OrientationProperty); }
