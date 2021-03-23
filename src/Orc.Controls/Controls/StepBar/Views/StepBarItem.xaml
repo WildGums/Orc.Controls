@@ -11,28 +11,44 @@
 
     <xamlbehaviors:Interaction.Triggers>
         <xamlbehaviors:EventTrigger EventName="MouseDown">
-            <xamlbehaviors:InvokeCommandAction Command="{Binding Path=DataContext.Command, RelativeSource={RelativeSource AncestorType={x:Type orccontrols:StepBarItem}}}" 
-                                               CommandParameter="{Binding}"/>
+            <xamlbehaviors:InvokeCommandAction Command="{Binding Command}" 
+                                               CommandParameter="{Binding}" />
         </xamlbehaviors:EventTrigger>
     </xamlbehaviors:Interaction.Triggers>
 
-    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:StepBarItem}}}">
-        <Grid x:Name="grid" MinWidth="100" MaxWidth="100" Margin="0 0 0 8">
+    <Grid ToolTip="{Binding Item.Description}"
+          Cursor="Hand">
+        <Grid x:Name="grid" 
+              MinWidth="100" 
+              MaxWidth="100" 
+              Margin="0 0 0 8">
             <Grid Margin="5" Grid.Column="0">
-                <Ellipse x:Name="ellipse" Width="26" Height="26" StrokeThickness="0"
-                           Fill="{DynamicResource Orc.Brushes.AccentColorBrush}"
-                           HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <Image x:Name="icon" Width="26" Height="26" Visibility="Collapsed"
-                           HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <TextBlock x:Name="ellipseText" Text="{Binding DataContext.Number}" HorizontalAlignment="Center" 
+                <Ellipse x:Name="ellipse" 
+                         Width="26" 
+                         Height="26" 
+                         StrokeThickness="0"
+                         Fill="{DynamicResource Orc.Brushes.AccentColorBrush}"
+                         HorizontalAlignment="Center" 
+                         VerticalAlignment="Center" />
+                
+                <Image x:Name="icon" 
+                       Width="26" 
+                       Height="26" 
+                       Visibility="Collapsed"
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" />
+                
+                <TextBlock x:Name="ellipseText" Text="{Binding Item.Number}" 
+                           HorizontalAlignment="Center" 
                            Foreground="{DynamicResource Orc.Brushes.White}"
                            VerticalAlignment="Center" 
                            FontWeight="Medium" 
                            FontSize="13" 
                            Margin="0,-2,0,0"/>
             </Grid>
+            
             <TextBlock Name="txtTitle" 
-                       Text="{Binding DataContext.Title}" 
+                       Text="{Binding Item.Title}" 
                        FontSize="14" 
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center" 
@@ -44,12 +60,20 @@
 
         </Grid>
 
-        <Canvas HorizontalAlignment="Center" Margin="5">
-            <Rectangle x:Name="pathline" Width="48" Height="2" StrokeThickness="0" Grid.Column="1"
+        <Canvas HorizontalAlignment="Center" 
+                Margin="5">
+            <Rectangle x:Name="pathline" 
+                       Width="48" 
+                       Height="2" 
+                       StrokeThickness="0" 
+                       Grid.Column="1"
                        Fill="{DynamicResource Orc.Brushes.AccentColorBrush40}"
                        Canvas.Left="{Binding ElementName=ellipse, Path=ActualWidth}"
                        Canvas.Top="13"
-                       HorizontalAlignment="Center" VerticalAlignment="Center" ClipToBounds="False"/>
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       ClipToBounds="False"
+                       Visibility="{Binding Item, Converter={orccontrols:IsLastStepBarToVisibilityConverter}}"/>
         </Canvas>
     </Grid>
 </catel:UserControl>

@@ -6,6 +6,9 @@
     {
         public StepBarItemViewModel(IStepBarItem stepBarItem)
         {
+            Item = stepBarItem;
         }
+
+        public IStepBarItem Item { get; private set; }
     }
 }

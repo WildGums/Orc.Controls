@@ -6,14 +6,11 @@
 
     public sealed partial class StepBarItem
     {
-        #region Constructors
         public StepBarItem()
         {
             InitializeComponent();
         }
-        #endregion Constructors
 
-        #region Properties
         public Orientation Orientation
         {
             get { return (Orientation)GetValue(OrientationProperty); }
@@ -21,10 +18,8 @@
         }
 
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation),
-            typeof(StepBarItem), new PropertyMetadata(Orientation.Vertical));
-        #endregion Properties
+            typeof(StepBarItem), new PropertyMetadata(Orientation.Horizontal));
 
-        #region Methods
         protected override void OnLoaded(EventArgs e)
         {
             if (Orientation == Orientation.Horizontal)
@@ -63,11 +58,6 @@
                 pathline.SetCurrentValue(Canvas.TopProperty, 35.0);
                 ellipse.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Left = 15, Top = 5, Right = 25, Bottom = 5 });
             }
-            if (Item != null && (Item.State & StepBarItemStates.IsLast) != 0)
-            {
-                pathline.SetCurrentValue(VisibilityProperty, Visibility.Hidden);
-            }
         }
-        #endregion Methods
     }
 }

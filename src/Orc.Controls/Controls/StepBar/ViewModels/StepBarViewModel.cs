@@ -6,53 +6,47 @@
 
     public class StepBarViewModel : ViewModelBase
     {
-        #region Fields
-        private int _currentIndex = 0;
-        #endregion Fields
-
-        #region Constructors
         public StepBarViewModel()
         {
         }
-        #endregion Constructors
 
-        #region Properties
         public IList<IStepBarItem> Items { get; set; }
 
         public IStepBarItem SelectedItem { get; set; }
-        #endregion Properties
 
-        #region Methods
-        public void MoveForward()
+        protected override async Task InitializeAsync()
         {
-            SetSelectedItem(_currentIndex + 1);
+            UpdateSelection();
         }
 
-        public void MoveBack()
+        private void OnItemsChanged()
         {
-            SetSelectedItem(_currentIndex - 1);
+            UpdateSelection();
         }
 
-        public void SetSelectedItem(int newIndex)
+        private void OnSelectedItemChanged()
         {
-            if (Items != null && newIndex >= 0 && newIndex < Items.Count)
+            var item = SelectedItem;
+            if (item is not null)
             {
-                Items[_currentIndex].State |= StepBarItemStates.IsVisited;
-                _currentIndex = newIndex;
-                SelectedItem = Items[_currentIndex];
-                SelectedItem.State |= StepBarItemStates.IsVisited;
+                item.State |= StepBarItemStates.IsLast;
             }
         }
 
-        protected override Task InitializeAsync()
+        private void UpdateSelection()
         {
-            if (Items != null && Items.Count > 0)
+            IStepBarItem selectedItem = null;
+
+            var items = Items;
+            if (items is not null)
             {
-                Items[Items.Count - 1].State |= StepBarItemStates.IsLast;
-                SetSelectedItem(0);
+                if (items.Count > 0)
+                {
+                    selectedItem = Items[Items.Count - 1];
+                }
             }
-            return Task.CompletedTask;
+
+            SelectedItem = selectedItem;
         }
-        #endregion Methods
     }
 }

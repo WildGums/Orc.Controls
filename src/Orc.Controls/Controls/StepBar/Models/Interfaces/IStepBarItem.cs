@@ -6,6 +6,8 @@
     {
         string Title { get; }
 
+        string Description { get; }
+
         int Number { get; }
 
         StepBarItemStates State { get; set; }

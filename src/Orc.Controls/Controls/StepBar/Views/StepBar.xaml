@@ -19,18 +19,22 @@
                      ItemsSource="{Binding Items}" 
                      SelectedItem="{Binding SelectedItem, Mode=OneWay}"
                      Focusable="False" 
-                     HorizontalAlignment="Center" Margin="0 5 0 5">
+                     HorizontalAlignment="Center" 
+                     Margin="0 5 0 5">
                 <ItemsControl.Template>
                     <ControlTemplate>
-                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" CanContentScroll="False">
-                            <ItemsPresenter x:Name="stepbarItemsPresenter" Margin="6,0,6,0" />
+                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" 
+                                      VerticalScrollBarVisibility="Hidden" 
+                                      CanContentScroll="False">
+                            <ItemsPresenter x:Name="stepbarItemsPresenter" 
+                                            Margin="6,0,6,0" />
                         </ScrollViewer>
                     </ControlTemplate>
                 </ItemsControl.Template>
 
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="{Binding Orientation}" />
+                        <StackPanel Orientation="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:StepBar}}, Path=Orientation}" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
 
