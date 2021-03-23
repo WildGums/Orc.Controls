@@ -1,8 +1,11 @@
 ﻿namespace Orc.Controls
 {
+    using System;
     using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Controls;
+    using Catel.MVVM;
+    using Catel.MVVM.Views;
 
     /// <summary>
     /// Interaction logic for StepBar.xaml
@@ -10,15 +13,19 @@
     public sealed partial class StepBar
     {
         #region Constructors
+        static StepBar()
+        {
+            typeof(StepBar).AutoDetectViewPropertiesToSubscribe();
+        }
+
         public StepBar()
         {
-            Loaded += OnLoaded;
-
             InitializeComponent();
         }
         #endregion Constructors
 
         #region Properties
+        [ViewToViewModel]
         public Orientation Orientation
         {
             get { return (Orientation)GetValue(OrientationProperty); }
@@ -26,8 +33,9 @@
         }
 
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation),
-            typeof(StepBar), new PropertyMetadata(Orientation.Vertical));
+            typeof(StepBar), new PropertyMetadata(Orientation.Horizontal));
 
+        [ViewToViewModel]
         public IList<IStepBarItem> Items
         {
             get { return (IList<IStepBarItem>)GetValue(ItemsProperty); }
@@ -37,26 +45,35 @@
         public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register(nameof(Items), typeof(IList<IStepBarItem>),
             typeof(StepBar));
 
-        public bool AllowSelection
+        [ViewToViewModel]
+        public IStepBarItem SelectedItem
         {
-            get { return (bool)GetValue(AllowSelectionProperty); }
-            set { SetValue(AllowSelectionProperty, value); }
+            get { return (IStepBarItem)GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
         }
 
-        public static readonly DependencyProperty AllowSelectionProperty = DependencyProperty.Register(nameof(AllowSelection), typeof(bool),
-            typeof(StepBar), new PropertyMetadata(true));
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(IStepBarItem),
+            typeof(StepBar));
+
+        public TaskCommand<IStepBarItem> NavigateToItem
+        {
+            get { return (TaskCommand<IStepBarItem>)GetValue(NavigateToItemProperty); }
+            set { SetValue(NavigateToItemProperty, value); }
+        }
+
+        public static readonly DependencyProperty NavigateToItemProperty = DependencyProperty.Register(nameof(NavigateToItem), typeof(TaskCommand<IStepBarItem>),
+            typeof(StepBar));
         #endregion Properties
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        #region Methods
+        protected override void OnLoaded(EventArgs e)
         {
-            if (ViewModel is StepBarViewModel && Items != null && Items.Count > 0)
+            if (ViewModel is StepBarViewModel vm && Items != null && Items.Count > 0)
             {
-                var vm = (StepBarViewModel)ViewModel;
-                vm.Items = Items;
-                vm.AllowSelection = AllowSelection;
                 Items[Items.Count - 1].State |= StepBarItemStates.IsLast;
                 vm.SetSelectedItem(0);
             }
         }
+        #endregion Methods
     }
 }

@@ -19,14 +19,6 @@
                                 TabStripPlacement="Left" 
                                 LoadTabItems="EagerLoading">
 
-            <TabItem Header="VerticalNavigationStepBar">
-                <views:VerticalNavigationStepBarView/>
-            </TabItem>
-
-            <TabItem Header="HorizontalNavigationStepBar">
-                <views:HorizontalNavigationStepBarView/>
-            </TabItem>
-
             <TabItem Header="AlignmentGrid">
                 <views:AlignmentGrid />
             </TabItem>

@@ -4,5 +4,8 @@
 
     public class StepBarItemViewModel : ViewModelBase
     {
+        public StepBarItemViewModel(IStepBarItem stepBarItem)
+        {
+        }
     }
 }

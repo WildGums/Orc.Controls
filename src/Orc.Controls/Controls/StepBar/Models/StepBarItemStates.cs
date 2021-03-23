@@ -1,7 +1,12 @@
-﻿namespace Orc.Controls
+﻿
+namespace Orc.Controls
 {
-    public enum StepBarItemStates
+    using System;
+
+    [Flags]
+    public enum StepBarItemStates : short
     {
+        None = 0,
         IsVisited = 1,
         IsOptional = 2,
         IsLast = 4,

@@ -2,9 +2,9 @@
 {
     public interface IStepBarItem
     {
-        string Title { get; set; }
+        string Title { get; }
 
-        int Number { get; set; }
+        int Number { get; }
 
         StepBarItemStates State { get; set; }
     }

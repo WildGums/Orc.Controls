@@ -11,7 +11,7 @@
 
     <xamlbehaviors:Interaction.Triggers>
         <xamlbehaviors:EventTrigger EventName="MouseDown">
-            <xamlbehaviors:InvokeCommandAction Command="{Binding Path=ViewModel.QuickNavigateToItem, RelativeSource={RelativeSource AncestorType={x:Type orccontrols:StepBar}}}" 
+            <xamlbehaviors:InvokeCommandAction Command="{Binding Path=NavigateToItem, RelativeSource={RelativeSource AncestorType={x:Type orccontrols:StepBar}}}" 
                                                CommandParameter="{Binding}"/>
         </xamlbehaviors:EventTrigger>
     </xamlbehaviors:Interaction.Triggers>

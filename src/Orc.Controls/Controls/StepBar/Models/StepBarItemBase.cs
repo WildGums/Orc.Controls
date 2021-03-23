@@ -4,8 +4,8 @@
 
     public class StepBarItemBase : ModelBase, IStepBarItem
     {
-        public string Title { get; set; }
-        public int Number { get; set; }
+        public string Title { get; }
+        public int Number { get; }
         public StepBarItemStates State { get; set; }
     }
 }

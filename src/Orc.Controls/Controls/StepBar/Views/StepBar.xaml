@@ -23,7 +23,7 @@
                 <ItemsControl.Template>
                     <ControlTemplate>
                         <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" CanContentScroll="False">
-                            <ItemsPresenter x:Name="stepbarItemsPresenter" Margin="6,0,6,0" DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:StepBar}}}" />
+                            <ItemsPresenter x:Name="stepbarItemsPresenter" Margin="6,0,6,0" />
                         </ScrollViewer>
                     </ControlTemplate>
                 </ItemsControl.Template>

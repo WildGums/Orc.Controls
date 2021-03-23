@@ -1,5 +1,6 @@
 ﻿namespace Orc.Controls
 {
+    using System;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -8,8 +9,6 @@
         #region Constructors
         public StepBarItem()
         {
-            Loaded += OnLoaded;
-
             InitializeComponent();
         }
         #endregion Constructors
@@ -49,11 +48,11 @@
         }
 
         public static readonly DependencyProperty StateProperty = DependencyProperty.Register(nameof(State), typeof(StepBarItemStates),
-            typeof(StepBarItem), new PropertyMetadata(StepBarItemStates.IsOptional));
+            typeof(StepBarItem), new PropertyMetadata(StepBarItemStates.None));
         #endregion Properties
 
         #region Methods
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        protected override void OnLoaded(EventArgs e)
         {
             if (Orientation == Orientation.Horizontal)
             {
