@@ -14,6 +14,8 @@
     using System.Windows.Media.Imaging;
     using System.Windows.Navigation;
     using System.Windows.Shapes;
+    using Catel.IoC;
+    using Catel.MVVM;
     using Orc.Controls.Example.ViewModels;
 
     /// <summary>
@@ -24,22 +26,6 @@
         public ViewWithCallouts()
         {
             InitializeComponent();
-        }
-
-        public ViewWithCalloutsViewModel ViewWithCalloutsViewModel
-        {
-            get { return (ViewWithCalloutsViewModel)GetValue(ViewWithCalloutsViewModelProperty); }
-            set { SetValue(ViewWithCalloutsViewModelProperty, value); }
-        }
-
-        public static readonly DependencyProperty ViewWithCalloutsViewModelProperty = DependencyProperty.Register(nameof(ViewWithCalloutsViewModel), typeof(ViewWithCalloutsViewModel),
-            typeof(ViewWithCallouts), new PropertyMetadata(null, (sender, e) => ((ViewWithCallouts)sender).OnViewWithCalloutsViewModelChanged()));
-
-
-
-        private void OnViewWithCalloutsViewModelChanged()
-        {
-
         }
     }
 }

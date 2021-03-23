@@ -16,12 +16,15 @@
             <xamlbehaviors:InvokeCommandAction Command="{Binding Path=ViewModel.ContentLoaded, RelativeSource={RelativeSource AncestorType={x:Type orcviews:ViewWithCallouts}}}" 
                                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type orcviews:ViewWithCallouts}}}"/>
         </xamlbehaviors:EventTrigger>
+        <xamlbehaviors:EventTrigger EventName="UnLoaded">
+            <xamlbehaviors:InvokeCommandAction Command="{Binding Path=ViewModel.ContentUnLoaded, RelativeSource={RelativeSource AncestorType={x:Type orcviews:ViewWithCallouts}}}"/>
+        </xamlbehaviors:EventTrigger>
     </xamlbehaviors:Interaction.Triggers>
 
     <Grid>
         <Button Content="Print Button With Callout">
             <Button.ToolTip >
-                <orccontrols:Callout/>
+                <orccontrols:Callout x:Name="buttonCallout"/>
             </Button.ToolTip>
         </Button>
     </Grid>
