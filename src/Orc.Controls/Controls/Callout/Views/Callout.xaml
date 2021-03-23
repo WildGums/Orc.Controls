@@ -9,13 +9,32 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <StackPanel Width="200">
-            <StackPanel Orientation="Horizontal" Background="Tan" Width="200">
-                <Label Content="{Binding ControlName}" Margin="10 5" FontSize="20" FontWeight="Bold"></Label>
-            </StackPanel>
-            <TextBlock Text="{Binding Description}" FontSize="14" TextWrapping="WrapWithOverflow"></TextBlock>
-            <Line Stroke="Gray" StrokeThickness="2" X2="200"></Line>
-            <TextBlock Text="Press F1 for Help" FontWeight="ExtraBold"></TextBlock>
-        </StackPanel>
+        <Popup IsOpen="True" 
+               PlacementTarget="{Binding Path=PlacementTarget}"
+               Placement="Right"
+               StaysOpen="False"
+               AllowsTransparency="True"
+               VerticalOffset="-90">
+            <Grid>
+                <Border Background="Blue" BorderThickness="1" BorderBrush="Black"
+                Width="200" Height="200" Margin="24,0,0,0">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Text="{Binding ControlName}"/>
+                        <Line Stroke="Gray" StrokeThickness="2" X2="200"></Line>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Text="{Binding Description}"/>
+                    </StackPanel>
+                </Border>
+                <Path StrokeThickness="1" Stroke="Black" Fill="Blue" VerticalAlignment="Center">
+                    <Path.Data>
+                        <PathGeometry>
+                            <PathFigure StartPoint="25,0">
+                                <PolyLineSegment Points="0,25 25,50"/>
+                                <LineSegment Point="25,0" IsStroked="False"/>
+                            </PathFigure>
+                        </PathGeometry>
+                    </Path.Data>
+                </Path>
+            </Grid>
+        </Popup>
     </Grid>
 </catel:UserControl>

@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Windows;
     using Catel.IoC;
     using Catel.MVVM;
     using Orc.Controls.Controls.Callout.Models;
@@ -35,11 +36,14 @@
         public async Task ContentLoadedExecuteAsync(ViewWithCallouts view)
         {
             var buttonCallout = view.buttonCallout;
+            var printButton = view.printButton;
+
             CalloutViewModel printButtonCalloutVM = new CalloutViewModel()
             {
                 ControlName = "Print Button.",
                 Description = "This is a print button.",
-                Visible = true
+                Visible = Visibility.Visible,
+                PlacementTarget = (UIElement)printButton
             };
 
             CalloutManager.Register(printButtonCalloutVM, buttonCallout);

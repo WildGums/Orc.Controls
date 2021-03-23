@@ -22,10 +22,9 @@
     </xamlbehaviors:Interaction.Triggers>
 
     <Grid>
-        <Button Content="Print Button With Callout">
-            <Button.ToolTip >
-                <orccontrols:Callout x:Name="buttonCallout"/>
-            </Button.ToolTip>
-        </Button>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Print Button With Callout" x:Name="printButton" Width="100" Height="25" HorizontalAlignment="Left"/>
+            <orccontrols:Callout x:Name="buttonCallout"/>
+        </StackPanel>
     </Grid>
 </catel:UserControl>
