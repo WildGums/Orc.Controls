@@ -795,6 +795,14 @@ namespace Orc.Controls
         event System.EventHandler<System.EventArgs> EditEnded;
         event System.EventHandler<System.EventArgs> EditStarted;
     }
+    public interface IStepBarItem
+    {
+        System.Windows.Input.ICommand Command { get; }
+        string Description { get; }
+        int Number { get; }
+        Orc.Controls.StepBarItemStates State { get; set; }
+        string Title { get; }
+    }
     public interface ISuggestionListService
     {
         System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> GetSuggestionList(System.DateTime dateTime, Orc.Controls.DateTimePart editablePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo);
@@ -851,6 +859,26 @@ namespace Orc.Controls
         public static System.Windows.Documents.Inline Append(this System.Windows.Documents.Inline inline, System.Windows.Documents.Inline inlineToAdd) { }
         public static System.Windows.Documents.Inline AppendRange(this System.Windows.Documents.Inline inline, System.Collections.Generic.IEnumerable<System.Windows.Documents.Inline> inlines) { }
         public static System.Windows.Documents.Bold Bold(this System.Windows.Documents.Inline inline) { }
+    }
+    public class IsBeforeCurrentStepToVisibilityConverter : Catel.MVVM.Converters.VisibilityConverterBase
+    {
+        public IsBeforeCurrentStepToVisibilityConverter() { }
+        protected override bool IsVisible(object value, System.Type targetType, object parameter) { }
+    }
+    public class IsCurrentStepToVisibilityConverter : Catel.MVVM.Converters.VisibilityConverterBase
+    {
+        public IsCurrentStepToVisibilityConverter() { }
+        protected override bool IsVisible(object value, System.Type targetType, object parameter) { }
+    }
+    public class IsLastStepBarToVisibilityConverter : Catel.MVVM.Converters.VisibilityConverterBase
+    {
+        public IsLastStepBarToVisibilityConverter() { }
+        protected override bool IsVisible(object value, System.Type targetType, object parameter) { }
+    }
+    public class IsVisitedStepToVisibilityConverter : Catel.MVVM.Converters.VisibilityConverterBase
+    {
+        public IsVisitedStepToVisibilityConverter() { }
+        protected override bool IsVisible(object value, System.Type targetType, object parameter) { }
     }
     [System.Windows.StyleTypedProperty(Property="HyperlinkStyle", StyleTargetType=typeof(System.Windows.Documents.Hyperlink))]
     [System.Windows.TemplatePart(Name="PART_InnerHyperlink", Type=typeof(System.Windows.Documents.Hyperlink))]
@@ -910,6 +938,13 @@ namespace Orc.Controls
     {
         Undefined = 0,
         OpenUrlInBrowser = 1,
+    }
+    public static class ListBoxExtensions
+    {
+        public static readonly System.Windows.DependencyProperty HorizontalOffsetProperty;
+        public static void CenterSelectedItem(this System.Windows.Controls.ListBox listBox) { }
+        public static double GetHorizontalOffset(System.Windows.FrameworkElement target) { }
+        public static void SetHorizontalOffset(System.Windows.FrameworkElement target, double value) { }
     }
     public class ListTextBox : System.Windows.Controls.TextBox
     {
@@ -1482,6 +1517,75 @@ namespace Orc.Controls
         public double RowSpacing { get; set; }
         protected override System.Windows.Size ArrangeOverride(System.Windows.Size finalSize) { }
         protected override System.Windows.Size MeasureOverride(System.Windows.Size availableSize) { }
+    }
+    public sealed class StepBar : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    {
+        public static readonly System.Windows.DependencyProperty ItemsProperty;
+        public static readonly System.Windows.DependencyProperty OrientationProperty;
+        public static readonly System.Windows.DependencyProperty SelectedItemProperty;
+        public StepBar() { }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public System.Collections.Generic.IList<Orc.Controls.IStepBarItem> Items { get; set; }
+        public System.Windows.Controls.Orientation Orientation { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public Orc.Controls.IStepBarItem SelectedItem { get; set; }
+        public void InitializeComponent() { }
+        protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
+    }
+    public static class StepBarConfiguration
+    {
+        public static System.TimeSpan AnimationDuration { get; set; }
+    }
+    public sealed class StepBarItem : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    {
+        public static readonly System.Windows.DependencyProperty OrientationProperty;
+        public StepBarItem() { }
+        public System.Windows.Controls.Orientation Orientation { get; set; }
+        public void InitializeComponent() { }
+        protected override void OnLoaded(System.EventArgs e) { }
+    }
+    public class StepBarItemBase : Catel.Data.ModelBase, Orc.Controls.IStepBarItem
+    {
+        public static readonly Catel.Data.PropertyData DescriptionProperty;
+        public static readonly Catel.Data.PropertyData NumberProperty;
+        public static readonly Catel.Data.PropertyData StateProperty;
+        public static readonly Catel.Data.PropertyData TitleProperty;
+        public StepBarItemBase() { }
+        public System.Windows.Input.ICommand Command { get; set; }
+        public string Description { get; set; }
+        public int Number { get; set; }
+        public Orc.Controls.StepBarItemStates State { get; set; }
+        public string Title { get; set; }
+    }
+    [System.Flags]
+    public enum StepBarItemStates : short
+    {
+        None = 0,
+        IsVisited = 1,
+        IsOptional = 2,
+        IsCurrent = 4,
+        IsBeforeCurrent = 8,
+        IsLast = 16,
+    }
+    public class StepBarItemViewModel : Catel.MVVM.ViewModelBase
+    {
+        public static readonly Catel.Data.PropertyData ItemProperty;
+        public StepBarItemViewModel(Orc.Controls.IStepBarItem stepBarItem) { }
+        public Orc.Controls.IStepBarItem Item { get; }
+    }
+    public class StepBarViewModel : Catel.MVVM.ViewModelBase
+    {
+        public static readonly Catel.Data.PropertyData ItemsProperty;
+        public static readonly Catel.Data.PropertyData SelectedItemProperty;
+        public StepBarViewModel() { }
+        public System.Collections.Generic.IList<Orc.Controls.IStepBarItem> Items { get; set; }
+        public Orc.Controls.IStepBarItem SelectedItem { get; set; }
+        protected override System.Threading.Tasks.Task InitializeAsync() { }
+    }
+    public class StepToOpacityConverter : Catel.MVVM.Converters.ValueConverterBase
+    {
+        public StepToOpacityConverter() { }
+        protected override object Convert(object value, System.Type targetType, object parameter) { }
     }
     public static class StringExtensions
     {

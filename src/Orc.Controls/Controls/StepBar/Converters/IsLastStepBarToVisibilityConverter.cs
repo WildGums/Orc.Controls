@@ -7,7 +7,7 @@
     public class IsLastStepBarToVisibilityConverter : VisibilityConverterBase
     {
         public IsLastStepBarToVisibilityConverter()
-            : base(System.Windows.Visibility.Hidden)
+            : base(System.Windows.Visibility.Collapsed)
         {
         }
 

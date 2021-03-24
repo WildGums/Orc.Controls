@@ -53,6 +53,7 @@
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(IStepBarItem),
             typeof(StepBar), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+
         protected override void OnViewModelPropertyChanged(PropertyChangedEventArgs e)
         {
             base.OnViewModelPropertyChanged(e);
@@ -61,7 +62,7 @@
             {
                 Dispatcher.BeginInvoke(async () =>
                 {
-                    stepbarListBox.CenterSelectedItem();
+                    stepbarListBox.CenterSelectedItem(Orientation);
 
                     // We need to await the animation
                     await TaskShim.Delay(StepBarConfiguration.AnimationDuration);

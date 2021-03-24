@@ -8,11 +8,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
 
-    <Grid>
+    <Grid x:Name="layoutRoot">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
         <Grid Background="{DynamicResource Orc.Brushes.GrayBrush10}">
             <ListBox x:Name="stepbarListBox" 
@@ -53,7 +56,7 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <orccontrols:StepBarItem Orientation="{Binding ElementName=stepbarItemsPresenter, Path=DataContext.Orientation}" />
+                        <orccontrols:StepBarItem Orientation="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:StepBar}}, Path=Orientation}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ListBox>

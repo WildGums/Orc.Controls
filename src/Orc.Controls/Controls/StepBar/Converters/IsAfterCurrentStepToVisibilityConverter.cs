@@ -4,9 +4,9 @@
     using Catel;
     using Catel.MVVM.Converters;
 
-    public class IsBeforeCurrentStepToVisibilityConverter : VisibilityConverterBase
+    public class IsAfterCurrentStepToVisibilityConverter : VisibilityConverterBase
     {
-        public IsBeforeCurrentStepToVisibilityConverter()
+        public IsAfterCurrentStepToVisibilityConverter()
             : base(System.Windows.Visibility.Collapsed)
         {
         }
@@ -28,7 +28,17 @@
                 }
             }
 
-            return Enum<StepBarItemStates>.Flags.IsFlagSet(state, StepBarItemStates.IsBeforeCurrent);
+            if (Enum<StepBarItemStates>.Flags.IsFlagSet(state, StepBarItemStates.IsBeforeCurrent))
+            {
+                return false;
+            }
+
+            if (Enum<StepBarItemStates>.Flags.IsFlagSet(state, StepBarItemStates.IsCurrent))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -7,7 +7,7 @@
     public class IsVisitedStepToVisibilityConverter : VisibilityConverterBase
     {
         public IsVisitedStepToVisibilityConverter()
-            : base(System.Windows.Visibility.Hidden)
+            : base(System.Windows.Visibility.Collapsed)
         {
         }
 
@@ -28,11 +28,11 @@
                 }
             }
 
-            // Skip current
-            if (Enum<StepBarItemStates>.Flags.IsFlagSet(state, StepBarItemStates.IsCurrent))
-            {
-                return false;
-            }
+            //// Skip current
+            //if (Enum<StepBarItemStates>.Flags.IsFlagSet(state, StepBarItemStates.IsCurrent))
+            //{
+            //    return false;
+            //}
 
             return Enum<StepBarItemStates>.Flags.IsFlagSet(state, StepBarItemStates.IsVisited);
         }

@@ -16,7 +16,8 @@
                 Cursor="Hand"
                 Height="55"
                 Width="40"
-                Opacity="0" />
+                Opacity="0"
+                Focusable="False" />
         
         <Grid x:Name="grid" 
               MinWidth="100" 
@@ -27,13 +28,23 @@
             
             <Grid Margin="5" 
                   Grid.Column="0">
-                <Ellipse x:Name="ellipse" 
+                <Ellipse x:Name="ellipseToVisit"
+                         Width="26" 
+                         Height="26" 
+                         StrokeThickness="0"
+                         Fill="{DynamicResource Orc.Brushes.GrayBrush4}"
+                         HorizontalAlignment="Center" 
+                         VerticalAlignment="Center"
+                         Visibility="{Binding Item.State, Converter={orccontrols:IsVisitedStepToVisibilityConverter}, ConverterParameter=True}" />
+
+                <Ellipse x:Name="ellipseVisited" 
                          Width="26" 
                          Height="26" 
                          StrokeThickness="0"
                          Fill="{DynamicResource Orc.Brushes.AccentColorBrush}"
                          HorizontalAlignment="Center" 
-                         VerticalAlignment="Center" />
+                         VerticalAlignment="Center"
+                         Visibility="{Binding Item.State, Converter={orccontrols:IsVisitedStepToVisibilityConverter}}" />
 
                 <TextBlock x:Name="ellipseText" Text="{Binding Item.Number}" 
                            HorizontalAlignment="Center" 
@@ -76,7 +87,8 @@
 
         <Canvas HorizontalAlignment="Center" 
                 Margin="5"
-                IsHitTestVisible="False">
+                IsHitTestVisible="False"
+                x:Name="pathlineCanvas">
             <Rectangle x:Name="pathline" 
                        Width="48" 
                        Height="2" 

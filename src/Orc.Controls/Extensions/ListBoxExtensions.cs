@@ -24,10 +24,37 @@
         private static void OnHorizontalOffsetChanged(DependencyObject target, DependencyPropertyChangedEventArgs e)
         {
             var scrollViewer = target as ScrollViewer;
-            scrollViewer.ScrollToHorizontalOffset((double)e.NewValue);
+            if (scrollViewer is not null)
+            {
+                scrollViewer?.ScrollToHorizontalOffset((double)e.NewValue);
+                //scrollViewer.UpdateLayout();
+            }
         }
 
-        public static void CenterSelectedItem(this ListBox listBox)
+        public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.RegisterAttached("VerticalOffset",
+            typeof(double), typeof(ListBoxExtensions), new UIPropertyMetadata(0.0, OnVerticalOffsetChanged));
+
+        public static void SetVerticalOffset(FrameworkElement target, double value)
+        {
+            target.SetValue(VerticalOffsetProperty, value);
+        }
+
+        public static double GetVerticalOffset(FrameworkElement target)
+        {
+            return (double)target.GetValue(VerticalOffsetProperty);
+        }
+
+        private static void OnVerticalOffsetChanged(DependencyObject target, DependencyPropertyChangedEventArgs e)
+        {
+            var scrollViewer = target as ScrollViewer;
+            if (scrollViewer is not null)
+            {
+                scrollViewer.ScrollToVerticalOffset((double)e.NewValue);
+                //scrollViewer.UpdateLayout();
+            }
+        }
+
+        public static void CenterSelectedItem(this ListBox listBox, Orientation orientation)
         {
             Argument.IsNotNull(() => listBox);
 
@@ -61,41 +88,76 @@
                     return;
                 }
 
-                var width = container.ActualWidth;
+                var value = 0d;
+
+                switch (orientation)
+                {
+                    case Orientation.Horizontal:
+                        value = container.ActualWidth;
+                        break;
+
+                    case Orientation.Vertical:
+                        value = container.ActualHeight;
+                        break;
+                }
 
                 if (isBefore)
                 {
-                    beforeOffset += width;
+                    beforeOffset += value;
                 }
                 else if (currentItem)
                 {
-                    beforeOffset += width / 2;
-                    afterOffset += width / 2;
+                    beforeOffset += value / 2;
+                    afterOffset += value / 2;
                 }
                 else
                 {
-                    afterOffset += width;
+                    afterOffset += value;
                 }
             }
 
-            // We now know the actual center, calculate based on the width
-            var scrollableArea = scrollViewer.ActualWidth;
-            var toValue = beforeOffset - (scrollableArea / 2);
-            if (toValue < 0)
-            {
-                toValue = 0;
-            }
-
-            var horizontalAnimation = new DoubleAnimation();
-            horizontalAnimation.From = scrollViewer.HorizontalOffset;
-            horizontalAnimation.To = toValue;
-            horizontalAnimation.DecelerationRatio = .2;
-            horizontalAnimation.Duration = new Duration(StepBarConfiguration.AnimationDuration);
+            var animation = new DoubleAnimation();
+            animation.DecelerationRatio = .2;
+            animation.Duration = new Duration(StepBarConfiguration.AnimationDuration);
 
             var storyboard = new Storyboard();
-            storyboard.Children.Add(horizontalAnimation);
-            Storyboard.SetTarget(horizontalAnimation, scrollViewer);
-            Storyboard.SetTargetProperty(horizontalAnimation, new PropertyPath(HorizontalOffsetProperty));
+            storyboard.Children.Add(animation);
+
+            switch (orientation)
+            {
+                case Orientation.Horizontal:
+                    // We now know the actual center, calculate based on the width
+                    var horizontalScrollableValue = scrollViewer.ActualWidth;
+                    var horizontalToValue = beforeOffset - (horizontalScrollableValue / 2);
+                    if (horizontalToValue < 0)
+                    {
+                        horizontalToValue = 0;
+                    }
+
+                    animation.From = scrollViewer.HorizontalOffset;
+                    animation.To = horizontalToValue;
+                    
+                    Storyboard.SetTargetProperty(animation, new PropertyPath(HorizontalOffsetProperty));
+                    break;
+
+                case Orientation.Vertical:
+                    // We now know the actual center, calculate based on the width
+                    var verticalScrollableValue = scrollViewer.ActualHeight;
+                    var verticalToValue = beforeOffset - (verticalScrollableValue / 2);
+                    if (verticalToValue < 0)
+                    {
+                        verticalToValue = 0;
+                    }
+
+                    animation.From = scrollViewer.VerticalOffset;
+                    animation.To = verticalToValue;
+
+                    Storyboard.SetTargetProperty(animation, new PropertyPath(VerticalOffsetProperty));
+                    break;
+            }
+
+            Storyboard.SetTarget(animation, scrollViewer);
+
             storyboard.Begin();
         }
     }

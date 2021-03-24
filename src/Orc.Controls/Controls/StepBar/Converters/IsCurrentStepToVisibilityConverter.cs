@@ -7,7 +7,7 @@
     public class IsCurrentStepToVisibilityConverter : VisibilityConverterBase
     {
         public IsCurrentStepToVisibilityConverter()
-            : base(System.Windows.Visibility.Hidden)
+            : base(System.Windows.Visibility.Collapsed)
         {
         }
 
