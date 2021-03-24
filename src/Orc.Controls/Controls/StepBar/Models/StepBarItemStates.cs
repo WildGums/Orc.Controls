@@ -8,6 +8,8 @@
         None = 0,
         IsVisited = 1,
         IsOptional = 2,
-        IsLast = 4,
+        IsCurrent = 4,
+        IsBeforeCurrent = 8,
+        IsLast = 16,
     }
 }

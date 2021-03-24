@@ -4,14 +4,13 @@
     using Catel;
     using Catel.MVVM.Converters;
 
-    public class IsLastStepBarToVisibilityConverter : VisibilityConverterBase
+    public class StepToOpacityConverter : ValueConverterBase
     {
-        public IsLastStepBarToVisibilityConverter()
-            : base(System.Windows.Visibility.Hidden)
+        public StepToOpacityConverter()
         {
         }
 
-        protected override bool IsVisible(object value, Type targetType, object parameter)
+        protected override object Convert(object value, Type targetType, object parameter)
         {
             var state = StepBarItemStates.None;
 
@@ -28,7 +27,18 @@
                 }
             }
 
-            return Enum<StepBarItemStates>.Flags.IsFlagSet(state, StepBarItemStates.IsLast);
+            // Current is 1
+            if (Enum<StepBarItemStates>.Flags.IsFlagSet(state, StepBarItemStates.IsCurrent))
+            {
+                return 1d;
+            }
+
+            if (Enum<StepBarItemStates>.Flags.IsFlagSet(state, StepBarItemStates.IsVisited))
+            {
+                return 0.75d;
+            }
+
+            return 0.5d;
         }
     }
 }

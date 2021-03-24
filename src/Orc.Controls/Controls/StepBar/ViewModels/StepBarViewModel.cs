@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Catel;
+    using Catel.Collections;
     using Catel.MVVM;
 
     public class StepBarViewModel : ViewModelBase
@@ -27,10 +28,34 @@
 
         private void OnSelectedItemChanged()
         {
-            var item = SelectedItem;
-            if (item is not null)
+            var items = Items;
+            if (items is not null)
             {
-                item.State = Enum<StepBarItemStates>.Flags.SetFlag(item.State, StepBarItemStates.IsVisited);
+                items.ForEach(x =>
+                {
+                    x.State = Enum<StepBarItemStates>.Flags.ClearFlag(x.State, StepBarItemStates.IsCurrent);
+                    x.State = Enum<StepBarItemStates>.Flags.ClearFlag(x.State, StepBarItemStates.IsBeforeCurrent);
+                });
+            }
+
+            var selectedItem = SelectedItem;
+            if (selectedItem is not null)
+            {
+                selectedItem.State = Enum<StepBarItemStates>.Flags.SetFlag(selectedItem.State, StepBarItemStates.IsVisited);
+                selectedItem.State = Enum<StepBarItemStates>.Flags.SetFlag(selectedItem.State, StepBarItemStates.IsCurrent);
+
+                if (items is not null)
+                {
+                    foreach (var item in items)
+                    {
+                        if (ReferenceEquals(selectedItem, item))
+                        {
+                            break;
+                        }
+
+                        item.State = Enum<StepBarItemStates>.Flags.SetFlag(item.State, StepBarItemStates.IsBeforeCurrent);
+                    }
+                }
             }
         }
 

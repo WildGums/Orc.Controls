@@ -4,9 +4,9 @@
     using Catel;
     using Catel.MVVM.Converters;
 
-    public class IsLastStepBarToVisibilityConverter : VisibilityConverterBase
+    public class IsCurrentStepToVisibilityConverter : VisibilityConverterBase
     {
-        public IsLastStepBarToVisibilityConverter()
+        public IsCurrentStepToVisibilityConverter()
             : base(System.Windows.Visibility.Hidden)
         {
         }
@@ -28,7 +28,7 @@
                 }
             }
 
-            return Enum<StepBarItemStates>.Flags.IsFlagSet(state, StepBarItemStates.IsLast);
+            return Enum<StepBarItemStates>.Flags.IsFlagSet(state, StepBarItemStates.IsCurrent);
         }
     }
 }
