@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="400">
 
     <Grid ToolTip="{Binding Item.Description}">
-        <Button IsEnabled="{Binding Item.Command, Converter={orccontrols:CommandCanExecuteToBooleanConverter}}"
+        <Button Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}}"
                 Command="{Binding Item.Command}" CommandParameter="{Binding Item}"
                 Cursor="Hand"
                 Height="55"
