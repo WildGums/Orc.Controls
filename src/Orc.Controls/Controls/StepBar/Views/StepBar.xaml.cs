@@ -2,10 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Windows;
     using System.Windows.Controls;
     using Catel.MVVM;
     using Catel.MVVM.Views;
+    using Catel.Threading;
+    using Catel.Windows.Threading;
 
     public sealed partial class StepBar
     {
@@ -49,5 +52,21 @@
 
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(IStepBarItem),
             typeof(StepBar), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        protected override void OnViewModelPropertyChanged(PropertyChangedEventArgs e)
+        {
+            base.OnViewModelPropertyChanged(e);
+
+            if (e.HasPropertyChanged("SelectedItem"))
+            {
+                Dispatcher.BeginInvoke(async () =>
+                {
+                    stepbarListBox.CenterSelectedItem();
+
+                    // We need to await the animation
+                    await TaskShim.Delay(StepBarConfiguration.AnimationDuration);
+                });
+            }
+        }
     }
 }

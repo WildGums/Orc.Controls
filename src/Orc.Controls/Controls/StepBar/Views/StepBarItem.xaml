@@ -17,7 +17,7 @@
     </xamlbehaviors:Interaction.Triggers>
 
     <Grid ToolTip="{Binding Item.Description}"
-          Cursor="Hand">
+          Cursor="{Binding Item.Command, Converter={orccontrols:CommandCanExecuteToCursorConverter}}">
         <Grid x:Name="grid" 
               MinWidth="100" 
               MaxWidth="100" 
