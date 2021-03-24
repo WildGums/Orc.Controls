@@ -1,0 +1,34 @@
+﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.StepBarView"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:catel="http://schemas.catelproject.com" 
+                   xmlns:orccontrols="http://schemas.wildgums.com/orc/controls">
+
+    <orccontrols:StackGrid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Content="Orientation" />
+        <ComboBox ItemsSource="{Binding AvailableOrientations}"
+                  SelectedItem="{Binding SelectedOrientation}" />
+
+        <Label Content="Selected item" />
+        <ComboBox ItemsSource="{Binding Items}"
+                  SelectedItem="{Binding SelectedItem}"
+                  DisplayMemberPath="Title" />
+
+        <orccontrols:StepBar Grid.ColumnSpan="2" 
+                             Orientation="{Binding SelectedOrientation}"
+                             Items="{Binding Items}"
+                             SelectedItem="{Binding SelectedItem}" />
+    </orccontrols:StackGrid>
+    
+</catel:UserControl>
