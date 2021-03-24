@@ -4,7 +4,7 @@
 
     public interface ICalloutManager
     {
-        IList<CalloutViewModel> Callouts { get; set; }
+        IList<CalloutViewModel> Callouts { get; }
         void Register(CalloutViewModel calloutViewModel, Callout callout);
         void UnRegister(CalloutViewModel callout);
     }

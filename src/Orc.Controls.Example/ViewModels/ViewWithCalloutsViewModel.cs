@@ -3,48 +3,27 @@
     using System.Threading.Tasks;
     using System.Windows;
     using Catel.MVVM;
-    using Orc.Controls.Example.Views;
 
     public class ViewWithCalloutsViewModel : ViewModelBase
     {
         public ViewWithCalloutsViewModel()
         {
-            CalloutManager = new CalloutManager();
-            ContentLoaded = new TaskCommand<ViewWithCallouts>(ContentLoadedExecuteAsync, ContentLoadedCanExecute);
-            ContentUnLoaded = new TaskCommand<ViewWithCallouts>(ContentUnLoadedExecuteAsync, ContentUnLoadedCanExecute);
+            OpenCallout = new TaskCommand<UIElement>(OpenCalloutExecuteAsync);
         }
 
-        public CalloutManager CalloutManager { get; set; }
+        public CalloutManager CalloutManager { get; set; } = new CalloutManager();
 
-        public TaskCommand<ViewWithCallouts> ContentLoaded { get; private set; }
+        public TaskCommand<UIElement> OpenCallout { get; private set; }
 
-        public TaskCommand<ViewWithCallouts> ContentUnLoaded { get; private set; }
-
-        public bool ContentLoadedCanExecute(ViewWithCallouts view)
-            => true;
-
-        public bool ContentUnLoadedCanExecute(ViewWithCallouts view)
-            => true;
-
-        public async Task ContentLoadedExecuteAsync(ViewWithCallouts view)
+        public Task OpenCalloutExecuteAsync(UIElement element)
         {
-            var buttonCallout = view.buttonCallout;
-            var printButton = view.printButton;
-
-            CalloutViewModel printButtonCalloutVM = new CalloutViewModel()
+            foreach (var callout in CalloutManager.Callouts)
             {
-                ControlName = "Print Button.",
-                Description = "This is a print button.",
-                Visible = Visibility.Visible,
-                PlacementTarget = (UIElement)printButton
-            };
-
-            CalloutManager.Register(printButtonCalloutVM, buttonCallout);
-        }
-
-        public Task ContentUnLoadedExecuteAsync(ViewWithCallouts view)
-        {
-            CalloutManager.RemoveAllCallouts();
+                if (callout.PlacementTarget == element)
+                {
+                    callout.IsOpen = true;
+                }
+            }
             return Task.CompletedTask;
         }
     }

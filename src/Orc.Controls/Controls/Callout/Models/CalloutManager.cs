@@ -4,14 +4,11 @@
 
     public class CalloutManager : ICalloutManager
     {
-
         public CalloutManager()
         {
-            if(Callouts == null)
-                Callouts = new List<CalloutViewModel>();
         }
 
-        public IList<CalloutViewModel> Callouts { get; set; }
+        public IList<CalloutViewModel> Callouts { get; set; } = new List<CalloutViewModel>();
 
         public void Register(CalloutViewModel calloutViewModel, Callout callout)
         {

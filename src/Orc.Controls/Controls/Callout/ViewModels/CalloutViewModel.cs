@@ -5,11 +5,11 @@
 
     public class CalloutViewModel : ViewModelBase
     {
-
         public CalloutViewModel()
         {
-            
         }
+
+        public bool IsOpen { get; set; }
 
         public UIElement PlacementTarget { get; set; }
 
