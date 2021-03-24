@@ -1,9 +1,6 @@
-﻿namespace Orc.Controls.Controls.Callout.Models
+﻿namespace Orc.Controls
 {
-    using System;
     using System.Collections.Generic;
-    using Orc.Controls.Controls.Callout.ViewModels;
-    using Orc.Controls.Controls.Callout.Views;
 
     public interface ICalloutManager
     {

@@ -1,15 +1,8 @@
 ﻿namespace Orc.Controls.Example.ViewModels
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
     using System.Windows;
-    using Catel.IoC;
     using Catel.MVVM;
-    using Orc.Controls.Controls.Callout.Models;
-    using Orc.Controls.Controls.Callout.ViewModels;
     using Orc.Controls.Example.Views;
 
     public class ViewWithCalloutsViewModel : ViewModelBase

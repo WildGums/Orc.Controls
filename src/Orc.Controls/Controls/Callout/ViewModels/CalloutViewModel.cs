@@ -1,9 +1,7 @@
-﻿namespace Orc.Controls.Controls.Callout.ViewModels
+﻿namespace Orc.Controls
 {
-    using System.Threading.Tasks;
     using System.Windows;
     using Catel.MVVM;
-    using Orc.Controls.Controls.Callout.Views;
 
     public class CalloutViewModel : ViewModelBase
     {
