@@ -10,7 +10,8 @@
 
     <Grid ToolTip="{Binding Item.Description}">
         <Button Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}}"
-                Command="{Binding Item.Command}" CommandParameter="{Binding Item}"
+                Command="{Binding Item.Command}" 
+                CommandParameter="{Binding Item}"
                 Cursor="Hand"
                 Height="55"
                 Width="40"

@@ -13,10 +13,36 @@
         {
             AvailableOrientations = Enum<Orientation>.GetValues().ToList();
 
-            SelectNewItem = new TaskCommand<IStepBarItem>(OnSelectNewItemExecuteAsync);
+            SelectNewItem = new TaskCommand<IStepBarItem>(OnSelectNewItemExecuteAsync, OnSelectNewItemCanExecute);
         }
 
         public TaskCommand<IStepBarItem> SelectNewItem { get; private set; }
+
+        private bool OnSelectNewItemCanExecute(IStepBarItem item)
+        {
+            if (item is null)
+            {
+                return false;
+            }
+
+            // Demo case 1: allow when visited
+            if (Enum<StepBarItemStates>.Flags.IsFlagSet(item.State, StepBarItemStates.IsVisited))
+            {
+                return true;
+            }
+
+            // Demo case 2: allow when "lower" page
+            var selectedItem = SelectedItem;
+            if (selectedItem is not null)
+            {
+                if (item.Number < selectedItem.Number)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         private async Task OnSelectNewItemExecuteAsync(IStepBarItem item)
         {
@@ -48,6 +74,7 @@
             }
 
             Items = items;
+            SelectedItem = items.FirstOrDefault();
         }
     }
 

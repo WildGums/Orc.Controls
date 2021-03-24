@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Catel;
     using Catel.MVVM;
 
     public class StepBarViewModel : ViewModelBase
@@ -29,7 +30,7 @@
             var item = SelectedItem;
             if (item is not null)
             {
-                item.State |= StepBarItemStates.IsLast;
+                item.State = Enum<StepBarItemStates>.Flags.SetFlag(item.State, StepBarItemStates.IsVisited);
             }
         }
 
