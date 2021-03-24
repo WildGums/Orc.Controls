@@ -803,6 +803,10 @@ namespace Orc.Controls
         Orc.Controls.StepBarItemStates State { get; set; }
         string Title { get; }
     }
+    public static class IStepBarItemExtensions
+    {
+        public static bool IsSkipped(this Orc.Controls.StepBarItemStates state) { }
+    }
     public interface ISuggestionListService
     {
         System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>> GetSuggestionList(System.DateTime dateTime, Orc.Controls.DateTimePart editablePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo);
@@ -860,6 +864,11 @@ namespace Orc.Controls
         public static System.Windows.Documents.Inline AppendRange(this System.Windows.Documents.Inline inline, System.Collections.Generic.IEnumerable<System.Windows.Documents.Inline> inlines) { }
         public static System.Windows.Documents.Bold Bold(this System.Windows.Documents.Inline inline) { }
     }
+    public class IsAfterCurrentStepToVisibilityConverter : Catel.MVVM.Converters.VisibilityConverterBase
+    {
+        public IsAfterCurrentStepToVisibilityConverter() { }
+        protected override bool IsVisible(object value, System.Type targetType, object parameter) { }
+    }
     public class IsBeforeCurrentStepToVisibilityConverter : Catel.MVVM.Converters.VisibilityConverterBase
     {
         public IsBeforeCurrentStepToVisibilityConverter() { }
@@ -873,6 +882,11 @@ namespace Orc.Controls
     public class IsLastStepBarToVisibilityConverter : Catel.MVVM.Converters.VisibilityConverterBase
     {
         public IsLastStepBarToVisibilityConverter() { }
+        protected override bool IsVisible(object value, System.Type targetType, object parameter) { }
+    }
+    public class IsSkippedStepToVisibilityConverter : Catel.MVVM.Converters.VisibilityConverterBase
+    {
+        public IsSkippedStepToVisibilityConverter() { }
         protected override bool IsVisible(object value, System.Type targetType, object parameter) { }
     }
     public class IsVisitedStepToVisibilityConverter : Catel.MVVM.Converters.VisibilityConverterBase
@@ -942,9 +956,12 @@ namespace Orc.Controls
     public static class ListBoxExtensions
     {
         public static readonly System.Windows.DependencyProperty HorizontalOffsetProperty;
-        public static void CenterSelectedItem(this System.Windows.Controls.ListBox listBox) { }
+        public static readonly System.Windows.DependencyProperty VerticalOffsetProperty;
+        public static void CenterSelectedItem(this System.Windows.Controls.ListBox listBox, System.Windows.Controls.Orientation orientation) { }
         public static double GetHorizontalOffset(System.Windows.FrameworkElement target) { }
+        public static double GetVerticalOffset(System.Windows.FrameworkElement target) { }
         public static void SetHorizontalOffset(System.Windows.FrameworkElement target, double value) { }
+        public static void SetVerticalOffset(System.Windows.FrameworkElement target, double value) { }
     }
     public class ListTextBox : System.Windows.Controls.TextBox
     {
@@ -1500,6 +1517,11 @@ namespace Orc.Controls
         protected override void OnAssociatedObjectLoaded() { }
         protected override void OnAssociatedObjectUnloaded() { }
     }
+    public class ShowStepNumberVisibilityConverter : Catel.MVVM.Converters.VisibilityConverterBase
+    {
+        public ShowStepNumberVisibilityConverter() { }
+        protected override bool IsVisible(object value, System.Type targetType, object parameter) { }
+    }
     public class StackGrid : System.Windows.Controls.Grid
     {
         public StackGrid() { }
@@ -1530,6 +1552,7 @@ namespace Orc.Controls
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public Orc.Controls.IStepBarItem SelectedItem { get; set; }
         public void InitializeComponent() { }
+        protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
     }
     public static class StepBarConfiguration

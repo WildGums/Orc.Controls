@@ -58,8 +58,9 @@
                 pathline.SetCurrentValue(Canvas.TopProperty, 13.0);
                 pathline.SetCurrentValue(Canvas.LeftProperty, 24.0);
 
-                ellipseToVisit.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness(5));
                 ellipseVisited.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness(5));
+                ellipseCurrent.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness(5));
+                ellipseToVisit.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness(5));
             }
             else
             {
@@ -82,8 +83,9 @@
                 pathline.SetCurrentValue(Canvas.TopProperty, 35.0);
                 pathline.SetCurrentValue(Canvas.LeftProperty, 24.0);
 
-                ellipseToVisit.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Left = 15, Top = 5, Right = 25, Bottom = 5 });
                 ellipseVisited.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Left = 15, Top = 5, Right = 25, Bottom = 5 });
+                ellipseCurrent.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Left = 15, Top = 5, Right = 25, Bottom = 5 });
+                ellipseToVisit.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Left = 15, Top = 5, Right = 25, Bottom = 5 });
             }
         }
     }
