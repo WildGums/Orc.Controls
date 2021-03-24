@@ -57,7 +57,7 @@
         {
             base.OnViewModelPropertyChanged(e);
 
-            if (e.HasPropertyChanged("SelectedItem"))
+            if (e.HasPropertyChanged(nameof(StepBarViewModel.SelectedItem)))
             {
                 Dispatcher.BeginInvoke(async () =>
                 {

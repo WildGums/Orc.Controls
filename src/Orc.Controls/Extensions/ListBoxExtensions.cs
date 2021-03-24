@@ -24,10 +24,7 @@
         private static void OnHorizontalOffsetChanged(DependencyObject target, DependencyPropertyChangedEventArgs e)
         {
             var scrollViewer = target as ScrollViewer;
-            if (scrollViewer != null)
-            {
-                scrollViewer.ScrollToHorizontalOffset((double)e.NewValue);
-            }
+            scrollViewer.ScrollToHorizontalOffset((double)e.NewValue);
         }
 
         public static void CenterSelectedItem(this ListBox listBox)
