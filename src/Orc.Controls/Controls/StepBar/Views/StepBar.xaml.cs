@@ -29,7 +29,7 @@
         }
 
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation),
-            typeof(StepBar), new PropertyMetadata(Orientation.Horizontal));
+            typeof(StepBar), new PropertyMetadata(Orientation.Horizontal, (sender, e) => ((StepBar)sender).OnOrientationChanged()));
 
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -53,6 +53,33 @@
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(IStepBarItem),
             typeof(StepBar), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+        protected override void OnLoaded(EventArgs e)
+        {
+            base.OnLoaded(e);
+
+            UpdateOrientation();
+        }
+
+        private void OnOrientationChanged()
+        {
+            UpdateOrientation();
+        }
+
+        private void UpdateOrientation()
+        {
+            switch (Orientation)
+            {
+                case Orientation.Horizontal:
+                    layoutRoot.RowDefinitions[0].SetCurrentValue(RowDefinition.HeightProperty, new GridLength(1, GridUnitType.Auto));
+                    layoutRoot.ColumnDefinitions[0].SetCurrentValue(ColumnDefinition.WidthProperty, new GridLength(1, GridUnitType.Star));
+                    break;
+
+                case Orientation.Vertical:
+                    layoutRoot.RowDefinitions[0].SetCurrentValue(RowDefinition.HeightProperty, new GridLength(1, GridUnitType.Star));
+                    layoutRoot.ColumnDefinitions[0].SetCurrentValue(ColumnDefinition.WidthProperty, new GridLength(1, GridUnitType.Auto));
+                    break;
+            }
+        }
 
         protected override void OnViewModelPropertyChanged(PropertyChangedEventArgs e)
         {

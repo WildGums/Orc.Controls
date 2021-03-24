@@ -141,7 +141,7 @@
                     break;
 
                 case Orientation.Vertical:
-                    // We now know the actual center, calculate based on the width
+                    // We now know the actual center, calculate based on the height
                     var verticalScrollableValue = scrollViewer.ActualHeight;
                     var verticalToValue = beforeOffset - (verticalScrollableValue / 2);
                     if (verticalToValue < 0)

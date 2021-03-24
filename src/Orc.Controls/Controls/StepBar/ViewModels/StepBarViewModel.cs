@@ -1,6 +1,7 @@
 ﻿namespace Orc.Controls
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Catel;
     using Catel.Collections;
@@ -61,18 +62,18 @@
 
         private void UpdateSelection()
         {
-            IStepBarItem selectedItem = null;
-
             var items = Items;
             if (items is not null)
             {
                 if (items.Count > 0)
                 {
-                    selectedItem = Items[Items.Count - 1];
+                    var lastItem = items.Last();
+
+                    lastItem.State = Enum<StepBarItemStates>.Flags.SetFlag(lastItem.State, StepBarItemStates.IsLast);
                 }
             }
 
-            SelectedItem = selectedItem;
+            SelectedItem = items?.FirstOrDefault();
         }
     }
 }
