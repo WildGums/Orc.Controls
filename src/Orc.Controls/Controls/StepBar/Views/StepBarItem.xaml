@@ -3,25 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:catel="http://schemas.catelproject.com"
              xmlns:orccontrols="clr-namespace:Orc.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
 
-    <xamlbehaviors:Interaction.Triggers>
-        <xamlbehaviors:EventTrigger EventName="MouseDown">
-            <xamlbehaviors:InvokeCommandAction Command="{Binding Command}" 
-                                               CommandParameter="{Binding}" />
-        </xamlbehaviors:EventTrigger>
-    </xamlbehaviors:Interaction.Triggers>
-
-    <Grid ToolTip="{Binding Item.Description}"
-          Cursor="{Binding Item.Command, Converter={orccontrols:CommandCanExecuteToCursorConverter}}">
+    <Grid ToolTip="{Binding Item.Description}">
+        <Button IsEnabled="{Binding Item.Command, Converter={orccontrols:CommandCanExecuteToBooleanConverter}}"
+                Command="{Binding Item.Command}" CommandParameter="{Binding Item}"
+                Cursor="Hand"
+                Height="55"
+                Width="40"
+                Opacity="0" />
         <Grid x:Name="grid" 
               MinWidth="100" 
               MaxWidth="100" 
-              Margin="0 0 0 8">
+              Margin="0 0 0 8"
+              IsHitTestVisible="False">
             <Grid Margin="5" Grid.Column="0">
                 <Ellipse x:Name="ellipse" 
                          Width="26" 
@@ -61,7 +59,8 @@
         </Grid>
 
         <Canvas HorizontalAlignment="Center" 
-                Margin="5">
+                Margin="5"
+                IsHitTestVisible="False">
             <Rectangle x:Name="pathline" 
                        Width="48" 
                        Height="2" 

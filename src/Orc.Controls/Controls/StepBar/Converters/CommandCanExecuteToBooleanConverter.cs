@@ -1,12 +1,11 @@
 ﻿namespace Orc.Controls
 {
     using System;
-    using Catel;
     using Catel.MVVM.Converters;
 
-    public class CommandCanExecuteToCursorConverter : ValueConverterBase
+    public class CommandCanExecuteToBooleanConverter : ValueConverterBase
     {
-        public CommandCanExecuteToCursorConverter()
+        public CommandCanExecuteToBooleanConverter()
         {
         }
 
@@ -14,10 +13,10 @@
         {
             if (value is Catel.MVVM.TaskCommand<IStepBarItem> command)
             {
-                return command.CanExecute() ? System.Windows.Input.Cursors.Hand : null;
+                return command.CanExecute();
             }
 
-            return null;
+            return false;
         }
     }
 }
