@@ -3,36 +3,43 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:orccontrols="clr-namespace:Orc.Controls"
              xmlns:catel="http://schemas.catelproject.com"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Popup IsOpen="{Binding IsOpen}"
+    <Popup IsOpen="{Binding IsOpen}"
                PlacementTarget="{Binding PlacementTarget}"
                Placement="Right"
                StaysOpen="False"
                AllowsTransparency="True"
                VerticalOffset="-90">
-            <Grid>
-                <Border Background="Blue" BorderThickness="1" BorderBrush="Black"
+        <Grid>
+            <Border Background="Blue" BorderThickness="1" BorderBrush="Black"
                 Width="200" Height="200" Margin="24,0,0,0">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Text="{Binding ControlName}"/>
-                        <Line Stroke="Gray" StrokeThickness="2" X2="200"></Line>
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Text="{Binding Description}"/>
-                    </StackPanel>
-                </Border>
-                <Path StrokeThickness="1" Stroke="Black" Fill="Blue" VerticalAlignment="Center">
-                    <Path.Data>
-                        <PathGeometry>
-                            <PathFigure StartPoint="25,0">
-                                <PolyLineSegment Points="0,25 25,50"/>
-                                <LineSegment Point="25,0" IsStroked="False"/>
-                            </PathFigure>
-                        </PathGeometry>
-                    </Path.Data>
-                </Path>
-            </Grid>
-        </Popup>
-    </Grid>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Text="{Binding ControlName}"/>
+                    <Line Stroke="Gray" StrokeThickness="2" X2="200"></Line>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Text="{Binding Description}" TextWrapping="Wrap"/>
+                    <ContentPresenter Content="{Binding InnerContent}"/>
+                </StackPanel>
+            </Border>
+            <Path StrokeThickness="1" Stroke="Black" Fill="Blue" VerticalAlignment="Center">
+                <Path.Data>
+                    <PathGeometry>
+                        <PathFigure StartPoint="25,0">
+                            <PolyLineSegment Points="0,25 25,50"/>
+                            <LineSegment Point="25,0" IsStroked="False"/>
+                        </PathFigure>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+        </Grid>
+    </Popup>
+    <!--<UserControl.ContentTemplate>
+        <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+                <ContentPresenter Content="{TemplateBinding Content}"/>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.ContentTemplate>-->
 </catel:UserControl>
