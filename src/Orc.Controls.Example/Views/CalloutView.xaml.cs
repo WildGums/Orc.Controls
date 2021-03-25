@@ -7,11 +7,11 @@
     /// <summary>
     /// Interaction logic for ViewWithCallouts.xaml
     /// </summary>
-    public partial class ViewWithCallouts
+    public partial class CalloutView
     {
-        private CalloutViewModel _printButtonCalloutVM;
+        private Controls.CalloutViewModel _printButtonCalloutVM;
 
-        public ViewWithCallouts()
+        public CalloutView()
         {
             InitializeComponent();
         }
@@ -20,9 +20,9 @@
         {
             base.OnLoaded(e);
 
-            if (ViewModel is ViewWithCalloutsViewModel vm)
+            if (ViewModel is CalloutViewModel vm)
             {
-                _printButtonCalloutVM = new CalloutViewModel()
+                _printButtonCalloutVM = new Controls.CalloutViewModel()
                 {
                     ControlName = "Print Button.",
                     Description = "This is a print button.",
@@ -38,7 +38,7 @@
         {
             base.OnUnloaded(e);
 
-            if (ViewModel is ViewWithCalloutsViewModel vm)
+            if (ViewModel is CalloutViewModel vm)
             {
                 vm.CalloutManager.UnRegister(_printButtonCalloutVM);
             }

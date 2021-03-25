@@ -4,9 +4,9 @@
     using System.Windows;
     using Catel.MVVM;
 
-    public class ViewWithCalloutsViewModel : ViewModelBase
+    public class CalloutViewModel : ViewModelBase
     {
-        public ViewWithCalloutsViewModel()
+        public CalloutViewModel()
         {
             OpenCallout = new TaskCommand<UIElement>(OpenCalloutExecuteAsync);
         }
