@@ -55,6 +55,16 @@
         <Button Content="Set value to null" Command="{Binding SetNull}" HorizontalAlignment="Left" Width="150"/>
 
         <Calendar/>
+
+        <orccontrols:DateTimePicker Value="{Binding DateTimeValue}"
+                                    IsEnabled="False"
+                                    Format="{Binding SelectedFormat.FormatValue}" HorizontalAlignment="Left"
+                                    AllowNull="{Binding IsChecked, ElementName=allowNullCheckbox}"
+                                    AllowCopyPaste="{Binding IsChecked, ElementName=allowCopyPasteCheckbox}"
+                                    HideTime="{Binding IsChecked, ElementName=hideTimeCheckbox}"
+                                    HideSeconds="{Binding IsChecked, ElementName=hideSecondsCheckbox}"
+                                    IsReadOnly="{Binding IsChecked, ElementName=readOnlyCheckbox}"
+                                    ShowOptionsButton="{Binding IsChecked, ElementName=showOptionsButtonCheckbox}" />
     </StackPanel>
 
 </catel:UserControl>
