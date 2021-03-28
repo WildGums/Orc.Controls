@@ -1,6 +1,7 @@
 ﻿namespace Orc.Controls
 {
     using System.Collections.Generic;
+    using Catel;
 
     public class CalloutManager : ICalloutManager
     {
@@ -12,14 +13,14 @@
 
         public void Register(CalloutViewModel calloutViewModel, Callout callout)
         {
-            if (calloutViewModel != null && callout != null)
-            {
-                Callouts.Add(calloutViewModel);
-                callout.DataContext = calloutViewModel;
-            }
+            Argument.IsNotNull(() => calloutViewModel);
+            Argument.IsNotNull(() => callout);
+            Callouts.Add(calloutViewModel);
+            callout.DataContext = calloutViewModel;
+            
         }
 
-        public void UnRegister(CalloutViewModel callout)
+        public void Unregister(CalloutViewModel callout)
         {
             Callouts.Remove(callout);
         }

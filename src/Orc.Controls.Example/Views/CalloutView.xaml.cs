@@ -67,7 +67,7 @@
 
             if (ViewModel is CalloutViewModel vm)
             {
-                vm.CalloutManager.UnRegister(_printButtonCalloutVM);
+                vm.CalloutManager.Unregister(_printButtonCalloutVM);
             }
         }
     }

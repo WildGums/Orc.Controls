@@ -54,7 +54,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controls\Callout\ViewModels\" />
     <Folder Include="Controls\EditableControls\Behaviors\Base\" />
   </ItemGroup>
 

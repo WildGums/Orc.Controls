@@ -6,6 +6,6 @@
     {
         IList<CalloutViewModel> Callouts { get; }
         void Register(CalloutViewModel calloutViewModel, Callout callout);
-        void UnRegister(CalloutViewModel callout);
+        void Unregister(CalloutViewModel callout);
     }
 }

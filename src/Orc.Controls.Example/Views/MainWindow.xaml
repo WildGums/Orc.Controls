@@ -19,10 +19,6 @@
                                 TabStripPlacement="Left" 
                                 LoadTabItems="EagerLoading">
 
-            <TabItem Header="Callout">
-                <views:CalloutView />
-            </TabItem>
-            
             <TabItem Header="AlignmentGrid">
                 <views:AlignmentGrid />
             </TabItem>
@@ -39,6 +35,10 @@
                 <views:BusyIndicator/>
             </TabItem>
 
+            <TabItem Header="Callout">
+                <views:CalloutView />
+            </TabItem>
+            
             <TabItem Header="ColorLegend">
                 <views:ColorLegendView />
             </TabItem>
