@@ -224,6 +224,8 @@
                                                   IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
                                     <controls:ListTextBox x:Name="PART_AmPmListTextBox" 
+                                                          Foreground="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
+                                                          Background="Transparent"
                                                           Grid.Column="12"
                                                           VerticalAlignment="Center"
                                                           VerticalContentAlignment="Center"

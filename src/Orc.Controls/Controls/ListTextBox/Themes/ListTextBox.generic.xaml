@@ -6,14 +6,13 @@
         <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.textboxbase.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-
     <Style x:Key="{x:Type local:ListTextBox}" TargetType="{x:Type local:ListTextBox}"
            BasedOn="{StaticResource Orc.Styles.TextBoxBase}">
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ListTextBox}">
-                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                    <Border x:Name="Bd" 
+                            BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Background="{TemplateBinding Background}"
                             SnapsToDevicePixels="true">
@@ -31,7 +30,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-       
     </Style>
 
 </ResourceDictionary>
