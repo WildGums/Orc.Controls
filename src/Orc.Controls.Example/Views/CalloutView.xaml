@@ -11,8 +11,14 @@
     <Grid>
         <StackPanel Orientation="Horizontal" x:Name="calloutStack">
             <Button Content="Print Button With Callout" x:Name="printButton" Width="100" Height="25" HorizontalAlignment="Left" Command="{Binding OpenCallout}" CommandParameter="{Binding ., RelativeSource={RelativeSource Self}}"/>
-            <orccontrols:Callout x:Name="buttonCallout"/>
-            <orccontrols:Callout x:Name="needHelpCallout">
+            <orccontrols:Callout x:Name="buttonCallout"
+                                 ControlName="Print Button."
+                                 Description="This is a print button."
+                                 PlacementTarget="{Binding ElementName=printButton}" />
+            <orccontrols:Callout x:Name="needHelpCallout"
+                                 ControlName="Need help ?"
+                                 Description="In case if you are confused, this example is responsible for testing various callouts. Try clicking the print button to show it's callout."
+                                 PlacementTarget="{Binding ElementName=calloutStack}">
                 <Button Content="This is added too!" />
             </orccontrols:Callout>
         </StackPanel>

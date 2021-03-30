@@ -17,6 +17,6 @@
 
         public string Description { get; set; } 
 
-        public Visibility Visible { get; set; }
+        public object InnerContent { get; set; }
     }
 }

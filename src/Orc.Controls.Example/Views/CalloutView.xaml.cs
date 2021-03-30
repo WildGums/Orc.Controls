@@ -1,7 +1,6 @@
 ﻿namespace Orc.Controls.Example.Views
 {
     using System;
-    using System.Windows;
     using System.Windows.Threading;
     using Orc.Controls.Example.ViewModels;
 
@@ -10,35 +9,26 @@
     /// </summary>
     public partial class CalloutView
     {
-        private Controls.CalloutViewModel _printButtonCalloutVM;
-        private Controls.CalloutViewModel _needHelpCalloutVM;
-
         public CalloutView()
         {
             InitializeComponent();
         }
 
-        protected override void OnLoaded(EventArgs e)
+        private DispatcherTimer _popupTimer;
+
+        protected override void OnViewModelChanged()
         {
-            base.OnLoaded(e);
+            base.OnViewModelChanged();
 
             if (ViewModel is CalloutViewModel vm)
             {
-                _printButtonCalloutVM = new Controls.CalloutViewModel()
-                {
-                    ControlName = "Print Button.",
-                    Description = "This is a print button.",
-                    Visible = Visibility.Visible,
-                    PlacementTarget = printButton,
-                };
+                vm.CalloutManager.Register(buttonCallout);
+                vm.CalloutManager.Register(needHelpCallout);
 
-                vm.CalloutManager.Register(_printButtonCalloutVM, buttonCallout);
-
-
-                DispatcherTimer timer = new DispatcherTimer();
-                timer.Interval = TimeSpan.FromSeconds(10);
-                timer.Tick += InitializeTimedPopup;
-                timer.Start();
+                _popupTimer = new DispatcherTimer();
+                _popupTimer.Interval = TimeSpan.FromSeconds(5);
+                _popupTimer.Tick += InitializeTimedPopup;
+                _popupTimer.Start();
                 //_needHelpCalloutVM.IsOpen = true;
                 //vm.CalloutManager.Register(_needHelpCalloutVM, calloutStack);
             }
@@ -46,18 +36,10 @@
 
         private void InitializeTimedPopup(object sender, EventArgs e)
         {
-            if (ViewModel is CalloutViewModel vm)
+            if (needHelpCallout.ViewModel is Controls.CalloutViewModel vm)
             {
-                _needHelpCalloutVM = new Controls.CalloutViewModel()
-                {
-                    ControlName = "Need help ?",
-                    Description = "In case if you are confused, this example is responsible for testing various callouts. Try clicking the print button to show it's callout.",
-                    Visible = Visibility.Visible,
-                    PlacementTarget = calloutStack,
-                    IsOpen = true
-                };
-
-                vm.CalloutManager.Register(_needHelpCalloutVM, needHelpCallout);
+                vm.IsOpen = true;
+                _popupTimer.Stop();
             }
         }
 
@@ -67,7 +49,8 @@
 
             if (ViewModel is CalloutViewModel vm)
             {
-                vm.CalloutManager.Unregister(_printButtonCalloutVM);
+                vm.CalloutManager.Unregister(buttonCallout);
+                vm.CalloutManager.Unregister(needHelpCallout);
             }
         }
     }

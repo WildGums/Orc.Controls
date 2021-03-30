@@ -8,10 +8,11 @@
     {
         public CalloutViewModel()
         {
+            CalloutManager = new CalloutManager();
             OpenCallout = new TaskCommand<UIElement>(OpenCalloutExecuteAsync);
         }
 
-        public CalloutManager CalloutManager { get; set; } = new CalloutManager();
+        public CalloutManager CalloutManager { get; }
 
         public TaskCommand<UIElement> OpenCallout { get; private set; }
 
@@ -19,9 +20,12 @@
         {
             foreach (var callout in CalloutManager.Callouts)
             {
-                if (callout.PlacementTarget == element)
+                if (callout.ViewModel is Controls.CalloutViewModel vm)
                 {
-                    callout.IsOpen = true;
+                    if (vm.PlacementTarget == element)
+                    {
+                        vm.IsOpen = true;
+                    }
                 }
             }
             return Task.CompletedTask;

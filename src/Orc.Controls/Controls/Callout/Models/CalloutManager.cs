@@ -7,20 +7,19 @@
     {
         public CalloutManager()
         {
+            Callouts = new List<Callout>();
         }
 
-        public IList<CalloutViewModel> Callouts { get; set; } = new List<CalloutViewModel>();
+        public IList<Callout> Callouts { get; }
 
-        public void Register(CalloutViewModel calloutViewModel, Callout callout)
+        public void Register(Callout callout)
         {
-            Argument.IsNotNull(() => calloutViewModel);
             Argument.IsNotNull(() => callout);
-            Callouts.Add(calloutViewModel);
-            callout.DataContext = calloutViewModel;
-            
+
+            Callouts.Add(callout);
         }
 
-        public void Unregister(CalloutViewModel callout)
+        public void Unregister(Callout callout)
         {
             Callouts.Remove(callout);
         }

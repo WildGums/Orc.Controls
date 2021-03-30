@@ -7,12 +7,13 @@
              xmlns:catel="http://schemas.catelproject.com"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Popup IsOpen="{Binding IsOpen}"
-               PlacementTarget="{Binding PlacementTarget}"
-               Placement="Right"
-               StaysOpen="False"
-               AllowsTransparency="True"
-               VerticalOffset="-90">
+           PlacementTarget="{Binding PlacementTarget}"
+           Placement="Right"
+           StaysOpen="False"
+           AllowsTransparency="True"
+           VerticalOffset="-90">
         <Grid>
             <Border Background="Blue" BorderThickness="1" BorderBrush="Black"
                 Width="200" Height="200" Margin="24,0,0,0">
