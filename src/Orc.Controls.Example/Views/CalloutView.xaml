@@ -10,7 +10,13 @@
 
     <Grid>
         <StackPanel Orientation="Horizontal" x:Name="calloutStack">
-            <Button Content="Print Button With Callout" x:Name="printButton" Width="100" Height="25" HorizontalAlignment="Left" Command="{Binding OpenCallout}" CommandParameter="{Binding ., RelativeSource={RelativeSource Self}}"/>
+            <Button Content="Print Button With Callout" 
+                    x:Name="printButton" 
+                    Width="200" 
+                    Height="25" 
+                    HorizontalAlignment="Left" 
+                    Command="{Binding OpenCallout}"
+                    CommandParameter="{Binding ., RelativeSource={RelativeSource Self}}"/>
             <orccontrols:Callout x:Name="buttonCallout"
                                  ControlName="Print Button."
                                  Description="This is a print button."
