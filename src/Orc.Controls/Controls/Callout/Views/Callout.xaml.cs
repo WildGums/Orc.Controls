@@ -4,12 +4,14 @@
     using System.Windows.Markup;
     using Catel.MVVM.Views;
 
-    /// <summary>
-    /// Interaction logic for Callout.xaml
-    /// </summary>
     [ContentProperty(nameof(InnerContent))]
     public partial class Callout
     {
+        static Callout()
+        {
+            typeof(Callout).AutoDetectViewPropertiesToSubscribe();
+        }
+
         public Callout()
         {
             InitializeComponent();
