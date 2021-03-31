@@ -771,15 +771,24 @@ namespace Orc.Controls
                 return;
             }
 
-            _applyingFormat = true;
-
-            try
+            using (new DisposableToken<DateTimePicker>(this, x => x.Instance._applyingFormat = true, x => x.Instance._applyingFormat = false))
             {
                 var format = Format;
-                _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(format);
+
+                try
+                {
+                    _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(format);
+                }
+                catch (FormatException)
+                {
+                    _applyingFormat = false;
+
+                    return;
+                }
+
                 var hasLongTimeFormat = !(_formatInfo.HourFormat is null
-                                       || _formatInfo.MinuteFormat is null
-                                       || _formatInfo.SecondFormat is null);
+                                          || _formatInfo.MinuteFormat is null
+                                          || _formatInfo.SecondFormat is null);
 
                 var hasAnyTimeFormat = !(_formatInfo.HourFormat is null
                                    && _formatInfo.MinuteFormat is null
@@ -809,7 +818,16 @@ namespace Orc.Controls
 
                     format = $"{datePattern} {timePattern}";
 
-                    _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(format);
+                    try
+                    {
+                        _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(format);
+                    }
+                    catch (FormatException)
+                    {
+                        _applyingFormat = false;
+
+                        return;
+                    }
                 }
 
                 UpdateUiPartVisibility();
@@ -908,10 +926,6 @@ namespace Orc.Controls
                 _minuteSecondSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator5);
                 _secondAmPmSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator6);
                 _amPmSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator7);
-            }
-            finally
-            {
-                _applyingFormat = false;
             }
         }
         
