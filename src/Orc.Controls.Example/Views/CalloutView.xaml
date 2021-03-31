@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:catel="http://schemas.catelproject.com" 
              xmlns:orccontrols="clr-namespace:Orc.Controls;assembly=Orc.Controls"
+             xmlns:orcviews="clr-namespace:Orc.Controls.Example.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -25,7 +26,9 @@
                                  ControlName="Need help ?"
                                  Description="In case if you are confused, this example is responsible for testing various callouts. Try clicking the print button to show it's callout."
                                  PlacementTarget="{Binding ElementName=calloutStack}">
-                <Button Content="This is added too!" />
+                <!--<Button Content="Show callout!" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type orcviews:CalloutView}}, Path=DataContext.OpenCallout}"/>-->
+                <!--<Button Content="Show callout!" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type orcviews:CalloutView}}, Path=DataContext.OpenCallout}"/>-->
+
             </orccontrols:Callout>
         </StackPanel>
     </Grid>

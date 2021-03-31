@@ -17,7 +17,8 @@
 
         <orccontrols:TabControl Grid.Row="1" Padding="10" 
                                 TabStripPlacement="Left" 
-                                LoadTabItems="EagerLoading">
+                                LoadTabItems="EagerLoading"
+                                SelectionChanged="TabControl_SelectionChanged">
 
             <TabItem Header="AlignmentGrid">
                 <views:AlignmentGrid />
@@ -35,8 +36,8 @@
                 <views:BusyIndicator/>
             </TabItem>
 
-            <TabItem Header="Callout">
-                <views:CalloutView />
+            <TabItem Header="Callout" x:Name="CalloutTab">
+                <views:CalloutView x:Name="CalloutView"/>
             </TabItem>
             
             <TabItem Header="ColorLegend">
