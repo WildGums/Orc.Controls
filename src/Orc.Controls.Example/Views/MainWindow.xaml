@@ -17,8 +17,7 @@
 
         <orccontrols:TabControl Grid.Row="1" Padding="10" 
                                 TabStripPlacement="Left" 
-                                LoadTabItems="EagerLoading"
-                                SelectionChanged="TabControl_SelectionChanged">
+                                LoadTabItems="EagerLoading">
 
             <TabItem Header="AlignmentGrid">
                 <views:AlignmentGrid />

@@ -70,5 +70,15 @@
 
         public static readonly DependencyProperty IsOpenProperty =
             DependencyProperty.Register(nameof(IsOpen), typeof(bool), typeof(Callout));
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public int Delay
+        {
+            get { return (int)GetValue(DelayProperty);  }
+            set { SetValue(DelayProperty, value); }
+        }
+
+        public static readonly DependencyProperty DelayProperty = 
+            DependencyProperty.Register(nameof(Delay), typeof(int), typeof(Callout));
     }
 }

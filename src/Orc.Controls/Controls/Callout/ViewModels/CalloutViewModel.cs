@@ -1,6 +1,7 @@
 ﻿namespace Orc.Controls
 {
     using System.Windows;
+    using System.Windows.Threading;
     using Catel.MVVM;
 
     public class CalloutViewModel : ViewModelBase
@@ -18,5 +19,7 @@
         public string Description { get; set; } 
 
         public object InnerContent { get; set; }
+
+        public int? Delay { get; set; }
     }
 }

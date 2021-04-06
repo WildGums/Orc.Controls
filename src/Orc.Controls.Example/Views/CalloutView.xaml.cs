@@ -3,6 +3,7 @@
     using System;
     using System.Windows;
     using System.Windows.Threading;
+    using Catel.MVVM;
     using Orc.Controls.Example.ViewModels;
 
     /// <summary>
@@ -14,14 +15,6 @@
         {
             InitializeComponent();
         }
-        
-        private DispatcherTimer _popupTimer;
-
-        public DispatcherTimer PopupTimer
-        {
-            get { return _popupTimer; }
-            set { _popupTimer = value; }
-        }
 
         protected override void OnViewModelChanged()
         {
@@ -29,20 +22,24 @@
 
             if (ViewModel is CalloutViewModel vm)
             {
-                vm.CalloutManager.Register(buttonCallout);
-                vm.CalloutManager.Register(needHelpCallout);
-                
-                _popupTimer = new DispatcherTimer();
-                _popupTimer.Interval = TimeSpan.FromSeconds(5);
-                _popupTimer.Tick += InitializeTimedPopup;
+                //vm.CalloutManager.Register(buttonCallout.ViewModel);
+                //vm.CalloutManager.Register(needHelpCallout.ViewModel);
+
+                buttonCallout.ViewModelChanged += RegisterCallout;
+                needHelpCallout.ViewModelChanged += RegisterCallout;
+
+                if (needHelpCallout.ViewModel is Controls.CalloutViewModel controlvm)
+                {
+                    controlvm.IsOpen = true;
+                }
             }
         }
 
-        private void InitializeTimedPopup(object sender, EventArgs e)
+        private void RegisterCallout(object sender, EventArgs e)
         {
-            if (needHelpCallout.ViewModel is Controls.CalloutViewModel vm)
+            if (ViewModel is CalloutViewModel vm && (sender as Callout)?.ViewModel is IViewModel cvm)
             {
-                vm.IsOpen = true;
+                vm.CalloutManager.Register(cvm);
             }
         }
 
@@ -52,8 +49,8 @@
 
             if (ViewModel is CalloutViewModel vm)
             {
-                vm.CalloutManager.Unregister(buttonCallout);
-                vm.CalloutManager.Unregister(needHelpCallout);
+                vm.CalloutManager.Unregister(buttonCallout.ViewModel);
+                vm.CalloutManager.Unregister(needHelpCallout.ViewModel);
             }
         }
     }

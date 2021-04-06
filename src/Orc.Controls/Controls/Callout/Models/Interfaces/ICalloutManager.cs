@@ -1,10 +1,10 @@
 ﻿namespace Orc.Controls
 {
-    using System.Collections.Generic;
+    using Catel.MVVM;
 
     public interface ICalloutManager
     {
-        void Register(Callout callout);
-        void Unregister(Callout callout);
+        void Register(IViewModel callout);
+        void Unregister(IViewModel callout);
     }
 }
