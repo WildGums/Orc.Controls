@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Windows;
     using Catel;
     using Catel.Collections;
 
@@ -19,7 +20,7 @@
             get
             {
                 IList<Callout> calloutsCopy = _callouts.ToList();
-                
+
                 return calloutsCopy;
             }
             set
@@ -43,6 +44,31 @@
         public void RemoveAllCallouts()
         {
             _callouts.Clear();
+        }
+
+        public void ShowAllCallouts()
+        {
+            foreach (var callout in Callouts)
+            {
+                if (callout.ViewModel is CalloutViewModel vm)
+                {
+                    vm.IsOpen = true;
+                }
+            }
+        }
+
+        public void ShowCallout(UIElement element)
+        {
+            foreach (var callout in Callouts)
+            {
+                if (callout.ViewModel is Controls.CalloutViewModel vm)
+                {
+                    if (vm.PlacementTarget == element)
+                    {
+                        vm.IsOpen = true;
+                    }
+                }
+            }
         }
     }
 }

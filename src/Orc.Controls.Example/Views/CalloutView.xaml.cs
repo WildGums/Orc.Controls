@@ -35,8 +35,6 @@
                 _popupTimer = new DispatcherTimer();
                 _popupTimer.Interval = TimeSpan.FromSeconds(5);
                 _popupTimer.Tick += InitializeTimedPopup;
-                //_needHelpCalloutVM.IsOpen = true;
-                //vm.CalloutManager.Register(_needHelpCalloutVM, calloutStack);
             }
         }
 

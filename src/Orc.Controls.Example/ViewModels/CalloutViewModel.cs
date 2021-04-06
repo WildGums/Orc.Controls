@@ -18,17 +18,18 @@
 
         public Task OpenCalloutExecuteAsync(UIElement element)
         {
-            foreach (var callout in CalloutManager.Callouts)
-            {
-                if (callout.ViewModel is Controls.CalloutViewModel vm)
-                {
-                    if (vm.PlacementTarget == element)
-                    {
-                        vm.IsOpen = true;
-                    }
-                }
-            }
+            CalloutManager.ShowAllCallouts();
+
             return Task.CompletedTask;
         }
+
+        protected override Task CloseAsync()
+        {
+            base.CloseAsync();
+            CalloutManager.RemoveAllCallouts();
+
+            return Task.CompletedTask;
+        }
+
     }
 }
