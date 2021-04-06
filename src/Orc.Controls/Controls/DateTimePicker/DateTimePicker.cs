@@ -1219,7 +1219,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (AmPm == "PM")
+            if (AmPm == "PM" && IsHour12Format)
             {
                 hour += 12;
             }
