@@ -22,9 +22,6 @@
 
             if (ViewModel is CalloutViewModel vm)
             {
-                //vm.CalloutManager.Register(buttonCallout.ViewModel);
-                //vm.CalloutManager.Register(needHelpCallout.ViewModel);
-
                 buttonCallout.ViewModelChanged += RegisterCallout;
                 needHelpCallout.ViewModelChanged += RegisterCallout;
 
