@@ -1219,6 +1219,11 @@ namespace Orc.Controls
                 return;
             }
 
+            if (AmPm == "PM" && IsHour12Format && hour < 12)
+            {
+                hour += 12;
+            }
+
             var currentValue = value ?? _todayValue;
             SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, hour.Value, currentValue.Minute, currentValue.Second));
         }
