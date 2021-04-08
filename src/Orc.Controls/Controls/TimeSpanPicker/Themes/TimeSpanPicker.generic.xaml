@@ -6,7 +6,6 @@
 
     <Style x:Key="{x:Type controls:TimeSpanPicker}" TargetType="{x:Type controls:TimeSpanPicker}">
         <Style.Resources>
-
             <Style x:Key="RatioSignStyle" TargetType="{x:Type TextBlock}">
                 <Setter Property="TextAlignment" Value="Center"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
@@ -220,6 +219,7 @@
                                          HorizontalContentAlignment="Left"
                                          VerticalContentAlignment="Center" 
                                          IsNegativeAllowed="True" 
+                                         IsDecimalAllowed="True"
                                          IsReadOnly="{TemplateBinding IsReadOnly}"/>
 
                                 <TextBlock x:Name="PART_EditedUnitTextBlock" 
