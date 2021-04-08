@@ -256,7 +256,7 @@ namespace Orc.Controls
         }
 
         private void OnEditorNumericTextBoxIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
+        { 
             _editedUnitTextBlock.SetCurrentValue(TextBlock.TextProperty, _activeTextBoxPart.GetTimeSpanPartName());
             _editorNumericTextBox.Focus();
         }
@@ -269,6 +269,9 @@ namespace Orc.Controls
             {
                 var textBoxValue = timeSpan.GetTimeSpanPartValue(_activeTextBoxPart);
                 _editorNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, textBoxValue);
+
+                _editorNumericTextBox.UpdateText();
+
                 return;
             }
 
@@ -395,23 +398,30 @@ namespace Orc.Controls
             _numericTbEditorContainerBorder.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
             _isInEditMode = false;
 
-         //   if (!IsReadOnly)
-        //    {
-          //      var value = _editorNumericTextBox.Value ?? _editorNumericTextBox.MinValue;
-            //    SetCurrentValue(ValueProperty, _activeTextBoxPart.CreateTimeSpan(value).RoundTimeSpan());
-      //      }
+            if (!IsReadOnly)
+            {
+                _editorNumericTextBox.UpdateValue();
+
+                var value = _editorNumericTextBox.Value ?? _editorNumericTextBox.MinValue;
+                var timeSpan = _activeTextBoxPart.CreateTimeSpan(value).RoundTimeSpan();
+
+                SetCurrentValue(ValueProperty, timeSpan);
+            }
 
             e.Handled = !isTabPressed;
         }
 
         private void OnAbbreviationTextBlockOnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ClickCount == 2)
+            if (e.ClickCount != 2)
             {
-                _activeTextBoxPart = (TimeSpanPart)((TextBlock)sender).Tag;
-                _numericTbEditorContainerBorder.SetCurrentValue(VisibilityProperty, Visibility.Visible);
-                _isInEditMode = true;
+                return;
             }
+
+            _activeTextBoxPart = (TimeSpanPart)((TextBlock)sender).Tag;
+            _numericTbEditorContainerBorder.SetCurrentValue(VisibilityProperty, Visibility.Visible);
+
+            _isInEditMode = true;
         }
 
         private void OnNumericTextBoxRightBoundReached(object sender, EventArgs args)

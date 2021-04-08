@@ -360,19 +360,24 @@ namespace Orc.Controls
             using (new DisposableToken<NumericTextBox>(this, x => x.Instance._textChangingIsInProgress = false,
                 x => x.Instance._textChangingIsInProgress = true))
             {
-                var text = Text;
+                UpdateValue();
+            }
+        }
 
-                if (!IsNegativeAllowed && text.StartsWith("-"))
-                {
-                    SetCurrentValue(TextProperty, text.Replace("-", string.Empty));
+        internal void UpdateValue()
+        {
+            var text = Text;
 
-                    return;
-                }
+            if (!IsNegativeAllowed && text.StartsWith("-"))
+            {
+                SetCurrentValue(TextProperty, text.Replace("-", string.Empty));
 
-                if (DoesStringValueRequireUpdate(text))
-                {
-                    SetCurrentValue(ValueProperty, GetDoubleValue(text));
-                }
+                return;
+            }
+
+            if (DoesStringValueRequireUpdate(text))
+            {
+                SetCurrentValue(ValueProperty, GetDoubleValue(text));
             }
         }
 
@@ -585,7 +590,7 @@ namespace Orc.Controls
             UpdateText();
         }
 
-        private void UpdateText()
+        internal void UpdateText()
         {
             var textValue = Value == null ? NullString : Value.Value.ToString(Format, CultureInfo ?? CultureInfo.CurrentCulture);
 
