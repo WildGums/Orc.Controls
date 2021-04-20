@@ -85,7 +85,7 @@ namespace Orc.Controls
 
         private bool OnCopyCanExecute()
         {
-            return Nodes != null && Nodes.Any(x => x.IsVisible);
+            return Nodes is not null && Nodes.Any(x => x.IsVisible);
         }
 
         private void OnCopyExecute()
@@ -129,7 +129,7 @@ namespace Orc.Controls
 
         private void UpdateNodesExpandedingState()
         {
-            if (Nodes == null)
+            if (Nodes is null)
             {
                 return;
             }
@@ -164,7 +164,7 @@ namespace Orc.Controls
         {
             await base.InitializeAsync();
 
-            if (_injectedValidationContext != null)
+            if (_injectedValidationContext is not null)
             {
                 _dispatcherService.BeginInvoke(() => ValidationContext = _injectedValidationContext);
             }

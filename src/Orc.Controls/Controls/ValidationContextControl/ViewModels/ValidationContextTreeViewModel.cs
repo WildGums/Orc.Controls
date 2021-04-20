@@ -28,7 +28,7 @@ namespace Orc.Controls
 
             _validationNamesService = validationNamesService;
 
-            if (ValidationResultTags == null)
+            if (ValidationResultTags is null)
             {
                 ValidationResultTags = new FastObservableCollection<ValidationResultTagNode>();
             }
@@ -87,7 +87,7 @@ namespace Orc.Controls
             ValidationResultTags.Clear();
 
             var validationContext = ValidationContext;
-            if (validationContext == null)
+            if (validationContext is null)
             {
                 return;
             }

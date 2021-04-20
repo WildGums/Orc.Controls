@@ -18,7 +18,7 @@ namespace Orc.Controls
             var depth = 0;
             TreeViewItem parent;
 
-            while ((parent = GetParent(item)) != null)
+            while ((parent = GetParent(item)) is not null)
             {
                 depth++;
                 item = parent;
@@ -33,7 +33,7 @@ namespace Orc.Controls
 
             while (!(parent is TreeViewItem || parent is TreeView))
             {
-                if (parent == null)
+                if (parent is null)
                 {
                     return null;
                 }

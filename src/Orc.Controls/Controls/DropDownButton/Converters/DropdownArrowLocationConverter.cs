@@ -37,11 +37,11 @@ namespace Orc.Controls
             object result = null;
             if (targetType == typeof(Dock))
             {
-                result = value == null ? default(Dock) : Enum.Parse(targetType, ObjectToStringHelper.ToString(value), true);
+                result = value is null ? default(Dock) : Enum.Parse(targetType, ObjectToStringHelper.ToString(value), true);
             }
             else if (targetType == typeof(HorizontalAlignment))
             {
-                if (value == null)
+                if (value is null)
                 {
                     result = default(HorizontalAlignment);
                 }

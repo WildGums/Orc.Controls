@@ -27,7 +27,6 @@ namespace Orc.Controls
     using Catel.Windows;
     using Catel.Windows.Input;
     using Converters;
-    using Extensions;
     using Orc.Controls.Enums;
     using Calendar = System.Windows.Controls.Calendar;
 
@@ -679,7 +678,7 @@ namespace Orc.Controls
         }
         private void OnTimeValueChanged(TimeSpan? newTimeValue)
         {
-            if (newTimeValue == null)
+            if (newTimeValue is null)
             {
                 return;
             }
@@ -690,7 +689,7 @@ namespace Orc.Controls
                 SetCurrentValue(HideTimeProperty, false);
             }
 
-            if(Value != null)
+            if(Value is not null)
             {
                 newDateTime = Value.Value;
             }
@@ -719,7 +718,7 @@ namespace Orc.Controls
         private void OnCopyMenuItemClick(object sender, RoutedEventArgs e)
         {
             var value = Value;
-            if (value != null)
+            if (value is not null)
             {
                 Clipboard.SetText(DateTimeFormatter.Format(value.Value, _formatInfo), TextDataFormat.Text);
             }
@@ -919,13 +918,13 @@ namespace Orc.Controls
 
                 SubscribeNumericTextBoxes();
 
-                _daysMonthsSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator1);
-                _monthsYearSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator2);
-                _yearSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator3);
-                _hourMinuteSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator4);
-                _minuteSecondSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator5);
-                _secondAmPmSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator6);
-                _amPmSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator7);
+                _daysMonthsSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value is null ? string.Empty : _formatInfo.Separator1);
+                _monthsYearSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value is null ? string.Empty : _formatInfo.Separator2);
+                _yearSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value is null ? string.Empty : _formatInfo.Separator3);
+                _hourMinuteSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value is null ? string.Empty : _formatInfo.Separator4);
+                _minuteSecondSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value is null ? string.Empty : _formatInfo.Separator5);
+                _secondAmPmSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value is null ? string.Empty : _formatInfo.Separator6);
+                _amPmSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value is null ? string.Empty : _formatInfo.Separator7);
             }
         }
         
@@ -955,9 +954,9 @@ namespace Orc.Controls
             var isHiglighted = _mainGrid.IsMouseOver || _mainGrid.IsKeyboardFocusWithin;
 
             /**** date parts ****/
-            var isYearVisible = _formatInfo.YearFormat != null;
-            var isMonthVisible = _formatInfo.MonthFormat != null;
-            var isDayVisible = _formatInfo.DayFormat != null;
+            var isYearVisible = _formatInfo.YearFormat is not null;
+            var isMonthVisible = _formatInfo.MonthFormat is not null;
+            var isDayVisible = _formatInfo.DayFormat is not null;
 
             var yearHiddenVisibility = isYearVisible ? Visibility.Hidden : Visibility.Collapsed;
             var monthHiddenVisibility = isMonthVisible ? Visibility.Hidden : Visibility.Collapsed;
@@ -981,10 +980,10 @@ namespace Orc.Controls
 
             /**** time parts ****/
             var isTimeVisible = !HideTime;
-            var isAmPmVisible = _formatInfo.AmPmFormat != null && isTimeVisible;
-            var isSecondsVisible = _formatInfo.SecondFormat != null && !HideSeconds && isTimeVisible;
-            var isMinutesVisible = _formatInfo.MinuteFormat != null && isTimeVisible;
-            var isHoursVisible = _formatInfo.HourFormat != null && isTimeVisible;
+            var isAmPmVisible = _formatInfo.AmPmFormat is not null && isTimeVisible;
+            var isSecondsVisible = _formatInfo.SecondFormat is not null && !HideSeconds && isTimeVisible;
+            var isMinutesVisible = _formatInfo.MinuteFormat is not null && isTimeVisible;
+            var isHoursVisible = _formatInfo.HourFormat is not null && isTimeVisible;
 
             var secondsHiddenVisibility = isSecondsVisible ? Visibility.Hidden : Visibility.Collapsed;
             var minutesHiddenVisibility = isMinutesVisible ? Visibility.Hidden : Visibility.Collapsed;
@@ -1066,18 +1065,18 @@ namespace Orc.Controls
             var ov = oldValue;
             var nv = newValue;
 
-            if (!AllowNull && newValue == null)
+            if (!AllowNull && newValue is null)
             {
                 var dateTime = DateTime.Now;
                 nv = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
             }
 
-            if (ov == null && nv != null || ov != null && nv == null)
+            if (ov is null && nv is not null || ov is not null && nv is null)
             {
                 ApplyFormat();
             }
 
-            if (newValue == null && nv != null)
+            if (newValue is null && nv is not null)
             {
                 var dispatcherService = this.GetServiceLocator().ResolveType<IDispatcherService>();
                 dispatcherService.Invoke(() => SetCurrentValue(ValueProperty, nv));
@@ -1104,7 +1103,7 @@ namespace Orc.Controls
             }
 
             // Keep the time!
-            if (date != null)
+            if (date is not null)
             {
                 var currentValue = Value;
                 if (currentValue.HasValue)
@@ -1131,7 +1130,7 @@ namespace Orc.Controls
             Year = value?.Year;
 
             var hour = value?.Hour;
-            if (hour != null && IsHour12Format && hour > 12)
+            if (hour is not null && IsHour12Format && hour > 12)
             {
                 hour -= 12;
             }
@@ -1139,7 +1138,7 @@ namespace Orc.Controls
             Hour = hour;
             Minute = value?.Minute;
             Second = value?.Second;
-            AmPm = value != null ? value.Value >= value.Value.Date.AddHours(12) ? Meridiems.LongPM : Meridiems.LongAM : null;
+            AmPm = value is not null ? value.Value >= value.Value.Date.AddHours(12) ? Meridiems.LongPM : Meridiems.LongAM : null;
         }
 
         private void OnDaysValueChanged(object sender, EventArgs e)
@@ -1274,7 +1273,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (value == null)
+            if (value is null)
             {
                 SetCurrentValue(ValueProperty, new DateTime(_todayValue.Year, _todayValue.Month, _todayValue.Day, _todayValue.Hour, _todayValue.Minute, _todayValue.Second));
             }
@@ -1298,7 +1297,7 @@ namespace Orc.Controls
         {
             DateTime newDateTime;
 
-            if (Value != null)
+            if (Value is not null)
             {
                 newDateTime = Value.Value;
             }
@@ -1614,7 +1613,7 @@ namespace Orc.Controls
             var focusedControl = FocusManager.GetFocusedElement(this) as FrameworkElement;
             var keyboardFocusedControl = focusedControl ?? Keyboard.FocusedElement as FrameworkElement;
             var root = keyboardFocusedControl?.FindLogicalOrVisualAncestor(x => Equals(this, x));
-            if (root != null)
+            if (root is not null)
             {
                 return;
             }
@@ -1624,13 +1623,13 @@ namespace Orc.Controls
                 return;
             }
 
-            if (_calendarPopup != null && _calendarPopup.IsOpen)
+            if (_calendarPopup is not null && _calendarPopup.IsOpen)
             {
                 _calendarPopup.Closed += OnCalendarPopupClosed;
                 return;
             }
 
-            if (_timePickerPopup != null && _timePickerPopup.IsOpen)
+            if (_timePickerPopup is not null && _timePickerPopup.IsOpen)
             {
                 _timePickerPopup.Closed += OnTimePickerPopupClosed;
                 return;

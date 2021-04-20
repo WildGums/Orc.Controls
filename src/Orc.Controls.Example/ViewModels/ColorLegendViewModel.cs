@@ -50,7 +50,7 @@ namespace Orc.Controls.Example.ViewModels
                 Colors.Gray
             };
 
-            if (CalendarStateLegend == null)
+            if (CalendarStateLegend is null)
             {
                 CalendarStateLegend = new List<IColorLegendItem>();
             }

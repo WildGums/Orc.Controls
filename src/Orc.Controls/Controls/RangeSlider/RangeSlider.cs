@@ -157,13 +157,13 @@
             base.OnApplyTemplate();
 
             _lowerSlider = GetTemplateChild("PART_LowerSlider") as Slider;
-            if (_lowerSlider != null)
+            if (_lowerSlider is not null)
             {
                 _lowerSlider.ValueChanged += OnSliderValueChanged;
             }
 
             _upperSlider = GetTemplateChild("PART_UpperSlider") as Slider;
-            if (_upperSlider != null)
+            if (_upperSlider is not null)
             {
                 _upperSlider.ValueChanged += OnSliderValueChanged;
             }
@@ -285,7 +285,7 @@
                 return;
             }
 
-            if (_lowerThumb != null)
+            if (_lowerThumb is not null)
             {
                 if (!_lowerThumb.IsVisible)
                 {
@@ -293,7 +293,7 @@
                 }
             }
             
-            if (_upperThumb != null)
+            if (_upperThumb is not null)
             {
                 if (!_upperThumb.IsVisible)
                 {
@@ -323,7 +323,7 @@
                 return;
             }
 
-            if (_lowerSlider == null || _upperSlider == null)
+            if (_lowerSlider is null || _upperSlider is null)
             {
                 return;
             }
@@ -336,7 +336,7 @@
             var trackBackgroundBorder = _trackBackgroundBorder;
             var selectedRangeRectangle = _selectedRangeRectangle;
 
-            if (lowerThumb == null || upperThumb == null || trackBackgroundBorder == null || selectedRangeRectangle == null)
+            if (lowerThumb is null || upperThumb is null || trackBackgroundBorder is null || selectedRangeRectangle is null)
             {
                 return;
             }

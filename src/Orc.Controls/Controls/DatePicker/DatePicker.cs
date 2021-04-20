@@ -329,7 +329,7 @@ namespace Orc.Controls
             _datePickerIconToggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
 
             var value = Value;
-            if (value != null)
+            if (value is not null)
             {
                 Clipboard.SetText(DateTimeFormatter.Format(value.Value, _formatInfo), TextDataFormat.Text);
             }
@@ -363,7 +363,7 @@ namespace Orc.Controls
             }
 
             // Trim the time
-            if (date != null)
+            if (date is not null)
             {
                 date = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day);
             }
@@ -414,9 +414,9 @@ namespace Orc.Controls
 
             SubscribeNumericTextBoxes();
 
-            _daysMonthsSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator1);
-            _monthsYearSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator2);
-            _yearSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator3);
+            _daysMonthsSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value is null ? string.Empty : _formatInfo.Separator1);
+            _monthsYearSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value is null ? string.Empty : _formatInfo.Separator2);
+            _yearSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value is null ? string.Empty : _formatInfo.Separator3);
         }
 
         private void OnToggleButtonChecked(object sender, RoutedEventArgs e)
@@ -456,7 +456,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (value == null)
+            if (value is null)
             {
                 SetCurrentValue(ValueProperty, new DateTime(_todayValue.Year, _todayValue.Month, day.Value));
                 return;
@@ -478,7 +478,7 @@ namespace Orc.Controls
             var value = Value;
             var month = Month;
 
-            if (month == null)
+            if (month is null)
             {
                 return;
             }
@@ -493,7 +493,7 @@ namespace Orc.Controls
                 month = 12;
             }
 
-            if (value == null)
+            if (value is null)
             {
                 SetCurrentValue(ValueProperty, new DateTime(_todayValue.Year, month.Value, _todayValue.Day));
                 return;
@@ -527,7 +527,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (value == null)
+            if (value is null)
             {
                 SetCurrentValue(ValueProperty, new DateTime(year.Value, _todayValue.Month, _todayValue.Day));
                 return;

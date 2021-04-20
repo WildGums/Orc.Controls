@@ -48,7 +48,7 @@ namespace Orc.Controls
             }
 
             var tool = attachmentTarget.GetTools().FirstOrDefault(x => x.GetType() == _toolType);
-            if (tool != null)
+            if (tool is not null)
             {
                 return tool.IsEnabled;
             }

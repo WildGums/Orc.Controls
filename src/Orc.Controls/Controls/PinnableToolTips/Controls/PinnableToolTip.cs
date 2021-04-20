@@ -77,7 +77,7 @@ namespace Orc.Controls
         /// <summary>
         /// Gets a value indicating whether is timer enabled.
         /// </summary>
-        internal bool IsTimerEnabled => _timer != null && _timer.IsEnabled;
+        internal bool IsTimerEnabled => _timer is not null && _timer.IsEnabled;
         #endregion
 
         #region Properties
@@ -89,7 +89,7 @@ namespace Orc.Controls
 
         public bool IsOpen
         {
-            get { return _adorner != null; }
+            get { return _adorner is not null; }
             private set
             {
                 if (value)
@@ -348,14 +348,14 @@ namespace Orc.Controls
                 case null when System.Windows.Interop.BrowserInteropHelper.IsBrowserHosted:
                     return null;
 
-                case null when Application.Current.MainWindow != null && (Application.Current.MainWindow.Content as FrameworkElement) != null:
+                case null when Application.Current.MainWindow is not null && (Application.Current.MainWindow.Content as FrameworkElement) is not null:
                     return (FrameworkElement)Application.Current.MainWindow.Content;
 
                 case null:
                     return Application.Current.MainWindow;
             }
 
-            if (PinnableToolTipService.RootVisual != null)
+            if (PinnableToolTipService.RootVisual is not null)
             {
                 return PinnableToolTipService.RootVisual;
             }
@@ -371,13 +371,13 @@ namespace Orc.Controls
             base.OnApplyTemplate();
 
             _closeButton = GetTemplateChild("PART_CloseButton") as Button;
-            if (_closeButton != null)
+            if (_closeButton is not null)
             {
                 _closeButton.Click += OnCloseButtonClick;
             }
 
             _dragGrip = GetTemplateChild("PART_DragGrip") as FrameworkElement;
-            if (_dragGrip != null)
+            if (_dragGrip is not null)
             {
                 _dragGrip.PreviewMouseLeftButtonDown += OnDragGripPreviewMouseLeftButtonDown;
             }
@@ -570,13 +570,13 @@ namespace Orc.Controls
             {
                 GeneralTransform generalTransform = new TranslateTransform(0, 0);
 
-                var elementToTransform = toolTip != null ? toolTip._adornerLayer : PinnableToolTipService.RootVisual;
+                var elementToTransform = toolTip is not null ? toolTip._adornerLayer : PinnableToolTipService.RootVisual;
 
 #if TRACE_DETAILS
                 Debug.WriteLine($"Element to transform: '{elementToTransform}', placement target: '{frameworkElement}'");
 #endif
 
-                if (elementToTransform != null)
+                if (elementToTransform is not null)
                 {
                     generalTransform = frameworkElement.TransformToVisual(elementToTransform);
                 }
@@ -623,7 +623,7 @@ namespace Orc.Controls
                 Debug.WriteLine("ToolTip just got pinned");
 #endif
 
-                if (_adornerDragDrop is null && _adorner != null)
+                if (_adornerDragDrop is null && _adorner is not null)
                 {
                     _adornerDragDrop = ControlAdornerDragDrop.Attach(_adorner, _dragGrip);
                 }
@@ -636,7 +636,7 @@ namespace Orc.Controls
                 Debug.WriteLine("ToolTip just got unpinned");
 #endif
 
-                if (_adornerDragDrop != null)
+                if (_adornerDragDrop is not null)
                 {
                     ControlAdornerDragDrop.Detach(_adornerDragDrop);
                     _adornerDragDrop = null;
@@ -697,7 +697,7 @@ namespace Orc.Controls
         private PlacementMode ValidatePlacement(IList<Point> target, PlacementMode placement, Rect plugin, double width, double height)
         {
             // If we are in pinned mode, stop using the placement
-            if (_adornerDragDrop != null)
+            if (_adornerDragDrop is not null)
             {
                 return PlacementMode.AbsolutePoint;
             }
@@ -807,7 +807,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (_adornerDragDrop != null)
+            if (_adornerDragDrop is not null)
             {
                 ControlAdornerDragDrop.Detach(_adornerDragDrop);
                 _adornerDragDrop = null;
@@ -840,7 +840,7 @@ namespace Orc.Controls
 
         public void SetupTimer(int initialShowDelay, int showDuration)
         {
-            if (_timer != null)
+            if (_timer is not null)
             {
                 if (_timer.IsEnabled)
                 {
@@ -880,7 +880,7 @@ namespace Orc.Controls
 
         public void Show()
         {
-            if (ContentTemplate != null)
+            if (ContentTemplate is not null)
             {
                 if (Owner is FrameworkElement owner)
                 {
@@ -916,7 +916,7 @@ namespace Orc.Controls
 
         private void CreateAdorner()
         {
-            if (_adorner != null || (Application.Current.MainWindow is null && _userDefinedAdorner is null))
+            if (_adorner is not null || (Application.Current.MainWindow is null && _userDefinedAdorner is null))
             {
                 return;
             }
@@ -1019,13 +1019,13 @@ namespace Orc.Controls
                 return;
             }
 
-            if (_adornerDragDrop != null)
+            if (_adornerDragDrop is not null)
             {
                 ControlAdornerDragDrop.Detach(_adornerDragDrop);
                 _adornerDragDrop = null;
             }
 
-            if (_adornerResizing != null)
+            if (_adornerResizing is not null)
             {
                 ResizingAdorner.Detach(_adornerResizing);
                 _adornerResizing = null;
@@ -1041,7 +1041,7 @@ namespace Orc.Controls
 
         private UIElement GetAdornerElement()
         {
-            if (_userDefinedAdorner != null)
+            if (_userDefinedAdorner is not null)
             {
                 return _userDefinedAdorner;
             }
@@ -1104,7 +1104,7 @@ namespace Orc.Controls
         {
             if (IsOpen && (ResizeMode == ResizeMode.CanResize || ResizeMode == ResizeMode.CanResizeWithGrip))
             {
-                if (_adornerResizing is null && _adorner != null)
+                if (_adornerResizing is null && _adorner is not null)
                 {
                     _adornerResizing = ResizingAdorner.Attach(this);
                 }

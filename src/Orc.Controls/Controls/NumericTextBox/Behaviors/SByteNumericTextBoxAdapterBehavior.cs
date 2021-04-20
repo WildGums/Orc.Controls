@@ -386,7 +386,7 @@ namespace Orc.Controls
 
         protected virtual double? ConvertBack(object value)
         {
-            return value != null ? System.Convert.ToDouble(value, GetCulture()) : (double?)null;
+            return value is not null ? System.Convert.ToDouble(value, GetCulture()) : (double?)null;
         }
 
         protected virtual object Convert(double? value)

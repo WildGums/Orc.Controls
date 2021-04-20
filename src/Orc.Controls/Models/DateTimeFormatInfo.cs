@@ -46,7 +46,7 @@ namespace Orc.Controls
         public string Separator5 { get; set; }
         public string Separator6 { get; set; }
         public string Separator7 { get; set; }
-        public bool IsDateOnly => HourPosition == null && MinutePosition == null && SecondPosition == null && AmPmPosition == null;
+        public bool IsDateOnly => HourPosition is null && MinutePosition is null && SecondPosition is null && AmPmPosition is null;
         public bool IsYearShortFormat { get; set; }
         public bool? IsHour12Format { get; set; }
         public bool? IsAmPmShortFormat { get; set; }

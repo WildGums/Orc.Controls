@@ -94,7 +94,7 @@ namespace Orc.Controls
 
         private void OnTextChanged()
         {
-            if (_contentGrid == null)
+            if (_contentGrid is null)
             {
                 return;
             }
@@ -107,7 +107,7 @@ namespace Orc.Controls
             }
 
             var hideStoryboard = HideStoryboard;
-            if (hideStoryboard != null)
+            if (hideStoryboard is not null)
             {
                 hideStoryboard.Stop();
                 Storyboard.SetTarget(hideStoryboard, textBlockToHide);
@@ -149,7 +149,7 @@ namespace Orc.Controls
             textBlockToShow.SetCurrentValue(TextBlock.TextProperty, Text);
 
             var showStoryboard = ShowStoryboard;
-            if (showStoryboard != null)
+            if (showStoryboard is not null)
             {
                 showStoryboard.Stop();
                 Storyboard.SetTarget(showStoryboard, textBlockToShow);

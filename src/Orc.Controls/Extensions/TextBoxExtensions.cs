@@ -74,15 +74,15 @@ namespace Orc.Controls
             switch (textBox)
             {
                 case NumericTextBox _:
-                    ((NumericTextBox)textBox).SetCurrentValue(NumericTextBox.ValueProperty, value == null ? (double?)null : Convert.ToDouble(value));
+                    ((NumericTextBox)textBox).SetCurrentValue(NumericTextBox.ValueProperty, value is null ? (double?)null : Convert.ToDouble(value));
                     break;
 
                 case ListTextBox _:
-                    ((ListTextBox)textBox).SetCurrentValue(ListTextBox.ValueProperty, value == null ? null : Convert.ToString(value));
+                    ((ListTextBox)textBox).SetCurrentValue(ListTextBox.ValueProperty, value is null ? null : Convert.ToString(value));
                     break;
 
                 default:
-                    textBox.SetCurrentValue(TextBox.TextProperty, value == null ? null : Convert.ToString(value));
+                    textBox.SetCurrentValue(TextBox.TextProperty, value is null ? null : Convert.ToString(value));
                     break;
             }
         }

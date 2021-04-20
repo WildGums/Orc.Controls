@@ -43,7 +43,7 @@ namespace Orc.Controls
                         || formatCharacters.Contains(c) && prev.HasValue && !formatCharacters.Contains(prev.Value)
                         || !formatCharacters.Contains(c) && prev.HasValue && formatCharacters.Contains(prev.Value))
                     {
-                        if (part != null)
+                        if (part is not null)
                         {
                             parts.Add(part);
                         }
@@ -56,7 +56,7 @@ namespace Orc.Controls
                 prev = c;
             }
 
-            if (part != null)
+            if (part is not null)
             {
                 parts.Add(part);
             }
@@ -97,7 +97,7 @@ namespace Orc.Controls
 
             if (!isDateOnly)
             {
-                result.IsAmPmShortFormat = result.AmPmFormat != null && result.AmPmFormat.Length < 2;
+                result.IsAmPmShortFormat = result.AmPmFormat is not null && result.AmPmFormat.Length < 2;
             }
 
             result.MaxPosition = current - 1;

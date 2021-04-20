@@ -123,7 +123,7 @@ namespace Orc.Controls
         {
             RemoveTemporaryRanges();
 
-            if (_selectedRange == null)
+            if (_selectedRange is null)
             {
                 return;
             }
@@ -239,7 +239,7 @@ namespace Orc.Controls
 
         private DateRange AddTemporaryRange()
         {
-            if (_ranges == null)
+            if (_ranges is null)
             {
                 return null;
             }
@@ -265,7 +265,7 @@ namespace Orc.Controls
 
         private void RemoveTemporaryRanges()
         {
-            if (_ranges == null)
+            if (_ranges is null)
             {
                 return;
             }

@@ -38,7 +38,7 @@ namespace Orc.Controls
             {
                 root = parent;
                 parent = VisualTreeHelper.GetParent(root);
-            } while (parent != null);
+            } while (parent is not null);
 
             return root;
         }

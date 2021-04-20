@@ -97,7 +97,7 @@ namespace Orc.Controls
             Argument.IsNotNull(() => adorner);
 
             var adornerLayer = AdornerLayer.GetAdornerLayer(adorner.AdornedElement);
-            if (adornerLayer == null)
+            if (adornerLayer is null)
             {
                 return;
             }
@@ -398,7 +398,7 @@ namespace Orc.Controls
 
         private void BuildAdornerElement(ref Thumb thumb, Cursor customizedCursor)
         {
-            if (thumb != null)
+            if (thumb is not null)
             {
                 return;
             }

@@ -124,7 +124,7 @@ namespace Orc.Controls
             Argument.IsNotNull(() => formatInfo);
             Argument.IsNotNull(() => part);
 
-            if (formatInfo.DayFormat != null)
+            if (formatInfo.DayFormat is not null)
             {
                 throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Day field can not be specified more than once");
             }
@@ -143,7 +143,7 @@ namespace Orc.Controls
             Argument.IsNotNull(() => formatInfo);
             Argument.IsNotNull(() => part);
 
-            if (formatInfo.MonthFormat != null)
+            if (formatInfo.MonthFormat is not null)
             {
                 throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Month field can not be specified more than once");
             }
@@ -162,7 +162,7 @@ namespace Orc.Controls
             Argument.IsNotNull(() => formatInfo);
             Argument.IsNotNull(() => part);
 
-            if (formatInfo.YearFormat != null)
+            if (formatInfo.YearFormat is not null)
             {
                 throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Year field can not be specified more than once");
             }
@@ -183,7 +183,7 @@ namespace Orc.Controls
             Argument.IsNotNull(() => formatInfo);
             Argument.IsNotNull(() => part);
 
-            if (formatInfo.MinuteFormat != null)
+            if (formatInfo.MinuteFormat is not null)
             {
                 throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Minute field can not be specified more than once");
             }
@@ -202,7 +202,7 @@ namespace Orc.Controls
             Argument.IsNotNull(() => formatInfo);
             Argument.IsNotNull(() => part);
 
-            if (formatInfo.HourFormat != null)
+            if (formatInfo.HourFormat is not null)
             {
                 var errorMessage = part == formatInfo.HourFormat
                     ? "Format string is incorrect. Hour field can not be specified more than once"
@@ -227,7 +227,7 @@ namespace Orc.Controls
             Argument.IsNotNull(() => formatInfo);
             Argument.IsNotNull(() => part);
 
-            if (formatInfo.SecondFormat != null)
+            if (formatInfo.SecondFormat is not null)
             {
                 throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Second field can not be specified more than once");
             }
@@ -246,7 +246,7 @@ namespace Orc.Controls
             Argument.IsNotNull(() => formatInfo);
             Argument.IsNotNull(() => part);
 
-            if (formatInfo.AmPmFormat != null)
+            if (formatInfo.AmPmFormat is not null)
             {
                 throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. AM/PM designator field can not be specified more than once");
             }

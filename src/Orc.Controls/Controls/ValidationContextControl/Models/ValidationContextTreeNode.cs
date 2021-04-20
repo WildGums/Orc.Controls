@@ -56,14 +56,14 @@ namespace Orc.Controls
                 return;
             }
 
-            var isVisible = ResultType == null;
+            var isVisible = ResultType is null;
 
-            if (showErrors && ResultType != null && ResultType.Value == ValidationResultType.Error)
+            if (showErrors && ResultType is not null && ResultType.Value == ValidationResultType.Error)
             {
                 isVisible = true;
             }
 
-            if (showWarnings && ResultType != null && ResultType.Value == ValidationResultType.Warning)
+            if (showWarnings && ResultType is not null && ResultType.Value == ValidationResultType.Warning)
             {
                 isVisible = true;
             }

@@ -109,14 +109,14 @@ namespace Orc.Controls
             var serviceEventArg = new InitializingAutoCompletionServiceEventArgs();
             OnInitializingAutoCompletionService(serviceEventArg);
             var autoCompletionService = serviceEventArg.AutoCompletionService;
-            if (autoCompletionService == null)
+            if (autoCompletionService is null)
             {
                 return;
             }
 
             //Hack
             var autoCompletionServiceFieldInfo = _autoCompletion.GetType().GetField("_autoCompletionService", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (autoCompletionServiceFieldInfo != null)
+            if (autoCompletionServiceFieldInfo is not null)
             {
                 autoCompletionServiceFieldInfo.SetValue(_autoCompletion, autoCompletionService);
             }

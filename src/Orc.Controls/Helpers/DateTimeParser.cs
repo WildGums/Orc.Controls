@@ -43,7 +43,7 @@ namespace Orc.Controls
             dateTime = DateTime.MinValue;
 
             var result = Parse(input, formatInfo, false);
-            if (result == null)
+            if (result is null)
             {
                 return false;
             }
@@ -79,7 +79,7 @@ namespace Orc.Controls
                     input = input.Substring(separator.Length);
                 }
 
-                if (separator == null && i == formatInfo.MaxPosition + 1 && input.Length > 0)
+                if (separator is null && i == formatInfo.MaxPosition + 1 && input.Length > 0)
                 {
                     input = ParseAmPmFormat(input, formatInfo, i);
                 }
@@ -234,7 +234,7 @@ namespace Orc.Controls
         {
             if (throwOnError)
             {
-                throw innerException == null ? Log.ErrorAndCreateException<TException>(exceptionMessage) : Log.ErrorAndCreateException<TException>(innerException, exceptionMessage);
+                throw innerException is null ? Log.ErrorAndCreateException<TException>(exceptionMessage) : Log.ErrorAndCreateException<TException>(innerException, exceptionMessage);
             }
 
             Log.Warning(exceptionMessage);

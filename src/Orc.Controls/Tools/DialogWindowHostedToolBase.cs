@@ -80,7 +80,7 @@ namespace Orc.Controls
         {
             base.Close();
 
-            if (WindowViewModel == null)
+            if (WindowViewModel is null)
             {
                 return;
             }

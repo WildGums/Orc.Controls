@@ -88,7 +88,7 @@ namespace Orc.Controls
         /// </summary>
         private void SetImageGifSource()
         {
-            if (_bitmap != null)
+            if (_bitmap is not null)
             {
                 ImageAnimator.StopAnimate(_bitmap, OnFrameChanged);
 
@@ -115,17 +115,17 @@ namespace Orc.Controls
                 var type = GetType();
                 var assemblyToSearch = type.GetAssemblyEx();
                 _bitmap = GetBitmapResourceFromAssembly(assemblyToSearch);
-                if (_bitmap == null)
+                if (_bitmap is null)
                 {
                     // Search calling assembly
                     assemblyToSearch = Assembly.GetCallingAssembly();
                     _bitmap = GetBitmapResourceFromAssembly(assemblyToSearch);
-                    if (_bitmap == null)
+                    if (_bitmap is null)
                     {
                         // Get entry assembly
                         assemblyToSearch = AssemblyHelper.GetEntryAssembly();
                         _bitmap = GetBitmapResourceFromAssembly(assemblyToSearch);
-                        if (_bitmap == null)
+                        if (_bitmap is null)
                         {
                             throw Log.ErrorAndCreateException<FileNotFoundException>("Gif source '{0}' was not found", GifSource);
                         }
@@ -133,7 +133,7 @@ namespace Orc.Controls
                 }
             }
 
-            if (_bitmap != null)
+            if (_bitmap is not null)
             {
                 // Start animating
                 ImageAnimator.Animate(_bitmap, OnFrameChanged);
@@ -149,7 +149,7 @@ namespace Orc.Controls
         private Bitmap GetBitmapResourceFromAssembly(Assembly assemblyToSearch)
         {
             // Loop through all resources
-            if (assemblyToSearch.FullName == null)
+            if (assemblyToSearch.FullName is null)
             {
                 return null;
             }
@@ -158,7 +158,7 @@ namespace Orc.Controls
             {
                 // Get stream resource info
                 var streamResourceInfo = Application.GetResourceStream(new Uri(GifSource, UriKind.RelativeOrAbsolute));
-                if (streamResourceInfo != null)
+                if (streamResourceInfo is not null)
                 {
                     return (Bitmap)Image.FromStream(streamResourceInfo.Stream);
                 }
@@ -199,7 +199,7 @@ namespace Orc.Controls
             var isNull = false;
 
             // _bitmap should never be null
-            if (_bitmap != null)
+            if (_bitmap is not null)
             {
                 // Update the frames
                 ImageAnimator.UpdateFrames(_bitmap);

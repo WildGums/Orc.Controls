@@ -39,7 +39,7 @@ namespace Orc.Controls
             if (showThreadId)
             {
                 var data = logEntry?.Data;
-                if (data != null && data.TryGetValue("ThreadId", out var existingThreadId))
+                if (data is not null && data.TryGetValue("ThreadId", out var existingThreadId))
                 {
                     threadId = $"[{existingThreadId}] ";
                 }

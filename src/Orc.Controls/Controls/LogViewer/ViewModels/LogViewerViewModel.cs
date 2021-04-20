@@ -130,7 +130,7 @@ namespace Orc.Controls.ViewModels
                         _logEntries.Clear();
 
                         var typeNames = TypeNames;
-                        if (typeNames != null)
+                        if (typeNames is not null)
                         {
                             using (typeNames.SuspendChangeNotifications())
                             {
@@ -280,7 +280,7 @@ namespace Orc.Controls.ViewModels
             if (logListenerType == typeof(LogViewerLogListener))
             {
                 var logViewerLogListener = _logViewerLogListener;
-                if (logViewerLogListener != null)
+                if (logViewerLogListener is not null)
                 {
                     _logListener = logViewerLogListener;
                     _dispatcherService.Invoke(() => AddLogEntries(logViewerLogListener.GetLogEntries().ToList(), true));
@@ -289,7 +289,7 @@ namespace Orc.Controls.ViewModels
             else
             {
                 var logListener = _typeFactory.CreateInstance(logListenerType) as ILogListener;
-                if (logListener != null)
+                if (logListener is not null)
                 {
                     LogManager.AddListener(logListener);
                     _logListener = logListener;
@@ -307,7 +307,7 @@ namespace Orc.Controls.ViewModels
 
         private void UnsubscribeLogListener()
         {
-            if (_logListener == null)
+            if (_logListener is null)
             {
                 return;
             }
@@ -387,7 +387,7 @@ namespace Orc.Controls.ViewModels
         private bool PassApplicationFilterGroupsConfiguration(LogEntry logEntry)
         {
             var filterGroup = ActiveFilterGroup;
-            return filterGroup == null || filterGroup.Pass(logEntry);
+            return filterGroup is null || filterGroup.Pass(logEntry);
         }
 
         private bool PassLogFilter(LogEntry logEntry)

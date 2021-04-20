@@ -126,7 +126,7 @@ namespace Orc.Controls
 
             var type = tag.GetType();
             var nameProperty = type.GetPropertyEx("Name");
-            if (nameProperty != null)
+            if (nameProperty is not null)
             {
                 return (string)nameProperty.GetValue(tag, new object[0]);
             }

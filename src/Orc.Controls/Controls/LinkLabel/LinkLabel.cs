@@ -265,7 +265,7 @@ namespace Orc.Controls
             {
                 var url = args.NewValue as Uri;
 
-                typedSender.SetCurrentValue(HasUrlProperty, url != null && !string.IsNullOrEmpty(url.OriginalString));
+                typedSender.SetCurrentValue(HasUrlProperty, url is not null && !string.IsNullOrEmpty(url.OriginalString));
                 typedSender.SetCurrentValue(IsEnabledProperty, typedSender.HasUrl);
             }
         }
@@ -349,13 +349,13 @@ namespace Orc.Controls
         {
             var hyperlinkSender = sender as Hyperlink;
             var linklabelSender = sender as LinkLabel;
-            if (hyperlinkSender == null && linklabelSender == null)
+            if (hyperlinkSender is null && linklabelSender is null)
             {
                 return;
             }
 
-            var destinationUrl = hyperlinkSender != null ? hyperlinkSender.NavigateUri : linklabelSender.Url;
-            if (destinationUrl == null || string.IsNullOrEmpty(destinationUrl.ToString()))
+            var destinationUrl = hyperlinkSender is not null ? hyperlinkSender.NavigateUri : linklabelSender.Url;
+            if (destinationUrl is null || string.IsNullOrEmpty(destinationUrl.ToString()))
             {
                 return;
             }

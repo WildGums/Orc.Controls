@@ -66,7 +66,7 @@ namespace Orc.Controls.Tools
 
             var tools = Tools;
             var existingTool = tools.FirstOrDefault(x => x.GetType() == toolType);
-            if (existingTool != null)
+            if (existingTool is not null)
             {
                 return existingTool;
             }
@@ -97,7 +97,7 @@ namespace Orc.Controls.Tools
         {
             var tools = Tools;
             var tool = tools.FirstOrDefault(x => x.GetType() == toolType);
-            if (tool == null)
+            if (tool is null)
             {
                 return false;
             }
