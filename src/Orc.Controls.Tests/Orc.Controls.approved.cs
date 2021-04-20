@@ -661,6 +661,10 @@ namespace Orc.Controls
         public bool UseWildcards { get; set; }
         public bool WholeWord { get; set; }
     }
+    public static class FindReplaceSettingsExtensions
+    {
+        public static System.Text.RegularExpressions.Regex GetRegEx(this Orc.Controls.FindReplaceSettings settings, string textToFind, bool isLeftToRight = false) { }
+    }
     public class FindReplaceTool<TFindReplaceService> : Orc.Controls.ControlToolBase
         where TFindReplaceService : Orc.Controls.Services.IFindReplaceService
     {
@@ -1973,13 +1977,6 @@ namespace Orc.Controls.Enums
     {
         AM = 0,
         PM = 1,
-    }
-}
-namespace Orc.Controls.Extensions
-{
-    public static class FindReplaceSettingsExtensions
-    {
-        public static System.Text.RegularExpressions.Regex GetRegEx(this Orc.Controls.FindReplaceSettings settings, string textToFind, bool isLeftToRight = false) { }
     }
 }
 namespace Orc.Controls.Services
