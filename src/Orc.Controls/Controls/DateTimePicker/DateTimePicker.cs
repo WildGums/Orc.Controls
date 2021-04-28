@@ -1345,7 +1345,17 @@ namespace Orc.Controls
                 return;
             }
 
+            if (month > 12 || month < 1)
+            {
+                return;
+            }
+
             if (!int.TryParse(_yearNumericTextBox.Text, out var year))
+            {
+                return;
+            }
+
+            if (year < 0)
             {
                 return;
             }
