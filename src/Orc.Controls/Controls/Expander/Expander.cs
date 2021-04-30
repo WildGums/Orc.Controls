@@ -254,6 +254,11 @@ namespace Orc.Controls
                 OnApplyTemplate();
             }
 
+            if (_expandSite is null)
+            {
+                return;
+            }
+
             if (!AutoResizeGrid)
             {
                 _expandSite.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
@@ -261,7 +266,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (!(Parent is Grid grid))
+            if (Parent is not Grid grid)
             {
                 return;
             }
