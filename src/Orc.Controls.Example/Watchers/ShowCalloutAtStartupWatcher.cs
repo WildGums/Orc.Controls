@@ -9,6 +9,7 @@
             : base(calloutManager, configurationService)
         {
             Name = "ExampleCallout";
+            IsOneTimeCallout = false;
         }
 
         public override TimeSpan Delay => TimeSpan.FromSeconds(10);

@@ -18,23 +18,40 @@
 
             _calloutManager = calloutManager;
             _configurationService = configurationService;
+
+            IsOneTimeCallout = true;
         }
 
         public Guid? Id { get; protected set; }
 
         public string Name { get; protected set; }
 
+        public virtual string ConfigurationPrefix
+        {
+            get
+            {
+                return $"Callouts.{Id?.ToString() ?? Name}.{Version}";
+            }
+        }
+
         public virtual string LastShownConfigurationName
         {
             get
             {
-                return $"Callouts.{Id?.ToString() ?? Name}.LastShown";
+                return $"{ConfigurationPrefix}.LastShown";
             }
         }
 
+        public virtual string Version => "1.0.0";
+
         public bool HasShown { get; private set; }
 
-        public TimeSpan LastShown { get; protected set; }
+        public bool IsOneTimeCallout { get; protected set; }
+
+        public DateTime LastShownUtc
+        {
+            get { return _configurationService.GetRoamingValue(LastShownConfigurationName, DateTime.MinValue); }
+        }
 
         public TimeSpan ShowInterval { get; protected set; }
 
@@ -66,9 +83,16 @@
                 return;
             }
 
+            if (IsOneTimeCallout && LastShownUtc != DateTime.MinValue)
+            {
+                return;
+            }
+
             callout.Show();
 
             HasShown = true;
+
+            _configurationService.SetRoamingValue(LastShownConfigurationName, DateTime.UtcNow);
         }
 
         protected virtual void Hide()

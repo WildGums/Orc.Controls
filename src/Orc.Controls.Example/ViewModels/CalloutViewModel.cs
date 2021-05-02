@@ -2,21 +2,24 @@
 {
     using System.Threading.Tasks;
     using System.Windows;
+    using Catel;
     using Catel.MVVM;
 
     public class CalloutViewModel : ViewModelBase
     {
-        public CalloutViewModel()
+        public CalloutViewModel(ICalloutManager calloutManager)
         {
-            CalloutManager = new CalloutManager();
-            OpenCallout = new TaskCommand<UIElement>(OpenCalloutExecuteAsync);
+            Argument.IsNotNull(() => calloutManager);
+
+            CalloutManager = calloutManager;
+            OpenCallout = new TaskCommand<object>(OpenCalloutExecuteAsync);
         }
 
-        public CalloutManager CalloutManager { get; }
+        public ICalloutManager CalloutManager { get; }
 
-        public TaskCommand<UIElement> OpenCallout { get; private set; }
+        public TaskCommand<object> OpenCallout { get; private set; }
 
-        public Task OpenCalloutExecuteAsync(UIElement element)
+        public Task OpenCalloutExecuteAsync(object parameter)
         {
             CalloutManager.ShowAllCallouts();
 

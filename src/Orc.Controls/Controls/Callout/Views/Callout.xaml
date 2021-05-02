@@ -75,10 +75,9 @@
 
             <Border x:Name="Border" 
                     BorderThickness="1.5" 
-                    Margin="20"
                     BorderBrush="{DynamicResource Orc.Brushes.Control.Border}"
                     Background="{DynamicResource Orc.Brushes.Control.Background}">
-                <Grid>
+                <Grid Margin="6">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30" />

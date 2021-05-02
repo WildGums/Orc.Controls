@@ -84,6 +84,8 @@
 
         private void OnDispatcherTimerTick(object sender, EventArgs e)
         {
+            _dispatcherTimer.Stop();
+
             Show();
         }
     }

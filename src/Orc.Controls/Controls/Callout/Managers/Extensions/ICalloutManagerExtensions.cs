@@ -6,6 +6,13 @@
 
     public static class ICalloutManagerExtensions
     {
+        public static bool IsAnyCalloutOpen(this ICalloutManager calloutManager)
+        {
+            Argument.IsNotNull(() => calloutManager);
+
+            return calloutManager.Callouts.Any(x => x.IsOpen);
+        }
+
         public static void ShowAllCallouts(this ICalloutManager calloutManager)
         {
             Argument.IsNotNull(() => calloutManager);
