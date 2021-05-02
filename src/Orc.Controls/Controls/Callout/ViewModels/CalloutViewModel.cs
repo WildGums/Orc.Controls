@@ -47,6 +47,8 @@
 
         public bool IsClosable { get; set; }
 
+        public bool HasShown { get; private set; }
+
         public TimeSpan ShowTime { get; set; }
 
         public ICommand Command { get; set; }
@@ -88,6 +90,7 @@
                 return;
             }
 
+            HasShown = true;
             IsOpen = true;
         }
 

@@ -77,8 +77,8 @@
                     BorderThickness="1.5" 
                     BorderBrush="{DynamicResource Orc.Brushes.Control.Border}"
                     Background="{DynamicResource Orc.Brushes.Control.Background}">
-                <Grid Margin="6">
-                    <Grid>
+                <Grid>
+                    <Grid Margin="4,0,4,4">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30" />
                             <RowDefinition Height="Auto" />
@@ -94,7 +94,6 @@
                                    FontSize="14" 
                                    FontWeight="Medium" 
                                    Foreground="{DynamicResource Orc.Brushes.Control.Foreground}" 
-                                   Margin="0 10 10 0" 
                                    HorizontalAlignment="Left" />
 
                         <TextBlock Grid.Row="1"
@@ -113,32 +112,44 @@
                             Height="16" Width="16" 
                             HorizontalAlignment="Right" 
                             VerticalAlignment="Top"
+                            Margin="4,6,6,4"
                             Visibility="{Binding IsClosable, Converter={catel:BooleanToHidingVisibilityConverter}}">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
+                                    <Grid.Triggers>
+                                        <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
+                                            <BeginStoryboard>
+                                                <Storyboard SpeedRatio="10"
+                                                            Storyboard.TargetName="closePath">
+                                                    <DoubleAnimation To="3" 
+                                                                     Storyboard.TargetProperty="StrokeThickness" 
+                                                                     Duration="0:0:2" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                        <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                                            <BeginStoryboard>
+                                                <Storyboard SpeedRatio="10"
+                                                            Storyboard.TargetName="closePath">
+                                                    <DoubleAnimation To="1" 
+                                                                     Storyboard.TargetProperty="StrokeThickness" 
+                                                                     Duration="0:0:2" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </Grid.Triggers>
+
                                     <Canvas Background="Transparent"/>
-                                    <Path HorizontalAlignment="Center" Margin="2" 
-                                          Stroke="Gray" StrokeThickness="2"
-                                          SnapsToDevicePixels="True" Stretch="Fill"
+                                    <Path HorizontalAlignment="Center" 
+                                          Margin="2" 
+                                          Stroke="Gray" 
+                                          StrokeThickness="1"
+                                          SnapsToDevicePixels="True" 
+                                          Stretch="Fill"
                                           UseLayoutRounding="True" 
-                                          VerticalAlignment="Center">
-                                        <Path.Triggers>
-                                            <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
-                                                <BeginStoryboard>
-                                                    <Storyboard SpeedRatio="10">
-                                                        <DoubleAnimation To="3" Storyboard.TargetProperty="StrokeThickness" Duration="0:0:2" />
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </EventTrigger>
-                                            <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
-                                                <BeginStoryboard>
-                                                    <Storyboard SpeedRatio="10">
-                                                        <DoubleAnimation To="2" Storyboard.TargetProperty="StrokeThickness" Duration="0:0:2" />
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </EventTrigger>
-                                        </Path.Triggers>
+                                          VerticalAlignment="Center"
+                                          x:Name="closePath">
                                         <Path.Data>
                                             <PathGeometry>
                                                 <PathFigure StartPoint="0,0">

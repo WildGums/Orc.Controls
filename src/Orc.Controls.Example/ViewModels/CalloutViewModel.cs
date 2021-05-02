@@ -21,7 +21,8 @@
 
         public Task OpenCalloutExecuteAsync(object parameter)
         {
-            CalloutManager.ShowAllCallouts();
+            //CalloutManager.ShowAllCallouts();
+            CalloutManager.Callouts.ForEach(x => x.Show());
 
             return Task.CompletedTask;
         }

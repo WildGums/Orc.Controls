@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using Catel;
+    using Catel.Collections;
 
     public static class ICalloutManagerExtensions
     {
@@ -17,7 +18,7 @@
         {
             Argument.IsNotNull(() => calloutManager);
 
-            calloutManager.Callouts.ForEach(x => x.Show());
+            calloutManager.Callouts.Where(x => !x.HasShown).ForEach(x => x.Show());
         }
 
         public static void HideAllCallouts(this ICalloutManager calloutManager)

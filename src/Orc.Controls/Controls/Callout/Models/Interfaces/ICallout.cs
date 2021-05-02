@@ -19,6 +19,8 @@
 
         bool IsClosable { get; }
 
+        bool HasShown { get; }
+
         TimeSpan ShowTime { get; set; }
 
         ICommand Command { get; }
