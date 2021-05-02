@@ -15,7 +15,7 @@
 
         <orctheming:ThemeSwitcherView Grid.Row="0" />
 
-        <orccontrols:Callout ControlName="Control name?"
+        <orccontrols:Callout Title="Control name?"
                              CalloutName="ExampleCallout"
                              Description="Example callout with a specified delay"
                              PlacementTarget="{Binding ElementName=calloutView}" />

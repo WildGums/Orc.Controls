@@ -75,12 +75,15 @@
 
             <Border x:Name="Border" 
                     BorderThickness="1.5" 
-                    BorderBrush="LightGray">
+                    Margin="20"
+                    BorderBrush="{DynamicResource Orc.Brushes.Control.Border}"
+                    Background="{DynamicResource Orc.Brushes.Control.Background}">
                 <Grid>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30" />
-                            <RowDefinition MinHeight="45"  />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
@@ -89,11 +92,21 @@
 
                         <TextBlock Grid.Row="0"
                                    Text="{Binding Title}" 
-                                   FontSize="14" FontWeight="Medium" 
-                                   Foreground="{Binding FontBrush}" Margin="0 10 10 0" 
+                                   FontSize="14" 
+                                   FontWeight="Medium" 
+                                   Foreground="{DynamicResource Orc.Brushes.Control.Foreground}" 
+                                   Margin="0 10 10 0" 
                                    HorizontalAlignment="Left" />
 
-                        <ContentPresenter Grid.Row="1" 
+                        <TextBlock Grid.Row="1"
+                                   MaxWidth="200"
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" 
+                                   Foreground="{DynamicResource Orc.Brushes.Control.Foreground}" 
+                                   Text="{Binding Description}" 
+                                   TextWrapping="Wrap" />
+
+                        <ContentPresenter Grid.Row="2" 
                                           Content="{Binding InnerContent}" />
                     </Grid>
 
