@@ -26,10 +26,10 @@
         protected override Task CloseAsync()
         {
             base.CloseAsync();
-            CalloutManager.RemoveAllCallouts();
+
+            CalloutManager.HideAllCallouts();
 
             return Task.CompletedTask;
         }
-
     }
 }

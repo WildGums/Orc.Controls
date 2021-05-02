@@ -15,10 +15,14 @@
 
         <orctheming:ThemeSwitcherView Grid.Row="0" />
 
+        <orccontrols:Callout ControlName="Control name?"
+                             CalloutName="ExampleCallout"
+                             Description="Example callout with a specified delay"
+                             PlacementTarget="{Binding ElementName=calloutView}" />
+
         <orccontrols:TabControl Grid.Row="1" Padding="10" 
                                 TabStripPlacement="Left" 
                                 LoadTabItems="EagerLoading">
-
             <TabItem Header="AlignmentGrid">
                 <views:AlignmentGrid />
             </TabItem>
@@ -35,8 +39,8 @@
                 <views:BusyIndicator/>
             </TabItem>
 
-            <TabItem Header="Callout" x:Name="CalloutTab">
-                <views:CalloutView x:Name="CalloutView"/>
+            <TabItem Header="Callout">
+                <views:CalloutView x:Name="calloutView" />
             </TabItem>
             
             <TabItem Header="ColorLegend">

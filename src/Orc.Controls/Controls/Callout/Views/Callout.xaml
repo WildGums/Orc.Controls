@@ -6,7 +6,15 @@
                    xmlns:orccontrols="clr-namespace:Orc.Controls"
                    xmlns:catel="http://schemas.catelproject.com"
                    mc:Ignorable="d"
-                   d:DesignHeight="450" d:DesignWidth="800">
+                   d:DesignHeight="450" d:DesignWidth="800"
+                   xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
+                   xmlns:system="clr-namespace:System;assembly=mscorlib"
+                   xmlns:local="clr-namespace:Orc.Controls"
+                   x:Name="calloutWindow">
+
+    <UserControl.Resources>
+        <system:Double x:Key="DefaultOpacity">1.0</system:Double>
+    </UserControl.Resources>
 
     <Popup IsOpen="{Binding IsOpen}"
            PlacementTarget="{Binding PlacementTarget}"
@@ -14,41 +22,128 @@
            StaysOpen="False"
            AllowsTransparency="True"
            VerticalOffset="-90">
-        <Grid>
-            <Border Background="Blue" BorderThickness="1" BorderBrush="Black"
-                Width="200" Height="200" Margin="24,0,0,0">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock HorizontalAlignment="Center" 
-                               VerticalAlignment="Center" 
-                               Foreground="White" 
-                               Text="{Binding ControlName}"/>
+        <Border BorderThickness="0.5" 
+                BorderBrush="WhiteSmoke" 
+                Opacity="1">
+            <!--<xamlbehaviors:Interaction.Triggers>
+                <xamlbehaviors:EventTrigger EventName="MouseEnter">
+                    <xamlbehaviors:InvokeCommandAction Command="{Binding PauseTimer}" />
+                </xamlbehaviors:EventTrigger>
 
-                    <Line Stroke="Gray" StrokeThickness="2" X2="200" />
+                <xamlbehaviors:EventTrigger EventName="MouseLeave">
+                    <xamlbehaviors:InvokeCommandAction Command="{Binding ResumeTimer}" />
+                </xamlbehaviors:EventTrigger>
+            </xamlbehaviors:Interaction.Triggers>-->
 
-                    <TextBlock HorizontalAlignment="Center" 
-                               VerticalAlignment="Center" 
-                               Foreground="White" 
-                               Text="{Binding Description}" 
-                               TextWrapping="Wrap"/>
+            <Border.Triggers>
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard SpeedRatio="4">
+                            <DoubleAnimation To="{StaticResource DefaultOpacity}" Storyboard.TargetProperty="Opacity" Duration="0:0:2" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
 
-                    <ContentPresenter Content="{Binding InnerContent}"/>
-                </StackPanel>
+                <!--<EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard SpeedRatio="4">
+                            <DoubleAnimation To="1" Storyboard.TargetProperty="Opacity" Duration="0:0:2" />
+                            <ColorAnimation To="{Binding Notification, Converter={local:NotificationBorderBrushConverter}}" Storyboard.TargetName="Border" Duration="0:0:2"
+                                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>-->
+
+                <!--<EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard SpeedRatio="4">
+                            <DoubleAnimation To="{StaticResource DefaultOpacity}" Storyboard.TargetProperty="Opacity" Duration="0:0:2" />
+                            <ColorAnimation To="LightGray" Storyboard.TargetName="Border" Duration="0:0:2"
+                                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>-->
+
+                <EventTrigger RoutedEvent="FrameworkElement.Unloaded">
+                    <BeginStoryboard>
+                        <Storyboard SpeedRatio="4">
+                            <DoubleAnimation To="0" Storyboard.TargetProperty="Opacity" Duration="0:0:2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Border.Triggers>
+
+            <Border x:Name="Border" 
+                    BorderThickness="1.5" 
+                    BorderBrush="LightGray">
+                <Grid>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                            <RowDefinition MinHeight="45"  />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                                   Text="{Binding Title}" 
+                                   FontSize="14" FontWeight="Medium" 
+                                   Foreground="{Binding FontBrush}" Margin="0 10 10 0" 
+                                   HorizontalAlignment="Left" />
+
+                        <ContentPresenter Grid.Row="1" 
+                                          Content="{Binding InnerContent}" />
+                    </Grid>
+
+                    <Button Command="{Binding ClosePopup}" 
+                            Height="16" Width="16" 
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Top"
+                            Visibility="{Binding IsClosable, Converter={catel:BooleanToHidingVisibilityConverter}}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Grid>
+                                    <Canvas Background="Transparent"/>
+                                    <Path HorizontalAlignment="Center" Margin="2" 
+                                          Stroke="Gray" StrokeThickness="2"
+                                          SnapsToDevicePixels="True" Stretch="Fill"
+                                          UseLayoutRounding="True" 
+                                          VerticalAlignment="Center">
+                                        <Path.Triggers>
+                                            <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
+                                                <BeginStoryboard>
+                                                    <Storyboard SpeedRatio="10">
+                                                        <DoubleAnimation To="3" Storyboard.TargetProperty="StrokeThickness" Duration="0:0:2" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                            <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                                                <BeginStoryboard>
+                                                    <Storyboard SpeedRatio="10">
+                                                        <DoubleAnimation To="2" Storyboard.TargetProperty="StrokeThickness" Duration="0:0:2" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Path.Triggers>
+                                        <Path.Data>
+                                            <PathGeometry>
+                                                <PathFigure StartPoint="0,0">
+                                                    <LineSegment Point="14,14"/>
+                                                </PathFigure>
+                                                <PathFigure StartPoint="14,0">
+                                                    <LineSegment Point="0,14"/>
+                                                </PathFigure>
+                                            </PathGeometry>
+                                        </Path.Data>
+                                    </Path>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
             </Border>
-
-            <Path StrokeThickness="1" 
-                  Stroke="Black" 
-                  Fill="Blue" 
-                  VerticalAlignment="Center">
-                <Path.Data>
-                    <PathGeometry>
-                        <PathFigure StartPoint="25,0">
-                            <PolyLineSegment Points="0,25 25,50" />
-                            <LineSegment Point="25,0" IsStroked="False" />
-                        </PathFigure>
-                    </PathGeometry>
-                </Path.Data>
-            </Path>
-        </Grid>
+        </Border>
     </Popup>
-    
 </catel:UserControl>
