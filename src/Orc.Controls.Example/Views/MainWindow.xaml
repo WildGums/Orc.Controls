@@ -15,10 +15,19 @@
 
         <orctheming:ThemeSwitcherView Grid.Row="0" />
 
+        <orccontrols:Callout Title="Looking for callouts?"
+                             CalloutName="ExampleCallout"
+                             Description="Example callout with a specified delay. Check the callout tab below.
+                             
+                             This should show after 10 seconds.
+                             
+                             It will automatically hide after 10 seconds."
+                             ShowTime="00:00:10"
+                             PlacementTarget="{Binding ElementName=calloutView}" />
+
         <orccontrols:TabControl Grid.Row="1" Padding="10" 
                                 TabStripPlacement="Left" 
                                 LoadTabItems="EagerLoading">
-
             <TabItem Header="AlignmentGrid">
                 <views:AlignmentGrid />
             </TabItem>
@@ -35,6 +44,10 @@
                 <views:BusyIndicator/>
             </TabItem>
 
+            <TabItem Header="Callout">
+                <views:CalloutView x:Name="calloutView" />
+            </TabItem>
+            
             <TabItem Header="ColorLegend">
                 <views:ColorLegendView />
             </TabItem>

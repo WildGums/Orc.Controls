@@ -247,7 +247,10 @@ namespace Orc.Controls.ViewModels
         private void OnIgnoreCatelLoggingChanged()
         {
             // As an exception, we completely disable Catel on the log listener for performance
-            _logListener.IgnoreCatelLogging = IgnoreCatelLogging;
+            if (_logListener is not null)
+            {
+                _logListener.IgnoreCatelLogging = IgnoreCatelLogging;
+            }
         }
 
         private void OnLogListenerTypeChanged()
