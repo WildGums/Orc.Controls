@@ -67,7 +67,7 @@
 
         private void OnPauseTimerExecute()
         {
-            if (_dispatcherTimer != null)
+            if (_dispatcherTimer is not null)
             {
                 _dispatcherTimer.Stop();
             }
@@ -77,7 +77,7 @@
 
         private void OnResumeTimerExecute()
         {
-            if (_dispatcherTimer != null)
+            if (_dispatcherTimer is not null)
             {
                 _dispatcherTimer.Start();
             }
