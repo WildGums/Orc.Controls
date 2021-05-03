@@ -25,7 +25,7 @@
         <Border BorderThickness="0.5" 
                 BorderBrush="WhiteSmoke" 
                 Opacity="1">
-            <!--<xamlbehaviors:Interaction.Triggers>
+            <xamlbehaviors:Interaction.Triggers>
                 <xamlbehaviors:EventTrigger EventName="MouseEnter">
                     <xamlbehaviors:InvokeCommandAction Command="{Binding PauseTimer}" />
                 </xamlbehaviors:EventTrigger>
@@ -33,7 +33,7 @@
                 <xamlbehaviors:EventTrigger EventName="MouseLeave">
                     <xamlbehaviors:InvokeCommandAction Command="{Binding ResumeTimer}" />
                 </xamlbehaviors:EventTrigger>
-            </xamlbehaviors:Interaction.Triggers>-->
+            </xamlbehaviors:Interaction.Triggers>
 
             <Border.Triggers>
                 <EventTrigger RoutedEvent="FrameworkElement.Loaded">

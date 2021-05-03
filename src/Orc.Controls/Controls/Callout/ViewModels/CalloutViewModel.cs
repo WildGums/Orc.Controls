@@ -6,11 +6,16 @@
     using System.Windows.Input;
     using System.Windows.Threading;
     using Catel;
+    using Catel.Logging;
     using Catel.MVVM;
 
     public class CalloutViewModel : ViewModelBase, ICallout
     {
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
         private readonly ICalloutManager _calloutManager;
+
+        private DispatcherTimer _dispatcherTimer;
 
         public CalloutViewModel(ICalloutManager calloutManager)
         {
@@ -20,6 +25,8 @@
 
             Id = Guid.NewGuid();
 
+            PauseTimer = new Command(OnPauseTimerExecute);
+            ResumeTimer = new Command(OnResumeTimerExecute);
             ClosePopup = new Command(OnClosePopupExecute);
         }
 
@@ -41,8 +48,6 @@
 
         public object InnerContent { get; set; }
 
-        public int? Delay { get; set; }
-
         public object Tag => null;
 
         public bool IsClosable { get; set; }
@@ -58,6 +63,26 @@
         public event EventHandler<CalloutEventArgs> Hiding;
 
         #region Commands
+        public Command PauseTimer { get; private set; }
+
+        private void OnPauseTimerExecute()
+        {
+            if (_dispatcherTimer != null)
+            {
+                _dispatcherTimer.Stop();
+            }
+        }
+
+        public Command ResumeTimer { get; private set; }
+
+        private void OnResumeTimerExecute()
+        {
+            if (_dispatcherTimer != null)
+            {
+                _dispatcherTimer.Start();
+            }
+        }
+
         public Command ClosePopup { get; private set; }
 
         private void OnClosePopupExecute()
@@ -73,14 +98,26 @@
         {
             await base.InitializeAsync();
 
+            _dispatcherTimer = new DispatcherTimer();
+            _dispatcherTimer.Tick += OnDispatcherTimerTick;
+
             _calloutManager.Register(this);
         }
 
         protected override async Task CloseAsync()
         {
+            _dispatcherTimer.Tick -= OnDispatcherTimerTick;
+
+            Hide();
+
             _calloutManager.Unregister(this);
 
             await base.CloseAsync();
+        }
+
+        private void OnDispatcherTimerTick(object sender, EventArgs e)
+        {
+            Hide();
         }
 
         public void Show()
@@ -90,16 +127,30 @@
                 return;
             }
 
+            Log.Debug($"[{this}] Showing callout");
+
+            if (ShowTime > TimeSpan.Zero)
+            {
+                Log.Debug($"[{this}] Starting callout timer with interval of '{ShowTime}'");
+
+                _dispatcherTimer.Interval = ShowTime;
+                _dispatcherTimer.Start();
+            }
+
             HasShown = true;
             IsOpen = true;
         }
 
         public void Hide()
         {
+            _dispatcherTimer.Stop();
+
             if (!IsOpen)
             {
                 return;
             }
+
+            Log.Debug($"[{this}] Hiding callout");
 
             IsOpen = false;
         }
@@ -114,6 +165,11 @@
             {
                 Hiding?.Invoke(this, new CalloutEventArgs(this));
             }
+        }
+
+        public override string ToString()
+        {
+            return $"{Name} | {Id}";
         }
     }
 }

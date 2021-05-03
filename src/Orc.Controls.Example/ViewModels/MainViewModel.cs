@@ -11,15 +11,11 @@ namespace Orc.Controls.Example.ViewModels
 
     public class MainViewModel : ViewModelBase
     {
-        #region Constructors
         public MainViewModel()
         {
             DeferValidationUntilFirstSaveCall = false;
         }
-        #endregion
 
-        #region Properties
         public override string Title => "Orc.Controls example";
-        #endregion
     }
 }
