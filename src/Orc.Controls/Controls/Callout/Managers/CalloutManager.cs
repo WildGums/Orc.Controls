@@ -3,22 +3,24 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Windows;
-    using System.Windows.Threading;
     using Catel;
-    using Catel.Collections;
     using Catel.Logging;
-    using Catel.MVVM;
 
     public class CalloutManager : ICalloutManager
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private readonly List<ICallout> _callouts;
+        private int _suspendCount;
 
         public CalloutManager()
         {
             _callouts = new List<ICallout>();
+        }
+
+        public bool IsSuspended
+        {
+            get { return _suspendCount > 0; }
         }
 
         public List<ICallout> Callouts
@@ -35,6 +37,20 @@
 
         public event EventHandler<CalloutEventArgs> Showing;
         public event EventHandler<CalloutEventArgs> Hiding;
+
+        public void Suspend()
+        {
+            _suspendCount++;
+
+            Log.Debug($"Suspended callouts, count = '{_suspendCount}'");
+        }
+
+        public void Resume()
+        {
+            _suspendCount = Math.Max(0, _suspendCount - 1);
+
+            Log.Debug($"Resumed callouts, count = '{_suspendCount}'");
+        }
 
         public void Register(ICallout callout)
         {

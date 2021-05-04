@@ -70,6 +70,112 @@ namespace Orc.Controls
         public void InitializeComponent() { }
         protected override void OnRenderSizeChanged(System.Windows.SizeChangedInfo sizeInfo) { }
     }
+    [System.Windows.Markup.ContentProperty("InnerContent")]
+    public class Callout : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    {
+        public static readonly System.Windows.DependencyProperty CalloutNameProperty;
+        public static readonly System.Windows.DependencyProperty CommandProperty;
+        public static readonly System.Windows.DependencyProperty DescriptionProperty;
+        public static readonly System.Windows.DependencyProperty InnerContentProperty;
+        public static readonly System.Windows.DependencyProperty IsClosableProperty;
+        public static readonly System.Windows.DependencyProperty IsOpenProperty;
+        public static readonly System.Windows.DependencyProperty PlacementTargetProperty;
+        public static readonly System.Windows.DependencyProperty ShowTimeProperty;
+        public static readonly System.Windows.DependencyProperty TitleProperty;
+        public Callout() { }
+        [Catel.MVVM.Views.ViewToViewModel("Name", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public string CalloutName { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public System.Windows.Input.ICommand Command { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public string Description { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public object InnerContent { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool IsClosable { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool IsOpen { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public object PlacementTarget { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public System.TimeSpan ShowTime { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public string Title { get; set; }
+        public void InitializeComponent() { }
+    }
+    public class CalloutEventArgs : System.EventArgs
+    {
+        public CalloutEventArgs(Orc.Controls.ICallout callout) { }
+        public Orc.Controls.ICallout Callout { get; }
+    }
+    public class CalloutManager : Orc.Controls.ICalloutManager
+    {
+        public CalloutManager() { }
+        public System.Collections.Generic.List<Orc.Controls.ICallout> Callouts { get; }
+        public bool IsSuspended { get; }
+        public event System.EventHandler<Orc.Controls.CalloutEventArgs> Hiding;
+        public event System.EventHandler<Orc.Controls.CalloutEventArgs> Registered;
+        public event System.EventHandler<Orc.Controls.CalloutEventArgs> Showing;
+        public event System.EventHandler<Orc.Controls.CalloutEventArgs> Unregistered;
+        public void Clear() { }
+        public void Register(Orc.Controls.ICallout callout) { }
+        public void Resume() { }
+        public void Suspend() { }
+        public void Unregister(Orc.Controls.ICallout callout) { }
+    }
+    public class CalloutViewModel : Catel.MVVM.ViewModelBase, Orc.Controls.ICallout
+    {
+        public static readonly Catel.Data.PropertyData DescriptionProperty;
+        public static readonly Catel.Data.PropertyData HasShownProperty;
+        public static readonly Catel.Data.PropertyData IdProperty;
+        public static readonly Catel.Data.PropertyData InnerContentProperty;
+        public static readonly Catel.Data.PropertyData IsClosableProperty;
+        public static readonly Catel.Data.PropertyData IsOpenProperty;
+        public static readonly Catel.Data.PropertyData NameProperty;
+        public static readonly Catel.Data.PropertyData PlacementTargetProperty;
+        public static readonly Catel.Data.PropertyData ShowTimeProperty;
+        public CalloutViewModel(Orc.Controls.ICalloutManager calloutManager) { }
+        public Catel.MVVM.Command ClosePopup { get; }
+        public System.Windows.Input.ICommand Command { get; set; }
+        public string Description { get; set; }
+        public bool HasShown { get; }
+        public System.Guid Id { get; }
+        public object InnerContent { get; set; }
+        public bool IsClosable { get; set; }
+        public bool IsOpen { get; set; }
+        public string Name { get; set; }
+        public Catel.MVVM.Command PauseTimer { get; }
+        public System.Windows.UIElement PlacementTarget { get; set; }
+        public Catel.MVVM.Command ResumeTimer { get; }
+        public System.TimeSpan ShowTime { get; set; }
+        public object Tag { get; }
+        public new string Title { get; set; }
+        public event System.EventHandler<Orc.Controls.CalloutEventArgs> Hiding;
+        public event System.EventHandler<Orc.Controls.CalloutEventArgs> Showing;
+        protected override System.Threading.Tasks.Task CloseAsync() { }
+        public void Hide() { }
+        protected override System.Threading.Tasks.Task InitializeAsync() { }
+        public void Show() { }
+        public override string ToString() { }
+    }
+    public abstract class CalloutWatcherBase
+    {
+        protected readonly Orc.Controls.ICalloutManager _calloutManager;
+        protected readonly Catel.Configuration.IConfigurationService _configurationService;
+        public CalloutWatcherBase(Orc.Controls.ICalloutManager calloutManager, Catel.Configuration.IConfigurationService configurationService) { }
+        public virtual Orc.Controls.ICallout Callout { get; }
+        public virtual string ConfigurationPrefix { get; }
+        public bool HasShown { get; }
+        public System.Guid? Id { get; set; }
+        public bool IsOneTimeCallout { get; set; }
+        public virtual string LastShownConfigurationName { get; }
+        public System.DateTime LastShownUtc { get; }
+        public string Name { get; set; }
+        public System.TimeSpan ShowInterval { get; set; }
+        public virtual string Version { get; }
+        protected virtual void Hide() { }
+        protected virtual void Show() { }
+    }
     [System.Windows.TemplatePart(Name="PART_A0GradientStop", Type=typeof(System.Windows.Media.GradientStop))]
     [System.Windows.TemplatePart(Name="PART_A1GradientStop", Type=typeof(System.Windows.Media.GradientStop))]
     [System.Windows.TemplatePart(Name="PART_ASlider", Type=typeof(System.Windows.Controls.Slider))]
@@ -768,6 +874,49 @@ namespace Orc.Controls
     {
         System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Orc.Controls.LogFilterGroup>> LoadAsync();
         System.Threading.Tasks.Task SaveAsync(System.Collections.Generic.IEnumerable<Orc.Controls.LogFilterGroup> filterGroups);
+    }
+    public interface ICallout
+    {
+        System.Windows.Input.ICommand Command { get; }
+        bool HasShown { get; }
+        System.Guid Id { get; }
+        bool IsClosable { get; }
+        bool IsOpen { get; }
+        string Name { get; }
+        System.TimeSpan ShowTime { get; set; }
+        object Tag { get; }
+        string Title { get; }
+        event System.EventHandler<Orc.Controls.CalloutEventArgs> Hiding;
+        event System.EventHandler<Orc.Controls.CalloutEventArgs> Showing;
+        void Hide();
+        void Show();
+    }
+    public interface ICalloutManager
+    {
+        System.Collections.Generic.List<Orc.Controls.ICallout> Callouts { get; }
+        bool IsSuspended { get; }
+        event System.EventHandler<Orc.Controls.CalloutEventArgs> Hiding;
+        event System.EventHandler<Orc.Controls.CalloutEventArgs> Registered;
+        event System.EventHandler<Orc.Controls.CalloutEventArgs> Showing;
+        event System.EventHandler<Orc.Controls.CalloutEventArgs> Unregistered;
+        void Clear();
+        void Register(Orc.Controls.ICallout callout);
+        void Resume();
+        void Suspend();
+        void Unregister(Orc.Controls.ICallout callout);
+    }
+    public static class ICalloutManagerExtensions
+    {
+        public static Orc.Controls.ICallout FindCallout(this Orc.Controls.ICalloutManager calloutManager, System.Guid id) { }
+        public static Orc.Controls.ICallout FindCallout(this Orc.Controls.ICalloutManager calloutManager, string name) { }
+        public static void HideAllCallouts(this Orc.Controls.ICalloutManager calloutManager) { }
+        public static void HideCallout(this Orc.Controls.ICalloutManager calloutManager, System.Guid id) { }
+        public static void HideCallout(this Orc.Controls.ICalloutManager calloutManager, string name) { }
+        public static bool IsAnyCalloutOpen(this Orc.Controls.ICalloutManager calloutManager) { }
+        public static void ShowAllCallouts(this Orc.Controls.ICalloutManager calloutManager) { }
+        public static void ShowCallout(this Orc.Controls.ICalloutManager calloutManager, System.Guid id, System.Func<Orc.Controls.ICallout, bool> predicate = null) { }
+        public static void ShowCallout(this Orc.Controls.ICalloutManager calloutManager, string name, System.Func<Orc.Controls.ICallout, bool> predicate = null) { }
+        public static System.IDisposable SuspendInScope(this Orc.Controls.ICalloutManager calloutManager) { }
     }
     public interface IColorLegendItem : System.ComponentModel.INotifyPropertyChanged
     {
@@ -1682,6 +1831,14 @@ namespace Orc.Controls
     {
         AdjustEndTime = 0,
         AdjustDuration = 1,
+    }
+    public abstract class TimeBasedCalloutWatcherBase : Orc.Controls.CalloutWatcherBase
+    {
+        public TimeBasedCalloutWatcherBase(Orc.Controls.ICalloutManager calloutManager, Catel.Configuration.IConfigurationService configurationService) { }
+        public abstract System.TimeSpan Delay { get; }
+        public System.DateTime End { get; }
+        public System.DateTime Start { get; set; }
+        protected virtual void Subscribe() { }
     }
     public class TimePicker : System.Windows.Controls.ContentControl
     {
