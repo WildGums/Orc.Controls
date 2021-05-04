@@ -31,6 +31,7 @@
         <Style x:Key="LeftPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource PolygonStyle}">
             <Setter Property="Grid.Column" Value="2"/>
             <Setter Property="Grid.Row" Value="1"/>
+            <Setter Property="Panel.ZIndex" Value="100"/>
             <Setter Property="Points" Value="0,0 50,50, 0,100"/>
             <Setter Property="Height" Value="{Binding TailBaseWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"/>
             <Setter Property="Width" Value="{Binding HorizontalOffset, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"/>
@@ -79,7 +80,7 @@
         <Style x:Key="TopPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource PolygonStyle}">
             <Setter Property="Grid.Column" Value="1"/>
             <Setter Property="Grid.Row" Value="2"/>
-            <Setter Property="Panel.ZIndex" Value="100"></Setter>
+            <Setter Property="Panel.ZIndex" Value="100"/>
             <Setter Property="Points" Value="0,0 100,0, 50,50"/>
             <Setter Property="Width" Value="{Binding TailBaseWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"/>
             <Setter Property="Height" Value="{Binding VerticalOffset, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"/>
