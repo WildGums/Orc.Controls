@@ -10,6 +10,12 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
+
         <StackPanel Orientation="Horizontal" x:Name="calloutStack">
             <Button Content="Print Button With Callout" 
                     x:Name="printButton" 
@@ -21,16 +27,67 @@
             <orccontrols:Callout x:Name="buttonCallout"
                                  Title="Print Button."
                                  Description="This is a print button."
+                                 TailBaseWidth="{Binding Value, ElementName=TailBaseWidthNumericTextBox}"
+                                 Placement="{Binding SelectedValue, ElementName=PlacementCombobox}"
+                                 TailHorizontalAlignment="{Binding SelectedValue, ElementName=TailHorizontalAlignmentCombobox}"
+                                 TailVerticalAlignment="{Binding SelectedValue, ElementName=TailVerticalAlignmentCombobox}"
+                                 VerticalOffset="{Binding Value, ElementName=VerticalOffsetNumericTextBox}"
+                                 HorizontalOffset="{Binding Value, ElementName=HorizontalOffsetNumericTextBox}"
                                  PlacementTarget="{Binding ElementName=printButton}" />
             
-            <orccontrols:Callout x:Name="needHelpCallout"
+            <!--<orccontrols:Callout x:Name="needHelpCallout"
                                  Title="Need help ?"
                                  Description="In case if you are confused, this example is responsible for testing various callouts. Try clicking the print button to show it's callout."
-                                 PlacementTarget="{Binding ElementName=calloutStack}" />
+                                 PlacementTarget="{Binding ElementName=calloutStack}" />-->
             <!--<Button Content="Show callout!" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type orcviews:CalloutView}}, Path=DataContext.OpenCallout}"/>-->
             <!--<Button Content="Show callout!" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type orcviews:CalloutView}}, Path=DataContext.OpenCallout}"/>-->
 
 
         </StackPanel>
+
+        <UniformGrid Grid.Row="1" Rows="7" Columns="2">
+            <Label Content="HorizontalOffset"/>
+            <orccontrols:NumericTextBox x:Name="HorizontalOffsetNumericTextBox" IsNegativeAllowed="True" Value="0" MinValue="-100"/>
+
+            <Label Content="VerticalOffset"/>
+            <orccontrols:NumericTextBox x:Name="VerticalOffsetNumericTextBox" IsNegativeAllowed="True" Value="20" MinValue="-100"/>
+
+            <Label Content="Tail Base Width"/>
+            <orccontrols:NumericTextBox x:Name="TailBaseWidthNumericTextBox" Value="20"/>
+
+            <Label Content="Placement"/>
+            <ComboBox x:Name="PlacementCombobox" SelectedIndex="3">
+                <ComboBox.ItemsSource>
+                    <x:Array Type="{x:Type PlacementMode}">
+                        <PlacementMode>Left</PlacementMode>
+                        <PlacementMode>Top</PlacementMode>
+                        <PlacementMode>Right</PlacementMode>
+                        <PlacementMode>Bottom</PlacementMode>
+                    </x:Array>
+                </ComboBox.ItemsSource>
+            </ComboBox>
+
+            <Label Content="TailHorizontalAlignment"/>
+            <ComboBox x:Name="TailHorizontalAlignmentCombobox" SelectedIndex="0">
+                <ComboBox.ItemsSource>
+                    <x:Array Type="{x:Type HorizontalAlignment}">
+                        <HorizontalAlignment>Left</HorizontalAlignment>
+                        <HorizontalAlignment>Center</HorizontalAlignment>
+                        <HorizontalAlignment>Right</HorizontalAlignment>
+                    </x:Array>
+                </ComboBox.ItemsSource>
+            </ComboBox>
+
+            <Label Content="TailVerticalAlignment"/>
+            <ComboBox x:Name="TailVerticalAlignmentCombobox" SelectedIndex="0">
+                <ComboBox.ItemsSource>
+                    <x:Array Type="{x:Type VerticalAlignment}">
+                        <VerticalAlignment>Top</VerticalAlignment>
+                        <VerticalAlignment>Center</VerticalAlignment>
+                        <VerticalAlignment>Bottom</VerticalAlignment>
+                    </x:Array>
+                </ComboBox.ItemsSource>
+            </ComboBox>
+        </UniformGrid>
     </Grid>
 </catel:UserControl>

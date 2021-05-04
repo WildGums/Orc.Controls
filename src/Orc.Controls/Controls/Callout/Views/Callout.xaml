@@ -14,134 +14,232 @@
 
     <UserControl.Resources>
         <system:Double x:Key="DefaultOpacity">1.0</system:Double>
+
+        <Style x:Key="PolygonStyle" TargetType="{x:Type Polygon}">
+            <Setter Property="Stretch" Value="Fill"/>
+            <Setter Property="Panel.ZIndex" Value="100"/>
+            <Setter Property="StrokeThickness" Value="1.5"/>
+            <Setter Property="Stroke" Value="{DynamicResource GrayBrush2}"/>
+            <Setter Property="Fill" Value="{DynamicResource Orc.Brushes.Control.Default.Background}"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="5" Opacity="0.4"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Top Polygons -->
+        <Style x:Key="TopPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource PolygonStyle}">
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="Grid.Row" Value="2"/>
+            <Setter Property="Points" Value="0,0 100,0, 50,50"/>
+            <Setter Property="Width" Value="{Binding TailBaseWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"/>
+            <Setter Property="Height" Value="{Binding VerticalOffset, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"/>
+        </Style>
+
+        <Style x:Key="TopCenterPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource TopPolygonStyle}">
+            <Setter Property="Margin" Value="0 -2 0 0"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="TopLeftPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource TopPolygonStyle}">
+            <Setter Property="Margin" Value="5 -2 0 0"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+
+        <Style x:Key="TopRightPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource TopPolygonStyle}">
+            <Setter Property="Margin" Value="0 -2 15 0"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+
+
+        <!-- Bottom Polygons -->
+        <Style x:Key="BottomPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource PolygonStyle}">
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="Grid.Row" Value="0"/>
+            <Setter Property="Points" Value="100,50, 50,0 0,50"/>
+            <Setter Property="Width" Value="{Binding TailBaseWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"/>
+            <Setter Property="Height" Value="{Binding VerticalOffset, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"/>
+        </Style>
+
+        <Style x:Key="BottomCenterPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource BottomPolygonStyle}">
+            <Setter Property="Margin" Value="0 0 0 -2"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="BottomLeftPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource BottomPolygonStyle}">
+            <Setter Property="Margin" Value="5 0 0 -2"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+
+        <Style x:Key="BottomRightPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource BottomPolygonStyle}">
+            <Setter Property="Margin" Value="0 0 15 -2"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
     </UserControl.Resources>
 
-    <Popup IsOpen="{Binding IsOpen}"
-           PlacementTarget="{Binding PlacementTarget}"
-           Placement="Right"
+    <Popup x:Name="Popup"
+           IsOpen="{Binding IsOpen}"
+           PlacementTarget="{Binding PlacementTarget, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"
+           Placement="{Binding Placement, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"
            StaysOpen="False"
-           AllowsTransparency="True"
-           VerticalOffset="-90">
-        <Border BorderThickness="0.5" 
-                BorderBrush="WhiteSmoke" 
-                Opacity="1">
-            <xamlbehaviors:Interaction.Triggers>
-                <xamlbehaviors:EventTrigger EventName="MouseEnter">
-                    <xamlbehaviors:InvokeCommandAction Command="{Binding PauseTimer}" />
-                </xamlbehaviors:EventTrigger>
+           AllowsTransparency="True">
 
-                <xamlbehaviors:EventTrigger EventName="MouseLeave">
-                    <xamlbehaviors:InvokeCommandAction Command="{Binding ResumeTimer}" />
-                </xamlbehaviors:EventTrigger>
-            </xamlbehaviors:Interaction.Triggers>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-            <Border.Triggers>
-                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                    <BeginStoryboard>
-                        <Storyboard SpeedRatio="4">
-                            <DoubleAnimation To="{StaticResource DefaultOpacity}" Storyboard.TargetProperty="Opacity" Duration="0:0:2" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-                <!--<EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
-                    <BeginStoryboard>
-                        <Storyboard SpeedRatio="4">
-                            <DoubleAnimation To="1" Storyboard.TargetProperty="Opacity" Duration="0:0:2" />
-                            <ColorAnimation To="{Binding Notification, Converter={local:NotificationBorderBrushConverter}}" Storyboard.TargetName="Border" Duration="0:0:2"
-                                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>-->
+            <!--<Polygon x:Name="LeftTailPolygon"
+                     Grid.Column="0"
+                     Grid.Row="1"
+                     Stretch="Fill"
+                     Points="0,50 50,0, 50,100" 
+                     Stroke="{DynamicResource %QWSAET76y65r4Default.Border}" 
+                     Fill="{DynamicResource GrayBrush8}" />
 
-                <!--<EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
-                    <BeginStoryboard>
-                        <Storyboard SpeedRatio="4">
-                            <DoubleAnimation To="{StaticResource DefaultOpacity}" Storyboard.TargetProperty="Opacity" Duration="0:0:2" />
-                            <ColorAnimation To="LightGray" Storyboard.TargetName="Border" Duration="0:0:2"
-                                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>-->
+            <Polygon x:Name="RightTailPolygon"
+                     Grid.Column="2"
+                     Grid.Row="1"
+                     Stretch="Fill"
+                     Points="0,0 50,50, 0,100" 
+                     Stroke="{DynamicResource Orc.Brushes.Control.Default.Border}" 
+                     Fill="{DynamicResource Orc.Brushes.Control.Default.Background}" />-->
 
-                <EventTrigger RoutedEvent="FrameworkElement.Unloaded">
-                    <BeginStoryboard>
-                        <Storyboard SpeedRatio="4">
-                            <DoubleAnimation To="0" Storyboard.TargetProperty="Opacity" Duration="0:0:2"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Border.Triggers>
 
-            <Border x:Name="Border" 
-                    BorderThickness="1.5" 
-                    BorderBrush="{DynamicResource Orc.Brushes.Control.Border}"
-                    Background="{DynamicResource Orc.Brushes.Control.Background}">
-                <Grid>
-                    <Grid Margin="4,0,4,4">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
+            <Polygon x:Name="TailPolygon"/>
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+            <!--<Polygon x:Name="BottomTailPolygon"
+                     Grid.Column="1"
+                     Grid.Row="2"
+                     Stretch="Fill"
+                     Margin="0 -10 0 -10"
+                     Visibility="Collapsed"
+                     Width="40"
+                     Points="0,0 100,0, 50,50" 
+                     Stroke="{DynamicResource Orc.Brushes.Control.Default.Border}" 
+                     Fill="{DynamicResource Orc.Brushes.Control.Default.Background}" />-->
 
-                        <TextBlock Grid.Row="0"
+            <Border x:Name="ContentBorder"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    BorderThickness="0.5" 
+                    BorderBrush="WhiteSmoke" 
+                    CornerRadius="5"
+                    Opacity="1">
+
+                <xamlbehaviors:Interaction.Triggers>
+                    <xamlbehaviors:EventTrigger EventName="MouseEnter">
+                        <xamlbehaviors:InvokeCommandAction Command="{Binding PauseTimer}" />
+                    </xamlbehaviors:EventTrigger>
+
+                    <xamlbehaviors:EventTrigger EventName="MouseLeave">
+                        <xamlbehaviors:InvokeCommandAction Command="{Binding ResumeTimer}" />
+                    </xamlbehaviors:EventTrigger>
+                </xamlbehaviors:Interaction.Triggers>
+
+                <Border.Triggers>
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard SpeedRatio="4">
+                                <DoubleAnimation To="{StaticResource DefaultOpacity}" Storyboard.TargetProperty="Opacity" Duration="0:0:2" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+
+                    <EventTrigger RoutedEvent="FrameworkElement.Unloaded">
+                        <BeginStoryboard>
+                            <Storyboard SpeedRatio="4">
+                                <DoubleAnimation To="0" Storyboard.TargetProperty="Opacity" Duration="0:0:2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Border.Triggers>
+
+                <Border x:Name="Border" 
+                        Margin="0 0 8 8"
+                        CornerRadius="5"
+                        BorderThickness="1.5" 
+                        BorderBrush="{DynamicResource GrayBrush2}"
+                        Background="{DynamicResource Orc.Brushes.Control.Default.Background}">
+
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="5" Opacity="0.4" />
+                    </Border.Effect>
+
+                    <Grid>
+                        <Grid Margin="4,0,4,4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0"
                                    Text="{Binding Title}" 
                                    FontSize="14" 
                                    FontWeight="Medium" 
-                                   Foreground="{DynamicResource Orc.Brushes.Control.Foreground}" 
+                                   Foreground="{DynamicResource Orc.Brushes.Control.Default.Foreground}" 
                                    HorizontalAlignment="Left" />
 
-                        <TextBlock Grid.Row="1"
+                            <TextBlock Grid.Row="1"
                                    MaxWidth="200"
                                    HorizontalAlignment="Center" 
                                    VerticalAlignment="Center" 
-                                   Foreground="{DynamicResource Orc.Brushes.Control.Foreground}" 
+                                   Foreground="{DynamicResource Orc.Brushes.Control.Default.Foreground}" 
                                    Text="{Binding Description}" 
                                    TextWrapping="Wrap" />
 
-                        <ContentPresenter Grid.Row="2" 
+                            <ContentPresenter Grid.Row="2" 
                                           Content="{Binding InnerContent}" />
-                    </Grid>
+                        </Grid>
 
-                    <Button Command="{Binding ClosePopup}" 
+                        <Button Command="{Binding ClosePopup}" 
                             Height="16" Width="16" 
                             HorizontalAlignment="Right" 
                             VerticalAlignment="Top"
                             Margin="4,6,6,4"
                             Visibility="{Binding IsClosable, Converter={catel:BooleanToHidingVisibilityConverter}}">
-                        <Button.Template>
-                            <ControlTemplate>
-                                <Grid>
-                                    <Grid.Triggers>
-                                        <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
-                                            <BeginStoryboard>
-                                                <Storyboard SpeedRatio="10"
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Grid>
+                                        <Grid.Triggers>
+                                            <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
+                                                <BeginStoryboard>
+                                                    <Storyboard SpeedRatio="10"
                                                             Storyboard.TargetName="closePath">
-                                                    <DoubleAnimation To="3" 
+                                                        <DoubleAnimation To="3" 
                                                                      Storyboard.TargetProperty="StrokeThickness" 
                                                                      Duration="0:0:2" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger>
-                                        <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
-                                            <BeginStoryboard>
-                                                <Storyboard SpeedRatio="10"
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                            <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                                                <BeginStoryboard>
+                                                    <Storyboard SpeedRatio="10"
                                                             Storyboard.TargetName="closePath">
-                                                    <DoubleAnimation To="1" 
+                                                        <DoubleAnimation To="1" 
                                                                      Storyboard.TargetProperty="StrokeThickness" 
                                                                      Duration="0:0:2" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger>
-                                    </Grid.Triggers>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Grid.Triggers>
 
-                                    <Canvas Background="Transparent"/>
-                                    <Path HorizontalAlignment="Center" 
+                                        <Canvas Background="Transparent"/>
+                                        <Path HorizontalAlignment="Center" 
                                           Margin="2" 
                                           Stroke="Gray" 
                                           StrokeThickness="1"
@@ -150,23 +248,34 @@
                                           UseLayoutRounding="True" 
                                           VerticalAlignment="Center"
                                           x:Name="closePath">
-                                        <Path.Data>
-                                            <PathGeometry>
-                                                <PathFigure StartPoint="0,0">
-                                                    <LineSegment Point="14,14"/>
-                                                </PathFigure>
-                                                <PathFigure StartPoint="14,0">
-                                                    <LineSegment Point="0,14"/>
-                                                </PathFigure>
-                                            </PathGeometry>
-                                        </Path.Data>
-                                    </Path>
-                                </Grid>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
-                </Grid>
+                                            <Path.Data>
+                                                <PathGeometry>
+                                                    <PathFigure StartPoint="0,0">
+                                                        <LineSegment Point="14,14"/>
+                                                    </PathFigure>
+                                                    <PathFigure StartPoint="14,0">
+                                                        <LineSegment Point="0,14"/>
+                                                    </PathFigure>
+                                                </PathGeometry>
+                                            </Path.Data>
+                                        </Path>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+                </Border>
             </Border>
-        </Border>
+
+            <Rectangle  x:Name="BorderGapRectangle"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Height="2" 
+                        Fill="White"
+                        StrokeThickness="0"
+                        Stroke="White" 
+                        Grid.Row="1"
+                        Grid.Column="1"/>
+        </Grid>
     </Popup>
 </catel:UserControl>
