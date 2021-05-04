@@ -76,12 +76,18 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty CalloutNameProperty;
         public static readonly System.Windows.DependencyProperty CommandProperty;
         public static readonly System.Windows.DependencyProperty DescriptionProperty;
+        public static readonly System.Windows.DependencyProperty HorizontalOffsetProperty;
         public static readonly System.Windows.DependencyProperty InnerContentProperty;
         public static readonly System.Windows.DependencyProperty IsClosableProperty;
         public static readonly System.Windows.DependencyProperty IsOpenProperty;
+        public static readonly System.Windows.DependencyProperty PlacementProperty;
         public static readonly System.Windows.DependencyProperty PlacementTargetProperty;
         public static readonly System.Windows.DependencyProperty ShowTimeProperty;
+        public static readonly System.Windows.DependencyProperty TailBaseWidthProperty;
+        public static readonly System.Windows.DependencyProperty TailHorizontalAlignmentProperty;
+        public static readonly System.Windows.DependencyProperty TailVerticalAlignmentProperty;
         public static readonly System.Windows.DependencyProperty TitleProperty;
+        public static readonly System.Windows.DependencyProperty VerticalOffsetProperty;
         public Callout() { }
         [Catel.MVVM.Views.ViewToViewModel("Name", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string CalloutName { get; set; }
@@ -89,19 +95,26 @@ namespace Orc.Controls
         public System.Windows.Input.ICommand Command { get; set; }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string Description { get; set; }
+        public double HorizontalOffset { get; set; }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public object InnerContent { get; set; }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool IsClosable { get; set; }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool IsOpen { get; set; }
+        public System.Windows.Controls.Primitives.PlacementMode Placement { get; set; }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public object PlacementTarget { get; set; }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.TimeSpan ShowTime { get; set; }
+        public double TailBaseWidth { get; set; }
+        public System.Windows.HorizontalAlignment TailHorizontalAlignment { get; set; }
+        public System.Windows.VerticalAlignment TailVerticalAlignment { get; set; }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string Title { get; set; }
+        public double VerticalOffset { get; set; }
         public void InitializeComponent() { }
+        protected override void OnLoaded(System.EventArgs e) { }
     }
     public class CalloutEventArgs : System.EventArgs
     {

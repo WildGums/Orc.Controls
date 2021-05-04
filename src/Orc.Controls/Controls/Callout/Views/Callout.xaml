@@ -237,22 +237,23 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Row="0"
-                                   Text="{Binding Title}" 
-                                   FontSize="14" 
-                                   FontWeight="Medium" 
-                                   Foreground="{DynamicResource Orc.Brushes.Control.Default.Foreground}" 
-                                   HorizontalAlignment="Left" />
+                                       Text="{Binding Title}" 
+                                       FontSize="14" 
+                                       FontWeight="Medium" 
+                                       Foreground="{DynamicResource Orc.Brushes.Control.Default.Foreground}" 
+                                       HorizontalAlignment="Left" />
 
                             <TextBlock Grid.Row="1"
-                                   MaxWidth="200"
-                                   HorizontalAlignment="Center" 
-                                   VerticalAlignment="Center" 
-                                   Foreground="{DynamicResource Orc.Brushes.Control.Default.Foreground}" 
-                                   Text="{Binding Description}" 
-                                   TextWrapping="Wrap" />
+                                       MaxWidth="200"
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center" 
+                                       Foreground="{DynamicResource Orc.Brushes.Control.Default.Foreground}" 
+                                       Text="{Binding Description}" 
+                                       TextWrapping="Wrap"
+                                       Visibility="{Binding Description, Converter={catel:EmptyStringToCollapsingVisibilityConverter}}" />
 
                             <ContentPresenter Grid.Row="2" 
-                                          Content="{Binding InnerContent}" />
+                                              Content="{Binding InnerContent}" />
                         </Grid>
 
                         <Button Command="{Binding ClosePopup}" 
