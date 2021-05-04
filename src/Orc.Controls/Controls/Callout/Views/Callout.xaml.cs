@@ -69,7 +69,9 @@ namespace Orc.Controls
                     Popup.SetCurrentValue(Popup.VerticalOffsetProperty,  -8d);
 
                     BorderGapRectangle.SetCurrentValue(WidthProperty, TailBaseWidth - 4);
+                    BorderGapRectangle.SetCurrentValue(HeightProperty, 2d);
                     BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Top);
+                    BorderGapRectangle.SetCurrentValue(HorizontalAlignmentProperty, HorizontalAlignment.Center);
 
                     break;
 
@@ -82,6 +84,8 @@ namespace Orc.Controls
                     BorderGapRectangle.SetCurrentValue(WidthProperty, TailBaseWidth - 4);
                     BorderGapRectangle.SetCurrentValue(HeightProperty, 2d);
                     BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Bottom);
+                    BorderGapRectangle.SetCurrentValue(HorizontalAlignmentProperty, HorizontalAlignment.Center);
+
 
                     break;
 
@@ -92,6 +96,7 @@ namespace Orc.Controls
                     BorderGapRectangle.SetCurrentValue(WidthProperty, 2d);
                     BorderGapRectangle.SetCurrentValue(HeightProperty, TailBaseWidth - 4);
                     BorderGapRectangle.SetCurrentValue(HorizontalAlignmentProperty, HorizontalAlignment.Left);
+                    BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Center);
 
                     break;
 
@@ -100,6 +105,11 @@ namespace Orc.Controls
                 case PlacementMode.Left:
                     Popup.SetCurrentValue(Popup.VerticalOffsetProperty, (placementTargetControl.ActualHeight - ContentBorder.ActualHeight) / 2d + VerticalOffset);
                     Popup.SetCurrentValue(Popup.HorizontalOffsetProperty, 8d);
+
+                    BorderGapRectangle.SetCurrentValue(WidthProperty, 2d);
+                    BorderGapRectangle.SetCurrentValue(HeightProperty, TailBaseWidth - 4);
+                    BorderGapRectangle.SetCurrentValue(HorizontalAlignmentProperty, HorizontalAlignment.Right);
+                    BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Center);
 
                     break;
 

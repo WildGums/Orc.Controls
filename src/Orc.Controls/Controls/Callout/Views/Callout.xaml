@@ -27,6 +27,30 @@
             </Setter>
         </Style>
 
+        <!-- Left Polygons -->
+        <Style x:Key="LeftPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource PolygonStyle}">
+            <Setter Property="Grid.Column" Value="2"/>
+            <Setter Property="Grid.Row" Value="1"/>
+            <Setter Property="Points" Value="0,0 50,50, 0,100"/>
+            <Setter Property="Height" Value="{Binding TailBaseWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"/>
+            <Setter Property="Width" Value="{Binding HorizontalOffset, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"/>
+        </Style>
+
+        <Style x:Key="LeftCenterPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource LeftPolygonStyle}">
+            <Setter Property="Margin" Value="-2 0 0 0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="LeftTopPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource LeftPolygonStyle}">
+            <Setter Property="Margin" Value="0 5 -2 0"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <Style x:Key="LeftBottomPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource LeftPolygonStyle}">
+            <Setter Property="Margin" Value="0 0 -2 15"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+        </Style>
+
         <!-- Right Polygons -->
         <Style x:Key="RightPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource PolygonStyle}">
             <Setter Property="Grid.Column" Value="0"/>
@@ -267,14 +291,14 @@
 
                                         <Canvas Background="Transparent"/>
                                         <Path HorizontalAlignment="Center" 
-                                          Margin="2" 
-                                          Stroke="Gray" 
-                                          StrokeThickness="1"
-                                          SnapsToDevicePixels="True" 
-                                          Stretch="Fill"
-                                          UseLayoutRounding="True" 
-                                          VerticalAlignment="Center"
-                                          x:Name="closePath">
+                                              Margin="2" 
+                                              Stroke="Gray" 
+                                              StrokeThickness="1"
+                                              SnapsToDevicePixels="True" 
+                                              Stretch="Fill"
+                                              UseLayoutRounding="True" 
+                                              VerticalAlignment="Center"
+                                              x:Name="closePath">
                                             <Path.Data>
                                                 <PathGeometry>
                                                     <PathFigure StartPoint="0,0">
@@ -297,9 +321,9 @@
                             Panel.ZIndex="100"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Center"
-                            Fill="White"
+                            Fill="{DynamicResource Orc.Brushes.Control.Default.Background}"
                             StrokeThickness="0"
-                            Stroke="White" 
+                            Stroke="{DynamicResource Orc.Brushes.Control.Default.Background}"
                             Grid.Row="1"
                             Grid.Column="1"/>
             </Grid>
