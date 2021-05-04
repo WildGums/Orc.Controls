@@ -54,6 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controls\Callout\Converters\" />
     <Folder Include="Controls\EditableControls\Behaviors\Base\" />
   </ItemGroup>
 
