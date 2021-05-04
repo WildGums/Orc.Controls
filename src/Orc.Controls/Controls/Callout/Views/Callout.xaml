@@ -166,9 +166,7 @@
 
         <Border x:Name="ContentBorder"
                 Padding ="8"
-                BorderThickness="0.5" 
-                BorderBrush="WhiteSmoke" 
-                CornerRadius="5"
+                BorderBrush="Transparent" 
                 Opacity="1">
 
             <xamlbehaviors:Interaction.Triggers>
