@@ -297,7 +297,6 @@
                             Panel.ZIndex="100"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Center"
-                            Height="2" 
                             Fill="White"
                             StrokeThickness="0"
                             Stroke="White" 

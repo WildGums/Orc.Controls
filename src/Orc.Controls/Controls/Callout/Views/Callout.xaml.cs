@@ -78,31 +78,29 @@ namespace Orc.Controls
 
                     Popup.SetCurrentValue(Popup.VerticalOffsetProperty, 8d);
                     Popup.SetCurrentValue(Popup.HorizontalOffsetProperty, (placementTargetControl.ActualWidth - ContentBorder.ActualWidth) / 2d + HorizontalOffset);
+
                     BorderGapRectangle.SetCurrentValue(WidthProperty, TailBaseWidth - 4);
+                    BorderGapRectangle.SetCurrentValue(HeightProperty, 2d);
                     BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Bottom);
 
                     break;
 
                 case PlacementMode.Right:
                     Popup.SetCurrentValue(Popup.VerticalOffsetProperty, (placementTargetControl.ActualHeight - ContentBorder.ActualHeight) / 2d + VerticalOffset);
-          
+                    Popup.SetCurrentValue(Popup.HorizontalOffsetProperty, -8d);
 
+                    BorderGapRectangle.SetCurrentValue(WidthProperty, 2d);
+                    BorderGapRectangle.SetCurrentValue(HeightProperty, TailBaseWidth - 4);
+                    BorderGapRectangle.SetCurrentValue(HorizontalAlignmentProperty, HorizontalAlignment.Left);
 
-                    //LeftTailColumnDefinition.SetCurrentValue(ColumnDefinition.WidthProperty, horizontalOffset);
-                    //RightTailColumnDefinition.SetCurrentValue(ColumnDefinition.WidthProperty, zeroGridLength);
-                    //BottomTailRowDefinition.SetCurrentValue(RowDefinition.HeightProperty, zeroGridLength);
-                    //TopTailRowDefinition.SetCurrentValue(RowDefinition.HeightProperty, zeroGridLength);
                     break;
 
 
 
                 case PlacementMode.Left:
                     Popup.SetCurrentValue(Popup.VerticalOffsetProperty, (placementTargetControl.ActualHeight - ContentBorder.ActualHeight) / 2d + VerticalOffset);
+                    Popup.SetCurrentValue(Popup.HorizontalOffsetProperty, 8d);
 
-                    //LeftTailColumnDefinition.SetCurrentValue(ColumnDefinition.WidthProperty, zeroGridLength);
-                    //RightTailColumnDefinition.SetCurrentValue(ColumnDefinition.WidthProperty, horizontalOffset);
-                    //BottomTailRowDefinition.SetCurrentValue(RowDefinition.HeightProperty, zeroGridLength);
-                    //TopTailRowDefinition.SetCurrentValue(RowDefinition.HeightProperty, zeroGridLength);
                     break;
 
                 default:
