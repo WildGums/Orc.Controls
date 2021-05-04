@@ -17,7 +17,6 @@
 
         <Style x:Key="PolygonStyle" TargetType="{x:Type Polygon}">
             <Setter Property="Stretch" Value="Fill"/>
-            <Setter Property="Panel.ZIndex" Value="100"/>
             <Setter Property="StrokeThickness" Value="1.5"/>
             <Setter Property="Stroke" Value="{DynamicResource GrayBrush2}"/>
             <Setter Property="Fill" Value="{DynamicResource Orc.Brushes.Control.Default.Background}"/>
@@ -28,10 +27,35 @@
             </Setter>
         </Style>
 
+        <!-- Right Polygons -->
+        <Style x:Key="RightPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource PolygonStyle}">
+            <Setter Property="Grid.Column" Value="0"/>
+            <Setter Property="Grid.Row" Value="1"/>
+            <Setter Property="Points" Value="0,50 50,0, 50,100"/>
+            <Setter Property="Height" Value="{Binding TailBaseWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"/>
+            <Setter Property="Width" Value="{Binding HorizontalOffset, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"/>
+        </Style>
+
+        <Style x:Key="RightCenterPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource RightPolygonStyle}">
+            <Setter Property="Margin" Value="0 0 -2 0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="RightTopPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource RightPolygonStyle}">
+            <Setter Property="Margin" Value="0 5 -2 0"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <Style x:Key="RightBottomPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource RightPolygonStyle}">
+            <Setter Property="Margin" Value="0 0 -2 15"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+        </Style>
+
         <!-- Top Polygons -->
         <Style x:Key="TopPolygonStyle" TargetType="{x:Type Polygon}" BasedOn="{StaticResource PolygonStyle}">
             <Setter Property="Grid.Column" Value="1"/>
             <Setter Property="Grid.Row" Value="2"/>
+            <Setter Property="Panel.ZIndex" Value="100"></Setter>
             <Setter Property="Points" Value="0,0 100,0, 50,50"/>
             <Setter Property="Width" Value="{Binding TailBaseWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"/>
             <Setter Property="Height" Value="{Binding VerticalOffset, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"/>
@@ -79,26 +103,14 @@
     </UserControl.Resources>
 
     <Popup x:Name="Popup"
+           VerticalOffset="18"
            IsOpen="{Binding IsOpen}"
            PlacementTarget="{Binding PlacementTarget, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"
            Placement="{Binding Placement, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"
            StaysOpen="False"
            AllowsTransparency="True">
 
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <!--<Polygon x:Name="LeftTailPolygon"
+        <!--<Polygon x:Name="LeftTailPolygon"
                      Grid.Column="0"
                      Grid.Row="1"
                      Stretch="Fill"
@@ -115,9 +127,9 @@
                      Fill="{DynamicResource Orc.Brushes.Control.Default.Background}" />-->
 
 
-            <Polygon x:Name="TailPolygon"/>
 
-            <!--<Polygon x:Name="BottomTailPolygon"
+
+        <!--<Polygon x:Name="BottomTailPolygon"
                      Grid.Column="1"
                      Grid.Row="2"
                      Stretch="Fill"
@@ -128,44 +140,59 @@
                      Stroke="{DynamicResource Orc.Brushes.Control.Default.Border}" 
                      Fill="{DynamicResource Orc.Brushes.Control.Default.Background}" />-->
 
-            <Border x:Name="ContentBorder"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    BorderThickness="0.5" 
-                    BorderBrush="WhiteSmoke" 
-                    CornerRadius="5"
-                    Opacity="1">
+        <Border x:Name="ContentBorder"
+                Padding ="8"
+                BorderThickness="0.5" 
+                BorderBrush="WhiteSmoke" 
+                CornerRadius="5"
+                Opacity="1">
 
-                <xamlbehaviors:Interaction.Triggers>
-                    <xamlbehaviors:EventTrigger EventName="MouseEnter">
-                        <xamlbehaviors:InvokeCommandAction Command="{Binding PauseTimer}" />
-                    </xamlbehaviors:EventTrigger>
+            <xamlbehaviors:Interaction.Triggers>
+                <xamlbehaviors:EventTrigger EventName="MouseEnter">
+                    <xamlbehaviors:InvokeCommandAction Command="{Binding PauseTimer}" />
+                </xamlbehaviors:EventTrigger>
 
-                    <xamlbehaviors:EventTrigger EventName="MouseLeave">
-                        <xamlbehaviors:InvokeCommandAction Command="{Binding ResumeTimer}" />
-                    </xamlbehaviors:EventTrigger>
-                </xamlbehaviors:Interaction.Triggers>
+                <xamlbehaviors:EventTrigger EventName="MouseLeave">
+                    <xamlbehaviors:InvokeCommandAction Command="{Binding ResumeTimer}" />
+                </xamlbehaviors:EventTrigger>
+            </xamlbehaviors:Interaction.Triggers>
 
-                <Border.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <BeginStoryboard>
-                            <Storyboard SpeedRatio="4">
-                                <DoubleAnimation To="{StaticResource DefaultOpacity}" Storyboard.TargetProperty="Opacity" Duration="0:0:2" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
+            <Border.Triggers>
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard SpeedRatio="4">
+                            <DoubleAnimation To="{StaticResource DefaultOpacity}" Storyboard.TargetProperty="Opacity" Duration="0:0:2" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
 
-                    <EventTrigger RoutedEvent="FrameworkElement.Unloaded">
-                        <BeginStoryboard>
-                            <Storyboard SpeedRatio="4">
-                                <DoubleAnimation To="0" Storyboard.TargetProperty="Opacity" Duration="0:0:2"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Border.Triggers>
+                <EventTrigger RoutedEvent="FrameworkElement.Unloaded">
+                    <BeginStoryboard>
+                        <Storyboard SpeedRatio="4">
+                            <DoubleAnimation To="0" Storyboard.TargetProperty="Opacity" Duration="0:0:2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Border.Triggers>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Polygon x:Name="TailPolygon"/>
 
                 <Border x:Name="Border" 
-                        Margin="0 0 8 8"
+                        Grid.Row="1"
+                        Grid.Column="1"
                         CornerRadius="5"
                         BorderThickness="1.5" 
                         BorderBrush="{DynamicResource GrayBrush2}"
@@ -265,17 +292,18 @@
                         </Button>
                     </Grid>
                 </Border>
-            </Border>
 
-            <Rectangle  x:Name="BorderGapRectangle"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Center"
-                        Height="2" 
-                        Fill="White"
-                        StrokeThickness="0"
-                        Stroke="White" 
-                        Grid.Row="1"
-                        Grid.Column="1"/>
-        </Grid>
+                <Rectangle  x:Name="BorderGapRectangle"
+                            Panel.ZIndex="100"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center"
+                            Height="2" 
+                            Fill="White"
+                            StrokeThickness="0"
+                            Stroke="White" 
+                            Grid.Row="1"
+                            Grid.Column="1"/>
+            </Grid>
+        </Border>
     </Popup>
 </catel:UserControl>

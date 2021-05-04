@@ -1,4 +1,5 @@
-﻿namespace Orc.Controls
+﻿
+namespace Orc.Controls
 {
     using System;
     using System.Windows;
@@ -63,16 +64,28 @@
             switch (placementMode)
             {
                 case PlacementMode.Bottom:
-                case PlacementMode.Top:
 
                     Popup.SetCurrentValue(Popup.HorizontalOffsetProperty, (placementTargetControl.ActualWidth - ContentBorder.ActualWidth) / 2d + HorizontalOffset);
+                    Popup.SetCurrentValue(Popup.VerticalOffsetProperty,  -8d);
+
                     BorderGapRectangle.SetCurrentValue(WidthProperty, TailBaseWidth - 4);
+                    BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Top);
+
+                    break;
+
+
+                case PlacementMode.Top:
+
+                    Popup.SetCurrentValue(Popup.VerticalOffsetProperty, 8d);
+                    Popup.SetCurrentValue(Popup.HorizontalOffsetProperty, (placementTargetControl.ActualWidth - ContentBorder.ActualWidth) / 2d + HorizontalOffset);
+                    BorderGapRectangle.SetCurrentValue(WidthProperty, TailBaseWidth - 4);
+                    BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Bottom);
 
                     break;
 
                 case PlacementMode.Right:
-                    Popup.SetCurrentValue(Popup.HorizontalOffsetProperty, (placementTargetControl.ActualWidth - ContentBorder.ActualWidth) / 2d + HorizontalOffset);
-                    BorderGapRectangle.SetCurrentValue(WidthProperty, TailBaseWidth - 4);
+                    Popup.SetCurrentValue(Popup.VerticalOffsetProperty, (placementTargetControl.ActualHeight - ContentBorder.ActualHeight) / 2d + VerticalOffset);
+          
 
 
                     //LeftTailColumnDefinition.SetCurrentValue(ColumnDefinition.WidthProperty, horizontalOffset);
@@ -84,6 +97,8 @@
 
 
                 case PlacementMode.Left:
+                    Popup.SetCurrentValue(Popup.VerticalOffsetProperty, (placementTargetControl.ActualHeight - ContentBorder.ActualHeight) / 2d + VerticalOffset);
+
                     //LeftTailColumnDefinition.SetCurrentValue(ColumnDefinition.WidthProperty, zeroGridLength);
                     //RightTailColumnDefinition.SetCurrentValue(ColumnDefinition.WidthProperty, horizontalOffset);
                     //BottomTailRowDefinition.SetCurrentValue(RowDefinition.HeightProperty, zeroGridLength);
