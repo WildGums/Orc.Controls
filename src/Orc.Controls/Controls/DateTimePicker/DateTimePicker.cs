@@ -346,6 +346,8 @@ namespace Orc.Controls
         {
             base.OnApplyTemplate();
 
+            SetCurrentValue(KeyboardNavigation.TabNavigationProperty, KeyboardNavigationMode.Local);
+
             /*Days numeric text box*/
             _daysNumericTextBox = GetTemplateChild("PART_DaysNumericTextBox") as NumericTextBox;
             if (_daysNumericTextBox is null)
@@ -637,6 +639,8 @@ namespace Orc.Controls
         {
             UnsubscribeFromCalendarEvents();
 
+            SetCurrentValue(EnterKeyTraversal.IsEnabledProperty, false);
+
             _calendarPopup.SetCurrentValue(Popup.IsOpenProperty, true);
 
             var dateTime = Value ?? _todayValue;
@@ -907,14 +911,14 @@ namespace Orc.Controls
                 _textBoxes[amPmPos] = _amPmListTextBox;
 
                 // Fix tab order inside control.
-                _daysNumericTextBox.SetCurrentValue(TabIndexProperty, dayPos);
-                _monthNumericTextBox.SetCurrentValue(TabIndexProperty, monthPos);
-                _yearNumericTextBox.SetCurrentValue(TabIndexProperty, yearPos);
-                _hourNumericTextBox.SetCurrentValue(TabIndexProperty, hourPos);
-                _minuteNumericTextBox.SetCurrentValue(TabIndexProperty, minutePos);
-                _secondNumericTextBox.SetCurrentValue(TabIndexProperty, secondPos);
-                _amPmListTextBox.SetCurrentValue(TabIndexProperty, amPmPos);
-                _datePickerIconDropDownButton.SetCurrentValue(TabIndexProperty, amPmPos + 1);
+                _daysNumericTextBox.SetCurrentValue(KeyboardNavigation.TabIndexProperty, dayPos);
+                _monthNumericTextBox.SetCurrentValue(KeyboardNavigation.TabIndexProperty, monthPos);
+                _yearNumericTextBox.SetCurrentValue(KeyboardNavigation.TabIndexProperty, yearPos);
+                _hourNumericTextBox.SetCurrentValue(KeyboardNavigation.TabIndexProperty, hourPos);
+                _minuteNumericTextBox.SetCurrentValue(KeyboardNavigation.TabIndexProperty, minutePos);
+                _secondNumericTextBox.SetCurrentValue(KeyboardNavigation.TabIndexProperty, secondPos);
+                _amPmListTextBox.SetCurrentValue(KeyboardNavigation.TabIndexProperty, amPmPos);
+                _datePickerIconDropDownButton.SetCurrentValue(KeyboardNavigation.TabIndexProperty, amPmPos + 1);
 
                 SubscribeNumericTextBoxes();
 
@@ -1306,11 +1310,11 @@ namespace Orc.Controls
                 newDateTime = DateTime.Now;
             }
 
-            bool isMeridiemAm = newValue == Meridiem.AM;
-            bool isTimeAm = newDateTime.Hour < 12;
+            var isMeridiemAm = newValue == Meridiem.AM;
+            var isTimeAm = newDateTime.Hour < 12;
 
-            TimeSpan diffTime = TimeSpan.Zero;
-            TimeSpan hours = new TimeSpan(12, 0, 0);
+            var diffTime = TimeSpan.Zero;
+            var hours = new TimeSpan(12, 0, 0);
 
             if (!(isMeridiemAm ^ isTimeAm))
             {
@@ -1600,6 +1604,8 @@ namespace Orc.Controls
 
         private void OnCalendarPopupClosed(object sender, EventArgs e)
         {
+            SetCurrentValue(EnterKeyTraversal.IsEnabledProperty, true);
+
             InvalidateEditMode();
         }
 
