@@ -8,20 +8,23 @@
     using Catel;
     using Catel.Logging;
     using Catel.MVVM;
+    using Catel.Services;
 
     public class CalloutViewModel : ViewModelBase, ICallout
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private readonly ICalloutManager _calloutManager;
-
+        private readonly IDispatcherService _dispatcherService;
         private DispatcherTimer _dispatcherTimer;
 
-        public CalloutViewModel(ICalloutManager calloutManager)
+        public CalloutViewModel(ICalloutManager calloutManager, IDispatcherService dispatcherService)
         {
             Argument.IsNotNull(() => calloutManager);
+            Argument.IsNotNull(() => dispatcherService);
 
             _calloutManager = calloutManager;
+            _dispatcherService = dispatcherService;
 
             Id = Guid.NewGuid();
 
@@ -117,42 +120,50 @@
 
         private void OnDispatcherTimerTick(object sender, EventArgs e)
         {
+            _dispatcherTimer.Stop();
+
             Hide();
         }
 
         public void Show()
         {
-            if (IsOpen)
+            _dispatcherService.BeginInvokeIfRequired(() =>
             {
-                return;
-            }
+                if (IsOpen)
+                {
+                    return;
+                }
 
-            Log.Debug($"[{this}] Showing callout");
+                Log.Debug($"[{this}] Showing callout");
 
-            if (ShowTime > TimeSpan.Zero)
-            {
-                Log.Debug($"[{this}] Starting callout timer with interval of '{ShowTime}'");
+                if (ShowTime > TimeSpan.Zero)
+                {
+                    Log.Debug($"[{this}] Starting callout timer with interval of '{ShowTime}'");
 
-                _dispatcherTimer.Interval = ShowTime;
-                _dispatcherTimer.Start();
-            }
+                    _dispatcherTimer.Interval = ShowTime;
+                    _dispatcherTimer.Start();
+                }
 
-            HasShown = true;
-            IsOpen = true;
+                HasShown = true;
+                IsOpen = true;
+            });
         }
 
         public void Hide()
         {
-            _dispatcherTimer.Stop();
-
-            if (!IsOpen)
+            _dispatcherService.BeginInvokeIfRequired(() =>
             {
-                return;
-            }
+                _dispatcherTimer.Stop();
 
-            Log.Debug($"[{this}] Hiding callout");
+                if (!IsOpen)
+                {
+                    return;
+                }
 
-            IsOpen = false;
+                Log.Debug($"[{this}] Hiding callout");
+
+                IsOpen = false;
+            });
         }
 
         private void OnIsOpenChanged()

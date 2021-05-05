@@ -147,7 +147,7 @@ namespace Orc.Controls
         public static readonly Catel.Data.PropertyData NameProperty;
         public static readonly Catel.Data.PropertyData PlacementTargetProperty;
         public static readonly Catel.Data.PropertyData ShowTimeProperty;
-        public CalloutViewModel(Orc.Controls.ICalloutManager calloutManager) { }
+        public CalloutViewModel(Orc.Controls.ICalloutManager calloutManager, Catel.Services.IDispatcherService dispatcherService) { }
         public Catel.MVVM.Command ClosePopup { get; }
         public System.Windows.Input.ICommand Command { get; set; }
         public string Description { get; set; }
