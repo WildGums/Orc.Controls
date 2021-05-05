@@ -639,6 +639,8 @@ namespace Orc.Controls
         {
             UnsubscribeFromCalendarEvents();
 
+            SetCurrentValue(EnterKeyTraversal.IsEnabledProperty, false);
+
             _calendarPopup.SetCurrentValue(Popup.IsOpenProperty, true);
 
             var dateTime = Value ?? _todayValue;
@@ -1602,6 +1604,8 @@ namespace Orc.Controls
 
         private void OnCalendarPopupClosed(object sender, EventArgs e)
         {
+            SetCurrentValue(EnterKeyTraversal.IsEnabledProperty, true);
+
             InvalidateEditMode();
         }
 
