@@ -15,6 +15,7 @@ namespace Orc.Controls
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
+    using System.Windows.Input;
     using Catel.Logging;
     using Converters;
     using Calendar = System.Windows.Controls.Calendar;
@@ -40,6 +41,7 @@ namespace Orc.Controls
     [TemplatePart(Name = "PART_PasteButton", Type = typeof(Button))]
 
     [TemplatePart(Name = "PART_MainGrid", Type = typeof(Grid))]
+    [ObsoleteEx(Message = "Use DateTimePicker instead", RemoveInVersion = "5.0.0")]
     public class DatePicker : Control
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
@@ -67,6 +69,8 @@ namespace Orc.Controls
         private Button _clearButton;
         private Button _copyButton;
         private Button _pasteButton;
+
+        private Popup _calendarPopup;
 
         private Grid _mainGrid;
 
@@ -311,11 +315,28 @@ namespace Orc.Controls
         {
             _datePickerIconToggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
 
-            var calendarPopup = CreateCalendarPopup();
+            _calendarPopup = CreateCalendarPopup();
             var calendarPopupSource = CreateCalendarPopupSource();
-            calendarPopup.SetCurrentValue(Popup.ChildProperty, calendarPopupSource);
+            _calendarPopup.SetCurrentValue(Popup.ChildProperty, calendarPopupSource);
+
+            _calendarPopup.PreviewKeyDown += OnCalendarPopupPreviewKeyDown;
+            _calendarPopup.Closed += OnCalendarPopupClosed;
 
             calendarPopupSource.Focus();
+        }
+
+        private void OnCalendarPopupPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape && _calendarPopup is not null && _calendarPopup.IsOpen)
+            {
+                _calendarPopup.SetCurrentValue(Popup.IsOpenProperty, false);
+            }
+        }
+
+        private void OnCalendarPopupClosed(object sender, EventArgs e)
+        {
+            _calendarPopup.PreviewKeyDown -= OnCalendarPopupPreviewKeyDown;
+            _calendarPopup.Closed -= OnCalendarPopupClosed;
         }
 
         private void OnClearButtonClick(object sender, RoutedEventArgs e)
