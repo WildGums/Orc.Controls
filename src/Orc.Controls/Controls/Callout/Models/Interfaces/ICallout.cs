@@ -21,6 +21,8 @@
 
         bool HasShown { get; }
 
+        string Version { get; }
+
         TimeSpan ShowTime { get; set; }
 
         ICommand Command { get; }
