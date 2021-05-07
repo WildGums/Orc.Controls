@@ -9,7 +9,6 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
-    using System.Drawing;
     using System.Globalization;
     using System.Linq;
     using System.Windows;
@@ -17,8 +16,6 @@ namespace Orc.Controls
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using System.Windows.Input;
-    using System.Windows.Media;
-    using System.Xml;
     using Catel;
     using Catel.IoC;
     using Catel.Logging;
@@ -27,7 +24,7 @@ namespace Orc.Controls
     using Catel.Windows;
     using Catel.Windows.Input;
     using Converters;
-    using Orc.Controls.Enums;
+    using Enums;
     using Calendar = System.Windows.Controls.Calendar;
 
     [TemplatePart(Name = "PART_DaysNumericTextBox", Type = typeof(NumericTextBox))]
@@ -83,6 +80,7 @@ namespace Orc.Controls
         private DateTimeFormatInfo _formatInfo;
         private bool _safeHideTimeValue;
         private bool _applyingFormat;
+        private bool _calendarSelectionChangedByKey;
 
         private readonly int _defaultSecondFormatPosition = 5;
         private readonly int _defaultAmPmFormatPosition = 6;
@@ -670,14 +668,7 @@ namespace Orc.Controls
             _timePickerPopup.SetCurrentValue(Popup.IsOpenProperty, true);
             var dateTime = Value ?? _todayValue;
             _timePicker.SetCurrentValue(TimePicker.TimeValueProperty, dateTime.TimeOfDay);
-            if (dateTime.TimeOfDay.Hours < 12)
-            {
-                _timePicker.SetCurrentValue(TimePicker.AmPmValueProperty, Meridiem.AM);
-            }
-            else
-            {
-                _timePicker.SetCurrentValue(TimePicker.AmPmValueProperty, Meridiem.PM);
-            }
+            _timePicker.SetCurrentValue(TimePicker.AmPmValueProperty, dateTime.TimeOfDay.Hours < 12 ? Meridiem.AM : Meridiem.PM);
             _timePicker.Focus();
         }
         private void OnTimeValueChanged(TimeSpan? newTimeValue)
@@ -687,20 +678,12 @@ namespace Orc.Controls
                 return;
             }
 
-            DateTime newDateTime;
-            if (HideTime == true)
+            if (HideTime)
             {
                 SetCurrentValue(HideTimeProperty, false);
             }
 
-            if(Value is not null)
-            {
-                newDateTime = Value.Value;
-            }
-            else
-            {
-                newDateTime = DateTime.Now;
-            }
+            var newDateTime = Value ?? DateTime.Now;
 
             if(AmPmValue.Equals(Meridiem.PM) && newTimeValue.Value.Hours < 12)
             {
@@ -710,7 +693,7 @@ namespace Orc.Controls
             {
                 SetCurrentValue(ValueProperty, new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newTimeValue.Value.Hours, newTimeValue.Value.Minutes, newTimeValue.Value.Seconds));
             }
-         }
+        }
 
         private void OnClearMenuItemClick(object sender, RoutedEventArgs e)
         {
@@ -1299,21 +1282,11 @@ namespace Orc.Controls
 
         private void OnAmPmValueChanged(Meridiem newValue)
         {
-            DateTime newDateTime;
-
-            if (Value is not null)
-            {
-                newDateTime = Value.Value;
-            }
-            else
-            {
-                newDateTime = DateTime.Now;
-            }
+            var newDateTime = Value ?? DateTime.Now;
 
             var isMeridiemAm = newValue == Meridiem.AM;
             var isTimeAm = newDateTime.Hour < 12;
 
-            var diffTime = TimeSpan.Zero;
             var hours = new TimeSpan(12, 0, 0);
 
             if (!(isMeridiemAm ^ isTimeAm))
@@ -1321,15 +1294,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (isMeridiemAm && !isTimeAm)
-            {
-                diffTime = newDateTime.TimeOfDay.Subtract(hours);
-            }
-
-            if (!isMeridiemAm && isTimeAm)
-            {
-                diffTime = newDateTime.TimeOfDay.Add(hours);
-            }
+            var diffTime = isMeridiemAm ? newDateTime.TimeOfDay.Subtract(hours) : newDateTime.TimeOfDay.Add(hours);
 
             var diffDate = new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, diffTime.Hours, diffTime.Minutes, diffTime.Seconds);
             SetCurrentValue(ValueProperty, diffDate);
@@ -1515,19 +1480,21 @@ namespace Orc.Controls
         {
             base.OnPreviewKeyDown(e);
 
-            if (e.Key == Key.OemSemicolon)
+            if (e.Key != Key.OemSemicolon)
             {
-                if (KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Control))
-                {
-                    UpdateDateTime(DateTime.Today.Date);
-                    e.Handled = true;
-                }
+                return;
+            }
 
-                if (KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Control | ModifierKeys.Shift))
-                {
-                    UpdateDateTime(DateTime.Now);
-                    e.Handled = true;
-                }
+            if (KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Control))
+            {
+                UpdateDateTime(DateTime.Today.Date);
+                e.Handled = true;
+            }
+
+            if (KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Control | ModifierKeys.Shift))
+            {
+                UpdateDateTime(DateTime.Now);
+                e.Handled = true;
             }
         }
 
@@ -1554,8 +1521,6 @@ namespace Orc.Controls
 
             _calendarSelectionChangedByKey = false;
         }
-
-        private bool _calendarSelectionChangedByKey = false;
 
         private void CalendarOnPreviewKeyDown(object sender, KeyEventArgs e)
         {
