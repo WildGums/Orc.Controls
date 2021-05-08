@@ -73,6 +73,8 @@ namespace Orc.Controls
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
+        private static readonly HashSet<string> SecondMinuteCantAutoProceedBeginningChars = new() {"1", "2", "3", "4", "5"};
+
         private bool _isTemplateApplied;
 
         private List<TextBox> _textBoxes;
@@ -391,7 +393,6 @@ namespace Orc.Controls
             }
             _minuteNumericTextBox.ValueChanged += OnMinuteValueChanged;
             _minuteNumericTextBox.TextChanged += OnMinuteTextChanged;
-            _minuteNumericTextBox.TextInput += (sender, args) => { };
 
             _secondNumericTextBox = GetTemplateChild("PART_SecondNumericTextBox") as NumericTextBox;
             if (_secondNumericTextBox is null)
@@ -1792,7 +1793,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (new HashSet<string> { "1", "2", "3", "4", "5" }.Contains(text))
+            if (SecondMinuteCantAutoProceedBeginningChars.Contains(text))
             {
                 return;
             }
