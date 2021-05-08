@@ -28,7 +28,7 @@ namespace Orc.Controls
         private const string PeriodCharacter = ".";
         private const string CommaCharacter = ",";
 
-        private static readonly HashSet<Key> AllowedKeys = new HashSet<Key>
+        private static readonly HashSet<Key> AllowedKeys = new()
         {
             Key.Back,
             Key.CapsLock,

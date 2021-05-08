@@ -9,7 +9,6 @@ namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
-    using System.Drawing;
     using System.Globalization;
     using System.Linq;
     using System.Windows;
@@ -17,8 +16,6 @@ namespace Orc.Controls
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using System.Windows.Input;
-    using System.Windows.Media;
-    using System.Xml;
     using Catel;
     using Catel.IoC;
     using Catel.Logging;
@@ -27,7 +24,7 @@ namespace Orc.Controls
     using Catel.Windows;
     using Catel.Windows.Input;
     using Converters;
-    using Orc.Controls.Enums;
+    using Enums;
     using Calendar = System.Windows.Controls.Calendar;
 
     [TemplatePart(Name = "PART_DaysNumericTextBox", Type = typeof(NumericTextBox))]
@@ -83,6 +80,8 @@ namespace Orc.Controls
         private DateTimeFormatInfo _formatInfo;
         private bool _safeHideTimeValue;
         private bool _applyingFormat;
+        private bool _calendarSelectionChangedByKey;
+        private bool _suspendTextChanged;
 
         private readonly int _defaultSecondFormatPosition = 5;
         private readonly int _defaultAmPmFormatPosition = 6;
@@ -355,6 +354,7 @@ namespace Orc.Controls
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysNumericTextBox'");
             }
             _daysNumericTextBox.ValueChanged += OnDaysValueChanged;
+            _daysNumericTextBox.TextChanged += OnDaysTextChanged;
 
             /*Month numeric text box*/
             _monthNumericTextBox = GetTemplateChild("PART_MonthNumericTextBox") as NumericTextBox;
@@ -372,6 +372,7 @@ namespace Orc.Controls
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_YearNumericTextBox'");
             }
             _yearNumericTextBox.ValueChanged += OnYearValueChanged;
+            _yearNumericTextBox.TextChanged += OnYearTextChanged;
 
             /*Hour numeric text box*/
             _hourNumericTextBox = GetTemplateChild("PART_HourNumericTextBox") as NumericTextBox;
@@ -380,6 +381,7 @@ namespace Orc.Controls
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HourNumericTextBox'");
             }
             _hourNumericTextBox.ValueChanged += OnHourValueChanged;
+            _hourNumericTextBox.TextChanged += OnHourTextChanged;
 
             /*Hour numeric text box*/
             _minuteNumericTextBox = GetTemplateChild("PART_MinuteNumericTextBox") as NumericTextBox;
@@ -388,6 +390,8 @@ namespace Orc.Controls
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MinuteNumericTextBox'");
             }
             _minuteNumericTextBox.ValueChanged += OnMinuteValueChanged;
+            _minuteNumericTextBox.TextChanged += OnMinuteTextChanged;
+            _minuteNumericTextBox.TextInput += (sender, args) => { };
 
             _secondNumericTextBox = GetTemplateChild("PART_SecondNumericTextBox") as NumericTextBox;
             if (_secondNumericTextBox is null)
@@ -670,14 +674,7 @@ namespace Orc.Controls
             _timePickerPopup.SetCurrentValue(Popup.IsOpenProperty, true);
             var dateTime = Value ?? _todayValue;
             _timePicker.SetCurrentValue(TimePicker.TimeValueProperty, dateTime.TimeOfDay);
-            if (dateTime.TimeOfDay.Hours < 12)
-            {
-                _timePicker.SetCurrentValue(TimePicker.AmPmValueProperty, Meridiem.AM);
-            }
-            else
-            {
-                _timePicker.SetCurrentValue(TimePicker.AmPmValueProperty, Meridiem.PM);
-            }
+            _timePicker.SetCurrentValue(TimePicker.AmPmValueProperty, dateTime.TimeOfDay.Hours < 12 ? Meridiem.AM : Meridiem.PM);
             _timePicker.Focus();
         }
         private void OnTimeValueChanged(TimeSpan? newTimeValue)
@@ -687,20 +684,12 @@ namespace Orc.Controls
                 return;
             }
 
-            DateTime newDateTime;
-            if (HideTime == true)
+            if (HideTime)
             {
                 SetCurrentValue(HideTimeProperty, false);
             }
 
-            if(Value is not null)
-            {
-                newDateTime = Value.Value;
-            }
-            else
-            {
-                newDateTime = DateTime.Now;
-            }
+            var newDateTime = Value ?? DateTime.Now;
 
             if(AmPmValue.Equals(Meridiem.PM) && newTimeValue.Value.Hours < 12)
             {
@@ -710,7 +699,7 @@ namespace Orc.Controls
             {
                 SetCurrentValue(ValueProperty, new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newTimeValue.Value.Hours, newTimeValue.Value.Minutes, newTimeValue.Value.Seconds));
             }
-         }
+        }
 
         private void OnClearMenuItemClick(object sender, RoutedEventArgs e)
         {
@@ -1127,22 +1116,25 @@ namespace Orc.Controls
                 return;
             }
 
-            var value = Value;
-
-            Day = value?.Day;
-            Month = value?.Month;
-            Year = value?.Year;
-
-            var hour = value?.Hour;
-            if (hour is not null && IsHour12Format && hour > 12)
+            using (new DisposableToken<DateTimePicker>(this, x => x.Instance._suspendTextChanged = true, x => x.Instance._suspendTextChanged = false))
             {
-                hour -= 12;
-            }
+                var value = Value;
 
-            Hour = hour;
-            Minute = value?.Minute;
-            Second = value?.Second;
-            AmPm = value is not null ? value.Value >= value.Value.Date.AddHours(12) ? Meridiems.LongPM : Meridiems.LongAM : null;
+                Day = value?.Day;
+                Month = value?.Month;
+                Year = value?.Year;
+
+                var hour = value?.Hour;
+                if (hour is not null && IsHour12Format && hour > 12)
+                {
+                    hour -= 12;
+                }
+
+                Hour = hour;
+                Minute = value?.Minute;
+                Second = value?.Second;
+                AmPm = value is not null ? value.Value >= value.Value.Date.AddHours(12) ? Meridiems.LongPM : Meridiems.LongAM : null;
+            }
         }
 
         private void OnDaysValueChanged(object sender, EventArgs e)
@@ -1158,9 +1150,54 @@ namespace Orc.Controls
             {
                 return;
             }
-
+            
             var currentValue = value ?? _todayValue;
-            SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, currentValue.Month, day.Value, currentValue.Hour, currentValue.Minute, currentValue.Second));
+            var newValue = new DateTime(currentValue.Year, currentValue.Month, day.Value, currentValue.Hour, currentValue.Minute, currentValue.Second);
+            
+            SetCurrentValue(ValueProperty, newValue);
+        }
+
+        private void OnDaysTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_suspendTextChanged)
+            {
+                return;
+            }
+
+            var dayText = _daysNumericTextBox.Text;
+            if (string.IsNullOrWhiteSpace(dayText))
+            {
+                return;
+            }
+
+            if (dayText == "1" || dayText == "2")
+            {
+                return;
+            }
+
+            var currentValue = Value ?? _todayValue;
+            if (dayText == "3")
+            {
+                if (currentValue.Month == 2)
+                {
+                    var monthPosition = (int)_monthNumericTextBox.GetValue(KeyboardNavigation.TabIndexProperty);
+                    var dayPosition = (int)_daysNumericTextBox.GetValue(KeyboardNavigation.TabIndexProperty);
+
+                    if (dayPosition < monthPosition)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            using (new DisposableToken<DateTimePicker>(this, x => x.Instance._suspendTextChanged = true, x => x.Instance._suspendTextChanged = false))
+            {
+                _daysNumericTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            }
         }
 
         private void OnMonthValueChanged(object sender, EventArgs e)
@@ -1190,6 +1227,32 @@ namespace Orc.Controls
             SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, month.Value, daysInMonth, currentValue.Hour, currentValue.Minute, currentValue.Second));
         }
 
+        private void OnMonthTextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateMaxDaysInMonth();
+
+            if (_suspendTextChanged)
+            {
+                return;
+            }
+
+            var monthText = _monthNumericTextBox.Text;
+            if (string.IsNullOrWhiteSpace(monthText))
+            {
+                return;
+            }
+
+            if (monthText == "1")
+            {
+                return;
+            }
+
+            using (new DisposableToken<DateTimePicker>(this, x => x.Instance._suspendTextChanged = true, x => x.Instance._suspendTextChanged = false))
+            {
+                _monthNumericTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            }
+        }
+
         private void OnYearValueChanged(object sender, EventArgs e)
         {
             var value = Value;
@@ -1206,6 +1269,30 @@ namespace Orc.Controls
 
             var currentValue = value ?? _todayValue;
             SetCurrentValue(ValueProperty, new DateTime(year.Value, currentValue.Month, currentValue.Day, currentValue.Hour, currentValue.Minute, currentValue.Second));
+        }
+
+        private void OnYearTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_suspendTextChanged)
+            {
+                return;
+            }
+
+            var yearText = _yearNumericTextBox.Text;
+            if (string.IsNullOrWhiteSpace(yearText))
+            {
+                return;
+            }
+
+            if (yearText.Length != 4)
+            {
+                return;
+            }
+
+            using (new DisposableToken<DateTimePicker>(this, x => x.Instance._suspendTextChanged = true, x => x.Instance._suspendTextChanged = false))
+            {
+                _yearNumericTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            }
         }
 
         private void OnHourValueChanged(object sender, EventArgs e)
@@ -1231,6 +1318,35 @@ namespace Orc.Controls
             SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, hour.Value, currentValue.Minute, currentValue.Second));
         }
 
+        private void OnHourTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_suspendTextChanged)
+            {
+                return;
+            }
+
+            var hourText = _hourNumericTextBox.Text;
+            if (string.IsNullOrWhiteSpace(hourText))
+            {
+                return;
+            }
+
+            if (hourText == "1")
+            {
+                return;
+            }
+
+            if (!IsHour12Format && hourText == "2")
+            {
+                return;
+            }
+
+            using (new DisposableToken<DateTimePicker>(this, x => x.Instance._suspendTextChanged = true, x => x.Instance._suspendTextChanged = false))
+            {
+                _hourNumericTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            }
+        }
+
         private void OnMinuteValueChanged(object sender, EventArgs e)
         {
             var value = Value;
@@ -1247,6 +1363,11 @@ namespace Orc.Controls
 
             var currentValue = value ?? _todayValue;
             SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, currentValue.Hour, minute.Value, currentValue.Second));
+        }
+        
+        private void OnMinuteTextChanged(object sender, TextChangedEventArgs e)
+        {
+            TryProceedSecondMinuteEditing(_minuteNumericTextBox);
         }
 
         private void OnSecondValueChanged(object sender, EventArgs e)
@@ -1265,6 +1386,11 @@ namespace Orc.Controls
 
             var currentValue = value ?? _todayValue;
             SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, currentValue.Hour, currentValue.Minute, second.Value));
+        }
+
+        private void OnSecondTextChanged(object sender, TextChangedEventArgs e)
+        {
+            TryProceedSecondMinuteEditing(_secondNumericTextBox);
         }
 
         private void OnAmPmListTextBoxValueChanged(object sender, EventArgs e)
@@ -1299,21 +1425,11 @@ namespace Orc.Controls
 
         private void OnAmPmValueChanged(Meridiem newValue)
         {
-            DateTime newDateTime;
-
-            if (Value is not null)
-            {
-                newDateTime = Value.Value;
-            }
-            else
-            {
-                newDateTime = DateTime.Now;
-            }
+            var newDateTime = Value ?? DateTime.Now;
 
             var isMeridiemAm = newValue == Meridiem.AM;
             var isTimeAm = newDateTime.Hour < 12;
 
-            var diffTime = TimeSpan.Zero;
             var hours = new TimeSpan(12, 0, 0);
 
             if (!(isMeridiemAm ^ isTimeAm))
@@ -1321,24 +1437,11 @@ namespace Orc.Controls
                 return;
             }
 
-            if (isMeridiemAm && !isTimeAm)
-            {
-                diffTime = newDateTime.TimeOfDay.Subtract(hours);
-            }
-
-            if (!isMeridiemAm && isTimeAm)
-            {
-                diffTime = newDateTime.TimeOfDay.Add(hours);
-            }
+            var diffTime = isMeridiemAm ? newDateTime.TimeOfDay.Subtract(hours) : newDateTime.TimeOfDay.Add(hours);
 
             var diffDate = new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, diffTime.Hours, diffTime.Minutes, diffTime.Seconds);
             SetCurrentValue(ValueProperty, diffDate);
 
-        }
-
-        private void OnMonthTextChanged(object sender, TextChangedEventArgs e)
-        {
-            UpdateMaxDaysInMonth();
         }
 
         private void UpdateMaxDaysInMonth()
@@ -1515,19 +1618,21 @@ namespace Orc.Controls
         {
             base.OnPreviewKeyDown(e);
 
-            if (e.Key == Key.OemSemicolon)
+            if (e.Key != Key.OemSemicolon)
             {
-                if (KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Control))
-                {
-                    UpdateDateTime(DateTime.Today.Date);
-                    e.Handled = true;
-                }
+                return;
+            }
 
-                if (KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Control | ModifierKeys.Shift))
-                {
-                    UpdateDateTime(DateTime.Now);
-                    e.Handled = true;
-                }
+            if (KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Control))
+            {
+                UpdateDateTime(DateTime.Today.Date);
+                e.Handled = true;
+            }
+
+            if (KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Control | ModifierKeys.Shift))
+            {
+                UpdateDateTime(DateTime.Now);
+                e.Handled = true;
             }
         }
 
@@ -1554,8 +1659,6 @@ namespace Orc.Controls
 
             _calendarSelectionChangedByKey = false;
         }
-
-        private bool _calendarSelectionChangedByKey = false;
 
         private void CalendarOnPreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -1674,6 +1777,30 @@ namespace Orc.Controls
         private CultureInfo GetCulture()
         {
             return Culture ?? CultureInfo.CurrentUICulture;
+        }
+
+        private void TryProceedSecondMinuteEditing(TextBox secondOrMinuteTextBox)
+        {
+            if (_suspendTextChanged)
+            {
+                return;
+            }
+
+            var text = secondOrMinuteTextBox.Text;
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return;
+            }
+
+            if (new HashSet<string> { "1", "2", "3", "4", "5" }.Contains(text))
+            {
+                return;
+            }
+
+            using (new DisposableToken<DateTimePicker>(this, x => x.Instance._suspendTextChanged = true, x => x.Instance._suspendTextChanged = false))
+            {
+                secondOrMinuteTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            }
         }
         #endregion
 
