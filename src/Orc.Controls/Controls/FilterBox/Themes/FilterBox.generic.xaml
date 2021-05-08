@@ -28,7 +28,6 @@
                             </Grid.ColumnDefinitions>
 
                             <ContentPresenter x:Name="PART_WatermarkHost"
-                                              Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Content="{TemplateBinding Watermark}"
@@ -43,6 +42,7 @@
                             </ContentPresenter>
 
                             <ScrollViewer x:Name="PART_ContentHost"
+                                          Padding="{TemplateBinding Padding}"
                                           BorderThickness="0" 
                                           IsTabStop="False" 
                                           Background="{x:Null}"

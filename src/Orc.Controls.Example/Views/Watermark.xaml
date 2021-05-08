@@ -54,25 +54,16 @@
         </orccontrols:WatermarkTextBox>
 
         <TextBlock Text="E-mail:"  />
+        <orccontrols:WatermarkTextBox>
+            <orccontrols:WatermarkTextBox.Watermark>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Images/email.png" />
+                    <TextBlock Text="Enter the e-mail" />
+                </StackPanel>
+            </orccontrols:WatermarkTextBox.Watermark>
+        </orccontrols:WatermarkTextBox>
 
-        <StackPanel Orientation="Horizontal">
-            <orccontrols:WatermarkTextBox Watermark="Watermark" VerticalContentAlignment="{Binding ElementName=VerticalAlignmentCombobox, Path=SelectedValue}"/>
-            <orccontrols:WatermarkTextBox Text="Watermark text" VerticalContentAlignment="{Binding ElementName=VerticalAlignmentCombobox, Path=SelectedValue}"/>
-            <orccontrols:ListTextBox Text="ListTextBox" VerticalContentAlignment="{Binding ElementName=VerticalAlignmentCombobox, Path=SelectedValue}"/>
-            <orccontrols:NumericTextBox Text="NumericTextBox" VerticalContentAlignment="{Binding ElementName=VerticalAlignmentCombobox, Path=SelectedValue}"/>
-            <orccontrols:FilterBox Text="FilterBox watermark" VerticalContentAlignment="{Binding ElementName=VerticalAlignmentCombobox, Path=SelectedValue}"/>
-            <orccontrols:FilterBox Watermark="FilterBox" VerticalContentAlignment="{Binding ElementName=VerticalAlignmentCombobox, Path=SelectedValue}"/>
-            <TextBox Text="TextBox" VerticalContentAlignment="{Binding ElementName=VerticalAlignmentCombobox, Path=SelectedValue}"/>
-            <ComboBox x:Name="VerticalAlignmentCombobox" VerticalContentAlignment="{Binding RelativeSource={RelativeSource Self}, Path=SelectedValue}">
-                <ComboBox.ItemsSource>
-                    <x:Array x:Type="VerticalAlignment">
-                        <VerticalAlignment>Top</VerticalAlignment>
-                        <VerticalAlignment>Center</VerticalAlignment>
-                        <VerticalAlignment>Bottom</VerticalAlignment>
-                        <VerticalAlignment>Stretch</VerticalAlignment>
-                    </x:Array>
-                </ComboBox.ItemsSource>
-            </ComboBox>
-        </StackPanel>
+   
+
     </orccontrols:StackGrid>
 </catel:UserControl>

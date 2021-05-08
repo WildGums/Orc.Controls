@@ -31,8 +31,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Controls.Example", "Orc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Controls.Tests", "Orc.Controls.Tests\Orc.Controls.Tests.csproj", "{132E6A32-9BC2-4284-B4C6-FA0E8A05B382}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Theming", "..\..\Orc.Theming\src\Orc.Theming\Orc.Theming.csproj", "{FCD588FC-6ACC-4658-893F-0ECB2D8DE620}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,10 +49,6 @@ Global
 		{132E6A32-9BC2-4284-B4C6-FA0E8A05B382}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{132E6A32-9BC2-4284-B4C6-FA0E8A05B382}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{132E6A32-9BC2-4284-B4C6-FA0E8A05B382}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FCD588FC-6ACC-4658-893F-0ECB2D8DE620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FCD588FC-6ACC-4658-893F-0ECB2D8DE620}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FCD588FC-6ACC-4658-893F-0ECB2D8DE620}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FCD588FC-6ACC-4658-893F-0ECB2D8DE620}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
