@@ -18,7 +18,6 @@
                             SnapsToDevicePixels="true">
 
                         <ScrollViewer x:Name="PART_ContentHost"
-                                      Padding="{TemplateBinding Padding}"
                                       BorderThickness="0" 
                                       IsTabStop="False" 
                                       Background="{x:Null}"

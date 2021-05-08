@@ -37,7 +37,6 @@
     <PackageReference Include="ModuleInit.Fody" Version="2.1.1" PrivateAssets="all" />
     <PackageReference Include="Obsolete.Fody" Version="5.2.1" PrivateAssets="all" />
     <PackageReference Include="Orc.FileSystem" Version="4.1.4" />
-    <PackageReference Include="Orc.Theming" Version="4.3.0-alpha0195" />
   </ItemGroup>
 
   <!-- Theming -->
@@ -56,6 +55,10 @@
   <ItemGroup>
     <Folder Include="Controls\Callout\Converters\" />
     <Folder Include="Controls\EditableControls\Behaviors\Base\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Orc.Theming\src\Orc.Theming\Orc.Theming.csproj" />
   </ItemGroup>
 
   <ItemGroup>
