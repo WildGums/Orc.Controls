@@ -1,4 +1,4 @@
-[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
+﻿[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
 [assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v5.0", FrameworkDisplayName="")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Converters")]
@@ -369,6 +369,7 @@ namespace Orc.Controls
         public System.Globalization.CultureInfo SelectedCulture { get; set; }
         public void InitializeComponent() { }
     }
+    [System.Obsolete("Use DateTimePicker instead. Will be removed in version 5.0.0.", true)]
     [System.Windows.TemplatePart(Name="PART_ClearButton", Type=typeof(System.Windows.Controls.Button))]
     [System.Windows.TemplatePart(Name="PART_CopyButton", Type=typeof(System.Windows.Controls.Button))]
     [System.Windows.TemplatePart(Name="PART_DatePickerIconToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
