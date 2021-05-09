@@ -42,13 +42,19 @@
         <StackPanel>
             <TextBlock Text="DesiredColumnWidth"/>
             <Slider Value="{Binding DesiredColumnWidth}"
-                    Minimum="10" Maximum="300"/>
+                    Minimum="10" Maximum="300"
+                    AutoToolTipPlacement="TopLeft"
+                    IsSnapToTickEnabled="True"/>
             <TextBlock Text="ColumnSpacing"/>
             <Slider Value="{Binding ColumnSpacing}"
-                    Minimum="1" Maximum="20"/>
+                    Minimum="1" Maximum="40"
+                    AutoToolTipPlacement="TopLeft"
+                    IsSnapToTickEnabled="True"/>
             <TextBlock Text="RowSpacing"/>
             <Slider Value="{Binding RowSpacing}"
-                    Minimum="1" Maximum="40"/>
+                    Minimum="1" Maximum="40"
+                    AutoToolTipPlacement="TopLeft"
+                    IsSnapToTickEnabled="True"/>
         </StackPanel>
         
         <Label FontWeight="SemiBold">Compare with WrapPanel</Label>
