@@ -61,6 +61,8 @@
 
         public ICommand Command { get; set; }
 
+        public string Version { get; protected set; }
+        
         public event EventHandler<CalloutEventArgs> Showing;
 
         public event EventHandler<CalloutEventArgs> Hiding;

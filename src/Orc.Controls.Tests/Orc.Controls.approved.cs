@@ -147,6 +147,7 @@ namespace Orc.Controls
         public static readonly Catel.Data.PropertyData NameProperty;
         public static readonly Catel.Data.PropertyData PlacementTargetProperty;
         public static readonly Catel.Data.PropertyData ShowTimeProperty;
+        public static readonly Catel.Data.PropertyData VersionProperty;
         public CalloutViewModel(Orc.Controls.ICalloutManager calloutManager, Catel.Services.IDispatcherService dispatcherService) { }
         public Catel.MVVM.Command ClosePopup { get; }
         public System.Windows.Input.ICommand Command { get; set; }
@@ -163,6 +164,7 @@ namespace Orc.Controls
         public System.TimeSpan ShowTime { get; set; }
         public object Tag { get; }
         public new string Title { get; set; }
+        public string Version { get; set; }
         public event System.EventHandler<Orc.Controls.CalloutEventArgs> Hiding;
         public event System.EventHandler<Orc.Controls.CalloutEventArgs> Showing;
         protected override System.Threading.Tasks.Task CloseAsync() { }
@@ -177,12 +179,10 @@ namespace Orc.Controls
         protected readonly Catel.Configuration.IConfigurationService _configurationService;
         public CalloutWatcherBase(Orc.Controls.ICalloutManager calloutManager, Catel.Configuration.IConfigurationService configurationService) { }
         public virtual Orc.Controls.ICallout Callout { get; }
-        public virtual string ConfigurationPrefix { get; }
         public bool HasShown { get; }
         public System.Guid? Id { get; set; }
         public bool IsOneTimeCallout { get; set; }
-        public virtual string LastShownConfigurationName { get; }
-        public System.DateTime LastShownUtc { get; }
+        public System.DateTime? LastShownUtc { get; }
         public string Name { get; set; }
         public System.TimeSpan ShowInterval { get; set; }
         public virtual string Version { get; }
@@ -900,10 +900,16 @@ namespace Orc.Controls
         System.TimeSpan ShowTime { get; set; }
         object Tag { get; }
         string Title { get; }
+        string Version { get; }
         event System.EventHandler<Orc.Controls.CalloutEventArgs> Hiding;
         event System.EventHandler<Orc.Controls.CalloutEventArgs> Showing;
         void Hide();
         void Show();
+    }
+    public static class ICalloutExtensions
+    {
+        public static string GetCalloutConfigurationKeyPrefix(this Orc.Controls.ICallout callout) { }
+        public static string GetCalloutConfigurationKeyPrefix(string name, string version) { }
     }
     public interface ICalloutManager
     {
@@ -940,6 +946,15 @@ namespace Orc.Controls
         string Id { get; set; }
         bool IsChecked { get; set; }
         bool IsSelected { get; set; }
+    }
+    public static class IConfigurationServiceExtensions
+    {
+        public static System.DateTime? GetCalloutLastShown(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout) { }
+        public static bool IsCalloutMarkedAsShown(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout) { }
+        public static void MarkCalloutAsNotShown(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout) { }
+        public static void MarkCalloutAsShown(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout) { }
+        public static void SetCalloutLastShown(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout) { }
+        public static void SetCalloutLastShown(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout, System.DateTime? lastShown) { }
     }
     public interface IControlTool
     {

@@ -26,31 +26,24 @@
 
         public string Name { get; protected set; }
 
-        public virtual string ConfigurationPrefix
-        {
-            get
-            {
-                return $"Callouts.{Id?.ToString() ?? Name}.{Version}";
-            }
-        }
-
-        public virtual string LastShownConfigurationName
-        {
-            get
-            {
-                return $"{ConfigurationPrefix}.LastShown";
-            }
-        }
-
         public virtual string Version => "1.0.0";
 
         public bool HasShown { get; private set; }
 
         public bool IsOneTimeCallout { get; protected set; }
 
-        public DateTime LastShownUtc
+        public DateTime? LastShownUtc
         {
-            get { return _configurationService.GetRoamingValue(LastShownConfigurationName, DateTime.MinValue); }
+            get
+            {
+                var callout = Callout;
+                if (callout is null)
+                {
+                    return null;
+                }
+
+                return _configurationService.GetCalloutLastShown(callout);
+            }
         }
 
         public TimeSpan ShowInterval { get; protected set; }
@@ -83,7 +76,7 @@
                 return;
             }
 
-            if (IsOneTimeCallout && LastShownUtc != DateTime.MinValue)
+            if (IsOneTimeCallout && LastShownUtc.HasValue)
             {
                 return;
             }
@@ -92,7 +85,7 @@
 
             HasShown = true;
 
-            _configurationService.SetRoamingValue(LastShownConfigurationName, DateTime.UtcNow);
+            _configurationService.MarkCalloutAsShown(callout);
         }
 
         protected virtual void Hide()
