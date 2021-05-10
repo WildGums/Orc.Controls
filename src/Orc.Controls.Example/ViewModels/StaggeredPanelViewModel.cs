@@ -51,16 +51,19 @@
             var bus = new FontImage(FontAwesome.Bus) { FontFamily = nameof(FontAwesome) };
             var truck = new FontImage(FontAwesome.Truck) { FontFamily = nameof(FontAwesome) };
 
-            items.Add(new FontItem(ambulance.GetImageSource(), nameof(FontAwesome.Ambulance)));
-            items.Add(new FontItem(cab.GetImageSource(), nameof(FontAwesome.Cab)));
-            items.Add(new FontItem(plane.GetImageSource(), nameof(FontAwesome.Plane)));
-            items.Add(new FontItem(wheelchair.GetImageSource(), nameof(FontAwesome.Wheelchair)));
-            items.Add(new FontItem(car.GetImageSource(), nameof(FontAwesome.Automobile)));
-            items.Add(new FontItem(rocket.GetImageSource(), nameof(FontAwesome.Rocket)));
-            items.Add(new FontItem(taxi.GetImageSource(), nameof(FontAwesome.Taxi)));
-            items.Add(new FontItem(bicycle.GetImageSource(), nameof(FontAwesome.Bicycle)));
-            items.Add(new FontItem(bus.GetImageSource(), nameof(FontAwesome.Bus)));
-            items.Add(new FontItem(truck.GetImageSource(), nameof(FontAwesome.Truck)));
+            for (int i = 0; i < 3; i++)
+            {
+                items.Add(new FontItem(ambulance.GetImageSource(), nameof(FontAwesome.Ambulance)));
+                items.Add(new FontItem(cab.GetImageSource(), nameof(FontAwesome.Cab)));
+                items.Add(new FontItem(plane.GetImageSource(), nameof(FontAwesome.Plane)));
+                items.Add(new FontItem(wheelchair.GetImageSource(), nameof(FontAwesome.Wheelchair)));
+                items.Add(new FontItem(car.GetImageSource(), nameof(FontAwesome.Automobile)));
+                items.Add(new FontItem(rocket.GetImageSource(), nameof(FontAwesome.Rocket)));
+                items.Add(new FontItem(taxi.GetImageSource(), nameof(FontAwesome.Taxi)));
+                items.Add(new FontItem(bicycle.GetImageSource(), nameof(FontAwesome.Bicycle)));
+                items.Add(new FontItem(bus.GetImageSource(), nameof(FontAwesome.Bus)));
+                items.Add(new FontItem(truck.GetImageSource(), nameof(FontAwesome.Truck)));
+            }
 
             return items;
         }
