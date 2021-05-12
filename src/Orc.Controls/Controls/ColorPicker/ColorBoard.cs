@@ -502,7 +502,7 @@ namespace Orc.Controls
             var recentColorsGridItems = _recentColorsListBox.Items;
 
             var mostRecentColorItem = recentColorItems.FirstOrDefault(i => i.Color == selectedColor);
-            if (mostRecentColorItem != null)
+            if (mostRecentColorItem is not null)
             {
                 recentColorsGridItems.Remove(mostRecentColorItem);
                 recentColorItems.Remove(mostRecentColorItem);
@@ -527,7 +527,7 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!(d is ColorBoard control) || control._rootGrid == null)
+            if (!(d is ColorBoard control) || control._rootGrid is null)
             {
                 return;
             }
@@ -721,7 +721,7 @@ namespace Orc.Controls
         /// </summary>
         private void InitializePredefined()
         {
-            if (_dictionaryColor != null)
+            if (_dictionaryColor is not null)
             {
                 return;
             }
@@ -745,7 +745,7 @@ namespace Orc.Controls
         /// </summary>
         private void InitializeThemeColors()
         {
-            if (_themeColors != null)
+            if (_themeColors is not null)
             {
                 return;
             }

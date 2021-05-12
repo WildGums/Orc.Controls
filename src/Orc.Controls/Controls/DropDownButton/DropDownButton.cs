@@ -161,7 +161,7 @@ namespace Orc.Controls
             base.OnChecked(e);
 
             var dropDown = DropDown;
-            if (dropDown == null)
+            if (dropDown is null)
             {
                 return;
             }

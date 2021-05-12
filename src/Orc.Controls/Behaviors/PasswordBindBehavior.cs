@@ -42,7 +42,7 @@ namespace Orc.Controls
         private void OnPasswordChanged(DependencyPropertyChangedEventArgs args)
         {
             var passwordTextBox = AssociatedObject;
-            if (passwordTextBox == null)
+            if (passwordTextBox is null)
             {
                 return;
             }

@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Controls.Extensions
+namespace Orc.Controls
 {
     using System.Windows;
 

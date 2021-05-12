@@ -224,6 +224,8 @@
                                                   IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
                                     <controls:ListTextBox x:Name="PART_AmPmListTextBox" 
+                                                          Foreground="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
+                                                          Background="Transparent"
                                                           Grid.Column="12"
                                                           VerticalAlignment="Center"
                                                           VerticalContentAlignment="Center"
@@ -247,7 +249,7 @@
                                     <controls:DropDownButton x:Name="PART_DatePickerIconDropDownButton"
                                                              DockPanel.Dock="Right"
                                                              IsArrowVisible="False"
-                                                             TabIndex="30"
+                                                             KeyboardNavigation.TabIndex="30"
                                                              Margin="2 0 2 0"
                                                              Height="19"
                                                              Width="19"
@@ -380,6 +382,13 @@
                             </Border>
                         </Popup>
                     </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="MainBorder" Property="Background" Value="{DynamicResource Orc.Brushes.Control.Disabled.Background}"/>
+                            <Setter TargetName="PART_DatePickerIconDropDownButton" Property="Background" Value="{DynamicResource Orc.Brushes.Control.Disabled.Background}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

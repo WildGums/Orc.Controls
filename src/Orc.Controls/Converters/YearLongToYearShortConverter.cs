@@ -29,7 +29,7 @@ namespace Orc.Controls.Converters
         #region Methods
         protected override object Convert(object value, Type targetType, object parameter)
         {
-            if (!IsEnabled || value == null)
+            if (!IsEnabled || value is null)
             {
                 return value;
             }
@@ -46,7 +46,7 @@ namespace Orc.Controls.Converters
 
         protected override object ConvertBack(object value, Type targetType, object parameter)
         {
-            if (!IsEnabled || value == null)
+            if (!IsEnabled || value is null)
             {
                 return value;
             }

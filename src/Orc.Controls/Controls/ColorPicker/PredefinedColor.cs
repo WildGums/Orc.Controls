@@ -158,7 +158,7 @@ namespace Orc.Controls
         {
             lock (LockSingleton)
             {
-                if (_listColors != null)
+                if (_listColors is not null)
                 {
                     return;
                 }
@@ -191,7 +191,7 @@ namespace Orc.Controls
         {
             lock (LockSingleton)
             {
-                if (_listThemeColors != null)
+                if (_listThemeColors is not null)
                 {
                     return;
                 }
@@ -575,7 +575,7 @@ namespace Orc.Controls
 
         public bool Equals(PredefinedColor other)
         {
-            return other != null &&
+            return other is not null &&
                    Name == other.Name &&
                    Value.Equals(other.Value);
         }

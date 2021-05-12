@@ -330,7 +330,7 @@ namespace Orc.Controls
         {
             base.OnViewModelChanged();
 
-            if (_lastKnownViewModel != null)
+            if (_lastKnownViewModel is not null)
             {
                 _lastKnownViewModel.LogMessage -= OnViewModelLogMessage;
                 _lastKnownViewModel.ActiveFilterGroupChanged -= OnViewModelActiveFilterGroupChanged;
@@ -338,7 +338,7 @@ namespace Orc.Controls
             }
 
             _lastKnownViewModel = ViewModel as LogViewerViewModel;
-            if (_lastKnownViewModel != null)
+            if (_lastKnownViewModel is not null)
             {
                 _lastKnownViewModel.LogMessage += OnViewModelLogMessage;
                 _lastKnownViewModel.ActiveFilterGroupChanged += OnViewModelActiveFilterGroupChanged;
@@ -399,7 +399,7 @@ namespace Orc.Controls
                     }
                 }
 
-                if (logEntries == null || logEntries.Count <= 0)
+                if (logEntries is null || logEntries.Count <= 0)
                 {
                     return;
                 }
@@ -421,7 +421,7 @@ namespace Orc.Controls
 
             var document = rtb.Document;
             var paragraphs = logEntries.Select(CreateLogEntryParagraph)
-                .Where(x => x != null)
+                .Where(x => x is not null)
                 .ToList();
 
             paragraphs.ForEach(x => document.Blocks.Add(x));
@@ -475,7 +475,7 @@ namespace Orc.Controls
             var paragraph = sender as RichTextBoxParagraph;
 
             var logEntry = paragraph?.LogEntry;
-            if (logEntry == null)
+            if (logEntry is null)
             {
                 return;
             }
@@ -504,7 +504,7 @@ namespace Orc.Controls
             rtb.Visibility = Visibility.Visible;
 
             var oldDoc = rtb.Document;
-            if (oldDoc == null)
+            if (oldDoc is null)
             {
                 return;
             }
@@ -555,7 +555,7 @@ namespace Orc.Controls
 
         public void ExpandAllMultilineLogMessages()
         {
-            if (LogRecordsRichTextBox.Document == null)
+            if (LogRecordsRichTextBox.Document is null)
             {
                 return;
             }
@@ -568,7 +568,7 @@ namespace Orc.Controls
 
         public void CollapseAllMultilineLogMessages()
         {
-            if (LogRecordsRichTextBox.Document == null)
+            if (LogRecordsRichTextBox.Document is null)
             {
                 return;
             }
@@ -600,7 +600,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (_commandManager == null)
+            if (_commandManager is null)
             {
                 return;
             }
@@ -611,7 +611,7 @@ namespace Orc.Controls
             foreach (var commandName in commandNames)
             {
                 var inputGesture = _commandManager.GetInputGesture(commandName);
-                if (inputGesture == null)
+                if (inputGesture is null)
                 {
                     continue;
                 }

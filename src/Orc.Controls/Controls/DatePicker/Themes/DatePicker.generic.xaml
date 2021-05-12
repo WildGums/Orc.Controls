@@ -247,6 +247,13 @@
                             </Grid>
                         </Border>
                     </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="MainBorder" Property="Background" Value="{DynamicResource Orc.Brushes.Control.Disabled.Background}"/>
+                            <Setter TargetName="PART_DatePickerIconToggleButton" Property="Background" Value="{DynamicResource Orc.Brushes.Control.Disabled.Background}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

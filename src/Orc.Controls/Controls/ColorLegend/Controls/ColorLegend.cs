@@ -298,7 +298,7 @@ namespace Orc.Controls
         #region Methods
         private void OnItemsSourceChanged(IEnumerable<IColorLegendItem> oldValue, IEnumerable<IColorLegendItem> newValue)
         {
-            if (_changeNotificationWrapper != null)
+            if (_changeNotificationWrapper is not null)
             {
                 _changeNotificationWrapper.CollectionItemPropertyChanged -= OnColorProviderPropertyChanged;
                 _changeNotificationWrapper.UnsubscribeFromAllEvents();
@@ -308,7 +308,7 @@ namespace Orc.Controls
             SetCurrentValue(FilteredItemsSourceProperty, GetFilteredItems());
             SetCurrentValue(FilteredItemsIdsProperty, FilteredItemsSource?.Select(cp => cp.Id));
 
-            if (newValue != null)
+            if (newValue is not null)
             {
                 _changeNotificationWrapper = new ChangeNotificationWrapper(newValue);
                 _changeNotificationWrapper.CollectionItemPropertyChanged += OnColorProviderPropertyChanged;
@@ -335,7 +335,7 @@ namespace Orc.Controls
             var allUnchecked = true;
 
             var filteredItems = GetFilteredItems();
-            if (filteredItems != null)
+            if (filteredItems is not null)
             {
                 foreach (var filteredItem in filteredItems)
                 {
@@ -381,7 +381,7 @@ namespace Orc.Controls
             }
 
             var filteredItems = GetFilteredItems();
-            if (filteredItems == null)
+            if (filteredItems is null)
             {
                 return;
             }
@@ -415,7 +415,7 @@ namespace Orc.Controls
         private void OnEditingColorChanged()
         {
             var currentColorLegendItem = _currentColorLegendItem;
-            if (currentColorLegendItem != null)
+            if (currentColorLegendItem is not null)
             {
                 currentColorLegendItem.Color = EditingColor;
             }
@@ -436,7 +436,7 @@ namespace Orc.Controls
             _button = (ButtonBase)GetTemplateChild("PART_UnselectAll");
             _checkBox = (CheckBox)GetTemplateChild("PART_All_Visible");
 
-            if (_listBox != null)
+            if (_listBox is not null)
             {
                 _listBox.SelectionChanged += OnListBoxSelectionChanged;
 
@@ -450,12 +450,12 @@ namespace Orc.Controls
                 };
             }
 
-            if (_button != null)
+            if (_button is not null)
             {
                 _button.Click += (s, e) => { _listBox?.SetCurrentValue(Selector.SelectedIndexProperty, -1); };
             }
 
-            if (_checkBox != null)
+            if (_checkBox is not null)
             {
                 _checkBox.Checked += (sender, args) => SetCurrentValue(IsAllVisibleProperty, true);
                 _checkBox.Unchecked += (sender, args) => SetCurrentValue(IsAllVisibleProperty, false);
@@ -499,7 +499,7 @@ namespace Orc.Controls
 
         public void UpdateVisibilityControlsVisibility()
         {
-            if (_listBox == null)
+            if (_listBox is null)
             {
                 return;
             }
@@ -516,7 +516,7 @@ namespace Orc.Controls
 
         public void UpdateColorEditingControlsVisibility()
         {
-            if (_listBox == null)
+            if (_listBox is null)
             {
                 return;
             }
@@ -530,7 +530,7 @@ namespace Orc.Controls
 
         public void UpdateColorPickerColorVisibility()
         {
-            if (_listBox == null)
+            if (_listBox is null)
             {
                 return;
             }
@@ -549,7 +549,7 @@ namespace Orc.Controls
 
         public void SetSelectedList(IEnumerable<IColorLegendItem> selectedList)
         {
-            if (_listBox == null || selectedList == null || _settingSelectedList)
+            if (_listBox is null || selectedList is null || _settingSelectedList)
             {
                 return;
             }
@@ -566,7 +566,7 @@ namespace Orc.Controls
                 }
 
                 var itemsSource = ItemsSource;
-                if (itemsSource == null)
+                if (itemsSource is null)
                 {
                     return;
                 }
@@ -597,7 +597,7 @@ namespace Orc.Controls
             var items = (IEnumerable<IColorLegendItem>)GetValue(ItemsSourceProperty);
             var filter = (string)GetValue(FilterProperty);
 
-            if ((items == null) || string.IsNullOrEmpty(filter))
+            if ((items is null) || string.IsNullOrEmpty(filter))
             {
                 return items;
             }
@@ -641,7 +641,7 @@ namespace Orc.Controls
             var values = (object[])parameter;
             var colorProvider = (IColorLegendItem)values[1];
 
-            return colorProvider != null && AllowColorEditing;
+            return colorProvider is not null && AllowColorEditing;
         }
 
         private void OnChangeColorExecute(object parameter)

@@ -327,7 +327,7 @@ namespace Orc.Controls
             lock (Locker)
             {
                 currentElement = sender as FrameworkElement;
-                if (currentElement != null)
+                if (currentElement is not null)
                 {
                     if (ElementsAndToolTips.ContainsKey(currentElement))
                     {
@@ -343,7 +343,7 @@ namespace Orc.Controls
                 SetRootVisual(currentElement);
             }
 
-            if (toolTip == null || (toolTip.Content == null && toolTip.ContentTemplate == null) || toolTip.IsTimerEnabled || toolTip.IsOpen)
+            if (toolTip is null || (toolTip.Content is null && toolTip.ContentTemplate is null) || toolTip.IsTimerEnabled || toolTip.IsOpen)
             {
                 return;
             }
@@ -409,7 +409,7 @@ namespace Orc.Controls
                 }
             }
 
-            if (toolTip != null && toolTip.IsOpen)
+            if (toolTip is not null && toolTip.IsOpen)
             {
                 toolTip.PerformPlacement();
             }
@@ -433,7 +433,7 @@ namespace Orc.Controls
                 }
             }
 
-            if (toolTip != null && toolTip.IsOpen)
+            if (toolTip is not null && toolTip.IsOpen)
             {
                 toolTip.PerformPlacement();
             }
@@ -448,9 +448,9 @@ namespace Orc.Controls
         {
             lock (Locker)
             {
-                foreach (var toolTip in ElementsAndToolTips.Values.Where(toolTip => toolTip != null && !toolTip.IsPinned))
+                foreach (var toolTip in ElementsAndToolTips.Values.Where(toolTip => toolTip is not null && !toolTip.IsPinned))
                 {
-                    if (toolTip.FindLogicalAncestor(x => ReferenceEquals(x, e.OriginalSource)) != null)
+                    if (toolTip.FindLogicalAncestor(x => ReferenceEquals(x, e.OriginalSource)) is not null)
                     {
                         continue;
                     }
@@ -477,12 +477,12 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private static void OnIsToolTipOwnerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.OldValue != null)
+            if (e.OldValue is not null)
             {
                 UnregisterToolTip(d as UIElement);
             }
 
-            if ((e.NewValue != null) && ((bool)e.NewValue))
+            if ((e.NewValue is not null) && ((bool)e.NewValue))
             {
                 RegisterToolTip(d as UIElement, null);
             }
@@ -495,12 +495,12 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private static void OnToolTipChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.OldValue != null)
+            if (e.OldValue is not null)
             {
                 UnregisterToolTip(d as UIElement);
             }
 
-            if (e.NewValue != null)
+            if (e.NewValue is not null)
             {
                 RegisterToolTip(d as UIElement, e.NewValue);
             }
@@ -513,7 +513,7 @@ namespace Orc.Controls
         /// <param name="p">The p.</param>
         private static void RegisterToolTip(UIElement owner, object p)
         {
-            if (owner == null)
+            if (owner is null)
             {
                 return;
             }
@@ -527,7 +527,7 @@ namespace Orc.Controls
             }
 
             PinnableToolTip toolTip = null;
-            if (p != null)
+            if (p is not null)
             {
                 toolTip = p as PinnableToolTip ?? ConvertToToolTip(p);
                 toolTip.Owner = owner;
@@ -566,7 +566,7 @@ namespace Orc.Controls
                 }
 
                 var existingRootVisual = RootVisual;
-                if (existingRootVisual != null)
+                if (existingRootVisual is not null)
                 {
                     existingRootVisual.MouseMove -= OnRootVisualMouseMove;
                 }
@@ -629,7 +629,7 @@ namespace Orc.Controls
                         control.IsEnabledChanged -= OnControlEnabledChanged;
                     }
 
-                    if (toolTip != null)
+                    if (toolTip is not null)
                     {
                         toolTip.Hide();
                         toolTip.Owner = null;

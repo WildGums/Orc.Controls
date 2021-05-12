@@ -40,6 +40,8 @@ public static class ModuleInitializer
 
         serviceLocator.RegisterType<IApplicationLogFilterGroupService, ApplicationLogFilterGroupService>();
 
+        serviceLocator.RegisterType<ICalloutManager, CalloutManager>();
+
         serviceLocator.RegisterType<ISuggestionListService, SuggestionListService>();
         serviceLocator.RegisterType<IValidationNamesService, ValidationNamesService>();
         serviceLocator.RegisterType<ITextInputWindowService, TextInputWindowService>();

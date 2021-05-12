@@ -771,7 +771,7 @@ namespace Orc.Controls
         /// <param name="newOscillate">New Value</param>
         protected virtual void OnOscillateChanged(bool oldOscillate, bool newOscillate)
         {
-            if (_sb == null)
+            if (_sb is null)
             {
                 return;
             }
@@ -823,7 +823,7 @@ namespace Orc.Controls
         /// <param name="newReverseDuration">New Value</param>
         protected virtual void OnReverseDurationChanged(Duration oldReverseDuration, Duration newReverseDuration)
         {
-            if (_sb == null || !Oscillate)
+            if (_sb is null || !Oscillate)
             {
                 return;
             }
@@ -871,7 +871,7 @@ namespace Orc.Controls
         /// <param name="newTotalDuration">New Value</param>
         protected virtual void OnTotalDurationChanged(Duration oldTotalDuration, Duration newTotalDuration)
         {
-            if (_sb == null || Oscillate)
+            if (_sb is null || Oscillate)
             {
                 return;
             }
@@ -932,7 +932,7 @@ namespace Orc.Controls
         /// </summary>
         private void StartFluidAnimation()
         {
-            if (_sb == null || (_isStoryboardRunning))
+            if (_sb is null || (_isStoryboardRunning))
             {
                 return;
             }
@@ -946,7 +946,7 @@ namespace Orc.Controls
         /// </summary>
         private void StopFluidAnimation()
         {
-            if (_sb == null || (!_isStoryboardRunning))
+            if (_sb is null || (!_isStoryboardRunning))
             {
                 return;
             }
@@ -1102,7 +1102,7 @@ namespace Orc.Controls
         {
             var nextDelay = new Duration(TimeSpan.FromSeconds(0));
 
-            if (_sb == null)
+            if (_sb is null)
             {
                 return;
             }

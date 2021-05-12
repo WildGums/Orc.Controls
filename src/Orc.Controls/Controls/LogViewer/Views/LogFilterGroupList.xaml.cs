@@ -28,14 +28,14 @@ namespace Orc.Controls
         {
             base.OnViewModelChanged();
 
-            if (_lastKnownViewModel != null)
+            if (_lastKnownViewModel is not null)
             {
                 _lastKnownViewModel.Updated -= OnViewModelUpdated;
                 _lastKnownViewModel = null;
             }
 
             _lastKnownViewModel = ViewModel as LogFilterGroupListViewModel;
-            if (_lastKnownViewModel != null)
+            if (_lastKnownViewModel is not null)
             {
                 _lastKnownViewModel.Updated += OnViewModelUpdated;
             }

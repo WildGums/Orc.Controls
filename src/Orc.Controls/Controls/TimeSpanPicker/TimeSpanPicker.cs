@@ -282,7 +282,7 @@ namespace Orc.Controls
         {
             var days = Days;
             var value = Value;
-            if (value == null)
+            if (value is null)
             {
                 SetCurrentValue(ValueProperty, new TimeSpan(days, 0, 0, 0));
             }
@@ -301,7 +301,7 @@ namespace Orc.Controls
         {
             var hours = Hours;
             var value = Value;
-            if (value == null)
+            if (value is null)
             {
                 SetCurrentValue(ValueProperty, new TimeSpan(0, hours, 0, 0));
             }
@@ -320,7 +320,7 @@ namespace Orc.Controls
         {
             var minutes = Minutes;
             var value = Value;
-            if (value == null)
+            if (value is null)
             {
                 SetCurrentValue(ValueProperty, new TimeSpan(0, 0, minutes, 0));
             }
@@ -339,7 +339,7 @@ namespace Orc.Controls
         {
             var seconds = Seconds;
             var value = Value;
-            if (value == null)
+            if (value is null)
             {
                 SetCurrentValue(ValueProperty, new TimeSpan(0, 0, 0, seconds));
             }
@@ -373,9 +373,9 @@ namespace Orc.Controls
             _minutesNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)(value?.Minutes ?? 0));
             _secondsNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)(value?.Seconds ?? 0));
 
-            _daysHoursSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, value == null ? string.Empty : ".");
-            _hoursMinutesSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, value == null ? string.Empty : ":");
-            _minutesSecondsSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, value == null ? string.Empty : ":");
+            _daysHoursSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, value is null ? string.Empty : ".");
+            _hoursMinutesSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, value is null ? string.Empty : ":");
+            _minutesSecondsSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, value is null ? string.Empty : ":");
         }
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)

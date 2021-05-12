@@ -46,14 +46,14 @@ namespace Orc.Controls
 
             set
             {
-                if (_child != null)
+                if (_child is not null)
                 {
                     RemoveVisualChild(_child);
                 }
 
                 _child = value;
 
-                if (_child != null)
+                if (_child is not null)
                 {
                     AddVisualChild(_child);
                 }
@@ -69,7 +69,7 @@ namespace Orc.Controls
         /// </returns>
         protected override Visual GetVisualChild(int index)
         {
-            if (_child != null && index == 0)
+            if (_child is not null && index == 0)
             {
                 return _child;
             }
@@ -86,7 +86,7 @@ namespace Orc.Controls
         /// </returns>
         protected override int VisualChildrenCount
         {
-            get { return _child != null ? 1 : 0; }
+            get { return _child is not null ? 1 : 0; }
         }
     }
 }

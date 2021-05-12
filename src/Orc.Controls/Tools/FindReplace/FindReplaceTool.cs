@@ -53,7 +53,7 @@ namespace Orc.Controls
 
             var serviceLocator = target.GetServiceLocator();
             _findReplaceService = serviceLocator.TryResolveType<IFindReplaceService>(target);
-            if (_findReplaceService != null)
+            if (_findReplaceService is not null)
             {
                 return;
             }
@@ -91,7 +91,7 @@ namespace Orc.Controls
         {
             base.Close();
 
-            if (_findReplaceViewModel == null)
+            if (_findReplaceViewModel is null)
             {
                 return;
             }

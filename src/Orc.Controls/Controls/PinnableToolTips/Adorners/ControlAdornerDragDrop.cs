@@ -85,7 +85,7 @@ namespace Orc.Controls
         #region Methods
         private void MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (_element != null)
+            if (_element is not null)
             {
                 if (!_element.IsMouseOver)
                 {
@@ -172,7 +172,7 @@ namespace Orc.Controls
             }
 
             var adornerChild = _adorner.Child;
-            if (adornerChild != null)
+            if (adornerChild is not null)
             {
                 //Debug.WriteLine($"Updating adorner child offset: X = '{offset.X}', Y = '{offset.Y}'");
 

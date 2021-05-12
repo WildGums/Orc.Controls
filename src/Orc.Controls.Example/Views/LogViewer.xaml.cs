@@ -26,7 +26,7 @@ namespace Orc.Controls.Example.Views
         {
             base.OnViewModelChanged();
 
-            if (ViewModel != null)
+            if (ViewModel is not null)
             {
                 await UpdateLogFilterGroupsAsync();
             }

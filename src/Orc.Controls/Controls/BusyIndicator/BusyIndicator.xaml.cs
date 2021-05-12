@@ -65,7 +65,7 @@ namespace Orc.Controls
         #region Methods
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (_mediaElementThreadInfo != null)
+            if (_mediaElementThreadInfo is not null)
             {
                 return;
             }
@@ -82,7 +82,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (_mediaElementThreadInfo != null)
+            if (_mediaElementThreadInfo is not null)
             {
                 _mediaElementThreadInfo.Dispose();
                 _mediaElementThreadInfo = null;
@@ -93,7 +93,7 @@ namespace Orc.Controls
         {
             base.OnRenderSizeChanged(sizeInfo);
 
-            if (_grid != null && sizeInfo.WidthChanged)
+            if (_grid is not null && sizeInfo.WidthChanged)
             {
                 _grid.Dispatcher.BeginInvoke(() =>
                 {

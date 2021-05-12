@@ -15,6 +15,7 @@ namespace Orc.Controls
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
+    using System.Windows.Input;
     using Catel.Logging;
     using Converters;
     using Calendar = System.Windows.Controls.Calendar;
@@ -40,6 +41,7 @@ namespace Orc.Controls
     [TemplatePart(Name = "PART_PasteButton", Type = typeof(Button))]
 
     [TemplatePart(Name = "PART_MainGrid", Type = typeof(Grid))]
+    [ObsoleteEx(Message = "Use DateTimePicker instead", RemoveInVersion = "5.0.0")]
     public class DatePicker : Control
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
@@ -67,6 +69,8 @@ namespace Orc.Controls
         private Button _clearButton;
         private Button _copyButton;
         private Button _pasteButton;
+
+        private Popup _calendarPopup;
 
         private Grid _mainGrid;
 
@@ -311,11 +315,28 @@ namespace Orc.Controls
         {
             _datePickerIconToggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
 
-            var calendarPopup = CreateCalendarPopup();
+            _calendarPopup = CreateCalendarPopup();
             var calendarPopupSource = CreateCalendarPopupSource();
-            calendarPopup.SetCurrentValue(Popup.ChildProperty, calendarPopupSource);
+            _calendarPopup.SetCurrentValue(Popup.ChildProperty, calendarPopupSource);
+
+            _calendarPopup.PreviewKeyDown += OnCalendarPopupPreviewKeyDown;
+            _calendarPopup.Closed += OnCalendarPopupClosed;
 
             calendarPopupSource.Focus();
+        }
+
+        private void OnCalendarPopupPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape && _calendarPopup is not null && _calendarPopup.IsOpen)
+            {
+                _calendarPopup.SetCurrentValue(Popup.IsOpenProperty, false);
+            }
+        }
+
+        private void OnCalendarPopupClosed(object sender, EventArgs e)
+        {
+            _calendarPopup.PreviewKeyDown -= OnCalendarPopupPreviewKeyDown;
+            _calendarPopup.Closed -= OnCalendarPopupClosed;
         }
 
         private void OnClearButtonClick(object sender, RoutedEventArgs e)
@@ -329,7 +350,7 @@ namespace Orc.Controls
             _datePickerIconToggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
 
             var value = Value;
-            if (value != null)
+            if (value is not null)
             {
                 Clipboard.SetText(DateTimeFormatter.Format(value.Value, _formatInfo), TextDataFormat.Text);
             }
@@ -363,7 +384,7 @@ namespace Orc.Controls
             }
 
             // Trim the time
-            if (date != null)
+            if (date is not null)
             {
                 date = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day);
             }
@@ -414,9 +435,9 @@ namespace Orc.Controls
 
             SubscribeNumericTextBoxes();
 
-            _daysMonthsSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator1);
-            _monthsYearSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator2);
-            _yearSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value == null ? string.Empty : _formatInfo.Separator3);
+            _daysMonthsSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value is null ? string.Empty : _formatInfo.Separator1);
+            _monthsYearSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value is null ? string.Empty : _formatInfo.Separator2);
+            _yearSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value is null ? string.Empty : _formatInfo.Separator3);
         }
 
         private void OnToggleButtonChecked(object sender, RoutedEventArgs e)
@@ -456,7 +477,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (value == null)
+            if (value is null)
             {
                 SetCurrentValue(ValueProperty, new DateTime(_todayValue.Year, _todayValue.Month, day.Value));
                 return;
@@ -478,7 +499,7 @@ namespace Orc.Controls
             var value = Value;
             var month = Month;
 
-            if (month == null)
+            if (month is null)
             {
                 return;
             }
@@ -493,7 +514,7 @@ namespace Orc.Controls
                 month = 12;
             }
 
-            if (value == null)
+            if (value is null)
             {
                 SetCurrentValue(ValueProperty, new DateTime(_todayValue.Year, month.Value, _todayValue.Day));
                 return;
@@ -527,7 +548,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (value == null)
+            if (value is null)
             {
                 SetCurrentValue(ValueProperty, new DateTime(year.Value, _todayValue.Month, _todayValue.Day));
                 return;

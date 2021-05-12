@@ -169,14 +169,14 @@ namespace Orc.Controls
             Argument.IsNotNull(() => window);
 
             var owner = window.Owner;
-            if (owner != null)
+            if (owner is not null)
             {
                 window.CenterWindowToSize(new Rect(owner.Left, owner.Top, owner.ActualWidth, owner.ActualHeight));
                 return;
             }
 
             var parentWindow = Catel.Windows.DependencyObjectExtensions.FindLogicalOrVisualAncestorByType<Window>(window);
-            if (parentWindow != null)
+            if (parentWindow is not null)
             {
                 window.CenterWindowToSize(new Rect(parentWindow.Left, parentWindow.Top, parentWindow.ActualWidth, parentWindow.ActualHeight));
             }

@@ -14,7 +14,6 @@ namespace Orc.Controls
 
     public static class RichTextBoxExtensions
     {
-        #region Methods
         public static string GetInlineText(this RichTextBox richTextBox)
         {
             var sb = new StringBuilder();
@@ -23,12 +22,15 @@ namespace Orc.Controls
             {
                 foreach (var inline in block.Inlines.OfType<Run>())
                 {
-                    sb.AppendLine(inline.Text);
+                    var text = inline.Text;
+                    if (!string.IsNullOrEmpty(text))
+                    {
+                        sb.AppendLine(inline.Text);
+                    }
                 }
             }
 
             return sb.ToString();
         }
-        #endregion
     }
 }

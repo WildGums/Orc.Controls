@@ -1,0 +1,130 @@
+﻿<catel:UserControl x:Class="Orc.Controls.StepBarItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:catel="http://schemas.catelproject.com"
+             xmlns:orccontrols="clr-namespace:Orc.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="400">
+
+    <Grid ToolTip="{Binding Item.Description}">
+        <!-- Navigation "hack" -->
+        <Button Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}}"
+                Command="{Binding Item.Command}" 
+                CommandParameter="{Binding Item}"
+                Cursor="Hand"
+                Height="55"
+                Width="40"
+                Opacity="0"
+                Focusable="False" />
+
+        <Grid x:Name="grid" 
+              MinWidth="100" 
+              MaxWidth="100" 
+              Margin="0 0 0 8"
+              IsHitTestVisible="False"
+              Opacity="{Binding Item.State, Converter={orccontrols:StepToOpacityConverter}}">
+
+            <Grid Margin="5" 
+                  Grid.Column="0">
+                <Ellipse x:Name="ellipseVisited" 
+                         Width="26" 
+                         Height="26" 
+                         StrokeThickness="0"
+                         Fill="{DynamicResource Orc.Brushes.AccentColorBrush}"
+                         HorizontalAlignment="Center" 
+                         VerticalAlignment="Center"
+                         Visibility="{Binding Item.State, Converter={orccontrols:IsBeforeCurrentStepToVisibilityConverter}}" />
+
+                <Ellipse x:Name="ellipseCurrent" 
+                         Width="26" 
+                         Height="26" 
+                         StrokeThickness="0"
+                         Fill="{DynamicResource Orc.Brushes.AccentColorBrush}"
+                         HorizontalAlignment="Center" 
+                         VerticalAlignment="Center"
+                         Visibility="{Binding Item.State, Converter={orccontrols:IsCurrentStepToVisibilityConverter}}" />
+
+                <Ellipse x:Name="ellipseToVisit"
+                         Width="26" 
+                         Height="26" 
+                         StrokeThickness="0"
+                         Fill="{DynamicResource Orc.Brushes.GrayBrush4}"
+                         HorizontalAlignment="Center" 
+                         VerticalAlignment="Center"
+                         Visibility="{Binding Item.State, Converter={orccontrols:IsAfterCurrentStepToVisibilityConverter}}" />
+
+                <TextBlock x:Name="ellipseText" Text="{Binding Item.Number}" 
+                           HorizontalAlignment="Center" 
+                           Foreground="{DynamicResource Orc.Brushes.White}"
+                           VerticalAlignment="Center" 
+                           FontWeight="Medium" 
+                           FontSize="13" 
+                           Margin="0,-2,0,0"
+                           Visibility="{Binding Item.State, Converter={orccontrols:ShowStepNumberVisibilityConverter}}" />
+
+                <Viewbox x:Name="visitedIconViewBox" 
+                         Width="24" 
+                         Height="24" 
+                         Visibility="{Binding Item.State, Converter={orccontrols:IsVisitedStepToVisibilityConverter}}">
+                    <Canvas Width="24" Height="24">
+                        <Path Data="M 5.01,14.44 C 5.01,14.44 12.03,21.39 12.03,21.39 12.03,21.39 26.88,6.66 26.88,6.66" 
+                              Stroke="{DynamicResource Orc.Brushes.White}" 
+                              StrokeThickness="4" RenderTransformOrigin="0.5, 0.5" 
+                              Margin="-3 -1 0 0">
+                            <Path.RenderTransform>
+                                <ScaleTransform ScaleX="0.6" ScaleY="0.6"/>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Canvas>
+                </Viewbox>
+
+                <Viewbox x:Name="skippedIconViewBox"
+                         Width="20" 
+                         Height="20"
+                         Margin="2"
+                         Visibility="{Binding Item.State, Converter={orccontrols:IsSkippedStepToVisibilityConverter}}">
+                    <Canvas Width="24" Height="24">
+                        <Path Fill="{DynamicResource Orc.Brushes.White}" 
+                              Data="M 23.46,8.86 21.87,15.75 15,14.16 18.8,11.78 C 17.39,9.5 14.87,8 12,8 8.05,8 4.77,10.86 4.12,14.63 L 2.15,14.28 C 2.96,9.58 7.06,6 12,6 c 3.58,0 6.73,1.89 8.5,4.72 z">
+                            <!--<Path.RenderTransform>
+                                <ScaleTransform ScaleX="0.6" ScaleY="0.6"/>
+                            </Path.RenderTransform>-->
+                        </Path>
+                    </Canvas>
+                </Viewbox>
+            </Grid>
+
+            <TextBlock Name="txtTitle" 
+                       Text="{Binding Item.Title}" 
+                       FontSize="14" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       FontWeight="Medium"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap"
+                       Grid.Row="1"
+                       Foreground="{DynamicResource Orc.Brushes.GrayBrush1}"/>
+
+        </Grid>
+
+        <Canvas HorizontalAlignment="Center" 
+                Margin="5"
+                IsHitTestVisible="False"
+                x:Name="pathlineCanvas">
+            <Rectangle x:Name="pathline" 
+                       Width="48" 
+                       Height="2" 
+                       StrokeThickness="0" 
+                       Grid.Column="1"
+                       Fill="{DynamicResource Orc.Brushes.AccentColorBrush40}"
+                       Canvas.Left="{Binding ElementName=ellipse, Path=ActualWidth}"
+                       Canvas.Top="13"
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       ClipToBounds="False"
+                       Visibility="{Binding Item.State, Converter={orccontrols:IsLastStepBarToVisibilityConverter}, ConverterParameter=True}"/>
+        </Canvas>
+    </Grid>
+</catel:UserControl>

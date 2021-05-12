@@ -1,4 +1,4 @@
-[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
+﻿[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
 [assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v5.0", FrameworkDisplayName="")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Converters")]
@@ -69,6 +69,125 @@ namespace Orc.Controls
         public int IgnoreUnloadedEventCount { get; set; }
         public void InitializeComponent() { }
         protected override void OnRenderSizeChanged(System.Windows.SizeChangedInfo sizeInfo) { }
+    }
+    [System.Windows.Markup.ContentProperty("InnerContent")]
+    public class Callout : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    {
+        public static readonly System.Windows.DependencyProperty CalloutNameProperty;
+        public static readonly System.Windows.DependencyProperty CommandProperty;
+        public static readonly System.Windows.DependencyProperty DescriptionProperty;
+        public static readonly System.Windows.DependencyProperty HorizontalOffsetProperty;
+        public static readonly System.Windows.DependencyProperty InnerContentProperty;
+        public static readonly System.Windows.DependencyProperty IsClosableProperty;
+        public static readonly System.Windows.DependencyProperty IsOpenProperty;
+        public static readonly System.Windows.DependencyProperty PlacementProperty;
+        public static readonly System.Windows.DependencyProperty PlacementTargetProperty;
+        public static readonly System.Windows.DependencyProperty ShowTimeProperty;
+        public static readonly System.Windows.DependencyProperty TailBaseWidthProperty;
+        public static readonly System.Windows.DependencyProperty TailHorizontalAlignmentProperty;
+        public static readonly System.Windows.DependencyProperty TailVerticalAlignmentProperty;
+        public static readonly System.Windows.DependencyProperty TitleProperty;
+        public static readonly System.Windows.DependencyProperty VerticalOffsetProperty;
+        public Callout() { }
+        [Catel.MVVM.Views.ViewToViewModel("Name", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public string CalloutName { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public System.Windows.Input.ICommand Command { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public string Description { get; set; }
+        public double HorizontalOffset { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public object InnerContent { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool IsClosable { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public bool IsOpen { get; set; }
+        public System.Windows.Controls.Primitives.PlacementMode Placement { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public object PlacementTarget { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public System.TimeSpan ShowTime { get; set; }
+        public double TailBaseWidth { get; set; }
+        public System.Windows.HorizontalAlignment TailHorizontalAlignment { get; set; }
+        public System.Windows.VerticalAlignment TailVerticalAlignment { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public string Title { get; set; }
+        public double VerticalOffset { get; set; }
+        public void InitializeComponent() { }
+        protected override void OnLoaded(System.EventArgs e) { }
+    }
+    public class CalloutEventArgs : System.EventArgs
+    {
+        public CalloutEventArgs(Orc.Controls.ICallout callout) { }
+        public Orc.Controls.ICallout Callout { get; }
+    }
+    public class CalloutManager : Orc.Controls.ICalloutManager
+    {
+        public CalloutManager() { }
+        public System.Collections.Generic.List<Orc.Controls.ICallout> Callouts { get; }
+        public bool IsSuspended { get; }
+        public event System.EventHandler<Orc.Controls.CalloutEventArgs> Hiding;
+        public event System.EventHandler<Orc.Controls.CalloutEventArgs> Registered;
+        public event System.EventHandler<Orc.Controls.CalloutEventArgs> Showing;
+        public event System.EventHandler<Orc.Controls.CalloutEventArgs> Unregistered;
+        public void Clear() { }
+        public void Register(Orc.Controls.ICallout callout) { }
+        public void Resume() { }
+        public void Suspend() { }
+        public void Unregister(Orc.Controls.ICallout callout) { }
+    }
+    public class CalloutViewModel : Catel.MVVM.ViewModelBase, Orc.Controls.ICallout
+    {
+        public static readonly Catel.Data.PropertyData DescriptionProperty;
+        public static readonly Catel.Data.PropertyData HasShownProperty;
+        public static readonly Catel.Data.PropertyData IdProperty;
+        public static readonly Catel.Data.PropertyData InnerContentProperty;
+        public static readonly Catel.Data.PropertyData IsClosableProperty;
+        public static readonly Catel.Data.PropertyData IsOpenProperty;
+        public static readonly Catel.Data.PropertyData NameProperty;
+        public static readonly Catel.Data.PropertyData PlacementTargetProperty;
+        public static readonly Catel.Data.PropertyData ShowTimeProperty;
+        public static readonly Catel.Data.PropertyData VersionProperty;
+        public CalloutViewModel(Orc.Controls.ICalloutManager calloutManager, Catel.Services.IDispatcherService dispatcherService) { }
+        public Catel.MVVM.Command ClosePopup { get; }
+        public System.Windows.Input.ICommand Command { get; set; }
+        public string Description { get; set; }
+        public bool HasShown { get; }
+        public System.Guid Id { get; }
+        public object InnerContent { get; set; }
+        public bool IsClosable { get; set; }
+        public bool IsOpen { get; set; }
+        public string Name { get; set; }
+        public Catel.MVVM.Command PauseTimer { get; }
+        public System.Windows.UIElement PlacementTarget { get; set; }
+        public Catel.MVVM.Command ResumeTimer { get; }
+        public System.TimeSpan ShowTime { get; set; }
+        public object Tag { get; }
+        public new string Title { get; set; }
+        public string Version { get; set; }
+        public event System.EventHandler<Orc.Controls.CalloutEventArgs> Hiding;
+        public event System.EventHandler<Orc.Controls.CalloutEventArgs> Showing;
+        protected override System.Threading.Tasks.Task CloseAsync() { }
+        public void Hide() { }
+        protected override System.Threading.Tasks.Task InitializeAsync() { }
+        public void Show() { }
+        public override string ToString() { }
+    }
+    public abstract class CalloutWatcherBase
+    {
+        protected readonly Orc.Controls.ICalloutManager _calloutManager;
+        protected readonly Catel.Configuration.IConfigurationService _configurationService;
+        public CalloutWatcherBase(Orc.Controls.ICalloutManager calloutManager, Catel.Configuration.IConfigurationService configurationService) { }
+        public virtual Orc.Controls.ICallout Callout { get; }
+        public bool HasShown { get; }
+        public System.Guid? Id { get; set; }
+        public bool IsOneTimeCallout { get; set; }
+        public System.DateTime? LastShownUtc { get; }
+        public string Name { get; set; }
+        public System.TimeSpan ShowInterval { get; set; }
+        public virtual string Version { get; }
+        protected virtual void Hide() { }
+        protected virtual void Show() { }
     }
     [System.Windows.TemplatePart(Name="PART_A0GradientStop", Type=typeof(System.Windows.Media.GradientStop))]
     [System.Windows.TemplatePart(Name="PART_A1GradientStop", Type=typeof(System.Windows.Media.GradientStop))]
@@ -250,6 +369,7 @@ namespace Orc.Controls
         public System.Globalization.CultureInfo SelectedCulture { get; set; }
         public void InitializeComponent() { }
     }
+    [System.Obsolete("Use DateTimePicker instead. Will be removed in version 5.0.0.", true)]
     [System.Windows.TemplatePart(Name="PART_ClearButton", Type=typeof(System.Windows.Controls.Button))]
     [System.Windows.TemplatePart(Name="PART_CopyButton", Type=typeof(System.Windows.Controls.Button))]
     [System.Windows.TemplatePart(Name="PART_DatePickerIconToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
@@ -661,6 +781,10 @@ namespace Orc.Controls
         public bool UseWildcards { get; set; }
         public bool WholeWord { get; set; }
     }
+    public static class FindReplaceSettingsExtensions
+    {
+        public static System.Text.RegularExpressions.Regex GetRegEx(this Orc.Controls.FindReplaceSettings settings, string textToFind, bool isLeftToRight = false) { }
+    }
     public class FindReplaceTool<TFindReplaceService> : Orc.Controls.ControlToolBase
         where TFindReplaceService : Orc.Controls.Services.IFindReplaceService
     {
@@ -765,6 +889,55 @@ namespace Orc.Controls
         System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Orc.Controls.LogFilterGroup>> LoadAsync();
         System.Threading.Tasks.Task SaveAsync(System.Collections.Generic.IEnumerable<Orc.Controls.LogFilterGroup> filterGroups);
     }
+    public interface ICallout
+    {
+        System.Windows.Input.ICommand Command { get; }
+        bool HasShown { get; }
+        System.Guid Id { get; }
+        bool IsClosable { get; }
+        bool IsOpen { get; }
+        string Name { get; }
+        System.TimeSpan ShowTime { get; set; }
+        object Tag { get; }
+        string Title { get; }
+        string Version { get; }
+        event System.EventHandler<Orc.Controls.CalloutEventArgs> Hiding;
+        event System.EventHandler<Orc.Controls.CalloutEventArgs> Showing;
+        void Hide();
+        void Show();
+    }
+    public static class ICalloutExtensions
+    {
+        public static string GetCalloutConfigurationKeyPrefix(this Orc.Controls.ICallout callout) { }
+        public static string GetCalloutConfigurationKeyPrefix(string name, string version) { }
+    }
+    public interface ICalloutManager
+    {
+        System.Collections.Generic.List<Orc.Controls.ICallout> Callouts { get; }
+        bool IsSuspended { get; }
+        event System.EventHandler<Orc.Controls.CalloutEventArgs> Hiding;
+        event System.EventHandler<Orc.Controls.CalloutEventArgs> Registered;
+        event System.EventHandler<Orc.Controls.CalloutEventArgs> Showing;
+        event System.EventHandler<Orc.Controls.CalloutEventArgs> Unregistered;
+        void Clear();
+        void Register(Orc.Controls.ICallout callout);
+        void Resume();
+        void Suspend();
+        void Unregister(Orc.Controls.ICallout callout);
+    }
+    public static class ICalloutManagerExtensions
+    {
+        public static Orc.Controls.ICallout FindCallout(this Orc.Controls.ICalloutManager calloutManager, System.Guid id) { }
+        public static Orc.Controls.ICallout FindCallout(this Orc.Controls.ICalloutManager calloutManager, string name) { }
+        public static void HideAllCallouts(this Orc.Controls.ICalloutManager calloutManager) { }
+        public static void HideCallout(this Orc.Controls.ICalloutManager calloutManager, System.Guid id) { }
+        public static void HideCallout(this Orc.Controls.ICalloutManager calloutManager, string name) { }
+        public static bool IsAnyCalloutOpen(this Orc.Controls.ICalloutManager calloutManager) { }
+        public static void ShowAllCallouts(this Orc.Controls.ICalloutManager calloutManager) { }
+        public static void ShowCallout(this Orc.Controls.ICalloutManager calloutManager, System.Guid id, System.Func<Orc.Controls.ICallout, bool> predicate = null) { }
+        public static void ShowCallout(this Orc.Controls.ICalloutManager calloutManager, string name, System.Func<Orc.Controls.ICallout, bool> predicate = null) { }
+        public static System.IDisposable SuspendInScope(this Orc.Controls.ICalloutManager calloutManager) { }
+    }
     public interface IColorLegendItem : System.ComponentModel.INotifyPropertyChanged
     {
         string AdditionalData { get; set; }
@@ -773,6 +946,15 @@ namespace Orc.Controls
         string Id { get; set; }
         bool IsChecked { get; set; }
         bool IsSelected { get; set; }
+    }
+    public static class IConfigurationServiceExtensions
+    {
+        public static System.DateTime? GetCalloutLastShown(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout) { }
+        public static bool IsCalloutMarkedAsShown(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout) { }
+        public static void MarkCalloutAsNotShown(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout) { }
+        public static void MarkCalloutAsShown(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout) { }
+        public static void SetCalloutLastShown(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout) { }
+        public static void SetCalloutLastShown(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout, System.DateTime? lastShown) { }
     }
     public interface IControlTool
     {
@@ -794,6 +976,18 @@ namespace Orc.Controls
         bool IsInEditMode { get; }
         event System.EventHandler<System.EventArgs> EditEnded;
         event System.EventHandler<System.EventArgs> EditStarted;
+    }
+    public interface IStepBarItem
+    {
+        System.Windows.Input.ICommand Command { get; }
+        string Description { get; }
+        int Number { get; }
+        Orc.Controls.StepBarItemStates State { get; set; }
+        string Title { get; }
+    }
+    public static class IStepBarItemExtensions
+    {
+        public static bool IsSkipped(this Orc.Controls.StepBarItemStates state) { }
     }
     public interface ISuggestionListService
     {
@@ -851,6 +1045,36 @@ namespace Orc.Controls
         public static System.Windows.Documents.Inline Append(this System.Windows.Documents.Inline inline, System.Windows.Documents.Inline inlineToAdd) { }
         public static System.Windows.Documents.Inline AppendRange(this System.Windows.Documents.Inline inline, System.Collections.Generic.IEnumerable<System.Windows.Documents.Inline> inlines) { }
         public static System.Windows.Documents.Bold Bold(this System.Windows.Documents.Inline inline) { }
+    }
+    public class IsAfterCurrentStepToVisibilityConverter : Catel.MVVM.Converters.VisibilityConverterBase
+    {
+        public IsAfterCurrentStepToVisibilityConverter() { }
+        protected override bool IsVisible(object value, System.Type targetType, object parameter) { }
+    }
+    public class IsBeforeCurrentStepToVisibilityConverter : Catel.MVVM.Converters.VisibilityConverterBase
+    {
+        public IsBeforeCurrentStepToVisibilityConverter() { }
+        protected override bool IsVisible(object value, System.Type targetType, object parameter) { }
+    }
+    public class IsCurrentStepToVisibilityConverter : Catel.MVVM.Converters.VisibilityConverterBase
+    {
+        public IsCurrentStepToVisibilityConverter() { }
+        protected override bool IsVisible(object value, System.Type targetType, object parameter) { }
+    }
+    public class IsLastStepBarToVisibilityConverter : Catel.MVVM.Converters.VisibilityConverterBase
+    {
+        public IsLastStepBarToVisibilityConverter() { }
+        protected override bool IsVisible(object value, System.Type targetType, object parameter) { }
+    }
+    public class IsSkippedStepToVisibilityConverter : Catel.MVVM.Converters.VisibilityConverterBase
+    {
+        public IsSkippedStepToVisibilityConverter() { }
+        protected override bool IsVisible(object value, System.Type targetType, object parameter) { }
+    }
+    public class IsVisitedStepToVisibilityConverter : Catel.MVVM.Converters.VisibilityConverterBase
+    {
+        public IsVisitedStepToVisibilityConverter() { }
+        protected override bool IsVisible(object value, System.Type targetType, object parameter) { }
     }
     [System.Windows.StyleTypedProperty(Property="HyperlinkStyle", StyleTargetType=typeof(System.Windows.Documents.Hyperlink))]
     [System.Windows.TemplatePart(Name="PART_InnerHyperlink", Type=typeof(System.Windows.Documents.Hyperlink))]
@@ -910,6 +1134,16 @@ namespace Orc.Controls
     {
         Undefined = 0,
         OpenUrlInBrowser = 1,
+    }
+    public static class ListBoxExtensions
+    {
+        public static readonly System.Windows.DependencyProperty HorizontalOffsetProperty;
+        public static readonly System.Windows.DependencyProperty VerticalOffsetProperty;
+        public static void CenterSelectedItem(this System.Windows.Controls.ListBox listBox, System.Windows.Controls.Orientation orientation) { }
+        public static double GetHorizontalOffset(System.Windows.FrameworkElement target) { }
+        public static double GetVerticalOffset(System.Windows.FrameworkElement target) { }
+        public static void SetHorizontalOffset(System.Windows.FrameworkElement target, double value) { }
+        public static void SetVerticalOffset(System.Windows.FrameworkElement target, double value) { }
     }
     public class ListTextBox : System.Windows.Controls.TextBox
     {
@@ -1465,6 +1699,11 @@ namespace Orc.Controls
         protected override void OnAssociatedObjectLoaded() { }
         protected override void OnAssociatedObjectUnloaded() { }
     }
+    public class ShowStepNumberVisibilityConverter : Catel.MVVM.Converters.VisibilityConverterBase
+    {
+        public ShowStepNumberVisibilityConverter() { }
+        protected override bool IsVisible(object value, System.Type targetType, object parameter) { }
+    }
     public class StackGrid : System.Windows.Controls.Grid
     {
         public StackGrid() { }
@@ -1482,6 +1721,76 @@ namespace Orc.Controls
         public double RowSpacing { get; set; }
         protected override System.Windows.Size ArrangeOverride(System.Windows.Size finalSize) { }
         protected override System.Windows.Size MeasureOverride(System.Windows.Size availableSize) { }
+    }
+    public sealed class StepBar : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    {
+        public static readonly System.Windows.DependencyProperty ItemsProperty;
+        public static readonly System.Windows.DependencyProperty OrientationProperty;
+        public static readonly System.Windows.DependencyProperty SelectedItemProperty;
+        public StepBar() { }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public System.Collections.Generic.IList<Orc.Controls.IStepBarItem> Items { get; set; }
+        public System.Windows.Controls.Orientation Orientation { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public Orc.Controls.IStepBarItem SelectedItem { get; set; }
+        public void InitializeComponent() { }
+        protected override void OnLoaded(System.EventArgs e) { }
+        protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
+    }
+    public static class StepBarConfiguration
+    {
+        public static System.TimeSpan AnimationDuration { get; set; }
+    }
+    public sealed class StepBarItem : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    {
+        public static readonly System.Windows.DependencyProperty OrientationProperty;
+        public StepBarItem() { }
+        public System.Windows.Controls.Orientation Orientation { get; set; }
+        public void InitializeComponent() { }
+        protected override void OnLoaded(System.EventArgs e) { }
+    }
+    public class StepBarItemBase : Catel.Data.ModelBase, Orc.Controls.IStepBarItem
+    {
+        public static readonly Catel.Data.PropertyData DescriptionProperty;
+        public static readonly Catel.Data.PropertyData NumberProperty;
+        public static readonly Catel.Data.PropertyData StateProperty;
+        public static readonly Catel.Data.PropertyData TitleProperty;
+        public StepBarItemBase() { }
+        public System.Windows.Input.ICommand Command { get; set; }
+        public string Description { get; set; }
+        public int Number { get; set; }
+        public Orc.Controls.StepBarItemStates State { get; set; }
+        public string Title { get; set; }
+    }
+    [System.Flags]
+    public enum StepBarItemStates : short
+    {
+        None = 0,
+        IsVisited = 1,
+        IsOptional = 2,
+        IsCurrent = 4,
+        IsBeforeCurrent = 8,
+        IsLast = 16,
+    }
+    public class StepBarItemViewModel : Catel.MVVM.ViewModelBase
+    {
+        public static readonly Catel.Data.PropertyData ItemProperty;
+        public StepBarItemViewModel(Orc.Controls.IStepBarItem stepBarItem) { }
+        public Orc.Controls.IStepBarItem Item { get; }
+    }
+    public class StepBarViewModel : Catel.MVVM.ViewModelBase
+    {
+        public static readonly Catel.Data.PropertyData ItemsProperty;
+        public static readonly Catel.Data.PropertyData SelectedItemProperty;
+        public StepBarViewModel() { }
+        public System.Collections.Generic.IList<Orc.Controls.IStepBarItem> Items { get; set; }
+        public Orc.Controls.IStepBarItem SelectedItem { get; set; }
+        protected override System.Threading.Tasks.Task InitializeAsync() { }
+    }
+    public class StepToOpacityConverter : Catel.MVVM.Converters.ValueConverterBase
+    {
+        public StepToOpacityConverter() { }
+        protected override object Convert(object value, System.Type targetType, object parameter) { }
     }
     public static class StringExtensions
     {
@@ -1551,6 +1860,14 @@ namespace Orc.Controls
     {
         AdjustEndTime = 0,
         AdjustDuration = 1,
+    }
+    public abstract class TimeBasedCalloutWatcherBase : Orc.Controls.CalloutWatcherBase
+    {
+        public TimeBasedCalloutWatcherBase(Orc.Controls.ICalloutManager calloutManager, Catel.Configuration.IConfigurationService configurationService) { }
+        public abstract System.TimeSpan Delay { get; }
+        public System.DateTime End { get; }
+        public System.DateTime Start { get; set; }
+        protected virtual void Subscribe() { }
     }
     public class TimePicker : System.Windows.Controls.ContentControl
     {
@@ -1846,13 +2163,6 @@ namespace Orc.Controls.Enums
     {
         AM = 0,
         PM = 1,
-    }
-}
-namespace Orc.Controls.Extensions
-{
-    public static class FindReplaceSettingsExtensions
-    {
-        public static System.Text.RegularExpressions.Regex GetRegEx(this Orc.Controls.FindReplaceSettings settings, string textToFind, bool isLeftToRight = false) { }
     }
 }
 namespace Orc.Controls.Services

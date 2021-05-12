@@ -28,7 +28,7 @@ namespace Orc.Controls
         private const string PeriodCharacter = ".";
         private const string CommaCharacter = ",";
 
-        private static readonly HashSet<Key> AllowedKeys = new HashSet<Key>
+        private static readonly HashSet<Key> AllowedKeys = new()
         {
             Key.Back,
             Key.CapsLock,
@@ -498,7 +498,7 @@ namespace Orc.Controls
         private void OnUpDown(int increment)
         {
             var value = Value;
-            var newValue = value == null ? MinValue : GetNewValue(value.Value, increment);
+            var newValue = value is null ? MinValue : GetNewValue(value.Value, increment);
 
             SetCurrentValue(ValueProperty, newValue);
 
@@ -548,7 +548,7 @@ namespace Orc.Controls
         private void SelectivelyIgnoreMouseButton(object sender, MouseButtonEventArgs e)
         {
             DependencyObject parent = e.OriginalSource as UIElement;
-            while (parent != null && !(parent is TextBox))
+            while (parent is not null && !(parent is TextBox))
             {
                 parent = VisualTreeHelper.GetParent(parent);
             }
@@ -592,7 +592,7 @@ namespace Orc.Controls
 
         internal void UpdateText()
         {
-            var textValue = Value == null ? NullString : Value.Value.ToString(Format, CultureInfo ?? CultureInfo.CurrentCulture);
+            var textValue = Value is null ? NullString : Value.Value.ToString(Format, CultureInfo ?? CultureInfo.CurrentCulture);
 
             SetCurrentValue(TextProperty, textValue);
         }

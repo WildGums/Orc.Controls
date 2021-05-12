@@ -5,18 +5,18 @@
 namespace Orc.Controls
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
+    using Catel.Logging;
 
     /// <summary>
     /// Arranges child elements into a staggered grid pattern where items are added to the column that has used least amount of space.
     /// </summary>
     public class StaggeredPanel : Panel
     {
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
         private double _columnWidth;
 
         static StaggeredPanel()
@@ -116,11 +116,17 @@ namespace Orc.Controls
         /// <inheritdoc/>
         protected override Size MeasureOverride(Size availableSize)
         {
+            // Shrink panel if no children
+            if (Children.Count == 0)
+            {
+                return new Size(0, 0);
+            }
+
             double availableWidth = availableSize.Width - Padding.Left - Padding.Right;
             double availableHeight = availableSize.Height - Padding.Top - Padding.Bottom;
 
             _columnWidth = Math.Min(DesiredColumnWidth, availableWidth);
-            int numColumns = Math.Max(1, (int)Math.Floor(availableWidth / _columnWidth));
+            int numColumns = Math.Max(1, (int)Math.Floor(availableWidth / (_columnWidth + ColumnSpacing)));
 
             // adjust for column spacing on all columns expect the first
             double totalWidth = _columnWidth + ((numColumns - 1) * (_columnWidth + ColumnSpacing));
@@ -135,13 +141,17 @@ namespace Orc.Controls
 
             if (HorizontalAlignment == HorizontalAlignment.Stretch)
             {
-                availableWidth = availableWidth - ((numColumns - 1) * ColumnSpacing);
-                _columnWidth = availableWidth / numColumns;
-            }
+                var occupiedSpacing = (numColumns - 1) * ColumnSpacing;
+                if (availableWidth < occupiedSpacing)
+                {
+                    Log.Debug($"Stretch Measure: availableWidth: {availableWidth}, spacing summary: {occupiedSpacing} [{numColumns - 1} x {ColumnSpacing}]");
 
-            if (Children.Count == 0)
-            {
-                return new Size(0, 0);
+                    // Fallback value to avoid negative size ArgumentException
+                    occupiedSpacing = availableWidth;
+                }
+
+                availableWidth = availableWidth - occupiedSpacing;
+                _columnWidth = availableWidth / numColumns;
             }
 
             var columnHeights = new double[numColumns];
@@ -168,7 +178,7 @@ namespace Orc.Controls
         {
             double horizontalOffset = Padding.Left;
             double verticalOffset = Padding.Top;
-            int numColumns = Math.Max(1, (int)Math.Floor(finalSize.Width / _columnWidth));
+            int numColumns = Math.Max(1, (int)Math.Floor((finalSize.Width + ColumnSpacing) / (_columnWidth + ColumnSpacing)));
 
             // adjust for horizontal spacing on all columns expect the first
             double totalWidth = _columnWidth + ((numColumns - 1) * (_columnWidth + ColumnSpacing));

@@ -55,14 +55,14 @@ namespace Orc.Controls
 
             set
             {
-                if (_child != null)
+                if (_child is not null)
                 {
                     RemoveVisualChild(_child);
                 }
 
                 _child = value;
 
-                if (_child != null)
+                if (_child is not null)
                 {
                     AddVisualChild(_child);
                 }
@@ -85,7 +85,7 @@ namespace Orc.Controls
             Offset = new Point(childHorizontalOffset, childVerticalOffset);
 
             Rect rect;
-            if (c != null)
+            if (c is not null)
             {
                 var childPosition = c.GetPosition();
 

@@ -21,11 +21,13 @@ namespace Orc.Controls.Example
     /// </summary>
     public partial class App : Application
     {
-        #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-        #endregion
 
-        #region Methods
+        public App()
+        {
+            //LogManager.AddDebugListener(false);
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             var languageService = ServiceLocator.Default.ResolveType<ILanguageService>();
@@ -49,6 +51,5 @@ namespace Orc.Controls.Example
 
             base.OnStartup(e);
         }
-        #endregion
     }
 }

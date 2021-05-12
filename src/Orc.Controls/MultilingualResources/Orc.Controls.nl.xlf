@@ -494,6 +494,46 @@
           <source>Clear</source>
           <target state="new">Clear</target>
         </trans-unit>
+        <trans-unit id="Controls_TimePickerControl_Button_Content_Now" translate="yes" xml:space="preserve">
+          <source>Now</source>
+          <target state="new">Now</target>
+        </trans-unit>
+        <trans-unit id="Controls_TimePickerControl_Button_Content_SelectTime" translate="yes" xml:space="preserve">
+          <source>Select time</source>
+          <target state="new">Select time</target>
+        </trans-unit>
+        <trans-unit id="Controls_TimePickerControl_Button_Content_Clear" translate="yes" xml:space="preserve">
+          <source>Clear</source>
+          <target state="new">Clear</target>
+        </trans-unit>
+        <trans-unit id="Controls_TimePickerControl_Button_Content_Copy" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="new">Copy</target>
+        </trans-unit>
+        <trans-unit id="Controls_TimePickerControl_Button_Content_Paste" translate="yes" xml:space="preserve">
+          <source>Paste</source>
+          <target state="new">Paste</target>
+        </trans-unit>
+        <trans-unit id="Controls_DateTimePicker_Button_Content_SelectTime" translate="yes" xml:space="preserve">
+          <source>Select time</source>
+          <target state="new">Select time</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogMessageCategoryToggleButton_Text_Debug" translate="yes" xml:space="preserve">
+          <source>Debug</source>
+          <target state="new">Debug</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogMessageCategoryToggleButton_Text_Error" translate="yes" xml:space="preserve">
+          <source>Error</source>
+          <target state="new">Error</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogMessageCategoryToggleButton_Text_Info" translate="yes" xml:space="preserve">
+          <source>Info</source>
+          <target state="new">Info</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogMessageCategoryToggleButton_Text_Warning" translate="yes" xml:space="preserve">
+          <source>Warning</source>
+          <target state="new">Warning</target>
+        </trans-unit>
       </group>
     </body>
   </file>

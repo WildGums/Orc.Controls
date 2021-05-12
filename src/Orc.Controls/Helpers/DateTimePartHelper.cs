@@ -74,7 +74,8 @@ namespace Orc.Controls
             }
 
             ((Popup)listbox.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
-            _textBox.Focus();
+            _textBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            //_textBox.Focus();
         }
 
         private void popupSource_PreviewKeyDown(object sender, KeyEventArgs e)

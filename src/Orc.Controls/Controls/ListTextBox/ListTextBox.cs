@@ -112,7 +112,7 @@ namespace Orc.Controls
             var listOfValues = ListOfValues;
             var isReadOnly = IsReadOnly;
 
-            if (listOfValues == null || listOfValues.Count <= 0 || isReadOnly)
+            if (listOfValues is null || listOfValues.Count <= 0 || isReadOnly)
             {
                 return;
             }
@@ -124,7 +124,7 @@ namespace Orc.Controls
             }
 
             var value = listOfValues.FirstOrDefault(x => x.StartsWith(text, StringComparison.CurrentCultureIgnoreCase));
-            if (value == null)
+            if (value is null)
             {
                 return;
             }
@@ -149,7 +149,7 @@ namespace Orc.Controls
         {
             var listOfValues = ListOfValues;
 
-            if (listOfValues == null || listOfValues.Count == 0)
+            if (listOfValues is null || listOfValues.Count == 0)
             {
                 return;
             }
@@ -193,12 +193,12 @@ namespace Orc.Controls
         private static void SelectivelyIgnoreMouseButton(object sender, MouseButtonEventArgs e)
         {
             DependencyObject parent = e.OriginalSource as UIElement;
-            while (parent != null && !(parent is TextBox))
+            while (parent is not null && !(parent is TextBox))
             {
                 parent = VisualTreeHelper.GetParent(parent);
             }
 
-            if (parent == null)
+            if (parent is null)
             {
                 return;
             }
@@ -223,12 +223,12 @@ namespace Orc.Controls
         {
             var listOfValues = ListOfValues;
 
-            if (Value != null)
+            if (Value is not null)
             {
-                if (listOfValues != null && listOfValues.Count > 0)
+                if (listOfValues is not null && listOfValues.Count > 0)
                 {
                     var item = listOfValues.FirstOrDefault(x => string.Equals(x, Value, StringComparison.CurrentCultureIgnoreCase));
-                    if (item != null)
+                    if (item is not null)
                     {
                         var index = listOfValues.IndexOf(item);
                         _currentIndex = index;

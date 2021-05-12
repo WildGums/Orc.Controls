@@ -82,7 +82,7 @@ namespace Orc.Controls
 
         private bool OnEditCommandCanExecute()
         {
-            return SelectedLogFilter != null;
+            return SelectedLogFilter is not null;
         }
 
         private async Task OnEditCommandExecuteAsync()
@@ -96,7 +96,7 @@ namespace Orc.Controls
 
         private bool OnRemoveCommandCanExecute()
         {
-            return SelectedLogFilter != null;
+            return SelectedLogFilter is not null;
         }
 
         private async Task OnRemoveCommandExecuteAsync()

@@ -174,12 +174,12 @@ namespace Orc.Controls
                 case NotifyCollectionChangedAction.Add:
                 case NotifyCollectionChangedAction.Remove:
                 case NotifyCollectionChangedAction.Replace:
-                    if (e.OldItems != null)
+                    if (e.OldItems is not null)
                     {
                         foreach (var item in e.OldItems)
                         {
                             var cp = FindChildContentPresenter(item);
-                            if (cp != null)
+                            if (cp is not null)
                             {
                                 _itemsHolder.Children.Remove(cp);
                             }
@@ -208,7 +208,7 @@ namespace Orc.Controls
 
             foreach (var item in Items)
             {
-                if (item != null)
+                if (item is not null)
                 {
                     CreateChildContentPresenter(item);
                 }
@@ -219,7 +219,7 @@ namespace Orc.Controls
                 EagerInitializeAllTabs();
             }
 
-            if (SelectedItem != null)
+            if (SelectedItem is not null)
             {
                 UpdateItems();
             }
@@ -272,7 +272,7 @@ namespace Orc.Controls
         {
             var tabControlItemData = child.Tag as TabControlItemData;
             var tabItem = tabControlItemData?.TabItem;
-            if (tabItem != null)
+            if (tabItem is not null)
             {
                 ShowChildContent(child, tabControlItemData);
             }
@@ -290,7 +290,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (SelectedItem != null && !IsLazyLoading)
+            if (SelectedItem is not null && !IsLazyLoading)
             {
                 EagerLoadAllTabs();
             }
@@ -327,7 +327,7 @@ namespace Orc.Controls
                 }
 
                 var tabItem = tabControlItemData.TabItem;
-                if (tabItem != null && tabItem.IsSelected)
+                if (tabItem is not null && tabItem.IsSelected)
                 {
                     if (child.Content is null)
                     {
@@ -366,7 +366,7 @@ namespace Orc.Controls
             _wrappedContainers.Add(item, new object());
 
             var cp = FindChildContentPresenter(item);
-            if (cp != null)
+            if (cp is not null)
             {
                 return;
             }

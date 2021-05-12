@@ -82,7 +82,7 @@ namespace Orc.Controls
         {
             Argument.IsNotNull(() => dispatcher);
 
-            if (Dispatcher != null)
+            if (Dispatcher is not null)
             {
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Dispatcher is already set and cannot be set again");
             }
@@ -98,7 +98,7 @@ namespace Orc.Controls
             var thread = Thread;
 
             // Step 1: shut down the dispatcher
-            if (dispatcher != null)
+            if (dispatcher is not null)
             {
                 if (!dispatcher.HasShutdownStarted && !dispatcher.HasShutdownFinished)
                 {
@@ -117,7 +117,7 @@ namespace Orc.Controls
                     dispatcher.InvokeShutdown();
                 }
             }
-            else if (thread != null)
+            else if (thread is not null)
             {
                 Log.Warning($"[{Id}] No dispatcher object was available, aborting the thread");
 
