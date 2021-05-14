@@ -28,6 +28,11 @@ namespace Orc.Controls
             UpdatePopupPosition();
         }
 
+        private void OnPlacementTargetSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdatePopupPosition();
+        }
+
         protected override void OnLoaded(EventArgs e)
         {
             //UpdatePopupPosition();
@@ -315,7 +320,15 @@ namespace Orc.Controls
         
         private void OnPlacementTargetChanged(DependencyPropertyChangedEventArgs args)
         {
-           // UpdatePopupPosition();
+            if (args.OldValue is FrameworkElement oldPlacementTarget)
+            {
+                oldPlacementTarget.SizeChanged -= OnPlacementTargetSizeChanged;
+            }
+
+            if (args.NewValue is FrameworkElement newPlacementTarget)
+            {
+                newPlacementTarget.SizeChanged += OnPlacementTargetSizeChanged;
+            }
         }
         
         private void OnPlacementChanged(DependencyPropertyChangedEventArgs args)
