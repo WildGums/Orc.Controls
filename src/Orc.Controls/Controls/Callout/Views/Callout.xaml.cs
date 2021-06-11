@@ -23,114 +23,6 @@ namespace Orc.Controls
             Popup.Opened += PopupOnOpened;
         }
 
-        private void PopupOnOpened(object sender, EventArgs e)
-        {
-            UpdatePopupPosition();
-        }
-
-        private void OnPlacementTargetSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            UpdatePopupPosition();
-        }
-
-        protected override void OnLoaded(EventArgs e)
-        {
-            //UpdatePopupPosition();
-        }
-
-        private void UpdatePopupPosition()
-        {
-            var placementTarget = PlacementTarget;
-            if (placementTarget is null)
-            {
-                return;
-            }
-
-            RefreshPolygonStyle();
-            RefreshTailSizes();
-        }
-
-        private void RefreshPolygonStyle()
-        {
-            var styleName = GetTailPolygonStyleResourceName();
-            var style = TryFindResource(styleName);
-            TailPolygon.SetValue(FrameworkElement.StyleProperty, style);
-        }
-
-        private void RefreshTailSizes()
-        {
-            if (!(PlacementTarget is FrameworkElement placementTargetControl))
-            {
-                return;
-            }
-
-            var placementMode = Placement;
-
-            switch (placementMode)
-            {
-                case PlacementMode.Bottom:
-
-                    Popup.SetCurrentValue(Popup.HorizontalOffsetProperty, (placementTargetControl.ActualWidth - ContentBorder.ActualWidth) / 2d + HorizontalOffset);
-                    Popup.SetCurrentValue(Popup.VerticalOffsetProperty,  -8d);
-
-                    BorderGapRectangle.SetCurrentValue(WidthProperty, TailBaseWidth - 4);
-                    BorderGapRectangle.SetCurrentValue(HeightProperty, 2d);
-                    BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Top);
-                    BorderGapRectangle.SetCurrentValue(HorizontalAlignmentProperty, HorizontalAlignment.Center);
-
-                    break;
-
-
-                case PlacementMode.Top:
-
-                    Popup.SetCurrentValue(Popup.VerticalOffsetProperty, 8d);
-                    Popup.SetCurrentValue(Popup.HorizontalOffsetProperty, (placementTargetControl.ActualWidth - ContentBorder.ActualWidth) / 2d + HorizontalOffset);
-
-                    BorderGapRectangle.SetCurrentValue(WidthProperty, TailBaseWidth - 4);
-                    BorderGapRectangle.SetCurrentValue(HeightProperty, 2d);
-                    BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Bottom);
-                    BorderGapRectangle.SetCurrentValue(HorizontalAlignmentProperty, HorizontalAlignment.Center);
-
-
-                    break;
-
-                case PlacementMode.Right:
-                    Popup.SetCurrentValue(Popup.VerticalOffsetProperty, (placementTargetControl.ActualHeight - ContentBorder.ActualHeight) / 2d + VerticalOffset);
-                    Popup.SetCurrentValue(Popup.HorizontalOffsetProperty, -8d);
-
-                    BorderGapRectangle.SetCurrentValue(WidthProperty, 2d);
-                    BorderGapRectangle.SetCurrentValue(HeightProperty, TailBaseWidth - 4);
-                    BorderGapRectangle.SetCurrentValue(HorizontalAlignmentProperty, HorizontalAlignment.Left);
-                    BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Center);
-
-                    break;
-
-
-
-                case PlacementMode.Left:
-                    Popup.SetCurrentValue(Popup.VerticalOffsetProperty, (placementTargetControl.ActualHeight - ContentBorder.ActualHeight) / 2d + VerticalOffset);
-                    Popup.SetCurrentValue(Popup.HorizontalOffsetProperty, 8d);
-
-                    BorderGapRectangle.SetCurrentValue(WidthProperty, 2d);
-                    BorderGapRectangle.SetCurrentValue(HeightProperty, TailBaseWidth - 4);
-                    BorderGapRectangle.SetCurrentValue(HorizontalAlignmentProperty, HorizontalAlignment.Right);
-                    BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Center);
-
-                    break;
-
-                default:
-                    //NOTE:Vladimir:Will throw if not supported
-                    throw new NotSupportedException($"Callout placement = '{placementMode}' not supported. Supported modes: '{PlacementMode.Left}', '{PlacementMode.Top}', '{PlacementMode.Right}', '{PlacementMode.Bottom}'");
-            }
-        }
-
-        private string GetTailPolygonStyleResourceName()
-        {
-            var tailAlignment = Placement == PlacementMode.Left || Placement == PlacementMode.Right ? (object) TailVerticalAlignment : TailHorizontalAlignment;
-
-            return $"{Placement}{tailAlignment}PolygonStyle";
-        }
-
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public object InnerContent
         {
@@ -204,7 +96,7 @@ namespace Orc.Controls
             set { SetValue(IsClosableProperty, value); }
         }
 
-        public static readonly DependencyProperty IsClosableProperty = DependencyProperty.Register(nameof(IsClosable), 
+        public static readonly DependencyProperty IsClosableProperty = DependencyProperty.Register(nameof(IsClosable),
             typeof(bool), typeof(Callout), new PropertyMetadata(true));
 
 
@@ -226,8 +118,9 @@ namespace Orc.Controls
             set { SetValue(CommandProperty, value); }
         }
 
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), 
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command),
             typeof(ICommand), typeof(Callout), new PropertyMetadata(null));
+
 
         public PlacementMode Placement
         {
@@ -293,7 +186,7 @@ namespace Orc.Controls
 
         private void OnTailVerticalAlignmentChanged(DependencyPropertyChangedEventArgs args)
         {
-            
+
         }
 
 
@@ -310,14 +203,14 @@ namespace Orc.Controls
 
         private void OnHorizontalOffsetChanged(DependencyPropertyChangedEventArgs args)
         {
-          //  UpdatePopupPosition();
+            //  UpdatePopupPosition();
         }
-        
+
         private void OnVerticalOffsetChanged(DependencyPropertyChangedEventArgs args)
         {
-           // UpdatePopupPosition();
+            // UpdatePopupPosition();
         }
-        
+
         private void OnPlacementTargetChanged(DependencyPropertyChangedEventArgs args)
         {
             if (args.OldValue is FrameworkElement oldPlacementTarget)
@@ -330,10 +223,165 @@ namespace Orc.Controls
                 newPlacementTarget.SizeChanged += OnPlacementTargetSizeChanged;
             }
         }
-        
+
         private void OnPlacementChanged(DependencyPropertyChangedEventArgs args)
         {
             //UpdatePopupPosition();
+        }
+
+        private CustomPopupPlacement[] OnCustomPopupPlacement(Size popupSize, Size targetSize, Point offset)
+        {
+            const double DropShadowSize = 8d;
+
+            var placementTarget = PlacementTarget as FrameworkElement;
+            if (placementTarget is null)
+            {
+                return Array.Empty<CustomPopupPlacement>();
+            }
+
+            var popupHalfWidth = popupSize.Width / 2d;
+            var popupHalfHeight = popupSize.Height / 2d;
+
+            var targetSizeHalfWidth = targetSize.Width / 2d;
+            var targetSizeHalfHeight = targetSize.Height / 2d;
+
+            var x = targetSizeHalfWidth - popupHalfWidth;
+            var y = 0d - (targetSizeHalfHeight + popupHalfHeight) + DropShadowSize;
+
+            var verticalOffset = VerticalOffset;
+            var horizontalOffset = HorizontalOffset;
+
+            switch (Placement)
+            {
+                case PlacementMode.Top:
+                    y = 0;
+                    y -= targetSizeHalfWidth;
+                    verticalOffset *= -1;
+                    break;
+
+                case PlacementMode.Bottom:
+                    y = 0;
+                    y += targetSizeHalfHeight;
+                    break;
+
+                case PlacementMode.Left:
+                    x -= targetSizeHalfWidth;
+                    x -= popupHalfWidth;
+                    horizontalOffset *= -1;
+                    break;
+
+                case PlacementMode.Right:
+                    x += targetSizeHalfWidth;
+                    x += popupHalfWidth;
+                    break;
+            }
+
+            y += verticalOffset;
+            x += horizontalOffset;
+
+            UpdatePopupPosition();
+
+            return new CustomPopupPlacement[]
+            {
+                new CustomPopupPlacement
+                {
+                    Point = new Point(x, y),
+                    PrimaryAxis = PopupPrimaryAxis.None
+                }
+            };
+        }
+
+
+        private void PopupOnOpened(object sender, EventArgs e)
+        {
+            UpdatePopupPosition();
+        }
+
+        private void OnPlacementTargetSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdatePopupPosition();
+        }
+
+        protected override void OnLoaded(EventArgs e)
+        {
+            //UpdatePopupPosition();
+        }
+
+        private void UpdatePopupPosition()
+        {
+            var placementTarget = PlacementTarget;
+            if (placementTarget is null)
+            {
+                return;
+            }
+
+            RefreshPolygonStyle();
+            RefreshTailSizes(Placement);
+        }
+
+        private void RefreshPolygonStyle()
+        {
+            var styleName = GetTailPolygonStyleResourceName();
+            var style = TryFindResource(styleName);
+            TailPolygon.SetValue(FrameworkElement.StyleProperty, style);
+        }
+
+        private void RefreshTailSizes(PlacementMode placement)
+        {
+            if (PlacementTarget is not FrameworkElement)
+            {
+                return;
+            }
+
+            // NOTE: only need to calculate the tail, we know the popup know has the right position
+            switch (placement)
+            {
+                case PlacementMode.Bottom:
+
+                    BorderGapRectangle.SetCurrentValue(WidthProperty, TailBaseWidth - 4);
+                    BorderGapRectangle.SetCurrentValue(HeightProperty, 2d);
+                    BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Top);
+                    BorderGapRectangle.SetCurrentValue(HorizontalAlignmentProperty, HorizontalAlignment.Center);
+
+                    break;
+
+
+                case PlacementMode.Top:
+                    BorderGapRectangle.SetCurrentValue(WidthProperty, TailBaseWidth - 4);
+                    BorderGapRectangle.SetCurrentValue(HeightProperty, 2d);
+                    BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Bottom);
+                    BorderGapRectangle.SetCurrentValue(HorizontalAlignmentProperty, HorizontalAlignment.Center);
+
+                    break;
+
+                case PlacementMode.Right:
+                    BorderGapRectangle.SetCurrentValue(WidthProperty, 2d);
+                    BorderGapRectangle.SetCurrentValue(HeightProperty, TailBaseWidth - 4);
+                    BorderGapRectangle.SetCurrentValue(HorizontalAlignmentProperty, HorizontalAlignment.Left);
+                    BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Center);
+
+                    break;
+
+
+                case PlacementMode.Left:
+                    BorderGapRectangle.SetCurrentValue(WidthProperty, 2d);
+                    BorderGapRectangle.SetCurrentValue(HeightProperty, TailBaseWidth - 4);
+                    BorderGapRectangle.SetCurrentValue(HorizontalAlignmentProperty, HorizontalAlignment.Right);
+                    BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Center);
+
+                    break;
+
+                default:
+                    //NOTE:Vladimir:Will throw if not supported
+                    throw new NotSupportedException($"Callout placement = '{placement}' not supported. Supported modes: '{PlacementMode.Left}', '{PlacementMode.Top}', '{PlacementMode.Right}', '{PlacementMode.Bottom}'");
+            }
+        }
+
+        private string GetTailPolygonStyleResourceName()
+        {
+            var tailAlignment = Placement == PlacementMode.Left || Placement == PlacementMode.Right ? (object)TailVerticalAlignment : TailHorizontalAlignment;
+
+            return $"{Placement}{tailAlignment}PolygonStyle";
         }
     }
 }
