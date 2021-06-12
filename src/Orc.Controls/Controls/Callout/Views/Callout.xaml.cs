@@ -11,6 +11,9 @@ namespace Orc.Controls
     [ContentProperty(nameof(InnerContent))]
     public partial class Callout
     {
+        private const double DropShadowSize = 2d;
+        private const double ContentBorderPadding = 8d;
+
         static Callout()
         {
             typeof(Callout).AutoDetectViewPropertiesToSubscribe();
@@ -231,8 +234,6 @@ namespace Orc.Controls
 
         private CustomPopupPlacement[] OnCustomPopupPlacement(Size popupSize, Size targetSize, Point offset)
         {
-            const double DropShadowSize = 2d;
-
             var placementTarget = PlacementTarget as FrameworkElement;
             if (placementTarget is null)
             {
@@ -264,11 +265,13 @@ namespace Orc.Controls
                 case PlacementMode.Left:
                     x -= targetSizeHalfWidth;
                     x -= popupHalfWidth;
+                    y += ContentBorderPadding - 1;
                     break;
 
                 case PlacementMode.Right:
                     x += targetSizeHalfWidth;
                     x += popupHalfWidth;
+                    y += ContentBorderPadding - 1;
                     break;
 
                 default:
@@ -326,29 +329,102 @@ namespace Orc.Controls
             var style = TryFindResource(styleName);
             TailPolygon.SetValue(FrameworkElement.StyleProperty, style);
 
+            bool showTailBorderGap = false;
+
             if (placementMode == PlacementMode.Left || placementMode == PlacementMode.Right)
             {
+                showTailBorderGap = HorizontalOffset != 0 && TailBaseWidth != 0;
                 TailPolygon.SetCurrentValue(FrameworkElement.WidthProperty, HorizontalOffset);
+                BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, TailVerticalAlignment);
+                BorderGapRectangle.SetCurrentValue(WidthProperty, 3d);
+                BorderGapRectangle.SetCurrentValue(HeightProperty, TailBaseWidth - 3);
             }
 
             if (placementMode == PlacementMode.Top || placementMode == PlacementMode.Bottom)
             {
+                showTailBorderGap = VerticalOffset != 0 && TailBaseWidth != 0;
                 TailPolygon.SetCurrentValue(FrameworkElement.HeightProperty, VerticalOffset);
+                BorderGapRectangle.SetCurrentValue(HorizontalAlignmentProperty, TailHorizontalAlignment);
+                BorderGapRectangle.SetCurrentValue(WidthProperty, TailBaseWidth - 3);
+                BorderGapRectangle.SetCurrentValue(HeightProperty, 2d);
             }
 
+            // Don't create gap if no tail present
+            if (!showTailBorderGap)
+            {
+                BorderGapRectangle.SetCurrentValue(WidthProperty, 0d);
+                BorderGapRectangle.SetCurrentValue(HeightProperty, 0d);
+                return;
+            }
+
+            Thickness margin;
+
+            // Locate border gap having in mind margins of Tail
             switch (placementMode)
             {
                 case PlacementMode.Top:
-                    BorderGapRectangle.SetCurrentValue(HorizontalAlignmentProperty, TailHorizontalAlignment);
                     BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Bottom);
-                    BorderGapRectangle.SetCurrentValue(WidthProperty, TailBaseWidth - 3);
-                    BorderGapRectangle.SetCurrentValue(HeightProperty, 2d);
+                    margin = TailPolygon.Margin;
+                    BorderGapRectangle.SetCurrentValue(MarginProperty, GetHorizontalGapMargin(margin, placementMode, TailHorizontalAlignment));
+                    break;
 
-                    // Position having in mind margin from TailPolygon
-                    var margin = TailPolygon.Margin;
-                    BorderGapRectangle.SetCurrentValue(MarginProperty, new Thickness(margin.Left + 1, margin.Top + 1, 0, 0));
+                case PlacementMode.Bottom:
+                    BorderGapRectangle.SetCurrentValue(VerticalAlignmentProperty, VerticalAlignment.Top);
+                    margin = TailPolygon.Margin;
+                    BorderGapRectangle.SetCurrentValue(MarginProperty, GetHorizontalGapMargin(margin, placementMode, TailHorizontalAlignment));
+                    break;
+
+                case PlacementMode.Left:
+                    BorderGapRectangle.SetCurrentValue(HorizontalAlignmentProperty, HorizontalAlignment.Right);
+                    margin = TailPolygon.Margin;
+                    BorderGapRectangle.SetCurrentValue(MarginProperty, GetVerticalGapMargin(margin, placementMode, TailVerticalAlignment));
+                    break;
+
+                case PlacementMode.Right:
+                    BorderGapRectangle.SetCurrentValue(HorizontalAlignmentProperty, HorizontalAlignment.Left);
+                    margin = TailPolygon.Margin;
+                    BorderGapRectangle.SetCurrentValue(MarginProperty, GetVerticalGapMargin(margin, placementMode, TailVerticalAlignment));
                     break;
             }
+        }
+
+        private Thickness GetHorizontalGapMargin(Thickness tailPolygonMargin, PlacementMode placementMode, HorizontalAlignment horizontalAlignment)
+        {
+            if (horizontalAlignment == HorizontalAlignment.Right)
+            {
+                return new Thickness(0, 0, tailPolygonMargin.Right + 2, 0);
+            }
+
+            // Increase top margin for top placement;
+            var topMarginThickness = tailPolygonMargin.Top + (placementMode == PlacementMode.Top ? 1d : 0d);
+
+            if (horizontalAlignment == HorizontalAlignment.Center)
+            {
+                return new Thickness(tailPolygonMargin.Left, topMarginThickness, 0, 0);
+            }
+
+            if (horizontalAlignment == HorizontalAlignment.Left)
+            {
+                return new Thickness(tailPolygonMargin.Left + 1, topMarginThickness, 0, 0);
+            }
+
+            return new Thickness(0);
+        }
+
+
+        private Thickness GetVerticalGapMargin(Thickness tailPolygonMargin, PlacementMode placementMode, VerticalAlignment verticalAlignment)
+        {
+            if (verticalAlignment == VerticalAlignment.Top || verticalAlignment == VerticalAlignment.Center)
+            {
+                return new Thickness(tailPolygonMargin.Left, tailPolygonMargin.Top + 1, 0, 0);
+            }
+
+            if (verticalAlignment == VerticalAlignment.Bottom)
+            {
+                return new Thickness(tailPolygonMargin.Left, tailPolygonMargin.Top, tailPolygonMargin.Right, tailPolygonMargin.Bottom + 2);
+            }
+
+            return new Thickness(0);
         }
 
         private string GetTailPolygonStyleResourceName()

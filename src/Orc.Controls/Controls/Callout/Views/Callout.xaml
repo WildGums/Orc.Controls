@@ -65,7 +65,7 @@
                TargetType="{x:Type Polygon}"
                BasedOn="{StaticResource LeftPolygonStyle}">
             <Setter Property="Margin"
-                    Value="0 5 -2 0" />
+                    Value="-2 5 -2 0" />
             <Setter Property="VerticalAlignment"
                     Value="Top" />
         </Style>
@@ -74,7 +74,7 @@
                TargetType="{x:Type Polygon}"
                BasedOn="{StaticResource LeftPolygonStyle}">
             <Setter Property="Margin"
-                    Value="0 0 -2 15" />
+                    Value="-2 0 0 15" />
             <Setter Property="VerticalAlignment"
                     Value="Bottom" />
         </Style>
@@ -222,7 +222,7 @@
            AllowsTransparency="True">
 
         <Border x:Name="ContentBorder"
-                Padding="0 8 0 8"
+                Padding="2 8 2 8"
                 BorderBrush="Transparent"
                 Opacity="1">
 
