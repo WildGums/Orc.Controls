@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls.Win32
 {
     using System;
 

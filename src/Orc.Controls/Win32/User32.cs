@@ -1,8 +1,7 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls.Win32
 {
     using System;
     using System.Runtime.InteropServices;
-    using Orc.Controls.Win32;
 
     // Credits:
     // https://www.pinvoke.net/default.aspx/Enums/SetWindowPosFlags.html
