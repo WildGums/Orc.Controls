@@ -222,7 +222,7 @@
            AllowsTransparency="True">
 
         <Border x:Name="ContentBorder"
-                Padding="8"
+                Padding="0 8 0 8"
                 BorderBrush="Transparent"
                 Opacity="1">
 
