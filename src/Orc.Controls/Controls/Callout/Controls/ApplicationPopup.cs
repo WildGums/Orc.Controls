@@ -40,9 +40,6 @@
                 _owner.Activated -= OnOwnerWindowActivated;
                 _owner.Deactivated -= OnOwnerWindowDeactivated;
             }
-
-            Loaded -= OnApplicationPopupLoaded;
-            Unloaded -= OnApplicationPopupUnloaded;
         }
 
         private void OnOwnerWindowDeactivated(object sender, EventArgs e)
@@ -55,9 +52,9 @@
             {
                 // Force pop-up to show when window re-activated
                 var hwnd = ((HwndSource)PresentationSource.FromVisual(Child)).Handle;
-                if (Win32Helper.GetWindowRect(hwnd, out var rect))
+                if (User32.GetWindowRect(hwnd, out var rect))
                 {
-                    Win32Helper.SetWindowPos(hwnd, HWND_TOP, rect.Left, rect.Top, (int)Width, (int)Height, TOPMOST_FLAGS);
+                    User32.SetWindowPos(hwnd, HWND_TOP, rect.Left, rect.Top, (int)Width, (int)Height, TOPMOST_FLAGS);
                 }
             }
         }
@@ -66,19 +63,19 @@
         {
             var hwnd = ((HwndSource)PresentationSource.FromVisual(Child)).Handle;
 
-            if (Win32Helper.GetWindowRect(hwnd, out var rect))
+            if (User32.GetWindowRect(hwnd, out var rect))
             {
                 // Note: setting non-topmost alone doesn't have effect
                 // We need to set HWND_BOTTOM to lose topmost status, then HWND_TOP to re-shuffle it on top of all non-topmost windows.
-                Win32Helper.SetWindowPos(hwnd, HWND_BOTTOM, rect.Left, rect.Top, (int)Width, (int)Height, TOPMOST_FLAGS);
-                Win32Helper.SetWindowPos(hwnd, HWND_TOP, rect.Left, rect.Top, (int)Width, (int)Height, TOPMOST_FLAGS);
-                Win32Helper.SetWindowPos(hwnd, HWND_NOTOPMOST, rect.Left, rect.Top, (int)Width, (int)Height, TOPMOST_FLAGS);
+                User32.SetWindowPos(hwnd, HWND_BOTTOM, rect.Left, rect.Top, (int)Width, (int)Height, TOPMOST_FLAGS);
+                User32.SetWindowPos(hwnd, HWND_TOP, rect.Left, rect.Top, (int)Width, (int)Height, TOPMOST_FLAGS);
+                User32.SetWindowPos(hwnd, HWND_NOTOPMOST, rect.Left, rect.Top, (int)Width, (int)Height, TOPMOST_FLAGS);
             }
         }
 
-        private static readonly SetWindowPosFlags TOPMOST_FLAGS =
-       SetWindowPosFlags.DoNotActivate | SetWindowPosFlags.DoNotChangeOwnerZOrder | SetWindowPosFlags.IgnoreResize | SetWindowPosFlags.IgnoreMove |
-            SetWindowPosFlags.DoNotRedraw | SetWindowPosFlags.DoNotSendChangingEvent;
+        private static readonly SetWindowPosition TOPMOST_FLAGS =
+       SetWindowPosition.DoNotActivate | SetWindowPosition.DoNotChangeOwnerZOrder | SetWindowPosition.IgnoreResize | SetWindowPosition.IgnoreMove |
+            SetWindowPosition.DoNotRedraw | SetWindowPosition.DoNotSendChangingEvent;
 
     }
 }

@@ -2,7 +2,6 @@
 {
     using System;
     using System.Threading.Tasks;
-    using System.Windows;
     using System.Windows.Threading;
     using Catel;
     using Catel.MVVM;
@@ -18,9 +17,6 @@
             CalloutManager = calloutManager;
             OpenCallout = new TaskCommand<object>(OpenCalloutExecuteAsync);
             ToggleShowRepeatedly = new TaskCommand(OnShowRepeatedlyExecuteAsync);
-
-            _showCalloutDispatcherTimer.Interval = TimeSpan.FromSeconds(3);
-            _showCalloutDispatcherTimer.Tick += OnShowCalloutDispatcherTimerTick;
         }
 
         public ICalloutManager CalloutManager { get; }
@@ -52,12 +48,21 @@
             await OpenCalloutExecuteAsync(null);
         }
 
+        protected override async Task InitializeAsync()
+        {
+            _showCalloutDispatcherTimer.Interval = TimeSpan.FromSeconds(3);
+            _showCalloutDispatcherTimer.Tick += OnShowCalloutDispatcherTimerTick;
+
+            await base.InitializeAsync();
+        }
+
         protected override Task CloseAsync()
         {
             base.CloseAsync();
 
             CalloutManager.HideAllCallouts();
             _showCalloutDispatcherTimer.Stop();
+            _showCalloutDispatcherTimer.Tick -= OnShowCalloutDispatcherTimerTick;
 
             return Task.CompletedTask;
         }

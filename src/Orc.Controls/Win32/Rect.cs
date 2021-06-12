@@ -4,7 +4,7 @@
     using System.Windows;
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct Rect
+    internal struct Rect
     {
         public Rect(int left, int top, int right, int bottom)
         {
