@@ -248,15 +248,12 @@ namespace Orc.Controls
             var x = targetSizeHalfWidth - popupHalfWidth;
             var y = 0d - (targetSizeHalfHeight + popupHalfHeight);
 
-            var verticalOffset = VerticalOffset;
-            var horizontalOffset = HorizontalOffset;
             var dropShadowOffset = DropShadowSize;
 
             switch (Placement)
             {
                 case PlacementMode.Top:
                     y -= popupHalfHeight;
-                    verticalOffset *= -1;
                     y -= dropShadowOffset;
                     break;
 

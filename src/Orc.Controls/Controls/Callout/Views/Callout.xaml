@@ -212,7 +212,7 @@
         </Style>
     </UserControl.Resources>
 
-    <Popup x:Name="Popup"
+    <orccontrols:ApplicationPopup x:Name="Popup"
            VerticalOffset="18"
            IsOpen="{Binding IsOpen}"
            PlacementTarget="{Binding PlacementTarget, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Callout}}}"
@@ -390,5 +390,5 @@
                             Grid.Column="1" />
             </Grid>
         </Border>
-    </Popup>
+    </orccontrols:ApplicationPopup>
 </catel:UserControl>
