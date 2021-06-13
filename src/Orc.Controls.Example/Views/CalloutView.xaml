@@ -88,6 +88,9 @@
                     </x:Array>
                 </ComboBox.ItemsSource>
             </ComboBox>
+
+            <Label>Show callouts every 3 seconds</Label>
+            <ToggleButton Command="{Binding ToggleShowRepeatedly}">Toggle</ToggleButton>
         </UniformGrid>
     </Grid>
 </catel:UserControl>
