@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogViewerViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Example.ViewModels
+﻿namespace Orc.Controls.Example.ViewModels
 {
     using System;
     using System.Collections.Generic;
@@ -17,15 +10,10 @@ namespace Orc.Controls.Example.ViewModels
 
     public class LogViewerViewModel : ViewModelBase
     {
-        #region Constants
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-        #endregion
 
-        #region Fields
         private readonly IApplicationLogFilterGroupService _applicationLogFilterGroupService;
-        #endregion
 
-        #region Constructors
         public LogViewerViewModel(IApplicationLogFilterGroupService applicationLogFilterGroupService)
         {
             Argument.IsNotNull(() => applicationLogFilterGroupService);
@@ -35,17 +23,12 @@ namespace Orc.Controls.Example.ViewModels
             AddLogRecords = new Command(OnAddLogRecordsExecute);
             TestUnderPressure = new TaskCommand(OnTestUnderPressureExecuteAsync);
         }
-        #endregion
-
-        #region Properties
 
         public ScrollMode ScrollMode { get; set; } = ScrollMode.ManualScrollPriority;
 
         public Command AddLogRecords { get; }
         public TaskCommand TestUnderPressure { get; }
-        #endregion
 
-        #region Methods
         private void OnAddLogRecordsExecute()
         {
             Log.Debug("Single line debug message");
@@ -104,6 +87,5 @@ namespace Orc.Controls.Example.ViewModels
 
             return items;
         }
-        #endregion
     }
 }
