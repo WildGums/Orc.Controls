@@ -36,9 +36,13 @@
 
         <Label Grid.Row="0"
                Grid.Column="0"
+               Margin="3 6 6 6"
+               VerticalAlignment="Center"
                Content="{catel:LanguageBinding ResourceName=Controls_DateRangePicker_Start_Lbl}" />
         <controls:DateTimePicker Grid.Row="0"
                                  Grid.Column="1"
+                                 Margin="6 6 6 0"
+                                 VerticalAlignment="Center"
                                  Value="{Binding StartDate}"
                                  AllowNull="False"
                                  AllowCopyPaste="{Binding AllowCopyPaste, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
@@ -50,6 +54,8 @@
 
         <ComboBox Grid.Row="0"
                   Grid.Column="2"
+                  Margin="6 6 6 0"
+                  VerticalAlignment="Center"
                   IsEditable="False"
                   IsReadOnly="True"
                   ItemsSource="{Binding Ranges}"
@@ -61,10 +67,14 @@
 
         <Label Grid.Row="1"
                Grid.Column="0"
+               Margin="3 6 6 6"
+               VerticalAlignment="Center"
                Content="{catel:LanguageBinding ResourceName=Controls_DateRangePicker_End_Lbl}" />
 
         <controls:DateTimePicker Grid.Row="1"
                                  Grid.Column="1"
+                                 Margin="6 3 6 0"
+                                 VerticalAlignment="Center"
                                  Value="{Binding EndDate, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                                  AllowNull="False"
                                  AllowCopyPaste="{Binding AllowCopyPaste, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}"
@@ -76,6 +86,8 @@
 
         <controls:TimeSpanPicker Grid.Row="1"
                                  Grid.Column="2"
+                                 Margin="6 3 6 0"
+                                 VerticalAlignment="Center"
                                  Value="{Binding Span, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                                  IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}" 
                                  Visibility="{Binding IsAdvancedMode, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}, Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
