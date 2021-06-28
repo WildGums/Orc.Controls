@@ -9,7 +9,8 @@
                    mc:Ignorable="d"
                    x:Name="CurrentControl"
                    d:DesignHeight="22"
-                   d:DesignWidth="190">
+                   d:DesignWidth="190"
+                   Padding="0 0 0 2">
     
     <catel:UserControl.Resources>
         <ObjectDataProvider x:Key="timeAdjustmentStrategies"
@@ -67,13 +68,13 @@
 
         <Label Grid.Row="1"
                Grid.Column="0"
-               Margin="3 6 6 6"
+               Margin="3 3 6 3"
                VerticalAlignment="Center"
                Content="{catel:LanguageBinding ResourceName=Controls_DateRangePicker_End_Lbl}" />
 
         <controls:DateTimePicker Grid.Row="1"
                                  Grid.Column="1"
-                                 Margin="6 3 6 0"
+                                 Margin="6 2 6 0"
                                  VerticalAlignment="Center"
                                  Value="{Binding EndDate, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                                  AllowNull="False"
@@ -86,7 +87,7 @@
 
         <controls:TimeSpanPicker Grid.Row="1"
                                  Grid.Column="2"
-                                 Margin="6 3 6 0"
+                                 Margin="6 2 6 0"
                                  VerticalAlignment="Center"
                                  Value="{Binding Span, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                                  IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:DateRangePicker}}}" 
@@ -101,6 +102,7 @@
 
         <ComboBox Grid.Row="2"
                   Grid.Column="2"
+                  Margin="6 8 6 6"
                   IsEditable="False"
                   IsReadOnly="True"
                   ItemsSource="{Binding Source={StaticResource timeAdjustmentStrategies}, Converter={controls:TimeAdjustmentCollectionConverter}}"
