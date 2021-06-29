@@ -265,7 +265,8 @@
                                                           Header="{catel:LanguageBinding Controls_DatePicker_Button_Content_Today}" 
                                                           IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}" />
 
-                                                <MenuItem x:Name="PART_NowMenuItem" 
+                                                <MenuItem x:Name="PART_NowMenuItem"
+                                                          Visibility="{TemplateBinding HideTime, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=TRUE}"
                                                           HorizontalAlignment="Stretch"
                                                           HorizontalContentAlignment="Left"
                                                           BorderThickness="0"
@@ -282,6 +283,7 @@
                                                           IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
                                                 <MenuItem x:Name="PART_SelectTimeMenuItem"
+                                                          Visibility="{TemplateBinding HideTime, Converter={catel:BooleanToCollapsingVisibilityConverter}, ConverterParameter=TRUE}"
                                                           Header="{catel:LanguageBinding Controls_DateTimePicker_Button_Content_SelectTime}"
                                                           HorizontalAlignment="Stretch"
                                                           HorizontalContentAlignment="Left"
