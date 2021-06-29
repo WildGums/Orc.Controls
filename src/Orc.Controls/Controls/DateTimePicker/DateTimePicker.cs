@@ -1483,9 +1483,6 @@ namespace Orc.Controls
                 _safeHideTimeValue = HideTime;
             }
 
-            _nowMenuItem.SetCurrentValue(VisibilityProperty, HideTime ? Visibility.Collapsed : Visibility.Visible);
-            _selectTimeMenuItem.SetCurrentValue(VisibilityProperty, HideTime ? Visibility.Collapsed : Visibility.Visible);
-
             ApplyFormat();
         }
 
