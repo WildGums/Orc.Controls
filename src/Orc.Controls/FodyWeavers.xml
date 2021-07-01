@@ -12,6 +12,7 @@
     </ExcludeAssemblies>
   </LoadAssembliesOnStartup>
   <ModuleInit />
+  <MethodTimer />
   <Obsolete />
   <Catel />
 </Weavers>
