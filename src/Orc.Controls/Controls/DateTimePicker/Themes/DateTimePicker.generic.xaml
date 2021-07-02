@@ -64,6 +64,20 @@
                 </DrawingBrush.Drawing>
             </DrawingBrush>
 
+            <DrawingBrush x:Key="CheckersBrush" Viewport="0,0,0.25,0.25" TileMode="Tile">
+                <DrawingBrush.Drawing>
+                    <DrawingGroup>
+                        <GeometryDrawing Brush="White">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry Rect="0,0,1,1" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="{DynamicResource AccentColorBrush4}"
+                                         Geometry="M 0,0 L0,0.5 0.5,0.5 0.5,1 1,1 1,0.5 0.5,0.5 0.5,0" />
+                    </DrawingGroup>
+                </DrawingBrush.Drawing>
+            </DrawingBrush>
+
             <Style BasedOn="{x:Null}" TargetType="{x:Type controls:NumericTextBox}">
                 <Setter Property="TextAlignment" Value="Center"/>
                 <Setter Property="Margin" Value="2 0 0 0"/>
@@ -80,15 +94,19 @@
                 <Setter Property="MinWidth" Value="11" />
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
                 <Style.Triggers>
-                    <Trigger Property="Text" Value="{StaticResource Empty}">
-                        <Setter Property="BorderBrush" Value="{StaticResource DottedBrush}" />
-                    </Trigger>
-                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:DateTimePicker}}, 
-                        Path=IsMouseOver}" Value="True">
-                        <Setter Property="BorderThickness" Value="1" />
-                    </DataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Path=Text, RelativeSource={RelativeSource Self}}" Value="{StaticResource Empty}"/>
+                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:DateTimePicker}}, Path=IsMouseOver}" Value="True"/>
+                        </MultiDataTrigger.Conditions>
+
+                        <Setter Property="Background" Value="{StaticResource CheckersBrush}"/>
+                        <Setter Property="BorderThickness" Value="0 0 0 2"/>
+                        <Setter Property="BorderBrush" Value="LightGray"/>
+                    </MultiDataTrigger>
+
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="{DynamicResource AccentColorBrush5}" />
+                        <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
