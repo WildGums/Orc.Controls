@@ -15,7 +15,7 @@
   <ItemGroup>
     <PackageReference Include="ApprovalTests" Version="5.5.0" />
     <PackageReference Include="Catel.Fody" Version="4.7.0" PrivateAssets="all" />
-    <PackageReference Include="Fody" Version="6.5.1" PrivateAssets="all">
+    <PackageReference Include="Fody" Version="6.5.2" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
