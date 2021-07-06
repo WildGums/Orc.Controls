@@ -1619,6 +1619,14 @@ namespace Orc.Controls
         {
             base.OnPreviewKeyDown(e);
 
+            if (e.Key == Key.Tab && KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Shift))
+            {
+                var request = new TraversalRequest(FocusNavigationDirection.Previous);
+                var elementWithFocus = Keyboard.FocusedElement as UIElement;
+                elementWithFocus?.MoveFocus(request);
+                e.Handled = true;
+            }
+
             if (e.Key != Key.OemSemicolon)
             {
                 return;
