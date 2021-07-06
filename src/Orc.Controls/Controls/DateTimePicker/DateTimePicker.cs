@@ -616,15 +616,22 @@ namespace Orc.Controls
             UpdateUi();
         }
 
-        protected override void OnIsKeyboardFocusedChanged(DependencyPropertyChangedEventArgs e)
-        {
-            base.OnIsKeyboardFocusedChanged(e);
+        //protected override void OnIsKeyboardFocusedChanged(DependencyPropertyChangedEventArgs e)
+        //{
+        //    base.OnIsKeyboardFocusedChanged(e);
 
-            var textBox = _textBoxes[0];
+        //    if (IsFocused && IsKeyboardFocused)
+        //    {
+        //        var textBox = _textBoxes.FirstOrDefault();
+        //        if (textBox is null)
+        //        {
+        //            return;
+        //        }
 
-            textBox.SetCurrentValue(FocusableProperty, true);
-            Keyboard.Focus(textBox);
-        }
+        //        textBox.SetCurrentValue(FocusableProperty, true);
+        //        Keyboard.Focus(textBox);
+        //    }
+        //}
 
         private void OnTodayMenuItemClick(object sender, RoutedEventArgs e)
         {
@@ -1619,17 +1626,6 @@ namespace Orc.Controls
         {
             base.OnPreviewKeyDown(e);
 
-            if (e.Key == Key.Tab && KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Shift))
-            {
-                var request = new TraversalRequest(FocusNavigationDirection.Previous);
-                var elementWithFocus = Keyboard.FocusedElement as UIElement;
-                if (elementWithFocus?.MoveFocus(request) ?? false)
-                {
-                    e.Handled = true;
-                    return;
-                }
-            }
-
             if (e.Key != Key.OemSemicolon)
             {
                 return;
@@ -1697,6 +1693,23 @@ namespace Orc.Controls
             ((Popup)calendar.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
 
             e.Handled = true;
+        }
+
+        protected override void OnIsKeyboardFocusWithinChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                var textBox = _textBoxes.FirstOrDefault();
+                if (textBox is null)
+                {
+                    return;
+                }
+
+                textBox.SetCurrentValue(FocusableProperty, true);
+                Keyboard.Focus(textBox);
+            }
+
+            base.OnIsKeyboardFocusWithinChanged(e);
         }
 
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
