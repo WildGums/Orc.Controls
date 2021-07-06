@@ -7,6 +7,9 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
+        <ResourceDictionary>
+            <x:Static x:Key="Empty" Member="sys:String.Empty" />
+        </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{x:Type controls:DateTimePicker}" TargetType="{x:Type controls:DateTimePicker}"
@@ -46,6 +49,20 @@
                 </Setter>
             </Style>
 
+            <DrawingBrush x:Key="CheckersBrush" Viewport="0,0,0.25,0.25" TileMode="Tile">
+                <DrawingBrush.Drawing>
+                    <DrawingGroup>
+                        <GeometryDrawing Brush="{DynamicResource Orc.Brushes.Control.Default.Background}">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry Rect="0,0,1,1" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="{DynamicResource Orc.Brushes.Control.MouseOver.Background}"
+                                         Geometry="M 0,0 L0,0.5 0.5,0.5 0.5,1 1,1 1,0.5 0.5,0.5 0.5,0" />
+                    </DrawingGroup>
+                </DrawingBrush.Drawing>
+            </DrawingBrush>
+
             <Style BasedOn="{x:Null}" TargetType="{x:Type controls:NumericTextBox}">
                 <Setter Property="TextAlignment" Value="Center"/>
                 <Setter Property="Margin" Value="2 0 0 0"/>
@@ -59,6 +76,25 @@
                 <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                 <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
                 <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+                <Setter Property="MinWidth" Value="11" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="CaretBrush" Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}"/>
+                <Style.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Path=Text, RelativeSource={RelativeSource Self}}" Value="{StaticResource Empty}"/>
+                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:DateTimePicker}}, Path=IsMouseOver}" Value="True"/>
+                        </MultiDataTrigger.Conditions>
+
+                        <Setter Property="Background" Value="{StaticResource CheckersBrush}"/>
+                        <Setter Property="BorderThickness" Value="0 0 0 2"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Disabled.Border}"/>
+                    </MultiDataTrigger>
+
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}"/>
+                    </Trigger>
+                </Style.Triggers>
             </Style>
 
             <Style BasedOn="{StaticResource {x:Type controls:ListTextBox}}" TargetType="{x:Type controls:ListTextBox}">
@@ -75,7 +111,6 @@
                 <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
                 <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
             </Style>
-          
         </Style.Resources>
 
         <Setter Property="controls:EnterKeyTraversal.IsEnabled" Value="True"/>
@@ -114,7 +149,7 @@
                                     </Grid.ColumnDefinitions>
 
                                     <controls:NumericTextBox x:Name="PART_DaysNumericTextBox" 
-                                                             Grid.Column="0" 
+                                                             Grid.Column="0"
                                                              MinValue="1"
                                                              IsReadOnly="{TemplateBinding IsReadOnly}"/>
 
@@ -130,11 +165,12 @@
                                                   Content="{catel:LanguageBinding Controls_DatePicker_ToggleButton_Content_DayAbbreviation}"
                                                   IsEnabled= "{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
-                                    <controls:NumericTextBox x:Name="PART_MonthNumericTextBox" 
+                                    <controls:NumericTextBox x:Name="PART_MonthNumericTextBox"
                                                              Grid.Column="2"
                                                              MinValue="1" 
                                                              MaxValue="12" 
                                                              IsReadOnly="{TemplateBinding IsReadOnly}"/>
+
 
                                     <TextBlock x:Name="PART_MonthsYearSeparatorTextBlock"
                                                Grid.Column="3" 
@@ -205,7 +241,7 @@
                                                   IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
                                     <controls:NumericTextBox x:Name="PART_SecondNumericTextBox" 
-                                                             Grid.Column="10" 
+                                                             Grid.Column="10"
                                                              Format="00" 
                                                              MaxValue="59"
                                                              MinValue="0"
@@ -368,7 +404,7 @@
                                StaysOpen="False">
                             <Border BorderBrush="LightGray" BorderThickness="3">
                                 <DockPanel Background="{TemplateBinding Background}">
-                                        <controls:TimePicker x:Name="PART_TimePicker"
+                                    <controls:TimePicker x:Name="PART_TimePicker"
                                                         Background="Transparent"
                                                         BorderThickness="5"
                                                         HourTickBrush="Black"
@@ -379,7 +415,7 @@
                                                         MinWidth="180"
                                                         AmPmValue="{Binding Path=AmPmValue, RelativeSource={RelativeSource AncestorType={x:Type controls:DateTimePicker}}, Mode=TwoWay}"
                                                         TimeValue="{Binding Path=TimeValue, RelativeSource={RelativeSource AncestorType={x:Type controls:DateTimePicker}}, Mode=TwoWay}">
-                                        </controls:TimePicker>
+                                    </controls:TimePicker>
                                 </DockPanel>
                             </Border>
                         </Popup>
