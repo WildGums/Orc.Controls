@@ -1625,6 +1625,7 @@ namespace Orc.Controls
                 var elementWithFocus = Keyboard.FocusedElement as UIElement;
                 elementWithFocus?.MoveFocus(request);
                 e.Handled = true;
+                return;
             }
 
             if (e.Key != Key.OemSemicolon)
