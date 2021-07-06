@@ -78,6 +78,7 @@
                 <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
                 <Setter Property="MinWidth" Value="11" />
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="CaretBrush" Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}"/>
                 <Style.Triggers>
                     <MultiDataTrigger>
                         <MultiDataTrigger.Conditions>
@@ -87,7 +88,7 @@
 
                         <Setter Property="Background" Value="{StaticResource CheckersBrush}"/>
                         <Setter Property="BorderThickness" Value="0 0 0 2"/>
-                        <Setter Property="BorderBrush" Value="LightGray"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Disabled.Border}"/>
                     </MultiDataTrigger>
 
                     <Trigger Property="IsMouseOver" Value="True">
