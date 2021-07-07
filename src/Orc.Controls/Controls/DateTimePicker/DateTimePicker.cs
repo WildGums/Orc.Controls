@@ -616,23 +616,6 @@ namespace Orc.Controls
             UpdateUi();
         }
 
-        //protected override void OnIsKeyboardFocusedChanged(DependencyPropertyChangedEventArgs e)
-        //{
-        //    base.OnIsKeyboardFocusedChanged(e);
-
-        //    if (IsFocused && IsKeyboardFocused)
-        //    {
-        //        var textBox = _textBoxes.FirstOrDefault();
-        //        if (textBox is null)
-        //        {
-        //            return;
-        //        }
-
-        //        textBox.SetCurrentValue(FocusableProperty, true);
-        //        Keyboard.Focus(textBox);
-        //    }
-        //}
-
         private void OnTodayMenuItemClick(object sender, RoutedEventArgs e)
         {
             UpdateDateTime(DateTime.Today.Date);
