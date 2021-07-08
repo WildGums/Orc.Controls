@@ -114,6 +114,7 @@
         </Style.Resources>
 
         <Setter Property="controls:EnterKeyTraversal.IsEnabled" Value="True"/>
+        <Setter Property="Focusable" Value="False" />
 
         <Setter Property="Template">
             <Setter.Value>
