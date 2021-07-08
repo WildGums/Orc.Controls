@@ -393,9 +393,10 @@ namespace Orc.Controls
                     var culture = CultureInfo ?? CultureInfo.CurrentCulture;
 
                     var factor = 1d;
-                    if (text.Contains(culture.NumberFormat.PercentSymbol))
+                    var percentSymbol = culture.NumberFormat.PercentSymbol;
+                    if (text.Contains(percentSymbol))
                     {
-                        text = text.Replace(culture.NumberFormat.PercentSymbol, string.Empty);
+                        text = text.Replace(percentSymbol, string.Empty);
                         factor = 1d / 100;
                     }
 
