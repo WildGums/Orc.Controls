@@ -51,11 +51,18 @@
         {
             if (IsOpen)
             {
-                // Force pop-up to show when window re-activated
-                var hwnd = ((HwndSource)PresentationSource.FromVisual(Child)).Handle;
-                if (User32.GetWindowRect(hwnd, out var rect))
+                try
                 {
-                    User32.SetWindowPos(hwnd, HWND_TOP, rect.Left, rect.Top, (int)Width, (int)Height, TOPMOST_FLAGS);
+                    // Force pop-up to show when window re-activated
+                    var hwnd = ((HwndSource)PresentationSource.FromVisual(Child)).Handle;
+                    if (User32.GetWindowRect(hwnd, out var rect))
+                    {
+                        User32.SetWindowPos(hwnd, HWND_TOP, rect.Left, rect.Top, (int)Width, (int)Height, TOPMOST_FLAGS);
+                    }
+                }
+                catch (Exception)
+                {
+                    // Supress exception if we are failing to accure window
                 }
             }
         }
