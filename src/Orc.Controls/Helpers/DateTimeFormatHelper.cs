@@ -113,7 +113,9 @@ namespace Orc.Controls
                 .Select(ExtractTimePatternFromFormat).Distinct()
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .Select(x => new {Pattern = x, MatchesCount = x.Count(y => timeChars.Contains(y))})
-                .OrderByDescending(x => x.MatchesCount).Select(x => x.Pattern);
+                .OrderByDescending(x => x.MatchesCount)
+                .Select(x => x.Pattern)
+                .ToList();
 
             var result = patterns.FirstOrDefault() ?? string.Empty;
 

@@ -779,7 +779,7 @@ namespace Orc.Controls
 
                 SetCurrentValue(HideTimeProperty, !hasAnyTimeFormat || _safeHideTimeValue);
 
-                var culture = GetCulture();
+                var culture = Culture ?? CultureInfo.CurrentUICulture;
                 var firstDayOfWeek = FirstDayOfWeek ?? culture.DateTimeFormat.FirstDayOfWeek;
 
                 _calendar.SetCurrentValue(Calendar.FirstDayOfWeekProperty, firstDayOfWeek);
@@ -787,7 +787,9 @@ namespace Orc.Controls
                 if (!hasLongTimeFormat)
                 {
                     var timePattern = DateTimeFormatHelper.ExtractTimePatternFromFormat(format);
-                    if (!string.IsNullOrEmpty(timePattern))
+
+                    //Find matching format from culture, if no culture just use specified format
+                    if (Culture is not null && !string.IsNullOrEmpty(timePattern))
                     {
                         timePattern = DateTimeFormatHelper.FindMatchedLongTimePattern(culture, timePattern);
                     }
@@ -1780,11 +1782,6 @@ namespace Orc.Controls
             IsInEditMode = false;
 
             EditEnded?.Invoke(this, EventArgs.Empty);
-        }
-
-        private CultureInfo GetCulture()
-        {
-            return Culture ?? CultureInfo.CurrentUICulture;
         }
 
         private void TryProceedSecondMinuteEditing(TextBox secondOrMinuteTextBox)

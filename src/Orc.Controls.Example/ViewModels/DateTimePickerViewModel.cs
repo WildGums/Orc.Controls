@@ -47,7 +47,7 @@ namespace Orc.Controls.Example.ViewModels
                 {
                     var format = new CultureFormat
                     {
-                        CultureCode = $"[{cultureInfo.IetfLanguageTag}]",
+                        Culture = cultureInfo,
                         FormatValue = cultureInfo.DateTimeFormat.ShortDatePattern + " " + cultureInfo.DateTimeFormat.LongTimePattern
                     };
 
@@ -55,7 +55,7 @@ namespace Orc.Controls.Example.ViewModels
 
                     format = new CultureFormat
                     {
-                        CultureCode = $"[{cultureInfo.IetfLanguageTag}]",
+                        Culture = cultureInfo,
                         FormatValue = cultureInfo.DateTimeFormat.ShortDatePattern
                     };
 
@@ -63,7 +63,7 @@ namespace Orc.Controls.Example.ViewModels
 
                     format = new CultureFormat
                     {
-                        CultureCode = $"[{cultureInfo.IetfLanguageTag}]",
+                        Culture = cultureInfo,
                         FormatValue = cultureInfo.DateTimeFormat.ShortDatePattern + " " + cultureInfo.DateTimeFormat.ShortTimePattern
                     };
 

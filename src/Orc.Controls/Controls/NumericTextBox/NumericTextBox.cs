@@ -389,8 +389,19 @@ namespace Orc.Controls
             {
                 if (!string.IsNullOrEmpty(text))
                 {
+
+                    var culture = CultureInfo ?? CultureInfo.CurrentCulture;
+
+                    var factor = 1d;
+                    var percentSymbol = culture.NumberFormat.PercentSymbol;
+                    if (text.Contains(percentSymbol))
+                    {
+                        text = text.Replace(percentSymbol, string.Empty);
+                        factor = 1d / 100;
+                    }
+
                     // TODO: Do we want to handle P2, etc (e.g. 50.00%)
-                    doubleValue = Convert.ToDouble(text, CultureInfo ?? CultureInfo.CurrentCulture);
+                    doubleValue = Convert.ToDouble(text, CultureInfo ?? CultureInfo.CurrentCulture) * factor;
                 }
             }
             catch (Exception)
