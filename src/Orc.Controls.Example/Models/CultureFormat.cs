@@ -5,9 +5,12 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Orc.Controls.Example.Models
 {
+    using System.Globalization;
+
     public class CultureFormat
     {
-        public string CultureCode { get; set; }
+        public CultureInfo Culture { get; set; }
+        public string CultureCode => $"[{Culture?.IetfLanguageTag}]";
         public string FormatValue { get; set; }
     }
 }
