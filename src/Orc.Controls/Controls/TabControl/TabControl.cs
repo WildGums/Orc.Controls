@@ -121,7 +121,7 @@ namespace Orc.Controls
 
             _itemsHolder = GetTemplateChild("PART_ItemsHolder") as Panel;
 
-            //InitializeItems();
+            InitializeItems();
         }
 
         /// <summary>
@@ -202,6 +202,11 @@ namespace Orc.Controls
         private void InitializeItems()
         {
             if (_itemsHolder is null)
+            {
+                return;
+            }
+
+            if (ItemContainerGenerator.Status != GeneratorStatus.ContainersGenerated)
             {
                 return;
             }
