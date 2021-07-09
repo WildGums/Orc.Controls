@@ -121,7 +121,7 @@ namespace Orc.Controls
 
             _itemsHolder = GetTemplateChild("PART_ItemsHolder") as Panel;
 
-            InitializeItems();
+            //InitializeItems();
         }
 
         /// <summary>
@@ -408,8 +408,6 @@ namespace Orc.Controls
 
         private object GetContentContainer(object item)
         {
-            Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-
             if (item is TabItem itemAsTabItem)
             {
                 return itemAsTabItem;
