@@ -206,6 +206,11 @@ namespace Orc.Controls
                 return;
             }
 
+            if (ItemContainerGenerator.Status != GeneratorStatus.ContainersGenerated)
+            {
+                return;
+            }
+
             foreach (var item in Items)
             {
                 if (item is not null)
