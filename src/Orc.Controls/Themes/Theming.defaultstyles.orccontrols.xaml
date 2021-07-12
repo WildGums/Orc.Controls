@@ -381,7 +381,7 @@
     <Style x:Key="DefaultLogViewerControlStyle"
            TargetType="{x:Type orccontrols:LogViewerControl}" 
            BasedOn="{StaticResource {x:Type orccontrols:LogViewerControl}}">
-        <Setter Property="Margin" Value="6"/>
+        <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}"/>
     </Style>
 
 </ResourceDictionary>
