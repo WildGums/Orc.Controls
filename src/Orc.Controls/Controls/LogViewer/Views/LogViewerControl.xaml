@@ -9,7 +9,9 @@
     <Grid>
         <RichTextBox x:Name="LogRecordsRichTextBox" 
                      IsReadOnly="True" 
-                     IsDocumentEnabled="True" 
+                     IsDocumentEnabled="True"
+                     BorderThickness="0"
+                     Margin="0"
                      HorizontalAlignment="Stretch"
                      VerticalAlignment="Stretch" 
                      IsUndoEnabled="False" 
