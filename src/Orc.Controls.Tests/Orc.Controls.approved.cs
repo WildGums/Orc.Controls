@@ -603,7 +603,7 @@ namespace Orc.Controls
         public event System.EventHandler<System.EventArgs> EditStarted;
         public override void OnApplyTemplate() { }
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e) { }
-        protected override void OnIsKeyboardFocusedChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
+        protected override void OnIsKeyboardFocusWithinChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
         protected override void OnLostKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e) { }
         protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
     }
