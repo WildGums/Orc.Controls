@@ -1261,6 +1261,12 @@ namespace Orc.Controls
             }
 
             var currentValue = value ?? _todayValue;
+
+            if (currentValue.Month == 2 && currentValue.Day == 29 && !DateTime.IsLeapYear((int)year))
+            {
+                currentValue = currentValue.AddDays(-1);
+            }
+
             SetCurrentValue(ValueProperty, new DateTime(year.Value, currentValue.Month, currentValue.Day, currentValue.Hour, currentValue.Minute, currentValue.Second));
         }
 
