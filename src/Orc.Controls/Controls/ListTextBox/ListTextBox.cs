@@ -23,6 +23,11 @@ namespace Orc.Controls
         #endregion
 
         #region Constructor
+        static ListTextBox()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ListTextBox), new FrameworkPropertyMetadata(typeof(ListTextBox)));
+        }
+
         public ListTextBox()
         {
             AddHandler(PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(SelectivelyIgnoreMouseButton), true);
@@ -114,6 +119,13 @@ namespace Orc.Controls
 
             if (listOfValues is null || listOfValues.Count <= 0 || isReadOnly)
             {
+                return;
+            }
+            
+            if (!listOfValues.Any(x => x.StartsWith(e.TextComposition.Text, StringComparison.OrdinalIgnoreCase)))
+            {
+                e.Handled = true;
+
                 return;
             }
 
