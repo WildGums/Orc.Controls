@@ -145,7 +145,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty MinValueProperty = DependencyProperty.Register(nameof(MinValue), typeof(double),
-            typeof(NumericTextBox), new UIPropertyMetadata(0d));
+            typeof(NumericTextBox), new UIPropertyMetadata(0d, (sender, e) => ((NumericTextBox)sender).OnMinValueChanged()));
 
 
         public double MaxValue
@@ -155,7 +155,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty MaxValueProperty = DependencyProperty.Register(nameof(MaxValue), typeof(double),
-            typeof(NumericTextBox), new UIPropertyMetadata(double.MaxValue));
+            typeof(NumericTextBox), new UIPropertyMetadata(double.MaxValue, (sender, e) => ((NumericTextBox)sender).OnMaxValueChanged()));
 
 
         public string Format
@@ -209,6 +209,32 @@ namespace Orc.Controls
             RemoveHandler(MouseDoubleClickEvent, _selectAllTextDelegate);
 
             DataObject.RemovePastingHandler(this, OnPaste);
+        }
+
+        private void OnMinValueChanged()
+        {
+            SetCurrentValue(ValueProperty, CoerceValueWithMaxMinBoundaries());
+        }
+
+        private void OnMaxValueChanged()
+        {
+            SetCurrentValue(ValueProperty, CoerceValueWithMaxMinBoundaries());
+        }
+
+        private double? CoerceValueWithMaxMinBoundaries()
+        {
+            var value = Value;
+            if (value > MaxValue)
+            {
+                return MaxValue;
+            }
+
+            if (value < MinValue)
+            {
+                return MinValue;
+            }
+
+            return value;
         }
 
         private void OnPaste(object sender, DataObjectPastingEventArgs e)

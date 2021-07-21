@@ -1262,16 +1262,19 @@ namespace Orc.Controls
 
             var currentValue = value ?? _todayValue;
 
-            if (currentValue.Month == 2 && currentValue.Day == 29 && !DateTime.IsLeapYear((int)year))
+            var daysInCurrentMonth = DateTime.DaysInMonth((int)year, currentValue.Month);
+            var day = currentValue.Day;
+            if (daysInCurrentMonth < currentValue.Day)
             {
-                currentValue = currentValue.AddDays(-1);
+                day = daysInCurrentMonth;
             }
 
-            SetCurrentValue(ValueProperty, new DateTime(year.Value, currentValue.Month, currentValue.Day, currentValue.Hour, currentValue.Minute, currentValue.Second));
+            SetCurrentValue(ValueProperty, new DateTime(year.Value, currentValue.Month, day, currentValue.Hour, currentValue.Minute, currentValue.Second));
         }
 
         private void OnYearTextChanged(object sender, TextChangedEventArgs e)
         {
+
             if (_suspendTextChanged)
             {
                 return;
@@ -1287,6 +1290,8 @@ namespace Orc.Controls
             {
                 return;
             }
+
+            UpdateMaxDaysInMonth();
 
             using (new DisposableToken<DateTimePicker>(this, x => x.Instance._suspendTextChanged = true, x => x.Instance._suspendTextChanged = false))
             {
