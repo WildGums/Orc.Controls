@@ -62,8 +62,7 @@ namespace Orc.Controls
             //Debug.WriteLine($"Adorner child: X = '{childPosition.X}', Y = '{childPosition.Y}'");
             //Debug.WriteLine($"Adorned element: Width = '{adornedElement.ActualWidth}', Height = '{adornedElement.ActualHeight}'");
             //Debug.WriteLine($"Initial X = '{initialX}', Y = '{initialY}'");
-
-            dd.UpdatePosition(frameworkElement, new Point(0, 0), true);
+            dd.UpdatePosition(frameworkElement, adorner.ChildPosition, true);
 
             return dd;
         }
