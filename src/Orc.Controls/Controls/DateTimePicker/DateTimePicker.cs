@@ -73,7 +73,7 @@ namespace Orc.Controls
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-        private static readonly HashSet<string> SecondMinuteCantAutoProceedBeginningChars = new() {"1", "2", "3", "4", "5"};
+        private static readonly HashSet<string> SecondMinuteCantAutoProceedBeginningChars = new() { "1", "2", "3", "4", "5" };
 
         private bool _isTemplateApplied;
 
@@ -110,7 +110,7 @@ namespace Orc.Controls
         private ToggleButton _minuteToggleButton;
         private ToggleButton _secondToggleButton;
         private ToggleButton _amPmToggleButton;
-        
+
         private DropDownButton _datePickerIconDropDownButton;
 
         private MenuItem _todayMenuItem;
@@ -122,7 +122,7 @@ namespace Orc.Controls
         private MenuItem _pasteMenuItem;
 
         private Grid _mainGrid;
-        
+
         private ListTextBox _amPmListTextBox;
 
         private Popup _calendarPopup;
@@ -160,7 +160,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(DateTime?),
             typeof(DateTimePicker), new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((DateTimePicker)sender).OnValueChanged((DateTime?)e.OldValue, (DateTime?) e.NewValue)));
+                (sender, e) => ((DateTimePicker)sender).OnValueChanged((DateTime?)e.OldValue, (DateTime?)e.NewValue)));
 
         public bool ShowOptionsButton
         {
@@ -197,7 +197,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty HideTimeProperty = DependencyProperty.Register(nameof(HideTime), typeof(bool),
-            typeof(DateTimePicker), new FrameworkPropertyMetadata(false, 
+            typeof(DateTimePicker), new FrameworkPropertyMetadata(false,
                 (sender, e) => ((DateTimePicker)sender).OnHideTimeChanged()));
 
         public bool HideSeconds
@@ -616,16 +616,6 @@ namespace Orc.Controls
             UpdateUi();
         }
 
-        protected override void OnIsKeyboardFocusedChanged(DependencyPropertyChangedEventArgs e)
-        {
-            base.OnIsKeyboardFocusedChanged(e);
-
-            var textBox = _textBoxes[0];
-
-            textBox.SetCurrentValue(FocusableProperty, true);
-            Keyboard.Focus(textBox);
-        }
-
         private void OnTodayMenuItemClick(object sender, RoutedEventArgs e)
         {
             UpdateDateTime(DateTime.Today.Date);
@@ -692,11 +682,11 @@ namespace Orc.Controls
 
             var newDateTime = Value ?? DateTime.Now;
 
-            if(AmPmValue.Equals(Meridiem.PM) && newTimeValue.Value.Hours < 12)
+            if (AmPmValue.Equals(Meridiem.PM) && newTimeValue.Value.Hours < 12)
             {
                 SetCurrentValue(ValueProperty, new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newTimeValue.Value.Hours + 12, newTimeValue.Value.Minutes, newTimeValue.Value.Seconds));
             }
-            else 
+            else
             {
                 SetCurrentValue(ValueProperty, new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newTimeValue.Value.Hours, newTimeValue.Value.Minutes, newTimeValue.Value.Seconds));
             }
@@ -869,7 +859,7 @@ namespace Orc.Controls
                 _secondNumericTextBox.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.SecondFormat?.Length ?? 0));
 
                 UnsubscribeNumericTextBoxes();
-                
+
                 Grid.SetColumn(_daysNumericTextBox, GetPosition(_formatInfo.DayPosition));
                 Grid.SetColumn(_monthNumericTextBox, GetPosition(_formatInfo.MonthPosition));
                 Grid.SetColumn(_yearNumericTextBox, GetPosition(_formatInfo.YearPosition));
@@ -923,7 +913,7 @@ namespace Orc.Controls
                 _amPmSeparatorTextBlock.SetCurrentValue(TextBlock.TextProperty, Value is null ? string.Empty : _formatInfo.Separator7);
             }
         }
-        
+
         private void OnMouseLeave(object sender, MouseEventArgs e)
         {
             UpdateUiPartVisibility();
@@ -941,7 +931,7 @@ namespace Orc.Controls
 
         private void UpdateUiPartVisibility()
         {
-            if(_formatInfo is null)
+            if (_formatInfo is null)
             {
                 return;
             }
@@ -990,7 +980,7 @@ namespace Orc.Controls
             _secondNumericTextBox.SetCurrentValue(VisibilityProperty, isSecondsVisible.ToVisibility());
             _minuteSecondSeparatorTextBlock.SetCurrentValue(VisibilityProperty, (isSecondsVisible && !isHiglighted).ToVisibility(secondsHiddenVisibility));
             _secondToggleButton.SetCurrentValue(VisibilityProperty, (isSecondsVisible && isHiglighted).ToVisibility(secondsHiddenVisibility));
-            
+
             /* minute parts */
             _minuteNumericTextBox.SetCurrentValue(VisibilityProperty, isMinutesVisible.ToVisibility());
             _hourMinuteSeparatorTextBlock.SetCurrentValue(VisibilityProperty, (isMinutesVisible && !isHiglighted).ToVisibility(minutesHiddenVisibility));
@@ -999,7 +989,7 @@ namespace Orc.Controls
             /* hour parts */
             _hourNumericTextBox.SetCurrentValue(VisibilityProperty, isHoursVisible.ToVisibility());
             _hourToggleButton.SetCurrentValue(VisibilityProperty, (isHoursVisible && isHiglighted).ToVisibility(hoursHiddenVisibility));
-          
+
             /* am pm parts */
             _amPmListTextBox.SetCurrentValue(VisibilityProperty, isAmPmVisible.ToVisibility());
             _secondAmPmSeparatorTextBlock.SetCurrentValue(VisibilityProperty, (isAmPmVisible && !isHiglighted).ToVisibility(ampmHiddenVisibility));
@@ -1077,7 +1067,7 @@ namespace Orc.Controls
                 var dispatcherService = this.GetServiceLocator().ResolveType<IDispatcherService>();
                 dispatcherService.Invoke(() => SetCurrentValue(ValueProperty, nv));
             }
-            
+
             UpdateUi();
         }
 
@@ -1153,10 +1143,10 @@ namespace Orc.Controls
             {
                 return;
             }
-            
+
             var currentValue = value ?? _todayValue;
             var newValue = new DateTime(currentValue.Year, currentValue.Month, day.Value, currentValue.Hour, currentValue.Minute, currentValue.Second);
-            
+
             SetCurrentValue(ValueProperty, newValue);
         }
 
@@ -1271,6 +1261,12 @@ namespace Orc.Controls
             }
 
             var currentValue = value ?? _todayValue;
+
+            if (currentValue.Month == 2 && currentValue.Day == 29 && !DateTime.IsLeapYear((int)year))
+            {
+                currentValue = currentValue.AddDays(-1);
+            }
+
             SetCurrentValue(ValueProperty, new DateTime(year.Value, currentValue.Month, currentValue.Day, currentValue.Hour, currentValue.Minute, currentValue.Second));
         }
 
@@ -1367,7 +1363,7 @@ namespace Orc.Controls
             var currentValue = value ?? _todayValue;
             SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, currentValue.Hour, minute.Value, currentValue.Second));
         }
-        
+
         private void OnMinuteTextChanged(object sender, TextChangedEventArgs e)
         {
             TryProceedSecondMinuteEditing(_minuteNumericTextBox);
@@ -1688,6 +1684,23 @@ namespace Orc.Controls
             ((Popup)calendar.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
 
             e.Handled = true;
+        }
+
+        protected override void OnIsKeyboardFocusWithinChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                var textBox = _textBoxes.FirstOrDefault();
+                if (textBox is null)
+                {
+                    return;
+                }
+
+                textBox.SetCurrentValue(FocusableProperty, true);
+                Keyboard.Focus(textBox);
+            }
+
+            base.OnIsKeyboardFocusWithinChanged(e);
         }
 
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)

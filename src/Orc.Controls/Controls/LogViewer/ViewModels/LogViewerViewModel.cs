@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogViewerViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.ViewModels
+﻿namespace Orc.Controls.ViewModels
 {
     using System;
     using System.Collections.Generic;
@@ -22,11 +15,8 @@ namespace Orc.Controls.ViewModels
 
     public class LogViewerViewModel : ViewModelBase
     {
-        #region Constants
         private readonly string _defaultComboBoxItem = LanguageHelper.GetString("Controls_LogViewer_SelectTypeName");
-        #endregion
 
-        #region Fields
         private readonly IDispatcherService _dispatcherService;
 
         private readonly object _lock = new object();
@@ -42,9 +32,7 @@ namespace Orc.Controls.ViewModels
         private bool _isClearingLog;
         private bool _isViewModelActive;
         private ILogListener _logListener;
-        #endregion
 
-        #region Constructors
         public LogViewerViewModel(ITypeFactory typeFactory, IDispatcherService dispatcherService,
             LogViewerLogListener logViewerLogListener)
         {
@@ -73,9 +61,7 @@ namespace Orc.Controls.ViewModels
 
             ResetEntriesCount();
         }
-        #endregion
 
-        #region Properties
         public ObservableCollection<LogEntry> LogEntries
         {
             get
@@ -110,9 +96,10 @@ namespace Orc.Controls.ViewModels
         public int ErrorEntriesCount { get; private set; }
         public int MaximumUpdateBatchSize { get; set; }
         public LogFilterGroup ActiveFilterGroup { get; set; }
-        #endregion
 
-        #region Methods
+        public event EventHandler<LogEntryEventArgs> LogMessage;
+        public event EventHandler<EventArgs> ActiveFilterGroupChanged;
+
         public void ClearEntries()
         {
             _isClearingLog = true;
@@ -518,11 +505,5 @@ namespace Orc.Controls.ViewModels
         {
             _timer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
         }
-        #endregion
-
-        #region Events
-        public event EventHandler<LogEntryEventArgs> LogMessage;
-        public event EventHandler<EventArgs> ActiveFilterGroupChanged;
-        #endregion
     }
 }
