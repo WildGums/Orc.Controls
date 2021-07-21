@@ -63,7 +63,7 @@
                 </DrawingBrush.Drawing>
             </DrawingBrush>
 
-            <Style BasedOn="{x:Null}" TargetType="{x:Type controls:NumericTextBox}">
+            <Style x:Key="BaseStyle" TargetType="{x:Type TextBox}" BasedOn="{x:Null}" >
                 <Setter Property="TextAlignment" Value="Center"/>
                 <Setter Property="Margin" Value="2 0 0 0"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
@@ -97,20 +97,9 @@
                 </Style.Triggers>
             </Style>
 
-            <Style BasedOn="{StaticResource {x:Type controls:ListTextBox}}" TargetType="{x:Type controls:ListTextBox}">
-                <Setter Property="TextAlignment" Value="Center"/>
-                <Setter Property="Margin" Value="2 0 0 0"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}"/>
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="AllowDrop" Value="true"/>
-                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-                <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-            </Style>
+            <Style TargetType="{x:Type controls:NumericTextBox}" BasedOn="{StaticResource BaseStyle}" />
+            <Style TargetType="{x:Type controls:ListTextBox}" BasedOn="{StaticResource BaseStyle}"/>
+            
         </Style.Resources>
 
         <Setter Property="controls:EnterKeyTraversal.IsEnabled" Value="True"/>
@@ -260,9 +249,7 @@
                                                   Style="{DynamicResource DateTimePickerLettersToggleButtonStyle}"
                                                   IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}"/>
 
-                                    <controls:ListTextBox x:Name="PART_AmPmListTextBox" 
-                                                          Foreground="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
-                                                          Background="Transparent"
+                                    <controls:ListTextBox x:Name="PART_AmPmListTextBox"
                                                           Grid.Column="12"
                                                           VerticalAlignment="Center"
                                                           VerticalContentAlignment="Center"
