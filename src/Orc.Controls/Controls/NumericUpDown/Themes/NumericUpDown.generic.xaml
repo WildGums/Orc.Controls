@@ -1,0 +1,74 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:catel="http://schemas.catelproject.com"
+                    xmlns:controls="clr-namespace:Orc.Controls">
+
+    <Style x:Key="{x:Type controls:NumericUpDown}" 
+           TargetType="{x:Type controls:NumericUpDown}">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Default.Border}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Height" Value="{DynamicResource Size.Height}" />
+        <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:NumericUpDown}">
+                    <Grid>
+                        <Border Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="0"
+                                Focusable="False"
+                                HorizontalAlignment="Stretch">
+                            <Grid Focusable="False">
+
+                                <TextBox x:Name="PART_TextBox" 
+                                         HorizontalAlignment="Stretch"
+                                         Margin="0"
+                                         Padding="2 4 20 4">
+                                    <xamlbehaviors:Interaction.Behaviors>
+                                        <catel:NumericTextBox/>
+                                    </xamlbehaviors:Interaction.Behaviors>
+                                </TextBox>
+
+                                <Grid HorizontalAlignment="Right">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <RepeatButton x:Name="PART_IncreaseButton"
+                                                  Margin="0 1 1 0"
+                                                  Height="NaN"
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch"
+                                                  Grid.Row="0">
+                                        <Path Margin="1"
+                                              Data="M 0 20 L 35 -20 L 70 20 Z"
+                                              Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
+                                              Stretch="Uniform" />
+                                    </RepeatButton>
+                                    <RepeatButton x:Name="PART_DecreaseButton"
+                                                  Margin="0 0 1 1"
+                                                  Height="NaN"
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch"
+                                                  Grid.Row="1">
+                                        <Path Margin="1"
+                                              Data="M 0 0 L 35 40 L 70 0 Z"
+                                              Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
+                                              Stretch="Uniform" />
+                                    </RepeatButton>
+
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>                    
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
