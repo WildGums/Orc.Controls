@@ -132,7 +132,13 @@
                                                 <ColumnDefinition Width="10"/>
                                             </Grid.ColumnDefinitions>
 
+                                            <Rectangle Grid.Column="0"
+                                                       Grid.ColumnSpan="2"
+                                                       Fill="Transparent"
+                                                       Stretch="Fill"/>
+
                                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
                                             <Path x:Name="arrow"
                                                   Data="M0,0L3.5,4 7,0z"
                                                   Fill="{TemplateBinding Foreground}"
