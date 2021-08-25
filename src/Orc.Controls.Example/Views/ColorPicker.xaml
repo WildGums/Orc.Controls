@@ -11,8 +11,8 @@
         </orccontrols:StackGrid.ColumnDefinitions>
 
         <orccontrols:StackGrid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </orccontrols:StackGrid.RowDefinitions>
 
         <Label  Content="Pick a color: " HorizontalAlignment="Center" VerticalAlignment="Center"/>

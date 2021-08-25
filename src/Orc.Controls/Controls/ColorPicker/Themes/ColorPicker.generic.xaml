@@ -109,7 +109,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ColorPicker}">
-                    <Border BorderBrush="{DynamicResource Orc.Brushes.Control.Border}" Width="154" BorderThickness="1">
+                    <Border x:Name="ColorPickerBorder" BorderBrush="{DynamicResource Orc.Brushes.Control.Default.Border}" Width="154" BorderThickness="1">
                         <Grid x:Name="grid" Background="Transparent"  Height="25">
                             <ToggleButton Grid.ColumnSpan="2"
                                       IsTabStop="False"
@@ -143,11 +143,6 @@
                                               Width="8"
                                               Visibility="Visible"/>
                                         </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="arrow" Property="Fill" Value="{DynamicResource Orc.Brushes.AccentColorBrush}"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
                                     </ControlTemplate>
                                 </ToggleButton.Template>
                                 <ToggleButton.Content>
@@ -170,11 +165,20 @@
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Background" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Background}"/>
                                     </Trigger>
+
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
                     </Border>
-
+                    <ControlTemplate.Triggers>
+                        <Trigger SourceName="PART_ToggleDropDown" Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ColorPickerBorder" Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Border}"/>
+                        </Trigger>
+                        <Trigger SourceName="PART_ToggleDropDown" Property="IsChecked" Value="True">
+                            <Setter TargetName="ColorPickerBorder" Property="Background" Value="{DynamicResource Orc.Brushes.Control.Checked.Background}"/>
+                            <Setter TargetName="ColorPickerBorder" Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Checked.Border}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
