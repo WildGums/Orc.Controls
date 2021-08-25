@@ -109,25 +109,27 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ColorPicker}">
                     <Border x:Name="ColorPickerBorder" BorderBrush="{DynamicResource Orc.Brushes.Control.Default.Border}" BorderThickness="1">
-                        <Grid x:Name="grid" Background="Transparent"  Height="25">
-                            <ToggleButton Grid.ColumnSpan="2"
-                                      IsTabStop="False"
-                                      ClickMode="Press"
-                                      HorizontalContentAlignment="Stretch"
-                                      IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                      x:Name="PART_ToggleDropDown"
-                                      Height="25"
-                                      Width="154"
-                                      Margin="1"
-                                      Background="Transparent"
-                                      BorderBrush="Transparent"
-                                      BorderThickness="1">
+                        <Grid x:Name="grid"
+                              Background="Transparent" 
+                              Height="25">
+                            <ToggleButton x:Name="PART_ToggleDropDown"
+                                          Grid.ColumnSpan="2"
+                                          IsTabStop="False"
+                                          ClickMode="Press"
+                                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                          HorizontalContentAlignment="Stretch"
+                                          IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          Height="25"
+                                          Margin="1"
+                                          Background="Transparent"
+                                          BorderBrush="Transparent"
+                                          BorderThickness="1">
                                 <ToggleButton.Template>
                                     <ControlTemplate TargetType="{x:Type ToggleButton}">
                                         <Grid>
-
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="140"/>
+                                                <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="10"/>
                                             </Grid.ColumnDefinitions>
 
@@ -136,7 +138,9 @@
                                                        Fill="Transparent"
                                                        Stretch="Fill"/>
 
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            <ContentPresenter Grid.Column="0"
+                                                              HorizontalAlignment="Stretch"
+                                                              VerticalAlignment="Stretch"/>
 
                                             <Path x:Name="arrow"
                                                   Data="M0,0L3.5,4 7,0z"
@@ -152,11 +156,8 @@
                                     </ControlTemplate>
                                 </ToggleButton.Template>
                                 <ToggleButton.Content>
-                                    <Rectangle Width="140" Height="25" Grid.Column="1">
-                                        <Rectangle.Fill>
-                                            <SolidColorBrush Color="{Binding Color, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                        </Rectangle.Fill>
-                                    </Rectangle>
+                                    <Rectangle Stretch="Fill"
+                                               Fill="{Binding Color, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:ColorToBrushConverter}}"/>
                                 </ToggleButton.Content>
                             </ToggleButton>
 

@@ -7,7 +7,7 @@
     <orccontrols:StackGrid>
         <orccontrols:StackGrid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*"/>
         </orccontrols:StackGrid.ColumnDefinitions>
 
         <orccontrols:StackGrid.RowDefinitions>
@@ -18,8 +18,15 @@
         <Label  Content="Pick a color: " HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <orccontrols:ColorPicker Color="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-        <Label  Content="Pick a color: " HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <orccontrols:ColorPicker Style="{StaticResource ComboboxColorPickerStyle}" Color="Green" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label  Content="Pick a color: "
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"/>
+        <orccontrols:ColorPicker Grid.Column="1"
+                                 Style="{StaticResource ComboboxColorPickerStyle}"
+                                 Color="Green"
+                                 Width="150"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Center"/>
     </orccontrols:StackGrid>
 
 </catel:UserControl>
