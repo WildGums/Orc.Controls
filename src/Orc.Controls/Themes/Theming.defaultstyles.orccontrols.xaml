@@ -18,6 +18,7 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/Expander/Themes/Expander.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/FilterBox/Themes/FilterBox.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/FluidProgressBar/Themes/FluidProgressBar.generic.xaml" />
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/FluidProgressBar/Themes/FluidProgressBar.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/SaveFilePicker/Themes/SaveFilePicker.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/HeaderBar/Themes/HeaderBar.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/LinkLabel/Themes/LinkLabel.generic.xaml" />
@@ -26,6 +27,7 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/LogMessageCategoryToggleButton/Themes/LogMessageCategoryToggleButton.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/LogViewer/Themes/LogViewer.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/NumericTextBox/Themes/NumericTextBox.generic.xaml" />
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/NumericUpDown/Themes/NumericUpDown.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/PinnableToolTips/Themes/PinnableToolTip.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/RangeSlider/Themes/RangeSlider.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/TabControl/Themes/TabControl.generic.xaml" />

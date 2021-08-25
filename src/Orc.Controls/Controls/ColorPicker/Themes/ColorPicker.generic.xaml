@@ -7,6 +7,20 @@
         <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    <!--<Style x:Key="ComboboxColorPickerStyle"
+           TargetType="{x:Type local:ColorPicker}"
+           BasedOn="{StaticResource Orc.Styles.Control}">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ColorPicker}">
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+
+
     <Style x:Key="{x:Type local:ColorPicker}"
            TargetType="{x:Type local:ColorPicker}"
            BasedOn="{StaticResource Orc.Styles.Control}">
@@ -100,7 +114,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+   
     <Style TargetType="{x:Type local:ColorBoard}"
            BasedOn="{StaticResource Orc.Styles.Control}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -667,6 +681,10 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="Orc.Styles.ColorBoard"  
+           TargetType="{x:Type local:ColorBoard}"
+           BasedOn="{StaticResource {x:Type local:ColorBoard}}"/>
 
     <Style TargetType="{x:Type local:PredefinedColorItem}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
