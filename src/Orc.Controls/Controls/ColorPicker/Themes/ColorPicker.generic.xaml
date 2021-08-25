@@ -108,7 +108,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ColorPicker}">
-                    <Border x:Name="ColorPickerBorder" BorderBrush="{DynamicResource Orc.Brushes.Control.Default.Border}" Width="154" BorderThickness="1">
+                    <Border x:Name="ColorPickerBorder" BorderBrush="{DynamicResource Orc.Brushes.Control.Default.Border}" BorderThickness="1">
                         <Grid x:Name="grid" Background="Transparent"  Height="25">
                             <ToggleButton Grid.ColumnSpan="2"
                                       IsTabStop="False"
@@ -143,6 +143,7 @@
                                                   Fill="{TemplateBinding Foreground}"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Center"
+                                                  Margin="2,0,0,0"
                                                   Stretch="None"
                                                   Grid.Column="1"
                                                   Width="8"
