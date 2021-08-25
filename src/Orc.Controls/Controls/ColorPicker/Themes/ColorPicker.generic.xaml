@@ -104,14 +104,16 @@
     <Style x:Key="ComboboxColorPickerStyle"
            TargetType="{x:Type local:ColorPicker}"
            BasedOn="{StaticResource {x:Type local:ColorPicker}}">
-        <Setter Property="MinHeight" Value="25"/>
+        <Setter Property="Height" Value="25"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ColorPicker}">
-                    <Border x:Name="ColorPickerBorder" BorderBrush="{DynamicResource Orc.Brushes.Control.Default.Border}" BorderThickness="1">
+                    <Border x:Name="ColorPickerBorder"
+                            BorderBrush="{DynamicResource Orc.Brushes.Control.Default.Border}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid x:Name="grid"
-                              Background="Transparent" 
-                              Height="25">
+                              Background="Transparent">
+
                             <ToggleButton x:Name="PART_ToggleDropDown"
                                           Grid.ColumnSpan="2"
                                           IsTabStop="False"
@@ -120,8 +122,7 @@
                                           VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                           HorizontalContentAlignment="Stretch"
                                           IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                          Height="25"
-                                          Margin="1"
+                                          Margin="0"
                                           Background="Transparent"
                                           BorderBrush="Transparent"
                                           BorderThickness="1">
@@ -139,6 +140,7 @@
                                                        Stretch="Fill"/>
 
                                             <ContentPresenter Grid.Column="0"
+                                                              Margin="0"
                                                               HorizontalAlignment="Stretch"
                                                               VerticalAlignment="Stretch"/>
 
@@ -147,7 +149,6 @@
                                                   Fill="{TemplateBinding Foreground}"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Center"
-                                                  Margin="2,0,0,0"
                                                   Stretch="None"
                                                   Grid.Column="1"
                                                   Width="8"
@@ -157,6 +158,7 @@
                                 </ToggleButton.Template>
                                 <ToggleButton.Content>
                                     <Rectangle Stretch="Fill"
+                                               Margin="1"
                                                Fill="{Binding Color, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:ColorToBrushConverter}}"/>
                                 </ToggleButton.Content>
                             </ToggleButton>
