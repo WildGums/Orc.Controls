@@ -134,14 +134,14 @@
 
                                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             <Path x:Name="arrow"
-                                              Data="M0,0L3.5,4 7,0z"
-                                              Fill="{TemplateBinding Foreground}"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              Stretch="None"
-                                              Grid.Column="1"
-                                              Width="8"
-                                              Visibility="Visible"/>
+                                                  Data="M0,0L3.5,4 7,0z"
+                                                  Fill="{TemplateBinding Foreground}"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Stretch="None"
+                                                  Grid.Column="1"
+                                                  Width="8"
+                                                  Visibility="Visible"/>
                                         </Grid>
                                     </ControlTemplate>
                                 </ToggleButton.Template>
@@ -155,9 +155,11 @@
                             </ToggleButton>
 
                             <Popup x:Name="PART_Popup"
-                               Placement="Relative"
-                               HorizontalOffset="-1"
-                               IsOpen="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                   AllowsTransparency="True"
+                                   Placement="Relative"
+                                   HorizontalOffset="-1"
+                                   IsOpen="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                   PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"/>
                         </Grid>
                         <Border.Style>
                             <Style TargetType="Border">
