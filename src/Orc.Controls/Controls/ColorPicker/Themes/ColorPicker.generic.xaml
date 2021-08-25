@@ -104,7 +104,6 @@
     <Style x:Key="ComboboxColorPickerStyle"
            TargetType="{x:Type local:ColorPicker}"
            BasedOn="{StaticResource {x:Type local:ColorPicker}}">
-        <Setter Property="MinWidth" Value="155"/>
         <Setter Property="MinHeight" Value="25"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -125,7 +124,7 @@
                                       BorderThickness="1">
                                 <ToggleButton.Template>
                                     <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                        <Grid Height="25">
+                                        <Grid>
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="140"/>
@@ -164,7 +163,7 @@
                                    AllowsTransparency="True"
                                    Placement="Relative"
                                    HorizontalOffset="-1"
-                                   IsOpen="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                   IsOpen="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"/>
                         </Grid>
                         <Border.Style>
