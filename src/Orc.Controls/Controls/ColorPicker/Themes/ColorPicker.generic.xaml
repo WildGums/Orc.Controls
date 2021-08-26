@@ -1,7 +1,8 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Orc.Controls"
-                    xmlns:catel="http://schemas.catelproject.com">
+                    xmlns:catel="http://schemas.catelproject.com"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
@@ -19,14 +20,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ColorPicker}">
                     <Grid x:Name="grid" Background="Transparent">
-                        <ToggleButton Grid.ColumnSpan="2" 
+                        <ToggleButton Grid.ColumnSpan="2"
                                       IsTabStop="False"
                                       ClickMode="Press"
                                       HorizontalContentAlignment="Stretch"
-                                      IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                      IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                       x:Name="PART_ToggleDropDown"
-                                      Height="14" 
-                                      Background="Transparent" 
+                                      Height="14"
+                                      Background="Transparent"
                                       BorderBrush="Transparent"
                                       BorderThickness="0">
                             <ToggleButton.Template>
@@ -75,7 +76,7 @@
                                               Fill="{TemplateBinding Foreground}"
                                               HorizontalAlignment="Center"
                                               VerticalAlignment="Center"
-                                              Stretch="None" 
+                                              Stretch="None"
                                               Grid.Column="1"
                                               Width="5"
                                               Visibility="Hidden"/>
@@ -100,7 +101,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="{x:Type local:ColorBoard}"
            BasedOn="{StaticResource Orc.Styles.Control}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -111,8 +112,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ColorBoard}">
                     <Grid x:Name="PART_RootGrid" >
-                        <Border Background="{TemplateBinding Background}" 
-                                BorderBrush="{TemplateBinding BorderBrush}" 
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}">
                             <Grid Width="185" Height="300">
                                 <Grid.Resources>
@@ -132,7 +133,7 @@
                                         </Setter>
                                     </Style>
 
-                                    <Style x:Key="ThumbHorizontalStyle" 
+                                    <Style x:Key="ThumbHorizontalStyle"
                                            TargetType="{x:Type Thumb}"
                                            BasedOn="{StaticResource Orc.Styles.Control}">
                                         <Setter Property="IsTabStop" Value="False" />
@@ -143,7 +144,7 @@
                                                     <Grid>
                                                         <Rectangle x:Name="BackgroundGradient"
                                                                    Fill="Transparent" />
-                                                        <Path Fill="{TemplateBinding Foreground}" 
+                                                        <Path Fill="{TemplateBinding Foreground}"
                                                               Data="M 0,9 L 0,4 L 5,0 L 10,4 L 10,9 Z"
                                                               VerticalAlignment="Bottom" />
                                                     </Grid>
@@ -160,10 +161,10 @@
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type Thumb}">
                                                     <Grid>
-                                                        <Rectangle x:Name="BackgroundGradient" 
+                                                        <Rectangle x:Name="BackgroundGradient"
                                                                    Fill="Transparent" />
 
-                                                        <Path Fill="{TemplateBinding Foreground}" 
+                                                        <Path Fill="{TemplateBinding Foreground}"
                                                               Data="M 0,0 L 5,5 L 0,10 Z" />
 
                                                         <Path Fill="{TemplateBinding Foreground}"
@@ -178,8 +179,8 @@
                                     <ControlTemplate x:Key="HorizontalSlider" TargetType="{x:Type Slider}">
                                         <Grid>
                                             <Rectangle Height="10"
-                                                       Margin="5,0" 
-                                                       Stroke="{TemplateBinding BorderBrush}" 
+                                                       Margin="5,0"
+                                                       Stroke="{TemplateBinding BorderBrush}"
                                                        StrokeThickness="1" >
                                                 <Rectangle.Fill>
                                                     <LinearGradientBrush StartPoint="0,0" EndPoint="5,5" SpreadMethod="Repeat" MappingMode="Absolute">
@@ -192,10 +193,10 @@
                                             </Rectangle>
 
                                             <Rectangle x:Name="TrackRectangle"
-                                                       Height="10" 
-                                                       Margin="5,0" 
+                                                       Height="10"
+                                                       Margin="5,0"
                                                        Fill="{TemplateBinding Background}"
-                                                       Stroke="{TemplateBinding BorderBrush}" 
+                                                       Stroke="{TemplateBinding BorderBrush}"
                                                        StrokeThickness="1"/>
 
                                             <Track x:Name="PART_Track">
@@ -288,11 +289,11 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TabControl Margin="2" 
+                                <TabControl Margin="2"
                                             Grid.ColumnSpan="2"
                                             Padding="2 2 2 4"
                                             Background="{TemplateBinding Background}">
-                                    <TabItem Header="{catel:LanguageBinding Controls_ColorPickerGeneric_TabItem_Header_HSV}" 
+                                    <TabItem Header="{catel:LanguageBinding Controls_ColorPickerGeneric_TabItem_Header_HSV}"
                                              FontSize="10">
                                         <Grid>
                                             <Grid.RowDefinitions>
@@ -340,11 +341,11 @@
                                             <Slider Name="PART_HSVSlider"
                                                     Grid.Column="1"
                                                     Margin="0"
-                                                    Height="150" 
+                                                    Height="150"
                                                     Focusable="False"
-                                                    HorizontalAlignment="Stretch" 
+                                                    HorizontalAlignment="Stretch"
                                                     IsDirectionReversed="True"
-                                                    Maximum="359" 
+                                                    Maximum="359"
                                                     SmallChange="1"
                                                     Orientation="Vertical"
                                                     IsMoveToPointEnabled="True">
@@ -377,12 +378,12 @@
 
                                                 <Slider x:Name="PART_ASlider"
                                                         Grid.Row="0"
-                                                        Grid.Column="0" 
-                                                        Height="20" 
+                                                        Grid.Column="0"
+                                                        Height="20"
                                                         IsMoveToPointEnabled="True"
                                                         Orientation="Horizontal"
-                                                        Maximum="255" 
-                                                        SmallChange="1" 
+                                                        Maximum="255"
+                                                        SmallChange="1"
                                                         VerticalAlignment="Center">
                                                     <Slider.Background>
                                                         <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
@@ -394,12 +395,12 @@
 
                                                 <Slider x:Name="PART_RSlider"
                                                         Grid.Row="1"
-                                                        Grid.Column="0"  
-                                                        Height="20" 
+                                                        Grid.Column="0"
+                                                        Height="20"
                                                         IsMoveToPointEnabled="True"
                                                         Orientation="Horizontal"
-                                                        Maximum="255" 
-                                                        SmallChange="1" 
+                                                        Maximum="255"
+                                                        SmallChange="1"
                                                         VerticalAlignment="Center">
                                                     <Slider.Background>
                                                         <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
@@ -412,11 +413,11 @@
                                                 <Slider x:Name="PART_GSlider"
                                                         Grid.Row="2"
                                                         Grid.Column="0"
-                                                        Height="20" 
+                                                        Height="20"
                                                         IsMoveToPointEnabled="True"
                                                         Orientation="Horizontal"
-                                                        Maximum="255" 
-                                                        SmallChange="1" 
+                                                        Maximum="255"
+                                                        SmallChange="1"
                                                         VerticalAlignment="Center">
                                                     <Slider.Background>
                                                         <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
@@ -427,13 +428,13 @@
                                                 </Slider>
 
                                                 <Slider x:Name="PART_BSlider"
-                                                        Grid.Row="3" 
-                                                        Grid.Column="0" 
-                                                        Height="20" 
+                                                        Grid.Row="3"
+                                                        Grid.Column="0"
+                                                        Height="20"
                                                         IsMoveToPointEnabled="True"
                                                         Orientation="Horizontal"
-                                                        Maximum="255" 
-                                                        SmallChange="1" 
+                                                        Maximum="255"
+                                                        SmallChange="1"
                                                         VerticalAlignment="Center">
                                                     <Slider.Background>
                                                         <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
@@ -445,12 +446,12 @@
 
                                                 <TextBox x:Name="PART_ATextBox"
                                                          Grid.Row="0"
-                                                         Grid.Column="1" 
+                                                         Grid.Column="1"
                                                          Margin="0 2 0 0"
-                                                         BorderThickness="0" 
+                                                         BorderThickness="0"
                                                          Height="20"
-                                                         Width="24" 
-                                                         VerticalAlignment="Center" 
+                                                         Width="24"
+                                                         VerticalAlignment="Center"
                                                          HorizontalAlignment="Center"/>
                                                 <TextBox x:Name="PART_RTextBox"
                                                          Grid.Row="1"
@@ -494,9 +495,9 @@
                                                             <ControlTemplate TargetType="{x:Type local:PredefinedColorItem}">
                                                                 <StackPanel Orientation="Horizontal" Background="Transparent">
                                                                     <Rectangle x:Name="RectangleColor"
-                                                                               Width="12" 
+                                                                               Width="12"
                                                                                Height="12"
-                                                                               StrokeThickness="1" 
+                                                                               StrokeThickness="1"
                                                                                Stroke="{TemplateBinding BorderBrush}">
                                                                         <Rectangle.Fill>
                                                                             <SolidColorBrush Color="{Binding Color, RelativeSource={RelativeSource TemplatedParent}}"/>
@@ -517,7 +518,7 @@
                                                                             <VisualState x:Name="Normal"/>
                                                                             <VisualState x:Name="MouseOver">
                                                                                 <Storyboard>
-                                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="brush" 
+                                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="brush"
                                                                                                                    Storyboard.TargetProperty="Color">
                                                                                         <DiscreteObjectKeyFrame KeyTime="0"
                                                                                                                 Value="{x:Static Colors.LightSteelBlue}"/>
@@ -527,7 +528,7 @@
                                                                             <VisualState x:Name="Disabled"/>
                                                                             <VisualState x:Name="Selected">
                                                                                 <Storyboard>
-                                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="brush" 
+                                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="brush"
                                                                                                                    Storyboard.TargetProperty="Color">
                                                                                         <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Colors.SteelBlue}"/>
                                                                                     </ObjectAnimationUsingKeyFrames>
@@ -549,7 +550,7 @@
                                                                             <SolidColorBrush x:Name="brush"
                                                                                              Color="Transparent"/>
                                                                         </Border.Background>
-                                                                        <ContentPresenter HorizontalAlignment="Center" 
+                                                                        <ContentPresenter HorizontalAlignment="Center"
                                                                                           VerticalAlignment="Center"
                                                                                           Margin="0"/>
                                                                     </Border>
@@ -560,15 +561,15 @@
                                                 </Style>
                                             </StackPanel.Resources>
 
-                                            <Border Background="Gray" 
+                                            <Border Background="Gray"
                                                     BorderBrush="Transparent">
-                                                <TextBlock Text="{catel:LanguageBinding Controls_ColorPickerGeneric_TextBlock_Text_ThemeColors}" 
+                                                <TextBlock Text="{catel:LanguageBinding Controls_ColorPickerGeneric_TextBlock_Text_ThemeColors}"
                                                            Margin="2 1"/>
                                             </Border>
                                             <ListBox x:Name="PART_ThemeColorsListBox"
                                                      HorizontalAlignment="Stretch"
                                                      HorizontalContentAlignment="Center"
-                                                     BorderThickness="0" 
+                                                     BorderThickness="0"
                                                      Margin="5"
                                                      Background="{TemplateBinding Background}"
                                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -580,14 +581,14 @@
                                                 </ListBox.ItemsPanel>
                                             </ListBox>
 
-                                            <Border Background="Gray" 
+                                            <Border Background="Gray"
                                                     BorderBrush="{TemplateBinding BorderBrush}">
-                                                <TextBlock Text="{catel:LanguageBinding Controls_ColorPickerGeneric_TextBlock_Text_RecentColors}" 
+                                                <TextBlock Text="{catel:LanguageBinding Controls_ColorPickerGeneric_TextBlock_Text_RecentColors}"
                                                            Margin="2 1"/>
                                             </Border>
                                             <ListBox x:Name="PART_RecentColorsListBox"
                                                      HorizontalAlignment="Stretch"
-                                                     HorizontalContentAlignment="Center" 
+                                                     HorizontalContentAlignment="Center"
                                                      BorderThickness="0"
                                                      Margin="5"
                                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -603,50 +604,50 @@
                                     </TabItem>
                                 </TabControl>
 
-                                <Grid Grid.Row="1" 
+                                <Grid Grid.Row="1"
                                       Grid.ColumnSpan="2"
                                       Height="25"
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Center">
-                                    <ComboBox x:Name="PART_ColorComboBox" 
+                                    <ComboBox x:Name="PART_ColorComboBox"
                                               Height="20"
                                               Margin="2"
                                               HorizontalContentAlignment="Left"
-                                              VerticalAlignment="Center" 
+                                              VerticalAlignment="Center"
                                               HorizontalAlignment="Stretch"/>
 
-                                    <StackPanel Orientation="Horizontal" 
-                                                Margin="4,0,0,0" 
+                                    <StackPanel Orientation="Horizontal"
+                                                Margin="4,0,0,0"
                                                 HorizontalAlignment="Stretch">
 
-                                        <Rectangle x:Name="RectangleColor" 
-                                                   Width="22" 
+                                        <Rectangle x:Name="RectangleColor"
+                                                   Width="22"
                                                    Height="12"
-                                                   Stroke="Black" 
+                                                   Stroke="Black"
                                                    StrokeThickness="1">
                                             <Rectangle.Fill>
-                                                <SolidColorBrush x:Name="PART_ColorBrush" 
+                                                <SolidColorBrush x:Name="PART_ColorBrush"
                                                                  Color="White"/>
                                             </Rectangle.Fill>
                                         </Rectangle>
 
                                         <TextBox x:Name="PART_ColorTextBox"
-                                                 TextOptions.TextRenderingMode="ClearType" 
-                                                 Margin="5,0" 
-                                                 Height="20" 
-                                                 Width="88" 
+                                                 TextOptions.TextRenderingMode="ClearType"
+                                                 Margin="5,0"
+                                                 Height="20"
+                                                 Width="88"
                                                  Style="{StaticResource TextBoxCustomizedStyle}" />
                                     </StackPanel>
                                 </Grid>
 
-                                <Grid Grid.Row="2" 
+                                <Grid Grid.Row="2"
                                       Grid.ColumnSpan="2">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Button x:Name="PART_CancelButton" 
+                                    <Button x:Name="PART_CancelButton"
                                             Grid.Column="0"
                                             Height="auto"
                                             Margin="2 0 2 2"
@@ -654,11 +655,11 @@
 
                                     <Button x:Name="PART_SelectButton"
                                             Grid.Column="1"
-                                            Height="auto" 
+                                            Height="auto"
                                             Margin="0 0 2 2"
                                             Content="{catel:LanguageBinding Controls_ColorPickerGeneric_Button_Content_Select}"/>
                                 </Grid>
-                                
+
                             </Grid>
 
                         </Border>
