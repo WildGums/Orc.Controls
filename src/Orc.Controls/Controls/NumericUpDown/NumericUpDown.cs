@@ -15,18 +15,18 @@
     {
         #region Fields
 #pragma warning disable WPF0120 // Register containing member name as name for routed command.
-        private static readonly RoutedUICommand CancelChangesCommand = new ("CancelChanges", "CancelChanges", typeof(NumericUpDown));
-        private static readonly RoutedUICommand MajorDecreaseValueCommand = new ("MajorDecreaseValue", "MajorDecreaseValue", typeof(NumericUpDown));
-        private static readonly RoutedUICommand MajorIncreaseValueCommand = new ("MajorIncreaseValue", "MajorIncreaseValue", typeof(NumericUpDown));
-        private static readonly RoutedUICommand MinorDecreaseValueCommand = new ("MinorDecreaseValue", "MinorDecreaseValue", typeof(NumericUpDown));
-        private static readonly RoutedUICommand MinorIncreaseValueCommand = new ("MinorIncreaseValue", "MinorIncreaseValue", typeof(NumericUpDown));
+        //private static readonly RoutedUICommand CancelChangesCommand = new ("CancelChanges", "CancelChanges", typeof(NumericUpDown));
+        //private static readonly RoutedUICommand MajorDecreaseValueCommand = new ("MajorDecreaseValue", "MajorDecreaseValue", typeof(NumericUpDown));
+        //private static readonly RoutedUICommand MajorIncreaseValueCommand = new ("MajorIncreaseValue", "MajorIncreaseValue", typeof(NumericUpDown));
+        //private static readonly RoutedUICommand MinorDecreaseValueCommand = new ("MinorDecreaseValue", "MinorDecreaseValue", typeof(NumericUpDown));
+        //private static readonly RoutedUICommand MinorIncreaseValueCommand = new ("MinorIncreaseValue", "MinorIncreaseValue", typeof(NumericUpDown));
         private static readonly RoutedUICommand UpdateValueStringCommand = new ("UpdateValueString", "UpdateValueString", typeof(NumericUpDown));
 #pragma warning restore WPF0120 // Register containing member name as name for routed command.
 
         private readonly CultureInfo _culture;
 
-        private RepeatButton _decreaseButton;
-        private RepeatButton _increaseButton;
+        //private RepeatButton _decreaseButton;
+        //private RepeatButton _increaseButton;
         private TextBox _textBox;
 
         private bool _isValueCoercing;
@@ -107,7 +107,7 @@
         {
             get { return (bool) GetValue(IsDecimalPointDynamicProperty); }
             set { SetValue(IsDecimalPointDynamicProperty, value); }
-        }   
+        }
 
         public static readonly DependencyProperty IsDecimalPointDynamicProperty = DependencyProperty.Register(nameof(IsDecimalPointDynamic), typeof(bool), typeof(NumericUpDown),
             new PropertyMetadata(false));
@@ -519,8 +519,8 @@
         private void AttachToVisualTree()
         {
             AttachTextBox();
-            AttachIncreaseButton();
-            AttachDecreaseButton();
+            //AttachIncreaseButton();
+            //AttachDecreaseButton();
         }
 
         private void AttachTextBox()
@@ -542,51 +542,52 @@
             //UpdateValue();
         }
 
-        private void AttachIncreaseButton()
-        {
-            var increaseButton = GetTemplateChild("PART_IncreaseButton") as RepeatButton;
-            if (increaseButton is null)
-            {
-                return;
-            }
+        //private void AttachIncreaseButton()
+        //{
+        //    var increaseButton = GetTemplateChild("PART_IncreaseButton") as RepeatButton;
+        //    if (increaseButton is null)
+        //    {
+        //        return;
+        //    }
 
-            _increaseButton = increaseButton;
-            _increaseButton.SetCurrentValue(FocusableProperty, false);
-            _increaseButton.SetCurrentValue(ButtonBase.CommandProperty, MinorIncreaseValueCommand);
-            _increaseButton.PreviewMouseLeftButtonDown += (sender, args) => RemoveFocus();
-            _increaseButton.PreviewMouseRightButtonDown += ButtonOnPreviewMouseRightButtonDown;
-        }
+        //    _increaseButton = increaseButton;
+        //    _increaseButton.SetCurrentValue(FocusableProperty, false);
+        //    _increaseButton.SetCurrentValue(ButtonBase.CommandProperty, MinorIncreaseValueCommand);
+        //    _increaseButton.PreviewMouseLeftButtonDown += (sender, args) => RemoveFocus();
+        //    _increaseButton.PreviewMouseRightButtonDown += ButtonOnPreviewMouseRightButtonDown;
+        //}
 
-        private void AttachDecreaseButton()
-        {
-            var decreaseButton = GetTemplateChild("PART_DecreaseButton") as RepeatButton;
-            if (decreaseButton is null)
-            {
-                return;
-            }
+        //private void AttachDecreaseButton()
+        //{
+        //    var decreaseButton = GetTemplateChild("PART_DecreaseButton") as RepeatButton;
+        //    if (decreaseButton is null)
+        //    {
+        //        return;
+        //    }
 
-            _decreaseButton = decreaseButton;
-            _decreaseButton.SetCurrentValue(FocusableProperty, false);
-            _decreaseButton.SetCurrentValue(ButtonBase.CommandProperty, MinorDecreaseValueCommand);
-            _decreaseButton.PreviewMouseLeftButtonDown += (sender, args) => RemoveFocus();
-            _decreaseButton.PreviewMouseRightButtonDown += ButtonOnPreviewMouseRightButtonDown;
-        }
+        //    _decreaseButton = decreaseButton;
+        //    _decreaseButton.SetCurrentValue(FocusableProperty, false);
+        //    _decreaseButton.SetCurrentValue(ButtonBase.CommandProperty, MinorDecreaseValueCommand);
+        //    _decreaseButton.PreviewMouseLeftButtonDown += (sender, args) => RemoveFocus();
+        //    _decreaseButton.PreviewMouseRightButtonDown += ButtonOnPreviewMouseRightButtonDown;
+        //}
 
         private void AttachCommands()
         {
-            CommandBindings.Add(new CommandBinding(MinorIncreaseValueCommand, (a, b) => IncreaseValue(true)));
-            CommandBindings.Add(new CommandBinding(MinorDecreaseValueCommand, (a, b) => DecreaseValue(true)));
-            CommandBindings.Add(new CommandBinding(MajorIncreaseValueCommand, (a, b) => IncreaseValue(false)));
-            CommandBindings.Add(new CommandBinding(MajorDecreaseValueCommand, (a, b) => DecreaseValue(false)));
+            CommandBindings.Add(new CommandBinding(SpinButton.MinorIncreaseValueCommand, (a, b) => IncreaseValue(true)));
+            CommandBindings.Add(new CommandBinding(SpinButton.MinorDecreaseValueCommand, (a, b) => DecreaseValue(true)));
+            CommandBindings.Add(new CommandBinding(SpinButton.MajorIncreaseValueCommand, (a, b) => IncreaseValue(false)));
+            CommandBindings.Add(new CommandBinding(SpinButton.MajorDecreaseValueCommand, (a, b) => DecreaseValue(false)));
             CommandBindings.Add(new CommandBinding(UpdateValueStringCommand, (a, b) => UpdateValue()));
-            CommandBindings.Add(new CommandBinding(CancelChangesCommand, (a, b) => CancelChanges()));
+            CommandBindings.Add(new CommandBinding(SpinButton.CancelChangesCommand, (a, b) => CancelChanges()));
 
-            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(MinorIncreaseValueCommand, new KeyGesture(Key.Up)));
-            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(MinorDecreaseValueCommand, new KeyGesture(Key.Down)));
-            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(MajorIncreaseValueCommand, new KeyGesture(Key.PageUp)));
-            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(MajorDecreaseValueCommand, new KeyGesture(Key.PageDown)));
+            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(SpinButton.MinorIncreaseValueCommand, new KeyGesture(Key.Up)));
+            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(SpinButton.MinorDecreaseValueCommand, new KeyGesture(Key.Down)));
+            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(SpinButton.MajorIncreaseValueCommand, new KeyGesture(Key.PageUp)));
+            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(SpinButton.MajorDecreaseValueCommand, new KeyGesture(Key.PageDown)));
             CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(UpdateValueStringCommand, new KeyGesture(Key.Enter)));
-            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(CancelChangesCommand, new KeyGesture(Key.Escape)));
+            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(SpinButton.CancelChangesCommand, new KeyGesture(Key.Escape)));
+            
         }
 
         private static decimal ParseStringToDecimal(string source)

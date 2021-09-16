@@ -28,6 +28,7 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/LogViewer/Themes/LogViewer.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/NumericTextBox/Themes/NumericTextBox.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/NumericUpDown/Themes/NumericUpDown.generic.xaml" />
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/SpinButton/Themes/SpinButton.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/PinnableToolTips/Themes/PinnableToolTip.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/RangeSlider/Themes/RangeSlider.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/TabControl/Themes/TabControl.generic.xaml" />
@@ -37,10 +38,10 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ValidationContextControl/Themes/ValidationContextControl.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/WatermarkTextBox/Themes/WatermarkTextBox.generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    
+
     <!-- TabControl -->
-    <Style x:Key="DefaultTabControlStyle" 
-           TargetType="{x:Type orccontrols:TabControl}" 
+    <Style x:Key="DefaultTabControlStyle"
+           TargetType="{x:Type orccontrols:TabControl}"
            BasedOn="{StaticResource {x:Type orccontrols:TabControl}}">
 
         <Setter Property="Margin" Value="{DynamicResource Margin.Default}" />
@@ -58,7 +59,7 @@
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red" 
+                        <Border BorderThickness="1" BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -80,7 +81,7 @@
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red" 
+                        <Border BorderThickness="1" BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -96,7 +97,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
     <!-- FilterBox -->
     <Style x:Key="DefaultFilterBoxStyle" TargetType="{x:Type orccontrols:FilterBox}" BasedOn="{StaticResource {x:Type orccontrols:FilterBox}}">
         <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
@@ -109,7 +110,7 @@
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red" 
+                        <Border BorderThickness="1" BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -127,14 +128,14 @@
     </Style>
 
     <!-- FluidProgressBar  -->
-    <Style x:Key="DefaultFluidProgressBarStyle" TargetType="{x:Type orccontrols:FluidProgressBar}" 
+    <Style x:Key="DefaultFluidProgressBarStyle" TargetType="{x:Type orccontrols:FluidProgressBar}"
            BasedOn="{StaticResource {x:Type orccontrols:FluidProgressBar}}"/>
 
-    <Style x:Key="DefaultExpanderStyle" TargetType="{x:Type orccontrols:Expander}" 
+    <Style x:Key="DefaultExpanderStyle" TargetType="{x:Type orccontrols:Expander}"
            BasedOn="{StaticResource {x:Type orccontrols:Expander}}"/>
 
-    <Style x:Key="DefaultTimeSpanPickerStyle" 
-           TargetType="{x:Type orccontrols:TimeSpanPicker}" 
+    <Style x:Key="DefaultTimeSpanPickerStyle"
+           TargetType="{x:Type orccontrols:TimeSpanPicker}"
            BasedOn="{StaticResource {x:Type orccontrols:TimeSpanPicker}}">
 
         <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
@@ -147,7 +148,7 @@
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red" 
+                        <Border BorderThickness="1" BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -164,8 +165,8 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="DefaultDatePickerStyle" 
-           TargetType="{x:Type orccontrols:DatePicker}" 
+    <Style x:Key="DefaultDatePickerStyle"
+           TargetType="{x:Type orccontrols:DatePicker}"
            BasedOn="{StaticResource {x:Type orccontrols:DatePicker}}">
 
         <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
@@ -178,7 +179,7 @@
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red" 
+                        <Border BorderThickness="1" BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -195,8 +196,8 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="DefaultDateTimePickerStyle" 
-           TargetType="{x:Type orccontrols:DateTimePicker}" 
+    <Style x:Key="DefaultDateTimePickerStyle"
+           TargetType="{x:Type orccontrols:DateTimePicker}"
            BasedOn="{StaticResource {x:Type orccontrols:DateTimePicker}}">
 
         <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
@@ -209,7 +210,7 @@
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red" 
+                        <Border BorderThickness="1" BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -226,7 +227,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="DefaultTimePickerStyle" 
+    <Style x:Key="DefaultTimePickerStyle"
            TargetType="{x:Type orccontrols:TimePicker}" >
 
         <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
@@ -239,7 +240,7 @@
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red" 
+                        <Border BorderThickness="1" BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -255,24 +256,24 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
-    <Style x:Key="DefaultLinkLabelStyle" TargetType="{x:Type orccontrols:LinkLabel}" 
+
+    <Style x:Key="DefaultLinkLabelStyle" TargetType="{x:Type orccontrols:LinkLabel}"
            BasedOn="{StaticResource {x:Type orccontrols:LinkLabel}}">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
-    <Style x:Key="DefaultLogMessageCategoryControlStyle" TargetType="{x:Type orccontrols:LogMessageCategoryControl}" 
+    <Style x:Key="DefaultLogMessageCategoryControlStyle" TargetType="{x:Type orccontrols:LogMessageCategoryControl}"
            BasedOn="{StaticResource {x:Type orccontrols:LogMessageCategoryControl}}">
     </Style>
 
 
-    <Style x:Key="DefaultLogMessageCategoryToggleButtonStyle" TargetType="{x:Type orccontrols:LogMessageCategoryToggleButton}" 
+    <Style x:Key="DefaultLogMessageCategoryToggleButtonStyle" TargetType="{x:Type orccontrols:LogMessageCategoryToggleButton}"
            BasedOn="{StaticResource {x:Type orccontrols:LogMessageCategoryToggleButton}}">
     </Style>
 
 
-    <Style x:Key="DefaultNumericTextBoxStyle" 
-           TargetType="{x:Type orccontrols:NumericTextBox}" 
+    <Style x:Key="DefaultNumericTextBoxStyle"
+           TargetType="{x:Type orccontrols:NumericTextBox}"
            BasedOn="{StaticResource {x:Type orccontrols:NumericTextBox}}">
 
         <Setter Property="Height" Value="{DynamicResource Size.Height}" />
@@ -286,7 +287,7 @@
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red" 
+                        <Border BorderThickness="1" BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -303,8 +304,8 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="DefaultListTextBoxStyle" 
-           TargetType="{x:Type orccontrols:ListTextBox}" 
+    <Style x:Key="DefaultListTextBoxStyle"
+           TargetType="{x:Type orccontrols:ListTextBox}"
            BasedOn="{StaticResource {x:Type orccontrols:ListTextBox}}">
 
         <Setter Property="Height" Value="{DynamicResource Size.Height}" />
@@ -318,7 +319,7 @@
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red" 
+                        <Border BorderThickness="1" BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -335,15 +336,15 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="DefaultRangeSliderStyle" 
-           TargetType="{x:Type orccontrols:RangeSlider}" 
+    <Style x:Key="DefaultRangeSliderStyle"
+           TargetType="{x:Type orccontrols:RangeSlider}"
            BasedOn="{StaticResource Orc.Styles.RangeSlider}">
 
         <Setter Property="Margin" Value="{DynamicResource Margin.Default}" />
     </Style>
 
-    <Style x:Key="DefaultBusyIndicatorStyle" 
-           TargetType="{x:Type orccontrols:BusyIndicator}" 
+    <Style x:Key="DefaultBusyIndicatorStyle"
+           TargetType="{x:Type orccontrols:BusyIndicator}"
            BasedOn="{StaticResource {x:Type orccontrols:BusyIndicator}}"/>
 
     <!-- WatermarkTextBox -->
@@ -361,7 +362,7 @@
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red" 
+                        <Border BorderThickness="1" BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -380,7 +381,7 @@
 
     <!-- LogViewerControl -->
     <Style x:Key="DefaultLogViewerControlStyle"
-           TargetType="{x:Type orccontrols:LogViewerControl}" 
+           TargetType="{x:Type orccontrols:LogViewerControl}"
            BasedOn="{StaticResource {x:Type orccontrols:LogViewerControl}}">
         <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}"/>
     </Style>

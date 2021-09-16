@@ -4,7 +4,7 @@
                     xmlns:catel="http://schemas.catelproject.com"
                     xmlns:controls="clr-namespace:Orc.Controls">
 
-    <Style x:Key="{x:Type controls:NumericUpDown}" 
+    <Style x:Key="{x:Type controls:NumericUpDown}"
            TargetType="{x:Type controls:NumericUpDown}">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Right" />
@@ -25,7 +25,7 @@
                                 HorizontalAlignment="Stretch">
                             <Grid Focusable="False">
 
-                                <TextBox x:Name="PART_TextBox" 
+                                <TextBox x:Name="PART_TextBox"
                                          HorizontalAlignment="Stretch"
                                          Margin="0"
                                          Padding="2 4 20 4">
@@ -35,38 +35,20 @@
                                 </TextBox>
 
                                 <Grid HorizontalAlignment="Right">
+
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
 
-                                    <RepeatButton x:Name="PART_IncreaseButton"
-                                                  Margin="0 1 1 0"
-                                                  Height="NaN"
-                                                  HorizontalContentAlignment="Stretch"
-                                                  VerticalContentAlignment="Stretch"
-                                                  Grid.Row="0">
-                                        <Path Margin="1"
-                                              Data="M 0 20 L 35 -20 L 70 20 Z"
-                                              Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
-                                              Stretch="Uniform" />
-                                    </RepeatButton>
-                                    <RepeatButton x:Name="PART_DecreaseButton"
-                                                  Margin="0 0 1 1"
-                                                  Height="NaN"
-                                                  HorizontalContentAlignment="Stretch"
-                                                  VerticalContentAlignment="Stretch"
-                                                  Grid.Row="1">
-                                        <Path Margin="1"
-                                              Data="M 0 0 L 35 40 L 70 0 Z"
-                                              Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
-                                              Stretch="Uniform" />
-                                    </RepeatButton>
-
+                                    <controls:SpinButton
+                                        x:Name="PART_SpinButton"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        />
                                 </Grid>
                             </Grid>
                         </Border>
-                    </Grid>                    
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
