@@ -16,52 +16,54 @@
                 <ControlTemplate TargetType="{x:Type controls:SpinButton}">
                     <Border BorderThickness="{TemplateBinding BorderThickness}"
                             Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}">
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            UseLayoutRounding="True">
 
                         <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <RepeatButton x:Name="PART_IncreaseButton"
-                                      Grid.Row="0"
-                                      Padding="2 2 2 1"
-                                      Margin="0"
-                                      BorderThickness="0"
-                                      Height="NaN"
-                                      HorizontalContentAlignment="Stretch"
-                                      VerticalContentAlignment="Stretch"
-                                      Focusable="False"
-                                      Command="{TemplateBinding Increase}"
-                                      CommandParameter="{TemplateBinding CommandParameter}">
+                            <RepeatButton x:Name="PART_IncreaseButton"
+                                          Grid.Row="0"
+                                          Margin="0"
+                                          BorderThickness="0"
+                                          Height="NaN"
+                                          HorizontalContentAlignment="Stretch"
+                                          VerticalContentAlignment="Stretch"
+                                          Focusable="False"
+                                          Command="{TemplateBinding Increase}"
+                                          CommandParameter="{TemplateBinding CommandParameter}">
 
-                            <Path Data="M0,0L3.5,-4 7,0z"
-                                  Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
-                                  Stretch="Uniform"/>
-                        </RepeatButton>
-                        <Separator Grid.Row="1" Margin="2 0 2 0">
-                        </Separator>
-                        <RepeatButton x:Name="PART_DecreaseButton"
-                                      Grid.Row="2"
-                                      BorderThickness=" 0"
-                                      Margin="0"
-                                      Height="NaN"
-                                      Padding="2"
-                                      HorizontalContentAlignment="Stretch"
-                                      VerticalContentAlignment="Stretch"
-                                      Focusable="False"
-                                      Command="{TemplateBinding Decrease}"
-                                      CommandParameter="{TemplateBinding CommandParameter}">
+                                <Path Data="M0,4 L4,0 8,4z"
+                                      Stretch="Fill"
+                                      Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}"/>
+                            </RepeatButton>
 
-                            <Path x:Name="Arrow"
-                                  Data="M0,0L3.5,4 7,0z"
-                                  Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
-                                  Stretch="Uniform"/>
+                            <Rectangle Fill="Black"
+                                       Grid.Row="1" 
+                                       Margin="1 0 1 0"/>
 
-                        </RepeatButton>
-                    </Grid>
+                            <RepeatButton x:Name="PART_DecreaseButton"
+                                          Grid.Row="2"
+                                          BorderThickness=" 0"
+                                          Margin="0"
+                                          Height="NaN"
+                                          HorizontalContentAlignment="Stretch"
+                                          VerticalContentAlignment="Stretch"
+                                          Focusable="False"
+                                          Command="{TemplateBinding Decrease}"
+                                          CommandParameter="{TemplateBinding CommandParameter}">
+
+                                <Path Data="M0,0 L4,4 8,0z"
+                                      Stretch="Fill"
+                                      Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}"/>
+
+                            </RepeatButton>
+
+                        </Grid>
                     </Border>
 
                 </ControlTemplate>
