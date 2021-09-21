@@ -8,24 +8,5 @@
         {
             InitializeComponent();
         }
-
-        private void OnIncreaseExecuted(object sender, ExecutedRoutedEventArgs e)
-        {
-            
-        }
-
-        private void OnCanIncrease(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-        private void OnDecreaseExecuted(object sender, ExecutedRoutedEventArgs e)
-        {
-            
-        }
-
-        private void OnCanDecrease(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
     }
 }
