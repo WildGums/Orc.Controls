@@ -42,7 +42,7 @@
 
                                     <controls:SpinButton x:Name="PART_SpinButton"
                                                          Margin="0"
-                                                         Focusable="False"
+                                                         Focusable="True"
                                                          HorizontalContentAlignment="Stretch"
                                                          VerticalContentAlignment="Stretch"/>
                                 </Grid>

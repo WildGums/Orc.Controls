@@ -9,6 +9,8 @@
     using System.Windows.Input;
     using Catel;
     using Catel.Logging;
+    using Catel.MVVM;
+    using CommandManager = System.Windows.Input.CommandManager;
 
     [TemplatePart(Name = "PART_TextBox", Type = typeof(TextBox))]
     [TemplatePart(Name = "PART_IncreaseButton", Type = typeof(RepeatButton))]
@@ -51,20 +53,35 @@
 
             var commandBindings = CommandBindings;
 
-            commandBindings.Add(new CommandBinding(SpinButton.MinorIncrease, (a, args) => IncreaseValue(true)));
-            commandBindings.Add(new CommandBinding(SpinButton.MinorDecrease, (a, args) => DecreaseValue(true)));
-            commandBindings.Add(new CommandBinding(SpinButton.MajorIncrease, (a, args) => IncreaseValue(false)));
-            commandBindings.Add(new CommandBinding(SpinButton.MajorDecrease, (a, args) => DecreaseValue(false)));
+            commandBindings.Add(new CommandBinding(MinorIncrease, (a, args) =>
+            {
+                _spinButton?.RaiseEvent(new RoutedEventArgs(SpinButton.IncreasedEvent));
+                IncreaseValue(true);
+            }));
+            commandBindings.Add(new CommandBinding(MinorDecrease, (a, args) =>
+            {
+                _spinButton?.RaiseEvent(new RoutedEventArgs(SpinButton.DecreasedEvent));
+                DecreaseValue(true);
+            }));
+            commandBindings.Add(new CommandBinding(MajorIncrease, (a, args) => IncreaseValue(false)));
+            commandBindings.Add(new CommandBinding(MajorDecrease, (a, args) => DecreaseValue(false)));
             commandBindings.Add(new CommandBinding(UpdateValueStringCommand, (a, args) => UpdateValue()));
 
-            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(SpinButton.MinorIncrease, new KeyGesture(Key.Up)));
-            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(SpinButton.MinorDecrease, new KeyGesture(Key.Down)));
-            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(SpinButton.MajorIncrease, new KeyGesture(Key.PageUp)));
-            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(SpinButton.MajorDecrease, new KeyGesture(Key.PageDown)));
+            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(MinorIncrease, new KeyGesture(Key.Up)));
+            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(MinorDecrease, new KeyGesture(Key.Down)));
+            CommandManager.RegisterClassInputBinding(typeof(NumericUpDown), new KeyBinding(MajorIncrease, new KeyGesture(Key.PageUp)));
+            CommandManager.RegisterClassInputBinding(typeof(NumericUpDown), new KeyBinding(MajorDecrease, new KeyGesture(Key.PageDown)));
             CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(UpdateValueStringCommand, new KeyGesture(Key.Enter)));
 
             Loaded += OnLoaded;
         }
+        #endregion
+
+        #region Routed commands
+        public static RoutedCommand MajorDecrease { get; } = new(nameof(MajorDecrease), typeof(NumericUpDown));
+        public static RoutedCommand MajorIncrease { get; } = new(nameof(MajorIncrease), typeof(NumericUpDown));
+        public static RoutedCommand MinorDecrease { get; } = new(nameof(MinorDecrease), typeof(NumericUpDown));
+        public static RoutedCommand MinorIncrease { get; } = new(nameof(MinorIncrease), typeof(NumericUpDown));
         #endregion
 
         #region Dependency properties
@@ -195,6 +212,9 @@
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SpinButton'");
             }
             _spinButton.Canceled += (_, _) => Cancel();
+            _spinButton.SetCurrentValue(SpinButton.IncreaseProperty, new Command(() => IncreaseValue(true), () => true));
+            _spinButton.SetCurrentValue(SpinButton.DecreaseProperty, new Command(() => DecreaseValue(true), () => true));
+
             _spinButton.PreviewMouseLeftButtonDown += (_, _) => RemoveFocus();
         }
         

@@ -21,17 +21,17 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <TextBox x:Name="TextBox"
+                 IsReadOnly="True"
                  VerticalAlignment="Center" 
-                 Style="{StaticResource DefaultTextBoxStyle}" />
+                 Style="{StaticResource DefaultTextBoxStyle}"
+                 Text="{Binding Text}"/>
 
         <orccontrols:SpinButton x:Name="SpinButton"
                                 HorizontalAlignment="Left" 
-                                Style="{StaticResource DefaultSpinButtonStyle}">
-            <orccontrols:SpinButton.CommandBindings>
-                <CommandBinding Command="orccontrols:SpinButton.MinorIncrease" Executed="OnIncreaseExecuted" CanExecute="OnCanIncrease"/>
-                <CommandBinding Command="orccontrols:SpinButton.MinorDecrease" Executed="OnDecreaseExecuted" CanExecute="OnCanDecrease"/>
-            </orccontrols:SpinButton.CommandBindings>
-        </orccontrols:SpinButton>
+                                Style="{StaticResource DefaultSpinButtonStyle}"
+                                Increase="{Binding ShowNextName}"
+                                Decrease="{Binding ShowPreviousName}"
+                                CommandParameter="{Binding ElementName=TextBox, Path=Text}"/>
     </orccontrols:StackGrid>
     
 </catel:UserControl>

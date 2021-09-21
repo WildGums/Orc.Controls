@@ -27,7 +27,9 @@
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
                                       Focusable="False"
-                                      Command="{x:Static controls:SpinButton.MinorIncrease}">
+                                      Command="{TemplateBinding Increase}"
+                                      CommandParameter="{TemplateBinding CommandParameter}">
+
                             <Path Margin="1"
                                   Data="M 0 20 L 35 -20 L 70 20 Z"
                                   Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
@@ -41,13 +43,15 @@
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
                                       Focusable="False"
-                                      Command="{x:Static controls:SpinButton.MinorDecrease}">
+                                      Command="{TemplateBinding Decrease}"
+                                      CommandParameter="{TemplateBinding CommandParameter}">
                             <Path Margin="1"
                                   Data="M 0 0 L 35 40 L 70 0 Z"
                                   Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
                                   Stretch="Uniform" />
                         </RepeatButton>
                     </Grid>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
