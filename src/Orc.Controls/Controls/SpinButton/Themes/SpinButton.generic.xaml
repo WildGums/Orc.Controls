@@ -22,7 +22,7 @@
 
                         <RepeatButton x:Name="PART_IncreaseButton"
                                       Grid.Row="0"
-                                      Padding="2"
+                                      Padding="2 2 2 1"
                                       Margin="0"
                                       BorderThickness=" 1 1 1 0"
                                       Height="NaN"
