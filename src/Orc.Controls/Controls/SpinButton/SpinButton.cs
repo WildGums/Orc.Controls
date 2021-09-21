@@ -2,6 +2,8 @@
 {
     using System;
     using System.Windows;
+    using System.Windows.Automation.Peers;
+    using System.Windows.Automation.Provider;
     using System.Windows.Controls.Primitives;
     using System.Windows.Forms;
     using System.Windows.Input;
@@ -95,16 +97,20 @@
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            if (e.Key == Key.Up)
+            if (e.Key == Key.Up && _increaseButton.IsEnabled)
             {
-                _increaseButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                var peer = new RepeatButtonAutomationPeer(_increaseButton);
+                var invokeProv = peer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
+                invokeProv?.Invoke();
 
                 return;
             }
 
-            if (e.Key == Key.Down)
+            if (e.Key == Key.Down && _decreaseButton.IsEnabled)
             {
-                _decreaseButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                var peer = new RepeatButtonAutomationPeer(_decreaseButton);
+                var invokeProv = peer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
+                invokeProv?.Invoke();
 
                 return;
             }
