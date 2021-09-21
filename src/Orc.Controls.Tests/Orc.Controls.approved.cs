@@ -220,7 +220,9 @@ namespace Orc.Controls
     [System.Windows.TemplatePart(Name="PART_ThemeColorsListBox", Type=typeof(System.Windows.Controls.ListBox))]
     public class ColorBoard : System.Windows.Controls.Control
     {
+        public static readonly System.Windows.RoutedEvent CancelClickedEvent;
         public static readonly System.Windows.DependencyProperty ColorProperty;
+        public static readonly System.Windows.RoutedEvent DoneClickedEvent;
         public static readonly System.Windows.DependencyProperty RecentColorItemsProperty;
         public ColorBoard() { }
         public System.Windows.Media.Color Color { get; set; }
@@ -1458,6 +1460,39 @@ namespace Orc.Controls
         protected override void OnAssociatedObjectLoaded() { }
         protected override void OnAssociatedObjectUnloaded() { }
     }
+    [System.Windows.TemplatePart(Name="PART_DecreaseButton", Type=typeof(System.Windows.Controls.Primitives.RepeatButton))]
+    [System.Windows.TemplatePart(Name="PART_IncreaseButton", Type=typeof(System.Windows.Controls.Primitives.RepeatButton))]
+    [System.Windows.TemplatePart(Name="PART_SpinButton", Type=typeof(Orc.Controls.SpinButton))]
+    [System.Windows.TemplatePart(Name="PART_TextBox", Type=typeof(System.Windows.Controls.TextBox))]
+    public class NumericUpDown : System.Windows.Controls.Control
+    {
+        public static readonly System.Windows.DependencyProperty DecimalPlacesProperty;
+        public static readonly System.Windows.DependencyProperty IsAutoSelectionActiveProperty;
+        public static readonly System.Windows.DependencyProperty IsDecimalPointDynamicProperty;
+        public static readonly System.Windows.DependencyProperty IsThousandSeparatorVisibleProperty;
+        public static readonly System.Windows.DependencyProperty MajorDeltaProperty;
+        public static readonly System.Windows.DependencyProperty MaxDecimalPlacesProperty;
+        public static readonly System.Windows.DependencyProperty MaxValueProperty;
+        public static readonly System.Windows.DependencyProperty MinDecimalPlacesProperty;
+        public static readonly System.Windows.DependencyProperty MinValueProperty;
+        public static readonly System.Windows.DependencyProperty MinorDeltaProperty;
+        public static readonly System.Windows.DependencyProperty ValueProperty;
+        public NumericUpDown() { }
+        public int DecimalPlaces { get; set; }
+        public bool IsAutoSelectionActive { get; set; }
+        public bool IsDecimalPointDynamic { get; set; }
+        public bool IsThousandSeparatorVisible { get; set; }
+        public decimal MajorDelta { get; set; }
+        public int MaxDecimalPlaces { get; set; }
+        public decimal MaxValue { get; set; }
+        public int MinDecimalPlaces { get; set; }
+        public decimal MinValue { get; set; }
+        public decimal MinorDelta { get; set; }
+        public decimal Value { get; set; }
+        public override void OnApplyTemplate() { }
+        protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e) { }
+        protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
+    }
     public class OpenFilePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
         public static readonly System.Windows.DependencyProperty BaseDirectoryProperty;
@@ -1703,6 +1738,27 @@ namespace Orc.Controls
     {
         public ShowStepNumberVisibilityConverter() { }
         protected override bool IsVisible(object value, System.Type targetType, object parameter) { }
+    }
+    [System.Windows.TemplatePart(Name="PART_DecreaseButton", Type=typeof(System.Windows.Controls.Primitives.RepeatButton))]
+    [System.Windows.TemplatePart(Name="PART_IncreaseButton", Type=typeof(System.Windows.Controls.Primitives.RepeatButton))]
+    public class SpinButton : System.Windows.Controls.Control
+    {
+        public static readonly System.Windows.RoutedEvent CanceledEvent;
+        public static readonly System.Windows.DependencyProperty CommandParameterProperty;
+        public static readonly System.Windows.DependencyProperty DecreaseProperty;
+        public static readonly System.Windows.RoutedEvent DecreasedEvent;
+        public static readonly System.Windows.DependencyProperty IncreaseProperty;
+        public static readonly System.Windows.RoutedEvent IncreasedEvent;
+        public SpinButton() { }
+        public object CommandParameter { get; set; }
+        public System.Windows.Input.ICommand Decrease { get; set; }
+        public System.Windows.Input.ICommand Increase { get; set; }
+        public event System.Windows.RoutedEventHandler Canceled;
+        public event System.Windows.RoutedEventHandler Decreased;
+        public event System.Windows.RoutedEventHandler Increased;
+        public override void OnApplyTemplate() { }
+        protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e) { }
+        protected override void OnPreviewMouseRightButtonDown(System.Windows.Input.MouseButtonEventArgs e) { }
     }
     public class StackGrid : System.Windows.Controls.Grid
     {
@@ -2136,6 +2192,48 @@ namespace Orc.Controls.Converters
         public object Convert(object[] values, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) { }
         public object[] ConvertBack(object value, System.Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) { }
         public override object ProvideValue(System.IServiceProvider serviceProvider) { }
+    }
+    public class ByteToDecimalValueConverter : Catel.MVVM.Converters.ValueConverterBase<byte, decimal>
+    {
+        public ByteToDecimalValueConverter() { }
+        protected override object Convert(byte value, System.Type targetType, object parameter) { }
+        protected override object ConvertBack(decimal value, System.Type targetType, object parameter) { }
+    }
+    public class DecimalToIntValueConverter : Catel.MVVM.Converters.ValueConverterBase<decimal, int>
+    {
+        public DecimalToIntValueConverter() { }
+        protected override object Convert(decimal value, System.Type targetType, object parameter) { }
+        protected override object ConvertBack(int value, System.Type targetType, object parameter) { }
+    }
+    public class DoubleToDecimalValueConverter : Catel.MVVM.Converters.ValueConverterBase<double, decimal>
+    {
+        public DoubleToDecimalValueConverter() { }
+        protected override object Convert(double value, System.Type targetType, object parameter) { }
+        protected override object ConvertBack(decimal value, System.Type targetType, object parameter) { }
+    }
+    public class FloatToDecimalValueConverter : Catel.MVVM.Converters.ValueConverterBase<float, decimal>
+    {
+        public FloatToDecimalValueConverter() { }
+        protected override object Convert(float value, System.Type targetType, object parameter) { }
+        protected override object ConvertBack(decimal value, System.Type targetType, object parameter) { }
+    }
+    public class IntToDecimalValueConverter : Catel.MVVM.Converters.ValueConverterBase<int, decimal>
+    {
+        public IntToDecimalValueConverter() { }
+        protected override object Convert(int value, System.Type targetType, object parameter) { }
+        protected override object ConvertBack(decimal value, System.Type targetType, object parameter) { }
+    }
+    public class LongToDecimalValueConverter : Catel.MVVM.Converters.ValueConverterBase<long, decimal>
+    {
+        public LongToDecimalValueConverter() { }
+        protected override object Convert(long value, System.Type targetType, object parameter) { }
+        protected override object ConvertBack(decimal value, System.Type targetType, object parameter) { }
+    }
+    public class ShortToDecimalValueConverter : Catel.MVVM.Converters.ValueConverterBase<short, decimal>
+    {
+        public ShortToDecimalValueConverter() { }
+        protected override object Convert(short value, System.Type targetType, object parameter) { }
+        protected override object ConvertBack(decimal value, System.Type targetType, object parameter) { }
     }
     public class TextToTextArrayMultiValueConverter : System.Windows.Data.IMultiValueConverter
     {
