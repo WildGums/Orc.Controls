@@ -29,6 +29,7 @@
                             <RepeatButton x:Name="PART_IncreaseButton"
                                           Grid.Row="0"
                                           Margin="0"
+                                          Padding="2"
                                           BorderThickness="0"
                                           Height="NaN"
                                           HorizontalContentAlignment="Stretch"
@@ -43,13 +44,14 @@
                             </RepeatButton>
 
                             <Rectangle Fill="Black"
-                                       Grid.Row="1" 
+                                       Grid.Row="1"
                                        Margin="1 0 1 0"/>
 
                             <RepeatButton x:Name="PART_DecreaseButton"
                                           Grid.Row="2"
                                           BorderThickness=" 0"
                                           Margin="0"
+                                          Padding="2"
                                           Height="NaN"
                                           HorizontalContentAlignment="Stretch"
                                           VerticalContentAlignment="Stretch"
