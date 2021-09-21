@@ -24,6 +24,7 @@
                                       Grid.Row="0"
                                       Padding="2"
                                       Margin="0"
+                                      BorderThickness=" 1 1 1 0"
                                       Height="NaN"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
@@ -31,7 +32,7 @@
                                       Command="{TemplateBinding Increase}"
                                       CommandParameter="{TemplateBinding CommandParameter}">
 
-                            <Path Data="M0,0L3.5,-4 7,0z" 
+                            <Path Data="M0,0L3.5,-4 7,0z"
                                   Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
                                   Stretch="Uniform"/>
                         </RepeatButton>
@@ -47,13 +48,13 @@
                                       Command="{TemplateBinding Decrease}"
                                       CommandParameter="{TemplateBinding CommandParameter}">
 
-                            <Path x:Name="Arrow" 
-                                  Data="M0,0L3.5,4 7,0z" 
+                            <Path x:Name="Arrow"
+                                  Data="M0,0L3.5,4 7,0z"
                                   Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
                                   Stretch="Uniform"/>
 
                         </RepeatButton>
-                    </Grid>                    
+                    </Grid>
 
                 </ControlTemplate>
             </Setter.Value>
