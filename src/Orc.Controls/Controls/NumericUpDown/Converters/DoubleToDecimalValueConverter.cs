@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DoubleToDecimalValueConverter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Converters
+﻿namespace Orc.Controls.Converters
 {
     using System;
     using Catel.MVVM.Converters;

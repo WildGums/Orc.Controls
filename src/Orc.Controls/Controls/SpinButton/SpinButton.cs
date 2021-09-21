@@ -5,12 +5,10 @@
     using System.Windows.Automation.Peers;
     using System.Windows.Automation.Provider;
     using System.Windows.Controls.Primitives;
-    using System.Windows.Forms;
     using System.Windows.Input;
     using System.Windows.Media.Animation;
     using Catel.Logging;
     using Theming;
-    using ButtonBase = System.Windows.Controls.Primitives.ButtonBase;
     using Control = System.Windows.Controls.Control;
     using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
@@ -163,22 +161,20 @@
             _decreaseButtonStoryboard.Begin();
         }
 
-        private Storyboard CreateHighlightAnimation(RepeatButton button)
+        private static Storyboard CreateHighlightAnimation(RepeatButton button)
         {
             var sb = new Storyboard();
 
             var animation = new ColorAnimation
             {
                 Duration = new Duration(TimeSpan.FromMilliseconds(100)),
-                To = ThemeManager.Current.GetThemeColor(),
+                To = ThemeManager.Current.GetThemeColor(ThemeColorStyle.AccentColor40),
                 FillBehavior = FillBehavior.Stop
             };
 
-            // Set the target of the animation
             Storyboard.SetTarget(animation, button);
             Storyboard.SetTargetProperty(animation, new PropertyPath("(Button.Background).(SolidColorBrush.Color)"));
 
-            // Kick the animation off
             sb.Children.Add(animation);
 
             return sb;

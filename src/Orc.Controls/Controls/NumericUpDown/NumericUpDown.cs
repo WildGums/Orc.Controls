@@ -10,7 +10,6 @@
     using Catel;
     using Catel.Logging;
     using Catel.MVVM;
-    using CommandManager = System.Windows.Input.CommandManager;
 
     [TemplatePart(Name = "PART_TextBox", Type = typeof(TextBox))]
     [TemplatePart(Name = "PART_IncreaseButton", Type = typeof(RepeatButton))]
@@ -21,19 +20,10 @@
         #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-#pragma warning disable WPF0120 // Register containing member name as name for routed command.
-        //private static readonly RoutedUICommand CancelChangesCommand = new ("CancelChanges", "CancelChanges", typeof(NumericUpDown));
-        //private static readonly RoutedUICommand MajorDecreaseValueCommand = new ("MajorDecreaseValue", "MajorDecreaseValue", typeof(NumericUpDown));
-        //private static readonly RoutedUICommand MajorIncreaseValueCommand = new ("MajorIncreaseValue", "MajorIncreaseValue", typeof(NumericUpDown));
-        //private static readonly RoutedUICommand MinorDecreaseValueCommand = new ("MinorDecreaseValue", "MinorDecreaseValue", typeof(NumericUpDown));
-        //private static readonly RoutedUICommand MinorIncreaseValueCommand = new ("MinorIncreaseValue", "MinorIncreaseValue", typeof(NumericUpDown));
-        private static readonly RoutedUICommand UpdateValueStringCommand = new ("UpdateValueString", "UpdateValueString", typeof(NumericUpDown));
-#pragma warning restore WPF0120 // Register containing member name as name for routed command.
+        private const int MaxPossibleDecimalPlaces = 28;
 
         private readonly CultureInfo _culture;
 
-        //private RepeatButton _decreaseButton;
-        //private RepeatButton _increaseButton;
         private TextBox _textBox;
         private SpinButton _spinButton;
 
@@ -51,37 +41,8 @@
             _culture = (CultureInfo) CultureInfo.CurrentCulture.Clone();
             _culture.NumberFormat.NumberDecimalDigits = DecimalPlaces;
 
-            var commandBindings = CommandBindings;
-
-            commandBindings.Add(new CommandBinding(MinorIncrease, (a, args) =>
-            {
-                _spinButton?.RaiseEvent(new RoutedEventArgs(SpinButton.IncreasedEvent));
-                IncreaseValue(true);
-            }));
-            commandBindings.Add(new CommandBinding(MinorDecrease, (a, args) =>
-            {
-                _spinButton?.RaiseEvent(new RoutedEventArgs(SpinButton.DecreasedEvent));
-                DecreaseValue(true);
-            }));
-            commandBindings.Add(new CommandBinding(MajorIncrease, (a, args) => IncreaseValue(false)));
-            commandBindings.Add(new CommandBinding(MajorDecrease, (a, args) => DecreaseValue(false)));
-            commandBindings.Add(new CommandBinding(UpdateValueStringCommand, (a, args) => UpdateValue()));
-
-            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(MinorIncrease, new KeyGesture(Key.Up)));
-            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(MinorDecrease, new KeyGesture(Key.Down)));
-            CommandManager.RegisterClassInputBinding(typeof(NumericUpDown), new KeyBinding(MajorIncrease, new KeyGesture(Key.PageUp)));
-            CommandManager.RegisterClassInputBinding(typeof(NumericUpDown), new KeyBinding(MajorDecrease, new KeyGesture(Key.PageDown)));
-            CommandManager.RegisterClassInputBinding(typeof(TextBox), new KeyBinding(UpdateValueStringCommand, new KeyGesture(Key.Enter)));
-
             Loaded += OnLoaded;
         }
-        #endregion
-
-        #region Routed commands
-        public static RoutedCommand MajorDecrease { get; } = new(nameof(MajorDecrease), typeof(NumericUpDown));
-        public static RoutedCommand MajorIncrease { get; } = new(nameof(MajorIncrease), typeof(NumericUpDown));
-        public static RoutedCommand MinorDecrease { get; } = new(nameof(MinorDecrease), typeof(NumericUpDown));
-        public static RoutedCommand MinorIncrease { get; } = new(nameof(MinorIncrease), typeof(NumericUpDown));
         #endregion
 
         #region Dependency properties
@@ -128,7 +89,7 @@
         }
 
         public static readonly DependencyProperty MaxDecimalPlacesProperty = DependencyProperty.Register(nameof(MaxDecimalPlaces), typeof(int), typeof(NumericUpDown),
-            new PropertyMetadata(28, OnMaxDecimalPlacesChanged, CoerceMaxDecimalPlaces));
+            new PropertyMetadata(MaxPossibleDecimalPlaces, OnMaxDecimalPlacesChanged, CoerceMaxDecimalPlaces));
 
         public int MinDecimalPlaces
         {
@@ -182,16 +143,7 @@
         }
 
         public static readonly DependencyProperty IsAutoSelectionActiveProperty = DependencyProperty.Register(nameof(IsAutoSelectionActive), typeof(bool), typeof(NumericUpDown),
-            new PropertyMetadata(false));
-
-        public bool IsValueWrapAllowed
-        {
-            get { return (bool) GetValue(IsValueWrapAllowedProperty); }
-            set { SetValue(IsValueWrapAllowedProperty, value); }
-        }
-
-        public static readonly DependencyProperty IsValueWrapAllowedProperty = DependencyProperty.Register(nameof(IsValueWrapAllowed), typeof(bool), typeof(NumericUpDown),
-            new PropertyMetadata(false));
+            new PropertyMetadata(true));
         #endregion
 
         #region Methods
@@ -203,7 +155,6 @@
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TextBox'");
             }
             _textBox.LostFocus += TextBoxOnLostFocus;
-            _textBox.TextChanged += OnTextChanged;
             _textBox.PreviewMouseLeftButtonUp += TextBoxOnPreviewMouseLeftButtonUp;
             
             _spinButton = GetTemplateChild("PART_SpinButton") as SpinButton;
@@ -212,22 +163,9 @@
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SpinButton'");
             }
             _spinButton.Canceled += (_, _) => Cancel();
-            _spinButton.SetCurrentValue(SpinButton.IncreaseProperty, new Command(() => IncreaseValue(true), () => true));
-            _spinButton.SetCurrentValue(SpinButton.DecreaseProperty, new Command(() => DecreaseValue(true), () => true));
-
+            _spinButton.SetCurrentValue(SpinButton.IncreaseProperty, new Command(() => ChangeValue(MinorDelta), () => true));
+            _spinButton.SetCurrentValue(SpinButton.DecreaseProperty, new Command(() => ChangeValue((-1) * MinorDelta), () => true));
             _spinButton.PreviewMouseLeftButtonDown += (_, _) => RemoveFocus();
-        }
-        
-        private void CoerceValueToBounds(ref decimal value)
-        {
-            if (value < MinValue)
-            {
-                value = MinValue;
-            }
-            else if (value > MaxValue)
-            {
-                value = MaxValue;
-            }
         }
 
         private void UpdateValue()
@@ -240,83 +178,34 @@
             SetCurrentValue(ValueProperty, ParseStringToDecimal(_textBox.Text));
         }
 
+        private void ChangeValue(decimal delta)
+        {
+            var routedEvent = delta > 0 ? SpinButton.IncreasedEvent : SpinButton.DecreasedEvent;
+
+            _spinButton.RaiseEvent(new RoutedEventArgs(routedEvent));
+
+            SetCurrentValue(ValueProperty, Value + delta);
+        }
+
+        private void CoerceValueToBounds(ref decimal value)
+        {
+            if (value < MinValue)
+            {
+                value = MinValue;
+            }
+
+            if (value > MaxValue)
+            {
+                value = MaxValue;
+            }
+        }
+
         private void RemoveFocus()
         {
             SetCurrentValue(FocusableProperty, true);
             Focus();
             SetCurrentValue(FocusableProperty, false);
         }
-
-        private void IncreaseValue(bool minor)
-        {
-            var value = Value;//ParseStringToDecimal(_textBox.Text);
-
-            CoerceValueToBounds(ref value);
-
-            if (value >= MinValue)
-            {
-                if (minor)
-                {
-                    if (IsValueWrapAllowed && value + MinorDelta > MaxValue)
-                    {
-                        value = MinValue;
-                    }
-                    else
-                    {
-                        value += MinorDelta;
-                    }
-                }
-                else
-                {
-                    if (IsValueWrapAllowed && value + MajorDelta > MaxValue)
-                    {
-                        value = MinValue;
-                    }
-                    else
-                    {
-                        value += MajorDelta;
-                    }
-                }
-            }
-
-            SetCurrentValue(ValueProperty, value);
-        }
-
-        private void DecreaseValue(bool minor)
-        {
-            var value = Value;
-
-            CoerceValueToBounds(ref value);
-
-            if (value <= MaxValue)
-            {
-                if (minor)
-                {
-                    if (IsValueWrapAllowed && value - MinorDelta < MinValue)
-                    {
-                        value = MaxValue;
-                    }
-                    else
-                    {
-                        value -= MinorDelta;
-                    }
-                }
-                else
-                {
-                    if (IsValueWrapAllowed && value - MajorDelta < MinValue)
-                    {
-                        value = MaxValue;
-                    }
-                    else
-                    {
-                        value -= MajorDelta;
-                    }
-                }
-            }
-
-            SetCurrentValue(ValueProperty, value);
-        }
-
         private static void OnValueChanged(DependencyObject element,
             DependencyPropertyChangedEventArgs e)
         {
@@ -359,7 +248,7 @@
                     : value.ToString("F", control._culture));
             }
 
-            return baseValue;
+            return value;
         }
 
         private static void OnMaxValueChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
@@ -454,9 +343,9 @@
             var maxDecimalPlaces = (int) baseValue;
             var control = (NumericUpDown) element;
 
-            if (maxDecimalPlaces > 28)
+            if (maxDecimalPlaces > MaxPossibleDecimalPlaces)
             {
-                maxDecimalPlaces = 28;
+                maxDecimalPlaces = MaxPossibleDecimalPlaces;
             }
             else if (maxDecimalPlaces < 0)
             {
@@ -486,9 +375,9 @@
             {
                 minDecimalPlaces = 0;
             }
-            else if (minDecimalPlaces > 28)
+            else if (minDecimalPlaces > MaxPossibleDecimalPlaces)
             {
-                minDecimalPlaces = 28;
+                minDecimalPlaces = MaxPossibleDecimalPlaces;
             }
             else if (minDecimalPlaces > control.MaxDecimalPlaces)
             {
@@ -563,17 +452,54 @@
             if (e.Key == Key.Escape)
             {
                 Cancel();
+
+                e.Handled = true;
+
+                return;
             }
+
+            if (e.Key == Key.Enter)
+            {
+                UpdateValue();
+
+                e.Handled = true;
+
+                return;
+            }
+        }
+
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            decimal delta;
+            switch (e.Key)
+            {
+                case Key.Up:
+                    delta = MinorDelta;
+                    break;
+
+                case Key.Down:
+                    delta = (-1) * MinorDelta;
+                    break;
+
+                case Key.PageDown:
+                    delta = MajorDelta;
+                    break;
+
+                case Key.PageUp:
+                    delta = (-1) * MajorDelta;
+                    break;
+
+                default:
+                    return;
+            }
+
+            ChangeValue(delta);
+            e.Handled = true;
         }
 
         private void Cancel()
         {
             SetCurrentValue(ValueProperty, (decimal)0);
-        }
-
-        private void OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            UpdateValue();
         }
 
         private static decimal ParseStringToDecimal(string source)

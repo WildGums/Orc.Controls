@@ -4,51 +4,73 @@
                     xmlns:catel="http://schemas.catelproject.com"
                     xmlns:controls="clr-namespace:Orc.Controls">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Orc.Theming;component/themes/Controls.implicit.wpf.control.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <Style x:Key="{x:Type controls:NumericUpDown}"
-           TargetType="{x:Type controls:NumericUpDown}">
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="HorizontalContentAlignment" Value="Right" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Default.Border}" />
-        <Setter Property="BorderThickness" Value="1" />
+           TargetType="{x:Type controls:NumericUpDown}"
+           BasedOn="{StaticResource Orc.Styles.Control}">
+
         <Setter Property="Height" Value="{DynamicResource Size.Height}" />
         <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
+
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:NumericUpDown}">
                     <Grid>
-                        <Border Background="Transparent"
-                                BorderBrush="Transparent"
-                                BorderThickness="0"
+                        <Border x:Name="Chrome" 
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
                                 Focusable="False"
                                 HorizontalAlignment="Stretch">
                             <Grid Focusable="False">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
 
                                 <TextBox x:Name="PART_TextBox"
                                          HorizontalAlignment="Stretch"
+                                         BorderThickness="0"
                                          Margin="0"
-                                         Padding="2 4 20 4">
+                                         Padding="2 4 2 4">
                                     <xamlbehaviors:Interaction.Behaviors>
                                         <catel:NumericTextBox/>
                                     </xamlbehaviors:Interaction.Behaviors>
                                 </TextBox>
 
-                                <Grid HorizontalAlignment="Right">
-
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-
-                                    <controls:SpinButton x:Name="PART_SpinButton"
-                                                         Margin="0"
-                                                         Focusable="True"
-                                                         HorizontalContentAlignment="Stretch"
-                                                         VerticalContentAlignment="Stretch"/>
-                                </Grid>
+                                <controls:SpinButton x:Name="PART_SpinButton"
+                                                     Grid.Column="1"
+                                                     HorizontalAlignment="Right"
+                                                     Margin="-1"
+                                                     BorderBrush="{Binding ElementName=Chrome, Path=BorderBrush}"
+                                                     Focusable="True"
+                                                     HorizontalContentAlignment="Stretch"
+                                                     VerticalContentAlignment="Stretch"/>
                             </Grid>
                         </Border>
                     </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Control.IsMouseOver" Value="True">
+                            <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Background}"/>
+                            <Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Border}"/>
+                            <Setter Property="Control.Foreground" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Foreground}"/>
+                        </Trigger>
+
+                        <Trigger Property="Control.IsEnabled" Value="False">
+                            <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource Orc.Brushes.Control.Disabled.Background}"/>
+                            <Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Disabled.Border}"/>
+                            <Setter Property="Control.Foreground" Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}"/>
+                        </Trigger>
+
+                        <Trigger SourceName="PART_TextBox" Property="IsKeyboardFocused" Value="true">
+                            <Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Focus.Border}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
