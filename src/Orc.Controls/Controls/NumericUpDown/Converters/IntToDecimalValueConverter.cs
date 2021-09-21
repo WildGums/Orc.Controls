@@ -17,4 +17,19 @@
         }
         #endregion
     }
+
+    public class DecimalToIntValueConverter : ValueConverterBase<decimal, int>
+    {
+        #region Methods
+        protected override object Convert(decimal value, Type targetType, object parameter)
+        {
+            return System.Convert.ToInt32(value);
+        }
+
+        protected override object ConvertBack(int value, Type targetType, object parameter)
+        {
+            return System.Convert.ToDecimal(value);
+        }
+        #endregion
+    }
 }

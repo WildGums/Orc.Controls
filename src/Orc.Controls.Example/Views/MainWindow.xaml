@@ -108,6 +108,10 @@
                 <views:NumericTextBox />
             </TabItem>
 
+            <TabItem Header="NumericUpDown">
+                <views:NumericUpDownView />
+            </TabItem>
+
             <TabItem Header="OpenFilePicker">
                 <views:OpenFilePickerView />
             </TabItem>
