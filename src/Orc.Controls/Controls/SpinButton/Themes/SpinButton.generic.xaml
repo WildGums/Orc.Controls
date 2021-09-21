@@ -22,7 +22,7 @@
 
                         <RepeatButton x:Name="PART_IncreaseButton"
                                       Grid.Row="0"
-                                      Padding="1"
+                                      Padding="2"
                                       Margin="0"
                                       Height="NaN"
                                       HorizontalContentAlignment="Stretch"
@@ -31,24 +31,27 @@
                                       Command="{TemplateBinding Increase}"
                                       CommandParameter="{TemplateBinding CommandParameter}">
 
-                            <Path Data="M 0 10 L 20 10 L 10 0 Z"
+                            <Path Data="M0,0L3.5,-4 7,0z" 
                                   Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
-                                  Stretch="Uniform" />
+                                  Stretch="Uniform"/>
                         </RepeatButton>
 
                         <RepeatButton x:Name="PART_DecreaseButton"
                                       Grid.Row="1"
                                       Margin="0"
                                       Height="NaN"
-                                      Padding="1"
+                                      Padding="2"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
                                       Focusable="False"
                                       Command="{TemplateBinding Decrease}"
                                       CommandParameter="{TemplateBinding CommandParameter}">
-                            <Path Data="M 0 0 L 10 10 L 20 0 Z"
+
+                            <Path x:Name="Arrow" 
+                                  Data="M0,0L3.5,4 7,0z" 
                                   Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
-                                  Stretch="Uniform" />
+                                  Stretch="Uniform"/>
+
                         </RepeatButton>
                     </Grid>                    
 
