@@ -26,6 +26,9 @@
         private Storyboard _decreaseButtonStoryboard;
         private Storyboard _increaseButtonStoryboard;
 
+        private RepeatButtonAutomationPeer _decreaseButtonAutomationPeer;
+        private RepeatButtonAutomationPeer _increaseButtonAutomationPeer;
+
         static SpinButton()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SpinButton), new FrameworkPropertyMetadata(typeof(SpinButton)));
@@ -99,8 +102,8 @@
         {
             if (e.Key == Key.Up && _increaseButton.IsEnabled)
             {
-                var peer = new RepeatButtonAutomationPeer(_increaseButton);
-                var invokeProv = peer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
+                _increaseButtonAutomationPeer ??= new RepeatButtonAutomationPeer(_increaseButton);
+                var invokeProv = _increaseButtonAutomationPeer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
                 invokeProv?.Invoke();
 
                 return;
@@ -108,8 +111,8 @@
 
             if (e.Key == Key.Down && _decreaseButton.IsEnabled)
             {
-                var peer = new RepeatButtonAutomationPeer(_decreaseButton);
-                var invokeProv = peer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
+                _decreaseButtonAutomationPeer ??= new RepeatButtonAutomationPeer(_decreaseButton);
+                var invokeProv = _decreaseButtonAutomationPeer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
                 invokeProv?.Invoke();
 
                 return;
