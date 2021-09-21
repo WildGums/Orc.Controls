@@ -54,7 +54,11 @@
         <Label Content="Actual bound value (control)" />
         <TextBox Text="{Binding Value, Mode=OneWay}" IsReadOnly="true" />
 
-        <orccontrols:NumericUpDown/>
+        <orccontrols:NumericUpDown >
+            <orccontrols:NumericUpDown.CommandBindings>
+                <CommandBinding Command="orccontrols:SpinButton.MinorDecrease" Executed="CommandBinding_OnExecuted"></CommandBinding>
+            </orccontrols:NumericUpDown.CommandBindings>
+        </orccontrols:NumericUpDown>
     </orccontrols:StackGrid>
 
 </catel:UserControl>

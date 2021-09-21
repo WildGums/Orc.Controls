@@ -124,6 +124,10 @@
                 <views:SaveFilePickerView />
             </TabItem>
 
+            <TabItem Header="SpinButton">
+                <views:SpinButtonView />
+            </TabItem>
+
             <TabItem Header="StaggeredPanel">
                 <views:StaggeredPanelView/>
             </TabItem>

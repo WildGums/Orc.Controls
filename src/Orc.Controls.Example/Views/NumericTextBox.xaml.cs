@@ -7,11 +7,18 @@
 
 namespace Orc.Controls.Example.Views
 {
+    using System.Windows.Input;
+
     public partial class NumericTextBox
     {
         public NumericTextBox()
         {
             InitializeComponent();
+        }
+
+        private void CommandBinding_OnExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            
         }
     }
 }

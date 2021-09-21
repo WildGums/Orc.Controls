@@ -40,11 +40,11 @@
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
 
-                                    <controls:SpinButton
-                                        x:Name="PART_SpinButton"
-                                        HorizontalContentAlignment="Stretch"
-                                        VerticalContentAlignment="Stretch"
-                                        />
+                                    <controls:SpinButton x:Name="PART_SpinButton"
+                                                         Margin="0"
+                                                         Focusable="False"
+                                                         HorizontalContentAlignment="Stretch"
+                                                         VerticalContentAlignment="Stretch"/>
                                 </Grid>
                             </Grid>
                         </Border>
