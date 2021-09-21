@@ -59,7 +59,7 @@ namespace Orc.Controls.Example.ViewModels
         private bool CanShowNextName(string name)
         {
             var nameIndex = _allText.IndexOf(name);
-            return !(nameIndex < 0 || nameIndex > _allText.Count - 1);
+            return nameIndex >= 0 && nameIndex < _allText.Count - 1;
         }
         #endregion
 
