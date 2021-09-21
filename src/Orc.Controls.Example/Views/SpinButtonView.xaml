@@ -24,14 +24,14 @@
                  VerticalAlignment="Center" 
                  Style="{StaticResource DefaultTextBoxStyle}" />
 
-        <!--<orccontrols:SpinButton x:Name="SpinButton"
+        <orccontrols:SpinButton x:Name="SpinButton"
                                 HorizontalAlignment="Left" 
                                 Style="{StaticResource DefaultSpinButtonStyle}">
             <orccontrols:SpinButton.CommandBindings>
                 <CommandBinding Command="orccontrols:SpinButton.MinorIncrease" Executed="OnIncreaseExecuted" CanExecute="OnCanIncrease"/>
                 <CommandBinding Command="orccontrols:SpinButton.MinorDecrease" Executed="OnDecreaseExecuted" CanExecute="OnCanDecrease"/>
             </orccontrols:SpinButton.CommandBindings>
-        </orccontrols:SpinButton>-->
+        </orccontrols:SpinButton>
     </orccontrols:StackGrid>
     
 </catel:UserControl>
