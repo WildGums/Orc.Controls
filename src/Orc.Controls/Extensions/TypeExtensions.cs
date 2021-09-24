@@ -30,7 +30,19 @@ namespace Orc.Controls
             { typeof(decimal), ( (double)decimal.MinValue, (double)decimal.MaxValue) },
         };
 
+        private static readonly HashSet<Type> FloatingPointTypes = new()
+        {
+            typeof(decimal),
+            typeof(double),
+            typeof(float)
+        };
+
         #region Methods
+        public static bool IsFloatingPointType(this Type type)
+        {
+            return FloatingPointTypes.Contains(type);
+        }
+
         public static bool IsInNumberRange(this Type type, double checkedValue)
         {
             if (!MinMaxNumberValues.TryGetValue(type, out var range))

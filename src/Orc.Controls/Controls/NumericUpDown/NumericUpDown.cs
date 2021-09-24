@@ -568,26 +568,33 @@
                 }
 
                 var valueString = value.ToString(_culture);
-                var decimalPlaces = GetDecimalPlacesCount(valueString);
-                if (decimalPlaces > DecimalPlaces)
+                if (!number.Type.IsFloatingPointType())
                 {
-                    if (IsDecimalPointDynamic)
+                    _culture.NumberFormat.NumberDecimalDigits = 0;
+                }
+                else
+                {
+                    var decimalPlaces = GetDecimalPlacesCount(valueString);
+                    if (decimalPlaces > DecimalPlaces)
                     {
-                        SetCurrentValue(DecimalPlacesProperty, decimalPlaces);
-
-                        if (decimalPlaces > DecimalPlaces)
+                        if (IsDecimalPointDynamic)
                         {
-                            value = TruncateValue(valueString, DecimalPlaces);
+                            SetCurrentValue(DecimalPlacesProperty, decimalPlaces);
+
+                            if (decimalPlaces > DecimalPlaces)
+                            {
+                                value = TruncateValue(valueString, DecimalPlaces);
+                            }
+                        }
+                        else
+                        {
+                            value = TruncateValue(valueString, decimalPlaces);
                         }
                     }
-                    else
+                    else if (IsDecimalPointDynamic)
                     {
-                        value = TruncateValue(valueString, decimalPlaces);
+                        SetCurrentValue(DecimalPlacesProperty, decimalPlaces);
                     }
-                }
-                else if (IsDecimalPointDynamic)
-                {
-                    SetCurrentValue(DecimalPlacesProperty, decimalPlaces);
                 }
 
                 if (!_isValueInput)
