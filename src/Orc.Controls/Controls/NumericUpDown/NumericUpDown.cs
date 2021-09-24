@@ -1,15 +1,298 @@
 ﻿namespace Orc.Controls
 {
     using System;
+    using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
+    using System.Windows.Threading;
     using Catel;
     using Catel.Logging;
     using Catel.MVVM;
+
+
+    public class NumberTypeConverter : TypeConverter
+    {
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        {
+            return sourceType == typeof(string)
+                || sourceType.TryGetNumberRange() is not null;
+        }
+
+        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        {
+            if (value is string str)
+            {
+                return new Number(Convert.ToDouble(str));
+            }
+
+            return new Number(value);
+        }
+
+        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        {
+            return destinationType == typeof(string)
+                   || destinationType.TryGetNumberRange() is not null;
+        }
+
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        {
+            if (value is not Number number)
+            {
+                return null;
+            }
+
+            if (destinationType == typeof(string))
+            {
+                return number.DValue.ToString();
+            }
+
+            return number.ConvertTo(destinationType);
+
+        }
+    }
+
+    [TypeConverter(typeof(NumberTypeConverter))]
+    public readonly struct Number
+    {
+        public Number(object value)
+            : this(value, value?.GetType())
+        {
+
+        }
+
+        public Number(object value, Type type)
+        {
+            var range = type?.TryGetNumberRange();
+            if (range is null)
+            {
+                Type = null;
+                Value = null;
+                DValue = 0d;
+                MinValue = 0d;
+                MaxValue = 0d;
+                IsValid = false;
+
+                return;
+            }
+
+            Type = type;
+
+            var dValue = Convert.ToDouble(value);
+            var tValue = value.GetType() == type ? value : type.ChangeTypeSafe(dValue);
+
+            DValue = Convert.ToDouble(tValue);
+            Value = tValue;
+            MinValue = range.Value.Min;
+            MaxValue = range.Value.Max;
+            IsValid = DValue >= MinValue && DValue <= MaxValue;
+        }
+
+
+        public readonly bool IsValid;
+        public readonly double DValue;
+        public readonly object Value;
+        public readonly Type Type;
+        public readonly double MinValue;
+        public readonly double MaxValue;
+
+        #region Operators
+        public static bool operator > (Number left, Number right)
+        {
+            return left.DValue > right.DValue;
+        }
+
+        public static bool operator < (Number left, Number right)
+        {
+            return left.DValue < right.DValue;
+        }
+
+        public static bool operator > (double left, Number right)
+        {
+            return left > right.DValue;
+        }
+
+        public static bool operator < (double left, Number right)
+        {
+            return left < right.DValue;
+        }
+
+        public static bool operator > (Number left, double right)
+        {
+            return left.DValue > right;
+        }
+
+        public static bool operator < (Number left, double right)
+        {
+            return left.DValue < right;
+        }
+
+        public static bool operator >= (Number left, Number right)
+        {
+            return left.DValue > right.DValue;
+        }
+
+        public static bool operator <= (Number left, Number right)
+        {
+            return left.DValue < right.DValue;
+        }
+
+        public static bool operator >= (double left, Number right)
+        {
+            return left > right.DValue;
+        }
+
+        public static bool operator <= (double left, Number right)
+        {
+            return left < right.DValue;
+        }
+
+        public static bool operator >= (Number left, double right)
+        {
+            return left.DValue > right;
+        }
+
+        public static bool operator <= (Number left, double right)
+        {
+            return left.DValue < right;
+        }
+
+        public static Number operator + (Number left, double right)
+        {
+            return new Number(left.DValue + right, left.Type);
+        }
+
+        public static Number operator + (double left, Number right)
+        {
+            return new Number(right.DValue + left, right.Type);
+        }
+
+        public static Number operator - (Number left, double right)
+        {
+            return new Number(left.DValue - right, left.Type);
+        }
+
+        public static Number operator - (double left, Number right)
+        {
+            return new Number(right.DValue - left, right.Type);
+        }
+        #endregion
+
+        #region Converters
+        public static implicit operator Number(byte value)
+        {
+            return new Number(value);
+        }
+
+        public static implicit operator byte(Number number)
+        {
+            return number.ConvertTo<byte>();
+        }
+
+        public static implicit operator Number(sbyte value)
+        {
+            return new Number(value);
+        }
+
+        public static implicit operator sbyte(Number number)
+        {
+            return number.ConvertTo<sbyte>();
+        }
+
+        public static implicit operator Number(short value)
+        {
+            return new Number(value);
+        }
+
+        public static implicit operator short(Number number)
+        {
+            return number.ConvertTo<short>();
+        }
+
+        public static implicit operator Number(ushort value)
+        {
+            return new Number(value);
+        }
+
+        public static implicit operator ushort(Number number)
+        {
+            return number.ConvertTo<ushort>();
+        }
+
+        public static implicit operator Number(int value)
+        {
+            return new Number(value);
+        }
+
+        public static implicit operator int(Number number)
+        {
+            return number.ConvertTo<int>();
+        }
+
+        public static implicit operator Number(uint value)
+        {
+            return new Number(value);
+        }
+
+        public static implicit operator uint(Number number)
+        {
+            return number.ConvertTo<uint>();
+        }
+
+        public static implicit operator Number(long value)
+        {
+            return new Number(value);
+        }
+
+        public static implicit operator long(Number number)
+        {
+            return number.ConvertTo<long>();
+        }
+
+        public static implicit operator Number(ulong value)
+        {
+            return new Number(value);
+        }
+
+        public static implicit operator ulong(Number number)
+        {
+            return number.ConvertTo<ulong>();
+        }
+
+        public static implicit operator Number(decimal value)
+        {
+            return new Number(value);
+        }
+
+        public static implicit operator decimal(Number number)
+        {
+            return number.ConvertTo<decimal>();
+        }
+
+        public static implicit operator Number(float value)
+        {
+            return new Number(value);
+        }
+
+        public static implicit operator float(Number number)
+        {
+            return number.ConvertTo<float>();
+        }
+
+        public static implicit operator Number(double value)
+        {
+            return new Number(value);
+        }
+
+        public static implicit operator double(Number number)
+        {
+            return number.DValue;
+        }
+        #endregion
+    }
 
     [TemplatePart(Name = "PART_TextBox", Type = typeof(TextBox))]
     [TemplatePart(Name = "PART_IncreaseButton", Type = typeof(RepeatButton))]
@@ -19,6 +302,7 @@
     {
         #region Constants
         private const int MaxPossibleDecimalPlaces = 28;
+
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
         #endregion
 
@@ -29,38 +313,41 @@
         private bool _isValueCoercing;
         private bool _isValueInput;
 
+        private Command _decreaseCommand;
+        private Command _increaseCommand;
+
         private SpinButton _spinButton;
 
         private TextBox _textBox;
         #endregion
 
         #region Dependency properties
-        public decimal Value
+        public Number Value
         {
-            get { return (decimal)GetValue(ValueProperty); }
+            get { return (Number)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
 
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(decimal), typeof(NumericUpDown),
-            new PropertyMetadata(0m, OnValueChanged, CoerceValue));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(Number), typeof(NumericUpDown),
+            new PropertyMetadata((Number)0d, (sender, args) => ((NumericUpDown)sender).OnValueChanged(args), (o, value) => ((NumericUpDown)o).CoerceValue(value)));
 
-        public decimal MaxValue
+        public double MaxValue
         {
-            get { return (decimal)GetValue(MaxValueProperty); }
+            get { return (double)GetValue(MaxValueProperty); }
             set { SetValue(MaxValueProperty, value); }
         }
 
-        public static readonly DependencyProperty MaxValueProperty = DependencyProperty.Register(nameof(MaxValue), typeof(decimal), typeof(NumericUpDown),
-            new PropertyMetadata(100000000m, OnMaxValueChanged, CoerceMaxValue));
+        public static readonly DependencyProperty MaxValueProperty = DependencyProperty.Register(nameof(MaxValue), typeof(double), typeof(NumericUpDown),
+            new PropertyMetadata(double.MaxValue, (sender, args) => ((NumericUpDown)sender).OnMaxValueChanged(args), (o, value) => ((NumericUpDown)o).CoerceMaxValue(value)));
 
-        public decimal MinValue
+        public double MinValue
         {
-            get { return (decimal)GetValue(MinValueProperty); }
+            get { return (double)GetValue(MinValueProperty); }
             set { SetValue(MinValueProperty, value); }
         }
 
-        public static readonly DependencyProperty MinValueProperty = DependencyProperty.Register(nameof(MinValue), typeof(decimal), typeof(NumericUpDown),
-            new PropertyMetadata(0m, OnMinValueChanged, CoerceMinValue));
+        public static readonly DependencyProperty MinValueProperty = DependencyProperty.Register(nameof(MinValue), typeof(double), typeof(NumericUpDown),
+            new PropertyMetadata(double.MinValue, (sender, args) => ((NumericUpDown)sender).OnMinValueChanged(args), (o, value) => ((NumericUpDown)o).CoerceMinValue(value)));
 
         public int DecimalPlaces
         {
@@ -98,23 +385,23 @@
         public static readonly DependencyProperty IsDecimalPointDynamicProperty = DependencyProperty.Register(nameof(IsDecimalPointDynamic), typeof(bool), typeof(NumericUpDown),
             new PropertyMetadata(false));
 
-        public decimal MinorDelta
+        public double MinorDelta
         {
-            get { return (decimal)GetValue(MinorDeltaProperty); }
+            get { return (double)GetValue(MinorDeltaProperty); }
             set { SetValue(MinorDeltaProperty, value); }
         }
 
-        public static readonly DependencyProperty MinorDeltaProperty = DependencyProperty.Register(nameof(MinorDelta), typeof(decimal), typeof(NumericUpDown),
-            new PropertyMetadata(1m, OnMinorDeltaChanged, CoerceMinorDelta));
+        public static readonly DependencyProperty MinorDeltaProperty = DependencyProperty.Register(nameof(MinorDelta), typeof(double), typeof(NumericUpDown),
+            new PropertyMetadata(1d, OnMinorDeltaChanged, CoerceMinorDelta));
 
-        public decimal MajorDelta
+        public double MajorDelta
         {
-            get { return (decimal)GetValue(MajorDeltaProperty); }
+            get { return (double)GetValue(MajorDeltaProperty); }
             set { SetValue(MajorDeltaProperty, value); }
         }
 
-        public static readonly DependencyProperty MajorDeltaProperty = DependencyProperty.Register(nameof(MajorDelta), typeof(decimal), typeof(NumericUpDown),
-            new PropertyMetadata(10m, OnMajorDeltaChanged, CoerceMajorDelta));
+        public static readonly DependencyProperty MajorDeltaProperty = DependencyProperty.Register(nameof(MajorDelta), typeof(double), typeof(NumericUpDown),
+            new PropertyMetadata(10d, OnMajorDeltaChanged, CoerceMajorDelta));
 
         public bool IsThousandSeparatorVisible
         {
@@ -133,6 +420,11 @@
 
         public static readonly DependencyProperty IsAutoSelectionActiveProperty = DependencyProperty.Register(nameof(IsAutoSelectionActive), typeof(bool), typeof(NumericUpDown),
             new PropertyMetadata(true));
+        #endregion
+
+        #region Property
+        private double ActualMinValue => Math.Max(MinValue, Value.MinValue);
+        private double ActualMaxValue => Math.Min(MaxValue, Value.MaxValue);
         #endregion
 
         #region Constructors
@@ -169,9 +461,12 @@
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SpinButton'");
             }
 
+            _increaseCommand = new Command(() => ChangeValue(MinorDelta), () => Value.DValue + MinorDelta <= ActualMaxValue);
+            _decreaseCommand = new Command(() => ChangeValue((-1) * MinorDelta), () => Value.DValue - MinorDelta >= ActualMinValue);
+
             _spinButton.Canceled += (_, _) => Cancel();
-            _spinButton.SetCurrentValue(SpinButton.IncreaseProperty, new Command(() => ChangeValue(MinorDelta), () => true));
-            _spinButton.SetCurrentValue(SpinButton.DecreaseProperty, new Command(() => ChangeValue((-1) * MinorDelta), () => true));
+            _spinButton.SetCurrentValue(SpinButton.IncreaseProperty, _increaseCommand);
+            _spinButton.SetCurrentValue(SpinButton.DecreaseProperty, _decreaseCommand);
             _spinButton.PreviewMouseLeftButtonDown += (_, _) => RemoveFocus();
         }
 
@@ -194,11 +489,39 @@
             {
                 return;
             }
+            
+            var text = _textBox.Text;
+            if (!double.TryParse(text, out var value))
+            {
+                Cancel();
 
-            SetCurrentValue(ValueProperty, ParseStringToDecimal(_textBox.Text));
+                return;
+            }
+
+            var number = (Number) CoerceValue(new Number(value, Value.Type));
+
+            SetCurrentValue(ValueProperty, number);
+
+            if (value < ActualMinValue || value > ActualMaxValue)
+            {
+                UpdateTextByValue();
+            }
         }
 
-        private void ChangeValue(decimal delta)
+        private void UpdateTextByValue()
+        {
+            var previousCaretIndex = _textBox.CaretIndex;
+
+            var coercedNumberText = IsThousandSeparatorVisible
+                ? Value.DValue.ToString("N", _culture)
+                : Value.DValue.ToString("F", _culture);
+
+            _textBox?.SetCurrentValue(TextBox.TextProperty, coercedNumberText);
+
+            _textBox.CaretIndex = previousCaretIndex;
+        }
+        
+        private void ChangeValue(double delta)
         {
             using (new DisposableToken<NumericUpDown>(this, x => x.Instance._isValueChanging = true, x => x.Instance._isValueChanging = false))
             {
@@ -210,19 +533,6 @@
             }
         }
 
-        private void CoerceValueToBounds(ref decimal value)
-        {
-            if (value < MinValue)
-            {
-                value = MinValue;
-            }
-
-            if (value > MaxValue)
-            {
-                value = MaxValue;
-            }
-        }
-
         private void RemoveFocus()
         {
             SetCurrentValue(FocusableProperty, true);
@@ -230,96 +540,115 @@
             SetCurrentValue(FocusableProperty, false);
         }
 
-        private static void OnValueChanged(DependencyObject element,
-            DependencyPropertyChangedEventArgs e)
+        private void OnValueChanged(DependencyPropertyChangedEventArgs args)
         {
+            _increaseCommand?.RaiseCanExecuteChanged();
+            _decreaseCommand?.RaiseCanExecuteChanged();
         }
 
-        private static object CoerceValue(DependencyObject element, object baseValue)
+        private object CoerceValue(object baseValue)
         {
-            var control = (NumericUpDown)element;
-            var value = (decimal)baseValue;
-
-            using (new DisposableToken<NumericUpDown>(control, x => x.Instance._isValueCoercing = true, x => x.Instance._isValueCoercing = false))
+            if (baseValue is not Number number)
             {
-                control.CoerceValueToBounds(ref value);
+                return baseValue;
+            }
 
-                var valueString = value.ToString(control._culture);
-                var decimalPlaces = control.GetDecimalPlacesCount(valueString);
-                if (decimalPlaces > control.DecimalPlaces)
+            var value = number.DValue;
+
+            using (new DisposableToken<NumericUpDown>(this, x => x.Instance._isValueCoercing = true, x => x.Instance._isValueCoercing = false))
+            {
+                if (value < MinValue)
                 {
-                    if (control.IsDecimalPointDynamic)
-                    {
-                        control.SetCurrentValue(DecimalPlacesProperty, decimalPlaces);
+                    value = MinValue;
+                }
 
-                        if (decimalPlaces > control.DecimalPlaces)
+                if (value > MaxValue)
+                {
+                    value = MaxValue;
+                }
+
+                var valueString = value.ToString(_culture);
+                var decimalPlaces = GetDecimalPlacesCount(valueString);
+                if (decimalPlaces > DecimalPlaces)
+                {
+                    if (IsDecimalPointDynamic)
+                    {
+                        SetCurrentValue(DecimalPlacesProperty, decimalPlaces);
+
+                        if (decimalPlaces > DecimalPlaces)
                         {
-                            value = control.TruncateValue(valueString, control.DecimalPlaces);
+                            value = TruncateValue(valueString, DecimalPlaces);
                         }
                     }
                     else
                     {
-                        value = control.TruncateValue(valueString, decimalPlaces);
+                        value = TruncateValue(valueString, decimalPlaces);
                     }
                 }
-                else if (control.IsDecimalPointDynamic)
+                else if (IsDecimalPointDynamic)
                 {
-                    control.SetCurrentValue(DecimalPlacesProperty, decimalPlaces);
+                    SetCurrentValue(DecimalPlacesProperty, decimalPlaces);
                 }
 
-                if (!control._isValueInput)
+                if (!_isValueInput)
                 {
-                    control._textBox?.SetCurrentValue(TextBox.TextProperty, control.IsThousandSeparatorVisible
-                        ? value.ToString("N", control._culture)
-                        : value.ToString("F", control._culture));
+                    _textBox?.SetCurrentValue(TextBox.TextProperty, IsThousandSeparatorVisible
+                        ? value.ToString("N", _culture)
+                        : value.ToString("F", _culture));
                 }
             }
 
-            return value;
+            return new Number(value, number.Type);
         }
 
-        private static void OnMaxValueChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
+        private void OnMaxValueChanged(DependencyPropertyChangedEventArgs e)
         {
-            var control = (NumericUpDown)element;
-            var maxValue = (decimal)e.NewValue;
+            var maxValue = (double)e.NewValue;
 
-            if (maxValue < control.MinValue)
+            if (maxValue < MinValue)
             {
-                control.SetCurrentValue(MinValueProperty, maxValue);
+                SetCurrentValue(MinValueProperty, maxValue);
             }
 
-            if (maxValue <= control.Value)
+            var value = Value;
+            if (maxValue <= value)
             {
-                control.SetCurrentValue(ValueProperty, maxValue);
-            }
-        }
-
-        private static object CoerceMaxValue(DependencyObject element, object baseValue)
-        {
-            var maxValue = (decimal)baseValue;
-            return maxValue == decimal.MaxValue ? DependencyProperty.UnsetValue : maxValue;
-        }
-
-        private static void OnMinValueChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
-        {
-            var control = (NumericUpDown)element;
-            var minValue = (decimal)e.NewValue;
-
-            if (minValue > control.MaxValue)
-            {
-                control.SetCurrentValue(MaxValueProperty, minValue);
-            }
-
-            if (minValue >= control.Value)
-            {
-                control.SetCurrentValue(ValueProperty, minValue);
+                SetCurrentValue(ValueProperty, new Number(maxValue, value.Type));
             }
         }
 
-        private static object CoerceMinValue(DependencyObject element, object baseValue)
+        private object CoerceMaxValue(object baseValue)
         {
-            var minValue = (decimal)baseValue;
-            return minValue == decimal.MinValue ? DependencyProperty.UnsetValue : minValue;
+            var value = Value;
+            var maxValue = value.MaxValue;
+            var baseNumber = (double)baseValue;
+
+            return baseNumber >= maxValue ? maxValue : baseNumber;
+        }
+
+        private object CoerceMinValue(object baseValue)
+        {
+            var value = Value;
+            var minValue = value.MinValue;
+            var baseNumber = (double)baseValue;
+
+            return baseNumber <= minValue ? minValue : baseNumber;
+        }
+
+        private void OnMinValueChanged(DependencyPropertyChangedEventArgs e)
+        {
+            var minValue = (double)e.NewValue;
+
+            if (minValue > MaxValue)
+            {
+                SetCurrentValue(MaxValueProperty, minValue);
+            }
+
+            var value = Value;
+            if (minValue >= value)
+            {
+                SetCurrentValue(ValueProperty, new Number(minValue, value.Type));
+            }
         }
 
         private static void OnDecimalPlacesChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
@@ -417,7 +746,7 @@
         private static void OnMinorDeltaChanged(DependencyObject element,
             DependencyPropertyChangedEventArgs e)
         {
-            var minorDelta = (decimal)e.NewValue;
+            var minorDelta = (double)e.NewValue;
             var control = (NumericUpDown)element;
 
             if (minorDelta > control.MajorDelta)
@@ -428,14 +757,14 @@
 
         private static object CoerceMinorDelta(DependencyObject element, object baseValue)
         {
-            var minorDelta = (decimal)baseValue;
+            var minorDelta = (double)baseValue;
 
             return minorDelta;
         }
 
         private static void OnMajorDeltaChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
         {
-            var majorDelta = (decimal)e.NewValue;
+            var majorDelta = (double)e.NewValue;
             var control = (NumericUpDown)element;
 
             if (majorDelta < control.MinorDelta)
@@ -446,7 +775,7 @@
 
         private static object CoerceMajorDelta(DependencyObject element, object baseValue)
         {
-            return (decimal)baseValue;
+            return (double)baseValue;
         }
 
         private static void OnIsThousandSeparatorVisibleChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
@@ -497,42 +826,35 @@
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-            decimal delta;
             switch (e.Key)
             {
                 case Key.Up:
-                    delta = MinorDelta;
+                    _increaseCommand.Execute(null);
                     break;
 
                 case Key.Down:
-                    delta = (-1) * MinorDelta;
+                    _decreaseCommand.Execute(null);
                     break;
 
                 case Key.PageDown:
-                    delta = MajorDelta;
+                 //   delta = MajorDelta;
                     break;
 
                 case Key.PageUp:
-                    delta = (-1) * MajorDelta;
+                //    delta = (-1) * MajorDelta;
                     break;
 
                 default:
                     return;
             }
 
-            ChangeValue(delta);
+            //ChangeValue(delta);
             e.Handled = true;
         }
 
         private void Cancel()
         {
-            SetCurrentValue(ValueProperty, (decimal)0);
-        }
-
-        private static decimal ParseStringToDecimal(string source)
-        {
-            decimal.TryParse(source, out var value);
-            return value;
+            SetCurrentValue(ValueProperty, new Number(0d, Value.Type));
         }
 
         private int GetDecimalPlacesCount(string valueString)
@@ -542,14 +864,14 @@
                 .Count();
         }
 
-        private decimal TruncateValue(string valueString, int decimalPlaces)
+        private double TruncateValue(string valueString, int decimalPlaces)
         {
             var endPoint = valueString.Length - (decimalPlaces - DecimalPlaces);
             endPoint++;
 
             var tempValueString = valueString.Substring(0, endPoint);
 
-            return decimal.Parse(tempValueString, _culture);
+            return double.Parse(tempValueString, _culture);
         }
         #endregion
 
