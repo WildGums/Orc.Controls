@@ -622,6 +622,9 @@
             {
                 SetCurrentValue(ValueProperty, new Number(maxValue, value.Type));
             }
+
+            _increaseCommand?.RaiseCanExecuteChanged();
+            _decreaseCommand?.RaiseCanExecuteChanged();
         }
 
         private object CoerceMaxValue(object baseValue)
@@ -656,6 +659,9 @@
             {
                 SetCurrentValue(ValueProperty, new Number(minValue, value.Type));
             }
+
+            _increaseCommand?.RaiseCanExecuteChanged();
+            _decreaseCommand?.RaiseCanExecuteChanged();
         }
 
         private static void OnDecimalPlacesChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
