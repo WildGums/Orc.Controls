@@ -1415,6 +1415,61 @@ namespace Orc.Controls
         public object Convert(object[] values, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) { }
         public object[] ConvertBack(object value, System.Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) { }
     }
+    [System.ComponentModel.TypeConverter(typeof(Orc.Controls.Converters.NumberTypeConverter))]
+    public readonly struct Number
+    {
+        public readonly double DValue;
+        public readonly bool IsValid;
+        public readonly double MaxValue;
+        public readonly double MinValue;
+        public readonly System.Type Type;
+        public readonly object Value;
+        public Number(object value) { }
+        public Number(object value, System.Type type) { }
+        public static byte op_Implicit(Orc.Controls.Number number) { }
+        public static sbyte op_Implicit(Orc.Controls.Number number) { }
+        public static short op_Implicit(Orc.Controls.Number number) { }
+        public static ushort op_Implicit(Orc.Controls.Number number) { }
+        public static int op_Implicit(Orc.Controls.Number number) { }
+        public static uint op_Implicit(Orc.Controls.Number number) { }
+        public static long op_Implicit(Orc.Controls.Number number) { }
+        public static ulong op_Implicit(Orc.Controls.Number number) { }
+        public static decimal op_Implicit(Orc.Controls.Number number) { }
+        public static float op_Implicit(Orc.Controls.Number number) { }
+        public static double op_Implicit(Orc.Controls.Number number) { }
+        public static Orc.Controls.Number op_Implicit(byte value) { }
+        public static Orc.Controls.Number op_Implicit(decimal value) { }
+        public static Orc.Controls.Number op_Implicit(double value) { }
+        public static Orc.Controls.Number op_Implicit(short value) { }
+        public static Orc.Controls.Number op_Implicit(int value) { }
+        public static Orc.Controls.Number op_Implicit(long value) { }
+        public static Orc.Controls.Number op_Implicit(sbyte value) { }
+        public static Orc.Controls.Number op_Implicit(float value) { }
+        public static Orc.Controls.Number op_Implicit(ushort value) { }
+        public static Orc.Controls.Number op_Implicit(uint value) { }
+        public static Orc.Controls.Number op_Implicit(ulong value) { }
+        public static Orc.Controls.Number operator +(Orc.Controls.Number left, double right) { }
+        public static Orc.Controls.Number operator +(double left, Orc.Controls.Number right) { }
+        public static Orc.Controls.Number operator -(Orc.Controls.Number left, double right) { }
+        public static Orc.Controls.Number operator -(double left, Orc.Controls.Number right) { }
+        public static bool operator <(Orc.Controls.Number left, Orc.Controls.Number right) { }
+        public static bool operator <(Orc.Controls.Number left, double right) { }
+        public static bool operator <(double left, Orc.Controls.Number right) { }
+        public static bool operator <=(Orc.Controls.Number left, Orc.Controls.Number right) { }
+        public static bool operator <=(Orc.Controls.Number left, double right) { }
+        public static bool operator <=(double left, Orc.Controls.Number right) { }
+        public static bool operator >(Orc.Controls.Number left, Orc.Controls.Number right) { }
+        public static bool operator >(Orc.Controls.Number left, double right) { }
+        public static bool operator >(double left, Orc.Controls.Number right) { }
+        public static bool operator >=(Orc.Controls.Number left, Orc.Controls.Number right) { }
+        public static bool operator >=(Orc.Controls.Number left, double right) { }
+        public static bool operator >=(double left, Orc.Controls.Number right) { }
+    }
+    public static class NumberExtensions
+    {
+        public static object ConvertTo(this Orc.Controls.Number number, System.Type convertToType) { }
+        public static T ConvertTo<T>(this Orc.Controls.Number number) { }
+    }
     public static class NumberFormatHelper
     {
         public static string GetFormat(int digits) { }
@@ -1482,13 +1537,14 @@ namespace Orc.Controls
         public bool IsAutoSelectionActive { get; set; }
         public bool IsDecimalPointDynamic { get; set; }
         public bool IsThousandSeparatorVisible { get; set; }
-        public decimal MajorDelta { get; set; }
+        public double MajorDelta { get; set; }
         public int MaxDecimalPlaces { get; set; }
-        public decimal MaxValue { get; set; }
+        public double MaxValue { get; set; }
         public int MinDecimalPlaces { get; set; }
-        public decimal MinValue { get; set; }
-        public decimal MinorDelta { get; set; }
-        public decimal Value { get; set; }
+        public double MinValue { get; set; }
+        public double MinorDelta { get; set; }
+        public Orc.Controls.Number Value { get; set; }
+        public event System.EventHandler<System.EventArgs> TextChanged;
         public override void OnApplyTemplate() { }
         protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e) { }
         protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
@@ -2005,8 +2061,15 @@ namespace Orc.Controls
     }
     public static class TypeExtensions
     {
+        public static object ChangeTypeSafe(this System.Type convertToType, double dValue) { }
         public static System.Array GetEnumValues(this System.Type enumType) { }
         public static T[] GetEnumValues<T>() { }
+        public static bool IsFloatingPointType(this System.Type type) { }
+        public static bool IsInNumberRange(this System.Type type, double checkedValue) { }
+        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "Min",
+                "Max"})]
+        public static System.ValueTuple<double, double>? TryGetNumberRange(this System.Type type) { }
     }
     public class ValidationContextTreeNode : Catel.Data.ChildAwareModelBase, Orc.Controls.IValidationContextTreeNode, System.IComparable
     {
@@ -2193,47 +2256,13 @@ namespace Orc.Controls.Converters
         public object[] ConvertBack(object value, System.Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) { }
         public override object ProvideValue(System.IServiceProvider serviceProvider) { }
     }
-    public class ByteToDecimalValueConverter : Catel.MVVM.Converters.ValueConverterBase<byte, decimal>
+    public class NumberTypeConverter : System.ComponentModel.TypeConverter
     {
-        public ByteToDecimalValueConverter() { }
-        protected override object Convert(byte value, System.Type targetType, object parameter) { }
-        protected override object ConvertBack(decimal value, System.Type targetType, object parameter) { }
-    }
-    public class DecimalToIntValueConverter : Catel.MVVM.Converters.ValueConverterBase<decimal, int>
-    {
-        public DecimalToIntValueConverter() { }
-        protected override object Convert(decimal value, System.Type targetType, object parameter) { }
-        protected override object ConvertBack(int value, System.Type targetType, object parameter) { }
-    }
-    public class DoubleToDecimalValueConverter : Catel.MVVM.Converters.ValueConverterBase<double, decimal>
-    {
-        public DoubleToDecimalValueConverter() { }
-        protected override object Convert(double value, System.Type targetType, object parameter) { }
-        protected override object ConvertBack(decimal value, System.Type targetType, object parameter) { }
-    }
-    public class FloatToDecimalValueConverter : Catel.MVVM.Converters.ValueConverterBase<float, decimal>
-    {
-        public FloatToDecimalValueConverter() { }
-        protected override object Convert(float value, System.Type targetType, object parameter) { }
-        protected override object ConvertBack(decimal value, System.Type targetType, object parameter) { }
-    }
-    public class IntToDecimalValueConverter : Catel.MVVM.Converters.ValueConverterBase<int, decimal>
-    {
-        public IntToDecimalValueConverter() { }
-        protected override object Convert(int value, System.Type targetType, object parameter) { }
-        protected override object ConvertBack(decimal value, System.Type targetType, object parameter) { }
-    }
-    public class LongToDecimalValueConverter : Catel.MVVM.Converters.ValueConverterBase<long, decimal>
-    {
-        public LongToDecimalValueConverter() { }
-        protected override object Convert(long value, System.Type targetType, object parameter) { }
-        protected override object ConvertBack(decimal value, System.Type targetType, object parameter) { }
-    }
-    public class ShortToDecimalValueConverter : Catel.MVVM.Converters.ValueConverterBase<short, decimal>
-    {
-        public ShortToDecimalValueConverter() { }
-        protected override object Convert(short value, System.Type targetType, object parameter) { }
-        protected override object ConvertBack(decimal value, System.Type targetType, object parameter) { }
+        public NumberTypeConverter() { }
+        public override bool CanConvertFrom(System.ComponentModel.ITypeDescriptorContext context, System.Type sourceType) { }
+        public override bool CanConvertTo(System.ComponentModel.ITypeDescriptorContext context, System.Type destinationType) { }
+        public override object ConvertFrom(System.ComponentModel.ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value) { }
+        public override object ConvertTo(System.ComponentModel.ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, System.Type destinationType) { }
     }
     public class TextToTextArrayMultiValueConverter : System.Windows.Data.IMultiValueConverter
     {
@@ -2421,5 +2450,17 @@ namespace Orc.Controls.Views
     {
         public TextInputWindow() { }
         public void InitializeComponent() { }
+    }
+}
+namespace XamlGeneratedNamespace
+{
+    public sealed class GeneratedInternalTypeHelper : System.Windows.Markup.InternalTypeHelper
+    {
+        public GeneratedInternalTypeHelper() { }
+        protected override void AddEventHandler(System.Reflection.EventInfo eventInfo, object target, System.Delegate handler) { }
+        protected override System.Delegate CreateDelegate(System.Type delegateType, object target, string handler) { }
+        protected override object CreateInstance(System.Type type, System.Globalization.CultureInfo culture) { }
+        protected override object GetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, System.Globalization.CultureInfo culture) { }
+        protected override void SetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, object value, System.Globalization.CultureInfo culture) { }
     }
 }
