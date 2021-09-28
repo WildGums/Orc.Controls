@@ -236,7 +236,7 @@
                 ? Value.DValue.ToString("N", _culture)
                 : Value.DValue.ToString("F", _culture);
 
-            _textBox?.SetCurrentValue(TextBox.TextProperty, coercedNumberText);
+            _textBox.SetCurrentValue(TextBox.TextProperty, coercedNumberText);
 
             _textBox.CaretIndex = previousCaretIndex;
         }
