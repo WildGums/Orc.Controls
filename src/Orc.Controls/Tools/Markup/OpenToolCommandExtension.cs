@@ -63,7 +63,7 @@ namespace Orc.Controls
 
         protected virtual FrameworkElement GetAttachmentTarget(object parameter = null)
         {
-            if (!(TargetObject is FrameworkElement targetObject))
+            if (TargetObject is not FrameworkElement targetObject)
             {
                 return null;
             }
@@ -71,7 +71,7 @@ namespace Orc.Controls
             var contextMenu = targetObject.FindLogicalAncestorByType<ContextMenu>()
                               ?? targetObject.FindLogicalOrVisualAncestor(x => x.GetType() == typeof(ContextMenu)) as ContextMenu;
 
-            if (!(contextMenu?.PlacementTarget is FrameworkElement placementTarget))
+            if (contextMenu?.PlacementTarget is not FrameworkElement placementTarget)
             {
                 return null;
             }

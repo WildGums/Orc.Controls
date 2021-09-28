@@ -116,7 +116,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (!(_adorner is FrameworkElement frameworkElement))
+            if (_adorner is not FrameworkElement frameworkElement)
             {
                 return;
             }

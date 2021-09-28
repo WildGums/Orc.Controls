@@ -62,7 +62,7 @@ namespace Orc.Controls
                 RootChanged(oldRoot, value);
 
                 // Kickoff layout...
-                if (!(value is UIElement rootElement))
+                if (value is not UIElement rootElement)
                 {
                     return;
                 }

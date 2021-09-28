@@ -1558,7 +1558,7 @@ namespace Orc.Controls
 
         private void EnableOrDisableHourConverterDependingOnFormat()
         {
-            if (!(TryFindResource(nameof(Hour24ToHour12Converter)) is Hour24ToHour12Converter converter))
+            if (TryFindResource(nameof(Hour24ToHour12Converter)) is not Hour24ToHour12Converter converter)
             {
                 return;
             }
@@ -1569,7 +1569,7 @@ namespace Orc.Controls
 
         private void EnableOrDisableAmPmConverterDependingOnFormat()
         {
-            if (!(TryFindResource(nameof(AmPmLongToAmPmShortConverter)) is AmPmLongToAmPmShortConverter converter))
+            if (TryFindResource(nameof(AmPmLongToAmPmShortConverter)) is not AmPmLongToAmPmShortConverter converter)
             {
                 return;
             }
@@ -1580,7 +1580,7 @@ namespace Orc.Controls
 
         private void EnableOrDisableYearConverterDependingOnFormat()
         {
-            if (!(TryFindResource(nameof(YearLongToYearShortConverter)) is YearLongToYearShortConverter converter))
+            if (TryFindResource(nameof(YearLongToYearShortConverter)) is not YearLongToYearShortConverter converter)
             {
                 return;
             }
@@ -1646,7 +1646,7 @@ namespace Orc.Controls
 
         private void CalendarOnSelectedDatesChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (!(sender is Calendar calendar))
+            if (sender is not Calendar calendar)
             {
                 return;
             }

@@ -168,7 +168,7 @@ namespace Orc.Controls
 
         private void HandleResize(double? left = null, double? top = null, double? right = null, double? bottom = null)
         {
-            if (!(AdornedElement is FrameworkElement adornedElement))
+            if (AdornedElement is not FrameworkElement adornedElement)
             {
                 return;
             }
@@ -350,7 +350,7 @@ namespace Orc.Controls
 
         private void UpdateWidth(double width)
         {
-            if (!(AdornedElement is FrameworkElement adornedElement))
+            if (AdornedElement is not FrameworkElement adornedElement)
             {
                 return;
             }
@@ -365,7 +365,7 @@ namespace Orc.Controls
 
         private void UpdateHeight(double height)
         {
-            if (!(AdornedElement is FrameworkElement adornedElement))
+            if (AdornedElement is not FrameworkElement adornedElement)
             {
                 return;
             }

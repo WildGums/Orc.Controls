@@ -535,7 +535,7 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!(d is ColorBoard control) || control._rootGrid is null)
+            if (d is not ColorBoard control || control._rootGrid is null)
             {
                 return;
             }

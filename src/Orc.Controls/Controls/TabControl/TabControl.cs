@@ -326,7 +326,7 @@ namespace Orc.Controls
 
             foreach (ContentPresenter child in _itemsHolder.Children)
             {
-                if (!(child.Tag is TabControlItemData tabControlItemData))
+                if (child.Tag is not TabControlItemData tabControlItemData)
                 {
                     continue;
                 }

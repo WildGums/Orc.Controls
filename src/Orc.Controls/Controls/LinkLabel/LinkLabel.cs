@@ -277,7 +277,7 @@ namespace Orc.Controls
         /// <param name="args">The event arguments.</param>
         private static void OnClickBehaviorChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            if (!(sender is LinkLabel label))
+            if (sender is not LinkLabel label)
             {
                 return;
             }

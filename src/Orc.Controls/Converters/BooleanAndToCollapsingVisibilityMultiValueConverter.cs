@@ -20,11 +20,12 @@ namespace Orc.Controls.Converters
         {
             foreach (var obj in values)
             {
-                if (!(obj is bool))
+                if (obj is not bool b)
                 {
                     return Visibility.Collapsed;
                 }
-                else if (!(bool)obj)
+
+                if (!b)
                 {
                     return Visibility.Collapsed;
                 }

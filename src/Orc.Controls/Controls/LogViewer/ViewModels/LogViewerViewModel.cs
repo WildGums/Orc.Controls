@@ -302,7 +302,7 @@
                 return;
             }
 
-            if (!(_logListener is LogViewerLogListener))
+            if (_logListener is not LogViewerLogListener)
             {
                 LogManager.RemoveListener(_logListener);
             }

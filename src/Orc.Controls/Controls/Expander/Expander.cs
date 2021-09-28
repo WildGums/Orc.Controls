@@ -206,7 +206,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (!(Parent is Grid grid))
+            if (Parent is not Grid grid)
             {
                 return;
             }
@@ -236,7 +236,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (!(Parent is Grid grid))
+            if (Parent is not Grid grid)
             {
                 return;
             }
@@ -318,7 +318,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (!(Parent is Grid grid))
+            if (Parent is not Grid grid)
             {
                 return;
             }

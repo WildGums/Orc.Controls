@@ -29,7 +29,7 @@ namespace Orc.Controls
 
         private static void OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (!(e.OriginalSource is FrameworkElement frameworkElement))
+            if (e.OriginalSource is not FrameworkElement frameworkElement)
             {
                 return;
             }
@@ -45,7 +45,7 @@ namespace Orc.Controls
 
         private static void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            if (!(sender is FrameworkElement frameworkElement))
+            if (sender is not FrameworkElement frameworkElement)
             {
                 return;
             }
@@ -56,7 +56,7 @@ namespace Orc.Controls
 
         private static void OnIsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!(d is FrameworkElement frameworkElement))
+            if (d is not FrameworkElement frameworkElement)
             {
                 return;
             }

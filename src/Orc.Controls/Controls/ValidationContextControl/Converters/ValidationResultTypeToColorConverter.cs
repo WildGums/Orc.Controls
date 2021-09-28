@@ -29,12 +29,12 @@ namespace Orc.Controls
                 return DefaultBrush;
             }
 
-            if (!(values[0] is SolidColorBrush defaultColorBrush))
+            if (values[0] is not SolidColorBrush defaultColorBrush)
             {
                 return DefaultBrush;
             }
 
-            if (!(values[1] is ValidationResultType validationResultType))
+            if (values[1] is not ValidationResultType validationResultType)
             {
                 return defaultColorBrush;
             }

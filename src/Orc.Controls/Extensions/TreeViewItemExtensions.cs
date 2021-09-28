@@ -31,7 +31,7 @@ namespace Orc.Controls
         {
             var parent = VisualTreeHelper.GetParent(item);
 
-            while (!(parent is TreeViewItem || parent is TreeView))
+            while (parent is not (TreeViewItem or TreeView))
             {
                 if (parent is null)
                 {
