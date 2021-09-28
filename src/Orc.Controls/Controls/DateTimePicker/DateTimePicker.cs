@@ -1068,6 +1068,10 @@ namespace Orc.Controls
                 dispatcherService.Invoke(() => SetCurrentValue(ValueProperty, nv));
             }
 
+            SetCurrentValue(FocusableProperty, true);
+            Focus();
+            SetCurrentValue(FocusableProperty, false);
+
             UpdateUi();
         }
 
