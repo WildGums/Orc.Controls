@@ -85,7 +85,11 @@ namespace Orc.Controls
         private void OnOpenDirectoryExecute()
         {
             var directory = Directory.GetParent(SelectedFile);
-            _processService.StartProcess(directory.FullName);
+            _processService.StartProcess(new ProcessContext
+            {
+                FileName = directory.FullName,
+                UseShellExecute = true
+            });
         }
 
         /// <summary>

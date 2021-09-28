@@ -109,7 +109,11 @@ namespace Orc.Controls
             }
 
             var filePath = CreateValidationContextFile(path);
-            _processService.StartProcess(filePath);
+            _processService.StartProcess(new ProcessContext
+            {
+                FileName = filePath,
+                UseShellExecute = true
+            });
         }
 
         private void OnNodesChanged()
