@@ -669,6 +669,10 @@
         </Setter>
     </Style>
 
+    <Style x:Key="Orc.Styles.ColorBoard"  
+           TargetType="{x:Type local:ColorBoard}"
+           BasedOn="{StaticResource {x:Type local:ColorBoard}}"/>
+
     <Style TargetType="{x:Type local:PredefinedColorItem}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Template">

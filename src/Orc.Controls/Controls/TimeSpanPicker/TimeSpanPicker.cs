@@ -261,7 +261,6 @@ namespace Orc.Controls
             _editorNumericTextBox.Focus();
         }
 
-
         private void OnEditorNumericTextBoxIsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var timeSpan = Value ?? TimeSpan.Zero;
