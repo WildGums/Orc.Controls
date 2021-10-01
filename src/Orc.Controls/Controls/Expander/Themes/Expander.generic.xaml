@@ -7,7 +7,8 @@
         <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="{x:Type controls:Expander}" TargetType="{x:Type controls:Expander}"
+    <Style x:Key="{x:Type controls:Expander}" 
+           TargetType="{x:Type controls:Expander}"
            BasedOn="{StaticResource Orc.Styles.Control}">
         <Style.Resources>
             <Geometry x:Key="ExpanderUpArrow">M 1,4.5  L 4.5,1  L 8,4.5</Geometry>
@@ -21,7 +22,8 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ToggleButton}">
-                            <Border Padding="{TemplateBinding Padding}"
+                            <Border x:Name="Chrome"
+                                    Padding="{TemplateBinding Padding}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     Background="{TemplateBinding Background}"
                                     BorderThickness="{TemplateBinding BorderThickness}">
@@ -84,6 +86,27 @@
                                                       SnapsToDevicePixels="True"/>
                                 </Grid>
                             </Border>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="Control.IsMouseOver" Value="True">
+                                    <Setter TargetName="Chrome" Property="Control.Background" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Background}"/>
+                                    <Setter TargetName="Chrome" Property="Control.BorderBrush" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Border}"/>
+                                    <Setter Property="Control.Foreground" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Foreground}"/>
+                                </Trigger>
+
+                                <Trigger Property="ButtonBase.IsPressed" Value="True">
+                                    <Setter TargetName="Chrome" Property="ButtonBase.Background" Value="{DynamicResource Orc.Brushes.Control.Pressed.Background}"/>
+                                    <Setter TargetName="Chrome" Property="ButtonBase.BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Pressed.Border}"/>
+                                    <Setter Property="Control.Foreground" Value="{DynamicResource Orc.Brushes.Control.Pressed.Foreground}"/>
+                                </Trigger>
+
+                                <Trigger Property="Control.IsEnabled" Value="False">
+                                    <Setter TargetName="Chrome" Property="Control.Background" Value="{DynamicResource Orc.Brushes.Control.Disabled.Background}"/>
+                                    <Setter TargetName="Chrome" Property="Control.BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Disabled.Border}"/>
+                                    <Setter Property="Control.Foreground" Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}"/>
+                                </Trigger>
+
+                            </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
