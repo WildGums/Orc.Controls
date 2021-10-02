@@ -8,6 +8,9 @@
 
     <Style x:Key="{x:Type controls:FontImage}" TargetType="{x:Type controls:FontImage}"
            BasedOn="{StaticResource Orc.Styles.Control}">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
