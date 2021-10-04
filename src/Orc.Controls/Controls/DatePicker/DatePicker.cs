@@ -350,9 +350,18 @@ namespace Orc.Controls
             _datePickerIconToggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
 
             var value = Value;
-            if (value is not null)
+            if (value is null)
+            {
+                return;
+            }
+
+            try
             {
                 Clipboard.SetText(DateTimeFormatter.Format(value.Value, _formatInfo), TextDataFormat.Text);
+            }
+            catch (FormatException exception)
+            {
+                Log.Warning(exception);
             }
         }
 
@@ -401,7 +410,16 @@ namespace Orc.Controls
 
         private void ApplyFormat()
         {
-            _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format, true);
+            try
+            {
+                _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format, true);
+            }
+            catch (FormatException exception)
+            {
+                Log.Warning(exception);
+
+                return;
+            }
 
             IsYearShortFormat = _formatInfo.IsYearShortFormat;
             _yearNumericTextBox.SetCurrentValue(NumericTextBox.MinValueProperty, (double)(_formatInfo.IsYearShortFormat ? 0 : 1));
