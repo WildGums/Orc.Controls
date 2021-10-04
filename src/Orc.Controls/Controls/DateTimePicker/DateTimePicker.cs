@@ -702,9 +702,18 @@ namespace Orc.Controls
         private void OnCopyMenuItemClick(object sender, RoutedEventArgs e)
         {
             var value = Value;
-            if (value is not null)
+            if (value is null)
+            {
+                return;
+            }
+
+            try
             {
                 Clipboard.SetText(DateTimeFormatter.Format(value.Value, _formatInfo), TextDataFormat.Text);
+            }
+            catch (FormatException exception)
+            {
+                Log.Warning(exception);
             }
         }
 

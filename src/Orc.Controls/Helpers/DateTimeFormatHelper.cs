@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DateTimeFormatHelper.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -18,7 +11,7 @@ namespace Orc.Controls
         #region Constants
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-        private static readonly HashSet<char> TimeFormatChars = new HashSet<char>
+        private static readonly HashSet<char> TimeFormatChars = new()
         {
             'h',
             'm',
@@ -92,7 +85,9 @@ namespace Orc.Controls
 
             if (!result.IsCorrect(true, !isDateOnly, out var errorMessage))
             {
-                throw Log.ErrorAndCreateException<FormatException>(errorMessage);
+                Log.Warning(errorMessage);
+
+                throw new FormatException(errorMessage);
             }
 
             if (!isDateOnly)
