@@ -83,7 +83,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(DateTime?), typeof(DatePicker),
             new FrameworkPropertyMetadata(DateTime.Today, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((DatePicker)sender).OnValueChanged()));
+                (sender, _) => ((DatePicker)sender).OnValueChanged()));
 
         public bool ShowOptionsButton
         {
@@ -93,7 +93,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register(nameof(ShowOptionsButton), typeof(bool),
             typeof(DatePicker), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, 
-                (sender, args) => ((DatePicker)sender).OnShowOptionsButtonChanged()));
+                (sender, _) => ((DatePicker)sender).OnShowOptionsButtonChanged()));
 
         public bool AllowNull
         {
@@ -130,7 +130,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty FormatProperty = DependencyProperty.Register(nameof(Format), typeof(string),
             typeof(DatePicker), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern,
-                (sender, e) => ((DatePicker)sender).OnFormatChanged()));
+                (sender, _) => ((DatePicker)sender).OnFormatChanged()));
 
         public bool IsYearShortFormat
         {
