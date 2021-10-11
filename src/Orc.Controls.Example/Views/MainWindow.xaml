@@ -108,6 +108,10 @@
                 <views:NumericTextBox />
             </TabItem>
 
+            <TabItem Header="NumericUpDown">
+                <views:NumericUpDownView />
+            </TabItem>
+
             <TabItem Header="OpenFilePicker">
                 <views:OpenFilePickerView />
             </TabItem>
@@ -122,6 +126,10 @@
 
             <TabItem Header="SaveFilePicker">
                 <views:SaveFilePickerView />
+            </TabItem>
+
+            <TabItem Header="SpinButton">
+                <views:SpinButtonView />
             </TabItem>
 
             <TabItem Header="StaggeredPanel">

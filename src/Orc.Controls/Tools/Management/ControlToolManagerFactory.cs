@@ -49,7 +49,7 @@ namespace Orc.Controls.Tools
         #region Methods
         private void OnFrameworkElementUnloaded(object sender, RoutedEventArgs e)
         {
-            if (!(sender is FrameworkElement frameworkElement))
+            if (sender is not FrameworkElement frameworkElement)
             {
                 return;
             }

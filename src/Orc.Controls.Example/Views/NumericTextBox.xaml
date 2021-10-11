@@ -19,6 +19,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <CheckBox Grid.ColumnSpan="2" Content="Allow null" IsChecked="{Binding IsNullValueAllowed}" />
@@ -51,6 +53,7 @@
 
         <Label Content="Actual bound value (control)" />
         <TextBox Text="{Binding Value, Mode=OneWay}" IsReadOnly="true" />
-    </orccontrols:StackGrid>
+
+ </orccontrols:StackGrid>
 
 </catel:UserControl>

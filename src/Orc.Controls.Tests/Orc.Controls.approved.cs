@@ -220,7 +220,9 @@ namespace Orc.Controls
     [System.Windows.TemplatePart(Name="PART_ThemeColorsListBox", Type=typeof(System.Windows.Controls.ListBox))]
     public class ColorBoard : System.Windows.Controls.Control
     {
+        public static readonly System.Windows.RoutedEvent CancelClickedEvent;
         public static readonly System.Windows.DependencyProperty ColorProperty;
+        public static readonly System.Windows.RoutedEvent DoneClickedEvent;
         public static readonly System.Windows.DependencyProperty RecentColorItemsProperty;
         public ColorBoard() { }
         public System.Windows.Media.Color Color { get; set; }
@@ -1413,6 +1415,61 @@ namespace Orc.Controls
         public object Convert(object[] values, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) { }
         public object[] ConvertBack(object value, System.Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) { }
     }
+    [System.ComponentModel.TypeConverter(typeof(Orc.Controls.Converters.NumberTypeConverter))]
+    public readonly struct Number
+    {
+        public readonly double DValue;
+        public readonly bool IsValid;
+        public readonly double MaxValue;
+        public readonly double MinValue;
+        public readonly System.Type Type;
+        public readonly object Value;
+        public Number(object value) { }
+        public Number(object value, System.Type type) { }
+        public static byte op_Implicit(Orc.Controls.Number number) { }
+        public static sbyte op_Implicit(Orc.Controls.Number number) { }
+        public static short op_Implicit(Orc.Controls.Number number) { }
+        public static ushort op_Implicit(Orc.Controls.Number number) { }
+        public static int op_Implicit(Orc.Controls.Number number) { }
+        public static uint op_Implicit(Orc.Controls.Number number) { }
+        public static long op_Implicit(Orc.Controls.Number number) { }
+        public static ulong op_Implicit(Orc.Controls.Number number) { }
+        public static decimal op_Implicit(Orc.Controls.Number number) { }
+        public static float op_Implicit(Orc.Controls.Number number) { }
+        public static double op_Implicit(Orc.Controls.Number number) { }
+        public static Orc.Controls.Number op_Implicit(byte value) { }
+        public static Orc.Controls.Number op_Implicit(decimal value) { }
+        public static Orc.Controls.Number op_Implicit(double value) { }
+        public static Orc.Controls.Number op_Implicit(short value) { }
+        public static Orc.Controls.Number op_Implicit(int value) { }
+        public static Orc.Controls.Number op_Implicit(long value) { }
+        public static Orc.Controls.Number op_Implicit(sbyte value) { }
+        public static Orc.Controls.Number op_Implicit(float value) { }
+        public static Orc.Controls.Number op_Implicit(ushort value) { }
+        public static Orc.Controls.Number op_Implicit(uint value) { }
+        public static Orc.Controls.Number op_Implicit(ulong value) { }
+        public static Orc.Controls.Number operator +(Orc.Controls.Number left, double right) { }
+        public static Orc.Controls.Number operator +(double left, Orc.Controls.Number right) { }
+        public static Orc.Controls.Number operator -(Orc.Controls.Number left, double right) { }
+        public static Orc.Controls.Number operator -(double left, Orc.Controls.Number right) { }
+        public static bool operator <(Orc.Controls.Number left, Orc.Controls.Number right) { }
+        public static bool operator <(Orc.Controls.Number left, double right) { }
+        public static bool operator <(double left, Orc.Controls.Number right) { }
+        public static bool operator <=(Orc.Controls.Number left, Orc.Controls.Number right) { }
+        public static bool operator <=(Orc.Controls.Number left, double right) { }
+        public static bool operator <=(double left, Orc.Controls.Number right) { }
+        public static bool operator >(Orc.Controls.Number left, Orc.Controls.Number right) { }
+        public static bool operator >(Orc.Controls.Number left, double right) { }
+        public static bool operator >(double left, Orc.Controls.Number right) { }
+        public static bool operator >=(Orc.Controls.Number left, Orc.Controls.Number right) { }
+        public static bool operator >=(Orc.Controls.Number left, double right) { }
+        public static bool operator >=(double left, Orc.Controls.Number right) { }
+    }
+    public static class NumberExtensions
+    {
+        public static object ConvertTo(this Orc.Controls.Number number, System.Type convertToType) { }
+        public static T ConvertTo<T>(this Orc.Controls.Number number) { }
+    }
     public static class NumberFormatHelper
     {
         public static string GetFormat(int digits) { }
@@ -1457,6 +1514,40 @@ namespace Orc.Controls
         protected virtual double? ConvertBack(object value) { }
         protected override void OnAssociatedObjectLoaded() { }
         protected override void OnAssociatedObjectUnloaded() { }
+    }
+    [System.Windows.TemplatePart(Name="PART_DecreaseButton", Type=typeof(System.Windows.Controls.Primitives.RepeatButton))]
+    [System.Windows.TemplatePart(Name="PART_IncreaseButton", Type=typeof(System.Windows.Controls.Primitives.RepeatButton))]
+    [System.Windows.TemplatePart(Name="PART_SpinButton", Type=typeof(Orc.Controls.SpinButton))]
+    [System.Windows.TemplatePart(Name="PART_TextBox", Type=typeof(System.Windows.Controls.TextBox))]
+    public class NumericUpDown : System.Windows.Controls.Control
+    {
+        public static readonly System.Windows.DependencyProperty DecimalPlacesProperty;
+        public static readonly System.Windows.DependencyProperty IsAutoSelectionActiveProperty;
+        public static readonly System.Windows.DependencyProperty IsDecimalPointDynamicProperty;
+        public static readonly System.Windows.DependencyProperty IsThousandSeparatorVisibleProperty;
+        public static readonly System.Windows.DependencyProperty MajorDeltaProperty;
+        public static readonly System.Windows.DependencyProperty MaxDecimalPlacesProperty;
+        public static readonly System.Windows.DependencyProperty MaxValueProperty;
+        public static readonly System.Windows.DependencyProperty MinDecimalPlacesProperty;
+        public static readonly System.Windows.DependencyProperty MinValueProperty;
+        public static readonly System.Windows.DependencyProperty MinorDeltaProperty;
+        public static readonly System.Windows.DependencyProperty ValueProperty;
+        public NumericUpDown() { }
+        public int DecimalPlaces { get; set; }
+        public bool IsAutoSelectionActive { get; set; }
+        public bool IsDecimalPointDynamic { get; set; }
+        public bool IsThousandSeparatorVisible { get; set; }
+        public double MajorDelta { get; set; }
+        public int MaxDecimalPlaces { get; set; }
+        public double MaxValue { get; set; }
+        public int MinDecimalPlaces { get; set; }
+        public double MinValue { get; set; }
+        public double MinorDelta { get; set; }
+        public Orc.Controls.Number Value { get; set; }
+        public event System.EventHandler<System.EventArgs> TextChanged;
+        public override void OnApplyTemplate() { }
+        protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e) { }
+        protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
     }
     public class OpenFilePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
@@ -1704,6 +1795,27 @@ namespace Orc.Controls
         public ShowStepNumberVisibilityConverter() { }
         protected override bool IsVisible(object value, System.Type targetType, object parameter) { }
     }
+    [System.Windows.TemplatePart(Name="PART_DecreaseButton", Type=typeof(System.Windows.Controls.Primitives.RepeatButton))]
+    [System.Windows.TemplatePart(Name="PART_IncreaseButton", Type=typeof(System.Windows.Controls.Primitives.RepeatButton))]
+    public class SpinButton : System.Windows.Controls.Control
+    {
+        public static readonly System.Windows.RoutedEvent CanceledEvent;
+        public static readonly System.Windows.DependencyProperty CommandParameterProperty;
+        public static readonly System.Windows.DependencyProperty DecreaseProperty;
+        public static readonly System.Windows.RoutedEvent DecreasedEvent;
+        public static readonly System.Windows.DependencyProperty IncreaseProperty;
+        public static readonly System.Windows.RoutedEvent IncreasedEvent;
+        public SpinButton() { }
+        public object CommandParameter { get; set; }
+        public System.Windows.Input.ICommand Decrease { get; set; }
+        public System.Windows.Input.ICommand Increase { get; set; }
+        public event System.Windows.RoutedEventHandler Canceled;
+        public event System.Windows.RoutedEventHandler Decreased;
+        public event System.Windows.RoutedEventHandler Increased;
+        public override void OnApplyTemplate() { }
+        protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e) { }
+        protected override void OnPreviewMouseRightButtonDown(System.Windows.Input.MouseButtonEventArgs e) { }
+    }
     public class StackGrid : System.Windows.Controls.Grid
     {
         public StackGrid() { }
@@ -1949,8 +2061,15 @@ namespace Orc.Controls
     }
     public static class TypeExtensions
     {
+        public static object ChangeTypeSafe(this System.Type convertToType, double dValue) { }
         public static System.Array GetEnumValues(this System.Type enumType) { }
         public static T[] GetEnumValues<T>() { }
+        public static bool IsFloatingPointType(this System.Type type) { }
+        public static bool IsInNumberRange(this System.Type type, double checkedValue) { }
+        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "Min",
+                "Max"})]
+        public static System.ValueTuple<double, double>? TryGetNumberRange(this System.Type type) { }
     }
     public class ValidationContextTreeNode : Catel.Data.ChildAwareModelBase, Orc.Controls.IValidationContextTreeNode, System.IComparable
     {
@@ -2136,6 +2255,14 @@ namespace Orc.Controls.Converters
         public object Convert(object[] values, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) { }
         public object[] ConvertBack(object value, System.Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) { }
         public override object ProvideValue(System.IServiceProvider serviceProvider) { }
+    }
+    public class NumberTypeConverter : System.ComponentModel.TypeConverter
+    {
+        public NumberTypeConverter() { }
+        public override bool CanConvertFrom(System.ComponentModel.ITypeDescriptorContext context, System.Type sourceType) { }
+        public override bool CanConvertTo(System.ComponentModel.ITypeDescriptorContext context, System.Type destinationType) { }
+        public override object ConvertFrom(System.ComponentModel.ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value) { }
+        public override object ConvertTo(System.ComponentModel.ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, System.Type destinationType) { }
     }
     public class TextToTextArrayMultiValueConverter : System.Windows.Data.IMultiValueConverter
     {

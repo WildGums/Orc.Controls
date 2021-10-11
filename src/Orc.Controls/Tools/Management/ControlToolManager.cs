@@ -64,24 +64,23 @@ namespace Orc.Controls.Tools
         {
             Argument.IsNotNull(() => toolType);
 
-            var tools = Tools;
-            var existingTool = tools.FirstOrDefault(x => x.GetType() == toolType);
+            var existingTool = Tools.FirstOrDefault(x => x.GetType() == toolType);
             if (existingTool is not null)
             {
                 return existingTool;
             }
 
-            if (!(_typeFactory.CreateInstanceWithParametersAndAutoCompletion(toolType) is IControlTool tool))
+            if (_typeFactory.CreateInstanceWithParametersAndAutoCompletion(toolType) is not IControlTool tool)
             {
                 return null;
             }
 
-            if (!tools.Any())
+            if (!Tools.Any())
             {
                 _frameworkElement.Unloaded += OnFrameworkElementUnloaded;
             }
 
-            tools.Add(tool);
+            Tools.Add(tool);
             tool.Attach(_frameworkElement);
 
             tool.Opening += OnToolOpening;
@@ -120,7 +119,7 @@ namespace Orc.Controls.Tools
         #region Methods
         private void OnToolClosed(object sender, EventArgs e)
         {
-            if (!(sender is IControlTool tool))
+            if (sender is not IControlTool tool)
             {
                 return;
             }
@@ -131,7 +130,7 @@ namespace Orc.Controls.Tools
 
         private void OnToolOpening(object sender, EventArgs e)
         {
-            if (!(sender is IControlTool tool))
+            if (sender is not IControlTool tool)
             {
                 return;
             }
@@ -233,7 +232,7 @@ namespace Orc.Controls.Tools
 
         private void OnFrameworkElementUnloaded(object sender, RoutedEventArgs e)
         {
-            if (!(sender is FrameworkElement frameworkElement))
+            if (sender is not FrameworkElement frameworkElement)
             {
                 return;
             }

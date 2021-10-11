@@ -1,0 +1,336 @@
+﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.NumericUpDownView"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:catel="http://schemas.catelproject.com"
+                   xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
+                   xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+
+    <orccontrols:StackGrid VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Min:"/>
+        <orccontrols:NumericUpDown x:Name="MinNumericUpDown"
+                                   HorizontalAlignment="Left"
+                                   Width="125"
+                                   MinValue="-1000000"
+                                   MaxValue="1000000"
+                                   Value="-20000"/>
+
+        <Label Content="Max:"/>
+        <orccontrols:NumericUpDown x:Name="MaxNumericUpDown"
+                                   HorizontalAlignment="Left"
+                                   Width="125"
+                                   MinValue="-1000000"
+                                   MaxValue="1000000"
+                                   Value="20000"/>
+
+        <Label Content="Min decimal places:"/>
+        <orccontrols:NumericUpDown x:Name="MinDecimalPlacesNumericUpDown"
+                                   HorizontalAlignment="Left"
+                                   Width="125"
+                                   MaxValue="28"
+                                   MinValue="0"
+                                   Value="0"/>
+
+        <Label Content="Max decimal places:"/>
+        <orccontrols:NumericUpDown x:Name="MaxDecimalPlacesNumericUpDown"
+                                   HorizontalAlignment="Left"
+                                   Width="125"
+                                   MaxValue="28"
+                                   MinValue="0"
+                                   Value="28"/>
+
+        <Label Content="Decimal places:"/>
+        <orccontrols:NumericUpDown x:Name="DecimalPlacesNumericUpDown"
+                                   HorizontalAlignment="Left"
+                                   Width="125"                                  
+                                   MaxValue="28"
+                                   MinValue="0"
+                                   Value="2"/>
+
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2">
+            <CheckBox x:Name="IsDecimalPointDynamicCheckBox"
+                      HorizontalAlignment="Left"
+                      Content="Is decimal point dynamic"/>
+
+            <CheckBox x:Name="IsAutoSelectionActiveCheckBox"
+                      HorizontalAlignment="Left"
+                      Content="Is auto selection active"/>
+
+            <CheckBox x:Name="IsThousandSeparatorVisibleCheckBox"
+                      HorizontalAlignment="Left"
+                      Content="Is thousand separator visible"/>
+        </StackPanel>
+
+        <TextBlock>
+            <Run FontWeight="Bold" Text="Byte"/>
+            <Run FontSize="10" Text="(Min:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:Byte.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=";"/>
+            <Run FontSize="10" Text="Max:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:Byte.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=")"/>
+        </TextBlock>
+        <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
+                                   Value="{Binding ByteValue, Mode=TwoWay}"
+                                   HorizontalAlignment="Left"
+                                   Width="125"
+                                   MinValue="{Binding ElementName=MinNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxValue="{Binding ElementName=MaxNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MinDecimalPlaces="{Binding ElementName=MinDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxDecimalPlaces="{Binding ElementName=MaxDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   DecimalPlaces="{Binding ElementName=DecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   IsDecimalPointDynamic="{Binding ElementName=IsDecimalPointDynamicCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsThousandSeparatorVisible="{Binding ElementName=IsThousandSeparatorVisibleCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsAutoSelectionActive="{Binding ElementName=IsAutoSelectionActiveCheckBox, Path=IsChecked, Mode=TwoWay}"/>
+
+        <TextBlock>
+            <Run FontWeight="Bold" Text="SByte"/>
+            <Run FontSize="10" Text="(Min:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:SByte.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=";"/>
+            <Run FontSize="10" Text="Max:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:SByte.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=")"/>
+        </TextBlock>
+        <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
+                                   Value="{Binding SByteValue, Mode=TwoWay}"
+                                   HorizontalAlignment="Left"
+                                   Width="125"
+                                   MinValue="{Binding ElementName=MinNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxValue="{Binding ElementName=MaxNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MinDecimalPlaces="{Binding ElementName=MinDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxDecimalPlaces="{Binding ElementName=MaxDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   DecimalPlaces="{Binding ElementName=DecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   IsDecimalPointDynamic="{Binding ElementName=IsDecimalPointDynamicCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsThousandSeparatorVisible="{Binding ElementName=IsThousandSeparatorVisibleCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsAutoSelectionActive="{Binding ElementName=IsAutoSelectionActiveCheckBox, Path=IsChecked, Mode=TwoWay}"/>
+
+
+        <TextBlock>
+            <Run FontWeight="Bold" Text="Short"/>
+            <Run FontSize="10" Text="(Min:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:Int16.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=";"/>
+            <Run FontSize="10" Text="Max:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:Int16.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=")"/>
+        </TextBlock>
+        <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
+                                   Value="{Binding ShortValue, Mode=TwoWay}"
+                                   HorizontalAlignment="Left"
+                                   Width="125"
+                                   MinValue="{Binding ElementName=MinNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxValue="{Binding ElementName=MaxNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MinDecimalPlaces="{Binding ElementName=MinDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxDecimalPlaces="{Binding ElementName=MaxDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   DecimalPlaces="{Binding ElementName=DecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   IsDecimalPointDynamic="{Binding ElementName=IsDecimalPointDynamicCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsThousandSeparatorVisible="{Binding ElementName=IsThousandSeparatorVisibleCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsAutoSelectionActive="{Binding ElementName=IsAutoSelectionActiveCheckBox, Path=IsChecked, Mode=TwoWay}"/>
+
+        <TextBlock>
+            <Run FontWeight="Bold" Text="UShort"/>
+            <Run FontSize="10" Text="(Min:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:UInt16.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=";"/>
+            <Run FontSize="10" Text="Max:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:UInt16.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=")"/>
+        </TextBlock>
+        <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
+                                   Value="{Binding UShortValue, Mode=TwoWay}"
+                                   HorizontalAlignment="Left"
+                                   Width="125"
+                                   MinValue="{Binding ElementName=MinNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxValue="{Binding ElementName=MaxNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MinDecimalPlaces="{Binding ElementName=MinDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxDecimalPlaces="{Binding ElementName=MaxDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   DecimalPlaces="{Binding ElementName=DecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   IsDecimalPointDynamic="{Binding ElementName=IsDecimalPointDynamicCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsThousandSeparatorVisible="{Binding ElementName=IsThousandSeparatorVisibleCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsAutoSelectionActive="{Binding ElementName=IsAutoSelectionActiveCheckBox, Path=IsChecked, Mode=TwoWay}"/>
+
+        <TextBlock>
+            <Run FontWeight="Bold" Text="Int"/>
+            <Run FontSize="10" Text="(Min:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:Int32.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=";"/>
+            <Run FontSize="10" Text="Max:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:Int32.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=")"/>
+        </TextBlock>
+        <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
+                                   Value="{Binding IntValue, Mode=TwoWay}"
+                                   HorizontalAlignment="Left"
+                                   Width="125"
+                                   MinValue="{Binding ElementName=MinNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxValue="{Binding ElementName=MaxNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MinDecimalPlaces="{Binding ElementName=MinDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxDecimalPlaces="{Binding ElementName=MaxDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   DecimalPlaces="{Binding ElementName=DecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   IsDecimalPointDynamic="{Binding ElementName=IsDecimalPointDynamicCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsThousandSeparatorVisible="{Binding ElementName=IsThousandSeparatorVisibleCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsAutoSelectionActive="{Binding ElementName=IsAutoSelectionActiveCheckBox, Path=IsChecked, Mode=TwoWay}"/>
+
+        <TextBlock>
+            <Run FontWeight="Bold" Text="UInt"/>
+            <Run FontSize="10" Text="(Min:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:UInt32.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=";"/>
+            <Run FontSize="10" Text="Max:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:UInt32.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=")"/>
+        </TextBlock>
+        <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
+                                   Value="{Binding UIntValue, Mode=TwoWay}"
+                                   HorizontalAlignment="Left"
+                                   Width="125"
+                                   MinValue="{Binding ElementName=MinNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxValue="{Binding ElementName=MaxNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MinDecimalPlaces="{Binding ElementName=MinDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxDecimalPlaces="{Binding ElementName=MaxDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   DecimalPlaces="{Binding ElementName=DecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   IsDecimalPointDynamic="{Binding ElementName=IsDecimalPointDynamicCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsThousandSeparatorVisible="{Binding ElementName=IsThousandSeparatorVisibleCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsAutoSelectionActive="{Binding ElementName=IsAutoSelectionActiveCheckBox, Path=IsChecked, Mode=TwoWay}"/>
+
+        <TextBlock>
+            <Run FontWeight="Bold" Text="Long"/>
+            <Run FontSize="10" Text="(Min:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:Int64.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=";"/>
+            <Run FontSize="10" Text="Max:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:Int64.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=")"/>
+        </TextBlock>
+        <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
+                                   Value="{Binding LongValue, Mode=TwoWay}"
+                                   HorizontalAlignment="Left"
+                                   Width="125"
+                                   MinValue="{Binding ElementName=MinNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxValue="{Binding ElementName=MaxNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MinDecimalPlaces="{Binding ElementName=MinDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxDecimalPlaces="{Binding ElementName=MaxDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   DecimalPlaces="{Binding ElementName=DecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   IsDecimalPointDynamic="{Binding ElementName=IsDecimalPointDynamicCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsThousandSeparatorVisible="{Binding ElementName=IsThousandSeparatorVisibleCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsAutoSelectionActive="{Binding ElementName=IsAutoSelectionActiveCheckBox, Path=IsChecked, Mode=TwoWay}"/>
+
+        <TextBlock>
+            <Run FontWeight="Bold" Text="ULong"/>
+            <Run FontSize="10" Text="(Min:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:UInt64.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=";"/>
+            <Run FontSize="10" Text="Max:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:UInt64.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=")"/>
+        </TextBlock>
+        <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
+                                   Value="{Binding ULongValue, Mode=TwoWay}"
+                                   HorizontalAlignment="Left"
+                                   Width="125"
+                                   MinValue="{Binding ElementName=MinNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxValue="{Binding ElementName=MaxNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MinDecimalPlaces="{Binding ElementName=MinDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxDecimalPlaces="{Binding ElementName=MaxDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   DecimalPlaces="{Binding ElementName=DecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   IsDecimalPointDynamic="{Binding ElementName=IsDecimalPointDynamicCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsThousandSeparatorVisible="{Binding ElementName=IsThousandSeparatorVisibleCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsAutoSelectionActive="{Binding ElementName=IsAutoSelectionActiveCheckBox, Path=IsChecked, Mode=TwoWay}"/>
+
+        <TextBlock>
+            <Run FontWeight="Bold" Text="Float"/>
+            <Run FontSize="10" Text="(Min:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:Single.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=";"/>
+            <Run FontSize="10" Text="Max:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:Single.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=")"/>
+        </TextBlock>
+        <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
+                                   Value="{Binding FloatValue, Mode=TwoWay}"
+                                   HorizontalAlignment="Left"
+                                   Width="125"
+                                   MinValue="{Binding ElementName=MinNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxValue="{Binding ElementName=MaxNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MinDecimalPlaces="{Binding ElementName=MinDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxDecimalPlaces="{Binding ElementName=MaxDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   DecimalPlaces="{Binding ElementName=DecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   IsDecimalPointDynamic="{Binding ElementName=IsDecimalPointDynamicCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsThousandSeparatorVisible="{Binding ElementName=IsThousandSeparatorVisibleCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsAutoSelectionActive="{Binding ElementName=IsAutoSelectionActiveCheckBox, Path=IsChecked, Mode=TwoWay}"/>
+
+        <TextBlock>
+            <Run FontWeight="Bold" Text="Double"/>
+            <Run FontSize="10" Text="(Min:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:Double.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=";"/>
+            <Run FontSize="10" Text="Max:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:Double.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=")"/>
+        </TextBlock>
+        <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
+                                   Value="{Binding DoubleValue, Mode=TwoWay}"
+                                   HorizontalAlignment="Left"
+                                   Width="125"
+                                   MinValue="{Binding ElementName=MinNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxValue="{Binding ElementName=MaxNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MinDecimalPlaces="{Binding ElementName=MinDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxDecimalPlaces="{Binding ElementName=MaxDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   DecimalPlaces="{Binding ElementName=DecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   IsDecimalPointDynamic="{Binding ElementName=IsDecimalPointDynamicCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsThousandSeparatorVisible="{Binding ElementName=IsThousandSeparatorVisibleCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsAutoSelectionActive="{Binding ElementName=IsAutoSelectionActiveCheckBox, Path=IsChecked, Mode=TwoWay}"/>
+
+        <TextBlock>
+            <Run FontWeight="Bold" Text="Decimal"/>
+            <Run FontSize="10" Text="(Min:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:Decimal.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=";"/>
+            <Run FontSize="10" Text="Max:"/>
+            <Run FontSize="10" Text="{Binding Source={x:Static sys:Decimal.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="10" Text=")"/>
+        </TextBlock>
+        <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
+                                   Value="{Binding DecimalValue, Mode=TwoWay}"
+                                   HorizontalAlignment="Left"
+                                   Width="125"
+                                   MinValue="{Binding ElementName=MinNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxValue="{Binding ElementName=MaxNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MinDecimalPlaces="{Binding ElementName=MinDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   MaxDecimalPlaces="{Binding ElementName=MaxDecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   DecimalPlaces="{Binding ElementName=DecimalPlacesNumericUpDown, Path=Value, Mode=TwoWay}"
+                                   IsDecimalPointDynamic="{Binding ElementName=IsDecimalPointDynamicCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsThousandSeparatorVisible="{Binding ElementName=IsThousandSeparatorVisibleCheckBox, Path=IsChecked, Mode=TwoWay}"
+                                   IsAutoSelectionActive="{Binding ElementName=IsAutoSelectionActiveCheckBox, Path=IsChecked, Mode=TwoWay}"/>
+
+
+    </orccontrols:StackGrid>
+    
+</catel:UserControl>

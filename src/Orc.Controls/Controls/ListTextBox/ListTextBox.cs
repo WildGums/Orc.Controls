@@ -205,7 +205,7 @@ namespace Orc.Controls
         private static void SelectivelyIgnoreMouseButton(object sender, MouseButtonEventArgs e)
         {
             DependencyObject parent = e.OriginalSource as UIElement;
-            while (parent is not null && !(parent is TextBox))
+            while (parent is not null && parent is not TextBox)
             {
                 parent = VisualTreeHelper.GetParent(parent);
             }

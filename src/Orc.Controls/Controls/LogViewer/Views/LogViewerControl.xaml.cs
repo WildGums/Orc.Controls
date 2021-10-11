@@ -633,7 +633,7 @@ namespace Orc.Controls
 
         private void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if (!(e.OriginalSource is ScrollViewer scrollViewer))
+            if (e.OriginalSource is not ScrollViewer scrollViewer)
             {
                 return;
             }

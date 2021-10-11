@@ -41,7 +41,7 @@ namespace Orc.Controls
 
         private static void OnTimerTick(object sender, EventArgs e)
         {
-            if (!(sender is DispatcherTimer timer))
+            if (sender is not DispatcherTimer timer)
             {
                 return;
             }

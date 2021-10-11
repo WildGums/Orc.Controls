@@ -245,7 +245,7 @@ namespace Orc.Controls
             }
 
             var selectedRange = Ranges?.FirstOrDefault(x => x.Start == _startDate && x.End == _endDate);
-            if (!(selectedRange is null))
+            if (selectedRange is not null)
             {
                 return selectedRange;
             }

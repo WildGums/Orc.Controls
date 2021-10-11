@@ -241,15 +241,23 @@ namespace Orc.Controls
         #endregion
 
         #region Public Events
-        /// <summary>
-        /// The done clicked.
-        /// </summary>
-        public event RoutedEventHandler CancelClicked;
+        public static readonly RoutedEvent CancelClickedEvent = EventManager.RegisterRoutedEvent(nameof(CancelClicked), RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler), typeof(ColorBoard));
 
-        /// <summary>
-        /// The done clicked.
-        /// </summary>
-        public event RoutedEventHandler DoneClicked;
+        public event RoutedEventHandler CancelClicked
+        {
+            add { AddHandler(CancelClickedEvent, value); }
+            remove { RemoveHandler(CancelClickedEvent, value); }
+        }
+
+        public static readonly RoutedEvent DoneClickedEvent = EventManager.RegisterRoutedEvent(nameof(DoneClicked), RoutingStrategy.Bubble,
+            typeof(RoutedEventHandler), typeof(ColorBoard));
+
+        public event RoutedEventHandler DoneClicked
+        {
+            add { AddHandler(DoneClickedEvent, value); }
+            remove { RemoveHandler(DoneClickedEvent, value); }
+        }
         #endregion
 
         #region Public Properties
@@ -515,7 +523,7 @@ namespace Orc.Controls
             recentColorItems.Insert(0, mostRecentColorItem);
             recentColorsGridItems.Insert(0, mostRecentColorItem);
 
-            DoneClicked?.Invoke(this, new RoutedEventArgs());
+            RaiseEvent(new RoutedEventArgs(DoneClickedEvent));
         }
         #endregion
 
@@ -527,7 +535,7 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!(d is ColorBoard control) || control._rootGrid is null)
+            if (d is not ColorBoard control || control._rootGrid is null)
             {
                 return;
             }
@@ -875,7 +883,7 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private void OnCancelButtonClick(object sender, RoutedEventArgs e)
         {
-            CancelClicked?.Invoke(this, new RoutedEventArgs());
+            RaiseEvent(new RoutedEventArgs(CancelClickedEvent));
         }
 
         /// <summary>
