@@ -1077,11 +1077,14 @@ namespace Orc.Controls
                 dispatcherService.Invoke(() => SetCurrentValue(ValueProperty, nv));
             }
 
-            SetCurrentValue(FocusableProperty, true);
-            Focus();
-            SetCurrentValue(FocusableProperty, false);
+            if (_textBoxes is not null)
+            {
+                SetCurrentValue(FocusableProperty, true);
+                Focus();
+                SetCurrentValue(FocusableProperty, false);
 
-            UpdateUi();
+                UpdateUi();
+            }
         }
 
         private void UpdateDateTime(DateTime? dateTime)
@@ -1287,7 +1290,6 @@ namespace Orc.Controls
 
         private void OnYearTextChanged(object sender, TextChangedEventArgs e)
         {
-
             if (_suspendTextChanged)
             {
                 return;
@@ -1708,7 +1710,7 @@ namespace Orc.Controls
         {
             if ((bool)e.NewValue)
             {
-                var textBox = _textBoxes.FirstOrDefault();
+                var textBox = _textBoxes?.FirstOrDefault();
                 if (textBox is null)
                 {
                     return;
@@ -1716,6 +1718,8 @@ namespace Orc.Controls
 
                 textBox.SetCurrentValue(FocusableProperty, true);
                 Keyboard.Focus(textBox);
+
+                textBox.SelectAll();
             }
 
             base.OnIsKeyboardFocusWithinChanged(e);
