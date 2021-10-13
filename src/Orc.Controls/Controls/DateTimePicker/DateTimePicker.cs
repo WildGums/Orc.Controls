@@ -289,7 +289,11 @@ namespace Orc.Controls
         {
             get => (int?)_daysNumericTextBox.Value;
 #pragma warning disable WPF0035 // Use SetValue in setter.
-            set => _daysNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+            set
+            {
+                _daysNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+                _daysNumericTextBox.UpdateText();
+            }
 #pragma warning restore WPF0035 // Use SetValue in setter.
         }
 
@@ -297,7 +301,11 @@ namespace Orc.Controls
         {
             get => (int?)_monthNumericTextBox.Value;
 #pragma warning disable WPF0035 // Use SetValue in setter.
-            set => _monthNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+            set
+            {
+                _monthNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+                _monthNumericTextBox.UpdateText();
+            }
 #pragma warning restore WPF0035 // Use SetValue in setter.
         }
 
@@ -305,7 +313,11 @@ namespace Orc.Controls
         {
             get => (int?)_yearNumericTextBox.Value;
 #pragma warning disable WPF0035 // Use SetValue in setter.
-            set => _yearNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+            set
+            {
+                _yearNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+                _yearNumericTextBox.UpdateText();
+            }
 #pragma warning restore WPF0035 // Use SetValue in setter.
         }
 
@@ -313,7 +325,11 @@ namespace Orc.Controls
         {
             get => (int?)_hourNumericTextBox.Value;
 #pragma warning disable WPF0035 // Use SetValue in setter.
-            set => _hourNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+            set
+            {
+                _hourNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+                _hourNumericTextBox.UpdateText();
+            }
 #pragma warning restore WPF0035 // Use SetValue in setter.
         }
 
@@ -321,7 +337,11 @@ namespace Orc.Controls
         {
             get => (int?)_minuteNumericTextBox.Value;
 #pragma warning disable WPF0035 // Use SetValue in setter.
-            set => _minuteNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+            set
+            {
+                _minuteNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+                _minuteNumericTextBox.UpdateText();
+            }
 #pragma warning restore WPF0035 // Use SetValue in setter.
         }
 
@@ -329,7 +349,11 @@ namespace Orc.Controls
         {
             get => (int?)_secondNumericTextBox.Value;
 #pragma warning disable WPF0035 // Use SetValue in setter.
-            set => _secondNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+            set
+            {
+                _secondNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+                _secondNumericTextBox.UpdateText();
+            }
 #pragma warning restore WPF0035 // Use SetValue in setter.
         }
 
@@ -702,9 +726,18 @@ namespace Orc.Controls
         private void OnCopyMenuItemClick(object sender, RoutedEventArgs e)
         {
             var value = Value;
-            if (value is not null)
+            if (value is null)
+            {
+                return;
+            }
+
+            try
             {
                 Clipboard.SetText(DateTimeFormatter.Format(value.Value, _formatInfo), TextDataFormat.Text);
+            }
+            catch (FormatException exception)
+            {
+                Log.Warning(exception);
             }
         }
 
@@ -1068,11 +1101,10 @@ namespace Orc.Controls
                 dispatcherService.Invoke(() => SetCurrentValue(ValueProperty, nv));
             }
 
-            SetCurrentValue(FocusableProperty, true);
-            Focus();
-            SetCurrentValue(FocusableProperty, false);
-
-            UpdateUi();
+            if (_textBoxes is not null)
+            {
+                UpdateUi();
+            }
         }
 
         private void UpdateDateTime(DateTime? dateTime)
@@ -1278,7 +1310,6 @@ namespace Orc.Controls
 
         private void OnYearTextChanged(object sender, TextChangedEventArgs e)
         {
-
             if (_suspendTextChanged)
             {
                 return;
@@ -1659,7 +1690,7 @@ namespace Orc.Controls
             }
 
             if (AllowNull || calendar.SelectedDate.HasValue)
-            {
+            { 
                 UpdateDate(calendar.SelectedDate);
             }
 
@@ -1675,6 +1706,7 @@ namespace Orc.Controls
             {
                 ((Popup)calendar.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
                 _daysNumericTextBox.Focus();
+
                 e.Handled = true;
             }
 
@@ -1699,7 +1731,7 @@ namespace Orc.Controls
         {
             if ((bool)e.NewValue)
             {
-                var textBox = _textBoxes.FirstOrDefault();
+                var textBox = _textBoxes?.FirstOrDefault();
                 if (textBox is null)
                 {
                     return;
@@ -1707,6 +1739,8 @@ namespace Orc.Controls
 
                 textBox.SetCurrentValue(FocusableProperty, true);
                 Keyboard.Focus(textBox);
+
+                textBox.SelectAll();
             }
 
             base.OnIsKeyboardFocusWithinChanged(e);

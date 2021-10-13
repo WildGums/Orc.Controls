@@ -83,7 +83,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(DateTime?), typeof(DatePicker),
             new FrameworkPropertyMetadata(DateTime.Today, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((DatePicker)sender).OnValueChanged()));
+                (sender, _) => ((DatePicker)sender).OnValueChanged()));
 
         public bool ShowOptionsButton
         {
@@ -93,7 +93,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register(nameof(ShowOptionsButton), typeof(bool),
             typeof(DatePicker), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, 
-                (sender, args) => ((DatePicker)sender).OnShowOptionsButtonChanged()));
+                (sender, _) => ((DatePicker)sender).OnShowOptionsButtonChanged()));
 
         public bool AllowNull
         {
@@ -130,7 +130,7 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty FormatProperty = DependencyProperty.Register(nameof(Format), typeof(string),
             typeof(DatePicker), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern,
-                (sender, e) => ((DatePicker)sender).OnFormatChanged()));
+                (sender, _) => ((DatePicker)sender).OnFormatChanged()));
 
         public bool IsYearShortFormat
         {
@@ -350,9 +350,18 @@ namespace Orc.Controls
             _datePickerIconToggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
 
             var value = Value;
-            if (value is not null)
+            if (value is null)
+            {
+                return;
+            }
+
+            try
             {
                 Clipboard.SetText(DateTimeFormatter.Format(value.Value, _formatInfo), TextDataFormat.Text);
+            }
+            catch (FormatException exception)
+            {
+                Log.Warning(exception);
             }
         }
 
@@ -401,7 +410,16 @@ namespace Orc.Controls
 
         private void ApplyFormat()
         {
-            _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format, true);
+            try
+            {
+                _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(Format, true);
+            }
+            catch (FormatException exception)
+            {
+                Log.Warning(exception);
+
+                return;
+            }
 
             IsYearShortFormat = _formatInfo.IsYearShortFormat;
             _yearNumericTextBox.SetCurrentValue(NumericTextBox.MinValueProperty, (double)(_formatInfo.IsYearShortFormat ? 0 : 1));

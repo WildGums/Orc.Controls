@@ -32,8 +32,8 @@ namespace Orc.Controls
 
             var parts = new List<KeyValuePair<int, string>>
             {
-                new KeyValuePair<int, string>(formatInfo.DayPosition, dateTime.Day.ToString(NumberFormatHelper.GetFormat(formatInfo.DayFormat.Length))),
-                new KeyValuePair<int, string>(formatInfo.MonthPosition, dateTime.Month.ToString(NumberFormatHelper.GetFormat(formatInfo.MonthFormat.Length)))
+                new (formatInfo.DayPosition, dateTime.Day.ToString(NumberFormatHelper.GetFormat(formatInfo.DayFormat.Length))),
+                new (formatInfo.MonthPosition, dateTime.Month.ToString(NumberFormatHelper.GetFormat(formatInfo.MonthFormat.Length)))
             };
 
             if (formatInfo.IsYearShortFormat)
@@ -82,7 +82,7 @@ namespace Orc.Controls
             var builder = new StringBuilder();
 
             builder.Append(formatInfo.Separator0);
-            for (int i = 0; i < parts.Count; i++)
+            for (var i = 0; i < parts.Count; i++)
             {
                 builder.Append(parts[i].Value);
                 builder.Append(formatInfo.GetSeparator(i + 1));

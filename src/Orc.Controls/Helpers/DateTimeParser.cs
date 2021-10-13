@@ -42,7 +42,18 @@ namespace Orc.Controls
 
             dateTime = DateTime.MinValue;
 
-            var result = Parse(input, formatInfo, false);
+            DateTime? result;
+            try
+            {
+                result = Parse(input, formatInfo, false);
+            }
+            catch (FormatException e)
+            {
+                Log.Warning(e);
+
+                return false;
+            }
+
             if (result is null)
             {
                 return false;
