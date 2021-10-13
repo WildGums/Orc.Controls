@@ -537,7 +537,9 @@ namespace Orc.Controls
             var value = Value;
             var newValue = value is null ? MinValue : GetNewValue(value.Value, increment);
 
-            SetCurrentValue(ValueProperty, newValue);
+            var textValue = newValue.ToString(Format, CultureInfo ?? CultureInfo.CurrentCulture);
+
+            SetCurrentValue(TextProperty, textValue);
 
             PendingMethod.InvokeDispatcher(SelectAll, 1);
         }
@@ -679,13 +681,13 @@ namespace Orc.Controls
 
             var isShiftKey = KeyboardHelper.AreKeyboardModifiersPressed(ModifierKeys.Shift);
 
-            if (key >= Key.D0 && key <= Key.D9 && !isShiftKey)
+            if (key is >= Key.D0 and <= Key.D9 && !isShiftKey)
             {
                 isDigit = true;
             }
             else
             {
-                isDigit = key >= Key.NumPad0 && key <= Key.NumPad9;
+                isDigit = key is >= Key.NumPad0 and <= Key.NumPad9;
             }
 
             return isDigit;
