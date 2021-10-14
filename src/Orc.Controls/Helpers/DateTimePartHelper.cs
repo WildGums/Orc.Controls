@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DateTimePartHelper.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -14,7 +7,6 @@ namespace Orc.Controls
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using Catel.IoC;
-    using Catel.Windows;
 
     public class DateTimePartHelper
     {
@@ -75,7 +67,6 @@ namespace Orc.Controls
 
             ((Popup)listbox.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
             _textBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
-            //_textBox.Focus();
         }
 
         private void popupSource_PreviewKeyDown(object sender, KeyEventArgs e)
