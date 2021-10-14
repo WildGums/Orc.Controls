@@ -1102,6 +1102,8 @@
             {
                 UpdateUi();
             }
+
+            ValueChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void UpdateDateTime(DateTime? dateTime)
@@ -1879,5 +1881,6 @@
 
         public event EventHandler<EventArgs> EditStarted;
         public event EventHandler<EventArgs> EditEnded;
+        public event EventHandler<EventArgs> ValueChanged;
     }
 }
