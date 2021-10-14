@@ -603,6 +603,7 @@ namespace Orc.Controls
         public System.DateTime? Value { get; set; }
         public event System.EventHandler<System.EventArgs> EditEnded;
         public event System.EventHandler<System.EventArgs> EditStarted;
+        public event System.EventHandler<System.EventArgs> ValueChanged;
         public override void OnApplyTemplate() { }
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e) { }
         protected override void OnIsKeyboardFocusWithinChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
