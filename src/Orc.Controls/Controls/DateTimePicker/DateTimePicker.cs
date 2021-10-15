@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DateTimePicker.cs" company="WildGums">
-//   Copyright (c) 2008 - 2020 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -102,6 +95,8 @@ namespace Orc.Controls
         private TextBlock _minuteSecondSeparatorTextBlock;
         private TextBlock _secondAmPmSeparatorTextBlock;
         private TextBlock _amPmSeparatorTextBlock;
+        
+        private TextBox _activeTextBox;
 
         private ToggleButton _daysToggleButton;
         private ToggleButton _monthToggleButton;
@@ -159,7 +154,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(DateTime?),
-            typeof(DateTimePicker), new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            typeof(DateTimePicker), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 (sender, e) => ((DateTimePicker)sender).OnValueChanged((DateTime?)e.OldValue, (DateTime?)e.NewValue)));
 
         public bool ShowOptionsButton
@@ -1074,6 +1069,8 @@ namespace Orc.Controls
                     throw new ArgumentOutOfRangeException();
             }
 
+            _activeTextBox = activeTextBox;
+
             var dateTime = Value ?? _todayValue;
             var dateTimePartHelper = new DateTimePartHelper(dateTime, activeDateTimePart, _formatInfo, activeTextBox, toggleButton);
             dateTimePartHelper.CreatePopup();
@@ -1105,6 +1102,8 @@ namespace Orc.Controls
             {
                 UpdateUi();
             }
+
+            ValueChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void UpdateDateTime(DateTime? dateTime)
@@ -1181,7 +1180,20 @@ namespace Orc.Controls
             }
 
             var currentValue = value ?? _todayValue;
-            var newValue = new DateTime(currentValue.Year, currentValue.Month, day.Value, currentValue.Hour, currentValue.Minute, currentValue.Second);
+
+            var dayValue = day.Value;
+            var daysInMoth = DateTime.DaysInMonth(currentValue.Year, currentValue.Month);
+            if (dayValue <= 0)
+            {
+                dayValue = 1;
+            }
+
+            if (dayValue > daysInMoth)
+            {
+                dayValue = daysInMoth;
+            }
+
+            var newValue = new DateTime(currentValue.Year, currentValue.Month, dayValue, currentValue.Hour, currentValue.Minute, currentValue.Second);
 
             SetCurrentValue(ValueProperty, newValue);
         }
@@ -1199,7 +1211,7 @@ namespace Orc.Controls
                 return;
             }
 
-            if (dayText == "1" || dayText == "2")
+            if (dayText is "1" or "2")
             {
                 return;
             }
@@ -1731,15 +1743,24 @@ namespace Orc.Controls
         {
             if ((bool)e.NewValue)
             {
-                var textBox = _textBoxes?.FirstOrDefault();
+                var textBox = _activeTextBox ?? _textBoxes?.FirstOrDefault();
                 if (textBox is null)
                 {
                     return;
                 }
-
+                
                 textBox.SetCurrentValue(FocusableProperty, true);
-                Keyboard.Focus(textBox);
 
+                if (_activeTextBox is null)
+                {
+                    Keyboard.Focus(textBox);
+                }
+                else
+                {
+                    _activeTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                    _activeTextBox = null;
+                }
+                
                 textBox.SelectAll();
             }
 
@@ -1860,5 +1881,6 @@ namespace Orc.Controls
 
         public event EventHandler<EventArgs> EditStarted;
         public event EventHandler<EventArgs> EditEnded;
+        public event EventHandler<EventArgs> ValueChanged;
     }
 }
