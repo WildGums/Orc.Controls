@@ -8,19 +8,13 @@
 namespace Orc.Controls
 {
     using Catel;
+    using Catel.Data;
     using Catel.Logging;
 
     public class DateTimeFormatInfo
     {
         #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-        #endregion
-
-        #region Constructors
-        public DateTimeFormatInfo()
-        {
-
-        }
         #endregion
 
         #region Properties
@@ -51,6 +45,7 @@ namespace Orc.Controls
         public bool? IsHour12Format { get; set; }
         public bool? IsAmPmShortFormat { get; set; }
         public int MaxPosition { get; set; }
+        public bool IsCorrect { get; set; } = true;
         #endregion
 
         #region Methods

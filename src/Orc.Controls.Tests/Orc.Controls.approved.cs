@@ -473,7 +473,8 @@ namespace Orc.Controls
         public static string ExtractDatePatternFromFormat(string format) { }
         public static string ExtractTimePatternFromFormat(string format) { }
         public static string FindMatchedLongTimePattern(System.Globalization.CultureInfo cultureInfo, string timePattern) { }
-        public static Orc.Controls.DateTimeFormatInfo GetDateTimeFormatInfo(string format, bool isDateOnly = false) { }
+        public static string FixFormat(System.Globalization.CultureInfo culture, string format) { }
+        public static Orc.Controls.DateTimeFormatInfo GetDateTimeFormatInfo(string format, bool isDateOnly = false, bool throwException = true) { }
         public static string[] Split(string format, char[] formatCharacters) { }
     }
     public class DateTimeFormatInfo
@@ -486,6 +487,7 @@ namespace Orc.Controls
         public string HourFormat { get; set; }
         public int? HourPosition { get; set; }
         public bool? IsAmPmShortFormat { get; set; }
+        public bool IsCorrect { get; set; }
         public bool IsDateOnly { get; }
         public bool? IsHour12Format { get; set; }
         public bool IsYearShortFormat { get; set; }

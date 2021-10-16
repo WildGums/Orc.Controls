@@ -785,6 +785,9 @@
             using (new DisposableToken<DateTimePicker>(this, x => x.Instance._applyingFormat = true, x => x.Instance._applyingFormat = false))
             {
                 var format = Format;
+                var culture = Culture ?? CultureInfo.CurrentUICulture;
+
+                format = DateTimeFormatHelper.FixFormat(culture, format);
 
                 try
                 {
@@ -797,51 +800,15 @@
                     return;
                 }
 
-                var hasLongTimeFormat = !(_formatInfo.HourFormat is null
-                                          || _formatInfo.MinuteFormat is null
-                                          || _formatInfo.SecondFormat is null);
-
                 var hasAnyTimeFormat = !(_formatInfo.HourFormat is null
-                                   && _formatInfo.MinuteFormat is null
-                                   && _formatInfo.SecondFormat is null);
+                                         && _formatInfo.MinuteFormat is null
+                                         && _formatInfo.SecondFormat is null);
 
                 SetCurrentValue(HideTimeProperty, !hasAnyTimeFormat || _safeHideTimeValue);
 
-                var culture = Culture ?? CultureInfo.CurrentUICulture;
                 var firstDayOfWeek = FirstDayOfWeek ?? culture.DateTimeFormat.FirstDayOfWeek;
 
                 _calendar.SetCurrentValue(Calendar.FirstDayOfWeekProperty, firstDayOfWeek);
-
-                if (!hasLongTimeFormat)
-                {
-                    var timePattern = DateTimeFormatHelper.ExtractTimePatternFromFormat(format);
-
-                    //Find matching format from culture, if no culture just use specified format
-                    if (Culture is not null && !string.IsNullOrEmpty(timePattern))
-                    {
-                        timePattern = DateTimeFormatHelper.FindMatchedLongTimePattern(culture, timePattern);
-                    }
-
-                    if (string.IsNullOrEmpty(timePattern))
-                    {
-                        timePattern = culture.DateTimeFormat.LongTimePattern;
-                    }
-
-                    var datePattern = DateTimeFormatHelper.ExtractDatePatternFromFormat(format);
-
-                    format = $"{datePattern} {timePattern}";
-
-                    try
-                    {
-                        _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(format);
-                    }
-                    catch (FormatException)
-                    {
-                        _applyingFormat = false;
-
-                        return;
-                    }
-                }
 
                 UpdateUiPartVisibility();
 
