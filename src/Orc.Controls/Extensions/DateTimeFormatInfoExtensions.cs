@@ -20,6 +20,24 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
+        public static int GetCountOfMatches(this DateTimeFormatInfo formatInfo, DateTimeFormatInfo otherFormatInfo)
+        {
+            Argument.IsNotNull(() => formatInfo);
+            Argument.IsNotNull(() => otherFormatInfo);
+
+            var properties = typeof(DateTimeFormatInfo).GetProperties();
+            var matches = 0;
+            foreach (var propertyInfo in properties)
+            {
+                if(Equals(propertyInfo.GetValue(formatInfo), propertyInfo.GetValue(otherFormatInfo)))
+                {
+                    matches++;
+                }
+            }
+
+            return matches;
+        }
+
         public static bool IsCorrect(this DateTimeFormatInfo formatInfo, bool isDateRequired, bool isTimeAllowed, out string errorMessage)
         {
             Argument.IsNotNull(() => formatInfo);
@@ -58,58 +76,58 @@ namespace Orc.Controls
             return true;
         }
 
-        public static int FormatPart(this DateTimeFormatInfo result, string part, int current, bool isDateOnly)
+        public static int FormatPart(this DateTimeFormatInfo result, string part, int current, bool isDateOnly, bool throwException = true)
         {
             if (part.Contains('d'))
             {
-                result.SetDayFormat(part, current++);
+                result.SetDayFormat(part, current++, throwException);
 
                 return current;
             }
 
             if (part.Contains('M'))
             {
-                result.SetMonthFormat(part, current++);
+                result.SetMonthFormat(part, current++, throwException);
 
                 return current;
             }
 
             if (part.Contains('y'))
             {
-                result.SetYearFormat(part, current++);
+                result.SetYearFormat(part, current++, throwException);
 
                 return current;
             }
 
             if (isDateOnly && part.IsDateTimeFormatPart())
             {
-                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Time fields are not expected");
+                result.SetFormatError("Format string is incorrect. Time fields are not expected", throwException);
             }
 
             if (part.Contains('h') || part.Contains('H'))
             {
-                result.SetHourFormat(part, current++);
+                result.SetHourFormat(part, current++, throwException);
 
                 return current;
             }
 
             if (part.Contains('m'))
             {
-                result.SetMinuteFormat(part, current++);
+                result.SetMinuteFormat(part, current++, throwException);
 
                 return current;
             }
 
             if (part.Contains('s'))
             {
-                result.SetSecondFormat(part, current++);
+                result.SetSecondFormat(part, current++, throwException);
 
                 return current;
             }
 
             if (part.Contains('t'))
             {
-                result.SetAmPmFormat(part, current++);
+                result.SetAmPmFormat(part, current++, throwException);
 
                 return current;
             }
@@ -119,57 +137,57 @@ namespace Orc.Controls
             return current;
         }
 
-        public static void SetDayFormat(this DateTimeFormatInfo formatInfo, string part, int position)
+        public static void SetDayFormat(this DateTimeFormatInfo formatInfo, string part, int position, bool throwException = true)
         {
             Argument.IsNotNull(() => formatInfo);
             Argument.IsNotNull(() => part);
 
             if (formatInfo.DayFormat is not null)
             {
-                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Day field can not be specified more than once");
+                formatInfo.SetFormatError("Format string is incorrect. Day field can not be specified more than once", throwException);
             }
 
             if (part.Length > 4)
             {
-                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Day field must be in one of formats: 'd' or 'dd' or 'ddd' or 'dddd'");
+                formatInfo.SetFormatError("Format string is incorrect. Day field must be in one of formats: 'd' or 'dd' or 'ddd' or 'dddd'", throwException);
             }
 
             formatInfo.DayFormat = part;
             formatInfo.DayPosition = position;
         }
 
-        public static void SetMonthFormat(this DateTimeFormatInfo formatInfo, string part, int position)
+        public static void SetMonthFormat(this DateTimeFormatInfo formatInfo, string part, int position, bool throwException = true)
         {
             Argument.IsNotNull(() => formatInfo);
             Argument.IsNotNull(() => part);
 
             if (formatInfo.MonthFormat is not null)
             {
-                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Month field can not be specified more than once");
+                formatInfo.SetFormatError("Format string is incorrect. Month field can not be specified more than once", throwException);
             }
 
             if (part.Length > 4)
             {
-                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Month field must be in one of formats: 'M' or 'MM' or 'MMM' or 'MMMM'");
+                formatInfo.SetFormatError("Format string is incorrect. Month field must be in one of formats: 'M' or 'MM' or 'MMM' or 'MMMM'", throwException);
             }
 
             formatInfo.MonthFormat = part;
             formatInfo.MonthPosition = position;
         }
 
-        public static void SetYearFormat(this DateTimeFormatInfo formatInfo, string part, int position)
+        public static void SetYearFormat(this DateTimeFormatInfo formatInfo, string part, int position, bool throwException = true)
         {
             Argument.IsNotNull(() => formatInfo);
             Argument.IsNotNull(() => part);
 
             if (formatInfo.YearFormat is not null)
             {
-                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Year field can not be specified more than once");
+                formatInfo.SetFormatError("Format string is incorrect. Year field can not be specified more than once", throwException);
             }
 
             if (part.Length > 5)
             {
-                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Year field must be in one of formats: 'y' or 'yy' or 'yyy' or 'yyyy' or 'yyyyy'");
+                formatInfo.SetFormatError("Format string is incorrect. Year field must be in one of formats: 'y' or 'yy' or 'yyy' or 'yyyy' or 'yyyyy'", throwException);
             }
 
             formatInfo.YearFormat = part;
@@ -178,26 +196,26 @@ namespace Orc.Controls
             formatInfo.IsYearShortFormat = part.Length < 3;
         }
 
-        public static void SetMinuteFormat(this DateTimeFormatInfo formatInfo, string part, int position)
+        public static void SetMinuteFormat(this DateTimeFormatInfo formatInfo, string part, int position, bool throwException = true)
         {
             Argument.IsNotNull(() => formatInfo);
             Argument.IsNotNull(() => part);
 
             if (formatInfo.MinuteFormat is not null)
             {
-                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Minute field can not be specified more than once");
+                formatInfo.SetFormatError("Format string is incorrect. Minute field can not be specified more than once", throwException);
             }
 
             if (part.Length > 2)
             {
-                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Minute field must be in one of formats: 'm' or 'mm'");
+                formatInfo.SetFormatError("Format string is incorrect. Minute field must be in one of formats: 'm' or 'mm'", throwException);
             }
 
             formatInfo.MinuteFormat = part;
             formatInfo.MinutePosition = position;
         }
 
-        public static void SetHourFormat(this DateTimeFormatInfo formatInfo, string part, int position)
+        public static void SetHourFormat(this DateTimeFormatInfo formatInfo, string part, int position, bool throwException = true)
         {
             Argument.IsNotNull(() => formatInfo);
             Argument.IsNotNull(() => part);
@@ -208,12 +226,12 @@ namespace Orc.Controls
                     ? "Format string is incorrect. Hour field can not be specified more than once"
                     : "Format string is incorrect. Hour field must be 12 hour or 24 hour format, but no both";
 
-                throw Log.ErrorAndCreateException<FormatException>(errorMessage);
+                formatInfo.SetFormatError(errorMessage, throwException);
             }
 
             if (part.Length > 2)
             {
-                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Hour field must be in one of formats: 'h' or 'H' or 'hh' or 'HH'");
+                formatInfo.SetFormatError("Format string is incorrect. Hour field must be in one of formats: 'h' or 'H' or 'hh' or 'HH'", throwException);
             }
 
             formatInfo.HourFormat = part;
@@ -222,38 +240,38 @@ namespace Orc.Controls
             formatInfo.IsHour12Format = part.Contains('h');
         }
 
-        public static void SetSecondFormat(this DateTimeFormatInfo formatInfo, string part, int position)
+        public static void SetSecondFormat(this DateTimeFormatInfo formatInfo, string part, int position, bool throwException = true)
         {
             Argument.IsNotNull(() => formatInfo);
             Argument.IsNotNull(() => part);
 
             if (formatInfo.SecondFormat is not null)
             {
-                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Second field can not be specified more than once");
+                formatInfo.SetFormatError("Format string is incorrect. Second field can not be specified more than once", throwException);
             }
 
             if (part.Length > 2)
             {
-                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. Second field must be in one of formats: 's' or 'ss'");
+                formatInfo.SetFormatError("Format string is incorrect. Second field must be in one of formats: 's' or 'ss'", throwException);
             }
 
             formatInfo.SecondFormat = part;
             formatInfo.SecondPosition = position;
         }
 
-        public static void SetAmPmFormat(this DateTimeFormatInfo formatInfo, string part, int position)
+        public static void SetAmPmFormat(this DateTimeFormatInfo formatInfo, string part, int position, bool throwException = true)
         {
             Argument.IsNotNull(() => formatInfo);
             Argument.IsNotNull(() => part);
 
             if (formatInfo.AmPmFormat is not null)
             {
-                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. AM/PM designator field can not be specified more than once");
+                formatInfo.SetFormatError("Format string is incorrect. AM/PM designator field can not be specified more than once", throwException);
             }
 
             if (part.Length > 2)
             {
-                throw Log.ErrorAndCreateException<FormatException>("Format string is incorrect. AM/PM designator field must be in one of formats: 't' or 'tt'");
+                formatInfo.SetFormatError("Format string is incorrect. AM/PM designator field must be in one of formats: 't' or 'tt'", throwException);
             }
 
             formatInfo.AmPmFormat = part;
@@ -299,6 +317,19 @@ namespace Orc.Controls
                 case 7:
                     formatInfo.Separator7 = part;
                     break;
+            }
+        }
+
+        public static void SetFormatError(this DateTimeFormatInfo formatInfo, string errorString, bool throwException)
+        {
+            formatInfo.IsCorrect = false;
+
+            var exception = new FormatException(errorString);
+            Log.Warning(exception);
+
+            if (throwException)
+            {
+                throw exception;
             }
         }
 

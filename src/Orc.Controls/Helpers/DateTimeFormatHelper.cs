@@ -11,6 +11,8 @@
         #region Constants
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
+        private const string CorrectDateFormatForSure = "dd\\MMMM\\yyyy";
+
         private static readonly HashSet<char> TimeFormatChars = new()
         {
             'h',
@@ -56,8 +58,8 @@
 
             return parts.ToArray();
         }
-
-        public static DateTimeFormatInfo GetDateTimeFormatInfo(string format, bool isDateOnly = false)
+        
+        public static DateTimeFormatInfo GetDateTimeFormatInfo(string format, bool isDateOnly = false, bool throwException = true)
         {
             if (string.IsNullOrWhiteSpace(format))
             {
@@ -70,7 +72,7 @@
 
             var current = 0;
             var count = 0;
-
+            
             foreach (var part in parts)
             {
                 count++;
@@ -80,14 +82,12 @@
                     continue;
                 }
 
-                current = result.FormatPart(part, current, isDateOnly);
+                current = result.FormatPart(part, current, isDateOnly, throwException);
             }
-
+            
             if (!result.IsCorrect(true, !isDateOnly, out var errorMessage))
             {
-                Log.Warning(errorMessage);
-
-                throw new FormatException(errorMessage);
+                result.SetFormatError(errorMessage, throwException);
             }
 
             if (!isDateOnly)
@@ -143,6 +143,83 @@
                 var timePosition = timeCharPositions.Values.Min();
                 return format.Substring(0, timePosition).Trim();
             }
+
+            return format;
+        }
+
+        public static string FixFormat(CultureInfo culture, string format)
+        {
+            if (culture is null)
+            {
+                return format;
+            }
+
+            var formatInfo = GetDateTimeFormatInfo(format, false, false);
+            if (formatInfo.IsCorrect)
+            {
+                return format;
+            }
+            
+            var datePattern = ExtractDatePatternFromFormat(format);
+
+            var isFullDateFormat = !(formatInfo.DayFormat is null || formatInfo.MonthFormat is null || formatInfo.YearFormat is null);
+            if (!isFullDateFormat)
+            {
+                var shortDatePattern = ExtractDatePatternFromFormat(culture.DateTimeFormat.ShortDatePattern);
+                if (string.IsNullOrWhiteSpace(datePattern) && GetDateTimeFormatInfo(shortDatePattern, true, false).IsCorrect)
+                {
+                    datePattern = shortDatePattern;
+                }
+                else
+                {
+                    var onlyDateFormat = GetDateTimeFormatInfo(datePattern, true, false);
+                    
+                    var correctDateFormat = culture.DateTimeFormat.GetAllDateTimePatterns()
+                        .Select(ExtractDatePatternFromFormat)
+                        .Where(x => !string.IsNullOrWhiteSpace(x))
+                        .Select(x =>
+                        {
+                            var correctFormatInfo = GetDateTimeFormatInfo(x, false, false);
+                            var isCorrect = correctFormatInfo.IsCorrect;
+                            if (isCorrect)
+                            {
+                                return new
+                                {
+                                    FormatInfo = correctFormatInfo,
+                                    Format = x,
+                                    Matches = onlyDateFormat.GetCountOfMatches(correctFormatInfo)
+                                };
+                            }
+
+                            return null;
+                        })
+                        .Where(x => x is not null)
+                        .Distinct()
+                        .OrderByDescending(x => x.Matches)
+                        .FirstOrDefault();
+                    
+                    datePattern = correctDateFormat?.Format ?? CorrectDateFormatForSure;
+                }
+            }
+
+            var timePattern = ExtractTimePatternFromFormat(format);
+
+            var hasLongTimeFormat = !(formatInfo.HourFormat is null || formatInfo.MinuteFormat is null || formatInfo.SecondFormat is null);
+            if (!hasLongTimeFormat)
+            {
+                //Find matching format from culture, if no culture just use specified format
+                if (!string.IsNullOrEmpty(timePattern))
+                {
+                    timePattern = FindMatchedLongTimePattern(culture, timePattern);
+                }
+
+                if (string.IsNullOrEmpty(timePattern))
+                {
+                    timePattern = culture.DateTimeFormat.LongTimePattern;
+                }
+            }
+
+            format = $"{datePattern} {timePattern}";
 
             return format;
         }
