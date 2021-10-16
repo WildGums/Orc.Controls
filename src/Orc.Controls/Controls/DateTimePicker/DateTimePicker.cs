@@ -787,7 +787,7 @@
                 var format = Format;
                 var culture = Culture ?? CultureInfo.CurrentUICulture;
 
-                format = DateTimeFormatHelper.FixFormat(culture, format);
+                format = DateTimeFormatHelper.FixFormat(culture, format, out var hasAnyTimeFormat);
 
                 try
                 {
@@ -799,10 +799,6 @@
 
                     return;
                 }
-
-                var hasAnyTimeFormat = !(_formatInfo.HourFormat is null
-                                         && _formatInfo.MinuteFormat is null
-                                         && _formatInfo.SecondFormat is null);
 
                 SetCurrentValue(HideTimeProperty, !hasAnyTimeFormat || _safeHideTimeValue);
 

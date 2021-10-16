@@ -147,19 +147,17 @@
             return format;
         }
 
-        public static string FixFormat(CultureInfo culture, string format)
+        public static string FixFormat(CultureInfo culture, string format, out bool hadAnyTimeFormat)
         {
+            hadAnyTimeFormat = false;
+
             if (culture is null)
             {
                 return format;
             }
 
             var formatInfo = GetDateTimeFormatInfo(format, false, false);
-            if (formatInfo.IsCorrect)
-            {
-                return format;
-            }
-            
+
             var datePattern = ExtractDatePatternFromFormat(format);
 
             var isFullDateFormat = !(formatInfo.DayFormat is null || formatInfo.MonthFormat is null || formatInfo.YearFormat is null);
@@ -203,6 +201,8 @@
             }
 
             var timePattern = ExtractTimePatternFromFormat(format);
+
+            hadAnyTimeFormat = !string.IsNullOrWhiteSpace(timePattern);
 
             var hasLongTimeFormat = !(formatInfo.HourFormat is null || formatInfo.MinuteFormat is null || formatInfo.SecondFormat is null);
             if (!hasLongTimeFormat)
