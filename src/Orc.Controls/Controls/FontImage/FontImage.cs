@@ -2,6 +2,7 @@
 {
     using System;
     using System.Drawing;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
@@ -55,7 +56,7 @@
         }
 
         private void Update()
-        {
+        { 
             _image?.SetCurrentValue(Image.SourceProperty, GenerateImageSource());
         }
 
@@ -74,18 +75,18 @@
             }
 
             var fontName = fontFamily.ToString();
-            var isFontExist = IsFontInstalled(fontName);
-            if (!isFontExist)
-            {
-                return null;
-            }
-
             var registeredFont = Theming.FontImage.GetRegisteredFont(fontName);
+
             if (registeredFont is null)
             {
+                if (!IsFontInstalled(fontName))
+                {
+                    return null;
+                }
+
                 Theming.FontImage.RegisterFont(fontName, fontFamily);
             }
-
+            
             _fontImage.ItemName = itemName;
             _fontImage.FontFamily = fontName;
             _fontImage.Brush = Foreground;
