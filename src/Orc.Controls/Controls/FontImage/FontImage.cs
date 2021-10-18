@@ -1,11 +1,13 @@
 ﻿namespace Orc.Controls
 {
     using System;
+    using System.Drawing;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
     using Catel.Logging;
     using Catel.Windows.Data;
+    using Image = System.Windows.Controls.Image;
 
     [TemplatePart(Name = "PART_Image", Type = typeof(Image))]
     public class FontImage : Control
@@ -29,9 +31,9 @@
 
         public static readonly DependencyProperty ItemNameProperty = DependencyProperty.Register(
             nameof(ItemName), typeof(string), typeof(FontImage), new PropertyMetadata(default(string),
-                (sender, args) => ((FontImage)sender).OnItemNameChanged(args)));
+                (sender, _) => ((FontImage)sender).OnItemNameChanged()));
 
-        private void OnItemNameChanged(DependencyPropertyChangedEventArgs args)
+        private void OnItemNameChanged()
         {
             Update();
         }
@@ -40,7 +42,7 @@
         #region Methods
         public override void OnApplyTemplate()
         {
-            _image = GetTemplateChild("PART_Image") as Image;
+            _image = GetTemplateChild("PART_Image") as Image; 
             if (_image is null)
             {
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Image'");
@@ -70,8 +72,14 @@
             {
                 return null;
             }
-            
+
             var fontName = fontFamily.ToString();
+            var isFontExist = IsFontInstalled(fontName);
+            if (!isFontExist)
+            {
+                return null;
+            }
+
             var registeredFont = Theming.FontImage.GetRegisteredFont(fontName);
             if (registeredFont is null)
             {
@@ -90,6 +98,12 @@
             {
                 return null;
             }
+        }
+
+        private static bool IsFontInstalled(string fontName)
+        {
+            using var testFont = new Font(fontName, 8);
+            return 0 == string.Compare(fontName, testFont.Name, StringComparison.InvariantCultureIgnoreCase);
         }
         #endregion
     }
