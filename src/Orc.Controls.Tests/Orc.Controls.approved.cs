@@ -473,7 +473,7 @@ namespace Orc.Controls
         public static string ExtractDatePatternFromFormat(string format) { }
         public static string ExtractTimePatternFromFormat(string format) { }
         public static string FindMatchedLongTimePattern(System.Globalization.CultureInfo cultureInfo, string timePattern) { }
-        public static string FixFormat(System.Globalization.CultureInfo culture, string format) { }
+        public static string FixFormat(System.Globalization.CultureInfo culture, string format, out bool hadAnyTimeFormat) { }
         public static Orc.Controls.DateTimeFormatInfo GetDateTimeFormatInfo(string format, bool isDateOnly = false, bool throwException = true) { }
         public static string[] Split(string format, char[] formatCharacters) { }
     }
