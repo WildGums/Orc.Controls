@@ -144,7 +144,7 @@ namespace Orc.Controls
                     }
 
                     input = input.ChunkIntValue(partValue, out hour);
-                    if (hour < 0 && hour >= 24)
+                    if (hour < 0 || hour >= 24)
                     {
                         return ThrowOnError<FormatException>("Invalid hour value. Hour must be in range <0, 24> for short format", null, throwOnError);
                     }

@@ -343,13 +343,6 @@ namespace Orc.Controls
                 update = false;
             }
 
-            if (text.StartsWith(CommaCharacter) || text.EndsWith(CommaCharacter) ||
-                text.StartsWith(PeriodCharacter) || text.EndsWith(PeriodCharacter))
-            {
-                // User is typing a . or , don't update
-                update = false;
-            }
-
             return update;
         }
 
