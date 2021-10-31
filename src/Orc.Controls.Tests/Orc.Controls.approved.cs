@@ -1982,7 +1982,7 @@ namespace Orc.Controls
         public abstract System.TimeSpan Delay { get; }
         public System.DateTime End { get; }
         public System.DateTime Start { get; set; }
-        protected virtual void Subscribe() { }
+        protected virtual void Subscribe(Orc.Controls.ICalloutManager calloutManager) { }
     }
     public class TimePicker : System.Windows.Controls.ContentControl
     {
