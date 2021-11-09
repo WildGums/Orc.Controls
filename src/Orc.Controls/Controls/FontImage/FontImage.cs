@@ -6,6 +6,7 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
+    using Catel;
     using Catel.Logging;
     using Catel.Windows.Data;
     using Image = System.Windows.Controls.Image;
@@ -13,16 +14,12 @@
     [TemplatePart(Name = "PART_Image", Type = typeof(Image))]
     public class FontImage : Control
     {
-        #region Constants
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-        #endregion
 
-        #region Fields
+        private readonly Theming.FontImage _fontImage = new();
+
         private Image _image;
-
-        private readonly Theming.FontImage _fontImage = new ();
-        #endregion
-
+        
         #region Dependency properties
         public string ItemName
         {
@@ -40,7 +37,6 @@
         }
         #endregion
 
-        #region Methods
         public override void OnApplyTemplate()
         {
             _image = GetTemplateChild("PART_Image") as Image; 
@@ -97,15 +93,21 @@
             }
             catch
             {
+                Log.Warning($"Can't get image source for Item = '{itemName}', Font='{fontName}'");
+
                 return null;
             }
         }
 
         private static bool IsFontInstalled(string fontName)
         {
+            if (string.IsNullOrWhiteSpace(fontName))
+            {
+                return false;
+            }
+
             using var testFont = new Font(fontName, 8);
-            return 0 == string.Compare(fontName, testFont.Name, StringComparison.InvariantCultureIgnoreCase);
+            return fontName.EqualsIgnoreCase(testFont.Name);
         }
-        #endregion
     }
 }

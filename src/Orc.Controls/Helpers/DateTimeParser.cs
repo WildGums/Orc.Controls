@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DateTimeParser.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Linq;
@@ -14,11 +7,8 @@ namespace Orc.Controls
 
     public static class DateTimeParser
     {
-        #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-        #endregion
 
-        #region Methods
         public static DateTime Parse(string input, string format, bool isDateOnly = false)
         {
             return Parse(input, DateTimeFormatHelper.GetDateTimeFormatInfo(format, isDateOnly));
@@ -252,6 +242,5 @@ namespace Orc.Controls
 
             return null;
         }
-        #endregion
     }
 }
