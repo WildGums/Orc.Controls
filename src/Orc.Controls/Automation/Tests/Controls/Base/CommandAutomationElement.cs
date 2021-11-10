@@ -4,8 +4,9 @@
     using System.Threading;
     using System.Windows.Automation;
     using Catel;
+    using Tests;
 
-    public class CommandAutomationElement
+    public class CommandAutomationElement : AutomationElementBase
     {
         #region Fields
         private readonly InvokePattern _invokePattern;
@@ -14,18 +15,11 @@
 
         #region Constructors
         public CommandAutomationElement(AutomationElement element)
+            : base(element)
         {
-            Argument.IsNotNull(() => element);
-
-            Element = element;
-
             _valuePattern = element.GetCurrentPattern(ValuePattern.Pattern) as ValuePattern;
             _invokePattern = element.GetCurrentPattern(InvokePattern.Pattern) as InvokePattern;
         }
-        #endregion
-
-        #region Properties
-        public AutomationElement Element { get; }
         #endregion
 
         #region Methods

@@ -9,7 +9,9 @@ namespace Orc.Controls
 {
     using System.Globalization;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using Catel.MVVM.Views;
+    using Controls.Automation;
 
     public sealed partial class CulturePicker
     {
@@ -37,5 +39,10 @@ namespace Orc.Controls
             set { SetValue(SelectedCultureProperty, value); }
         }
         #endregion
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new CulturePickerAutomationPeer(this);
+        }
     }
 }

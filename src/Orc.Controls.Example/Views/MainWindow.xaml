@@ -25,9 +25,12 @@
                              ShowTime="00:00:10"
                              PlacementTarget="{Binding ElementName=calloutView}" />
 
-        <orccontrols:TabControl Grid.Row="1" Padding="10" 
-                                TabStripPlacement="Left" 
-                                LoadTabItems="EagerLoading">
+        <orccontrols:TabControl  AutomationProperties.AutomationId="TabControl"
+                                 
+                                 Grid.Row="1" 
+                                 Padding="10" 
+                                 TabStripPlacement="Left" 
+                                 LoadTabItems="EagerLoading">
             <TabItem Header="AlignmentGrid">
                 <views:AlignmentGrid />
             </TabItem>
@@ -57,7 +60,7 @@
             </TabItem>
 
             <TabItem Header="CulturePicker">
-                <views:CulturePickerView/>
+                <views:CulturePickerView AutomationProperties.AutomationId="CulturePickerViewId"/>
             </TabItem>
           
             <TabItem Header="DateTimePicker">

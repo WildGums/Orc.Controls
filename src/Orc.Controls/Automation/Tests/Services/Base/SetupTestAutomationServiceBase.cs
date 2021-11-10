@@ -5,21 +5,28 @@
     using System.Threading;
     using System.Windows.Automation;
 
-    public class SetupAutomationService : ISetupAutomationService
+    public abstract class SetupTestAutomationServiceBase<TUiTestModel> : ISetupTestAutomationService<TUiTestModel>
+        where TUiTestModel : UiTestModel
     {
         #region ISetupAutomationService Members
-        public UiTestModel SetUp(string executableFileLocation, string mainWindowTitle)
+        public TUiTestModel SetUp()
         {
-            var uiTestModel = new UiTestModel();
+            var uiTestModel = CreateUiTestModel();
 
-            InitializeTestModel(uiTestModel, executableFileLocation, mainWindowTitle);
+            InitializeTestModel(uiTestModel);
 
             return uiTestModel;
         }
         #endregion
 
-        protected virtual void InitializeTestModel(UiTestModel uiTestModel, string executableFileLocation, string mainWindowTitle)
+        protected abstract TUiTestModel CreateUiTestModel();
+        protected abstract string GetExecutableFileLocation();
+        protected abstract Condition GetMainWindowCondition();
+
+        protected virtual void InitializeTestModel(TUiTestModel uiTestModel)
         {
+            var executableFileLocation = GetExecutableFileLocation();
+
             var process = Process.Start(executableFileLocation);
             var numWaits = 0;
             do
@@ -49,19 +56,28 @@
             numWaits = 0;
             
             AutomationElement mainWindow;
+
+            var findMainWindowCondition = GetMainWindowCondition();
+
             do
             {
-                mainWindow = desktop.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.NameProperty, mainWindowTitle));
+                mainWindow = desktop.FindFirst(TreeScope.Children, findMainWindowCondition);
                 ++numWaits;
                 Thread.Sleep(200);
-            } while (mainWindow is null && numWaits < 50);
+            }
+            while (mainWindow is null && numWaits < 50);
 
             if (mainWindow is null)
             {
-                throw new Exception($"Failed to find Main window with title {mainWindowTitle}");
+                throw new Exception("Failed to find Main window");
             }
 
             uiTestModel.MainWindow = mainWindow;
+        }
+
+        UiTestModel ISetupTestAutomationService.SetUp()
+        {
+            return SetUp();
         }
     }
 }

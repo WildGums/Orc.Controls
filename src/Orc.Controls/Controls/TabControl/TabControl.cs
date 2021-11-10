@@ -13,9 +13,11 @@ namespace Orc.Controls
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using Catel.Windows.Data;
+    using Controls.Automation;
 
     /// <summary>
     /// TabControl that will not remove the tab items from the visual tree. This way, views can be re-used.
@@ -485,6 +487,11 @@ namespace Orc.Controls
             }
 
             return selectedItem as TabItem ?? ItemContainerGenerator.ContainerFromIndex(SelectedIndex) as TabItem;
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new Orc.Controls.Controls.Automation.TabControlAutomationPeer(this);
         }
     }
 }
