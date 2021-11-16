@@ -26,33 +26,26 @@
 
         protected virtual void InitializeTestModel(TUiTestModel uiTestModel)
         {
-            var existing = Process.GetProcessesByName("SourceTree");
+            //var existing = Process.GetProcessesByName("SourceTree");
 
             var numWaits = 0;
 
-            if (!existing.Any())
+            var executableFileLocation = GetExecutableFileLocation();
+            var process = Process.Start(executableFileLocation);
+
+            do
             {
-                var executableFileLocation = GetExecutableFileLocation();
-                var process = Process.Start(executableFileLocation);
-
-                do
-                {
-                    ++numWaits;
-                    Thread.Sleep(10);
-                }
-                while (process is null && numWaits < 50);
-
-                if (process is null)
-                {
-                    throw new Exception($"Failed to find '{executableFileLocation}'");
-                }
-                uiTestModel.Process = process;
+                ++numWaits;
+                Thread.Sleep(10);
             }
-            else
+            while (process is null && numWaits < 50);
+
+            if (process is null)
             {
-                uiTestModel.Process = existing[0];
+                throw new Exception($"Failed to find '{executableFileLocation}'");
             }
-
+            uiTestModel.Process = process;
+        
             var desktop = AutomationElement.RootElement;
             if (desktop is null)
             {
