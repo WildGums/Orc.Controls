@@ -1,5 +1,6 @@
 ﻿namespace Orc.Controls.Automation.Tests
 {
+    using System.Linq;
     using System.Windows.Automation;
     using Catel;
 
@@ -13,6 +14,14 @@
 
             _element = element;
         }
+        
+        private AutomationPattern GetSpecifiedPattern(AutomationPattern automationPattern)
+        {
+            var supportedPatterns = _element.GetSupportedPatterns();
+
+            return supportedPatterns.FirstOrDefault(pattern => pattern.ProgrammaticName == automationPattern.ProgrammaticName);
+        }
+
 
         public AutomationElement Element => _element;
     }

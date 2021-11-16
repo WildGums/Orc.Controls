@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using System.Linq;
     using System.Threading;
     using System.Windows.Automation;
 
@@ -25,22 +26,32 @@
 
         protected virtual void InitializeTestModel(TUiTestModel uiTestModel)
         {
-            var executableFileLocation = GetExecutableFileLocation();
+            var existing = Process.GetProcessesByName("SourceTree");
 
-            var process = Process.Start(executableFileLocation);
             var numWaits = 0;
-            do
-            {
-                ++numWaits;
-                Thread.Sleep(10);
-            } 
-            while (process is null && numWaits < 50);
 
-            if (process is null)
+            if (!existing.Any())
             {
-                throw new Exception($"Failed to find '{executableFileLocation}'");
+                var executableFileLocation = GetExecutableFileLocation();
+                var process = Process.Start(executableFileLocation);
+
+                do
+                {
+                    ++numWaits;
+                    Thread.Sleep(10);
+                }
+                while (process is null && numWaits < 50);
+
+                if (process is null)
+                {
+                    throw new Exception($"Failed to find '{executableFileLocation}'");
+                }
+                uiTestModel.Process = process;
             }
-            uiTestModel.Process = process;
+            else
+            {
+                uiTestModel.Process = existing[0];
+            }
 
             var desktop = AutomationElement.RootElement;
             if (desktop is null)
@@ -55,17 +66,26 @@
             uiTestModel.Desktop = desktop;
             numWaits = 0;
             
-            AutomationElement mainWindow;
+            AutomationElement mainWindow = null;
 
             var findMainWindowCondition = GetMainWindowCondition();
 
             do
             {
-                mainWindow = desktop.FindFirst(TreeScope.Children, findMainWindowCondition);
+                try
+                {
+                    mainWindow = desktop.FindFirst(TreeScope.Children, findMainWindowCondition);
+                }
+                catch
+                {
+                    //Do nothing
+                }
+
+
                 ++numWaits;
                 Thread.Sleep(200);
             }
-            while (mainWindow is null && numWaits < 50);
+            while (mainWindow is null && numWaits < 500);
 
             if (mainWindow is null)
             {

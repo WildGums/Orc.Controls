@@ -90,17 +90,17 @@
         #endregion
 
         #region IValueProvider
-        public void SetValue(string value)
+        public virtual void SetValue(string value)
         {
             _currentCommand = value;
         }
 
-        public bool IsReadOnly => false;
-        public string Value => _result;
+        public virtual bool IsReadOnly => false;
+        public virtual string Value => _result;
         #endregion
 
         #region InvokeProvider
-        public void Invoke()
+        public virtual void Invoke()
         {
             var commandStr = _currentCommand;
             if (string.IsNullOrWhiteSpace(commandStr))

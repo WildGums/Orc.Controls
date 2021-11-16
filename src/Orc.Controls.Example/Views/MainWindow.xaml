@@ -10,6 +10,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -25,9 +26,16 @@
                              ShowTime="00:00:10"
                              PlacementTarget="{Binding ElementName=calloutView}" />
 
+        <Button x:Name="TestButton"
+                Grid.Column="0"
+                AutomationProperties.AutomationId="TestButtonId"
+
+                Command="{Binding StartTestHost}"
+                Content="Test"/>
+
         <orccontrols:TabControl  AutomationProperties.AutomationId="TabControl"
                                  
-                                 Grid.Row="1" 
+                                 Grid.Row="2" 
                                  Padding="10" 
                                  TabStripPlacement="Left" 
                                  LoadTabItems="EagerLoading">

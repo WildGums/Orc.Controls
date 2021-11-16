@@ -43,7 +43,7 @@
             return resultValue;
         }
 
-        protected object GetValue(string propertyName)
+        public object GetValue(string propertyName)
         {
             Argument.IsNotNull(() => propertyName);
             Argument.IsNotNullOrEmpty(() => propertyName);
@@ -52,7 +52,7 @@
             return result;
         }
 
-        protected void SetValue(string propertyName, object value)
+        public void SetValue(string propertyName, object value)
         {
             Argument.IsNotNull(() => propertyName);
             Argument.IsNotNullOrEmpty(() => propertyName);
@@ -60,14 +60,14 @@
             var serializedValue = XmlSerializerHelper.SerializeValue(value);
             var result = Execute(SetDependencyPropertyCommandCall.ConvertPropertyToCommandName(propertyName), serializedValue, value?.GetType(), 20);
         }
-        
-        protected object Execute(string methodName, object parameter)
+
+        public object Execute(string methodName, object parameter)
         {
             var serializedValue = XmlSerializerHelper.SerializeValue(parameter);
             return Execute(methodName, serializedValue, parameter.GetType(), 20);
         }
 
-        protected object Execute(string methodName)
+        public object Execute(string methodName)
         {
             return Execute(methodName, null, null, 20);
         }

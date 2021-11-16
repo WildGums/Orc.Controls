@@ -16,22 +16,21 @@
 
             var xmlSerializer = SerializationFactory.GetXmlSerializer();
 
-            var stream = new MemoryStream();
-
+            using var stream = new MemoryStream();
             xmlSerializer.Serialize(value, stream);
             var strResult = Encoding.Default.GetString(stream.ToArray());
-
+            
             return strResult;
         }
 
         public static object DeserializeValue(string text, Type type)
         {
             var xmlSerializer = SerializationFactory.GetXmlSerializer();
-            using (var stream = text.ToStream())
-            {
-                var result = xmlSerializer.Deserialize(type, stream);
-                return result;
-            }
+
+            using var stream = text.ToStream();
+            var result = xmlSerializer.Deserialize(type, stream);
+
+            return result;
         }
     }
 }

@@ -1,50 +1,65 @@
 ﻿namespace Orc.Controls.Tests
 {
-    using System.Threading;
-    using System.Windows.Automation;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
     using Automation;
     using Automation.Tests;
     using NUnit.Framework;
-    using UI;
+    using Orc.Controls.Controls.Automation;
 
-    [TestFixture]
-    public class CulturePickerTestFacts : UiTestFactsBase<OrcControlsUiTestModel>
+    [Explicit, TestFixture]
+    public class CulturePickerTestFacts : ControlUiTestFactsBase<CulturePicker>
     {
-        //private AutomationElement _culturePicker;
-
-        [OneTimeSetUp]
-        public override void SetUp()
+        [Test]
+        public void CorrectlyInitializeAvailableCultures()
         {
-            base.SetUp();
-
-            var model = TestModel;
-
-            var window = model.MainWindow;
-
-            var tabControl = window.Find<TabControlAutomationElement>(id: "TabControl");
-            tabControl.SelectItem("CulturePicker");
-            
-            var culturePickerView = tabControl.Element.Find(id: "CulturePickerViewId");
-
-            var child = TreeWalker.ControlViewWalker.GetFirstChild(culturePickerView);
-            
-            var culturePicker = culturePickerView?.Find<ComboBoxAutomationElement>(id: "CulturePickerId");
-
-            culturePicker?.Expand();
-
-            Thread.Sleep(200);
-        }
-
-        [SetUp]
-        public virtual void SetUpTest()
-        {
-          
+            GetRandomCultureInfo();
         }
 
         [Test]
-        public void Test()
+        public void CorrectlySelectCulture()
         {
-            
+            var target = TestModel.TargetControl;
+
+            if (!target.TryExpand())
+            {
+                Assert.Fail("Can't expand Culture picker");
+            }
+
+            var cultureInfo = GetRandomCultureInfo();
+            if (!target.TrySelectItem(cultureInfo.Name, out var item))
+            {
+                Assert.Fail($"Can't select culture {cultureInfo.EnglishName}-{cultureInfo.Name}");
+            }
+
+            if (!target.TryGetPropertyValue(nameof(CulturePicker.SelectedCulture), out var result))
+            {
+                Assert.AreEqual(result, cultureInfo.Name);
+            }
+        }
+
+        private CultureInfo GetRandomCultureInfo()
+        {
+            var target = TestModel.TargetControl;
+            if (!target.TryExecute<List<string>>(nameof(CulturePickerAutomationPeer.GetAvailableCultures), out var availableCultures))
+            {
+                Assert.Fail("Can't get available cultures");
+            }
+
+            Assert.IsNotEmpty(availableCultures);
+
+            var random = new Random();
+            var index = random.Next(0, availableCultures.Count - 1);
+            var cultureName = availableCultures[index];
+
+            var culture = CultureInfo.GetCultures(CultureTypes.AllCultures)
+                    .FirstOrDefault(x => x.Name == cultureName);
+
+            Assert.IsNotNull(culture);
+
+            return culture;
         }
     }
 }

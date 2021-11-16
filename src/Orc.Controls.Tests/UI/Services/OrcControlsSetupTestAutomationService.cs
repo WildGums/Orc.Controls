@@ -1,8 +1,13 @@
 ﻿namespace Orc.Controls.Tests
 {
+    using System.Threading;
     using System.Windows.Automation;
+    using Automation;
+    using Automation.Tests;
     using Automation.Tests.Services;
-    using UI;
+    using NUnit.Framework;
+    using Orc.Controls.Controls;
+    using Orc.Controls.Controls.Automation;
 
     public class OrcControlsSetupTestAutomationService : SetupTestAutomationServiceBase<OrcControlsUiTestModel>
     {

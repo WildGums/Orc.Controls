@@ -13,16 +13,12 @@
 
         public AutomationElement SelectItem(string header)
         {
-            _element.SetFocus();
-
-            var tabItem = _element.FindFirstWithDelay(TreeScope.Descendants, new PropertyCondition(AutomationElement.NameProperty, header));
-            if (tabItem?.GetCurrentPattern(SelectionItemPattern.Pattern) is not SelectionItemPattern selectionPattern)
+            if (Element.TrySelectItem(header, out var item))
             {
-                return null;
+                return item;
             }
 
-            selectionPattern.Select();
-            return tabItem;
+            return null;
         }
 
         public AutomationElement FindFirstDescendant(string automationId)

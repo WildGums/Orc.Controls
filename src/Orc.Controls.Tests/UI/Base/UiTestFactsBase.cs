@@ -28,9 +28,4 @@
             TestModel?.Dispose();
         }
     }
-
-    public abstract class ControlUiTestFactsBase<TUiModel> : UiTestFactsBase<TUiModel>
-        where TUiModel : UiTestModel
-    {
-    }
 }
