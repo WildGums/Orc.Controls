@@ -1,0 +1,43 @@
+﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.FontImageView"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:catel="http://schemas.catelproject.com"
+                   xmlns:orccontrols="http://schemas.wildgums.com/orc/controls">
+
+    <orccontrols:StackGrid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Item:"/>
+        <TextBox x:Name="ItemNameTextBox"
+                 Text="A"/>
+
+        <Label Content="Font:"/>
+        <TextBox x:Name="FontTextBox"
+                 Text="Segoe UI"/>
+
+        <Label Content="Background:"/>
+        <orccontrols:ColorPicker x:Name="BackgroundColorPicker"
+                                 Color="LightPink"/>
+
+        <Label Content="Foreground:"/>
+        <orccontrols:ColorPicker x:Name="ForegroundColorPicker"
+                                 Color="Black"/>
+
+        <orccontrols:FontImage Grid.ColumnSpan="2"
+                               FontFamily="{Binding ElementName=FontTextBox, Path=Text}"
+                               ItemName="{Binding ElementName=ItemNameTextBox, Path=Text}"
+                               Background="{Binding ElementName=BackgroundColorPicker, Path=Color, Converter={catel:ColorToBrushConverter}}"
+                               Foreground="{Binding ElementName=ForegroundColorPicker, Path=Color, Converter={catel:ColorToBrushConverter}}"/>
+    </orccontrols:StackGrid>
+    
+</catel:UserControl>
