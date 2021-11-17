@@ -1,17 +1,10 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CulturePicker.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System.Globalization;
     using System.Windows;
     using System.Windows.Automation.Peers;
+    using Automation;
     using Catel.MVVM.Views;
-    using Controls.Automation;
 
     public sealed partial class CulturePicker
     {

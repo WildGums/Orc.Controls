@@ -25,7 +25,7 @@
         [OneTimeTearDown]
         public void TearDown()
         {
-            TestModel?.Dispose();
+            //TestModel?.Dispose();
         }
     }
 }

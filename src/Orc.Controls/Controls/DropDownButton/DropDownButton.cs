@@ -95,13 +95,13 @@ namespace Orc.Controls
             _arrowPath = GetTemplateChild("PART_Arrow") as Path;
             if (_arrowPath is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Arrow'");
+               throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Arrow'");
             }
 
             _arrowBorder = GetTemplateChild("PART_ArrowBorder") as Border;
             if (_arrowBorder is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ArrowBorder'");
+               throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ArrowBorder'");
             }
         }
         private void OnHeaderChanged()

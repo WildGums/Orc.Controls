@@ -23,6 +23,16 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
+        public override bool? ShouldSerializeMemberUsingParse(MemberValue memberValue)
+        {
+            return base.ShouldSerializeMemberUsingParse(memberValue);
+        }
+
+        public override bool ShouldIgnoreMember(ISerializationContext context, object model, MemberValue memberValue)
+        {
+            return base.ShouldIgnoreMember(context, model, memberValue);
+        }
+
         public override void SerializeMember(ISerializationContext context, MemberValue memberValue)
         {
             if (string.Equals(nameof(ColorLegendItem.Color), memberValue.Name))

@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ColorLegend.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
+﻿
 namespace Orc.Controls
 {
     using System;
@@ -13,10 +7,12 @@ namespace Orc.Controls
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using System.Windows.Media;
+    using Automation;
     using Catel;
     using Catel.Data;
     using Catel.MVVM;
@@ -658,6 +654,11 @@ namespace Orc.Controls
             SetCurrentValue(EditingColorProperty, color);
             _previousColor = color;
             SetCurrentValue(IsColorSelectingProperty, true);
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new ColorLegendAutomationPeer(this);
         }
         #endregion
     }

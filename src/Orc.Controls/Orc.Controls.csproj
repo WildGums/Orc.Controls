@@ -45,6 +45,9 @@
     <None Remove="**/GeneratorParameters.json" />
     <EmbeddedResource Include="**/GeneratorParameters.json" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orc.Automation\Orc.Automation.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Update="NETStandard.Library" Version="2.0.3" />

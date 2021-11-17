@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TabControl.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -17,7 +10,6 @@ namespace Orc.Controls
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using Catel.Windows.Data;
-    using Controls.Automation;
 
     /// <summary>
     /// TabControl that will not remove the tab items from the visual tree. This way, views can be re-used.
@@ -491,7 +483,7 @@ namespace Orc.Controls
 
         protected override AutomationPeer OnCreateAutomationPeer()
         {
-            return new Orc.Controls.Controls.Automation.TabControlAutomationPeer(this);
+            return new Orc.Automation.TabControlAutomationPeer(this);
         }
     }
 }

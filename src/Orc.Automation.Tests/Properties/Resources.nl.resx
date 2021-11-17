@@ -1,0 +1,363 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Controls_BrowseForFile" xml:space="preserve">
+    <value>Zoek bestand</value>
+  </data>
+  <data name="Controls_BrowseForFolder" xml:space="preserve">
+    <value>Zoek map</value>
+  </data>
+  <data name="Controls_DateRangePicker_Custom" xml:space="preserve">
+    <value>Anders</value>
+  </data>
+  <data name="Controls_DateRangePicker_End_Lbl" xml:space="preserve">
+    <value>Eind:</value>
+  </data>
+  <data name="Controls_DateRangePicker_LastMonth" xml:space="preserve">
+    <value>Afgelopen maand</value>
+  </data>
+  <data name="Controls_DateRangePicker_LastWeek" xml:space="preserve">
+    <value>Afgelopen week</value>
+  </data>
+  <data name="Controls_DateRangePicker_Start_Lbl" xml:space="preserve">
+    <value>Start:</value>
+  </data>
+  <data name="Controls_DateRangePicker_ThisMonth" xml:space="preserve">
+    <value>Deze maand</value>
+  </data>
+  <data name="Controls_DateRangePicker_ThisWeek" xml:space="preserve">
+    <value>Deze week</value>
+  </data>
+  <data name="Controls_DateRangePicker_Today" xml:space="preserve">
+    <value>Vandaag</value>
+  </data>
+  <data name="Controls_DateRangePicker_Yesterday" xml:space="preserve">
+    <value>Gisteren</value>
+  </data>
+  <data name="Controls_OpenFolder" xml:space="preserve">
+    <value>Open map</value>
+  </data>
+  <data name="Controls_ValidationContextControl_CollapseAll" xml:space="preserve">
+    <value>Alles inklappen</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Copy" xml:space="preserve">
+    <value>Kopiëren</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Errors" xml:space="preserve">
+    <value>Fouten</value>
+  </data>
+  <data name="Controls_ValidationContextControl_ExpandAll" xml:space="preserve">
+    <value>Alles uitklappen</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Misc" xml:space="preserve">
+    <value>Versch.</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Open" xml:space="preserve">
+    <value>Openen</value>
+  </data>
+  <data name="Controls_ValidationContextControl_Warnings" xml:space="preserve">
+    <value>Waarschuwingen</value>
+  </data>
+  <data name="Controls_ColorLegendGeneric_CheckBox_Content_ShowVisibilityColumn" xml:space="preserve">
+    <value>Toon zichtbaarheidskolom</value>
+  </data>
+  <data name="Controls_ColorLegendGeneric_CheckBox_Content_AllowColorEdit" xml:space="preserve">
+    <value>Sta bewerken van kleuren toe</value>
+  </data>
+  <data name="Controls_ColorLegendGeneric_CheckBox_Content_CheckAll" xml:space="preserve">
+    <value>Alles selecteren</value>
+  </data>
+  <data name="Controls_ColorLegendGeneric_Button_Content_ClearSelection" xml:space="preserve">
+    <value>Alles deselecteren</value>
+  </data>
+  <data name="Controls_ColorPickerGeneric_TextBlock_Text_ThemeColors" xml:space="preserve">
+    <value>Thema kleuren</value>
+  </data>
+  <data name="Controls_ColorPickerGeneric_TextBlock_Text_RecentColors" xml:space="preserve">
+    <value>Recente kleuren</value>
+  </data>
+  <data name="Controls_ColorPickerGeneric_Button_Content_Cancel" xml:space="preserve">
+    <value>Annuleren</value>
+  </data>
+  <data name="Controls_ColorPickerGeneric_Button_Content_Select" xml:space="preserve">
+    <value>Selecteren</value>
+  </data>
+  <data name="Controls_ConnectionStringEditWindow_Label_Content_Provider" xml:space="preserve">
+    <value>Provider:</value>
+  </data>
+  <data name="Controls_ConnectionStringEditWindow_Label_Content_Server" xml:space="preserve">
+    <value>Server:</value>
+  </data>
+  <data name="Controls_ConnectionStringEditWindow_Button_Content_Refresh" xml:space="preserve">
+    <value>Ververs</value>
+  </data>
+  <data name="Controls_ConnectionStringEditWindow_RadioButton_Content_UseWindowsAuthentication" xml:space="preserve">
+    <value>Gebruik Windows Authenticatie</value>
+  </data>
+  <data name="Controls_ConnectionStringEditWindow_RadioButton_Content_UseSQLServerAuthentication" xml:space="preserve">
+    <value>Gebruik SQL Server Authenticatie</value>
+  </data>
+  <data name="Controls_ConnectionStringEditWindow_Label_Content_UserName" xml:space="preserve">
+    <value>Gebruikersnaam</value>
+  </data>
+  <data name="Controls_ConnectionStringEditWindow_Label_Content_Password" xml:space="preserve">
+    <value>Wachtwoord</value>
+  </data>
+  <data name="Controls_ConnectionStringEditWindow_Label_Content_Database" xml:space="preserve">
+    <value>Database:</value>
+  </data>
+  <data name="Controls_ConnectionStringEditWindow_Button_Content_TestConnection" xml:space="preserve">
+    <value>Test connectie</value>
+  </data>
+  <data name="Controls_ConnectionStringEditWindow_Button_Content_Advanced" xml:space="preserve">
+    <value>Geavanceerd...</value>
+  </data>
+  <data name="Controls_DatePickerControl_Button_Content_Today" xml:space="preserve">
+    <value>Vandaag</value>
+  </data>
+  <data name="Controls_DatePickerControl_Button_Content_SelectDate" xml:space="preserve">
+    <value>Selecteer datum</value>
+  </data>
+  <data name="Controls_DatePickerControl_Button_Content_Clear" xml:space="preserve">
+    <value>Maak leeg</value>
+  </data>
+  <data name="Controls_DatePickerControl_Button_Content_Copy" xml:space="preserve">
+    <value>Kopiëren</value>
+  </data>
+  <data name="Controls_DatePickerControl_Button_Content_Paste" xml:space="preserve">
+    <value>Plakken</value>
+  </data>
+  <data name="Controls_DateTimePickerControl_Button_Content_Today" xml:space="preserve">
+    <value>Vandaag</value>
+  </data>
+  <data name="Controls_DateTimePickerControl_Button_Content_Now" xml:space="preserve">
+    <value>Nu</value>
+  </data>
+  <data name="Controls_DateTimePickerControl_Button_Content_SelectDate" xml:space="preserve">
+    <value>Selecteer datum</value>
+  </data>
+  <data name="Controls_DateTimePickerControl_Button_Content_Clear" xml:space="preserve">
+    <value>Maak leeg</value>
+  </data>
+  <data name="Controls_DateTimePickerControl_Button_Content_Copy" xml:space="preserve">
+    <value>Kopiëren</value>
+  </data>
+  <data name="Controls_DateTimePickerControl_Button_Content_Paste" xml:space="preserve">
+    <value>Plakken</value>
+  </data>
+  <data name="Controls_DbConnectionProviderListWindow_Button_Content_Refresh" xml:space="preserve">
+    <value>Ververs</value>
+  </data>
+  <data name="Controls_DbProviderControl_Button_Content_Change" xml:space="preserve">
+    <value>Verander...</value>
+  </data>
+  <data name="Controls_TimeSpanPickerGeneric_TextBlock_Text_Total" xml:space="preserve">
+    <value>Totaal:</value>
+  </data>
+  <data name="Controls_TimeSpanPickerGeneric_TextBlock_Text_Days" xml:space="preserve">
+    <value>Dagen</value>
+  </data>
+  <data name="Controls_TimeSpanPickerGeneric_TextBlock_Text_Hours" xml:space="preserve">
+    <value>Uren</value>
+  </data>
+  <data name="Controls_TimeSpanPickerGeneric_TextBlock_Text_Minutes" xml:space="preserve">
+    <value>Minuten</value>
+  </data>
+  <data name="Controls_ColorPickerGeneric_TabItem_Header_HSV" xml:space="preserve">
+    <value>HSV</value>
+  </data>
+  <data name="Controls_ColorPickerGeneric_TabItem_Header_Colors" xml:space="preserve">
+    <value>Kleuren</value>
+  </data>
+  <data name="Controls_ConnectionStringAdvancedOptionsWindow_DataGridTextColumn_Header_Property" xml:space="preserve">
+    <value>Eigenschap</value>
+  </data>
+  <data name="Controls_ConnectionStringAdvancedOptionsWindow_DataGridTextColumn_Header_Value" xml:space="preserve">
+    <value>Waarde</value>
+  </data>
+  <data name="Controls_ConnectionStringEditWindow_GroupBox_Header_LogOnToTheServer" xml:space="preserve">
+    <value>Inloggen op de server</value>
+  </data>
+  <data name="Controls_DatePickerControl_ToggleButton_Content_DayAbbreviation" xml:space="preserve">
+    <value>d</value>
+  </data>
+  <data name="Controls_DatePickerControl_ToggleButton_Content_MonthAbbreviation" xml:space="preserve">
+    <value>m</value>
+  </data>
+  <data name="Controls_DatePickerControl_ToggleButton_Content_YearAbbreviation" xml:space="preserve">
+    <value>y</value>
+  </data>
+  <data name="Controls_DateTimePickerControl_ToggleButton_Content_DayAbbreviation" xml:space="preserve">
+    <value>d</value>
+  </data>
+  <data name="Controls_DateTimePickerControl_ToggleButton_Content_MonthAbbreviation" xml:space="preserve">
+    <value>m</value>
+  </data>
+  <data name="Controls_DateTimePickerControl_ToggleButton_Content_YearAbbreviation" xml:space="preserve">
+    <value>j</value>
+  </data>
+  <data name="Controls_DateTimePickerControl_ToggleButton_Content_HourAbbreviation" xml:space="preserve">
+    <value>u</value>
+  </data>
+  <data name="Controls_DateTimePickerControl_ToggleButton_Content_MinuteAbbreviation" xml:space="preserve">
+    <value>m</value>
+  </data>
+  <data name="Controls_DateTimePickerControl_ToggleButton_Content_SecondAbbreviation" xml:space="preserve">
+    <value>s</value>
+  </data>
+  <data name="Controls_DateTimePickerControl_ToggleButton_Content_AmPmAbbreviation" xml:space="preserve">
+    <value>t</value>
+  </data>
+  <data name="Controls_TimeSpanControl_TextBlock_Text_DaysAbbreviation" xml:space="preserve">
+    <value>d</value>
+  </data>
+  <data name="Controls_TimeSpanControl_TextBlock_Text_HoursAbbreviation" xml:space="preserve">
+    <value>u</value>
+  </data>
+  <data name="Controls_TimeSpanControl_TextBlock_Text_MinutesAbbreviation" xml:space="preserve">
+    <value>m</value>
+  </data>
+  <data name="Controls_TimeSpanControl_TextBlock_Text_SecondsAbbreviation" xml:space="preserve">
+    <value>s</value>
+  </data>
+  <data name="Controls_TimeSpanPicker_TextBlock_Text_DaysAbbreviation" xml:space="preserve">
+    <value>d</value>
+  </data>
+  <data name="Controls_TimeSpanPicker_TextBlock_Text_HoursAbbreviation" xml:space="preserve">
+    <value>u</value>
+  </data>
+  <data name="Controls_TimeSpanPicker_TextBlock_Text_MinutesAbbreviation" xml:space="preserve">
+    <value>m</value>
+  </data>
+  <data name="Controls_TimeSpanPicker_TextBlock_Text_SecondsAbbreviation" xml:space="preserve">
+    <value>s</value>
+  </data>
+  <data name="Controls_DatePicker_Button_Content_Clear" xml:space="preserve">
+    <value>Maak leeg</value>
+  </data>
+  <data name="Controls_DatePicker_Button_Content_Copy" xml:space="preserve">
+    <value>Kopiëren</value>
+  </data>
+  <data name="Controls_DatePicker_Button_Content_Paste" xml:space="preserve">
+    <value>Plakken</value>
+  </data>
+  <data name="Controls_DatePicker_Button_Content_SelectDate" xml:space="preserve">
+    <value>Selecteer datum</value>
+  </data>
+  <data name="Controls_DatePicker_Button_Content_Today" xml:space="preserve">
+    <value>Vandaag</value>
+  </data>
+  <data name="Controls_DatePicker_ToggleButton_Content_DayAbbreviation" xml:space="preserve">
+    <value>d</value>
+  </data>
+  <data name="Controls_DatePicker_ToggleButton_Content_MonthAbbreviation" xml:space="preserve">
+    <value>m</value>
+  </data>
+  <data name="Controls_DatePicker_ToggleButton_Content_YearAbbreviation" xml:space="preserve">
+    <value>j</value>
+  </data>
+  <data name="Controls_DateTimePicker_Button_Content_Clear" xml:space="preserve">
+    <value>Maak leeg</value>
+  </data>
+  <data name="Controls_DateTimePicker_Button_Content_Copy" xml:space="preserve">
+    <value>Kopiëren</value>
+  </data>
+  <data name="Controls_DateTimePicker_Button_Content_Now" xml:space="preserve">
+    <value>Nu</value>
+  </data>
+  <data name="Controls_DateTimePicker_Button_Content_Paste" xml:space="preserve">
+    <value>Plakken</value>
+  </data>
+  <data name="Controls_DateTimePicker_Button_Content_SelectDate" xml:space="preserve">
+    <value>Selecteer datum</value>
+  </data>
+  <data name="Controls_DateTimePicker_Button_Content_Today" xml:space="preserve">
+    <value>Vandaag</value>
+  </data>
+  <data name="Controls_DateTimePicker_ToggleButton_Content_AmPmAbbreviation" xml:space="preserve">
+    <value>t</value>
+  </data>
+  <data name="Controls_DateTimePicker_ToggleButton_Content_DayAbbreviation" xml:space="preserve">
+    <value>d</value>
+  </data>
+  <data name="Controls_DateTimePicker_ToggleButton_Content_HourAbbreviation" xml:space="preserve">
+    <value>h</value>
+  </data>
+  <data name="Controls_DateTimePicker_ToggleButton_Content_MinuteAbbreviation" xml:space="preserve">
+    <value>m</value>
+  </data>
+  <data name="Controls_DateTimePicker_ToggleButton_Content_MonthAbbreviation" xml:space="preserve">
+    <value>m</value>
+  </data>
+  <data name="Controls_DateTimePicker_ToggleButton_Content_SecondAbbreviation" xml:space="preserve">
+    <value>s</value>
+  </data>
+  <data name="Controls_DateTimePicker_ToggleButton_Content_YearAbbreviation" xml:space="preserve">
+    <value>j</value>
+  </data>
+  <data name="Controls_DbProviderPicker_Button_Content_Change" xml:space="preserve">
+    <value>Verander...</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_NameIsRequired" xml:space="preserve">
+    <value>Naam is verplicht</value>
+  </data>
+  <data name="Controls_LogViewer_AreYouSure" xml:space="preserve">
+    <value>Weet je het zeker?</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_ExpressionValueIsRequired" xml:space="preserve">
+    <value>Expressie waarde is verplicht</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterGroupEditor_NameForTheLogFilterGroupIsRequired" xml:space="preserve">
+    <value>'Naam' voor de log filter group is verplicht</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterGroupEditor_Title" xml:space="preserve">
+    <value>Log Filter Groep bewerken</value>
+  </data>
+  <data name="Controls_LogViewer_SelectTypeName" xml:space="preserve">
+    <value>-- Selecteer type naam --</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_Action" xml:space="preserve">
+    <value>Actie</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_ExpressionType" xml:space="preserve">
+    <value>Expressie type</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_ExpressionValue" xml:space="preserve">
+    <value>Expressie waarde</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_FilterName" xml:space="preserve">
+    <value>Filter naam</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterEditor_Target" xml:space="preserve">
+    <value>Doel</value>
+  </data>
+  <data name="Controls_LogViewer_Add" xml:space="preserve">
+    <value>Toevoegen</value>
+  </data>
+  <data name="Controls_LogViewer_Edit" xml:space="preserve">
+    <value>Bewerken</value>
+  </data>
+  <data name="Controls_LogViewer_Remove" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterGroupEditor_GroupName" xml:space="preserve">
+    <value>Groep naam</value>
+  </data>
+  <data name="Controls_LogViewer_LogFilterGroupEditor_LogFilters" xml:space="preserve">
+    <value>Log filters</value>
+  </data>
+</root>

@@ -7,7 +7,6 @@
     using Automation;
     using Automation.Tests;
     using NUnit.Framework;
-    using Orc.Controls.Controls.Automation;
 
     [Explicit, TestFixture]
     public class CulturePickerTestFacts : ControlUiTestFactsBase<CulturePicker>

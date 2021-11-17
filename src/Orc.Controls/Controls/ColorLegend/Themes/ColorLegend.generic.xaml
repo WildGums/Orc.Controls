@@ -5,6 +5,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/DropDownButton/Themes/DropDownButton.generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{x:Type controls:ColorLegend}" TargetType="{x:Type controls:ColorLegend}"
@@ -59,6 +60,8 @@
                                     </Grid.ColumnDefinitions>
 
                                     <controls:DropDownButton x:Name="PART_Settings_Button" 
+                                                             AutomationProperties.AutomationId="SettingsButton"
+
                                                              Grid.Column="0"
                                                              BorderThickness="0"
                                                              Width="40"
@@ -226,6 +229,8 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <CheckBox x:Name="PART_All_Visible" 
+                                              AutomationProperties.AutomationId="AllVisibleCheckBox"
+
                                               Margin="6 0 6 0"
                                               Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_CheckAll}"
                                               VerticalAlignment="Center" 
@@ -245,6 +250,8 @@
                                                    Text="{Binding SelectedItems.Count, ElementName=PART_List, StringFormat='Selected Items: {0}'}"/>
                                         
                                         <Button x:Name="PART_UnselectAll"
+                                                AutomationProperties.AutomationId="UnselectAllButton"
+
                                                 Margin="6 0 6 0"
                                                 Grid.Column="1" 
                                                 VerticalAlignment="Center"
