@@ -1,11 +1,10 @@
 ﻿namespace Orc.Automation.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+    using System.Diagnostics;
+    using System.Windows.Automation;
 
     public interface ISetupAutomationService
     {
-        AutomationSetup Setup();
+        AutomationSetup Setup(string executableFileLocation, Condition findMainWindowCondition, Process existingProcess = null);
     }
 }

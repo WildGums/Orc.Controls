@@ -1,24 +1,13 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-using System.Reflection;
+﻿using System.Reflection;
 using System.Resources;
 using System.Windows;
-using System.Windows.Markup;
 
 // All other assembly info is defined in SolutionAssemblyInfo.cs
 
-[assembly: AssemblyTitle("Orc.Controls")]
-[assembly: AssemblyProduct("Orc.Controls")]
-[assembly: AssemblyDescription("Orc.Controls library")]
+[assembly: AssemblyTitle("Orc.Automation.Tests")]
+[assembly: AssemblyProduct("Orc.Automation.Tests")]
+[assembly: AssemblyDescription("Orc.Automation.Tests library")]
 [assembly: NeutralResourcesLanguage("en-US")]
-
-[assembly: XmlnsPrefix("http://schemas.wildgums.com/orc/automation", "orcautomation")]
-[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/automation", "Orc.Automation")]
 
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //where theme specific resource dictionaries are located

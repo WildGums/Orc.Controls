@@ -12,9 +12,9 @@ using System.Windows.Markup;
 
 // All other assembly info is defined in SolutionAssemblyInfo.cs
 
-[assembly: AssemblyTitle("Orc.Controls")]
-[assembly: AssemblyProduct("Orc.Controls")]
-[assembly: AssemblyDescription("Orc.Controls library")]
+[assembly: AssemblyTitle("Orc.Automation")]
+[assembly: AssemblyProduct("Orc.Automation")]
+[assembly: AssemblyDescription("Orc.Automation library")]
 [assembly: NeutralResourcesLanguage("en-US")]
 
 [assembly: XmlnsPrefix("http://schemas.wildgums.com/orc/automation", "orcautomation")]
