@@ -1,10 +1,10 @@
 ﻿namespace Orc.Controls.Tests
 {
-    using System.Windows.Automation;
-    using Automation;
+    using Orc.Automation;
 
-    public class OrcControlsUiTestModel : UiTestModel
+    public class OrcControlsUiTestModel<TAutomationElement> : UiTestModel
+        where TAutomationElement : AutomationElementBase
     {
-        public AutomationElement TargetControl { get; set; }
+        public TAutomationElement TargetControl { get; set; }
     }
 }

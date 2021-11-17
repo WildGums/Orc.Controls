@@ -20,8 +20,6 @@
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-        private const string TestedControlAutomationId = "TestedControlId";
-
         private readonly HashSet<string> _loadedAssemblyNames = new ();
 
         private Grid _hostGrid;
@@ -51,11 +49,13 @@
                 return $"Error: Can't instantiate control Type {controlType}";
             }
 
-            control.SetCurrentValue(AutomationProperties.AutomationIdProperty, TestedControlAutomationId);
+            var newAutomationId = Guid.NewGuid().ToString();
+
+            control.SetCurrentValue(AutomationProperties.AutomationIdProperty, newAutomationId);
 
             _hostGrid.Children.Add(control);
 
-            return TestedControlAutomationId;
+            return newAutomationId;
         }
 
         public bool LoadResources(string resourcesPath)

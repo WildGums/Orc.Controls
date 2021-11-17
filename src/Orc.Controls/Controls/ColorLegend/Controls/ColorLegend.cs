@@ -16,6 +16,7 @@ namespace Orc.Controls
     using Catel;
     using Catel.Data;
     using Catel.MVVM;
+    using Orc.Automation;
 
     /// <summary>
     /// Control to show color legend with checkboxes for each color.

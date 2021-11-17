@@ -1,35 +1,25 @@
 ﻿namespace Orc.Controls.Tests
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading;
     using System.Windows.Automation;
     using System.Windows.Media;
     using Automation;
-    using Automation.Tests;
-    using Catel.IoC;
-    using Catel.Runtime.Serialization;
     using NUnit.Framework;
+    using Orc.Automation;
+    using Orc.Automation.Tests;
 
     [Explicit, TestFixture]
-    public class ColorLegendTestFacts : ControlUiTestFactsBase<ColorLegend>
+    public class ColorLegendTestFacts : ControlUiTestFactsBase<ColorLegend, ColorLegendAutomationElement>
     {
-        private CommandAutomationElement Target { get; set; }
 
-        private AutomationElement SearchBoxPart => Target.Element.Find(controlType: ControlType.Text, numberOfWaits: 3);
-        private AutomationElement SettingsButton => Target.Element.Find(id: nameof(SettingsButton), numberOfWaits: 3);
-        private AutomationElement AllVisibleCheckBox => Target.Element.Find(id: nameof(AllVisibleCheckBox), numberOfWaits: 3);
-        private AutomationElement UnselectAllButton => Target.Element.Find(id: nameof(UnselectAllButton), numberOfWaits: 3);
-        
+
         [SetUp]
         public override void SetUpTest()
         {
             base.SetUpTest();
 
             var targetControl = TestModel.TargetControl;
-
-            Target = new CommandAutomationElement(targetControl);
 
             var colorLegendItems = new List<Color>
                 {
@@ -49,27 +39,27 @@
                 })
                 .ToList();
 
-            Target.SetValue(nameof(ColorLegend.ItemsSource), colorLegendItems);
+            targetControl.SetValue(nameof(ColorLegend.ItemsSource), colorLegendItems);
         }
 
         [TestCase(true, true, true, true)]
         public void CheckInitialState(bool expectedShowSearchBox, bool expectedTShowToolBox, bool expectedShowBottomToolBox,
             bool expectedShowColorVisibilityControls)
         {
-            var colorLegend = Target;
+            var colorLegend = TestModel.TargetControl;
 
             //Check Search Box
             Assert.AreEqual(colorLegend.GetValue(nameof(ColorLegend.ShowSearchBox)), expectedShowSearchBox);
-            Assert.AreEqual(SearchBoxPart?.IsVisible(), expectedShowSearchBox && expectedTShowToolBox);
+            Assert.AreEqual(colorLegend.SearchBox?.IsVisible(), expectedShowSearchBox && expectedTShowToolBox);
 
             //Check ToolBox
             Assert.AreEqual(colorLegend.GetValue(nameof(ColorLegend.ShowToolBox)), expectedTShowToolBox);
-            Assert.AreEqual(SettingsButton?.IsVisible(), expectedTShowToolBox);
+            Assert.AreEqual(colorLegend.SettingsButton?.IsVisible(), expectedTShowToolBox);
 
             //Check Bottom ToolBox
             Assert.AreEqual(colorLegend.GetValue(nameof(ColorLegend.ShowBottomToolBox)), expectedShowBottomToolBox);
-            Assert.AreEqual(AllVisibleCheckBox?.IsVisible(), expectedShowBottomToolBox && expectedShowColorVisibilityControls);
-            Assert.AreEqual(UnselectAllButton?.IsVisible(), expectedShowBottomToolBox);
+            Assert.AreEqual(colorLegend.AllVisibleCheckBox?.IsVisible(), expectedShowBottomToolBox && expectedShowColorVisibilityControls);
+            Assert.AreEqual(colorLegend.UnselectAllButton?.IsVisible(), expectedShowBottomToolBox);
         }
     }
 }

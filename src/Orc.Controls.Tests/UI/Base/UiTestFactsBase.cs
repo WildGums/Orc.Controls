@@ -1,10 +1,11 @@
 ﻿namespace Orc.Controls.Tests
 {
     using System.Reflection;
-    using Automation;
-    using Automation.Tests.Services;
     using Catel.IoC;
     using NUnit.Framework;
+    using Orc.Automation;
+    using Orc.Automation.Tests.Services;
+    using TypeExtensions = Orc.Controls.TypeExtensions;
 
     public abstract class UiTestFactsBase<TUiModel>
         where TUiModel : UiTestModel
@@ -14,7 +15,7 @@
         protected TUiModel TestModel { get; set; }
 
         protected virtual ISetupTestAutomationService SetupService 
-            => _setupTestAutomationService ??= (ISetupTestAutomationService) this.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion(typeof(TUiModel).FindGenericTypeImplementation<ISetupTestAutomationService>(Assembly.GetExecutingAssembly()));
+            => _setupTestAutomationService ??= (ISetupTestAutomationService) this.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion(TypeExtensions.FindGenericTypeImplementation<ISetupTestAutomationService>(typeof(TUiModel), Assembly.GetExecutingAssembly()));
 
         [OneTimeSetUp]
         public virtual void SetUp()
@@ -25,7 +26,7 @@
         [OneTimeTearDown]
         public void TearDown()
         {
-            //TestModel?.Dispose();
+            TestModel?.Dispose();
         }
     }
 }

@@ -5,6 +5,7 @@
     using System.Windows.Automation.Peers;
     using Automation;
     using Catel.MVVM.Views;
+    using Orc.Automation;
 
     public sealed partial class CulturePicker
     {

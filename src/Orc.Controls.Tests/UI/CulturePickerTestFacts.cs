@@ -4,12 +4,11 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using Automation;
-    using Automation.Tests;
     using NUnit.Framework;
+    using Orc.Automation;
 
     [Explicit, TestFixture]
-    public class CulturePickerTestFacts : ControlUiTestFactsBase<CulturePicker>
+    public class CulturePickerTestFacts : ControlUiTestFactsBase<CulturePicker, CommandAutomationElement>
     {
         [Test]
         public void CorrectlyInitializeAvailableCultures()
@@ -22,18 +21,18 @@
         {
             var target = TestModel.TargetControl;
 
-            if (!target.TryExpand())
+            if (!target.Element.TryExpand())
             {
                 Assert.Fail("Can't expand Culture picker");
             }
 
             var cultureInfo = GetRandomCultureInfo();
-            if (!target.TrySelectItem(cultureInfo.Name, out var item))
+            if (!target.Element.TrySelectItem(cultureInfo.Name, out var item))
             {
                 Assert.Fail($"Can't select culture {cultureInfo.EnglishName}-{cultureInfo.Name}");
             }
 
-            if (!target.TryGetPropertyValue(nameof(CulturePicker.SelectedCulture), out var result))
+            if (!target.Element.TryGetPropertyValue(nameof(CulturePicker.SelectedCulture), out var result))
             {
                 Assert.AreEqual(result, cultureInfo.Name);
             }
@@ -42,7 +41,7 @@
         private CultureInfo GetRandomCultureInfo()
         {
             var target = TestModel.TargetControl;
-            if (!target.TryExecute<List<string>>(nameof(CulturePickerAutomationPeer.GetAvailableCultures), out var availableCultures))
+            if (!target.Element.TryExecute<List<string>>(nameof(CulturePickerAutomationPeer.GetAvailableCultures), out var availableCultures))
             {
                 Assert.Fail("Can't get available cultures");
             }
