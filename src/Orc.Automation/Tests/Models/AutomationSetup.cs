@@ -4,7 +4,7 @@
     using System.Diagnostics;
     using System.Windows.Automation;
 
-    public class UiTestModel : IDisposable
+    public class AutomationSetup : IDisposable
     {
         public Process Process { get; set; }
         public AutomationElement Desktop { get; set; }

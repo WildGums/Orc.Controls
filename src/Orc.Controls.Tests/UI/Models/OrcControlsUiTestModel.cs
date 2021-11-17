@@ -2,7 +2,7 @@
 {
     using Orc.Automation;
 
-    public class OrcControlsUiTestModel<TAutomationElement> : UiTestModel
+    public class OrcControlsUiTestModel<TAutomationElement> : AutomationSetup
         where TAutomationElement : AutomationElementBase
     {
         public TAutomationElement TargetControl { get; set; }

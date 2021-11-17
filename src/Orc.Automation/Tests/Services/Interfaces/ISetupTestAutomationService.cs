@@ -2,11 +2,11 @@
 {
     public interface ISetupTestAutomationService
     {
-        UiTestModel SetUp();
+        AutomationSetup SetUp();
     }
 
     public interface ISetupTestAutomationService<TUiTestModel> : ISetupTestAutomationService
-        where TUiTestModel : UiTestModel
+        where TUiTestModel : AutomationSetup
     {
         new TUiTestModel SetUp();
     }

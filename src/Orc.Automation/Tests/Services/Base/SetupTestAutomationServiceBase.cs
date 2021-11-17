@@ -7,7 +7,7 @@
     using System.Windows.Automation;
 
     public abstract class SetupTestAutomationServiceBase<TUiTestModel> : ISetupTestAutomationService<TUiTestModel>
-        where TUiTestModel : UiTestModel
+        where TUiTestModel : AutomationSetup
     {
         #region ISetupAutomationService Members
         public TUiTestModel SetUp()
@@ -86,7 +86,7 @@
             uiTestModel.MainWindow = mainWindow;
         }
 
-        UiTestModel ISetupTestAutomationService.SetUp()
+        AutomationSetup ISetupTestAutomationService.SetUp()
         {
             return SetUp();
         }

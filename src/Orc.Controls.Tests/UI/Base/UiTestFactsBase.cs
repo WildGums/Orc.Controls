@@ -8,7 +8,7 @@
     using TypeExtensions = Orc.Controls.TypeExtensions;
 
     public abstract class UiTestFactsBase<TUiModel>
-        where TUiModel : UiTestModel
+        where TUiModel : AutomationSetup
     {
         private ISetupTestAutomationService _setupTestAutomationService;
 
