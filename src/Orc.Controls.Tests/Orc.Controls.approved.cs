@@ -854,6 +854,14 @@ namespace Orc.Controls
         protected virtual void OnReverseDurationChanged(System.Windows.Duration oldReverseDuration, System.Windows.Duration newReverseDuration) { }
         protected virtual void OnTotalDurationChanged(System.Windows.Duration oldTotalDuration, System.Windows.Duration newTotalDuration) { }
     }
+    [System.Windows.TemplatePart(Name="PART_Image", Type=typeof(System.Windows.Controls.Image))]
+    public class FontImage : System.Windows.Controls.Control
+    {
+        public static readonly System.Windows.DependencyProperty ItemNameProperty;
+        public FontImage() { }
+        public string ItemName { get; set; }
+        public override void OnApplyTemplate() { }
+    }
     public class FrameCounter : System.Windows.Controls.TextBlock
     {
         public static readonly System.Windows.DependencyProperty PrefixProperty;
