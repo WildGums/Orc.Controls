@@ -22,6 +22,9 @@
 
         public AutomationSendData Data { get; set; }
 
+        public string EventName { get; set; }
+        public AutomationSendData EventData { get; set; }
+
         public override string ToString()
         {
             return XmlSerializerHelper.SerializeValue(this);

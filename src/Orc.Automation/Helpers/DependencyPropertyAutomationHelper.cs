@@ -1,7 +1,10 @@
 ﻿namespace Orc.Automation
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
     using System.Windows;
     using Catel;
 
@@ -25,6 +28,12 @@
             }
 
             var dependencyPropertyValue = element.GetValue(dependencyProperty);
+            //TODO:Vladimir:find better way to do this
+
+            if (dependencyPropertyValue is IEnumerable enumerableValue && dependencyPropertyValue.GetType().Name.StartsWith("IEnumerable"))
+            {
+                dependencyPropertyValue = enumerableValue.OfType<string>().ToList();
+            }
 
             propertyValue = AutomationHelper.ConvertToSerializableResult(dependencyPropertyValue);
 

@@ -1,20 +1,14 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ColorPicker.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using System.Windows.Input;
     using System.Windows.Media;
-    using Catel;
+    using Automation;
 
     /// <summary>
     /// The color picker.
@@ -233,6 +227,11 @@ namespace Orc.Controls
             {
                 _popup.SetCurrentValue(Popup.HorizontalOffsetProperty, -1 * _colorBoard.ActualWidth);
             }
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new ColorPickerAutomationPeer(this);
         }
         #endregion
     }

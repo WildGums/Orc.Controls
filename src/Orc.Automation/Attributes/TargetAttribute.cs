@@ -1,9 +1,9 @@
-﻿namespace Orc.Automation.Tests
+﻿namespace Orc.Automation
 {
     using System;
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class TestTargetAttribute : Attribute
+    public class TargetAttribute : Attribute
     {
     }
 }

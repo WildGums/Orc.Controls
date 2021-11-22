@@ -1,4 +1,4 @@
-﻿namespace Orc.Automation.Tests
+﻿namespace Orc.Automation
 {
     using System;
 

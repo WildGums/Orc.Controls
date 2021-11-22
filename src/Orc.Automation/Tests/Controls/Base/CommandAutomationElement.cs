@@ -4,7 +4,6 @@
     using System.Threading;
     using System.Windows.Automation;
     using Catel;
-    using Tests;
 
     public class CommandAutomationElement : AutomationElementBase
     {
@@ -19,10 +18,37 @@
         {
             _valuePattern = element.GetCurrentPattern(ValuePattern.Pattern) as ValuePattern;
             _invokePattern = element.GetCurrentPattern(InvokePattern.Pattern) as InvokePattern;
+
+            Automation.AddAutomationEventHandler(InvokePattern.InvokedEvent, element, TreeScope.Element, OnEventInvoke);
         }
         #endregion
 
         #region Methods
+        public event EventHandler<AutomationEventArgs> AutomationEvent;
+
+        private void OnEventInvoke(object sender, System.Windows.Automation.AutomationEventArgs e)
+        {
+            var result = _valuePattern.Current.Value;
+
+            var automationResult = AutomationCommandResult.FromStr(result);
+
+            var eventName = automationResult.EventName;
+            var eventData = automationResult.EventData?.ExtractValue();
+
+            OnEvent(eventName, eventData);
+
+            AutomationEvent?.Invoke(this, new AutomationEventArgs
+            {
+                EventName = eventName,
+                Data = eventData
+            });
+        }
+
+        protected virtual void OnEvent(string eventName, object eventData)
+        {
+
+        }
+
         protected object Execute(string commandName, string commandData, Type dataType, int delay = 200)
         {
             var command = new AutomationCommand

@@ -303,7 +303,7 @@ namespace Orc.Controls
             }
 
             SetCurrentValue(FilteredItemsSourceProperty, GetFilteredItems());
-            SetCurrentValue(FilteredItemsIdsProperty, FilteredItemsSource?.Select(cp => cp.Id));
+            SetCurrentValue(FilteredItemsIdsProperty, FilteredItemsSource?.Select(cp => cp.Id).ToList());
 
             if (newValue is not null)
             {
@@ -421,7 +421,7 @@ namespace Orc.Controls
         private void OnFilterChanged()
         {
             SetCurrentValue(FilteredItemsSourceProperty, GetFilteredItems());
-            SetCurrentValue(FilteredItemsIdsProperty, FilteredItemsSource?.Select(cp => cp.Id));
+            SetCurrentValue(FilteredItemsIdsProperty, FilteredItemsSource?.Select(cp => cp.Id).ToList());
         }
 
         public override void OnApplyTemplate()
@@ -602,7 +602,7 @@ namespace Orc.Controls
             try
             {
                 var regex = new Regex(filter.GetRegexStringFromSearchPattern());
-                return items.Where(cp => regex.IsMatch(cp.Description));
+                return items.Where(cp => regex.IsMatch(cp.Description)).ToList();
             }
             catch (Exception)
             {

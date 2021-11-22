@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Automation;
     using System.Windows.Automation.Peers;
     using System.Windows.Automation.Provider;
     using Catel;
@@ -16,7 +17,7 @@
         private readonly FrameworkElement _owner;
 
         private string _currentCommand;
-        private string _result;
+        private readonly AutomationCommandResult _result = new ();
 
         private IList<IAutomationCommandCall> _automationCommandCalls;
         #endregion
@@ -96,7 +97,7 @@
         }
 
         public virtual bool IsReadOnly => false;
-        public virtual string Value => _result;
+        public virtual string Value => _result?.ToString();
         #endregion
 
         #region InvokeProvider
@@ -113,21 +114,40 @@
             var command = AutomationCommand.FromStr(commandStr);
             if (command is null)
             {
+                _result.Data = null;
+
                 return;
             }
 
             var commandCall = _automationCommandCalls.FirstOrDefault(x => x.IsMatch(_owner, command));
             if (commandCall is null)
             {
+                _result.Data = null;
+
                 return;
             }
 
             if (!commandCall.TryInvoke(_owner, command, out var commandResult))
             {
+                _result.Data = null;
+
                 return;
             }
 
-            _result = commandResult?.ToString();
+            _result.Data = commandResult?.Data;
+        }
+
+        protected void RaiseEvent(string eventName, object args)
+        {
+            if (string.IsNullOrWhiteSpace(eventName))
+            {
+                return;
+            }
+
+            _result.EventName = eventName;
+            _result.EventData = AutomationSendData.FromValue(args);
+
+            RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
         }
         #endregion
     }

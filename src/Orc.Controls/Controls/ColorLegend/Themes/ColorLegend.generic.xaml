@@ -113,10 +113,12 @@
                             </Border>
 
                             <ListView x:Name="PART_List" 
-                                     Grid.Row="3"
-                                     ItemsSource="{Binding FilteredItemsSource, RelativeSource={RelativeSource TemplatedParent}}"
-                                     BorderThickness="0"
-                                     HorizontalContentAlignment="Stretch">
+                                      AutomationProperties.AutomationId="List"
+
+                                      Grid.Row="3"
+                                      ItemsSource="{Binding FilteredItemsSource, RelativeSource={RelativeSource TemplatedParent}}"
+                                      BorderThickness="0"
+                                      HorizontalContentAlignment="Stretch">
                                 <ListView.ItemTemplate>
                                     <DataTemplate DataType="controls:IColorLegendItem">
                                         <Grid HorizontalAlignment="Stretch" Margin="0">
@@ -128,6 +130,7 @@
                                             </Grid.ColumnDefinitions>
 
                                             <CheckBox x:Name="visibilityCheckbox" 
+                                                      AutomationProperties.AutomationId="VisibilityCheckBox"
                                                       Margin="0 0 2 0"
                                                       Grid.Column="0" 
                                                       IsChecked="{Binding IsChecked}"
@@ -136,6 +139,8 @@
                                                                     Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
                                            
                                             <Button x:Name="PART_ButtonColorChange"
+                                                    AutomationProperties.AutomationId="ColorChangeButton"
+
                                                     Margin="2 0 10 0"
                                                     Grid.Column="1"
                                                     Height="14"
@@ -191,11 +196,13 @@
                                             </Button>
 
                                             <TextBlock Text="{Binding Description}"
+                                                       AutomationProperties.AutomationId="DescriptionTextBlock"
                                                        VerticalAlignment="Center"
                                                        Grid.Column="2"
                                                        Margin="0"/>
 
                                             <TextBlock Text="{Binding AdditionalData}" 
+                                                       AutomationProperties.AutomationId="AdditionalDataTextBlock"
                                                        VerticalAlignment="Center"
                                                        Grid.Column="3" 
                                                        Margin="0 0 10 0"/>
