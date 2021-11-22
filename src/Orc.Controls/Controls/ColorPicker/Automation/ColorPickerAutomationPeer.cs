@@ -2,7 +2,7 @@
 {
     using Orc.Automation;
 
-    public class ColorPickerAutomationPeer : ControlCommandAutomationPeerBase<ColorPicker>
+    public class ColorPickerAutomationPeer : ControlRunMethodAutomationPeerBase<ColorPicker>
     {
         public ColorPickerAutomationPeer(ColorPicker owner)
             : base(owner)

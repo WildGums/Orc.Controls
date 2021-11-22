@@ -11,26 +11,27 @@
     using Catel.IoC;
     using Catel.Reflection;
 
-    public abstract class CommandAutomationPeerBase : FrameworkElementAutomationPeer, IValueProvider, IInvokeProvider
+    public abstract class RunMethodAutomationPeerBase : FrameworkElementAutomationPeer, IValueProvider, IInvokeProvider
     {
         #region Fields
         private readonly FrameworkElement _owner;
 
         private string _currentCommand;
-        private readonly AutomationCommandResult _result = new ();
+        private readonly AutomationMethodResult _result = new ();
 
-        private IList<IAutomationCommandCall> _automationCommandCalls;
+        private IList<IAutomationMethodRun> _automationMethods;
         #endregion
 
         #region Constructors
-        public CommandAutomationPeerBase(FrameworkElement owner)
+        public RunMethodAutomationPeerBase(FrameworkElement owner)
             : base(owner)
         {
             Argument.IsNotNull(() => owner);
 
             _owner = owner;
 
-            _automationCommandCalls = Array.Empty<IAutomationCommandCall>();
+            _automationMethods = Array.Empty<IAutomationMethodRun>();
+
             Initialize();
         }
         #endregion
@@ -38,18 +39,17 @@
         #region Methods
         private void Initialize()
         {
-            _automationCommandCalls = GetAvailableCommandCalls();
+            _automationMethods = GetAvailableAutomationMethods();
         }
 
-        protected virtual IList<IAutomationCommandCall> GetAvailableCommandCalls()
+        protected virtual IList<IAutomationMethodRun> GetAvailableAutomationMethods()
         {
-            var calls = GetType().GetMethods().Where(x => x.IsDecoratedWithAttribute(typeof(CommandRunMethodAttribute)))
-                .Select(x => (IAutomationCommandCall) new RunMethodAutomationCommandCall(this, x.Name))
+            var calls = GetType().GetMethods().Where(x => x.IsDecoratedWithAttribute(typeof(AutomationMethodAttribute)))
+                .Select(x => (IAutomationMethodRun) new ReflectionAutomationMethodRun(this, x.Name))
                 .ToList();
 
-            calls.Add(new GetDependencyPropertyCommandCall());
-            calls.Add(new SetDependencyPropertyCommandCall());
-            calls.Add(new RaiseMouseDownEventCall());
+            calls.Add(new GetDependencyPropertyMethodRun());
+            calls.Add(new SetDependencyPropertyMethodRun());
 
             return calls;
         }
@@ -111,23 +111,23 @@
 
             _currentCommand = string.Empty;
 
-            var command = AutomationCommand.FromStr(commandStr);
-            if (command is null)
+            var method = AutomationMethod.FromStr(commandStr);
+            if (method is null)
             {
                 _result.Data = null;
 
                 return;
             }
 
-            var commandCall = _automationCommandCalls.FirstOrDefault(x => x.IsMatch(_owner, command));
-            if (commandCall is null)
+            var methodRun = _automationMethods.FirstOrDefault(x => x.IsMatch(_owner, method));
+            if (methodRun is null)
             {
                 _result.Data = null;
 
                 return;
             }
 
-            if (!commandCall.TryInvoke(_owner, command, out var commandResult))
+            if (!methodRun.TryInvoke(_owner, method, out var commandResult))
             {
                 _result.Data = null;
 
@@ -145,7 +145,7 @@
             }
 
             _result.EventName = eventName;
-            _result.EventData = AutomationSendData.FromValue(args);
+            _result.EventData = AutomationValue.FromValue(args);
 
             RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
         }

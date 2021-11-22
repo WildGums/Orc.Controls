@@ -3,12 +3,12 @@
     using System;
 
     [Serializable]
-    public class AutomationSendData
+    public class AutomationValue
     {
         [NonSerialized]
         private readonly Type _dataType;
 
-        public static AutomationSendData FromValue(object value, Type valueType = null)
+        public static AutomationValue FromValue(object value, Type valueType = null)
         {
             if (value is null)
             {
@@ -17,18 +17,18 @@
 
             var dataSourceXml = XmlSerializerHelper.SerializeValue(value);
 
-            return new AutomationSendData(valueType ?? value.GetType())
+            return new AutomationValue(valueType ?? value.GetType())
             {
                 Data = dataSourceXml
             };
         }
 
-        public AutomationSendData()
+        public AutomationValue()
         {
             
         }
 
-        public AutomationSendData(Type dataType)
+        public AutomationValue(Type dataType)
         {
             _dataType = dataType;
             DataTypeFullName = _dataType?.FullName;

@@ -1,6 +1,6 @@
 ﻿namespace Orc.Automation
 {
-    public class TestHostAutomationPeer : CommandAutomationPeerBase
+    public class TestHostAutomationPeer : RunMethodAutomationPeerBase
     {
         private readonly TestHost _testHost;
 
@@ -10,19 +10,19 @@
             _testHost = owner;
         }
 
-        [CommandRunMethod]
+        [AutomationMethod]
         public string PutControl(string controlTypeFullName)
         {
             return _testHost.PutControl(controlTypeFullName);
         }
 
-        [CommandRunMethod]
+        [AutomationMethod]
         public bool LoadResources(string uri)
         {
             return _testHost.LoadResources(uri);
         }
 
-        [CommandRunMethod]
+        [AutomationMethod]
         public bool LoadAssembly(string location)
         {
             var assembly = _testHost.LoadAssembly(location);

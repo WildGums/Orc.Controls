@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Windows.Automation;
 
-    public class TestHostAutomationElement : CommandAutomationElement
+    public class TestHostAutomationElement : RunMethodAutomationElement
     {
         public TestHostAutomationElement(AutomationElement element) 
             : base(element)

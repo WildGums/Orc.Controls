@@ -1,11 +1,13 @@
 ﻿namespace Orc.Automation
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Windows.Automation;
     using Catel;
 
-    public class CommandAutomationElement : AutomationElementBase
+    public class RunMethodAutomationElement : AutomationElementBase
     {
         #region Fields
         private readonly InvokePattern _invokePattern;
@@ -13,7 +15,7 @@
         #endregion
 
         #region Constructors
-        public CommandAutomationElement(AutomationElement element)
+        public RunMethodAutomationElement(AutomationElement element)
             : base(element)
         {
             _valuePattern = element.GetCurrentPattern(ValuePattern.Pattern) as ValuePattern;
@@ -30,7 +32,7 @@
         {
             var result = _valuePattern.Current.Value;
 
-            var automationResult = AutomationCommandResult.FromStr(result);
+            var automationResult = AutomationMethodResult.FromStr(result);
 
             var eventName = automationResult.EventName;
             var eventData = automationResult.EventData?.ExtractValue();
@@ -49,16 +51,40 @@
 
         }
 
-        protected object Execute(string commandName, string commandData, Type dataType, int delay = 200)
+        public object GetValue(string propertyName)
         {
-            var command = new AutomationCommand
+            Argument.IsNotNull(() => propertyName);
+            Argument.IsNotNullOrEmpty(() => propertyName);
+
+            var result = Execute(GetDependencyPropertyMethodRun.ConvertPropertyToCommandName(propertyName), null, 20);
+            return result;
+        }
+
+        public void SetValue(string propertyName, object value)
+        {
+            Argument.IsNotNull(() => propertyName);
+            Argument.IsNotNullOrEmpty(() => propertyName);
+
+            var automationValues = AutomationHelper.ConvertToAutomationValuesList(value);
+            var result = Execute(SetDependencyPropertyMethodRun.ConvertPropertyToCommandName(propertyName), automationValues, 20);
+        }
+
+        public object Execute(string methodName, params object[] parameters)
+        {
+            var automationValues = AutomationHelper.ConvertToAutomationValuesList(parameters);
+            return Execute(methodName, automationValues, 20);
+        }
+
+        private object Execute(string methodName, AutomationValueList parameters, int delay = 200)
+        {
+            var method = new AutomationMethod
             {
-                CommandName = commandName,
-                Data = dataType is not null ? new AutomationSendData(dataType) { Data = commandData } : null
+                Name = methodName,
+                Parameters = parameters
             };
 
-            var result = Execute(command, delay);
-            if (Equals(result, AutomationCommandResult.Empty))
+            var result = Execute(method, delay);
+            if (Equals(result, AutomationMethodResult.Empty))
             {
                 return null;
             }
@@ -69,44 +95,15 @@
             return resultValue;
         }
 
-        public object GetValue(string propertyName)
+        private AutomationMethodResult Execute(AutomationMethod method, int delay)
         {
-            Argument.IsNotNull(() => propertyName);
-            Argument.IsNotNullOrEmpty(() => propertyName);
-
-            var result = Execute(GetDependencyPropertyCommandCall.ConvertPropertyToCommandName(propertyName), null, null, 20);
-            return result;
-        }
-
-        public void SetValue(string propertyName, object value)
-        {
-            Argument.IsNotNull(() => propertyName);
-            Argument.IsNotNullOrEmpty(() => propertyName);
-
-            var serializedValue = XmlSerializerHelper.SerializeValue(value);
-            var result = Execute(SetDependencyPropertyCommandCall.ConvertPropertyToCommandName(propertyName), serializedValue, value?.GetType(), 20);
-        }
-
-        public object Execute(string methodName, object parameter)
-        {
-            var serializedValue = XmlSerializerHelper.SerializeValue(parameter);
-            return Execute(methodName, serializedValue, parameter.GetType(), 20);
-        }
-
-        public object Execute(string methodName)
-        {
-            return Execute(methodName, null, null, 20);
-        }
-
-        private AutomationCommandResult Execute(AutomationCommand command, int delay)
-        {
-            var commandStr = command?.ToString();
-            if (string.IsNullOrWhiteSpace(commandStr))
+            var methodStr = method?.ToString();
+            if (string.IsNullOrWhiteSpace(methodStr))
             {
                 return null;
             }
 
-            _valuePattern.SetValue(commandStr);
+            _valuePattern.SetValue(methodStr);
 
             Thread.Sleep(delay);
 
@@ -123,7 +120,7 @@
 
             var result = _valuePattern.Current.Value;
 
-            return AutomationCommandResult.FromStr(result);
+            return AutomationMethodResult.FromStr(result);
         }
         #endregion
     }

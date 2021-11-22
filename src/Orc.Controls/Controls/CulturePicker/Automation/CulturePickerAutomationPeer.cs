@@ -5,7 +5,7 @@
     using System.Windows.Automation.Peers;
     using Controls;
 
-    public class CulturePickerAutomationPeer : ControlCommandAutomationPeerBase<CulturePicker>
+    public class CulturePickerAutomationPeer : ControlRunMethodAutomationPeerBase<CulturePicker>
     {
         private readonly ComboBoxAutomationPeer _comboBoxAutomationPeer;
 
@@ -40,7 +40,7 @@
             return base.GetPattern(pattern);
         }
 
-        [CommandRunMethod]
+        [AutomationMethod]
         public List<string> GetAvailableCultures()
         {
             return (Control.ViewModel as CulturePickerViewModel)?.AvailableCultures.Select(x => x.Name).ToList() ?? new List<string>();

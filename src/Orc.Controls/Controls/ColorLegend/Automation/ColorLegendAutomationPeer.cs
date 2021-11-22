@@ -4,7 +4,7 @@
     using System.Linq;
     using Controls;
 
-    public class ColorLegendAutomationPeer : ControlCommandAutomationPeerBase<ColorLegend>
+    public class ColorLegendAutomationPeer : ControlRunMethodAutomationPeerBase<ColorLegend>
     {
         public ColorLegendAutomationPeer(ColorLegend owner)
             : base(owner)
@@ -17,7 +17,7 @@
             RaiseEvent(nameof(ColorLegend.SelectionChanged), 10);
         }
 
-        [CommandRunMethod]
+        [AutomationMethod]
         public void ChangeItemState(int index)
         {
             var item = Control.ItemsSource.ElementAt(index);

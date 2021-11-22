@@ -2,10 +2,10 @@
 {
     using System.Windows;
 
-    public abstract class ControlCommandAutomationPeerBase<TControl> : CommandAutomationPeerBase
+    public abstract class ControlRunMethodAutomationPeerBase<TControl> : RunMethodAutomationPeerBase
         where TControl : FrameworkElement
     {
-        protected ControlCommandAutomationPeerBase(TControl owner)
+        protected ControlRunMethodAutomationPeerBase(TControl owner)
             : base(owner)
         {
             Control = owner;

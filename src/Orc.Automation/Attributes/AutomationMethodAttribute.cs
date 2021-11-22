@@ -3,7 +3,7 @@
     using System;
 
     [AttributeUsage(AttributeTargets.Method)]
-    public class CommandRunMethodAttribute : Attribute
+    public class AutomationMethodAttribute : Attribute
     {
     }
 }

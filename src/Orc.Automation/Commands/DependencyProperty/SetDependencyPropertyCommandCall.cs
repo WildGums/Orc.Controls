@@ -1,8 +1,9 @@
 ﻿namespace Orc.Automation
 {
+    using System.Linq;
     using System.Windows;
 
-    public sealed class SetDependencyPropertyCommandCall : IAutomationCommandCall
+    public sealed class SetDependencyPropertyMethodRun : IAutomationMethodRun
     {
         public const string SetPropertyCommandNamePrefix = "SetProperty:";
 
@@ -15,15 +16,15 @@
             return string.IsNullOrWhiteSpace(commandName) ? null : commandName.Replace(SetPropertyCommandNamePrefix, string.Empty);
         }
 
-        public bool IsMatch(FrameworkElement owner, AutomationCommand command)
+        public bool IsMatch(FrameworkElement owner, AutomationMethod method)
         {
-            var commandName = command?.CommandName;
+            var commandName = method?.Name;
             return commandName?.StartsWith(SetPropertyCommandNamePrefix) ?? false;
         }
 
-        public bool TryInvoke(FrameworkElement owner, AutomationCommand command, out AutomationCommandResult result)
+        public bool TryInvoke(FrameworkElement owner, AutomationMethod method, out AutomationMethodResult result)
         {
-            DependencyPropertyAutomationHelper.SetDependencyPropertyValue(owner, GetPropertyNameFromCommandName(command.CommandName), command.Data?.ExtractValue());
+            DependencyPropertyAutomationHelper.SetDependencyPropertyValue(owner, GetPropertyNameFromCommandName(method.Name), method.Parameters?.FirstOrDefault()?.ExtractValue());
 
             result = null;
 

@@ -4,11 +4,11 @@
 
     public class CultureToAutomationResultConverter : ResultToAutomationCommandResultConverter<CultureInfo>
     {
-        public override AutomationCommandResult Convert(CultureInfo culture)
+        public override AutomationMethodResult Convert(CultureInfo culture)
         {
-            return new AutomationCommandResult
+            return new AutomationMethodResult
             {
-                Data = AutomationSendData.FromValue(culture.Name, typeof(string))
+                Data = AutomationValue.FromValue(culture.Name, typeof(string))
             };
         }
     }

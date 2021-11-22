@@ -19,6 +19,7 @@
         {
             var color = (Color)memberValue.Value;
             memberValue.Value = $"{color.A}{ArgbSeparator}{color.R}{ArgbSeparator}{color.G}{ArgbSeparator}{color.B}";
+
             //memberValue.ActualMemberType = typeof(Color);
             base.SerializeMember(context, memberValue);
         }

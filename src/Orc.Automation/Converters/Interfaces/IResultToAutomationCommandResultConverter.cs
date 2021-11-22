@@ -2,11 +2,11 @@
 {
     public interface IResultToAutomationCommandResultConverter
     {
-        AutomationCommandResult Convert(object result);
+        AutomationMethodResult Convert(object result);
     }
 
     public interface IResultToAutomationCommandResultConverter<in T> : IResultToAutomationCommandResultConverter
     {
-        AutomationCommandResult Convert(T result);
+        AutomationMethodResult Convert(T result);
     }
 }

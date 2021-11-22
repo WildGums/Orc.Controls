@@ -8,11 +8,9 @@
     using System.Threading;
     using System.Windows.Automation;
     using System.Windows.Input;
-    using System.Windows.Media.Animation;
     using Catel;
     using Catel.IoC;
     using Catel.Reflection;
-    using Tests;
 
     public static class AutomationElementExtensions
     {
@@ -267,7 +265,7 @@
 
             try
             {
-                var commandAutomationElement = new CommandAutomationElement(element);
+                var commandAutomationElement = new RunMethodAutomationElement(element);
                 value = commandAutomationElement.GetValue(propertyName);
             }
             catch (Exception e)
@@ -284,7 +282,7 @@
         {
             try
             {
-                var commandAutomationElement = new CommandAutomationElement(element);
+                var commandAutomationElement = new RunMethodAutomationElement(element);
                 commandAutomationElement.SetValue(propertyName, value);
             }
             catch (Exception e)
@@ -331,7 +329,7 @@
 
             try
             {
-                var commandAutomationElement = new CommandAutomationElement(element);
+                var commandAutomationElement = new RunMethodAutomationElement(element);
                 result = commandAutomationElement.Execute(methodName, parameter);
             }
             catch (Exception e)
@@ -350,7 +348,7 @@
 
             try
             {
-                var testHostCommand = new CommandAutomationElement(element);
+                var testHostCommand = new RunMethodAutomationElement(element);
                 result = testHostCommand.Execute(methodName);
             }
             catch (Exception e)

@@ -6,7 +6,7 @@
     using System.Windows.Media;
     using Orc.Automation;
 
-    public class ColorLegendAutomationElement : CommandAutomationElement
+    public class ColorLegendAutomationElement : RunMethodAutomationElement
     {
         public ColorLegendAutomationElement(AutomationElement element)
             : base(element)

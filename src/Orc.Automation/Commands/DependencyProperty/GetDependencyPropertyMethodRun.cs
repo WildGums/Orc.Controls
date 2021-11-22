@@ -2,7 +2,7 @@
 {
     using System.Windows;
 
-    public sealed class GetDependencyPropertyCommandCall : IAutomationCommandCall
+    public sealed class GetDependencyPropertyMethodRun : IAutomationMethodRun
     {
         public const string GetPropertyCommandNamePrefix = "GetProperty:";
 
@@ -15,15 +15,15 @@
             return string.IsNullOrWhiteSpace(commandName) ? null : commandName.Replace(GetPropertyCommandNamePrefix, string.Empty);
         }
 
-        public bool IsMatch(FrameworkElement owner, AutomationCommand command)
+        public bool IsMatch(FrameworkElement owner, AutomationMethod method)
         {
-            var commandName = command?.CommandName;
+            var commandName = method?.Name;
             return commandName?.StartsWith(GetPropertyCommandNamePrefix) ?? false;
         }
 
-        public bool TryInvoke(FrameworkElement owner, AutomationCommand command, out AutomationCommandResult propertyValue)
+        public bool TryInvoke(FrameworkElement owner, AutomationMethod method, out AutomationMethodResult propertyValue)
         {
-            return DependencyPropertyAutomationHelper.TryGetDependencyPropertyValue(owner, GetPropertyNameFromCommandName(command.CommandName), out propertyValue);
+            return DependencyPropertyAutomationHelper.TryGetDependencyPropertyValue(owner, GetPropertyNameFromCommandName(method.Name), out propertyValue);
         }
     }
 }

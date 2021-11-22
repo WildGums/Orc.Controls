@@ -4,11 +4,11 @@
 
     public class RectToAutomationCommandResultConverter : ResultToAutomationCommandResultConverter<Rect>
     {
-        public override AutomationCommandResult Convert(Rect result)
+        public override AutomationMethodResult Convert(Rect result)
         {
-            return new AutomationCommandResult
+            return new AutomationMethodResult
             {
-                Data = AutomationSendData.FromValue(new RectWrapper{Rect = result}, typeof(RectWrapper))
+                Data = AutomationValue.FromValue(new RectWrapper{Rect = result}, typeof(RectWrapper))
             };
         }
     }

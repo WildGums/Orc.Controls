@@ -10,7 +10,7 @@
 
     public static class DependencyPropertyAutomationHelper
     {
-        public static bool TryGetDependencyPropertyValue(DependencyObject element, string propertyName, out AutomationCommandResult propertyValue)
+        public static bool TryGetDependencyPropertyValue(DependencyObject element, string propertyName, out AutomationMethodResult propertyValue)
         {
             Argument.IsNotNull(() => element);
 
