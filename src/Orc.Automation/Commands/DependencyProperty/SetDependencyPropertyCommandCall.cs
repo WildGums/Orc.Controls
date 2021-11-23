@@ -22,7 +22,7 @@
             return commandName?.StartsWith(SetPropertyCommandNamePrefix) ?? false;
         }
 
-        public bool TryInvoke(FrameworkElement owner, AutomationMethod method, out AutomationMethodResult result)
+        public bool TryInvoke(FrameworkElement owner, AutomationMethod method, out AutomationValue result)
         {
             DependencyPropertyAutomationHelper.SetDependencyPropertyValue(owner, GetPropertyNameFromCommandName(method.Name), method.Parameters?.FirstOrDefault()?.ExtractValue());
 

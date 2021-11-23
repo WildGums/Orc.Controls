@@ -18,7 +18,8 @@
         }
 
         public override string Name { get; }
-        public override bool TryInvoke(FrameworkElement owner, AutomationMethod automationMethod, out AutomationMethodResult result)
+
+        public override bool TryInvoke(FrameworkElement owner, AutomationMethod automationMethod, out AutomationValue result)
         {
             var type = _peer.GetType();
 
@@ -36,8 +37,8 @@
                 ?? Array.Empty<object>();
 
             var methodResult = method.Invoke(_peer, automationInputParameters);
-            
-            result = AutomationHelper.ConvertToSerializableResult(methodResult);
+
+            result = AutomationValue.FromValue(methodResult);
 
             return true;
         }

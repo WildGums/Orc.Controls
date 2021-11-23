@@ -5,6 +5,6 @@
     public interface IAutomationMethodRun
     {
         public abstract bool IsMatch(FrameworkElement owner, AutomationMethod method);
-        public abstract bool TryInvoke(FrameworkElement owner, AutomationMethod method, out AutomationMethodResult result);
+        public abstract bool TryInvoke(FrameworkElement owner, AutomationMethod method, out AutomationValue result);
     }
 }

@@ -1,11 +1,13 @@
 ﻿namespace Orc.Controls.Tests
 {
+    using System.Threading;
     using System.Windows.Media;
     using Automation;
     using Catel.IoC;
     using Catel.Runtime.Serialization;
     using NUnit.Framework;
     using Orc.Automation;
+    using Orc.Automation.Converters;
     using Orc.Automation.Tests;
 
     public class ColorPickerElementMap
@@ -28,16 +30,11 @@
         {
             base.SetUpTest();
 
-            var serializationManager = this.GetServiceLocator().ResolveType<ISerializationManager>();
+            var color = Target.Color;
 
-            serializationManager.AddSerializerModifier(typeof(Color), typeof(ColorSerializerModifier));
+            Thread.Sleep(200);
 
-            //var colorStr = XmlSerializerHelper.SerializeValue(Colors.Red);
-            //var newColor = this.GetTypeFactory().CreateInstance(typeof(Color));
-
-            //var color = XmlSerializerHelper.DeserializeValue(colorStr, typeof(Color));
-
-            //Target.Color = newColor;
+            Target.Color = Colors.Red;
         }
 
         [Test]

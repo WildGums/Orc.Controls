@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections;
-    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
     using System.Windows;
@@ -10,7 +9,7 @@
 
     public static class DependencyPropertyAutomationHelper
     {
-        public static bool TryGetDependencyPropertyValue(DependencyObject element, string propertyName, out AutomationMethodResult propertyValue)
+        public static bool TryGetDependencyPropertyValue(DependencyObject element, string propertyName, out object propertyValue)
         {
             Argument.IsNotNull(() => element);
 
@@ -28,14 +27,14 @@
             }
 
             var dependencyPropertyValue = element.GetValue(dependencyProperty);
-            //TODO:Vladimir:find better way to do this
 
+            //TODO:Vladimir:find better way to do this
             if (dependencyPropertyValue is IEnumerable enumerableValue && dependencyPropertyValue.GetType().Name.StartsWith("IEnumerable"))
             {
                 dependencyPropertyValue = enumerableValue.OfType<string>().ToList();
             }
 
-            propertyValue = AutomationHelper.ConvertToSerializableResult(dependencyPropertyValue);
+            propertyValue = dependencyPropertyValue;
 
             return true;
         }

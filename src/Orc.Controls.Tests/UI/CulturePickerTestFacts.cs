@@ -4,16 +4,51 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Threading;
     using System.Windows.Automation;
     using NUnit.Framework;
     using Orc.Automation;
     using Orc.Automation.Tests;
+
+    public class CulturePickerMap
+    {
+        [Target]
+        public AutomationElement Target { get; set; }
+
+        public List<AutomationElement> Items
+        {
+            get
+            {
+                var target = Target;
+
+                target.TryExpand();
+
+                Thread.Sleep(200);
+
+                var items = target.FindAll(controlType: ControlType.ListItem);
+
+                return items;
+            }
+        }
+    }
 
     [TestFixture]
     public class CulturePickerTestFacts : ControlUiTestFactsBase<CulturePicker>
     {
         [Target]
         public AutomationElement Target { get; set; }
+
+        [TargetControlMap]
+        public CulturePickerMap TargetMap { get; set; }
+
+
+        [Test]
+        public void CorrectlyInitializeItems()
+        {
+            var target = Target;
+
+            var items = TargetMap.Items;
+        }
 
         [Test]
         public void CorrectlyInitializeAvailableCultures()
@@ -38,16 +73,13 @@
         {
             var target = Target;
 
-            Assert.That(target.TryExecute<List<string>>(nameof(CulturePickerAutomationPeer.GetAvailableCultures), out var availableCultures));
+            Assert.That(target.TryExecute<CultureInfo>(nameof(CulturePickerAutomationPeer.GetAvailableCultures), out var culture));
 
-            Assert.That(availableCultures, Is.Not.Empty);
+            //Assert.That(availableCultures, Is.Not.Empty);
 
-            var random = new Random();
-            var index = random.Next(0, availableCultures.Count - 1);
-            var cultureName = availableCultures[index];
-
-            var culture = CultureInfo.GetCultures(CultureTypes.AllCultures)
-                    .FirstOrDefault(x => x.Name == cultureName);
+            //var random = new Random();
+            //var index = random.Next(0, availableCultures.Count - 1);
+            //var culture = availableCultures[index];
 
             Assert.That(culture, Is.Not.Null);
 

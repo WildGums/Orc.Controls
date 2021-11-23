@@ -1,8 +1,6 @@
 ﻿namespace Orc.Automation
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading;
     using System.Windows.Automation;
     using Catel;
@@ -32,10 +30,10 @@
         {
             var result = _valuePattern.Current.Value;
 
-            var automationResult = AutomationMethodResult.FromStr(result);
+            var automationResult = AutomationResultContainer.FromStr(result);
 
-            var eventName = automationResult.EventName;
-            var eventData = automationResult.EventData?.ExtractValue();
+            var eventName = automationResult.LastEventName;
+            var eventData = automationResult.LastEventArgs?.ExtractValue();
 
             OnEvent(eventName, eventData);
 
@@ -65,13 +63,13 @@
             Argument.IsNotNull(() => propertyName);
             Argument.IsNotNullOrEmpty(() => propertyName);
 
-            var automationValues = AutomationHelper.ConvertToAutomationValuesList(value);
+            var automationValues = AutomationValueList.Create(value);
             var result = Execute(SetDependencyPropertyMethodRun.ConvertPropertyToCommandName(propertyName), automationValues, 20);
         }
 
         public object Execute(string methodName, params object[] parameters)
         {
-            var automationValues = AutomationHelper.ConvertToAutomationValuesList(parameters);
+            var automationValues = AutomationValueList.Create(parameters);
             return Execute(methodName, automationValues, 20);
         }
 
@@ -84,18 +82,12 @@
             };
 
             var result = Execute(method, delay);
-            if (Equals(result, AutomationMethodResult.Empty))
-            {
-                return null;
-            }
-
-            var data = result.Data;
-            var resultValue = data?.ExtractValue();
+            var resultValue = result?.ExtractValue();
 
             return resultValue;
         }
 
-        private AutomationMethodResult Execute(AutomationMethod method, int delay)
+        private AutomationValue Execute(AutomationMethod method, int delay)
         {
             var methodStr = method?.ToString();
             if (string.IsNullOrWhiteSpace(methodStr))
@@ -119,8 +111,9 @@
             Thread.Sleep(delay);
 
             var result = _valuePattern.Current.Value;
+            var automationResultContainer = AutomationResultContainer.FromStr(result);
 
-            return AutomationMethodResult.FromStr(result);
+            return automationResultContainer.LastInvokedMethodResult;
         }
         #endregion
     }

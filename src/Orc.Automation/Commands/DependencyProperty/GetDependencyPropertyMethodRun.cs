@@ -21,9 +21,18 @@
             return commandName?.StartsWith(GetPropertyCommandNamePrefix) ?? false;
         }
 
-        public bool TryInvoke(FrameworkElement owner, AutomationMethod method, out AutomationMethodResult propertyValue)
+        public bool TryInvoke(FrameworkElement owner, AutomationMethod method, out AutomationValue automationPropertyValue)
         {
-            return DependencyPropertyAutomationHelper.TryGetDependencyPropertyValue(owner, GetPropertyNameFromCommandName(method.Name), out propertyValue);
+            automationPropertyValue = null;
+
+            if (DependencyPropertyAutomationHelper.TryGetDependencyPropertyValue(owner, GetPropertyNameFromCommandName(method.Name), out var propertyValue))
+            {
+                automationPropertyValue = AutomationValue.FromValue(propertyValue);
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -5,25 +5,25 @@
 
     [Serializable]
     [KnownType(typeof(AutomationValue))]
-    public class AutomationMethodResult
+    public class AutomationResultContainer
     {
         [NonSerialized]
-        public static readonly AutomationMethodResult Empty = new();
+        public static readonly AutomationResultContainer Empty = new();
 
-        public static AutomationMethodResult FromStr(string resultText)
+        public static AutomationResultContainer FromStr(string resultText)
         {
             if (string.IsNullOrWhiteSpace(resultText))
             {
                 return Empty;
             }
 
-            return XmlSerializerHelper.DeserializeValue(resultText, typeof(AutomationMethodResult)) as AutomationMethodResult ?? Empty;
+            return XmlSerializerHelper.DeserializeValue(resultText, typeof(AutomationResultContainer)) as AutomationResultContainer ?? Empty;
         }
+        
+        public string LastEventName { get; set; }
+        public AutomationValue LastEventArgs { get; set; }
 
-        public AutomationValue Data { get; set; }
-
-        public string EventName { get; set; }
-        public AutomationValue EventData { get; set; }
+        public AutomationValue LastInvokedMethodResult { get; set; }
 
         public override string ToString()
         {

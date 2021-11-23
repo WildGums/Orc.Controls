@@ -4,11 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
-    using System.Windows.Automation;
     using System.Windows.Automation.Peers;
     using System.Windows.Automation.Provider;
     using Catel;
-    using Catel.IoC;
     using Catel.Reflection;
 
     public abstract class RunMethodAutomationPeerBase : FrameworkElementAutomationPeer, IValueProvider, IInvokeProvider
@@ -17,7 +15,7 @@
         private readonly FrameworkElement _owner;
 
         private string _currentCommand;
-        private readonly AutomationMethodResult _result = new ();
+        private readonly AutomationResultContainer _result = new ();
 
         private IList<IAutomationMethodRun> _automationMethods;
         #endregion
@@ -114,7 +112,7 @@
             var method = AutomationMethod.FromStr(commandStr);
             if (method is null)
             {
-                _result.Data = null;
+                _result.LastInvokedMethodResult = null;
 
                 return;
             }
@@ -122,19 +120,19 @@
             var methodRun = _automationMethods.FirstOrDefault(x => x.IsMatch(_owner, method));
             if (methodRun is null)
             {
-                _result.Data = null;
+                _result.LastInvokedMethodResult = null;
 
                 return;
             }
 
-            if (!methodRun.TryInvoke(_owner, method, out var commandResult))
+            if (!methodRun.TryInvoke(_owner, method, out var methodResult))
             {
-                _result.Data = null;
+                _result.LastInvokedMethodResult = null;
 
                 return;
             }
 
-            _result.Data = commandResult?.Data;
+            _result.LastInvokedMethodResult = methodResult;
         }
 
         protected void RaiseEvent(string eventName, object args)
@@ -144,8 +142,8 @@
                 return;
             }
 
-            _result.EventName = eventName;
-            _result.EventData = AutomationValue.FromValue(args);
+            _result.LastEventName = eventName;
+            _result.LastEventArgs = AutomationValue.FromValue(args);
 
             RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
         }

@@ -23,7 +23,7 @@
                         let baseTypeLocal = type.GetTypeInfo().BaseType
 #endif
                 let genericArgs = baseTypeLocal.GetGenericArguments()
-                where genericArgs.Length == 1 && genericArgs.First() == singleGenericTypeArgument
+                where genericArgs.Contains(singleGenericTypeArgument)
                 select type;
 
             var projectorType = types.FirstOrDefault();

@@ -23,12 +23,12 @@
             };
         }
 
-        public AutomationValue()
+        protected AutomationValue()
         {
-            
+
         }
 
-        public AutomationValue(Type dataType)
+        private AutomationValue(Type dataType)
         {
             _dataType = dataType;
             DataTypeFullName = _dataType?.FullName;

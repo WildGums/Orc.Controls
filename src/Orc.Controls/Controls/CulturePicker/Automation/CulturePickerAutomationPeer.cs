@@ -1,6 +1,7 @@
 ﻿namespace Orc.Automation
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Windows.Automation.Peers;
     using Controls;
@@ -41,9 +42,9 @@
         }
 
         [AutomationMethod]
-        public List<string> GetAvailableCultures()
+        public CultureInfo GetAvailableCultures()
         {
-            return (Control.ViewModel as CulturePickerViewModel)?.AvailableCultures.Select(x => x.Name).ToList() ?? new List<string>();
+            return (Control.ViewModel as CulturePickerViewModel)?.AvailableCultures.FirstOrDefault();
         }
     }
 }
