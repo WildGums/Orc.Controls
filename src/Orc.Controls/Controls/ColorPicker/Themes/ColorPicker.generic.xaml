@@ -20,12 +20,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ColorPicker}">
                     <Grid x:Name="grid" Background="Transparent">
-                        <ToggleButton Grid.ColumnSpan="2"
+                        <ToggleButton x:Name="PART_ToggleDropDown"
+                                      Grid.ColumnSpan="2"
+
                                       IsTabStop="False"
                                       ClickMode="Press"
                                       HorizontalContentAlignment="Stretch"
                                       IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                      x:Name="PART_ToggleDropDown"
                                       Height="14"
                                       Background="Transparent"
                                       BorderBrush="Transparent"
@@ -94,6 +95,8 @@
                         </ToggleButton>
 
                         <Popup x:Name="PART_Popup"
+                               AutomationProperties.AutomationId="ColorPopup"
+
                                Placement="{Binding PopupPlacement, RelativeSource={RelativeSource TemplatedParent}}"
                                IsOpen="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
                     </Grid>
@@ -339,6 +342,8 @@
                                             </Canvas>
 
                                             <Slider Name="PART_HSVSlider"
+                                                    AutomationProperties.AutomationId="HSVSlider"
+
                                                     Grid.Column="1"
                                                     Margin="0"
                                                     Height="150"
@@ -377,6 +382,8 @@
                                                 </Grid.ColumnDefinitions>
 
                                                 <Slider x:Name="PART_ASlider"
+                                                        AutomationProperties.AutomationId="ASlider"
+
                                                         Grid.Row="0"
                                                         Grid.Column="0"
                                                         Height="20"
@@ -394,6 +401,7 @@
                                                 </Slider>
 
                                                 <Slider x:Name="PART_RSlider"
+                                                        AutomationProperties.AutomationId="RSlider"
                                                         Grid.Row="1"
                                                         Grid.Column="0"
                                                         Height="20"
@@ -411,6 +419,7 @@
                                                 </Slider>
 
                                                 <Slider x:Name="PART_GSlider"
+                                                        AutomationProperties.AutomationId="GSlider"
                                                         Grid.Row="2"
                                                         Grid.Column="0"
                                                         Height="20"
@@ -428,6 +437,7 @@
                                                 </Slider>
 
                                                 <Slider x:Name="PART_BSlider"
+                                                        AutomationProperties.AutomationId="BSlider"
                                                         Grid.Row="3"
                                                         Grid.Column="0"
                                                         Height="20"

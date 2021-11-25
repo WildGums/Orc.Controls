@@ -1,9 +1,6 @@
 ﻿namespace Orc.Automation
 {
     using System;
-    using System.Windows.Media;
-    using Catel.Logging;
-    using Converters;
 
     public interface ISerializationValueConverter
     {

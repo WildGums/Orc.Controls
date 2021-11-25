@@ -40,9 +40,14 @@
   <!-- Theming -->
   <ItemGroup>
     <Page Remove="**/*.Template.xaml" />
+    <Page Remove="Tests\Extensions\**" />
     <EmbeddedResource Include="**/*.Template.xaml" />
+    <Compile Remove="Tests\Extensions\**" />
+    <EmbeddedResource Remove="Tests\Extensions\**" />
 
     <None Remove="**/GeneratorParameters.json" />
+
+    <None Remove="Tests\Extensions\**" />
     <EmbeddedResource Include="**/GeneratorParameters.json" />
   </ItemGroup>
   <ItemGroup>
@@ -53,10 +58,6 @@
 
   <ItemGroup>
     <PackageReference Update="NETStandard.Library" Version="2.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Tests\Extensions\" />
   </ItemGroup>
 
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props')" />

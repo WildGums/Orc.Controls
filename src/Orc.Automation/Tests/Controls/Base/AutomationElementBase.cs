@@ -32,7 +32,7 @@
                 {
                     id = callingProperty.Replace("get_", string.Empty);
 
-                    var firstTimeSearchElement = Element.FindFirstWithDelay(new OrCondition(new PropertyCondition(AutomationElement.NameProperty, id), new PropertyCondition(AutomationElement.AutomationIdProperty, id)));
+                    var firstTimeSearchElement = Element.Find(new OrCondition(new PropertyCondition(AutomationElement.NameProperty, id), new PropertyCondition(AutomationElement.AutomationIdProperty, id)));
                     if (firstTimeSearchElement is null)
                     {
                         throw new Exception($"Can't find part with Id = {id} or Name = {id}");
@@ -60,5 +60,15 @@
 
             return part;
         }
+
+        public static implicit operator AutomationElement(AutomationElementBase element)
+        {
+            return element?.Element;
+        }
+
+        //public static explicit operator AutomationElement(AutomationElementBase element)
+        //{
+        //    return element?.Element;
+        //}
     }
 }

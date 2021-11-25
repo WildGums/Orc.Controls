@@ -1,22 +1,17 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ColorBoard.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Media;
     using System.Windows.Shapes;
+    using Automation;
     using Catel.Logging;
 
     [TemplatePart(Name = "PART_RootGrid", Type = typeof(FrameworkElement))]
@@ -1112,6 +1107,11 @@ namespace Orc.Controls
 
             var c = ((PredefinedColorItem)_themeColorsListBox.SelectedItem).Color;
             UpdateControls(c, true, true, true);
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new ColorBoardAutomationPeer(this);
         }
         #endregion
     }
