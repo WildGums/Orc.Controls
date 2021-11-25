@@ -11,7 +11,7 @@
     public static partial class AutomationElementExtensions
     {
         public static TElement FindAncestor<TElement>(this AutomationElement child, Func<AutomationElement, bool> searchFunc)
-            where TElement : AutomationElementBase
+            where TElement : AutomationControl
         {
             Argument.IsNotNull(() => child);
             Argument.IsNotNull(() => searchFunc);
@@ -40,7 +40,7 @@
         }
 
         public static TElement Find<TElement>(this AutomationElement parent, string id = null, string name = null, string className = null, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
-            where TElement : AutomationElementBase
+            where TElement : AutomationControl
         {
             var element = Find(parent, id, name, className, controlType, scope, numberOfWaits);
             if (element is null)

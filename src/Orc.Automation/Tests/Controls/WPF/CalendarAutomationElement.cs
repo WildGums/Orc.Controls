@@ -3,7 +3,7 @@
     using System.Windows.Automation;
 
 
-    public class CalendarAutomationElement : ProtectedByControlTypeAutomationElementBase
+    public class CalendarAutomationElement : ProtectedByControlTypeAutomationControl
     {
         public CalendarAutomationElement(AutomationElement element) 
             : base(element, ControlType.Calendar)

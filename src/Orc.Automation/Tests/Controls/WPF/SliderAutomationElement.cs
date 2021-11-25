@@ -3,7 +3,7 @@
     using System.Windows.Automation;
 
     //https://docs.microsoft.com/en-us/dotnet/framework/ui-automation/ui-automation-support-for-the-slider-control-type
-    public sealed class SliderAutomationElement : ProtectedByControlTypeAutomationElementBase
+    public sealed class SliderAutomationElement : ProtectedByControlTypeAutomationControl
     {
         public SliderAutomationElement(AutomationElement element) 
             : base(element, ControlType.Slider)

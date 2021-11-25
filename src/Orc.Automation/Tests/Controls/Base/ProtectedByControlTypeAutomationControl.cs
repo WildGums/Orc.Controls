@@ -3,9 +3,9 @@
     using System.Windows.Automation;
     using Catel;
 
-    public class ProtectedByControlTypeAutomationElementBase : AutomationElementBase
+    public class ProtectedByControlTypeAutomationControl : AutomationControl
     {
-        public ProtectedByControlTypeAutomationElementBase(AutomationElement element, ControlType controlType) 
+        public ProtectedByControlTypeAutomationControl(AutomationElement element, ControlType controlType) 
             : base(element)
         {
             Argument.IsNotNull(() => controlType);

@@ -5,7 +5,7 @@
     using System.Windows.Automation;
     using Catel;
 
-    public class RunMethodAutomationElement : AutomationElementBase
+    public class RunMethodAutomationElement : AutomationControl
     {
         #region Fields
         private readonly InvokePattern _invokePattern;

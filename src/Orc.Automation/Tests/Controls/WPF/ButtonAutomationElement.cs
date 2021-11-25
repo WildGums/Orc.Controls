@@ -2,7 +2,7 @@
 {
     using System.Windows.Automation;
 
-    public sealed class ButtonAutomationElement : ProtectedByControlTypeAutomationElementBase
+    public sealed class ButtonAutomationElement : ProtectedByControlTypeAutomationControl
     {
         public ButtonAutomationElement(AutomationElement element) 
             : base(element, ControlType.Button)

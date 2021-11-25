@@ -3,7 +3,7 @@
     using System.Windows.Automation;
     using Orc.Automation;
 
-    public class ColorLegendItemAutomationElement : AutomationElementBase
+    public class ColorLegendItemAutomationElement : AutomationControl
     {
         public ColorLegendItemAutomationElement(AutomationElement element)
             : base(element)

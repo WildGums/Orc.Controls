@@ -2,7 +2,7 @@
 {
     using System.Windows.Automation;
 
-    public class WindowAutomationElement : ProtectedByControlTypeAutomationElementBase
+    public class WindowAutomationElement : ProtectedByControlTypeAutomationControl
     {
         public WindowAutomationElement(AutomationElement element)
             : base(element, ControlType.Window)

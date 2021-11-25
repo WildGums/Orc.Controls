@@ -36,42 +36,47 @@
 
         [ControlPart(ControlType = nameof(ControlType.Button))]
         public ToggleButtonAutomationElement ToggleDropDown { get; set; }
-
-        public AutomationElement ColorPopup { get; set; }
     }
 
-    //public class ColorPickerScenario : ScenarioBase<ColorPickerAutomationElement, ColorPickerMap>
-    //{
-    //    [ControlPart(ControlType = nameof(ControlType.Button))]
-    //    public ToggleButtonAutomationElement ToggleDropDown { get; set; }
+    public class ColorPickerScenario : AutomationControlScenario
+    {
+        private readonly ColorPickerAutomationElement _element;
+        private readonly ColorPickerMap _map;
+        private readonly ToggleButtonAutomationElement _toggleDropDown;
 
-    //    public ColorPickerScenario(ColorPickerAutomationElement element)
-    //        : base(element)
-    //    {
-    //    }
+        [ControlPart(ControlType = nameof(ControlType.Button))]
+        protected virtual ToggleButtonAutomationElement ToggleDropDown { get; set; }
+        
+        public ColorPickerScenario(ColorPickerAutomationElement element)
+            : base(element)
+        {
+            _element = element;
+            _map = _element.CreateControlMap<ColorPickerMap>();
+            _toggleDropDown = _element.GetPart(controlType: ControlType.Button).As<ToggleButtonAutomationElement>();
+        }
 
-    //    public ColorBoardAutomationElement ShowColorEditDropDown()
-    //    {
-    //        var windowHost = _element.FindAncestor<Window>(x => Equals(x.Current.ControlType, ControlType.Window));
-    //        if (windowHost is null)
-    //        {
-    //            return null;
-    //        }
+        public ColorBoardAutomationElement ShowColorEditDropDown()
+        {
+            var windowHost = _element.FindAncestor<Window>(x => Equals(x.Current.ControlType, ControlType.Window));
+            if (windowHost is null)
+            {
+                return null;
+            }
 
-    //        _ = _map.ToggleDropDown.Toggle();
+            ToggleDropDown.Toggle();
 
-    //        Wait.UntilResponsive();
+            Wait.UntilResponsive();
 
-    //        var colorPopup = windowHost.Find(className: "Popup", controlType: ControlType.Window);
-    //        var colorBoard = colorPopup?.Find(className: typeof(ColorBoard).FullName);
-    //        if (colorBoard is null)
-    //        {
-    //            return null;
-    //        }
+            var colorPopup = windowHost.Find(className: "Popup", controlType: ControlType.Window);
+            var colorBoard = colorPopup?.Find(className: typeof(ColorBoard).FullName);
+            if (colorBoard is null)
+            {
+                return null;
+            }
 
-    //        return new ColorBoardAutomationElement(colorBoard);
-    //    }
-    //}
+            return new ColorBoardAutomationElement(colorBoard);
+        }
+    }
 
     [TestFixture(TestOf = typeof(ColorPicker))]
     [NUnit.Framework.Category("UI Tests")]
@@ -96,30 +101,15 @@
         }
 
         [Test]
-        public void CorrectlySetColorThroughtColorBoard()
+        public void CorrectlySetColor()
         {
+            var target = Target;
 
-         //   model.Some();
+            var scenario = target.CreateScenario<ColorPickerScenario>();
 
-            //Target.GetScenario
-
-            //var colorBoard = Target.Simulate.OpenColorBoard();
-            //var colorBoard = Target.Simulate(ColorPicker.OpenColorBoard)
-            //var colorBoard = Target.SimulateOpenColorBoard();
-            //ColorPickerScenarios.OpenColorBoard
-
-            //var scenarios = Target.GetScenario<ColorPickerUserScenarios>();
-            //var colorBoard = scenarios.OpenColorBoard();
-
-            //       var colorBoard = userScenario.ShowColorEditDropDown();
-            //Assert.That(colorBoard, Is.Not.Null);
-
-          //  var colorBoardMap = colorBoard.Element.CreateControlMap<ColorBoardMap>();
-
-          //  colorBoardMap.ASlider.Value = 29;
-          //  colorBoardMap.BSlider.Value = 30;
-
-            Thread.Sleep(20000);
+            var colorBoard = scenario.ShowColorEditDropDown();
+            Assert.That(colorBoard, Is.Not.Null);
+            Assert.That(target.IsDropDownOpen, Is.True);
         }
     }
 }
