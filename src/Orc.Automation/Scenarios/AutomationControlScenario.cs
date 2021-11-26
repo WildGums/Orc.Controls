@@ -32,7 +32,21 @@
             var type = GetType();
 
             var property = type.GetRuntimeProperties().FirstOrDefault(x => Equals(x.Name, propertyName));
-            return property.GetAttribute<ControlPartAttribute>();
+            var controlPartAttribute = property?.GetAttribute<ControlPartAttribute>();
+            if (controlPartAttribute is null)
+            {
+                return null;
+            }
+
+            if (controlPartAttribute.IsEmpty)
+            {
+                controlPartAttribute = new ControlPartAttribute(property.Name)
+                {
+                    IsTransient = controlPartAttribute.IsTransient
+                };
+            }
+
+            return controlPartAttribute;
         }
         protected override TAutomationElement GetPart<TAutomationElement>(string propertyName, IControlPartSearchInfo searchInfo)
         {

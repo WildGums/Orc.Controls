@@ -20,7 +20,7 @@
             _toggleDropDown = _element.GetPart(controlType: ControlType.Button).As<ToggleButtonAutomationElement>();
         }
 
-        public ColorBoardAutomationElement ShowColorEditDropDown()
+        public ColorBoardAutomationControl ShowColorEditDropDown()
         {
             var windowHost = _element.FindAncestor<Window>(x => Equals(x.Current.ControlType, ControlType.Window));
             if (windowHost is null)
@@ -39,7 +39,7 @@
                 return null;
             }
 
-            return new ColorBoardAutomationElement(colorBoard);
+            return new ColorBoardAutomationControl(colorBoard);
         }
     }
 }

@@ -17,6 +17,12 @@
             set => SetValue(nameof(ColorPicker.Color), value);
         }
 
+        public Color CurrentColor
+        {
+            get => (Color)GetValue(nameof(ColorPicker.CurrentColor));
+            set => SetValue(nameof(ColorPicker.CurrentColor), value);
+        }
+
         public bool IsDropDownOpen
         {
             get => (bool)GetValue(nameof(ColorPicker.IsDropDownOpen));

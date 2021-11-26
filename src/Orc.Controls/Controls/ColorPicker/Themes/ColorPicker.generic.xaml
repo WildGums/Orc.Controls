@@ -658,12 +658,14 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Button x:Name="PART_CancelButton"
+                                            AutomationProperties.AutomationId="CancelButton"
                                             Grid.Column="0"
                                             Height="auto"
                                             Margin="2 0 2 2"
                                             Content="{catel:LanguageBinding Controls_ColorPickerGeneric_Button_Content_Cancel}" />
 
                                     <Button x:Name="PART_SelectButton"
+                                            AutomationProperties.AutomationId="SelectButton"
                                             Grid.Column="1"
                                             Height="auto"
                                             Margin="0 0 2 2"

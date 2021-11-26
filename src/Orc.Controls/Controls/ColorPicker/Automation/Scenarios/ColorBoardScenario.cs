@@ -3,17 +3,59 @@
     using Orc.Automation;
     using Orc.Automation.Tests;
 
-    public class ColorBoardMap
+    public class ColorBoardScenario : AutomationControlScenario
     {
-        [ControlPart(AutomationId = "HSVSlider")]
-        public SliderAutomationElement HsvSlider { get; set; }
-        [ControlPart(AutomationId = "ASlider")]
-        public SliderAutomationElement ASlider { get; set; }
-        [ControlPart(AutomationId = "RSlider")]
-        public SliderAutomationElement RSlider { get; set; }
-        [ControlPart(AutomationId = "GSlider")]
-        public SliderAutomationElement GSlider { get; set; }
-        [ControlPart(AutomationId = "BSlider")]
-        public SliderAutomationElement BSlider { get; set; }
+        public ColorBoardScenario(ColorBoardAutomationControl target)
+            : base(target)
+        {
+        }
+
+        [ControlPart]
+        protected SliderAutomationControl HSVSlider { get; set; }
+
+        [ControlPart]
+        protected SliderAutomationControl ASlider { get; set; }
+
+        [ControlPart]
+        protected SliderAutomationControl RSlider { get; set; }
+
+        [ControlPart]
+        protected SliderAutomationControl GSlider { get; set; }
+
+        [ControlPart]
+        protected SliderAutomationControl BSlider { get; set; }
+
+        [ControlPart]
+        protected ButtonAutomationControl SelectButton { get; set; }
+
+        [ControlPart]
+        protected ButtonAutomationControl CancelButton { get; set; }
+
+
+        public bool Apply()
+        {
+            return SelectButton.TryInvoke();
+        }
+
+        public bool Cancel()
+        {
+            return CancelButton.TryInvoke();
+        }
+
+
+        public void SelectARgbColor(int a, int r, int g, int b)
+        {
+            ASlider.Value = a;
+            Wait.UntilResponsive();
+
+            RSlider.Value = r;
+            Wait.UntilResponsive();
+
+            GSlider.Value = g;
+            Wait.UntilResponsive();
+
+            BSlider.Value = b;
+            Wait.UntilResponsive();
+        }
     }
 }

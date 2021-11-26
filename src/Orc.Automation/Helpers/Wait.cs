@@ -10,7 +10,7 @@
         public static void UntilResponsive()
         {
             //TODO:Vladimir: Look at Wait_ref.cs and implement it more accurate
-            Thread.Sleep(200);
+            Thread.Sleep(100);
         }
     }
 }

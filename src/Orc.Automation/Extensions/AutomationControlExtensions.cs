@@ -9,6 +9,7 @@
     public static class AutomationControlExtensions
     {
         public static TScenario CreateScenario<TScenario>(this AutomationControl control)
+            where TScenario : AutomationScenarioBase
         {
             Argument.IsNotNull(() => control);
 

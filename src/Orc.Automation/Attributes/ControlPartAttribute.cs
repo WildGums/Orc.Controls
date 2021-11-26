@@ -19,9 +19,10 @@
     [AttributeUsage(AttributeTargets.Property)]
     public class ControlPartAttribute : AutomationAttributeBase, IControlPartSearchInfo
     {
+        private string _className;
+
         public ControlPartAttribute()
         {
-            
         }
 
         public ControlPartAttribute(string automationId)
@@ -29,9 +30,23 @@
             AutomationId = automationId;
         }
 
+        public bool IsEmpty => string.IsNullOrWhiteSpace(AutomationId)
+                               && string.IsNullOrWhiteSpace(Name)
+                               && string.IsNullOrWhiteSpace(ClassName)
+                               && string.IsNullOrWhiteSpace(ControlType);
+
+
         public string AutomationId { get; set; }
         public string Name { get; set; }
-        public string ClassName { get; set; }
+
+        public string ClassName
+        {
+            get => Class?.FullName ?? _className;
+            set => _className = value;
+        }
+
+        public Type Class { get; set; }
+
         public string ControlType { get; set; }
         public bool IsTransient { get; set; }
 
