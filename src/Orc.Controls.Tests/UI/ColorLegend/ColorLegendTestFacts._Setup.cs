@@ -37,7 +37,7 @@
         .ToList();
 
         [Target]
-        public ColorLegendAutomationElement Target { get; set; }
+        public ColorLegendAutomationControl Target { get; set; }
 
         [TargetControlMap]
         public ColorLegendAutomationElementMap TargetMap {get; set;}

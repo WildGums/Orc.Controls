@@ -13,7 +13,7 @@
     public class ColorPickerTestFacts : ControlUiTestFactsBase<ColorPicker>
     {
         [Target]
-        public ColorPickerAutomationElement Target { get; set; }
+        public ColorPickerAutomationControl Target { get; set; }
 
         [SetUp]
         public override void SetUpTest()
@@ -58,7 +58,7 @@
 
             var scenario = target.CreateScenario<ColorPickerScenario>();
 
-            var colorBoard = scenario.ShowColorEditDropDown();
+            var colorBoard = scenario.OpenColorBoard();
             Assert.That(colorBoard, Is.Not.Null);
             Assert.That(target.IsDropDownOpen, Is.True);
 

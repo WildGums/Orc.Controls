@@ -4,7 +4,7 @@
     using System.Windows.Media;
     using Orc.Automation;
 
-    public class ColorBoardAutomationControl : RunMethodAutomationElement
+    public class ColorBoardAutomationControl : RunMethodAutomationControl
     {
         public ColorBoardAutomationControl(AutomationElement element)
             : base(element)

@@ -5,8 +5,9 @@
     using System.Diagnostics;
     using System.Windows.Automation;
     using Catel;
+    using Catel.Data;
 
-    public class AutomationControl
+    public class AutomationControl : ModelBase
     {
         private static readonly string NullKey = $"id = {null}: name = {null}: className = {null}: controlType = {null}";
 

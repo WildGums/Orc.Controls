@@ -4,9 +4,9 @@
     using System.Windows.Media;
     using Orc.Automation;
 
-    public class ColorPickerAutomationElement : RunMethodAutomationElement
+    public class ColorPickerAutomationControl : RunMethodAutomationControl
     {
-        public ColorPickerAutomationElement(AutomationElement element)
+        public ColorPickerAutomationControl(AutomationElement element)
             : base(element)
         {
         }

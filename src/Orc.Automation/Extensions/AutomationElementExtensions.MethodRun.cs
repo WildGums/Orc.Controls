@@ -25,7 +25,7 @@
 
             try
             {
-                var commandAutomationElement = new RunMethodAutomationElement(element);
+                var commandAutomationElement = new RunMethodAutomationControl(element);
                 value = commandAutomationElement.GetValue(propertyName);
             }
             catch (Exception e)
@@ -42,7 +42,7 @@
         {
             try
             {
-                var commandAutomationElement = new RunMethodAutomationElement(element);
+                var commandAutomationElement = new RunMethodAutomationControl(element);
                 commandAutomationElement.SetValue(propertyName, value);
             }
             catch (Exception e)
@@ -89,7 +89,7 @@
 
             try
             {
-                var commandAutomationElement = new RunMethodAutomationElement(element);
+                var commandAutomationElement = new RunMethodAutomationControl(element);
                 result = commandAutomationElement.Execute(methodName, parameter);
             }
             catch (Exception e)
@@ -108,7 +108,7 @@
 
             try
             {
-                var testHostCommand = new RunMethodAutomationElement(element);
+                var testHostCommand = new RunMethodAutomationControl(element);
                 result = testHostCommand.Execute(methodName);
             }
             catch (Exception e)

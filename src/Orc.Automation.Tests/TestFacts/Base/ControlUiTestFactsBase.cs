@@ -18,7 +18,7 @@
         {
             var window = Setup.MainWindow;
 
-            var testHost = window.Find<TestHostAutomationElement>(className: typeof(TestHost).FullName);
+            var testHost = window.Find<TestHostAutomationControl>(className: typeof(TestHost).FullName);
             if (testHost is null)
             {
                 Assert.Fail("Can't find Test host");

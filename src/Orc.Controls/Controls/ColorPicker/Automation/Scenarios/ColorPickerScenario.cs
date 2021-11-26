@@ -7,22 +7,20 @@
 
     public class ColorPickerScenario : AutomationControlScenario
     {
-        private readonly ColorPickerAutomationElement _element;
-        private readonly ToggleButtonAutomationElement _toggleDropDown;
+        private readonly ColorPickerAutomationControl _control;
 
         [ControlPart(ControlType = nameof(ControlType.Button))]
         protected virtual ToggleButtonAutomationElement ToggleDropDown { get; set; }
 
-        public ColorPickerScenario(ColorPickerAutomationElement element)
-            : base(element)
+        public ColorPickerScenario(ColorPickerAutomationControl control)
+            : base(control)
         {
-            _element = element;
-            _toggleDropDown = _element.GetPart(controlType: ControlType.Button).As<ToggleButtonAutomationElement>();
+            _control = control;
         }
 
-        public ColorBoardAutomationControl ShowColorEditDropDown()
+        public ColorBoardAutomationControl OpenColorBoard()
         {
-            var windowHost = _element.FindAncestor<Window>(x => Equals(x.Current.ControlType, ControlType.Window));
+            var windowHost = _control.FindAncestor<Window>(x => Equals(x.Current.ControlType, ControlType.Window));
             if (windowHost is null)
             {
                 return null;

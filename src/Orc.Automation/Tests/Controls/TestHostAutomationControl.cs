@@ -4,9 +4,9 @@
     using System.Linq;
     using System.Windows.Automation;
 
-    public class TestHostAutomationElement : RunMethodAutomationElement
+    public class TestHostAutomationControl : RunMethodAutomationControl
     {
-        public TestHostAutomationElement(AutomationElement element) 
+        public TestHostAutomationControl(AutomationElement element) 
             : base(element)
         {
         }

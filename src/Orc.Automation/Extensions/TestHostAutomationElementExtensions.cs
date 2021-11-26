@@ -5,7 +5,7 @@
 
     public static class TestHostAutomationElementExtensions
     {
-        public static bool TryLoadControl(this TestHostAutomationElement testHost, Type controlType, out string testHostAutomationId)
+        public static bool TryLoadControl(this TestHostAutomationControl testHost, Type controlType, out string testHostAutomationId)
         {
             var controlAssembly = controlType.Assembly;
             testHostAutomationId = testHost.TryLoadControl(controlType.FullName, controlAssembly.Location, $"pack://application:,,,/{controlAssembly.GetName().Name};component/Themes/Generic.xaml");

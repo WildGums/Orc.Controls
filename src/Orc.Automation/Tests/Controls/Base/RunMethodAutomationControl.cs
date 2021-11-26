@@ -5,7 +5,7 @@
     using System.Windows.Automation;
     using Catel;
 
-    public class RunMethodAutomationElement : AutomationControl
+    public class RunMethodAutomationControl : AutomationControl
     {
         #region Fields
         private readonly InvokePattern _invokePattern;
@@ -13,7 +13,7 @@
         #endregion
 
         #region Constructors
-        public RunMethodAutomationElement(AutomationElement element)
+        public RunMethodAutomationControl(AutomationElement element)
             : base(element)
         {
             _valuePattern = element.GetCurrentPattern(ValuePattern.Pattern) as ValuePattern;

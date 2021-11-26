@@ -5,7 +5,7 @@
 
     public static class ColorLegendAutomationElementExtensions
     {
-        public static IColorLegendItem GetItemSourceItem(this ColorLegendAutomationElement target, int index)
+        public static IColorLegendItem GetItemSourceItem(this ColorLegendAutomationControl target, int index)
             => target.ItemsSource.ToList()[index];
     }
 }

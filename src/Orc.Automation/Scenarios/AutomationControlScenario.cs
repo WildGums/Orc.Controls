@@ -64,9 +64,10 @@
             }
             else
             {
-                propertyValue = !searchInfo.IsTransient && _targetControl is not null
-                    ? _targetControl.GetPart(id: searchInfo.AutomationId, name: searchInfo.Name, className: searchInfo.ClassName, controlType: searchInfo.ControlType)
-                    :_targetElement.Find(id: searchInfo.AutomationId, name: searchInfo.Name, className: searchInfo.ClassName, controlType: searchInfo.ControlType);
+                propertyValue = //!searchInfo.IsTransient && _targetControl is not null
+                  //  ? _targetControl.GetPart(id: searchInfo.AutomationId, name: searchInfo.Name, className: searchInfo.ClassName, controlType: searchInfo.ControlType)
+                   // :
+                _targetElement.Find(id: searchInfo.AutomationId, name: searchInfo.Name, className: searchInfo.ClassName, controlType: searchInfo.ControlType);
             }
 
             propertyValue = (TAutomationElement)AutomationHelper.WrapAutomationObject(property.PropertyType, propertyValue);

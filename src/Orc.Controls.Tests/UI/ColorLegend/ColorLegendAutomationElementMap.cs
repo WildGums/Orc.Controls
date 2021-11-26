@@ -8,7 +8,7 @@
     public class ColorLegendAutomationElementMap
     {
         [Target]
-        public ColorLegendAutomationElement Target { get; set; }
+        public ColorLegendAutomationControl Target { get; set; }
 
         [ControlPart(ControlType = nameof(ControlType.Edit))]
         public AutomationElement SearchBoxPart { get; set; }
