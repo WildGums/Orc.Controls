@@ -1,7 +1,6 @@
 ﻿namespace Orc.Controls.Tests
 {
     using System.Collections;
-    using System.Linq;
     using System.Threading;
     using System.Windows.Media;
     using Automation;
