@@ -1,11 +1,14 @@
 ﻿namespace Orc.Controls.Automation
 {
+    using System.Runtime.CompilerServices;
     using System.Windows.Automation;
     using System.Windows.Media;
     using Orc.Automation;
 
     public class ColorPickerAutomationControl : RunMethodAutomationControl
     {
+        private ColorPickerUserActions _colorPickerUserActions;
+
         public ColorPickerAutomationControl(AutomationElement element)
             : base(element)
         {
@@ -28,5 +31,7 @@
             get => (bool)GetValue(nameof(ColorPicker.IsDropDownOpen));
             set => SetValue(nameof(ColorPicker.IsDropDownOpen), value);
         }
+
+        public ColorPickerUserActions Simulate => _colorPickerUserActions ??= this.CreateUserActions<ColorPickerUserActions>();
     }
 }

@@ -15,7 +15,8 @@
                 return;
             }
 
-            InitializePropertyWithValue(template, targetControlProperty, targetElement);
+            var result = AutomationHelper.WrapAutomationObject(targetControlProperty.PropertyType, targetElement);
+            targetControlProperty.SetValue(template, result);
         }
     }
 }

@@ -6,6 +6,8 @@
 
     public class ColorBoardAutomationControl : RunMethodAutomationControl
     {
+        private ColorBoardUserActions _userActions;
+
         public ColorBoardAutomationControl(AutomationElement element)
             : base(element)
         {
@@ -16,5 +18,7 @@
             get => (Color) GetValue(nameof(ColorBoard.Color));
             set => SetValue(nameof(ColorBoard.Color), value);
         }
+
+        public ColorBoardUserActions Simulate => _userActions ??= this.CreateUserActions<ColorBoardUserActions>();
     }
 }

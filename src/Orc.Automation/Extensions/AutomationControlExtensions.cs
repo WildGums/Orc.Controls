@@ -8,48 +8,31 @@
 
     public static class AutomationControlExtensions
     {
-        public static TScenario CreateScenario<TScenario>(this AutomationControl control)
-            where TScenario : AutomationScenarioBase
+        public static TUserActions CreateUserActions<TUserActions>(this AutomationControl control)
+            where TUserActions : UserActions
         {
             Argument.IsNotNull(() => control);
 
-            return control.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TScenario>(control);
+            return control.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TUserActions>(control);
         }
 
-        public static TTemplate CreateControlMap<TTemplate>(this AutomationControl element)
+        public static TTemplate CreateMap<TTemplate>(this AutomationControl element)
         {
             Argument.IsNotNull(() => element);
 
-            return (TTemplate)element.CreateControlMap(typeof(TTemplate));
+            return (TTemplate)element.CreateMap(typeof(TTemplate));
         }
 
-        public static object CreateControlMap(this AutomationControl control, Type mapType)
+        public static object CreateMap(this AutomationControl control, Type mapType)
         {
             Argument.IsNotNull(() => control);
 
-            return AutomationElementExtensions.CreateControlMap(control, mapType);
+            return control.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion(mapType, control);
         }
 
         public static void MouseClick(this AutomationControl control, MouseButton mouseButton = MouseButton.Left)
         {
             control.Element.MouseClick(mouseButton);
-        }
-
-        public static TElement FindAncestor<TElement>(this AutomationControl child, Func<AutomationElement, bool> searchFunc)
-            where TElement : AutomationControl
-        {
-            Argument.IsNotNull(() => child);
-            Argument.IsNotNull(() => searchFunc);
-
-            return child.Element.FindAncestor<TElement>(searchFunc);
-        }
-
-        public static AutomationElement FindAncestor(this AutomationControl child, Func<AutomationElement, bool> searchFunc)
-        {
-            Argument.IsNotNull(() => child);
-            Argument.IsNotNull(() => searchFunc);
-
-            return child.Element.FindAncestor(searchFunc);
         }
 
         public static AutomationElement Find(this AutomationControl parent, string id = null, string name = null, string className = null, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)

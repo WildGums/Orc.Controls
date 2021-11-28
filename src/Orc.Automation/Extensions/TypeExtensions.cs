@@ -9,6 +9,16 @@
 
     public static class TypeExtensions
     {
+        public static List<KeyValuePair<PropertyInfo, TAttribute>> GetPropertiesDecoratedWith<TAttribute>(this Type type)
+            where TAttribute : Attribute
+        {
+            return type
+                .GetProperties()
+                .Where(prop => Attribute.IsDefined(prop, typeof(TAttribute)))
+                .Select(x => new KeyValuePair<PropertyInfo, TAttribute>(x, x.GetAttribute<TAttribute>()))
+                .ToList();
+        }
+
         public static Type FindGenericTypeImplementation<TBaseType>(this Type singleGenericTypeArgument, Assembly assembly = null)
         {
             Argument.IsNotNull(() => singleGenericTypeArgument);

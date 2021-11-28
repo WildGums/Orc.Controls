@@ -5,14 +5,14 @@
     using Orc.Automation.Tests;
     using Window = Orc.Automation.Tests.WindowAutomationElement;
 
-    public class ColorPickerScenario : AutomationControlScenario
+    public class ColorPickerUserActions : UserActions
     {
         private readonly ColorPickerAutomationControl _control;
 
         [ControlPart(ControlType = nameof(ControlType.Button))]
         protected virtual ToggleButtonAutomationElement ToggleDropDown { get; set; }
 
-        public ColorPickerScenario(ColorPickerAutomationControl control)
+        public ColorPickerUserActions(ColorPickerAutomationControl control)
             : base(control)
         {
             _control = control;
@@ -20,7 +20,7 @@
 
         public ColorBoardAutomationControl OpenColorBoard()
         {
-            var windowHost = _control.FindAncestor<Window>(x => Equals(x.Current.ControlType, ControlType.Window));
+            var windowHost = _control.Find<Window>(controlType: ControlType.Window, scope: TreeScope.Ancestors);
             if (windowHost is null)
             {
                 return null;

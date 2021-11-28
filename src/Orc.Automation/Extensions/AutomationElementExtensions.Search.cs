@@ -1,58 +1,75 @@
 ﻿namespace Orc.Automation
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Windows.Automation;
+    using Automation;
     using Catel;
-    using Catel.IoC;
 
     public static partial class AutomationElementExtensions
     {
-        public static TElement FindAncestor<TElement>(this AutomationElement child, Func<AutomationElement, bool> searchFunc)
+        public static TAutomationElementOrElementCollection FindOneOrMany<TAutomationElementOrElementCollection>(this AutomationElement element, SearchContext searchContext)
+        {
+            Argument.IsNotNull(() => element);
+
+            object searchResult;
+            var type = typeof(TAutomationElementOrElementCollection);
+            if (typeof(IEnumerable).IsAssignableFrom(type))
+            {
+                searchResult = element.FindAll(id: searchContext.Id, name: searchContext.Name, className: searchContext.ClassName, controlType: searchContext.ControlType);
+            }
+            else
+            {
+                searchResult = //!searchInfo.IsTransient && _targetControl is not null
+                                //  ? _targetControl.GetPart(id: searchInfo.AutomationId, name: searchInfo.Name, className: searchInfo.ClassName, controlType: searchInfo.ControlType)
+                                // :
+                                element.Find(id: searchContext.Id, name: searchContext.Name, className: searchContext.ClassName, controlType: searchContext.ControlType);
+            }
+
+            searchResult = (TAutomationElementOrElementCollection)AutomationHelper.WrapAutomationObject(type, searchResult);
+
+            return (TAutomationElementOrElementCollection)searchResult;
+        }
+
+
+        public static TElement Find<TElement>(this AutomationElement element, string id = null, string name = null, string className = null, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
             where TElement : AutomationControl
         {
-            Argument.IsNotNull(() => child);
-            Argument.IsNotNull(() => searchFunc);
+            return Find<TElement>(element, new SearchContext(id, name, className, controlType), scope, numberOfWaits);
+        }
 
-            var element = FindAncestor(child, searchFunc);
-            if (element is null)
+        public static AutomationElement Find(this AutomationElement element, string id = null, string name = null, string className = null, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
+        {
+            return Find(element, new SearchContext(id, name, className, controlType), scope, numberOfWaits);
+        }
+
+        public static TElement Find<TElement>(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
+            where TElement : AutomationControl
+        {
+            return (TElement)Find(element, searchContext, typeof(TElement), scope, numberOfWaits);
+        }
+
+        public static object Find(this AutomationElement element, SearchContext searchContext, Type wrapperType, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
+        {
+            var foundElement = Find(element, searchContext);
+            if (foundElement is null)
             {
                 return null;
             }
 
-            return (TElement)child.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion(typeof(TElement), element);
+            return AutomationHelper.WrapAutomationObject(wrapperType, foundElement);
         }
 
-        public static AutomationElement FindAncestor(this AutomationElement child, Func<AutomationElement, bool> searchFunc)
+        public static AutomationElement Find(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
         {
-            Argument.IsNotNull(() => child);
-            Argument.IsNotNull(() => searchFunc);
+            var id = searchContext.Id;
+            var name = searchContext.Name;
+            var controlType = searchContext.ControlType;
+            var className = searchContext.ClassName;
 
-            var parent = child.GetParent();
-            while (!searchFunc(parent) && parent is not null)
-            {
-                parent = parent.GetParent();
-            }
-
-            return parent;
-        }
-
-        public static TElement Find<TElement>(this AutomationElement parent, string id = null, string name = null, string className = null, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
-            where TElement : AutomationControl
-        {
-            var element = Find(parent, id, name, className, controlType, scope, numberOfWaits);
-            if (element is null)
-            {
-                return null;
-            }
-
-            return (TElement)parent.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion(typeof(TElement), element);
-        }
-
-        public static AutomationElement Find(this AutomationElement parent, string id = null, string name = null, string className = null, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
-        {
             var conditions = new List<Condition>();
             if (!string.IsNullOrWhiteSpace(id))
             {
@@ -83,27 +100,63 @@
                 ? conditions[0]
                 : new AndCondition(conditions.ToArray());
 
-            return Find(parent, resultCondition, scope, numberOfWaits);
+            return Find(element, resultCondition, scope, numberOfWaits);
         }
 
-        public static AutomationElement Find(this AutomationElement parent, Condition condition, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
+        public static AutomationElement Find(this AutomationElement element, Condition condition, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
         {
+            Argument.IsNotNull(() => element);
+
             var numWaits = 0;
 
-            AutomationElement element;
+            AutomationElement foundElement;
             do
             {
-                element = parent.FindFirst(scope, condition);
+                foundElement = element.FindFirst(scope, condition);
 
                 ++numWaits;
                 Thread.Sleep(200);
-            } while (element is null && numWaits < numberOfWaits);
+            } 
+            while (foundElement is null && numWaits < numberOfWaits);
 
-            return element;
+            return foundElement;
         }
 
-        public static List<AutomationElement> FindAll(this AutomationElement parent, string id = null, string name = null, string className = null, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
+        public static IEnumerable<TElement> FindAll<TElement>(this AutomationElement element, string id = null, string name = null, string className = null, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
+            where TElement : AutomationControl
         {
+            return FindAll<TElement>(element, new SearchContext(id, name, className, controlType), scope, numberOfWaits);
+        }
+
+        public static IEnumerable<AutomationElement> FindAll(this AutomationElement element, string id = null, string name = null, string className = null, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
+        {
+            return FindAll(element, new SearchContext(id, name, className, controlType), scope, numberOfWaits);
+        }
+
+        public static IEnumerable<TElement> FindAll<TElement>(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
+            where TElement : AutomationControl
+        {
+            return (IEnumerable<TElement>)FindAll(element, searchContext, typeof(TElement), scope, numberOfWaits);
+        }
+
+        public static object FindAll(this AutomationElement element, SearchContext searchContext, Type wrapperType, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
+        {
+            var foundElement = Find(element, searchContext);
+            if (foundElement is null)
+            {
+                return null;
+            }
+
+            return AutomationHelper.WrapAutomationObject(wrapperType, foundElement);
+        }
+
+        public static IEnumerable<AutomationElement> FindAll(this AutomationElement element, SearchContext searchContext, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
+        {
+            var id = searchContext.Id;
+            var name = searchContext.Name;
+            var controlType = searchContext.ControlType;
+            var className = searchContext.ClassName;
+
             var conditions = new List<Condition>();
             if (!string.IsNullOrWhiteSpace(id))
             {
@@ -134,37 +187,26 @@
                 ? conditions[0]
                 : new AndCondition(conditions.ToArray());
 
-            return FindAll(parent, resultCondition, scope, numberOfWaits);
+            return FindAll(element, resultCondition, scope, numberOfWaits);
         }
 
-        public static List<AutomationElement> FindAll(this AutomationElement parent, Condition condition, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
+        public static IEnumerable<AutomationElement> FindAll(this AutomationElement element, Condition condition, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
         {
+            Argument.IsNotNull(() => element);
+
             var numWaits = 0;
 
-            AutomationElementCollection elements;
+            AutomationElementCollection foundElements;
             do
             {
-                elements = parent.FindAll(scope, condition);
+                foundElements = element.FindAll(scope, condition);
 
                 ++numWaits;
                 Thread.Sleep(200);
-            } while (elements is null && numWaits < numberOfWaits);
+            } 
+            while (foundElements is null && numWaits < numberOfWaits);
 
-            return elements?.OfType<AutomationElement>().ToList();
-        }
-
-        public static bool TryGetValue(this AutomationElement element, out string value)
-        {
-            string innerValue = null;
-            value = null;
-            if (element.TryRunPatternFunc<ValuePattern>(x => innerValue = x.Current.Value))
-            {
-                value = innerValue;
-
-                return true;
-            }
-
-            return false;
+            return foundElements?.OfType<AutomationElement>();
         }
     }
 }

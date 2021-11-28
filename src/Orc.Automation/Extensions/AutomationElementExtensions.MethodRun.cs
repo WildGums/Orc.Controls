@@ -26,7 +26,7 @@
             try
             {
                 var commandAutomationElement = new RunMethodAutomationControl(element);
-                value = commandAutomationElement.GetValue(propertyName);
+                value = commandAutomationElement.GetApiPropertyValue(propertyName);
             }
             catch (Exception e)
             {
@@ -43,7 +43,7 @@
             try
             {
                 var commandAutomationElement = new RunMethodAutomationControl(element);
-                commandAutomationElement.SetValue(propertyName, value);
+                commandAutomationElement.SetApiPropertyValue(propertyName, value);
             }
             catch (Exception e)
             {

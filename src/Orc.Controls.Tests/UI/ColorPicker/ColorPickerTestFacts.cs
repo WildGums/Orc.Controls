@@ -40,14 +40,14 @@
             }
         }
 
-        private class NegativeSetRGBColorTestCases : IEnumerable
-        {
-            public IEnumerator GetEnumerator()
-            {
-                yield return new object[] { 256, 256, 256, 256, Color.FromArgb(255, 255, 255, 255) };
-                yield return new object[] { -1, -2, -1, -1, Color.FromArgb(0, 0, 0, 0) };
-            }
-        }
+        //private class NegativeSetRGBColorTestCases : IEnumerable
+        //{
+        //    public IEnumerator GetEnumerator()
+        //    {
+        //        yield return new object[] { 256, 256, 256, 256, Color.FromArgb(255, 255, 255, 255) };
+        //        yield return new object[] { -1, -2, -1, -1, Color.FromArgb(0, 0, 0, 0) };
+        //    }
+        //}
 
         [TestCaseSource(typeof(PositiveSetRGBColorTestCases))]
         //[TestCaseSource(typeof(NegativeSetRGBColorTestCases))]
@@ -56,14 +56,11 @@
         {
             var target = Target;
 
-            var scenario = target.CreateScenario<ColorPickerScenario>();
-
-            var colorBoard = scenario.OpenColorBoard();
+            var colorBoard = target.Simulate.OpenColorBoard();
             Assert.That(colorBoard, Is.Not.Null);
             Assert.That(target.IsDropDownOpen, Is.True);
 
-            var colorBoardScenario = colorBoard.CreateScenario<ColorBoardScenario>();
-            colorBoardScenario.SelectARgbColor(a, r, g, b);
+            colorBoard.Simulate.SelectARgbColor(a, r, g, b);
 
             //Color board should have expected color
             Assert.That(colorBoard.Color, Is.EqualTo(expectedColor));
@@ -72,7 +69,7 @@
             Assert.That(target.CurrentColor, Is.EqualTo(expectedColor));
 
             //Correctly apply button
-            Assert.That(colorBoardScenario.Apply(), Is.True);
+            Assert.That(colorBoard.Simulate.Apply(), Is.True);
 
             Wait.UntilResponsive();
 

@@ -19,7 +19,7 @@
             _valuePattern = element.GetCurrentPattern(ValuePattern.Pattern) as ValuePattern;
             _invokePattern = element.GetCurrentPattern(InvokePattern.Pattern) as InvokePattern;
 
-            Automation.AddAutomationEventHandler(InvokePattern.InvokedEvent, element, TreeScope.Element, OnEventInvoke);
+            System.Windows.Automation.Automation.AddAutomationEventHandler(InvokePattern.InvokedEvent, element, TreeScope.Element, OnEventInvoke);
         }
         #endregion
 
@@ -49,7 +49,7 @@
 
         }
 
-        public object GetValue(string propertyName)
+        public object GetApiPropertyValue(string propertyName)
         {
             Argument.IsNotNull(() => propertyName);
             Argument.IsNotNullOrEmpty(() => propertyName);
@@ -58,7 +58,7 @@
             return result;
         }
 
-        public void SetValue(string propertyName, object value)
+        public void SetApiPropertyValue(string propertyName, object value)
         {
             Argument.IsNotNull(() => propertyName);
             Argument.IsNotNullOrEmpty(() => propertyName);
