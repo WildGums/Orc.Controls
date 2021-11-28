@@ -3,33 +3,20 @@
     using Orc.Automation;
     using Orc.Automation.Tests;
 
-    public class ColorBoardUserActions : UserActions
+    public class ColorBoardUserActions : AutomationBase
     {
         public ColorBoardUserActions(ColorBoardAutomationControl target)
-            : base(target)
+            : base(target.Element)
         {
         }
 
-        [ControlPart]
-        protected SliderAutomationControl HSVSlider { get; set; }
-
-        [ControlPart]
-        protected SliderAutomationControl ASlider { get; set; }
-
-        [ControlPart]
-        protected SliderAutomationControl RSlider { get; set; }
-
-        [ControlPart]
-        protected SliderAutomationControl GSlider { get; set; }
-
-        [ControlPart]
-        protected SliderAutomationControl BSlider { get; set; }
-
-        [ControlPart]
-        protected ButtonAutomationControl SelectButton { get; set; }
-
-        [ControlPart]
-        protected ButtonAutomationControl CancelButton { get; set; }
+        protected SliderAutomationControl HSVSlider => By.Id().One<SliderAutomationControl>();
+        protected SliderAutomationControl ASlider => By.Id().One<SliderAutomationControl>();
+        protected SliderAutomationControl RSlider => By.Id().One<SliderAutomationControl>();
+        protected SliderAutomationControl GSlider => By.Id().One<SliderAutomationControl>();
+        protected SliderAutomationControl BSlider => By.Id().One<SliderAutomationControl>();
+        protected ButtonAutomationControl SelectButton => By.Id().One<ButtonAutomationControl>();
+        protected ButtonAutomationControl CancelButton => By.Id().One<ButtonAutomationControl>();
 
 
         public bool Apply()

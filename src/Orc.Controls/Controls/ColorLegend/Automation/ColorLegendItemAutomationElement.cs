@@ -11,10 +11,10 @@
         }
 
         //Vladimir:TODO
-        public AutomationElement CheckBox => By.ControlType(ControlType.CheckBox).Get();
-        public AutomationElement Button => By.ControlType(ControlType.Button).Get();
-        public AutomationElement AdditionalDataTextBlock => By.Id("AdditionalDataTextBlock").Get();
-        public AutomationElement DescriptionTextBlock => By.Id( "DescriptionTextBlock").Get();
+        public AutomationElement CheckBox => By.ControlType(ControlType.CheckBox).One();
+        public AutomationElement Button => By.ControlType(ControlType.Button).One();
+        public AutomationElement AdditionalDataTextBlock => By.Id("AdditionalDataTextBlock").One();
+        public AutomationElement DescriptionTextBlock => By.Id( "DescriptionTextBlock").One();
 
         public bool TrySelect()
         {

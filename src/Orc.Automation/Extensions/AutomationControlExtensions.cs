@@ -8,28 +8,6 @@
 
     public static class AutomationControlExtensions
     {
-        public static TUserActions CreateUserActions<TUserActions>(this AutomationControl control)
-            where TUserActions : UserActions
-        {
-            Argument.IsNotNull(() => control);
-
-            return control.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion<TUserActions>(control);
-        }
-
-        public static TTemplate CreateMap<TTemplate>(this AutomationControl element)
-        {
-            Argument.IsNotNull(() => element);
-
-            return (TTemplate)element.CreateMap(typeof(TTemplate));
-        }
-
-        public static object CreateMap(this AutomationControl control, Type mapType)
-        {
-            Argument.IsNotNull(() => control);
-
-            return control.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletion(mapType, control);
-        }
-
         public static void MouseClick(this AutomationControl control, MouseButton mouseButton = MouseButton.Left)
         {
             control.Element.MouseClick(mouseButton);

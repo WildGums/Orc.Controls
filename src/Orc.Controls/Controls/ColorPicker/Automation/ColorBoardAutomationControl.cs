@@ -4,10 +4,8 @@
     using System.Windows.Media;
     using Orc.Automation;
 
-    public class ColorBoardAutomationControl : RunMethodAutomationControl
+    public class ColorBoardAutomationControl : CustomAutomationControl
     {
-        private ColorBoardUserActions _userActions;
-
         public ColorBoardAutomationControl(AutomationElement element)
             : base(element)
         {
@@ -15,10 +13,10 @@
 
         public Color Color
         {
-            get => (Color) GetValue(nameof(ColorBoard.Color));
-            set => SetValue(nameof(ColorBoard.Color), value);
+            get => Access.GetValue<Color>();
+            set => Access.SetValue(value);
         }
 
-        public ColorBoardUserActions Simulate => _userActions ??= this.CreateUserActions<ColorBoardUserActions>();
+        public ColorBoardUserActions Simulate => Simulate<ColorBoardUserActions>();
     }
 }

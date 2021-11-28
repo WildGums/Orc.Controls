@@ -1,7 +1,7 @@
 ﻿namespace Orc.Automation
 {
     using System;
-    using Tests.Controls;
+    using Tests;
 
     public static class TestHostAutomationElementExtensions
     {

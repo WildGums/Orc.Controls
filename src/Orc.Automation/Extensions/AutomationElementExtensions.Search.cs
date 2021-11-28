@@ -8,6 +8,7 @@
     using System.Windows.Automation;
     using Automation;
     using Catel;
+    using Catel.Linq;
 
     public static partial class AutomationElementExtensions
     {
@@ -54,7 +55,7 @@
 
         public static object Find(this AutomationElement element, SearchContext searchContext, Type wrapperType, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
         {
-            var foundElement = Find(element, searchContext);
+            var foundElement = Find(element, searchContext, scope, numberOfWaits);
             if (foundElement is null)
             {
                 return null;
@@ -112,7 +113,7 @@
             AutomationElement foundElement;
             do
             {
-                foundElement = element.FindFirst(scope, condition);
+                foundElement = TryFindElementByCondition(element, scope, condition);
 
                 ++numWaits;
                 Thread.Sleep(200);
@@ -120,6 +121,21 @@
             while (foundElement is null && numWaits < numberOfWaits);
 
             return foundElement;
+        }
+
+        private static AutomationElement TryFindElementByCondition(this AutomationElement element, TreeScope scope, Condition condition)
+        {
+            if (scope == TreeScope.Parent)
+            {
+                return element.GetParent(condition);
+            }
+
+            if (scope == TreeScope.Ancestors)
+            {
+                return element.GetAncestor(condition);
+            }
+
+            return element.FindFirst(scope, condition);
         }
 
         public static IEnumerable<TElement> FindAll<TElement>(this AutomationElement element, string id = null, string name = null, string className = null, ControlType controlType = null, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
@@ -141,7 +157,7 @@
 
         public static object FindAll(this AutomationElement element, SearchContext searchContext, Type wrapperType, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
         {
-            var foundElement = Find(element, searchContext);
+            var foundElement = FindAll(element, searchContext, scope, numberOfWaits);
             if (foundElement is null)
             {
                 return null;
@@ -196,17 +212,33 @@
 
             var numWaits = 0;
 
-            AutomationElementCollection foundElements;
+            IEnumerable<AutomationElement> foundElements;
             do
             {
-                foundElements = element.FindAll(scope, condition);
+                foundElements = element.TryFindElementsByCondition(scope, condition);
 
                 ++numWaits;
-                Thread.Sleep(200);
+                Thread.Sleep(100);
             } 
             while (foundElements is null && numWaits < numberOfWaits);
 
-            return foundElements?.OfType<AutomationElement>();
+            return foundElements;
+        }
+
+        private static IEnumerable<AutomationElement> TryFindElementsByCondition(this AutomationElement element, TreeScope scope, Condition condition)
+        {
+            if (scope == TreeScope.Parent)
+            {
+                var parent = element.GetParent(condition);
+                return parent is not null ? new List<AutomationElement> { parent } : null;
+            }
+
+            if (scope == TreeScope.Ancestors)
+            {
+                return element.GetAncestors(condition).ToList();
+            }
+
+            return element.FindAll(scope, condition)?.OfType<AutomationElement>();
         }
     }
 }

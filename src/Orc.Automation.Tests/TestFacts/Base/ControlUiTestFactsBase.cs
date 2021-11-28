@@ -2,8 +2,6 @@
 {
     using System.Threading;
     using System.Windows;
-    using System.Windows.Automation;
-    using Controls;
     using NUnit.Framework;
     using Orc.Controls.Tests;
 

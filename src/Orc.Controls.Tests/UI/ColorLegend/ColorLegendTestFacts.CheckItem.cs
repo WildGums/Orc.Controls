@@ -62,20 +62,20 @@
             //Get initial state of All toggle
             Assert.That(map.AllVisibleCheckBoxPart.TryGetToggleState(out var toggleState));
 
-            CheckAllToggleStateCorrect(toggleState);
+            AssertAllToggleStateCorrect(toggleState);
 
 //USER:     Toggle All check box
             Assert.That(map.AllVisibleCheckBoxPart.TryToggle(out toggleState));
 
-            CheckAllToggleStateCorrect(toggleState);
+            AssertAllToggleStateCorrect(toggleState);
 
 //USER:     Toggle All check box second time
             Assert.That(map.AllVisibleCheckBoxPart.TryToggle(out toggleState));
 
-            CheckAllToggleStateCorrect(toggleState);
+            AssertAllToggleStateCorrect(toggleState);
         }
 
-        private void CheckAllToggleStateCorrect(bool? toggleState)
+        private void AssertAllToggleStateCorrect(bool? toggleState)
         {
             var target = Target;
 

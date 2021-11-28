@@ -5,28 +5,28 @@
     using System.Windows.Automation;
     using Orc.Automation;
 
-    public class ColorLegendAutomationElementMap
+    public class ColorLegendAutomationElementMap : AutomationBase
     {
-        [Target]
-        public ColorLegendAutomationControl Target { get; set; }
+        public ColorLegendAutomationElementMap(AutomationElement element) 
+            : base(element)
+        {
+        }
 
         [ControlPart(ControlType = nameof(ControlType.Edit))]
-        public AutomationElement SearchBoxPart { get; set; }
+        public AutomationElement SearchBoxPart => By.ControlType(ControlType.Edit).One();
 
         [ControlPart(AutomationId = "SettingsButton")]
-        public AutomationElement SettingsButtonPart { get; set; }
+        public AutomationElement SettingsButtonPart => By.Id("SettingsButton").One();
 
         [ControlPart(AutomationId = "AllVisibleCheckBox")]
-        public AutomationElement AllVisibleCheckBoxPart { get; set; }
+        public AutomationElement AllVisibleCheckBoxPart => By.Id("AllVisibleCheckBox").One();
 
         [ControlPart(AutomationId = "UnselectAllButton")]
-        public AutomationElement UnselectAllButtonPart { get; set; }
+        public AutomationElement UnselectAllButtonPart => By.Id("UnselectAllButton").One();
 
         [ControlPart(AutomationId = "List")]
-        public AutomationElement ListPart { get; set; }
+        public AutomationElement ListPart => By.Id("List").One();
 
-        public List<ColorLegendItemAutomationElement> Items => Target?.Element.FindAll(controlType: ControlType.ListItem)
-            .Select(x => new ColorLegendItemAutomationElement(x))
-            .ToList();
+        public List<ColorLegendItemAutomationElement> Items => By.ControlType(ControlType.ListItem).Many<ColorLegendItemAutomationElement>();
     }
 }

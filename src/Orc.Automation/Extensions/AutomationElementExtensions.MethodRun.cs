@@ -2,7 +2,6 @@
 {
     using System;
     using System.Windows.Automation;
-    using Catel;
 
     public static partial class AutomationElementExtensions
     {
@@ -25,8 +24,8 @@
 
             try
             {
-                var commandAutomationElement = new RunMethodAutomationControl(element);
-                value = commandAutomationElement.GetApiPropertyValue(propertyName);
+                var commandAutomationElement = new AutomationElementAccessor(element);
+                value = commandAutomationElement.GetValue(propertyName);
             }
             catch (Exception e)
             {
@@ -42,8 +41,8 @@
         {
             try
             {
-                var commandAutomationElement = new RunMethodAutomationControl(element);
-                commandAutomationElement.SetApiPropertyValue(propertyName, value);
+                var commandAutomationElement = new AutomationElementAccessor(element);
+                commandAutomationElement.SetValue(propertyName, value);
             }
             catch (Exception e)
             {
@@ -89,7 +88,7 @@
 
             try
             {
-                var commandAutomationElement = new RunMethodAutomationControl(element);
+                var commandAutomationElement = new AutomationElementAccessor(element);
                 result = commandAutomationElement.Execute(methodName, parameter);
             }
             catch (Exception e)
@@ -108,7 +107,7 @@
 
             try
             {
-                var testHostCommand = new RunMethodAutomationControl(element);
+                var testHostCommand = new AutomationElementAccessor(element);
                 result = testHostCommand.Execute(methodName);
             }
             catch (Exception e)
