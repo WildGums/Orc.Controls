@@ -6,10 +6,7 @@
     using System.Windows.Media;
     using Orc.Automation;
 
-
-   // public class ColorLegend
-
-
+    
     public class ColorLegendAutomationControl : RunMethodAutomationControl
     {
         public ColorLegendAutomationControl(AutomationElement element)
@@ -17,100 +14,53 @@
         {
         }
 
-        public bool AllowColorEditing
-        {
-            get => (bool)GetApiPropertyValue(nameof(ColorLegend.AllowColorEditing));
-            set => SetApiPropertyValue(nameof(ColorLegend.AllowColorEditing), value);
-        }
+        [ApiProperty]
+        public bool AllowColorEditing { get; set; }
 
-        public bool ShowSearchBox
-        {
-            get => (bool)GetApiPropertyValue(nameof(ColorLegend.ShowSearchBox));
-            set => SetApiPropertyValue(nameof(ColorLegend.ShowSearchBox), value);
-        }
+        [ApiProperty]
+        public bool ShowSearchBox { get; set; }
 
-        public bool ShowToolBox
-        {
-            get => (bool)GetApiPropertyValue(nameof(ColorLegend.ShowToolBox));
-            set => SetApiPropertyValue(nameof(ColorLegend.ShowToolBox), value);
-        }
+        [ApiProperty]
+        public bool ShowToolBox { get; set; }
 
-        public bool ShowBottomToolBox
-        {
-            get => (bool)GetApiPropertyValue(nameof(ColorLegend.ShowBottomToolBox));
-            set => SetApiPropertyValue(nameof(ColorLegend.ShowBottomToolBox), value);
-        }
+        [ApiProperty]
+        public bool ShowBottomToolBox { get; set; }
 
-        public bool ShowSettingsBox
-        {
-            get => (bool)GetApiPropertyValue(nameof(ColorLegend.ShowSettingsBox));
-            set => SetApiPropertyValue(nameof(ColorLegend.ShowSettingsBox), value);
-        }
+        [ApiProperty]
+        public bool ShowSettingsBox { get; set; }
 
-        public bool ShowColorVisibilityControls
-        {
-            get => (bool)GetApiPropertyValue(nameof(ColorLegend.ShowColorVisibilityControls));
-            set => SetApiPropertyValue(nameof(ColorLegend.ShowColorVisibilityControls), value);
-        }
+        [ApiProperty]
+        public bool ShowColorVisibilityControls { get; set; }
 
-        public bool ShowColorPicker
-        {
-            get => (bool)GetApiPropertyValue(nameof(ColorLegend.ShowColorPicker));
-            set => SetApiPropertyValue(nameof(ColorLegend.ShowColorPicker), value);
-        }
+        [ApiProperty]
+        public bool ShowColorPicker { get; set; }
 
-        public bool IsColorSelecting
-        {
-            get => (bool)GetApiPropertyValue(nameof(ColorLegend.IsColorSelecting));
-            set => SetApiPropertyValue(nameof(ColorLegend.IsColorSelecting), value);
-        }
+        [ApiProperty]
+        public bool IsColorSelecting { get; set; }
 
-        public Color EditingColor
-        {
-            get => (Color)GetApiPropertyValue(nameof(ColorLegend.EditingColor));
-            set => SetApiPropertyValue(nameof(ColorLegend.EditingColor), value);
-        }
+        [ApiProperty]
+        public Color EditingColor { get; set; }
 
-        public string Filter
-        {
-            get => (string)GetApiPropertyValue(nameof(ColorLegend.Filter));
-            set => SetApiPropertyValue(nameof(ColorLegend.Filter), value);
-        }
+        [ApiProperty]
+        public string Filter { get; set; }
 
-        public IEnumerable<IColorLegendItem> ItemsSource
-        {
-            get => GetApiPropertyValue(nameof(ColorLegend.ItemsSource)) as IEnumerable<IColorLegendItem>;
-            set => SetApiPropertyValue(nameof(ColorLegend.ItemsSource), value);
-        }
+        [ApiProperty]
+        public IEnumerable<IColorLegendItem> ItemsSource { get; set; }
 
-        public bool? IsAllVisible
-        {
-            get => (bool)GetApiPropertyValue(nameof(ColorLegend.IsAllVisible));
-            set => SetApiPropertyValue(nameof(ColorLegend.IsAllVisible), value);
-        }
+        [ApiProperty]
+        public bool? IsAllVisible { get; set; }
 
-        public IEnumerable<IColorLegendItem> FilteredItemsSource
-        {
-            get => GetApiPropertyValue(nameof(ColorLegend.FilteredItemsSource)) as IEnumerable<IColorLegendItem>;
-            set => SetApiPropertyValue(nameof(ColorLegend.FilteredItemsSource), value);
-        }
+        [ApiProperty]
+        public IEnumerable<IColorLegendItem> FilteredItemsSource { get; set; }
 
-        public IEnumerable<string> FilteredItemsIds
-        {
-            get => GetValue(nameof(ColorLegend.FilteredItemsIds)) as IEnumerable<string>;
-        }
+        [ApiProperty]
+        public IEnumerable<string> FilteredItemsIds { get; }
 
-        public string FilterWatermark
-        {
-            get => (string)GetApiPropertyValue(nameof(ColorLegend.FilterWatermark));
-            set => SetApiPropertyValue(nameof(ColorLegend.FilterWatermark), value);
-        }
+        [ApiProperty]
+        public string FilterWatermark { get; set; }
 
-        public IEnumerable<IColorLegendItem> SelectedColorItems
-        {
-            get => GetApiPropertyValue(nameof(ColorLegend.SelectedColorItems)) as IEnumerable<IColorLegendItem>;
-            set => SetApiPropertyValue(nameof(ColorLegend.SelectedColorItems), value);
-        }
+        [ApiProperty]
+        public IEnumerable<IColorLegendItem> SelectedColorItems { get; set; }
 
         public void ChangeItemState(int index)
         {

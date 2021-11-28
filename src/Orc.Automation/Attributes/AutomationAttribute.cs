@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class AutomationAttributeBase : Attribute
+    public class AutomationAttribute : Attribute
     {
     }
 }

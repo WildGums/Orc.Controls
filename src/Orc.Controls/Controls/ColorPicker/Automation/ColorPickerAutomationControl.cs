@@ -16,20 +16,20 @@
 
         public Color Color
         {
-            get => (Color)GetValue(nameof(ColorPicker.Color));
-            set => SetValue(nameof(ColorPicker.Color), value);
+            get => (Color)GetApiPropertyValue(nameof(ColorPicker.Color));
+            set => SetApiPropertyValue(nameof(ColorPicker.Color), value);
         }
 
         public Color CurrentColor
         {
-            get => (Color)GetValue(nameof(ColorPicker.CurrentColor));
-            set => SetValue(nameof(ColorPicker.CurrentColor), value);
+            get => (Color)GetApiPropertyValue(nameof(ColorPicker.CurrentColor));
+            set => SetApiPropertyValue(nameof(ColorPicker.CurrentColor), value);
         }
 
         public bool IsDropDownOpen
         {
-            get => (bool)GetValue(nameof(ColorPicker.IsDropDownOpen));
-            set => SetValue(nameof(ColorPicker.IsDropDownOpen), value);
+            get => (bool)GetApiPropertyValue(nameof(ColorPicker.IsDropDownOpen));
+            set => SetApiPropertyValue(nameof(ColorPicker.IsDropDownOpen), value);
         }
 
         public ColorPickerUserActions Simulate => _colorPickerUserActions ??= this.CreateUserActions<ColorPickerUserActions>();

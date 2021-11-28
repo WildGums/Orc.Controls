@@ -2,8 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Threading;
     using System.Windows.Automation;
+    using Catel.Linq;
     using NUnit.Framework;
     using Orc.Automation;
     using Orc.Automation.Tests;
@@ -24,7 +26,7 @@
 
                 Thread.Sleep(100);
 
-                var items = target.FindAll(controlType: ControlType.ListItem);
+                var items = target.FindAll(controlType: ControlType.ListItem).ToList();
 
                 Thread.Sleep(100);
 

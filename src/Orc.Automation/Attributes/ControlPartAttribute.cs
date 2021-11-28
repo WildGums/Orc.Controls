@@ -1,15 +1,11 @@
 ﻿namespace Orc.Automation
 {
     using System;
-    using System.Collections;
-    using System.Linq;
     using System.Windows.Automation;
     using Automation;
-    using Catel.Reflection;
-
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class ControlPartAttribute : AutomationAttributeBase
+    public class ControlPartAttribute : AutomationAttribute
     {
         private string _className;
 

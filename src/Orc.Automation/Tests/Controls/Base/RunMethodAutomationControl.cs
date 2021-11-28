@@ -1,15 +1,23 @@
 ﻿namespace Orc.Automation
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
     using System.Threading;
     using System.Windows.Automation;
     using Catel;
+    using Catel.Reflection;
 
     public class RunMethodAutomationControl : AutomationControl
     {
         #region Fields
         private readonly InvokePattern _invokePattern;
         private readonly ValuePattern _valuePattern;
+
+        private bool _isInitialized;
+
+        private IReadOnlyDictionary<string, ApiPropertyAttribute> _apiProperties;
         #endregion
 
         #region Constructors
@@ -20,6 +28,8 @@
             _invokePattern = element.GetCurrentPattern(InvokePattern.Pattern) as InvokePattern;
 
             System.Windows.Automation.Automation.AddAutomationEventHandler(InvokePattern.InvokedEvent, element, TreeScope.Element, OnEventInvoke);
+
+            _isInitialized = true;
         }
         #endregion
 
@@ -47,6 +57,63 @@
         protected virtual void OnEvent(string eventName, object eventData)
         {
 
+        }
+
+        protected override T GetValueFromPropertyBag<T>(string propertyName)
+        {
+            if (_isInitialized)
+            {
+                if (TryGetApiPropertyValue<T>(propertyName, out var value))
+                {
+                    return value;
+                }
+            }
+
+            return base.GetValueFromPropertyBag<T>(propertyName);
+        }
+
+        protected override void SetValueToPropertyBag<TValue>(string propertyName, TValue value)
+        {
+            if (_isInitialized)
+            {
+                if (TrySetApiPropertyValue(propertyName, value))
+                {
+                    return;
+                }
+            }
+
+            base.SetValueToPropertyBag(propertyName, value);
+        }
+
+        protected virtual bool TrySetApiPropertyValue<T>(string propertyName, T value)
+        {
+            _apiProperties ??= GetType().GetPropertiesDecoratedWith<ApiPropertyAttribute>();
+            if (!_apiProperties.TryGetValue(propertyName, out var apiPropertyAttribute))
+            {
+                return false;
+            }
+
+            propertyName = apiPropertyAttribute.OriginalName ?? propertyName;
+            SetApiPropertyValue(propertyName, value);
+
+            return true;
+        }
+
+        protected virtual bool TryGetApiPropertyValue<T>(string propertyName, out T value)
+        {
+            value = default;
+
+            _apiProperties ??= GetType().GetPropertiesDecoratedWith<ApiPropertyAttribute>();
+            if (!_apiProperties.TryGetValue(propertyName, out var apiPropertyAttribute))
+            {
+                return false;
+            }
+
+            propertyName = apiPropertyAttribute.OriginalName ?? propertyName;
+
+            value = (T) GetApiPropertyValue(propertyName);
+
+            return true;
         }
 
         public object GetApiPropertyValue(string propertyName)

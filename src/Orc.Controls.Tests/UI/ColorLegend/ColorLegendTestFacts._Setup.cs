@@ -53,6 +53,11 @@
         public void CorrectlyInitializeColorLegend(bool expectedShowSearchBox, bool expectedTShowToolBox, bool expectedShowBottomToolBox,
             bool expectedShowColorVisibilityControls)
         {
+            var target = Target;
+            var map = Target.CreateMap<ColorLegendAutomationElementMap>();
+
+            var allowColorEditing = target.AllowColorEditing;
+
             //var target = Target;
             //var map = TargetMap;
 

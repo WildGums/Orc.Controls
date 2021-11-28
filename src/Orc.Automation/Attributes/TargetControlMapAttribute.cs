@@ -6,7 +6,7 @@
     using Catel.IoC;
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class TargetControlMapAttribute : AutomationAttributeBase
+    public class TargetControlMapAttribute : AutomationAttribute
     {
         public static void Initialize(AutomationElement element, object host)
         {

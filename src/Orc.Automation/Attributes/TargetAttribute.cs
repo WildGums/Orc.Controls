@@ -5,7 +5,7 @@
     using System.Windows.Automation;
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class TargetAttribute : AutomationAttributeBase
+    public class TargetAttribute : AutomationAttribute
     {
         public static void ResolveTargetProperty(AutomationElement targetElement, object template)
         {
