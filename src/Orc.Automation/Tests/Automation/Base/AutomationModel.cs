@@ -175,7 +175,7 @@
             if (element is AutomationControl control)
             {
                 return typeFactory.CreateInstanceWithParametersAndAutoCompletion<T>(control)
-                       ?? typeFactory.CreateInstanceWithParametersAndAutoCompletion<T>(element);
+                       ?? typeFactory.CreateInstanceWithParametersAndAutoCompletion<T>(control.Element);
             }
 
             return typeFactory.CreateInstanceWithParametersAndAutoCompletion<T>(element);
