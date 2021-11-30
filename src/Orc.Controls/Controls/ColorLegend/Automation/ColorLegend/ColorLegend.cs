@@ -6,11 +6,12 @@
     using System.Windows.Automation;
     using System.Windows.Media;
     using Orc.Automation;
+    using Orc.Automation.Controls;
     using AutomationEventArgs = Orc.Automation.AutomationEventArgs;
 
-    public class ColorLegendAutomationControl : AutomationControl
+    public class ColorLegend : FrameworkElement
     {
-        public ColorLegendAutomationControl(AutomationElement element)
+        public ColorLegend(AutomationElement element)
             : base(element)
         {
             View = new ColorLegendView(Map);
@@ -142,7 +143,7 @@
 
         protected override void OnEvent(object sender, AutomationEventArgs args)
         {
-            if (Equals(args.EventName, nameof(ColorLegend.SelectionChanged)))
+            if (Equals(args.EventName, nameof(Controls.ColorLegend.SelectionChanged)))
             {
                 SelectionChanged?.Invoke(this, EventArgs.Empty);
             }

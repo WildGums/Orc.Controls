@@ -1,13 +1,10 @@
 ﻿namespace Orc.Controls.Tests
 {
     using System;
-    using FlaUI.Core;
-    using FlaUI.Core.AutomationElements;
-    using FlaUI.Core.Conditions;
-    using FlaUI.Core.Definitions;
     using FlaUI.UIA3;
     using NUnit.Framework;
     using Orc.Automation;
+    using Orc.Automation.Controls;
     using Orc.Automation.Tests;
     using AutomationElementExtensions = FlaUI.Core.AutomationElements.AutomationElementExtensions;
     using Calendar = System.Windows.Controls.Calendar;

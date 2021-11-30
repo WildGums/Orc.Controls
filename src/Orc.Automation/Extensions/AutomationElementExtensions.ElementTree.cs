@@ -6,22 +6,22 @@
 
     public static partial class AutomationElementExtensions
     {
-        public static AutomationElement GetAncestor(this AutomationElement element, Condition condition)
-        {
-            Argument.IsNotNull(() => element);
+        //public static AutomationElement GetAncestor(this AutomationElement element, Condition condition)
+        //{
+        //    Argument.IsNotNull(() => element);
 
-            var treeWalker = new TreeWalker(condition);
+        //    var treeWalker = new TreeWalker(condition);
 
-            var isMatch = false;
-            var parent = GetParent(element);
-            while (!isMatch && parent is not null)
-            {
-                isMatch = treeWalker.GetParent(element) is not null;
-                parent = GetParent(parent);
-            }
+        //    var isMatch = treeWalker.GetParent(element) is not null;
+        //    var parent = GetParent(element);
+        //    while (!isMatch && parent is not null)
+        //    {
+        //        isMatch = treeWalker.GetParent(parent) is not null;
+        //        parent = GetParent(parent);
+        //    }
 
-            return parent;
-        }
+        //    return parent;
+        //}
 
         public static IEnumerable<AutomationElement> GetAncestors(this AutomationElement element, Condition condition)
         {
@@ -72,9 +72,9 @@
 
             while (item is not null)
             {
-                item = TreeWalker.ControlViewWalker.GetNextSibling(item);
-
                 yield return item;
+
+                item = TreeWalker.ControlViewWalker.GetNextSibling(item);
             }
         }
     }

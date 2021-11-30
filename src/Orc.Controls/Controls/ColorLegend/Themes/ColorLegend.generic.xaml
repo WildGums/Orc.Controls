@@ -80,20 +80,24 @@
                                             </Grid>
                                         </controls:DropDownButton.Header>
                                         <controls:DropDownButton.DropDown>
-                                            <ContextMenu Background="{DynamicResource Orc.Brushes.Control.Default.Background}">
-                                                <MenuItem Background="Transparent">
+                                            <ContextMenu Background="{DynamicResource Orc.Brushes.Control.Default.Background}"
+                                                         AutomationProperties.AutomationId="ColorLegendSettingsContextMenu">
+                                                <MenuItem Background="Transparent"
+                                                          AutomationProperties.AutomationId="ShowVisibilityColumnMenuItem">
                                                     <MenuItem.Header>
                                                         <CheckBox Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_ShowVisibilityColumn}" 
                                                                   IsChecked="{Binding Path=ShowColorVisibilityControls, RelativeSource={RelativeSource TemplatedParent}}" />
                                                     </MenuItem.Header>
                                                 </MenuItem>
-                                                <MenuItem Background="Transparent">
+                                                <MenuItem Background="Transparent"
+                                                          AutomationProperties.AutomationId="AllowColorEditMenuItem">
                                                     <MenuItem.Header>
                                                         <CheckBox Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_AllowColorEdit}" 
                                                                   IsChecked="{Binding Path=AllowColorEditing, RelativeSource={RelativeSource TemplatedParent}}" />
                                                     </MenuItem.Header>
                                                 </MenuItem>
-                                                <MenuItem Background="Transparent">
+                                                <MenuItem Background="Transparent"
+                                                          AutomationProperties.AutomationId="ShowColorsMenuItem">
                                                     <MenuItem.Header>
                                                         <CheckBox Content="Show colors"
                                                                   IsChecked="{Binding Path=ShowColorPicker, RelativeSource={RelativeSource TemplatedParent}}" />
@@ -251,6 +255,7 @@
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Foreground="{DynamicResource Orc.Brushes.Control.Disabled.Border}"
+                                                   AutomationProperties.AutomationId="SelectedItemCountLabel"
                                                    Margin="6 0 6 0"
                                                    TextAlignment="Left"
                                                    VerticalAlignment="Center"

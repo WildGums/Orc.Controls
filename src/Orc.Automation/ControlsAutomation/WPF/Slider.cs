@@ -1,11 +1,11 @@
-﻿namespace Orc.Automation.Tests
+﻿namespace Orc.Automation.Controls
 {
     using System.Windows.Automation;
 
     //https://docs.microsoft.com/en-us/dotnet/framework/ui-automation/ui-automation-support-for-the-slider-control-type
-    public sealed class SliderAutomationControl : ProtectedByControlTypeAutomationControl
+    public sealed class Slider : FrameworkElement
     {
-        public SliderAutomationControl(AutomationElement element) 
+        public Slider(AutomationElement element) 
             : base(element, ControlType.Slider)
         {
         }

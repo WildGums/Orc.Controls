@@ -1,7 +1,7 @@
 ﻿namespace Orc.Controls.Automation
 {
     using Orc.Automation;
-    using Orc.Automation.Tests;
+    using Orc.Automation.Controls;
 
     public class ColorBoardView : AutomationBase
     {
@@ -10,13 +10,13 @@
         {
         }
 
-        protected SliderAutomationControl HSVSlider => By.Id().One<SliderAutomationControl>();
-        protected SliderAutomationControl ASlider => By.Id().One<SliderAutomationControl>();
-        protected SliderAutomationControl RSlider => By.Id().One<SliderAutomationControl>();
-        protected SliderAutomationControl GSlider => By.Id().One<SliderAutomationControl>();
-        protected SliderAutomationControl BSlider => By.Id().One<SliderAutomationControl>();
-        protected ButtonAutomationControl SelectButton => By.Id().One<ButtonAutomationControl>();
-        protected ButtonAutomationControl CancelButton => By.Id().One<ButtonAutomationControl>();
+        protected Slider HSVSlider => By.Id().One<Slider>();
+        protected Slider ASlider => By.Id().One<Slider>();
+        protected Slider RSlider => By.Id().One<Slider>();
+        protected Slider GSlider => By.Id().One<Slider>();
+        protected Slider BSlider => By.Id().One<Slider>();
+        protected Button SelectButton => By.Id().One<Button>();
+        protected Button CancelButton => By.Id().One<Button>();
 
 
         public bool Apply()

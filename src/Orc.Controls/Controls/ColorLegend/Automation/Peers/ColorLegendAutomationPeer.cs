@@ -1,12 +1,12 @@
-﻿namespace Orc.Automation
+﻿namespace Orc.Controls.Automation
 {
     using System;
     using System.Linq;
-    using Controls;
+    using Orc.Automation;
 
-    public class ColorLegendAutomationPeer : ControlRunMethodAutomationPeerBase<ColorLegend>
+    public class ColorLegendAutomationPeer : ControlRunMethodAutomationPeerBase<Orc.Controls.ColorLegend>
     {
-        public ColorLegendAutomationPeer(ColorLegend owner)
+        public ColorLegendAutomationPeer(Orc.Controls.ColorLegend owner)
             : base(owner)
         {
             owner.SelectionChanged += OwnerOnSelectionChanged;

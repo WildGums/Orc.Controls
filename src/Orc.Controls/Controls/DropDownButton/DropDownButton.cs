@@ -1,18 +1,13 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DropDownButton.cs" company="WildGums">
-//   Copyright (c) 2008 - 2020 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Shapes;
+    using Automation;
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Services;
@@ -196,6 +191,11 @@ namespace Orc.Controls
             {
                 new CustomPopupPlacement(p, PopupPrimaryAxis.Horizontal)
             };
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new DropDownButtonAutomationPeer(this);
         }
         #endregion
     }

@@ -12,6 +12,16 @@
     {
         private const int MaxStackTraceLookUp = 5;
 
+        public static ControlType GetControlType(string controlTypeName)
+        {
+            if (!string.IsNullOrWhiteSpace(controlTypeName))
+            {
+                return typeof(ControlType).GetField(controlTypeName)?.GetValue(null) as ControlType;
+            }
+
+            return null;
+        }
+
         public static string GetCallingProperty()
         {
             var stackTrace = new StackTrace();

@@ -3,6 +3,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using System.Windows.Media;
     using Automation;
     using NUnit.Framework;
@@ -11,7 +12,7 @@
 
     [TestFixture(TestOf = typeof(ColorLegend))]
     [Category("UI Tests")]
-    public partial class ColorLegendTestFacts : ControlUiTestFactsBase<ColorLegend>
+    public partial class ColorLegendTestFacts : ControlUiTestFactsBase<Orc.Controls.ColorLegend>
     {
         private static readonly List<IColorLegendItem> OriginalItemSource = new List<Color>
         {
@@ -37,7 +38,7 @@
         .ToList();
 
         [Target]
-        public ColorLegendAutomationControl Target { get; set; }
+        public ColorLegend Target { get; set; }
 
         public ColorLegendView View => Target.View;
 
@@ -49,14 +50,31 @@
             Target.ItemsSource = OriginalItemSource;
         }
 
-        [TestCase(true, true, true, true)]
-        public void CorrectlyInitializeColorLegend(bool expectedShowSearchBox, bool expectedTShowToolBox, bool expectedShowBottomToolBox,
-            bool expectedShowColorVisibilityControls)
+        [Test]
+        public void CorrectlyInitializeColorLegend()
         {
             var target = Target;
-           // var map = Target.CreateMap<ColorLegendMap>();
+            var view = View;
 
-            var allowColorEditing = target.AllowColorEditing;
+            var items = view.Items;
+            
+            var isControlIsColorEditAllowed = view.IsColorEditAllowed;
+            var isColorsVisible = view.IsColorsVisible;
+            var isVisibilityColumnVisible = view.IsVisibilityColumnVisible;
+
+            Thread.Sleep(1000);
+
+            view.IsColorsVisible = false;
+
+            Thread.Sleep(1000);
+
+
+            var map = Target.Map<ColorLegendMap>();
+
+            ColorLegendAssert.AllCheckedState(target);
+            ColorLegendAssert.ItemsCheckStateMatch(target);
+            ColorLegendAssert.ItemsSelectedStateMatch(target);
+            ColorLegendAssert.ClearSelectionState(target);
 
             //var target = Target;
             //var map = TargetMap;

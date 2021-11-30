@@ -138,15 +138,92 @@
             element.RunPatternFunc<SelectionItemPattern>(x => x.Select());
         }
 
+        public static bool GetIsSelected(this AutomationElement element)
+        {
+            Argument.IsNotNull(() => element);
+
+            return element.RunPatternFunc<SelectionItemPattern, bool>(x => x.Current.IsSelected);
+        }
+
+        public static bool TrySetSelection(this AutomationElement element, bool isSelected)
+        {
+            if (!TryGetIsSelected(element, out var isCurrentlySelected))
+            {
+                return false;
+            }
+
+            if (Equals(isSelected, isCurrentlySelected))
+            {
+                return true;
+            }
+
+            if (isSelected)
+            {
+                var container = element.GetSelectionContainer();
+                var canSelectMultiply = container.CanSelectMultiple();
+                if (canSelectMultiply)
+                {
+                    return TryAddToSelection(element);
+                }
+
+                return TrySelect(element);
+            }
+
+            return TryDeselect(element);
+        }
+
+        public static AutomationElement GetSelectionContainer(this AutomationElement element)
+        {
+            Argument.IsNotNull(() => element);
+
+            return element.RunPatternFunc<SelectionItemPattern, AutomationElement>(x => x.Current.SelectionContainer);
+        }
+
+        public static bool TryAddToSelection(this AutomationElement element)
+        {
+            Argument.IsNotNull(() => element);
+
+            return element.TryRunPatternFunc<SelectionItemPattern>(x => x.AddToSelection());
+        }
+
         public static bool TrySelect(this AutomationElement element)
         {
             Argument.IsNotNull(() => element);
 
             return element.TryRunPatternFunc<SelectionItemPattern>(x => x.Select());
         }
+
+        public static bool TryDeselect(this AutomationElement element)
+        {
+            Argument.IsNotNull(() => element);
+
+            return element.TryRunPatternFunc<SelectionItemPattern>(x => x.RemoveFromSelection());
+        }
+
+        public static bool TryGetIsSelected(this AutomationElement element, out bool isSelected)
+        {
+            Argument.IsNotNull(() => element);
+
+            isSelected = false;
+            var localIsSelected = false;
+            if (element.TryRunPatternFunc<SelectionItemPattern>(x => localIsSelected = x.Current.IsSelected))
+            {
+                isSelected = localIsSelected;
+
+                return true;
+            }
+
+            return false;
+        }
         #endregion
 
         #region Select Item
+        public static bool CanSelectMultiple(this AutomationElement container)
+        {
+            Argument.IsNotNull(() => container);
+
+            return container.RunPatternFunc<SelectionPattern, bool>(x => x.Current.CanSelectMultiple);
+        }
 
         public static bool TrySelectItem(this AutomationElement containerElement, int index, out AutomationElement selectItem)
         {

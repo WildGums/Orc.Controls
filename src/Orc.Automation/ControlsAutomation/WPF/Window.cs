@@ -1,10 +1,10 @@
-﻿namespace Orc.Automation.Tests
+﻿namespace Orc.Automation.Controls
 {
     using System.Windows.Automation;
 
-    public class WindowAutomationElement : ProtectedByControlTypeAutomationControl
+    public class Window : FrameworkElement
     {
-        public WindowAutomationElement(AutomationElement element)
+        public Window(AutomationElement element)
             : base(element, ControlType.Window)
         {
         }

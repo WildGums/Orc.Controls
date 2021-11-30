@@ -1,4 +1,4 @@
-﻿namespace Orc.Automation.Tests
+﻿namespace Orc.Automation.Controls
 {
     using System.Linq;
     using System.Windows.Automation;

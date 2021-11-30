@@ -1,10 +1,10 @@
-﻿namespace Orc.Automation.Tests
+﻿namespace Orc.Automation.Controls
 {
     using System.Windows.Automation;
 
-    public sealed class ButtonAutomationControl : ProtectedByControlTypeAutomationControl
+    public sealed class Button : FrameworkElement
     {
-        public ButtonAutomationControl(AutomationElement element) 
+        public Button(AutomationElement element) 
             : base(element, ControlType.Button)
         {
 

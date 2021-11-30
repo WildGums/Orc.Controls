@@ -1,9 +1,9 @@
-﻿namespace Orc.Automation.Tests
+﻿namespace Orc.Automation.Controls
 {
     using System.Windows.Automation;
 
 
-    public class CalendarAutomationElement : ProtectedByControlTypeAutomationControl
+    public class CalendarAutomationElement : FrameworkElement
     {
         public CalendarAutomationElement(AutomationElement element) 
             : base(element, ControlType.Calendar)

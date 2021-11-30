@@ -3,7 +3,6 @@
     using System.Collections;
     using System.Linq;
     using NUnit.Framework;
-    using Orc.Automation;
 
     public partial class ColorLegendTestFacts
     {
@@ -22,9 +21,8 @@
             var target = Target;
             var view = View;
 
-//USER:     Input search string
-            //map.SetFilter(searchString);
-
+            //USER:     Input search string
+            view.SetFilter(searchString);
 
 // Checking control API
 
@@ -38,7 +36,7 @@
 //Checking visual state
 
             //List part items should have expected items
-            var allItemDescriptions = view.Items.Select(x => x.DescriptionTextBlock?.Current.Name).ToList();
+            var allItemDescriptions = view.Items.Select(x => x.Description).ToList();
 
             CollectionAssert.AreEqual(allItemDescriptions, expectedFilteredItems.Select(x => x.Description));
         }

@@ -11,10 +11,10 @@
 
     [TestFixture(TestOf = typeof(ColorPicker))]
     [NUnit.Framework.Category("UI Tests")]
-    public class ColorPickerTestFacts : ControlUiTestFactsBase<ColorPicker>
+    public class ColorPickerTestFacts : ControlUiTestFactsBase<Orc.Controls.ColorPicker>
     {
         [Target]
-        public ColorPickerAutomationControl Target { get; set; }
+        public ColorPicker Target { get; set; }
 
         [SetUp]
         public override void SetUpTest()

@@ -7,7 +7,7 @@
         [TestCase(2)]
         [TestCase(0)]
         [TestCase(9)]
-        [Description("IsChecked state of ColorItem should be in sync corresponding checkboxes.")]
+        [Description("Each item check state match underlying itemsource state.")]
         public void CorrectlyUncheckCheckItem(int itemIndex)
         {
             var target = Target;
@@ -24,9 +24,9 @@
 
             //Verify that source and control match each other -> they should be in one check state
             Assert.That(itemControl.IsChecked, Is.EqualTo(itemSource.IsChecked));
-            
+
 /*Simulate:   Changing the state from control*/
-            Assert.That(itemControl.Simulate.TrySetToggleState(!itemSource.IsChecked));
+            itemControl.IsChecked = !itemSource.IsChecked;
             //Verify that source and control match each other -> they should be in one check state
             Assert.That(itemControl.IsChecked, Is.EqualTo(target[itemIndex].IsChecked));
 

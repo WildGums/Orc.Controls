@@ -17,7 +17,7 @@
         }
 
         public AutomationElement Element { get; }
-        protected By By => new (Element);
+        public By By => new (Element);
         protected AutomationFactory Factory { get; } = new();
 
         public T Map<T>()

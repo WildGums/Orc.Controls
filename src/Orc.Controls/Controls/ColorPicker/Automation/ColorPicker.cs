@@ -4,9 +4,10 @@
     using System.Windows.Media;
     using Orc.Automation;
 
-    public class ColorPickerAutomationControl : AutomationControl
+    [AutomatedControl(Class = typeof(Controls.ColorPicker))]
+    public class ColorPicker : AutomationControl
     {
-        public ColorPickerAutomationControl(AutomationElement element)
+        public ColorPicker(AutomationElement element)
             : base(element)
         {
             View = new ColorPickerView(this);

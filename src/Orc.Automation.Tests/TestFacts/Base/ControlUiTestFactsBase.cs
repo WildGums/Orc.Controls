@@ -2,11 +2,12 @@
 {
     using System.Threading;
     using System.Windows;
+    using Controls;
     using NUnit.Framework;
     using Orc.Controls.Tests;
 
     public abstract class ControlUiTestFactsBase<TControl> : UiTestFactsBase
-        where TControl : FrameworkElement
+        where TControl : System.Windows.FrameworkElement
     {
         protected override string ExecutablePath => @"C:\Source\Orc.Controls\output\Debug\Orc.Automation.Host\net5.0-windows\Orc.Automation.Host.exe";
         protected override string MainWindowAutomationId => "AutomationHost";
@@ -16,7 +17,7 @@
         {
             var window = Setup.MainWindow;
 
-            var testHost = window.Find<TestHostAutomationControl>(className: typeof(TestHost).FullName);
+            var testHost = window.Find<TestHostAutomationControl>(className: typeof(Orc.Automation.TestHost).FullName);
             if (testHost is null)
             {
                 Assert.Fail("Can't find Test host");

@@ -2,14 +2,13 @@
 {
     using System.Windows.Automation;
     using Orc.Automation;
-    using Orc.Automation.Tests;
-    using Window = Orc.Automation.Tests.WindowAutomationElement;
+    using Orc.Automation.Controls;
 
     public class ColorPickerView : AutomationBase
     {
-        protected virtual ToggleButtonAutomationElement ToggleDropDown => By.ControlType(ControlType.Button).One<ToggleButtonAutomationElement>();
+        protected virtual ToggleButton ToggleDropDown => By.ControlType(ControlType.Button).One<ToggleButton>();
 
-        public ColorPickerView(ColorPickerAutomationControl control)
+        public ColorPickerView(ColorPicker control)
             : base(control.Element)
         {
         }

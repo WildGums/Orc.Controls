@@ -125,14 +125,9 @@
 
         private static AutomationElement TryFindElementByCondition(this AutomationElement element, TreeScope scope, Condition condition)
         {
-            if (scope == TreeScope.Parent)
+            if (scope is TreeScope.Parent or TreeScope.Ancestors)
             {
                 return element.GetParent(condition);
-            }
-
-            if (scope == TreeScope.Ancestors)
-            {
-                return element.GetAncestor(condition);
             }
 
             return element.FindFirst(scope, condition);

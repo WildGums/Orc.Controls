@@ -1,13 +1,13 @@
-﻿namespace Orc.Automation.Tests
+﻿namespace Orc.Automation.Controls
 {
     using System.Windows.Automation;
 
     /// <summary>
     /// Toggle button Automation Element wrapper
     /// </summary>
-    public class ToggleButtonAutomationElement : ProtectedByControlTypeAutomationControl
+    public class ToggleButton : FrameworkElement
     {
-        public ToggleButtonAutomationElement(AutomationElement element)
+        public ToggleButton(AutomationElement element)
             : base(element, ControlType.Button)
         {
 

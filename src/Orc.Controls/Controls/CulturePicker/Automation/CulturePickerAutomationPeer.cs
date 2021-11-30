@@ -1,10 +1,9 @@
 ﻿namespace Orc.Automation
 {
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Windows.Automation.Peers;
-    using Controls;
+    using Orc.Controls;
 
     public class CulturePickerAutomationPeer : ControlRunMethodAutomationPeerBase<CulturePicker>
     {

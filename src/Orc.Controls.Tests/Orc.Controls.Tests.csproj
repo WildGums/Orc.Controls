@@ -45,6 +45,7 @@
 
   <ItemGroup>
     <Folder Include="Automation\" />
+    <Folder Include="UI\DropDownButton\Asserters\" />
   </ItemGroup>
   
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props')" />
