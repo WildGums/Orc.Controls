@@ -189,6 +189,42 @@
             throw new AutomationException("Can't toggle, pattern not available");
         }
 
+        public static bool TrySetToggleState(this AutomationElement element, bool? newState)
+        {
+            if (!TryGetToggleState(element, out var toggleState))
+            {
+                return false;
+            }
+
+            if (toggleState == newState)
+            {
+                return true;
+            }
+
+            if (!TryToggle(element, out toggleState))
+            {
+                return false;
+            }
+            
+            if (toggleState == newState)
+            {
+                return true;
+            }
+
+            if (!TryToggle(element, out toggleState))
+            {
+                return false;
+            }
+
+            if (toggleState == newState)
+            {
+                return true;
+            }
+
+            //After 2 toggles result doesn't match requested value
+            return false;
+        }
+
         public static bool? GetToggleState(this AutomationElement element)
         {
             if (TryGetToggleState(element, out var toggleState))

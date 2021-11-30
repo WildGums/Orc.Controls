@@ -4,12 +4,15 @@
     using System.Windows.Media;
     using Orc.Automation;
 
-    public class ColorPickerAutomationControl : CustomAutomationControl
+    public class ColorPickerAutomationControl : AutomationControl
     {
         public ColorPickerAutomationControl(AutomationElement element)
             : base(element)
         {
+            View = new ColorPickerView(this);
         }
+
+        public ColorPickerView View { get; }
 
         public Color Color
         {
@@ -28,7 +31,5 @@
             get => Access.GetValue<bool>();
             set => Access.SetValue(value);
         }
-
-        public ColorPickerUserActions Simulate => Simulate<ColorPickerUserActions>();
     }
 }

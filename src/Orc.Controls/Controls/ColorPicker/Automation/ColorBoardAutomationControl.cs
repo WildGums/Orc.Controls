@@ -4,11 +4,12 @@
     using System.Windows.Media;
     using Orc.Automation;
 
-    public class ColorBoardAutomationControl : CustomAutomationControl
+    public class ColorBoardAutomationControl : AutomationControl
     {
         public ColorBoardAutomationControl(AutomationElement element)
             : base(element)
         {
+            View = new ColorBoardView(this);
         }
 
         public Color Color
@@ -17,6 +18,6 @@
             set => Access.SetValue(value);
         }
 
-        public ColorBoardUserActions Simulate => Simulate<ColorBoardUserActions>();
+        public ColorBoardView View { get; }
     }
 }

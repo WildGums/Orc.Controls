@@ -3,9 +3,9 @@
     using Orc.Automation;
     using Orc.Automation.Tests;
 
-    public class ColorBoardUserActions : AutomationBase
+    public class ColorBoardView : AutomationBase
     {
-        public ColorBoardUserActions(ColorBoardAutomationControl target)
+        public ColorBoardView(ColorBoardAutomationControl target)
             : base(target.Element)
         {
         }

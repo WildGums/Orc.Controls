@@ -2,6 +2,7 @@
 {
     using System.Collections;
     using System.Threading;
+    using System.Windows.Forms;
     using System.Windows.Media;
     using Automation;
     using NUnit.Framework;
@@ -39,28 +40,17 @@
                 yield return GenerateColorTestCase(0x12, 0x34, 0x56, 0x78);
             }
         }
-
-        //private class NegativeSetRGBColorTestCases : IEnumerable
-        //{
-        //    public IEnumerator GetEnumerator()
-        //    {
-        //        yield return new object[] { 256, 256, 256, 256, Color.FromArgb(255, 255, 255, 255) };
-        //        yield return new object[] { -1, -2, -1, -1, Color.FromArgb(0, 0, 0, 0) };
-        //    }
-        //}
-
         [TestCaseSource(typeof(PositiveSetRGBColorTestCases))]
-        //[TestCaseSource(typeof(NegativeSetRGBColorTestCases))]
-
         public void CorrectlySetRGBColor(int a, int r, int g, int b, Color expectedColor)
         {
             var target = Target;
+            var view = target.View;
 
-            var colorBoard = target.Simulate.OpenColorBoard();
+            var colorBoard = view.OpenColorBoard();
             Assert.That(colorBoard, Is.Not.Null);
             Assert.That(target.IsDropDownOpen, Is.True);
 
-            colorBoard.Simulate.SelectARgbColor(a, r, g, b);
+            colorBoard.View.SelectARgbColor(a, r, g, b);
 
             //Color board should have expected color
             Assert.That(colorBoard.Color, Is.EqualTo(expectedColor));
@@ -69,7 +59,7 @@
             Assert.That(target.CurrentColor, Is.EqualTo(expectedColor));
 
             //Correctly apply button
-            Assert.That(colorBoard.Simulate.Apply(), Is.True);
+            Assert.That(colorBoard.View.Apply(), Is.True);
 
             Wait.UntilResponsive();
 

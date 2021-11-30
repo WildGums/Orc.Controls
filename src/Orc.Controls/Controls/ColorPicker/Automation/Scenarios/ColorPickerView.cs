@@ -5,11 +5,11 @@
     using Orc.Automation.Tests;
     using Window = Orc.Automation.Tests.WindowAutomationElement;
 
-    public class ColorPickerUserActions : AutomationBase
+    public class ColorPickerView : AutomationBase
     {
         protected virtual ToggleButtonAutomationElement ToggleDropDown => By.ControlType(ControlType.Button).One<ToggleButtonAutomationElement>();
 
-        public ColorPickerUserActions(ColorPickerAutomationControl control)
+        public ColorPickerView(ColorPickerAutomationControl control)
             : base(control.Element)
         {
         }

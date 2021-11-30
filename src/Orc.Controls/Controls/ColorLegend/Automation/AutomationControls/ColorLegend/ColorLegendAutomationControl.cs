@@ -2,17 +2,22 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Windows.Automation;
     using System.Windows.Media;
     using Orc.Automation;
     using AutomationEventArgs = Orc.Automation.AutomationEventArgs;
 
-    public class ColorLegendAutomationControl : CustomAutomationControl
+    public class ColorLegendAutomationControl : AutomationControl
     {
         public ColorLegendAutomationControl(AutomationElement element)
             : base(element)
         {
+            View = new ColorLegendView(Map);
         }
+
+        private ColorLegendMap Map => Map<ColorLegendMap>();
+        public ColorLegendView View { get; }
 
         [ApiProperty]
         public bool AllowColorEditing
@@ -125,9 +130,14 @@
             set => Access.SetValue(value);
         }
 
-        public void ChangeItemState(int index)
+        public IColorLegendItem this[int index]
         {
-            Access.Execute(nameof(ChangeItemState), index);
+            get => ItemsSource.ToList()[index];
+        }
+
+        public void SetItemCheckState(int index, bool state)
+        {
+            Access.Execute(nameof(ColorLegendAutomationPeer.SetItemCheckState), index, state);
         }
 
         protected override void OnEvent(object sender, AutomationEventArgs args)

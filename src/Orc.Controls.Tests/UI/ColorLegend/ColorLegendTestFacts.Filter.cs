@@ -20,10 +20,11 @@
         public void CorrectlyFilterItems(string searchString, IColorLegendItem[] expectedFilteredItems, string[] expectedFilteredIds)
         {
             var target = Target;
-            var map = TargetMap;
+            var view = View;
 
 //USER:     Input search string
-            Assert.That(map.SearchBoxPart.TrySetValue(searchString));
+            //map.SetFilter(searchString);
+
 
 // Checking control API
 
@@ -37,7 +38,7 @@
 //Checking visual state
 
             //List part items should have expected items
-            var allItemDescriptions = map.Items.Select(x => x.DescriptionTextBlock?.Current.Name).ToList();
+            var allItemDescriptions = view.Items.Select(x => x.DescriptionTextBlock?.Current.Name).ToList();
 
             CollectionAssert.AreEqual(allItemDescriptions, expectedFilteredItems.Select(x => x.Description));
         }

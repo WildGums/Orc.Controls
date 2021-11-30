@@ -18,11 +18,11 @@
         }
 
         [AutomationMethod]
-        public void ChangeItemState(int index)
+        public void SetItemCheckState(int index, bool isChecked)
         {
             var item = Control.ItemsSource.ElementAt(index);
 
-            item.IsChecked = !item.IsChecked;
+            item.IsChecked = isChecked;
         }
     }
 }

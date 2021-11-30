@@ -39,7 +39,7 @@
         [Target]
         public ColorLegendAutomationControl Target { get; set; }
 
-        public ColorLegendAutomationElementMap TargetMap => Target.Map<ColorLegendAutomationElementMap>();
+        public ColorLegendView View => Target.View;
 
         [SetUp]
         public override void SetUpTest()
@@ -54,7 +54,7 @@
             bool expectedShowColorVisibilityControls)
         {
             var target = Target;
-           // var map = Target.CreateMap<ColorLegendAutomationElementMap>();
+           // var map = Target.CreateMap<ColorLegendMap>();
 
             var allowColorEditing = target.AllowColorEditing;
 

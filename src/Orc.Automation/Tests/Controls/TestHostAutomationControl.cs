@@ -3,7 +3,7 @@
     using System.Linq;
     using System.Windows.Automation;
 
-    public class TestHostAutomationControl : CustomAutomationControl
+    public class TestHostAutomationControl : AutomationControl
     {
         public TestHostAutomationControl(AutomationElement element) 
             : base(element)

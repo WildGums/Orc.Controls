@@ -11,14 +11,14 @@
         [TestCase()]
         public void CorrectlySelectItem()
         {
-            var map = TargetMap;
+            var view = View;
 
             _isSelectedItemsEventRaised = false;
 
             Target.SelectionChanged += OnColorLegendSelectionChanged;
 
             const int itemIndex = 2;
-            Assert.That(map.Items[itemIndex].TrySelect());
+            Assert.That(view.Items[itemIndex].TrySelect());
 
             Thread.Sleep(200);
 
