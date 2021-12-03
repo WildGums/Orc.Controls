@@ -22,7 +22,7 @@
             var view = View;
 
             //USER:     Input search string
-            view.SetFilter(searchString);
+            view.Filter = searchString;
 
 // Checking control API
 

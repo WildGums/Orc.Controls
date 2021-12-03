@@ -16,5 +16,6 @@
         }
 
         public string OriginalName { get; set; }
+       // public string ConnectedViewProperty { get; set; }
     }
 }

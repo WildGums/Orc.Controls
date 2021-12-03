@@ -14,6 +14,12 @@
         {
         }
 
+        public bool IsToggled
+        {
+            get => (bool) Element.GetToggleState();
+            set => Element.TrySetToggleState(value);
+        }
+
         public TResult InvokeInDropDownScope<TResult>(Func<Menu, TResult> action)
         {
             Menu menu = null;

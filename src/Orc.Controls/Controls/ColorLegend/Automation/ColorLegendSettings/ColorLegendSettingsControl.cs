@@ -16,19 +16,19 @@
         private CheckBox AllowColorEditCheckBox => By.Id("AllowColorEditMenuItem").One<MenuItem>().By.One<CheckBox>();
         private CheckBox ShowColorsCheckBox => By.Id("ShowColorsMenuItem").One<MenuItem>().By.One<CheckBox>();
         
-        public bool IsVisibilityColumnVisible
+        public bool ShowColorVisibilityControls
         {
             get => (bool) ShowVisibilityColumnCheckBox.IsChecked;
             set => ShowVisibilityColumnCheckBox.IsChecked = value;
         }
 
-        public bool IsColorEditAllowed
+        public bool AllowColorEditing
         {
             get => (bool)AllowColorEditCheckBox.IsChecked;
             set => AllowColorEditCheckBox.IsChecked = value;
         }
 
-        public bool IsColorsVisible
+        public bool ShowColorPicker
         {
             get => (bool)ShowColorsCheckBox.IsChecked;
             set => ShowColorsCheckBox.IsChecked = value;

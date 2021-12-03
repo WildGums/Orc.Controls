@@ -1,5 +1,6 @@
 ﻿namespace Orc.Controls.Tests
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
@@ -40,6 +41,7 @@
         [Target]
         public ColorLegend Target { get; set; }
 
+        [TargetView]
         public ColorLegendView View => Target.View;
 
         [SetUp]
@@ -51,6 +53,36 @@
         }
 
         [Test]
+        public void VerifyConnectedProperties()
+        {
+            var target = Target;
+            var view = View;
+
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.ShowSearchBox), view, nameof(view.IsSearchBoxVisible), true, false);
+
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.AllowColorEditing), view, nameof(view.AllowColorEditing), true, false);
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.ShowColorPicker), view, nameof(view.ShowColorPicker), true, false);
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.ShowColorVisibilityControls), view, nameof(view.ShowColorVisibilityControls), true, false);
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.ShowToolBox), view, nameof(view.IsToolBoxVisible), true, false);
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.ShowBottomToolBox), view, nameof(view.IsBottomToolBoxVisible), true, false);
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.ShowSettingsBox), view, nameof(view.IsSettingsBoxVisible), true, false);
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.IsAllVisible), view, nameof(view.IsAllVisible), true, false);
+           // ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.IsColorSelecting), view, nameof(view.IsColorSelecting), true, false);
+
+            ConnectedPropertiesAssert.VerifyConnectedProperties(target, nameof(target.Filter), view, nameof(view.Filter),
+                new ValueTuple<object, object>("test string", "test string"),
+              //  new ValueTuple<object, object>(null, null),
+              //  new ValueTuple<object, object>(string.Empty, string.Empty),
+                new ValueTuple<object, object>("\\Items+ddd", "\\Items+ddd"));
+
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.FilterWatermark), view, nameof(view.FilterWaterMark),
+                "Find...",
+                "Go and find me...",
+                string.Empty,
+                null);
+        }
+
+        [Test]
         public void CorrectlyInitializeColorLegend()
         {
             var target = Target;
@@ -58,13 +90,13 @@
 
             var items = view.Items;
             
-            var isControlIsColorEditAllowed = view.IsColorEditAllowed;
-            var isColorsVisible = view.IsColorsVisible;
-            var isVisibilityColumnVisible = view.IsVisibilityColumnVisible;
+            var isControlIsColorEditAllowed = view.AllowColorEditing;
+            var isColorsVisible = view.ShowColorPicker;
+            var isVisibilityColumnVisible = view.ShowColorVisibilityControls;
 
             Thread.Sleep(1000);
 
-            view.IsColorsVisible = false;
+            view.ShowColorPicker = false;
 
             Thread.Sleep(1000);
 

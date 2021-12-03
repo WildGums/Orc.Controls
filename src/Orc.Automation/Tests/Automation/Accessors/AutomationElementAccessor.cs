@@ -57,6 +57,11 @@
             var result = Execute(SetDependencyPropertyMethodRun.ConvertPropertyToCommandName(propertyName), automationValues, 20);
         }
 
+        public void AttachBehavior(Type behaviorType)
+        {
+            Execute(AttachBehaviorMethodRun.AttachBehaviorMethodPrefix, behaviorType);
+        }
+
         public object Execute(string methodName, params object[] parameters)
         {
             var automationValues = AutomationValueList.Create(parameters);

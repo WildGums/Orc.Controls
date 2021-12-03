@@ -1,6 +1,8 @@
 ﻿namespace Orc.Automation.Controls
 {
     using System.Windows.Automation;
+    using System.Windows.Media;
+    using Catel.Windows.Interactivity;
 
     public class FrameworkElement : AutomationControl
     {
@@ -18,7 +20,24 @@
         public AutomationElement.AutomationElementInformation AutomationProperties => Element.Current;
         #endregion
 
+        public void AttachBehavior<TBehavior>()
+            where TBehavior : IBehavior
+        {
+            Access.AttachBehavior(typeof(TBehavior));
+        }
+
         public bool IsEnabled => AutomationProperties.IsEnabled;
-        public bool IsVisible => Element.IsVisible();
+
+        public SolidColorBrush Background
+        {
+            get => Access.GetValue<SolidColorBrush>();
+            set => Access.SetValue(value);
+        }
+
+        public SolidColorBrush Foreground
+        {
+            get => Access.GetValue<SolidColorBrush>();
+            set => Access.SetValue(value);
+        }
     }
 }

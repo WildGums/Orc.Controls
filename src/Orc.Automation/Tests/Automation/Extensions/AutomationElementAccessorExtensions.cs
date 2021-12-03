@@ -43,7 +43,7 @@
 
             automationElementAccessor.SetValue(propertyName, value);
         }
-
+        
         public static T Execute<T>(this AutomationElementAccessor automationElementAccessor, string methodName, params object[] parameters)
         {
             Argument.IsNotNull(() => automationElementAccessor);

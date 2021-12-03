@@ -1,17 +1,15 @@
 ﻿namespace Orc.Controls.Tests
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using Automation;
-    using Catel.Linq;
     using NUnit.Framework;
 
     public class ColorLegendAssert
     {
         public static void AllCheckedState(ColorLegend target)
         {
-            var isAllChecked = target.View.IsAllChecked;
+            var isAllChecked = target.View.IsAllVisible;
 
             if (isAllChecked is null)
             {

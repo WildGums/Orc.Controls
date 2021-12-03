@@ -13,6 +13,7 @@
         }
 
         public Edit SearchBoxPart => By.One<Edit>();
+        public Text FilterWatermarkTextPart => SearchBoxPart.By.One<Text>();
         public DropDownButton SettingsButtonPart => By.Id("SettingsButton").One<DropDownButton>();
         public CheckBox AllVisibleCheckBoxPart => By.Id("AllVisibleCheckBox").One<CheckBox>();
         public Text SelectedItemCountLabel => By.Id("SelectedItemCountLabel").One<Text>();

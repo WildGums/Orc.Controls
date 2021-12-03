@@ -9,13 +9,13 @@
 
     public static class TypeExtensions
     {
-        public static IReadOnlyDictionary<string, TAttribute> GetPropertiesDecoratedWith<TAttribute>(this Type type)
+        public static IReadOnlyDictionary<PropertyInfo, TAttribute> GetPropertiesDecoratedWith<TAttribute>(this Type type)
             where TAttribute : Attribute
         {
             return type
                 .GetProperties()
                 .Where(prop => Attribute.IsDefined(prop, typeof(TAttribute)))
-                .ToDictionary(x => x.Name, x => x.GetAttribute<TAttribute>());
+                .ToDictionary(x => x, x => x.GetAttribute<TAttribute>());
         }
 
         public static Type FindGenericTypeImplementation<TBaseType>(this Type singleGenericTypeArgument, Assembly assembly = null)

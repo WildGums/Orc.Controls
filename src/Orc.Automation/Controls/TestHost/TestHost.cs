@@ -2,8 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.InteropServices;
     using System.Windows;
     using System.Windows.Automation;
     using System.Windows.Automation.Peers;
@@ -14,6 +16,9 @@
     [TemplatePart(Name = "PART_HostGrid", Type = typeof(Grid))]
     public class TestHost : Control
     {
+        [DllImport("kernel32.dll")]
+        private static extern bool LoadLibraryA(string hModule);
+
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private readonly HashSet<string> _loadedAssemblyNames = new ();
@@ -31,10 +36,7 @@
 
         public string PutControl(string fullName)
         {
-            var controlType = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .FirstOrDefault(x => string.Equals(x.FullName, fullName));
-
+            var controlType = TypeHelper.GetTypeByName(fullName);
             if (controlType is null)
             {
                 return $"Error: Can't find control Type {fullName}";
@@ -60,7 +62,6 @@
             {
                 var uri = new Uri(resourcesPath, UriKind.Absolute);
                 Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = uri });
-                StyleHelper.CreateStyleForwardersForDefaultStyles();
             }
             catch (Exception e)
             {
@@ -69,7 +70,21 @@
                 return false;
             }
 
+            try
+            {
+                StyleHelper.CreateStyleForwardersForDefaultStyles();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
             return true;
+        }
+
+        public void LoadUnmanaged(string path)
+        {
+            LoadLibraryA(path);
         }
 
         public Assembly LoadAssembly(string assemblyPath)
@@ -78,7 +93,7 @@
             {
                 var assembly = Assembly.LoadFile(assemblyPath);
 
-                LoadAssembly(assembly.GetName());
+                LoadAssembly(assembly.GetName(), Path.GetDirectoryName(assemblyPath));
 
                 return assembly;
             }
@@ -90,9 +105,9 @@
             }
         }
 
-        private void LoadAssembly(AssemblyName assemblyName)
+        private void LoadAssembly(AssemblyName assemblyName, string rootDirectory = null)
         {
-            if (!_loadedAssemblyNames.Add(assemblyName.FullName))
+            if (_loadedAssemblyNames.Contains(assemblyName.FullName))
             {
                 return;
             }
@@ -104,12 +119,27 @@
             {
                 try
                 {
-                    LoadAssembly(referencedAssembly);
+                    LoadAssembly(referencedAssembly, rootDirectory);
                 }
-                catch (Exception e)
+                catch
                 {
-                    Console.WriteLine(e);
+                    //TODO
+                    try
+                    {
+                        if (!string.IsNullOrWhiteSpace(rootDirectory))
+                        {
+                            LoadAssembly(Path.Combine(rootDirectory, referencedAssembly.Name + ".dll"));
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        Console.WriteLine(exception);
+
+                        return;
+                    }
                 }
+
+                _loadedAssemblyNames.Add(assemblyName.FullName);
             }
         }
 

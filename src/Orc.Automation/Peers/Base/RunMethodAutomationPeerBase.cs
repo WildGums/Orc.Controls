@@ -48,6 +48,7 @@
 
             calls.Add(new GetDependencyPropertyMethodRun());
             calls.Add(new SetDependencyPropertyMethodRun());
+            calls.Add(new AttachBehaviorMethodRun());
 
             return calls;
         }

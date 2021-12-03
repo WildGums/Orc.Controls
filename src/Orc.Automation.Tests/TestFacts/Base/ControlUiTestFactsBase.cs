@@ -1,7 +1,7 @@
 ﻿namespace Orc.Automation.Tests
 {
+    using System.Reflection;
     using System.Threading;
-    using System.Windows;
     using Controls;
     using NUnit.Framework;
     using Orc.Controls.Tests;
@@ -23,9 +23,13 @@
                 Assert.Fail("Can't find Test host");
             }
 
-            Assert.That(testHost.TryLoadControl(typeof(TControl), out var testedControlAutomationId));
+            BeforeLoadingControl(testHost);
 
-            Thread.Sleep(1000);
+            Assert.That(TryLoadControl(testHost, out var testedControlAutomationId));
+
+            AfterLoadingControl(testHost);
+
+            Thread.Sleep(200);
 
             var target = testHost.Find(id: testedControlAutomationId);
             if (target is null)
@@ -34,6 +38,19 @@
             }
 
             target.InitializeControlMap(this);
+        }
+
+        protected virtual bool TryLoadControl(TestHostAutomationControl testHost, out string testedControlAutomationId)
+        {
+            return testHost.TryLoadControl(typeof(TControl), out testedControlAutomationId);
+        }
+
+        protected virtual void BeforeLoadingControl(TestHostAutomationControl testHost)
+        {
+        }
+
+        protected virtual void AfterLoadingControl(TestHostAutomationControl testHost)
+        {
         }
     }
 }

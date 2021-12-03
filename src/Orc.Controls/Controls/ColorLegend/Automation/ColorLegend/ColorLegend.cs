@@ -9,19 +9,34 @@
     using Orc.Automation.Controls;
     using AutomationEventArgs = Orc.Automation.AutomationEventArgs;
 
+    [AutomatedControl(Class = typeof(Controls.ColorLegend))]
     public class ColorLegend : FrameworkElement
     {
         public ColorLegend(AutomationElement element)
             : base(element)
         {
             View = new ColorLegendView(Map);
-        }
+        } 
 
         private ColorLegendMap Map => Map<ColorLegendMap>();
         public ColorLegendView View { get; }
 
         [ApiProperty]
         public bool AllowColorEditing
+        {
+            get => Access.GetValue<bool>();
+            set => Access.SetValue(value);
+        }
+
+        [ApiProperty]
+        public bool ShowColorVisibilityControls
+        {
+            get => Access.GetValue<bool>();
+            set => Access.SetValue(value);
+        }
+
+        [ApiProperty]
+        public bool ShowColorPicker
         {
             get => Access.GetValue<bool>();
             set => Access.SetValue(value);
@@ -50,20 +65,6 @@
 
         [ApiProperty]
         public bool ShowSettingsBox
-        {
-            get => Access.GetValue<bool>();
-            set => Access.SetValue(value);
-        }
-
-        [ApiProperty]
-        public bool ShowColorVisibilityControls
-        {
-            get => Access.GetValue<bool>();
-            set => Access.SetValue(value);
-        }
-
-        [ApiProperty]
-        public bool ShowColorPicker
         {
             get => Access.GetValue<bool>();
             set => Access.SetValue(value);

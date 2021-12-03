@@ -21,11 +21,30 @@
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            TestHost.LoadAssembly(@"C:\Source\Orc.Controls\output\Debug\Orc.Controls\net5.0-windows\Orc.Controls.dll");
+            var testHost = TestHost;
 
-            TestHost.LoadResources("pack://application:,,,/Orc.Controls;component/Themes/Generic.xaml");
+            testHost.LoadUnmanaged(@"C:\Source\Gum.Controls\output\Debug\Gum.Controls.Tests\net5.0-windows\runtimes\win-x64\native\libSkiaSharp.dll");
+            testHost.LoadUnmanaged(@"C:\Source\Gum.Controls\output\Debug\Gum.Controls.Tests\net5.0-windows\runtimes\win-x64\native\sni.dll");
 
-            TestHost.PutControl("Orc.Controls.ColorLegend");
+            testHost.LoadAssembly("C:\\Source\\Gum.Controls\\output\\Debug\\Gum.Controls.Tests\\net5.0-windows\\Gum.Drawing.dll");
+            testHost.LoadAssembly("C:\\Source\\Gum.Controls\\output\\Debug\\Gum.Controls.Tests\\net5.0-windows\\Gum.Controls.Tests.dll");
+
+
+
+            //testHost.LoadAssembly("C:\\Source\\Gum.Controls\\output\\Debug\\Gum.Controls.Tests\\net5.0-windows\\Gum.Controls.Tests.dll");
+
+            testHost.LoadResources("pack://application:,,,/Gum.Controls.DataGrid;component/Themes/Generic.xaml");
+
+            var testedControlAutomationId = testHost.PutControl("Gum.Controls.DataGrid");
+
+
+            //TestHost.LoadAssembly(@"C:\Source\Gum.Controls\src\Gum.Controls.Example\bin\Debug\net5.0-windows\Gum.Drawing.dll");
+            //TestHost.LoadUnmanaged(@"C:\Source\Gum.Controls\src\Gum.Controls.Example\bin\Debug\net5.0-windows\runtimes\win-x64\native\libSkiaSharp.dll");
+            //TestHost.LoadAssembly("C:\\Source\\Gum.Controls\\output\\Debug\\Gum.Controls.Tests\\net5.0-windows\\Gum.Controls.Tests.dll");
+
+            //TestHost.LoadResources("pack://application:,,,/Gum.Controls.DataGrid;component/Themes/Generic.xaml");
+
+            //TestHost.PutControl("Gum.Controls.DataGrid");
         }
     }
 }

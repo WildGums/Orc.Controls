@@ -29,5 +29,11 @@
 
             return assembly is not null;
         }
+
+        [AutomationMethod]
+        public void LoadUnmanaged(string location)
+        {
+            _testHost.LoadUnmanaged(location);
+        }
     }
 }

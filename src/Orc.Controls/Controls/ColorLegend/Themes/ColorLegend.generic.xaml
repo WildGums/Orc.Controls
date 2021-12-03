@@ -124,7 +124,7 @@
                                       BorderThickness="0"
                                       HorizontalContentAlignment="Stretch">
                                 <ListView.ItemTemplate>
-                                    <DataTemplate DataType="controls:IColorLegendItem">
+                                    <DataTemplate DataType="{x:Type controls:IColorLegendItem}">
                                         <Grid HorizontalAlignment="Stretch" Margin="0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition x:Name="visibilityCheckColumn" Width="Auto"/>
