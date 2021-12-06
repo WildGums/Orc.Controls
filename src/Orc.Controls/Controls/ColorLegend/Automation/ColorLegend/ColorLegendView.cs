@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using Catel;
     using Orc.Automation;
-    using Orc.Automation.Attributes;
 
     public class ColorLegendView
     {
@@ -16,8 +15,6 @@
 
             _map = map;
         }
-
-     //   public bool IsColo
         
         public bool? IsAllVisible
         {

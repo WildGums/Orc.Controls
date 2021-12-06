@@ -119,7 +119,7 @@
         /// Clicks a mouse button.
         /// </summary>
         /// <param name="mouseButton">The mouse button to click.</param>
-        public static void Click(MouseButton mouseButton)
+        public static void Click(MouseButton mouseButton = MouseButton.Left)
         {
             Down(mouseButton);
             Up(mouseButton);
@@ -129,7 +129,7 @@
         /// Double-clicks a mouse button.
         /// </summary>
         /// <param name="mouseButton">The mouse button to click.</param>
-        public static void DoubleClick(MouseButton mouseButton)
+        public static void DoubleClick(MouseButton mouseButton = MouseButton.Left)
         {
             Click(mouseButton);
             Click(mouseButton);
@@ -139,7 +139,7 @@
         /// Performs a mouse-down operation for a specified mouse button.
         /// </summary>
         /// <param name="mouseButton">The mouse button to use.</param>
-        public static void Down(MouseButton mouseButton)
+        public static void Down(MouseButton mouseButton = MouseButton.Left)
         {
             switch (mouseButton)
             {
