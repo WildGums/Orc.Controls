@@ -89,7 +89,6 @@
             ColorBoardAssert.Color(target, color);
         }
 
-
         private class PredefinedColorsTestCases : IEnumerable
         {
             public IEnumerator GetEnumerator()

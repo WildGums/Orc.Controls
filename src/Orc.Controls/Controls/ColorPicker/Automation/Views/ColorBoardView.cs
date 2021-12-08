@@ -3,53 +3,85 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Windows.Automation;
     using System.Windows.Media;
     using Orc.Automation;
     using Orc.Automation.Controls;
 
-    public class ColorBoardView : AutomationBase
+    public class ColorBoardMap : AutomationBase
     {
-        private const int HSVTabIndex = 0;
+        private const int HsvTabIndex = 0;
         private const int ColorTabIndex = 1;
 
-        private readonly ColorBoard _target;
-        private HsvCanvasColorBoardPart _hsvCanvas;
+        public static string TabId = nameof(Tab);
+        public static string HSVSliderId = nameof(HSVSlider);
+        public static string ASliderId = nameof(ASlider);
+        public static string RSliderId = nameof(RSlider);
+        public static string GSliderId = nameof(GSlider);
+        public static string BSliderId = nameof(BSlider);
+        public static string AEditId = nameof(AEdit);
+        public static string REditId = nameof(REdit);
+        public static string GEditId = nameof(GEdit);
+        public static string BEditId = nameof(BEdit);
+        public static string ColorEditId = nameof(ColorEdit);
+        public static string ColorComboBoxId = nameof(ColorComboBox);
+        public static string SelectButtonId = nameof(SelectButton);
+        public static string CancelButtonId = nameof(CancelButton);
 
-        public ColorBoardView(ColorBoard target)
+        private readonly ColorBoard _target;
+
+        private HsvCanvasColorBoardPart _hsvCanvas;
+        private Tab _tab;
+
+        public ColorBoardMap(ColorBoard target)
             : base(target.Element)
         {
             _target = target;
         }
 
-        protected Tab Tab => By.One<Tab>();
+        public override By By => new (Element, Tab);
+
+        public Tab Tab => _tab ??= By.Id().One<Tab>();
 
         //HSV Tab item elements
-        protected Slider HSVSlider => Tab.TabScope(HSVTabIndex).Execute(() => By.Id().One<Slider>());
-        protected Slider ASlider => Tab.TabScope(HSVTabIndex).Execute(() => By.Id().One<Slider>());
-        protected Slider RSlider => Tab.TabScope(HSVTabIndex).Execute(() => By.Id().One<Slider>());
-        protected Slider GSlider => Tab.TabScope(HSVTabIndex).Execute(() => By.Id().One<Slider>());
-        protected Slider BSlider => Tab.TabScope(HSVTabIndex).Execute(() => By.Id().One<Slider>());
-        protected Edit AEdit => Tab.TabScope(HSVTabIndex).Execute(() => By.Id().One<Edit>());
-        protected Edit REdit => Tab.TabScope(HSVTabIndex).Execute(() => By.Id().One<Edit>());
-        protected Edit GEdit => Tab.TabScope(HSVTabIndex).Execute(() => By.Id().One<Edit>());
-        protected Edit BEdit => Tab.TabScope(HSVTabIndex).Execute(() => By.Id().One<Edit>());
-        protected HsvCanvasColorBoardPart HsvCanvas => Tab.TabScope(HSVTabIndex).Execute(() => _hsvCanvas ??= new (_target));
+        public Slider HSVSlider => By.Tab(HsvTabIndex).Id().One<Slider>();
+        public Slider ASlider => By.Tab(HsvTabIndex).Id().One<Slider>();
+        public Slider RSlider => By.Tab(HsvTabIndex).Id().One<Slider>();
+        public Slider GSlider => By.Tab(HsvTabIndex).One<Slider>();
+        public Slider BSlider => By.Tab(HsvTabIndex).Id().One<Slider>();
+        public Edit AEdit => By.Tab(HsvTabIndex).Id().One<Edit>();
+        public Edit REdit => By.Tab(HsvTabIndex).Id().One<Edit>();
+        //By.Tab(HsvTabIndex).Id().One<Edit>();
+        public Edit GEdit => By.Tab(HsvTabIndex).Id().One<Edit>();
+        public Edit BEdit => By.Tab(HsvTabIndex).Id().One<Edit>();
+        public HsvCanvasColorBoardPart HsvCanvas => Tab.InTab(HsvTabIndex, () => _hsvCanvas ??= new(_target));
 
 
         //Out of tab elements
-        protected Edit ColorEdit => By.Id().One<Edit>();
-        protected ComboBox ColorComboBox => By.Id().One<ComboBox>();
+        public Edit ColorEdit => By.Id().One<Edit>();
+        public ComboBox ColorComboBox => By.Id().One<ComboBox>();
 
         //Apply/Cancel buttons
-        protected Button SelectButton => By.Id().One<Button>();
-        protected Button CancelButton => By.Id().One<Button>();
+        public Button SelectButton => By.Id().One<Button>();
+        public Button CancelButton => By.Id().One<Button>();
+    }
 
+    public class ColorBoardView : AutomationBase
+    {
+        private readonly ColorBoardMap _map;
+
+        public ColorBoardView(ColorBoard target)
+            : base(target.Element)
+        {
+            _map = new ColorBoardMap(target);
+        }
+        
         /// <summary>
         /// Set colors using sliders
         /// </summary>
         public Color ArgbColor
         {
-            get => Color.FromArgb((byte)ASlider.Value, (byte)RSlider.Value, (byte)GSlider.Value, (byte)BSlider.Value);
+            get => Color.FromArgb((byte)_map.ASlider.Value, (byte)_map.RSlider.Value, (byte)_map.GSlider.Value, (byte)_map.BSlider.Value);
             set => SetARgbColor(value);
         }
 
@@ -58,7 +90,7 @@
         /// </summary>
         public Color ArgbColorAlt
         {
-            get => Color.FromArgb(EditToByte(AEdit), EditToByte(REdit), EditToByte(GEdit), EditToByte(BEdit));
+            get => Color.FromArgb(EditToByte(_map.AEdit), EditToByte(_map.REdit), EditToByte(_map.GEdit), EditToByte(_map.BEdit));
             set => SetARgbColorAlt(value);
         }
 
@@ -66,13 +98,13 @@
         {
             get
             {
-                var sv = HsvCanvas.GetSV();
-                var h = HSVSlider.Value;
+                var sv = _map.HsvCanvas.GetSV();
+                var h = _map.HSVSlider.Value;
 
                 var hsvColor = ColorHelper.HSV2RGB(h, sv.X, sv.Y);
 
                 //Alpha channel we should take from other place
-                return Color.FromArgb(EditToByte(AEdit), hsvColor.R, hsvColor.G, hsvColor.B);
+                return Color.FromArgb(EditToByte(_map.AEdit), hsvColor.R, hsvColor.G, hsvColor.B);
             }
             set => SetHsvColor(value);
         }
@@ -81,7 +113,7 @@
         {
             get
             {
-                var colorEditText = ColorEdit.Text;
+                var colorEditText = _map.ColorEdit.Text;
                 if (!string.IsNullOrWhiteSpace(colorEditText))
                 {
                     return colorEditText;
@@ -92,23 +124,23 @@
             }
             set
             {
-                var colorEdit = ColorEdit;
+                var colorEdit = _map.ColorEdit;
 
                 colorEdit.SetFocus();
 
                 colorEdit.Text = value;
 
                 //We should move focus, for example on 1st element
-                AEdit.SetFocus();
+                _map.AEdit.SetFocus();
             }
         }
 
         public string PredefinedColorName
         {
-            get => ColorComboBox.InvokeInExpandState(() => ColorComboBox.SelectedItem?.TryGetDisplayText());
+            get => _map.ColorComboBox.InvokeInExpandState(() => _map.ColorComboBox.SelectedItem?.TryGetDisplayText());
             set
             {
-                var colorComboBox = ColorComboBox;
+                var colorComboBox = _map.ColorComboBox;
                 colorComboBox.InvokeInExpandState(() =>
                 {
                     var itemToSelect = colorComboBox.Items?.FirstOrDefault(x => Equals(x.TryGetDisplayText(), value));
@@ -119,73 +151,64 @@
 
         public List<string> AvailableColorNames
         {
-            get => ColorComboBox.Items.Select(x => x.TryGetDisplayText()).ToList();
+            get => _map.ColorComboBox.Items.Select(x => x.TryGetDisplayText()).ToList();
         }
 
         public bool Apply()
         {
-            return SelectButton.TryInvoke();
+            return _map.SelectButton.TryInvoke();
         }
 
         public bool Cancel()
         {
-            return CancelButton.TryInvoke();
+            return _map.CancelButton.TryInvoke();
         }
 
         public void SetHsvColor(Color color)
         {
-            using (Tab.TabScope(HSVTabIndex))
-            {
-                HsvCanvas.SetColor(color);
-                Wait.UntilResponsive();
+            _map.HsvCanvas.SetColor(color);
+            Wait.UntilResponsive();
 
-                var h = ColorHelper.GetHSV_H(color);
-                HSVSlider.Value = h;
-                Wait.UntilResponsive();
+            var h = ColorHelper.GetHSV_H(color);
+            _map.HSVSlider.Value = h;
+            Wait.UntilResponsive();
 
-                //Should set Alpha channel after, because
-                //HSV has nothing to do with alpha
-                ASlider.Value = color.A;
-            }
+            //Should set Alpha channel after, because
+            //HSV has nothing to do with alpha
+            _map.ASlider.Value = color.A;
         }
 
         private void SetARgbColor(Color color)
         {
-            using (Tab.TabScope(HSVTabIndex))
-            {
-                ASlider.Value = color.A;
-                Wait.UntilResponsive();
+            _map.ASlider.Value = color.A;
+            Wait.UntilResponsive();
 
-                RSlider.Value = color.R;
-                Wait.UntilResponsive();
+            _map.RSlider.Value = color.R;
+            Wait.UntilResponsive();
 
-                GSlider.Value = color.G;
-                Wait.UntilResponsive();
+            _map.GSlider.Value = color.G;
+            Wait.UntilResponsive();
 
-                BSlider.Value = color.B;
-                Wait.UntilResponsive();
-            };
+            _map.BSlider.Value = color.B;
+            Wait.UntilResponsive();
         }
 
         private void SetARgbColorAlt(Color color)
         {
-            using (Tab.TabScope(HSVTabIndex))
-            {
-                AEdit.Text = color.A.ToString("X");
-                Wait.UntilResponsive();
+            _map.AEdit.Text = color.A.ToString("X");
+            Wait.UntilResponsive();
 
-                REdit.Text = color.R.ToString("X");
-                Wait.UntilResponsive();
+            _map.REdit.Text = color.R.ToString("X");
+            Wait.UntilResponsive();
 
-                GEdit.Text = color.G.ToString("X");
-                Wait.UntilResponsive();
+            _map.GEdit.Text = color.G.ToString("X");
+            Wait.UntilResponsive();
 
-                BEdit.Text = color.B.ToString("X");
-                Wait.UntilResponsive();
+            _map.BEdit.Text = color.B.ToString("X");
+            Wait.UntilResponsive();
 
-                //We should move focus to apply changes, for example on 1st element
-                AEdit.SetFocus();
-            };
+            //We should move focus to apply changes, for example on 1st element
+            _map.AEdit.SetFocus();
         }
 
         private byte EditToByte(Edit edit)

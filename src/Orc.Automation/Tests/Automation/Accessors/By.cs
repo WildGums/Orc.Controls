@@ -5,11 +5,24 @@
     using System.Windows.Automation;
     using Automation;
     using Catel;
+    using Controls;
 
     public class By
     {
         private readonly AutomationElement _element;
         private readonly SearchContext _searchContext = new();
+
+        private readonly Tab _tab;
+
+        private int? _tabIndex;
+
+        public By(AutomationElement element, Tab tab)
+            : this(element)
+        {
+            Argument.IsNotNull(() => tab);
+
+            _tab = tab;
+        }
 
         public By(AutomationElement element)
         {
@@ -53,13 +66,30 @@
             return this;
         }
 
-        public AutomationElement One()
+        public By Tab(int tabIndex)
         {
+            _tabIndex = tabIndex;
+
+            return this;
+        }
+        
+        public virtual AutomationElement One()
+        {
+            if (_tabIndex is not null && _tab is not null)
+            {
+                return _tab.InTab(_tabIndex.Value, () => _element.Find(_searchContext));
+            }
+
             return _element.Find(_searchContext);
         }
 
-        public IList<AutomationElement> Many()
+        public virtual IList<AutomationElement> Many()
         {
+            if (_tabIndex is not null && _tab is not null)
+            {
+                return _tab.InTab(_tabIndex.Value, () => _element.FindAll(_searchContext)?.ToList());
+            }
+
             return _element.FindAll(_searchContext)?.ToList();
         }
     }

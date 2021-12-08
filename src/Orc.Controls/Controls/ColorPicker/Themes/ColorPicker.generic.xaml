@@ -2,7 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Orc.Controls"
                     xmlns:catel="http://schemas.catelproject.com"
-                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+                    xmlns:orcautomation="http://schemas.wildgums.com/orc/automation"
+                    xmlns:automation="clr-namespace:Orc.Controls.Automation">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
@@ -293,6 +295,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TabControl Margin="2"
+                                            AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.TabId}"
                                             Grid.ColumnSpan="2"
                                             Padding="2 2 2 4"
                                             Background="{TemplateBinding Background}">
@@ -357,7 +360,7 @@
                                             </Canvas>
 
                                             <Slider Name="PART_HSVSlider"
-                                                    AutomationProperties.AutomationId="HSVSlider"
+                                                    AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.HSVSliderId}"
 
                                                     Grid.Column="1"
                                                     Margin="0"
@@ -397,7 +400,7 @@
                                                 </Grid.ColumnDefinitions>
 
                                                 <Slider x:Name="PART_ASlider"
-                                                        AutomationProperties.AutomationId="ASlider"
+                                                        AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.ASliderId}"
 
                                                         Grid.Row="0"
                                                         Grid.Column="0"
@@ -416,7 +419,7 @@
                                                 </Slider>
 
                                                 <Slider x:Name="PART_RSlider"
-                                                        AutomationProperties.AutomationId="RSlider"
+                                                        AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.RSliderId}"
                                                         Grid.Row="1"
                                                         Grid.Column="0"
                                                         Height="20"
@@ -434,7 +437,7 @@
                                                 </Slider>
 
                                                 <Slider x:Name="PART_GSlider"
-                                                        AutomationProperties.AutomationId="GSlider"
+                                                        AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.GSliderId}"
                                                         Grid.Row="2"
                                                         Grid.Column="0"
                                                         Height="20"
@@ -452,7 +455,8 @@
                                                 </Slider>
 
                                                 <Slider x:Name="PART_BSlider"
-                                                        AutomationProperties.AutomationId="BSlider"
+                                                        AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.BSliderId}"
+
                                                         Grid.Row="3"
                                                         Grid.Column="0"
                                                         Height="20"
@@ -470,7 +474,7 @@
                                                 </Slider>
 
                                                 <TextBox x:Name="PART_ATextBox"
-                                                         AutomationProperties.AutomationId="AEdit"
+                                                         AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.AEditId}"
 
                                                          Grid.Row="0"
                                                          Grid.Column="1"
@@ -481,7 +485,7 @@
                                                          VerticalAlignment="Center"
                                                          HorizontalAlignment="Center"/>
                                                 <TextBox x:Name="PART_RTextBox"
-                                                         AutomationProperties.AutomationId="REdit"
+                                                         AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.REditId}"
 
                                                          Grid.Row="1"
                                                          Grid.Column="1"
@@ -492,7 +496,7 @@
                                                          VerticalAlignment="Center"
                                                          HorizontalAlignment="Center"/>
                                                 <TextBox x:Name="PART_GTextBox"
-                                                         AutomationProperties.AutomationId="GEdit"
+                                                         AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.GEditId}"
 
                                                          Grid.Row="2"
                                                          Grid.Column="1"
@@ -503,7 +507,7 @@
                                                          VerticalAlignment="Center"
                                                          HorizontalAlignment="Center"/>
                                                 <TextBox x:Name="PART_BTextBox"
-                                                         AutomationProperties.AutomationId="BEdit"
+                                                         AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.BEditId}"
 
                                                          Grid.Row="3"
                                                          Grid.Column="1"
@@ -643,7 +647,7 @@
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Center">
                                     <ComboBox x:Name="PART_ColorComboBox"
-                                              AutomationProperties.AutomationId="ColorComboBox"
+                                              AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.ColorComboBoxId}"
 
                                               Height="20"
                                               Margin="2"
@@ -667,7 +671,7 @@
                                         </Rectangle>
 
                                         <TextBox x:Name="PART_ColorTextBox"
-                                                 AutomationProperties.AutomationId="ColorEdit"
+                                                 AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.ColorEditId}"
 
                                                  TextOptions.TextRenderingMode="ClearType"
                                                  Margin="5,0"
@@ -685,7 +689,7 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Button x:Name="PART_CancelButton"
-                                            AutomationProperties.AutomationId="CancelButton"
+                                            AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.CancelButtonId}"
 
                                             Grid.Column="0"
                                             Height="auto"
@@ -693,7 +697,7 @@
                                             Content="{catel:LanguageBinding Controls_ColorPickerGeneric_Button_Content_Cancel}" />
 
                                     <Button x:Name="PART_SelectButton"
-                                            AutomationProperties.AutomationId="SelectButton"
+                                            AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.SelectButtonId}"
 
                                             Grid.Column="1"
                                             Height="auto"

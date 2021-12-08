@@ -72,8 +72,6 @@
                         {
                             x.Instance.SelectedIndex = previouslySelectedIndex;
                         }
-
-                        Wait.UntilResponsive();
                     });
         }
     }
