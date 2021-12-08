@@ -361,6 +361,11 @@
             element.RunPatternFunc<ExpandCollapsePattern>(x => x.Collapse());
         }
 
+        public static bool GetIsExpanded(this AutomationElement element)
+        {
+            return element.RunPatternFunc<ExpandCollapsePattern, ExpandCollapseState>(x => x.Current.ExpandCollapseState) == ExpandCollapseState.Expanded;
+        }
+
         public static bool TryExpand(this AutomationElement element)
         {
             return element.TryRunPatternFunc<ExpandCollapsePattern>(x => x.Expand());

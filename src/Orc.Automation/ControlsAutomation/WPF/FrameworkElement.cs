@@ -39,5 +39,10 @@
             get => Access.GetValue<SolidColorBrush>();
             set => Access.SetValue(value);
         }
+
+        public void SetFocus()
+        {
+            Element?.SetFocus();
+        }
     }
 }

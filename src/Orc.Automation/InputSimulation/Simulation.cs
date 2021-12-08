@@ -2,9 +2,9 @@
 {
     using System;
     using System.ComponentModel;
-    using System.Drawing;
     using System.Linq;
     using System.Runtime.InteropServices;
+    using System.Windows;
     using System.Windows.Input;
 
 #pragma warning disable IDE1006 // Naming Styles
@@ -252,7 +252,7 @@
         /// <param name="data">scroll wheel amount</param>
         /// <param name="flags">SendMouseInputFlags flags</param>
 
-        private static void SendMouseInput(int x, int y, int data, NativeMethods.SendMouseInputFlags flags)
+        private static void SendMouseInput(double x, double y, int data, NativeMethods.SendMouseInputFlags flags)
         {
             var intflags = (int)flags;
 
@@ -267,8 +267,8 @@
             {
                 type = NativeMethods.InputMouse
             };
-            mi.union.mouseInput.dx = x;
-            mi.union.mouseInput.dy = y;
+            mi.union.mouseInput.dx = (int)x;
+            mi.union.mouseInput.dy = (int)y;
             mi.union.mouseInput.mouseData = data;
             mi.union.mouseInput.dwFlags = intflags;
             mi.union.mouseInput.time = 0;
@@ -280,7 +280,7 @@
             }
         }
 
-        private static void NormalizeCoordinates(ref int x, ref int y)
+        private static void NormalizeCoordinates(ref double x, ref double y)
         {
             var vScreenWidth = NativeMethods.GetSystemMetrics(NativeMethods.SmCxvirtualscreen);
             var vScreenHeight = NativeMethods.GetSystemMetrics(NativeMethods.SmCyvirtualscreen);
@@ -307,8 +307,8 @@
             // The key ting here is that unlike points in coordinate geometry, pixels take up
             // space, so are often better treated like rectangles - and if you want to target
             // a particular pixel, target its rectangle's midpoint, not its edge.
-            x = (x - vScreenLeft) * 65536 / vScreenWidth + 65536 / (vScreenWidth * 2);
-            y = (y - vScreenTop) * 65536 / vScreenHeight + 65536 / (vScreenHeight * 2);
+            x = (x - vScreenLeft) * 65536d / vScreenWidth /*+ 65536d / (vScreenWidth * 2)*/;
+            y = (y - vScreenTop) * 65536d / vScreenHeight /*+ 65536d / (vScreenHeight * 2)*/;
         }
     }
 

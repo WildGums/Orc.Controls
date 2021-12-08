@@ -13,7 +13,7 @@
         {
         }
 
-        public ColorBoardAutomationControl OpenColorBoard()
+        public ColorBoard OpenColorBoard()
         {
             var windowHost = Element.Find<Window>(controlType: ControlType.Window, scope: TreeScope.Ancestors);
             if (windowHost is null)
@@ -26,13 +26,13 @@
             Wait.UntilResponsive();
 
             var colorPopup = windowHost.Find(className: "Popup", controlType: ControlType.Window);
-            var colorBoard = colorPopup?.Find(className: typeof(ColorBoard).FullName);
+            var colorBoard = colorPopup?.Find(className: typeof(Controls.ColorBoard).FullName);
             if (colorBoard is null)
             {
                 return null;
             }
 
-            return new ColorBoardAutomationControl(colorBoard);
+            return new ColorBoard(colorBoard);
         }
     }
 }

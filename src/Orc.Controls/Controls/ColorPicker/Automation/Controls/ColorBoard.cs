@@ -4,9 +4,9 @@
     using System.Windows.Media;
     using Orc.Automation;
 
-    public class ColorBoardAutomationControl : AutomationControl
+    public class ColorBoard : AutomationControl
     {
-        public ColorBoardAutomationControl(AutomationElement element)
+        public ColorBoard(AutomationElement element)
             : base(element)
         {
             View = new ColorBoardView(this);

@@ -12,7 +12,7 @@
 
             var rect = element.Current.BoundingRectangle;
 
-            MouseInput.MoveTo(rect.GetClickablePoint().ToDrawingPoint());
+            MouseInput.MoveTo(rect.GetClickablePoint());
             MouseInput.Click(mouseButton);
         }
     }

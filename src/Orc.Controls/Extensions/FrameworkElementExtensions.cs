@@ -23,6 +23,18 @@
         #endregion
 
         #region Methods
+        public static Rect GetScreenRect(this FrameworkElement frameworkElement)
+        {
+            Argument.IsNotNull(() => frameworkElement);
+
+            if (!frameworkElement.IsVisible)
+            {
+                return Rect.Empty;
+            }
+
+            return new Rect(frameworkElement.PointToScreen(new Point(0, 0)), frameworkElement.PointToScreen(new Point(frameworkElement.ActualWidth, frameworkElement.ActualHeight)));
+        }
+
         public static IEditableControl TryGetEditableControl(this FrameworkElement frameworkElement)
         {
             Argument.IsNotNull(() => frameworkElement);

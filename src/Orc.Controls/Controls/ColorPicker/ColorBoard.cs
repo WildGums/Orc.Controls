@@ -783,6 +783,22 @@
             }
         }
 
+        public void SetHsvColor(Color color)
+        {
+            var h = ColorHelper.GetHSV_H(color);
+            var s = ColorHelper.GetHSV_S(color);
+            var v = ColorHelper.GetHSV_V(color);
+
+            _hsvSlider.SetCurrentValue(RangeBase.ValueProperty, h);
+            _hsvColorGradientStop.SetCurrentValue(GradientStop.ColorProperty, ColorHelper.HSV2RGB(h, 1d, 1d));
+
+            var x = s * (_hsvRectangle.ActualWidth - 1);
+            var y = (1 - v) * (_hsvRectangle.ActualHeight - 1);
+
+            _hsvEllipse.SetCurrentValue(Canvas.LeftProperty, x - _hsvEllipse.ActualWidth / 2);
+            _hsvEllipse.SetCurrentValue(Canvas.TopProperty, y - _hsvEllipse.ActualHeight / 2);
+        }
+
         /// <summary>
         /// The update controls.
         /// </summary>
@@ -804,18 +820,7 @@
                 // HSV
                 if (hsv)
                 {
-                    var h = ColorHelper.GetHSV_H(color);
-                    var s = ColorHelper.GetHSV_S(color);
-                    var v = ColorHelper.GetHSV_V(color);
-
-                    _hsvSlider.SetCurrentValue(RangeBase.ValueProperty, h);
-                    _hsvColorGradientStop.SetCurrentValue(GradientStop.ColorProperty, ColorHelper.HSV2RGB(h, 1d, 1d));
-
-                    var x = s * (_hsvRectangle.ActualWidth - 1);
-                    var y = (1 - v) * (_hsvRectangle.ActualHeight - 1);
-
-                    _hsvEllipse.SetCurrentValue(Canvas.LeftProperty, x - _hsvEllipse.ActualWidth / 2);
-                    _hsvEllipse.SetCurrentValue(Canvas.TopProperty, y - _hsvEllipse.ActualHeight / 2);
+                    SetHsvColor(color);
                 }
 
                 if (rgb)
