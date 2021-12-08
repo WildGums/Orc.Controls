@@ -2,13 +2,15 @@
 {
     using System.Windows.Automation;
 
-    [AutomatedControl(ControlTypeName = nameof(ControlType.ListItem))]
-    public class ListItem : FrameworkElement
+    [AutomatedControl(ControlTypeName = nameof(ControlType.TabItem))]
+    public class TabItem : FrameworkElement
     {
-        public ListItem(AutomationElement element)
-            : base(element, ControlType.ListItem)
+        public TabItem(AutomationElement element) 
+            : base(element, ControlType.TabItem)
         {
         }
+
+        public string Header => Element.Current.Name;
 
         public bool IsSelected
         {

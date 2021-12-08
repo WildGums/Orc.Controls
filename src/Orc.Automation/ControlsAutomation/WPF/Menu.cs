@@ -1,10 +1,10 @@
 ﻿namespace Orc.Automation.Controls
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Automation;
 
+    [AutomatedControl(ControlTypeName = nameof(ControlType.Menu))]
     public class Menu : FrameworkElement
     {
         public Menu(AutomationElement element)

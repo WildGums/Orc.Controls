@@ -2,6 +2,7 @@
 {
     using System.Windows.Automation;
 
+    [AutomatedControl(ControlTypeName = nameof(ControlType.Edit))]
     public class Edit : FrameworkElement
     {
         public Edit(AutomationElement element) 

@@ -2,6 +2,7 @@
 {
     using System.Windows.Automation;
 
+    [AutomatedControl(ControlTypeName = nameof(ControlType.Window))]
     public class Window : FrameworkElement
     {
         public Window(AutomationElement element)

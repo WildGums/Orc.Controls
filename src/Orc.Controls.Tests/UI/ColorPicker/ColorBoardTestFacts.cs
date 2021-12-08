@@ -68,19 +68,6 @@
         }
 
         [TestCaseSource(typeof(PositiveSetRGBColorTestCases))]
-        public void CorrectlySetColorByText(Color color)
-        {
-            var target = Target;
-            var view = target.View;
-
-            view.ColorName = color.ToString();
-
-            var colorName = view.ColorName;
-
-            ColorBoardAssert.Color(target, color);
-        }
-
-        [TestCaseSource(typeof(PositiveSetRGBColorTestCases))]
         public void CorrectlySetArgbAltColor(Color color)
         {
             var target = Target;
@@ -89,6 +76,53 @@
             view.ArgbColorAlt = color;
 
             ColorBoardAssert.Color(target, color);
+        }
+
+        [TestCaseSource(typeof(PositiveSetRGBColorTestCases))]
+        public void CorrectlySetColorByName(Color color)
+        {
+            var target = Target;
+            var view = target.View;
+
+            view.ColorName = color.ToString();
+
+            ColorBoardAssert.Color(target, color);
+        }
+
+
+        private class PredefinedColorsTestCases : IEnumerable
+        {
+            public IEnumerator GetEnumerator()
+            {
+                yield return new object[] { nameof(Colors.Red), Colors.Red };
+                yield return new object[] { nameof(Colors.Blue), Colors.Blue };
+                yield return new object[] { nameof(Colors.Green), Colors.Green };
+                yield return new object[] { nameof(Colors.Lime), Colors.Lime };
+            }
+        }
+
+        //TODO: issue: 
+        [Ignore("Not implemented yet, see: https://sesolutions.atlassian.net/browse/ORCOMP-653 {5. - issue number}")]
+        [TestCaseSource(typeof(PredefinedColorsTestCases))]
+        public void CorrectlySetColorByPredifinedName(string predefinedColorName, Color expectedColor)
+        {
+            var target = Target;
+            var view = target.View;
+
+            view.ColorName = predefinedColorName;
+
+            ColorBoardAssert.Color(target, expectedColor);
+        }
+
+        [TestCaseSource(typeof(PredefinedColorsTestCases))]
+        public void CorrectlySetPredefinedColor(string predefinedColorName, Color expectedColor)
+        {
+            var target = Target;
+            var view = target.View;
+
+            view.PredefinedColorName = predefinedColorName;
+
+            ColorBoardAssert.Color(target, expectedColor);
         }
     }
 }

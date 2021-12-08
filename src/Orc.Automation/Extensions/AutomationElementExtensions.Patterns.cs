@@ -218,6 +218,14 @@
         #endregion
 
         #region Select Item
+        public static AutomationElement[] GetSelection(this AutomationElement container)
+        {
+            Argument.IsNotNull(() => container);
+
+            return container.RunPatternFunc<SelectionPattern, AutomationElement[]>(x => x.Current.GetSelection());
+        }
+
+
         public static bool CanSelectMultiple(this AutomationElement container)
         {
             Argument.IsNotNull(() => container);

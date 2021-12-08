@@ -23,6 +23,16 @@
         //    return parent;
         //}
 
+        public static string TryGetDisplayText(this AutomationElement element)
+        {
+            Argument.IsNotNull(() => element);
+
+            var rawTreeWalker =TreeWalker.RawViewWalker;
+            var rawElement = rawTreeWalker.GetFirstChild(element);
+
+            return rawElement?.Current.Name;
+        }
+
         public static IEnumerable<AutomationElement> GetAncestors(this AutomationElement element, Condition condition)
         {
             Argument.IsNotNull(() => element);

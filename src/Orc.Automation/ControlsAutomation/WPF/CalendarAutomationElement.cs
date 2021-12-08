@@ -2,7 +2,7 @@
 {
     using System.Windows.Automation;
 
-
+    [AutomatedControl(ControlTypeName = nameof(ControlType.Calendar))]
     public class CalendarAutomationElement : FrameworkElement
     {
         public CalendarAutomationElement(AutomationElement element) 

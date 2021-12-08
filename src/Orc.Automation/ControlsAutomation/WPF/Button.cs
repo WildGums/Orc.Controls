@@ -2,6 +2,7 @@
 {
     using System.Windows.Automation;
 
+    [AutomatedControl(ControlTypeName = nameof(ControlType.Button))]
     public sealed class Button : FrameworkElement
     {
         public Button(AutomationElement element) 

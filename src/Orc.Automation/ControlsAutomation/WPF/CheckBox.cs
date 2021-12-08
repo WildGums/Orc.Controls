@@ -2,6 +2,7 @@
 {
     using System.Windows.Automation;
 
+    [AutomatedControl(ControlTypeName = nameof(ControlType.CheckBox))]
     public class CheckBox : FrameworkElement
     {
         public CheckBox(AutomationElement element) 

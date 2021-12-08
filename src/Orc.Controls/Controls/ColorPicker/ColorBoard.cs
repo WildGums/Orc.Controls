@@ -106,7 +106,7 @@
 
         /// <summary>
         /// The gradient stop a 0.
-        /// </summary>
+        /// </summary>  
         private GradientStop _a0GradientStop;
 
         /// <summary>

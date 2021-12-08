@@ -3,6 +3,7 @@
     using System.Windows.Automation;
 
     //https://docs.microsoft.com/en-us/dotnet/framework/ui-automation/ui-automation-support-for-the-slider-control-type
+    [AutomatedControl(ControlTypeName = nameof(ControlType.Slider))]
     public sealed class Slider : FrameworkElement
     {
         public Slider(AutomationElement element) 

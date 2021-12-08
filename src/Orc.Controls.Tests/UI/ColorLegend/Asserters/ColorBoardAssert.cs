@@ -29,6 +29,19 @@
             
             //Check HsvColor
             Assert.That(view.HsvColor, Is.EqualTo(expectedColor));
+
+            //Check ColorName
+            var colorName = view.ColorName;
+            var availableColorNames = view.AvailableColorNames;
+            if (availableColorNames.Contains(colorName))
+            {
+                var predefinedColorName = view.PredefinedColorName;
+                Assert.That(predefinedColorName, Is.EqualTo(PredefinedColor.GetColorName(expectedColor)));
+            }
+            else
+            {
+                Assert.That(colorName, Is.EqualTo(expectedColor.ToString()));
+            }
         }
     }
 }

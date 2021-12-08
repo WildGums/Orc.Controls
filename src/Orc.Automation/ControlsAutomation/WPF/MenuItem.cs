@@ -2,6 +2,7 @@
 {
     using System.Windows.Automation;
 
+    [AutomatedControl(ControlTypeName = nameof(ControlType.MenuItem))]
     public class MenuItem : FrameworkElement
     {
         public MenuItem(AutomationElement element) 
