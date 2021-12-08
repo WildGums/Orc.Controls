@@ -41,13 +41,13 @@
 
         public override By By => new (Element, Tab);
 
-        public Tab Tab => _tab ??= By.Id().One<Tab>();
+        public Tab Tab => _tab ??= base.By.Id().One<Tab>();
 
         //HSV Tab item elements
         public Slider HSVSlider => By.Tab(HsvTabIndex).Id().One<Slider>();
         public Slider ASlider => By.Tab(HsvTabIndex).Id().One<Slider>();
         public Slider RSlider => By.Tab(HsvTabIndex).Id().One<Slider>();
-        public Slider GSlider => By.Tab(HsvTabIndex).One<Slider>();
+        public Slider GSlider => By.Tab(HsvTabIndex).Id().One<Slider>();
         public Slider BSlider => By.Tab(HsvTabIndex).Id().One<Slider>();
         public Edit AEdit => By.Tab(HsvTabIndex).Id().One<Edit>();
         public Edit REdit => By.Tab(HsvTabIndex).Id().One<Edit>();
