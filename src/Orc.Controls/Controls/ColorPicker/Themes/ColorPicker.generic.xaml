@@ -604,6 +604,8 @@
                                                            Margin="2 1"/>
                                             </Border>
                                             <ListBox x:Name="PART_ThemeColorsListBox"
+                                                     AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.ThemeColorsListBoxId}"
+
                                                      HorizontalAlignment="Stretch"
                                                      HorizontalContentAlignment="Center"
                                                      BorderThickness="0"
@@ -624,6 +626,8 @@
                                                            Margin="2 1"/>
                                             </Border>
                                             <ListBox x:Name="PART_RecentColorsListBox"
+                                                     AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.RecentColorsListBoxId}"
+
                                                      HorizontalAlignment="Stretch"
                                                      HorizontalContentAlignment="Center"
                                                      BorderThickness="0"

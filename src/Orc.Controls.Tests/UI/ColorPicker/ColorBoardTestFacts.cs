@@ -1,6 +1,7 @@
 ﻿namespace Orc.Controls.Tests
 {
     using System.Collections;
+    using System.Linq;
     using System.Windows.Media;
     using Automation;
     using NUnit.Framework;
@@ -122,6 +123,30 @@
             view.PredefinedColorName = predefinedColorName;
 
             ColorBoardAssert.Color(target, expectedColor);
+        }
+
+        private class PredefinedThemeColorsTestCases : IEnumerable
+        {
+            public IEnumerator GetEnumerator()
+            {
+                return PredefinedColor.AllThemeColors.GetEnumerator();
+            }
+        }
+
+        [TestCaseSource(typeof(PredefinedThemeColorsTestCases))]
+        public void CorrectlySetThemeColor(PredefinedColor expectedPredefinedColor)
+        {
+            var target = Target;
+            var view = target.View;
+
+            var themeColors = view.ThemeColors;
+
+            var themeColor = themeColors.FirstOrDefault(x => Equals(x.Color, expectedPredefinedColor.Value));
+            Assert.That(themeColor, Is.Not.Null);
+
+            themeColor.IsSelected = true;
+
+            ColorBoardAssert.Color(target, expectedPredefinedColor.Value);
         }
     }
 }

@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Windows.Automation;
     using System.Windows.Media;
     using Orc.Automation;
     using Orc.Automation.Controls;
@@ -27,6 +26,8 @@
         public static string ColorComboBoxId = nameof(ColorComboBox);
         public static string SelectButtonId = nameof(SelectButton);
         public static string CancelButtonId = nameof(CancelButton);
+        public static string ThemeColorsListBoxId = nameof(ThemeColorsListBox);
+        public static string RecentColorsListBoxId = nameof(RecentColorsListBox);
 
         private readonly ColorBoard _target;
 
@@ -42,6 +43,9 @@
         public override By By => new (Element, Tab);
 
         public Tab Tab => _tab ??= base.By.Id().One<Tab>();
+
+        public List ThemeColorsListBox => By.Tab(ColorTabIndex).Id().One<List>();
+        public List RecentColorsListBox => By.Tab(ColorTabIndex).Id().One<List>();
 
         //HSV Tab item elements
         public Slider HSVSlider => By.Tab(HsvTabIndex).Id().One<Slider>();
@@ -75,7 +79,7 @@
         {
             _map = new ColorBoardMap(target);
         }
-        
+
         /// <summary>
         /// Set colors using sliders
         /// </summary>
@@ -152,6 +156,16 @@
         public List<string> AvailableColorNames
         {
             get => _map.ColorComboBox.Items.Select(x => x.TryGetDisplayText()).ToList();
+        }
+
+        public IReadOnlyList<PredefinedColorItem> ThemeColors
+        {
+            get => _map.ThemeColorsListBox.GetItemsOfType<PredefinedColorItem>();
+        }
+
+        public IReadOnlyList<PredefinedColorItem> RecentColors
+        {
+            get => _map.RecentColorsListBox.GetItemsOfType<PredefinedColorItem>();
         }
 
         public bool Apply()

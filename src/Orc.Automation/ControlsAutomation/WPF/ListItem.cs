@@ -10,6 +10,8 @@
         {
         }
 
+        public string DisplayText => Element.TryGetDisplayText();
+
         public bool IsSelected
         {
             get => Element.GetIsSelected();
