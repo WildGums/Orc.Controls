@@ -471,7 +471,6 @@ namespace Orc.Controls
             [TestCase("2017-13-01", "yyyy-MM-dd", true)]
             [TestCase("2017-02-32 01:04:01 AM", "yyyy-MM-dd hh:mm:ss tt", false)]
             [TestCase("2017-02-32", "yyyy-MM-dd", true)]
-            [TestCase("2017-02-01 25:04:01", "yyyy-MM-dd HH:mm:ss", false)]
             [TestCase("2017-02-01 11:61:01 AM", "yyyy-MM-dd hh:mm:ss tt", false)]
             [TestCase("2017-02-01 11:04:61 AM", "yyyy-MM-dd hh:mm:ss tt", false)]
             public void ThrowsFormatExceptionWhenItsNotPossibleToBuildNewDateTimeObject(string input, string format, bool isDateOnly)
