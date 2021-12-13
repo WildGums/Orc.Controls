@@ -55,7 +55,6 @@
         public Slider BSlider => By.Tab(HsvTabIndex).Id().One<Slider>();
         public Edit AEdit => By.Tab(HsvTabIndex).Id().One<Edit>();
         public Edit REdit => By.Tab(HsvTabIndex).Id().One<Edit>();
-        //By.Tab(HsvTabIndex).Id().One<Edit>();
         public Edit GEdit => By.Tab(HsvTabIndex).Id().One<Edit>();
         public Edit BEdit => By.Tab(HsvTabIndex).Id().One<Edit>();
         public HsvCanvasColorBoardPart HsvCanvas => Tab.InTab(HsvTabIndex, () => _hsvCanvas ??= new(_target));
