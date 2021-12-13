@@ -2,6 +2,7 @@
 {
     using System;
     using System.Windows.Threading;
+    using Catel;
     using Catel.Configuration;
     using Catel.Logging;
 
@@ -31,6 +32,8 @@
 
         protected virtual void Subscribe(ICalloutManager calloutManager)
         {
+            Argument.IsNotNull(() => calloutManager);
+
             var callout = Callout;
             if (callout is not null)
             {

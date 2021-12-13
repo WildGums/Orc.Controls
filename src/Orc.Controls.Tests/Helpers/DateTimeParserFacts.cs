@@ -408,6 +408,7 @@ namespace Orc.Controls
             [TestCase("2017-02-01 1:40:01", "yyyy-MM-dd HH:mm:ss", "Invalid hour value. Hour must contain 2 digits")]
             [TestCase("2017-02-01 001:40:01", "yyyy-MM-dd h:mm:ss", "Invalid hour value. Hour must contain 1 or 2 digits")]
             [TestCase("2017-02-01 1:40:01", "yyyy-MM-dd hh:mm:ss", "Invalid hour value. Hour must contain 2 digits")]
+            [TestCase("2017-02-01 25:30:10", "yyyy-MM-dd hh:mm:ss", "Invalid hour value. Hour must be in range <0, 24> for short format")]
             public void ThrowsFormatExceptionWhenHourPartValueIsIncorrect(string input, string format, string expectedMessage)
             {
                 ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeParser.Parse(input, format, false), x =>
