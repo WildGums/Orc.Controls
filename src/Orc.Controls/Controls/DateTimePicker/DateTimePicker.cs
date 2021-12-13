@@ -1475,7 +1475,7 @@
                 return;
             }
 
-            if (year < 0)
+            if (year <= 0)
             {
                 return;
             }
