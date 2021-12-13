@@ -20,7 +20,9 @@ namespace Orc.Controls
         #region Constructors
         public TimeAdjustmentConverter()
         {
+#pragma warning disable IDISP004 // Don't ignore created IDisposable.
             _timeAdjustmentProvider = this.GetServiceLocator().ResolveType<ITimeAdjustmentProvider>();
+#pragma warning restore IDISP004 // Don't ignore created IDisposable.
         }
         #endregion
 

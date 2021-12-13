@@ -51,7 +51,10 @@ namespace Orc.Controls
 
             base.Attach(target);
 
+#pragma warning disable IDISP001 // Dispose created.
             var serviceLocator = target.GetServiceLocator();
+#pragma warning restore IDISP001 // Dispose created.
+
             _findReplaceService = serviceLocator.TryResolveType<IFindReplaceService>(target);
             if (_findReplaceService is not null)
             {
@@ -71,7 +74,10 @@ namespace Orc.Controls
         {
             var target = Target;
 
+#pragma warning disable IDISP001 // Dispose created.
             var serviceLocator = Target.GetServiceLocator();
+#pragma warning restore IDISP001 // Dispose created.
+
             if (serviceLocator.IsTypeRegistered<IFindReplaceService>(target))
             {
                 serviceLocator.RemoveType<IFindReplaceService>(target);

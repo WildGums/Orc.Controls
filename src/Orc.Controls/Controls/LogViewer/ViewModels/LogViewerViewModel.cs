@@ -24,7 +24,9 @@
         private readonly FastObservableCollection<LogEntry> _logEntries = new FastObservableCollection<LogEntry>();
         private readonly LogViewerLogListener _logViewerLogListener;
         private readonly Queue<LogEntry> _queuedEntries = new Queue<LogEntry>();
+#pragma warning disable IDISP006 // Implement IDisposable.
         private readonly Timer _timer;
+#pragma warning restore IDISP006 // Implement IDisposable.
 
         private readonly ITypeFactory _typeFactory;
 
