@@ -26,7 +26,7 @@
             var scrollViewer = target as ScrollViewer;
             if (scrollViewer is not null)
             {
-                scrollViewer?.ScrollToHorizontalOffset((double)e.NewValue);
+                scrollViewer.ScrollToHorizontalOffset((double)e.NewValue);
                 //scrollViewer.UpdateLayout();
             }
         }

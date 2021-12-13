@@ -225,8 +225,8 @@ namespace Orc.Controls
             var mousePositionX = mousePosition.X;
             var mousePositionY = mousePosition.Y;
 
-            //using this code for non UIElements
-            if (_owner is null)
+            // using this code for non UIElements
+            if (_owner is null || rootVisual is null)
             {
                 return GetPostionForNonUiElement(rootVisual, mousePosition, horizontalOffset, verticalOffset);
             }

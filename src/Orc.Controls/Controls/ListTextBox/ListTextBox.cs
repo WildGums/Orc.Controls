@@ -147,7 +147,7 @@ namespace Orc.Controls
                 return;
             }
 
-            _currentIndex = index >= 0 ? index : 0;
+            _currentIndex = index;
 
             SetCurrentValue(ValueProperty, value);
 
