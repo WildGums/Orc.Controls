@@ -1057,7 +1057,9 @@
 
             if (newValue is null && nv is not null)
             {
+#pragma warning disable IDISP004 // Don't ignore created IDisposable.
                 var dispatcherService = this.GetServiceLocator().ResolveType<IDispatcherService>();
+#pragma warning restore IDISP004 // Don't ignore created IDisposable.
                 dispatcherService.Invoke(() => SetCurrentValue(ValueProperty, nv));
             }
 
@@ -1475,7 +1477,7 @@
                 return;
             }
 
-            if (year < 0)
+            if (year <= 0)
             {
                 return;
             }

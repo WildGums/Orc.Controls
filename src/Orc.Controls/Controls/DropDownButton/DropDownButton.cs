@@ -30,7 +30,9 @@
         #region Constructors
         public DropDownButton()
         {
+#pragma warning disable IDISP004 // Don't ignore created IDisposable.
             _dispatcherService = this.GetServiceLocator().ResolveType<IDispatcherService>();
+#pragma warning restore IDISP004 // Don't ignore created IDisposable.
         }
         #endregion
 

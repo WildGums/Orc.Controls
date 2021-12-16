@@ -95,6 +95,10 @@
                 <views:FilterBox />
             </TabItem>
 
+            <TabItem Header="FontImage">
+                <views:FontImageView />
+            </TabItem>
+
             <TabItem Header="FluidProgressBar">
                 <views:FluidProgressBar />
             </TabItem>

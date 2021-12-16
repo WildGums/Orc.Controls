@@ -27,13 +27,17 @@ namespace Orc.Controls
 
         #region Fields
         private readonly IDispatcherService _dispatcherService;
+#pragma warning disable IDISP006 // Implement IDisposable.
         private readonly Timer _textSelectTimer = new Timer(DelayBeforeTextSelected);
+#pragma warning restore IDISP006 // Implement IDisposable.
         #endregion
 
         #region Constructors
         public SelectTextOnLoaded()
         {
+#pragma warning disable IDISP004 // Don't ignore created IDisposable.
             _dispatcherService = this.GetServiceLocator().ResolveType<IDispatcherService>();
+#pragma warning restore IDISP004 // Don't ignore created IDisposable.
         }
         #endregion
 

@@ -132,6 +132,7 @@
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                                 <ToggleButton x:Name="HeaderSite"
                                               Style="{StaticResource ExpanderHeaderToggleButtonStyle}"
+                                              BorderThickness="{TemplateBinding BorderThickness}"
                                               ContentTemplate="{TemplateBinding HeaderTemplate}" 
 								              ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" 
 								              Content="{TemplateBinding Header}" 

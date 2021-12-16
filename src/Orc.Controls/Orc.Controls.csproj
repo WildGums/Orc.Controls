@@ -1,6 +1,6 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net5.0-windows</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
     <AssemblyName>Orc.Controls</AssemblyName>
     <RootNamespace>Orc.Controls</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="Catel.Fody" Version="4.7.0" PrivateAssets="all" />
-    <PackageReference Include="Catel.MVVM" Version="5.12.19" />
+    <PackageReference Include="Catel.MVVM" Version="5.12.22" />
     <PackageReference Include="Costura.Fody" Version="5.7.0" PrivateAssets="all" />
     <PackageReference Include="Fody" Version="6.6.0" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

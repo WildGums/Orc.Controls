@@ -23,7 +23,9 @@ namespace Orc.Controls
     public class VisualTargetPresentationSource : PresentationSource
     {
         #region Fields
+#pragma warning disable IDISP006 // Implement IDisposable.
         private readonly VisualTarget _visualTarget;
+#pragma warning restore IDISP006 // Implement IDisposable.
         #endregion
 
         #region Constructors
