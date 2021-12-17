@@ -1,30 +1,57 @@
 ﻿namespace Orc.Automation
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading;
     using System.Windows.Automation;
     using Catel;
 
     public class AutomationElementAccessor
     {
-        private readonly InvokePattern _invokePattern;
-        private readonly ValuePattern _valuePattern;
+        private AutomationElement _accessElement;
+        private AutomationElement _element;
+        private InvokePattern _invokePattern;
+        private ValuePattern _valuePattern;
 
         public AutomationElementAccessor(AutomationElement element)
         {
             Argument.IsNotNull(() => element);
 
-            _valuePattern = element.TryGetPattern<ValuePattern>();
-            _invokePattern = element.TryGetPattern<InvokePattern>();
+            InitializeAccessElement(element);
+        }
+
+        private void InitializeAccessElement(AutomationElement element)
+        {
+            _element = element;
+            _accessElement = element;
+
+            _valuePattern = _accessElement.TryGetPattern<ValuePattern>();
+            if (_valuePattern is null)
+            {
+                _accessElement = _accessElement.Find(className: typeof(AutomationInformer).FullName, scope:TreeScope.Parent);
+                _valuePattern = _accessElement?.TryGetPattern<ValuePattern>();
+            }
+
+            _invokePattern = _accessElement?.TryGetPattern<InvokePattern>();
 
             if (_invokePattern is not null && _valuePattern is not null)
             {
-                System.Windows.Automation.Automation.AddAutomationEventHandler(InvokePattern.InvokedEvent, element, TreeScope.Element, OnEventInvoke);
+                System.Windows.Automation.Automation.AddAutomationEventHandler(InvokePattern.InvokedEvent, _accessElement, TreeScope.Element, OnEventInvoke);
+            }
+        }
+
+        private void EnsureAccessElement()
+        {
+            if (_accessElement is null)
+            {
+                throw new AutomationException("Can't access element API...this element doesn't implement Run method and there is no AutomationInformer present");
             }
         }
 
         private void OnEventInvoke(object sender, System.Windows.Automation.AutomationEventArgs e)
         {
+            EnsureAccessElement();
+
             var result = _valuePattern.Current.Value;
 
             var automationResult = AutomationResultContainer.FromStr(result);
@@ -44,6 +71,13 @@
             Argument.IsNotNull(() => propertyName);
             Argument.IsNotNullOrEmpty(() => propertyName);
 
+            if (!Equals(_accessElement, _element))
+            {
+                var id = _element.Current.AutomationId;
+
+                return Execute(nameof(AutomationInformerPeer.GetTargetPropertyValue), propertyName, id);
+            }
+
             var result = Execute(GetDependencyPropertyMethodRun.ConvertPropertyToCommandName(propertyName), null, 20);
             return result;
         }
@@ -52,6 +86,15 @@
         {
             Argument.IsNotNull(() => propertyName);
             Argument.IsNotNullOrEmpty(() => propertyName);
+
+            if (!Equals(_accessElement, _element))
+            {
+                var id = _element.Current.AutomationId;
+
+                Execute(nameof(AutomationInformerPeer.SetTargetPropertyValue), propertyName, id, value);
+
+                return;
+            }
 
             var automationValues = AutomationValueList.Create(value);
             var result = Execute(SetDependencyPropertyMethodRun.ConvertPropertyToCommandName(propertyName), automationValues, 20);
@@ -84,6 +127,8 @@
 
         private AutomationValue Execute(AutomationMethod method, int delay)
         {
+            EnsureAccessElement();
+
             var methodStr = method?.ToString();
             if (string.IsNullOrWhiteSpace(methodStr))
             {

@@ -52,10 +52,6 @@
             var target = Target;
             var view = target.View;
 
-            var map = target.Map<ColorBoardMap>();
-            var selectButton = map.SelectButton;
-            var background = selectButton.Background;
-
             view.HsvColor = color;
 
             ColorBoardAssert.Color(target, color);

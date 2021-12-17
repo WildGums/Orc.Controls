@@ -5,6 +5,8 @@
     [Serializable]
     public class AutomationValue
     {
+        public static AutomationValue NotSetValue = new () { Data = "This value is not set" };
+
         [NonSerialized]
         private readonly Type _dataType;
 

@@ -40,6 +40,11 @@
             set => Access.SetValue(value);
         }
 
+        public double ActualWidth
+        {
+            get => Access.GetValue<double>();
+        }
+
         public void SetFocus()
         {
             Element?.SetFocus();
