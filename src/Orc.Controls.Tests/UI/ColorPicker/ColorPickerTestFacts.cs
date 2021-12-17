@@ -55,10 +55,6 @@
             //Color board should have expected color
             Assert.That(colorBoard.Color, Is.EqualTo(color));
 
-
-
-
-
             //...and ColorPicker CurrentColor should have as expected color
             Assert.That(target.CurrentColor, Is.EqualTo(color));
 

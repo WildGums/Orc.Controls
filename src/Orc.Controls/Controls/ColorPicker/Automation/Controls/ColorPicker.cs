@@ -3,9 +3,10 @@
     using System.Windows.Automation;
     using System.Windows.Media;
     using Orc.Automation;
+    using Orc.Automation.Controls;
 
     [AutomatedControl(Class = typeof(Controls.ColorPicker))]
-    public class ColorPicker : AutomationControl
+    public class ColorPicker : FrameworkElement
     {
         public ColorPicker(AutomationElement element)
             : base(element)

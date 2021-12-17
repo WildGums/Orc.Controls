@@ -34,10 +34,17 @@
     <TypeIdentifier />
   </Class>
   <Class Name="Orc.Controls.Automation.ColorBoard">
-    <Position X="4.25" Y="5" Width="1.5" />
+    <Position X="5.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAgAAAAAA=</HashCode>
       <FileName>Controls\ColorPicker\Automation\Controls\ColorBoard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orc.Controls.Automation.ColorPicker">
+    <Position X="3.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAABAIAAAAAAgAAAAAA=</HashCode>
+      <FileName>Controls\ColorPicker\Automation\Controls\ColorPicker.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

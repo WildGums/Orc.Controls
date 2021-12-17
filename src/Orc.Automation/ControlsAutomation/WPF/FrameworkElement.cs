@@ -45,6 +45,12 @@
             get => Access.GetValue<double>();
         }
 
+        public bool Focusable
+        {
+            get => Access.GetValue<bool>();
+            set => Access.SetValue(value);
+        }
+
         public void SetFocus()
         {
             Element?.SetFocus();
