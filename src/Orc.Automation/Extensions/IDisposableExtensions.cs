@@ -9,7 +9,9 @@
         {
             Argument.IsNotNull(() => func);
 
+#pragma warning disable IDISP007 // Don't dispose injected.
             using (disposable)
+#pragma warning restore IDISP007 // Don't dispose injected.
             {
                 return func.Invoke();
             }

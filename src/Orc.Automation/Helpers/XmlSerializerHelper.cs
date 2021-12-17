@@ -42,7 +42,10 @@
 
             var xmlSerializer = SerializationFactory.GetXmlSerializer();
 
-            using var stream = text.ToStream();
+#pragma warning disable IDISP001 // Dispose created.
+            var stream = text.ToStream();
+#pragma warning restore IDISP001 // Dispose created.
+
             var result = xmlSerializer.Deserialize(type, stream);
 
             result = converter?.ConvertTo(result) ?? result;

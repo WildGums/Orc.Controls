@@ -33,8 +33,8 @@
     <PackageReference Include="MethodTimer.Fody" Version="3.2.0" PrivateAssets="all" />
     <PackageReference Include="ModuleInit.Fody" Version="2.1.1" PrivateAssets="all" />
     <PackageReference Include="Obsolete.Fody" Version="5.2.1" PrivateAssets="all" />
-    <PackageReference Include="Orc.FileSystem" Version="4.1.4" />
-    <PackageReference Include="Orc.Theming" Version="4.4.0" />
+    <PackageReference Include="Orc.FileSystem" Version="4.2.0-alpha0396" />
+    <PackageReference Include="Orc.Theming" Version="4.5.0-alpha0151" />
   </ItemGroup>
 
   <!-- Theming -->

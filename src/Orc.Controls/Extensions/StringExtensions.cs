@@ -94,7 +94,7 @@ namespace Orc.Controls
         public static Stream ToStream(this string s)
         {
             var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
+            using var writer = new StreamWriter(stream);
             writer.Write(s);
             writer.Flush();
             stream.Position = 0;

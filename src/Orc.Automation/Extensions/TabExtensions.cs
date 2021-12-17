@@ -24,7 +24,9 @@
                 return control;
             }
 
+#pragma warning disable IDISP004 // Don't ignore created IDisposable.
             return tab.TabScope(tabIndex).Execute(searchFunc);
+#pragma warning restore IDISP004 // Don't ignore created IDisposable.
         }
     }
 }

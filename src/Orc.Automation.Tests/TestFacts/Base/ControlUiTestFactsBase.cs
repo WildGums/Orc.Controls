@@ -9,7 +9,7 @@
     public abstract class ControlUiTestFactsBase<TControl> : UiTestFactsBase
         where TControl : System.Windows.FrameworkElement
     {
-        protected override string ExecutablePath => @"C:\Source\Orc.Controls\output\Debug\Orc.Automation.Host\net5.0-windows\Orc.Automation.Host.exe";
+        protected override string ExecutablePath => @"C:\Source\Orc.Controls\output\Debug\Orc.Automation.Host\net6.0-windows\Orc.Automation.Host.exe";
         protected override string MainWindowAutomationId => "AutomationHost";
 
         [SetUp]

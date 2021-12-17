@@ -23,19 +23,26 @@
         {
             var testHost = TestHost;
 
-            testHost.LoadUnmanaged(@"C:\Source\Gum.Controls\output\Debug\Gum.Controls.Tests\net5.0-windows\runtimes\win-x64\native\libSkiaSharp.dll");
-            testHost.LoadUnmanaged(@"C:\Source\Gum.Controls\output\Debug\Gum.Controls.Tests\net5.0-windows\runtimes\win-x64\native\sni.dll");
+            var peer = new TestHostAutomationPeer(testHost);
+            peer.SetValue(File.ReadAllText(@"C:\Temps\temps.txt"));
 
-            testHost.LoadAssembly("C:\\Source\\Gum.Controls\\output\\Debug\\Gum.Controls.Tests\\net5.0-windows\\Gum.Drawing.dll");
-            testHost.LoadAssembly("C:\\Source\\Gum.Controls\\output\\Debug\\Gum.Controls.Tests\\net5.0-windows\\Gum.Controls.Tests.dll");
+            peer.Invoke();
 
+            testHost.LoadAssembly("C:\\Source\\Orc.Controls\\output\\Debug\\Orc.Controls.Tests\\net6.0-windows\\Orc.Controls.dll");
 
+            //testHost.LoadUnmanaged(@"C:\Source\Gum.Controls\output\Debug\Gum.Controls.Tests\net5.0-windows\runtimes\win-x64\native\libSkiaSharp.dll");
+            //testHost.LoadUnmanaged(@"C:\Source\Gum.Controls\output\Debug\Gum.Controls.Tests\net5.0-windows\runtimes\win-x64\native\sni.dll");
 
+            //testHost.LoadAssembly("C:\\Source\\Gum.Controls\\output\\Debug\\Gum.Controls.Tests\\net5.0-windows\\Gum.Drawing.dll");
             //testHost.LoadAssembly("C:\\Source\\Gum.Controls\\output\\Debug\\Gum.Controls.Tests\\net5.0-windows\\Gum.Controls.Tests.dll");
 
-            testHost.LoadResources("pack://application:,,,/Gum.Controls.DataGrid;component/Themes/Generic.xaml");
 
-            var testedControlAutomationId = testHost.PutControl("Gum.Controls.DataGrid");
+
+            ////testHost.LoadAssembly("C:\\Source\\Gum.Controls\\output\\Debug\\Gum.Controls.Tests\\net5.0-windows\\Gum.Controls.Tests.dll");
+
+            //testHost.LoadResources("pack://application:,,,/Gum.Controls.DataGrid;component/Themes/Generic.xaml");
+
+            //var testedControlAutomationId = testHost.PutControl("Gum.Controls.DataGrid");
 
 
             //TestHost.LoadAssembly(@"C:\Source\Gum.Controls\src\Gum.Controls.Example\bin\Debug\net5.0-windows\Gum.Drawing.dll");
