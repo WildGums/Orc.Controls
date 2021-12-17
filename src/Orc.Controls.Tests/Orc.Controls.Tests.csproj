@@ -35,17 +35,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Orc.Automation.Tests\Orc.Automation.Tests.csproj" />
-    <ProjectReference Include="..\Orc.Controls\Orc.Controls.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Remove="*.approved.cs;*.received.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Automation\" />
-    <Folder Include="UI\DropDownButton\Asserters\" />
+    <ProjectReference Include="..\Orc.Automation.Tests\Orc.Automation.Tests.csproj" />
+    <ProjectReference Include="..\Orc.Controls\Orc.Controls.csproj" />
   </ItemGroup>
   
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props')" />

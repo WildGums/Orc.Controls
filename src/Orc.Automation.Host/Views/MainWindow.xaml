@@ -7,19 +7,22 @@
               Height="900" Width="1000"
               AutomationProperties.AutomationId="AutomationHost">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Button Content="Click"
-                Click="ButtonBase_OnClick"/>
+    <orcautomation:AutomationInformer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button Content="Click"
+                    Click="ButtonBase_OnClick"/>
 
-        <orctheming:ThemeSwitcherView Grid.Row="1" />
+            <orctheming:ThemeSwitcherView Grid.Row="1" />
 
-        <orcautomation:TestHost x:Name="TestHost"
-                           Grid.Row="2"
-                           AutomationProperties.AutomationId="TestHostId"/>
-    </Grid>
+            <orcautomation:TestHost x:Name="TestHost"
+                                    Grid.Row="2"
+                                    AutomationProperties.AutomationId="TestHostId"/>
+        </Grid>
+    </orcautomation:AutomationInformer>
+
 </catel:Window>
