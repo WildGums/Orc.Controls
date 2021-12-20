@@ -18,9 +18,9 @@
             set => Element.TrySetSelection(value);
         }
 
-        public bool TrySelect()
+        public void Select()
         {
-            return Element.TrySelect();
+            Element.Select();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Orc.Automation.Controls
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Windows.Automation;
 
     [AutomatedControl(ControlTypeName = nameof(ControlType.List))]
@@ -17,14 +18,15 @@
 
         public bool CanSelectMultiply => Element.CanSelectMultiple();
 
+        public AutomationElement SelectedItem
+        {
+            get => Element.GetSelection()?.FirstOrDefault();
+            set => value?.Select();
+        }
+
         public AutomationElement Select(int index)
         {
-            if (Element.TrySelectItem(index, out var element))
-            {
-                return element;
-            }
-
-            return null;
+            return Element.TrySelectItem(index, out var element) ? element : null;
         }
     }
 }

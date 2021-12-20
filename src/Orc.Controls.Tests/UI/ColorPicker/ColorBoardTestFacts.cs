@@ -127,26 +127,28 @@
 
         private class PredefinedThemeColorsTestCases : IEnumerable
         {
+            //Took border values
             public IEnumerator GetEnumerator()
             {
-                return PredefinedColor.AllThemeColors.GetEnumerator();
+                var themeColors = PredefinedColor.AllThemeColors;
+                var colorCount = themeColors.Count;
+
+                yield return themeColors[0].Value;
+                yield return themeColors[colorCount - 1].Value;
+                yield return themeColors[1].Value;
+                yield return themeColors[colorCount - 2].Value;
             }
         }
 
         [TestCaseSource(typeof(PredefinedThemeColorsTestCases))]
-        public void CorrectlySetThemeColor(PredefinedColor expectedPredefinedColor)
+        public void CorrectlySetThemeColor(Color color)
         {
             var target = Target;
             var view = target.View;
 
-            var themeColors = view.ThemeColors;
+            view.SelectedThemeColor = color;
 
-            var themeColor = themeColors.FirstOrDefault(x => Equals(x.Color, expectedPredefinedColor.Value));
-            Assert.That(themeColor, Is.Not.Null);
-
-            themeColor.IsSelected = true;
-
-            ColorBoardAssert.Color(target, expectedPredefinedColor.Value);
+            ColorBoardAssert.Color(target, color);
         }
     }
 }

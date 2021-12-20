@@ -18,7 +18,7 @@
             Target.SelectionChanged += OnColorLegendSelectionChanged;
 
             const int itemIndex = 2;
-            Assert.That(view.Items[itemIndex].TrySelect());
+            view.Items[itemIndex].Select();
 
             Thread.Sleep(200);
 

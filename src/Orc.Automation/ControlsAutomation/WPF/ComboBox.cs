@@ -116,13 +116,6 @@
             }
         }
 
-        //TODO:Vladimir:To Extension methods
-        public T GetSelectedItemOfType<T>()
-            where T : AutomationControl
-        {
-            return SelectedItem?.Find<T>();
-        }
-
         public IReadOnlyList<T> GetItemsOfType<T>()
             where T : AutomationControl
         {

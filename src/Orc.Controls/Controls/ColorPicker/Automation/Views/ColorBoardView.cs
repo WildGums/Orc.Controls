@@ -141,7 +141,7 @@
 
         public string PredefinedColorName
         {
-            get => _map.ColorComboBox.GetSelectedItemOfType<PredefinedColorItem>()?.Text;
+            get => _map.ColorComboBox.SelectedItem?.Find<PredefinedColorItem>()?.Text;
             set
             {
                 var colorComboBox = _map.ColorComboBox;
@@ -152,6 +152,22 @@
                 });
             }
         }
+
+        public Color? SelectedThemeColor
+        {
+            get => _map.ThemeColorsListBox?.SelectedItem.Find<PredefinedColorItem>()?.Color;
+            set
+            {
+                var themeColor = ThemeColors.FirstOrDefault(x => Equals(x.Color, value));
+                if (themeColor is null)
+                {
+                    return;
+                }
+
+                themeColor.IsSelected = true;
+            }
+        }
+
 
         public List<string> AvailableColorNames
         {
