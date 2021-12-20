@@ -68,26 +68,16 @@
         {
             var type = typeof(T);
 
-            var controlType = AutomationHelper.GetControlType(type.Name);
+            var controlType = AutomationHelper.GetControlType(type);
             if (controlType is not null)
             {
                 by.ControlType(controlType);
             }
 
-            var automatedControlAttribute = type.GetCustomAttribute<AutomatedControlAttribute>();
-            if (automatedControlAttribute is not null)
+            var className = AutomationHelper.GetControlClassName(type);
+            if (!string.IsNullOrWhiteSpace(className))
             {
-                var className = automatedControlAttribute.ClassName;
-                if (!string.IsNullOrWhiteSpace(className))
-                {
-                    by.ClassName(automatedControlAttribute.ClassName);
-                }
-
-                controlType = automatedControlAttribute.ControlType;
-                if (controlType is not null)
-                {
-                    by.ControlType(controlType);
-                }
+                by.ClassName(className);
             }
         }
     }

@@ -55,6 +55,18 @@
 
         public static object Find(this AutomationElement element, SearchContext searchContext, Type wrapperType, TreeScope scope = TreeScope.Subtree, int numberOfWaits = 10)
         {
+            var className = AutomationHelper.GetControlClassName(wrapperType);
+            if (!string.IsNullOrWhiteSpace(className) && string.IsNullOrWhiteSpace(searchContext.ClassName))
+            {
+                searchContext.ClassName = className;
+            }
+
+            var controlType = AutomationHelper.GetControlType(wrapperType);
+            if (controlType is not null && searchContext.ControlType is null)
+            {
+                searchContext.ControlType = controlType;
+            }
+
             var foundElement = Find(element, searchContext, scope, numberOfWaits);
             if (foundElement is null)
             {

@@ -4,6 +4,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Reflection;
     using System.Windows.Automation;
     using Catel;
     using Catel.IoC;
@@ -11,6 +12,37 @@
     public static class AutomationHelper
     {
         private const int MaxStackTraceLookUp = 5;
+
+
+        public static ControlType GetControlType(Type type)
+        {
+            var controlType = GetControlType(type.Name);
+            if (controlType is not null)
+            {
+                return controlType;
+            }
+
+            var automatedControlAttribute = type.GetCustomAttribute<AutomatedControlAttribute>();
+            if (automatedControlAttribute is null)
+            {
+                return null;
+            }
+
+            controlType = automatedControlAttribute.ControlType;
+            return controlType;
+        }
+
+        public static string GetControlClassName(Type type)
+        {
+            var automatedControlAttribute = type.GetCustomAttribute<AutomatedControlAttribute>();
+            if (automatedControlAttribute is null)
+            {
+                return null;
+            }
+
+            var className = automatedControlAttribute.ClassName;
+            return string.IsNullOrWhiteSpace(className) ? null : className;
+        }
 
         public static ControlType GetControlType(string controlTypeName)
         {

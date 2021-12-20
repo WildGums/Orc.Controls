@@ -45,6 +45,11 @@
             get => Access.GetValue<double>();
         }
 
+        public double ActualHeight
+        {
+            get => Access.GetValue<double>();
+        }
+
         public bool Focusable
         {
             get => Access.GetValue<bool>();

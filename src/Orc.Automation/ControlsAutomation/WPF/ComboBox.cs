@@ -43,7 +43,7 @@
 
         public AutomationElement SelectedItem
         {
-            get => Element.GetSelection()?.FirstOrDefault();
+            get => InvokeInExpandState(() => Element.GetSelection()?.FirstOrDefault());
             set => InvokeInExpandState(() => value?.Select());
         }
 
@@ -114,6 +114,19 @@
                 //To get items we need to expand combobox first, otherwise it won't work
                 return InvokeInExpandState(() => (IReadOnlyList<AutomationElement>)By.ControlType(ControlType.ListItem).Many());
             }
+        }
+
+        //TODO:Vladimir:To Extension methods
+        public T GetSelectedItemOfType<T>()
+            where T : AutomationControl
+        {
+            return SelectedItem?.Find<T>();
+        }
+
+        public IReadOnlyList<T> GetItemsOfType<T>()
+            where T : AutomationControl
+        {
+            return InvokeInExpandState(() => By.Many<T>());
         }
     }
 }

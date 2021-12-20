@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Windows.Automation;
     using System.Windows.Media;
     using Orc.Automation;
     using Orc.Automation.Controls;
@@ -140,13 +141,13 @@
 
         public string PredefinedColorName
         {
-            get => _map.ColorComboBox.InvokeInExpandState(() => _map.ColorComboBox.SelectedItem?.TryGetDisplayText());
+            get => _map.ColorComboBox.GetSelectedItemOfType<PredefinedColorItem>()?.Text;
             set
             {
                 var colorComboBox = _map.ColorComboBox;
                 colorComboBox.InvokeInExpandState(() =>
                 {
-                    var itemToSelect = colorComboBox.Items?.FirstOrDefault(x => Equals(x.TryGetDisplayText(), value));
+                    var itemToSelect = colorComboBox.Items?.FirstOrDefault(x => Equals(GetColorName(x), value));
                     itemToSelect?.Select();
                 });
             }
@@ -154,7 +155,7 @@
 
         public List<string> AvailableColorNames
         {
-            get => _map.ColorComboBox.Items.Select(x => x.TryGetDisplayText()).ToList();
+            get => _map.ColorComboBox.GetItemsOfType<PredefinedColorItem>().Select(x => x?.Text).ToList();
         }
 
         public IReadOnlyList<PredefinedColorItem> ThemeColors
@@ -227,6 +228,11 @@
         private byte EditToByte(Edit edit)
         {
             return byte.Parse(edit.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+        }
+
+        private string GetColorName(AutomationElement listItem)
+        {
+            return listItem?.GetChild(0).As<PredefinedColorItem>()?.Text;
         }
     }
 }

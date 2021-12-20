@@ -32,10 +32,9 @@
 
             //Check ColorName
             var colorName = view.ColorName;
-            var availableColorNames = view.AvailableColorNames;
-            if (availableColorNames.Contains(colorName))
+            var predefinedColorName = view.PredefinedColorName;
+            if (!string.IsNullOrWhiteSpace(predefinedColorName))
             {
-                var predefinedColorName = view.PredefinedColorName;
                 Assert.That(predefinedColorName, Is.EqualTo(PredefinedColor.GetColorName(expectedColor)));
             }
             else

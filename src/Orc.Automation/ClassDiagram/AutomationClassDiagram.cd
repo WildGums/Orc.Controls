@@ -17,22 +17,12 @@
   <Class Name="Orc.Automation.Controls.FrameworkElement">
     <Position X="16" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAAACAAAAAAAAAAAAEAAAAAAAEAAAAAAAAgAAAAAAE=</HashCode>
+      <HashCode>AIAAACAAAAAAAAAAAAEAAAAAAQEAAAEACAAgAAAAAAE=</HashCode>
       <FileName>ControlsAutomation\WPF\FrameworkElement.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Orc.Automation.Controls.Button">
     <Position X="12.25" Y="13.25" Width="1.5" />
-    <InheritanceLine Type="Orc.Automation.Controls.FrameworkElement" ManuallyRouted="true">
-      <Path>
-        <Point X="16.75" Y="8.896" />
-        <Point X="16.75" Y="9.611" />
-        <Point X="12.148" Y="9.611" />
-        <Point X="12.148" Y="13.096" />
-        <Point X="13" Y="13.096" />
-        <Point X="13" Y="13.25" />
-      </Path>
-    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
       <FileName>ControlsAutomation\WPF\Button.cs</FileName>
@@ -40,14 +30,6 @@
   </Class>
   <Class Name="Orc.Automation.Controls.CalendarAutomationElement">
     <Position X="12.25" Y="9.75" Width="1.5" />
-    <InheritanceLine Type="Orc.Automation.Controls.FrameworkElement" ManuallyRouted="true">
-      <Path>
-        <Point X="16.75" Y="8.896" />
-        <Point X="16.75" Y="9.587" />
-        <Point X="13" Y="9.587" />
-        <Point X="13" Y="9.75" />
-      </Path>
-    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ControlsAutomation\WPF\CalendarAutomationElement.cs</FileName>
@@ -69,16 +51,6 @@
   </Class>
   <Class Name="Orc.Automation.Controls.Edit">
     <Position X="12.25" Y="11.25" Width="1.5" />
-    <InheritanceLine Type="Orc.Automation.Controls.FrameworkElement" ManuallyRouted="true">
-      <Path>
-        <Point X="16.75" Y="8.896" />
-        <Point X="16.75" Y="9.588" />
-        <Point X="12.148" Y="9.588" />
-        <Point X="12.148" Y="11.096" />
-        <Point X="13" Y="11.096" />
-        <Point X="13" Y="11.25" />
-      </Path>
-    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
       <FileName>ControlsAutomation\WPF\Edit.cs</FileName>

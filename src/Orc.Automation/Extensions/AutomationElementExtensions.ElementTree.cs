@@ -74,6 +74,17 @@
             return item;
         }
 
+        public static AutomationElement GetFirstDescendant(this AutomationElement element, Condition condition)
+        {
+            Argument.IsNotNull(() => element);
+
+            var treeWalker = new TreeWalker(condition);
+
+            var item = treeWalker.GetFirstChild(element);
+
+            return item;
+        }
+
         public static IEnumerable<AutomationElement> GetChildElements(this AutomationElement containerElement)
         {
             Argument.IsNotNull(() => containerElement);
