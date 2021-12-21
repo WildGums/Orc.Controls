@@ -1,16 +1,18 @@
 ﻿namespace Orc.Controls.Tests
 {
     using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Media;
     using Automation;
+    using Microsoft.VisualBasic;
     using NUnit.Framework;
     using Orc.Automation;
     using Orc.Automation.Tests;
 
     [TestFixture(TestOf = typeof(Orc.Controls.ColorBoard))]
     [NUnit.Framework.Category("UI Tests")]
-    public class ColorBoardTestFacts : ControlUiTestFactsBase<Orc.Controls.ColorBoard>
+    public partial class ColorBoardTestFacts : ControlUiTestFactsBase<Orc.Controls.ColorBoard>
     {
         [Target]
         public ColorBoard Target { get; set; }
@@ -149,6 +151,72 @@
             view.SelectedThemeColor = color;
 
             ColorBoardAssert.Color(target, color);
+        }
+
+        private class RecentColorsListTestCases : IEnumerable
+        {
+            public IEnumerator GetEnumerator()
+            {
+                yield return new object[] { new List<Color> { Colors.Red, Colors.Green, Colors.Blue }, new List<Color> { Colors.Blue, Colors.Green, Colors.Red } };
+                yield return new object[] { new List<Color> { Colors.Red, Colors.Green, Colors.Blue, Colors.Green, Colors.Red }, new List<Color> { Colors.Red, Colors.Green, Colors.Blue } };
+                yield return new object[] { new List<Color> { Colors.Green, Colors.Green, Colors.Green }, new List<Color> { Colors.Green } };
+            }
+        }
+
+        [TestCaseSource(typeof(RecentColorsListTestCases))]
+        public void CorrectlyGenerateRecentColorList(List<Color> colorList, List<Color> expectedColorList)
+        {
+            var target = Target;
+            var view = target.View;
+
+            foreach (var color in colorList)
+            {
+                target.Color = color;
+
+                Wait.UntilResponsive();
+
+                view.Apply();
+
+                Wait.UntilResponsive();
+            }
+            
+            CollectionAssert.AreEqual(view.RecentColors.Select(x => x.Color), expectedColorList);
+        }
+
+        private class RecentColorsTestCases : IEnumerable
+        {
+            public IEnumerator GetEnumerator()
+            {
+                var allThemeColors = PredefinedColor.AllThemeColors;
+
+                yield return new object[] { new List<Color> { Colors.Red, Colors.Green, Colors.Blue },  Colors.Blue };
+                yield return new object[] { new List<Color> { Colors.Red, Colors.Green, Colors.Blue },  Colors.Green };
+                yield return new object[] { new List<Color> { Colors.Red, Colors.Green, Colors.Blue },  Colors.Red };
+                yield return new object[] { new List<Color> { allThemeColors[0].Value, Colors.Green, allThemeColors[2].Value }, allThemeColors[2].Value };
+            }
+        }
+
+        [TestCaseSource(typeof(RecentColorsTestCases))]
+        public void CorrectlySetRecentColor(List<Color> recentColorList, Color recentColor)
+        {
+            var target = Target;
+            var view = target.View;
+
+            //Init recent color list
+            foreach (var color in recentColorList)
+            {
+                target.Color = color;
+
+                Wait.UntilResponsive();
+
+                view.Apply();
+
+                Wait.UntilResponsive();
+            }
+
+            view.SelectedRecentColor = recentColor;
+
+            ColorBoardAssert.Color(target, recentColor);
         }
     }
 }

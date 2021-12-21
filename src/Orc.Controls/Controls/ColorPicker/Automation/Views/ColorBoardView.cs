@@ -155,7 +155,7 @@
 
         public Color? SelectedThemeColor
         {
-            get => _map.ThemeColorsListBox?.SelectedItem.Find<PredefinedColorItem>()?.Color;
+            get => _map.ThemeColorsListBox?.SelectedItem?.Find<PredefinedColorItem>()?.Color;
             set
             {
                 var themeColor = ThemeColors.FirstOrDefault(x => Equals(x.Color, value));
@@ -167,7 +167,21 @@
                 themeColor.IsSelected = true;
             }
         }
+        
+        public Color? SelectedRecentColor
+        {
+            get => _map.RecentColorsListBox?.SelectedItem.Find<PredefinedColorItem>()?.Color;
+            set
+            {
+                var recentColor = RecentColors.FirstOrDefault(x => Equals(x.Color, value));
+                if (recentColor is null)
+                {
+                    return;
+                }
 
+                recentColor.IsSelected = true;
+            }
+        }
 
         public List<string> AvailableColorNames
         {

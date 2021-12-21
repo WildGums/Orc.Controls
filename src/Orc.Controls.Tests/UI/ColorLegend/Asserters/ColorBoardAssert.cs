@@ -1,5 +1,6 @@
 ﻿namespace Orc.Controls.Tests
 {
+    using System.Linq;
     using System.Windows.Media;
     using Catel;
     using NUnit.Framework;
@@ -36,10 +37,24 @@
             if (!string.IsNullOrWhiteSpace(predefinedColorName))
             {
                 Assert.That(predefinedColorName, Is.EqualTo(PredefinedColor.GetColorName(expectedColor)));
+                Assert.That(colorName, Is.EqualTo(PredefinedColor.GetColorName(expectedColor)));
             }
             else
             {
                 Assert.That(colorName, Is.EqualTo(expectedColor.ToString()));
+            }
+
+            //If color contains in theme colors list it should be selected here
+            if (view.ThemeColors.Any(x => Equals(x.Color, expectedColor)))
+            {
+                Assert.That(view.SelectedThemeColor, Is.EqualTo(expectedColor));
+            }
+
+            //If color contains in recent colors list it should be selected here
+            var recentColors = view.RecentColors;
+            if (recentColors.Any(x => Equals(x.Color, expectedColor)))
+            {
+                Assert.That(view.SelectedRecentColor, Is.EqualTo(expectedColor));
             }
         }
     }
