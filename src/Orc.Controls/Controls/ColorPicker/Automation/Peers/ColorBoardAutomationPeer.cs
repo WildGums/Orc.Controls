@@ -16,6 +16,19 @@
             : base(owner)
         {
             _owner = owner;
+
+            owner.DoneClicked += OnDoneClicked;
+            owner.CancelClicked += OnCancelClicked;
+        }
+
+        private void OnCancelClicked(object sender, RoutedEventArgs e)
+        {
+            RaiseEvent(nameof(Controls.ColorBoard.CancelClicked), null);
+        }
+
+        private void OnDoneClicked(object sender, RoutedEventArgs e)
+        {
+            RaiseEvent(nameof(Controls.ColorBoard.DoneClicked), null);
         }
 
         [AutomationMethod]

@@ -1,11 +1,11 @@
 ﻿namespace Orc.Controls.Tests
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Media;
     using Automation;
-    using Microsoft.VisualBasic;
     using NUnit.Framework;
     using Orc.Automation;
     using Orc.Automation.Tests;
@@ -14,6 +14,9 @@
     [NUnit.Framework.Category("UI Tests")]
     public partial class ColorBoardTestFacts : ControlUiTestFactsBase<Orc.Controls.ColorBoard>
     {
+        private bool _cancelClicked;
+        private bool _doneClicked;
+
         [Target]
         public ColorBoard Target { get; set; }
 
@@ -217,6 +220,58 @@
             view.SelectedRecentColor = recentColor;
 
             ColorBoardAssert.Color(target, recentColor);
+        }
+        
+        [Test]
+        public void CorrectlyApply()
+        {
+            var target = Target;
+            var view = target.View;
+
+            target.DoneClicked += OnDoneClicked;
+
+            view.Apply();
+
+            Wait.UntilResponsive();
+
+            //event should be fired
+            Assert.That(_doneClicked, Is.True);
+
+            var recentColors = view.RecentColors;
+
+            //current color should be in a recent list
+            Assert.That(recentColors.Count, Is.EqualTo(1));
+            Assert.That(recentColors[0].Color, Is.EqualTo(target.Color));
+
+            target.DoneClicked -= OnDoneClicked;
+        }
+
+        [Test]
+        public void CorrectlyCancel()
+        {
+            var target = Target;
+            var view = target.View;
+
+            target.CancelClicked += OnCancelClicked;
+
+            view.Cancel();
+
+            Wait.UntilResponsive();
+
+            //event should be fired
+            Assert.That(_cancelClicked, Is.True);
+
+            target.CancelClicked -= OnCancelClicked;
+        }
+        
+        private void OnDoneClicked(object sender, EventArgs e)
+        {
+            _doneClicked = true;
+        }
+
+        private void OnCancelClicked(object sender, EventArgs e)
+        {
+            _cancelClicked = true;
         }
     }
 }
