@@ -1,5 +1,6 @@
 ﻿namespace Orc.Controls.Tests
 {
+    using System;
     using System.Collections;
     using System.Threading;
     using System.Windows.Media;
@@ -19,12 +20,6 @@
         public override void SetUpTest()
         {
             base.SetUpTest();
-
-            var color = Target.Color;
-
-            Thread.Sleep(200);
-
-            Target.Color = Colors.Red;
         }
         
 
@@ -39,8 +34,11 @@
                 yield return Color.FromArgb(0x12, 0x34, 0x56, 0x78);
             }
         }
+
+        private bool _isColorChangedEventInvoked;
+
         [TestCaseSource(typeof(PositiveSetRGBColorTestCases))]
-        public void CorrectlySetRGBColor(Color color)
+        public void CorrectlySetColor(Color color)
         {
             var target = Target;
             var view = target.View;
@@ -52,19 +50,41 @@
             var colorBoardView = colorBoard.View;
             colorBoardView.ArgbColor = color;
 
-            //Color board should have expected color
-            Assert.That(colorBoard.Color, Is.EqualTo(color));
-
-            //...and ColorPicker CurrentColor should have as expected color
+            //colorPicker CurrentColor should have as expected color
             Assert.That(target.CurrentColor, Is.EqualTo(color));
 
-            //Correctly apply button
+            //check event invocation
+            if (!Equals(target.Color, color))
+            {
+                target.ColorChanged += OnColorChanged;
+            }
+            else
+            {
+                _isColorChangedEventInvoked = true;
+            }
+
+            //Before apply drop down should be opened
+            Assert.That(target.IsDropDownOpen, Is.True);
+
+            //correctly apply button
             Assert.That(colorBoard.View.Apply(), Is.True);
 
             Wait.UntilResponsive();
 
-            //ColorPicker should have expected color
+            //After apply drop down should be closed
+            Assert.That(target.IsDropDownOpen, Is.False);
+
+            Assert.That(_isColorChangedEventInvoked, Is.True);
+
+            //colorPicker should have expected color
             Assert.That(target.Color, Is.EqualTo(color));
+
+            target.ColorChanged -= OnColorChanged;
+        }
+
+        private void OnColorChanged(object sender, EventArgs e)
+        {
+            _isColorChangedEventInvoked = true;
         }
     }
 }
