@@ -2,13 +2,33 @@
 {
     using System.Windows;
     using System.Windows.Automation;
+    using System.Windows.Media;
     using Catel.Windows;
+    using Theming;
 
     public class AutomationInformerPeer : ControlRunMethodAutomationPeerBase<AutomationInformer>
     {
         public AutomationInformerPeer(AutomationInformer owner)
             : base(owner)
         {
+        }
+
+        [AutomationMethod]
+        public Color GetThemeColorBrush(string colorName)
+        {
+            return ThemeManager.Current.GetThemeColor(colorName);
+        }
+
+        [AutomationMethod]
+        public Color GetThemeColorByName(string colorName)
+        {
+            return ThemeManager.Current.GetThemeColor(colorName);
+        }
+
+        [AutomationMethod]
+        public Color GetThemeColor(ThemeColorStyle colorStyle)
+        {
+            return ThemeManager.Current.GetThemeColor(colorStyle);
         }
 
         [AutomationMethod]

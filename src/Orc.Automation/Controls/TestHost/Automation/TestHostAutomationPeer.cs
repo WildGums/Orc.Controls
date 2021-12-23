@@ -35,5 +35,11 @@
         {
             _testHost.LoadUnmanaged(location);
         }
+
+        [AutomationMethod]
+        public object GetResource(string name)
+        {
+            return _testHost.TryFindResource(name);
+        }
     }
 }

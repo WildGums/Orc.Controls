@@ -34,6 +34,12 @@
             set => Access.SetValue(value);
         }
 
+        public SolidColorBrush BorderBrush
+        {
+            get => Access.GetValue<SolidColorBrush>();
+            set => Access.SetValue(value);
+        }
+
         public SolidColorBrush Foreground
         {
             get => Access.GetValue<SolidColorBrush>();
@@ -59,6 +65,11 @@
         public void SetFocus()
         {
             Element?.SetFocus();
+        }
+
+        public object TryFindResource(string resourceKey)
+        {
+            return Access.Execute(nameof(TryFindResource), resourceKey);
         }
     }
 }

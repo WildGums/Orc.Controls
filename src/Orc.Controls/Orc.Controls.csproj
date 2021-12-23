@@ -54,6 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controls\ColorPicker\Automation\Extensions\" />
     <Folder Include="Controls\ColorPicker\Automation\Maps\" />
   </ItemGroup>
 

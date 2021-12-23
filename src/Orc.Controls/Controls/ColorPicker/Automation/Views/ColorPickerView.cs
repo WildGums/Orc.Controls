@@ -1,6 +1,7 @@
 ﻿namespace Orc.Controls.Automation
 {
     using System.Windows.Automation;
+    using System.Windows.Media;
     using Orc.Automation;
     using Orc.Automation.Controls;
 
@@ -11,6 +12,30 @@
         public ColorPickerView(ColorPicker control)
             : base(control.Element)
         {
+        }
+
+        public Color Color
+        {
+            get
+            {
+                var rect = Element.Current.BoundingRectangle;
+                var color = PixelHelper.GetColorAt(rect.GetClickablePoint());
+
+                return color;
+            }
+            set
+            {
+                var colorBoard = OpenColorBoard();
+                if (colorBoard is null)
+                {
+                    return;
+                }
+
+                var colorBoardView = colorBoard.View;
+                colorBoardView.ArgbColor = value;
+
+                colorBoard.View.Apply();
+            }
         }
 
         public ColorBoard OpenColorBoard()

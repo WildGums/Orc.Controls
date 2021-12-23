@@ -1,7 +1,6 @@
 ﻿namespace Orc.Automation
 {
     using System;
-    using System.Collections.Generic;
     using System.Threading;
     using System.Windows.Automation;
     using Catel;
@@ -98,6 +97,11 @@
 
             var automationValues = AutomationValueList.Create(value);
             var result = Execute(SetDependencyPropertyMethodRun.ConvertPropertyToCommandName(propertyName), automationValues, 20);
+        }
+
+        public object TryFindResource(string resourceKey)
+        {
+            return Execute(nameof(TryFindResource), resourceKey);
         }
 
         public void AttachBehavior(Type behaviorType)

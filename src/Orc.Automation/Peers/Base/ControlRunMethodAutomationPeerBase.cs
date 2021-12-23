@@ -17,5 +17,11 @@
         {
             return typeof(TControl).FullName;
         }
+
+        [AutomationMethod]
+        public object TryFindResource(string key)
+        {
+            return Control.TryFindResource(key);
+        }
     }
 }
