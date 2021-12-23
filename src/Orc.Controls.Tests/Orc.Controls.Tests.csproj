@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Orc.Automation.Tests\Orc.Automation.Tests.csproj" />
+    <ProjectReference Include="..\..\..\Orc.Automation\src\Orc.Automation.Tests\Orc.Automation.Tests.csproj" />
     <ProjectReference Include="..\Orc.Controls\Orc.Controls.csproj" />
   </ItemGroup>
   
