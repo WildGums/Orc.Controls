@@ -238,6 +238,9 @@ namespace Orc.Controls
         /// The tracking hsv.
         /// </summary>
         private bool _trackingHsv;
+
+        private List<PredefinedColor> _colors;
+
         #endregion
 
         #region Public Events
@@ -413,13 +416,15 @@ namespace Orc.Controls
             {
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_B1GradientStop'");
             }
-            
+
             _aTextBox = GetTemplateChild("PART_ATextBox") as TextBox;
             if (_aTextBox is null)
             {
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ATextBox'");
             }
             _aTextBox.LostFocus += OnATextBoxLostFocus;
+            _aTextBox.TextChanged += OnArgbTextBoxTextChanged;
+            _aTextBox.TextChanged += IsHexadecimal;
 
             _rTextBox = GetTemplateChild("PART_RTextBox") as TextBox;
             if (_rTextBox is null)
@@ -427,6 +432,7 @@ namespace Orc.Controls
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_RTextBox'");
             }
             _rTextBox.LostFocus += OnRTextBoxLostFocus;
+            _rTextBox.TextChanged += OnArgbTextBoxTextChanged;
 
             _gTextBox = GetTemplateChild("PART_GTextBox") as TextBox;
             if (_gTextBox is null)
@@ -434,6 +440,7 @@ namespace Orc.Controls
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_GTextBox'");
             }
             _gTextBox.LostFocus += OnGTextBoxLostFocus;
+            _gTextBox.TextChanged += OnArgbTextBoxTextChanged;
 
             _bTextBox = GetTemplateChild("PART_BTextBox") as TextBox;
             if (_bTextBox is null)
@@ -441,6 +448,7 @@ namespace Orc.Controls
                 throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_BTextBox'");
             }
             _bTextBox.LostFocus += OnBTextBoxLostFocus;
+            _bTextBox.TextChanged += OnArgbTextBoxTextChanged;
 
             /*Color*/
             _colorComboBox = GetTemplateChild("PART_ColorComboBox") as ComboBox;
@@ -566,6 +574,7 @@ namespace Orc.Controls
         {
             if (e.Key == Key.Enter)
             {
+                OnColorTextBoxLostFocus(sender, e);
                 OnDoneClicked();
             }
         }
@@ -735,6 +744,7 @@ namespace Orc.Controls
             }
 
             var list = PredefinedColor.All;
+            _colors = list;
             _dictionaryColor = new Dictionary<Color, PredefinedColorItem>();
             foreach (var color in list)
             {
@@ -910,6 +920,7 @@ namespace Orc.Controls
 
             if (_colorComboBox.SelectedItem is PredefinedColorItem colorItem)
             {
+                _colorComboBox.SetCurrentValue(Selector.SelectedItemProperty, null);
                 SetCurrentValue(ColorProperty, colorItem.Color);
             }
         }
@@ -979,7 +990,11 @@ namespace Orc.Controls
             if (int.TryParse(_aTextBox.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
             {
                 _aSlider.SetCurrentValue(RangeBase.ValueProperty, (double)value);
+                return;
             }
+            _aSlider.SetCurrentValue(RangeBase.ValueProperty, (double)255);
+            _aTextBox.Clear();
+            _aTextBox.AppendText("FF");
         }
 
         /// <summary>
@@ -997,7 +1012,11 @@ namespace Orc.Controls
             if (int.TryParse(_bTextBox.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
             {
                 _bSlider.SetCurrentValue(RangeBase.ValueProperty, (double)value);
+                return;
             }
+            _bSlider.SetCurrentValue(RangeBase.ValueProperty, (double)255);
+            _bTextBox.Clear();
+            _bTextBox.AppendText("FF");
         }
 
         /// <summary>
@@ -1036,27 +1055,54 @@ namespace Orc.Controls
             {
                 return;
             }
-
-            var text = _colorTextBox.Text.TrimStart('#');
-            if (uint.TryParse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
+            if (_colorTextBox.Text.StartsWith("#"))
             {
-                var b = (byte)(value & 0xFF);
-                value >>= 8;
-                var g = (byte)(value & 0xFF);
-                value >>= 8;
-                var r = (byte)(value & 0xFF);
-                value >>= 8;
-                var a = (byte)(value & 0xFF);
-
-                if (text.Length <= 6)
+                var text = _colorTextBox.Text.TrimStart('#');
+                if (uint.TryParse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
                 {
-                    a = 0xFF;
-                }
+                    var b = (byte)(value & 0xFF);
+                    value >>= 8;
+                    var g = (byte)(value & 0xFF);
+                    value >>= 8;
+                    var r = (byte)(value & 0xFF);
+                    value >>= 8;
+                    var a = (byte)(value & 0xFF);
 
-                var color = Color.FromArgb(a, r, g, b);
-                SetCurrentValue(ColorProperty, color);
+                    if (text.Length <= 6)
+                    {
+                        a = 0xFF;
+                    }
+
+                    var color = Color.FromArgb(a, r, g, b);
+
+                    SetCurrentValue(ColorProperty, color);
+
+                    try
+                    {
+                        var match = _colors.First(c => c.Value == color).Name;
+                        if (match is not null)
+                        {
+                            _colorTextBox.Clear();
+                            _colorTextBox.AppendText(match);
+                        }
+                        return;
+                    }
+                    catch
+                    {
+                        SetCurrentValue(ColorProperty, Colors.White);
+                        return;
+                    }
+                }
             }
-            else
+
+            try
+            {
+                var color = (Color)ColorConverter.ConvertFromString(_colorTextBox.Text);
+                var match = _colors.First(c => c.Value == color);
+
+                SetCurrentValue(ColorProperty, match.Value);
+            }
+            catch
             {
                 SetCurrentValue(ColorProperty, Colors.White);
             }
@@ -1077,7 +1123,11 @@ namespace Orc.Controls
             if (int.TryParse(_gTextBox.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
             {
                 _gSlider.SetCurrentValue(RangeBase.ValueProperty, (double)value);
+                return;
             }
+            _gSlider.SetCurrentValue(RangeBase.ValueProperty, (double)255);
+            _gTextBox.Clear();
+            _gTextBox.AppendText("FF");
         }
 
         /// <summary>
@@ -1095,7 +1145,11 @@ namespace Orc.Controls
             if (int.TryParse(_rTextBox.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var value))
             {
                 _rSlider.SetCurrentValue(RangeBase.ValueProperty, (double)value);
+                return;
             }
+            _rSlider.SetCurrentValue(RangeBase.ValueProperty, (double)255);
+            _rTextBox.Clear();
+            _rTextBox.AppendText("FF");
         }
 
         /// <summary>
@@ -1112,6 +1166,30 @@ namespace Orc.Controls
 
             var c = ((PredefinedColorItem)_themeColorsListBox.SelectedItem).Color;
             UpdateControls(c, true, true, true);
+        }
+
+        private void OnArgbTextBoxTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (((TextBox)sender).MaxLength == ((TextBox)sender).Text.Length)
+            {
+                var ue = e.OriginalSource as FrameworkElement;
+                e.Handled = true;
+                ue.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            }
+        }
+
+        private void IsHexadecimal(object sender, TextChangedEventArgs e)
+        {
+            var regex = new System.Text.RegularExpressions.Regex("^[a-fA-F0-9]+$");
+            
+            //if ( String.IsNullOrEmpty(((TextBox)sender).Text))
+            //{
+            //    OnArgbTextBoxTextChanged(sender, e);
+            //}
+            if (!regex.IsMatch(((TextBox)sender).Text))
+            {
+                ((TextBox)sender).Clear();
+            }
         }
         #endregion
     }

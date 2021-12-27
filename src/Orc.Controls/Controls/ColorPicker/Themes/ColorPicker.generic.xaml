@@ -6,6 +6,8 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.textbox.xaml" />
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.slider.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{x:Type local:ColorPicker}"
@@ -145,7 +147,7 @@
                                                         <Rectangle x:Name="BackgroundGradient"
                                                                    Fill="Transparent" />
                                                         <Path Fill="{TemplateBinding Foreground}"
-                                                              Data="M 0,9 L 0,4 L 5,0 L 10,4 L 10,9 Z"
+                                                              Data="M 0 6 L 12 6 L 6 0 Z"
                                                               VerticalAlignment="Bottom" />
                                                     </Grid>
                                                 </ControlTemplate>
@@ -325,7 +327,7 @@
                                                     </Rectangle.Fill>
                                                 </Rectangle>
 
-                                                <Ellipse x:Name="PART_HSVEllipse" Focusable="False" Height="8" Width="8" IsHitTestVisible="False">
+                                                <Ellipse x:Name="PART_HSVEllipse" Focusable="False" Height="10" Width="10" IsHitTestVisible="False">
                                                     <Ellipse.Fill>
                                                         <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
                                                             <GradientStop Color="Transparent" Offset="0" />
@@ -341,7 +343,7 @@
                                             <Slider Name="PART_HSVSlider"
                                                     Grid.Column="1"
                                                     Margin="0"
-                                                    Height="150"
+                                                    Height="130"
                                                     Focusable="False"
                                                     HorizontalAlignment="Stretch"
                                                     IsDirectionReversed="True"
@@ -363,7 +365,7 @@
                                             </Slider>
 
                                             <!--RGB Part-->
-                                            <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                                            <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="2 0 4 0">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="*"/>
                                                     <RowDefinition Height="*"/>
@@ -371,18 +373,40 @@
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
 
-                                                <Grid.ColumnDefinitions>
+                                                <Grid.ColumnDefinitions>                                                 
                                                     <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition Width="Auto"/>
                                                 </Grid.ColumnDefinitions>
+
+                                                <TextBlock Grid.Column="1"
+                                                           Text="A"
+                                                           FontWeight="SemiBold"/>   
+                                                
+                                                <TextBlock Grid.Row="1"
+                                                           Grid.Column="1"
+                                                           Text="R"
+                                                           FontWeight="SemiBold"/>
+
+                                                <TextBlock Grid.Row="2"
+                                                           Grid.Column="1"
+                                                           Text="G"
+                                                           FontWeight="SemiBold"/>     
+                                                
+                                                <TextBlock Grid.Row="3"
+                                                           Grid.Column="1"
+                                                           Text="B"
+                                                           FontWeight="SemiBold"/>
 
                                                 <Slider x:Name="PART_ASlider"
                                                         Grid.Row="0"
                                                         Grid.Column="0"
+                                                        Margin="0"
                                                         Height="20"
                                                         IsMoveToPointEnabled="True"
                                                         Orientation="Horizontal"
                                                         Maximum="255"
+                                                        Padding="0"
                                                         SmallChange="1"
                                                         VerticalAlignment="Center">
                                                     <Slider.Background>
@@ -436,6 +460,11 @@
                                                         Maximum="255"
                                                         SmallChange="1"
                                                         VerticalAlignment="Center">
+                                                    <Slider.Resources>
+                                                        <Style x:Key="{x:Type Rectangle}" TargetType="{x:Type Rectangle}">
+                                                            <Setter Property="Margin" Value="0"/>
+                                                        </Style>
+                                                    </Slider.Resources>
                                                     <Slider.Background>
                                                         <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
                                                             <GradientStop x:Name="PART_B0GradientStop" Color="#FF000000" Offset="0.0" />
@@ -446,38 +475,58 @@
 
                                                 <TextBox x:Name="PART_ATextBox"
                                                          Grid.Row="0"
-                                                         Grid.Column="1"
-                                                         Margin="0 2 0 0"
-                                                         BorderThickness="0"
-                                                         Height="20"
+                                                         Grid.Column="2"
+                                                         Margin="0 3 0 0"
+                                                         BorderThickness="1"
+                                                         Height="15"
                                                          Width="24"
+                                                         MaxLength="2"
                                                          VerticalAlignment="Center"
-                                                         HorizontalAlignment="Center"/>
+                                                         HorizontalAlignment="Center">
+                                                </TextBox>
+                                                
                                                 <TextBox x:Name="PART_RTextBox"
                                                          Grid.Row="1"
-                                                         Grid.Column="1"
-                                                         Margin="0 2 0 0"
-                                                         BorderThickness="0"
-                                                         Height="20"
+                                                         Grid.Column="2"
+                                                         Margin="0 3 0 0"
+                                                         BorderThickness="1 1 1 1"
                                                          Width="24"
+                                                         MaxLength="2"
                                                          VerticalAlignment="Center"
-                                                         HorizontalAlignment="Center"/>
+                                                         HorizontalAlignment="Center">
+                                                    <TextBox.Style>
+                                                        <Style TargetType="{x:Type TextBox}"
+                                                               BasedOn="{StaticResource Orc.Styles.TextBox}">
+                                                            <Setter Property="Padding" Value="0"/>
+                                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                        </Style>
+                                                    </TextBox.Style>
+                                                </TextBox>
+                                                
                                                 <TextBox x:Name="PART_GTextBox"
                                                          Grid.Row="2"
-                                                         Grid.Column="1"
-                                                         Margin="0 2 0 0"
-                                                         BorderThickness="0"
+                                                         Grid.Column="2"
+                                                         Margin="0 3 0 0"
+                                                         BorderThickness="1"
                                                          Height="20"
                                                          Width="24"
+                                                         MaxLength="2"
                                                          VerticalAlignment="Center"
                                                          HorizontalAlignment="Center"/>
+                                                
                                                 <TextBox x:Name="PART_BTextBox"
+                                                         FontSize="10"
+                                                         Style="{x:Null}"
                                                          Grid.Row="3"
-                                                         Grid.Column="1"
-                                                         Margin="0 2 0 0"
-                                                         BorderThickness="0"
-                                                         Height="20"
+                                                         Grid.Column="2"
+                                                         Margin="0 1 0 0"
+                                                         Padding="0"
+                                                         VerticalContentAlignment="Center"
+                                                         HorizontalContentAlignment="Center"
+                                                         BorderThickness="1"
                                                          Width="24"
+                                                         MaxLength="2"
                                                          VerticalAlignment="Center"
                                                          HorizontalAlignment="Center"/>
                                             </Grid>
@@ -633,7 +682,7 @@
 
                                         <TextBox x:Name="PART_ColorTextBox"
                                                  TextOptions.TextRenderingMode="ClearType"
-                                                 Margin="5,0"
+                                                 Margin="1,0"
                                                  Height="20"
                                                  Width="88"
                                                  Style="{StaticResource TextBoxCustomizedStyle}" />
@@ -669,7 +718,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="Orc.Styles.ColorBoard"  
+    <Style x:Key="Orc.Styles.ColorBoard"
            TargetType="{x:Type local:ColorBoard}"
            BasedOn="{StaticResource {x:Type local:ColorBoard}}"/>
 
