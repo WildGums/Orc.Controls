@@ -4,15 +4,25 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Windows;
     using System.Windows.Media;
     using Automation;
+    using Catel.Windows.Interactivity;
     using NUnit.Framework;
     using Orc.Automation;
     using Orc.Automation.Tests;
 
+    public class Beh : BehaviorBase<Orc.Controls.ColorBoard>
+    {
+        protected override void OnAssociatedObjectLoaded()
+        {
+            MessageBox.Show("I'm here");
+        }
+    }
+
     [TestFixture(TestOf = typeof(Orc.Controls.ColorBoard))]
     [NUnit.Framework.Category("UI Tests")]
-    public partial class ColorBoardTestFacts : ControlUiTestFactsBase<Orc.Controls.ColorBoard>
+    public partial class ColorBoardTestFacts : StyledControlTestFacts<Orc.Controls.ColorBoard>
     {
         private bool _cancelClicked;
         private bool _doneClicked;
@@ -55,6 +65,9 @@
         public void CorrectlySetHsvColor(Color color)
         {
             var target = Target;
+
+            target.AttachBehavior<Beh>();
+
             var view = target.View;
 
             view.HsvColor = color;

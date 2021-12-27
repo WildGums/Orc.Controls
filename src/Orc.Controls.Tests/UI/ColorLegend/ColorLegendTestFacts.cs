@@ -13,7 +13,7 @@
 
     [TestFixture(TestOf = typeof(ColorLegend))]
     [Category("UI Tests")]
-    public partial class ColorLegendTestFacts : ControlUiTestFactsBase<Orc.Controls.ColorLegend>
+    public partial class ColorLegendTestFacts : StyledControlTestFacts<Orc.Controls.ColorLegend>
     {
         private static readonly List<IColorLegendItem> OriginalItemSource = new List<Color>
         {

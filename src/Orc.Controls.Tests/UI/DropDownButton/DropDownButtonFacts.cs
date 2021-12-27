@@ -2,7 +2,7 @@
 {
     using Orc.Automation.Tests;
 
-    public class DropDownButtonFacts : ControlUiTestFactsBase<Orc.Controls.DropDownButton>
+    public class DropDownButtonFacts : StyledControlTestFacts<Orc.Controls.DropDownButton>
     {
 
     }
