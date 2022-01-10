@@ -1181,11 +1181,7 @@ namespace Orc.Controls
         private void IsHexadecimal(object sender, TextChangedEventArgs e)
         {
             var regex = new System.Text.RegularExpressions.Regex("^[a-fA-F0-9]+$");
-            
-            //if ( String.IsNullOrEmpty(((TextBox)sender).Text))
-            //{
-            //    OnArgbTextBoxTextChanged(sender, e);
-            //}
+
             if (!regex.IsMatch(((TextBox)sender).Text))
             {
                 ((TextBox)sender).Clear();
