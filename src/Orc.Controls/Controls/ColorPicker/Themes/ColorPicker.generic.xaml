@@ -483,13 +483,21 @@
                                                          MaxLength="2"
                                                          VerticalAlignment="Center"
                                                          HorizontalAlignment="Center">
+                                                    <TextBox.Style>
+                                                        <Style TargetType="{x:Type TextBox}"
+                                                               BasedOn="{StaticResource Orc.Styles.TextBox}">
+                                                            <Setter Property="Padding" Value="0"/>
+                                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                        </Style>
+                                                    </TextBox.Style>
                                                 </TextBox>
                                                 
                                                 <TextBox x:Name="PART_RTextBox"
                                                          Grid.Row="1"
                                                          Grid.Column="2"
                                                          Margin="0 3 0 0"
-                                                         BorderThickness="1 1 1 1"
+                                                         BorderThickness="1"
                                                          Width="24"
                                                          MaxLength="2"
                                                          VerticalAlignment="Center"
@@ -503,32 +511,43 @@
                                                         </Style>
                                                     </TextBox.Style>
                                                 </TextBox>
-                                                
+
                                                 <TextBox x:Name="PART_GTextBox"
                                                          Grid.Row="2"
                                                          Grid.Column="2"
                                                          Margin="0 3 0 0"
-                                                         BorderThickness="1"
-                                                         Height="20"
                                                          Width="24"
                                                          MaxLength="2"
                                                          VerticalAlignment="Center"
-                                                         HorizontalAlignment="Center"/>
-                                                
+                                                         HorizontalAlignment="Center">
+                                                    <TextBox.Style>
+                                                        <Style TargetType="{x:Type TextBox}"
+                                                               BasedOn="{StaticResource Orc.Styles.TextBox}">
+                                                            <Setter Property="Padding" Value="0"/>
+                                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                        </Style>
+                                                    </TextBox.Style>
+                                                </TextBox>
+
                                                 <TextBox x:Name="PART_BTextBox"
-                                                         FontSize="10"
-                                                         Style="{x:Null}"
                                                          Grid.Row="3"
                                                          Grid.Column="2"
                                                          Margin="0 1 0 0"
-                                                         Padding="0"
-                                                         VerticalContentAlignment="Center"
-                                                         HorizontalContentAlignment="Center"
                                                          BorderThickness="1"
                                                          Width="24"
                                                          MaxLength="2"
                                                          VerticalAlignment="Center"
-                                                         HorizontalAlignment="Center"/>
+                                                         HorizontalAlignment="Center">
+                                                    <TextBox.Style>
+                                                        <Style TargetType="{x:Type TextBox}"
+                                                               BasedOn="{StaticResource Orc.Styles.TextBox}">
+                                                            <Setter Property="Padding" Value="0"/>
+                                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                        </Style>
+                                                    </TextBox.Style>
+                                                </TextBox>
                                             </Grid>
                                         </Grid>
                                     </TabItem>
