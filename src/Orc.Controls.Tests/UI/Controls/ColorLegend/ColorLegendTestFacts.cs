@@ -70,12 +70,13 @@
            // ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.IsColorSelecting), view, nameof(view.IsColorSelecting), true, false);
 
             ConnectedPropertiesAssert.VerifyConnectedProperties(target, nameof(target.Filter), view, nameof(view.Filter),
+                true,
                 new ValueTuple<object, object>("test string", "test string"),
               //  new ValueTuple<object, object>(null, null),
               //  new ValueTuple<object, object>(string.Empty, string.Empty),
                 new ValueTuple<object, object>("\\Items+ddd", "\\Items+ddd"));
 
-            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.FilterWatermark), view, nameof(view.FilterWaterMark),
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.FilterWatermark), view, nameof(view.FilterWaterMark), true,
                 "Find...",
                 "Go and find me...",
                 string.Empty,
@@ -88,41 +89,16 @@
             var target = Target;
             var view = View;
 
-            var items = view.Items;
-            
-            var isControlIsColorEditAllowed = view.AllowColorEditing;
-            var isColorsVisible = view.ShowColorPicker;
-            var isVisibilityColumnVisible = view.ShowColorVisibilityControls;
-
             Thread.Sleep(1000);
 
             view.ShowColorPicker = false;
 
             Thread.Sleep(1000);
 
-
-            var map = Target.Map<ColorLegendMap>();
-
             ColorLegendAssert.AllCheckedState(target);
             ColorLegendAssert.ItemsCheckStateMatch(target);
             ColorLegendAssert.ItemsSelectedStateMatch(target);
             ColorLegendAssert.ClearSelectionState(target);
-
-            //var target = Target;
-            //var map = TargetMap;
-
-            ////Check Search Box
-            //Assert.AreEqual(target.ShowSearchBox, expectedShowSearchBox);
-            //Assert.AreEqual(map.SearchBoxPart?.IsVisible(), expectedShowSearchBox && expectedTShowToolBox);
-
-            ////Check ToolBox
-            //Assert.AreEqual(target.ShowToolBox, expectedTShowToolBox);
-            //Assert.AreEqual(map.SettingsButtonPart?.IsVisible(), expectedTShowToolBox);
-
-            ////Check Bottom ToolBox
-            //Assert.AreEqual(target.ShowBottomToolBox, expectedShowBottomToolBox);
-            //Assert.AreEqual(map.AllVisibleCheckBoxPart?.IsVisible(), expectedShowBottomToolBox && expectedShowColorVisibilityControls);
-            //Assert.AreEqual(map.UnselectAllButtonPart?.IsVisible(), expectedShowBottomToolBox);
         }
 
         private class TestColorItemComparer : IComparer

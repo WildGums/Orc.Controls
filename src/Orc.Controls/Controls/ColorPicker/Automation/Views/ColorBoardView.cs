@@ -143,15 +143,7 @@
         public string PredefinedColorName
         {
             get => _map.ColorComboBox.SelectedItem?.Find<PredefinedColorItem>()?.Text;
-            set
-            {
-                var colorComboBox = _map.ColorComboBox;
-                colorComboBox.InvokeInExpandState(() =>
-                {
-                    var itemToSelect = colorComboBox.Items?.FirstOrDefault(x => Equals(GetColorName(x), value));
-                    itemToSelect?.Select();
-                });
-            }
+            set => _map.ColorComboBox.Select(x => Equals(GetColorName(x), value));
         }
 
         public Color? SelectedThemeColor

@@ -9,9 +9,7 @@
         protected override bool TryLoadControl(TestHostAutomationControl testHost, out string testedControlAutomationId)
         {
             var controlType = typeof(TControl);
-
-
-
+            
             testHost.TryLoadAssembly(@"C:\Source\Orc.Controls\output\Debug\Orc.Controls.Tests\net6.0-windows\DiffEngine.dll");
             testHost.TryLoadAssembly(@"C:\Source\Orc.Controls\output\Debug\Orc.Controls.Tests\net6.0-windows\ApprovalUtilities.dll");
             testHost.TryLoadAssembly(@"C:\Source\Orc.Controls\output\Debug\Orc.Controls.Tests\net6.0-windows\ApprovalTests.dll");

@@ -8,7 +8,8 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/DropDownButton/Themes/DropDownButton.generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="{x:Type controls:ColorLegend}" TargetType="{x:Type controls:ColorLegend}"
+    <Style x:Key="{x:Type controls:ColorLegend}"
+           TargetType="{x:Type controls:ColorLegend}"
            BasedOn="{StaticResource Orc.Styles.Control}">
         <Style.Resources>
             <controls:MultipleCommandParameterConverter x:Key="MultipleCommandParametersConverter"/>
@@ -118,7 +119,6 @@
 
                             <ListView x:Name="PART_List" 
                                       AutomationProperties.AutomationId="List"
-
                                       Grid.Row="3"
                                       ItemsSource="{Binding FilteredItemsSource, RelativeSource={RelativeSource TemplatedParent}}"
                                       BorderThickness="0"

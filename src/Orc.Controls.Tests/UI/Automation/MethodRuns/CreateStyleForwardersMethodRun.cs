@@ -15,8 +15,6 @@
 
         public override bool TryInvoke(FrameworkElement owner, AutomationMethod method, out AutomationValue result)
         {
-            MessageBox.Show("check");
-
             StyleHelper.CreateStyleForwardersForDefaultStyles();
 
             result = AutomationValue.FromValue(10);

@@ -8,6 +8,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
+        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.listbox.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{x:Type local:ColorPicker}"
@@ -119,7 +120,8 @@
                     <Grid x:Name="PART_RootGrid" >
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                AutomationProperties.AutomationId="Chrome1">
                             <Grid Width="185" Height="300">
                                 <Grid.Resources>
                                     <Style x:Key="SliderButtonStyle"
@@ -545,7 +547,8 @@
                                                         </Setter.Value>
                                                     </Setter>
                                                 </Style>
-                                                <Style TargetType="{x:Type ListBoxItem}">
+                                                <Style TargetType="{x:Type ListBoxItem}"
+                                                       BasedOn="{StaticResource Orc.Styles.ListBoxItem}">
                                                     <Setter Property="Template">
                                                         <Setter.Value>
                                                             <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -605,7 +608,7 @@
                                             </Border>
                                             <ListBox x:Name="PART_ThemeColorsListBox"
                                                      AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.ThemeColorsListBoxId}"
-
+                                                     Style="{StaticResource Orc.Styles.ListBox}"
                                                      HorizontalAlignment="Stretch"
                                                      HorizontalContentAlignment="Center"
                                                      BorderThickness="0"
@@ -627,7 +630,7 @@
                                             </Border>
                                             <ListBox x:Name="PART_RecentColorsListBox"
                                                      AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.RecentColorsListBoxId}"
-
+                                                     Style="{StaticResource Orc.Styles.ListBox}"
                                                      HorizontalAlignment="Stretch"
                                                      HorizontalContentAlignment="Center"
                                                      BorderThickness="0"

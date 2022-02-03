@@ -41,8 +41,7 @@
 
             //Apply style forwarders
             //testHost.RunMethod(typeof(StyleHelper), nameof(StyleHelper.CreateStyleForwardersForDefaultStyles));
-            testHost.AddAutomationMethod(typeof(CreateStyleForwardersMethodRun));
-            testHost.ExecuteAutomationMethod(nameof(CreateStyleForwardersMethodRun));
+            testHost.Execute<CreateStyleForwardersMethodRun>();
            
             testHostAutomationId = testHost.PutControl(controlTypeFullName);
             if (string.IsNullOrWhiteSpace(testHostAutomationId) || testHostAutomationId.StartsWith("Error"))
@@ -53,34 +52,6 @@
             }
             
             return true;
-        }
-
-        public class ThemeExtensions : AutomationBase
-        {
-            public ThemeExtensions(AutomationElement element)
-                : base(element)
-            {
-                
-            }
-            
-            [AutomationMethod]
-            public Color GetChromeColor(System.Windows.Controls.Button button)
-            {
-                var chrome = button.FindVisualDescendantByName("Chrome") as Border;
-                return (chrome?.Background as SolidColorBrush)?.Color ?? Colors.Transparent;
-            }
-
-            //ThemeAssert.Button()
-            //ThemeAssert.Slider()
-        }
-
-        public static class ButtonTest
-        {
-            public static Color GetChromeColor(System.Windows.Controls.Button button)
-            {
-                var chrome = button.FindVisualDescendantByName("Chrome") as Border;
-                return (chrome?.Background as SolidColorBrush)?.Color ?? Colors.Transparent;
-            }
         }
     }
 }

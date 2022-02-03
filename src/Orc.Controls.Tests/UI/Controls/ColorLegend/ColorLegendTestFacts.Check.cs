@@ -39,31 +39,9 @@
 
         [Test]
         public void CorrectlyUncheckAllItems()
-        {
-            var view = View;
-
+        { 
             //Checking initial state of color legend
            ColorLegendAssert.AllCheckedState(Target);
-
-//Simulate: 
-            //target.Simulate.TrySetCheckAllState(true);
-
-
-
-            //Get initial state of All toggle
-//            Assert.That(map.i.TryGetToggleState(out var toggleState));
-
-//            AssertAllToggleStateCorrect(toggleState);
-
-////Simulate: Toggle All
-//            Assert.That(map.AllVisibleCheckBoxPart.TryToggle(out toggleState));
-
-//            AssertAllToggleStateCorrect(toggleState);
-
-////Simulate: Toggle All second time
-//            Assert.That(map.AllVisibleCheckBoxPart.TryToggle(out toggleState));
-
-//            AssertAllToggleStateCorrect(toggleState);
         }
     }
 }

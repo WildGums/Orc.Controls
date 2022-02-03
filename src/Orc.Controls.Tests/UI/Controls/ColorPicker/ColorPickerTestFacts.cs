@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections;
-    using System.Threading;
     using System.Windows.Media;
     using Automation;
     using NUnit.Framework;
@@ -13,6 +12,8 @@
     [NUnit.Framework.Category("UI Tests")]
     public class ColorPickerTestFacts : ControlUiTestFactsBase<Orc.Controls.ColorPicker>
     {
+        private bool _isColorChangedEventInvoked;
+
         [Target]
         public ColorPicker Target { get; set; }
 
@@ -21,7 +22,6 @@
         {
             base.SetUpTest();
         }
-        
 
         private class PositiveSetRGBColorTestCases : IEnumerable
         {
@@ -34,8 +34,6 @@
                 yield return Color.FromArgb(0x12, 0x34, 0x56, 0x78);
             }
         }
-
-        private bool _isColorChangedEventInvoked;
 
         [TestCaseSource(typeof(PositiveSetRGBColorTestCases))]
         public void CorrectlySetColor(Color color)
