@@ -1,10 +1,8 @@
 ﻿namespace Orc.Controls.Automation.Converters
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using Orc.Automation;
-    using Orc.Controls;
+    using Controls;
 
     public class SerializableNumber
     {

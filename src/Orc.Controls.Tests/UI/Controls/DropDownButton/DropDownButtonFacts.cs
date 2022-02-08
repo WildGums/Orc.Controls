@@ -1,5 +1,6 @@
 ﻿namespace Orc.Controls.Tests
 {
+    using System;
     using System.Collections.Generic;
     using NUnit.Framework;
     using Orc.Automation;
@@ -14,27 +15,26 @@
         public void VerifyProperties()
         {
             var target = Target;
-            var view = target.View;
-
-            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.IsChecked), view, nameof(view.IsToggled), true, true, false);
+            var model = target.Current;
+            
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.IsToggled), model, nameof(model.IsChecked), true, true, false);
         }
 
         [Test]
         public void CorrectlyShowMenu()
         {
             var target = Target;
-            var view = target.View;
-            
+
             target.AddMenuItems(new List<string>
             {
-                "One", 
-                "Two", 
-                "Three", 
-                "Four", 
+                "One",
+                "Two",
+                "Three",
+                "Four",
                 "Five"
             });
 
-            var menu = view.OpenDropDown();
+            var menu = target.OpenDropDown();
 
             Assert.That(menu, Is.Not.Null);
         }

@@ -13,9 +13,9 @@
         public void CorrectlyExpand()
         {
             var target = Target;
-            var view = target.View;
+            var model = target.Current;
 
-            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, view, nameof(target.IsExpanded), true, true, false);
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, model, nameof(target.IsExpanded), true, true, false);
         }
     }
 }

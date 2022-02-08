@@ -51,11 +51,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controls\ColorPicker\Automation\Extensions\" />
-    <Folder Include="Controls\ColorPicker\Automation\Maps\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Orc.Automation\src\Orc.Automation\Orc.Automation.csproj" />
   </ItemGroup>
 

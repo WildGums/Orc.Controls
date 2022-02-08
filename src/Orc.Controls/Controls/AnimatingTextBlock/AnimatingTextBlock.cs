@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AnimatingTextBlock.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -69,7 +62,7 @@ namespace Orc.Controls
         /// Gets or sets the show storyboard.
         /// </summary>
         /// <value>The show storyboard.</value>
-        public Storyboard ShowStoryboard
+        public Storyboard ShowStoryboard 
         {
             get { return (Storyboard)GetValue(ShowStoryboardProperty); }
             set { SetValue(ShowStoryboardProperty, value); }

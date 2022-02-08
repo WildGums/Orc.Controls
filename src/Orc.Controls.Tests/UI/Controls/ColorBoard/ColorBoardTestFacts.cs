@@ -47,17 +47,14 @@
         {
             var target = Target;
 
-            ColorBoardAssert.Color(target, target.Color);
+            ColorBoardAssert.Color(target, target.Current.Color);
         }
 
         [TestCaseSource(typeof(PositiveSetRGBColorTestCases))]
         public void CorrectlySetHsvColor(Color color)
         {
             var target = Target;
-
-            var view = target.View;
-
-            view.HsvColor = color;
+            target.HsvColor = color;
 
             ColorBoardAssert.Color(target, color);
         }
@@ -66,9 +63,8 @@
         public void CorrectlySetArgbColor(Color color)
         {
             var target = Target;
-            var view = target.View;
 
-            view.ArgbColor = color;
+            target.ArgbColor = color;
 
             ColorBoardAssert.Color(target, color);
         }
@@ -77,9 +73,8 @@
         public void CorrectlySetArgbAltColor(Color color)
         {
             var target = Target;
-            var view = target.View;
 
-            view.ArgbColorAlt = color;
+            target.ArgbColorAlt = color;
 
             ColorBoardAssert.Color(target, color);
         }
@@ -88,9 +83,8 @@
         public void CorrectlySetColorByName(Color color)
         {
             var target = Target;
-            var view = target.View;
 
-            view.ColorName = color.ToString();
+            target.ColorName = color.ToString();
 
             ColorBoardAssert.Color(target, color);
         }
@@ -112,9 +106,8 @@
         public void CorrectlySetColorByPredifinedName(string predefinedColorName, Color expectedColor)
         {
             var target = Target;
-            var view = target.View;
 
-            view.ColorName = predefinedColorName;
+            target.ColorName = predefinedColorName;
 
             ColorBoardAssert.Color(target, expectedColor);
         }
@@ -123,9 +116,8 @@
         public void CorrectlySetPredefinedColor(string predefinedColorName, Color expectedColor)
         {
             var target = Target;
-            var view = target.View;
 
-            view.PredefinedColorName = predefinedColorName;
+            target.PredefinedColorName = predefinedColorName;
 
             ColorBoardAssert.Color(target, expectedColor);
         }
@@ -149,9 +141,8 @@
         public void CorrectlySetThemeColor(Color color)
         {
             var target = Target;
-            var view = target.View;
 
-            view.SelectedThemeColor = color;
+            target.SelectedThemeColor = color;
 
             ColorBoardAssert.Color(target, color);
         }
@@ -170,20 +161,20 @@
         public void CorrectlyGenerateRecentColorList(List<Color> colorList, List<Color> expectedColorList)
         {
             var target = Target;
-            var view = target.View;
+            var model = target.Current;
 
             foreach (var color in colorList)
             {
-                target.Color = color;
+                model.Color = color;
 
                 Wait.UntilResponsive();
 
-                view.Apply();
+                target.Apply();
 
                 Wait.UntilResponsive();
             }
             
-            CollectionAssert.AreEqual(view.RecentColors.Select(x => x.Color), expectedColorList);
+            CollectionAssert.AreEqual(target.RecentColors.Select(x => x.Color), expectedColorList);
         }
 
         private class RecentColorsTestCases : IEnumerable
@@ -203,21 +194,21 @@
         public void CorrectlySetRecentColor(List<Color> recentColorList, Color recentColor)
         {
             var target = Target;
-            var view = target.View;
+            var model = target.Current;
 
             //Init recent color list
             foreach (var color in recentColorList)
             {
-                target.Color = color;
+                model.Color = color;
 
                 Wait.UntilResponsive();
 
-                view.Apply();
+                target.Apply();
 
                 Wait.UntilResponsive();
             }
 
-            view.SelectedRecentColor = recentColor;
+            target.SelectedRecentColor = recentColor;
 
             ColorBoardAssert.Color(target, recentColor);
         }
@@ -226,22 +217,22 @@
         public void CorrectlyApply()
         {
             var target = Target;
-            var view = target.View;
+            var model = target.Current;
 
             target.DoneClicked += OnDoneClicked;
 
-            view.Apply();
+            target.Apply();
 
             Wait.UntilResponsive();
 
             //event should be fired
             Assert.That(_doneClicked, Is.True);
 
-            var recentColors = view.RecentColors;
+            var recentColors = target.RecentColors;
 
             //current color should be in a recent list
             Assert.That(recentColors.Count, Is.EqualTo(1));
-            Assert.That(recentColors[0].Color, Is.EqualTo(target.Color));
+            Assert.That(recentColors[0].Color, Is.EqualTo(model.Color));
 
             target.DoneClicked -= OnDoneClicked;
         }
@@ -250,11 +241,10 @@
         public void CorrectlyCancel()
         {
             var target = Target;
-            var view = target.View;
 
             target.CancelClicked += OnCancelClicked;
 
-            view.Cancel();
+            target.Cancel();
 
             Wait.UntilResponsive();
 

@@ -8,7 +8,7 @@
     {
         private bool _isSelectedItemsEventRaised;
 
-        [TestCase()]
+        [Test]
         public void CorrectlySelectItem()
         {
             var view = View;

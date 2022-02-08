@@ -39,17 +39,16 @@
         public void CorrectlySetColor(Color color)
         {
             var target = Target;
-            var view = target.View;
+            var targetProperties = target.Current;
 
-            var colorBoard = view.OpenColorBoard();
+            var colorBoard = target.OpenColorBoard();
             Assert.That(colorBoard, Is.Not.Null);
-            Assert.That(target.IsDropDownOpen, Is.True);
+            Assert.That(targetProperties.IsDropDownOpen, Is.True);
 
-            var colorBoardView = colorBoard.View;
-            colorBoardView.ArgbColor = color;
+            colorBoard.ArgbColor = color;
 
             //colorPicker CurrentColor should have as expected color
-            Assert.That(target.CurrentColor, Is.EqualTo(color));
+            Assert.That(targetProperties.CurrentColor, Is.EqualTo(color));
 
             //check event invocation
             if (!Equals(target.Color, color))
@@ -62,15 +61,15 @@
             }
 
             //Before apply drop down should be opened
-            Assert.That(target.IsDropDownOpen, Is.True);
+            Assert.That(targetProperties.IsDropDownOpen, Is.True);
 
             //correctly apply button
-            Assert.That(colorBoard.View.Apply(), Is.True);
+            Assert.That(colorBoard.Apply(), Is.True);
 
             Wait.UntilResponsive();
 
             //After apply drop down should be closed
-            Assert.That(target.IsDropDownOpen, Is.False);
+            Assert.That(targetProperties.IsDropDownOpen, Is.False);
 
             Assert.That(_isColorChangedEventInvoked, Is.True);
 

@@ -22,12 +22,12 @@
         public void VerifyInitialState()
         {
             var target = Target;
-            var view = target.View;
+            var model = target.Current;
 
-            Assert.That(target.SelectedCulture?.Name, Is.EqualTo(view.SelectedCulture));
+            Assert.That(model.SelectedCulture?.Name, Is.EqualTo(target.SelectedCulture));
 
-            var availableCultures = target.AvailableCultures;
-            var cultureItems = view.Items;
+            var availableCultures = model.AvailableCultures;
+            var cultureItems = target.Items;
 
             CollectionAssert.AreEquivalent(cultureItems, availableCultures.Select(x => x.Name));
         }
@@ -54,14 +54,12 @@
         public void CorrectlySelectCulture(CultureInfo cultureInfo, string cultureName)
         {
             var target = Target;
-            var view = target.View;
+            var model = target.Current;
 
-            var background = target.Background;
+            target.SelectedCulture = cultureName;
 
-            view.SelectedCulture = cultureName;
-
-            ConnectedPropertiesAssert.VerifyConnectedProperties(target, nameof(target.SelectedCulture), 
-                view, nameof(view.SelectedCulture), false, new ValueTuple<object, object>(cultureInfo, cultureName));
+            ConnectedPropertiesAssert.VerifyConnectedProperties(model, nameof(model.SelectedCulture),
+                target, nameof(target.SelectedCulture), false, new ValueTuple<object, object>(cultureInfo, cultureName));
         }
     }
 }

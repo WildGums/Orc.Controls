@@ -14,13 +14,12 @@
         public void CorrectlyIncrease()
         {
             var target = Target;
-            var view = target.View;
 
             var beenIncreased = false;
 
             target.Increased += delegate { beenIncreased = true; };
 
-            view.Increase();
+            target.Increase();
 
             Wait.UntilResponsive(200);
 
@@ -31,13 +30,12 @@
         public void CorrectlyDecrease()
         {
             var target = Target;
-            var view = target.View;
 
             var beenDecreased = false;
 
             target.Decreased += delegate { beenDecreased = true; };
 
-            view.Decrease();
+            target.Decrease();
 
             Wait.UntilResponsive(200);
 

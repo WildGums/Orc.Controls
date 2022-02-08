@@ -21,12 +21,12 @@
 
         public void IncreaseNumber()
         {
-            _map.SpinButton.View.Increase();
+            _map.SpinButton.Increase();
         }
 
         public void DecreaseNumber()
         {
-            _map.SpinButton.View.Decrease();
+            _map.SpinButton.Decrease();
         }
     }
 }

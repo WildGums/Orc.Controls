@@ -18,22 +18,20 @@
             Argument.IsNotNull(() => colorBoard);
 
             //Color from api should be expected
-            var apiColor = colorBoard.Color;
+            var apiColor = colorBoard.Current.Color;
             Assert.That(apiColor, Is.EqualTo(expectedColor));
 
-            var view = colorBoard.View;
-
             //Check ArgbColor
-            Assert.That(view.ArgbColor, Is.EqualTo(expectedColor)); 
+            Assert.That(colorBoard.ArgbColor, Is.EqualTo(expectedColor)); 
            //Check ArgbColorAlt
-            Assert.That(view.ArgbColorAlt, Is.EqualTo(expectedColor));
+            Assert.That(colorBoard.ArgbColorAlt, Is.EqualTo(expectedColor));
             
             //Check HsvColor
-            Assert.That(view.HsvColor, Is.EqualTo(expectedColor));
+            Assert.That(colorBoard.HsvColor, Is.EqualTo(expectedColor));
 
             //Check ColorName
-            var colorName = view.ColorName;
-            var predefinedColorName = view.PredefinedColorName;
+            var colorName = colorBoard.ColorName;
+            var predefinedColorName = colorBoard.PredefinedColorName;
             if (!string.IsNullOrWhiteSpace(predefinedColorName))
             {
                 Assert.That(predefinedColorName, Is.EqualTo(PredefinedColor.GetColorName(expectedColor)));
@@ -45,16 +43,16 @@
             }
 
             //If color contains in theme colors list it should be selected here
-            if (view.ThemeColors.Any(x => Equals(x.Color, expectedColor)))
+            if (colorBoard.ThemeColors.Any(x => Equals(x.Color, expectedColor)))
             {
-                Assert.That(view.SelectedThemeColor, Is.EqualTo(expectedColor));
+                Assert.That(colorBoard.SelectedThemeColor, Is.EqualTo(expectedColor));
             }
 
             //If color contains in recent colors list it should be selected here
-            var recentColors = view.RecentColors;
+            var recentColors = colorBoard.RecentColors;
             if (recentColors.Any(x => Equals(x.Color, expectedColor)))
             {
-                Assert.That(view.SelectedRecentColor, Is.EqualTo(expectedColor));
+                Assert.That(colorBoard.SelectedRecentColor, Is.EqualTo(expectedColor));
             }
         }
     }
