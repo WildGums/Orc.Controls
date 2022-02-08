@@ -6,10 +6,14 @@
 
     public class NumericUpDown : FrameworkElement
     {
+        private NumericUpDownView _view;
+
         public NumericUpDown(AutomationElement element)
             : base(element)
         {
         }
+
+        public NumericUpDownView View => _view ??= new NumericUpDownView(Element);
 
         public Number Value
         {

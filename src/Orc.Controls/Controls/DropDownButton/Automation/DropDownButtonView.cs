@@ -6,27 +6,29 @@
     using Orc.Automation;
     using Orc.Automation.Controls;
 
-    [AutomatedControl(Class = typeof(Controls.DropDownButton), ControlTypeName = nameof(ControlType.Button))]
-    public class DropDownButton : FrameworkElement
+    public class DropDownButtonView : AutomationBase
     {
-        public DropDownButton(AutomationElement element)
-            : base(element, ControlType.Button)
-        {
-        }
+        private readonly DropDownButtonMap _map;
 
-        public bool IsToggled
+        public DropDownButtonView(AutomationElement element) 
+            : base(element)
         {
-            get => (bool) Element.GetToggleState();
-            set => Element.TrySetToggleState(value);
+            _map = new DropDownButtonMap(element);
         }
 
         public TResult InvokeInDropDownScope<TResult>(Func<Menu, TResult> action)
         {
             Menu menu = null;
-            using (new DisposableToken<DropDownButton>(this, _ => menu = OpenDropDown(), _ => CloseDropDown()))
+            using (new DisposableToken<DropDownButtonView>(this, _ => menu = OpenDropDown(), _ => CloseDropDown()))
             {
                 return action.Invoke(menu);
             }
+        }
+
+        public bool IsToggled
+        {
+            get => (bool)Element.GetToggleState();
+            set => Element.TrySetToggleState(value);
         }
 
         public void CloseDropDown()

@@ -58,6 +58,7 @@
             var target = Target;
             var view = View;
 
+
             ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.ShowSearchBox), view, nameof(view.IsSearchBoxVisible), true, false);
 
             ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.AllowColorEditing), view, nameof(view.AllowColorEditing), true, false);

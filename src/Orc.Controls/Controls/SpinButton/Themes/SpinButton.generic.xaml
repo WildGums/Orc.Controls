@@ -25,6 +25,7 @@
                         </Grid.RowDefinitions>
 
                             <RepeatButton x:Name="PART_IncreaseButton"
+                                          AutomationProperties.AutomationId="PART_IncreaseButton"
                                           Grid.Row="0"
                                           Margin="0"
                                           Padding="2"
@@ -46,6 +47,7 @@
                                        Margin="1 0 1 0"/>
 
                             <RepeatButton x:Name="PART_DecreaseButton"
+                                          AutomationProperties.AutomationId="PART_DecreaseButton"
                                           Grid.Row="2"
                                           BorderThickness=" 0"
                                           Margin="0"

@@ -4,88 +4,95 @@
                    xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
                    xmlns:catel="http://schemas.catelproject.com">
     <Grid>
-        <Grid.Resources>
-            <Style TargetType="{x:Type GridSplitter}">
-                <Setter Property="Background" Value="Yellow"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type GridSplitter}">
-                            <Border BorderThickness="1,1,1,1">
-                                <Border.BorderBrush>
-                                    <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
-                                        <DrawingBrush.Drawing>
-                                            <DrawingGroup>
-                                                <GeometryDrawing Brush="Red">
-                                                    <GeometryDrawing.Geometry>
-                                                        <GeometryGroup>
-                                                            <RectangleGeometry Rect="0,0,50,50" />
-                                                            <RectangleGeometry Rect="50,50,50,50" />
-                                                        </GeometryGroup>
-                                                    </GeometryDrawing.Geometry>
-                                                </GeometryDrawing>
-                                            </DrawingGroup>
-                                        </DrawingBrush.Drawing>
-                                    </DrawingBrush>
-                                </Border.BorderBrush>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="{x:Type GridSplitter}">
+                    <Setter Property="Background" Value="Yellow"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type GridSplitter}">
+                                <Border BorderThickness="1,1,1,1">
+                                    <Border.BorderBrush>
+                                        <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
+                                            <DrawingBrush.Drawing>
+                                                <DrawingGroup>
+                                                    <GeometryDrawing Brush="Red">
+                                                        <GeometryDrawing.Geometry>
+                                                            <GeometryGroup>
+                                                                <RectangleGeometry Rect="0,0,50,50" />
+                                                                <RectangleGeometry Rect="50,50,50,50" />
+                                                            </GeometryGroup>
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                </DrawingGroup>
+                                            </DrawingBrush.Drawing>
+                                        </DrawingBrush>
+                                    </Border.BorderBrush>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Grid.Resources>
 
-        <orccontrols:Expander Grid.Column="0"
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <orccontrols:Expander x:Name="ExpanderControl"
+                              Grid.Column="0"
                               AutoResizeGrid="True"
                               VerticalAlignment="Stretch"
                               ExpandDirection ="Right"
                               HorizontalAlignment="Stretch">
 
-            <orccontrols:Expander.Content>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+                <orccontrols:Expander.Content>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
 
-                    <orccontrols:Expander Grid.Row="0"
+                        <orccontrols:Expander Grid.Row="0"
                                           AutoResizeGrid="True"
                                           ExpandDuration="{Binding ElementName=SetupDurationNumericTextBox, Path=Value}"
                                           VerticalAlignment="Stretch"
                                           ExpandDirection ="Down"
                                           HorizontalAlignment="Stretch">
-                        <orccontrols:Expander.Header>
-                            <orccontrols:StackGrid HorizontalAlignment="Stretch"
+                            <orccontrols:Expander.Header>
+                                <orccontrols:StackGrid HorizontalAlignment="Stretch"
                                                    VerticalAlignment="Center">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <Label Content="Setup duration:" />
+                                    <Label Content="Setup duration:" />
 
-                                <orccontrols:NumericTextBox x:Name="SetupDurationNumericTextBox"
+                                    <orccontrols:NumericTextBox x:Name="SetupDurationNumericTextBox"
                                                             HorizontalAlignment="Stretch" 
                                                             VerticalAlignment="Center"
                                                             Format="0"
                                                             Value="1000"
                                                             MaxValue="10000"
                                                             MinValue="0"/>
-                            </orccontrols:StackGrid>
-                        </orccontrols:Expander.Header>
+                                </orccontrols:StackGrid>
+                            </orccontrols:Expander.Header>
 
-                        <orccontrols:Expander.Content>
-                            <orccontrols:ColorLegend/>
-                        </orccontrols:Expander.Content>
-                    </orccontrols:Expander>
+                            <orccontrols:Expander.Content>
+                                <orccontrols:ColorLegend/>
+                            </orccontrols:Expander.Content>
+                        </orccontrols:Expander>
 
-                    <GridSplitter Grid.Row="1"
+                        <GridSplitter Grid.Row="1"
                                   MinHeight="2"
                                   ResizeDirection="Rows"
                                   Width="Auto"
@@ -93,13 +100,13 @@
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Stretch"/>
 
-                    <orccontrols:ColorLegend Grid.Row="2"/>
-                </Grid>
-            </orccontrols:Expander.Content>
+                        <orccontrols:ColorLegend Grid.Row="2"/>
+                    </Grid>
+                </orccontrols:Expander.Content>
 
-        </orccontrols:Expander>
+            </orccontrols:Expander>
 
-        <GridSplitter Grid.Column="1"
+            <GridSplitter Grid.Column="1"
                       MinWidth="2"
                       ResizeDirection="Columns"
                       Height="Auto"
@@ -107,24 +114,24 @@
                       VerticalAlignment="Stretch"
                       HorizontalAlignment="Center"/>
 
-        <orccontrols:Expander Grid.Column="2"
+            <orccontrols:Expander Grid.Column="2"
                               ExpandDuration="250"
                               AutoResizeGrid="True"
                               VerticalAlignment="Stretch"
                               ExpandDirection ="Left"
                               HorizontalAlignment="Stretch">
 
-            <orccontrols:Expander.Content>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+                <orccontrols:Expander.Content>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
 
-                    <orccontrols:ColorLegend/>
+                        <orccontrols:ColorLegend/>
 
-                    <GridSplitter Grid.Row="1"
+                        <GridSplitter Grid.Row="1"
                                   MinHeight="2"
                                   ResizeDirection="Rows"
                                   Width="Auto"
@@ -132,35 +139,43 @@
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Stretch"/>
 
-                    <orccontrols:Expander Grid.Row="2"
+                        <orccontrols:Expander Grid.Row="2"
                                           AutoResizeGrid="True"
                                           ExpandDuration="10000"
                                           VerticalAlignment="Stretch"
                                           ExpandDirection ="Up"
                                           HorizontalAlignment="Stretch">
-                        <orccontrols:Expander.Header>
-                            <orccontrols:StackGrid HorizontalAlignment="Stretch"
+                            <orccontrols:Expander.Header>
+                                <orccontrols:StackGrid HorizontalAlignment="Stretch"
                                      VerticalAlignment="Center">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <Label Content="Slow expander" />
+                                    <Label Content="Slow expander" />
 
-                                <ComboBox HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-                            </orccontrols:StackGrid>
-                        </orccontrols:Expander.Header>
+                                    <ComboBox HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                                </orccontrols:StackGrid>
+                            </orccontrols:Expander.Header>
 
-                        <orccontrols:Expander.Content>
-                            <orccontrols:ColorLegend />
-                        </orccontrols:Expander.Content>
-                    </orccontrols:Expander>
-                </Grid>
-            </orccontrols:Expander.Content>
+                            <orccontrols:Expander.Content>
+                                <orccontrols:ColorLegend />
+                            </orccontrols:Expander.Content>
+                        </orccontrols:Expander>
+                    </Grid>
+                </orccontrols:Expander.Content>
 
-        </orccontrols:Expander>
-        
+            </orccontrols:Expander>
+
+        </Grid>
+
+        <Button Grid.Row="1"
+                Content="Test"
+                Click="ButtonBase_OnClick"/>
     </Grid>
+
+
+
     
 </catel:UserControl>

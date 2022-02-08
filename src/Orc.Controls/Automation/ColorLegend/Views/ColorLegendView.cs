@@ -63,7 +63,7 @@
 
         public TResult InvokeInSettingsScope<TResult>(Func<ColorLegendSettingsControl, TResult> action)
         {
-            return _map.SettingsButtonPart.InvokeInDropDownScope(menu =>
+            return _map.SettingsButtonPart.View.InvokeInDropDownScope(menu =>
                 Equals(menu.AutomationProperties.AutomationId, "ColorLegendSettingsContextMenu") 
                     ? action.Invoke(new ColorLegendSettingsControl(menu.Element))
                     : default);

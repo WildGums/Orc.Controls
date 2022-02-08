@@ -193,12 +193,12 @@
 
         public bool Apply()
         {
-            return _map.SelectButton.TryInvoke();
+            return _map.SelectButton.Click();
         }
 
         public bool Cancel()
         {
-            return _map.CancelButton.TryInvoke();
+            return _map.CancelButton.Click();
         }
 
         public void SetHsvColor(Color color)

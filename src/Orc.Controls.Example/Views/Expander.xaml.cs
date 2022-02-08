@@ -1,17 +1,20 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Expander.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views
 {
+    using System.Windows;
+    using Automation;
+
     public partial class Expander
     {
         public Expander()
         {
             InitializeComponent();
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            var expanderControl = new ExpanderAutomationPeer(ExpanderControl);
+
+            expanderControl.Expand();
         }
     }
 }
