@@ -24,18 +24,5 @@
 
             return base.GetPattern(patternInterface);
         }
-
-        [AutomationMethod]
-        public void AddMenuItems(List<string> items)
-        {
-            var contextMenu = new ContextMenu();
-
-            foreach (var item in items ?? Enumerable.Empty<string>())
-            {
-                contextMenu.Items.Add(item);
-            }
-
-            Control.SetCurrentValue(Controls.DropDownButton.DropDownProperty, contextMenu);
-        }
     }
 }

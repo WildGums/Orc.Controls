@@ -54,10 +54,5 @@
 
             return contextMenu?.As<Menu>();
         }
-
-        public void AddMenuItems(List<string> items)
-        {
-            Access.Execute(nameof(DropDownButtonAutomationPeer.AddMenuItems), items);
-        }
     }
 }

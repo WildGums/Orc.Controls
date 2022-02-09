@@ -2,6 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Documents;
+    using System.Windows.Media;
     using NUnit.Framework;
     using Orc.Automation;
     using Orc.Automation.Tests;
@@ -25,18 +30,40 @@
         {
             var target = Target;
 
-            target.AddMenuItems(new List<string>
-            {
-                "One",
-                "Two",
-                "Three",
-                "Four",
-                "Five"
-            });
+            target.Execute<AddMenuItemsAutomationMethodRun>();
+
+            Wait.UntilResponsive();
 
             var menu = target.OpenDropDown();
 
             Assert.That(menu, Is.Not.Null);
+        }
+    }
+
+    public class AddMenuItemsAutomationMethodRun : NamedAutomationMethodRun
+    {
+        public override bool TryInvoke(FrameworkElement owner, AutomationMethod method, out AutomationValue result)
+        {
+            result = AutomationValue.FromValue(10);
+
+            if (owner is not DropDownButton dropDown)
+            {
+                return false;
+            }
+
+            var contextMenu = new ContextMenu();
+
+            var items = contextMenu.Items;
+
+            items.Add("One");
+            items.Add("Two");
+            items.Add("Three");
+            items.Add("Four");
+            items.Add("Five");
+
+            dropDown.SetCurrentValue(DropDownButton.DropDownProperty, contextMenu);
+
+            return true;
         }
     }
 }

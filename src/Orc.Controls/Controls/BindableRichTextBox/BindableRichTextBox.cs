@@ -1,15 +1,10 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BindableRichTextBox.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Documents;
+    using Automation;
 
     public class BindableRichTextBox : RichTextBox
     {
@@ -53,6 +48,11 @@ namespace Orc.Controls
             {
                 ScrollToEnd();
             }
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new BindableRichTextBoxAutomationPeer(this);
         }
         #endregion
     }
