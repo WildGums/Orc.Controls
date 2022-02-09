@@ -2328,7 +2328,7 @@ namespace Orc.Controls.Services
 }
 namespace Orc.Controls.Tools.Attributes
 {
-    [System.AttributeUsage(System.AttributeTargets.Property | System.AttributeTargets.All)]
+    [System.AttributeUsage(System.AttributeTargets.Property)]
     public class ToolSettingsAttribute : System.Attribute
     {
         public ToolSettingsAttribute() { }
