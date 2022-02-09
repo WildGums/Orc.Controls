@@ -1,7 +1,6 @@
 ﻿namespace Orc.Controls.Automation
 {
     using System;
-    using System.Collections.Generic;
     using System.Windows.Automation;
     using Catel;
     using Orc.Automation;

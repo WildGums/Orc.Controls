@@ -6,6 +6,7 @@
     using Orc.Automation;
     using Orc.Automation.Controls;
 
+    [AutomatedControl(Class = typeof(Controls.CulturePicker))]
     public class CulturePicker : FrameworkElement<CulturePickerModel, CulturePickerMap>
     {
         public CulturePicker(AutomationElement element)

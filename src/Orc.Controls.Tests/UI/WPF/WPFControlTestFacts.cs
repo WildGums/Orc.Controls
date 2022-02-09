@@ -1,12 +1,9 @@
 ﻿namespace Orc.Controls.Tests
 {
     using System;
-    using FlaUI.UIA3;
     using NUnit.Framework;
     using Orc.Automation;
-    using Orc.Automation.Controls;
     using Orc.Automation.Tests;
-    using AutomationElementExtensions = FlaUI.Core.AutomationElements.AutomationElementExtensions;
     using Calendar = System.Windows.Controls.Calendar;
 
 
@@ -14,26 +11,14 @@
     public class WpfControlTestFacts : ControlUiTestFactsBase<Calendar>
     {
         [Target]
-        public CalendarAutomationElement Target { get; set; }
+        public Orc.Automation.Controls.Calendar Target { get; set; }
 
         [Test]
         public void CorrectlyRun()
         {
-            using (var automation = new UIA3Automation())
-            {
-                Target.Element.GetClickablePoint();
+            var target = Target;
 
-                var conveted = automation.FromPoint(Target.Element.GetClickablePoint().ToDrawingPoint());
-
-                var calendar1 = AutomationElementExtensions.AsCalendar(conveted);
-
-                calendar1.SelectDate(DateTime.Today + TimeSpan.FromDays(42));
-
-                var slider = AutomationElementExtensions.AsToggleButton(conveted);
-
-                var dateTimePicker = AutomationElementExtensions.AsDateTimePicker(conveted);
-                var checkBox = AutomationElementExtensions.AsCheckBox(conveted);
-            }
+            target.SelectedDate = new DateTime(2121, 12, 20);
         }
     }
 }

@@ -5,10 +5,12 @@
     using System.Globalization;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using System.Windows.Input;
+    using Automation;
     using Catel;
     using Catel.IoC;
     using Catel.Logging;
@@ -1841,6 +1843,11 @@
             {
                 secondOrMinuteTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
             }
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new DateTimePickerAutomationPeer(this);
         }
         #endregion
 

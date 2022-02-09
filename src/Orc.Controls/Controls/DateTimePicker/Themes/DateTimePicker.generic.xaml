@@ -271,6 +271,7 @@
                                 <Grid Grid.Column="1">
 
                                     <controls:DropDownButton x:Name="PART_DatePickerIconDropDownButton"
+                                                             AutomationProperties.AutomationId="PART_DatePickerIconDropDownButton"
                                                              DockPanel.Dock="Right"
                                                              IsArrowVisible="False"
                                                              KeyboardNavigation.TabIndex="30"
@@ -375,12 +376,14 @@
                         </Border>
 
                         <Popup x:Name="PART_CalendarPopup"
+                               AutomationProperties.AutomationId="CalendarPopupId"
                                PlacementTarget="{Binding ElementName=PART_MainGrid}"
                                Placement="Bottom"
                                VerticalOffset="-4"
                                StaysOpen="False">
 
                             <Calendar x:Name="PART_Calendar"
+                                      AutomationProperties.AutomationId="CalendarId"
                                       Margin="0 -3 0 -3"/>
 
                         </Popup>
