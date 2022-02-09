@@ -3,8 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Media.Animation;
+    using Automation;
     using Services;
 
     public class AnimatingTextBlock : UserControl, IStatusRepresenter
@@ -209,6 +211,11 @@
         public void UpdateStatus(string status)
         {
             Dispatcher.BeginInvoke(() => SetCurrentValue(TextProperty, status));
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new AnimatingTextBlockAutomationPeer(this);
         }
         #endregion
     }
