@@ -1,22 +1,29 @@
 ﻿namespace Orc.Controls.Tests.UI
 {
-    using System.Windows.Media;
+    using System.Windows.Automation;
     using NUnit.Framework;
     using Orc.Automation;
+    using Orc.Automation.Controls;
 
     public class AnimatingTextBlockTestFacts : StyledControlTestFacts<AnimatingTextBlock>
     {
         [Target]
-        public Automation.AnimatingTextBlock Target { get; set; }
+        public Orc.Controls.Automation.AnimatingTextBlock Target { get; set; }
 
-        [Test]
-        public void CorrectlyInitialize()
+        [TestCase("Test text")]
+        public void CorrectlySetText(string testText)
         {
             var target = Target;
 
             var model = target.Current;
 
-            model.Text = "Test text";
+            model.Text = testText;
+
+            Wait.UntilResponsive();
+
+            var textBlocks = target.By.ControlType(ControlType.Text).Many<Text>();
+
+            Assert.That(textBlocks, Has.One.With.Property(nameof(Text.Value)).EqualTo(testText));
         }
     }
 }
