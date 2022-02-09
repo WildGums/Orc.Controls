@@ -1,17 +1,12 @@
 ﻿namespace Orc.Controls.Tests
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Documents;
-    using System.Windows.Media;
     using NUnit.Framework;
     using Orc.Automation;
     using Orc.Automation.Tests;
 
-    public class DropDownButtonFacts : StyledControlTestFacts<Orc.Controls.DropDownButton>
+    public class DropDownButtonFacts : StyledControlTestFacts<DropDownButton>
     {
         [Target]
         public Automation.DropDownButton Target { get; set; }
