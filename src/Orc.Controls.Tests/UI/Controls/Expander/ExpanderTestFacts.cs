@@ -4,6 +4,8 @@
     using Orc.Automation;
     using Orc.Automation.Tests;
 
+    [TestFixture(TestOf = typeof(Expander))]
+    [Category("UI Tests")]
     public class ExpanderTestFacts : ControlUiTestFactsBase<Expander>
     {
         [Target]

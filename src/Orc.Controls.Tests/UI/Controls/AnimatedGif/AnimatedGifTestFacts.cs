@@ -1,9 +1,11 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests
 {
-    using System.Windows.Media;
     using NUnit.Framework;
     using Orc.Automation;
 
+
+    [TestFixture(TestOf = typeof(AnimatedGif))]
+    [Category("UI Tests")]
     public class AnimatedGifTestFacts : StyledControlTestFacts<AnimatedGif>
     {
         [Target]

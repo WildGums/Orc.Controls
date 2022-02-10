@@ -9,7 +9,7 @@
     using Orc.Automation.Tests;
 
     [TestFixture(TestOf = typeof(Orc.Controls.ColorPicker))]
-    [NUnit.Framework.Category("UI Tests")]
+    [Category("UI Tests")]
     public class ColorPickerTestFacts : ControlUiTestFactsBase<Orc.Controls.ColorPicker>
     {
         private bool _isColorChangedEventInvoked;

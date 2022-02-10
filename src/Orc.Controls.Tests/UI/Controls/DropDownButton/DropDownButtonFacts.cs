@@ -6,6 +6,9 @@
     using Orc.Automation;
     using Orc.Automation.Tests;
 
+
+    [TestFixture(TestOf = typeof(DropDownButton))]
+    [Category("UI Tests")]
     public class DropDownButtonFacts : StyledControlTestFacts<DropDownButton>
     {
         [Target]

@@ -25,7 +25,28 @@
             SelectMenuOption("Now");
         }
 
-        public void OpenSelectDateDialog()
+        public void SelectDateFromCalendar(DateTime? date)
+        {
+            var calendar = OpenCalendar();
+            if (calendar is null)
+            {
+                return;
+            }
+
+            calendar.SelectedDate = date;
+        }
+
+        public void CopyDate()
+        {
+            SelectMenuOption("Copy");
+        }
+
+        public void PasteDate()
+        {
+            SelectMenuOption("Paste");
+        }
+
+        private Calendar OpenCalendar()
         {
             SelectMenuOption("Select date");
 
@@ -34,16 +55,12 @@
             var windowHost = Element.Find<Window>(controlType: ControlType.Window, scope: TreeScope.Ancestors);
             if (windowHost is null)
             {
-                return;
+                return null;
             }
 
             Wait.UntilResponsive();
 
-            var calendar = windowHost.Find(controlType: ControlType.Calendar, id: "CalendarId").As<Calendar>();
-
-            calendar.SelectedDate = new DateTime(2321, 2, 3);
-
-            //var selectedDate = calendar.SelectedDate;
+            return windowHost.Find(controlType: ControlType.Calendar, id: "CalendarId").As<Calendar>();
         }
 
         public void OpenSelectTimeDialog()

@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests
 {
     using System.Threading;
     using System.Windows;
@@ -7,6 +7,8 @@
     using NUnit.Framework;
     using Orc.Automation;
 
+    [TestFixture(TestOf = typeof(BindableRichTextBox))]
+    [Category("UI Tests")]
     public class BindableRichTextBoxTestFacts : StyledControlTestFacts<BindableRichTextBox>
     {
         [Target]

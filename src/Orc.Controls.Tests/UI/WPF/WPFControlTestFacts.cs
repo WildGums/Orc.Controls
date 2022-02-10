@@ -8,6 +8,7 @@
 
 
     [TestFixture, Explicit]
+    [Category("UI Tests")]
     public class WpfControlTestFacts : ControlUiTestFactsBase<Calendar>
     {
         [Target]

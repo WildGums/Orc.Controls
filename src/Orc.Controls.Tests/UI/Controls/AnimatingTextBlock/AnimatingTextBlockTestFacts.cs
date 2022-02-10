@@ -1,10 +1,12 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests
 {
     using System.Windows.Automation;
     using NUnit.Framework;
     using Orc.Automation;
     using Orc.Automation.Controls;
 
+    [TestFixture(TestOf = typeof(AnimatingTextBlock))]
+    [Category("UI Tests")]
     public class AnimatingTextBlockTestFacts : StyledControlTestFacts<AnimatingTextBlock>
     {
         [Target]

@@ -8,7 +8,8 @@
     using Orc.Automation;
     using Orc.Automation.Tests;
 
-    [TestFixture]
+    [TestFixture(TestOf = typeof(CulturePicker))]
+    [Category("UI Tests")]
     public partial class CulturePickerTestFacts : ControlUiTestFactsBase<CulturePicker>
     {
         [Target]

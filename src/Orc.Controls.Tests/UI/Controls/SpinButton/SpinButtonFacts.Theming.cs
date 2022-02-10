@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests
 {
     using Automation;
     using NUnit.Framework;

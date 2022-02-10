@@ -1,10 +1,13 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests
 {
     using System.Windows.Input;
     using NUnit.Framework;
     using Orc.Automation;
     using Orc.Automation.Tests;
 
+
+    [TestFixture(TestOf = typeof(SpinButton))]
+    [Category("UI Tests")]
     public partial class SpinButtonFacts : ControlUiTestFactsBase<SpinButton>
     {
         [Target]

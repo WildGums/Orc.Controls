@@ -1,9 +1,11 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests
 {
     using System.Windows.Media;
     using NUnit.Framework;
     using Orc.Automation;
-
+    
+    [TestFixture(TestOf = typeof(BusyIndicator))]
+    [Category("UI Tests")]
     public class BusyIndicatorTestFacts : StyledControlTestFacts<BusyIndicator>
     {
         [Target]
