@@ -271,7 +271,6 @@
                                 <Grid Grid.Column="1">
 
                                     <controls:DropDownButton x:Name="PART_DatePickerIconDropDownButton"
-                                                             AutomationProperties.AutomationId="PART_DatePickerIconDropDownButton"
                                                              DockPanel.Dock="Right"
                                                              IsArrowVisible="False"
                                                              KeyboardNavigation.TabIndex="30"

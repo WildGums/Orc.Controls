@@ -16,6 +16,7 @@
         {
         }
 
+        //View
         public Color Color
         {
             get

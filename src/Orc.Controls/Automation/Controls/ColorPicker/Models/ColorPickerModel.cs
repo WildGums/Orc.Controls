@@ -1,4 +1,4 @@
-namespace Orc.Controls.Automation;
+﻿namespace Orc.Controls.Automation;
 
 using System.Windows.Media;
 using Orc.Automation;
@@ -11,6 +11,7 @@ public class ColorPickerModel : ControlModel
     {
     }
 
+    //Model
     public Color Color { get; set; }
     public Color CurrentColor { get; set; }
     public bool IsDropDownOpen { get; set; }
