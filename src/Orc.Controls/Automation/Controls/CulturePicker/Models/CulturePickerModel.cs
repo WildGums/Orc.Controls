@@ -14,6 +14,6 @@ public class CulturePickerModel : ControlModel
     [ApiProperty]
     public CultureInfo SelectedCulture { get; set; }
 
-    public List<CultureInfo> AvailableCultures
-        => (List<CultureInfo>)_accessor.Execute(nameof(CulturePickerAutomationPeer.GetAvailableCultures));
+    public List<CultureInfo> AvailableCultures =>
+        (List<CultureInfo>)_accessor.Execute(nameof(CulturePickerAutomationPeer.GetAvailableCultures));
 }

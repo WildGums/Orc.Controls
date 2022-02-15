@@ -55,8 +55,10 @@
             popupSource.PreviewKeyDown += popupSource_PreviewKeyDown;
             popupSource.MouseUp += PopupSourceOnMouseUp;
 
-            var automationInformer = new AutomationInformer();
-            automationInformer.Content = popupSource;
+            var automationInformer = new Orc.Automation.Controls.AutomationInformer
+            {
+                Content = popupSource
+            };
 
             popup.Child = automationInformer;
             SelectItem(popupSource);
