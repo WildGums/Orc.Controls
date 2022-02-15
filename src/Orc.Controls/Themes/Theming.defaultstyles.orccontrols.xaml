@@ -30,7 +30,7 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/NumericTextBox/Themes/NumericTextBox.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/NumericUpDown/Themes/NumericUpDown.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/SpinButton/Themes/SpinButton.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/PinnableToolTips/Themes/PinnableToolTip.xaml" />
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/PinnableToolTips/Themes/PinnableToolTip.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/RangeSlider/Themes/RangeSlider.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/TabControl/Themes/TabControl.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/TimePicker/Themes/TimePicker.generic.xaml" />

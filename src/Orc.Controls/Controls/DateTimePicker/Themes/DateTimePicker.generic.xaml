@@ -7,11 +7,9 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
-        <ResourceDictionary>
-            <x:Static x:Key="Empty" Member="sys:String.Empty" />
-        </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
-
+    
+    <x:Static x:Key="Empty" Member="sys:String.Empty" />
     <Style x:Key="{x:Type controls:DateTimePicker}" TargetType="{x:Type controls:DateTimePicker}"
            BasedOn="{StaticResource Orc.Styles.Control}">
         <Style.Resources>

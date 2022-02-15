@@ -8,39 +8,6 @@
     <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.buttonbase.xaml" />
     <ResourceDictionary Source="/Orc.Theming;component/themes/Controls.implicit.wpf.control.xaml" />
     <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.slider.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/AlignmentGrid/Themes/AlignmentGrid.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/AnimatedGif/Themes/AnimatedGif.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/AnimatingTextBlock/Themes/AnimatingTextBlock.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/BindableRichTextBox/Themes/BindableRichTextBox.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/BusyIndicator/Themes/BusyIndicator.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorLegend/Themes/ColorLegend.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorPicker/Themes/ColorPicker.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/DatePicker/Themes/DatePicker.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/DateTimePicker/Themes/DateTimePicker.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/DropDownButton/Themes/DropDownButton.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/Expander/Themes/Expander.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/FilterBox/Themes/FilterBox.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/FluidProgressBar/Themes/FluidProgressBar.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/FluidProgressBar/Themes/FluidProgressBar.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/FontImage/Themes/FontImage.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/SaveFilePicker/Themes/SaveFilePicker.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/HeaderBar/Themes/HeaderBar.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/LinkLabel/Themes/LinkLabel.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/ListTextBox/Themes/ListTextBox.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/LogMessageCategoryToggleButton/Themes/LogMessageCategoryControl.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/LogMessageCategoryToggleButton/Themes/LogMessageCategoryToggleButton.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/LogViewer/Themes/LogViewer.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/NumericTextBox/Themes/NumericTextBox.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/NumericUpDown/Themes/NumericUpDown.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/SpinButton/Themes/SpinButton.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/PinnableToolTips/Themes/PinnableToolTip.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/RangeSlider/Themes/RangeSlider.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/TabControl/Themes/TabControl.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/TimePicker/Themes/TimePicker.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/TimeSpanPicker/Themes/TimeSpanPicker.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/ValidationContextControl/Themes/ValidationContextTree.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/ValidationContextControl/Themes/ValidationContextControl.generic.xaml" />
-    <ResourceDictionary Source="/Orc.Controls;component/Controls/WatermarkTextBox/Themes/WatermarkTextBox.generic.xaml" />
   </ResourceDictionary.MergedDictionaries>
   <Style x:Key="{x:Type local:AlignmentGrid}" TargetType="{x:Type local:AlignmentGrid}" />
   <Style x:Key="{x:Type local:AnimatedGif}" TargetType="{x:Type local:AnimatedGif}" />
@@ -62,6 +29,7 @@
       </Setter.Value>
     </Setter>
   </Style>
+  <x:Static x:Key="Empty" Member="sys:String.Empty" />
   <Style x:Key="{x:Type local:LogMessageCategoryControl}" TargetType="{x:Type local:LogMessageCategoryControl}">
     <Setter Property="Template">
       <Setter.Value>
@@ -1497,6 +1465,72 @@
             </Trigger>
             <Trigger SourceName="PART_TextBox" Property="IsKeyboardFocused" Value="true">
               <Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.Focus.Border}" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style x:Key="{x:Type local:PinnableToolTip}" TargetType="{x:Type local:PinnableToolTip}" BasedOn="{StaticResource Orc.Styles.Control}">
+    <Style.Resources>
+      <Geometry x:Key="CloseGeometry">M384,415.819L248.839,550.98L217.02,519.161L352.181,384L217.02,248.839L248.839,217.02L384,352.181L519.161,217.02L550.98,248.839L415.819,384L550.98,519.161L519.161,550.98L384,415.819Z</Geometry>
+      <Geometry x:Key="PinnedGeometry">M271.481,217.02L496.519,217.02C498.998,233.046 480.395,252.6 456.338,257.019L461.359,337.306C499.288,346.952 513.621,378.883 511.94,397.774L401.232,397.356L400.802,493.955L384,550.98L367.198,493.953L366.768,397.356L256.06,397.774C254.379,378.883 268.712,346.952 306.641,337.306L311.662,257.019C287.605,252.6 269.002,233.046 271.481,217.02Z</Geometry>
+      <Geometry x:Key="UnpinnedGeometry">M550.98,271.481L550.98,496.519C534.954,498.998 515.4,480.395 510.981,456.338L430.694,461.359C421.048,499.288 389.117,513.621 370.226,511.94L370.644,401.232L274.045,400.802L217.02,384L274.047,367.198L370.644,366.768L370.226,256.06C389.117,254.379 421.048,268.712 430.694,306.641L510.981,311.662C515.4,287.605 534.954,269.002 550.98,271.481Z</Geometry>
+    </Style.Resources>
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type local:PinnableToolTip}">
+          <Border x:Name="Root" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+              <Border BorderThickness="0 0 0 1" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <Border x:Name="PART_DragGrip" Margin="3 2 2 0" Height="12" Padding="2" VerticalAlignment="Center">
+                    <Border.Background>
+                      <DrawingBrush TileMode="Tile" Viewport="0 0 3 3" ViewportUnits="Absolute" Viewbox="0 0 3 3" ViewboxUnits="Absolute">
+                        <DrawingBrush.Drawing>
+                          <DrawingGroup>
+                            <GeometryDrawing x:Name="PART_GripDrawing" Brush="{DynamicResource Orc.Brushes.Control.Disabled.Border}">
+                              <GeometryDrawing.Geometry>
+                                <RectangleGeometry Rect="0 0 1 1" />
+                              </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                          </DrawingGroup>
+                        </DrawingBrush.Drawing>
+                      </DrawingBrush>
+                    </Border.Background>
+                  </Border>
+                  <ToggleButton x:Name="PART_PinButton" Grid.Column="1" Margin="1" BorderThickness="0" IsChecked="{Binding IsPinned, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                    <Grid Background="Transparent" Height="14" Width="14">
+                      <Viewbox Height="9" Width="9">
+                        <Path x:Name="PinPath" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" UseLayoutRounding="True" Margin="0" SnapsToDevicePixels="True" Data="{StaticResource UnpinnedGeometry}" Fill="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton}, Path=Foreground}" />
+                      </Viewbox>
+                    </Grid>
+                  </ToggleButton>
+                  <Button x:Name="PART_CloseButton" Grid.Column="2" Margin="1" BorderThickness="0" Visibility="{Binding AllowCloseByUser, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+                    <Grid Background="Transparent" Height="14" Width="14">
+                      <Viewbox Height="9" Width="9">
+                        <Path HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" UseLayoutRounding="True" Margin="0" SnapsToDevicePixels="True" Data="{StaticResource CloseGeometry}" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
+                      </Viewbox>
+                    </Grid>
+                  </Button>
+                </Grid>
+              </Border>
+              <ContentPresenter Grid.Row="1" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" Cursor="{TemplateBinding Cursor}" Margin="{TemplateBinding Padding}" />
+            </Grid>
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger SourceName="PART_PinButton" Property="IsChecked" Value="True">
+              <Setter TargetName="PinPath" Property="Data" Value="{StaticResource PinnedGeometry}" />
             </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>
