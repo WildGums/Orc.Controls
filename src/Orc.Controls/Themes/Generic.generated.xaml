@@ -202,7 +202,7 @@
               </Border>
               <ListView x:Name="PART_List" Grid.Row="3" ItemsSource="{Binding FilteredItemsSource, RelativeSource={RelativeSource TemplatedParent}}" BorderThickness="0" HorizontalContentAlignment="Stretch">
                 <ListView.ItemTemplate>
-                  <DataTemplate DataType="controls:IColorLegendItem">
+                  <DataTemplate DataType="{x:Type local:IColorLegendItem}">
                     <Grid HorizontalAlignment="Stretch" Margin="0">
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition x:Name="visibilityCheckColumn" Width="Auto" />
@@ -210,8 +210,8 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                       </Grid.ColumnDefinitions>
-                      <CheckBox x:Name="visibilityCheckbox" Margin="0 0 2 0" Grid.Column="0" IsChecked="{Binding IsChecked}" VerticalAlignment="Center" Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type local:ColorLegend}}, &#xD;&#xA;                                                                    Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
-                      <Button x:Name="PART_ButtonColorChange" Margin="2 0 10 0" Grid.Column="1" Height="14" VerticalAlignment="Center" Command="{Binding ChangeColor, RelativeSource={RelativeSource AncestorType=controls:ColorLegend}}">
+                      <CheckBox x:Name="visibilityCheckbox" Margin="0 0 2 0" Grid.Column="0" IsChecked="{Binding IsChecked}" VerticalAlignment="Center" Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type local:ColorLegend}}, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+                      <Button x:Name="PART_ButtonColorChange" Margin="2 0 10 0" Grid.Column="1" Height="14" VerticalAlignment="Center" Command="{Binding ChangeColor, RelativeSource={RelativeSource AncestorType={x:Type local:ColorLegend}}}">
                         <Button.CommandParameter>
                           <MultiBinding Converter="{StaticResource MultipleCommandParametersConverter}">
                             <Binding ElementName="PART_ButtonColorChange" />
