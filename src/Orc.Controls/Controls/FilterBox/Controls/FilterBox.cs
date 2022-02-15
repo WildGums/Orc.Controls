@@ -10,8 +10,10 @@ namespace Orc.Controls
     using System.Collections;
     using System.Reflection;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Input;
+    using Automation;
     using Catel.Logging;
     using Catel.MVVM;
     using Catel.Windows.Data;
@@ -210,6 +212,11 @@ namespace Orc.Controls
         private void OnPropertyNameChanged()
         {
             UpdateAutoCompletion();
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new FilterBoxAutomationPeer(this);
         }
         #endregion
 

@@ -1,0 +1,21 @@
+﻿namespace Orc.Controls.Automation
+{
+    using System.Collections;
+    using Orc.Automation;
+
+    [AutomationAccessType]
+    public class FilterBoxModel : ControlModel
+    {
+        public FilterBoxModel(AutomationElementAccessor accessor) 
+            : base(accessor)
+        {
+        }
+
+        public string Text { get; set; }
+
+        public bool AllowAutoCompletion { get; set; }
+        public IEnumerable FilterSource { get; set; }
+        public string PropertyName { get; set; }
+        public string Watermark { get; set; }
+    }
+}

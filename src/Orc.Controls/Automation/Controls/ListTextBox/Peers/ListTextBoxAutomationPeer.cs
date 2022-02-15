@@ -2,7 +2,7 @@
 {
     using Orc.Automation;
 
-    public class ListTextBoxAutomationPeer : ControlRunMethodAutomationPeerBase<Controls.ListTextBox>
+    public class ListTextBoxAutomationPeer : TextBoxAutomationPeer<Controls.ListTextBox>
     {
         public ListTextBoxAutomationPeer(Controls.ListTextBox owner)
             : base(owner)

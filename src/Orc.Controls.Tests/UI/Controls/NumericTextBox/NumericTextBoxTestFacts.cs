@@ -3,11 +3,21 @@
     using System.Windows.Input;
     using NUnit.Framework;
     using Orc.Automation;
+    using Orc.Automation.Tests;
 
     public class NumericTextBoxTestFacts : StyledControlTestFacts<NumericTextBox>
     {
         [Target]
         public Automation.NumericTextBox Target { get; set; }
+
+        [Test]
+        public void VerifyState()
+        {
+            var target = Target;
+            var model = target.Current;
+
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, model, nameof(target.Text), true, "12", "12.3", "0");
+        }
 
         [TestCase(12.4, "F1", "12.4")]
         [TestCase(12.4, "F2", "12.40")]
@@ -24,6 +34,7 @@
             model.Value = value;
 
             Assert.That(model.Text, Is.EqualTo(expectedText));
+            Assert.That(target.Text, Is.EqualTo(expectedText));
         }
 
         [TestCase("12.4", "F1", 12.4)]
@@ -37,7 +48,7 @@
 
             model.Format = format;
 
-            model.Text = text;
+            target.Text = text;
 
             //Move focus to apply value
             KeyboardInput.Press(Key.Tab);
@@ -64,11 +75,16 @@
             for (var i = 0; i < count; i++)
             {
                 KeyboardInput.Press(Key.Up);
+                KeyboardInput.Release(Key.Up);
 
                 Wait.UntilResponsive();
             }
-            
-            Assert.That(model.Value, Is.EqualTo(model.Value + count));
+
+            KeyboardInput.Press(Key.Tab);
+
+            Wait.UntilResponsive();
+
+            Assert.That(model.Value, Is.EqualTo(initialValue + count));
         }
     }
 } 
