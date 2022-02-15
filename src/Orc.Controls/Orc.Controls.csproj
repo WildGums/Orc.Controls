@@ -18,6 +18,13 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <XAMLToolsPath>..\tools\XAMLTools.MSBuild\</XAMLToolsPath>
+    <XAMLColorSchemeGeneratorEnabled>False</XAMLColorSchemeGeneratorEnabled>
+    <XAMLCombineEnabled>True</XAMLCombineEnabled>
+    <XAMLCombineImportMergedResourceDictionariesReferences>True</XAMLCombineImportMergedResourceDictionariesReferences>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <!-- SonarQube requires a project guid -->
     <ProjectGuid>84E22240-D816-4B43-AC37-92B805A2BEE3</ProjectGuid>
   </PropertyGroup>
@@ -47,9 +54,31 @@
   </ItemGroup>
 
   <ItemGroup>
+    <XAMLCombineItems Include="Themes\Geometry.xaml">
+      <TargetFile>Themes/Generic.generated.xaml</TargetFile>
+      <Visible>True</Visible>
+    </XAMLCombineItems>
+    <XAMLCombineItems Include="Themes\Theming.defaultstyles.orccontrols.xaml">
+      <TargetFile>Themes/Generic.generated.xaml</TargetFile>
+      <Visible>True</Visible>
+    </XAMLCombineItems>
+    <XAMLCombineItems Include="Themes\Styles.xaml">
+      <TargetFile>Themes/Generic.generated.xaml</TargetFile>
+      <Visible>True</Visible>
+    </XAMLCombineItems>
+    <XAMLCombineItems Include="Controls\**\*.generic.xaml">
+      <TargetFile>Themes/Generic.generated.xaml</TargetFile>
+      <Visible>True</Visible>
+    </XAMLCombineItems>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Update="NETStandard.Library" Version="2.0.3" />
   </ItemGroup>
 
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props')" />
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.mat.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.mat.props')" />
+
+  <Import Project="..\Directory.Build.xamltools.props" />
+  <Import Project="..\Directory.Build.xamltools.targets" />
 </Project>

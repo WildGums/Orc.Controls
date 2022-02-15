@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask TaskName="XAMLTools.MSBuild.XAMLCombineTask" AssemblyFile="$(XAMLToolsAssembly)"/>
+  <UsingTask TaskName="XAMLTools.MSBuild.XAMLColorSchemeGeneratorTask" AssemblyFile="$(XAMLToolsAssembly)"/>
+
+  <Target Name="XAMLCombine"
+          BeforeTargets="$(XAMLCombineTargetsBefore)"
+          AfterTargets="XAMLColorSchemeGenerator"
+          DependsOnTargets="$(XAMLCombineDependsOnTargets)"
+          Condition="'$(XAMLCombineEnabled)' == 'True' And $(MSBuildProjectName.Contains('_wpftmp')) != 'True'">
+
+    <Error Condition="($(MsBuildMajorVersion) &lt; 16)"
+           Text="XAMLTools is only supported on MSBuild 16 and above. Current version: $(MsBuildMajorVersion)."/>
+
+    <XAMLCombineTask Items="@(XAMLCombineItems)" ImportMergedResourceDictionariesReferences="$(XAMLCombineImportMergedResourceDictionariesReferences)">
+      <Output ItemName="XAMLCombineGeneratedFiles" TaskParameter="GeneratedFiles"/>
+    </XAMLCombineTask>
+
+    <ItemGroup>
+      <FileWrites Include="@(XAMLCombineGeneratedFiles)"/>
+      <NewPagesFromXAMLCombine Include="@(XAMLCombineGeneratedFiles)" Exclude="@(Page)"/>
+      <Page Include="@(NewPagesFromXAMLCombine)" />
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup Label="XAMLCombine">
+    <!-- Remove items from pages to prevent binary pollution/reduce it's size -->
+    <Page Remove="@(XAMLCombineItems)" Condition="'$(RemoveXAMLCombineItemsFromPages)' != 'False'"/>
+    <None Include="@(XAMLCombineItems)" Condition="'$(RemoveXAMLCombineItemsFromPages)' != 'False'"/>
+
+    <!-- Add as pages if items should not be removed. Exclude existing pages to prevent duplicates -->
+    <Page Include="@(XAMLCombineItems)" Exclude="@(Page)" Condition="'$(RemoveXAMLCombineItemsFromPages)' == 'False'"/>
+  </ItemGroup>
+
+  <Target Name="XAMLColorSchemeGenerator"
+          BeforeTargets="$(XAMLToolsXAMLColorSchemeGeneratorTargetsBefore)"
+          DependsOnTargets="$(XAMLColorSchemeGeneratorDependsOnTargets)"
+          Condition="'$(XAMLColorSchemeGeneratorEnabled)' == 'True' And $(MSBuildProjectName.Contains('_wpftmp')) != 'True'">
+
+    <Error Condition="($(MsBuildMajorVersion) &lt; 16)"
+           Text="XAMLTools is only supported on MSBuild 16 and above. Current version: $(MsBuildMajorVersion)."/>
+
+    <XAMLColorSchemeGeneratorTask Items="@(XAMLColorSchemeGeneratorItems)">
+      <Output ItemName="XAMLColorSchemeGeneratorGeneratedFiles" TaskParameter="GeneratedFiles"/>
+    </XAMLColorSchemeGeneratorTask>
+
+    <ItemGroup>
+      <FileWrites Include="@(XAMLColorSchemeGeneratorGeneratedFiles)"/>
+      <NewPagesFromXAMLColorSchemeGenerator Include="@(XAMLColorSchemeGeneratorGeneratedFiles)" Exclude="@(Page)"/>
+      <Page Include="@(NewPagesFromXAMLColorSchemeGenerator)" />
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup Label="XAMLColorSchemeGenerator">
+    <Page Remove="@(XAMLColorSchemeGeneratorItems)" Condition="'$(RemoveXAMLColorSchemeGeneratorItemsFromPages)' != 'False'"/>
+
+    <EmbeddedResource Include="@(XAMLColorSchemeGeneratorItems)" Condition="'$(EmbedXAMLColorSchemeGeneratorInputs)' == 'True'"/>
+    <EmbeddedResource Include="@(XAMLColorSchemeGeneratorItems->Metadata('ParametersFile'))" Condition="'$(EmbedXAMLColorSchemeGeneratorInputs)' == 'True'"/>
+
+    <UpToDateCheckInput Include="@(XAMLColorSchemeGeneratorItems->Metadata('ParametersFile'))"/>
+  </ItemGroup>
+</Project>
