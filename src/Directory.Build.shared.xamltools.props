@@ -10,5 +10,6 @@
     <XAMLColorSchemeGeneratorEnabled>False</XAMLColorSchemeGeneratorEnabled>
     <XAMLCombineEnabled>True</XAMLCombineEnabled>
     <XAMLCombineImportMergedResourceDictionaryReferences>True</XAMLCombineImportMergedResourceDictionaryReferences>
+	<RemoveXAMLCombineItemsFromPages>False</RemoveXAMLCombineItemsFromPages>
   </PropertyGroup>
 </Project>
