@@ -60,8 +60,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty FilterSourceProperty = DependencyProperty.Register(nameof(FilterSource), typeof(IEnumerable),
-            typeof(FilterBox), new FrameworkPropertyMetadata(null,
-                (sender, args) => ((FilterBox)sender).OnFilterSourceChanged()));
+            typeof(FilterBox), new FrameworkPropertyMetadata(null, (sender, args) => ((FilterBox)sender).OnFilterSourceChanged()));
 
         public string PropertyName
         {

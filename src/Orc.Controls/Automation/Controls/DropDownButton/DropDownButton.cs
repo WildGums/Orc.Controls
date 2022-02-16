@@ -38,7 +38,7 @@
 
         public Menu OpenDropDown()
         {
-            var windowHost = Element.Find<Window>(controlType: ControlType.Window, scope: TreeScope.Ancestors);
+            var windowHost = Element.GetHostWindow();
             if (windowHost is null)
             {
                 return null;

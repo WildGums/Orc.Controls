@@ -2,9 +2,11 @@
 {
     using System;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Threading;
+    using Automation;
 
     /// <summary>
     /// A counter to show the frame number inside an application.
@@ -78,6 +80,11 @@
             var text = $"{_prefixThreadSafe}{_frameCounter}";
 
             SetCurrentValue(TextProperty, text);
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new FrameCounterAutomationPeer(this);
         }
     }
 }

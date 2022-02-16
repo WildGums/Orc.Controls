@@ -1,35 +1,19 @@
 ﻿namespace Orc.Controls.Tests
 {
-    using System;
-    using System.Threading;
     using NUnit.Framework;
+    using Orc.Automation.Tests;
 
     public partial class ColorLegendTestFacts
     {
-        private bool _isSelectedItemsEventRaised;
-
         [Test]
         public void CorrectlySelectItem()
         {
+            var target = Target;
             var view = View;
 
-            _isSelectedItemsEventRaised = false;
-
-            Target.SelectionChanged += OnColorLegendSelectionChanged;
-
             const int itemIndex = 2;
-            view.Items[itemIndex].Select();
 
-            Thread.Sleep(200);
-
-            Assert.IsTrue(_isSelectedItemsEventRaised);
-        }
-
-        private void OnColorLegendSelectionChanged(object sender, EventArgs e)
-        {
-            _isSelectedItemsEventRaised = true;
-
-            Target.SelectionChanged -= OnColorLegendSelectionChanged;
+            EventAssert.Raised(target, nameof(target.SelectionChanged), () => view.Items[itemIndex].Select());
         }
     }
 }

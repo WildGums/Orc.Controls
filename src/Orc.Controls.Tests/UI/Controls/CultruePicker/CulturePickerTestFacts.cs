@@ -10,7 +10,7 @@
 
     [TestFixture(TestOf = typeof(CulturePicker))]
     [Category("UI Tests")]
-    public partial class CulturePickerTestFacts : ControlUiTestFactsBase<CulturePicker>
+    public partial class CulturePickerTestFacts : StyledControlTestFacts<CulturePicker>
     {
         [Target]
         public Automation.CulturePicker Target { get; set; }

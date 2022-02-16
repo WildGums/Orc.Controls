@@ -6,7 +6,7 @@
 
     [TestFixture(TestOf = typeof(Expander))]
     [Category("UI Tests")]
-    public class ExpanderTestFacts : ControlUiTestFactsBase<Expander>
+    public class ExpanderTestFacts : StyledControlTestFacts<Expander>
     {
         [Target]
         public Automation.Expander Target { get; set; }

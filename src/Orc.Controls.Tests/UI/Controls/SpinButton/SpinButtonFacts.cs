@@ -3,12 +3,10 @@
     using System.Windows.Input;
     using NUnit.Framework;
     using Orc.Automation;
-    using Orc.Automation.Tests;
-
 
     [TestFixture(TestOf = typeof(SpinButton))]
     [Category("UI Tests")]
-    public partial class SpinButtonFacts : ControlUiTestFactsBase<SpinButton>
+    public partial class SpinButtonFacts : StyledControlTestFacts<SpinButton>
     {
         [Target]
         public Automation.SpinButton Target { get; set; }

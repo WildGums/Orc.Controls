@@ -89,7 +89,7 @@
                                 </ControlTemplate>
                             </ToggleButton.Template>
                             <ToggleButton.Content>
-                                <Ellipse Width="14" Height="14" Grid.Column="1">
+                                <Ellipse x:Name="ColorSurface" Width="14" Height="14" Grid.Column="1">
                                     <Ellipse.Fill>
                                         <SolidColorBrush Color="{Binding Color, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </Ellipse.Fill>

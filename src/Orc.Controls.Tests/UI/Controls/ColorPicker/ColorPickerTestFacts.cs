@@ -2,18 +2,18 @@
 {
     using System;
     using System.Collections;
+    using System.Windows;
     using System.Windows.Media;
     using Automation;
     using NUnit.Framework;
     using Orc.Automation;
     using Orc.Automation.Tests;
+    using Theming;
 
     [TestFixture(TestOf = typeof(Orc.Controls.ColorPicker))]
     [Category("UI Tests")]
-    public class ColorPickerTestFacts : ControlUiTestFactsBase<Orc.Controls.ColorPicker>
+    public class ColorPickerTestFacts : StyledControlTestFacts<Orc.Controls.ColorPicker>
     {
-        private bool _isColorChangedEventInvoked;
-
         [Target]
         public ColorPicker Target { get; set; }
 
@@ -41,6 +41,9 @@
             var target = Target;
             var targetProperties = target.Current;
 
+            target.HorizontalAlignment = HorizontalAlignment.Center;
+            target.VerticalAlignment = VerticalAlignment.Center;
+
             var colorBoard = target.OpenColorBoard();
             Assert.That(colorBoard, Is.Not.Null);
             Assert.That(targetProperties.IsDropDownOpen, Is.True);
@@ -51,37 +54,23 @@
             Assert.That(targetProperties.CurrentColor, Is.EqualTo(color));
 
             //check event invocation
+            //if color different event should be raised otherwise shouldn't
             if (!Equals(target.Color, color))
             {
-                target.ColorChanged += OnColorChanged;
+                EventAssert.Raised(target, nameof(target.ColorChanged), () => colorBoard.Apply());
             }
             else
             {
-                _isColorChangedEventInvoked = true;
+                EventAssert.NotRaised(target, nameof(target.ColorChanged), () => colorBoard.Apply());
             }
-
-            //Before apply drop down should be opened
-            Assert.That(targetProperties.IsDropDownOpen, Is.True);
-
-            //correctly apply button
-            Assert.That(colorBoard.Apply(), Is.True);
 
             Wait.UntilResponsive();
 
             //After apply drop down should be closed
             Assert.That(targetProperties.IsDropDownOpen, Is.False);
 
-            Assert.That(_isColorChangedEventInvoked, Is.True);
-
             //colorPicker should have expected color
             Assert.That(target.Color, Is.EqualTo(color));
-
-            target.ColorChanged -= OnColorChanged;
-        }
-
-        private void OnColorChanged(object sender, EventArgs e)
-        {
-            _isColorChangedEventInvoked = true;
         }
     }
 }

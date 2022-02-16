@@ -42,6 +42,10 @@
     <ProjectReference Include="..\..\..\Orc.Automation\src\Orc.Automation.Tests\Orc.Automation.Tests.csproj" />
     <ProjectReference Include="..\Orc.Controls\Orc.Controls.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UI\Controls\BusyIndicator\" />
+  </ItemGroup>
   
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props')" />
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.tests.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.tests.props')" />

@@ -4,8 +4,10 @@
     using System.Drawing;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Media;
+    using Automation;
     using Catel;
     using Catel.Logging;
     using Catel.Windows.Data;
@@ -108,6 +110,11 @@
 
             using var testFont = new Font(fontName, 8);
             return fontName.EqualsIgnoreCase(testFont.Name);
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new FontImageAutomationPeer(this);
         }
     }
 }

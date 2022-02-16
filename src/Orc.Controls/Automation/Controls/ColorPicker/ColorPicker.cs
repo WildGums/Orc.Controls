@@ -21,10 +21,10 @@
         {
             get
             {
-                var rect = Element.Current.BoundingRectangle;
-                var color = PixelHelper.GetColorAt(rect.GetClickablePoint());
+                //TODO:Vladimir: re-think
+                var color = Access.Execute(nameof(ColorPickerAutomationPeer.GetRenderedElementColor)) as Color?;
 
-                return color;
+                return color ?? Current.Color;
             }
 
             set

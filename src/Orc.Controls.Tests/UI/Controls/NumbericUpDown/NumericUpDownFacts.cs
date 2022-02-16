@@ -9,7 +9,7 @@
 
     [TestFixture(TestOf = typeof(NumericUpDown))]
     [Category("UI Tests")]
-    public class NumericUpDownFacts : ControlUiTestFactsBase<NumericUpDown>
+    public class NumericUpDownFacts : StyledControlTestFacts<NumericUpDown>
     {
         [Target]
         public Orc.Controls.Automation.NumericUpDown Target { get; set; }
