@@ -5,19 +5,20 @@
     using Orc.Automation;
     using Orc.Automation.Controls;
 
-    public class LinkLabel : FrameworkElement<LinkLabelModel>
+    public class LinkLabel : FrameworkElement<LinkLabelModel, LinkLabelMap>
     {
         public LinkLabel(AutomationElement element)
             : base(element)
         {
         }
 
+        public string Content => Map.Text.Value;
+
         public void Invoke()
         {
-            var rawTreeWalker = TreeWalker.RawViewWalker;
-            var rawElement = rawTreeWalker.GetFirstChild(Element);
+            var hyperlink = Map.Hyperlink;
 
-            rawElement?.MouseClick();
+            hyperlink.Invoke();
         }
 
 #pragma warning disable CS0067

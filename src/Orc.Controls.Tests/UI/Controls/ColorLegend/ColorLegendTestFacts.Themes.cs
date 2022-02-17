@@ -1,10 +1,5 @@
 ﻿namespace Orc.Controls.Tests
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Automation;
     using NUnit.Framework;
     using Orc.Automation.Tests;

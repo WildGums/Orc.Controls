@@ -5,11 +5,21 @@
     using Orc.Automation.Tests;
 
     [TestFixture(TestOf = typeof(LinkLabel))]
-    [NUnit.Framework.Category("UI Tests")]
+    [Category("UI Tests")]
     public class LinkLabelTestFacts : StyledControlTestFacts<LinkLabel>
     {
         [Target]
-        public Orc.Controls.Automation.LinkLabel Target { get; set; }
+        public Automation.LinkLabel Target { get; set; }
+
+        [TestCase("Test content")]
+        [TestCase("")]
+        public void CorrectlySetContent(string content)
+        {
+            var target = Target;
+            var model = target.Current;
+
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, model, nameof(target.Content), true, content);
+        }
 
         [Test]
         public void CorrectlyRespondToClick()
