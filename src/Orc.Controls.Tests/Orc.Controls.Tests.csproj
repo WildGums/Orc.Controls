@@ -39,6 +39,28 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="TestData\FileSystem\Folder1\File1.txt" />
+    <None Remove="TestData\FileSystem\Folder2\File2.txt" />
+    <None Remove="TestData\FileSystem\Folder2\Folder21\File21.txt" />
+    <None Remove="TestData\FileSystem\Folder2\Folder21\File22.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="TestData\FileSystem\Folder1\File1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\FileSystem\Folder2\File2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\FileSystem\Folder2\Folder21\File21.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\FileSystem\Folder2\Folder21\File22.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Orc.Automation\src\Orc.Automation.Tests\Orc.Automation.Tests.csproj" />
     <ProjectReference Include="..\Orc.Controls\Orc.Controls.csproj" />
   </ItemGroup>

@@ -9,7 +9,7 @@
     {
         [Target]
         public Automation.NumericTextBox Target { get; set; }
-
+            
         [Test]
         public void VerifyState()
         {

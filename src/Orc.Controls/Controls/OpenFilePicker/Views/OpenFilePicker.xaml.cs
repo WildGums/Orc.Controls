@@ -1,13 +1,8 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="OpenFilePicker.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System.Windows;
+    using System.Windows.Automation.Peers;
+    using Automation;
     using Catel.MVVM.Views;
 
     /// <summary>
@@ -86,5 +81,10 @@ namespace Orc.Controls
         public static readonly DependencyProperty BaseDirectoryProperty = DependencyProperty.Register(nameof(BaseDirectory), typeof(string),
             typeof(OpenFilePicker), new PropertyMetadata(string.Empty));
         #endregion
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new OpenFilePickerAutomationPeer(this);
+        }
     }
 }
