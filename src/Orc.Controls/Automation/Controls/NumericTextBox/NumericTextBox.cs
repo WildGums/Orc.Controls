@@ -4,17 +4,13 @@
     using Orc.Automation;
     using Orc.Automation.Controls;
 
-    public class NumericTextBox : FrameworkElement<NumericTextBoxModel>
+    public class NumericTextBox : Edit
     {
         public NumericTextBox(AutomationElement element) 
             : base(element)
         {
         }
 
-        public string Text
-        {
-            get => Element.GetValue<string>();
-            set => Element.SetValue(value);
-        }
+        public NumericTextBoxModel Current => Model<NumericTextBoxModel>();
     }
 }

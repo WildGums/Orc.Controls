@@ -5,10 +5,8 @@
     using System.ComponentModel;
     using System.Windows;
     using System.Windows.Controls;
-    using Catel.MVVM;
     using Catel.MVVM.Views;
     using Catel.Threading;
-    using Catel.Windows.Threading;
 
     public sealed partial class StepBar
     {

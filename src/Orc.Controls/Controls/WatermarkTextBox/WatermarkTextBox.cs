@@ -10,8 +10,10 @@
 namespace Orc.Controls
 {
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Input;
+    using Automation;
     using Catel.Windows.Data;
 
     /// <summary>
@@ -48,7 +50,7 @@ namespace Orc.Controls
         /// </summary>
         /// <value><c>true</c> if all text should be selected when the control receives the focus; otherwise, <c>false</c>.</value>
         /// <remarks></remarks>
-        private bool SelectAllOnGotFocus
+        public bool SelectAllOnGotFocus
         {
             get { return (bool)GetValue(SelectAllOnGotFocusProperty); }
             set { SetValue(SelectAllOnGotFocusProperty, value); }
@@ -154,8 +156,12 @@ namespace Orc.Controls
             var margin = new Thickness(padding.Left + 2d, padding.Top, padding.Right + 2d, padding.Bottom);
             _watermarkHost.SetCurrentValue(MarginProperty, margin);
         }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new WatermarkTextBoxAutomationPeer(this);
+        }
         #endregion
     }
 }
-
 #endif

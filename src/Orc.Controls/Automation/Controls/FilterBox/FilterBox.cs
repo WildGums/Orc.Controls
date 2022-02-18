@@ -1,27 +1,22 @@
 ﻿namespace Orc.Controls.Automation
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Automation;
-    using System.Windows.Forms;
     using System.Windows.Input;
     using Orc.Automation;
     using Orc.Automation.Controls;
 
     [AutomatedControl(Class = typeof(Controls.FilterBox), ControlTypeName = nameof(ControlType.Edit))]
-    public class FilterBox : FrameworkElement<FilterBoxModel, FilterBoxMap>
+    public class FilterBox : Edit
     {
         public FilterBox(AutomationElement element) 
             : base(element)
         {
         }
-        
-        public string Text
-        {
-            get => Element.GetValue<string>();
-            set => Element.SetValue(value);
-        }
+
+        public FilterBoxMap Map => Map<FilterBoxMap>();
+        public FilterBoxModel Current => Model<FilterBoxModel>();
 
         public string Watermark
         {

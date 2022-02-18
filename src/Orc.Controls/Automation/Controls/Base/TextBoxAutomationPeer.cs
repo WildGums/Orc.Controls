@@ -13,6 +13,16 @@ public class TextBoxAutomationPeer<TControl> : ControlRunMethodAutomationPeerBas
     {
     }
 
+    public override object GetPattern(PatternInterface patternInterface)
+    {
+        if (patternInterface == PatternInterface.Text)
+        {
+            return new TextBoxAutomationPeer(Control).GetPattern(patternInterface);
+        }
+
+        return base.GetPattern(patternInterface);
+    }
+
     protected override string GetValueFromPattern()
     {
         var valueProvider = GetValueProvider();
