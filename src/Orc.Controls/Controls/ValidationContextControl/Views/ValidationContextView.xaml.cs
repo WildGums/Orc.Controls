@@ -1,14 +1,8 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationContextControl.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System.Windows;
-    using System.Windows.Media;
+    using System.Windows.Automation.Peers;
+    using Automation;
     using Catel.Data;
     using Catel.MVVM.Views;
 
@@ -66,5 +60,10 @@ namespace Orc.Controls
         public static readonly DependencyProperty IsExpandedAllOnStartupProperty = DependencyProperty.Register(
             nameof(IsExpandedAllOnStartup), typeof(bool), typeof(ValidationContextView), new PropertyMetadata(true));
         #endregion
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new ValidationContextViewAutomationPeer(this);
+        }
     }
 }

@@ -29,19 +29,22 @@
 
         <DockPanel LastChildFill="False">
 
-            <controls:LogMessageCategoryToggleButton Margin="6,4,2,4"
+            <controls:LogMessageCategoryToggleButton AutomationProperties.AutomationId="ShowErrorsButtonId"
+                                                     Margin="6,4,2,4"
                                                      Tag="Error"
                                                      IsChecked="{Binding ShowErrors}"
                                                      EntryCount="{Binding ErrorsCount, Mode=OneWay}"
                                                      Category="Error" />
 
-            <controls:LogMessageCategoryToggleButton Margin="2,4,2,4"
+            <controls:LogMessageCategoryToggleButton AutomationProperties.AutomationId="ShowWarningButtonId"
+                                                     Margin="2,4,2,4"
                                                      Tag="Warning"
                                                      IsChecked="{Binding ShowWarnings}"
                                                      EntryCount="{Binding WarningsCount, Mode=OneWay}"
                                                      Category="Warning" />
 
-            <Button Tag="ExpandAll"
+            <Button AutomationProperties.AutomationId="ExpandAllButtonId"
+                    Tag="ExpandAll"
                     Width="20"
                     Margin="2,4,2,4"
                     ToolTip="{catel:LanguageBinding Controls_ValidationContextControl_ExpandAll}"
@@ -61,7 +64,8 @@
 
             </Button>
 
-            <Button Tag="CollapseAll"
+            <Button AutomationProperties.AutomationId="CollapseAllButtonId"
+                    Tag="CollapseAll"
                     Width="20"
                     Margin="2,4,2,4"
                     ToolTip="{catel:LanguageBinding Controls_ValidationContextControl_CollapseAll}"
@@ -81,7 +85,8 @@
 
             <StackPanel Orientation="Horizontal"
                         DockPanel.Dock="Right">
-                <controls:FilterBox Margin="0 4 6 4"
+                <controls:FilterBox AutomationProperties.AutomationId="FilterBoxId"
+                                    Margin="0 4 6 4"
                                     Width="200"
                                     PropertyName="Message"
                                     FilterSource="{Binding ValidationResults}"
@@ -97,7 +102,8 @@
             </StackPanel>
         </DockPanel>
 
-        <controls:ValidationContextTree Grid.Row="1"
+        <controls:ValidationContextTree AutomationProperties.AutomationId="ValidationContextTreeId"
+                                        Grid.Row="1"
                                         Margin="0"
                                         ValidationContext="{Binding ValidationContext}"
                                         ShowErrors="{Binding ShowErrors}"
@@ -108,14 +114,16 @@
 
         <DockPanel Grid.Row="2" LastChildFill="False" 
                    Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:ValidationContextView}}, Path=ShowButtons, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
-            <Button Content="{catel:LanguageBinding Controls_ValidationContextControl_Copy}"
+            <Button AutomationProperties.AutomationId="CopyButtonId"
+                    Content="{catel:LanguageBinding Controls_ValidationContextControl_Copy}"
                     Command="{Binding Copy}"
                     DockPanel.Dock="Right"
                     Margin="2 2 6 2"
                     Width="80"
                     Padding="2" />
 
-            <Button Content="{catel:LanguageBinding Controls_ValidationContextControl_Open}"
+            <Button AutomationProperties.AutomationId="OpenButtonId"
+                    Content="{catel:LanguageBinding Controls_ValidationContextControl_Open}"
                     Command="{Binding Open}"
                     DockPanel.Dock="Right"
                     Margin="2 2 4 2"

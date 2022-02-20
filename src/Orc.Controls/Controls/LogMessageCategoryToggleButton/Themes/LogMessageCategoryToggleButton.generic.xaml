@@ -25,11 +25,13 @@
                             <orccontrols:LogMessageCategoryControl Grid.Column="0" 
                                                                    Category="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:LogMessageCategoryToggleButton}}, Path=Category}" />
 
-                            <TextBlock Grid.Column="2" 
+                            <TextBlock x:Name="PART_EntryCountTextBlock" 
+                                       Grid.Column="2" 
                                        Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:LogMessageCategoryToggleButton}}, Path=EntryCount}"
                                        VerticalAlignment="Center" />
 
-                            <TextBlock Grid.Column="3" 
+                            <TextBlock x:Name="PART_CategoryTextBlock" 
+                                       Grid.Column="3" 
                                        Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type orccontrols:LogMessageCategoryToggleButton}}, Path=Category, Converter={converters:LogMessageCategoryTextConverter}}"
                                        VerticalAlignment="Center" />
                         </Grid>

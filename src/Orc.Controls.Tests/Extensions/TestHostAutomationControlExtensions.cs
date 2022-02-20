@@ -41,7 +41,7 @@
 
             //Apply style forwarders
             //testHost.RunMethod(typeof(StyleHelper), nameof(StyleHelper.CreateStyleForwardersForDefaultStyles));
-            testHost.Execute<CreateStyleForwardersMethodRun>();
+        //    testHost.Execute<CreateStyleForwardersMethodRun>();
            
             testHostAutomationId = testHost.PutControl(controlTypeFullName);
             if (string.IsNullOrWhiteSpace(testHostAutomationId) || testHostAutomationId.StartsWith("Error"))
