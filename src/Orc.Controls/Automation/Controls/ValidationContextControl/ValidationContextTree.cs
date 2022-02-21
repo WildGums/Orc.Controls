@@ -1,6 +1,7 @@
 ﻿namespace Orc.Controls.Automation
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Automation;
@@ -9,12 +10,17 @@
     using Orc.Automation.Controls;
 
     [AutomatedControl(Class = typeof(Controls.ValidationContextTree))]
-    public class ValidationContextTree : FrameworkElement<ValidationContextTreeModel, ValidationContextTreeMap>
+    public class ValidationContextTree : FrameworkElement<ValidationContextTreeModel, ValidationContextTreeMap>,
+        IEnumerable<ValidationContextTagTreeItem>
     {
         public ValidationContextTree(AutomationElement element)
             : base(element)
         {
         }
+
+        public IReadOnlyList<ValidationContextTagTreeItem> TagNodes => Map.InnerTree.ChildItems
+            .Select(x => x.As<ValidationContextTagTreeItem>())
+            .ToList();
 
         public IReadOnlyList<string> GetValidationItems(string tag, ValidationResultType type)
         {
@@ -35,32 +41,37 @@
             return typeItem.ChildItems.Select(x => x.Header).ToList();
         }
 
-        public string GetContents()
+        //public string GetContents()
+        //{
+        //    var estimatedValidationContext = new ValidationContext();
+
+        //    foreach (var tagItem in TagNodes)
+        //    {
+        //        tagItem.IsExpanded = true;
+
+        //        var tag = tagItem.Tag;
+        //        foreach (var typeItem in tagItem.TypeNodes)
+        //        {
+        //            typeItem.IsExpanded = true;
+
+        //            var validationResultType = typeItem.Type;
+        //            foreach (var resultItem in typeItem.ResultNodes)
+        //            {
+        //                estimatedValidationContext.Add(new BusinessRuleValidationResult(validationResultType, resultItem.Message));
+        //            }
+        //        }
+        //    }
+
+        //    return estimatedValidationContext.GetViewContents();
+        //}
+        public IEnumerator<ValidationContextTagTreeItem> GetEnumerator()
         {
-            var estimatedValidationContext = new ValidationContext();
+            return TagNodes.GetEnumerator();
+        }
 
-            var innerTree = Map.InnerTree;
-
-            foreach (var tagItem in innerTree.ChildItems)
-            {
-                var tag = tagItem.Header;
-                foreach (var typeItem in tagItem.ChildItems)
-                {
-                    var validationResultTypeString = typeItem.Header;
-                    var validationResult = validationResultTypeString.StartsWith(ValidationResultType.Error.ToString()) 
-                        ? ValidationResultType.Error
-                        : ValidationResultType.Warning;
-
-                    foreach (var resultItem in typeItem.ChildItems)
-                    {
-                        //we create business rule validation result each time
-                        //because we need only string
-                        estimatedValidationContext.Add(new BusinessRuleValidationResult(validationResult, resultItem.Header));
-                    }
-                }
-            }
-
-            return estimatedValidationContext.GetViewContents();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

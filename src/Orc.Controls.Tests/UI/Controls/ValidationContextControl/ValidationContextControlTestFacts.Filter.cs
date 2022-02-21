@@ -6,6 +6,36 @@
 
     public partial class ValidationContextControlTestFacts
     {
+        [Test]
+        [TestCaseSource(nameof(FilterTestCases))]
+        public void CorrectlyFilter(ValidationContext validationContext, string filter,
+            ValidationContext expectedTreeContents)
+        {
+            var target = Target;
+            var model = target.Current;
+
+            model.ValidationContext = validationContext;
+
+            target.Filter = filter;
+
+            ValidationTreeAssert.Match(target, expectedTreeContents);
+        }
+
+        [Test]
+        [TestCaseSource(nameof(FilterByTypeTestCases))]
+        public void CorrectlyFilterByType(ValidationContext validationContext, bool isWarningVisible, bool isErrorsVisible, ValidationContext expectedTreeContents)
+        {
+            var target = Target;
+            var model = target.Current;
+
+            model.ValidationContext = validationContext;
+
+            target.IsWarningsVisible = isWarningVisible;
+            target.IsErrorsVisible = isErrorsVisible;
+
+            ValidationTreeAssert.Match(target, expectedTreeContents);
+        }
+
         private static IEnumerable<TestCaseData> FilterTestCases()
         {
             var filteredValidationContext = ValidationContextBuilder.Start()
@@ -27,7 +57,6 @@
                             .Field("TestProperty", "This is field error")
                             .Field("TestProperty2", "This is field error 2")
                     .Result()
-                    .GetViewContents()
             );
 
             yield return new TestCaseData(filteredValidationContext, "warning",
@@ -37,7 +66,6 @@
                             .Business("This is business warning")
                             .Field("TestProperty", "This is field warning")
                     .Result()
-                    .GetViewContents()
             );
 
             yield return new TestCaseData(filteredValidationContext, "field",
@@ -49,7 +77,6 @@
                             .Field("TestProperty", "This is field error")
                             .Field("TestProperty2", "This is field error 2")
                     .Result()
-                    .GetViewContents()
             );
 
             yield return new TestCaseData(filteredValidationContext, "This is field error 2",
@@ -58,25 +85,135 @@
                         .Errors()
                             .Field("TestProperty2", "This is field error 2")
                     .Result()
-                    .GetViewContents()
             );
         }
-
-        [Test]
-        [TestCaseSource(nameof(FilterTestCases))]
-        public void CorrectlyFilter(ValidationContext validationContext, string filter,
-            string expectedTreeContents)
-        {
-            var target = Target;
-            var model = target.Current;
-
-            model.ValidationContext = validationContext;
-
-            target.Filter = filter;
-
-            var treeContents = target.GetContents();
             
-            Assert.That(treeContents, Is.EqualTo(expectedTreeContents));
+        private static IEnumerable<TestCaseData> FilterByTypeTestCases()
+        {
+            var testValidationContext = ValidationContextBuilder.Start()
+                .Tag("Test_Tag")
+                    .Warnings()
+                        .Business("This is business warning")
+                        .Field("TestProperty", "This is field warning")
+                    .Errors()
+                        .Business("This is business error")
+                        .Field("TestProperty", "This is field error")
+                        .Field("TestProperty2", "This is field error 2")
+
+                .Tag("Test_Tag2")
+                    .Warnings()
+                        .Business("This is business warning")
+                        .Field("TestProperty", "This is field warning")
+                    .Errors()
+                        .Business("This is business error")
+                        .Field("TestProperty", "This is field error")
+                        .Field("TestProperty2", "This is field error 2")
+                .Result();
+
+            yield return new TestCaseData(testValidationContext, 
+                true, //is warnings visible
+                false, //is errors visible
+                ValidationContextBuilder.Start()
+                    .Tag("Test_Tag")
+                        .Warnings()
+                            .Business("This is business warning")
+                            .Field("TestProperty", "This is field warning")
+
+                    .Tag("Test_Tag2")
+                        .Warnings()
+                            .Business("This is business warning")
+                            .Field("TestProperty", "This is field warning")
+                    .Result()
+            );
+
+            yield return new TestCaseData(ValidationContextBuilder.Start()
+                .Tag("Test_Tag")
+                    .Warnings()
+                        .Business("This is business warning")
+                        .Field("TestProperty", "This is field warning")
+
+                .Tag("Test_Tag2")
+                    .Warnings()
+                        .Business("This is business warning")
+                        .Field("TestProperty", "This is field warning")
+                .Result(),
+                true, //is warnings visible
+                false, //is errors visible
+                ValidationContextBuilder.Start()
+                    .Tag("Test_Tag")
+                        .Warnings()
+                            .Business("This is business warning")
+                            .Field("TestProperty", "This is field warning")
+
+                    .Tag("Test_Tag2")
+                        .Warnings()
+                            .Business("This is business warning")
+                            .Field("TestProperty", "This is field warning")
+                    .Result()
+            );
+
+            yield return new TestCaseData(testValidationContext,
+                false, //is warnings visible
+                true, //is errors visible
+                ValidationContextBuilder.Start()
+                    .Tag("Test_Tag")
+                        .Errors()
+                            .Business("This is business error")
+                            .Field("TestProperty", "This is field error")
+                            .Field("TestProperty2", "This is field error 2")
+
+                    .Tag("Test_Tag2")
+                        .Errors()
+                            .Business("This is business error")
+                            .Field("TestProperty", "This is field error")
+                            .Field("TestProperty2", "This is field error 2")
+                    .Result()
+            );
+
+            yield return new TestCaseData(
+                ValidationContextBuilder.Start()
+                    .Tag("Test_Tag")
+                    .Errors()
+                    .Business("This is business error")
+                    .Field("TestProperty", "This is field error")
+                    .Field("TestProperty2", "This is field error 2")
+
+                    .Tag("Test_Tag2")
+                    .Errors()
+                    .Business("This is business error")
+                    .Field("TestProperty", "This is field error")
+                    .Field("TestProperty2", "This is field error 2")
+                    .Result(),
+
+                false, //is warnings visible
+                true, //is errors visible
+
+                ValidationContextBuilder.Start()
+                    .Tag("Test_Tag")
+                        .Errors()
+                            .Business("This is business error")
+                            .Field("TestProperty", "This is field error")
+                            .Field("TestProperty2", "This is field error 2")
+
+                    .Tag("Test_Tag2")
+                        .Errors()
+                            .Business("This is business error")
+                            .Field("TestProperty", "This is field error")
+                            .Field("TestProperty2", "This is field error 2")
+                    .Result()
+            );
+
+            yield return new TestCaseData(testValidationContext,
+                false, //is warnings visible
+                false, //is errors visible
+                new ValidationContext()
+            );
+
+            yield return new TestCaseData(testValidationContext,
+                true, //is warnings visible
+                true, //is errors visible
+                testValidationContext
+            );
         }
     }
 }

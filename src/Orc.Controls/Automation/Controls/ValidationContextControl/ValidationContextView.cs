@@ -1,5 +1,6 @@
 ﻿namespace Orc.Controls.Automation
 {
+    using System.Collections;
     using System.Collections.Generic;
     using System.Windows.Automation;
     using Catel.Data;
@@ -7,17 +8,20 @@
     using Orc.Automation.Controls;
 
     [AutomatedControl(Class = typeof(ValidationContextView))]
-    public class ValidationContextView : FrameworkElement<ValidationContextViewModel, ValidationContextViewMap>
+    public class ValidationContextView : FrameworkElement<ValidationContextViewModel, ValidationContextViewMap>,
+        IEnumerable<ValidationContextTagTreeItem>
     {
         public ValidationContextView(AutomationElement element) 
             : base(element)
         {
         }
 
-        public string GetContents()
-        {
-            return Map.Tree.GetContents();
-        }
+        public IReadOnlyList<ValidationContextTagTreeItem> TabItems => Map.Tree.TagNodes;
+
+        //public string GetContents()
+        //{
+        //    return Map.Tree.GetContents();
+        //}
 
         public IReadOnlyList<string> GetValidationItems(string tag, ValidationResultType type)
         {
@@ -47,11 +51,11 @@
             {
                 if (value)
                 {
-                    Map.ExpandAllButton.Click();
+                    Map.ExpandAllButton?.Click();
                 }
                 else
                 {
-                    Map.CollapseAllButton.Click();
+                    Map.CollapseAllButton?.Click();
                 }
             }
         }
@@ -66,6 +70,16 @@
         {
             get => Map.ShowWarningButton.IsToggled;
             set => Map.ShowWarningButton.IsToggled = value;
+        }
+
+        public IEnumerator<ValidationContextTagTreeItem> GetEnumerator()
+        {
+            return TabItems.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
