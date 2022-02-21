@@ -13,6 +13,11 @@ public class TextBoxAutomationPeer<TControl> : ControlRunMethodAutomationPeerBas
     {
     }
 
+    protected override AutomationControlType GetAutomationControlTypeCore()
+    {
+        return AutomationControlType.Edit;
+    }
+
     public override object GetPattern(PatternInterface patternInterface)
     {
         if (patternInterface == PatternInterface.Text)
