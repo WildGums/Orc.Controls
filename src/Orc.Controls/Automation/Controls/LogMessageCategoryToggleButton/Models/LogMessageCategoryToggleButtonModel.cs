@@ -3,7 +3,7 @@
     using Orc.Automation;
 
     [AutomationAccessType]
-    public class LogMessageCategoryToggleButtonModel : ControlModel
+    public class LogMessageCategoryToggleButtonModel : FrameworkElementModel
     {
         public LogMessageCategoryToggleButtonModel(AutomationElementAccessor accessor) 
             : base(accessor)

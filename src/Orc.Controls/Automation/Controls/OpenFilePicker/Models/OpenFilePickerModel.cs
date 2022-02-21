@@ -3,7 +3,7 @@
 using Orc.Automation;
 
 [AutomationAccessType]
-public class OpenFilePickerModel : ControlModel
+public class OpenFilePickerModel : FrameworkElementModel
 {
     public OpenFilePickerModel(AutomationElementAccessor accessor) 
         : base(accessor)

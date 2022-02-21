@@ -4,7 +4,7 @@ using System.Windows.Media;
 using Orc.Automation;
 
 [AutomationAccessType]
-public class AlignmentGridModel : ControlModel
+public class AlignmentGridModel : FrameworkElementModel
 {
     public AlignmentGridModel(AutomationElementAccessor accessor) 
         : base(accessor)

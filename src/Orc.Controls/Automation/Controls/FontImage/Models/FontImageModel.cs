@@ -4,7 +4,7 @@
     using Orc.Automation;
 
     [AutomationAccessType]
-    public class FontImageModel : ControlModel
+    public class FontImageModel : FrameworkElementModel
     {
         public FontImageModel(AutomationElementAccessor accessor) 
             : base(accessor)

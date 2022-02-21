@@ -4,7 +4,7 @@ using System.Windows.Media;
 using Orc.Automation;
 
 [AutomationAccessType]
-public class ColorBoardModel : ControlModel
+public class ColorBoardModel : FrameworkElementModel
 {
     public ColorBoardModel(AutomationElementAccessor accessor)
         : base(accessor)

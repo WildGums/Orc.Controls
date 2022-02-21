@@ -3,7 +3,7 @@
 using Orc.Automation;
 
 [AutomationAccessType]
-public class ExpanderModel : ControlModel
+public class ExpanderModel : FrameworkElementModel
 {
     public ExpanderModel(AutomationElementAccessor accessor) 
         : base(accessor)

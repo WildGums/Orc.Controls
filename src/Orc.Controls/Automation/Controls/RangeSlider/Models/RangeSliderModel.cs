@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using Orc.Automation;
 
 [AutomationAccessType]
-public class RangeSliderModel : ControlModel
+public class RangeSliderModel : FrameworkElementModel
 {
     public RangeSliderModel(AutomationElementAccessor accessor) 
         : base(accessor)

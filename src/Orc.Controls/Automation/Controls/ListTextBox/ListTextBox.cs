@@ -10,6 +10,6 @@
         {
         }
 
-        public ListTextBoxModel Current => Model<ListTextBoxModel>();
+        public new ListTextBoxModel Current => Model<ListTextBoxModel>();
     }
 }

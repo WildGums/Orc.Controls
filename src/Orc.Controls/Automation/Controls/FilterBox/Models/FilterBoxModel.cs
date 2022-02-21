@@ -4,7 +4,7 @@
     using Orc.Automation;
 
     [AutomationAccessType]
-    public class FilterBoxModel : ControlModel
+    public class FilterBoxModel : FrameworkElementModel
     {
         public FilterBoxModel(AutomationElementAccessor accessor) 
             : base(accessor)

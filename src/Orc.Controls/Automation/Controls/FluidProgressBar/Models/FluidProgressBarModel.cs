@@ -5,7 +5,7 @@
     using Orc.Automation;
 
     [AutomationAccessType]
-    public class FluidProgressBarModel : ControlModel
+    public class FluidProgressBarModel : FrameworkElementModel
     {
         public FluidProgressBarModel(AutomationElementAccessor accessor) 
             : base(accessor)

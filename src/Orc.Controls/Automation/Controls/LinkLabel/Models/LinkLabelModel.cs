@@ -5,7 +5,7 @@
     using Orc.Automation;
 
     [AutomationAccessType]
-    public class LinkLabelModel : ControlModel
+    public class LinkLabelModel : FrameworkElementModel
     {
         public LinkLabelModel(AutomationElementAccessor accessor) 
             : base(accessor)

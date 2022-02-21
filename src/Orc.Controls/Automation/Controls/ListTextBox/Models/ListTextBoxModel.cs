@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Orc.Automation;
 
 [AutomationAccessType]
-public class ListTextBoxModel : ControlModel
+public class ListTextBoxModel : FrameworkElementModel
 {
     public ListTextBoxModel(AutomationElementAccessor accessor) 
         : base(accessor)

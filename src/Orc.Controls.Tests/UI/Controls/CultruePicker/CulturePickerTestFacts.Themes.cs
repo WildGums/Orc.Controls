@@ -4,7 +4,6 @@
     using NUnit.Framework;
     using Orc.Automation;
     using Orc.Automation.Controls;
-    using Orc.Automation.Tests;
     using Orc.Automation.Tests.ThemingTests.ThemeAsserters;
 
     public partial class CulturePickerTestFacts
@@ -14,7 +13,7 @@
         {
             var target = Target;
 
-            var background2 = target.Background;
+            var background2 = target.Current.Background;
 
             var map = new CulturePickerMap(target.Element);
  
@@ -26,10 +25,10 @@
 
 
             var comboboxControl = new ComboBox(combobox1);
-            var background1 = comboboxControl.Background;
+            var background1 = comboboxControl.Current.Background;
 
 
-            var background = combobox.Background;
+            var background = combobox.Current.Background;
 
             ComboboxThemeAssert.VerifyTheme(combobox);
         }

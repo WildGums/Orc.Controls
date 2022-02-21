@@ -12,7 +12,7 @@
         {
         }
 
-        public WatermarkTextBoxModel Current => Model<WatermarkTextBoxModel>();
+        public new WatermarkTextBoxModel Current => Model<WatermarkTextBoxModel>();
         public WatermarkTextBoxMap Map => Map<WatermarkTextBoxMap>();
 
         public string Watermark

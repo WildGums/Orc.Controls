@@ -3,7 +3,7 @@
     using Orc.Automation;
 
     [AutomationAccessType]
-    public class AnimatedGifModel : ControlModel
+    public class AnimatedGifModel : FrameworkElementModel
     {
         public AnimatedGifModel(AutomationElementAccessor accessor) 
             : base(accessor)

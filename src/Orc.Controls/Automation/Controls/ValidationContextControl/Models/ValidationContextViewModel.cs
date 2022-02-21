@@ -4,7 +4,7 @@
     using Orc.Automation;
 
     [AutomationAccessType]
-    public class ValidationContextViewModel : ControlModel
+    public class ValidationContextViewModel : FrameworkElementModel
     {
         public ValidationContextViewModel(AutomationElementAccessor accessor) 
             : base(accessor)

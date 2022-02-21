@@ -4,7 +4,7 @@ using System.Windows.Media;
 using Orc.Automation;
 
 [AutomationAccessType]
-public class ColorPickerModel : ControlModel
+public class ColorPickerModel : FrameworkElementModel
 {
     public ColorPickerModel(AutomationElementAccessor accessor)
         : base(accessor)

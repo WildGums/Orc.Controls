@@ -6,7 +6,7 @@
     using Orc.Automation;
 
     [AutomationAccessType]
-    public class NumericTextBoxModel : ControlModel
+    public class NumericTextBoxModel : AutomationControlModel
     {
         public NumericTextBoxModel(AutomationElementAccessor accessor) 
             : base(accessor)

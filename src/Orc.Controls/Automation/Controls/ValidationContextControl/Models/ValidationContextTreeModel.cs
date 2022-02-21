@@ -5,7 +5,7 @@
     using Orc.Automation;
 
     [AutomationAccessType]
-    public class ValidationContextTreeModel : ControlModel
+    public class ValidationContextTreeModel : FrameworkElementModel
     {
         public ValidationContextTreeModel(AutomationElementAccessor accessor) 
             : base(accessor)

@@ -3,7 +3,7 @@
     using Orc.Automation;
 
     [AutomationAccessType]
-    public class FrameRateCounterModel : ControlModel
+    public class FrameRateCounterModel : FrameworkElementModel
     {
         public FrameRateCounterModel(AutomationElementAccessor accessor) 
             : base(accessor)

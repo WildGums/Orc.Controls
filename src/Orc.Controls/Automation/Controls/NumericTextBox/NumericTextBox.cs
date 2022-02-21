@@ -1,7 +1,6 @@
 ﻿namespace Orc.Controls.Automation
 {
     using System.Windows.Automation;
-    using Orc.Automation;
     using Orc.Automation.Controls;
 
     public class NumericTextBox : Edit
@@ -11,6 +10,6 @@
         {
         }
 
-        public NumericTextBoxModel Current => Model<NumericTextBoxModel>();
+        public new NumericTextBoxModel Current => Model<NumericTextBoxModel>();
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Orc.Automation;
 
-public class CulturePickerModel : ControlModel
+public class CulturePickerModel : FrameworkElementModel
 {
     public CulturePickerModel(AutomationElementAccessor accessor) 
         : base(accessor)

@@ -6,7 +6,7 @@
     using Orc.Automation;
 
     [AutomationAccessType]
-    public class DateTimePickerModel : ControlModel
+    public class DateTimePickerModel : FrameworkElementModel
     {
         public DateTimePickerModel(AutomationElementAccessor accessor) 
             : base(accessor)

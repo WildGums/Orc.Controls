@@ -16,7 +16,7 @@
         }
 
         public FilterBoxMap Map => Map<FilterBoxMap>();
-        public FilterBoxModel Current => Model<FilterBoxModel>();
+        public new FilterBoxModel Current => Model<FilterBoxModel>();
 
         public string Watermark
         {

@@ -3,7 +3,7 @@
     using Orc.Automation;
 
     [AutomationAccessType]
-    public class WatermarkTextBoxModel : ControlModel
+    public class WatermarkTextBoxModel : FrameworkElementModel
     {
         public WatermarkTextBoxModel(AutomationElementAccessor accessor) 
             : base(accessor)

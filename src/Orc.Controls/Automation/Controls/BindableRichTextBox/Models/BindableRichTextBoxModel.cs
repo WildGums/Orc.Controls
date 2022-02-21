@@ -1,12 +1,10 @@
 ﻿namespace Orc.Controls.Automation;
 
-using System.Windows;
 using System.Windows.Documents;
-using System.Windows.Media;
 using Orc.Automation;
 
 [AutomationAccessType]
-public class BindableRichTextBoxModel : ControlModel
+public class BindableRichTextBoxModel : FrameworkElementModel
 {
     public BindableRichTextBoxModel(AutomationElementAccessor accessor) 
         : base(accessor)

@@ -4,7 +4,7 @@ using System.Windows;
 using Orc.Automation;
 
 [AutomationAccessType]
-public class DropDownButtonModel : ControlModel
+public class DropDownButtonModel : FrameworkElementModel
 {
     public DropDownButtonModel(AutomationElementAccessor accessor)
         : base(accessor)

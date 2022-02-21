@@ -41,8 +41,8 @@
             var target = Target;
             var targetProperties = target.Current;
 
-            target.HorizontalAlignment = HorizontalAlignment.Center;
-            target.VerticalAlignment = VerticalAlignment.Center;
+            target.Current.HorizontalAlignment = HorizontalAlignment.Center;
+            target.Current.VerticalAlignment = VerticalAlignment.Center;
 
             var colorBoard = target.OpenColorBoard();
             Assert.That(colorBoard, Is.Not.Null);
