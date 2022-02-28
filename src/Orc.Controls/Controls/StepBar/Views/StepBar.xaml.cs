@@ -4,9 +4,12 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
+    using Automation;
     using Catel.MVVM.Views;
     using Catel.Threading;
+    using Orc.Automation;
 
     public sealed partial class StepBar
     {
@@ -93,6 +96,11 @@
                     await TaskShim.Delay(StepBarConfiguration.AnimationDuration);
                 });
             }
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new StepBarAutomationPeer(this);
         }
     }
 }

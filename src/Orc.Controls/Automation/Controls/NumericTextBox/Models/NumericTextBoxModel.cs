@@ -47,7 +47,7 @@
         public double? Value
         {
             get => _accessor.GetValue<double?>(nameof(Value));
-            set => _accessor.Execute<SetNumericTextBoxValueRun>(value);
+            set => _accessor.ExecuteAutomationMethod<SetNumericTextBoxValueRun>(value);
         }
     }
 

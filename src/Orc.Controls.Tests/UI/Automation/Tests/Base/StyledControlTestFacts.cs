@@ -21,8 +21,7 @@
             var result = testHost.TryLoadAssembly(@"C:\Source\Orc.Controls\output\Debug\Orc.Controls.Tests\net6.0-windows\Orc.Controls.Tests.dll");
 
             testHost.TryLoadResources("pack://application:,,,/Orc.Controls;component/Themes/Generic.xaml");
-
-
+            
             return testHost.TryLoadControlWithForwarders(controlType, out testedControlAutomationId, $"pack://application:,,,/{controlType.Assembly.GetName().Name};component/Themes/Generic.xaml");
         }
     }

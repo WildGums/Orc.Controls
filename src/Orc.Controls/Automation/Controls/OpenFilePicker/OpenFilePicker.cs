@@ -6,6 +6,7 @@
     using Orc.Automation.Controls;
     using AutomationEventArgs = System.Windows.Automation.AutomationEventArgs;
 
+    [AutomatedControl(Class = typeof(Controls.OpenFilePicker))]
     public class OpenFilePicker : FrameworkElement<OpenFilePickerModel, OpenFilePickerMap>
     {
         private AutomationElement _openDialog;

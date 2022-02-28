@@ -13,12 +13,14 @@ namespace Orc.Controls
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using System.Windows.Documents;
     using System.Windows.Input;
     using System.Windows.Media;
+    using Automation;
     using Catel;
 
     /// <summary>
@@ -1119,6 +1121,11 @@ namespace Orc.Controls
                 ResizingAdorner.Detach(_adornerResizing);
                 _adornerResizing = null;
             }
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new PinnableToolTipAutomationPeer(this);
         }
         #endregion
     }

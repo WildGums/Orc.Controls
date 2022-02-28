@@ -10,8 +10,10 @@ namespace Orc.Controls
     using System;
     using System.Collections.Generic;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Input;
+    using Automation;
     using Catel.Logging;
 
     [TemplatePart(Name = "PART_DaysNumericTextBox", Type = typeof(NumericTextBox))]
@@ -437,6 +439,11 @@ namespace Orc.Controls
             var prevTextBox = _numericTextBoxes[currentTextBoxIndex - 1];
             prevTextBox.CaretIndex = prevTextBox.Text.Length;
             prevTextBox.Focus();
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new TimeSpanPickerAutomationPeer(this);
         }
     }
 }

@@ -8,10 +8,12 @@ namespace Orc.Controls
     using System;
     using System.Globalization;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Media;
+    using Automation;
     using ControlzEx.Theming;
     using Enums;
     using Theming;
@@ -400,6 +402,11 @@ namespace Orc.Controls
                 var points = LineOnCircle(Math.PI * 2 * i / 60, center, radius * (1 - MinuteTickRatio), radius - ClockBorderThickness * 0.5);
                 drawingContext.DrawLine(pen, points[0], points[1]);
             }
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new TimePickerAutomationPeer(this);
         }
         #endregion
     }
