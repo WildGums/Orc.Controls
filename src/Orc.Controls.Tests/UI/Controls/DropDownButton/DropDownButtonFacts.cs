@@ -35,6 +35,7 @@
             var menu = target.OpenDropDown();
 
             Assert.That(menu, Is.Not.Null);
+            Assert.That(menu.Items.Count, Is.EqualTo(5));
         }
     }
 

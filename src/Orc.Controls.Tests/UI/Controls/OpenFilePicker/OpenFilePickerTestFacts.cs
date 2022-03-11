@@ -120,11 +120,11 @@
         {
             public IEnumerator GetEnumerator()
             {
-                var filterName1 = "Image files (*.bmp, *.jpg)";
-                var filter1 = "*.bmp;*.jpg";
+                const string filterName1 = "Image files (*.bmp, *.jpg)";
+                const string filter1 = "*.bmp;*.jpg";
 
-                var filterName2 = "All files (*.*)";
-                var filter2 = "*.*";
+                const string filterName2 = "All files (*.*)";
+                const string filter2 = "*.*";
 
                 yield return new object[] { $"{filterName1}|{filter1}|{filterName2}|{filter2}", new List<string> { filterName1, filterName2 } };
             }

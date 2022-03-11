@@ -9,11 +9,12 @@
     {
         public static void AllCheckedState(ColorLegend target)
         {
-            var isAllChecked = target.View.IsAllVisible;
+            var isAllChecked = target.IsAllVisible;
+            var model = target.Current;
 
             if (isAllChecked is null)
             {
-                Assert.That(target.ItemsSource, 
+                Assert.That(model.ItemsSource, 
                     Has.Some.Property(nameof(IColorLegendItem.IsChecked)).True
                     .And
                     .Some.Property(nameof(IColorLegendItem.IsChecked)).False);
@@ -22,21 +23,23 @@
             switch (isAllChecked)
             {
                 case true:
-                    Assert.That(target.ItemsSource, Has.All.Property(nameof(IColorLegendItem.IsChecked)).True);
+                    Assert.That(model.ItemsSource, Has.All.Property(nameof(IColorLegendItem.IsChecked)).True);
                     break;
 
                 case false:
-                    Assert.That(target.ItemsSource, Has.All.Property(nameof(IColorLegendItem.IsChecked)).False);
+                    Assert.That(model.ItemsSource, Has.All.Property(nameof(IColorLegendItem.IsChecked)).False);
                     break;
             }
         }
 
         public static void ItemsCheckStateMatch(ColorLegend target)
         {
-            var checkedSourceItems = target.FilteredItemsSource
+            var model = target.Current;
+
+            var checkedSourceItems = model.FilteredItemsSource
                 .Select(x => x.IsChecked);
 
-            var checkedItems = target.View.Items
+            var checkedItems = target.Items
                 .Select(x => x.IsChecked);
 
             CollectionAssert.AreEqual(checkedItems, checkedSourceItems);
@@ -44,10 +47,12 @@
 
         public static void ItemsSelectedStateMatch(ColorLegend target)
         {
-            var selectedSourceItems = (target.SelectedColorItems ?? Array.Empty<IColorLegendItem>())
+            var model = target.Current;
+
+            var selectedSourceItems = (model.SelectedColorItems ?? Array.Empty<IColorLegendItem>())
                 .Select(x => x.IsSelected);
 
-            var selectedItems = target.View.Items.Where(x => x.IsSelected)
+            var selectedItems = target.Items.Where(x => x.IsSelected)
                 .Select(x => x.IsSelected);
 
             CollectionAssert.AreEqual(selectedSourceItems, selectedItems);
@@ -55,9 +60,11 @@
 
         public static void ClearSelectionState(ColorLegend target)
         {
-            var countSelectedItems = target.SelectedColorItems?.Count() ?? 0;
+            var model = target.Current;
 
-            Assert.That(countSelectedItems > 0, Is.EqualTo(target.View.CanClearSelection));
+            var countSelectedItems = model.SelectedColorItems?.Count() ?? 0;
+
+            Assert.That(countSelectedItems > 0, Is.EqualTo(target.CanClearSelection));
         }
     }
 }

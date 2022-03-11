@@ -1,13 +1,8 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SaveFilePicker.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System.Windows;
+    using System.Windows.Automation.Peers;
+    using Automation;
     using Catel.MVVM.Views;
 
     /// <summary>
@@ -75,5 +70,10 @@ namespace Orc.Controls
         public static readonly DependencyProperty FilterProperty = DependencyProperty.Register(nameof(Filter), typeof(string),
             typeof(SaveFilePicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new SaveFilePickerAutomationPeer(this);
+        }
     }
 }

@@ -2,154 +2,75 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Windows.Automation;
-    using System.Windows.Media;
     using Orc.Automation;
     using Orc.Automation.Controls;
-    using AutomationEventArgs = Orc.Automation.AutomationEventArgs;
 
     [AutomatedControl(Class = typeof(Controls.ColorLegend))]
-    public class ColorLegend : FrameworkElement
+    public class ColorLegend : FrameworkElement<ColorLegendModel, ColorLegendMap>
     {
         public ColorLegend(AutomationElement element)
             : base(element)
         {
-            View = new ColorLegendView(Map);
-        } 
-
-        private ColorLegendMap Map => Map<ColorLegendMap>();
-        public ColorLegendView View { get; }
-
-        [ApiProperty]
-        public bool AllowColorEditing
-        {
-            get => Access.GetValue<bool>();
-            set => Access.SetValue(value);
         }
-
-        [ApiProperty]
-        public bool ShowColorVisibilityControls
-        {
-            get => Access.GetValue<bool>();
-            set => Access.SetValue(value);
-        }
-
-        [ApiProperty]
-        public bool ShowColorPicker
-        {
-            get => Access.GetValue<bool>();
-            set => Access.SetValue(value);
-        }
-
-        [ApiProperty]
-        public bool ShowSearchBox
-        {
-            get => Access.GetValue<bool>();
-            set => Access.SetValue(value);
-        }
-
-        [ApiProperty]
-        public bool ShowToolBox
-        {
-            get => Access.GetValue<bool>();
-            set => Access.SetValue(value);
-        }
-
-        [ApiProperty]
-        public bool ShowBottomToolBox
-        {
-            get => Access.GetValue<bool>();
-            set => Access.SetValue(value);
-        }
-
-        [ApiProperty]
-        public bool ShowSettingsBox
-        {
-            get => Access.GetValue<bool>();
-            set => Access.SetValue(value);
-        }
-
-        [ApiProperty]
-        public bool IsColorSelecting
-        {
-            get => Access.GetValue<bool>();
-            set => Access.SetValue(value);
-        }
-
-        [ApiProperty]
-        public Color EditingColor
-        {
-            get => Access.GetValue<Color>();
-            set => Access.SetValue(value);
-        }
-
-        [ApiProperty]
-        public string Filter
-        {
-            get => Access.GetValue<string>();
-            set => Access.SetValue(value);
-        }
-
-        [ApiProperty]
-        public IEnumerable<IColorLegendItem> ItemsSource
-        {
-            get => Access.GetValue<IEnumerable<IColorLegendItem>>();
-            set => Access.SetValue(value);
-        }
-
-        [ApiProperty]
+        
         public bool? IsAllVisible
         {
-            get => Access.GetValue<bool?>();
-            set => Access.SetValue(value);
+            get => Map.AllVisibleCheckBoxPart.IsChecked;
+            set => Map.AllVisibleCheckBoxPart.IsChecked = value;
         }
 
-        [ApiProperty]
-        public IEnumerable<IColorLegendItem> FilteredItemsSource
+        public bool ShowColorVisibilityControls
         {
-            get => Access.GetValue<IEnumerable<IColorLegendItem>>();
-            set => Access.SetValue(value);
+            get => InvokeInSettingsScope(x => x.ShowColorVisibilityControls);
+            set => InvokeInSettingsScope(x => x.ShowColorVisibilityControls = value);
         }
 
-        [ApiProperty]
-        public IEnumerable<string> FilteredItemsIds
+        public bool AllowColorEditing
         {
-            get => Access.GetValue<IEnumerable<string>>();
+            get => InvokeInSettingsScope(x => x.AllowColorEditing);
+            set => InvokeInSettingsScope(x => x.AllowColorEditing = value);
         }
 
-        [ApiProperty]
-        public string FilterWatermark
+        public bool ShowColorPicker
         {
-            get => Access.GetValue<string>();
-            set => Access.SetValue(value);
+            get => InvokeInSettingsScope(x => x.ShowColorPicker);
+            set => InvokeInSettingsScope(x => x.ShowColorPicker = value);
         }
 
-        [ApiProperty]
-        public IEnumerable<IColorLegendItem> SelectedColorItems
+        public string Filter
         {
-            get => Access.GetValue<IEnumerable<IColorLegendItem>>();
-            set => Access.SetValue(value);
+            get => Map.SearchBoxPart.Text;
+            set => Map.SearchBoxPart.Text = value;
         }
 
-        public IColorLegendItem this[int index]
+        public string FilterWaterMark
         {
-            get => ItemsSource.ToList()[index];
+            get => Map.FilterWatermarkTextPart?.Value;
         }
+
+        public bool IsSettingsBoxVisible => Map.SettingsButtonPart.IsVisible();
+        public bool IsToolBoxVisible => Map.SettingsButtonPart.IsVisible() || Map.SearchBoxPart.IsVisible();
+        public bool IsBottomToolBoxVisible => Map.AllVisibleCheckBoxPart.IsVisible() || Map.SelectedItemCountLabel.IsVisible() || Map.UnselectAllButtonPart.IsVisible();
+        public bool IsSearchBoxVisible => Map.SearchBoxPart.IsVisible();
+        public bool CanClearSelection => Map.UnselectAllButtonPart.IsEnabled;
+        public List<ColorLegendItemAutomationControl> Items => Map.Items;
+
+        public TResult InvokeInSettingsScope<TResult>(Func<ColorLegendSettingsControl, TResult> action)
+        {
+            return Map.SettingsButtonPart.InvokeInDropDownScope(menu =>
+                Equals(menu.AutomationProperties.AutomationId, "ColorLegendSettingsContextMenu")
+                    ? action.Invoke(new ColorLegendSettingsControl(menu.Element))
+                    : default);
+        }
+
+#pragma warning disable CS0067
+        public event EventHandler<EventArgs> SelectionChanged;
+#pragma warning restore CS0067
 
         public void SetItemCheckState(int index, bool state)
         {
             Access.Execute(nameof(ColorLegendAutomationPeer.SetItemCheckState), index, state);
         }
-
-        protected override void OnEvent(object sender, AutomationEventArgs args)
-        {
-            if (Equals(args.EventName, nameof(Controls.ColorLegend.SelectionChanged)))
-            {
-                SelectionChanged?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        public event EventHandler<EventArgs> SelectionChanged;
     }
 }

@@ -9,11 +9,10 @@
         public void CorrectlySelectItem()
         {
             var target = Target;
-            var view = View;
 
             const int itemIndex = 2;
 
-            EventAssert.Raised(target, nameof(target.SelectionChanged), () => view.Items[itemIndex].Select());
+            EventAssert.Raised(target, nameof(target.SelectionChanged), () => target.Items[itemIndex].Select());
         }
     }
 }

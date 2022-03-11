@@ -19,24 +19,24 @@
         public void CorrectlyFilterItems(string searchString, IColorLegendItem[] expectedFilteredItems, string[] expectedFilteredIds)
         {
             var target = Target;
-            var view = View;
+            var model = target.Current;
 
             //USER:     Input search string
-            view.Filter = searchString;
+            model.Filter = searchString;
 
 // Checking control API
 
             //ItemSource collection shouldn't change
-            CollectionAssert.AreEqual(target.ItemsSource, OriginalItemSource, new TestColorItemComparer());
+            CollectionAssert.AreEqual(model.ItemsSource, OriginalItemSource, new TestColorItemComparer());
 
             //Filtered Items and their ids should be filtered
-            CollectionAssert.AreEqual(target.FilteredItemsSource, expectedFilteredItems, new TestColorItemComparer());
-            CollectionAssert.AreEqual(target.FilteredItemsIds, expectedFilteredIds);
+            CollectionAssert.AreEqual(model.FilteredItemsSource, expectedFilteredItems, new TestColorItemComparer());
+            CollectionAssert.AreEqual(model.FilteredItemsIds, expectedFilteredIds);
 
 //Checking visual state
 
             //List part items should have expected items
-            var allItemDescriptions = view.Items.Select(x => x.Description).ToList();
+            var allItemDescriptions = target.Items.Select(x => x.Description).ToList();
 
             CollectionAssert.AreEqual(allItemDescriptions, expectedFilteredItems.Select(x => x.Description));
         }

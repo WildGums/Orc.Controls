@@ -9,6 +9,7 @@ public class SaveFilePickerModel : FrameworkElementModel
         : base(accessor)
     {
     }
+
     public double LabelWidth { get; set; }
 
     public string LabelText { get; set; }

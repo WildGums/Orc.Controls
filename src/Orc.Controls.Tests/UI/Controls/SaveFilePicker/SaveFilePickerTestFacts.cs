@@ -7,7 +7,7 @@
     public class SaveFilePickerTestFacts : StyledControlTestFacts<SaveFilePicker>
     {
         [Target]
-        public Controls.Automation.SaveFilePicker Target { get; set; }
+        public Automation.SaveFilePicker Target { get; set; }
 
         [Test]
         public void CorrectlySaveContainingDirectory()

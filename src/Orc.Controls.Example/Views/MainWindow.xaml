@@ -31,7 +31,6 @@
             <Button x:Name="TestButton"
                     Grid.Column="0"
                     AutomationProperties.AutomationId="TestButtonId"
-
                     Command="{Binding StartTestHost}"
                     Content="Test"/>
 

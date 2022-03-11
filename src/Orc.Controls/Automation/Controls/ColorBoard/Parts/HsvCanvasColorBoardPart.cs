@@ -11,7 +11,7 @@
         {
         }
 
-        private Rect BoundingRectangle => (Rect)Access.Execute(nameof(ColorBoardAutomationPeer.GetHsvCanvasBoundingRect));
+        public override Rect BoundingRectangle => (Rect)Access.Execute(nameof(ColorBoardAutomationPeer.GetHsvCanvasBoundingRect));
         private Point ColorPosition => (Point)Access.Execute(nameof(ColorBoardAutomationPeer.GetHsvColorEllipsePosition));
 
         public Point GetSV()

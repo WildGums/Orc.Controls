@@ -41,6 +41,7 @@
                                     </Grid.ColumnDefinitions>
                                 
                                     <Border x:Name="PART_DragGrip" 
+                                            AutomationProperties.AutomationId="PART_DragGrip"
                                             Margin="3 2 2 0"
                                             Height="12" 
                                             Padding="2" 
@@ -52,7 +53,7 @@
                                                           Viewbox="0 0 3 3"
                                                           ViewboxUnits="Absolute">
                                                 <DrawingBrush.Drawing>
-                                                    <DrawingGroup >
+                                                    <DrawingGroup>
                                                         <GeometryDrawing x:Name="PART_GripDrawing" 
                                                                          Brush="{DynamicResource Orc.Brushes.Control.Disabled.Border}">
                                                             <GeometryDrawing.Geometry>

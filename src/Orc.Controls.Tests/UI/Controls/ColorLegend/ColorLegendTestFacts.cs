@@ -41,43 +41,41 @@
         [Target]
         public ColorLegend Target { get; set; }
 
-        [TargetView]
-        public ColorLegendView View => Target.View;
-
         [SetUp]
         public override void SetUpTest()
         {
             base.SetUpTest();
 
-            Target.ItemsSource = OriginalItemSource;
+            var model = Target.Current;
+            model.ItemsSource = OriginalItemSource;
         }
 
         [Test]
         public void VerifyConnectedProperties()
         {
             var target = Target;
-            var view = View;
+            var model = target.Current;
 
 
-            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.ShowSearchBox), view, nameof(view.IsSearchBoxVisible), true, false);
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(model, nameof(model.ShowSearchBox), target, nameof(target.IsSearchBoxVisible), true, false);
 
-            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.AllowColorEditing), view, nameof(view.AllowColorEditing), true, false);
-            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.ShowColorPicker), view, nameof(view.ShowColorPicker), true, false);
-            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.ShowColorVisibilityControls), view, nameof(view.ShowColorVisibilityControls), true, false);
-            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.ShowToolBox), view, nameof(view.IsToolBoxVisible), true, false);
-            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.ShowBottomToolBox), view, nameof(view.IsBottomToolBoxVisible), true, false);
-            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.ShowSettingsBox), view, nameof(view.IsSettingsBoxVisible), true, false);
-            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.IsAllVisible), view, nameof(view.IsAllVisible), true, false);
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(model, nameof(model.AllowColorEditing), target, nameof(target.AllowColorEditing), true, false);
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(model, nameof(model.ShowColorPicker), target, nameof(target.ShowColorPicker), true, false);
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(model, nameof(model.ShowColorVisibilityControls), target, nameof(target.ShowColorVisibilityControls), true, false);
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(model, nameof(model.ShowToolBox), target, nameof(target.IsToolBoxVisible), true, false);
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(model, nameof(model.ShowBottomToolBox), target, nameof(target.IsBottomToolBoxVisible), true, false);
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(model, nameof(model.ShowSettingsBox), target, nameof(target.IsSettingsBoxVisible), true, false);
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(model, nameof(model.IsAllVisible), target, nameof(target.IsAllVisible), true, false);
            // ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.IsColorSelecting), view, nameof(view.IsColorSelecting), true, false);
 
-            ConnectedPropertiesAssert.VerifyConnectedProperties(target, nameof(target.Filter), view, nameof(view.Filter),
+            ConnectedPropertiesAssert.VerifyConnectedProperties(target, nameof(target.Filter), model, nameof(model.Filter),
                 true,
                 new ValueTuple<object, object>("test string", "test string"),
               //  new ValueTuple<object, object>(null, null),
               //  new ValueTuple<object, object>(string.Empty, string.Empty),
                 new ValueTuple<object, object>("\\Items+ddd", "\\Items+ddd"));
 
-            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.FilterWatermark), view, nameof(view.FilterWaterMark), true,
+            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(model, nameof(model.FilterWatermark), target, nameof(target.FilterWaterMark), true,
                 "Find...",
                 "Go and find me...",
                 string.Empty,
@@ -88,11 +86,11 @@
         public void CorrectlyInitializeColorLegend()
         {
             var target = Target;
-            var view = View;
+            var model = target.Current;
 
             Thread.Sleep(1000);
 
-            view.ShowColorPicker = false;
+            target.ShowColorPicker = false;
 
             Thread.Sleep(1000);
 

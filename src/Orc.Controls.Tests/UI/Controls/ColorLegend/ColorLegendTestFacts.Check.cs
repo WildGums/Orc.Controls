@@ -11,14 +11,14 @@
         public void CorrectlyUncheckCheckItem(int itemIndex)
         {
             var target = Target;
-            var view = View;
+            var model = target.Current;
 
-            var itemControls = view.Items;
+            var itemControls = target.Items;
             var itemControl = itemControls[itemIndex];
             //Item control is there
             Assert.That(itemControl, Is.Not.Null);
 
-            var itemSource = target[itemIndex];
+            var itemSource = model[itemIndex];
             //Item source is there
             Assert.That(itemSource, Is.Not.Null);
 
@@ -28,13 +28,13 @@
 /*Simulate:   Changing the state from control*/
             itemControl.IsChecked = !itemSource.IsChecked;
             //Verify that source and control match each other -> they should be in one check state
-            Assert.That(itemControl.IsChecked, Is.EqualTo(target[itemIndex].IsChecked));
+            Assert.That(itemControl.IsChecked, Is.EqualTo(model[itemIndex].IsChecked));
 
             //Changing the state from data
-            var isChecked = target[itemIndex].IsChecked;
+            var isChecked = model[itemIndex].IsChecked;
             target.SetItemCheckState(itemIndex, !isChecked);
 
-            Assert.That(itemControl.IsChecked, Is.EqualTo(target[itemIndex].IsChecked));
+            Assert.That(itemControl.IsChecked, Is.EqualTo(model[itemIndex].IsChecked));
         }
 
         [Test]
