@@ -10,7 +10,7 @@
     using Orc.Automation;
     
     [TestFixture(TestOf = typeof(Orc.Controls.ColorBoard))]
-    [NUnit.Framework.Category("UI Tests")]
+    [Category("UI Tests")]
     public partial class ColorBoardTestFacts : StyledControlTestFacts<Orc.Controls.ColorBoard>
     {
         private bool _cancelClicked;

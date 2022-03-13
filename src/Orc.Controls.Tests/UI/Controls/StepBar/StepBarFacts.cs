@@ -28,6 +28,7 @@
 
             item.Execute<SpecifyCommandMethodRun>();
 
+            //Catch command executed
             EventAssert.Raised(target, "AutomationMessageSent", () => item.Invoke());
         }
 

@@ -3,6 +3,7 @@
     using System.Windows.Input;
     using NUnit.Framework;
     using Orc.Automation;
+    using Orc.Automation.Tests;
 
     [TestFixture(TestOf = typeof(SpinButton))]
     [Category("UI Tests")]
@@ -16,15 +17,7 @@
         {
             var target = Target;
 
-            var beenIncreased = false;
-
-            target.Increased += delegate { beenIncreased = true; };
-
-            target.Increase();
-
-            Wait.UntilResponsive(200);
-
-            Assert.That(beenIncreased, Is.True);
+            EventAssert.Raised(target, nameof(target.Increased), () => target.Increase());
         }
 
         [Test]
@@ -32,15 +25,7 @@
         {
             var target = Target;
 
-            var beenDecreased = false;
-
-            target.Decreased += delegate { beenDecreased = true; };
-
-            target.Decrease();
-
-            Wait.UntilResponsive(200);
-
-            Assert.That(beenDecreased, Is.True);
+            EventAssert.Raised(target, nameof(target.Decreased), () => target.Decrease());
         }
 
         [Test]
@@ -48,16 +33,9 @@
         {
             var target = Target;
 
-            var beenCanceled = false;
-
-            target.Canceled += delegate { beenCanceled = true; };
-
             target.SetFocus();
-            target.MouseClick(MouseButton.Right);
 
-            Wait.UntilResponsive(200);
-
-            Assert.That(beenCanceled, Is.True);
+            EventAssert.Raised(target, nameof(target.Canceled), () => target.MouseClick(MouseButton.Right));
         }
     }
 }

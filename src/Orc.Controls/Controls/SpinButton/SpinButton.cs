@@ -32,7 +32,7 @@
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SpinButton), new FrameworkPropertyMetadata(typeof(SpinButton)));
         }
-
+        
         public SpinButton()
         {
             Increased += OnIncreased;
