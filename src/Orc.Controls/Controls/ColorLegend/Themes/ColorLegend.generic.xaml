@@ -4,8 +4,7 @@
                     xmlns:catel="http://schemas.catelproject.com">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/DropDownButton/Themes/DropDownButton.generic.xaml" />
+        <ResourceDictionary Source="/Orc.Theming;component/themes/generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{x:Type controls:ColorLegend}"
@@ -139,8 +138,7 @@
                                                       Grid.Column="0" 
                                                       IsChecked="{Binding IsChecked}"
                                                       VerticalAlignment="Center"
-                                                      Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type controls:ColorLegend}}, 
-                                                                    Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+                                                      Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type controls:ColorLegend}}, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
                                            
                                             <Button x:Name="PART_ButtonColorChange"
                                                     AutomationProperties.AutomationId="ColorChangeButton"
@@ -149,7 +147,7 @@
                                                     Grid.Column="1"
                                                     Height="14"
                                                     VerticalAlignment="Center" 
-                                                    Command="{Binding ChangeColor, RelativeSource={RelativeSource AncestorType=controls:ColorLegend}}">
+                                                    Command="{Binding ChangeColor, RelativeSource={RelativeSource AncestorType={x:Type controls:ColorLegend}}}">
                                                 <Button.CommandParameter>
                                                     <MultiBinding Converter="{StaticResource MultipleCommandParametersConverter}">
                                                         <Binding ElementName="PART_ButtonColorChange" />
