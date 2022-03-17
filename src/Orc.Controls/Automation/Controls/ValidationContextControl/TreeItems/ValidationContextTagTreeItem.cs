@@ -22,6 +22,6 @@ public class ValidationContextTagTreeItem : ValidationContextTreeItemBase
     } 
 
     public IReadOnlyList<ValidationContextTypeTreeItem> TypeNodes => _treeItem.ChildItems
-        .Select(x => AutomationControlExtensions.As<ValidationContextTypeTreeItem>(x))
+        .Select(x => x.As<ValidationContextTypeTreeItem>())
         .ToList();
 }

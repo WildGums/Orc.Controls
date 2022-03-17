@@ -19,6 +19,4 @@ public abstract class ValidationContextTreeItemBase : FrameworkElement
         get => _treeItem.IsExpanded;
         set => _treeItem.IsExpanded = value;
     }
-
-
 }

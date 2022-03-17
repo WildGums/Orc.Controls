@@ -24,7 +24,8 @@
         {
             get
             {
-                return Map.Combobox.InvokeInExpandState(() => Map.Combobox.Items?.Select(x => x.TryGetDisplayText()).ToList());
+                var combobox = Map.Combobox;
+                return combobox.InvokeInExpandState(() => combobox.Items?.Select(x => x.TryGetDisplayText()).ToList());
             }
         }
     }

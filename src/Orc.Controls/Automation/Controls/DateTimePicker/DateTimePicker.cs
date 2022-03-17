@@ -116,14 +116,14 @@
                 }
 
                 var ampm = map.AmPmTextBox?.Current.Value;
-                var additionalHour = 0;
-                if (ampm == "PM")
+                var hour = (int)(map.HourTextBox.Current.Value ?? 1);
+                if (ampm == "PM" && hour != 12)
                 {
-                    additionalHour = 12;
+                    hour += 12;
                 }
                 
                 return new DateTime((int)year, (int)month, (int)day,
-                    (int)((map.HourTextBox.Current.Value ?? 1) + additionalHour),
+                    hour,
                     (int)(map.MinuteTextBox.Current.Value ?? 1),
                     (int)(map.SecondTextBox.Current.Value ?? 1));
             }

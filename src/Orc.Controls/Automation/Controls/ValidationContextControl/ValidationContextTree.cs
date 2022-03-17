@@ -41,29 +41,6 @@
             return typeItem.ChildItems.Select(x => x.Header).ToList();
         }
 
-        //public string GetContents()
-        //{
-        //    var estimatedValidationContext = new ValidationContext();
-
-        //    foreach (var tagItem in TagNodes)
-        //    {
-        //        tagItem.IsExpanded = true;
-
-        //        var tag = tagItem.Tag;
-        //        foreach (var typeItem in tagItem.TypeNodes)
-        //        {
-        //            typeItem.IsExpanded = true;
-
-        //            var validationResultType = typeItem.Type;
-        //            foreach (var resultItem in typeItem.ResultNodes)
-        //            {
-        //                estimatedValidationContext.Add(new BusinessRuleValidationResult(validationResultType, resultItem.Message));
-        //            }
-        //        }
-        //    }
-
-        //    return estimatedValidationContext.GetViewContents();
-        //}
         public IEnumerator<ValidationContextTagTreeItem> GetEnumerator()
         {
             return TagNodes.GetEnumerator();

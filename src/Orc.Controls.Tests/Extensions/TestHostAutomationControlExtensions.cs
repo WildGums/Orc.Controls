@@ -2,14 +2,6 @@
 {
     using System;
     using System.Linq;
-    using System.Linq.Expressions;
-    using System.Security.Cryptography.X509Certificates;
-    using System.Windows.Automation;
-    using System.Windows.Controls;
-    using System.Windows.Media;
-    using Catel.Windows;
-    using NUnit.Framework.Internal.Execution;
-    using Orc.Automation;
     using Orc.Automation.Controls;
     using Theming;
 
