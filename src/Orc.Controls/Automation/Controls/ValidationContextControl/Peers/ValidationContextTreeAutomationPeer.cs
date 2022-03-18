@@ -2,7 +2,7 @@
 {
     using Orc.Automation;
 
-    public class ValidationContextTreeAutomationPeer : ControlRunMethodAutomationPeerBase<Controls.ValidationContextTree>
+    public class ValidationContextTreeAutomationPeer : AutomationControlPeerBase<Controls.ValidationContextTree>
     {
         public ValidationContextTreeAutomationPeer(Controls.ValidationContextTree owner)
             : base(owner)

@@ -2,7 +2,7 @@
 {
     using Orc.Automation;
 
-    public class PredefinedColorItemPeer : ControlRunMethodAutomationPeerBase<PredefinedColorItem>
+    public class PredefinedColorItemPeer : AutomationControlPeerBase<PredefinedColorItem>
     {
         public PredefinedColorItemPeer(PredefinedColorItem owner)
             : base(owner)

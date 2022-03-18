@@ -4,7 +4,7 @@
     using System.Windows.Navigation;
     using Orc.Automation;
 
-    public class LinkLabelAutomationPeer : ControlRunMethodAutomationPeerBase<Controls.LinkLabel>
+    public class LinkLabelAutomationPeer : AutomationControlPeerBase<Controls.LinkLabel>
     {
         public LinkLabelAutomationPeer(Controls.LinkLabel owner) 
             : base(owner)

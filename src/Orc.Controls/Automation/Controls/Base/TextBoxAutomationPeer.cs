@@ -5,7 +5,7 @@ using System.Windows.Automation.Provider;
 using System.Windows.Controls;
 using Orc.Automation;
 
-public class TextBoxAutomationPeer<TControl> : ControlRunMethodAutomationPeerBase<TControl>
+public class TextBoxAutomationPeer<TControl> : AutomationControlPeerBase<TControl>
     where TControl : TextBox
 {
     public TextBoxAutomationPeer(TControl owner) 

@@ -2,7 +2,7 @@
 {
     using Orc.Automation;
 
-    public class OpenFilePickerAutomationPeer : ControlRunMethodAutomationPeerBase<Controls.OpenFilePicker>
+    public class OpenFilePickerAutomationPeer : AutomationControlPeerBase<Controls.OpenFilePicker>
     {
         public OpenFilePickerAutomationPeer(Controls.OpenFilePicker owner)
             : base(owner)

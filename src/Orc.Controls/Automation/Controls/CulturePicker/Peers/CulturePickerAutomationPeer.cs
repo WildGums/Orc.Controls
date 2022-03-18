@@ -4,7 +4,7 @@
     using System.Globalization;
     using Orc.Controls;
 
-    public class CulturePickerAutomationPeer : ControlRunMethodAutomationPeerBase<CulturePicker>
+    public class CulturePickerAutomationPeer : AutomationControlPeerBase<CulturePicker>
     {
         public CulturePickerAutomationPeer(CulturePicker culturePicker)
             : base(culturePicker)

@@ -2,7 +2,7 @@
 {
     using Orc.Automation;
 
-    public class LogMessageCategoryToggleButtonModelPeer : ControlRunMethodAutomationPeerBase<Controls.LogMessageCategoryToggleButton>
+    public class LogMessageCategoryToggleButtonModelPeer : AutomationControlPeerBase<Controls.LogMessageCategoryToggleButton>
     {
         public LogMessageCategoryToggleButtonModelPeer(Controls.LogMessageCategoryToggleButton owner) 
             : base(owner)

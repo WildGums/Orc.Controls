@@ -2,7 +2,7 @@
 {
     using Orc.Automation;
 
-    public class SaveFilePickerAutomationPeer : ControlRunMethodAutomationPeerBase<Controls.SaveFilePicker>
+    public class SaveFilePickerAutomationPeer : AutomationControlPeerBase<Controls.SaveFilePicker>
     {
         public SaveFilePickerAutomationPeer(Controls.SaveFilePicker owner)
             : base(owner)

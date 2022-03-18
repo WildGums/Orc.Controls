@@ -2,7 +2,7 @@
 {
     using Orc.Automation;
 
-    public class BindableRichTextBoxAutomationPeer : ControlRunMethodAutomationPeerBase<Controls.BindableRichTextBox>
+    public class BindableRichTextBoxAutomationPeer : AutomationControlPeerBase<Controls.BindableRichTextBox>
     {
         public BindableRichTextBoxAutomationPeer(Controls.BindableRichTextBox owner) 
             : base(owner)

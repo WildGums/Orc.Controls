@@ -15,8 +15,7 @@
     {
         [Target]
         public Automation.DateTimePicker Target { get; set; }
-
-
+        
         [Test]
         public void VerifyInitialState()
         {

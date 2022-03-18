@@ -2,7 +2,7 @@
 {
     using Orc.Automation;
 
-    public class TimePickerAutomationPeer : ControlRunMethodAutomationPeerBase<Controls.TimePicker>
+    public class TimePickerAutomationPeer : AutomationControlPeerBase<Controls.TimePicker>
     {
         public TimePickerAutomationPeer(Controls.TimePicker owner)
             : base(owner)

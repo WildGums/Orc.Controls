@@ -7,7 +7,7 @@
     using Catel.Windows;
     using Orc.Automation;
 
-    public class ColorBoardAutomationPeer : ControlRunMethodAutomationPeerBase<Controls.ColorBoard>
+    public class ColorBoardAutomationPeer : AutomationControlPeerBase<Controls.ColorBoard>
     {
         private readonly Controls.ColorBoard _owner;
 

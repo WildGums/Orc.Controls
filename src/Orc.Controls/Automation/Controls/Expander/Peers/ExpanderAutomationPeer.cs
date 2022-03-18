@@ -8,7 +8,7 @@
     using Catel.Windows;
     using Orc.Automation;
 
-    public class ExpanderAutomationPeer : ControlRunMethodAutomationPeerBase<Controls.Expander>, IExpandCollapseProvider
+    public class ExpanderAutomationPeer : AutomationControlPeerBase<Controls.Expander>, IExpandCollapseProvider
     {
         public ExpanderAutomationPeer(Controls.Expander owner)
             : base(owner)

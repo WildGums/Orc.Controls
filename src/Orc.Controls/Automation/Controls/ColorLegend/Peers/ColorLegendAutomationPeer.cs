@@ -4,7 +4,7 @@
     using System.Linq;
     using Orc.Automation;
 
-    public class ColorLegendAutomationPeer : ControlRunMethodAutomationPeerBase<Controls.ColorLegend>
+    public class ColorLegendAutomationPeer : AutomationControlPeerBase<Controls.ColorLegend>
     {
         public ColorLegendAutomationPeer(Orc.Controls.ColorLegend owner)
             : base(owner)

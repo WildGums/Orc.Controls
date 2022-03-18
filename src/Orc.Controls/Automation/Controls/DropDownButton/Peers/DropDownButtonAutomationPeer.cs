@@ -7,7 +7,7 @@
     using System.Windows.Controls.Primitives;
     using Orc.Automation;
 
-    public class DropDownButtonAutomationPeer : ControlRunMethodAutomationPeerBase<Orc.Controls.DropDownButton>
+    public class DropDownButtonAutomationPeer : AutomationControlPeerBase<Orc.Controls.DropDownButton>
     {
         public DropDownButtonAutomationPeer(Controls.DropDownButton owner)
             : base(owner)

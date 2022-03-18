@@ -2,7 +2,7 @@
 {
     using Orc.Automation;
 
-    public class RangeSliderAutomationPeer : ControlRunMethodAutomationPeerBase<Controls.RangeSlider>
+    public class RangeSliderAutomationPeer : AutomationControlPeerBase<Controls.RangeSlider>
     {
         public RangeSliderAutomationPeer(Controls.RangeSlider owner)
             : base(owner)

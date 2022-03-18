@@ -3,7 +3,7 @@
     using System.Windows;
     using Orc.Automation;
 
-    public class SpinButtonAutomationPeer : ControlRunMethodAutomationPeerBase<Controls.SpinButton>
+    public class SpinButtonAutomationPeer : AutomationControlPeerBase<Controls.SpinButton>
     {
         public SpinButtonAutomationPeer(Controls.SpinButton owner) 
             : base(owner)

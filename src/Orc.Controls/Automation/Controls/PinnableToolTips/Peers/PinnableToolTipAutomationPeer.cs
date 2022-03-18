@@ -3,7 +3,7 @@
     using System.Windows.Automation;
     using Orc.Automation;
 
-    public class PinnableToolTipAutomationPeer : ControlRunMethodAutomationPeerBase<Controls.PinnableToolTip>
+    public class PinnableToolTipAutomationPeer : AutomationControlPeerBase<Controls.PinnableToolTip>
     {
         public PinnableToolTipAutomationPeer(Controls.PinnableToolTip owner)
             : base(owner)

@@ -2,7 +2,7 @@
 {
     using Orc.Automation;
 
-    public class StepBarItemAutomationPeer : ControlRunMethodAutomationPeerBase<Controls.StepBarItem>
+    public class StepBarItemAutomationPeer : AutomationControlPeerBase<Controls.StepBarItem>
     {
         public StepBarItemAutomationPeer(Controls.StepBarItem owner) 
             : base(owner)

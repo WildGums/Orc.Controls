@@ -6,7 +6,7 @@
     using Catel.Windows;
     using Orc.Automation;
 
-    public class ColorPickerAutomationPeer : ControlRunMethodAutomationPeerBase<Controls.ColorPicker>
+    public class ColorPickerAutomationPeer : AutomationControlPeerBase<Controls.ColorPicker>
     {
         public ColorPickerAutomationPeer(Controls.ColorPicker owner)
             : base(owner)
