@@ -1,22 +1,17 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ColorBoard.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Media;
     using System.Windows.Shapes;
+    using Automation;
     using Catel.Logging;
 
     [TemplatePart(Name = "PART_RootGrid", Type = typeof(FrameworkElement))]
@@ -111,7 +106,7 @@ namespace Orc.Controls
 
         /// <summary>
         /// The gradient stop a 0.
-        /// </summary>
+        /// </summary>  
         private GradientStop _a0GradientStop;
 
         /// <summary>
@@ -788,6 +783,22 @@ namespace Orc.Controls
             }
         }
 
+        public void SetHsvColor(Color color)
+        {
+            var h = ColorHelper.GetHSV_H(color);
+            var s = ColorHelper.GetHSV_S(color);
+            var v = ColorHelper.GetHSV_V(color);
+
+            _hsvSlider.SetCurrentValue(RangeBase.ValueProperty, h);
+            _hsvColorGradientStop.SetCurrentValue(GradientStop.ColorProperty, ColorHelper.HSV2RGB(h, 1d, 1d));
+
+            var x = s * (_hsvRectangle.ActualWidth - 1);
+            var y = (1 - v) * (_hsvRectangle.ActualHeight - 1);
+
+            _hsvEllipse.SetCurrentValue(Canvas.LeftProperty, x - _hsvEllipse.ActualWidth / 2);
+            _hsvEllipse.SetCurrentValue(Canvas.TopProperty, y - _hsvEllipse.ActualHeight / 2);
+        }
+
         /// <summary>
         /// The update controls.
         /// </summary>
@@ -809,18 +820,7 @@ namespace Orc.Controls
                 // HSV
                 if (hsv)
                 {
-                    var h = ColorHelper.GetHSV_H(color);
-                    var s = ColorHelper.GetHSV_S(color);
-                    var v = ColorHelper.GetHSV_V(color);
-
-                    _hsvSlider.SetCurrentValue(RangeBase.ValueProperty, h);
-                    _hsvColorGradientStop.SetCurrentValue(GradientStop.ColorProperty, ColorHelper.HSV2RGB(h, 1d, 1d));
-
-                    var x = s * (_hsvRectangle.ActualWidth - 1);
-                    var y = (1 - v) * (_hsvRectangle.ActualHeight - 1);
-
-                    _hsvEllipse.SetCurrentValue(Canvas.LeftProperty, x - _hsvEllipse.ActualWidth / 2);
-                    _hsvEllipse.SetCurrentValue(Canvas.TopProperty, y - _hsvEllipse.ActualHeight / 2);
+                    SetHsvColor(color);
                 }
 
                 if (rgb)
@@ -1112,6 +1112,11 @@ namespace Orc.Controls
 
             var c = ((PredefinedColorItem)_themeColorsListBox.SelectedItem).Color;
             UpdateControls(c, true, true, true);
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new ColorBoardAutomationPeer(this);
         }
         #endregion
     }

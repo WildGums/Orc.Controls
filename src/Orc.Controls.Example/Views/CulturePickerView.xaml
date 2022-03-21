@@ -12,6 +12,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <orccontrols:CulturePicker SelectedCulture="{Binding Culture}"/>
+        <orccontrols:CulturePicker x:Name="CulturePicker"
+                                   AutomationProperties.AutomationId="CulturePickerId"
+
+                                   SelectedCulture="{Binding Culture}"/>
     </Grid>
 </catel:UserControl>

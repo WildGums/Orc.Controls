@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NumericTextBox.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -13,9 +6,11 @@ namespace Orc.Controls
     using System.Linq;
     using System.Text;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
+    using Automation;
     using Catel;
     using Catel.Logging;
     using Catel.Windows.Input;
@@ -711,6 +706,11 @@ namespace Orc.Controls
             }
 
             return keyValue;
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new NumericTextBoxAutomationPeer(this);
         }
         #endregion
     }

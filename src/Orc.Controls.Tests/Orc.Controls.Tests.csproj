@@ -15,6 +15,7 @@
   <ItemGroup>
     <PackageReference Include="ApprovalTests" Version="5.7.2" />
     <PackageReference Include="Catel.Fody" Version="4.7.0" PrivateAssets="all" />
+    <PackageReference Include="FlaUI.UIA3" Version="3.2.0" />
     <PackageReference Include="Fody" Version="6.6.0" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -26,6 +27,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Orc.Automation.Tests" Version="4.0.5" />
     <PackageReference Include="PublicApiGenerator" Version="10.3.0" PrivateAssets="all" />
   </ItemGroup>
 
@@ -34,11 +36,37 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="*.approved.cs;*.received.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="TestData\FileSystem\Folder1\File1.txt" />
+    <None Remove="TestData\FileSystem\Folder2\File2.txt" />
+    <None Remove="TestData\FileSystem\Folder2\Folder21\File21.txt" />
+    <None Remove="TestData\FileSystem\Folder2\Folder21\File22.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="TestData\FileSystem\Folder1\File1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\FileSystem\Folder2\File2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\FileSystem\Folder2\Folder21\File21.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\FileSystem\Folder2\Folder21\File22.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Orc.Controls\Orc.Controls.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="*.approved.cs;*.received.cs" />
+    <Folder Include="UI\Controls\BusyIndicator\" />
   </ItemGroup>
   
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props')" />

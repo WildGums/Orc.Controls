@@ -2,7 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Orc.Controls"
                     xmlns:catel="http://schemas.catelproject.com"
-                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+                    xmlns:orcautomation="http://schemas.wildgums.com/orc/automation"
+                    xmlns:automation="clr-namespace:Orc.Controls.Automation">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Orc.Theming;component/themes/generic.xaml" />
@@ -20,12 +22,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ColorPicker}">
                     <Grid x:Name="grid" Background="Transparent">
-                        <ToggleButton Grid.ColumnSpan="2"
+                        <ToggleButton x:Name="PART_ToggleDropDown"
+                                      Grid.ColumnSpan="2"
+
                                       IsTabStop="False"
                                       ClickMode="Press"
                                       HorizontalContentAlignment="Stretch"
                                       IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                      x:Name="PART_ToggleDropDown"
                                       Height="14"
                                       Background="Transparent"
                                       BorderBrush="Transparent"
@@ -85,7 +88,7 @@
                                 </ControlTemplate>
                             </ToggleButton.Template>
                             <ToggleButton.Content>
-                                <Ellipse Width="14" Height="14" Grid.Column="1">
+                                <Ellipse x:Name="ColorSurface" Width="14" Height="14" Grid.Column="1">
                                     <Ellipse.Fill>
                                         <SolidColorBrush Color="{Binding Color, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </Ellipse.Fill>
@@ -94,6 +97,8 @@
                         </ToggleButton>
 
                         <Popup x:Name="PART_Popup"
+                               AutomationProperties.AutomationId="ColorPopup"
+
                                Placement="{Binding PopupPlacement, RelativeSource={RelativeSource TemplatedParent}}"
                                IsOpen="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
                     </Grid>
@@ -114,7 +119,8 @@
                     <Grid x:Name="PART_RootGrid" >
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                AutomationProperties.AutomationId="Chrome1">
                             <Grid Width="185" Height="300">
                                 <Grid.Resources>
                                     <Style x:Key="SliderButtonStyle"
@@ -290,6 +296,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TabControl Margin="2"
+                                            AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.TabId}"
                                             Grid.ColumnSpan="2"
                                             Padding="2 2 2 4"
                                             Background="{TemplateBinding Background}">
@@ -306,8 +313,14 @@
                                             </Grid.ColumnDefinitions>
 
                                             <!--HSV Part-->
-                                            <Canvas x:Name="PART_HSVCanvas" Margin="2" Width="140" Height="140" Focusable="False">
-                                                <Rectangle x:Name="RectangleRootHSV" Width="140" Height="140" Focusable="False" Stroke="Black" StrokeThickness="1">
+                                            <Canvas x:Name="PART_HSVCanvas" Margin="2" Width="142" Height="142" Focusable="False">
+                                                <Rectangle Width="140" 
+                                                           Height="140"
+                                                           Focusable="False"
+                                                           Stroke="Black" 
+                                                           StrokeThickness="1"
+                                                           VerticalAlignment="Center"
+                                                           HorizontalAlignment="Center">
                                                     <Rectangle.Fill>
                                                         <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
                                                             <GradientStop Color="#FFFFFFFF" Offset="0" />
@@ -316,7 +329,12 @@
                                                     </Rectangle.Fill>
                                                 </Rectangle>
 
-                                                <Rectangle x:Name="PART_HSVRectangle" Focusable="False" Width="140" Height="140">
+                                                <Rectangle x:Name="PART_HSVRectangle" 
+                                                           Focusable="False" 
+                                                           Width="140" 
+                                                           Height="140"
+                                                           VerticalAlignment="Center"
+                                                           HorizontalAlignment="Center">
                                                     <Rectangle.Fill>
                                                         <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                                             <GradientStop Color="#00000000" Offset="0" />
@@ -325,7 +343,11 @@
                                                     </Rectangle.Fill>
                                                 </Rectangle>
 
-                                                <Ellipse x:Name="PART_HSVEllipse" Focusable="False" Height="8" Width="8" IsHitTestVisible="False">
+                                                <Ellipse x:Name="PART_HSVEllipse"
+                                                         Focusable="False"
+                                                         Height="8"
+                                                         Width="8" 
+                                                         IsHitTestVisible="False">
                                                     <Ellipse.Fill>
                                                         <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
                                                             <GradientStop Color="Transparent" Offset="0" />
@@ -339,6 +361,8 @@
                                             </Canvas>
 
                                             <Slider Name="PART_HSVSlider"
+                                                    AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.HSVSliderId}"
+
                                                     Grid.Column="1"
                                                     Margin="0"
                                                     Height="150"
@@ -377,6 +401,8 @@
                                                 </Grid.ColumnDefinitions>
 
                                                 <Slider x:Name="PART_ASlider"
+                                                        AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.ASliderId}"
+
                                                         Grid.Row="0"
                                                         Grid.Column="0"
                                                         Height="20"
@@ -394,6 +420,7 @@
                                                 </Slider>
 
                                                 <Slider x:Name="PART_RSlider"
+                                                        AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.RSliderId}"
                                                         Grid.Row="1"
                                                         Grid.Column="0"
                                                         Height="20"
@@ -411,6 +438,7 @@
                                                 </Slider>
 
                                                 <Slider x:Name="PART_GSlider"
+                                                        AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.GSliderId}"
                                                         Grid.Row="2"
                                                         Grid.Column="0"
                                                         Height="20"
@@ -428,6 +456,8 @@
                                                 </Slider>
 
                                                 <Slider x:Name="PART_BSlider"
+                                                        AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.BSliderId}"
+
                                                         Grid.Row="3"
                                                         Grid.Column="0"
                                                         Height="20"
@@ -445,6 +475,8 @@
                                                 </Slider>
 
                                                 <TextBox x:Name="PART_ATextBox"
+                                                         AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.AEditId}"
+
                                                          Grid.Row="0"
                                                          Grid.Column="1"
                                                          Margin="0 2 0 0"
@@ -454,6 +486,8 @@
                                                          VerticalAlignment="Center"
                                                          HorizontalAlignment="Center"/>
                                                 <TextBox x:Name="PART_RTextBox"
+                                                         AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.REditId}"
+
                                                          Grid.Row="1"
                                                          Grid.Column="1"
                                                          Margin="0 2 0 0"
@@ -463,6 +497,8 @@
                                                          VerticalAlignment="Center"
                                                          HorizontalAlignment="Center"/>
                                                 <TextBox x:Name="PART_GTextBox"
+                                                         AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.GEditId}"
+
                                                          Grid.Row="2"
                                                          Grid.Column="1"
                                                          Margin="0 2 0 0"
@@ -472,6 +508,8 @@
                                                          VerticalAlignment="Center"
                                                          HorizontalAlignment="Center"/>
                                                 <TextBox x:Name="PART_BTextBox"
+                                                         AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.BEditId}"
+
                                                          Grid.Row="3"
                                                          Grid.Column="1"
                                                          Margin="0 2 0 0"
@@ -508,7 +546,8 @@
                                                         </Setter.Value>
                                                     </Setter>
                                                 </Style>
-                                                <Style TargetType="{x:Type ListBoxItem}">
+                                                <Style TargetType="{x:Type ListBoxItem}"
+                                                       BasedOn="{StaticResource Orc.Styles.ListBoxItem}">
                                                     <Setter Property="Template">
                                                         <Setter.Value>
                                                             <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -567,6 +606,8 @@
                                                            Margin="2 1"/>
                                             </Border>
                                             <ListBox x:Name="PART_ThemeColorsListBox"
+                                                     AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.ThemeColorsListBoxId}"
+                                                     Style="{StaticResource Orc.Styles.ListBox}"
                                                      HorizontalAlignment="Stretch"
                                                      HorizontalContentAlignment="Center"
                                                      BorderThickness="0"
@@ -587,6 +628,8 @@
                                                            Margin="2 1"/>
                                             </Border>
                                             <ListBox x:Name="PART_RecentColorsListBox"
+                                                     AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.RecentColorsListBoxId}"
+                                                     Style="{StaticResource Orc.Styles.ListBox}"
                                                      HorizontalAlignment="Stretch"
                                                      HorizontalContentAlignment="Center"
                                                      BorderThickness="0"
@@ -610,6 +653,8 @@
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Center">
                                     <ComboBox x:Name="PART_ColorComboBox"
+                                              AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.ColorComboBoxId}"
+
                                               Height="20"
                                               Margin="2"
                                               HorizontalContentAlignment="Left"
@@ -632,6 +677,8 @@
                                         </Rectangle>
 
                                         <TextBox x:Name="PART_ColorTextBox"
+                                                 AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.ColorEditId}"
+
                                                  TextOptions.TextRenderingMode="ClearType"
                                                  Margin="5,0"
                                                  Height="20"
@@ -648,12 +695,16 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Button x:Name="PART_CancelButton"
+                                            AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.CancelButtonId}"
+
                                             Grid.Column="0"
                                             Height="auto"
                                             Margin="2 0 2 2"
                                             Content="{catel:LanguageBinding Controls_ColorPickerGeneric_Button_Content_Cancel}" />
 
                                     <Button x:Name="PART_SelectButton"
+                                            AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.SelectButtonId}"
+
                                             Grid.Column="1"
                                             Height="auto"
                                             Margin="0 0 2 2"

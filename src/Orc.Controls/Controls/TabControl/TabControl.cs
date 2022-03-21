@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TabControl.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -13,6 +6,7 @@ namespace Orc.Controls
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using Catel.Windows.Data;
@@ -489,6 +483,11 @@ namespace Orc.Controls
             }
 
             return selectedItem as TabItem ?? ItemContainerGenerator.ContainerFromIndex(SelectedIndex) as TabItem;
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new Orc.Automation.TabControlAutomationPeer(this);
         }
     }
 }

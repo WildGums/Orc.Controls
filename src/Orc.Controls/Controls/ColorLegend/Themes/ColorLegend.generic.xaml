@@ -7,7 +7,8 @@
         <ResourceDictionary Source="/Orc.Theming;component/themes/generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="{x:Type controls:ColorLegend}" TargetType="{x:Type controls:ColorLegend}"
+    <Style x:Key="{x:Type controls:ColorLegend}"
+           TargetType="{x:Type controls:ColorLegend}"
            BasedOn="{StaticResource Orc.Styles.Control}">
         <Style.Resources>
             <controls:MultipleCommandParameterConverter x:Key="MultipleCommandParametersConverter"/>
@@ -59,6 +60,8 @@
                                     </Grid.ColumnDefinitions>
 
                                     <controls:DropDownButton x:Name="PART_Settings_Button" 
+                                                             AutomationProperties.AutomationId="SettingsButton"
+
                                                              Grid.Column="0"
                                                              BorderThickness="0"
                                                              Width="40"
@@ -77,20 +80,24 @@
                                             </Grid>
                                         </controls:DropDownButton.Header>
                                         <controls:DropDownButton.DropDown>
-                                            <ContextMenu Background="{DynamicResource Orc.Brushes.Control.Default.Background}">
-                                                <MenuItem Background="Transparent">
+                                            <ContextMenu Background="{DynamicResource Orc.Brushes.Control.Default.Background}"
+                                                         AutomationProperties.AutomationId="ColorLegendSettingsContextMenu">
+                                                <MenuItem Background="Transparent"
+                                                          AutomationProperties.AutomationId="ShowVisibilityColumnMenuItem">
                                                     <MenuItem.Header>
                                                         <CheckBox Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_ShowVisibilityColumn}" 
                                                                   IsChecked="{Binding Path=ShowColorVisibilityControls, RelativeSource={RelativeSource TemplatedParent}}" />
                                                     </MenuItem.Header>
                                                 </MenuItem>
-                                                <MenuItem Background="Transparent">
+                                                <MenuItem Background="Transparent"
+                                                          AutomationProperties.AutomationId="AllowColorEditMenuItem">
                                                     <MenuItem.Header>
                                                         <CheckBox Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_AllowColorEdit}" 
                                                                   IsChecked="{Binding Path=AllowColorEditing, RelativeSource={RelativeSource TemplatedParent}}" />
                                                     </MenuItem.Header>
                                                 </MenuItem>
-                                                <MenuItem Background="Transparent">
+                                                <MenuItem Background="Transparent"
+                                                          AutomationProperties.AutomationId="ShowColorsMenuItem">
                                                     <MenuItem.Header>
                                                         <CheckBox Content="Show colors"
                                                                   IsChecked="{Binding Path=ShowColorPicker, RelativeSource={RelativeSource TemplatedParent}}" />
@@ -110,10 +117,11 @@
                             </Border>
 
                             <ListView x:Name="PART_List" 
-                                     Grid.Row="3"
-                                     ItemsSource="{Binding FilteredItemsSource, RelativeSource={RelativeSource TemplatedParent}}"
-                                     BorderThickness="0"
-                                     HorizontalContentAlignment="Stretch">
+                                      AutomationProperties.AutomationId="List"
+                                      Grid.Row="3"
+                                      ItemsSource="{Binding FilteredItemsSource, RelativeSource={RelativeSource TemplatedParent}}"
+                                      BorderThickness="0"
+                                      HorizontalContentAlignment="Stretch">
                                 <ListView.ItemTemplate>
                                     <DataTemplate DataType="{x:Type controls:IColorLegendItem}">
                                         <Grid HorizontalAlignment="Stretch" Margin="0">
@@ -125,6 +133,7 @@
                                             </Grid.ColumnDefinitions>
 
                                             <CheckBox x:Name="visibilityCheckbox" 
+                                                      AutomationProperties.AutomationId="VisibilityCheckBox"
                                                       Margin="0 0 2 0"
                                                       Grid.Column="0" 
                                                       IsChecked="{Binding IsChecked}"
@@ -132,6 +141,8 @@
                                                       Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type controls:ColorLegend}}, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
                                            
                                             <Button x:Name="PART_ButtonColorChange"
+                                                    AutomationProperties.AutomationId="ColorChangeButton"
+
                                                     Margin="2 0 10 0"
                                                     Grid.Column="1"
                                                     Height="14"
@@ -187,11 +198,13 @@
                                             </Button>
 
                                             <TextBlock Text="{Binding Description}"
+                                                       AutomationProperties.AutomationId="DescriptionTextBlock"
                                                        VerticalAlignment="Center"
                                                        Grid.Column="2"
                                                        Margin="0"/>
 
                                             <TextBlock Text="{Binding AdditionalData}" 
+                                                       AutomationProperties.AutomationId="AdditionalDataTextBlock"
                                                        VerticalAlignment="Center"
                                                        Grid.Column="3" 
                                                        Margin="0 0 10 0"/>
@@ -225,6 +238,8 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <CheckBox x:Name="PART_All_Visible" 
+                                              AutomationProperties.AutomationId="AllVisibleCheckBox"
+
                                               Margin="6 0 6 0"
                                               Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_CheckAll}"
                                               VerticalAlignment="Center" 
@@ -238,12 +253,15 @@
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Foreground="{DynamicResource Orc.Brushes.Control.Disabled.Border}"
+                                                   AutomationProperties.AutomationId="SelectedItemCountLabel"
                                                    Margin="6 0 6 0"
                                                    TextAlignment="Left"
                                                    VerticalAlignment="Center"
                                                    Text="{Binding SelectedItems.Count, ElementName=PART_List, StringFormat='Selected Items: {0}'}"/>
                                         
                                         <Button x:Name="PART_UnselectAll"
+                                                AutomationProperties.AutomationId="UnselectAllButton"
+
                                                 Margin="6 0 6 0"
                                                 Grid.Column="1" 
                                                 VerticalAlignment="Center"

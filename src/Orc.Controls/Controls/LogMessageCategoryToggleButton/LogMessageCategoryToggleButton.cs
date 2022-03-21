@@ -1,13 +1,15 @@
 ﻿namespace Orc.Controls
 {
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Media;
+    using Automation;
     using Converters;
 
     [TemplatePart(Name = "PART_Toggle", Type = typeof(ToggleButton))]
-    internal class LogMessageCategoryToggleButton : Control
+    public class LogMessageCategoryToggleButton : Control
     {
         #region Fields
         private ToggleButton _toggleButton;
@@ -33,8 +35,6 @@
 
         public static readonly DependencyProperty EntryCountProperty = DependencyProperty.Register(
             nameof(EntryCount), typeof(int), typeof(LogMessageCategoryToggleButton), new PropertyMetadata(default(int)));
-
-
 
         public string Category
         {
@@ -94,6 +94,11 @@
         public void Toggle()
         {
             _toggleButton.Toggle();
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new LogMessageCategoryToggleButtonModelPeer(this);
         }
     }
 }

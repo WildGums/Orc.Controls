@@ -9,10 +9,12 @@ namespace Orc.Controls
 {
     using System.Collections.Generic;
     using System.Windows;
+    using System.Windows.Automation.Peers;
+    using Automation;
     using Catel.Data;
     using Catel.MVVM.Views;
 
-    internal sealed partial class ValidationContextTree
+    public sealed partial class ValidationContextTree
     {
         #region Constructors
         static ValidationContextTree()
@@ -92,5 +94,10 @@ namespace Orc.Controls
             nameof(IsExpandedByDefault), typeof(bool), typeof(ValidationContextTree), new PropertyMetadata(true));
 
         #endregion
+        
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new ValidationContextTreeAutomationPeer(this);
+        }
     }
 }

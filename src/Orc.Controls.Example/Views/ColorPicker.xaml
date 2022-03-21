@@ -7,10 +7,11 @@
     <orccontrols:StackGrid>
         <orccontrols:StackGrid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="250"/>
         </orccontrols:StackGrid.ColumnDefinitions>
 
         <orccontrols:StackGrid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </orccontrols:StackGrid.RowDefinitions>
@@ -30,6 +31,13 @@
         <orccontrols:ColorPicker Grid.Column="1"
                                  Style="{StaticResource ComboboxColorPickerStyle}"
                                  Color="Green"/>
+
+        <Button Content="Click me"
+                Click="OnClick"/>
+
+        <orccontrols:ColorBoard x:Name="ColorBoard"/>
+
+
     </orccontrols:StackGrid>
 
 </catel:UserControl>

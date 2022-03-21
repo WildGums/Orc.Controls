@@ -14,11 +14,13 @@ namespace Orc.Controls
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Documents;
     using System.Windows.Input;
     using System.Windows.Media;
     using System.Windows.Navigation;
+    using Automation;
     using Catel.Logging;
 
 
@@ -400,7 +402,12 @@ namespace Orc.Controls
                 Mouse.OverrideCursor = null;
             }
         }
-#endregion
+        #endregion
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new LinkLabelAutomationPeer(this);
+        }
     }
 }
 

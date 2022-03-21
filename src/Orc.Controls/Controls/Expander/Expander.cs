@@ -9,8 +9,10 @@ namespace Orc.Controls
 {
     using System;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Media.Animation;
+    using Automation;
     using Catel.Logging;
     
     [TemplateVisualState(Name = "Expanded", GroupName = "Expander")]
@@ -356,6 +358,11 @@ namespace Orc.Controls
         private void UpdateStates(bool useTransitions)
         {
             VisualStateManager.GoToState(this, IsExpanded ? "Expanded" : "Collapsed", useTransitions);
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new Automation.ExpanderAutomationPeer(this);
         }
         #endregion
     }

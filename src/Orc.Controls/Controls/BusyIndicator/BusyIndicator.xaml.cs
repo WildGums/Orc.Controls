@@ -1,18 +1,10 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BusyIndicator.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2014 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Media;
-    using Catel.IoC;
-    using Catel.Services;
-    using Catel.Windows.Threading;
+    using Automation;
 
     /// <summary>
     /// Interaction logic for BusyIndicator.xaml
@@ -138,6 +130,11 @@ namespace Orc.Controls
             _grid = grid;
 
             return grid;
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new BusyIndicatorAutomationPeer(this);
         }
         #endregion
     }

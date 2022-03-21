@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Orc.Controls" xmlns:catel="http://schemas.catelproject.com" xmlns:sys="clr-namespace:System;assembly=System.Runtime" xmlns:sys_0="clr-namespace:System;assembly=mscorlib" xmlns:converters="clr-namespace:Orc.Controls.Converters" xmlns:sys_1="clr-namespace:System;assembly=mscorlib" xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors" xmlns:sys_2="clr-namespace:System;assembly=mscorlib" xmlns:sys_3="clr-namespace:System;assembly=mscorlib" xmlns:orctheming="http://schemas.wildgums.com/orc/theming">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Orc.Controls" xmlns:catel="http://schemas.catelproject.com" xmlns:sys="clr-namespace:System;assembly=System.Runtime" xmlns:orcautomation="http://schemas.wildgums.com/orc/automation" xmlns:automation="clr-namespace:Orc.Controls.Automation" xmlns:sys_0="clr-namespace:System;assembly=mscorlib" xmlns:converters="clr-namespace:Orc.Controls.Converters" xmlns:sys_1="clr-namespace:System;assembly=mscorlib" xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors" xmlns:sys_2="clr-namespace:System;assembly=mscorlib" xmlns:sys_3="clr-namespace:System;assembly=mscorlib" xmlns:orctheming="http://schemas.wildgums.com/orc/theming">
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="/Orc.Theming;component/themes/generic.xaml" />
   </ResourceDictionary.MergedDictionaries>
@@ -50,8 +50,8 @@
                 <ColumnDefinition Width="Auto" />
               </Grid.ColumnDefinitions>
               <local:LogMessageCategoryControl Grid.Column="0" Category="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:LogMessageCategoryToggleButton}}, Path=Category}" />
-              <TextBlock Grid.Column="2" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:LogMessageCategoryToggleButton}}, Path=EntryCount}" VerticalAlignment="Center" />
-              <TextBlock Grid.Column="3" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:LogMessageCategoryToggleButton}}, Path=Category, Converter={converters:LogMessageCategoryTextConverter}}" VerticalAlignment="Center" />
+              <TextBlock x:Name="PART_EntryCountTextBlock" Grid.Column="2" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:LogMessageCategoryToggleButton}}, Path=EntryCount}" VerticalAlignment="Center" />
+              <TextBlock x:Name="PART_CategoryTextBlock" Grid.Column="3" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:LogMessageCategoryToggleButton}}, Path=Category, Converter={converters:LogMessageCategoryTextConverter}}" VerticalAlignment="Center" />
             </Grid>
           </ToggleButton>
         </ControlTemplate>
@@ -131,7 +131,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                   </Grid.ColumnDefinitions>
-                  <local:DropDownButton x:Name="PART_Settings_Button" Grid.Column="0" BorderThickness="0" Width="40" Visibility="{Binding ShowSettingsBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+                  <local:DropDownButton x:Name="PART_Settings_Button" AutomationProperties.AutomationId="SettingsButton" Grid.Column="0" BorderThickness="0" Width="40" Visibility="{Binding ShowSettingsBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
                     <local:DropDownButton.Header>
                       <Grid>
                         <Viewbox Height="15">
@@ -140,18 +140,18 @@
                       </Grid>
                     </local:DropDownButton.Header>
                     <local:DropDownButton.DropDown>
-                      <ContextMenu Background="{DynamicResource Orc.Brushes.Control.Default.Background}">
-                        <MenuItem Background="Transparent">
+                      <ContextMenu Background="{DynamicResource Orc.Brushes.Control.Default.Background}" AutomationProperties.AutomationId="ColorLegendSettingsContextMenu">
+                        <MenuItem Background="Transparent" AutomationProperties.AutomationId="ShowVisibilityColumnMenuItem">
                           <MenuItem.Header>
                             <CheckBox Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_ShowVisibilityColumn}" IsChecked="{Binding Path=ShowColorVisibilityControls, RelativeSource={RelativeSource TemplatedParent}}" />
                           </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem Background="Transparent">
+                        <MenuItem Background="Transparent" AutomationProperties.AutomationId="AllowColorEditMenuItem">
                           <MenuItem.Header>
                             <CheckBox Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_AllowColorEdit}" IsChecked="{Binding Path=AllowColorEditing, RelativeSource={RelativeSource TemplatedParent}}" />
                           </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem Background="Transparent">
+                        <MenuItem Background="Transparent" AutomationProperties.AutomationId="ShowColorsMenuItem">
                           <MenuItem.Header>
                             <CheckBox Content="Show colors" IsChecked="{Binding Path=ShowColorPicker, RelativeSource={RelativeSource TemplatedParent}}" />
                           </MenuItem.Header>
@@ -162,7 +162,7 @@
                   <local:FilterBox Grid.Column="1" Watermark="{TemplateBinding FilterWatermark}" PropertyName="Description" Visibility="{Binding ShowSearchBox, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:BooleanToCollapsingVisibilityConverter}}" FilterSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}}" Text="{Binding Filter, RelativeSource={RelativeSource TemplatedParent}}" />
                 </Grid>
               </Border>
-              <ListView x:Name="PART_List" Grid.Row="3" ItemsSource="{Binding FilteredItemsSource, RelativeSource={RelativeSource TemplatedParent}}" BorderThickness="0" HorizontalContentAlignment="Stretch">
+              <ListView x:Name="PART_List" AutomationProperties.AutomationId="List" Grid.Row="3" ItemsSource="{Binding FilteredItemsSource, RelativeSource={RelativeSource TemplatedParent}}" BorderThickness="0" HorizontalContentAlignment="Stretch">
                 <ListView.ItemTemplate>
                   <DataTemplate DataType="{x:Type local:IColorLegendItem}">
                     <Grid HorizontalAlignment="Stretch" Margin="0">
@@ -172,8 +172,8 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                       </Grid.ColumnDefinitions>
-                      <CheckBox x:Name="visibilityCheckbox" Margin="0 0 2 0" Grid.Column="0" IsChecked="{Binding IsChecked}" VerticalAlignment="Center" Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type local:ColorLegend}}, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
-                      <Button x:Name="PART_ButtonColorChange" Margin="2 0 10 0" Grid.Column="1" Height="14" VerticalAlignment="Center" Command="{Binding ChangeColor, RelativeSource={RelativeSource AncestorType={x:Type local:ColorLegend}}}">
+                      <CheckBox x:Name="visibilityCheckbox" AutomationProperties.AutomationId="VisibilityCheckBox" Margin="0 0 2 0" Grid.Column="0" IsChecked="{Binding IsChecked}" VerticalAlignment="Center" Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type local:ColorLegend}}, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+                      <Button x:Name="PART_ButtonColorChange" AutomationProperties.AutomationId="ColorChangeButton" Margin="2 0 10 0" Grid.Column="1" Height="14" VerticalAlignment="Center" Command="{Binding ChangeColor, RelativeSource={RelativeSource AncestorType={x:Type local:ColorLegend}}}">
                         <Button.CommandParameter>
                           <MultiBinding Converter="{StaticResource MultipleCommandParametersConverter}">
                             <Binding ElementName="PART_ButtonColorChange" />
@@ -210,8 +210,8 @@
                           </ControlTemplate>
                         </Button.Template>
                       </Button>
-                      <TextBlock Text="{Binding Description}" VerticalAlignment="Center" Grid.Column="2" Margin="0" />
-                      <TextBlock Text="{Binding AdditionalData}" VerticalAlignment="Center" Grid.Column="3" Margin="0 0 10 0" />
+                      <TextBlock Text="{Binding Description}" AutomationProperties.AutomationId="DescriptionTextBlock" VerticalAlignment="Center" Grid.Column="2" Margin="0" />
+                      <TextBlock Text="{Binding AdditionalData}" AutomationProperties.AutomationId="AdditionalDataTextBlock" VerticalAlignment="Center" Grid.Column="3" Margin="0 0 10 0" />
                     </Grid>
                     <DataTemplate.Triggers>
                       <MultiTrigger>
@@ -237,14 +237,14 @@
                     <ColumnDefinition Width="5" />
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
-                  <CheckBox x:Name="PART_All_Visible" Margin="6 0 6 0" Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_CheckAll}" VerticalAlignment="Center" IsThreeState="True" IsChecked="{Binding IsAllVisible, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type local:ColorLegend}}, &#xD;&#xA;                                                            Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+                  <CheckBox x:Name="PART_All_Visible" AutomationProperties.AutomationId="AllVisibleCheckBox" Margin="6 0 6 0" Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_CheckAll}" VerticalAlignment="Center" IsThreeState="True" IsChecked="{Binding IsAllVisible, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type local:ColorLegend}}, &#xD;&#xA;                                                            Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
                   <Grid Grid.Column="2">
                     <Grid.ColumnDefinitions>
                       <ColumnDefinition MinWidth="100" Width="*" />
                       <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Foreground="{DynamicResource Orc.Brushes.Control.Disabled.Border}" Margin="6 0 6 0" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedItems.Count, ElementName=PART_List, StringFormat='Selected Items: {0}'}" />
-                    <Button x:Name="PART_UnselectAll" Margin="6 0 6 0" Grid.Column="1" VerticalAlignment="Center" Width="110" Content="{catel:LanguageBinding Controls_ColorLegendGeneric_Button_Content_ClearSelection}" />
+                    <TextBlock Foreground="{DynamicResource Orc.Brushes.Control.Disabled.Border}" AutomationProperties.AutomationId="SelectedItemCountLabel" Margin="6 0 6 0" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedItems.Count, ElementName=PART_List, StringFormat='Selected Items: {0}'}" />
+                    <Button x:Name="PART_UnselectAll" AutomationProperties.AutomationId="UnselectAllButton" Margin="6 0 6 0" Grid.Column="1" VerticalAlignment="Center" Width="110" Content="{catel:LanguageBinding Controls_ColorLegendGeneric_Button_Content_ClearSelection}" />
                   </Grid>
                 </Grid>
               </Border>
@@ -273,7 +273,7 @@
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type local:ColorPicker}">
           <Grid x:Name="grid" Background="Transparent">
-            <ToggleButton Grid.ColumnSpan="2" IsTabStop="False" ClickMode="Press" HorizontalContentAlignment="Stretch" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" x:Name="PART_ToggleDropDown" Height="14" Background="Transparent" BorderBrush="Transparent" BorderThickness="0">
+            <ToggleButton x:Name="PART_ToggleDropDown" Grid.ColumnSpan="2" IsTabStop="False" ClickMode="Press" HorizontalContentAlignment="Stretch" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Height="14" Background="Transparent" BorderBrush="Transparent" BorderThickness="0">
               <ToggleButton.Template>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                   <Grid Background="Transparent">
@@ -316,14 +316,14 @@
                 </ControlTemplate>
               </ToggleButton.Template>
               <ToggleButton.Content>
-                <Ellipse Width="14" Height="14" Grid.Column="1">
+                <Ellipse x:Name="ColorSurface" Width="14" Height="14" Grid.Column="1">
                   <Ellipse.Fill>
                     <SolidColorBrush Color="{Binding Color, RelativeSource={RelativeSource TemplatedParent}}" />
                   </Ellipse.Fill>
                 </Ellipse>
               </ToggleButton.Content>
             </ToggleButton>
-            <Popup x:Name="PART_Popup" Placement="{Binding PopupPlacement, RelativeSource={RelativeSource TemplatedParent}}" IsOpen="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
+            <Popup x:Name="PART_Popup" AutomationProperties.AutomationId="ColorPopup" Placement="{Binding PopupPlacement, RelativeSource={RelativeSource TemplatedParent}}" IsOpen="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
           </Grid>
         </ControlTemplate>
       </Setter.Value>
@@ -338,7 +338,7 @@
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type local:ColorBoard}">
           <Grid x:Name="PART_RootGrid">
-            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" AutomationProperties.AutomationId="Chrome1">
               <Grid Width="185" Height="300">
                 <Grid.Resources>
                   <Style x:Key="SliderButtonStyle" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource {x:Type RepeatButton}}">
@@ -473,7 +473,7 @@
                   <ColumnDefinition Width="auto" />
                   <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TabControl Margin="2" Grid.ColumnSpan="2" Padding="2 2 2 4" Background="{TemplateBinding Background}">
+                <TabControl Margin="2" AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.TabId}" Grid.ColumnSpan="2" Padding="2 2 2 4" Background="{TemplateBinding Background}">
                   <TabItem Header="{catel:LanguageBinding Controls_ColorPickerGeneric_TabItem_Header_HSV}" FontSize="10">
                     <Grid>
                       <Grid.RowDefinitions>
@@ -485,8 +485,8 @@
                         <ColumnDefinition Width="*" />
                       </Grid.ColumnDefinitions>
                       <!--HSV Part-->
-                      <Canvas x:Name="PART_HSVCanvas" Margin="2" Width="140" Height="140" Focusable="False">
-                        <Rectangle x:Name="RectangleRootHSV" Width="140" Height="140" Focusable="False" Stroke="Black" StrokeThickness="1">
+                      <Canvas x:Name="PART_HSVCanvas" Margin="2" Width="142" Height="142" Focusable="False">
+                        <Rectangle Width="140" Height="140" Focusable="False" Stroke="Black" StrokeThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                           <Rectangle.Fill>
                             <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
                               <GradientStop Color="#FFFFFFFF" Offset="0" />
@@ -494,7 +494,7 @@
                             </LinearGradientBrush>
                           </Rectangle.Fill>
                         </Rectangle>
-                        <Rectangle x:Name="PART_HSVRectangle" Focusable="False" Width="140" Height="140">
+                        <Rectangle x:Name="PART_HSVRectangle" Focusable="False" Width="140" Height="140" VerticalAlignment="Center" HorizontalAlignment="Center">
                           <Rectangle.Fill>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                               <GradientStop Color="#00000000" Offset="0" />
@@ -514,7 +514,7 @@
                           </Ellipse.Fill>
                         </Ellipse>
                       </Canvas>
-                      <Slider Name="PART_HSVSlider" Grid.Column="1" Margin="0" Height="150" Focusable="False" HorizontalAlignment="Stretch" IsDirectionReversed="True" Maximum="359" SmallChange="1" Orientation="Vertical" IsMoveToPointEnabled="True">
+                      <Slider Name="PART_HSVSlider" AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.HSVSliderId}" Grid.Column="1" Margin="0" Height="150" Focusable="False" HorizontalAlignment="Stretch" IsDirectionReversed="True" Maximum="359" SmallChange="1" Orientation="Vertical" IsMoveToPointEnabled="True">
                         <Slider.Background>
                           <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                             <GradientStop Color="#FFFF0000" Offset="0.0" />
@@ -539,7 +539,7 @@
                           <ColumnDefinition Width="*" />
                           <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Slider x:Name="PART_ASlider" Grid.Row="0" Grid.Column="0" Height="20" IsMoveToPointEnabled="True" Orientation="Horizontal" Maximum="255" SmallChange="1" VerticalAlignment="Center">
+                        <Slider x:Name="PART_ASlider" AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.ASliderId}" Grid.Row="0" Grid.Column="0" Height="20" IsMoveToPointEnabled="True" Orientation="Horizontal" Maximum="255" SmallChange="1" VerticalAlignment="Center">
                           <Slider.Background>
                             <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
                               <GradientStop x:Name="PART_A0GradientStop" Color="#00000000" Offset="0.0" />
@@ -547,7 +547,7 @@
                             </LinearGradientBrush>
                           </Slider.Background>
                         </Slider>
-                        <Slider x:Name="PART_RSlider" Grid.Row="1" Grid.Column="0" Height="20" IsMoveToPointEnabled="True" Orientation="Horizontal" Maximum="255" SmallChange="1" VerticalAlignment="Center">
+                        <Slider x:Name="PART_RSlider" AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.RSliderId}" Grid.Row="1" Grid.Column="0" Height="20" IsMoveToPointEnabled="True" Orientation="Horizontal" Maximum="255" SmallChange="1" VerticalAlignment="Center">
                           <Slider.Background>
                             <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
                               <GradientStop x:Name="PART_R0GradientStop" Color="#FF000000" Offset="0.0" />
@@ -555,7 +555,7 @@
                             </LinearGradientBrush>
                           </Slider.Background>
                         </Slider>
-                        <Slider x:Name="PART_GSlider" Grid.Row="2" Grid.Column="0" Height="20" IsMoveToPointEnabled="True" Orientation="Horizontal" Maximum="255" SmallChange="1" VerticalAlignment="Center">
+                        <Slider x:Name="PART_GSlider" AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.GSliderId}" Grid.Row="2" Grid.Column="0" Height="20" IsMoveToPointEnabled="True" Orientation="Horizontal" Maximum="255" SmallChange="1" VerticalAlignment="Center">
                           <Slider.Background>
                             <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
                               <GradientStop x:Name="PART_G0GradientStop" Color="#FF000000" Offset="0.0" />
@@ -563,7 +563,7 @@
                             </LinearGradientBrush>
                           </Slider.Background>
                         </Slider>
-                        <Slider x:Name="PART_BSlider" Grid.Row="3" Grid.Column="0" Height="20" IsMoveToPointEnabled="True" Orientation="Horizontal" Maximum="255" SmallChange="1" VerticalAlignment="Center">
+                        <Slider x:Name="PART_BSlider" AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.BSliderId}" Grid.Row="3" Grid.Column="0" Height="20" IsMoveToPointEnabled="True" Orientation="Horizontal" Maximum="255" SmallChange="1" VerticalAlignment="Center">
                           <Slider.Background>
                             <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
                               <GradientStop x:Name="PART_B0GradientStop" Color="#FF000000" Offset="0.0" />
@@ -571,10 +571,10 @@
                             </LinearGradientBrush>
                           </Slider.Background>
                         </Slider>
-                        <TextBox x:Name="PART_ATextBox" Grid.Row="0" Grid.Column="1" Margin="0 2 0 0" BorderThickness="0" Height="20" Width="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        <TextBox x:Name="PART_RTextBox" Grid.Row="1" Grid.Column="1" Margin="0 2 0 0" BorderThickness="0" Height="20" Width="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        <TextBox x:Name="PART_GTextBox" Grid.Row="2" Grid.Column="1" Margin="0 2 0 0" BorderThickness="0" Height="20" Width="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        <TextBox x:Name="PART_BTextBox" Grid.Row="3" Grid.Column="1" Margin="0 2 0 0" BorderThickness="0" Height="20" Width="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <TextBox x:Name="PART_ATextBox" AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.AEditId}" Grid.Row="0" Grid.Column="1" Margin="0 2 0 0" BorderThickness="0" Height="20" Width="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <TextBox x:Name="PART_RTextBox" AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.REditId}" Grid.Row="1" Grid.Column="1" Margin="0 2 0 0" BorderThickness="0" Height="20" Width="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <TextBox x:Name="PART_GTextBox" AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.GEditId}" Grid.Row="2" Grid.Column="1" Margin="0 2 0 0" BorderThickness="0" Height="20" Width="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <TextBox x:Name="PART_BTextBox" AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.BEditId}" Grid.Row="3" Grid.Column="1" Margin="0 2 0 0" BorderThickness="0" Height="20" Width="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
                       </Grid>
                     </Grid>
                   </TabItem>
@@ -597,7 +597,7 @@
                             </Setter.Value>
                           </Setter>
                         </Style>
-                        <Style TargetType="{x:Type ListBoxItem}">
+                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource Orc.Styles.ListBoxItem}">
                           <Setter Property="Template">
                             <Setter.Value>
                               <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -646,7 +646,7 @@
                       <Border Background="Gray" BorderBrush="Transparent">
                         <TextBlock Text="{catel:LanguageBinding Controls_ColorPickerGeneric_TextBlock_Text_ThemeColors}" Margin="2 1" />
                       </Border>
-                      <ListBox x:Name="PART_ThemeColorsListBox" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" BorderThickness="0" Margin="5" Background="{TemplateBinding Background}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                      <ListBox x:Name="PART_ThemeColorsListBox" AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.ThemeColorsListBoxId}" Style="{StaticResource Orc.Styles.ListBox}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" BorderThickness="0" Margin="5" Background="{TemplateBinding Background}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                         <ListBox.ItemsPanel>
                           <ItemsPanelTemplate>
                             <local:WrapPanel Width="160" Height="96" />
@@ -656,7 +656,7 @@
                       <Border Background="Gray" BorderBrush="{TemplateBinding BorderBrush}">
                         <TextBlock Text="{catel:LanguageBinding Controls_ColorPickerGeneric_TextBlock_Text_RecentColors}" Margin="2 1" />
                       </Border>
-                      <ListBox x:Name="PART_RecentColorsListBox" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" BorderThickness="0" Margin="5" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="{TemplateBinding Background}">
+                      <ListBox x:Name="PART_RecentColorsListBox" AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.RecentColorsListBoxId}" Style="{StaticResource Orc.Styles.ListBox}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" BorderThickness="0" Margin="5" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="{TemplateBinding Background}">
                         <ListBox.ItemsPanel>
                           <ItemsPanelTemplate>
                             <local:WrapPanel Width="160" />
@@ -667,14 +667,14 @@
                   </TabItem>
                 </TabControl>
                 <Grid Grid.Row="1" Grid.ColumnSpan="2" Height="25" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                  <ComboBox x:Name="PART_ColorComboBox" Height="20" Margin="2" HorizontalContentAlignment="Left" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
+                  <ComboBox x:Name="PART_ColorComboBox" AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.ColorComboBoxId}" Height="20" Margin="2" HorizontalContentAlignment="Left" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
                   <StackPanel Orientation="Horizontal" Margin="4,0,0,0" HorizontalAlignment="Stretch">
                     <Rectangle x:Name="RectangleColor" Width="22" Height="12" Stroke="Black" StrokeThickness="1">
                       <Rectangle.Fill>
                         <SolidColorBrush x:Name="PART_ColorBrush" Color="White" />
                       </Rectangle.Fill>
                     </Rectangle>
-                    <TextBox x:Name="PART_ColorTextBox" TextOptions.TextRenderingMode="ClearType" Margin="5,0" Height="20" Width="88" Style="{StaticResource TextBoxCustomizedStyle}" />
+                    <TextBox x:Name="PART_ColorTextBox" AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.ColorEditId}" TextOptions.TextRenderingMode="ClearType" Margin="5,0" Height="20" Width="88" Style="{StaticResource TextBoxCustomizedStyle}" />
                   </StackPanel>
                 </Grid>
                 <Grid Grid.Row="2" Grid.ColumnSpan="2">
@@ -682,8 +682,8 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                   </Grid.ColumnDefinitions>
-                  <Button x:Name="PART_CancelButton" Grid.Column="0" Height="auto" Margin="2 0 2 2" Content="{catel:LanguageBinding Controls_ColorPickerGeneric_Button_Content_Cancel}" />
-                  <Button x:Name="PART_SelectButton" Grid.Column="1" Height="auto" Margin="0 0 2 2" Content="{catel:LanguageBinding Controls_ColorPickerGeneric_Button_Content_Select}" />
+                  <Button x:Name="PART_CancelButton" AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.CancelButtonId}" Grid.Column="0" Height="auto" Margin="2 0 2 2" Content="{catel:LanguageBinding Controls_ColorPickerGeneric_Button_Content_Cancel}" />
+                  <Button x:Name="PART_SelectButton" AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.SelectButtonId}" Grid.Column="1" Height="auto" Margin="0 0 2 2" Content="{catel:LanguageBinding Controls_ColorPickerGeneric_Button_Content_Select}" />
                 </Grid>
               </Grid>
             </Border>
@@ -976,8 +976,8 @@
                 </Grid>
               </Grid>
             </Border>
-            <Popup x:Name="PART_CalendarPopup" PlacementTarget="{Binding ElementName=PART_MainGrid}" Placement="Bottom" VerticalOffset="-4" StaysOpen="False">
-              <Calendar x:Name="PART_Calendar" Margin="0 -3 0 -3" />
+            <Popup x:Name="PART_CalendarPopup" AutomationProperties.AutomationId="CalendarPopupId" PlacementTarget="{Binding ElementName=PART_MainGrid}" Placement="Bottom" VerticalOffset="-4" StaysOpen="False">
+              <Calendar x:Name="PART_Calendar" AutomationProperties.AutomationId="CalendarId" Margin="0 -3 0 -3" />
             </Popup>
             <Popup x:Name="PART_TimePickerPopup" PlacementTarget="{Binding ElementName=PART_MainGrid}" Placement="Bottom" VerticalOffset="0" StaysOpen="False">
               <Border BorderBrush="LightGray" BorderThickness="3">
@@ -1005,7 +1005,7 @@
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type local:DropDownButton}">
           <Grid x:Name="ChromeGrid" Background="{DynamicResource Orc.Brushes.Control.Background}">
-            <Border x:Name="Chrome" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+            <Border x:Name="Chrome" AutomationProperties.AutomationId="Chrome" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
               <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
                 <Grid x:Name="PathGrid" VerticalAlignment="Stretch" IsHitTestVisible="True" Visibility="{TemplateBinding IsArrowVisible, Converter={catel:BooleanToCollapsingVisibilityConverter}}" Margin="{TemplateBinding ArrowMargin}" HorizontalAlignment="Stretch" DockPanel.Dock="{TemplateBinding ArrowLocation, Converter={local:DropdownArrowLocationConverter}}">
                   <Border x:Name="PART_ArrowBorder" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" BorderThickness="0">
@@ -1038,7 +1038,7 @@
         <Setter Property="Template">
           <Setter.Value>
             <ControlTemplate TargetType="{x:Type ToggleButton}">
-              <Border x:Name="Chrome" Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
+              <Border x:Name="Chrome" AutomationProperties.AutomationId="Chrome" Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
                 <VisualStateManager.VisualStateGroups>
                   <VisualStateGroup Name="CommonStates">
                     <VisualState Name="Unchecked">
@@ -1105,7 +1105,7 @@
           <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
             <DockPanel>
               <Border x:Name="PART_HeaderSiteBorder" Background="Transparent" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                <ToggleButton x:Name="HeaderSite" Style="{StaticResource ExpanderHeaderToggleButtonStyle}" BorderThickness="{TemplateBinding BorderThickness}" ContentTemplate="{TemplateBinding HeaderTemplate}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" Content="{TemplateBinding Header}" Foreground="{TemplateBinding Foreground}" FontWeight="{TemplateBinding FontWeight}" FontStyle="{TemplateBinding FontStyle}" FontStretch="{TemplateBinding FontStretch}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                <ToggleButton x:Name="HeaderSite" AutomationProperties.AutomationId="HeaderSiteToggleButton" Style="{StaticResource ExpanderHeaderToggleButtonStyle}" BorderThickness="{TemplateBinding BorderThickness}" ContentTemplate="{TemplateBinding HeaderTemplate}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" Content="{TemplateBinding Header}" Foreground="{TemplateBinding Foreground}" FontWeight="{TemplateBinding FontWeight}" FontStyle="{TemplateBinding FontStyle}" FontStretch="{TemplateBinding FontStretch}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
               </Border>
               <ContentPresenter x:Name="PART_ExpandSite" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" Focusable="false" />
             </DockPanel>
@@ -1488,7 +1488,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
-                  <Border x:Name="PART_DragGrip" Margin="3 2 2 0" Height="12" Padding="2" VerticalAlignment="Center">
+                  <Border x:Name="PART_DragGrip" AutomationProperties.AutomationId="PART_DragGrip" Margin="3 2 2 0" Height="12" Padding="2" VerticalAlignment="Center">
                     <Border.Background>
                       <DrawingBrush TileMode="Tile" Viewport="0 0 3 3" ViewportUnits="Absolute" Viewbox="0 0 3 3" ViewboxUnits="Absolute">
                         <DrawingBrush.Drawing>
@@ -1619,11 +1619,11 @@
                 <RowDefinition Height="1" />
                 <RowDefinition Height="*" />
               </Grid.RowDefinitions>
-              <RepeatButton x:Name="PART_IncreaseButton" Grid.Row="0" Margin="0" Padding="2" BorderThickness="0" Height="NaN" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Focusable="False" Command="{TemplateBinding Increase}" CommandParameter="{TemplateBinding CommandParameter}">
+              <RepeatButton x:Name="PART_IncreaseButton" AutomationProperties.AutomationId="PART_IncreaseButton" Grid.Row="0" Margin="0" Padding="2" BorderThickness="0" Height="NaN" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Focusable="False" Command="{TemplateBinding Increase}" CommandParameter="{TemplateBinding CommandParameter}">
                 <Path Data="M0,4 L4,0 8,4z" Stretch="Fill" Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}" />
               </RepeatButton>
               <Rectangle Fill="{TemplateBinding BorderBrush}" Grid.Row="1" Margin="1 0 1 0" />
-              <RepeatButton x:Name="PART_DecreaseButton" Grid.Row="2" BorderThickness=" 0" Margin="0" Padding="2" Height="NaN" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Focusable="False" Command="{TemplateBinding Decrease}" CommandParameter="{TemplateBinding CommandParameter}">
+              <RepeatButton x:Name="PART_DecreaseButton" AutomationProperties.AutomationId="PART_DecreaseButton" Grid.Row="2" BorderThickness=" 0" Margin="0" Padding="2" Height="NaN" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Focusable="False" Command="{TemplateBinding Decrease}" CommandParameter="{TemplateBinding CommandParameter}">
                 <Path Data="M0,0 L4,4 8,0z" Stretch="Fill" Fill="{DynamicResource Orc.Brushes.Control.Default.Foreground}" />
               </RepeatButton>
             </Grid>
@@ -2045,7 +2045,7 @@
                   </ControlTemplate>
                 </ToggleButton.Template>
                 <ToggleButton.Content>
-                  <Rectangle Stretch="Fill" Margin="1" Fill="{Binding Color, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:ColorToBrushConverter}}" />
+                  <Rectangle x:Name="ColorSurface" Stretch="Fill" Margin="1" Fill="{Binding Color, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:ColorToBrushConverter}}" />
                 </ToggleButton.Content>
               </ToggleButton>
               <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Relative" HorizontalOffset="-1" IsOpen="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" />

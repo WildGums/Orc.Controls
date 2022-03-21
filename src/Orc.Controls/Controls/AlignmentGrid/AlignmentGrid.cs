@@ -1,16 +1,11 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AlignmentGrid.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Shapes;
+    using Automation;
     using ControlzEx.Theming;
     using Theming;
 
@@ -145,6 +140,11 @@ namespace Orc.Controls
         private void OnAlignmentGridSizeChanged(object sender, SizeChangedEventArgs e)
         {
             Rebuild();
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new AlignmentGridAutomationPeer(this);
         }
         #endregion
     }

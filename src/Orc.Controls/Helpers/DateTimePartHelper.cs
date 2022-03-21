@@ -3,10 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.Windows;
+    using System.Windows.Automation;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using Catel.IoC;
+    using Catel.Windows;
+    using Orc.Automation;
 
     public class DateTimePartHelper
     {
@@ -34,6 +37,7 @@
         {
             var popup = new Popup
             {
+                Name = "DatePartPopupId",
                 MinWidth = _textBox.ActualWidth + 25,
                 MaxHeight = 100,
                 PlacementTarget = _textBox,
@@ -43,13 +47,20 @@
                 StaysOpen = false,
             };
 
+            popup.SetCurrentValue(AutomationProperties.AutomationIdProperty, "DatePartPopupId");
+
             popup.Closed += PopupOnClosed;
 
             var popupSource = CreatePopupSource();
             popupSource.PreviewKeyDown += popupSource_PreviewKeyDown;
             popupSource.MouseUp += PopupSourceOnMouseUp;
 
-            popup.Child = popupSource;
+            var automationInformer = new Orc.Automation.Controls.AutomationInformer
+            {
+                Content = popupSource
+            };
+
+            popup.Child = automationInformer;
             SelectItem(popupSource);
             popupSource.Focus();
 
@@ -65,7 +76,9 @@
                 UpdateTextBox((KeyValuePair<string, string>)listbox.SelectedItems[0]);
             }
 
-            ((Popup)listbox.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
+            listbox.FindLogicalOrVisualAncestorByType<Popup>()
+                .SetCurrentValue(Popup.IsOpenProperty, false);
+
             _textBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
 
@@ -143,6 +156,7 @@
 
             var listbox = new ListBox
             {
+                Name="DatePartListBoxId",
                 ItemsSource = source,
                 IsSynchronizedWithCurrentItem = false,
                 DisplayMemberPath = nameof(KeyValuePair<string, string>.Value),
