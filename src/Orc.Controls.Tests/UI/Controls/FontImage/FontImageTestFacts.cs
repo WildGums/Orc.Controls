@@ -1,9 +1,10 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests.UI
 {
     using System.Windows.Media;
     using NUnit.Framework;
     using Orc.Automation;
 
+    [Explicit]
     [TestFixture(TestOf = typeof(FontImage))]
     [Category("UI Tests")]
     public class FontImageTestFacts : StyledControlTestFacts<FontImage>

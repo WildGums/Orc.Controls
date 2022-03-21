@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests.UI
 {
     using NUnit.Framework;
     using Orc.Automation;
@@ -9,6 +9,7 @@
     using Orc.Automation.Tests;
     using FrameworkElement = System.Windows.FrameworkElement;
 
+    [Explicit]
     [TestFixture(TestOf = typeof(StepBar))]
     [Category("UI Tests")]
     public class StepBarFacts : StyledControlTestFacts<StepBar>

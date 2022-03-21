@@ -1,9 +1,10 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests.UI
 {
     using System.Collections.Generic;
     using NUnit.Framework;
     using Orc.Automation;
 
+    [Explicit]
     [TestFixture(TestOf = typeof(StaggeredPanel))]
     [Category("UI Tests")]
     public partial class StaggeredPanelFacts : StyledControlTestFacts<StaggeredPanel>

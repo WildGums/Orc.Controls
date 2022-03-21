@@ -1,10 +1,11 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests.UI
 {
     using System;
     using System.Collections;
     using NUnit.Framework;
     using Orc.Automation;
 
+    [Explicit]
     [TestFixture(TestOf = typeof(TimePicker))]
     [Category("UI Tests")]
     public class TimeSpanPickerFacts : StyledControlTestFacts<TimeSpanPicker>

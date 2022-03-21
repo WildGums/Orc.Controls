@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests.UI
 {
     using System;
     using System.Collections;
@@ -11,6 +11,7 @@
     using Orc.Automation;
     using Orc.Automation.Tests;
 
+    [Explicit]
     [TestFixture(TestOf = typeof(ColorLegend))]
     [Category("UI Tests")]
     public partial class ColorLegendTestFacts : StyledControlTestFacts<Orc.Controls.ColorLegend>

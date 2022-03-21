@@ -1,9 +1,12 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests.UI
 {
     using NUnit.Framework;
     using Orc.Automation;
     using Orc.Automation.Tests;
 
+    [Explicit]
+    [TestFixture(TestOf = typeof(RangeSlider))]
+    [Category("UI Tests")]
     public class RangeSliderTestFacts : StyledControlTestFacts<RangeSlider>
     {
         [Target]

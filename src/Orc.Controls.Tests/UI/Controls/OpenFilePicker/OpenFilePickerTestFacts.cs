@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.UI
+﻿namespace Orc.Controls.Tests.UI
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -8,12 +8,16 @@
     using NUnit.Framework;
     using Orc.Automation;
     using Orc.Automation.Controls;
+    using Orc.Controls.UI;
     using Tests;
 
+    [Explicit]
+    [TestFixture(TestOf = typeof(OpenFilePicker))]
+    [Category("UI Tests")]
     public class OpenFilePickerTestFacts : StyledControlTestFacts<OpenFilePicker>
     {
         [Target]
-        public Controls.Automation.OpenFilePicker Target { get; set; }
+        public Orc.Controls.Automation.OpenFilePicker Target { get; set; }
 
         [Test]
         public void CorrectlyOpenContainingDirectory()

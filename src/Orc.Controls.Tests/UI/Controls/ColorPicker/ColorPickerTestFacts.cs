@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests.UI
 {
     using System.Collections;
     using System.Windows;
@@ -8,6 +8,7 @@
     using Orc.Automation;
     using Orc.Automation.Tests;
 
+    [Explicit]
     [TestFixture(TestOf = typeof(Orc.Controls.ColorPicker))]
     [Category("UI Tests")]
     public class ColorPickerTestFacts : StyledControlTestFacts<Orc.Controls.ColorPicker>

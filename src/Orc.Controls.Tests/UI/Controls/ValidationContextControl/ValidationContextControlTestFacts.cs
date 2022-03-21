@@ -1,10 +1,13 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests.UI
 {
     using Catel.Data;
     using NUnit.Framework;
     using Orc.Automation;
     using Orc.Automation.Tests;
 
+    [Explicit]
+    [TestFixture(TestOf = typeof(ValidationContextView))]
+    [Category("UI Tests")]
     public partial class ValidationContextControlTestFacts : StyledControlTestFacts<ValidationContextView>
     {
         [Target]

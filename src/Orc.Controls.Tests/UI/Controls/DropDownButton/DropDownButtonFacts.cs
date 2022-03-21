@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests.UI
 {
     using System.Windows;
     using System.Windows.Controls;
@@ -6,7 +6,7 @@
     using Orc.Automation;
     using Orc.Automation.Tests;
 
-
+    [Explicit]
     [TestFixture(TestOf = typeof(DropDownButton))]
     [Category("UI Tests")]
     public class DropDownButtonFacts : StyledControlTestFacts<DropDownButton>

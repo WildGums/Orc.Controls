@@ -1,9 +1,12 @@
-﻿namespace Orc.Controls.UI
+﻿namespace Orc.Controls.Tests.UI
 {
     using NUnit.Framework;
     using Orc.Automation;
     using Tests;
 
+    [Explicit]
+    [TestFixture(TestOf = typeof(SaveFilePicker))]
+    [Category("UI Tests")]
     public class SaveFilePickerTestFacts : StyledControlTestFacts<SaveFilePicker>
     {
         [Target]

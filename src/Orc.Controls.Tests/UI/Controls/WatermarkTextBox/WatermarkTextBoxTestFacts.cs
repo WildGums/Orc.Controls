@@ -1,10 +1,11 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests.UI
 {
     using System.Linq;
     using System.Windows.Input;
     using NUnit.Framework;
     using Orc.Automation;
 
+    [Explicit]
     [TestFixture(TestOf = typeof(Expander))]
     [Category("UI Tests")]
     public class WatermarkTextBoxTestFacts : StyledControlTestFacts<WatermarkTextBox>

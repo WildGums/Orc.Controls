@@ -1,9 +1,8 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests.UI
 {
     using Automation;
     using NUnit.Framework;
     using Orc.Automation.Tests;
-
     
     public partial class ColorBoardTestFacts
     {

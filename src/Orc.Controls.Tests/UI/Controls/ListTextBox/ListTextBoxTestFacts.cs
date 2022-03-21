@@ -1,12 +1,12 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests.UI
 {
     using System.Collections;
     using System.Collections.Generic;
     using System.Windows.Input;
     using NUnit.Framework;
     using Orc.Automation;
-    using Orc.Automation.Tests;
 
+    [Explicit]
     [TestFixture(TestOf = typeof(NumericUpDown))]
     [Category("UI Tests")]
     public class ListTextBoxTestFacts : StyledControlTestFacts<ListTextBox>

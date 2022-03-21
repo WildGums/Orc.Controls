@@ -1,8 +1,9 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests.UI
 {
     using NUnit.Framework;
     using Orc.Automation;
 
+    [Explicit]
     [TestFixture(TestOf = typeof(FrameRateCounter))]
     [Category("UI Tests")]
     public class HeaderBarTestFacts : StyledControlTestFacts<HeaderBar>

@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.UI
+﻿namespace Orc.Controls.Tests.UI
 {
     using System.IO;
     using System.Linq;
@@ -15,6 +15,9 @@
     using FrameworkElement = System.Windows.FrameworkElement;
     using PinnableToolTip = PinnableToolTip;
 
+    [Explicit]
+    [TestFixture(TestOf = typeof(PinnableToolTip))]
+    [Category("UI Tests")]
     public class PinnableToolTipTestFacts : StyledControlTestFacts<PinnableToolTip>
     {
         [Target]

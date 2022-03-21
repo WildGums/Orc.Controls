@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests.UI
 {
     using System;
     using System.Windows.Automation;
@@ -7,6 +7,7 @@
     using Orc.Automation;
     using Orc.Automation.Tests;
 
+    [Explicit]
     [TestFixture(TestOf = typeof(NumericUpDown))]
     [Category("UI Tests")]
     public class NumericUpDownFacts : StyledControlTestFacts<NumericUpDown>

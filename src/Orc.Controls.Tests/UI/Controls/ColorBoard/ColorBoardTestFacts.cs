@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests.UI
 {
     using System;
     using System.Collections;
@@ -8,7 +8,8 @@
     using Automation;
     using NUnit.Framework;
     using Orc.Automation;
-    
+
+    [Explicit]
     [TestFixture(TestOf = typeof(Orc.Controls.ColorBoard))]
     [Category("UI Tests")]
     public partial class ColorBoardTestFacts : StyledControlTestFacts<Orc.Controls.ColorBoard>

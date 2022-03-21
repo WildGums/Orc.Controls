@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests.UI
 {
     using System;
     using System.Collections;
@@ -9,6 +9,7 @@
     using NUnit.Framework;
     using Orc.Automation;
 
+    [Explicit]
     [TestFixture(TestOf = typeof(DateTimePicker))]
     [Category("UI Tests")]
     public partial class DateTimePickerTestFacts : StyledControlTestFacts<DateTimePicker>

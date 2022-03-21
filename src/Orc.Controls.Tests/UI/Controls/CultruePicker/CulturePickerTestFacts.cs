@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests.UI
 {
     using System;
     using System.Collections;
@@ -8,6 +8,7 @@
     using Orc.Automation;
     using Orc.Automation.Tests;
 
+    [Explicit]
     [TestFixture(TestOf = typeof(CulturePicker))]
     [Category("UI Tests")]
     public partial class CulturePickerTestFacts : StyledControlTestFacts<CulturePicker>
