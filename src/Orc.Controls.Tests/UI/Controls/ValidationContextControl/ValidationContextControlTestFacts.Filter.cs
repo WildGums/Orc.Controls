@@ -6,7 +6,6 @@
 
     public partial class ValidationContextControlTestFacts
     {
-        [Test]
         [TestCaseSource(nameof(FilterTestCases))]
         public void CorrectlyFilter(ValidationContext validationContext, string filter,
             ValidationContext expectedTreeContents)
@@ -21,7 +20,6 @@
             ValidationTreeAssert.Match(target, expectedTreeContents);
         }
 
-        [Test]
         [TestCaseSource(nameof(FilterByTypeTestCases))]
         public void CorrectlyFilterByType(ValidationContext validationContext, bool isWarningVisible, bool isErrorsVisible, ValidationContext expectedTreeContents)
         {
