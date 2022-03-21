@@ -3,6 +3,9 @@
     using NUnit.Framework;
     using Orc.Automation;
 
+    [Explicit]
+    [TestFixture(TestOf = typeof(ValidationContextTree))]
+    [Category("UI Tests")]
     public class ValidationContextTreeTestFacts : StyledControlTestFacts<ValidationContextTree>
     {
         [Target]
