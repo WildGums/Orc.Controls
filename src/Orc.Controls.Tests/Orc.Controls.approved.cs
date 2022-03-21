@@ -9,6 +9,29 @@ public static class ModuleInitializer
 {
     public static void Initialize() { }
 }
+namespace Orc.Automation
+{
+    public class CulturePickerAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.CulturePicker>
+    {
+        public CulturePickerAutomationPeer(Orc.Controls.CulturePicker culturePicker) { }
+        [Orc.Automation.AutomationMethod]
+        public System.Collections.Generic.List<System.Globalization.CultureInfo> GetAvailableCultures() { }
+    }
+    public class CulturePickerMap : Orc.Automation.AutomationBase
+    {
+        public CulturePickerMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.ComboBox Combobox { get; }
+    }
+    public class NumericUpDownAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.NumericUpDown>
+    {
+        public NumericUpDownAutomationPeer(Orc.Controls.NumericUpDown numericUpDown) { }
+    }
+    public class TabControlAutomationPeer : System.Windows.Automation.Peers.TabControlAutomationPeer
+    {
+        public TabControlAutomationPeer(System.Windows.Controls.TabControl owner) { }
+        protected override System.Collections.Generic.List<System.Windows.Automation.Peers.AutomationPeer> GetChildrenCore() { }
+    }
+}
 namespace Orc.Controls
 {
     public class AlignmentGrid : System.Windows.Controls.ContentControl
@@ -20,12 +43,14 @@ namespace Orc.Controls
         public double HorizontalStep { get; set; }
         public System.Windows.Media.Brush LineBrush { get; set; }
         public double VerticalStep { get; set; }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
     public class AnimatedGif : System.Windows.Controls.Image
     {
         public static readonly System.Windows.DependencyProperty GifSourceProperty;
         public AnimatedGif() { }
         public string GifSource { get; set; }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
     public class AnimatingTextBlock : System.Windows.Controls.UserControl, Orc.Controls.Services.IStatusRepresenter
     {
@@ -37,6 +62,7 @@ namespace Orc.Controls
         public System.Windows.Media.Animation.Storyboard ShowStoryboard { get; set; }
         public string Text { get; set; }
         public override void OnApplyTemplate() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         public void UpdateStatus(string status) { }
     }
     public class ApplicationLogFilterGroupService : Orc.Controls.IApplicationLogFilterGroupService
@@ -53,6 +79,7 @@ namespace Orc.Controls
         public BindableRichTextBox() { }
         public bool AutoScrollToEnd { get; set; }
         public System.Windows.Documents.FlowDocument BindableDocument { get; set; }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
     public class BindableRun : System.Windows.Documents.Run
     {
@@ -68,6 +95,7 @@ namespace Orc.Controls
         public System.Windows.Media.Brush Foreground { get; set; }
         public int IgnoreUnloadedEventCount { get; set; }
         public void InitializeComponent() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnRenderSizeChanged(System.Windows.SizeChangedInfo sizeInfo) { }
     }
     [System.Windows.Markup.ContentProperty("InnerContent")]
@@ -230,7 +258,9 @@ namespace Orc.Controls
         public event System.Windows.RoutedEventHandler CancelClicked;
         public event System.Windows.RoutedEventHandler DoneClicked;
         public override void OnApplyTemplate() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         public void OnDoneClicked() { }
+        public void SetHsvColor(System.Windows.Media.Color color) { }
     }
     public class ColorChangedEventArgs : System.EventArgs
     {
@@ -294,12 +324,15 @@ namespace Orc.Controls
         protected System.Collections.Generic.IEnumerable<Orc.Controls.IColorLegendItem> GetFilteredItems() { }
         public System.Collections.Generic.IEnumerable<Orc.Controls.IColorLegendItem> GetSelectedList() { }
         public override void OnApplyTemplate() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         public void SetSelectedList(System.Collections.Generic.IEnumerable<Orc.Controls.IColorLegendItem> selectedList) { }
         public void UpdateColorEditingControlsVisibility() { }
         public void UpdateColorPickerColorVisibility() { }
         public void UpdateVisibilityControlsVisibility() { }
     }
     [Catel.Runtime.Serialization.SerializerModifier(typeof(Orc.Controls.ColorLegendItemSerializerModifier))]
+    [System.Runtime.Serialization.KnownType(typeof(System.Windows.Media.Color))]
+    [System.Serializable]
     public class ColorLegendItem : Catel.Data.ModelBase, Orc.Controls.IColorLegendItem, System.ComponentModel.INotifyPropertyChanged
     {
         public static readonly Catel.Data.PropertyData AdditionalDataProperty;
@@ -310,6 +343,7 @@ namespace Orc.Controls
         public static readonly Catel.Data.PropertyData IsSelectedProperty;
         public ColorLegendItem() { }
         public string AdditionalData { get; set; }
+        [Catel.Runtime.Serialization.IncludeInSerialization]
         public System.Windows.Media.Color Color { get; set; }
         public string Description { get; set; }
         public string Id { get; set; }
@@ -336,6 +370,7 @@ namespace Orc.Controls
         public System.Windows.Controls.Primitives.PlacementMode PopupPlacement { get; set; }
         public event System.EventHandler<Orc.Controls.ColorChangedEventArgs> ColorChanged;
         public override void OnApplyTemplate() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
     public class ComboboxEditableControlBehavior : Orc.Controls.EditableControlBehaviorBase<System.Windows.Controls.ComboBox>
     {
@@ -370,6 +405,7 @@ namespace Orc.Controls
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.Globalization.CultureInfo SelectedCulture { get; set; }
         public void InitializeComponent() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
     [System.Obsolete("Use DateTimePicker instead. Will be removed in version 5.0.0.", true)]
     [System.Windows.TemplatePart(Name="PART_ClearButton", Type=typeof(System.Windows.Controls.Button))]
@@ -607,6 +643,7 @@ namespace Orc.Controls
         public event System.EventHandler<System.EventArgs> EditStarted;
         public event System.EventHandler<System.EventArgs> ValueChanged;
         public override void OnApplyTemplate() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e) { }
         protected override void OnIsKeyboardFocusWithinChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
         protected override void OnLostKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e) { }
@@ -682,6 +719,7 @@ namespace Orc.Controls
         public override void OnApplyTemplate() { }
         protected override void OnChecked(System.Windows.RoutedEventArgs e) { }
         protected override void OnContentChanged(object oldContent, object newContent) { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnMouseDown(System.Windows.Input.MouseButtonEventArgs e) { }
         protected override void OnPreviewMouseDown(System.Windows.Input.MouseButtonEventArgs e) { }
         protected override void OnUnchecked(System.Windows.RoutedEventArgs e) { }
@@ -751,6 +789,7 @@ namespace Orc.Controls
         public bool IsExpanded { get; set; }
         public override void OnApplyTemplate() { }
         protected virtual void OnCollapsed() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected virtual void OnExpanded() { }
     }
     [System.Windows.TemplatePart(Name="PART_ClearButton", Type=typeof(System.Windows.Controls.Button))]
@@ -768,6 +807,7 @@ namespace Orc.Controls
         public string Watermark { get; set; }
         public event System.EventHandler<Orc.Controls.InitializingAutoCompletionServiceEventArgs> InitializingAutoCompletionService;
         public override void OnApplyTemplate() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected virtual void OnInitializingAutoCompletionService(Orc.Controls.InitializingAutoCompletionServiceEventArgs e) { }
         protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e) { }
         protected override void OnTextChanged(System.Windows.Controls.TextChangedEventArgs e) { }
@@ -840,6 +880,7 @@ namespace Orc.Controls
         protected virtual void Dispose(bool disposing) { }
         protected override void Finalize() { }
         public override void OnApplyTemplate() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected virtual void OnDelayChanged(System.Windows.Duration oldDelay, System.Windows.Duration newDelay) { }
         protected virtual void OnDotHeightChanged(double oldDotHeight, double newDotHeight) { }
         protected virtual void OnDotRadiusXChanged(double oldDotRadiusX, double newDotRadiusX) { }
@@ -861,6 +902,7 @@ namespace Orc.Controls
         public FontImage() { }
         public string ItemName { get; set; }
         public override void OnApplyTemplate() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
     public class FrameCounter : System.Windows.Controls.TextBlock
     {
@@ -869,12 +911,14 @@ namespace Orc.Controls
         public FrameCounter() { }
         public string Prefix { get; set; }
         public int ResetCount { get; set; }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
     public class FrameRateCounter : System.Windows.Controls.TextBlock
     {
         public static readonly System.Windows.DependencyProperty PrefixProperty;
         public FrameRateCounter() { }
         public string Prefix { get; set; }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
     public static class FrameworkElementExtensions
     {
@@ -888,6 +932,7 @@ namespace Orc.Controls
         public static bool DetachTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
         public static System.Windows.Point GetCenterPointInRoot(this System.Windows.FrameworkElement frameworkElement, System.Windows.FrameworkElement root) { }
         public static Orc.Controls.Tools.IControlToolManager GetControlToolManager(this System.Windows.FrameworkElement frameworkElement) { }
+        public static System.Windows.Rect GetScreenRect(this System.Windows.FrameworkElement frameworkElement) { }
         public static System.Collections.Generic.IList<Orc.Controls.IControlTool> GetTools(this System.Windows.FrameworkElement frameworkElement) { }
         public static Orc.Controls.IEditableControl TryGetEditableControl(this System.Windows.FrameworkElement frameworkElement) { }
     }
@@ -896,6 +941,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty HeaderProperty;
         public HeaderBar() { }
         public string Header { get; set; }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
     public interface IApplicationLogFilterGroupService
     {
@@ -1135,6 +1181,7 @@ namespace Orc.Controls
         public event System.Windows.RoutedEventHandler Click;
         public event System.Windows.Navigation.RequestNavigateEventHandler RequestNavigate;
         public override void OnApplyTemplate() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
     public enum LinkLabelBehavior
     {
@@ -1168,6 +1215,7 @@ namespace Orc.Controls
         public event System.EventHandler LeftBoundReached;
         public event System.EventHandler RightBoundReached;
         public event System.EventHandler ValueChanged;
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
         protected override void OnPreviewTextInput(System.Windows.Input.TextCompositionEventArgs e) { }
     }
@@ -1321,6 +1369,20 @@ namespace Orc.Controls
         TypeName = 0,
         AssemblyName = 1,
         LogMessage = 2,
+    }
+    [System.Windows.TemplatePart(Name="PART_Toggle", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
+    public class LogMessageCategoryToggleButton : System.Windows.Controls.Control
+    {
+        public static readonly System.Windows.DependencyProperty CategoryProperty;
+        public static readonly System.Windows.DependencyProperty EntryCountProperty;
+        public static readonly System.Windows.DependencyProperty IsCheckedProperty;
+        public LogMessageCategoryToggleButton() { }
+        public string Category { get; set; }
+        public int EntryCount { get; set; }
+        public bool IsChecked { get; set; }
+        public override void OnApplyTemplate() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
+        public void Toggle() { }
     }
     public class LogRecord
     {
@@ -1511,6 +1573,7 @@ namespace Orc.Controls
         public event System.EventHandler LeftBoundReached;
         public event System.EventHandler RightBoundReached;
         public event System.EventHandler ValueChanged;
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
         protected override void OnPreviewTextInput(System.Windows.Input.TextCompositionEventArgs e) { }
     }
@@ -1557,6 +1620,7 @@ namespace Orc.Controls
         public Orc.Controls.Number Value { get; set; }
         public event System.EventHandler<System.EventArgs> TextChanged;
         public override void OnApplyTemplate() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e) { }
         protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
     }
@@ -1579,6 +1643,7 @@ namespace Orc.Controls
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string SelectedFile { get; set; }
         public void InitializeComponent() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
     public class OpenFilePickerViewModel : Catel.MVVM.ViewModelBase
     {
@@ -1644,6 +1709,7 @@ namespace Orc.Controls
         public void Hide() { }
         public void IgnoreTimerStartupWhenMouseLeave(bool value) { }
         public override void OnApplyTemplate() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         public void SetUserDefinedAdorner(System.Windows.UIElement element) { }
         public void SetupTimer(int initialShowDelay, int showDuration) { }
         public void Show() { }
@@ -1694,6 +1760,11 @@ namespace Orc.Controls
         public PredefinedColorItem(System.Windows.Media.Color color, string text) { }
         public System.Windows.Media.Color Color { get; set; }
         public string Text { get; set; }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
+    }
+    public class PredefinedColorItemPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.PredefinedColorItem>
+    {
+        public PredefinedColorItemPeer(Orc.Controls.PredefinedColorItem owner) { }
     }
     public static class PredefinedDateRanges
     {
@@ -1734,6 +1805,7 @@ namespace Orc.Controls
         [System.ComponentModel.Category("Behavior")]
         public event System.Windows.RoutedPropertyChangedEventHandler<double> UpperValueChanged;
         public override void OnApplyTemplate() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
     }
     public class ResizingAdorner : System.Windows.Documents.Adorner
@@ -1773,6 +1845,7 @@ namespace Orc.Controls
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string SelectedFile { get; set; }
         public void InitializeComponent() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
     public class SaveFilePickerViewModel : Catel.MVVM.ViewModelBase
     {
@@ -1824,6 +1897,7 @@ namespace Orc.Controls
         public event System.Windows.RoutedEventHandler Decreased;
         public event System.Windows.RoutedEventHandler Increased;
         public override void OnApplyTemplate() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e) { }
         protected override void OnPreviewMouseRightButtonDown(System.Windows.Input.MouseButtonEventArgs e) { }
     }
@@ -1844,6 +1918,7 @@ namespace Orc.Controls
         public double RowSpacing { get; set; }
         protected override System.Windows.Size ArrangeOverride(System.Windows.Size finalSize) { }
         protected override System.Windows.Size MeasureOverride(System.Windows.Size availableSize) { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
     public sealed class StepBar : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
@@ -1857,6 +1932,7 @@ namespace Orc.Controls
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public Orc.Controls.IStepBarItem SelectedItem { get; set; }
         public void InitializeComponent() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
     }
@@ -1870,6 +1946,7 @@ namespace Orc.Controls
         public StepBarItem() { }
         public System.Windows.Controls.Orientation Orientation { get; set; }
         public void InitializeComponent() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnLoaded(System.EventArgs e) { }
     }
     public class StepBarItemBase : Catel.Data.ModelBase, Orc.Controls.IStepBarItem
@@ -1922,6 +1999,7 @@ namespace Orc.Controls
         public static string GetRegexStringFromSearchPattern(this string pattern) { }
         public static bool IsValidRegexPattern(this string pattern) { }
         public static System.Windows.Documents.Inline ToInline(this string text) { }
+        public static System.IO.Stream ToStream(this string s) { }
     }
     public class SuggestionListService : Orc.Controls.ISuggestionListService
     {
@@ -1939,6 +2017,7 @@ namespace Orc.Controls
         public virtual void LoadTabItem(int index) { }
         public virtual void LoadTabItem(System.Windows.Controls.ContentPresenter tabItem) { }
         public override void OnApplyTemplate() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e) { }
     }
     public class TabControlItemData
@@ -2025,6 +2104,7 @@ namespace Orc.Controls
         public double MinuteTickThickness { get; set; }
         public bool ShowNumbers { get; set; }
         public System.TimeSpan TimeValue { get; set; }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnMouseDown(System.Windows.Input.MouseButtonEventArgs e) { }
         protected override void OnRender(System.Windows.Media.DrawingContext drawingContext) { }
     }
@@ -2063,6 +2143,7 @@ namespace Orc.Controls
         public bool IsReadOnly { get; set; }
         public System.TimeSpan? Value { get; set; }
         public override void OnApplyTemplate() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnIsKeyboardFocusedChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
         protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
     }
@@ -2073,6 +2154,7 @@ namespace Orc.Controls
     public static class TypeExtensions
     {
         public static object ChangeTypeSafe(this System.Type convertToType, double dValue) { }
+        public static System.Type FindGenericTypeImplementation<TBaseType>(this System.Type singleGenericTypeArgument, System.Reflection.Assembly assembly = null) { }
         public static System.Array GetEnumValues(this System.Type enumType) { }
         public static T[] GetEnumValues<T>() { }
         public static bool IsFloatingPointType(this System.Type type) { }
@@ -2081,6 +2163,30 @@ namespace Orc.Controls
                 "Min",
                 "Max"})]
         public static System.ValueTuple<double, double>? TryGetNumberRange(this System.Type type) { }
+    }
+    public sealed class ValidationContextTree : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    {
+        public static readonly System.Windows.DependencyProperty FilterProperty;
+        public static readonly System.Windows.DependencyProperty IsExpandedByDefaultProperty;
+        public static readonly System.Windows.DependencyProperty NodesProperty;
+        public static readonly System.Windows.DependencyProperty ShowErrorsProperty;
+        public static readonly System.Windows.DependencyProperty ShowWarningsProperty;
+        public static readonly System.Windows.DependencyProperty ValidationContextProperty;
+        public ValidationContextTree() { }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewToViewModel)]
+        public string Filter { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewToViewModel)]
+        public bool IsExpandedByDefault { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewModelToView)]
+        public System.Collections.Generic.IEnumerable<Orc.Controls.IValidationContextTreeNode> Nodes { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewToViewModel)]
+        public bool ShowErrors { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewToViewModel)]
+        public bool ShowWarnings { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewToViewModel)]
+        public Catel.Data.IValidationContext ValidationContext { get; set; }
+        public void InitializeComponent() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
     public class ValidationContextTreeNode : Catel.Data.ChildAwareModelBase, Orc.Controls.IValidationContextTreeNode, System.IComparable
     {
@@ -2133,6 +2239,7 @@ namespace Orc.Controls
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public Catel.Data.IValidationContext ValidationContext { get; set; }
         public void InitializeComponent() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
     public class ValidationContextViewModel : Catel.MVVM.ViewModelBase
     {
@@ -2236,9 +2343,11 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty WatermarkProperty;
         public static readonly System.Windows.DependencyProperty WatermarkTemplateProperty;
         public WatermarkTextBox() { }
+        public bool SelectAllOnGotFocus { get; set; }
         public object Watermark { get; set; }
         public System.Windows.DataTemplate WatermarkTemplate { get; set; }
         public override void OnApplyTemplate() { }
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e) { }
         protected override void OnPreviewMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e) { }
     }
@@ -2256,6 +2365,1316 @@ namespace Orc.Controls
         public WrapPanel() { }
         protected override System.Windows.Size ArrangeOverride(System.Windows.Size finalSize) { }
         protected override System.Windows.Size MeasureOverride(System.Windows.Size availableSize) { }
+    }
+}
+namespace Orc.Controls.Automation
+{
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.AlignmentGrid))]
+    public class AlignmentGrid : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.AlignmentGridModel>
+    {
+        public AlignmentGrid(System.Windows.Automation.AutomationElement element) { }
+    }
+    public class AlignmentGridAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.AlignmentGrid>
+    {
+        public AlignmentGridAutomationPeer(Orc.Controls.AlignmentGrid owner) { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class AlignmentGridModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData HorizontalStepProperty;
+        public static readonly Catel.Data.PropertyData LineBrushProperty;
+        public static readonly Catel.Data.PropertyData VerticalStepProperty;
+        public AlignmentGridModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public double HorizontalStep { get; set; }
+        public System.Windows.Media.Brush LineBrush { get; set; }
+        public double VerticalStep { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.AnimatedGif))]
+    public class AnimatedGif : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.AnimatedGifModel>
+    {
+        public AnimatedGif(System.Windows.Automation.AutomationElement element) { }
+    }
+    public class AnimatedGifAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.AnimatedGif>
+    {
+        public AnimatedGifAutomationPeer(Orc.Controls.AnimatedGif owner) { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class AnimatedGifModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData GifSourceProperty;
+        public AnimatedGifModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public string GifSource { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.AnimatingTextBlock))]
+    public class AnimatingTextBlock : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.AnimatingTextBlockModel>
+    {
+        public AnimatingTextBlock(System.Windows.Automation.AutomationElement element) { }
+    }
+    public class AnimatingTextBlockAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.AnimatingTextBlock>
+    {
+        public AnimatingTextBlockAutomationPeer(Orc.Controls.AnimatingTextBlock owner) { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class AnimatingTextBlockModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData TextProperty;
+        public AnimatingTextBlockModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public string Text { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.BindableRichTextBox))]
+    public class BindableRichTextBox : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.BindableRichTextBoxModel>
+    {
+        public BindableRichTextBox(System.Windows.Automation.AutomationElement element) { }
+    }
+    public class BindableRichTextBoxAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.BindableRichTextBox>
+    {
+        public BindableRichTextBoxAutomationPeer(Orc.Controls.BindableRichTextBox owner) { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class BindableRichTextBoxModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData AutoScrollToEndProperty;
+        public static readonly Catel.Data.PropertyData BindableDocumentProperty;
+        public BindableRichTextBoxModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public bool AutoScrollToEnd { get; set; }
+        public System.Windows.Documents.FlowDocument BindableDocument { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.BusyIndicator))]
+    public class BusyIndicator : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.BusyIndicatorModel>
+    {
+        public BusyIndicator(System.Windows.Automation.AutomationElement element) { }
+    }
+    public class BusyIndicatorAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.BusyIndicator>
+    {
+        public BusyIndicatorAutomationPeer(Orc.Controls.BusyIndicator owner) { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class BusyIndicatorModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData ForegroundProperty;
+        public static readonly Catel.Data.PropertyData IgnoreUnloadedEventCountProperty;
+        public BusyIndicatorModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public System.Windows.Media.SolidColorBrush Foreground { get; set; }
+        public int IgnoreUnloadedEventCount { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.ColorBoard))]
+    public class ColorBoard : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.ColorBoardModel, Orc.Controls.Automation.ColorBoardMap>
+    {
+        public ColorBoard(System.Windows.Automation.AutomationElement element) { }
+        public System.Windows.Media.Color ArgbColor { get; set; }
+        public System.Windows.Media.Color ArgbColorAlt { get; set; }
+        public System.Collections.Generic.List<string> AvailableColorNames { get; }
+        public string ColorName { get; set; }
+        public System.Windows.Media.Color HsvColor { get; set; }
+        public string PredefinedColorName { get; set; }
+        public System.Collections.Generic.IReadOnlyList<Orc.Controls.Automation.PredefinedColorItem> RecentColors { get; }
+        public System.Windows.Media.Color? SelectedRecentColor { get; set; }
+        public System.Windows.Media.Color? SelectedThemeColor { get; set; }
+        public System.Collections.Generic.IReadOnlyList<Orc.Controls.Automation.PredefinedColorItem> ThemeColors { get; }
+        public event System.EventHandler<System.EventArgs> CancelClicked;
+        public event System.EventHandler<System.EventArgs> DoneClicked;
+        public bool Apply() { }
+        public bool Cancel() { }
+        public void SetHsvColor(System.Windows.Media.Color color) { }
+    }
+    public class ColorBoardAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.ColorBoard>
+    {
+        public ColorBoardAutomationPeer(Orc.Controls.ColorBoard owner) { }
+        [Orc.Automation.AutomationMethod]
+        public System.Windows.Point GetColorPoint(System.Windows.Media.Color color) { }
+        [Orc.Automation.AutomationMethod]
+        public System.Windows.Rect GetHsvCanvasBoundingRect() { }
+        [Orc.Automation.AutomationMethod]
+        public System.Windows.Point GetHsvColorEllipsePosition() { }
+        [Orc.Automation.AutomationMethod]
+        public System.Windows.Point GetSV() { }
+    }
+    public class ColorBoardMap : Orc.Automation.AutomationBase
+    {
+        public static string AEditId;
+        public static string ASliderId;
+        public static string BEditId;
+        public static string BSliderId;
+        public static string CancelButtonId;
+        public static string ColorComboBoxId;
+        public static string ColorEditId;
+        public static string GEditId;
+        public static string GSliderId;
+        public static string HSVSliderId;
+        public static string REditId;
+        public static string RSliderId;
+        public static string RecentColorsListBoxId;
+        public static string SelectButtonId;
+        public static string TabId;
+        public static string ThemeColorsListBoxId;
+        public ColorBoardMap(Orc.Controls.Automation.ColorBoard target) { }
+        public Orc.Automation.Controls.Edit AEdit { get; }
+        public Orc.Automation.Controls.Slider ASlider { get; }
+        public Orc.Automation.Controls.Edit BEdit { get; }
+        public Orc.Automation.Controls.Slider BSlider { get; }
+        public override Orc.Automation.By By { get; }
+        public Orc.Automation.Controls.Button CancelButton { get; }
+        public Orc.Automation.Controls.ComboBox ColorComboBox { get; }
+        public Orc.Automation.Controls.Edit ColorEdit { get; }
+        public Orc.Automation.Controls.Edit GEdit { get; }
+        public Orc.Automation.Controls.Slider GSlider { get; }
+        public Orc.Automation.Controls.Slider HSVSlider { get; }
+        public Orc.Controls.Automation.HsvCanvasColorBoardPart HsvCanvas { get; }
+        public Orc.Automation.Controls.Edit REdit { get; }
+        public Orc.Automation.Controls.Slider RSlider { get; }
+        public Orc.Automation.Controls.List RecentColorsListBox { get; }
+        public Orc.Automation.Controls.Button SelectButton { get; }
+        public Orc.Automation.Controls.Tab Tab { get; }
+        public Orc.Automation.Controls.List ThemeColorsListBox { get; }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class ColorBoardModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData ColorProperty;
+        public ColorBoardModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public System.Windows.Media.Color Color { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.ColorLegend))]
+    public class ColorLegend : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.ColorLegendModel, Orc.Controls.Automation.ColorLegendMap>
+    {
+        public ColorLegend(System.Windows.Automation.AutomationElement element) { }
+        public bool AllowColorEditing { get; set; }
+        public bool CanClearSelection { get; }
+        public string Filter { get; set; }
+        public string FilterWaterMark { get; }
+        public bool? IsAllVisible { get; set; }
+        public bool IsBottomToolBoxVisible { get; }
+        public bool IsSearchBoxVisible { get; }
+        public bool IsSettingsBoxVisible { get; }
+        public bool IsToolBoxVisible { get; }
+        public System.Collections.Generic.List<Orc.Controls.Automation.ColorLegendItemAutomationControl> Items { get; }
+        public bool ShowColorPicker { get; set; }
+        public bool ShowColorVisibilityControls { get; set; }
+        public event System.EventHandler<System.EventArgs> SelectionChanged;
+        public TResult InvokeInSettingsScope<TResult>(System.Func<Orc.Controls.Automation.ColorLegendSettingsControl, TResult> action) { }
+        public void SetItemCheckState(int index, bool state) { }
+    }
+    public class ColorLegendAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.ColorLegend>
+    {
+        public ColorLegendAutomationPeer(Orc.Controls.ColorLegend owner) { }
+        [Orc.Automation.AutomationMethod]
+        public void SetItemCheckState(int index, bool isChecked) { }
+    }
+    [Orc.Automation.AutomatedControl(ControlTypeName="ListItem")]
+    public class ColorLegendItemAutomationControl : Orc.Automation.Controls.ListItem
+    {
+        public ColorLegendItemAutomationControl(System.Windows.Automation.AutomationElement element) { }
+        public string AdditionalText { get; }
+        public string Description { get; }
+        public bool IsChecked { get; set; }
+    }
+    public class ColorLegendMap : Orc.Automation.AutomationBase
+    {
+        public ColorLegendMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.CheckBox AllVisibleCheckBoxPart { get; }
+        public Orc.Automation.Controls.Text FilterWatermarkTextPart { get; }
+        public System.Collections.Generic.List<Orc.Controls.Automation.ColorLegendItemAutomationControl> Items { get; }
+        public Orc.Automation.Controls.List ListPart { get; }
+        public Orc.Automation.Controls.Edit SearchBoxPart { get; }
+        public Orc.Automation.Controls.Text SelectedItemCountLabel { get; }
+        public Orc.Controls.Automation.DropDownButton SettingsButtonPart { get; }
+        public Orc.Automation.Controls.Button UnselectAllButtonPart { get; }
+    }
+    public class ColorLegendModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData AllowColorEditingProperty;
+        public static readonly Catel.Data.PropertyData EditingColorProperty;
+        public static readonly Catel.Data.PropertyData FilterProperty;
+        public static readonly Catel.Data.PropertyData FilterWatermarkProperty;
+        public static readonly Catel.Data.PropertyData FilteredItemsSourceProperty;
+        public static readonly Catel.Data.PropertyData IsAllVisibleProperty;
+        public static readonly Catel.Data.PropertyData IsColorSelectingProperty;
+        public static readonly Catel.Data.PropertyData ItemsSourceProperty;
+        public static readonly Catel.Data.PropertyData SelectedColorItemsProperty;
+        public static readonly Catel.Data.PropertyData ShowBottomToolBoxProperty;
+        public static readonly Catel.Data.PropertyData ShowColorPickerProperty;
+        public static readonly Catel.Data.PropertyData ShowColorVisibilityControlsProperty;
+        public static readonly Catel.Data.PropertyData ShowSearchBoxProperty;
+        public static readonly Catel.Data.PropertyData ShowSettingsBoxProperty;
+        public static readonly Catel.Data.PropertyData ShowToolBoxProperty;
+        public ColorLegendModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        [Orc.Automation.ActiveAutomationProperty]
+        public bool AllowColorEditing { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public System.Windows.Media.Color EditingColor { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public string Filter { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public string FilterWatermark { get; set; }
+        public System.Collections.Generic.IEnumerable<string> FilteredItemsIds { get; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public System.Collections.Generic.IEnumerable<Orc.Controls.IColorLegendItem> FilteredItemsSource { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public bool? IsAllVisible { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public bool IsColorSelecting { get; set; }
+        public Orc.Controls.IColorLegendItem this[int index] { get; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public System.Collections.Generic.IEnumerable<Orc.Controls.IColorLegendItem> ItemsSource { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public System.Collections.Generic.IEnumerable<Orc.Controls.IColorLegendItem> SelectedColorItems { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public bool ShowBottomToolBox { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public bool ShowColorPicker { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public bool ShowColorVisibilityControls { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public bool ShowSearchBox { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public bool ShowSettingsBox { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public bool ShowToolBox { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(ControlTypeName="Menu")]
+    public class ColorLegendSettingsControl : Orc.Automation.Controls.Menu
+    {
+        public ColorLegendSettingsControl(System.Windows.Automation.AutomationElement element) { }
+        public bool AllowColorEditing { get; set; }
+        public bool ShowColorPicker { get; set; }
+        public bool ShowColorVisibilityControls { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.ColorPicker))]
+    public class ColorPicker : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.ColorPickerModel>
+    {
+        public ColorPicker(System.Windows.Automation.AutomationElement element) { }
+        public System.Windows.Media.Color Color { get; set; }
+        public event System.EventHandler<System.EventArgs> ColorChanged;
+        public Orc.Controls.Automation.ColorBoard OpenColorBoard() { }
+    }
+    public class ColorPickerAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.ColorPicker>
+    {
+        public ColorPickerAutomationPeer(Orc.Controls.ColorPicker owner) { }
+        [Orc.Automation.AutomationMethod]
+        public System.Windows.Media.Color? GetRenderedElementColor() { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class ColorPickerModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData ColorProperty;
+        public static readonly Catel.Data.PropertyData CurrentColorProperty;
+        public static readonly Catel.Data.PropertyData IsDropDownOpenProperty;
+        public ColorPickerModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public System.Windows.Media.Color Color { get; set; }
+        public System.Windows.Media.Color CurrentColor { get; set; }
+        public bool IsDropDownOpen { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.CulturePicker))]
+    public class CulturePicker : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.CulturePickerModel, Orc.Automation.CulturePickerMap>
+    {
+        public CulturePicker(System.Windows.Automation.AutomationElement element) { }
+        public System.Collections.Generic.IReadOnlyList<string> Items { get; }
+        public string SelectedCulture { get; set; }
+    }
+    public class CulturePickerModel : Orc.Automation.ControlModel
+    {
+        public static readonly Catel.Data.PropertyData SelectedCultureProperty;
+        public CulturePickerModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public System.Collections.Generic.List<System.Globalization.CultureInfo> AvailableCultures { get; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public System.Globalization.CultureInfo SelectedCulture { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.DateTimePicker))]
+    public class DateTimePicker : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.DateTimePickerModel, Orc.Controls.Automation.DateTimePickerMap>
+    {
+        public DateTimePicker(System.Windows.Automation.AutomationElement element) { }
+        public System.DateTime? Value { get; set; }
+        public void CopyDate() { }
+        public Orc.Automation.Controls.Calendar OpenCalendar() { }
+        public void OpenSelectTimeDialog() { }
+        public void PasteDate() { }
+        public void SelectDay(int dayInMonth) { }
+        public void SelectHour(int hour) { }
+        public void SelectMinute(int minute) { }
+        public void SelectMonth(int month) { }
+        public void SelectSecond(int second) { }
+        public void SetNowValue() { }
+        public void SetTodayValue() { }
+    }
+    public class DateTimePickerAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.DateTimePicker>
+    {
+        public DateTimePickerAutomationPeer(Orc.Controls.DateTimePicker owner) { }
+    }
+    public class DateTimePickerMap : Orc.Automation.AutomationBase
+    {
+        public DateTimePickerMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Controls.Automation.ListTextBox AmPmTextBox { get; }
+        public Orc.Automation.Controls.ToggleButton AmPmToggleButton { get; }
+        public Orc.Controls.Automation.NumericTextBox DaysTextBox { get; }
+        public Orc.Automation.Controls.ToggleButton DaysToggleButton { get; }
+        public Orc.Controls.Automation.NumericTextBox HourTextBox { get; }
+        public Orc.Automation.Controls.ToggleButton HourToggleButton { get; }
+        public Orc.Controls.Automation.NumericTextBox MinuteTextBox { get; }
+        public Orc.Automation.Controls.ToggleButton MinuteToggleButton { get; }
+        public Orc.Controls.Automation.NumericTextBox MonthTextBox { get; }
+        public Orc.Automation.Controls.ToggleButton MonthsToggleButton { get; }
+        public Orc.Controls.Automation.DropDownButton OptionDropDownButton { get; }
+        public Orc.Controls.Automation.NumericTextBox SecondTextBox { get; }
+        public Orc.Automation.Controls.ToggleButton SecondToggleButton { get; }
+        public Orc.Controls.Automation.NumericTextBox YearTextBox { get; }
+        public Orc.Automation.Controls.ToggleButton YearToggleButton { get; }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class DateTimePickerModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData AllowCopyPasteProperty;
+        public static readonly Catel.Data.PropertyData AllowNullProperty;
+        public static readonly Catel.Data.PropertyData AmPmValueProperty;
+        public static readonly Catel.Data.PropertyData CultureProperty;
+        public static readonly Catel.Data.PropertyData FirstDayOfWeekProperty;
+        public static readonly Catel.Data.PropertyData FormatProperty;
+        public static readonly Catel.Data.PropertyData HideSecondsProperty;
+        public static readonly Catel.Data.PropertyData HideTimeProperty;
+        public static readonly Catel.Data.PropertyData IsControlReadOnlyProperty;
+        public static readonly Catel.Data.PropertyData ShowOptionsButtonProperty;
+        public static readonly Catel.Data.PropertyData TimeValueProperty;
+        public static readonly Catel.Data.PropertyData ValueProperty;
+        public DateTimePickerModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public bool AllowCopyPaste { get; set; }
+        public bool AllowNull { get; set; }
+        public Orc.Controls.Enums.Meridiem AmPmValue { get; set; }
+        public System.Globalization.CultureInfo Culture { get; set; }
+        public System.DayOfWeek? FirstDayOfWeek { get; set; }
+        public string Format { get; set; }
+        public bool HideSeconds { get; set; }
+        public bool HideTime { get; set; }
+        public bool IsAmPmShortFormat { get; }
+        [Orc.Automation.ActiveAutomationProperty("IsReadOnly")]
+        public bool IsControlReadOnly { get; set; }
+        public bool IsHour12Format { get; }
+        public bool IsYearShortFormat { get; }
+        public bool ShowOptionsButton { get; set; }
+        public System.TimeSpan? TimeValue { get; set; }
+        public System.DateTime? Value { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.DropDownButton))]
+    public class DropDownButton : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.DropDownButtonModel, Orc.Controls.Automation.DropDownButtonMap>
+    {
+        public DropDownButton(System.Windows.Automation.AutomationElement element) { }
+        public bool IsToggled { get; set; }
+        public void CloseDropDown() { }
+        public TResult InvokeInDropDownScope<TResult>(System.Func<Orc.Automation.Controls.Menu, TResult> action) { }
+        public Orc.Automation.Controls.Menu OpenDropDown() { }
+    }
+    public class DropDownButtonAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.DropDownButton>
+    {
+        public DropDownButtonAutomationPeer(Orc.Controls.DropDownButton owner) { }
+        public override object GetPattern(System.Windows.Automation.Peers.PatternInterface patternInterface) { }
+    }
+    public class DropDownButtonMap : Orc.Automation.AutomationBase
+    {
+        public DropDownButtonMap(System.Windows.Automation.AutomationElement element) { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class DropDownButtonModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData ArrowLocationProperty;
+        public static readonly Catel.Data.PropertyData ArrowMarginProperty;
+        public static readonly Catel.Data.PropertyData HeaderProperty;
+        public static readonly Catel.Data.PropertyData IsArrowVisibleProperty;
+        public static readonly Catel.Data.PropertyData IsCheckedProperty;
+        public DropDownButtonModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public Orc.Controls.DropdownArrowLocation ArrowLocation { get; set; }
+        public System.Windows.Thickness ArrowMargin { get; set; }
+        public object Header { get; set; }
+        public bool IsArrowVisible { get; set; }
+        public bool IsChecked { get; set; }
+    }
+    public class Expander : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.ExpanderModel>
+    {
+        public Expander(System.Windows.Automation.AutomationElement element) { }
+        public bool IsExpanded { get; set; }
+    }
+    public class ExpanderAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.Expander>, System.Windows.Automation.Provider.IExpandCollapseProvider
+    {
+        public ExpanderAutomationPeer(Orc.Controls.Expander owner) { }
+        public System.Windows.Automation.ExpandCollapseState ExpandCollapseState { get; }
+        public void Collapse() { }
+        public void Expand() { }
+        public override object GetPattern(System.Windows.Automation.Peers.PatternInterface patternInterface) { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class ExpanderModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData AutoResizeGridProperty;
+        public static readonly Catel.Data.PropertyData ExpandDirectionProperty;
+        public static readonly Catel.Data.PropertyData ExpandDurationProperty;
+        public static readonly Catel.Data.PropertyData IsExpandedProperty;
+        public ExpanderModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public bool AutoResizeGrid { get; set; }
+        public Orc.Controls.ExpandDirection ExpandDirection { get; set; }
+        public double ExpandDuration { get; set; }
+        public bool IsExpanded { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.FilterBox), ControlTypeName="Edit")]
+    public class FilterBox : Orc.Automation.Controls.Edit
+    {
+        public FilterBox(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Controls.Automation.FilterBoxModel Current { get; }
+        public Orc.Controls.Automation.FilterBoxMap Map { get; }
+        public string Watermark { get; }
+        public void Clear() { }
+        public System.Collections.Generic.List<string> OpenSuggestionList() { }
+        public void SelectItemFromSuggestionList(string item) { }
+    }
+    public class FilterBoxAutomationPeer : Orc.Controls.Automation.TextBoxAutomationPeer<Orc.Controls.FilterBox>
+    {
+        public FilterBoxAutomationPeer(Orc.Controls.FilterBox owner) { }
+        protected override System.Windows.Automation.Peers.AutomationControlType GetAutomationControlTypeCore() { }
+    }
+    public class FilterBoxMap : Orc.Automation.AutomationBase
+    {
+        public FilterBoxMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.Button ClearButton { get; }
+        public Orc.Automation.Controls.Edit Edit { get; }
+        public Orc.Automation.Controls.Text WatermarkText { get; }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class FilterBoxModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData AllowAutoCompletionProperty;
+        public static readonly Catel.Data.PropertyData FilterSourceProperty;
+        public static readonly Catel.Data.PropertyData PropertyNameProperty;
+        public static readonly Catel.Data.PropertyData TextProperty;
+        public static readonly Catel.Data.PropertyData WatermarkProperty;
+        public FilterBoxModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public bool AllowAutoCompletion { get; set; }
+        public System.Collections.IEnumerable FilterSource { get; set; }
+        public string PropertyName { get; set; }
+        public string Text { get; set; }
+        public string Watermark { get; set; }
+    }
+    public class FluidProgressBar : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.FluidProgressBarModel>
+    {
+        public FluidProgressBar(System.Windows.Automation.AutomationElement element) { }
+    }
+    public class FluidProgressBarAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.FluidProgressBar>
+    {
+        public FluidProgressBarAutomationPeer(Orc.Controls.FluidProgressBar owner) { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class FluidProgressBarModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData DelayProperty;
+        public static readonly Catel.Data.PropertyData DotHeightProperty;
+        public static readonly Catel.Data.PropertyData DotRadiusXProperty;
+        public static readonly Catel.Data.PropertyData DotRadiusYProperty;
+        public static readonly Catel.Data.PropertyData DotWidthProperty;
+        public static readonly Catel.Data.PropertyData DurationAProperty;
+        public static readonly Catel.Data.PropertyData DurationBProperty;
+        public static readonly Catel.Data.PropertyData DurationCProperty;
+        public static readonly Catel.Data.PropertyData ForegroundProperty;
+        public static readonly Catel.Data.PropertyData KeyFrameAProperty;
+        public static readonly Catel.Data.PropertyData KeyFrameBProperty;
+        public static readonly Catel.Data.PropertyData OscillateProperty;
+        public static readonly Catel.Data.PropertyData ReverseDurationProperty;
+        public static readonly Catel.Data.PropertyData TotalDurationProperty;
+        public FluidProgressBarModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public System.Windows.Duration Delay { get; set; }
+        public double DotHeight { get; set; }
+        public double DotRadiusX { get; set; }
+        public double DotRadiusY { get; set; }
+        public double DotWidth { get; set; }
+        public System.Windows.Duration DurationA { get; set; }
+        public System.Windows.Duration DurationB { get; set; }
+        public System.Windows.Duration DurationC { get; set; }
+        public System.Windows.Media.SolidColorBrush Foreground { get; set; }
+        public double KeyFrameA { get; set; }
+        public double KeyFrameB { get; set; }
+        public bool Oscillate { get; set; }
+        public System.Windows.Duration ReverseDuration { get; set; }
+        public System.Windows.Duration TotalDuration { get; set; }
+    }
+    public class FontImage : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.FontImageModel>
+    {
+        public FontImage(System.Windows.Automation.AutomationElement element) { }
+    }
+    public class FontImageAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.FontImage>
+    {
+        public FontImageAutomationPeer(Orc.Controls.FontImage owner) { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class FontImageModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData FontFamilyProperty;
+        public static readonly Catel.Data.PropertyData ForegroundProperty;
+        public static readonly Catel.Data.PropertyData ItemNameProperty;
+        public FontImageModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public string FontFamily { get; set; }
+        public System.Windows.Media.SolidColorBrush Foreground { get; set; }
+        public string ItemName { get; set; }
+    }
+    public class FrameCounter : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.FrameRateCounterModel>
+    {
+        public FrameCounter(System.Windows.Automation.AutomationElement element) { }
+    }
+    public class FrameCounterAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.FrameCounter>
+    {
+        public FrameCounterAutomationPeer(Orc.Controls.FrameCounter owner) { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class FrameCounterModel : Orc.Automation.AutomationControlModel
+    {
+        public static readonly Catel.Data.PropertyData PrefixProperty;
+        public static readonly Catel.Data.PropertyData ResetCountProperty;
+        public FrameCounterModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public string Prefix { get; set; }
+        public int ResetCount { get; set; }
+    }
+    public class FrameRateCounter : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.FrameRateCounterModel>
+    {
+        public FrameRateCounter(System.Windows.Automation.AutomationElement element) { }
+    }
+    public class FrameRateCounterAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.FrameRateCounter>
+    {
+        public FrameRateCounterAutomationPeer(Orc.Controls.FrameRateCounter owner) { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class FrameRateCounterModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData PrefixProperty;
+        public FrameRateCounterModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public string Prefix { get; set; }
+    }
+    public class HeaderBar : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.HeaderBarModel>
+    {
+        public HeaderBar(System.Windows.Automation.AutomationElement element) { }
+    }
+    public class HeaderBarAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.HeaderBar>
+    {
+        public HeaderBarAutomationPeer(Orc.Controls.HeaderBar owner) { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class HeaderBarModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData HeaderProperty;
+        public HeaderBarModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public string Header { get; set; }
+    }
+    public class HsvCanvasColorBoardPart : Orc.Automation.AutomationControl
+    {
+        public HsvCanvasColorBoardPart(Orc.Controls.Automation.ColorBoard colorBoard) { }
+        public override System.Windows.Rect BoundingRectangle { get; }
+        public System.Windows.Point GetSV() { }
+        public void SetColor(System.Windows.Media.Color color) { }
+    }
+    public class LinkLabel : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.LinkLabelModel, Orc.Controls.Automation.LinkLabelMap>
+    {
+        public LinkLabel(System.Windows.Automation.AutomationElement element) { }
+        public string Content { get; }
+        public event System.EventHandler<System.EventArgs> Click;
+        public event System.EventHandler<System.EventArgs> RequestNavigate;
+        public void Invoke() { }
+    }
+    public class LinkLabelAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.LinkLabel>
+    {
+        public LinkLabelAutomationPeer(Orc.Controls.LinkLabel owner) { }
+    }
+    public class LinkLabelMap : Orc.Automation.AutomationBase
+    {
+        public LinkLabelMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.Hyperlink Hyperlink { get; }
+        public Orc.Automation.Controls.Text Text { get; }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class LinkLabelModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData ClickBehaviorProperty;
+        public static readonly Catel.Data.PropertyData CommandParameterProperty;
+        public static readonly Catel.Data.PropertyData ContentProperty;
+        public static readonly Catel.Data.PropertyData HoverForegroundProperty;
+        public static readonly Catel.Data.PropertyData LinkLabelBehaviorProperty;
+        public static readonly Catel.Data.PropertyData UrlProperty;
+        public LinkLabelModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public Orc.Controls.LinkLabelClickBehavior ClickBehavior { get; set; }
+        public object CommandParameter { get; set; }
+        public object Content { get; set; }
+        public bool HasUrl { get; }
+        public System.Windows.Media.SolidColorBrush HoverForeground { get; set; }
+        public Orc.Controls.LinkLabelBehavior LinkLabelBehavior { get; set; }
+        public System.Uri Url { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(ControlTypeName="Edit")]
+    public class ListTextBox : Orc.Automation.Controls.Edit
+    {
+        public ListTextBox(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Controls.Automation.ListTextBoxModel Current { get; }
+    }
+    public class ListTextBoxAutomationPeer : Orc.Controls.Automation.TextBoxAutomationPeer<Orc.Controls.ListTextBox>
+    {
+        public ListTextBoxAutomationPeer(Orc.Controls.ListTextBox owner) { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class ListTextBoxModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData ListOfValuesProperty;
+        public static readonly Catel.Data.PropertyData TextProperty;
+        public static readonly Catel.Data.PropertyData ValueProperty;
+        public ListTextBoxModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public System.Collections.Generic.List<string> ListOfValues { get; set; }
+        public string Text { get; set; }
+        public string Value { get; set; }
+    }
+    public class LogMessageCategoryToggleButton : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.LogMessageCategoryToggleButtonModel, Orc.Controls.Automation.LogMessageCategoryToggleButtonMap>
+    {
+        public LogMessageCategoryToggleButton(System.Windows.Automation.AutomationElement element) { }
+        public string Category { get; }
+        public int EntryCount { get; }
+        public bool IsToggled { get; set; }
+    }
+    public class LogMessageCategoryToggleButtonMap : Orc.Automation.AutomationBase
+    {
+        public LogMessageCategoryToggleButtonMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.Text CategoryText { get; }
+        public Orc.Automation.Controls.Text EntryCountText { get; }
+        public Orc.Automation.Controls.ToggleButton Toggle { get; }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class LogMessageCategoryToggleButtonModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData CategoryProperty;
+        public static readonly Catel.Data.PropertyData EntryCountProperty;
+        public static readonly Catel.Data.PropertyData IsCheckedProperty;
+        public LogMessageCategoryToggleButtonModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public string Category { get; set; }
+        public int EntryCount { get; set; }
+        public bool IsChecked { get; set; }
+    }
+    public class LogMessageCategoryToggleButtonModelPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.LogMessageCategoryToggleButton>
+    {
+        public LogMessageCategoryToggleButtonModelPeer(Orc.Controls.LogMessageCategoryToggleButton owner) { }
+    }
+    public class NumericTextBox : Orc.Automation.Controls.Edit
+    {
+        public NumericTextBox(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Controls.Automation.NumericTextBoxModel Current { get; }
+    }
+    public class NumericTextBoxAutomationPeer : Orc.Controls.Automation.TextBoxAutomationPeer<Orc.Controls.NumericTextBox>
+    {
+        public NumericTextBoxAutomationPeer(Orc.Controls.NumericTextBox owner) { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class NumericTextBoxModel : Orc.Automation.AutomationControlModel
+    {
+        public static readonly Catel.Data.PropertyData CultureInfoProperty;
+        public static readonly Catel.Data.PropertyData FormatProperty;
+        public static readonly Catel.Data.PropertyData IsChangeValueByUpDownKeyEnabledProperty;
+        public static readonly Catel.Data.PropertyData IsDecimalAllowedProperty;
+        public static readonly Catel.Data.PropertyData IsNegativeAllowedProperty;
+        public static readonly Catel.Data.PropertyData IsNullValueAllowedProperty;
+        public static readonly Catel.Data.PropertyData MaxValueProperty;
+        public static readonly Catel.Data.PropertyData MinValueProperty;
+        public static readonly Catel.Data.PropertyData NullStringProperty;
+        public static readonly Catel.Data.PropertyData TextProperty;
+        public NumericTextBoxModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        [Orc.Automation.ActiveAutomationProperty]
+        public System.Globalization.CultureInfo CultureInfo { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public string Format { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public bool IsChangeValueByUpDownKeyEnabled { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public bool IsDecimalAllowed { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public bool IsNegativeAllowed { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public bool IsNullValueAllowed { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public double MaxValue { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public double MinValue { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public string NullString { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public string Text { get; set; }
+        public double? Value { get; set; }
+    }
+    public class NumericUpDown : Orc.Automation.Controls.FrameworkElement
+    {
+        public NumericUpDown(System.Windows.Automation.AutomationElement element) { }
+        public int DecimalPlaces { get; set; }
+        public bool IsAutoSelectionActive { get; set; }
+        public bool IsDecimalPointDynamic { get; set; }
+        public bool IsThousandSeparatorVisible { get; set; }
+        public double MajorDelta { get; set; }
+        public int MaxDecimalPlaces { get; set; }
+        public double MaxValue { get; set; }
+        public int MinDecimalPlaces { get; set; }
+        public double MinValue { get; set; }
+        public double MinorDelta { get; set; }
+        public Orc.Controls.Number Value { get; set; }
+        public Orc.Controls.Automation.NumericUpDownView View { get; }
+    }
+    public class NumericUpDownMap : Orc.Automation.AutomationBase
+    {
+        public NumericUpDownMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.Border Chrome { get; }
+        public Orc.Automation.Controls.Edit Edit { get; }
+        public Orc.Controls.Automation.SpinButton SpinButton { get; }
+    }
+    public class NumericUpDownView : Orc.Automation.AutomationBase
+    {
+        public NumericUpDownView(System.Windows.Automation.AutomationElement element) { }
+        public string Value { get; set; }
+        public void DecreaseNumber() { }
+        public void IncreaseNumber() { }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.OpenFilePicker))]
+    public class OpenFilePicker : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.OpenFilePickerModel, Orc.Controls.Automation.OpenFilePickerMap>
+    {
+        public OpenFilePicker(System.Windows.Automation.AutomationElement element) { }
+        public System.Collections.Generic.List<string> Filters { get; }
+        public string SelectedFileDisplayPath { get; }
+        public void Clear() { }
+        public void OpenContainingDirectory() { }
+        public Orc.Automation.Controls.OpenFileDialog OpenFileDialog() { }
+        public void SelectFile(string filePath) { }
+    }
+    public class OpenFilePickerAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.OpenFilePicker>
+    {
+        public OpenFilePickerAutomationPeer(Orc.Controls.OpenFilePicker owner) { }
+    }
+    public class OpenFilePickerMap : Orc.Automation.AutomationBase
+    {
+        public static string ClearButtonId;
+        public static string OpenDirectoryButtonId;
+        public static string OpenFileButtonId;
+        public static string SelectedFileTextBoxId;
+        public OpenFilePickerMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.Button ClearButton { get; }
+        public Orc.Automation.Controls.Button OpenDirectoryButton { get; }
+        public Orc.Automation.Controls.Button OpenFileButton { get; }
+        public Orc.Automation.Controls.Edit SelectedFileTextBox { get; }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class OpenFilePickerModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData BaseDirectoryProperty;
+        public static readonly Catel.Data.PropertyData FilterProperty;
+        public static readonly Catel.Data.PropertyData LabelTextProperty;
+        public static readonly Catel.Data.PropertyData LabelWidthProperty;
+        public static readonly Catel.Data.PropertyData SelectedFileProperty;
+        public OpenFilePickerModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public string BaseDirectory { get; set; }
+        public string Filter { get; set; }
+        public string LabelText { get; set; }
+        public double LabelWidth { get; set; }
+        public string SelectedFile { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.PinnableToolTip))]
+    public class PinnableToolTip : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.PinnableToolTipModel, Orc.Controls.Automation.PinnableToolTipMap>
+    {
+        public PinnableToolTip(System.Windows.Automation.AutomationElement element) { }
+        public bool IsPinned { get; set; }
+        public System.Windows.Point Position { get; set; }
+        public void Close() { }
+    }
+    public class PinnableToolTipAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.PinnableToolTip>
+    {
+        public PinnableToolTipAutomationPeer(Orc.Controls.PinnableToolTip owner) { }
+        [Orc.Automation.AutomationMethod]
+        public object GetOwner() { }
+    }
+    public class PinnableToolTipMap : Orc.Automation.AutomationBase
+    {
+        public PinnableToolTipMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.Button CloseButton { get; }
+        public Orc.Automation.Controls.Border GripBorder { get; }
+        public Orc.Automation.Controls.ToggleButton PinButton { get; }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class PinnableToolTipModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData AllowCloseByUserProperty;
+        public static readonly Catel.Data.PropertyData GripColorProperty;
+        public static readonly Catel.Data.PropertyData HorizontalOffsetProperty;
+        public static readonly Catel.Data.PropertyData IsPinnedProperty;
+        public static readonly Catel.Data.PropertyData ResizeModeProperty;
+        public static readonly Catel.Data.PropertyData VerticalOffsetProperty;
+        public PinnableToolTipModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        [Orc.Automation.ActiveAutomationProperty]
+        public bool AllowCloseByUser { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public System.Windows.Media.Color GripColor { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public double HorizontalOffset { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public bool IsPinned { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public System.Windows.Input.ICommand OpenLinkCommand { get; set; }
+        public object Owner { get; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public System.Windows.ResizeMode ResizeMode { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public double VerticalOffset { get; set; }
+    }
+    [Orc.Automation.ActiveAutomationModel(DefaultOwnerType=typeof(Orc.Controls.PinnableToolTipService))]
+    public class PinnableToolTipServiceModel : Orc.Automation.AutomationControlModel
+    {
+        public static readonly Catel.Data.PropertyData InitialShowDelayProperty;
+        public static readonly Catel.Data.PropertyData IsToolTipOwnerProperty;
+        public static readonly Catel.Data.PropertyData PlacementProperty;
+        public static readonly Catel.Data.PropertyData ShowDurationProperty;
+        public PinnableToolTipServiceModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public int InitialShowDelay { get; set; }
+        public bool IsToolTipOwner { get; set; }
+        public System.Windows.Controls.Primitives.PlacementMode Placement { get; set; }
+        public int ShowDuration { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.PredefinedColorItem))]
+    public class PredefinedColorItem : Orc.Automation.AutomationControl
+    {
+        public PredefinedColorItem(System.Windows.Automation.AutomationElement element) { }
+        public System.Windows.Media.Color Color { get; }
+        public bool IsSelected { get; set; }
+        public string Text { get; }
+    }
+    public class RangeSlider : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.RangeSliderModel, Orc.Controls.Automation.RangeSliderMap>
+    {
+        public RangeSlider(System.Windows.Automation.AutomationElement element) { }
+        public double LowerValue { get; set; }
+        public double Maximum { get; }
+        public double Minimum { get; }
+        public double UpperValue { get; set; }
+    }
+    public class RangeSliderAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.RangeSlider>
+    {
+        public RangeSliderAutomationPeer(Orc.Controls.RangeSlider owner) { }
+    }
+    public class RangeSliderMap : Orc.Automation.AutomationBase
+    {
+        public RangeSliderMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.Slider LowerSlider { get; }
+        public Orc.Automation.Controls.Slider UpperSlider { get; }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class RangeSliderModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData HighlightSelectedRangeProperty;
+        public static readonly Catel.Data.PropertyData LowerValueProperty;
+        public static readonly Catel.Data.PropertyData MaximumProperty;
+        public static readonly Catel.Data.PropertyData MinimumProperty;
+        public static readonly Catel.Data.PropertyData OrientationProperty;
+        public static readonly Catel.Data.PropertyData UpperValueProperty;
+        public RangeSliderModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public bool HighlightSelectedRange { get; set; }
+        public double LowerValue { get; set; }
+        public double Maximum { get; set; }
+        public double Minimum { get; set; }
+        public System.Windows.Controls.Orientation Orientation { get; set; }
+        public double UpperValue { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.SaveFilePicker))]
+    public class SaveFilePicker : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.SaveFilePickerModel, Orc.Controls.Automation.SaveFilePickerMap>
+    {
+        public SaveFilePicker(System.Windows.Automation.AutomationElement element) { }
+    }
+    public class SaveFilePickerAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.SaveFilePicker>
+    {
+        public SaveFilePickerAutomationPeer(Orc.Controls.SaveFilePicker owner) { }
+    }
+    public class SaveFilePickerMap : Orc.Automation.AutomationBase
+    {
+        public SaveFilePickerMap(System.Windows.Automation.AutomationElement element) { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class SaveFilePickerModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData FilterProperty;
+        public static readonly Catel.Data.PropertyData LabelTextProperty;
+        public static readonly Catel.Data.PropertyData LabelWidthProperty;
+        public static readonly Catel.Data.PropertyData SelectedFileProperty;
+        public SaveFilePickerModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public string Filter { get; set; }
+        public string LabelText { get; set; }
+        public double LabelWidth { get; set; }
+        public string SelectedFile { get; set; }
+    }
+    public class SetNumericTextBoxValueRun : Orc.Automation.NamedAutomationMethodRun
+    {
+        public SetNumericTextBoxValueRun() { }
+        public override bool TryInvoke(System.Windows.FrameworkElement owner, Orc.Automation.AutomationMethod method, out Orc.Automation.AutomationValue result) { }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.SpinButton))]
+    public class SpinButton : Orc.Automation.Controls.FrameworkElement
+    {
+        public SpinButton(System.Windows.Automation.AutomationElement element) { }
+        public event System.EventHandler<System.EventArgs> Canceled;
+        public event System.EventHandler<System.EventArgs> Decreased;
+        public event System.EventHandler<System.EventArgs> Increased;
+        public void Decrease() { }
+        public void Increase() { }
+    }
+    public class SpinButtonAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.SpinButton>
+    {
+        public SpinButtonAutomationPeer(Orc.Controls.SpinButton owner) { }
+    }
+    public class SpinButtonMap : Orc.Automation.AutomationBase
+    {
+        public SpinButtonMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.Button DecreaseButton { get; }
+        public Orc.Automation.Controls.Button IncreaseButton { get; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.StaggeredPanel))]
+    public class StaggeredPanel : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.StaggeredPanelModel, Orc.Controls.Automation.StaggeredPanelMap>
+    {
+        public StaggeredPanel(System.Windows.Automation.AutomationElement element) { }
+    }
+    public class StaggeredPanelAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.StaggeredPanel>
+    {
+        public StaggeredPanelAutomationPeer(Orc.Controls.StaggeredPanel owner) { }
+    }
+    public class StaggeredPanelMap : Orc.Automation.AutomationBase
+    {
+        public StaggeredPanelMap(System.Windows.Automation.AutomationElement element) { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class StaggeredPanelModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData ColumnSpacingProperty;
+        public static readonly Catel.Data.PropertyData DesiredColumnWidthProperty;
+        public static readonly Catel.Data.PropertyData PaddingProperty;
+        public static readonly Catel.Data.PropertyData RowSpacingProperty;
+        public StaggeredPanelModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public double ColumnSpacing { get; set; }
+        public double DesiredColumnWidth { get; set; }
+        public System.Windows.Thickness Padding { get; set; }
+        public double RowSpacing { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.StepBar))]
+    public class StepBar : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.StepBarModel, Orc.Controls.Automation.StepBarMap>
+    {
+        public StepBar(System.Windows.Automation.AutomationElement element) { }
+        public System.Collections.Generic.IReadOnlyList<Orc.Controls.Automation.StepBarItem> Items { get; }
+        public Orc.Controls.Automation.StepBarItem SelectedItem { get; }
+    }
+    public class StepBarAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.StepBar>
+    {
+        public StepBarAutomationPeer(Orc.Controls.StepBar owner) { }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.StepBarItem))]
+    public class StepBarItem : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.StepBarItemModel, Orc.Controls.Automation.StepBarItemMap>
+    {
+        public StepBarItem(System.Windows.Automation.AutomationElement element) { }
+        public string Number { get; }
+        public string Title { get; }
+        public void Invoke() { }
+    }
+    public class StepBarItemAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.StepBarItem>
+    {
+        public StepBarItemAutomationPeer(Orc.Controls.StepBarItem owner) { }
+    }
+    public class StepBarItemMap : Orc.Automation.AutomationBase
+    {
+        public StepBarItemMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.Text EllipseTextBlock { get; }
+        public Orc.Automation.Controls.Button ExecuteButton { get; }
+        public Orc.Automation.Controls.Text TitleTextBlock { get; }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class StepBarItemModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData OrientationProperty;
+        public StepBarItemModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public System.Windows.Controls.Orientation Orientation { get; set; }
+    }
+    public class StepBarMap : Orc.Automation.AutomationBase
+    {
+        public StepBarMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.List ItemList { get; }
+    }
+    public class StepBarModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData ItemsProperty;
+        public static readonly Catel.Data.PropertyData OrientationProperty;
+        public StepBarModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        [Orc.Automation.ActiveAutomationProperty]
+        public System.Collections.Generic.List<Orc.Controls.IStepBarItem> Items { get; set; }
+        [Orc.Automation.ActiveAutomationProperty]
+        public System.Windows.Controls.Orientation Orientation { get; set; }
+        public Orc.Controls.IStepBarItem SelectedItem { get; set; }
+    }
+    public class StepBarSelectItemByTitleNumberDescriptionMethodRun : Orc.Automation.NamedAutomationMethodRun
+    {
+        public StepBarSelectItemByTitleNumberDescriptionMethodRun() { }
+        public override bool TryInvoke(System.Windows.FrameworkElement owner, Orc.Automation.AutomationMethod method, out Orc.Automation.AutomationValue result) { }
+    }
+    public class TextBoxAutomationPeer<TControl> : Orc.Automation.AutomationControlPeerBase<TControl>
+        where TControl : System.Windows.Controls.TextBox
+    {
+        public TextBoxAutomationPeer(TControl owner) { }
+        protected override System.Windows.Automation.Peers.AutomationControlType GetAutomationControlTypeCore() { }
+        public override object GetPattern(System.Windows.Automation.Peers.PatternInterface patternInterface) { }
+        protected override string GetValueFromPattern() { }
+        protected override void SetValuePatternInvoke(string value) { }
+    }
+    public class TimePicker : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.TimePickerModel>
+    {
+        public TimePicker(System.Windows.Automation.AutomationElement element) { }
+    }
+    public class TimePickerAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.TimePicker>
+    {
+        public TimePickerAutomationPeer(Orc.Controls.TimePicker owner) { }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class TimePickerModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData AmPmValueProperty;
+        public static readonly Catel.Data.PropertyData ClockBorderThicknessProperty;
+        public static readonly Catel.Data.PropertyData HourBrushProperty;
+        public static readonly Catel.Data.PropertyData HourThicknessProperty;
+        public static readonly Catel.Data.PropertyData HourTickBrushProperty;
+        public static readonly Catel.Data.PropertyData HourTickThicknessProperty;
+        public static readonly Catel.Data.PropertyData Is24HourFormatProperty;
+        public static readonly Catel.Data.PropertyData MinuteBrushProperty;
+        public static readonly Catel.Data.PropertyData MinuteThicknessProperty;
+        public static readonly Catel.Data.PropertyData MinuteTickBrushProperty;
+        public static readonly Catel.Data.PropertyData MinuteTickThicknessProperty;
+        public static readonly Catel.Data.PropertyData ShowNumbersProperty;
+        public static readonly Catel.Data.PropertyData TimeValueProperty;
+        public TimePickerModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public Orc.Controls.Enums.Meridiem AmPmValue { get; set; }
+        public double ClockBorderThickness { get; set; }
+        public System.Windows.Media.Brush HourBrush { get; set; }
+        public double HourThickness { get; set; }
+        public System.Windows.Media.Brush HourTickBrush { get; set; }
+        public double HourTickThickness { get; set; }
+        public bool Is24HourFormat { get; set; }
+        public System.Windows.Media.Brush MinuteBrush { get; set; }
+        public double MinuteThickness { get; set; }
+        public System.Windows.Media.Brush MinuteTickBrush { get; set; }
+        public double MinuteTickThickness { get; set; }
+        public bool ShowNumbers { get; set; }
+        public System.TimeSpan TimeValue { get; set; }
+    }
+    public class TimeSpanPicker : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.TimeSpanPickerModel, Orc.Controls.Automation.TimeSpanPickerMap>
+    {
+        public TimeSpanPicker(System.Windows.Automation.AutomationElement element) { }
+        public double? EditorValue { get; }
+        public double? TotalDays { get; set; }
+        public double? TotalHours { get; set; }
+        public double? TotalMinutes { get; set; }
+        public double? TotalSeconds { get; set; }
+        public System.TimeSpan? Value { get; set; }
+    }
+    public class TimeSpanPickerAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.TimeSpanPicker>
+    {
+        public TimeSpanPickerAutomationPeer(Orc.Controls.TimeSpanPicker owner) { }
+    }
+    public class TimeSpanPickerMap : Orc.Automation.AutomationBase
+    {
+        public TimeSpanPickerMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.Text DaysAbbreviationTextBlock { get; }
+        public Orc.Automation.Controls.Text DaysHoursSeparatorTextBlock { get; }
+        public Orc.Controls.Automation.NumericTextBox DaysNumericTextBox { get; }
+        public Orc.Automation.Controls.Text EditedUnitTextBlock { get; }
+        public Orc.Controls.Automation.NumericTextBox EditorNumericTextBox { get; }
+        public Orc.Automation.Controls.Text HoursAbbreviationTextBlock { get; }
+        public Orc.Automation.Controls.Text HoursMinutesSeparatorTextBlock { get; }
+        public Orc.Controls.Automation.NumericTextBox HoursNumericTextBox { get; }
+        public Orc.Automation.Controls.Text MinutesAbbreviationTextBlock { get; }
+        public Orc.Controls.Automation.NumericTextBox MinutesNumericTextBox { get; }
+        public Orc.Automation.Controls.Text MinutesSecondsSeparatorTextBlock { get; }
+        public Orc.Automation.Controls.Text SecondsAbbreviationTextBlock { get; }
+        public Orc.Controls.Automation.NumericTextBox SecondsNumericTextBox { get; }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class TimeSpanPickerModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData CanEditProperty;
+        public static readonly Catel.Data.PropertyData ValueProperty;
+        public TimeSpanPickerModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        [Orc.Automation.ActiveAutomationProperty("IsReadOnly")]
+        public bool CanEdit { get; set; }
+        public System.TimeSpan? Value { get; set; }
+    }
+    public class ValidationContextResultTreeItem : Orc.Controls.Automation.ValidationContextTreeItemBase
+    {
+        public ValidationContextResultTreeItem(System.Windows.Automation.AutomationElement element) { }
+        public string Message { get; }
+    }
+    public class ValidationContextTagTreeItem : Orc.Controls.Automation.ValidationContextTreeItemBase
+    {
+        public ValidationContextTagTreeItem(System.Windows.Automation.AutomationElement element) { }
+        public string Tag { get; }
+        public System.Collections.Generic.IReadOnlyList<Orc.Controls.Automation.ValidationContextTypeTreeItem> TypeNodes { get; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.ValidationContextTree))]
+    public class ValidationContextTree : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.ValidationContextTreeModel, Orc.Controls.Automation.ValidationContextTreeMap>, System.Collections.Generic.IEnumerable<Orc.Controls.Automation.ValidationContextTagTreeItem>, System.Collections.IEnumerable
+    {
+        public ValidationContextTree(System.Windows.Automation.AutomationElement element) { }
+        public System.Collections.Generic.IReadOnlyList<Orc.Controls.Automation.ValidationContextTagTreeItem> TagNodes { get; }
+        public System.Collections.Generic.IEnumerator<Orc.Controls.Automation.ValidationContextTagTreeItem> GetEnumerator() { }
+        public System.Collections.Generic.IReadOnlyList<string> GetValidationItems(string tag, Catel.Data.ValidationResultType type) { }
+    }
+    public class ValidationContextTreeAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.ValidationContextTree>
+    {
+        public ValidationContextTreeAutomationPeer(Orc.Controls.ValidationContextTree owner) { }
+    }
+    public abstract class ValidationContextTreeItemBase : Orc.Automation.Controls.FrameworkElement
+    {
+        protected readonly Orc.Automation.Controls.TreeItem _treeItem;
+        protected ValidationContextTreeItemBase(System.Windows.Automation.AutomationElement element) { }
+        public bool IsExpanded { get; set; }
+    }
+    public class ValidationContextTreeMap : Orc.Automation.AutomationBase
+    {
+        public ValidationContextTreeMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.Tree InnerTree { get; }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class ValidationContextTreeModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData FilterProperty;
+        public static readonly Catel.Data.PropertyData IsExpandedByDefaultProperty;
+        public static readonly Catel.Data.PropertyData NodesProperty;
+        public static readonly Catel.Data.PropertyData ShowErrorsProperty;
+        public static readonly Catel.Data.PropertyData ShowWarningsProperty;
+        public static readonly Catel.Data.PropertyData ValidationContextProperty;
+        public ValidationContextTreeModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public string Filter { get; set; }
+        public bool IsExpandedByDefault { get; set; }
+        public System.Collections.Generic.IEnumerable<Orc.Controls.IValidationContextTreeNode> Nodes { get; set; }
+        public bool ShowErrors { get; set; }
+        public bool ShowWarnings { get; set; }
+        public Catel.Data.IValidationContext ValidationContext { get; set; }
+    }
+    public class ValidationContextTypeTreeItem : Orc.Controls.Automation.ValidationContextTreeItemBase
+    {
+        public ValidationContextTypeTreeItem(System.Windows.Automation.AutomationElement element) { }
+        public System.Collections.Generic.IReadOnlyList<Orc.Controls.Automation.ValidationContextResultTreeItem> ResultNodes { get; }
+        public Catel.Data.ValidationResultType Type { get; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.Automation.ValidationContextView))]
+    public class ValidationContextView : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.ValidationContextViewModel, Orc.Controls.Automation.ValidationContextViewMap>, System.Collections.Generic.IEnumerable<Orc.Controls.Automation.ValidationContextTagTreeItem>, System.Collections.IEnumerable
+    {
+        public ValidationContextView(System.Windows.Automation.AutomationElement element) { }
+        public string Filter { get; set; }
+        public bool IsErrorsVisible { get; set; }
+        public bool IsExpanded { get; set; }
+        public bool IsFilterVisible { get; }
+        public bool IsWarningsVisible { get; set; }
+        public System.Collections.Generic.IReadOnlyList<Orc.Controls.Automation.ValidationContextTagTreeItem> TabItems { get; }
+        public System.Collections.Generic.IEnumerator<Orc.Controls.Automation.ValidationContextTagTreeItem> GetEnumerator() { }
+        public System.Collections.Generic.IReadOnlyList<string> GetValidationItems(string tag, Catel.Data.ValidationResultType type) { }
+    }
+    public class ValidationContextViewAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.ValidationContextView>
+    {
+        public ValidationContextViewAutomationPeer(Orc.Controls.ValidationContextView owner) { }
+    }
+    public class ValidationContextViewMap : Orc.Automation.AutomationBase
+    {
+        public ValidationContextViewMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.Button CollapseAllButton { get; }
+        public Orc.Automation.Controls.Button CopyButton { get; }
+        public Orc.Automation.Controls.Button ExpandAllButton { get; }
+        public Orc.Controls.Automation.FilterBox FilterBox { get; }
+        public Orc.Automation.Controls.Button OpenButton { get; }
+        public Orc.Controls.Automation.LogMessageCategoryToggleButton ShowErrorsButton { get; }
+        public Orc.Controls.Automation.LogMessageCategoryToggleButton ShowWarningButton { get; }
+        public Orc.Controls.Automation.ValidationContextTree Tree { get; }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class ValidationContextViewModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData IsExpandedAllOnStartupProperty;
+        public static readonly Catel.Data.PropertyData ShowButtonsProperty;
+        public static readonly Catel.Data.PropertyData ShowFilterBoxProperty;
+        public static readonly Catel.Data.PropertyData ValidationContextProperty;
+        public ValidationContextViewModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public bool IsExpandedAllOnStartup { get; set; }
+        public bool ShowButtons { get; set; }
+        public bool ShowFilterBox { get; set; }
+        public Catel.Data.ValidationContext ValidationContext { get; set; }
+    }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.WatermarkTextBox), ControlTypeName="Edit")]
+    public class WatermarkTextBox : Orc.Automation.Controls.Edit
+    {
+        public WatermarkTextBox(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Controls.Automation.WatermarkTextBoxModel Current { get; }
+        public Orc.Controls.Automation.WatermarkTextBoxMap Map { get; }
+        public string Watermark { get; }
+    }
+    public class WatermarkTextBoxAutomationPeer : Orc.Controls.Automation.TextBoxAutomationPeer<Orc.Controls.WatermarkTextBox>
+    {
+        public WatermarkTextBoxAutomationPeer(Orc.Controls.WatermarkTextBox owner) { }
+        protected override System.Windows.Automation.Peers.AutomationControlType GetAutomationControlTypeCore() { }
+    }
+    public class WatermarkTextBoxMap : Orc.Automation.AutomationBase
+    {
+        public WatermarkTextBoxMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.Edit Edit { get; }
+        public Orc.Automation.Controls.Text WatermarkText { get; }
+    }
+    [Orc.Automation.ActiveAutomationModel]
+    public class WatermarkTextBoxModel : Orc.Automation.FrameworkElementModel
+    {
+        public static readonly Catel.Data.PropertyData SelectAllOnGotFocusProperty;
+        public static readonly Catel.Data.PropertyData TextProperty;
+        public static readonly Catel.Data.PropertyData WatermarkProperty;
+        public WatermarkTextBoxModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public bool SelectAllOnGotFocus { get; set; }
+        public string Text { get; set; }
+        public string Watermark { get; set; }
+    }
+}
+namespace Orc.Controls.Automation.Converters
+{
+    public class BusinessRuleValidationResultSerializableConverter : Orc.Automation.SerializationValueConverterBase<Catel.Data.BusinessRuleValidationResult, Orc.Controls.Automation.Converters.SerializableBusinessRuleValidationResult>
+    {
+        public BusinessRuleValidationResultSerializableConverter() { }
+        public override object ConvertFrom(Catel.Data.BusinessRuleValidationResult value) { }
+        public override object ConvertTo(Orc.Controls.Automation.Converters.SerializableBusinessRuleValidationResult value) { }
+    }
+    public class FieldValidationResultSerializableConverter : Orc.Automation.SerializationValueConverterBase<Catel.Data.FieldValidationResult, Orc.Controls.Automation.Converters.SerializableFieldValidationResult>
+    {
+        public FieldValidationResultSerializableConverter() { }
+        public override object ConvertFrom(Catel.Data.FieldValidationResult value) { }
+        public override object ConvertTo(Orc.Controls.Automation.Converters.SerializableFieldValidationResult value) { }
+    }
+    public class NumberConverter : Orc.Automation.SerializationValueConverterBase<Orc.Controls.Number, Orc.Controls.Automation.Converters.SerializableNumber>
+    {
+        public NumberConverter() { }
+        public override object ConvertFrom(Orc.Controls.Number value) { }
+        public override object ConvertTo(Orc.Controls.Automation.Converters.SerializableNumber value) { }
+    }
+    public class SerializableBusinessRuleValidationResult
+    {
+        public SerializableBusinessRuleValidationResult() { }
+        public string Message { get; set; }
+        public object Tag { get; set; }
+        public Catel.Data.ValidationResultType ValidationType { get; set; }
+    }
+    public class SerializableFieldValidationResult
+    {
+        public SerializableFieldValidationResult() { }
+        public string Message { get; set; }
+        public string PropertyName { get; set; }
+        public object Tag { get; set; }
+        public Catel.Data.ValidationResultType ValidationType { get; set; }
+    }
+    public class SerializableNumber
+    {
+        public SerializableNumber() { }
+        public double DValue { get; set; }
+        public Orc.Automation.Converters.SerializableType Type { get; set; }
+    }
+    public class SerializableValidationContext
+    {
+        public SerializableValidationContext() { }
+        public System.Collections.Generic.List<Orc.Controls.Automation.Converters.SerializableBusinessRuleValidationResult> BusinessRuleResults { get; set; }
+        public System.Collections.Generic.List<Orc.Controls.Automation.Converters.SerializableFieldValidationResult> FieldRuleResults { get; set; }
+    }
+    public class ValidationContextSerializableConverter : Orc.Automation.SerializationValueConverterBase<Catel.Data.ValidationContext, Orc.Controls.Automation.Converters.SerializableValidationContext>
+    {
+        public ValidationContextSerializableConverter() { }
+        public override object ConvertFrom(Catel.Data.ValidationContext value) { }
+        public override object ConvertTo(Orc.Controls.Automation.Converters.SerializableValidationContext value) { }
     }
 }
 namespace Orc.Controls.Converters
