@@ -3,7 +3,7 @@
     using Catel.Data;
     using Orc.Automation;
 
-    [AutomationAccessType]
+    [ActiveAutomationModel]
     public class ValidationContextViewModel : FrameworkElementModel
     {
         public ValidationContextViewModel(AutomationElementAccessor accessor) 

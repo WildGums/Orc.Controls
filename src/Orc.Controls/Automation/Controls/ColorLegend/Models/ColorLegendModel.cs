@@ -12,43 +12,43 @@
         {
         }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public bool AllowColorEditing { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public bool ShowColorVisibilityControls { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public bool ShowColorPicker { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public bool ShowSearchBox { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public bool ShowToolBox { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public bool ShowBottomToolBox { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public bool ShowSettingsBox { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public bool IsColorSelecting { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public Color EditingColor { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public string Filter { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public IEnumerable<IColorLegendItem> ItemsSource { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public bool? IsAllVisible { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public IEnumerable<IColorLegendItem> FilteredItemsSource { get; set; }
 
         public IEnumerable<string> FilteredItemsIds
@@ -56,10 +56,10 @@
             get => _accessor.GetValue<IEnumerable<string>>();
         }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public string FilterWatermark { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public IEnumerable<IColorLegendItem> SelectedColorItems { get; set; }
 
         public IColorLegendItem this[int index]

@@ -3,7 +3,7 @@
 using System.Windows.Documents;
 using Orc.Automation;
 
-[AutomationAccessType]
+[ActiveAutomationModel]
 public class BindableRichTextBoxModel : FrameworkElementModel
 {
     public BindableRichTextBoxModel(AutomationElementAccessor accessor) 

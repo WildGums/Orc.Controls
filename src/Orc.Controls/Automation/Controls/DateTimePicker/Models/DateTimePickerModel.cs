@@ -5,7 +5,7 @@
     using Enums;
     using Orc.Automation;
 
-    [AutomationAccessType]
+    [ActiveAutomationModel]
     public class DateTimePickerModel : FrameworkElementModel
     {
         public DateTimePickerModel(AutomationElementAccessor accessor) 
@@ -22,7 +22,7 @@
         public bool HideTime { get; set; }
         public bool HideSeconds { get; set; }
 
-        [ApiProperty(nameof(Controls.DateTimePicker.IsReadOnly))]
+        [ActiveAutomationProperty(nameof(Controls.DateTimePicker.IsReadOnly))]
         public bool IsControlReadOnly { get; set; }
         public string Format { get; set; }
         public bool IsYearShortFormat { get; }

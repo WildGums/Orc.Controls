@@ -4,7 +4,7 @@
     using Catel.Data;
     using Orc.Automation;
 
-    [AutomationAccessType]
+    [ActiveAutomationModel]
     public class ValidationContextTreeModel : FrameworkElementModel
     {
         public ValidationContextTreeModel(AutomationElementAccessor accessor) 

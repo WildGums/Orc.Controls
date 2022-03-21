@@ -3,7 +3,7 @@
 using System.Windows;
 using Orc.Automation;
 
-[AutomationAccessType]
+[ActiveAutomationModel]
 public class StaggeredPanelModel : FrameworkElementModel
 {
     public StaggeredPanelModel(AutomationElementAccessor accessor) 

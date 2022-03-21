@@ -5,7 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Orc.Automation;
 
-[AutomationAccessType]
+[ActiveAutomationModel]
 public class PinnableToolTipModel : FrameworkElementModel
 {
     public PinnableToolTipModel(AutomationElementAccessor accessor) 
@@ -13,19 +13,19 @@ public class PinnableToolTipModel : FrameworkElementModel
     {
     }
     
-    [ApiProperty]
+    [ActiveAutomationProperty]
     public bool AllowCloseByUser { get; set; }
-    [ApiProperty]
+    [ActiveAutomationProperty]
     public double HorizontalOffset { get; set; }
-    [ApiProperty]
+    [ActiveAutomationProperty]
     public bool IsPinned { get; set; }
-    [ApiProperty]
+    [ActiveAutomationProperty]
     public Color GripColor { get; set; }
-    [ApiProperty]
+    [ActiveAutomationProperty]
     public double VerticalOffset { get; set; }
-    [ApiProperty]
+    [ActiveAutomationProperty]
     public ICommand OpenLinkCommand { get; set; }
-    [ApiProperty]
+    [ActiveAutomationProperty]
     public ResizeMode ResizeMode { get; set; }
 
     public object Owner

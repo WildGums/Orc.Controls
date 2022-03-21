@@ -32,12 +32,5 @@
                 new () { Content = "Item_7", Width = 150, Height = 250},
             });
         }
-
-        [Test]
-        public void Correctly2()
-        {
-            var target = Target;
-            var model = target.Current;
-        }
     }
 }

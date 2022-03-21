@@ -2,8 +2,10 @@
 {
     using System;
     using System.Linq;
+    using Orc.Automation;
     using Orc.Automation.Controls;
     using Theming;
+    using FrameworkElement = System.Windows.FrameworkElement;
 
     public static class TestHostAutomationControlExtensions
     {
@@ -31,9 +33,7 @@
                 }
             }
 
-            //Apply style forwarders
-            testHost.RunMethod(typeof(StyleHelper), nameof(StyleHelper.CreateStyleForwardersForDefaultStyles));
-            //testHost.ExecuteAutomationMethod<CreateStyleForwardersMethodRun>();
+            testHost.Execute<SetupThemeAutomationMethodRun>();
            
             testHostAutomationId = testHost.PutControl(controlTypeFullName);
             if (string.IsNullOrWhiteSpace(testHostAutomationId) || testHostAutomationId.StartsWith("Error"))
@@ -43,6 +43,19 @@
                 return false;
             }
             
+            return true;
+        }
+    }
+
+    public class SetupThemeAutomationMethodRun : NamedAutomationMethodRun
+    {
+        public override bool TryInvoke(FrameworkElement owner, AutomationMethod method, out AutomationValue result)
+        {
+            result = AutomationValue.FromValue(true);
+
+            StyleHelper.CreateStyleForwardersForDefaultStyles();
+            ThemeManager.Current.SynchronizeTheme();
+
             return true;
         }
     }

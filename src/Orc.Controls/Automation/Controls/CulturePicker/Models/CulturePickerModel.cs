@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using Orc.Automation;
 
-public class CulturePickerModel : FrameworkElementModel
+public class CulturePickerModel : ControlModel
 {
     public CulturePickerModel(AutomationElementAccessor accessor) 
         : base(accessor)
     {
     }
 
-    [ApiProperty]
+    [ActiveAutomationProperty]
     public CultureInfo SelectedCulture { get; set; }
 
     public List<CultureInfo> AvailableCultures =>

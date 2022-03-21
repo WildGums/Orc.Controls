@@ -3,7 +3,7 @@
 using System;
 using Orc.Automation;
 
-[AutomationAccessType]
+[ActiveAutomationModel]
 public class TimeSpanPickerModel : FrameworkElementModel
 {
     public TimeSpanPickerModel(AutomationElementAccessor accessor) 
@@ -13,6 +13,6 @@ public class TimeSpanPickerModel : FrameworkElementModel
 
     public TimeSpan? Value { get; set; }
 
-    [ApiProperty(nameof(Controls.TimeSpanPicker.IsReadOnly))]
+    [ActiveAutomationProperty(nameof(Controls.TimeSpanPicker.IsReadOnly))]
     public bool CanEdit { get; set; }
 }

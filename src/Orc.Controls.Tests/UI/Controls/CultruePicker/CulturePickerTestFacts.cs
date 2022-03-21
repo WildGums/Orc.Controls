@@ -15,10 +15,6 @@
         [Target]
         public Automation.CulturePicker Target { get; set; }
 
-        [TargetControlMap]
-        public CulturePickerMap TargetMap { get; set; }
-
-
         [Test]
         public void VerifyInitialState()
         {

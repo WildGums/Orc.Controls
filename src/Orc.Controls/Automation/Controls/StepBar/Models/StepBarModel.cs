@@ -11,10 +11,10 @@ public class StepBarModel : FrameworkElementModel
     {
     }
 
-    [ApiProperty]
+    [ActiveAutomationProperty]
     public Orientation Orientation { get; set; }
 
-    [ApiProperty]
+    [ActiveAutomationProperty]
     public List<IStepBarItem> Items { get; set; }
 
     public IStepBarItem SelectedItem

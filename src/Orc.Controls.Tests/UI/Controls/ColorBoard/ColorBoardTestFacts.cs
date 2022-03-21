@@ -46,6 +46,10 @@
         public void VerifyInitialColorState()
         {
             var target = Target;
+            var current = target.Current;
+
+            var margin = current.Margin;
+            var desiredSize = current.DesiredSize;
 
             ColorBoardAssert.Color(target, target.Current.Color);
         }

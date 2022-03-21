@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using Orc.Automation;
 
-[AutomationAccessType]
+[ActiveAutomationModel]
 public class ListTextBoxModel : FrameworkElementModel
 {
     public ListTextBoxModel(AutomationElementAccessor accessor) 

@@ -18,7 +18,7 @@
 
             var model = target.Current;
 
-            model.GifSource = "C:\\Temp\\keys.gif";
+            //model.GifSource = "C:\\Temp\\keys.gif";
         }
     }
 }

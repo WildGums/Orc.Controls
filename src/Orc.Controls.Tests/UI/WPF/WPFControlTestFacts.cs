@@ -18,6 +18,10 @@
         public void CorrectlyRun()
         {
             var target = Target;
+            var current = target.Current;
+
+            var result = $"{333.2324000:##.#######}";
+            var result1 = $"{333.2324000:D2}";
 
             target.SelectedDate = new DateTime(2121, 12, 20);
         }

@@ -5,7 +5,7 @@
     using System.Windows.Input;
     using Orc.Automation;
 
-    [AutomationAccessType]
+    [ActiveAutomationModel]
     public class NumericTextBoxModel : AutomationControlModel
     {
         public NumericTextBoxModel(AutomationElementAccessor accessor) 
@@ -14,34 +14,34 @@
         }
 
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public string Text { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public string NullString { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public CultureInfo CultureInfo { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public bool IsChangeValueByUpDownKeyEnabled { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public bool IsNullValueAllowed { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public bool IsNegativeAllowed { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public bool IsDecimalAllowed { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public double MinValue { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public double MaxValue { get; set; }
 
-        [ApiProperty]
+        [ActiveAutomationProperty]
         public string Format { get; set; }
 
         public double? Value

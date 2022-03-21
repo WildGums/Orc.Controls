@@ -1,6 +1,5 @@
 ﻿namespace Orc.Controls.Tests
 {
-    using System;
     using System.Collections;
     using System.Windows;
     using System.Windows.Media;
@@ -8,7 +7,6 @@
     using NUnit.Framework;
     using Orc.Automation;
     using Orc.Automation.Tests;
-    using Theming;
 
     [TestFixture(TestOf = typeof(Orc.Controls.ColorPicker))]
     [Category("UI Tests")]

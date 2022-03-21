@@ -3,7 +3,7 @@
     using System.Windows.Media;
     using Orc.Automation;
 
-    [AutomationAccessType]
+    [ActiveAutomationModel]
     public class FontImageModel : FrameworkElementModel
     {
         public FontImageModel(AutomationElementAccessor accessor) 

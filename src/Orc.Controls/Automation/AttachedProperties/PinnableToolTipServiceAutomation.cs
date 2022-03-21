@@ -3,7 +3,7 @@
     using System.Windows.Controls.Primitives;
     using Orc.Automation;
 
-    [AutomationAccessType(DefaultOwnerType = typeof(PinnableToolTipService))]
+    [ActiveAutomationModel(DefaultOwnerType = typeof(PinnableToolTipService))]
     public class PinnableToolTipServiceModel : AutomationControlModel
     {
         public PinnableToolTipServiceModel(AutomationElementAccessor accessor) 

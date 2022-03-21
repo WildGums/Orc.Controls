@@ -2,7 +2,7 @@
 
 using Orc.Automation;
 
-[AutomationAccessType]
+[ActiveAutomationModel]
 public class OpenFilePickerModel : FrameworkElementModel
 {
     public OpenFilePickerModel(AutomationElementAccessor accessor) 

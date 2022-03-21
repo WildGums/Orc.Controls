@@ -3,7 +3,7 @@
 using System.Windows.Media;
 using Orc.Automation;
 
-[AutomationAccessType]
+[ActiveAutomationModel]
 public class BusyIndicatorModel : FrameworkElementModel
 {
     public BusyIndicatorModel(AutomationElementAccessor accessor)

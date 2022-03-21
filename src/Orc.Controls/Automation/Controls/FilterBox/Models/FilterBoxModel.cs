@@ -3,7 +3,7 @@
     using System.Collections;
     using Orc.Automation;
 
-    [AutomationAccessType]
+    [ActiveAutomationModel]
     public class FilterBoxModel : FrameworkElementModel
     {
         public FilterBoxModel(AutomationElementAccessor accessor) 

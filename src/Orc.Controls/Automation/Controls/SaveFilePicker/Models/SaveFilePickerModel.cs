@@ -2,7 +2,7 @@
 
 using Orc.Automation;
 
-[AutomationAccessType]
+[ActiveAutomationModel]
 public class SaveFilePickerModel : FrameworkElementModel
 {
     public SaveFilePickerModel(AutomationElementAccessor accessor) 

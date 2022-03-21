@@ -3,6 +3,7 @@
     using System;
     using Orc.Automation;
     using Controls;
+    using Orc.Automation.Converters;
 
     public class SerializableNumber
     {

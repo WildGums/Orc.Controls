@@ -2,7 +2,7 @@
 {
     using Orc.Automation;
 
-    [AutomationAccessType]
+    [ActiveAutomationModel]
     public class HeaderBarModel : FrameworkElementModel
     {
         public HeaderBarModel(AutomationElementAccessor accessor) 

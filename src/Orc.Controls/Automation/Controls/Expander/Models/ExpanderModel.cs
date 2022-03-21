@@ -2,7 +2,7 @@
 
 using Orc.Automation;
 
-[AutomationAccessType]
+[ActiveAutomationModel]
 public class ExpanderModel : FrameworkElementModel
 {
     public ExpanderModel(AutomationElementAccessor accessor) 

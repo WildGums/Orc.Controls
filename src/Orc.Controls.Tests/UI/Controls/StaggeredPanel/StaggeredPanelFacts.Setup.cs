@@ -2,6 +2,7 @@
 {
     using System.Collections;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
@@ -16,17 +17,18 @@
         protected override bool TryLoadControl(TestHostAutomationControl testHost, out string testedControlAutomationId)
         {
             var controlType = typeof(System.Windows.Controls.ItemsControl);
+            var testDirectory = TestContext.CurrentContext.TestDirectory;
 
-            testHost.TryLoadAssembly(@"C:\Source\Orc.Controls\output\Debug\Orc.Controls.Tests\net6.0-windows\DiffEngine.dll");
-            testHost.TryLoadAssembly(@"C:\Source\Orc.Controls\output\Debug\Orc.Controls.Tests\net6.0-windows\ApprovalUtilities.dll");
-            testHost.TryLoadAssembly(@"C:\Source\Orc.Controls\output\Debug\Orc.Controls.Tests\net6.0-windows\ApprovalTests.dll");
-            testHost.TryLoadAssembly(@"C:\Source\Orc.Controls\output\Debug\Orc.Controls.Tests\net6.0-windows\Orc.Controls.dll");
-            testHost.TryLoadAssembly(@"C:\Source\Orc.Controls\output\Debug\Orc.Controls.Tests\net6.0-windows\Orc.Automation.Tests.dll");
+            testHost.TryLoadAssembly(Path.Combine(testDirectory, "DiffEngine.dll"));
+            testHost.TryLoadAssembly(Path.Combine(testDirectory, "ApprovalUtilities.dll"));
+            testHost.TryLoadAssembly(Path.Combine(testDirectory, "ApprovalTests.dll"));
+            testHost.TryLoadAssembly(Path.Combine(testDirectory, "ControlzEx.dll"));
+            testHost.TryLoadAssembly(Path.Combine(testDirectory, "Orc.Theming.dll"));
+            testHost.TryLoadAssembly(Path.Combine(testDirectory, "Orc.Controls.dll"));
+            testHost.TryLoadAssembly(Path.Combine(testDirectory, "Orc.Automation.Tests.dll"));
+            testHost.TryLoadAssembly(Path.Combine(testDirectory, "Orc.Controls.Tests.dll"));
 
-            testHost.TryLoadAssembly(@"C:\Source\Orc.Controls\output\Debug\Orc.Controls.Tests\net6.0-windows\Orc.Controls.Tests.dll");
-
-            var result = testHost.TryLoadAssembly(@"C:\Source\Orc.Controls\output\Debug\Orc.Controls.Tests\net6.0-windows\Orc.Controls.Tests.dll");
-
+            testHost.TryLoadResources("pack://application:,,,/Orc.Theming;component/Themes/Generic.xaml");
             testHost.TryLoadResources("pack://application:,,,/Orc.Controls;component/Themes/Generic.xaml");
 
             return testHost.TryLoadControlWithForwarders(controlType, out testedControlAutomationId);

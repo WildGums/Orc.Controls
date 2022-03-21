@@ -2,7 +2,7 @@
 {
     using Orc.Automation;
 
-    [AutomationAccessType]
+    [ActiveAutomationModel]
     public class FrameCounterModel : AutomationControlModel
     {
         public FrameCounterModel(AutomationElementAccessor accessor) 

@@ -5,7 +5,7 @@
     using Enums;
     using Orc.Automation;
 
-    [AutomationAccessType]
+    [ActiveAutomationModel]
     public class TimePickerModel : FrameworkElementModel
     {
         public TimePickerModel(AutomationElementAccessor accessor) 

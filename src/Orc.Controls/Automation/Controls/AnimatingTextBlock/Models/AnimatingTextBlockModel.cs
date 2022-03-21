@@ -2,7 +2,7 @@
 
 using Orc.Automation;
 
-[AutomationAccessType]
+[ActiveAutomationModel]
 public class AnimatingTextBlockModel : FrameworkElementModel
 {
     public AnimatingTextBlockModel(AutomationElementAccessor accessor) 

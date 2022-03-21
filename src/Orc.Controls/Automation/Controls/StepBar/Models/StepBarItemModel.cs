@@ -3,7 +3,7 @@
     using System.Windows.Controls;
     using Orc.Automation;
 
-    [AutomationAccessType]
+    [ActiveAutomationModel]
     public class StepBarItemModel : FrameworkElementModel
     {
         public StepBarItemModel(AutomationElementAccessor accessor)
