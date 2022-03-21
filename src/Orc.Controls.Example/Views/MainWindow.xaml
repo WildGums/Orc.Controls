@@ -5,17 +5,20 @@
               xmlns:views="clr-namespace:Orc.Controls.Example.Views"
               xmlns:orccontrols="http://schemas.wildgums.com/orc/controls" 
               xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
+              xmlns:controls="clr-namespace:Orc.Automation.Controls;assembly=Orc.Automation"
               Height="900" Width="1000">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <controls:AutomationInformer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-        <orctheming:ThemeSwitcherView Grid.Row="0" />
+            <orctheming:ThemeSwitcherView Grid.Row="0" />
 
-        <orccontrols:Callout Title="Looking for callouts?"
+            <orccontrols:Callout Title="Looking for callouts?"
                              CalloutName="ExampleCallout"
                              Description="Example callout with a specified delay. Check the callout tab below.
                              
@@ -25,137 +28,151 @@
                              ShowTime="00:00:10"
                              PlacementTarget="{Binding ElementName=calloutView}" />
 
-        <orccontrols:TabControl Grid.Row="1" Padding="10" 
-                                TabStripPlacement="Left" 
-                                LoadTabItems="EagerLoading">
-            <TabItem Header="AlignmentGrid">
-                <views:AlignmentGrid />
-            </TabItem>
+            <Button x:Name="TestButton"
+                    Grid.Column="0"
+                    AutomationProperties.AutomationId="TestButtonId"
+                    Command="{Binding StartTestHost}"
+                    Content="Test"/>
 
-            <TabItem Header="AnimatedGif">
-                <views:AnimatedGif />
-            </TabItem>
+            <orccontrols:TabControl  AutomationProperties.AutomationId="TabControl"
+                                 
+                                 Grid.Row="2" 
+                                 Padding="10" 
+                                 TabStripPlacement="Left" 
+                                 LoadTabItems="EagerLoading">
+                <TabItem Header="AlignmentGrid">
+                    <views:AlignmentGrid />
+                </TabItem>
 
-            <TabItem Header="BindableRichTextBox">
-                <views:BindableRichTextBox />
-            </TabItem>
+                <TabItem Header="AnimatedGif">
+                    <views:AnimatedGif />
+                </TabItem>
 
-            <TabItem Header="BusyIndicator">
-                <views:BusyIndicator/>
-            </TabItem>
+                <TabItem Header="BindableRichTextBox">
+                    <views:BindableRichTextBox />
+                </TabItem>
 
-            <TabItem Header="Callout">
-                <views:CalloutView x:Name="calloutView" />
-            </TabItem>
-            
-            <TabItem Header="ColorLegend">
-                <views:ColorLegendView />
-            </TabItem>
+                <TabItem Header="BusyIndicator">
+                    <views:BusyIndicator/>
+                </TabItem>
 
-            <TabItem Header="ColorPicker">
-                <views:ColorPicker/>
-            </TabItem>
+                <TabItem Header="Callout">
+                    <views:CalloutView x:Name="calloutView" />
+                </TabItem>
 
-            <TabItem Header="CulturePicker">
-                <views:CulturePickerView/>
-            </TabItem>
-          
-            <TabItem Header="DateTimePicker">
-                <views:DateTimePicker />
-            </TabItem>
+                <TabItem Header="ColorLegend">
+                    <views:ColorLegendView />
+                </TabItem>
 
-            <TabItem Header="DateRangePicker">
-                <views:DateRangePicker />
-            </TabItem>
+                <TabItem Header="ColorPicker">
+                    <views:ColorPicker/>
+                </TabItem>
 
-            <TabItem Header="DirectoryPicker">
-                <views:DirectoryPickerView />
-            </TabItem>
+                <TabItem Header="CulturePicker">
+                    <views:CulturePickerView AutomationProperties.AutomationId="CulturePickerViewId"/>
+                </TabItem>
 
-            <TabItem Header="DropDownButton">
-                <views:DropDownButtonView />
-            </TabItem>
+                <TabItem Header="DateTimePicker">
+                    <views:DateTimePicker />
+                </TabItem>
 
-            <TabItem Header="Expander">
-                <views:Expander />
-            </TabItem>
+                <TabItem Header="DateRangePicker">
+                    <views:DateRangePicker />
+                </TabItem>
 
-            <TabItem Header="FilterBox">
-                <views:FilterBox />
-            </TabItem>
+                <TabItem Header="DirectoryPicker">
+                    <views:DirectoryPickerView />
+                </TabItem>
 
-            <TabItem Header="FluidProgressBar">
-                <views:FluidProgressBar />
-            </TabItem>
-            
-            <TabItem Header="FrameRateCounter">
-                <views:FrameRateCounterView />
-            </TabItem>
-            
-            <TabItem Header="InfinityScroll">
-                <views:InfinityScroll/>
-            </TabItem>
+                <TabItem Header="DropDownButton">
+                    <views:DropDownButtonView />
+                </TabItem>
 
-            <TabItem Header="LinkLabel">
-                <views:LinkLabel />
-            </TabItem>
+                <TabItem Header="Expander">
+                    <views:Expander />
+                </TabItem>
 
-            <TabItem Header="LogViewer">
-                <views:LogViewer />
-            </TabItem>
+                <TabItem Header="FilterBox">
+                    <views:FilterBox />
+                </TabItem>
 
-            <TabItem Header="NumericTextBox">
-                <views:NumericTextBox />
-            </TabItem>
+                <TabItem Header="FontImage">
+                    <views:FontImageView />
+                </TabItem>
 
-            <TabItem Header="NumericUpDown">
-                <views:NumericUpDownView />
-            </TabItem>
+                <TabItem Header="FluidProgressBar">
+                    <views:FluidProgressBar />
+                </TabItem>
 
-            <TabItem Header="OpenFilePicker">
-                <views:OpenFilePickerView />
-            </TabItem>
+                <TabItem Header="FrameRateCounter">
+                    <views:FrameRateCounterView />
+                </TabItem>
 
-            <TabItem Header="PinnableToolTip">
-                <views:PinnableToolTip />
-            </TabItem>
+                <TabItem Header="InfinityScroll">
+                    <views:InfinityScroll/>
+                </TabItem>
 
-            <TabItem Header="RangeSlider">
-                <views:RangeSliderView />
-            </TabItem>
+                <TabItem Header="LinkLabel">
+                    <views:LinkLabel />
+                </TabItem>
 
-            <TabItem Header="SaveFilePicker">
-                <views:SaveFilePickerView />
-            </TabItem>
+                <TabItem Header="LogViewer">
+                    <views:LogViewer />
+                </TabItem>
 
-            <TabItem Header="SpinButton">
-                <views:SpinButtonView />
-            </TabItem>
+                <TabItem Header="NumericTextBox">
+                    <views:NumericTextBox />
+                </TabItem>
 
-            <TabItem Header="StaggeredPanel">
-                <views:StaggeredPanelView/>
-            </TabItem>
+                <TabItem Header="NumericUpDown">
+                    <views:NumericUpDownView />
+                </TabItem>
 
-            <TabItem Header="StepBar">
-                <views:StepBarView/>
-            </TabItem>
+                <TabItem Header="OpenFilePicker">
+                    <views:OpenFilePickerView />
+                </TabItem>
 
-            <TabItem Header="TimePicker">
-                <views:TimePicker />
-            </TabItem>
-            
-            <TabItem Header="TimeSpanPicker">
-                <views:TimeSpanPickerView />
-            </TabItem>
+                <TabItem Header="PinnableToolTip">
+                    <views:PinnableToolTip />
+                </TabItem>
 
-            <TabItem Header="ValidationContextControl">
-                <views:ValidationContextView />
-            </TabItem>
+                <TabItem Header="RangeSlider">
+                    <views:RangeSliderView />
+                </TabItem>
 
-            <TabItem Header="WatermarkTextBox">
-                <views:Watermark />
-            </TabItem>
+                <TabItem Header="SaveFilePicker">
+                    <views:SaveFilePickerView />
+                </TabItem>
 
-        </orccontrols:TabControl>
-    </Grid>
+                <TabItem Header="SpinButton">
+                    <views:SpinButtonView />
+                </TabItem>
+
+                <TabItem Header="StaggeredPanel">
+                    <views:StaggeredPanelView/>
+                </TabItem>
+
+                <TabItem Header="StepBar">
+                    <views:StepBarView/>
+                </TabItem>
+
+                <TabItem Header="TimePicker">
+                    <views:TimePicker />
+                </TabItem>
+
+                <TabItem Header="TimeSpanPicker">
+                    <views:TimeSpanPickerView />
+                </TabItem>
+
+                <TabItem Header="ValidationContextControl">
+                    <views:ValidationContextView />
+                </TabItem>
+
+                <TabItem Header="WatermarkTextBox">
+                    <views:Watermark />
+                </TabItem>
+
+            </orccontrols:TabControl>
+        </Grid>
+    </controls:AutomationInformer>
 </catel:Window>

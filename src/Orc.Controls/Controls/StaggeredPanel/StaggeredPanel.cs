@@ -7,7 +7,9 @@ namespace Orc.Controls
     using System;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
+    using Automation;
     using Catel.Logging;
 
     /// <summary>
@@ -244,6 +246,11 @@ namespace Orc.Controls
             }
 
             return columnIndex;
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new StaggeredPanelAutomationPeer(this);
         }
     }
 }

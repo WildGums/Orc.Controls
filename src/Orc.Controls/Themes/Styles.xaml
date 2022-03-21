@@ -64,7 +64,8 @@
                                     </ControlTemplate>
                                 </ToggleButton.Template>
                                 <ToggleButton.Content>
-                                    <Rectangle Stretch="Fill"
+                                    <Rectangle x:Name="ColorSurface"
+                                               Stretch="Fill"
                                                Margin="1"
                                                Fill="{Binding Color, RelativeSource={RelativeSource TemplatedParent}, Converter={catel:ColorToBrushConverter}}"/>
                                 </ToggleButton.Content>

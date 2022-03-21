@@ -504,10 +504,6 @@ namespace Orc.Controls
             rtb.Visibility = Visibility.Visible;
 
             var oldDoc = rtb.Document;
-            if (oldDoc is null)
-            {
-                return;
-            }
 
             // TODO: Consider doing in a background thread
             foreach (var block in oldDoc.Blocks)

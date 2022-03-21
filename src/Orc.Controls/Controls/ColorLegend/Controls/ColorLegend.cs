@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ColorLegend.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
+﻿
 namespace Orc.Controls
 {
     using System;
@@ -13,11 +7,12 @@ namespace Orc.Controls
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using System.Windows.Media;
-    using Catel;
+    using Automation;
     using Catel.Data;
     using Catel.MVVM;
 
@@ -306,7 +301,7 @@ namespace Orc.Controls
             }
 
             SetCurrentValue(FilteredItemsSourceProperty, GetFilteredItems());
-            SetCurrentValue(FilteredItemsIdsProperty, FilteredItemsSource?.Select(cp => cp.Id));
+            SetCurrentValue(FilteredItemsIdsProperty, FilteredItemsSource?.Select(cp => cp.Id).ToList());
 
             if (newValue is not null)
             {
@@ -424,7 +419,7 @@ namespace Orc.Controls
         private void OnFilterChanged()
         {
             SetCurrentValue(FilteredItemsSourceProperty, GetFilteredItems());
-            SetCurrentValue(FilteredItemsIdsProperty, FilteredItemsSource?.Select(cp => cp.Id));
+            SetCurrentValue(FilteredItemsIdsProperty, FilteredItemsSource?.Select(cp => cp.Id).ToList());
         }
 
         public override void OnApplyTemplate()
@@ -605,7 +600,7 @@ namespace Orc.Controls
             try
             {
                 var regex = new Regex(filter.GetRegexStringFromSearchPattern());
-                return items.Where(cp => regex.IsMatch(cp.Description));
+                return items.Where(cp => regex.IsMatch(cp.Description)).ToList();
             }
             catch (Exception)
             {
@@ -658,6 +653,11 @@ namespace Orc.Controls
             SetCurrentValue(EditingColorProperty, color);
             _previousColor = color;
             SetCurrentValue(IsColorSelectingProperty, true);
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new ColorLegendAutomationPeer(this);
         }
         #endregion
     }

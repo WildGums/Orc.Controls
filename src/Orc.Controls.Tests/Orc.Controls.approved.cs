@@ -1,5 +1,5 @@
 ﻿[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
-[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v5.0", FrameworkDisplayName="")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v6.0", FrameworkDisplayName="")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Converters")]
 [assembly: System.Windows.Markup.XmlnsPrefix("http://schemas.wildgums.com/orc/controls", "orccontrols")]
@@ -853,6 +853,14 @@ namespace Orc.Controls
         protected virtual void OnOscillateChanged(bool oldOscillate, bool newOscillate) { }
         protected virtual void OnReverseDurationChanged(System.Windows.Duration oldReverseDuration, System.Windows.Duration newReverseDuration) { }
         protected virtual void OnTotalDurationChanged(System.Windows.Duration oldTotalDuration, System.Windows.Duration newTotalDuration) { }
+    }
+    [System.Windows.TemplatePart(Name="PART_Image", Type=typeof(System.Windows.Controls.Image))]
+    public class FontImage : System.Windows.Controls.Control
+    {
+        public static readonly System.Windows.DependencyProperty ItemNameProperty;
+        public FontImage() { }
+        public string ItemName { get; set; }
+        public override void OnApplyTemplate() { }
     }
     public class FrameCounter : System.Windows.Controls.TextBlock
     {
@@ -1982,7 +1990,7 @@ namespace Orc.Controls
         public abstract System.TimeSpan Delay { get; }
         public System.DateTime End { get; }
         public System.DateTime Start { get; set; }
-        protected virtual void Subscribe() { }
+        protected virtual void Subscribe(Orc.Controls.ICalloutManager calloutManager) { }
     }
     public class TimePicker : System.Windows.Controls.ContentControl
     {
@@ -2320,7 +2328,7 @@ namespace Orc.Controls.Services
 }
 namespace Orc.Controls.Tools.Attributes
 {
-    [System.AttributeUsage(System.AttributeTargets.Property | System.AttributeTargets.All)]
+    [System.AttributeUsage(System.AttributeTargets.Property)]
     public class ToolSettingsAttribute : System.Attribute
     {
         public ToolSettingsAttribute() { }

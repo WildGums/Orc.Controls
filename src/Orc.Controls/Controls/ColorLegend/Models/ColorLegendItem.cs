@@ -7,6 +7,8 @@
 
 namespace Orc.Controls
 {
+    using System;
+    using System.Runtime.Serialization;
     using System.Windows.Media;
     using System.Xml.Serialization;
     using Catel.Data;
@@ -15,6 +17,8 @@ namespace Orc.Controls
     /// <summary>
     /// The color legend item.
     /// </summary>
+    [Serializable]
+    [KnownType(typeof(Color))]
     [SerializerModifier(typeof(ColorLegendItemSerializerModifier))]
     public class ColorLegendItem : ModelBase, IColorLegendItem
     {
@@ -33,6 +37,7 @@ namespace Orc.Controls
         /// <summary>
         /// Gets or sets the property value.
         /// </summary>
+        [IncludeInSerialization]
         public Color Color { get; set; }
 
         /// <summary>

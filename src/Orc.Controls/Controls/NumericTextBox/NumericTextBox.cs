@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NumericTextBox.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -13,9 +6,11 @@ namespace Orc.Controls
     using System.Linq;
     using System.Text;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
+    using Automation;
     using Catel;
     using Catel.Logging;
     using Catel.Windows.Input;
@@ -333,13 +328,6 @@ namespace Orc.Controls
             if (string.Equals(text, "-") || string.Equals(text, "-0"))
             {
                 // User is typing -0 (would result in 0, which we don't want yet, maybe they are typing -0.5)
-                update = false;
-            }
-
-            if (text.StartsWith(CommaCharacter) || text.EndsWith(CommaCharacter) ||
-                text.StartsWith(PeriodCharacter) || text.EndsWith(PeriodCharacter))
-            {
-                // User is typing a . or , don't update
                 update = false;
             }
 
@@ -718,6 +706,11 @@ namespace Orc.Controls
             }
 
             return keyValue;
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new NumericTextBoxAutomationPeer(this);
         }
         #endregion
     }

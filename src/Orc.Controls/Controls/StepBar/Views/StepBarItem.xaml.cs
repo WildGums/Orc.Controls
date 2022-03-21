@@ -2,7 +2,10 @@
 {
     using System;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
+    using Automation;
+    using Orc.Automation;
 
     public sealed partial class StepBarItem
     {
@@ -47,8 +50,8 @@
                 grid.SetCurrentValue(FrameworkElement.MaxWidthProperty, 100.0);
                 grid.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Bottom = 8 });
 
-                txtTitle.SetCurrentValue(Grid.ColumnProperty, 0);
-                txtTitle.SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+                TitleTextBlock.SetCurrentValue(Grid.ColumnProperty, 0);
+                TitleTextBlock.SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Center);
 
                 pathlineCanvas.SetCurrentValue(Grid.ColumnProperty, 1);
                 pathlineCanvas.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness(5));
@@ -72,8 +75,8 @@
                 grid.SetCurrentValue(FrameworkElement.MaxWidthProperty, 240.0);
                 grid.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Bottom = 56 });
 
-                txtTitle.SetCurrentValue(Grid.ColumnProperty, 1);
-                txtTitle.SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Left);
+                TitleTextBlock.SetCurrentValue(Grid.ColumnProperty, 1);
+                TitleTextBlock.SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Left);
 
                 pathlineCanvas.SetCurrentValue(Grid.ColumnProperty, 0);
                 pathlineCanvas.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness(2));
@@ -87,6 +90,11 @@
                 ellipseCurrent.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Left = 15, Top = 5, Right = 25, Bottom = 5 });
                 ellipseToVisit.Parent.SetCurrentValue(FrameworkElement.MarginProperty, new Thickness() { Left = 15, Top = 5, Right = 25, Bottom = 5 });
             }
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new StepBarItemAutomationPeer(this);
         }
     }
 }

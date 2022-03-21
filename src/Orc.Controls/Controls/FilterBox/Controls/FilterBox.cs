@@ -10,8 +10,10 @@ namespace Orc.Controls
     using System.Collections;
     using System.Reflection;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Input;
+    using Automation;
     using Catel.Logging;
     using Catel.MVVM;
     using Catel.Windows.Data;
@@ -58,8 +60,7 @@ namespace Orc.Controls
         }
 
         public static readonly DependencyProperty FilterSourceProperty = DependencyProperty.Register(nameof(FilterSource), typeof(IEnumerable),
-            typeof(FilterBox), new FrameworkPropertyMetadata(null,
-                (sender, args) => ((FilterBox)sender).OnFilterSourceChanged()));
+            typeof(FilterBox), new FrameworkPropertyMetadata(null, (sender, args) => ((FilterBox)sender).OnFilterSourceChanged()));
 
         public string PropertyName
         {
@@ -210,6 +211,11 @@ namespace Orc.Controls
         private void OnPropertyNameChanged()
         {
             UpdateAutoCompletion();
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new FilterBoxAutomationPeer(this);
         }
         #endregion
 

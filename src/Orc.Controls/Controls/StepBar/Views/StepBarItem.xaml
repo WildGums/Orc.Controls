@@ -10,7 +10,8 @@
 
     <Grid ToolTip="{Binding Item.Description}">
         <!-- Navigation "hack" -->
-        <Button Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}}"
+        <Button x:Name="ExecuteButton"
+                Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}}"
                 Command="{Binding Item.Command}" 
                 CommandParameter="{Binding Item}"
                 Cursor="Hand"
@@ -55,7 +56,7 @@
                          VerticalAlignment="Center"
                          Visibility="{Binding Item.State, Converter={orccontrols:IsAfterCurrentStepToVisibilityConverter}}" />
 
-                <TextBlock x:Name="ellipseText" Text="{Binding Item.Number}" 
+                <TextBlock x:Name="EllipseTextBlock" Text="{Binding Item.Number}" 
                            HorizontalAlignment="Center" 
                            Foreground="{DynamicResource Orc.Brushes.White}"
                            VerticalAlignment="Center" 
@@ -64,7 +65,7 @@
                            Margin="0,-2,0,0"
                            Visibility="{Binding Item.State, Converter={orccontrols:ShowStepNumberVisibilityConverter}}" />
 
-                <Viewbox x:Name="visitedIconViewBox" 
+                <Viewbox x:Name="VisitedIconViewBox" 
                          Width="24" 
                          Height="24" 
                          Visibility="{Binding Item.State, Converter={orccontrols:IsVisitedStepToVisibilityConverter}}">
@@ -80,7 +81,7 @@
                     </Canvas>
                 </Viewbox>
 
-                <Viewbox x:Name="skippedIconViewBox"
+                <Viewbox x:Name="SkippedIconViewBox"
                          Width="20" 
                          Height="20"
                          Margin="2"
@@ -96,7 +97,7 @@
                 </Viewbox>
             </Grid>
 
-            <TextBlock Name="txtTitle" 
+            <TextBlock Name="TitleTextBlock" 
                        Text="{Binding Item.Title}" 
                        FontSize="14" 
                        HorizontalAlignment="Center" 
@@ -109,10 +110,10 @@
 
         </Grid>
 
-        <Canvas HorizontalAlignment="Center" 
+        <Canvas x:Name="pathlineCanvas"
+                HorizontalAlignment="Center" 
                 Margin="5"
-                IsHitTestVisible="False"
-                x:Name="pathlineCanvas">
+                IsHitTestVisible="False">
             <Rectangle x:Name="pathline" 
                        Width="48" 
                        Height="2" 

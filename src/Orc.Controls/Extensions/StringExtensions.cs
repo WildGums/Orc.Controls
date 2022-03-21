@@ -8,6 +8,7 @@
 namespace Orc.Controls
 {
     using System;
+    using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows.Documents;
@@ -88,6 +89,16 @@ namespace Orc.Controls
             }
 
             return true;
+        }
+
+        public static Stream ToStream(this string s)
+        {
+            var stream = new MemoryStream();
+            using var writer = new StreamWriter(stream);
+            writer.Write(s);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
         }
         #endregion
     }

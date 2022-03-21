@@ -5,7 +5,7 @@
                     xmlns:controls="clr-namespace:Orc.Controls">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Orc.Theming;component/themes/Controls.implicit.wpf.control.xaml" />
+        <ResourceDictionary Source="/Orc.Theming;component/themes/generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{x:Type controls:NumericUpDown}"

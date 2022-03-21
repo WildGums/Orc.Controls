@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AnimatedGif.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Diagnostics;
@@ -14,9 +7,11 @@ namespace Orc.Controls
     using System.Reflection;
     using System.Runtime.InteropServices;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Interop;
     using System.Windows.Media.Imaging;
     using System.Windows.Threading;
+    using Automation;
     using Catel.Logging;
     using Catel.Reflection;
 
@@ -245,6 +240,11 @@ namespace Orc.Controls
 
             // Return bitmap source
             return bitmapSource;
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new AnimatedGifAutomationPeer(this);
         }
         #endregion
     }

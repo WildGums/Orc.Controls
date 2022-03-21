@@ -1,18 +1,12 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AnimatingTextBlock.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Media.Animation;
-    using Catel.Windows.Threading;
+    using Automation;
     using Services;
 
     public class AnimatingTextBlock : UserControl, IStatusRepresenter
@@ -70,7 +64,7 @@ namespace Orc.Controls
         /// Gets or sets the show storyboard.
         /// </summary>
         /// <value>The show storyboard.</value>
-        public Storyboard ShowStoryboard
+        public Storyboard ShowStoryboard 
         {
             get { return (Storyboard)GetValue(ShowStoryboardProperty); }
             set { SetValue(ShowStoryboardProperty, value); }
@@ -217,6 +211,11 @@ namespace Orc.Controls
         public void UpdateStatus(string status)
         {
             Dispatcher.BeginInvoke(() => SetCurrentValue(TextProperty, status));
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new AnimatingTextBlockAutomationPeer(this);
         }
         #endregion
     }

@@ -1,13 +1,7 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PredefinedColorItem.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Media;
 
@@ -69,5 +63,10 @@ namespace Orc.Controls
         public static readonly DependencyProperty TextProperty = DependencyProperty.RegisterAttached(
             nameof(Text), typeof(string), typeof(PredefinedColorItem), new PropertyMetadata(string.Empty));
         #endregion
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new PredefinedColorItemPeer(this);
+        }
     }
 }

@@ -5,8 +5,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.slider.xaml" />
-        <ResourceDictionary Source="/Orc.Theming;component/themes/controls.implicit.wpf.control.xaml" />
+        <ResourceDictionary Source="/Orc.Theming;component/themes/generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="Orc.Styles.RangeSlider" TargetType="{x:Type controls:RangeSlider}"
@@ -72,21 +71,19 @@
                         </Border>
 
                         <Slider x:Name="PART_LowerSlider" 
-                                    Style="{StaticResource SimpleSliderStyle}" 
-                                    Minimum="{TemplateBinding Minimum}"
-                                    Maximum="{TemplateBinding Maximum}"
-                                    Orientation="{TemplateBinding Orientation}"
-                                    Value="{Binding LowerValue, RelativeSource={RelativeSource AncestorType={x:Type controls:RangeSlider}}, Mode=TwoWay}" />
+                                Style="{StaticResource SimpleSliderStyle}" 
+                                Minimum="{TemplateBinding Minimum}"
+                                Maximum="{TemplateBinding Maximum}"
+                                Orientation="{TemplateBinding Orientation}"
+                                Value="{Binding LowerValue, RelativeSource={RelativeSource AncestorType={x:Type controls:RangeSlider}}, Mode=TwoWay}" />
 
                         <Slider x:Name="PART_UpperSlider" 
-                                    Style="{StaticResource SimpleSliderStyle}" 
-                                    Minimum="{TemplateBinding Minimum}"
-                                    Maximum="{TemplateBinding Maximum}"
-                                    Orientation="{TemplateBinding Orientation}"
-                                    Value="{Binding UpperValue, RelativeSource={RelativeSource AncestorType={x:Type controls:RangeSlider}}, Mode=TwoWay}" />
+                                Style="{StaticResource SimpleSliderStyle}" 
+                                Minimum="{TemplateBinding Minimum}"
+                                Maximum="{TemplateBinding Maximum}"
+                                Orientation="{TemplateBinding Orientation}"
+                                Value="{Binding UpperValue, RelativeSource={RelativeSource AncestorType={x:Type controls:RangeSlider}}, Mode=TwoWay}" />
                     </Grid>
-
-                    
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="Orientation" Value="Vertical">

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Windows.Threading;
+    using Catel;
     using Catel.Configuration;
     using Catel.Logging;
 
@@ -17,7 +18,7 @@
             Start = DateTime.MaxValue;
             _dispatcherTimer.Tick += OnDispatcherTimerTick;
 
-            Subscribe();
+            Subscribe(_calloutManager);
         }
 
         public DateTime Start { get; protected set; }
@@ -29,8 +30,10 @@
 
         public abstract TimeSpan Delay { get; }
 
-        protected virtual void Subscribe()
+        protected virtual void Subscribe(ICalloutManager calloutManager)
         {
+            Argument.IsNotNull(() => calloutManager);
+
             var callout = Callout;
             if (callout is not null)
             {
@@ -40,7 +43,7 @@
 
             Log.Debug($"Callout is not yet registered, subscribing to ICalloutManager.Registered event");
 
-            _calloutManager.Registered += OnCalloutManagerRegistered;
+            calloutManager.Registered += OnCalloutManagerRegistered;
         }
 
         private void OnCalloutManagerRegistered(object sender, CalloutEventArgs e)

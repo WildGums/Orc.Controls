@@ -3,10 +3,12 @@
     using System;
     using System.ComponentModel;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Shapes;
     using System.Windows.Threading;
+    using Automation;
     using Catel.Windows;
 
     [TemplatePart(Name = "PART_TrackBackground", Type = typeof(Border))]
@@ -382,7 +384,12 @@
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            #endregion
         }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new RangeSliderAutomationPeer(this);
+        }
+        #endregion
     }
 }

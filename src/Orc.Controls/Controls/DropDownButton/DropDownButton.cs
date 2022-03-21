@@ -1,18 +1,13 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DropDownButton.cs" company="WildGums">
-//   Copyright (c) 2008 - 2020 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Shapes;
+    using Automation;
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Services;
@@ -35,7 +30,9 @@ namespace Orc.Controls
         #region Constructors
         public DropDownButton()
         {
+#pragma warning disable IDISP004 // Don't ignore created IDisposable.
             _dispatcherService = this.GetServiceLocator().ResolveType<IDispatcherService>();
+#pragma warning restore IDISP004 // Don't ignore created IDisposable.
         }
         #endregion
 
@@ -95,13 +92,13 @@ namespace Orc.Controls
             _arrowPath = GetTemplateChild("PART_Arrow") as Path;
             if (_arrowPath is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Arrow'");
+               throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Arrow'");
             }
 
             _arrowBorder = GetTemplateChild("PART_ArrowBorder") as Border;
             if (_arrowBorder is null)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ArrowBorder'");
+               throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ArrowBorder'");
             }
         }
         private void OnHeaderChanged()
@@ -196,6 +193,11 @@ namespace Orc.Controls
             {
                 new CustomPopupPlacement(p, PopupPrimaryAxis.Horizontal)
             };
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new DropDownButtonAutomationPeer(this);
         }
         #endregion
     }

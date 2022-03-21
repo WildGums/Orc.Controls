@@ -5,10 +5,12 @@
     using System.Globalization;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using System.Windows.Input;
+    using Automation;
     using Catel;
     using Catel.IoC;
     using Catel.Logging;
@@ -1057,7 +1059,9 @@
 
             if (newValue is null && nv is not null)
             {
+#pragma warning disable IDISP004 // Don't ignore created IDisposable.
                 var dispatcherService = this.GetServiceLocator().ResolveType<IDispatcherService>();
+#pragma warning restore IDISP004 // Don't ignore created IDisposable.
                 dispatcherService.Invoke(() => SetCurrentValue(ValueProperty, nv));
             }
 
@@ -1475,7 +1479,7 @@
                 return;
             }
 
-            if (year < 0)
+            if (year <= 0)
             {
                 return;
             }
@@ -1839,6 +1843,11 @@
             {
                 secondOrMinuteTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
             }
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new DateTimePickerAutomationPeer(this);
         }
         #endregion
 

@@ -1,18 +1,17 @@
 ﻿namespace Orc.Controls
 {
     using System;
-    using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
-    using System.Windows.Threading;
     using Catel;
     using Catel.Logging;
     using Catel.MVVM;
-
+    using Orc.Automation;
 
     [TemplatePart(Name = "PART_TextBox", Type = typeof(TextBox))]
     [TemplatePart(Name = "PART_IncreaseButton", Type = typeof(RepeatButton))]
@@ -605,6 +604,11 @@
             var tempValueString = valueString.Substring(0, endPoint);
 
             return double.Parse(tempValueString, _culture);
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new NumericUpDownAutomationPeer(this);
         }
         #endregion
 

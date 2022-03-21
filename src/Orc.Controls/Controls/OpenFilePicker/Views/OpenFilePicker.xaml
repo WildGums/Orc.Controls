@@ -4,6 +4,7 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:catel="http://schemas.catelproject.com"
+                   xmlns:automation="clr-namespace:Orc.Controls.Automation"
                    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
 
     <Grid>
@@ -15,22 +16,47 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Column="0" Content="{Binding LabelText}" Width="{Binding LabelWidth}" />
-        <TextBox Grid.Column="1" 
+        <Label Grid.Column="0" 
+               Content="{Binding LabelText}"
+               Width="{Binding LabelWidth}" />
+
+        <TextBox AutomationProperties.AutomationId="{x:Static automation:OpenFilePickerMap.SelectedFileTextBoxId}"
+                 Grid.Column="1" 
                  IsReadOnly="True" 
                  Text="{Binding SelectedFileDisplayName, Mode=OneWay}" 
                  Height="{Binding ElementName=OpenFileButton, Path=ActualHeight}"/>
 
-        <Button x:Name="OpenFileButton" Grid.Column="2" Margin="0,6,2,6" Width="24" Content="..." ToolTip="{catel:LanguageBinding Controls_BrowseForFile}" Command="{Binding SelectFile}" />
+        <Button x:Name="OpenFileButton"
+                AutomationProperties.AutomationId="{x:Static automation:OpenFilePickerMap.OpenFileButtonId}"
+                Grid.Column="2"
+                Margin="0,6,2,6" 
+                Width="24" 
+                Content="..." 
+                ToolTip="{catel:LanguageBinding Controls_BrowseForFile}"
+                Command="{Binding SelectFile}" />
 
-        <Button Grid.Column="3" Margin="2,6,2,6" Width="24" ToolTip="{catel:LanguageBinding Controls_OpenFolder}"
-                Command="{Binding OpenDirectory}" Visibility="{Binding SelectedFile, Converter={catel:EmptyStringToCollapsingVisibilityConverter}}">
-            <Image Source="/Orc.Controls;component/Resources/Images/Folder.png" Width="16" Height="16" />
+        <Button AutomationProperties.AutomationId="{x:Static automation:OpenFilePickerMap.OpenDirectoryButtonId}"
+                Grid.Column="3"
+                Margin="2,6,2,6"
+                Width="24" 
+                ToolTip="{catel:LanguageBinding Controls_OpenFolder}"
+                Command="{Binding OpenDirectory}"
+                Visibility="{Binding SelectedFile, Converter={catel:EmptyStringToCollapsingVisibilityConverter}}">
+            <Image Source="/Orc.Controls;component/Resources/Images/Folder.png" 
+                   Width="16" 
+                   Height="16" />
         </Button>
 
-        <Button Grid.Column="4" Margin="2,6,0,6" Width="24" ToolTip="{catel:LanguageBinding Controls_Clear}"
-                Command="{Binding Clear}" Visibility="{Binding SelectedFile, Converter={catel:EmptyStringToCollapsingVisibilityConverter}}">
-            <Image Source="/Orc.Controls;component/Resources/Images/Delete.png" Width="16" Height="16" />
+        <Button AutomationProperties.AutomationId="{x:Static automation:OpenFilePickerMap.ClearButtonId}"
+                Grid.Column="4"
+                Margin="2,6,0,6"
+                Width="24"
+                ToolTip="{catel:LanguageBinding Controls_Clear}"
+                Command="{Binding Clear}"
+                Visibility="{Binding SelectedFile, Converter={catel:EmptyStringToCollapsingVisibilityConverter}}">
+            <Image Source="/Orc.Controls;component/Resources/Images/Delete.png"
+                   Width="16"
+                   Height="16" />
         </Button>
     </Grid>
 

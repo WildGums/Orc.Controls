@@ -12,9 +12,11 @@ namespace Orc.Controls
     using System.Linq;
     using System.Text;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
+    using Automation;
 
     public class ListTextBox : TextBox
     {
@@ -147,7 +149,7 @@ namespace Orc.Controls
                 return;
             }
 
-            _currentIndex = index >= 0 ? index : 0;
+            _currentIndex = index;
 
             SetCurrentValue(ValueProperty, value);
 
@@ -266,6 +268,11 @@ namespace Orc.Controls
         private void UpdateText()
         {
             SetCurrentValue(TextProperty, Value ?? string.Empty);
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new ListTextBoxAutomationPeer(this);
         }
         #endregion
 

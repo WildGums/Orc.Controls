@@ -89,17 +89,17 @@ namespace Orc.Controls
         /// <returns>The <see cref="double" />.</returns>
         public static double GetHSV_S(Color color)
         {
-            double r = color.R / 255d;
-            double g = color.G / 255d;
-            double b = color.B / 255d;
+            var r = color.R / 255d;
+            var g = color.G / 255d;
+            var b = color.B / 255d;
 
-            double max = Math.Max(r, Math.Max(g, b));
+            var max = Math.Max(r, Math.Max(g, b));
             if (max < double.Epsilon)
             {
                 return 0d;
             }
 
-            double min = Math.Min(r, Math.Min(g, b));
+            var min = Math.Min(r, Math.Min(g, b));
 
             return (max - min) / max;
         }
@@ -111,11 +111,11 @@ namespace Orc.Controls
         /// <returns>The <see cref="double" />.</returns>
         public static double GetHSV_V(Color color)
         {
-            double r = color.R / 255d;
-            double g = color.G / 255d;
-            double b = color.B / 255d;
+            var r = color.R / 255d;
+            var g = color.G / 255d;
+            var b = color.B / 255d;
 
-            double max = Math.Max(r, Math.Max(g, b));
+            var max = Math.Max(r, Math.Max(g, b));
 
             return max;
         }
@@ -152,13 +152,13 @@ namespace Orc.Controls
         /// <returns>The <see cref="Color" />.</returns>
         public static Color HSV2RGB(double h, double s, double v)
         {
-            double c = v * s;
-            double h0 = h / 60;
-            double x = c * (1 - Math.Abs(h0 % 2 - 1));
+            var c = v * s;
+            var h0 = h / 60;
+            var x = c * (1 - Math.Abs(h0 % 2 - 1));
 
-            double r = 0d;
-            double g = 0d;
-            double b = 0d;
+            var r = 0d;
+            var g = 0d;
+            var b = 0d;
 
             if (h0 < 0)
             {

@@ -7,6 +7,7 @@
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Media.Animation;
+    using Automation;
     using Catel.Logging;
     using Theming;
     using Control = System.Windows.Controls.Control;
@@ -31,7 +32,7 @@
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SpinButton), new FrameworkPropertyMetadata(typeof(SpinButton)));
         }
-
+        
         public SpinButton()
         {
             Increased += OnIncreased;
@@ -178,6 +179,11 @@
             sb.Children.Add(animation);
 
             return sb;
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new SpinButtonAutomationPeer(this);
         }
     }
 }

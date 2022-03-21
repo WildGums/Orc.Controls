@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TabControl.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -13,6 +6,7 @@ namespace Orc.Controls
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using Catel.Windows.Data;
@@ -174,20 +168,24 @@ namespace Orc.Controls
                 case NotifyCollectionChangedAction.Add:
                 case NotifyCollectionChangedAction.Remove:
                 case NotifyCollectionChangedAction.Replace:
-                    if (e.OldItems is not null)
                     {
-                        foreach (var item in e.OldItems)
+                        if (e.OldItems is not null)
                         {
-                            var cp = FindChildContentPresenter(item);
-                            if (cp is not null)
+                            foreach (var item in e.OldItems)
                             {
-                                _itemsHolder.Children.Remove(cp);
+                                var cp = FindChildContentPresenter(item);
+                                if (cp is not null)
+                                {
+                                    _itemsHolder.Children.Remove(cp);
+                                }
                             }
                         }
-                    }
 
-                    // don't do anything with new items because we don't want to
-                    // create visuals that aren't being shown
+                        // don't do anything with new items because we don't want to
+                        // create visuals that aren't being shown
+                        break;
+                    }
+                default:
                     break;
             }
 
@@ -485,6 +483,11 @@ namespace Orc.Controls
             }
 
             return selectedItem as TabItem ?? ItemContainerGenerator.ContainerFromIndex(SelectedIndex) as TabItem;
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new Orc.Automation.TabControlAutomationPeer(this);
         }
     }
 }

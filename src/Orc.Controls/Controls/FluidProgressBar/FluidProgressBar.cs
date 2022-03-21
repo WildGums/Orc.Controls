@@ -1,20 +1,15 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FluidProgressBar1.cs" company="WildGums">
-//   Copyright (c) 2008 - 2020 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Media.Animation;
     using System.Windows.Shapes;
+    using Automation;
     using Catel.Logging;
 
     [TemplatePart(Name = "PART_Dot1", Type = typeof(Rectangle))]
@@ -1172,6 +1167,11 @@ namespace Orc.Controls
             IsVisibleChanged -= OnIsVisibleChanged;
 
             // free native resources if there are any.			
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new FluidProgressBarAutomationPeer(this);
         }
         #endregion
     }

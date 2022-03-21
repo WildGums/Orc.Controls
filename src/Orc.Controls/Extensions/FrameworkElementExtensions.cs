@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FrameworkElementExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -30,6 +23,18 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
+        public static Rect GetScreenRect(this FrameworkElement frameworkElement)
+        {
+            Argument.IsNotNull(() => frameworkElement);
+
+            if (!frameworkElement.IsVisible)
+            {
+                return Rect.Empty;
+            }
+
+            return new Rect(frameworkElement.PointToScreen(new Point(0, 0)), frameworkElement.PointToScreen(new Point(frameworkElement.ActualWidth, frameworkElement.ActualHeight)));
+        }
+
         public static IEditableControl TryGetEditableControl(this FrameworkElement frameworkElement)
         {
             Argument.IsNotNull(() => frameworkElement);
