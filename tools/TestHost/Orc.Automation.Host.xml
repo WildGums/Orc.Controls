@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Orc.Automation.Host</name>
+    </assembly>
+    <members>
+        <member name="T:MethodTimeLogger">
+            <summary>
+            Note: do not rename this class or put it inside a namespace.
+            </summary>
+        </member>
+        <member name="T:Orc.Automation.Host.App">
+            <summary>
+            Interaction logic for App.xaml
+            </summary>
+            <summary>
+            App
+            </summary>
+        </member>
+        <member name="M:Orc.Automation.Host.App.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:Orc.Automation.Host.App.Main">
+            <summary>
+            Application Entry Point.
+            </summary>
+        </member>
+        <member name="T:Orc.Automation.Host.FontAwesome">
+            <summary>
+            Class FontAwesome, characters can be found at http://fortawesome.github.io/Font-Awesome/cheatsheet/
+            </summary>
+        </member>
+        <member name="T:Orc.Automation.Host.Views.MainWindow">
+            <summary>
+            MainWindow
+            </summary>
+        </member>
+        <member name="M:Orc.Automation.Host.Views.MainWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:ModuleInitializer">
+            <summary>
+            Used by the ModuleInit. All code inside the Initialize method is ran as soon as the assembly is loaded.
+            </summary>
+        </member>
+        <member name="M:ModuleInitializer.Initialize">
+            <summary>
+            Initializes the module.
+            </summary>
+        </member>
+    </members>
+</doc>
