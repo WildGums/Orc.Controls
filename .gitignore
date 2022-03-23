@@ -124,8 +124,7 @@ Thumbs.db
 Desktop.ini
 
 # Cake - Uncomment if you are using it
-tools/*
-!tools/TestHost/
+tools/**
 !tools/packages.config
 build.cakeoverrides
 
