@@ -376,7 +376,9 @@ namespace Orc.Controls
                         UseShellExecute = true
                     };
 
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
                     Process.Start(processStartInfo);
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
 #else
                    //[SL:20090827] Changed hardcoded call to IE and let the OS determine what program to use.
                     Process.Start(destinationUrl.ToString()); 
@@ -390,7 +392,9 @@ namespace Orc.Controls
                     {
                         UseShellExecute = false
                     };
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
                     Process.Start(processStartInfo);
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
                 }
             }
             catch (Exception ex)
