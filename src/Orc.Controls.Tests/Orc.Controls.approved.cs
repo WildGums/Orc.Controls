@@ -2849,6 +2849,41 @@ namespace Orc.Controls.Automation
         public string Text { get; set; }
         public string Watermark { get; set; }
     }
+    [Orc.Automation.AutomatedControl(ControlTypeName="Window")]
+    public class FindReplaceView : Orc.Automation.Controls.Window
+    {
+        public FindReplaceView(System.Windows.Automation.AutomationElement element) { }
+        public bool IsCaseSensitive { get; set; }
+        public bool IsRegex { get; set; }
+        public bool IsWholeWord { get; set; }
+        public bool IsWildcards { get; set; }
+        public bool SearchUp { get; set; }
+        public void Find(string text) { }
+        public void Replace(string text, string replacementText) { }
+        public void ReplaceAll(string text, string replacementText) { }
+    }
+    public class FindReplaceViewMap : Orc.Automation.AutomationBase
+    {
+        public FindReplaceViewMap(System.Windows.Automation.AutomationElement element) { }
+        public override Orc.Automation.By By { get; }
+        public Orc.Automation.Controls.CheckBox CaseSensitiveCheckBox { get; }
+        public Orc.Automation.Controls.Edit FindEdit { get; }
+        public Orc.Automation.Controls.Button FindNextButton { get; }
+        public Orc.Automation.Controls.Edit FindReplaceEdit { get; }
+        public Orc.Automation.Controls.Button FindReplaceNextButton { get; }
+        public Orc.Automation.Controls.CheckBox RegexCheckBox { get; }
+        public Orc.Automation.Controls.Button ReplaceAllButton { get; }
+        public Orc.Automation.Controls.Button ReplaceButton { get; }
+        public Orc.Automation.Controls.Edit ReplaceEdit { get; }
+        public Orc.Automation.Controls.CheckBox SearchUpCheckBox { get; }
+        public Orc.Automation.Controls.Tab Tab { get; }
+        public Orc.Automation.Controls.CheckBox WholeWordCheckBox { get; }
+        public Orc.Automation.Controls.CheckBox WildcardsCheckBox { get; }
+    }
+    public class FindReplaceViewModel : Orc.Automation.ControlModel
+    {
+        public FindReplaceViewModel(Orc.Automation.AutomationElementAccessor accessor) { }
+    }
     public class FluidProgressBar : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.FluidProgressBarModel>
     {
         public FluidProgressBar(System.Windows.Automation.AutomationElement element) { }
