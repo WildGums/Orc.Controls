@@ -2853,6 +2853,14 @@ namespace Orc.Controls.Automation
     public class FindReplaceView : Orc.Automation.Controls.Window
     {
         public FindReplaceView(System.Windows.Automation.AutomationElement element) { }
+        public bool IsCaseSensitive { get; set; }
+        public bool IsRegex { get; set; }
+        public bool IsWholeWord { get; set; }
+        public bool IsWildcards { get; set; }
+        public bool SearchUp { get; set; }
+        public void Find(string text) { }
+        public void Replace(string text, string replacementText) { }
+        public void ReplaceAll(string text, string replacementText) { }
     }
     public class FindReplaceViewMap : Orc.Automation.AutomationBase
     {
