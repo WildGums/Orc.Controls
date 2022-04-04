@@ -25,6 +25,15 @@
             }
         }
 
+        public void InvokeInDropDownScope(Action<Menu> action)
+        {
+            Menu menu = null;
+            using (new DisposableToken<DropDownButton>(this, _ => menu = OpenDropDown(), _ => CloseDropDown()))
+            {
+                action.Invoke(menu);
+            }
+        }
+
         public bool IsToggled
         {
             get => (bool)Element.GetToggleState();
