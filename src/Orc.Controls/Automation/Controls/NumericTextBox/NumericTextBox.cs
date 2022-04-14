@@ -1,8 +1,10 @@
 ﻿namespace Orc.Controls.Automation
 {
     using System.Windows.Automation;
+    using Orc.Automation;
     using Orc.Automation.Controls;
 
+    [AutomatedControl(ControlTypeName = nameof(ControlType.Edit), Class = typeof(Controls.NumericTextBox))]
     public class NumericTextBox : Edit
     {
         public NumericTextBox(AutomationElement element) 
