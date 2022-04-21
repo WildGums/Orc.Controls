@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Controls.Example", "Orc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Controls.Tests", "Orc.Controls.Tests\Orc.Controls.Tests.csproj", "{132E6A32-9BC2-4284-B4C6-FA0E8A05B382}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Controls.Avalonia", "Orc.Controls.Avalonia\Orc.Controls.Avalonia.csproj", "{CAF48569-BE18-4C8F-A9EE-7D72C6747C7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{132E6A32-9BC2-4284-B4C6-FA0E8A05B382}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{132E6A32-9BC2-4284-B4C6-FA0E8A05B382}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{132E6A32-9BC2-4284-B4C6-FA0E8A05B382}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAF48569-BE18-4C8F-A9EE-7D72C6747C7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAF48569-BE18-4C8F-A9EE-7D72C6747C7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAF48569-BE18-4C8F-A9EE-7D72C6747C7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAF48569-BE18-4C8F-A9EE-7D72C6747C7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{84E22240-D816-4B43-AC37-92B805A2BEE3} = {FB81E6B4-F47C-477E-8382-D83F6F870E0A}
 		{C511A6B6-089C-4032-8E10-C46447FB8CBA} = {47F8C23D-D72A-45A5-8A10-38D22BC9AD15}
 		{132E6A32-9BC2-4284-B4C6-FA0E8A05B382} = {59924607-205A-4563-BD72-711312D8260A}
+		{CAF48569-BE18-4C8F-A9EE-7D72C6747C7C} = {FB81E6B4-F47C-477E-8382-D83F6F870E0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4E0FE4DD-B99D-4AF7-9702-C059F18239A7}
