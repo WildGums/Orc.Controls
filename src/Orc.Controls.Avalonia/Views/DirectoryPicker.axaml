@@ -1,0 +1,30 @@
+﻿<UserControl  x:Class="Orc.Controls.Avalonia.Views.DirectoryPicker"
+                    xmlns="https://github.com/avaloniaui"
+                    xmlns:vm="using:Orc.Controls.Avalonia.ViewModels"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+
+    <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" Width="600">
+
+        <Label Grid.Column="0" Content="{Binding DirectoryPicker.LabelText}" Width="{Binding DirectoryPicker.LabelWidth}" />
+        <TextBox Grid.Column="1" IsReadOnly="True" Text="{Binding DirectoryPicker.SelectedDirectory}" />
+
+        <Button Grid.Column="2" Margin="0,6,2,6" Content="..."
+                ToolTip.Tip="Browse for file" 
+                Command="{Binding DirectoryPicker.SelectDirectory}" />
+
+        <Button Grid.Column="3" Margin="2,6,2,6" ToolTip.Tip="Open Folder"
+                Command="{Binding DirectoryPicker.OpenDirectory}"
+                IsVisible="{Binding DirectoryPicker.SelectedDirectory, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+            <Image Source="/Assets/Folder.png" Width="16" Height="16" />
+        </Button>
+
+        <Button Grid.Column="4" Margin="2,6,0,6" Width="24" ToolTip.Tip=" "
+                Command="{Binding DirectoryPicker.Clear}" IsVisible="{Binding DirectoryPicker.SelectedDirectory, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+            <Image Source="/Assets/Delete.png" Width="16" Height="16" />
+        </Button>
+    </Grid>
+
+</UserControl>

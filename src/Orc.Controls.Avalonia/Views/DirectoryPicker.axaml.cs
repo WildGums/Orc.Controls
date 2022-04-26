@@ -1,8 +1,9 @@
-﻿namespace Orc.Controls.Avalonia
+﻿namespace Orc.Controls.Avalonia.Views
 {
     using Catel.MVVM.Views;
-    using global::Avalonia;
     using global::Avalonia.Controls;
+    using global::Avalonia.Markup.Xaml;
+    using global::Avalonia;
 
     /// <summary>
     ///     Interaction logic for DirectoryPicker.xaml
@@ -12,6 +13,7 @@
         #region Constructors
         static DirectoryPicker()
         {
+            
             typeof(DirectoryPicker).AutoDetectViewPropertiesToSubscribe();
 
         }
@@ -27,6 +29,10 @@
         #endregion
 
         #region Properties
+
+        
+
+
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public double LabelWidth
         {
@@ -74,5 +80,10 @@
         // Using a DependencyProperty as the backing store for SelectedDirectory.  This enables animation, styling, binding, etc...
         public static readonly StyledProperty<string> SelectedDirectoryProperty = AvaloniaProperty.Register<DirectoryPicker, string>(nameof(SelectedDirectory));
         #endregion
+
+        private void InitializeComponent()
+        {
+            AvaloniaXamlLoader.Load(this);
+        }
     }
 }
