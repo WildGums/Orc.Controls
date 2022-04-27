@@ -1,19 +1,12 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DirectoryPickerViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Avalonia
+﻿namespace Orc.Controls.Avalonia.ViewModels
 {
     using System.IO;
+    using System.Reactive;
     using System.Threading.Tasks;
     using Catel;
-    using Catel.MVVM;
     using Catel.Services;
-    using FileSystem;
-    using Orc.Controls.Avalonia.ViewModels;
+    using Orc.FileSystem;
+    using ReactiveUI;
 
     public class DirectoryPickerViewModel : ViewModelBase
     {
@@ -21,6 +14,8 @@ namespace Orc.Controls.Avalonia
         private readonly IProcessService _processService;
         private readonly ISelectDirectoryService _selectDirectoryService;
         private readonly IDirectoryService _directoryService;
+
+        private string _directory;
         #endregion
 
         #region Constructors
@@ -36,9 +31,9 @@ namespace Orc.Controls.Avalonia
             _directoryService = directoryService;
             _processService = processService;
 
-            OpenDirectory = new Command(OnOpenDirectoryExecute, OnOpenDirectoryCanExecute);
-            SelectDirectory = new TaskCommand(OnSelectDirectoryExecuteAsync);
-            Clear = new Command(OnClearExecute, OnClearCanExecute);
+            OpenDirectory = ReactiveCommand.Create(OnOpenDirectoryExecute);
+            SelectDirectory = ReactiveCommand.Create(OnSelectDirectoryExecuteAsync);
+            Clear = ReactiveCommand.Create(OnClearExecute);
         }
         #endregion
 
@@ -47,11 +42,14 @@ namespace Orc.Controls.Avalonia
 
         public string LabelText { get; set; }
 
-        public string SelectedDirectory { get; set; }
+        public string SelectedDirectory { get => _directory; set => this.RaiseAndSetIfChanged(ref _directory, value); }
+
         #endregion
 
         #region Commands
-        public Command Clear { get; }
+#pragma warning disable IDISP006 // Implement IDisposable
+        public ReactiveCommand<Unit, Unit> Clear { get; }
+#pragma warning restore IDISP006 // Implement IDisposable
 
         private bool OnClearCanExecute()
         {
@@ -66,7 +64,9 @@ namespace Orc.Controls.Avalonia
         /// <summary>
         /// Gets the OpenDirectory command.
         /// </summary>
-        public Command OpenDirectory { get; private set; }
+#pragma warning disable IDISP006 // Implement IDisposable
+        public ReactiveCommand<Unit, Unit> OpenDirectory { get; private set; }
+#pragma warning restore IDISP006 // Implement IDisposable
 
         /// <summary>
         /// Method to check whether the OpenDirectory command can be executed.
@@ -96,7 +96,9 @@ namespace Orc.Controls.Avalonia
         /// <summary>
         /// Gets the SelectDirectory command.
         /// </summary>
-        public TaskCommand SelectDirectory { get; private set; }
+#pragma warning disable IDISP006 // Implement IDisposable
+        public ReactiveCommand<Unit, Task> SelectDirectory { get; private set; }
+#pragma warning restore IDISP006 // Implement IDisposable
 
         /// <summary>
         /// Method to invoke when the SelectOutputDirectory command is executed.
