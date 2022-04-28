@@ -13,9 +13,16 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <Grid RowDefinitions="Auto,Auto,Auto"  Margin="4">
+    <Grid RowDefinitions="Auto,Auto,Auto" 
+          ColumnDefinitions="Auto, Auto" 
+          Margin="4">
 
-        <views:DirectoryPicker/>
+        <TextBlock Text="Directory picker" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"/>
+        <views:DirectoryPicker Grid.Column="1" Grid.Row="0" Margin="15"/>
+
+        <TextBlock Text="Culture picker" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"/>
+        <views:CulturePicker Grid.Column="1" Grid.Row="1" Margin="15"/>
+        
     </Grid>
     
     
