@@ -11,9 +11,11 @@
         public MainWindowViewModel()
         {
             DirectoryPicker = new DirectoryPickerViewModel(new SelectDirectoryService(), new DirectoryService(new FileService()), new ProcessService());
+            CulturePicker = new CulturePickerViewModel();
         }
 
         public DirectoryPickerViewModel DirectoryPicker { get; }
+        public CulturePickerViewModel CulturePicker { get; }
 
         public string Greeting => "Welcome to Avalonia!";
     }

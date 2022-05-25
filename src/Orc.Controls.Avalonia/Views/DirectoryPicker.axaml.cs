@@ -1,9 +1,8 @@
 ﻿namespace Orc.Controls.Avalonia.Views
 {
-    using Catel.MVVM.Views;
+    using global::Avalonia;
     using global::Avalonia.Controls;
     using global::Avalonia.Markup.Xaml;
-    using global::Avalonia;
 
     /// <summary>
     ///     Interaction logic for DirectoryPicker.xaml
@@ -11,12 +10,6 @@
     public partial class DirectoryPicker : UserControl
     {
         #region Constructors
-        static DirectoryPicker()
-        {
-            
-            typeof(DirectoryPicker).AutoDetectViewPropertiesToSubscribe();
-
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DirectoryPicker"/> class.
@@ -29,7 +22,11 @@
         #endregion
 
         #region Properties
+<<<<<<< HEAD
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+=======
+
+>>>>>>> 9cf31260425c709d131f884a2ae8d768a85889d9
         public double LabelWidth
         {
             get { return (double)GetValue(LabelWidthProperty); }
@@ -45,7 +42,6 @@
 
         public static readonly StyledProperty<double> LabelWidthProperty = AvaloniaProperty.Register<DirectoryPicker, double>(nameof(LabelWidth));
 
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string LabelText
         {
             get { return (string)GetValue(LabelTextProperty); }
@@ -61,7 +57,6 @@
 
         public static readonly StyledProperty<string> LabelTextProperty = AvaloniaProperty.Register<DirectoryPicker, string>(nameof(LabelText));
 
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string SelectedDirectory
         {
             get { return (string)GetValue(SelectedDirectoryProperty); }
