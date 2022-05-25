@@ -1,0 +1,17 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Orc.Poc.Avalonia.Controls">
+    <Design.PreviewWith>
+        <controls:MyTControl />
+    </Design.PreviewWith>
+
+    <Style Selector="controls|MyTControl">
+        <!-- Set Defaults -->
+        <Setter Property="Template">
+            <ControlTemplate>
+                <TextBlock x:Name="PART_TextBlock" 
+                           Text="{TemplateBinding Title}" />
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

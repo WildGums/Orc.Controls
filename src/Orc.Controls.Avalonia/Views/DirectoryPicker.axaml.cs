@@ -29,10 +29,6 @@
         #endregion
 
         #region Properties
-
-        
-
-
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public double LabelWidth
         {

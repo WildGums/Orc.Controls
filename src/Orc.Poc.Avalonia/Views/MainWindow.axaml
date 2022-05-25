@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:Orc.Poc.Avalonia.Controls"
+        xmlns:views="clr-namespace:Orc.Poc.Avalonia.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Orc.Poc.Avalonia.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -13,10 +14,34 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
     
-    <!-- <controls:MyControl/> -->
-
-    <TextBlock Text="{Binding Greeting}"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"/>
-
+    <TabControl>
+        <TabItem Header="Buttons">
+            <StackPanel Orientation="Vertical">
+                <Button Content="Button"/>  
+                <Button IsEnabled="False" Content="Disabled button"/>
+                <Separator Height="3"/>
+                <ToggleButton Content="Toggle button"/>  
+                <ToggleButton IsEnabled="False" Content="Disabled button"/>
+            </StackPanel>
+        </TabItem>
+        
+        <TabItem Header="Calendar">
+            <StackPanel Orientation="Vertical">
+                <Calendar/>
+            </StackPanel>
+        </TabItem>
+        
+        <TabItem Header="Templated control">
+            <StackPanel Orientation="Vertical">
+                <controls:MyTControl Title="{Binding Name}"/>
+            </StackPanel>
+        </TabItem>
+        
+        <TabItem Header="My View">
+            <StackPanel Orientation="Vertical">
+                <views:MyView/>
+            </StackPanel>
+        </TabItem>
+    </TabControl>
+    
 </Window>

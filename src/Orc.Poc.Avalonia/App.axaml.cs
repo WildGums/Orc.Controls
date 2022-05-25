@@ -6,10 +6,17 @@ using Orc.Poc.Avalonia.Views;
 
 namespace Orc.Poc.Avalonia
 {
+    using Catel.IoC;
+
     public partial class App : Application
     {
         public override void Initialize()
         {
+#pragma warning disable IDISP001
+            var serviceLocator = this.GetServiceLocator();
+#pragma warning restore IDISP001
+            serviceLocator.RegisterType<IMyModelProvider, MyModelProvider>();
+
             AvaloniaXamlLoader.Load(this);
         }
 

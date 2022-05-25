@@ -2,7 +2,7 @@
 
 using System.Collections.ObjectModel;
 
-public class MyViewModel : ViewModelBase
+public class MyViewModel : Catel.MVVM.ViewModelBase
 {
     private readonly IMyModelProvider _myModelProvider;
     

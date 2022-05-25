@@ -6,5 +6,24 @@
              d:DesignWidth="800"
              d:DesignHeight="450"
              x:Class="Orc.Poc.Avalonia.Controls.MyControl">
-    This is my first control in Avalonia world!
+    <UserControl.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="Foreground" Value="Blue"/>
+        </Style>
+        
+
+    </UserControl.Styles>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <ToggleButton Content="Click me"
+                      Background="Coral"
+                      Click="Button_OnClick"/>
+            
+        <!-- <TimePicker Classes="tp_class" Grid.Column="1"/> -->
+    </Grid>
 </UserControl>

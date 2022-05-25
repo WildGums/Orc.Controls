@@ -2,11 +2,224 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:Orc.Poc.Avalonia"
              x:Class="Orc.Poc.Avalonia.App">
+   
+    <Application.Resources>
+        <!-- METADATA -->
+        <!-- <system:String x:Key="Theme.Name">Light</system:String> -->
+        <!-- <system:String x:Key="Theme.Origin">Orc.Theming.Showcase</system:String> -->
+        <!-- <system:String x:Key="Theme.DisplayName">{{ThemeDisplayName}}</system:String> -->
+        <!-- <system:String x:Key="Theme.BaseColorScheme">{{BaseColorScheme}}</system:String> -->
+        <!-- <system:String x:Key="Theme.ColorScheme">{{ColorScheme}}</system:String> -->
+        <!-- <Color x:Key="Theme.PrimaryAccentColor">{{Orc.Colors.AccentBaseColor}}</Color> -->
+        <Color x:Key="Theme.ShowcaseColor">Coral</Color>
+        <!-- <system:Boolean x:Key="Theme.IsHighContrast">{{IsHighContrast}}</system:Boolean> -->
+
+        <!-- Metadata brush  -->
+        <SolidColorBrush x:Key="Theme.ShowcaseBrush" Color="{StaticResource Theme.ShowcaseColor}"/>
+
+        <!-- COLORS -->
+
+        <!-- Accent colors -->
+        <Color x:Key="Orc.Colors.AccentBaseColor">Coral</Color>
+        <Color x:Key="Orc.Colors.AccentColor">Coral</Color>
+        <!--80%-->
+        <Color x:Key="Orc.Colors.AccentColor80">#CCFF7F50</Color>
+        <!--60%-->
+        <Color x:Key="Orc.Colors.AccentColor60">#99FF7F50</Color>
+        <!--40%-->
+        <Color x:Key="Orc.Colors.AccentColor40">#66FF7F50</Color>
+        <!--20%-->
+        <Color x:Key="Orc.Colors.AccentColor20">#33FF7F50</Color>
+
+        <Color x:Key="Orc.Colors.HighlightColor">#99FF7F50</Color>
+        
+        <!-- Backwards compatible theming for Orchestra / Orc.Controls -->
+        <Color x:Key="AccentBaseColor">Coral</Color>
+        <Color x:Key="AccentColor">Coral</Color>
+        <!--80%-->
+        <Color x:Key="AccentColor1">#CCFF7F50</Color>
+        <!--60%-->
+        <Color x:Key="AccentColor2">#99FF7F50</Color>
+        <!--40%-->
+        <Color x:Key="AccentColor3">#66FF7F50</Color>
+        <!--20%-->
+        <Color x:Key="AccentColor4">#33FF7F50</Color>
+        <Color x:Key="AccentColor5">#33FF7F50</Color>
+        
+        <!-- Base colors -->
+        <Color x:Key="BlackColor">Black</Color>
+        <Color x:Key="BlackColor20">#51000000</Color>
+        <Color x:Key="WhiteColor">#FFFFFFFF</Color>
+        <Color x:Key="WhiteColor20">#51FFFFFF</Color>
+        <Color x:Key="Gray1">#FF333333</Color>
+        <Color x:Key="Gray2">#FF7F7F7F</Color>
+        <Color x:Key="Gray3">#FF9D9D9D</Color>
+        <Color x:Key="Gray4">#FFABABAB</Color>
+        <Color x:Key="Gray5">#FFB9B9B9</Color>
+        <Color x:Key="Gray6">#FFCCCCCC</Color>
+        <Color x:Key="Gray7">#FFD8D8D9</Color>
+        <Color x:Key="Gray8">#FFE0E0E0</Color>
+        <Color x:Key="Gray9">#FFEFEFEF</Color>
+        <Color x:Key="Gray10">#FFF7F7F7</Color>
+        <Color x:Key="BackgroundColor">#FFFFFFFF</Color>
+        <Color x:Key="ForegroundColor">#FF000000</Color>
+        <Color x:Key="Orc.Colors.Background">#FFFFFFFF</Color>
+        <Color x:Key="Orc.Colors.Foreground">#FF000000</Color>
+        <Color x:Key="Orc.Colors.Text">#FF000000</Color>
+
+        <Color x:Key="TransparentWhiteColor">#00FFFFFF</Color>
+        <Color x:Key="Orc.Colors.HighTransparentWhiteColor">#17FFFFFF</Color>
+
+        <!-- Foreground -->
+        <Color x:Key="Orc.Colors.IdealForegroundColor">White</Color>
+        <Color x:Key="Orc.Colors.DarkIdealForegroundDisabledColor">#ADADAD</Color>
+
+        <!-- Misc colors -->
+        <Color x:Key="Orc.Colors.ExtremeHighlightColor">#FFFFD232</Color>
+        <Color x:Key="Orc.Colors.DarkExtremeHighlightColor">#FFF29536</Color>
+
+        <!-- Generic control colors -->
+        <Color x:Key="Orc.Colors.Control.Border">#FFCCCCCC</Color>
+        <Color x:Key="Orc.Colors.Control.Disabled.Border">#FFB9B9B9</Color>
+        
+        <SolidColorBrush x:Key="Orc.Brushes.AccentBaseColorBrush" Color="{StaticResource Orc.Colors.AccentBaseColor}" />
+        <SolidColorBrush x:Key="Orc.Brushes.AccentColorBrush" Color="{StaticResource Orc.Colors.AccentBaseColor}" />
+        <SolidColorBrush x:Key="Orc.Brushes.AccentColorBrush80" Color="{StaticResource Orc.Colors.AccentColor80}" />
+        <SolidColorBrush x:Key="Orc.Brushes.AccentColorBrush60" Color="{StaticResource Orc.Colors.AccentColor60}" />
+        <SolidColorBrush x:Key="Orc.Brushes.AccentColorBrush40" Color="{StaticResource Orc.Colors.AccentColor40}" />
+        <SolidColorBrush x:Key="Orc.Brushes.AccentColorBrush20" Color="{StaticResource Orc.Colors.AccentColor20}" />
+
+        <SolidColorBrush x:Key="Orc.Brushes.AccentBaseColor" Color="{StaticResource Orc.Colors.AccentBaseColor}" />
+        <SolidColorBrush x:Key="Orc.Brushes.AccentColor" Color="{StaticResource Orc.Colors.AccentBaseColor}" />
+        <SolidColorBrush x:Key="Orc.Brushes.AccentColor80" Color="{StaticResource Orc.Colors.AccentColor80}" />
+        <SolidColorBrush x:Key="Orc.Brushes.AccentColor60" Color="{StaticResource Orc.Colors.AccentColor60}" />
+        <SolidColorBrush x:Key="Orc.Brushes.AccentColor40" Color="{StaticResource Orc.Colors.AccentColor40}" />
+        <SolidColorBrush x:Key="Orc.Brushes.AccentColor20" Color="{StaticResource Orc.Colors.AccentColor20}" />
+
+        <SolidColorBrush x:Key="AccentBaseColorBrush" Color="{StaticResource Orc.Colors.AccentBaseColor}"/>
+        <SolidColorBrush x:Key="AccentColorBrush" Color="{StaticResource Orc.Colors.AccentBaseColor}" />
+        <SolidColorBrush x:Key="AccentColorBrush1" Color="{StaticResource Orc.Colors.AccentColor80}" />
+        <SolidColorBrush x:Key="AccentColorBrush2" Color="{StaticResource Orc.Colors.AccentColor60}" />
+        <SolidColorBrush x:Key="AccentColorBrush3" Color="{StaticResource Orc.Colors.AccentColor40}" />
+        <SolidColorBrush x:Key="AccentColorBrush4" Color="{StaticResource Orc.Colors.AccentColor20}" />
+        <SolidColorBrush x:Key="AccentColorBrush5" Color="{StaticResource Orc.Colors.AccentColor20}" />
+
+        <SolidColorBrush x:Key="Orc.Brushes.HighlightBrush" Color="{StaticResource Orc.Colors.HighlightColor}" />
+
+        <!-- Misc brushes -->
+        <SolidColorBrush x:Key="Orc.Brushes.ExtremeHighlightBrush" Color="{StaticResource Orc.Colors.ExtremeHighlightColor}" />
+        <SolidColorBrush x:Key="Orc.Brushes.DarkExtremeHighlightBrush" Color="{StaticResource Orc.Colors.DarkExtremeHighlightColor}" />
+
+        <!-- Base brushes -->   
+        <SolidColorBrush x:Key="White" Color="{StaticResource WhiteColor}" />
+        <SolidColorBrush x:Key="White20" Color="{StaticResource WhiteColor20}" />
+        <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource WhiteColor}" />
+        <SolidColorBrush x:Key="WhiteBrush20" Color="{StaticResource WhiteColor20}" />
+        <SolidColorBrush x:Key="Black" Color="{StaticResource BlackColor}" />
+        <SolidColorBrush x:Key="Black20" Color="{StaticResource BlackColor20}" />
+        <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource BlackColor}" />
+        <SolidColorBrush x:Key="BlackBrush20" Color="{StaticResource BlackColor20}" />
+        <SolidColorBrush x:Key="GrayBrush1" Color="{StaticResource Gray1}" />
+        <SolidColorBrush x:Key="GrayBrush2" Color="{StaticResource Gray2}" />
+        <SolidColorBrush x:Key="GrayBrush3" Color="{StaticResource Gray3}" />
+        <SolidColorBrush x:Key="GrayBrush4" Color="{StaticResource Gray4}" />
+        <SolidColorBrush x:Key="GrayBrush5" Color="{StaticResource Gray5}" />
+        <SolidColorBrush x:Key="GrayBrush6" Color="{StaticResource Gray6}" />
+        <SolidColorBrush x:Key="GrayBrush7" Color="{StaticResource Gray7}" />
+        <SolidColorBrush x:Key="GrayBrush8" Color="{StaticResource Gray8}" />
+        <SolidColorBrush x:Key="GrayBrush9" Color="{StaticResource Gray9}" />
+        <SolidColorBrush x:Key="GrayBrush10" Color="{StaticResource Gray10}" />
+
+        <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}" />
+        <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}" />
+        <SolidColorBrush x:Key="TransparentWhiteBrush" Color="{StaticResource TransparentWhiteColor}" />
+        <SolidColorBrush x:Key="HighTransparentWhiteBrush" Color="{StaticResource Orc.Colors.HighTransparentWhiteColor}" />
+
+        <SolidColorBrush x:Key="Orc.Brushes.White" Color="{StaticResource WhiteColor}" />
+        <SolidColorBrush x:Key="Orc.Brushes.White20" Color="{StaticResource WhiteColor20}" />
+        <SolidColorBrush x:Key="Orc.Brushes.WhiteBrush" Color="{StaticResource WhiteColor}" />
+        <SolidColorBrush x:Key="Orc.Brushes.WhiteBrush20" Color="{StaticResource WhiteColor20}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Black" Color="{StaticResource BlackColor}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Black20" Color="{StaticResource BlackColor20}" />
+        <SolidColorBrush x:Key="Orc.Brushes.BlackBrush" Color="{StaticResource BlackColor}" />
+        <SolidColorBrush x:Key="Orc.Brushes.BlackBrush20" Color="{StaticResource BlackColor20}" />
+        <SolidColorBrush x:Key="Orc.Brushes.GrayBrush1" Color="{StaticResource Gray1}" />
+        <SolidColorBrush x:Key="Orc.Brushes.GrayBrush2" Color="{StaticResource Gray2}" />
+        <SolidColorBrush x:Key="Orc.Brushes.GrayBrush3" Color="{StaticResource Gray3}" />
+        <SolidColorBrush x:Key="Orc.Brushes.GrayBrush4" Color="{StaticResource Gray4}" />
+        <SolidColorBrush x:Key="Orc.Brushes.GrayBrush5" Color="{StaticResource Gray5}" />
+        <SolidColorBrush x:Key="Orc.Brushes.GrayBrush6" Color="{StaticResource Gray6}" />
+        <SolidColorBrush x:Key="Orc.Brushes.GrayBrush7" Color="{StaticResource Gray7}" />
+        <SolidColorBrush x:Key="Orc.Brushes.GrayBrush8" Color="{StaticResource Gray8}" />
+        <SolidColorBrush x:Key="Orc.Brushes.GrayBrush9" Color="{StaticResource Gray9}" />
+        <SolidColorBrush x:Key="Orc.Brushes.GrayBrush10" Color="{StaticResource Gray10}" />
+        
+        <SolidColorBrush x:Key="Orc.Brushes.BackgroundBrush" Color="{StaticResource BackgroundColor}" />
+        <SolidColorBrush x:Key="Orc.Brushes.ForegroundBrush" Color="{StaticResource ForegroundColor}" />
+        <SolidColorBrush x:Key="Orc.Brushes.TransparentWhiteBrush" Color="{StaticResource TransparentWhiteColor}" />
+        <SolidColorBrush x:Key="Orc.Brushes.HighTransparentWhiteBrush" Color="{StaticResource Orc.Colors.HighTransparentWhiteColor}" />
+
+        <!-- Foreground -->
+        <SolidColorBrush x:Key="Orc.Brushes.IdealForegroundColorBrush" Color="{StaticResource Orc.Colors.IdealForegroundColor}" />
+        <SolidColorBrush x:Key="Orc.Brushes.IdealForegroundDisabledBrush" Color="{StaticResource Orc.Colors.IdealForegroundColor}" Opacity="0.56" />
+        <SolidColorBrush x:Key="Orc.Brushes.DarkIdealForegroundDisabledBrush" Color="{StaticResource Orc.Colors.DarkIdealForegroundDisabledColor}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Text" Color="{StaticResource Orc.Colors.Text}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Text.Disabled" Color="{StaticResource Orc.Colors.Text}" Opacity="0.56" />
+
+        <!-- Generic control brushes -->
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Border" Color="{StaticResource Orc.Colors.Control.Border}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Background" Color="{StaticResource Orc.Colors.Background}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Foreground" Color="{StaticResource Orc.Colors.Foreground}" />
+
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Default.Border" Color="{StaticResource Orc.Colors.Control.Border}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Default.Background" Color="{StaticResource Orc.Colors.Background}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Default.Foreground" Color="{StaticResource Orc.Colors.Foreground}" />
+
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Disabled.Border" Color="{StaticResource Orc.Colors.Control.Disabled.Border}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Disabled.Background" Color="{StaticResource Orc.Colors.AccentColor20}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Disabled.Foreground" Color="{StaticResource Orc.Colors.Foreground}" Opacity="0.56"/>
+
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Checked.Border" Color="{StaticResource Orc.Colors.HighlightColor}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Checked.Background" Color="{StaticResource Orc.Colors.AccentColor}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Checked.Foreground" Color="{StaticResource Orc.Colors.Foreground}" />
+
+        <SolidColorBrush x:Key="Orc.Brushes.Control.CheckedMouseOver.Border" Color="{StaticResource Orc.Colors.AccentColor60}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.CheckedMouseOver.Background" Color="{StaticResource Orc.Colors.AccentColor40}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.CheckedMouseOver.Foreground" Color="{StaticResource Orc.Colors.Foreground}" />
+
+        <SolidColorBrush x:Key="Orc.Brushes.Control.MouseOver.Border" Color="{StaticResource Orc.Colors.AccentColor40}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.MouseOver.Background" Color="{StaticResource Orc.Colors.AccentColor20}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.MouseOver.Foreground" Color="{StaticResource Orc.Colors.Foreground}" />
+
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Focus.Border" Color="{StaticResource Orc.Colors.AccentColor40}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Focus.Background" Color="{StaticResource Orc.Colors.AccentColor20}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Focus.Foreground" Color="{StaticResource Orc.Colors.Foreground}" />
+
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Pressed.Border" Color="{StaticResource Orc.Colors.AccentColor60}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Pressed.Background" Color="{StaticResource Orc.Colors.AccentColor40}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Pressed.Foreground" Color="{StaticResource Orc.Colors.Foreground}" />
+
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Highlighted.Border" Color="{StaticResource Orc.Colors.AccentColor60}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Highlighted.Background" Color="{StaticResource Orc.Colors.AccentColor40}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.Highlighted.Foreground" Color="{StaticResource Orc.Colors.Foreground}" />
+
+        <SolidColorBrush x:Key="Orc.Brushes.Control.SelectionActive.Border" Color="{StaticResource Orc.Colors.AccentColor80}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.SelectionActive.Background" Color="{StaticResource Orc.Colors.AccentColor60}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.SelectionActive.Foreground" Color="{StaticResource Orc.Colors.Foreground}" />
+
+        <SolidColorBrush x:Key="Orc.Brushes.Control.SelectionInactive.Border" Color="{StaticResource Orc.Colors.AccentColor40}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.SelectionInactive.Background" Color="{StaticResource Orc.Colors.AccentColor20}" />
+        <SolidColorBrush x:Key="Orc.Brushes.Control.SelectionInactive.Foreground" Color="{StaticResource Orc.Colors.Foreground}" />
+    </Application.Resources>
+    
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
 
     <Application.Styles>
         <FluentTheme Mode="Light"/>
+        
+        <StyleInclude Source="/Styles/Styles.axaml"/>
+        <StyleInclude Source="/Controls/TControl/MyTControl.axaml"/>
     </Application.Styles>
 </Application>
