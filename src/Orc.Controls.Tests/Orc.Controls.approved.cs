@@ -2758,6 +2758,7 @@ namespace Orc.Controls.Automation
         public DropDownButton(System.Windows.Automation.AutomationElement element) { }
         public bool IsToggled { get; set; }
         public void CloseDropDown() { }
+        public void InvokeInDropDownScope(System.Action<Orc.Automation.Controls.Menu> action) { }
         public TResult InvokeInDropDownScope<TResult>(System.Func<Orc.Automation.Controls.Menu, TResult> action) { }
         public Orc.Automation.Controls.Menu OpenDropDown() { }
     }
@@ -2785,6 +2786,7 @@ namespace Orc.Controls.Automation
         public bool IsArrowVisible { get; set; }
         public bool IsChecked { get; set; }
     }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.Expander))]
     public class Expander : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.ExpanderModel>
     {
         public Expander(System.Windows.Automation.AutomationElement element) { }
@@ -2880,6 +2882,7 @@ namespace Orc.Controls.Automation
         public Orc.Automation.Controls.CheckBox WholeWordCheckBox { get; }
         public Orc.Automation.Controls.CheckBox WildcardsCheckBox { get; }
     }
+    [Orc.Automation.ActiveAutomationModel]
     public class FindReplaceViewModel : Orc.Automation.ControlModel
     {
         public FindReplaceViewModel(Orc.Automation.AutomationElementAccessor accessor) { }
@@ -3084,6 +3087,7 @@ namespace Orc.Controls.Automation
     {
         public LogMessageCategoryToggleButtonModelPeer(Orc.Controls.LogMessageCategoryToggleButton owner) { }
     }
+    [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.NumericTextBox), ControlTypeName="Edit")]
     public class NumericTextBox : Orc.Automation.Controls.Edit
     {
         public NumericTextBox(System.Windows.Automation.AutomationElement element) { }
@@ -3447,6 +3451,21 @@ namespace Orc.Controls.Automation
         public override object GetPattern(System.Windows.Automation.Peers.PatternInterface patternInterface) { }
         protected override string GetValueFromPattern() { }
         protected override void SetValuePatternInvoke(string value) { }
+    }
+    [Orc.Automation.AutomatedControl(ControlTypeName="Window")]
+    public class TextInputWindow : Orc.Automation.Controls.Window
+    {
+        public TextInputWindow(System.Windows.Automation.AutomationElement element) { }
+        public string Text { get; set; }
+        public void Accept() { }
+        public void Cancel() { }
+    }
+    public class TextInputWindowMap : Orc.Automation.AutomationBase
+    {
+        public TextInputWindowMap(System.Windows.Automation.AutomationElement element) { }
+        public Orc.Automation.Controls.Button CancelButton { get; }
+        public Orc.Automation.Controls.Button OkButton { get; }
+        public Orc.Automation.Controls.Edit TextEdit { get; }
     }
     public class TimePicker : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.TimePickerModel>
     {
