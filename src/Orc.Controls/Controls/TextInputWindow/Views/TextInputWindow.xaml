@@ -1,13 +1,16 @@
 ﻿<catel:DataWindow x:Class="Orc.Controls.Views.TextInputWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:catel="http://schemas.catelproject.com"
-        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:controls="clr-namespace:Orc.Controls"
-        mc:Ignorable="d"
-        Title="TextInputWindow" Height="450" Width="800">
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:catel="http://schemas.catelproject.com"
+                  xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                  xmlns:controls="clr-namespace:Orc.Controls"
+                  mc:Ignorable="d"
+                  Title="TextInputWindow"   
+                  AutomationProperties.AutomationId="TextInputWindowId"
+                  Height="450" 
+                  Width="800">
     <Grid>
         <TextBox Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}">
             <b:Interaction.Behaviors>

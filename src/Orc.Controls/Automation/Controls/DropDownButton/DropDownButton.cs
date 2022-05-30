@@ -5,7 +5,6 @@
     using Catel;
     using Orc.Automation;
     using Orc.Automation.Controls;
-    using Window = Orc.Automation.Controls.Window;
 
     [AutomatedControl(Class = typeof(Controls.DropDownButton))]
     public class DropDownButton : FrameworkElement<DropDownButtonModel, DropDownButtonMap>
@@ -16,19 +15,28 @@
             
         }
 
+        public bool IsToggled
+        {
+            get => (bool)Element.GetToggleState();
+            set => Element.TrySetToggleState(value);
+        }
+
         public TResult InvokeInDropDownScope<TResult>(Func<Menu, TResult> action)
         {
             Menu menu = null;
-            using (new DisposableToken<DropDownButton>(this, _ => menu = OpenDropDown(), _ => CloseDropDown()))
+            using (new DisposableToken(this, _ => menu = OpenDropDown(), _ => CloseDropDown()))
             {
                 return action.Invoke(menu);
             }
         }
 
-        public bool IsToggled
+        public void InvokeInDropDownScope(Action<Menu> action)
         {
-            get => (bool)Element.GetToggleState();
-            set => Element.TrySetToggleState(value);
+            Menu menu = null;
+            using (new DisposableToken(this, _ => menu = OpenDropDown(), _ => CloseDropDown()))
+            {
+                action.Invoke(menu);
+            }
         }
 
         public void CloseDropDown()
