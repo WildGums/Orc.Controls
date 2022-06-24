@@ -1832,12 +1832,18 @@ namespace Orc.Controls
     public class SaveFilePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
         public static readonly System.Windows.DependencyProperty FilterProperty;
+        public static readonly System.Windows.DependencyProperty InitialDirectoryProperty;
+        public static readonly System.Windows.DependencyProperty InitialFileNameProperty;
         public static readonly System.Windows.DependencyProperty LabelTextProperty;
         public static readonly System.Windows.DependencyProperty LabelWidthProperty;
         public static readonly System.Windows.DependencyProperty SelectedFileProperty;
         public SaveFilePicker() { }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string Filter { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public string InitialDirectory { get; set; }
+        [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
+        public string InitialFileName { get; set; }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public string LabelText { get; set; }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
@@ -1850,12 +1856,16 @@ namespace Orc.Controls
     public class SaveFilePickerViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.PropertyData FilterProperty;
+        public static readonly Catel.Data.PropertyData InitialDirectoryProperty;
+        public static readonly Catel.Data.PropertyData InitialFileNameProperty;
         public static readonly Catel.Data.PropertyData LabelTextProperty;
         public static readonly Catel.Data.PropertyData LabelWidthProperty;
         public static readonly Catel.Data.PropertyData SelectedFileProperty;
         public SaveFilePickerViewModel(Catel.Services.ISaveFileService saveFileService, Catel.Services.IProcessService processService) { }
         public Catel.MVVM.Command Clear { get; }
         public string Filter { get; set; }
+        public string InitialDirectory { get; set; }
+        public string InitialFileName { get; set; }
         public string LabelText { get; set; }
         public double LabelWidth { get; set; }
         public Catel.MVVM.Command OpenDirectory { get; }

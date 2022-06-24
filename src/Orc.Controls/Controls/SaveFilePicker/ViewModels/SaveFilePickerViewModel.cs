@@ -42,6 +42,10 @@ namespace Orc.Controls
 
         public string SelectedFile { get; set; }
 
+        public string InitialDirectory { get; set; }
+
+        public string InitialFileName { get; set; }
+
         public string Filter { get; set; }
         #endregion
 
@@ -110,6 +114,11 @@ namespace Orc.Controls
             {
                 initialDirectory = Directory.GetParent(SelectedFile).FullName;
                 fileName = SelectedFile;
+            }
+            else
+            {
+                initialDirectory = InitialDirectory;
+                fileName = InitialFileName;
             }
 
             if (!string.IsNullOrEmpty(Filter))
