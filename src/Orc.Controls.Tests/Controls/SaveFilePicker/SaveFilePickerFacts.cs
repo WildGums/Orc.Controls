@@ -10,7 +10,7 @@
     {
         [TestCase(null, null)]
         [TestCase("some_item.txt", "some_item.txt")]
-        public async Task UsesDefaultFileName_WithoutFileName_Async(string input, string expectedOutput)
+        public async Task UsesDefaultFileName_NoFileSelected_Async(string input, string expectedOutput)
         {
             var isCalled = false;
 
@@ -22,10 +22,7 @@
 
                     Assert.AreEqual(expectedOutput, x.FileName);
 
-                    return new DetermineSaveFileResult
-                    {
-
-                    };
+                    return new DetermineSaveFileResult();
                 });
 
             var processServiceMock = new Mock<IProcessService>();
@@ -44,7 +41,7 @@
 
         [TestCase(null, "existing_file.txt")]
         [TestCase("some_item.txt", "existing_file.txt")]
-        public async Task UsesDefaultFileName_WithFileName_Async(string input, string expectedOutput)
+        public async Task NotUsesDefaultFileName_FileSelected_Async(string input, string expectedOutput)
         {
             var isCalled = false;
 
@@ -56,10 +53,7 @@
 
                     Assert.AreEqual(expectedOutput, x.FileName);
 
-                    return new DetermineSaveFileResult
-                    {
-
-                    };
+                    return new DetermineSaveFileResult();
                 });
 
             var processServiceMock = new Mock<IProcessService>();
