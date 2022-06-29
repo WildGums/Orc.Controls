@@ -4,9 +4,29 @@
                    xmlns:catel="http://schemas.catelproject.com"
                    xmlns:orccontrols="http://schemas.wildgums.com/orc/controls">
     <!-- Content -->
-    <StackPanel>
-        <orccontrols:SaveFilePicker LabelText="SaveFilePicker control" LabelWidth="150"
-                                Filter="Image files (*.bmp, *.jpg)|*.bmp;*.jpg|All files (*.*)|*.*"/>
-    </StackPanel>
+    <orccontrols:StackGrid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Initial directory" />
+        <TextBox Text="{Binding ElementName=saveFilePicker, Path=InitialDirectory}" />
+
+        <Label Content="Initial file name" />
+        <TextBox Text="{Binding ElementName=saveFilePicker, Path=InitialFileName}" />
+        
+        <orccontrols:SaveFilePicker Grid.ColumnSpan="2" 
+                                    x:Name="saveFilePicker" 
+                                    LabelText="SaveFilePicker control" 
+                                    LabelWidth="150"
+                                    Filter="Image files (*.bmp, *.jpg)|*.bmp;*.jpg|All files (*.*)|*.*"/>
+    </orccontrols:StackGrid>
 </catel:UserControl>
 

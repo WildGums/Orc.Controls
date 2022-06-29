@@ -34,8 +34,9 @@
             set { SetValue(LabelWidthProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for LabelWidth.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty LabelWidthProperty = DependencyProperty.Register(nameof(LabelWidth), typeof(double), typeof(SaveFilePicker), new PropertyMetadata(125d));
+        public static readonly DependencyProperty LabelWidthProperty = DependencyProperty.Register(nameof(LabelWidth), typeof(double), 
+            typeof(SaveFilePicker), new PropertyMetadata(125d));
+
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string LabelText
@@ -44,9 +45,9 @@
             set { SetValue(LabelTextProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for LabelText.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty LabelTextProperty =
-            DependencyProperty.Register(nameof(LabelText), typeof(string), typeof(SaveFilePicker), new PropertyMetadata(string.Empty));
+        public static readonly DependencyProperty LabelTextProperty = DependencyProperty.Register(nameof(LabelText), typeof(string), 
+            typeof(SaveFilePicker), new PropertyMetadata(string.Empty));
+
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string SelectedFile
@@ -55,9 +56,9 @@
             set { SetValue(SelectedFileProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for SelectedFile.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedFileProperty = DependencyProperty.Register(nameof(SelectedFile), typeof(string),
             typeof(SaveFilePicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
         public string Filter
@@ -66,8 +67,29 @@
             set { SetValue(FilterProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Filter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FilterProperty = DependencyProperty.Register(nameof(Filter), typeof(string),
+            typeof(SaveFilePicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public string InitialFileName
+        {
+            get { return (string)GetValue(InitialFileNameProperty); }
+            set { SetValue(InitialFileNameProperty, value); }
+        }
+
+        public static readonly DependencyProperty InitialFileNameProperty = DependencyProperty.Register(nameof(InitialFileName), typeof(string),
+            typeof(SaveFilePicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+
+        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+        public string InitialDirectory
+        {
+            get { return (string)GetValue(InitialDirectoryProperty); }
+            set { SetValue(InitialDirectoryProperty, value); }
+        }
+
+        public static readonly DependencyProperty InitialDirectoryProperty = DependencyProperty.Register(nameof(InitialDirectory), typeof(string),
             typeof(SaveFilePicker), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
 
