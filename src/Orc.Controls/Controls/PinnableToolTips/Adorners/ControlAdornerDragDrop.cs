@@ -133,6 +133,12 @@ namespace Orc.Controls
             var adornerChildPosition = _adorner.ChildPosition;
             var adornerOffset = _adorner.Offset;
 
+            if (Equals(adornerChildPosition.X, deltaX) && Equals(adornerChildPosition.Y, deltaY))
+            {
+                deltaX = 0;
+                deltaY = 0;
+            }
+
             //Debug.WriteLine($"Adorner offset: X = '{adornerOffset.X}', Y = '{adornerOffset.Y}'");
             //Debug.WriteLine($"Movement delta: X = '{deltaX}', Y = '{deltaY}'");
 
