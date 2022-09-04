@@ -124,8 +124,7 @@ Thumbs.db
 Desktop.ini
 
 # Cake - Uncomment if you are using it
-tools/*
-!tools/TestHost/
+tools/**
 !tools/packages.config
 build.cakeoverrides
 
@@ -136,9 +135,16 @@ TestResults
 .github/
 BundleArtifacts/
 
+# docker / tye
+.tye
+
 # editors
 .idea
 .vscode
+
+# Binaries
+*.dll
+*.exe
 
 # fody
 FodyWeavers.xsd
@@ -149,3 +155,7 @@ FodyWeavers.xsd
 # ANTLR
 data/dsl/*.class
 data/dsl/*.java
+
+# Nodejs / NPM
+node_modules
+package-lock.json

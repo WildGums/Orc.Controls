@@ -13,21 +13,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ApprovalTests" Version="5.7.2" />
+    <PackageReference Include="ApprovalTests" Version="5.7.3" />
     <PackageReference Include="Catel.Fody" Version="4.7.0" PrivateAssets="all" />
     <PackageReference Include="FlaUI.UIA3" Version="3.2.0" />
-    <PackageReference Include="Fody" Version="6.6.0" PrivateAssets="all">
+    <PackageReference Include="Fody" Version="6.6.3" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.1" />
     <PackageReference Include="ModuleInit.Fody" Version="2.1.1" PrivateAssets="all" />
-    <PackageReference Include="Moq" Version="4.17.2" />
+    <PackageReference Include="Moq" Version="4.18.2" />
     <PackageReference Include="NUnit" Version="3.13.3" PrivateAssets="all" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Orc.Automation.Tests" Version="4.0.5" />
+    <PackageReference Include="Orc.Automation.Tests" Version="4.1.0" />
     <PackageReference Include="PublicApiGenerator" Version="10.3.0" PrivateAssets="all" />
   </ItemGroup>
 
