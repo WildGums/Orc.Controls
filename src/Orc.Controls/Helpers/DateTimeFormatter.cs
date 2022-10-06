@@ -28,7 +28,7 @@ namespace Orc.Controls
 
         internal static string Format(DateTime dateTime, DateTimeFormatInfo formatInfo)
         {
-            Argument.IsNotNull(() => formatInfo);
+            ArgumentNullException.ThrowIfNull(formatInfo);
 
             var parts = new List<KeyValuePair<int, string>>
             {

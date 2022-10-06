@@ -25,8 +25,8 @@ namespace Orc.Controls
         #region Constructors
         public OpenFilePickerViewModel(IOpenFileService openFileService, IProcessService processService)
         {
-            Argument.IsNotNull(() => openFileService);
-            Argument.IsNotNull(() => processService);
+            ArgumentNullException.ThrowIfNull(openFileService);
+            ArgumentNullException.ThrowIfNull(processService);
 
             _openFileService = openFileService;
             _processService = processService;

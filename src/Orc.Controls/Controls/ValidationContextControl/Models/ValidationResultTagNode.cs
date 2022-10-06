@@ -1,13 +1,8 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationResultTagNode.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
+    using System;
     using System.Collections.Specialized;
+    using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
     using Catel;
@@ -15,20 +10,15 @@ namespace Orc.Controls
 
     public class ValidationResultTagNode : ValidationContextTreeNode
     {
-        #region Constructors
         public ValidationResultTagNode(string tagName, bool isExpanded)
             : base(isExpanded)
         {
             TagName = tagName;
         }
-        #endregion
 
-        #region Properties
         public string TagName { get; }
-        #endregion
 
-        #region Methods
-        protected override void OnPropertyChanged(AdvancedPropertyChangedEventArgs e)
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
 
@@ -60,9 +50,9 @@ namespace Orc.Controls
 
         public override int CompareTo(ValidationContextTreeNode node)
         {
-            Argument.IsNotNull(() => node);
+            ArgumentNullException.ThrowIfNull(node);
 
-            var misc = LanguageHelper.GetString("Controls_ValidationContextControl_Misc");
+            var misc = LanguageHelper.GetRequiredString("Controls_ValidationContextControl_Misc");
 
             var validationResultTagNode = (ValidationResultTagNode)node;
             if (TagName.EqualsIgnoreCase(misc) && !validationResultTagNode.TagName.EqualsIgnoreCase(misc))
@@ -77,6 +67,5 @@ namespace Orc.Controls
 
             return CultureInfo.InstalledUICulture.CompareInfo.Compare(TagName, validationResultTagNode.TagName);
         }
-        #endregion
     }
 }

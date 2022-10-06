@@ -7,7 +7,7 @@
     {
         public CalloutEventArgs(ICallout callout)
         {
-            Argument.IsNotNull(() => callout);
+            ArgumentNullException.ThrowIfNull(callout);
 
             Callout = callout;
         }

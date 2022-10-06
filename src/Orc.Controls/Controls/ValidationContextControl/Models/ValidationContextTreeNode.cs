@@ -86,7 +86,7 @@ namespace Orc.Controls
 
         public virtual int CompareTo(ValidationContextTreeNode node)
         {
-            Argument.IsNotNull(() => node);
+            ArgumentNullException.ThrowIfNull(node);
 
             return CultureInfo.InstalledUICulture.CompareInfo.Compare(DisplayName, node.DisplayName);
         }

@@ -80,7 +80,7 @@ namespace Orc.Controls
         /// </summary>
         public void UpdateDispatcher(Dispatcher dispatcher)
         {
-            Argument.IsNotNull(() => dispatcher);
+            ArgumentNullException.ThrowIfNull(dispatcher);
 
             if (Dispatcher is not null)
             {

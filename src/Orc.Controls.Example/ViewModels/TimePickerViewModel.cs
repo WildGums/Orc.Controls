@@ -50,7 +50,7 @@ namespace Orc.Controls.Example.ViewModels
         {
             await base.InitializeAsync();
         }
-        protected override void OnPropertyChanged(AdvancedPropertyChangedEventArgs e)
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
 

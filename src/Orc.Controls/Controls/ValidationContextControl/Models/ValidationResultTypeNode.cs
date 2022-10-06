@@ -1,27 +1,19 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationResultTypeNode.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Catel;
     using Catel.Collections;
     using Catel.Data;
 
     public class ValidationResultTypeNode : ValidationContextTreeNode
     {
-        #region Constructors
         public ValidationResultTypeNode(ValidationResultType resultType, IEnumerable<IValidationResult> validationResults,
             IValidationNamesService validationNamesService, bool isExpanded)
             : base(isExpanded)
         {
-            Argument.IsNotNull(() => validationResults);
-            Argument.IsNotNull(() => validationNamesService);
+            ArgumentNullException.ThrowIfNull(validationResults);
+            ArgumentNullException.ThrowIfNull(validationNamesService);
 
             ResultType = resultType;
 
@@ -32,9 +24,7 @@ namespace Orc.Controls
 
             UpdateDisplayName();
         }
-        #endregion
 
-        #region Methods
         private void UpdateDisplayName()
         {
             switch (ResultType)
@@ -48,6 +38,5 @@ namespace Orc.Controls
                     break;
             }
         }
-        #endregion
     }
 }

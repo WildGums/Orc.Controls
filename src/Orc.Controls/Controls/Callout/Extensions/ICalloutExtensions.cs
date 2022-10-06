@@ -1,12 +1,13 @@
 ﻿namespace Orc.Controls
 {
+    using System;
     using Catel;
 
     public static class ICalloutExtensions
     {
         public static string GetCalloutConfigurationKeyPrefix(this ICallout callout)
         {
-            Argument.IsNotNull(() => callout);
+            ArgumentNullException.ThrowIfNull(callout);
 
             return GetCalloutConfigurationKeyPrefix(callout.Name, callout.Version);
         }

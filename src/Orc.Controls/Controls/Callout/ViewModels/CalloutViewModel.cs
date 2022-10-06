@@ -20,8 +20,8 @@
 
         public CalloutViewModel(ICalloutManager calloutManager, IDispatcherService dispatcherService)
         {
-            Argument.IsNotNull(() => calloutManager);
-            Argument.IsNotNull(() => dispatcherService);
+            ArgumentNullException.ThrowIfNull(calloutManager);
+            ArgumentNullException.ThrowIfNull(dispatcherService);
 
             _calloutManager = calloutManager;
             _dispatcherService = dispatcherService;

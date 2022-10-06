@@ -54,7 +54,7 @@
 
         public void Register(ICallout callout)
         {
-            Argument.IsNotNull(() => callout);
+            ArgumentNullException.ThrowIfNull(callout);
 
             Log.Debug($"Registering callout '{callout}'");
 
@@ -67,7 +67,7 @@
 
         public void Unregister(ICallout callout)
         {
-            Argument.IsNotNull(() => callout);
+            ArgumentNullException.ThrowIfNull(callout);
 
             Log.Debug($"Unregistering callout '{callout}'");
 

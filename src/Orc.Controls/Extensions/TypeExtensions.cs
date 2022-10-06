@@ -100,7 +100,7 @@ namespace Orc.Controls
 
         public static Array GetEnumValues(this Type enumType)
         {
-            Argument.IsNotNull(() => enumType);
+            ArgumentNullException.ThrowIfNull(enumType);
 
             if (!enumType.IsEnum)
             {
@@ -115,7 +115,7 @@ namespace Orc.Controls
 
         public static Type FindGenericTypeImplementation<TBaseType>(this Type singleGenericTypeArgument, Assembly assembly = null)
         {
-            Argument.IsNotNull(() => singleGenericTypeArgument);
+            ArgumentNullException.ThrowIfNull(singleGenericTypeArgument);
 
 #if NET|| NETCORE
             var types = from type in (assembly ?? Assembly.GetExecutingAssembly()).GetTypesEx()

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using Catel;
     using Catel.Collections;
@@ -11,11 +12,10 @@
     using Catel.Logging;
     using Catel.MVVM;
     using Catel.Services;
-    using Catel.Threading;
 
     public class LogViewerViewModel : ViewModelBase
     {
-        private readonly string _defaultComboBoxItem = LanguageHelper.GetString("Controls_LogViewer_SelectTypeName");
+        private readonly string _defaultComboBoxItem;
 
         private readonly IDispatcherService _dispatcherService;
 
@@ -23,6 +23,8 @@
 
         private readonly FastObservableCollection<LogEntry> _logEntries = new FastObservableCollection<LogEntry>();
         private readonly LogViewerLogListener _logViewerLogListener;
+        private readonly ILanguageService _languageService;
+
         private readonly Queue<LogEntry> _queuedEntries = new Queue<LogEntry>();
 #pragma warning disable IDISP006 // Implement IDisposable.
         private readonly Timer _timer;
@@ -36,16 +38,18 @@
         private ILogListener _logListener;
 
         public LogViewerViewModel(ITypeFactory typeFactory, IDispatcherService dispatcherService,
-            LogViewerLogListener logViewerLogListener)
+            LogViewerLogListener logViewerLogListener, ILanguageService languageService)
         {
-            Argument.IsNotNull(() => typeFactory);
-            Argument.IsNotNull(() => dispatcherService);
-            Argument.IsNotNull(() => logViewerLogListener);
+            ArgumentNullException.ThrowIfNull(typeFactory);
+            ArgumentNullException.ThrowIfNull(dispatcherService);
+            ArgumentNullException.ThrowIfNull(logViewerLogListener);
 
             _typeFactory = typeFactory;
             _dispatcherService = dispatcherService;
             _logViewerLogListener = logViewerLogListener;
+            _languageService = languageService;
 
+            _defaultComboBoxItem = _languageService.GetRequiredString("Controls_LogViewer_SelectTypeName");
             _timer = new Timer(OnTimerTick);
 
             LogListenerType = typeof(LogViewerLogListener);
@@ -176,7 +180,7 @@
             ActiveFilterGroupChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        private void OnTimerTick(object state)
+        private void OnTimerTick(object? state)
         {
             var entries = new List<LogEntry>();
             var maximumBatchSize = MaximumUpdateBatchSize;
@@ -494,10 +498,10 @@
                 return;
             }
 
-            if (_timer.Interval > 0)
-            {
-                return;
-            }
+            //if (_timer.Interval > 0)
+            //{
+            //    return;
+            //}
 
             var timeout = TimeSpan.FromMilliseconds(500);
             _timer.Change(timeout, timeout);

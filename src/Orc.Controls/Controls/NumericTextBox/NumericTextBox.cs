@@ -359,7 +359,7 @@
         
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            Argument.IsNotNull(() => sender);
+            ArgumentNullException.ThrowIfNull(sender);
 
             if (_suspendTextChanged)
             {

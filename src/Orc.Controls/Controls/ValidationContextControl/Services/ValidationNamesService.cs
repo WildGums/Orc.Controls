@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationNamesService.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Catel;
@@ -16,21 +10,16 @@ namespace Orc.Controls
 
     public class ValidationNamesService : IValidationNamesService
     {
-        #region Fields
         private readonly IDictionary<string, List<IValidationResult>> _cache = new Dictionary<string, List<IValidationResult>>();
         private readonly ILanguageService _languageService;
-        #endregion
 
-        #region Constructors
         public ValidationNamesService(ILanguageService languageService)
         {
-            Argument.IsNotNull(() => languageService);
+            ArgumentNullException.ThrowIfNull(languageService);
 
             _languageService = languageService;
         }
-        #endregion
 
-        #region IValidationNamesService Members
         public virtual string GetDisplayName(IValidationResult validationResult)
         {
             var tagData = ExtractTagData(validationResult);
@@ -107,9 +96,7 @@ namespace Orc.Controls
         {
             return !_cache.TryGetValue(tagName, out var results) ? Enumerable.Empty<IValidationResult>() : results.AsEnumerable();
         }
-        #endregion
 
-        #region Methods
         protected virtual string ExtractTagName(IValidationResult validationResult)
         {
             var tag = validationResult.Tag;
@@ -144,7 +131,7 @@ namespace Orc.Controls
             var tag = validationResult.Tag;
             var tagDetails = new TagDetails();
 
-            if (ReferenceEquals(tag, null))
+            if (tag is null)
             {
                 return tagDetails;
             }
@@ -167,9 +154,7 @@ namespace Orc.Controls
 
             return tagDetails;
         }
-        #endregion
 
-        #region Nested type: TagDetails
         protected class TagDetails
         {
             #region Properties
@@ -178,6 +163,5 @@ namespace Orc.Controls
             public int? ColumnIndex { get; set; }
             #endregion
         }
-        #endregion
     }
 }

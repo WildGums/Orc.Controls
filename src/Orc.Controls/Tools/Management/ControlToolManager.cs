@@ -34,8 +34,8 @@ namespace Orc.Controls.Tools
         #region Constructors
         public ControlToolManager(FrameworkElement frameworkElement, ITypeFactory typeFactory, IDirectoryService directoryService)
         {
-            Argument.IsNotNull(() => typeFactory);
-            Argument.IsNotNull(() => directoryService);
+            ArgumentNullException.ThrowIfNull(typeFactory);
+            ArgumentNullException.ThrowIfNull(directoryService);
 
             _frameworkElement = frameworkElement;
             _typeFactory = typeFactory;
@@ -62,7 +62,7 @@ namespace Orc.Controls.Tools
 
         public object AttachTool(Type toolType)
         {
-            Argument.IsNotNull(() => toolType);
+            ArgumentNullException.ThrowIfNull(toolType);
 
             var existingTool = Tools.FirstOrDefault(x => x.GetType() == toolType);
             if (existingTool is not null)

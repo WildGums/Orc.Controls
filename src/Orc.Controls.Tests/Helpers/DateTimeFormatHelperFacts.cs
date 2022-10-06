@@ -1,14 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DateTimeFormatHelperFacts.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
-    using Catel.Tests;
     using NUnit.Framework;
 
     public class DateTimeFormatHelperFacts
@@ -233,55 +225,37 @@ namespace Orc.Controls
             [TestCase("yyyy-yyyy-MM")]
             public void ThrowsFormatExceptionForDateFormatWhenYearPartExistsMoreThanOnce(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Year field can not be specified more than once");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true));
             }
 
             [TestCase("yyyy-MM-MM")]
             public void ThrowsFormatExceptionForDateFormatWhenMonthPartExistsMoreThanOnce(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Month field can not be specified more than once");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true));
             }
 
             [TestCase("yyyy-dd-dd")]
             public void ThrowsFormatExceptionForDateFormatWhenDayPartExistsMoreThanOnce(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Day field can not be specified more than once");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true));
             }
 
             [TestCase("yyyyyy-MM-dd")]
             public void ThrowsFormatExceptionForDateFormatWhenYearPartFormatIsIncorrect(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Year field must be in one of formats: 'y' or 'yy' or 'yyy' or 'yyyy' or 'yyyyy'");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true));
             }
 
             [TestCase("yyyy-MMMMM-dd")]
             public void ThrowsFormatExceptionForDateFormatWhenMonthPartFormatIsIncorrect(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Month field must be in one of formats: 'M' or 'MM' or 'MMM' or 'MMMM'");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true));
             }
 
             [TestCase("yyyy-MM-ddddd")]
             public void ThrowsFormatExceptionForDateFormatWhenDayPartFormatIsIncorrect(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Day field must be in one of formats: 'd' or 'dd' or 'ddd' or 'dddd'");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true));
             }
 
             [TestCase("yyyy-MM")]
@@ -289,10 +263,7 @@ namespace Orc.Controls
             [TestCase("yyyy-dd")]
             public void ThrowsFormatExceptionForDateFormatWhenMissingYearOrMonthOrDayPart(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Missing required fields: day, month, year");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true));
             }
 
             [Test]
@@ -307,147 +278,99 @@ namespace Orc.Controls
             [TestCase("yyyy-yyyy-MM HH:mm:ss")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenYearPartExistsMoreThanOnce(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Year field can not be specified more than once");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false));
             }
 
             [TestCase("yyyy-MM-MM HH:mm:ss")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenMonthPartExistsMoreThanOnce(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Month field can not be specified more than once");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false));
             }
 
             [TestCase("yyyy-dd-dd HH:mm:ss")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenDayPartExistsMoreThanOnce(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Day field can not be specified more than once");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false));
             }
 
             [TestCase("yyyy-MM-dd HH:HH:ss")]
             [TestCase("yyyy-MM-dd hh:hh:ss")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenHourPartExistsMoreThanOnce(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Hour field can not be specified more than once");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false));
             }
 
             [TestCase("yyyy-MM-dd HH:mm:mm")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenMinutePartExistsMoreThanOnce(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Minute field can not be specified more than once");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false));
             }
 
             [TestCase("yyyy-MM-dd HH:ss:ss")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenSecondPartExistsMoreThanOnce(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Second field can not be specified more than once");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false));
             }
 
             [TestCase("yyyy-MM-dd HH:tt:tt")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenAmPmPartExistsMoreThanOnce(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. AM/PM designator field can not be specified more than once");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false));
             }
 
             [TestCase("yyyy-MM-dd HH:hh:ss")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenHour12PartAndHour24PartExistsBoth(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Hour field must be 12 hour or 24 hour format, but no both");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false));
             }
 
             [TestCase("yyyyyy-MM-dd HH:mm:ss")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenYearPartFormatIsIncorrect(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Year field must be in one of formats: 'y' or 'yy' or 'yyy' or 'yyyy' or 'yyyyy'");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false));
             }
 
             [TestCase("yyyy-MMMMM-dd HH:mm:ss")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenMonthPartFormatIsIncorrect(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Month field must be in one of formats: 'M' or 'MM' or 'MMM' or 'MMMM'");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false));
             }
 
             [TestCase("yyyy-MM-ddddd HH:mm:ss")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenDayPartFormatIsIncorrect(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Day field must be in one of formats: 'd' or 'dd' or 'ddd' or 'dddd'");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false));
             }
 
             [TestCase("yyyy-MM-dd HHH:mm:ss")]
             [TestCase("yyyy-MM-dd hhh:mm:ss")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenHourPartFormatIsIncorrect(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Hour field must be in one of formats: 'h' or 'H' or 'hh' or 'HH'");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false));
             }
 
             [TestCase("yyyy-MM-dd HH:mmm:ss")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenMinutePartFormatIsIncorrect(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Minute field must be in one of formats: 'm' or 'mm'");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false));
             }
 
             [TestCase("yyyy-MM-dd HH:mm:sss")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenSecondPartFormatIsIncorrect(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Second field must be in one of formats: 's' or 'ss'");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false));
             }
 
             [TestCase("yyyy-MM-dd HH:mm:ss ttt")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenAmPmPartFormatIsIncorrect(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. AM/PM designator field must be in one of formats: 't' or 'tt'");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false));
             }
 
             [TestCase("yyyy-MM-dd HH:mm:ss")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenDateFormatExpected(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Time fields are not expected");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, true));
             }
 
             [TestCase("yyyy-MM HH:mm:ss")]
@@ -458,10 +381,7 @@ namespace Orc.Controls
             //[TestCase("yyyy-MM-dd HH:mm")]
             public void ThrowsFormatExceptionForDateTimeFormatWhenMissingYearOrMonthOrDayOrHourOrMinuteOrSecondPart(string format)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false), x =>
-                {
-                    return string.Equals(x.Message, "Format string is incorrect. Missing required fields: day, month, year");
-                });
+                Assert.Throws<FormatException>(() => DateTimeFormatHelper.GetDateTimeFormatInfo(format, false));
             }
 
             private bool AreEqual(DateTimeFormatInfo info1, DateTimeFormatInfo info2)

@@ -1,30 +1,22 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="InlineExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
+    using System;
     using System.Collections.Generic;
     using System.Windows.Documents;
-    using Catel;
 
     public static class InlineExtensions
     {
-        #region Methods
         public static Bold Bold(this Inline inline)
         {
-            Argument.IsNotNull(() => inline);
+            ArgumentNullException.ThrowIfNull(inline);
 
             return new Bold(inline);
         }
 
         public static Inline Append(this Inline inline, Inline inlineToAdd)
         {
-            Argument.IsNotNull(() => inline);
-            Argument.IsNotNull(() => inlineToAdd);
+            ArgumentNullException.ThrowIfNull(inline);
+            ArgumentNullException.ThrowIfNull(inlineToAdd);
 
             var span = new Span(inline);
 
@@ -35,8 +27,8 @@ namespace Orc.Controls
 
         public static Inline AppendRange(this Inline inline, IEnumerable<Inline> inlines)
         {
-            Argument.IsNotNull(() => inline);
-            Argument.IsNotNull(() => inlines);
+            ArgumentNullException.ThrowIfNull(inline);
+            ArgumentNullException.ThrowIfNull(inlines);
 
             var span = new Span(inline);
 
@@ -44,6 +36,5 @@ namespace Orc.Controls
 
             return span;
         }
-        #endregion
     }
 }

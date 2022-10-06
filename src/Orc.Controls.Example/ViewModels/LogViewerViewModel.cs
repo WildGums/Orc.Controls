@@ -46,7 +46,7 @@
 
         private async Task OnTestUnderPressureExecuteAsync()
         {
-            await TaskHelper.Run(async () =>
+            await Task.Run(async () =>
             {
                 var levelIndex = new Random();
                 var events = new List<LogEvent>

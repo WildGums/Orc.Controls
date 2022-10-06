@@ -1,39 +1,27 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ControlToolManagerFactory.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Tools
+﻿namespace Orc.Controls.Tools
 {
+    using System;
     using System.Collections.Generic;
     using System.Windows;
-    using Catel;
     using Catel.IoC;
 
     public class ControlToolManagerFactory : IControlToolManagerFactory
     {
-        #region Fields
         private readonly Dictionary<FrameworkElement, IControlToolManager> _controlToolManagers
             = new Dictionary<FrameworkElement, IControlToolManager>();
 
         private readonly ITypeFactory _typeFactory;
-        #endregion
 
-        #region Constructors
         public ControlToolManagerFactory(ITypeFactory typeFactory)
         {
-            Argument.IsNotNull(() => typeFactory);
+            ArgumentNullException.ThrowIfNull(typeFactory);
 
             _typeFactory = typeFactory;
         }
-        #endregion
 
-        #region IControlToolManagerFactory Members
         public IControlToolManager GetOrCreateManager(FrameworkElement frameworkElement)
         {
-            Argument.IsNotNull(() => frameworkElement);
+            ArgumentNullException.ThrowIfNull(frameworkElement);
 
             if (!_controlToolManagers.TryGetValue(frameworkElement, out var manager))
             {
@@ -44,9 +32,7 @@ namespace Orc.Controls.Tools
             _controlToolManagers[frameworkElement] = manager;
             return manager;
         }
-        #endregion
 
-        #region Methods
         private void OnFrameworkElementUnloaded(object sender, RoutedEventArgs e)
         {
             if (sender is not FrameworkElement frameworkElement)
@@ -62,6 +48,5 @@ namespace Orc.Controls.Tools
             _controlToolManagers.Remove(frameworkElement);
             frameworkElement.Unloaded -= OnFrameworkElementUnloaded;
         }
-        #endregion
     }
 }

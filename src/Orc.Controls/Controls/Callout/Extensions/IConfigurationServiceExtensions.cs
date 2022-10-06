@@ -1,64 +1,64 @@
 ﻿namespace Orc.Controls
 {
     using System;
-    using Catel;
+    using System.Threading.Tasks;
     using Catel.Configuration;
 
     public static class IConfigurationServiceExtensions
     {
-        public static bool IsCalloutMarkedAsShown(this IConfigurationService configurationService, ICallout callout)
+        public static Task<bool> IsCalloutMarkedAsShownAsync(this IConfigurationService configurationService, ICallout callout)
         {
-            Argument.IsNotNull(() => configurationService);
-            Argument.IsNotNull(() => callout);
+            ArgumentNullException.ThrowIfNull(configurationService);
+            ArgumentNullException.ThrowIfNull(callout);
 
             var configurationKey = $"{callout.GetCalloutConfigurationKeyPrefix()}.Shown";
-            return configurationService.GetRoamingValue(configurationKey, false);
+            return configurationService.GetRoamingValueAsync(configurationKey, false);
         }
 
-        public static void SetCalloutLastShown(this IConfigurationService configurationService, ICallout callout)
+        public static Task SetCalloutLastShownAsync(this IConfigurationService configurationService, ICallout callout)
         {
-            Argument.IsNotNull(() => configurationService);
-            Argument.IsNotNull(() => callout);
+            ArgumentNullException.ThrowIfNull(configurationService);
+            ArgumentNullException.ThrowIfNull(callout);
 
-            SetCalloutLastShown(configurationService, callout, DateTime.UtcNow);
+            return SetCalloutLastShownAsync(configurationService, callout, DateTime.UtcNow);
         }
 
-        public static void SetCalloutLastShown(this IConfigurationService configurationService, ICallout callout, DateTime? lastShown)
+        public static Task SetCalloutLastShownAsync(this IConfigurationService configurationService, ICallout callout, DateTime? lastShown)
         {
-            Argument.IsNotNull(() => configurationService);
-            Argument.IsNotNull(() => callout);
+            ArgumentNullException.ThrowIfNull(configurationService);
+            ArgumentNullException.ThrowIfNull(callout);
 
             var configurationKey = $"{callout.GetCalloutConfigurationKeyPrefix()}.LastShown";
-            configurationService.SetRoamingValue(configurationKey, lastShown);
+            return configurationService.SetRoamingValueAsync(configurationKey, lastShown);
         }
 
-        public static DateTime? GetCalloutLastShown(this IConfigurationService configurationService, ICallout callout)
+        public static Task<DateTime?> GetCalloutLastShownAsync(this IConfigurationService configurationService, ICallout callout)
         {
-            Argument.IsNotNull(() => configurationService);
-            Argument.IsNotNull(() => callout);
+            ArgumentNullException.ThrowIfNull(configurationService);
+            ArgumentNullException.ThrowIfNull(callout);
 
             var configurationKey = $"{callout.GetCalloutConfigurationKeyPrefix()}.LastShown";
-            return configurationService.GetRoamingValue<DateTime?>(configurationKey, null);
+            return configurationService.GetRoamingValueAsync<DateTime?>(configurationKey, null);
         }
 
-        public static void MarkCalloutAsNotShown(this IConfigurationService configurationService, ICallout callout)
+        public static Task MarkCalloutAsNotShownAsync(this IConfigurationService configurationService, ICallout callout)
         {
-            Argument.IsNotNull(() => configurationService);
-            Argument.IsNotNull(() => callout);
+            ArgumentNullException.ThrowIfNull(configurationService);
+            ArgumentNullException.ThrowIfNull(callout);
 
             var configurationKey = $"{callout.GetCalloutConfigurationKeyPrefix()}.Shown";
-            configurationService.SetRoamingValue(configurationKey, false);
+            return configurationService.SetRoamingValueAsync(configurationKey, false);
         }
 
-        public static void MarkCalloutAsShown(this IConfigurationService configurationService, ICallout callout)
+        public static async Task MarkCalloutAsShownAsync(this IConfigurationService configurationService, ICallout callout)
         {
-            Argument.IsNotNull(() => configurationService);
-            Argument.IsNotNull(() => callout);
+            ArgumentNullException.ThrowIfNull(configurationService);
+            ArgumentNullException.ThrowIfNull(callout);
 
             var configurationKey = $"{callout.GetCalloutConfigurationKeyPrefix()}.Shown";
-            configurationService.SetRoamingValue(configurationKey, true);
+            await configurationService.SetRoamingValueAsync(configurationKey, true);
 
-            configurationService.SetCalloutLastShown(callout, DateTime.UtcNow);
+            await configurationService.SetCalloutLastShownAsync(callout, DateTime.UtcNow);
         }
     }
 }

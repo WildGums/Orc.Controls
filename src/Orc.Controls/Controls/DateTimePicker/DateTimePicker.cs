@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Automation.Peers;
     using System.Windows.Controls;
@@ -1515,7 +1516,7 @@
 
             prevTextBox.CaretIndex = prevTextBox.Text.Length;
 
-            await TaskShim.Delay(1); // Note: this is a hack. without this delay it is not possible to set focus
+            await Task.Delay(1); // Note: this is a hack. without this delay it is not possible to set focus
 
             prevTextBox.Focus();
         }
@@ -1527,7 +1528,7 @@
 
             nextTextBox.CaretIndex = 0;
 
-            await TaskShim.Delay(1); // Note: this is a hack. without this delay it is not possible to set focus
+            await Task.Delay(1); // Note: this is a hack. without this delay it is not possible to set focus
 
             nextTextBox.Focus();
         }

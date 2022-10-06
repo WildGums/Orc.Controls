@@ -12,7 +12,7 @@
 
         public static IDisposable SuspendInScope(this ICalloutManager calloutManager)
         {
-            Argument.IsNotNull(() => calloutManager);
+            ArgumentNullException.ThrowIfNull(calloutManager);
 
             return new DisposableToken<ICalloutManager>(calloutManager,
                 x => x.Instance.Suspend(),
@@ -21,14 +21,14 @@
 
         public static bool IsAnyCalloutOpen(this ICalloutManager calloutManager)
         {
-            Argument.IsNotNull(() => calloutManager);
+            ArgumentNullException.ThrowIfNull(calloutManager);
 
             return calloutManager.Callouts.Any(x => x.IsOpen);
         }
 
         public static void ShowAllCallouts(this ICalloutManager calloutManager)
         {
-            Argument.IsNotNull(() => calloutManager);
+            ArgumentNullException.ThrowIfNull(calloutManager);
 
             if (calloutManager.IsSuspended)
             {
@@ -43,7 +43,7 @@
 
         public static void ShowCallout(this ICalloutManager calloutManager, Guid id, Func<ICallout, bool> predicate = null)
         {
-            Argument.IsNotNull(() => calloutManager);
+            ArgumentNullException.ThrowIfNull(calloutManager);
 
             if (calloutManager.IsSuspended)
             {
@@ -73,7 +73,7 @@
 
         public static void ShowCallout(this ICalloutManager calloutManager, string name, Func<ICallout, bool> predicate = null)
         {
-            Argument.IsNotNull(() => calloutManager);
+            ArgumentNullException.ThrowIfNull(calloutManager);
 
             if (calloutManager.IsSuspended)
             {
@@ -103,7 +103,7 @@
 
         public static void HideAllCallouts(this ICalloutManager calloutManager)
         {
-            Argument.IsNotNull(() => calloutManager);
+            ArgumentNullException.ThrowIfNull(calloutManager);
 
             Log.Debug("Hiding all callouts");
 
@@ -112,7 +112,7 @@
 
         public static void HideCallout(this ICalloutManager calloutManager, Guid id)
         {
-            Argument.IsNotNull(() => calloutManager);
+            ArgumentNullException.ThrowIfNull(calloutManager);
 
             var callout = FindCallout(calloutManager, id);
             if (callout is null)
@@ -128,7 +128,7 @@
 
         public static void HideCallout(this ICalloutManager calloutManager, string name)
         {
-            Argument.IsNotNull(() => calloutManager);
+            ArgumentNullException.ThrowIfNull(calloutManager);
 
             var callout = FindCallout(calloutManager, name);
             if (callout is null)
@@ -144,14 +144,14 @@
 
         public static ICallout FindCallout(this ICalloutManager calloutManager, Guid id)
         {
-            Argument.IsNotNull(() => calloutManager);
+            ArgumentNullException.ThrowIfNull(calloutManager);
 
             return calloutManager.Callouts.FirstOrDefault(x => x.Id == id);
         }
 
         public static ICallout FindCallout(this ICalloutManager calloutManager, string name)
         {
-            Argument.IsNotNull(() => calloutManager);
+            ArgumentNullException.ThrowIfNull(calloutManager);
 
             return calloutManager.Callouts.FirstOrDefault(x => x.Name == name);
         }

@@ -16,7 +16,7 @@
 
         internal static DateTime Parse(string input, DateTimeFormatInfo formatInfo)
         {
-            Argument.IsNotNull(() => input);
+            ArgumentNullException.ThrowIfNull(input);
 
             return (DateTime)Parse(input, formatInfo, true);
         }
@@ -28,7 +28,7 @@
 
         internal static bool TryParse(string input, DateTimeFormatInfo formatInfo, out DateTime dateTime)
         {
-            Argument.IsNotNull(() => input);
+            ArgumentNullException.ThrowIfNull(input);
 
             dateTime = DateTime.MinValue;
 
@@ -55,7 +55,7 @@
 
         private static DateTime? Parse(string input, DateTimeFormatInfo formatInfo, bool throwOnError)
         {
-            Argument.IsNotNull(() => formatInfo);
+            ArgumentNullException.ThrowIfNull(formatInfo);
 
             var year = 0;
             var month = 0;

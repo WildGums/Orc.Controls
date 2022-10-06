@@ -1,21 +1,18 @@
 ﻿namespace Orc.Controls.ViewModels
 {
+    using System;
     using System.Media;
-    using Catel;
     using Catel.MVVM;
     using Services;
 
     public class FindReplaceViewModel : ViewModelBase
     {
-        #region Fields
         private readonly IFindReplaceService _findReplaceService;
-        #endregion
 
-        #region Constructors
         public FindReplaceViewModel(FindReplaceSettings findReplaceSettings, IFindReplaceService findReplaceService)
         {
-            Argument.IsNotNull(() => findReplaceSettings);
-            Argument.IsNotNull(() => findReplaceService);
+            ArgumentNullException.ThrowIfNull(findReplaceSettings);
+            ArgumentNullException.ThrowIfNull(findReplaceService);
 
             _findReplaceService = findReplaceService;
 
@@ -30,9 +27,7 @@
             TextToFind = initialText;
             TextToFindForReplace = initialText;
         }
-        #endregion
 
-        #region Properties
         public override string Title => "Find and Replace";
 
         [Model]
@@ -43,11 +38,14 @@
         public Command<string> FindNext { get; }
         public Command<object> Replace { get; }
         public Command<object> ReplaceAll { get; }
-        #endregion
 
-        #region Methods
-        private void OnReplaceAll(object parameter)
+        private void OnReplaceAll(object? parameter)
         {
+            if (parameter is null)
+            {
+                return;
+            }
+
             var values = (object[])parameter;
             var textToFind = values[0] as string ?? string.Empty;
             var replacementText = values[1] as string ?? string.Empty;
@@ -55,8 +53,13 @@
             _findReplaceService.ReplaceAll(textToFind, replacementText, FindReplaceSettings);
         }
 
-        private void OnReplace(object parameter)
+        private void OnReplace(object? parameter)
         {
+            if (parameter is null)
+            {
+                return;
+            }
+
             var values = (object[])parameter;
             var textToFind = values[0] as string ?? string.Empty;
             var replacementText = values[1] as string ?? string.Empty;
@@ -76,6 +79,5 @@
                 SystemSounds.Beep.Play();
             }
         }
-        #endregion
     }
 }

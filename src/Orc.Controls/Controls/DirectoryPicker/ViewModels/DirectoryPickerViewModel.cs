@@ -1,33 +1,23 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DirectoryPickerViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
+    using System;
     using System.IO;
     using System.Threading.Tasks;
-    using Catel;
     using Catel.MVVM;
     using Catel.Services;
     using FileSystem;
 
     public class DirectoryPickerViewModel : ViewModelBase
     {
-        #region Fields
         private readonly IProcessService _processService;
         private readonly ISelectDirectoryService _selectDirectoryService;
         private readonly IDirectoryService _directoryService;
-        #endregion
 
-        #region Constructors
         public DirectoryPickerViewModel(ISelectDirectoryService selectDirectoryService, IDirectoryService directoryService, IProcessService processService)
         {
-            Argument.IsNotNull(() => selectDirectoryService);
-            Argument.IsNotNull(() => directoryService);
-            Argument.IsNotNull(() => processService);
+            ArgumentNullException.ThrowIfNull(selectDirectoryService);
+            ArgumentNullException.ThrowIfNull(directoryService);
+            ArgumentNullException.ThrowIfNull(processService);
 
             _selectDirectoryService = selectDirectoryService;
             _directoryService = directoryService;
@@ -37,17 +27,13 @@ namespace Orc.Controls
             SelectDirectory = new TaskCommand(OnSelectDirectoryExecuteAsync);
             Clear = new Command(OnClearExecute, OnClearCanExecute);
         }
-        #endregion
 
-        #region Properties
         public double LabelWidth { get; set; }
 
-        public string LabelText { get; set; }
+        public string? LabelText { get; set; }
 
-        public string SelectedDirectory { get; set; }
-        #endregion
+        public string? SelectedDirectory { get; set; }
 
-        #region Commands
         public Command Clear { get; }
 
         private bool OnClearCanExecute()
@@ -117,6 +103,5 @@ namespace Orc.Controls
                 SelectedDirectory = result.DirectoryName;
             }
         }
-        #endregion
     }
 }
