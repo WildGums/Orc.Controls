@@ -66,7 +66,7 @@ namespace Orc.Controls
         #region Methods
         public static ResizingAdorner Attach(FrameworkElement element)
         {
-            Argument.IsNotNull(() => element);
+            ArgumentNullException.ThrowIfNull(element);
 
             var adorner = new ResizingAdorner(element);
 
@@ -94,7 +94,7 @@ namespace Orc.Controls
 
         public static void Detach(ResizingAdorner adorner)
         {
-            Argument.IsNotNull(() => adorner);
+            ArgumentNullException.ThrowIfNull(adorner);
 
             var adornerLayer = AdornerLayer.GetAdornerLayer(adorner.AdornedElement);
             if (adornerLayer is null)

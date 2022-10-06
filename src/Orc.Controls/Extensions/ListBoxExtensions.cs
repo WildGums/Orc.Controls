@@ -1,9 +1,9 @@
 ﻿namespace Orc.Controls
 {
+    using System;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media.Animation;
-    using Catel;
     using Catel.Windows;
 
     public static class ListBoxExtensions
@@ -56,7 +56,7 @@
 
         public static void CenterSelectedItem(this ListBox listBox, Orientation orientation)
         {
-            Argument.IsNotNull(() => listBox);
+            ArgumentNullException.ThrowIfNull(listBox);
 
             var scrollViewer = listBox.FindVisualDescendantByType<ScrollViewer>();
             if (scrollViewer is null)

@@ -1,8 +1,8 @@
 ﻿namespace Orc.Controls
 {
     using System;
+    using System.Threading.Tasks;
     using System.Windows.Threading;
-    using Catel;
     using Catel.Configuration;
     using Catel.Logging;
 
@@ -32,7 +32,7 @@
 
         protected virtual void Subscribe(ICalloutManager calloutManager)
         {
-            Argument.IsNotNull(() => calloutManager);
+            ArgumentNullException.ThrowIfNull(calloutManager);
 
             var callout = Callout;
             if (callout is not null)
@@ -46,7 +46,7 @@
             calloutManager.Registered += OnCalloutManagerRegistered;
         }
 
-        private void OnCalloutManagerRegistered(object sender, CalloutEventArgs e)
+        private async void OnCalloutManagerRegistered(object? sender, CalloutEventArgs e)
         {
             if (Id.HasValue &&
                 e.Callout.Id == Id.Value)
@@ -61,11 +61,11 @@
 
             if (Start != DateTime.MaxValue)
             {
-                ScheduleShow();
+                await ScheduleShowAsync();
             }
         }
 
-        private void ScheduleShow()
+        private async Task ScheduleShowAsync()
         {
             if (HasShown)
             {
@@ -75,7 +75,7 @@
             var end = End;
             if (end < DateTime.Now)
             {
-                Show();
+                await ShowAsync();
                 return;
             }
 
@@ -85,11 +85,11 @@
             _dispatcherTimer.Start();
         }
 
-        private void OnDispatcherTimerTick(object sender, EventArgs e)
+        private async void OnDispatcherTimerTick(object? sender, EventArgs e)
         {
             _dispatcherTimer.Stop();
 
-            Show();
+            await ShowAsync();
         }
     }
 }

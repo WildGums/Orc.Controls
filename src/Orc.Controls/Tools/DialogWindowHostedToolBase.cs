@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DialogWindowHostedToolBase.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
+    using System;
     using System.Threading.Tasks;
     using Catel;
     using Catel.IoC;
@@ -17,31 +11,24 @@ namespace Orc.Controls
     public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
         where T : ViewModelBase
     {
-        #region Fields
-        private readonly IUIVisualizerService _uiVisualizerService;
+        protected readonly IUIVisualizerService UIVisualizerService;
         protected readonly ITypeFactory TypeFactory;
         protected object Parameter;
 
         protected T WindowViewModel;
-        #endregion
 
-        #region Constructors
         protected DialogWindowHostedToolBase(ITypeFactory typeFactory, IUIVisualizerService uiVisualizerService)
         {
-            Argument.IsNotNull(() => typeFactory);
-            Argument.IsNotNull(() => uiVisualizerService);
+            ArgumentNullException.ThrowIfNull(typeFactory);
+            ArgumentNullException.ThrowIfNull(uiVisualizerService);
 
             TypeFactory = typeFactory;
-            _uiVisualizerService = uiVisualizerService;
+            UIVisualizerService = uiVisualizerService;
         }
-        #endregion
 
-        #region Properties
         public virtual bool IsModal => true;
-        #endregion
 
-        #region Methods
-        protected override void OnOpen(object parameter = null)
+        protected override void OnOpen(object? parameter = null)
         {
             Parameter = parameter;
 
@@ -51,17 +38,17 @@ namespace Orc.Controls
 
             if (IsModal)
             {
-                _uiVisualizerService.ShowDialogAsync(WindowViewModel, OnWindowCompleted);
+                UIVisualizerService.ShowDialogAsync(WindowViewModel, OnWindowCompleted);
             }
             else
             {
-                _uiVisualizerService.ShowAsync(WindowViewModel, OnWindowCompleted);
+                UIVisualizerService.ShowAsync(WindowViewModel, OnWindowCompleted);
             }
         }
 
-        private void OnWindowCompleted(object sender, UICompletedEventArgs args)
+        private void OnWindowCompleted(object? sender, UICompletedEventArgs args)
         {
-            if (!(args.Result ?? false))
+            if (args.Result.DialogResult ?? false)
             {
                 return;
             }
@@ -92,12 +79,11 @@ namespace Orc.Controls
 #pragma warning restore 4014
         }
 
-        private Task OnClosedAsync(object sender, ViewModelClosedEventArgs args)
+        private Task OnClosedAsync(object? sender, ViewModelClosedEventArgs args)
         {
             Close();
 
-            return TaskHelper.Completed;
+            return Task.CompletedTask;
         }
-        #endregion
     }
 }

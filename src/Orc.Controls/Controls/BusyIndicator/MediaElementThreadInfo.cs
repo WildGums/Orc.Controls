@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MediaElementThreadInfo.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-#if NET || NETCORE
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Threading;
@@ -23,7 +14,6 @@ namespace Orc.Controls
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="MediaElementThreadInfo"/> class.
         /// </summary>
@@ -43,9 +33,7 @@ namespace Orc.Controls
 
             thread.Name = $"Media Element Thread: {Id}";
         }
-        #endregion
 
-        #region Properties
         /// <summary>
         /// Gets a unique identifier for this object.
         /// </summary>
@@ -71,16 +59,14 @@ namespace Orc.Controls
         /// <summary>
         /// Gets the dispatcher 
         /// </summary>
-        public Dispatcher Dispatcher { get; private set; }
-        #endregion
+        public Dispatcher? Dispatcher { get; private set; }
 
-        #region Methods
         /// <summary>
         /// Updates the dispatcher to the specified value.
         /// </summary>
         public void UpdateDispatcher(Dispatcher dispatcher)
         {
-            Argument.IsNotNull(() => dispatcher);
+            ArgumentNullException.ThrowIfNull(dispatcher);
 
             if (Dispatcher is not null)
             {
@@ -102,8 +88,8 @@ namespace Orc.Controls
             {
                 if (!dispatcher.HasShutdownStarted && !dispatcher.HasShutdownFinished)
                 {
-                    EventHandler shutdownHandler = null;
-                    shutdownHandler = new EventHandler((sender ,e) =>
+                    EventHandler? shutdownHandler = null;
+                    shutdownHandler = new EventHandler((sender, e) =>
                     {
                         Log.Debug($"[{Id}] Dispatcher has been shutdown, thread should exit any time now");
 
@@ -120,14 +106,7 @@ namespace Orc.Controls
             else if (thread is not null)
             {
                 Log.Warning($"[{Id}] No dispatcher object was available, aborting the thread");
-
-#if NETCOREAPP3_1
-                thread.Abort();
-#endif
             }
         }
-        #endregion
     }
 }
-
-#endif

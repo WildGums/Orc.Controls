@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WindowExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Globalization;
@@ -13,23 +6,15 @@ namespace Orc.Controls
     using System.Windows;
     using Catel;
     using Catel.Logging;
-    using Path = Catel.IO.Path;
 
     public static class WindowExtensions
     {
-        #region Methods
-
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
         private const string SizeSeparator = "|";
 
-        public static void SaveWindowSize(this Window window)
+        public static void SaveWindowSize(this Window window, string? tag = null)
         {
-            SaveWindowSize(window, null);
-        }
-
-        public static void SaveWindowSize(this Window window, string tag)
-        {
-            Argument.IsNotNull(() => window);
+            ArgumentNullException.ThrowIfNull(window);
 
             var windowName = window.GetType().Name;
 
@@ -62,9 +47,9 @@ namespace Orc.Controls
             LoadWindowSize(window, null, restoreWindowState, true);
         }
 
-        public static void LoadWindowSize(this Window window, string tag = null, bool restoreWindowState = false, bool restoreWindowPosition = true)
+        public static void LoadWindowSize(this Window window, string? tag = null, bool restoreWindowState = false, bool restoreWindowPosition = true)
         {
-            Argument.IsNotNull(() => window);
+            ArgumentNullException.ThrowIfNull(window);
 
             var windowName = window.GetType().Name;
 
@@ -145,9 +130,9 @@ namespace Orc.Controls
             }
         }
 
-        private static string GetWindowStorageFile(this Window window, string tag)
+        private static string GetWindowStorageFile(this Window window, string? tag)
         {
-            Argument.IsNotNull(() => window);
+            ArgumentNullException.ThrowIfNull(window);
 
             var appData = Catel.IO.Path.GetApplicationDataDirectory();
             var directory = Path.Combine(appData, "windows");
@@ -166,7 +151,7 @@ namespace Orc.Controls
 
         public static void CenterWindowToParent(this Window window)
         {
-            Argument.IsNotNull(() => window);
+            ArgumentNullException.ThrowIfNull(window);
 
             var owner = window.Owner;
             if (owner is not null)
@@ -184,7 +169,7 @@ namespace Orc.Controls
 
         public static void CenterWindowToSize(this Window window, Rect parentRect)
         {
-            Argument.IsNotNull(() => window);
+            ArgumentNullException.ThrowIfNull(window);
 
             var windowWidth = window.Width;
             var windowHeight = window.Height;
@@ -193,15 +178,11 @@ namespace Orc.Controls
             window.SetCurrentValue(Window.TopProperty, parentRect.Top + (parentRect.Height / 2) - (windowHeight / 2));
         }
 
-
-
-
         internal static Size GetSize(this Window window)
         {
-            Argument.IsNotNull(() => window);
+            ArgumentNullException.ThrowIfNull(window);
 
             return new Size(window.ActualWidth, window.ActualHeight);
         }
-        #endregion
     }
 }

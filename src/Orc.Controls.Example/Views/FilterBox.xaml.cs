@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FilterBox.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views
 {
     using Catel.IoC;
     using Services;
@@ -19,7 +12,9 @@ namespace Orc.Controls.Example.Views
 
         private void OnFilterBoxControlInitializingAutoCompletionService(object sender, InitializingAutoCompletionServiceEventArgs e)
         {
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
             e.AutoCompletionService = this.GetTypeFactory().CreateInstance<ReverseAutoCompletionService>();
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
         }
     }
 }

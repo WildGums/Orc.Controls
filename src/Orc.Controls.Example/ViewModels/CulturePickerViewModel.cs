@@ -48,7 +48,7 @@ namespace Orc.Controls.Example.ViewModels
                 _isInitializing = false;
             }
 
-            return TaskHelper.Completed;
+            return Task.CompletedTask;
         }
 
 #pragma warning disable AvoidAsyncVoid

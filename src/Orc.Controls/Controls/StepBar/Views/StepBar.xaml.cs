@@ -3,13 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using Automation;
     using Catel.MVVM.Views;
-    using Catel.Threading;
-    using Orc.Automation;
 
     public sealed partial class StepBar
     {
@@ -34,9 +33,9 @@
 
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public IList<IStepBarItem> Items
+        public IList<IStepBarItem>? Items
         {
-            get { return (IList<IStepBarItem>)GetValue(ItemsProperty); }
+            get { return (IList<IStepBarItem>?)GetValue(ItemsProperty); }
             set { SetValue(ItemsProperty, value); }
         }
 
@@ -45,9 +44,9 @@
 
 
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public IStepBarItem SelectedItem
+        public IStepBarItem? SelectedItem
         {
-            get { return (IStepBarItem)GetValue(SelectedItemProperty); }
+            get { return (IStepBarItem?)GetValue(SelectedItemProperty); }
             set { SetValue(SelectedItemProperty, value); }
         }
 
@@ -93,7 +92,7 @@
                     stepbarListBox.CenterSelectedItem(Orientation);
 
                     // We need to await the animation
-                    await TaskShim.Delay(StepBarConfiguration.AnimationDuration);
+                    await Task.Delay(StepBarConfiguration.AnimationDuration);
                 });
             }
         }

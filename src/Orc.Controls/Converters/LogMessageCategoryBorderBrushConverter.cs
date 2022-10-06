@@ -30,7 +30,7 @@ namespace Orc.Controls.Converters
         #endregion
 
         #region Methods
-        protected override object Convert(string value, Type targetType, object parameter)
+        protected override object? Convert(string? value, Type targetType, object? parameter)
         {
             return BrushCache.TryGetValue(value, out var brush) ? brush : Brushes.Black;
         }

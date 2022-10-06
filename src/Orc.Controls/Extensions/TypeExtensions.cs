@@ -1,17 +1,9 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TypeExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2020 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using Catel;
     using Catel.Reflection;
     using static System.Convert;
 
@@ -39,7 +31,6 @@ namespace Orc.Controls
             typeof(float)
         };
 
-        #region Methods
         public static bool IsFloatingPointType(this Type type)
         {
             return FloatingPointTypes.Contains(type);
@@ -55,7 +46,7 @@ namespace Orc.Controls
             return checkedValue <= range.Min && checkedValue >= range.Max;
         }
 
-        public static object ChangeTypeSafe(this Type convertToType, double dValue)
+        public static object? ChangeTypeSafe(this Type convertToType, double dValue)
         {
             var range = convertToType.TryGetNumberRange();
             if (range is null)
@@ -100,7 +91,7 @@ namespace Orc.Controls
 
         public static Array GetEnumValues(this Type enumType)
         {
-            Argument.IsNotNull(() => enumType);
+            ArgumentNullException.ThrowIfNull(enumType);
 
             if (!enumType.IsEnum)
             {
@@ -113,19 +104,13 @@ namespace Orc.Controls
             return enumValues;
         }
 
-        public static Type FindGenericTypeImplementation<TBaseType>(this Type singleGenericTypeArgument, Assembly assembly = null)
+        public static Type? FindGenericTypeImplementation<TBaseType>(this Type singleGenericTypeArgument, Assembly? assembly = null)
         {
-            Argument.IsNotNull(() => singleGenericTypeArgument);
+            ArgumentNullException.ThrowIfNull(singleGenericTypeArgument);
 
-#if NET|| NETCORE
             var types = from type in (assembly ?? Assembly.GetExecutingAssembly()).GetTypesEx()
                 where !type.IsAbstract && typeof(TBaseType).IsAssignableFromEx(type)
                 let baseTypeLocal = type.BaseType
-#elif NETFX_CORE
-            var types = from type in AppDomain.CurrentDomain.GetLoadedAssemblies().SelectMany(x => x.GetTypesEx())
-                        where !type.GetTypeInfo().IsAbstract && typeof(TBaseType).IsAssignableFromEx(type)
-                        let baseTypeLocal = type.GetTypeInfo().BaseType
-#endif
                 let genericArgs = baseTypeLocal.GetGenericArguments()
                 where genericArgs.Length == 1 && genericArgs.First() == singleGenericTypeArgument
                 select type;
@@ -139,6 +124,5 @@ namespace Orc.Controls
             var baseType = singleGenericTypeArgument.GetBaseTypeEx();
             return baseType is not null ? FindGenericTypeImplementation<TBaseType>(baseType) : null;
         }
-        #endregion
     }
 }

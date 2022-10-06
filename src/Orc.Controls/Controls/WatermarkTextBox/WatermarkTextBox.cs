@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WatermarkTextBox.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-#if NET || NETCORE
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System.Windows;
     using System.Windows.Automation.Peers;
@@ -22,11 +13,8 @@ namespace Orc.Controls
     [TemplatePart(Name = "PART_WatermarkHost", Type = typeof(ContentPresenter))]
     public class WatermarkTextBox : TextBox
     {
-        #region Fields
-        private ContentPresenter _watermarkHost;
-        #endregion
+        private ContentPresenter? _watermarkHost;
 
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Windows.Controls.TextBox"/> class.
         /// </summary>
@@ -42,9 +30,7 @@ namespace Orc.Controls
         {
             this.SubscribeToDependencyProperty(nameof(Padding), OnPaddingChanged);
         }
-        #endregion
 
-        #region Properties
         /// <summary>
         /// Gets or sets a value indicating whether all text should be selected when the control receives the focus.
         /// </summary>
@@ -68,7 +54,7 @@ namespace Orc.Controls
         /// </summary>
         /// <value>The watermark.</value>
         /// <remarks></remarks>
-        public object Watermark
+        public object? Watermark
         {
             get { return GetValue(WatermarkProperty); }
             set { SetValue(WatermarkProperty, value); }
@@ -86,9 +72,9 @@ namespace Orc.Controls
         /// </summary>
         /// <value>The watermark template.</value>
         /// <remarks></remarks>
-        public DataTemplate WatermarkTemplate
+        public DataTemplate? WatermarkTemplate
         {
-            get { return (DataTemplate)GetValue(WatermarkTemplateProperty); }
+            get { return (DataTemplate?)GetValue(WatermarkTemplateProperty); }
             set { SetValue(WatermarkTemplateProperty, value); }
         }
 
@@ -97,9 +83,7 @@ namespace Orc.Controls
         /// </summary>
         public static readonly DependencyProperty WatermarkTemplateProperty = DependencyProperty.Register(nameof(WatermarkTemplate),
             typeof(DataTemplate), typeof(WatermarkTextBox), new PropertyMetadata(null));
-        #endregion
 
-        #region Methods
         /// <summary>
         /// Invoked whenever an unhandled <c>System.Windows.Input.Keyboard.GotKeyboardFocus</c> attached routed event reaches an element derived from this class in its route. Implement this method to add class handling for this event.
         /// </summary>
@@ -140,7 +124,7 @@ namespace Orc.Controls
             base.OnApplyTemplate();
         }
 
-        private void OnPaddingChanged(object sender, DependencyPropertyValueChangedEventArgs e)
+        private void OnPaddingChanged(object? sender, DependencyPropertyValueChangedEventArgs e)
         {
             UpdateWaterMarkMargin();
         }
@@ -161,7 +145,5 @@ namespace Orc.Controls
         {
             return new WatermarkTextBoxAutomationPeer(this);
         }
-        #endregion
     }
 }
-#endif

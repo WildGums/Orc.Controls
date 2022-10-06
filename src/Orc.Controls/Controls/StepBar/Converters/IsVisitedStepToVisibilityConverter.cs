@@ -11,7 +11,7 @@
         {
         }
 
-        protected override bool IsVisible(object value, Type targetType, object parameter)
+        protected override bool IsVisible(object? value, Type targetType, object? parameter)
         {
             var state = StepBarItemStates.None;
 

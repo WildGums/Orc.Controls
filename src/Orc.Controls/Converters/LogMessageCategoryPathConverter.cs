@@ -33,7 +33,7 @@ namespace Orc.Controls.Converters
         #endregion
 
         #region Methods
-        protected override object Convert(string value, Type targetType, object parameter)
+        protected override object? Convert(string? value, Type targetType, object? parameter)
         {
             return PathCache.TryGetValue(value, out var geometry) ? geometry : null;
         }

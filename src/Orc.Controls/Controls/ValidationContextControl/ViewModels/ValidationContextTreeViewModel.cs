@@ -1,52 +1,36 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationContextTreeViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Catel;
     using Catel.Collections;
     using Catel.Data;
     using Catel.MVVM;
 
     public class ValidationContextTreeViewModel : ViewModelBase
     {
-        #region Fields
         private readonly IValidationNamesService _validationNamesService;
-        #endregion
 
-        #region Constructors
         public ValidationContextTreeViewModel(IValidationNamesService validationNamesService)
         {
-            Argument.IsNotNull(() => validationNamesService);
+            ArgumentNullException.ThrowIfNull(validationNamesService);
 
             _validationNamesService = validationNamesService;
 
-            if (ValidationResultTags is null)
-            {
-                ValidationResultTags = new FastObservableCollection<ValidationResultTagNode>();
-            }
+            ValidationResultTags = new FastObservableCollection<ValidationResultTagNode>();
+            Filter = string.Empty;
         }
-        #endregion
 
-        #region Properties
         public bool IsExpandedByDefault { get; set; }
         public string Filter { get; set; }
-        public IValidationContext ValidationContext { get; set; }
+        public IValidationContext? ValidationContext { get; set; }
         public bool ShowWarnings { get; set; }
         public bool ShowErrors { get; set; }
 
         public FastObservableCollection<ValidationResultTagNode> ValidationResultTags { get; }
         public IEnumerable<IValidationContextTreeNode> Nodes => ValidationResultTags.OfType<IValidationContextTreeNode>();
-        #endregion
 
-        #region Methods
         protected override async Task InitializeAsync()
         {
             await base.InitializeAsync();
@@ -116,6 +100,5 @@ namespace Orc.Controls
                 tagNode.ApplyFilter(ShowErrors, ShowWarnings, Filter);
             }
         }
-        #endregion
     }
 }

@@ -25,7 +25,7 @@
         #region Methods
         public static Rect GetScreenRect(this FrameworkElement frameworkElement)
         {
-            Argument.IsNotNull(() => frameworkElement);
+            ArgumentNullException.ThrowIfNull(frameworkElement);
 
             if (!frameworkElement.IsVisible)
             {
@@ -37,7 +37,7 @@
 
         public static IEditableControl TryGetEditableControl(this FrameworkElement frameworkElement)
         {
-            Argument.IsNotNull(() => frameworkElement);
+            ArgumentNullException.ThrowIfNull(frameworkElement);
 
             if (frameworkElement is IEditableControl editableControl)
             {
@@ -52,8 +52,8 @@
 
         public static Point GetCenterPointInRoot(this FrameworkElement frameworkElement, FrameworkElement root)
         {
-            Argument.IsNotNull(() => frameworkElement);
-            Argument.IsNotNull(() => root);
+            ArgumentNullException.ThrowIfNull(frameworkElement);
+            ArgumentNullException.ThrowIfNull(root);
 
             var lowerThumbRelativePoint = frameworkElement.TransformToAncestor(root)
                 .Transform(new Point(0, 0));
@@ -63,7 +63,7 @@
 
         public static IControlToolManager GetControlToolManager(this FrameworkElement frameworkElement)
         {
-            Argument.IsNotNull(() => frameworkElement);
+            ArgumentNullException.ThrowIfNull(frameworkElement);
 
             return ControlToolManagerFactory.GetOrCreateManager(frameworkElement);
         }
@@ -81,8 +81,8 @@
 
         public static void AttachAndOpenTool(this FrameworkElement frameworkElement, Type toolType, object parameter = null)
         {
-            Argument.IsNotNull(() => frameworkElement);
-            Argument.IsNotNull(() => toolType);
+            ArgumentNullException.ThrowIfNull(frameworkElement);
+            ArgumentNullException.ThrowIfNull(toolType);
 
             var tool = frameworkElement.AttachTool(toolType) as IControlTool;
             tool?.Open(parameter);
@@ -91,7 +91,7 @@
         public static void AttachAndOpenTool<T>(this FrameworkElement frameworkElement, object parameter = null)
             where T : class, IControlTool
         {
-            Argument.IsNotNull(() => frameworkElement);
+            ArgumentNullException.ThrowIfNull(frameworkElement);
 
             frameworkElement?.AttachTool<T>()?.Open(parameter);
         }
@@ -105,7 +105,7 @@
         public static T AttachTool<T>(this FrameworkElement frameworkElement)
             where T : class, IControlTool
         {
-            Argument.IsNotNull(() => frameworkElement);
+            ArgumentNullException.ThrowIfNull(frameworkElement);
 
             return frameworkElement.AttachTool(typeof(T)) as T;
         }

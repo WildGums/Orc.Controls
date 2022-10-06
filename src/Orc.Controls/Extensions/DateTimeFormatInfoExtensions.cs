@@ -22,8 +22,8 @@ namespace Orc.Controls
         #region Methods
         public static int GetCountOfMatches(this DateTimeFormatInfo formatInfo, DateTimeFormatInfo otherFormatInfo)
         {
-            Argument.IsNotNull(() => formatInfo);
-            Argument.IsNotNull(() => otherFormatInfo);
+            ArgumentNullException.ThrowIfNull(formatInfo);
+            ArgumentNullException.ThrowIfNull(otherFormatInfo);
 
             var properties = typeof(DateTimeFormatInfo).GetProperties();
             var matches = 0;
@@ -40,7 +40,7 @@ namespace Orc.Controls
 
         public static bool IsCorrect(this DateTimeFormatInfo formatInfo, bool isDateRequired, bool isTimeAllowed, out string errorMessage)
         {
-            Argument.IsNotNull(() => formatInfo);
+            ArgumentNullException.ThrowIfNull(formatInfo);
 
             errorMessage = string.Empty;
             var missingFields = new List<string>();
@@ -139,8 +139,8 @@ namespace Orc.Controls
 
         public static void SetDayFormat(this DateTimeFormatInfo formatInfo, string part, int position, bool throwException = true)
         {
-            Argument.IsNotNull(() => formatInfo);
-            Argument.IsNotNull(() => part);
+            ArgumentNullException.ThrowIfNull(formatInfo);
+            ArgumentNullException.ThrowIfNull(part);
 
             if (formatInfo.DayFormat is not null)
             {
@@ -158,8 +158,8 @@ namespace Orc.Controls
 
         public static void SetMonthFormat(this DateTimeFormatInfo formatInfo, string part, int position, bool throwException = true)
         {
-            Argument.IsNotNull(() => formatInfo);
-            Argument.IsNotNull(() => part);
+            ArgumentNullException.ThrowIfNull(formatInfo);
+            ArgumentNullException.ThrowIfNull(part);
 
             if (formatInfo.MonthFormat is not null)
             {
@@ -177,8 +177,8 @@ namespace Orc.Controls
 
         public static void SetYearFormat(this DateTimeFormatInfo formatInfo, string part, int position, bool throwException = true)
         {
-            Argument.IsNotNull(() => formatInfo);
-            Argument.IsNotNull(() => part);
+            ArgumentNullException.ThrowIfNull(formatInfo);
+            ArgumentNullException.ThrowIfNull(part);
 
             if (formatInfo.YearFormat is not null)
             {
@@ -198,8 +198,8 @@ namespace Orc.Controls
 
         public static void SetMinuteFormat(this DateTimeFormatInfo formatInfo, string part, int position, bool throwException = true)
         {
-            Argument.IsNotNull(() => formatInfo);
-            Argument.IsNotNull(() => part);
+            ArgumentNullException.ThrowIfNull(formatInfo);
+            ArgumentNullException.ThrowIfNull(part);
 
             if (formatInfo.MinuteFormat is not null)
             {
@@ -217,8 +217,8 @@ namespace Orc.Controls
 
         public static void SetHourFormat(this DateTimeFormatInfo formatInfo, string part, int position, bool throwException = true)
         {
-            Argument.IsNotNull(() => formatInfo);
-            Argument.IsNotNull(() => part);
+            ArgumentNullException.ThrowIfNull(formatInfo);
+            ArgumentNullException.ThrowIfNull(part);
 
             if (formatInfo.HourFormat is not null)
             {
@@ -242,8 +242,8 @@ namespace Orc.Controls
 
         public static void SetSecondFormat(this DateTimeFormatInfo formatInfo, string part, int position, bool throwException = true)
         {
-            Argument.IsNotNull(() => formatInfo);
-            Argument.IsNotNull(() => part);
+            ArgumentNullException.ThrowIfNull(formatInfo);
+            ArgumentNullException.ThrowIfNull(part);
 
             if (formatInfo.SecondFormat is not null)
             {
@@ -261,8 +261,8 @@ namespace Orc.Controls
 
         public static void SetAmPmFormat(this DateTimeFormatInfo formatInfo, string part, int position, bool throwException = true)
         {
-            Argument.IsNotNull(() => formatInfo);
-            Argument.IsNotNull(() => part);
+            ArgumentNullException.ThrowIfNull(formatInfo);
+            ArgumentNullException.ThrowIfNull(part);
 
             if (formatInfo.AmPmFormat is not null)
             {
@@ -282,7 +282,7 @@ namespace Orc.Controls
 
         public static void SetSeparator(this DateTimeFormatInfo formatInfo, string part, int position)
         {
-            Argument.IsNotNull(() => formatInfo);
+            ArgumentNullException.ThrowIfNull(formatInfo);
 
             switch (position)
             {
@@ -335,8 +335,8 @@ namespace Orc.Controls
 
         public static bool CheckYearFormat(this DateTimeFormatInfo formatInfo, string partValue, out string errorMessage)
         {
-            Argument.IsNotNull(() => formatInfo);
-            Argument.IsNotNull(() => partValue);
+            ArgumentNullException.ThrowIfNull(formatInfo);
+            ArgumentNullException.ThrowIfNull(partValue);
 
             errorMessage = string.Empty;
             switch (formatInfo.YearFormat.Length)
@@ -378,8 +378,8 @@ namespace Orc.Controls
 
         public static bool CheckMonthFormat(this DateTimeFormatInfo formatInfo, string partValue, out string errorMessage)
         {
-            Argument.IsNotNull(() => formatInfo);
-            Argument.IsNotNull(() => partValue);
+            ArgumentNullException.ThrowIfNull(formatInfo);
+            ArgumentNullException.ThrowIfNull(partValue);
 
             errorMessage = string.Empty;
             switch (formatInfo.MonthFormat.Length)
@@ -415,8 +415,8 @@ namespace Orc.Controls
 
         public static bool CheckDayFormat(this DateTimeFormatInfo formatInfo, string partValue, out string errorMessage)
         {
-            Argument.IsNotNull(() => formatInfo);
-            Argument.IsNotNull(() => partValue);
+            ArgumentNullException.ThrowIfNull(formatInfo);
+            ArgumentNullException.ThrowIfNull(partValue);
 
             errorMessage = string.Empty;
             switch (formatInfo.DayFormat.Length)
@@ -455,8 +455,8 @@ namespace Orc.Controls
 
         public static bool CheckHourFormat(this DateTimeFormatInfo formatInfo, string partValue, out string errorMessage)
         {
-            Argument.IsNotNull(() => formatInfo);
-            Argument.IsNotNull(() => partValue);
+            ArgumentNullException.ThrowIfNull(formatInfo);
+            ArgumentNullException.ThrowIfNull(partValue);
 
             errorMessage = string.Empty;
             switch (formatInfo.HourFormat.Length)
@@ -481,8 +481,8 @@ namespace Orc.Controls
 
         public static bool CheckMinuteFormat(this DateTimeFormatInfo formatInfo, string partValue, out string errorMessage)
         {
-            Argument.IsNotNull(() => formatInfo);
-            Argument.IsNotNull(() => partValue);
+            ArgumentNullException.ThrowIfNull(formatInfo);
+            ArgumentNullException.ThrowIfNull(partValue);
 
             errorMessage = string.Empty;
             switch (formatInfo.MinuteFormat.Length)
@@ -506,8 +506,8 @@ namespace Orc.Controls
 
         public static bool CheckSecondFormat(this DateTimeFormatInfo formatInfo, string partValue, out string errorMessage)
         {
-            Argument.IsNotNull(() => formatInfo);
-            Argument.IsNotNull(() => partValue);
+            ArgumentNullException.ThrowIfNull(formatInfo);
+            ArgumentNullException.ThrowIfNull(partValue);
 
             errorMessage = string.Empty;
             switch (formatInfo.SecondFormat.Length)
@@ -530,8 +530,8 @@ namespace Orc.Controls
 
         public static bool CheckIsAmPmShortFormat(this DateTimeFormatInfo formatInfo, string partValue, out string errorMessage)
         {
-            Argument.IsNotNull(() => formatInfo);
-            Argument.IsNotNull(() => partValue);
+            ArgumentNullException.ThrowIfNull(formatInfo);
+            ArgumentNullException.ThrowIfNull(partValue);
 
             errorMessage = string.Empty;
             switch (formatInfo.IsAmPmShortFormat)

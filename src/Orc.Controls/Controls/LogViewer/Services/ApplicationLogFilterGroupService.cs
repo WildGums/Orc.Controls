@@ -34,8 +34,8 @@ namespace Orc.Controls
         #region Constructors
         public ApplicationLogFilterGroupService(IFileService fileService, IXmlSerializer xmlSerializer)
         {
-            Argument.IsNotNull(() => xmlSerializer);
-            Argument.IsNotNull(() => fileService);
+            ArgumentNullException.ThrowIfNull(xmlSerializer);
+            ArgumentNullException.ThrowIfNull(fileService);
 
             _xmlSerializer = xmlSerializer;
             _fileService = fileService;

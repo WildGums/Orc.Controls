@@ -1,22 +1,14 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FindReplaceSettingsExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
+    using System;
     using System.Text.RegularExpressions;
-    using Catel;
 
     public static class FindReplaceSettingsExtensions
     {
-        #region Methods
         public static Regex GetRegEx(this FindReplaceSettings settings, string textToFind, bool isLeftToRight = false)
         {
-            Argument.IsNotNull(() => textToFind);
-            Argument.IsNotNull(() => settings);
+            ArgumentNullException.ThrowIfNull(textToFind);
+            ArgumentNullException.ThrowIfNull(settings);
 
             var options = RegexOptions.None;
             if (settings.IsSearchUp && !isLeftToRight)
@@ -47,6 +39,5 @@ namespace Orc.Controls
 
             return new Regex(pattern, options);
         }
-        #endregion
     }
 }

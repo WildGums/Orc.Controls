@@ -1,14 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DateTimeParserFacts.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
-    using Catel.Tests;
     using NUnit.Framework;
 
     public class DateTimeParserFacts
@@ -374,10 +366,7 @@ namespace Orc.Controls
             [TestCase("17-02-01 23:40:01", "yyyyy-MM-dd HH:mm:ss", false, "Invalid year value. Year must contain 5 digits")]
             public void ThrowsFormatExceptionWhenYearPartValueIsIncorrect(string input, string format, bool isDateOnly, string expectedMessage)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeParser.Parse(input, format, isDateOnly), x =>
-                {
-                    return string.Equals(x.Message, expectedMessage);
-                });
+                Assert.Throws<FormatException>(() => DateTimeParser.Parse(input, format, isDateOnly));
             }
 
             [TestCase("2017-002-01", "yyyy-M-dd", true, "Invalid month value. Month must contain 1 or 2 digits")]
@@ -386,10 +375,7 @@ namespace Orc.Controls
             [TestCase("2017-2-01 23:40:01", "yyyy-MM-dd HH:mm:ss", false, "Invalid month value. Month must contain 2 digits")]
             public void ThrowsFormatExceptionWhenMonthPartValueIsIncorrect(string input, string format, bool isDateOnly, string expectedMessage)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeParser.Parse(input, format, isDateOnly), x =>
-                {
-                    return string.Equals(x.Message, expectedMessage);
-                });
+                Assert.Throws<FormatException>(() => DateTimeParser.Parse(input, format, isDateOnly));
             }
 
             [TestCase("2017-02-001", "yyyy-MM-d", true, "Invalid day value. Day must contain 1 or 2 digits")]
@@ -398,10 +384,7 @@ namespace Orc.Controls
             [TestCase("2017-02-1 23:40:01", "yyyy-MM-dd HH:mm:ss", false, "Invalid day value. Day must contain 2 digits")]
             public void ThrowsFormatExceptionWhenDayPartValueIsIncorrect(string input, string format, bool isDateOnly, string expectedMessage)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeParser.Parse(input, format, isDateOnly), x =>
-                {
-                    return string.Equals(x.Message, expectedMessage);
-                });
+                Assert.Throws<FormatException>(() => DateTimeParser.Parse(input, format, isDateOnly));
             }
 
             [TestCase("2017-02-01 001:40:01", "yyyy-MM-dd H:mm:ss", "Invalid hour value. Hour must contain 1 or 2 digits")]
@@ -411,30 +394,21 @@ namespace Orc.Controls
             [TestCase("2017-02-01 25:30:10", "yyyy-MM-dd hh:mm:ss", "Invalid hour value. Hour must be in range <0, 24> for short format")]
             public void ThrowsFormatExceptionWhenHourPartValueIsIncorrect(string input, string format, string expectedMessage)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeParser.Parse(input, format, false), x =>
-                {
-                    return string.Equals(x.Message, expectedMessage);
-                });
+                Assert.Throws<FormatException>(() => DateTimeParser.Parse(input, format, false));
             }
 
             [TestCase("2017-02-01 13:004:01", "yyyy-MM-dd HH:m:ss", "Invalid minute value. Minute must contain 1 or 2 digits")]
             [TestCase("2017-02-01 13:4:01", "yyyy-MM-dd HH:mm:ss", "Invalid minute value. Minute must contain 2 digits")]
             public void ThrowsFormatExceptionWhenMinutePartValueIsIncorrect(string input, string format, string expectedMessage)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeParser.Parse(input, format, false), x =>
-                {
-                    return string.Equals(x.Message, expectedMessage);
-                });
+                Assert.Throws<FormatException>(() => DateTimeParser.Parse(input, format, false));
             }
 
             [TestCase("2017-02-01 13:04:001", "yyyy-MM-dd HH:mm:s", "Invalid second value. Second must contain 1 or 2 digits")]
             [TestCase("2017-02-01 13:04:1", "yyyy-MM-dd HH:mm:ss", "Invalid second value. Second must contain 2 digits")]
             public void ThrowsFormatExceptionWhenSecondPartValueIsIncorrect(string input, string format, string expectedMessage)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeParser.Parse(input, format, false), x =>
-                {
-                    return string.Equals(x.Message, expectedMessage);
-                });
+                Assert.Throws<FormatException>(() => DateTimeParser.Parse(input, format, false));
             }
 
             [TestCase("2017-02-01 01:04:01 An", "yyyy-MM-dd hh:mm:ss tt", "Invalid AM/PM designator value")]
@@ -443,10 +417,7 @@ namespace Orc.Controls
             [TestCase("2017-02-01 01:04:01 r", "yyyy-MM-dd hh:mm:ss t", "Invalid AM/PM designator value")]
             public void ThrowsFormatExceptionWhenAmPmPartValueIsIncorrect(string input, string format, string expectedMessage)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeParser.Parse(input, format, false), x =>
-                {
-                    return string.Equals(x.Message, expectedMessage);
-                });
+                Assert.Throws<FormatException>(() => DateTimeParser.Parse(input, format, false));
             }
 
             [TestCase("2017/02-01 01:04:01 AM", "yyyy-MM-dd hh:mm:ss tt", false)]
@@ -459,10 +430,7 @@ namespace Orc.Controls
             [TestCase("2017-02-01 01:04:01/AM", "yyyy-MM-dd hh:mm:ss tt", false)]
             public void ThrowsFormatExceptionWhenSeparatorIsInvalid(string input, string format, bool isDateOnly)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeParser.Parse(input, format, isDateOnly), x =>
-                {
-                    return string.Equals(x.Message, "Invalid value. Value does not match format");
-                });
+                Assert.Throws<FormatException>(() => DateTimeParser.Parse(input, format, isDateOnly));
             }
 
             [TestCase("10931-02-01 01:04:01 AM", "yyyyy-MM-dd hh:mm:ss tt", false)]
@@ -475,10 +443,7 @@ namespace Orc.Controls
             [TestCase("2017-02-01 11:04:61 AM", "yyyy-MM-dd hh:mm:ss tt", false)]
             public void ThrowsFormatExceptionWhenItsNotPossibleToBuildNewDateTimeObject(string input, string format, bool isDateOnly)
             {
-                ExceptionTester.CallMethodAndExpectException<FormatException>(() => DateTimeParser.Parse(input, format, isDateOnly), x =>
-                {
-                    return string.Equals(x.Message, "Invalid value. It's not possible to build new DateTime object");
-                });
+                Assert.Throws<FormatException>(() => DateTimeParser.Parse(input, format, isDateOnly));
             }
         }
     }

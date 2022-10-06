@@ -1,18 +1,9 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PredefinedDateRanges.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
-    using Catel;
 
     public static class PredefinedDateRanges
     {
-        #region Properties
         public static DateRange Today
         {
             get
@@ -23,7 +14,7 @@ namespace Orc.Controls
 
                 return new DateRange
                 {
-                    Name = LanguageHelper.GetString("Controls_DateRangePicker_Today"),
+                    Name = LanguageHelper.GetRequiredString("Controls_DateRangePicker_Today"),
                     Start = today,
                     End = now
                 };
@@ -41,7 +32,7 @@ namespace Orc.Controls
 
                 return new DateRange
                 {
-                    Name = LanguageHelper.GetString("Controls_DateRangePicker_Yesterday"),
+                    Name = LanguageHelper.GetRequiredString("Controls_DateRangePicker_Yesterday"),
                     Start = yesterday,
                     End = today
                 };
@@ -63,7 +54,7 @@ namespace Orc.Controls
 
                 return new DateRange
                 {
-                    Name = LanguageHelper.GetString("Controls_DateRangePicker_ThisWeek"),
+                    Name = LanguageHelper.GetRequiredString("Controls_DateRangePicker_ThisWeek"),
                     Start = fdow,
                     End = now
                 };
@@ -80,7 +71,7 @@ namespace Orc.Controls
 
                 return new DateRange
                 {
-                    Name = LanguageHelper.GetString("Controls_DateRangePicker_ThisMonth"),
+                    Name = LanguageHelper.GetRequiredString("Controls_DateRangePicker_ThisMonth"),
                     Start = fdom,
                     End = now
                 };
@@ -103,7 +94,7 @@ namespace Orc.Controls
 
                 return new DateRange
                 {
-                    Name = LanguageHelper.GetString("Controls_DateRangePicker_LastWeek"),
+                    Name = LanguageHelper.GetRequiredString("Controls_DateRangePicker_LastWeek"),
                     Start = fdolw,
                     End = fdow
                 };
@@ -121,12 +112,11 @@ namespace Orc.Controls
 
                 return new DateRange
                 {
-                    Name = LanguageHelper.GetString("Controls_DateRangePicker_LastMonth"),
+                    Name = LanguageHelper.GetRequiredString("Controls_DateRangePicker_LastMonth"),
                     Start = fdolm,
                     End = fdom
                 };
             }
         }
-        #endregion
     }
 }

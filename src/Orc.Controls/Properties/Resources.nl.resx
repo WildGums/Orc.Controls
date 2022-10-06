@@ -360,4 +360,52 @@
   <data name="Controls_LogViewer_LogFilterGroupEditor_LogFilters" xml:space="preserve">
     <value>Log filters</value>
   </data>
+  <data name="Controls_DateRangePicker_Adj_Duration" xml:space="preserve">
+    <value>Adjust duration</value>
+  </data>
+  <data name="Controls_DateRangePicker_Adj_End_Time" xml:space="preserve">
+    <value>Adjust end time</value>
+  </data>
+  <data name="Controls_DateRangePicker_Adj_Strategy_Lbl" xml:space="preserve">
+    <value>Time adjustment strategy:</value>
+  </data>
+  <data name="Controls_DateRangePicker_Duration_NotLess_Zero_Validation" xml:space="preserve">
+    <value>Duration can't be less than zero</value>
+  </data>
+  <data name="Controls_DateRangePicker_EndDate_NotLess_StartDate_Validation" xml:space="preserve">
+    <value>End date can't be less than Start date</value>
+  </data>
+  <data name="Controls_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Controls_TimePickerControl_Button_Content_Now" xml:space="preserve">
+    <value>Now</value>
+  </data>
+  <data name="Controls_TimePickerControl_Button_Content_SelectTime" xml:space="preserve">
+    <value>Select time</value>
+  </data>
+  <data name="Controls_TimePickerControl_Button_Content_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Controls_TimePickerControl_Button_Content_Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Controls_TimePickerControl_Button_Content_Paste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="Controls_DateTimePicker_Button_Content_SelectTime" xml:space="preserve">
+    <value>Select time</value>
+  </data>
+  <data name="Controls_LogMessageCategoryToggleButton_Text_Debug" xml:space="preserve">
+    <value>Debug</value>
+  </data>
+  <data name="Controls_LogMessageCategoryToggleButton_Text_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Controls_LogMessageCategoryToggleButton_Text_Info" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="Controls_LogMessageCategoryToggleButton_Text_Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
 </root>

@@ -18,11 +18,10 @@
             InitializeComponent();
         }
 
-        #region Dependency properties
         [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public IValidationContext ValidationContext
+        public IValidationContext? ValidationContext
         {
-            get { return (IValidationContext)GetValue(ValidationContextProperty); }
+            get { return (IValidationContext?)GetValue(ValidationContextProperty); }
             set { SetValue(ValidationContextProperty, value); }
         }
 
@@ -59,7 +58,6 @@
 
         public static readonly DependencyProperty IsExpandedAllOnStartupProperty = DependencyProperty.Register(
             nameof(IsExpandedAllOnStartup), typeof(bool), typeof(ValidationContextView), new PropertyMetadata(true));
-        #endregion
 
         protected override AutomationPeer OnCreateAutomationPeer()
         {

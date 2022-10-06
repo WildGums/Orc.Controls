@@ -15,7 +15,7 @@ namespace Orc.Controls.Tools
         #region Constructors
         public ToolManagementEventArgs(IControlTool tool)
         {
-            Argument.IsNotNull(() => tool);
+            ArgumentNullException.ThrowIfNull(tool);
 
             Tool = tool;
         }

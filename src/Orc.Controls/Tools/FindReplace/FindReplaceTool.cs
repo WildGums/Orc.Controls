@@ -1,53 +1,38 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FindReplaceTool.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
+    using System;
     using System.Threading.Tasks;
-    using Catel;
     using Catel.IoC;
     using Catel.MVVM;
     using Catel.Services;
-    using Catel.Threading;
     using Services;
     using ViewModels;
 
     public class FindReplaceTool<TFindReplaceService> : ControlToolBase
         where TFindReplaceService : IFindReplaceService
     {
-        #region Fields
         private readonly FindReplaceSettings _findReplaceSettings;
         private readonly IUIVisualizerService _uiVisualizerService;
         private readonly ITypeFactory _typeFactory;
 
         private IFindReplaceService _findReplaceService;
         private FindReplaceViewModel _findReplaceViewModel;
-        #endregion
 
-        #region Constructors
         public FindReplaceTool(IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory)
         {
-            Argument.IsNotNull(() => uiVisualizerService);
-            Argument.IsNotNull(() => typeFactory);
+            ArgumentNullException.ThrowIfNull(uiVisualizerService);
+            ArgumentNullException.ThrowIfNull(typeFactory);
 
             _uiVisualizerService = uiVisualizerService;
             _typeFactory = typeFactory;
             _findReplaceSettings = new FindReplaceSettings();
         }
-        #endregion
 
-        #region Properties
         public override string Name => "FindReplaceTool";
-        #endregion
 
-        #region Methods
         public override void Attach(object target)
         {
-            Argument.IsNotNull(() => target);
+            ArgumentNullException.ThrowIfNull(target);
 
             base.Attach(target);
 
@@ -55,7 +40,7 @@ namespace Orc.Controls
             var serviceLocator = target.GetServiceLocator();
 #pragma warning restore IDISP001 // Dispose created.
 
-            _findReplaceService = serviceLocator.TryResolveType<IFindReplaceService>(target);
+            _findReplaceService = serviceLocator.ResolveType<IFindReplaceService>(target);
             if (_findReplaceService is not null)
             {
                 return;
@@ -84,7 +69,7 @@ namespace Orc.Controls
             }
         }
 
-        protected override void OnOpen(object parameter = null)
+        protected override void OnOpen(object? parameter = null)
         {
             _findReplaceViewModel = new FindReplaceViewModel(_findReplaceSettings, _findReplaceService);
 
@@ -109,12 +94,11 @@ namespace Orc.Controls
 #pragma warning restore 4014
         }
 
-        private Task OnClosedAsync(object sender, ViewModelClosedEventArgs args)
+        private Task OnClosedAsync(object? sender, ViewModelClosedEventArgs args)
         {
             Close();
 
-            return TaskHelper.Completed;
+            return Task.CompletedTask;
         }
-        #endregion
     }
 }

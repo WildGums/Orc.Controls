@@ -11,11 +11,12 @@
     {
         public StepBarViewModel()
         {
+            Items = new List<IStepBarItem>();
         }
 
         public IList<IStepBarItem> Items { get; set; }
 
-        public IStepBarItem SelectedItem { get; set; }
+        public IStepBarItem? SelectedItem { get; set; }
 
         protected override async Task InitializeAsync()
         {

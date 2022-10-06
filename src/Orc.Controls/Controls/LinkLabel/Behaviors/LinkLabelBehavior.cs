@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LinkLabelBehavior.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-#if NET || NETCORE
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     /// <summary>
     /// Available <see cref="LinkLabel"/> behaviors.
@@ -35,5 +26,3 @@ namespace Orc.Controls
         NeverUnderline
     }
 }
-
-#endif

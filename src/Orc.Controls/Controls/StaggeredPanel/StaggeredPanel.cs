@@ -229,14 +229,18 @@ namespace Orc.Controls
         private static void OnHorizontalAlignmentChanged(DependencyObject sender, DependencyPropertyChangedEventArgs dp)
         {
             var panel = sender as StaggeredPanel;
-            panel.InvalidateMeasure();
+            if (panel is not null)
+            {
+                panel.InvalidateMeasure();
+            }
         }
 
         private int GetColumnIndex(double[] columnHeights)
         {
-            int columnIndex = 0;
-            double height = columnHeights[0];
-            for (int j = 1; j < columnHeights.Length; j++)
+            var columnIndex = 0;
+            var height = columnHeights[0];
+
+            for (var j = 1; j < columnHeights.Length; j++)
             {
                 if (columnHeights[j] < height)
                 {

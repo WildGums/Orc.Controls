@@ -82,7 +82,7 @@ namespace Orc.Controls.Example.ViewModels
             DateTimeValue = null;
         }
 
-        protected override void OnPropertyChanged(AdvancedPropertyChangedEventArgs e)
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
 

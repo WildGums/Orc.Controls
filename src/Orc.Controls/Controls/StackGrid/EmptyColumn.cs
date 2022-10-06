@@ -1,18 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EmptyColumn.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
-#if NETFX_CORE
-    using global::Windows.UI.Xaml.Controls;
-#else
     using System.Windows.Controls;
-
-#endif
 
     /// <summary>
     /// Control to fill up a column in the <see cref="StackGrid"/> control. This control is just a placeholder for a grid cell.
@@ -54,9 +42,7 @@ namespace Orc.Controls
         /// </summary>
         public EmptyColumn()
         {
-#if NET || NETCORE
             Focusable = false;
-#endif
 
             Grid.SetRowSpan(this, 1);
         }

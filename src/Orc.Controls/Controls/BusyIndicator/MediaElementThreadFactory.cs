@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MediaElementThreadFactory.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-#if NET || NETCORE
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Threading;
@@ -21,13 +12,10 @@ namespace Orc.Controls
     /// </summary>
     public static class MediaElementThreadFactory
     {
-        #region Constants
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private static readonly AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
-        #endregion
 
-        #region Methods
         /// <summary>
         /// Creates the media element on worker thread.
         /// <para />
@@ -53,12 +41,16 @@ namespace Orc.Controls
             return mediaElementThreadInfo;
         }
 
-        private static void WorkerThread(object arg)
+        private static void WorkerThread(object? arg)
         {
+            var mediaElementThreadInfo = arg as MediaElementThreadInfo;
+            if (mediaElementThreadInfo is null)
+            {
+                return;
+            }
+
             try
             {
-                var mediaElementThreadInfo = (MediaElementThreadInfo)arg;
-
                 var hostVisual = mediaElementThreadInfo.HostVisual;
                 var createVisual = mediaElementThreadInfo.CreateVisual;
 
@@ -81,8 +73,5 @@ namespace Orc.Controls
                 // Ignore
             }
         }
-        #endregion
     }
 }
-
-#endif

@@ -1,35 +1,25 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationContextViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Security;
     using System.Threading.Tasks;
     using System.Windows;
-    using Catel;
     using Catel.Data;
     using Catel.MVVM;
     using Catel.Services;
 
     public class ValidationContextViewModel : ViewModelBase
     {
-        #region Fields
         private readonly IDispatcherService _dispatcherService;
         private readonly IValidationContext _injectedValidationContext;
         private readonly IProcessService _processService;
-        #endregion
 
-        #region Constructors
         public ValidationContextViewModel(IProcessService processService)
         {
-            Argument.IsNotNull(() => processService);
+            ArgumentNullException.ThrowIfNull(processService);
 
             _processService = processService;
 
@@ -44,16 +34,14 @@ namespace Orc.Controls
         public ValidationContextViewModel(ValidationContext validationContext, IProcessService processService, IDispatcherService dispatcherService)
             : this(processService)
         {
-            Argument.IsNotNull(() => dispatcherService);
+            ArgumentNullException.ThrowIfNull(dispatcherService);
 
             _injectedValidationContext = validationContext;
             _dispatcherService = dispatcherService;
         }
-        #endregion
 
-        #region Properties
         public bool IsExpandedAllOnStartup { get; set; }
-        public IValidationContext ValidationContext { get; set; }
+        public IValidationContext? ValidationContext { get; set; }
         public bool ShowErrors { get; set; } = true;
         public bool ShowWarnings { get; set; } = true;
         public int ErrorsCount { get; private set; }
@@ -70,9 +58,7 @@ namespace Orc.Controls
         public Command CollapseAll { get; }
         public Command Copy { get; }
         public Command Open { get; }
-        #endregion
 
-        #region Methods
         private void OnExpandAllExecute()
         {
             IsExpanded = true;
@@ -173,6 +159,5 @@ namespace Orc.Controls
                 _dispatcherService.BeginInvoke(() => ValidationContext = _injectedValidationContext);
             }
         }
-        #endregion
     }
 }

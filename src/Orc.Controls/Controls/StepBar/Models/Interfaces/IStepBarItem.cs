@@ -4,14 +4,14 @@
 
     public interface IStepBarItem
     {
-        string Title { get; }
+        string? Title { get; }
 
-        string Description { get; }
+        string? Description { get; }
 
         int Number { get; }
 
         StepBarItemStates State { get; set; }
 
-        ICommand Command { get; }
+        ICommand? Command { get; }
     }
 }

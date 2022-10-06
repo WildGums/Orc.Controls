@@ -1,45 +1,34 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogFilterGroupEditorViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.Threading.Tasks;
-    using Catel;
     using Catel.Data;
     using Catel.MVVM;
     using Catel.Services;
 
     public class LogFilterGroupEditorViewModel : ViewModelBase
     {
-        #region Fields
         private readonly IMessageService _messageService;
         private readonly IUIVisualizerService _uiVisualizerService;
-        #endregion
 
-        #region Constructors
         public LogFilterGroupEditorViewModel(LogFilterGroup logFilterGroup, IMessageService messageService,
             IUIVisualizerService uiVisualizerService)
         {
-            Argument.IsNotNull(() => logFilterGroup);
-            Argument.IsNotNull(() => messageService);
-            Argument.IsNotNull(() => uiVisualizerService);
+            ArgumentNullException.ThrowIfNull(logFilterGroup);
+            ArgumentNullException.ThrowIfNull(messageService);
+            ArgumentNullException.ThrowIfNull(uiVisualizerService);
 
             _messageService = messageService;
             _uiVisualizerService = uiVisualizerService;
             LogFilterGroup = logFilterGroup;
+            LogFilters = new ObservableCollection<LogFilter>();
 
             AddCommand = new TaskCommand(OnAddCommandExecuteAsync);
             EditCommand = new TaskCommand(OnEditCommandExecuteAsync, OnEditCommandCanExecute);
             RemoveCommand = new TaskCommand(OnRemoveCommandExecuteAsync, OnRemoveCommandCanExecute);
         }
-        #endregion
 
-        #region Properties
         public override string Title => LanguageHelper.GetString("Controls_LogViewer_LogFilterGroupEditor_Title");
 
         public TaskCommand AddCommand { get; }
@@ -53,12 +42,10 @@ namespace Orc.Controls
         public ObservableCollection<LogFilter> LogFilters { get; set; }
 
         [ViewModelToModel(nameof(LogFilterGroup))]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public LogFilter SelectedLogFilter { get; set; }
-        #endregion
+        public LogFilter? SelectedLogFilter { get; set; }
 
-        #region Methods
         protected override void OnValidating(IValidationContext validationContext)
         {
             if (string.IsNullOrWhiteSpace(Name))
@@ -71,7 +58,9 @@ namespace Orc.Controls
         private async Task OnAddCommandExecuteAsync()
         {
             var logFilter = new LogFilter();
-            if (await _uiVisualizerService.ShowDialogAsync<LogFilterEditorViewModel>(logFilter) ?? false)
+
+            var result = await _uiVisualizerService.ShowDialogAsync<LogFilterEditorViewModel>(logFilter);
+            if (result.DialogResult ?? false)
             {
                 LogFilters.Add(logFilter);
                 SelectedLogFilter = logFilter;
@@ -88,7 +77,8 @@ namespace Orc.Controls
         private async Task OnEditCommandExecuteAsync()
         {
             var logFilter = SelectedLogFilter;
-            if (await _uiVisualizerService.ShowDialogAsync<LogFilterEditorViewModel>(logFilter) ?? false)
+            var result = await _uiVisualizerService.ShowDialogAsync<LogFilterEditorViewModel>(logFilter);
+            if (result.DialogResult ?? false)
             {
                 // No action required
             }
@@ -111,6 +101,5 @@ namespace Orc.Controls
                 Validate(true);
             }
         }
-        #endregion
     }
 }

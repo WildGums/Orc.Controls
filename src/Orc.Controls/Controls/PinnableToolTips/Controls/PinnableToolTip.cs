@@ -32,13 +32,10 @@ namespace Orc.Controls
     [TemplatePart(Name = "PART_GripDrawing", Type = typeof(GeometryDrawing))]
     public class PinnableToolTip : ContentControl, IControlAdornerChild
     {
-        #region Constants
         private const double Epsilon = 1E-7;
 
         private static int Counter = 0;
-        #endregion
 
-        #region Fields
         private static readonly ConcurrentDictionary<UIElement, List<int>> OnFrontIdDictionary = new ConcurrentDictionary<UIElement, List<int>>();
 
         private readonly int _id;
@@ -54,12 +51,10 @@ namespace Orc.Controls
         private Point _lastPosition;
         private Size _lastSize;
         private bool _ignoreTimerStartupWhenMouseLeave;
-        private UIElement _owner;
+        private UIElement? _owner;
         private UIElement _userDefinedAdorner;
         private ToolTipTimer _timer;
-        #endregion
 
-        #region Constructors and Destructors
         /// <summary>
         /// Initializes a new instance of the <see cref="PinnableToolTip" /> class.
         /// </summary>
@@ -73,17 +68,13 @@ namespace Orc.Controls
             MouseLeave += OnPinnableToolTipMouseLeave;
             MouseDown += OnPinnableToolTipMouseDown;
         }
-        #endregion
 
-        #region Properties
         /// <summary>
         /// Gets a value indicating whether is timer enabled.
         /// </summary>
         internal bool IsTimerEnabled => _timer is not null && _timer.IsEnabled;
-        #endregion
 
-        #region Properties
-        public UIElement Owner
+        public UIElement? Owner
         {
             get { return _owner; }
             set { _owner = value; }
@@ -166,7 +157,7 @@ namespace Orc.Controls
             typeof(PinnableToolTip), new PropertyMetadata((sender, e) => ((PinnableToolTip)sender).OnVerticalOffsetChanged()));
 
 
-        public ICommand OpenLinkCommand
+        public ICommand? OpenLinkCommand
         {
             get { return (ICommand)GetValue(OpenLinkCommandProperty); }
             set { SetValue(OpenLinkCommandProperty, value); }
@@ -184,19 +175,11 @@ namespace Orc.Controls
 
         public static readonly DependencyProperty ResizeModeProperty = DependencyProperty.Register(nameof(ResizeMode), typeof(ResizeMode),
             typeof(PinnableToolTip), new PropertyMetadata(ResizeMode.NoResize, (sender, e) => ((PinnableToolTip)sender).OnResizeModeChanged()));
-        #endregion
 
-        #region Events
-        public event EventHandler<EventArgs> IsOpenChanged;
+        public event EventHandler<EventArgs>? IsOpenChanged;
 
-        public event EventHandler<EventArgs> IsPinnedChanged;
-        #endregion
+        public event EventHandler<EventArgs>? IsPinnedChanged;
 
-        #region Commands
-
-        #endregion
-
-        #region Public Methods and Operators
         public void IgnoreTimerStartupWhenMouseLeave(bool value)
         {
             _ignoreTimerStartupWhenMouseLeave = value;
@@ -340,7 +323,7 @@ namespace Orc.Controls
             return resultOffset < 0.0 ? 0.0 : resultOffset;
         }
 
-        private FrameworkElement GetRootVisual()
+        private FrameworkElement? GetRootVisual()
         {
             switch (_owner)
             {
@@ -386,9 +369,7 @@ namespace Orc.Controls
 
             _gripDrawing = GetTemplateChild("PART_GripDrawing") as GeometryDrawing;
         }
-        #endregion
 
-        #region Methods
         private static Point CalculatePoint(IList<Point> target, PlacementMode placement, Rect plugin, double width, double height,
             IList<Point> pointArray, int index, Rect bounds)
         {
@@ -1127,6 +1108,5 @@ namespace Orc.Controls
         {
             return new PinnableToolTipAutomationPeer(this);
         }
-        #endregion
     }
 }

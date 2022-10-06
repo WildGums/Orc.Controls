@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogFilter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using Catel;
@@ -14,21 +7,23 @@ namespace Orc.Controls
 
     public class LogFilter : ModelBase
     {
-        #region Properties
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public LogFilterExpressionType ExpressionType { get; set; } = LogFilterExpressionType.Contains;
 
-        public string ExpressionValue { get; set; }
+        public string? ExpressionValue { get; set; }
 
         public LogFilterAction Action { get; set; } = LogFilterAction.Include;
 
         public LogFilterTarget Target { get; set; } = LogFilterTarget.TypeName;
-        #endregion
 
-        #region Methods
         public bool Pass(LogEntry logEntry)
         {
+            if (logEntry is null)
+            {
+                return false;
+            }
+
             var result = false;
 
             var expression = string.Empty;
@@ -85,6 +80,5 @@ namespace Orc.Controls
 
             return Action == LogFilterAction.Include ? result : !result;
         }
-        #endregion
     }
 }

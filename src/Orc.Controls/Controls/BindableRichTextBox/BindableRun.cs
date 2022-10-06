@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BindableRun.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-#if NET || NETCORE
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System.Windows;
     using System.Windows.Documents;
@@ -17,7 +8,6 @@ namespace Orc.Controls
     /// </summary>
     public class BindableRun : Run
     {
-        #region Methods
         /// <summary>
         /// Invoked when the BoundText dependency property has changed.
         /// </summary>
@@ -28,9 +18,7 @@ namespace Orc.Controls
             var typedSender = sender as BindableRun;
             typedSender?.SetCurrentValue(TextProperty, e.NewValue as string);
         }
-        #endregion
 
-        #region Dependency properties
         /// <summary>
         /// Wrapper for the BoundText dependency property.
         /// </summary>
@@ -45,7 +33,5 @@ namespace Orc.Controls
         /// </summary>
         public static readonly DependencyProperty BoundTextProperty = DependencyProperty.Register(nameof(BoundText), typeof(string),
             typeof(BindableRun), new UIPropertyMetadata(string.Empty, OnBoundTextChanged));
-        #endregion
     }
 }
-#endif

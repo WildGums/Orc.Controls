@@ -1,18 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EmptyCell.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
-#if NETFX_CORE
-    using global::Windows.UI.Xaml.Controls;
-#else
     using System.Windows.Controls;
-
-#endif
 
     /// <summary>
     /// Control to fill up a row in the <see cref="StackGrid"/> control. This control will use an entire row to fill up.
@@ -49,19 +37,15 @@ namespace Orc.Controls
     /// </example>
     public class EmptyCell : Control
     {
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="EmptyCell"/> class.
         /// </summary>
         public EmptyCell()
         {
-#if NET || NETCORE
             Focusable = false;
-#endif
 
             Grid.SetRowSpan(this, 1);
             Grid.SetColumnSpan(this, 1);
         }
-        #endregion
     }
 }

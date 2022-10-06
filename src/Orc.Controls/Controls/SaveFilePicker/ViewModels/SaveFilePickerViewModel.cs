@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SaveFilePickerViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
+    using System;
     using System.IO;
     using System.Threading.Tasks;
     using Catel;
@@ -15,11 +9,13 @@ namespace Orc.Controls
 
     public class SaveFilePickerViewModel : ViewModelBase
     {
-        #region Constructors
+        private readonly IProcessService _processService;
+        private readonly ISaveFileService _saveFileService;
+
         public SaveFilePickerViewModel(ISaveFileService saveFileService, IProcessService processService)
         {
-            Argument.IsNotNull(() => saveFileService);
-            Argument.IsNotNull(() => processService);
+            ArgumentNullException.ThrowIfNull(saveFileService);
+            ArgumentNullException.ThrowIfNull(processService);
 
             _saveFileService = saveFileService;
             _processService = processService;
@@ -28,28 +24,19 @@ namespace Orc.Controls
             SelectFile = new TaskCommand(OnSelectFileExecuteAsync);
             Clear = new Command(OnClearExecute, OnClearCanExecute);
         }
-        #endregion
 
-        #region Fields
-        private readonly IProcessService _processService;
-        private readonly ISaveFileService _saveFileService;
-        #endregion
-
-        #region Properties
         public double LabelWidth { get; set; }
 
-        public string LabelText { get; set; }
+        public string? LabelText { get; set; }
 
-        public string SelectedFile { get; set; }
+        public string? SelectedFile { get; set; }
 
-        public string InitialDirectory { get; set; }
+        public string? InitialDirectory { get; set; }
 
-        public string InitialFileName { get; set; }
+        public string? InitialFileName { get; set; }
 
-        public string Filter { get; set; }
-        #endregion
+        public string? Filter { get; set; }
 
-        #region Commands
         public Command Clear { get; }
 
         private bool OnClearCanExecute()
@@ -147,6 +134,5 @@ namespace Orc.Controls
                 }
             }
         }
-        #endregion
     }
 }
