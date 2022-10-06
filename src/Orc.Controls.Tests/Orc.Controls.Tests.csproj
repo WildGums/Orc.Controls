@@ -15,7 +15,7 @@
   <ItemGroup>
     <PackageReference Include="ApprovalTests" Version="5.7.3" />
     <PackageReference Include="Catel.Fody" Version="4.7.0" PrivateAssets="all" />
-    <PackageReference Include="FlaUI.UIA3" Version="3.2.0" />
+    <PackageReference Include="FlaUI.UIA3" Version="4.0.0" />
     <PackageReference Include="Fody" Version="6.6.3" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
