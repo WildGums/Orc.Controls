@@ -206,11 +206,11 @@ namespace Orc.Controls
         protected readonly Orc.Controls.ICalloutManager _calloutManager;
         protected readonly Catel.Configuration.IConfigurationService _configurationService;
         public CalloutWatcherBase(Orc.Controls.ICalloutManager calloutManager, Catel.Configuration.IConfigurationService configurationService) { }
-        public virtual Orc.Controls.ICallout Callout { get; }
+        public virtual Orc.Controls.ICallout? Callout { get; }
         public bool HasShown { get; }
         public System.Guid? Id { get; set; }
         public bool IsOneTimeCallout { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public System.TimeSpan ShowInterval { get; set; }
         public virtual string Version { get; }
         protected virtual System.Threading.Tasks.Task<System.DateTime?> GetLastShownUtcAsync() { }
@@ -1136,13 +1136,13 @@ namespace Orc.Controls
         public IsVisitedStepToVisibilityConverter() { }
         protected override bool IsVisible(object? value, System.Type targetType, object? parameter) { }
     }
-    [System.Windows.StyleTypedProperty(Property="HyperlinkStyle", StyleTargetType=typeof(System.Windows.Documents.Hyperlink))]
-    [System.Windows.TemplatePart(Name="PART_InnerHyperlink", Type=typeof(System.Windows.Documents.Hyperlink))]
+    [System.Windows.StyleTypedProperty(Property="HyperlinkStyle", StyleTargetType=typeof(System.Windows.Documents.Hyperlink?))]
+    [System.Windows.TemplatePart(Name="PART_InnerHyperlink", Type=typeof(System.Windows.Documents.Hyperlink?))]
     public class LinkLabel : System.Windows.Controls.Label
     {
         public static readonly System.Windows.DependencyProperty ClickBehaviorProperty;
         [System.ComponentModel.Category("Behavior")]
-        public static readonly System.Windows.RoutedEvent ClickEvent;
+        public static readonly System.Windows.RoutedEvent? ClickEvent;
         public static readonly System.Windows.DependencyProperty CommandParameterProperty;
         public static readonly System.Windows.DependencyProperty CommandProperty;
         public static readonly System.Windows.DependencyProperty CommandTargetProperty;
@@ -1151,7 +1151,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty HyperlinkStyleProperty;
         public static readonly System.Windows.DependencyProperty LinkLabelBehaviorProperty;
         [System.ComponentModel.Category("Behavior")]
-        public static readonly System.Windows.RoutedEvent RequestNavigateEvent;
+        public static readonly System.Windows.RoutedEvent? RequestNavigateEvent;
         public static readonly System.Windows.DependencyProperty UrlProperty;
         public LinkLabel() { }
         [System.ComponentModel.Bindable(true)]
@@ -1160,27 +1160,27 @@ namespace Orc.Controls
         [System.ComponentModel.Bindable(true)]
         [System.ComponentModel.Category("Action")]
         [System.Windows.Localizability(System.Windows.LocalizationCategory.NeverLocalize)]
-        public System.Windows.Input.ICommand Command { get; set; }
+        public System.Windows.Input.ICommand? Command { get; set; }
         [System.ComponentModel.Bindable(true)]
         [System.ComponentModel.Category("Action")]
         [System.Windows.Localizability(System.Windows.LocalizationCategory.NeverLocalize)]
-        public object CommandParameter { get; set; }
+        public object? CommandParameter { get; set; }
         [System.ComponentModel.Bindable(true)]
         [System.ComponentModel.Category("Action")]
-        public System.Windows.IInputElement CommandTarget { get; set; }
+        public System.Windows.IInputElement? CommandTarget { get; set; }
         public bool HasUrl { get; }
         [System.ComponentModel.Bindable(true)]
         [System.ComponentModel.Category("Brushes")]
-        public System.Windows.Media.Brush HoverForeground { get; set; }
-        public System.Windows.Style HyperlinkStyle { get; set; }
+        public System.Windows.Media.Brush? HoverForeground { get; set; }
+        public System.Windows.Style? HyperlinkStyle { get; set; }
         [System.ComponentModel.Bindable(true)]
         [System.ComponentModel.Category("Common Properties")]
         public Orc.Controls.LinkLabelBehavior LinkLabelBehavior { get; set; }
         [System.ComponentModel.Bindable(true)]
         [System.ComponentModel.Category("Common Properties")]
-        public System.Uri Url { get; set; }
-        public event System.Windows.RoutedEventHandler Click;
-        public event System.Windows.Navigation.RequestNavigateEventHandler RequestNavigate;
+        public System.Uri? Url { get; set; }
+        public event System.Windows.RoutedEventHandler? Click;
+        public event System.Windows.Navigation.RequestNavigateEventHandler? RequestNavigate;
         public override void OnApplyTemplate() { }
         protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
@@ -1476,7 +1476,7 @@ namespace Orc.Controls
     {
         public MediaElementThreadInfo(System.Windows.Media.HostVisual hostVisual, System.Func<System.Windows.Media.Visual> createVisual, System.Threading.Thread thread) { }
         public System.Func<System.Windows.Media.Visual> CreateVisual { get; }
-        public System.Windows.Threading.Dispatcher Dispatcher { get; }
+        public System.Windows.Threading.Dispatcher? Dispatcher { get; }
         public System.Windows.Media.HostVisual HostVisual { get; }
         public int Id { get; }
         public System.Threading.Thread Thread { get; }
@@ -1699,12 +1699,12 @@ namespace Orc.Controls
         public double HorizontalOffset { get; set; }
         public bool IsOpen { get; }
         public bool IsPinned { get; set; }
-        public System.Windows.Input.ICommand OpenLinkCommand { get; set; }
-        public System.Windows.UIElement Owner { get; set; }
+        public System.Windows.Input.ICommand? OpenLinkCommand { get; set; }
+        public System.Windows.UIElement? Owner { get; set; }
         public System.Windows.ResizeMode ResizeMode { get; set; }
         public double VerticalOffset { get; set; }
-        public event System.EventHandler<System.EventArgs> IsOpenChanged;
-        public event System.EventHandler<System.EventArgs> IsPinnedChanged;
+        public event System.EventHandler<System.EventArgs>? IsOpenChanged;
+        public event System.EventHandler<System.EventArgs>? IsPinnedChanged;
         public void BringToFront() { }
         public System.Windows.Point GetPosition() { }
         public void Hide() { }
@@ -1728,15 +1728,15 @@ namespace Orc.Controls
         public static int GetInitialShowDelay(System.Windows.DependencyObject element) { }
         public static bool GetIsToolTipOwner(System.Windows.DependencyObject element) { }
         public static System.Windows.Controls.Primitives.PlacementMode GetPlacement(System.Windows.DependencyObject element) { }
-        public static System.Windows.UIElement GetPlacementTarget(System.Windows.DependencyObject element) { }
+        public static System.Windows.UIElement? GetPlacementTarget(System.Windows.DependencyObject element) { }
         public static int GetShowDuration(System.Windows.DependencyObject element) { }
-        public static object GetToolTip(System.Windows.DependencyObject element) { }
+        public static object? GetToolTip(System.Windows.DependencyObject element) { }
         public static void SetInitialShowDelay(System.Windows.DependencyObject element, int value) { }
         public static void SetIsToolTipOwner(System.Windows.DependencyObject element, bool value) { }
         public static void SetPlacement(System.Windows.DependencyObject element, System.Windows.Controls.Primitives.PlacementMode value) { }
-        public static void SetPlacementTarget(System.Windows.DependencyObject element, System.Windows.UIElement value) { }
+        public static void SetPlacementTarget(System.Windows.DependencyObject element, System.Windows.UIElement? value) { }
         public static void SetShowDuration(System.Windows.DependencyObject element, int value) { }
-        public static void SetToolTip(System.Windows.DependencyObject element, object value) { }
+        public static void SetToolTip(System.Windows.DependencyObject element, object? value) { }
     }
     public class PredefinedColor : System.IEquatable<Orc.Controls.PredefinedColor>
     {
@@ -2024,7 +2024,7 @@ namespace Orc.Controls
         public TabControl() { }
         public bool IsLazyLoading { get; }
         public Orc.Controls.LoadTabItemsBehavior LoadTabItems { get; set; }
-        protected new System.Windows.Controls.TabItem GetSelectedTabItem() { }
+        protected new System.Windows.Controls.TabItem? GetSelectedTabItem() { }
         public virtual void LoadTabItem(int index) { }
         public virtual void LoadTabItem(System.Windows.Controls.ContentPresenter tabItem) { }
         public override void OnApplyTemplate() { }
@@ -2164,8 +2164,8 @@ namespace Orc.Controls
     }
     public static class TypeExtensions
     {
-        public static object ChangeTypeSafe(this System.Type convertToType, double dValue) { }
-        public static System.Type FindGenericTypeImplementation<TBaseType>(this System.Type singleGenericTypeArgument, System.Reflection.Assembly assembly = null) { }
+        public static object? ChangeTypeSafe(this System.Type convertToType, double dValue) { }
+        public static System.Type? FindGenericTypeImplementation<TBaseType>(this System.Type singleGenericTypeArgument, System.Reflection.Assembly? assembly = null) { }
         public static System.Array GetEnumValues(this System.Type enumType) { }
         public static T[] GetEnumValues<T>() { }
         public static bool IsFloatingPointType(this System.Type type) { }
@@ -2248,7 +2248,7 @@ namespace Orc.Controls
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public bool ShowFilterBox { get; set; }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
-        public Catel.Data.IValidationContext ValidationContext { get; set; }
+        public Catel.Data.IValidationContext? ValidationContext { get; set; }
         public void InitializeComponent() { }
         protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
@@ -2343,9 +2343,9 @@ namespace Orc.Controls
     public class VisualWrapper : System.Windows.FrameworkElement
     {
         public VisualWrapper() { }
-        public System.Windows.Media.Visual Child { get; set; }
+        public System.Windows.Media.Visual? Child { get; set; }
         protected override int VisualChildrenCount { get; }
-        protected override System.Windows.Media.Visual GetVisualChild(int index) { }
+        protected override System.Windows.Media.Visual? GetVisualChild(int index) { }
     }
     [System.Windows.TemplatePart(Name="PART_WatermarkHost", Type=typeof(System.Windows.Controls.ContentPresenter))]
     public class WatermarkTextBox : System.Windows.Controls.TextBox
@@ -2355,8 +2355,8 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty WatermarkTemplateProperty;
         public WatermarkTextBox() { }
         public bool SelectAllOnGotFocus { get; set; }
-        public object Watermark { get; set; }
-        public System.Windows.DataTemplate WatermarkTemplate { get; set; }
+        public object? Watermark { get; set; }
+        public System.Windows.DataTemplate? WatermarkTemplate { get; set; }
         public override void OnApplyTemplate() { }
         protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e) { }

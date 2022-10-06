@@ -8,7 +8,7 @@
     <PackageVersion>1.0.0-alpha0001</PackageVersion>
     <Description>Controls library.</Description>
     <PackageTags>orc;controls;datepicker;timepicker;textbox;connection;string;watermark;</PackageTags>
-    <Nullable>enable</Nullable>
+    <Nullable>annotations</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>

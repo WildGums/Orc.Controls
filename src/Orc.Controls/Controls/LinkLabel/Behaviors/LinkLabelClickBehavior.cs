@@ -15,4 +15,4 @@
         /// </summary>
         OpenUrlInBrowser
     }
-}7
+}

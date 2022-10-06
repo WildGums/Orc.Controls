@@ -37,7 +37,6 @@
     /// </example>
     public class EmptyCell : Control
     {
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="EmptyCell"/> class.
         /// </summary>

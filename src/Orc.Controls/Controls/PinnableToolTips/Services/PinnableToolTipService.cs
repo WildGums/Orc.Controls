@@ -15,7 +15,6 @@
     /// </summary>
     public static class PinnableToolTipService
     {
-        #region Constants
         /// <summary>
         /// The default initial show delay.
         /// </summary>
@@ -40,9 +39,7 @@
         /// The root visual.
         /// </summary>
         private static FrameworkElement? _rootVisual;
-        #endregion
 
-        #region Dependency properties
         /// <summary>
         /// The initial show delay property.
         /// </summary>
