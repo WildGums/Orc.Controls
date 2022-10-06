@@ -18,8 +18,8 @@
 
             _validationNamesService = validationNamesService;
 
-            Filter = string.Empty;
             ValidationResultTags = new FastObservableCollection<ValidationResultTagNode>();
+            Filter = string.Empty;
         }
 
         public bool IsExpandedByDefault { get; set; }

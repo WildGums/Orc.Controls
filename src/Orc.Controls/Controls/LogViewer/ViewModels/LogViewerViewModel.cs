@@ -475,7 +475,7 @@
             });
         }
 
-        private void OnLogMessage(object sender, LogMessageEventArgs e)
+        private void OnLogMessage(object? sender, LogMessageEventArgs e)
         {
             var logEntry = new LogEntry(e);
             if (!logEntry.Data.ContainsKey("ThreadId"))
