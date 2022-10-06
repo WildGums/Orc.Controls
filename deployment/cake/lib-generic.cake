@@ -513,8 +513,15 @@ private static bool IsDotNetCoreProject(BuildContext buildContext, string projec
 
 //-------------------------------------------------------------
 
-private static bool ShouldProcessProject(BuildContext buildContext, string projectName, bool checkDeployment = true)
+private static bool ShouldProcessProject(BuildContext buildContext, string projectName, 
+    bool checkDeployment = true)
 {
+    // If part of all projects, always include
+    if (buildContext.AllProjects.Contains(projectName))
+    {
+        return true;
+    }
+
     // Is this a dependency?
     if (buildContext.Dependencies.Items.Contains(projectName))
     {
@@ -556,6 +563,13 @@ private static bool ShouldProcessProject(BuildContext buildContext, string proje
         }
 
         return process;
+    }
+
+    // Is this a known project?
+    if (!buildContext.RegisteredProjects.Any(x => string.Equals(projectName, x, StringComparison.OrdinalIgnoreCase)))
+    {
+        buildContext.CakeContext.Warning("Project '{0}' should not be processed, does not exist as registered project", projectName);
+        return false;
     }
 
     if (buildContext.General.IsCiBuild)
