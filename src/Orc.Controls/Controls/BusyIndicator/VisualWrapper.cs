@@ -1,22 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="VisualWrapper.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-#if NET || NETCORE
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
-#if NETFX_CORE
-    using global::Windows.UI.Xaml;
-    using global::Windows.UI.Xaml.Controls;
-    using global::Windows.UI.Xaml.Markup;
-    using global::Windows.UI.Xaml.Media;
-#else
     using System.Windows;
-#endif
     using System;
     using System.Windows.Markup;
     using System.Windows.Media;
@@ -24,26 +8,21 @@ namespace Orc.Controls
     /// <summary>
     /// This visual wrapper is used by VisualTargetPresentationSource
     /// </summary>
-#if NETFX_CORE
-	[ContentProperty(Name = "Child")]
-#else
     [ContentProperty(nameof(Child))]
-#endif
     public class VisualWrapper : FrameworkElement
     {
-        private Visual _child;
+        private Visual? _child;
 
         /// <summary>w
         /// Gets or sets the child.
         /// </summary>
         /// <value>The child.</value>
-        public Visual Child
+        public Visual? Child
         {
             get
             {
                 return _child;
             }
-
             set
             {
                 if (_child is not null)
@@ -67,7 +46,7 @@ namespace Orc.Controls
         /// <returns>
         /// The requested child element. This should not return null; if the provided index is out of range, an exception is thrown.
         /// </returns>
-        protected override Visual GetVisualChild(int index)
+        protected override Visual? GetVisualChild(int index)
         {
             if (_child is not null && index == 0)
             {
@@ -90,5 +69,3 @@ namespace Orc.Controls
         }
     }
 }
-
-#endif

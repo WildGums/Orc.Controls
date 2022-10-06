@@ -1,25 +1,10 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StackGrid.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using Catel;
-#if NETFX_CORE
-    using global::Windows.UI.Xaml;
-    using global::Windows.UI.Xaml.Controls;
-
-    using UIEventArgs = global::System.Object;
-#else
     using System.Windows;
     using System.Windows.Controls;
     using UIEventArgs = System.EventArgs;
-
-#endif
 
     /// <summary>
     /// A grid-like control that allows a developer to specify the rows and columns, but gives the freedom
@@ -59,11 +44,8 @@ namespace Orc.Controls
     /// </example>
     public class StackGrid : Grid
     {
-        #region Fields
         private bool _isInitialized;
-        #endregion
 
-        #region Constructor
         /// <summary>
         /// Initializes a new instance of the <see cref="StackGrid"/> class.
         /// </summary>
@@ -75,16 +57,10 @@ namespace Orc.Controls
             }
             else
             {
-#if NET || NETCORE
                 Initialized += OnInitialized;
-#else
-                Loaded += OnInitialized;
-#endif
             }
         }
-        #endregion
 
-        #region Method
         /// <summary>
         /// Called when the control is initialized.
         /// </summary>
@@ -93,7 +69,7 @@ namespace Orc.Controls
         /// <remarks>
         /// In the non-WPF implementation, this event is actually hooked to the <c>LayoutUpdated</c> event.
         /// </remarks>
-        private void OnInitialized(object sender, UIEventArgs e)
+        private void OnInitialized(object? sender, UIEventArgs e)
         {
             if (CatelEnvironment.IsInDesignMode)
             {
@@ -101,11 +77,7 @@ namespace Orc.Controls
             }
             else
             {
-#if NET || NETCORE
                 Initialized -= OnInitialized;
-#else
-                Loaded -= OnInitialized;
-#endif
             }
 
             FinalInitialize();
@@ -172,6 +144,5 @@ namespace Orc.Controls
                 }
             }
         }
-        #endregion
     }
 }

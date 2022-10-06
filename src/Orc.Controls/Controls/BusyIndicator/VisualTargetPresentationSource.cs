@@ -1,16 +1,5 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="VisualTargetPresentationSource.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-
-#if NET || NETCORE
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
-    using System.Security.Permissions;
     using System.Windows;
     using System.Windows.Media;
 
@@ -22,13 +11,10 @@ namespace Orc.Controls
     /// </remarks>
     public class VisualTargetPresentationSource : PresentationSource
     {
-        #region Fields
 #pragma warning disable IDISP006 // Implement IDisposable.
         private readonly VisualTarget _visualTarget;
 #pragma warning restore IDISP006 // Implement IDisposable.
-        #endregion
 
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="VisualTargetPresentationSource"/> class.
         /// </summary>
@@ -37,9 +23,7 @@ namespace Orc.Controls
         {
             _visualTarget = new VisualTarget(hostVisual);
         }
-        #endregion
 
-        #region Properties
         /// <summary>
         /// When overridden in a derived class, gets or sets the root visual being presented in the source.
         /// </summary>
@@ -84,9 +68,7 @@ namespace Orc.Controls
         {
             get { return false; }
         }
-        #endregion
-
-        #region Methods
+  
         /// <summary>
         /// When overridden in a derived class, returns a visual target for the given source.
         /// </summary>
@@ -97,8 +79,5 @@ namespace Orc.Controls
         {
             return _visualTarget;
         }
-        #endregion
     }
 }
-#endif
-

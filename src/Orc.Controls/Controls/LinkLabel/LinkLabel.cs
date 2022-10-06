@@ -1,14 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LinkLabel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-
-#if NET || NETCORE
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.ComponentModel;
@@ -23,8 +13,6 @@ namespace Orc.Controls
     using Automation;
     using Catel.Logging;
 
-
-
     /// <summary>
     /// A label looking like the known hyperlink.
     /// </summary>
@@ -32,14 +20,11 @@ namespace Orc.Controls
     [StyleTypedProperty(Property = nameof(HyperlinkStyle), StyleTargetType = typeof(Hyperlink))]
     public class LinkLabel : Label
     {
-        #region Fields
         /// <summary>
         /// The <see cref="ILog">log</see> object.
         /// </summary>
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-        #endregion
 
-        #region Constructors
         /// <summary>
         /// Initializes the <see cref="LinkLabel"/> class.
         /// </summary>
@@ -58,15 +43,13 @@ namespace Orc.Controls
         {
             Unloaded += OnLinkLabelUnloaded;
         }
-        #endregion
 
-        #region Properties
         /// <summary>
         /// Gets or sets the URL.
         /// </summary>
         /// <value>The URL.</value>
         [Category("Common Properties"), Bindable(true)]
-        public Uri Url
+        public Uri? Url
         {
             get { return GetValue(UrlProperty) as Uri; }
             set { SetValue(UrlProperty, value); }
@@ -98,7 +81,7 @@ namespace Orc.Controls
         /// Gets or sets the hyperlink style.
         /// </summary>
         /// <value>The hyperlink style.</value>
-        public Style HyperlinkStyle
+        public Style? HyperlinkStyle
         {
             get { return GetValue(HyperlinkStyleProperty) as Style; }
             set { SetValue(HyperlinkStyleProperty, value); }
@@ -115,7 +98,7 @@ namespace Orc.Controls
         /// </summary>
         /// <value>The hover foreground.</value>
         [Category("Brushes"), Bindable(true)]
-        public Brush HoverForeground
+        public Brush? HoverForeground
         {
             get { return GetValue(HoverForegroundProperty) as Brush; }
             set { SetValue(HoverForegroundProperty, value); }
@@ -167,7 +150,7 @@ namespace Orc.Controls
         /// </summary>
         /// <value>The command parameter.</value>
         [Localizability(LocalizationCategory.NeverLocalize), Bindable(true), Category("Action")]
-        public object CommandParameter
+        public object? CommandParameter
         {
             get { return GetValue(CommandParameterProperty); }
             set { SetValue(CommandParameterProperty, value); }
@@ -184,7 +167,7 @@ namespace Orc.Controls
         /// </summary>
         /// <value>The command.</value>
         [Localizability(LocalizationCategory.NeverLocalize), Bindable(true), Category("Action")]
-        public ICommand Command
+        public ICommand? Command
         {
             get { return (ICommand)GetValue(CommandProperty); }
             set { SetValue(CommandProperty, value); }
@@ -201,7 +184,7 @@ namespace Orc.Controls
         /// </summary>
         /// <value>The command target.</value>
         [Bindable(true), Category("Action")]
-        public IInputElement CommandTarget
+        public IInputElement? CommandTarget
         {
             get { return (IInputElement)GetValue(CommandTargetProperty); }
             set { SetValue(CommandTargetProperty, value); }
@@ -212,18 +195,17 @@ namespace Orc.Controls
         /// </summary>
         public static readonly DependencyProperty CommandTargetProperty =
             DependencyProperty.Register(nameof(CommandTarget), typeof(IInputElement), typeof(LinkLabel));
-        #endregion
 
-        #region Events
         /// <summary>
         /// ClickEvent
         /// </summary>
-        [Category("Behavior")] public static readonly RoutedEvent ClickEvent;
+        [Category("Behavior")] 
+        public static readonly RoutedEvent? ClickEvent;
 
         /// <summary>
         /// Occurs when [click].
         /// </summary>
-        public event RoutedEventHandler Click
+        public event RoutedEventHandler? Click
         {
             add { AddHandler(ClickEvent, value); }
             remove { RemoveHandler(ClickEvent, value); }
@@ -232,25 +214,24 @@ namespace Orc.Controls
         /// <summary>
         /// RequestNavigateEvent
         /// </summary>
-        [Category("Behavior")] public static readonly RoutedEvent RequestNavigateEvent;
+        [Category("Behavior")] 
+        public static readonly RoutedEvent? RequestNavigateEvent;
 
         /// <summary>
         /// Occurs when [request navigate].
         /// </summary>
-        public event RequestNavigateEventHandler RequestNavigate
+        public event RequestNavigateEventHandler? RequestNavigate
         {
             add { AddHandler(RequestNavigateEvent, value); }
             remove { RemoveHandler(RequestNavigateEvent, value); }
         }
-        #endregion
 
-        #region Methods
         /// <summary>
         /// Handles the Unloaded event of the LinkLabel control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
-        private void OnLinkLabelUnloaded(object sender, RoutedEventArgs e)
+        private void OnLinkLabelUnloaded(object? sender, RoutedEventArgs e)
         {
             // Clear events
             Click -= OpenBrowserBehaviorImpl;
@@ -368,7 +349,6 @@ namespace Orc.Controls
 
                 try
                 {
-#if NETCORE
                     // UseShellExecute is disabled by default in NETCORE
                     var processStartInfo = new ProcessStartInfo
                     {
@@ -379,10 +359,6 @@ namespace Orc.Controls
 #pragma warning disable IDISP004 // Don't ignore created IDisposable
                     Process.Start(processStartInfo);
 #pragma warning restore IDISP004 // Don't ignore created IDisposable
-#else
-                   //[SL:20090827] Changed hardcoded call to IE and let the OS determine what program to use.
-                    Process.Start(destinationUrl.ToString()); 
-#endif
                 }
                 catch (Win32Exception ex)
                 {
@@ -406,7 +382,6 @@ namespace Orc.Controls
                 Mouse.OverrideCursor = null;
             }
         }
-        #endregion
 
         protected override AutomationPeer OnCreateAutomationPeer()
         {
@@ -414,5 +389,3 @@ namespace Orc.Controls
         }
     }
 }
-
-#endif

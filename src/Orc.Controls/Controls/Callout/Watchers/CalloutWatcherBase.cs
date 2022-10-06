@@ -22,7 +22,7 @@
 
         public Guid? Id { get; protected set; }
 
-        public string Name { get; protected set; }
+        public string? Name { get; protected set; }
 
         public virtual string Version => "1.0.0";
 
@@ -32,18 +32,18 @@
 
         public TimeSpan ShowInterval { get; protected set; }
 
-        public virtual ICallout Callout
+        public virtual ICallout? Callout
         {
             get
             {
-                ICallout callout = null;
+                ICallout? callout = null;
 
                 if (Id.HasValue)
                 {
                     callout = _calloutManager.FindCallout(Id.Value);
                 }
 
-                if (callout is null)
+                if (callout is null && Name is not null)
                 {
                     callout = _calloutManager.FindCallout(Name);
                 }

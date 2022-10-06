@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PinnableToolTipService.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -14,6 +7,7 @@ namespace Orc.Controls
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
+    using System.Xml.Linq;
     using Catel.Windows;
 
     /// <summary>
@@ -45,7 +39,7 @@ namespace Orc.Controls
         /// <summary>
         /// The root visual.
         /// </summary>
-        private static FrameworkElement _rootVisual;
+        private static FrameworkElement? _rootVisual;
         #endregion
 
         #region Dependency properties
@@ -90,9 +84,7 @@ namespace Orc.Controls
         /// </summary>
         private static readonly Dictionary<UIElement, PinnableToolTip> ElementsAndToolTips =
             new Dictionary<UIElement, PinnableToolTip>();
-        #endregion
 
-        #region Properties
         /// <summary>
         ///     Gets the mouse position.
         /// </summary>
@@ -118,7 +110,7 @@ namespace Orc.Controls
         /// <summary>
         ///     Gets the root visual.
         /// </summary>
-        internal static FrameworkElement RootVisual
+        internal static FrameworkElement? RootVisual
         {
             get
             {
@@ -136,9 +128,7 @@ namespace Orc.Controls
                 }
             }
         }
-        #endregion
 
-        #region Methods
         /// <summary>
         /// The get initial show delay.
         /// </summary>
@@ -164,7 +154,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>The <see cref="UIElement" />.</returns>
-        public static UIElement GetPlacementTarget(DependencyObject element)
+        public static UIElement? GetPlacementTarget(DependencyObject element)
         {
             return (UIElement)element.GetValue(PlacementTargetProperty);
         }
@@ -184,7 +174,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>The <see cref="object" />.</returns>
-        public static object GetToolTip(DependencyObject element)
+        public static object? GetToolTip(DependencyObject element)
         {
             return element.GetValue(ToolTipProperty);
         }
@@ -224,7 +214,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="element">The element.</param>
         /// <param name="value">The value.</param>
-        public static void SetPlacementTarget(DependencyObject element, UIElement value)
+        public static void SetPlacementTarget(DependencyObject element, UIElement? value)
         {
             element.SetValue(PlacementTargetProperty, value);
         }
@@ -244,7 +234,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="element">The element.</param>
         /// <param name="value">The value.</param>
-        public static void SetToolTip(DependencyObject element, object value)
+        public static void SetToolTip(DependencyObject element, object? value)
         {
             element.SetValue(ToolTipProperty, value);
         }
@@ -274,10 +264,16 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private static void FrameworkElementUnloaded(object sender, RoutedEventArgs e)
+        private static void FrameworkElementUnloaded(object? sender, RoutedEventArgs e)
         {
-            var element = (UIElement)sender;
-            PinnableToolTip toolTip = null;
+            var element = sender as UIElement;
+            if (element is null)
+            {
+                return;
+            }
+
+            PinnableToolTip? toolTip = null;
+
             lock (Locker)
             {
                 if (ElementsAndToolTips.ContainsKey(element))
@@ -294,15 +290,21 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private static void OnControlEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private static void OnControlEnabledChanged(object? sender, DependencyPropertyChangedEventArgs e)
         {
+            var element = sender as UIElement;
+            if (element is null)
+            {
+                return;
+            }
+
             if ((bool)e.NewValue)
             {
                 return;
             }
 
-            var element = (UIElement)sender;
-            PinnableToolTip toolTip = null;
+            PinnableToolTip? toolTip = null;
+
             lock (Locker)
             {
                 if (ElementsAndToolTips.ContainsKey(element))
@@ -319,14 +321,19 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private static void OnElementMouseEnter(object sender, MouseEventArgs e)
+        private static void OnElementMouseEnter(object? sender, MouseEventArgs e)
         {
-            FrameworkElement currentElement;
-            PinnableToolTip toolTip = null;
+            var element = sender as FrameworkElement;
+            if (element is null)
+            {
+                return;
+            }
+
+            var currentElement = element;
+            PinnableToolTip? toolTip = null;
 
             lock (Locker)
             {
-                currentElement = sender as FrameworkElement;
                 if (currentElement is not null)
                 {
                     if (ElementsAndToolTips.ContainsKey(currentElement))
@@ -361,9 +368,9 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private static void OnElementMouseLeave(object sender, MouseEventArgs e)
+        private static void OnElementMouseLeave(object? sender, MouseEventArgs e)
         {
-            PinnableToolTip toolTip = null;
+            PinnableToolTip? toolTip = null;
 
             lock (Locker)
             {
@@ -400,7 +407,7 @@ namespace Orc.Controls
         {
             var element = (UIElement)d;
 
-            PinnableToolTip toolTip = null;
+            PinnableToolTip? toolTip = null;
             lock (Locker)
             {
                 if (ElementsAndToolTips.ContainsKey(element))
@@ -424,7 +431,7 @@ namespace Orc.Controls
         {
             var element = (UIElement)d;
 
-            PinnableToolTip toolTip = null;
+            PinnableToolTip? toolTip = null;
             lock (Locker)
             {
                 if (ElementsAndToolTips.ContainsKey(element))
@@ -444,7 +451,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private static void OnRootVisualMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private static void OnRootVisualMouseLeftButtonDown(object? sender, MouseButtonEventArgs e)
         {
             lock (Locker)
             {
@@ -465,7 +472,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private static void OnRootVisualMouseMove(object sender, MouseEventArgs e)
+        private static void OnRootVisualMouseMove(object? sender, MouseEventArgs e)
         {
             MousePosition = e.GetPosition(null);
         }
@@ -477,14 +484,20 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private static void OnIsToolTipOwnerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            var element = d as UIElement;
+            if (element is null)
+            {
+                return;
+            }
+
             if (e.OldValue is not null)
             {
-                UnregisterToolTip(d as UIElement);
+                UnregisterToolTip(element);
             }
 
             if ((e.NewValue is not null) && ((bool)e.NewValue))
             {
-                RegisterToolTip(d as UIElement, null);
+                RegisterToolTip(element, null);
             }
         }
 
@@ -495,14 +508,20 @@ namespace Orc.Controls
         /// <param name="e">The e.</param>
         private static void OnToolTipChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            var element = d as UIElement;
+            if (element is null)
+            {
+                return;
+            }
+
             if (e.OldValue is not null)
             {
-                UnregisterToolTip(d as UIElement);
+                UnregisterToolTip(element);
             }
 
             if (e.NewValue is not null)
             {
-                RegisterToolTip(d as UIElement, e.NewValue);
+                RegisterToolTip(element, e.NewValue);
             }
         }
 
@@ -511,7 +530,7 @@ namespace Orc.Controls
         /// </summary>
         /// <param name="owner">The owner.</param>
         /// <param name="p">The p.</param>
-        private static void RegisterToolTip(UIElement owner, object p)
+        private static void RegisterToolTip(UIElement owner, object? p)
         {
             if (owner is null)
             {
@@ -526,12 +545,8 @@ namespace Orc.Controls
                 }
             }
 
-            PinnableToolTip toolTip = null;
-            if (p is not null)
-            {
-                toolTip = p as PinnableToolTip ?? ConvertToToolTip(p);
-                toolTip.Owner = owner;
-            }
+            var toolTip = p as PinnableToolTip ?? ConvertToToolTip(p);
+            toolTip.Owner = owner;
 
             if (owner is FrameworkElement element)
             {
@@ -643,6 +658,5 @@ namespace Orc.Controls
                 // Ignore
             }
         }
-        #endregion
     }
 }

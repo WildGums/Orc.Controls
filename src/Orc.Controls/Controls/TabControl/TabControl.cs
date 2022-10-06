@@ -25,9 +25,7 @@
                 (sender, e) => ((TabControl)sender).OnLoadTabItemsChanged()));
 
         private readonly ConditionalWeakTable<object, object> _wrappedContainers = new ConditionalWeakTable<object, object>();
-        private Panel _itemsHolder;
-
-#if NET || NETCORE
+        private Panel? _itemsHolder;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TabControl"/>.class.
@@ -36,8 +34,6 @@
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(TabControl), new FrameworkPropertyMetadata(typeof(TabControl)));
         }
-
-#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Windows.Controls.TabControl"/>.class.
@@ -96,7 +92,7 @@
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        private void OnItemContainerGeneratorStatusChanged(object sender, EventArgs e)
+        private void OnItemContainerGeneratorStatusChanged(object? sender, EventArgs e)
         {
             if (ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated)
             {
@@ -124,7 +120,17 @@
         /// <param name="index">the index of the tab item to load.</param>
         public virtual void LoadTabItem(int index)
         {
+            if (_itemsHolder is null)
+            {
+                return;
+            }
+
             var child = _itemsHolder.Children[index] as ContentPresenter;
+            if (child is null)
+            {
+                return;
+            }
+
             LoadTabItem(child);
         }
 
@@ -192,7 +198,7 @@
             InitializeItems();
         }
 
-        private void OnSelectedItemChanged(object sender, DependencyPropertyValueChangedEventArgs e)
+        private void OnSelectedItemChanged(object? sender, DependencyPropertyValueChangedEventArgs e)
         {
             UpdateItems();
         }
@@ -230,6 +236,11 @@
 
         private void EagerInitializeAllTabs()
         {
+            if (_itemsHolder is null)
+            {
+                return;
+            }
+
             foreach (ContentPresenter child in _itemsHolder.Children)
             {
                 InitializeTab(child);
@@ -239,7 +250,12 @@
         private void InitializeTab(ContentPresenter child)
         {
             var tabControlItemData = child.Tag as TabControlItemData;
-            var tabItem = tabControlItemData?.TabItem;
+            if (tabControlItemData is null)
+            {
+                return;
+            }
+
+            var tabItem = tabControlItemData.TabItem;
             if (tabItem is null)
             {
                 return;
@@ -274,7 +290,12 @@
         private void EagerLoadTab(ContentPresenter child)
         {
             var tabControlItemData = child.Tag as TabControlItemData;
-            var tabItem = tabControlItemData?.TabItem;
+            if (tabControlItemData is null)
+            {
+                return;
+            }
+
+            var tabItem = tabControlItemData.TabItem;
             if (tabItem is not null)
             {
                 ShowChildContent(child, tabControlItemData);
@@ -322,6 +343,11 @@
         {
             var itemsToHide = new Dictionary<ContentPresenter, TabControlItemData>();
 
+            if (_itemsHolder is null)
+            {
+                return itemsToHide;
+            }
+
             foreach (ContentPresenter child in _itemsHolder.Children)
             {
                 if (child.Tag is not TabControlItemData tabControlItemData)
@@ -356,6 +382,11 @@
         /// <param name="item">The item.</param>
         private void CreateChildContentPresenter(object item)
         {
+            if (_itemsHolder is null)
+            {
+                return;
+            }
+
             if (item is null)
             {
                 return;
@@ -455,7 +486,7 @@
         /// </summary>
         /// <param name="data">The data.</param>
         /// <returns></returns>
-        private ContentPresenter FindChildContentPresenter(object data)
+        private ContentPresenter? FindChildContentPresenter(object data)
         {
             if (data is null)
             {
@@ -474,7 +505,7 @@
         /// Copied from TabControl; wish it were protected in that class instead of private.
         /// </summary>
         /// <returns></returns>
-        protected TabItem GetSelectedTabItem()
+        protected TabItem? GetSelectedTabItem()
         {
             var selectedItem = SelectedItem;
             if (selectedItem is null)

@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LinkLabelClickBehavior.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-#if NET || NETCORE
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     /// <summary>
     /// Available <see cref="LinkLabel"/> clickevent behaviors.
@@ -24,6 +15,4 @@ namespace Orc.Controls
         /// </summary>
         OpenUrlInBrowser
     }
-}
-
-#endif
+}7
