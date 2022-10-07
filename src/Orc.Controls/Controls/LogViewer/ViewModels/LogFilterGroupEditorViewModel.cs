@@ -3,6 +3,7 @@
     using System;
     using System.Collections.ObjectModel;
     using System.Threading.Tasks;
+    using Catel;
     using Catel.Data;
     using Catel.MVVM;
     using Catel.Services;
@@ -29,7 +30,7 @@
             RemoveCommand = new TaskCommand(OnRemoveCommandExecuteAsync, OnRemoveCommandCanExecute);
         }
 
-        public override string Title => LanguageHelper.GetString("Controls_LogViewer_LogFilterGroupEditor_Title");
+        public override string Title => LanguageHelper.GetRequiredString("Controls_LogViewer_LogFilterGroupEditor_Title");
 
         public TaskCommand AddCommand { get; }
         public TaskCommand EditCommand { get; }

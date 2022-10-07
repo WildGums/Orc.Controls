@@ -407,42 +407,6 @@ namespace Orc.Controls
         public void InitializeComponent() { }
         protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
-    [System.Obsolete("Use DateTimePicker instead. Will be removed in version 5.0.0.", true)]
-    [System.Windows.TemplatePart(Name="PART_ClearButton", Type=typeof(System.Windows.Controls.Button))]
-    [System.Windows.TemplatePart(Name="PART_CopyButton", Type=typeof(System.Windows.Controls.Button))]
-    [System.Windows.TemplatePart(Name="PART_DatePickerIconToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
-    [System.Windows.TemplatePart(Name="PART_DaysMonthsSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
-    [System.Windows.TemplatePart(Name="PART_DaysNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
-    [System.Windows.TemplatePart(Name="PART_DaysToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
-    [System.Windows.TemplatePart(Name="PART_MainGrid", Type=typeof(System.Windows.Controls.Grid))]
-    [System.Windows.TemplatePart(Name="PART_MonthNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
-    [System.Windows.TemplatePart(Name="PART_MonthToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
-    [System.Windows.TemplatePart(Name="PART_MonthsYearSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
-    [System.Windows.TemplatePart(Name="PART_PasteButton", Type=typeof(System.Windows.Controls.Button))]
-    [System.Windows.TemplatePart(Name="PART_SelectDateButton", Type=typeof(System.Windows.Controls.Button))]
-    [System.Windows.TemplatePart(Name="PART_TodayButton", Type=typeof(System.Windows.Controls.Button))]
-    [System.Windows.TemplatePart(Name="PART_YearNumericTextBox", Type=typeof(Orc.Controls.NumericTextBox))]
-    [System.Windows.TemplatePart(Name="PART_YearSeparatorTextBlock", Type=typeof(System.Windows.Controls.TextBlock))]
-    [System.Windows.TemplatePart(Name="PART_YearToggleButton", Type=typeof(System.Windows.Controls.Primitives.ToggleButton))]
-    public class DatePicker : System.Windows.Controls.Control
-    {
-        public static readonly System.Windows.DependencyProperty AllowCopyPasteProperty;
-        public static readonly System.Windows.DependencyProperty AllowNullProperty;
-        public static readonly System.Windows.DependencyProperty FormatProperty;
-        public static readonly System.Windows.DependencyProperty IsReadOnlyProperty;
-        public static readonly System.Windows.DependencyProperty IsYearShortFormatProperty;
-        public static readonly System.Windows.DependencyProperty ShowOptionsButtonProperty;
-        public static readonly System.Windows.DependencyProperty ValueProperty;
-        public DatePicker() { }
-        public bool AllowCopyPaste { get; set; }
-        public bool AllowNull { get; set; }
-        public string Format { get; set; }
-        public bool IsReadOnly { get; set; }
-        public bool IsYearShortFormat { get; }
-        public bool ShowOptionsButton { get; set; }
-        public System.DateTime? Value { get; set; }
-        public override void OnApplyTemplate() { }
-    }
     public class DateRange : Catel.Data.ModelBase
     {
         public static readonly Catel.Data.IPropertyData EndProperty;
@@ -1180,7 +1144,7 @@ namespace Orc.Controls
         [System.ComponentModel.Category("Common Properties")]
         public System.Uri? Url { get; set; }
         public event System.Windows.RoutedEventHandler? Click;
-        public event System.Windows.Navigation.RequestNavigateEventHandler? RequestNavigate;
+        public event System.Windows.Navigation.RequestNavigateEventHandler RequestNavigate;
         public override void OnApplyTemplate() { }
         protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
@@ -1561,7 +1525,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty NullStringProperty;
         public static readonly System.Windows.DependencyProperty ValueProperty;
         public NumericTextBox() { }
-        public System.Globalization.CultureInfo CultureInfo { get; set; }
+        public System.Globalization.CultureInfo? CultureInfo { get; set; }
         public string Format { get; set; }
         public bool IsChangeValueByUpDownKeyEnabled { get; set; }
         public bool IsDecimalAllowed { get; set; }
@@ -1569,11 +1533,11 @@ namespace Orc.Controls
         public bool IsNullValueAllowed { get; set; }
         public double MaxValue { get; set; }
         public double MinValue { get; set; }
-        public string NullString { get; set; }
+        public string? NullString { get; set; }
         public double? Value { get; set; }
-        public event System.EventHandler LeftBoundReached;
-        public event System.EventHandler RightBoundReached;
-        public event System.EventHandler ValueChanged;
+        public event System.EventHandler? LeftBoundReached;
+        public event System.EventHandler? RightBoundReached;
+        public event System.EventHandler? ValueChanged;
         protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e) { }
         protected override void OnPreviewTextInput(System.Windows.Input.TextCompositionEventArgs e) { }
@@ -2391,12 +2355,12 @@ namespace Orc.Controls.Automation
     [Orc.Automation.ActiveAutomationModel]
     public class AlignmentGridModel : Orc.Automation.FrameworkElementModel
     {
-        public static readonly Catel.Data.IPropertyData HorizontalStepProperty;
-        public static readonly Catel.Data.IPropertyData LineBrushProperty;
-        public static readonly Catel.Data.IPropertyData VerticalStepProperty;
+        public static readonly Catel.Data.IPropertyData? HorizontalStepProperty;
+        public static readonly Catel.Data.IPropertyData? LineBrushProperty;
+        public static readonly Catel.Data.IPropertyData? VerticalStepProperty;
         public AlignmentGridModel(Orc.Automation.AutomationElementAccessor accessor) { }
         public double HorizontalStep { get; set; }
-        public System.Windows.Media.Brush LineBrush { get; set; }
+        public System.Windows.Media.Brush? LineBrush { get; set; }
         public double VerticalStep { get; set; }
     }
     [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.AnimatedGif))]
@@ -2411,9 +2375,9 @@ namespace Orc.Controls.Automation
     [Orc.Automation.ActiveAutomationModel]
     public class AnimatedGifModel : Orc.Automation.FrameworkElementModel
     {
-        public static readonly Catel.Data.IPropertyData GifSourceProperty;
+        public static readonly Catel.Data.IPropertyData? GifSourceProperty;
         public AnimatedGifModel(Orc.Automation.AutomationElementAccessor accessor) { }
-        public string GifSource { get; set; }
+        public string? GifSource { get; set; }
     }
     [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.AnimatingTextBlock))]
     public class AnimatingTextBlock : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.AnimatingTextBlockModel>
@@ -2427,9 +2391,9 @@ namespace Orc.Controls.Automation
     [Orc.Automation.ActiveAutomationModel]
     public class AnimatingTextBlockModel : Orc.Automation.FrameworkElementModel
     {
-        public static readonly Catel.Data.IPropertyData TextProperty;
+        public static readonly Catel.Data.IPropertyData? TextProperty;
         public AnimatingTextBlockModel(Orc.Automation.AutomationElementAccessor accessor) { }
-        public string Text { get; set; }
+        public string? Text { get; set; }
     }
     [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.BindableRichTextBox))]
     public class BindableRichTextBox : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.BindableRichTextBoxModel>
@@ -2443,11 +2407,11 @@ namespace Orc.Controls.Automation
     [Orc.Automation.ActiveAutomationModel]
     public class BindableRichTextBoxModel : Orc.Automation.FrameworkElementModel
     {
-        public static readonly Catel.Data.IPropertyData AutoScrollToEndProperty;
-        public static readonly Catel.Data.IPropertyData BindableDocumentProperty;
+        public static readonly Catel.Data.IPropertyData? AutoScrollToEndProperty;
+        public static readonly Catel.Data.IPropertyData? BindableDocumentProperty;
         public BindableRichTextBoxModel(Orc.Automation.AutomationElementAccessor accessor) { }
         public bool AutoScrollToEnd { get; set; }
-        public System.Windows.Documents.FlowDocument BindableDocument { get; set; }
+        public System.Windows.Documents.FlowDocument? BindableDocument { get; set; }
     }
     [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.BusyIndicator))]
     public class BusyIndicator : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.BusyIndicatorModel>
@@ -2461,10 +2425,10 @@ namespace Orc.Controls.Automation
     [Orc.Automation.ActiveAutomationModel]
     public class BusyIndicatorModel : Orc.Automation.FrameworkElementModel
     {
-        public static readonly Catel.Data.IPropertyData ForegroundProperty;
-        public static readonly Catel.Data.IPropertyData IgnoreUnloadedEventCountProperty;
+        public static readonly Catel.Data.IPropertyData? ForegroundProperty;
+        public static readonly Catel.Data.IPropertyData? IgnoreUnloadedEventCountProperty;
         public BusyIndicatorModel(Orc.Automation.AutomationElementAccessor accessor) { }
-        public System.Windows.Media.SolidColorBrush Foreground { get; set; }
+        public System.Windows.Media.SolidColorBrush? Foreground { get; set; }
         public int IgnoreUnloadedEventCount { get; set; }
     }
     [Orc.Automation.AutomatedControl(Class=typeof(Orc.Controls.ColorBoard))]
@@ -3843,11 +3807,11 @@ namespace Orc.Controls.Tools
     public interface IControlToolManager
     {
         System.Collections.Generic.IList<Orc.Controls.IControlTool> Tools { get; }
-        event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolAttached;
-        event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolClosed;
-        event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolDetached;
-        event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpened;
-        event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpening;
+        event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolAttached;
+        event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolClosed;
+        event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolDetached;
+        event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolOpened;
+        event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolOpening;
         object AttachTool(System.Type toolType);
         bool CanAttachTool(System.Type toolType);
         bool DetachTool(System.Type toolType);

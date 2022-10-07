@@ -1,6 +1,7 @@
 ﻿namespace Orc.Controls
 {
     using System;
+    using Catel;
 
     public static class PredefinedDateRanges
     {
