@@ -366,30 +366,6 @@
   <data name="Controls_TimeSpanPicker_TextBlock_Text_SecondsAbbreviation" xml:space="preserve">
     <value>s</value>
   </data>
-  <data name="Controls_DatePicker_Button_Content_Clear" xml:space="preserve">
-    <value>Clear</value>
-  </data>
-  <data name="Controls_DatePicker_Button_Content_Copy" xml:space="preserve">
-    <value>Copy</value>
-  </data>
-  <data name="Controls_DatePicker_Button_Content_Paste" xml:space="preserve">
-    <value>Paste</value>
-  </data>
-  <data name="Controls_DatePicker_Button_Content_SelectDate" xml:space="preserve">
-    <value>Select date</value>
-  </data>
-  <data name="Controls_DatePicker_Button_Content_Today" xml:space="preserve">
-    <value>Today</value>
-  </data>
-  <data name="Controls_DatePicker_ToggleButton_Content_DayAbbreviation" xml:space="preserve">
-    <value>d</value>
-  </data>
-  <data name="Controls_DatePicker_ToggleButton_Content_MonthAbbreviation" xml:space="preserve">
-    <value>m</value>
-  </data>
-  <data name="Controls_DatePicker_ToggleButton_Content_YearAbbreviation" xml:space="preserve">
-    <value>y</value>
-  </data>
   <data name="Controls_DateTimePicker_Button_Content_Clear" xml:space="preserve">
     <value>Clear</value>
   </data>
