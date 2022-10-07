@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Catel;
     using Catel.Collections;
     using Catel.Data;
 
@@ -30,11 +31,11 @@
             switch (ResultType)
             {
                 case ValidationResultType.Error:
-                    DisplayName = LanguageHelper.GetString("Controls_ValidationContextControl_Errors");
+                    DisplayName = LanguageHelper.GetRequiredString("Controls_ValidationContextControl_Errors");
                     break;
 
                 case ValidationResultType.Warning:
-                    DisplayName = LanguageHelper.GetString("Controls_ValidationContextControl_Warnings");
+                    DisplayName = LanguageHelper.GetRequiredString("Controls_ValidationContextControl_Warnings");
                     break;
             }
         }

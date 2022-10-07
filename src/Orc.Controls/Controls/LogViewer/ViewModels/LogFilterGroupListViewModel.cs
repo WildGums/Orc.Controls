@@ -4,6 +4,7 @@
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Threading.Tasks;
+    using Catel;
     using Catel.Collections;
     using Catel.MVVM;
     using Catel.Services;
@@ -118,7 +119,7 @@
 
         private async Task OnRemoveCommandExecuteAsync()
         {
-            var result = await _messageService.ShowAsync(LanguageHelper.GetString("Controls_LogViewer_AreYouSure"),
+            var result = await _messageService.ShowAsync(LanguageHelper.GetRequiredString("Controls_LogViewer_AreYouSure"),
                 button: MessageButton.YesNo, icon: MessageImage.Warning);
             if (result == MessageResult.Yes)
             {

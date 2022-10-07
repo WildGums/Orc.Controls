@@ -25,7 +25,7 @@
 
             if (!_controlToolManagers.TryGetValue(frameworkElement, out var manager))
             {
-                manager = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<ControlToolManager>(frameworkElement);
+                manager = _typeFactory.CreateRequiredInstanceWithParametersAndAutoCompletion<ControlToolManager>(frameworkElement);
                 frameworkElement.Unloaded += OnFrameworkElementUnloaded;
             }
 

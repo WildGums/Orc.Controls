@@ -169,7 +169,7 @@
         [Localizability(LocalizationCategory.NeverLocalize), Bindable(true), Category("Action")]
         public ICommand? Command
         {
-            get { return (ICommand)GetValue(CommandProperty); }
+            get { return (ICommand?)GetValue(CommandProperty); }
             set { SetValue(CommandProperty, value); }
         }
 
@@ -186,7 +186,7 @@
         [Bindable(true), Category("Action")]
         public IInputElement? CommandTarget
         {
-            get { return (IInputElement)GetValue(CommandTargetProperty); }
+            get { return (IInputElement?)GetValue(CommandTargetProperty); }
             set { SetValue(CommandTargetProperty, value); }
         }
 
@@ -220,7 +220,7 @@
         /// <summary>
         /// Occurs when [request navigate].
         /// </summary>
-        public event RequestNavigateEventHandler? RequestNavigate
+        public event RequestNavigateEventHandler RequestNavigate
         {
             add { AddHandler(RequestNavigateEvent, value); }
             remove { RemoveHandler(RequestNavigateEvent, value); }
@@ -337,7 +337,7 @@
                 return;
             }
 
-            var destinationUrl = hyperlinkSender is not null ? hyperlinkSender.NavigateUri : linklabelSender.Url;
+            var destinationUrl = hyperlinkSender?.NavigateUri ?? linklabelSender?.Url;
             if (destinationUrl is null || string.IsNullOrEmpty(destinationUrl.ToString()))
             {
                 return;

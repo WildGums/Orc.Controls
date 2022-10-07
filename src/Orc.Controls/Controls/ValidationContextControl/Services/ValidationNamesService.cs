@@ -100,25 +100,33 @@
         protected virtual string ExtractTagName(IValidationResult validationResult)
         {
             var tag = validationResult.Tag;
-            if (ReferenceEquals(tag, null))
+            if (tag is not null)
             {
-                return _languageService.GetString("Controls_ValidationContextControl_Misc");
+                var stringValue = tag as string;
+                if (!string.IsNullOrWhiteSpace(stringValue))
+                {
+                    return stringValue;
+                }
+
+                var type = tag.GetType();
+                var nameProperty = type.GetPropertyEx("Name");
+                if (nameProperty is not null)
+                {
+                    var nameValue = (string?)nameProperty.GetValue(tag, Array.Empty<object>());
+                    if (nameValue is not null)
+                    {
+                        return nameValue;
+                    }
+                }
+
+                var tagString = tag.ToString();
+                if (tagString is not null)
+                {
+                    return tagString;
+                }
             }
 
-            var stringValue = tag as string;
-            if (!string.IsNullOrWhiteSpace(stringValue))
-            {
-                return stringValue;
-            }
-
-            var type = tag.GetType();
-            var nameProperty = type.GetPropertyEx("Name");
-            if (nameProperty is not null)
-            {
-                return (string)nameProperty.GetValue(tag, new object[0]);
-            }
-
-            return tag.ToString();
+            return _languageService.GetRequiredString("Controls_ValidationContextControl_Misc");
         }
 
         protected virtual int? ExtractTagLine(IValidationResult validationResult)
@@ -144,24 +152,22 @@
             var type = tag.GetType();
 
             var lineProperty = type.GetPropertyEx("Line");
-            tagDetails.Line = lineProperty?.GetValue(tag, new object[0]) as int?;
+            tagDetails.Line = lineProperty?.GetValue(tag, Array.Empty<object>()) as int?;
 
             var columnNameProperty = type.GetPropertyEx("ColumnName");
-            tagDetails.ColumnName = columnNameProperty?.GetValue(tag, new object[0]) as string;
+            tagDetails.ColumnName = columnNameProperty?.GetValue(tag, Array.Empty<object>()) as string ?? string.Empty;
 
             var columnIndexProperty = type.GetPropertyEx("ColumnIndex");
-            tagDetails.ColumnIndex = columnIndexProperty?.GetValue(tag, new object[0]) as int?;
+            tagDetails.ColumnIndex = columnIndexProperty?.GetValue(tag, Array.Empty<object>()) as int?;
 
             return tagDetails;
         }
 
         protected class TagDetails
         {
-            #region Properties
             public int? Line { get; set; }
             public string ColumnName { get; set; } = string.Empty;
             public int? ColumnIndex { get; set; }
-            #endregion
         }
     }
 }

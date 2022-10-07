@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Catel;
     using Catel.MVVM.Converters;
 
     internal class LogMessageCategoryTextConverter : ValueConverterBase<string>

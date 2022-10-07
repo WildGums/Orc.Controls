@@ -1,13 +1,7 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ResizingAdorner.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
@@ -19,13 +13,10 @@ namespace Orc.Controls
 
     public class ResizingAdorner : Adorner
     {
-        #region Constants
         private const string HorizontalOffsetProperty = "HorizontalOffset";
         private const string VerticalOffsetProperty = "VerticalOffset";
         private const double CornerSize = 4d;
-        #endregion
 
-        #region Fields
         private readonly Thumb _bottom;
         private readonly Thumb _bottomLeft;
         private readonly Thumb _bottomRight;
@@ -40,9 +31,7 @@ namespace Orc.Controls
         private bool _hasCanvas;
         private bool _hasHorizontalOffset;
         private bool _hasVerticalOffset;
-        #endregion
 
-        #region Constructors
         private ResizingAdorner(FrameworkElement adornedElement)
             : base(adornedElement)
         {
@@ -57,13 +46,9 @@ namespace Orc.Controls
             BuildAdornerElement(ref _bottom, Cursors.SizeNS);
             BuildAdornerElement(ref _bottomLeft, Cursors.SizeNESW);
         }
-        #endregion
 
-        #region Properties
         protected override int VisualChildrenCount => _visualChildren.Count;
-        #endregion
 
-        #region Methods
         public static ResizingAdorner Attach(FrameworkElement element)
         {
             ArgumentNullException.ThrowIfNull(element);
@@ -396,7 +381,7 @@ namespace Orc.Controls
             thumb.Arrange(new Rect(left, right, thumb.Width, thumb.Height));
         }
 
-        private void BuildAdornerElement(ref Thumb thumb, Cursor customizedCursor)
+        private void BuildAdornerElement([NotNull]ref Thumb? thumb, Cursor customizedCursor)
         {
             if (thumb is not null)
             {
@@ -461,6 +446,5 @@ namespace Orc.Controls
         {
             return _visualChildren[index];
         }
-        #endregion
     }
 }

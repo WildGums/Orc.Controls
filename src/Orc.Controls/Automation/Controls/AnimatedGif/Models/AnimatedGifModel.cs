@@ -10,6 +10,6 @@
         {
         }
 
-        public string GifSource { get; set; }
+        public string? GifSource { get; set; }
     }
 }

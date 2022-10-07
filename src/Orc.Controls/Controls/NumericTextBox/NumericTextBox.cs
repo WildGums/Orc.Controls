@@ -52,7 +52,6 @@
         private bool _textChangingIsInProgress = true;
         private bool _suspendTextChanged = false;
 
-        #region Constructors
         static NumericTextBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericTextBox), new FrameworkPropertyMetadata(typeof(NumericTextBox)));
@@ -70,12 +69,10 @@
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
         }
-        #endregion
 
-        #region Properties
-        public string NullString
+        public string? NullString
         {
-            get { return (string)GetValue(NullStringProperty); }
+            get { return (string?)GetValue(NullStringProperty); }
             set { SetValue(NullStringProperty, value); }
         }
 
@@ -83,9 +80,9 @@
             nameof(NullString), typeof(string), typeof(NumericTextBox), new PropertyMetadata(default(string)));
 
 
-        public CultureInfo CultureInfo
+        public CultureInfo? CultureInfo
         {
-            get { return (CultureInfo)GetValue(CultureInfoProperty); }
+            get { return (CultureInfo?)GetValue(CultureInfoProperty); }
             set { SetValue(CultureInfoProperty, value); }
         }
 
@@ -171,24 +168,18 @@
 
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(double?),
             typeof(NumericTextBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (sender, e) => ((NumericTextBox)sender).OnValueChanged()));
-        #endregion
+  
+        public event EventHandler? RightBoundReached;
+        public event EventHandler? LeftBoundReached;
+        public event EventHandler? ValueChanged;
 
-        #region Events
-        public event EventHandler RightBoundReached;
-        public event EventHandler LeftBoundReached;
-        public event EventHandler ValueChanged;
-        #endregion
-
-        #region Properties
         private bool AllTextSelected => SelectedText == Text;
 
         private bool CaretAtStart => CaretIndex == 0;
 
         private bool CaretAtEnd => CaretIndex == Text.Length;
-        #endregion
 
-        #region Methods
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        private void OnLoaded(object? sender, RoutedEventArgs e)
         {
             AddHandler(PreviewMouseLeftButtonDownEvent, _selectivelyIgnoreMouseButtonDelegate, true);
             AddHandler(GotKeyboardFocusEvent, _selectAllTextDelegate, true);
@@ -197,7 +188,7 @@
             DataObject.AddPastingHandler(this, OnPaste);
         }
 
-        private void OnUnloaded(object sender, RoutedEventArgs e)
+        private void OnUnloaded(object? sender, RoutedEventArgs e)
         {
             RemoveHandler(PreviewMouseLeftButtonDownEvent, _selectivelyIgnoreMouseButtonDelegate);
             RemoveHandler(GotKeyboardFocusEvent, _selectAllTextDelegate);
@@ -232,7 +223,7 @@
             return value;
         }
 
-        private void OnPaste(object sender, DataObjectPastingEventArgs e)
+        private void OnPaste(object? sender, DataObjectPastingEventArgs e)
         {
             if (e.DataObject.GetDataPresent(typeof(string)))
             {
@@ -346,7 +337,7 @@
             return inputValue <= MaxValue && inputValue >= MinValue;
         }
 
-        private void OnLostFocus(object sender, RoutedEventArgs e)
+        private void OnLostFocus(object? sender, RoutedEventArgs e)
         {
             SetCurrentValue(ValueProperty, GetDoubleValue(Text));
 
@@ -357,7 +348,7 @@
             }
         }
         
-        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        private void OnTextChanged(object? sender, TextChangedEventArgs e)
         {
             ArgumentNullException.ThrowIfNull(sender);
 
@@ -572,9 +563,14 @@
             return text.ToString();
         }
 
-        private static void SelectivelyIgnoreMouseButton(object sender, MouseButtonEventArgs e)
+        private static void SelectivelyIgnoreMouseButton(object? sender, MouseButtonEventArgs e)
         {
-            DependencyObject parent = e.OriginalSource as UIElement;
+            var parent = e.OriginalSource as DependencyObject;
+            if (parent is null)
+            {
+                return;
+            }
+
             while (parent is not null and not TextBox)
             {
                 parent = VisualTreeHelper.GetParent(parent);
@@ -594,7 +590,7 @@
             e.Handled = true;
         }
 
-        private void SelectAllText(object sender, RoutedEventArgs e)
+        private void SelectAllText(object? sender, RoutedEventArgs e)
         {
             var textBox = e.OriginalSource as TextBox;
             textBox?.SelectAll();
@@ -712,6 +708,5 @@
         {
             return new NumericTextBoxAutomationPeer(this);
         }
-        #endregion
     }
 }
