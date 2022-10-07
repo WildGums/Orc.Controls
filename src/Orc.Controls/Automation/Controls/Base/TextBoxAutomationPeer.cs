@@ -31,7 +31,7 @@ public class TextBoxAutomationPeer<TControl> : AutomationControlPeerBase<TContro
     protected override string GetValueFromPattern()
     {
         var valueProvider = GetValueProvider();
-        return valueProvider?.Value;
+        return valueProvider?.Value ?? string.Empty;
     }
 
     protected override void SetValuePatternInvoke(string value)
@@ -40,7 +40,7 @@ public class TextBoxAutomationPeer<TControl> : AutomationControlPeerBase<TContro
         valueProvider?.SetValue(value);
     }
 
-    private IValueProvider GetValueProvider()
+    private IValueProvider? GetValueProvider()
     {
         var textBoxAutomationPeer = new TextBoxAutomationPeer(Control);
         return textBoxAutomationPeer.GetPattern(PatternInterface.Value) as IValueProvider;

@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PinnableToolTip.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-//#define TRACE_DETAILS
+﻿//#define TRACE_DETAILS
 
 namespace Orc.Controls
 {
@@ -40,20 +34,20 @@ namespace Orc.Controls
 
         private readonly int _id;
 
-        private Button _closeButton;
-        private FrameworkElement _dragGrip;
-        private GeometryDrawing _gripDrawing;
-        private ControlAdorner _adorner;
-        private ControlAdornerDragDrop _adornerDragDrop;
-        private ResizingAdorner _adornerResizing;
-        private AdornerLayer _adornerLayer;
+        private Button? _closeButton;
+        private FrameworkElement? _dragGrip;
+        private GeometryDrawing? _gripDrawing;
+        private ControlAdorner? _adorner;
+        private ControlAdornerDragDrop? _adornerDragDrop;
+        private ResizingAdorner? _adornerResizing;
+        private AdornerLayer? _adornerLayer;
         private bool _isPositionCalculated;
         private Point _lastPosition;
         private Size _lastSize;
         private bool _ignoreTimerStartupWhenMouseLeave;
         private UIElement? _owner;
-        private UIElement _userDefinedAdorner;
-        private ToolTipTimer _timer;
+        private UIElement? _userDefinedAdorner;
+        private ToolTipTimer? _timer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PinnableToolTip" /> class.
@@ -159,7 +153,7 @@ namespace Orc.Controls
 
         public ICommand? OpenLinkCommand
         {
-            get { return (ICommand)GetValue(OpenLinkCommandProperty); }
+            get { return (ICommand?)GetValue(OpenLinkCommandProperty); }
             set { SetValue(OpenLinkCommandProperty, value); }
         }
 
@@ -1022,7 +1016,7 @@ namespace Orc.Controls
             RegisterBeingMovedOut();
         }
 
-        private UIElement GetAdornerElement()
+        private UIElement? GetAdornerElement()
         {
             if (_userDefinedAdorner is not null)
             {

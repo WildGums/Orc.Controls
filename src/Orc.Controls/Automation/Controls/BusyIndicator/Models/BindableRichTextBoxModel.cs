@@ -11,7 +11,7 @@ public class BusyIndicatorModel : FrameworkElementModel
     {
     }
 
-    public SolidColorBrush Foreground { get; set; }
+    public SolidColorBrush? Foreground { get; set; }
 
     public int IgnoreUnloadedEventCount { get; set; }
 }

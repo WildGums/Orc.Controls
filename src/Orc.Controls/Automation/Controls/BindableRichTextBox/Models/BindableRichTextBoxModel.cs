@@ -11,7 +11,7 @@ public class BindableRichTextBoxModel : FrameworkElementModel
     {
     }
 
-    public FlowDocument BindableDocument { get; set; }
+    public FlowDocument? BindableDocument { get; set; }
 
     public bool AutoScrollToEnd { get; set; }
 }

@@ -7,21 +7,19 @@
 
     public class ColorLegendItemSerializerModifier : SerializerModifierBase<ColorLegendItem>
     {
-        #region Constants
         private const char ArgbSeparator = ';';
-        #endregion
 
-        #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-        #endregion
 
-        #region Methods
         public override void SerializeMember(ISerializationContext context, MemberValue memberValue)
         {
             if (string.Equals(nameof(ColorLegendItem.Color), memberValue.Name))
             {
-                var color = (Color)memberValue.Value;
-                memberValue.Value = $"{color.A}{ArgbSeparator}{color.R}{ArgbSeparator}{color.G}{ArgbSeparator}{color.B}";
+                var color = (Color?)memberValue.Value;
+                if (color is not null)
+                {
+                    memberValue.Value = $"{color.Value.A}{ArgbSeparator}{color.Value.R}{ArgbSeparator}{color.Value.G}{ArgbSeparator}{color.Value.B}";
+                }
             }
 
             base.SerializeMember(context, memberValue);
@@ -51,6 +49,5 @@
 
             base.DeserializeMember(context, memberValue);
         }
-        #endregion
     }
 }

@@ -27,8 +27,8 @@ public class ColorBoardMap : AutomationBase
 
     private readonly ColorBoard _target;
 
-    private HsvCanvasColorBoardPart _hsvCanvas;
-    private Tab _tab;
+    private HsvCanvasColorBoardPart? _hsvCanvas;
+    private Tab? _tab;
 
     public ColorBoardMap(ColorBoard target)
         : base(target.Element)

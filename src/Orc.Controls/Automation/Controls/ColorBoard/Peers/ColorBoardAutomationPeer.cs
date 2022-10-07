@@ -20,12 +20,12 @@
             owner.CancelClicked += OnCancelClicked;
         }
 
-        private void OnCancelClicked(object sender, RoutedEventArgs e)
+        private void OnCancelClicked(object? sender, RoutedEventArgs e)
         {
             RaiseEvent(nameof(Controls.ColorBoard.CancelClicked), null);
         }
 
-        private void OnDoneClicked(object sender, RoutedEventArgs e)
+        private void OnDoneClicked(object? sender, RoutedEventArgs e)
         {
             RaiseEvent(nameof(Controls.ColorBoard.DoneClicked), null);
         }
