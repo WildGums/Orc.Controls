@@ -12,7 +12,6 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/BusyIndicator/Themes/BusyIndicator.generic.xaml"/>
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorLegend/Themes/ColorLegend.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorPicker/Themes/ColorPicker.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/DatePicker/Themes/DatePicker.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/DateTimePicker/Themes/DateTimePicker.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/DropDownButton/Themes/DropDownButton.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/Expander/Themes/Expander.generic.xaml" />
