@@ -898,6 +898,9 @@
       </Trigger>
     </Style.Triggers>
   </Style>
+  <Style x:Key="{x:Type local:DropDownButton}" TargetType="{x:Type local:DropDownButton}" BasedOn="{StaticResource Orc.Styles.DropDownButton}">
+    <!-- Just a forwarder -->
+  </Style>
   <Style x:Key="{x:Type local:Expander}" TargetType="{x:Type local:Expander}" BasedOn="{StaticResource Orc.Styles.Control}">
     <Style.Resources>
       <Geometry x:Key="ExpanderUpArrow">M 1,4.5  L 4.5,1  L 8,4.5</Geometry>

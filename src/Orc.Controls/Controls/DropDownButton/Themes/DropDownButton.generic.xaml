@@ -88,4 +88,10 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <Style x:Key="{x:Type controls:DropDownButton}"
+           TargetType="{x:Type controls:DropDownButton}"
+           BasedOn="{StaticResource Orc.Styles.DropDownButton}">
+        <!-- Just a forwarder -->
+    </Style>
 </ResourceDictionary>
