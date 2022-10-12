@@ -28,11 +28,11 @@
             var expectedDate = DateTime.Now;
 
             var configurationServiceMock = new Mock<IConfigurationService>();
-            configurationServiceMock.Setup(x => x.SetValueAsync(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()));
+            configurationServiceMock.Setup(x => x.SetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()));
 
             await configurationServiceMock.Object.SetCalloutLastShownAsync(callout, expectedDate);
 
-            configurationServiceMock.Verify(x => x.SetValueAsync(ConfigurationContainer.Roaming, expectedConfigurationKey, expectedDate));
+            configurationServiceMock.Verify(x => x.SetValue(ConfigurationContainer.Roaming, expectedConfigurationKey, expectedDate));
         }
 
         [Test]
@@ -45,11 +45,11 @@
             DateTime? expectedDate = null;
 
             var configurationServiceMock = new Mock<IConfigurationService>();
-            configurationServiceMock.Setup(x => x.SetValueAsync(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()));
+            configurationServiceMock.Setup(x => x.SetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()));
 
             await configurationServiceMock.Object.SetCalloutLastShownAsync(callout, expectedDate);
 
-            configurationServiceMock.Verify(x => x.SetValueAsync(ConfigurationContainer.Roaming, expectedConfigurationKey, expectedDate));
+            configurationServiceMock.Verify(x => x.SetValue(ConfigurationContainer.Roaming, expectedConfigurationKey, expectedDate));
         }
 
         [Test]
@@ -62,14 +62,14 @@
             DateTime? expectedDate = null;
 
             var configurationServiceMock = new Mock<IConfigurationService>();
-            configurationServiceMock.Setup(x => x.GetValueAsync(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()))
+            configurationServiceMock.Setup(x => x.GetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()))
                 .Returns(async () => expectedDate);
 
             var lastShown = await configurationServiceMock.Object.GetCalloutLastShownAsync(callout);
 
             Assert.AreEqual(expectedDate, lastShown);
 
-            configurationServiceMock.Verify(x => x.GetValueAsync(ConfigurationContainer.Roaming, expectedConfigurationKey, expectedDate));
+            configurationServiceMock.Verify(x => x.GetValue(ConfigurationContainer.Roaming, expectedConfigurationKey, expectedDate));
         }
 
         [Test]
@@ -80,11 +80,11 @@
             var expectedConfigurationKey = $"{configurationKey}.Shown";
 
             var configurationServiceMock = new Mock<IConfigurationService>();
-            configurationServiceMock.Setup(x => x.SetValueAsync(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()));
+            configurationServiceMock.Setup(x => x.SetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()));
 
             await configurationServiceMock.Object.MarkCalloutAsNotShownAsync(callout);
 
-            configurationServiceMock.Verify(x => x.SetValueAsync(ConfigurationContainer.Roaming, expectedConfigurationKey, false));
+            configurationServiceMock.Verify(x => x.SetValue(ConfigurationContainer.Roaming, expectedConfigurationKey, false));
         }
 
         [Test]
@@ -95,11 +95,11 @@
             var expectedConfigurationKey = $"{configurationKey}.Shown";
 
             var configurationServiceMock = new Mock<IConfigurationService>();
-            configurationServiceMock.Setup(x => x.SetValueAsync(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()));
+            configurationServiceMock.Setup(x => x.SetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()));
 
             await configurationServiceMock.Object.MarkCalloutAsShownAsync(callout);
 
-            configurationServiceMock.Verify(x => x.SetValueAsync(ConfigurationContainer.Roaming, expectedConfigurationKey, true));
+            configurationServiceMock.Verify(x => x.SetValue(ConfigurationContainer.Roaming, expectedConfigurationKey, true));
         }
     }
 }
