@@ -63,7 +63,7 @@
 
             var configurationServiceMock = new Mock<IConfigurationService>();
             configurationServiceMock.Setup(x => x.GetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()))
-                .Returns(async () => expectedDate);
+                .Returns(() => expectedDate);
 
             var lastShown = await configurationServiceMock.Object.GetCalloutLastShownAsync(callout);
 
