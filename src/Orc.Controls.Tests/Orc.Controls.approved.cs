@@ -802,7 +802,7 @@ namespace Orc.Controls
         public override string Name { get; }
         public override void Attach(object target) { }
         public override void Close() { }
-        protected virtual TFindReplaceService CreateFindReplaceService(object target) { }
+        protected virtual TFindReplaceService? CreateFindReplaceService(object target) { }
         public override void Detach() { }
         protected override void OnOpen(object? parameter = null) { }
     }

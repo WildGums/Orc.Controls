@@ -50,7 +50,7 @@
             serviceLocator.RegisterInstance(_findReplaceService, target);
         }
 
-        protected virtual TFindReplaceService CreateFindReplaceService(object target)
+        protected virtual TFindReplaceService? CreateFindReplaceService(object target)
         {
             return _typeFactory.CreateInstanceWithParametersAndAutoCompletion<TFindReplaceService>(target);
         }
