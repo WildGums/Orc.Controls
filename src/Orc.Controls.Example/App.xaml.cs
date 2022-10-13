@@ -4,6 +4,7 @@
     using System.Globalization;
     using System.Windows;
     using System.Windows.Media;
+    using Catel.Configuration;
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Services;
@@ -21,7 +22,7 @@
             //LogManager.AddDebugListener(false);
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             var languageService = ServiceLocator.Default.ResolveRequiredType<ILanguageService>();
 
@@ -36,6 +37,9 @@
 
             Orc.Theming.FontImage.RegisterFont("FontAwesome", new FontFamily(new Uri("pack://application:,,,/Orc.Controls.Example;component/Resources/Fonts/", UriKind.RelativeOrAbsolute), "./#FontAwesome"));
             Orc.Theming.FontImage.DefaultFontFamily = "FontAwesome";
+
+            var configurationService = ServiceLocator.Default.ResolveRequiredType<IConfigurationService>();
+            await configurationService.LoadAsync();
 
             StyleHelper.CreateStyleForwardersForDefaultStyles();
 
