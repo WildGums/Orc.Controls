@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="App.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Example
+﻿namespace Orc.Controls.Example
 {
     using System;
     using System.Globalization;
@@ -30,7 +23,7 @@ namespace Orc.Controls.Example
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            var languageService = ServiceLocator.Default.ResolveType<ILanguageService>();
+            var languageService = ServiceLocator.Default.ResolveRequiredType<ILanguageService>();
 
             // Note: it's best to use .CurrentUICulture in actual apps since it will use the preferred language
             // of the user. But in order to demo multilingual features for devs (who mostly have en-US as .CurrentUICulture),

@@ -8,7 +8,6 @@
 
     public static class DateTimeFormatHelper
     {
-        #region Constants
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private const string CorrectDateFormatForSure = "dd\\MMMM\\yyyy";
@@ -21,9 +20,7 @@
             't',
             'H'
         };
-        #endregion
 
-        #region Methods
         public static string[] Split(string format, char[] formatCharacters)
         {
             var parts = new List<string>();
@@ -223,6 +220,5 @@
 
             return format;
         }
-        #endregion
     }
 }

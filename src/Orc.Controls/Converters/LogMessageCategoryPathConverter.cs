@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CategoryPathConverter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2021 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Converters
+﻿namespace Orc.Controls.Converters
 {
     using System;
     using System.Collections.Generic;
@@ -15,11 +8,8 @@ namespace Orc.Controls.Converters
 
     internal class LogMessageCategoryPathConverter : ValueConverterBase<string>
     {
-        #region Fields
-        private static readonly Dictionary<string, Geometry> PathCache = new Dictionary<string, Geometry>(StringComparer.OrdinalIgnoreCase);
-        #endregion
+        private static readonly Dictionary<string, Geometry?> PathCache = new Dictionary<string, Geometry?>(StringComparer.OrdinalIgnoreCase);
 
-        #region Constructors
         static LogMessageCategoryPathConverter()
         {
             var application = Application.Current;
@@ -30,13 +20,10 @@ namespace Orc.Controls.Converters
             PathCache["Error"] = application.TryFindResource("LogErrorGeometry") as Geometry;
             PathCache["Clock"] = application.TryFindResource("LogClockGeometry") as Geometry;
         }
-        #endregion
 
-        #region Methods
         protected override object? Convert(string? value, Type targetType, object? parameter)
         {
             return PathCache.TryGetValue(value, out var geometry) ? geometry : null;
         }
-        #endregion
     }
 }

@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DateTimeFormatInfoExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -15,11 +8,8 @@ namespace Orc.Controls
 
     internal static class DateTimeFormatInfoExtensions
     {
-        #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-        #endregion
 
-        #region Methods
         public static int GetCountOfMatches(this DateTimeFormatInfo formatInfo, DateTimeFormatInfo otherFormatInfo)
         {
             ArgumentNullException.ThrowIfNull(formatInfo);
@@ -551,6 +541,5 @@ namespace Orc.Controls
 
             return true;
         }
-        #endregion
     }
 }

@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="OpenToolCommandExtension.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Linq;
@@ -17,22 +10,20 @@ namespace Orc.Controls
 
     public class OpenToolCommandExtension : UpdatableMarkupExtension
     {
-        #region Fields
         private readonly Type _frameworkElementType;
         private readonly Type _toolType;
         protected Command<object> Command { get; }
-        #endregion
 
-        #region Constructors
         public OpenToolCommandExtension(Type toolType, Type frameworkElementType)
         {
+            ArgumentNullException.ThrowIfNull(toolType);
+            ArgumentNullException.ThrowIfNull(frameworkElementType);
+
             _toolType = toolType;
             _frameworkElementType = frameworkElementType;
             Command = new Command<object>(OnOpenTool, CanExecute);
         }
-        #endregion
 
-        #region Methods
         protected override object ProvideDynamicValue(IServiceProvider serviceProvider)
         {
             Command.RaiseCanExecuteChanged();
@@ -61,7 +52,7 @@ namespace Orc.Controls
             GetAttachmentTarget(parameter)?.AttachAndOpenTool(_toolType, parameter);
         }
 
-        protected virtual FrameworkElement GetAttachmentTarget(object parameter = null)
+        protected virtual FrameworkElement GetAttachmentTarget(object? parameter = null)
         {
             if (TargetObject is not FrameworkElement targetObject)
             {
@@ -83,6 +74,5 @@ namespace Orc.Controls
 
             return placementTarget.FindLogicalOrVisualAncestor(x => x.GetType() == _frameworkElementType) as FrameworkElement;
         }
-        #endregion
     }
 }

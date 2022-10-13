@@ -11,6 +11,8 @@
 
         public static object ConvertTo(this Number number, Type convertToType)
         {
+            ArgumentNullException.ThrowIfNull(convertToType);
+
             var value = number.Value;
             if (value is null)
             {

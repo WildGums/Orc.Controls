@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StringExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.IO;
@@ -15,7 +8,6 @@ namespace Orc.Controls
 
     public static class StringExtensions
     {
-        #region Methods
         internal static string ChunkIntValue(this string input, string partValue, out int val)
         {
             val = int.Parse(partValue);
@@ -100,6 +92,5 @@ namespace Orc.Controls
             stream.Position = 0;
             return stream;
         }
-        #endregion
     }
 }

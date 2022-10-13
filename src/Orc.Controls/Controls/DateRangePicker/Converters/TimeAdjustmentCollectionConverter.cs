@@ -29,7 +29,7 @@ namespace Orc.Controls
         #endregion
 
         #region Methods
-        protected override object Convert(object value, Type targetType, object parameter)
+        protected override object? Convert(object? value, Type targetType, object? parameter)
         {
             if (value is IEnumerable<TimeAdjustmentStrategy> timeAdjustmentStrategies)
             {

@@ -2,11 +2,9 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Catel;
     using Catel.IoC;
     using Catel.MVVM;
     using Catel.Services;
-    using Catel.Threading;
 
     public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
         where T : ViewModelBase
@@ -59,7 +57,7 @@
         protected abstract void OnAccepted();
         protected abstract T InitializeViewModel();
 
-        protected virtual void ApplyParameter(object parameter)
+        protected virtual void ApplyParameter(object? parameter)
         {
         }
 

@@ -1,20 +1,15 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TextBoxExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Windows.Controls;
 
     public static class TextBoxExtensions
     {
-        #region Methods
         internal static void SubscribeToOnRightBoundReachedEvent(this TextBox textBox, EventHandler handler)
         {
+            ArgumentNullException.ThrowIfNull(textBox);
+            ArgumentNullException.ThrowIfNull(handler);
+
             switch (textBox)
             {
                 case NumericTextBox numericTextBox:
@@ -29,6 +24,9 @@ namespace Orc.Controls
 
         internal static void SubscribeToOnLeftBoundReachedEvent(this TextBox textBox, EventHandler handler)
         {
+            ArgumentNullException.ThrowIfNull(textBox);
+            ArgumentNullException.ThrowIfNull(handler);
+
             switch (textBox)
             {
                 case NumericTextBox numericTextBox:
@@ -43,6 +41,9 @@ namespace Orc.Controls
 
         internal static void UnsubscribeFromOnRightBoundReachedEvent(this TextBox textBox, EventHandler handler)
         {
+            ArgumentNullException.ThrowIfNull(textBox);
+            ArgumentNullException.ThrowIfNull(handler);
+
             switch (textBox)
             {
                 case NumericTextBox numericTextBox:
@@ -57,6 +58,9 @@ namespace Orc.Controls
 
         internal static void UnsubscribeFromOnLeftBoundReachedEvent(this TextBox textBox, EventHandler handler)
         {
+            ArgumentNullException.ThrowIfNull(textBox);
+            ArgumentNullException.ThrowIfNull(handler);
+
             switch (textBox)
             {
                 case NumericTextBox numericTextBox:
@@ -69,8 +73,10 @@ namespace Orc.Controls
             }
         }
 
-        internal static void UpdateValue(this TextBox textBox, object value)
+        internal static void UpdateValue(this TextBox textBox, object? value)
         {
+            ArgumentNullException.ThrowIfNull(textBox);
+
             switch (textBox)
             {
                 case NumericTextBox _:
@@ -86,6 +92,5 @@ namespace Orc.Controls
                     break;
             }
         }
-        #endregion
     }
 }

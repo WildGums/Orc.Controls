@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ControlToolManager.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Tools
+﻿namespace Orc.Controls.Tools
 {
     using System;
     using System.Collections.Generic;
@@ -23,17 +16,15 @@ namespace Orc.Controls.Tools
 
     public class ControlToolManager : IControlToolManager
     {
-        #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private readonly FrameworkElement _frameworkElement;
         private readonly ITypeFactory _typeFactory;
         private readonly IDirectoryService _directoryService;
-        #endregion
 
-        #region Constructors
         public ControlToolManager(FrameworkElement frameworkElement, ITypeFactory typeFactory, IDirectoryService directoryService)
         {
+            ArgumentNullException.ThrowIfNull(frameworkElement);
             ArgumentNullException.ThrowIfNull(typeFactory);
             ArgumentNullException.ThrowIfNull(directoryService);
 
@@ -41,13 +32,9 @@ namespace Orc.Controls.Tools
             _typeFactory = typeFactory;
             _directoryService = directoryService;
         }
-        #endregion
 
-        #region Properties
         public IList<IControlTool> Tools { get; } = new List<IControlTool>();
-        #endregion
 
-        #region IControlToolManager Members
         public bool CanAttachTool(Type toolType)
         {
             if (toolType is null)
@@ -114,10 +101,8 @@ namespace Orc.Controls.Tools
 
             return true;
         }
-        #endregion
 
-        #region Methods
-        private void OnToolClosed(object sender, EventArgs e)
+        private void OnToolClosed(object? sender, EventArgs e)
         {
             if (sender is not IControlTool tool)
             {
@@ -128,7 +113,7 @@ namespace Orc.Controls.Tools
             ToolClosed?.Invoke(this, new ToolManagementEventArgs(tool));
         }
 
-        private void OnToolOpening(object sender, EventArgs e)
+        private void OnToolOpening(object? sender, EventArgs e)
         {
             if (sender is not IControlTool tool)
             {
@@ -139,7 +124,7 @@ namespace Orc.Controls.Tools
             ToolOpening?.Invoke(this, new ToolManagementEventArgs(tool));
         }
 
-        private void OnToolOpened(object sender, EventArgs e)
+        private void OnToolOpened(object? sender, EventArgs e)
         {
             ToolOpened?.Invoke(this, new ToolManagementEventArgs(sender as IControlTool));
         }
@@ -230,7 +215,7 @@ namespace Orc.Controls.Tools
             return Path.Combine(settingsStorage, fileName);
         }
 
-        private void OnFrameworkElementUnloaded(object sender, RoutedEventArgs e)
+        private void OnFrameworkElementUnloaded(object? sender, RoutedEventArgs e)
         {
             if (sender is not FrameworkElement frameworkElement)
             {
@@ -249,12 +234,11 @@ namespace Orc.Controls.Tools
 
             frameworkElement.Unloaded -= OnFrameworkElementUnloaded;
         }
-        #endregion
 
-        public event EventHandler<ToolManagementEventArgs> ToolAttached;
-        public event EventHandler<ToolManagementEventArgs> ToolDetached;
-        public event EventHandler<ToolManagementEventArgs> ToolOpening;
-        public event EventHandler<ToolManagementEventArgs> ToolOpened;
-        public event EventHandler<ToolManagementEventArgs> ToolClosed;
+        public event EventHandler<ToolManagementEventArgs>? ToolAttached;
+        public event EventHandler<ToolManagementEventArgs>? ToolDetached;
+        public event EventHandler<ToolManagementEventArgs>? ToolOpening;
+        public event EventHandler<ToolManagementEventArgs>? ToolOpened;
+        public event EventHandler<ToolManagementEventArgs>? ToolClosed;
     }
 }

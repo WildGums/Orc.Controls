@@ -1,19 +1,11 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TimeSpanToTotalStringConverter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Converters
+﻿namespace Orc.Controls.Converters
 {
     using System;
     using Catel.MVVM.Converters;
 
     internal class TimeSpanToTotalStringConverter : ValueConverterBase
     {
-        #region Methods
-        protected override object Convert(object value, Type targetType, object parameter)
+        protected override object? Convert(object? value, Type targetType, object? parameter)
         {
             var timeSpan = ((TimeSpan?)value) is null ? TimeSpan.Zero : (TimeSpan)value;
             const string format = "F";
@@ -35,6 +27,5 @@ namespace Orc.Controls.Converters
 
             return string.Empty;
         }
-        #endregion
     }
 }

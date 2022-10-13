@@ -394,8 +394,8 @@ namespace Orc.Controls
         public virtual void Attach(object target) { }
         public virtual void Close() { }
         public virtual void Detach() { }
-        protected virtual void OnAddParameter(object parameter) { }
-        protected abstract void OnOpen(object parameter = null);
+        protected virtual void OnAddParameter(object? parameter) { }
+        protected abstract void OnOpen(object? parameter = null);
         public void Open(object parameter = null) { }
     }
     public sealed class CulturePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
@@ -480,11 +480,11 @@ namespace Orc.Controls
     public class DateTimeFormatInfo
     {
         public DateTimeFormatInfo() { }
-        public string AmPmFormat { get; set; }
+        public string? AmPmFormat { get; set; }
         public int? AmPmPosition { get; set; }
-        public string DayFormat { get; set; }
+        public string? DayFormat { get; set; }
         public int DayPosition { get; set; }
-        public string HourFormat { get; set; }
+        public string? HourFormat { get; set; }
         public int? HourPosition { get; set; }
         public bool? IsAmPmShortFormat { get; set; }
         public bool IsCorrect { get; set; }
@@ -492,23 +492,23 @@ namespace Orc.Controls
         public bool? IsHour12Format { get; set; }
         public bool IsYearShortFormat { get; set; }
         public int MaxPosition { get; set; }
-        public string MinuteFormat { get; set; }
+        public string? MinuteFormat { get; set; }
         public int? MinutePosition { get; set; }
-        public string MonthFormat { get; set; }
+        public string? MonthFormat { get; set; }
         public int MonthPosition { get; set; }
-        public string SecondFormat { get; set; }
+        public string? SecondFormat { get; set; }
         public int? SecondPosition { get; set; }
-        public string Separator0 { get; set; }
-        public string Separator1 { get; set; }
-        public string Separator2 { get; set; }
-        public string Separator3 { get; set; }
-        public string Separator4 { get; set; }
-        public string Separator5 { get; set; }
-        public string Separator6 { get; set; }
-        public string Separator7 { get; set; }
-        public string YearFormat { get; set; }
+        public string? Separator0 { get; set; }
+        public string? Separator1 { get; set; }
+        public string? Separator2 { get; set; }
+        public string? Separator3 { get; set; }
+        public string? Separator4 { get; set; }
+        public string? Separator5 { get; set; }
+        public string? Separator6 { get; set; }
+        public string? Separator7 { get; set; }
+        public string? YearFormat { get; set; }
         public int YearPosition { get; set; }
-        public string GetSeparator(int position) { }
+        public string? GetSeparator(int position) { }
     }
     public static class DateTimeFormatter
     {
@@ -627,7 +627,7 @@ namespace Orc.Controls
         protected T WindowViewModel;
         protected DialogWindowHostedToolBase(Catel.IoC.ITypeFactory typeFactory, Catel.Services.IUIVisualizerService uiVisualizerService) { }
         public virtual bool IsModal { get; }
-        protected virtual void ApplyParameter(object parameter) { }
+        protected virtual void ApplyParameter(object? parameter) { }
         public override void Close() { }
         protected abstract T InitializeViewModel();
         protected abstract void OnAccepted();
@@ -699,7 +699,7 @@ namespace Orc.Controls
     public class DropdownArrowLocationConverter : Catel.MVVM.Converters.ValueConverterBase
     {
         public DropdownArrowLocationConverter() { }
-        protected override object Convert(object value, System.Type targetType, object parameter) { }
+        protected override object? Convert(object? value, System.Type targetType, object? parameter) { }
     }
     public abstract class EditableControlBehaviorBase<T> : Catel.Windows.Interactivity.BehaviorBase<T>, Orc.Controls.IEditableControl
         where T : System.Windows.FrameworkElement
@@ -985,15 +985,15 @@ namespace Orc.Controls
         bool IsEnabled { get; }
         bool IsOpened { get; }
         string Name { get; }
-        event System.EventHandler<System.EventArgs> Attached;
-        event System.EventHandler<System.EventArgs> Closed;
-        event System.EventHandler<System.EventArgs> Detached;
-        event System.EventHandler<System.EventArgs> Opened;
-        event System.EventHandler<System.EventArgs> Opening;
+        event System.EventHandler<System.EventArgs>? Attached;
+        event System.EventHandler<System.EventArgs>? Closed;
+        event System.EventHandler<System.EventArgs>? Detached;
+        event System.EventHandler<System.EventArgs>? Opened;
+        event System.EventHandler<System.EventArgs>? Opening;
         void Attach(object target);
         void Close();
         void Detach();
-        void Open(object parameter);
+        void Open(object? parameter);
     }
     public interface IEditableControl
     {
@@ -1633,7 +1633,7 @@ namespace Orc.Controls
     {
         public OpenToolCommandExtension(System.Type toolType, System.Type frameworkElementType) { }
         protected Catel.MVVM.Command<object> Command { get; }
-        protected virtual System.Windows.FrameworkElement GetAttachmentTarget(object parameter = null) { }
+        protected virtual System.Windows.FrameworkElement GetAttachmentTarget(object? parameter = null) { }
         protected override object ProvideDynamicValue(System.IServiceProvider serviceProvider) { }
     }
     public class PasswordBindBehavior : Catel.Windows.Interactivity.BehaviorBase<System.Windows.Controls.PasswordBox>
@@ -1965,7 +1965,7 @@ namespace Orc.Controls
     public class StepToOpacityConverter : Catel.MVVM.Converters.ValueConverterBase
     {
         public StepToOpacityConverter() { }
-        protected override object Convert(object value, System.Type targetType, object parameter) { }
+        protected override object? Convert(object? value, System.Type targetType, object? parameter) { }
     }
     public static class StringExtensions
     {
@@ -2020,12 +2020,12 @@ namespace Orc.Controls
     public class TimeAdjustmentCollectionConverter : Catel.MVVM.Converters.ValueConverterBase
     {
         public TimeAdjustmentCollectionConverter() { }
-        protected override object Convert(object value, System.Type targetType, object parameter) { }
+        protected override object? Convert(object? value, System.Type targetType, object? parameter) { }
     }
     public class TimeAdjustmentConverter : Catel.MVVM.Converters.ValueConverterBase
     {
         public TimeAdjustmentConverter() { }
-        protected override object Convert(object value, System.Type targetType, object parameter) { }
+        protected override object? Convert(object? value, System.Type targetType, object? parameter) { }
         protected override object ConvertBack(object value, System.Type targetType, object parameter) { }
     }
     public class TimeAdjustmentProvider : Orc.Controls.ITimeAdjustmentProvider
@@ -3710,36 +3710,36 @@ namespace Orc.Controls.Converters
     public class BooleanAndToCollapsingVisibilityMultiValueConverter : System.Windows.Markup.MarkupExtension, System.Windows.Data.IMultiValueConverter
     {
         public BooleanAndToCollapsingVisibilityMultiValueConverter() { }
-        public object Convert(object[] values, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) { }
-        public object[] ConvertBack(object value, System.Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) { }
-        public override object ProvideValue(System.IServiceProvider serviceProvider) { }
+        public object? Convert(object?[]? values, System.Type targetType, object? parameter, System.Globalization.CultureInfo? culture) { }
+        public object?[]? ConvertBack(object? value, System.Type[] targetTypes, object? parameter, System.Globalization.CultureInfo? culture) { }
+        public override object? ProvideValue(System.IServiceProvider serviceProvider) { }
     }
     public class NumberTypeConverter : System.ComponentModel.TypeConverter
     {
         public NumberTypeConverter() { }
         public override bool CanConvertFrom(System.ComponentModel.ITypeDescriptorContext context, System.Type sourceType) { }
         public override bool CanConvertTo(System.ComponentModel.ITypeDescriptorContext context, System.Type destinationType) { }
-        public override object ConvertFrom(System.ComponentModel.ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value) { }
-        public override object ConvertTo(System.ComponentModel.ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, System.Type destinationType) { }
+        public override object? ConvertFrom(System.ComponentModel.ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object? value) { }
+        public override object? ConvertTo(System.ComponentModel.ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object? value, System.Type destinationType) { }
     }
     public class TextToTextArrayMultiValueConverter : System.Windows.Data.IMultiValueConverter
     {
         public TextToTextArrayMultiValueConverter() { }
-        public object Convert(object[] values, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) { }
-        public object[] ConvertBack(object value, System.Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) { }
+        public object? Convert(object?[]? values, System.Type targetType, object? parameter, System.Globalization.CultureInfo? culture) { }
+        public object?[]? ConvertBack(object? value, System.Type[] targetTypes, object? parameter, System.Globalization.CultureInfo? culture) { }
     }
     public class TreeViewItemToLeftMarginValueConverter : Catel.MVVM.Converters.ValueConverterBase
     {
         public TreeViewItemToLeftMarginValueConverter() { }
         public double Length { get; set; }
-        protected override object Convert(object value, System.Type targetType, object parameter) { }
+        protected override object? Convert(object? value, System.Type targetType, object? parameter) { }
     }
     public class YearLongToYearShortConverter : Catel.MVVM.Converters.ValueConverterBase
     {
         public YearLongToYearShortConverter() { }
         public bool IsEnabled { get; set; }
-        protected override object Convert(object value, System.Type targetType, object parameter) { }
-        protected override object ConvertBack(object value, System.Type targetType, object parameter) { }
+        protected override object? Convert(object? value, System.Type targetType, object? parameter) { }
+        protected override object? ConvertBack(object? value, System.Type targetType, object? parameter) { }
     }
 }
 namespace Orc.Controls.Enums
@@ -3788,11 +3788,11 @@ namespace Orc.Controls.Tools
     {
         public ControlToolManager(System.Windows.FrameworkElement frameworkElement, Catel.IoC.ITypeFactory typeFactory, Orc.FileSystem.IDirectoryService directoryService) { }
         public System.Collections.Generic.IList<Orc.Controls.IControlTool> Tools { get; }
-        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolAttached;
-        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolClosed;
-        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolDetached;
-        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpened;
-        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs> ToolOpening;
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolAttached;
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolClosed;
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolDetached;
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolOpened;
+        public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolOpening;
         public object AttachTool(System.Type toolType) { }
         public bool CanAttachTool(System.Type toolType) { }
         public bool DetachTool(System.Type toolType) { }
@@ -3833,11 +3833,11 @@ namespace Orc.Controls.ViewModels
         public static readonly Catel.Data.IPropertyData TextToFindForReplaceProperty;
         public static readonly Catel.Data.IPropertyData TextToFindProperty;
         public FindReplaceViewModel(Orc.Controls.FindReplaceSettings findReplaceSettings, Orc.Controls.Services.IFindReplaceService findReplaceService) { }
-        public Catel.MVVM.Command<string> FindNext { get; }
+        public Catel.MVVM.Command<string?> FindNext { get; }
         [Catel.MVVM.Model]
         public Orc.Controls.FindReplaceSettings FindReplaceSettings { get; }
-        public Catel.MVVM.Command<object> Replace { get; }
-        public Catel.MVVM.Command<object> ReplaceAll { get; }
+        public Catel.MVVM.Command<object?> Replace { get; }
+        public Catel.MVVM.Command<object?> ReplaceAll { get; }
         public string TextToFind { get; set; }
         public string TextToFindForReplace { get; set; }
         public override string Title { get; }

@@ -1,28 +1,16 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Hour24ToHour12Converter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Converters
+﻿namespace Orc.Controls.Converters
 {
     using System;
     using Catel.MVVM.Converters;
 
     internal class Hour24ToHour12Converter : ValueConverterBase
     {
-        #region Fields
         private int _prev;
-        #endregion
 
-        #region Properties
         public bool IsEnabled { get; set; }
         private string AmPm { get; set; }
-        #endregion
 
-        #region Methods
-        protected override object Convert(object value, Type targetType, object parameter)
+        protected override object? Convert(object? value, Type targetType, object? parameter)
         {
             if (!IsEnabled || value is null)
             {
@@ -92,6 +80,5 @@ namespace Orc.Controls.Converters
 
             return AmPm;
         }
-        #endregion
     }
 }

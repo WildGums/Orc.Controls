@@ -35,9 +35,9 @@
 
         public string TextToFind { get; set; }
         public string TextToFindForReplace { get; set; }
-        public Command<string> FindNext { get; }
-        public Command<object> Replace { get; }
-        public Command<object> ReplaceAll { get; }
+        public Command<string?> FindNext { get; }
+        public Command<object?> Replace { get; }
+        public Command<object?> ReplaceAll { get; }
 
         private void OnReplaceAll(object? parameter)
         {
@@ -70,7 +70,7 @@
             }
         }
 
-        private void OnFindNext(string text)
+        private void OnFindNext(string? text)
         {
             var textToFind = text ?? string.Empty;
 

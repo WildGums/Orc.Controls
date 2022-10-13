@@ -13,15 +13,12 @@
 
     public class DateTimePartHelper
     {
-        #region Fields
         private readonly DateTime _dateTime;
         private readonly DateTimeFormatInfo _dateTimeFormatInfo;
         private readonly DateTimePart _dateTimePart;
-        private readonly TextBox _textBox;
-        private readonly ToggleButton _toggleButton;
-        #endregion
+        private readonly TextBox? _textBox;
+        private readonly ToggleButton? _toggleButton;
 
-        #region Constructors
         public DateTimePartHelper(DateTime dateTime, DateTimePart dateTimePart, DateTimeFormatInfo dateTimeFormatInfo, TextBox textBox, ToggleButton activeToggleButton)
         {
             _dateTime = dateTime;
@@ -30,9 +27,7 @@
             _dateTimePart = dateTimePart;
             _dateTimeFormatInfo = dateTimeFormatInfo;
         }
-        #endregion
 
-        #region Methods
         public Popup CreatePopup()
         {
             var popup = new Popup
@@ -67,7 +62,7 @@
             return popup;
         }
 
-        private void PopupSourceOnMouseUp(object sender, MouseButtonEventArgs mouseButtonEventArgs)
+        private void PopupSourceOnMouseUp(object? sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
             var listbox = ((ListBox)sender);
             
@@ -138,7 +133,7 @@
             }
         }
 
-        private void PopupOnClosed(object sender, EventArgs eventArgs)
+        private void PopupOnClosed(object? sender, EventArgs eventArgs)
         {
             _toggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, false);
         }
@@ -151,7 +146,7 @@
         private ListBox CreatePopupSource()
         {
             var serviceLocator = ServiceLocator.Default;
-            var suggestionListService = serviceLocator.ResolveType<ISuggestionListService>();
+            var suggestionListService = serviceLocator.ResolveRequiredType<ISuggestionListService>();
             var source = suggestionListService.GetSuggestionList(_dateTime, _dateTimePart, _dateTimeFormatInfo);
 
             var listbox = new ListBox
@@ -165,6 +160,5 @@
 
             return listbox;
         }
-        #endregion
     }
 }

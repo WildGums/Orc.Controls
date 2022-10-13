@@ -10,7 +10,7 @@
         {
         }
 
-        protected override object Convert(object value, Type targetType, object parameter)
+        protected override object? Convert(object? value, Type targetType, object? parameter)
         {
             var state = StepBarItemStates.None;
 

@@ -1,22 +1,14 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TreeViewItemExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System.Windows.Controls;
     using System.Windows.Media;
 
     public static class TreeViewItemExtensions
     {
-        #region Methods
         public static int GetDepth(this TreeViewItem item)
         {
             var depth = 0;
-            TreeViewItem parent;
+            TreeViewItem? parent;
 
             while ((parent = GetParent(item)) is not null)
             {
@@ -27,7 +19,7 @@ namespace Orc.Controls
             return depth;
         }
 
-        private static TreeViewItem GetParent(TreeViewItem item)
+        private static TreeViewItem? GetParent(TreeViewItem item)
         {
             var parent = VisualTreeHelper.GetParent(item);
 
@@ -43,6 +35,5 @@ namespace Orc.Controls
 
             return parent as TreeViewItem;
         }
-        #endregion
     }
 }

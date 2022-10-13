@@ -1,29 +1,17 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AmPmLongToAmPmShortConverter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Converters
+﻿namespace Orc.Controls.Converters
 {
     using System;
     using Catel.MVVM.Converters;
 
     internal class AmPmLongToAmPmShortConverter : ValueConverterBase
     {
-        #region Constructors
         public AmPmLongToAmPmShortConverter()
         {
         }
-        #endregion
 
-        #region Properties
         public bool IsEnabled { get; set; }
-        #endregion
 
-        #region Methods
-        protected override object Convert(object value, Type targetType, object parameter)
+        protected override object? Convert(object? value, Type targetType, object? parameter)
         {
             if (!IsEnabled || value is null)
             {
@@ -43,7 +31,7 @@ namespace Orc.Controls.Converters
             }
         }
 
-        protected override object ConvertBack(object value, Type targetType, object parameter)
+        protected override object? ConvertBack(object? value, Type targetType, object? parameter)
         {
             if (!IsEnabled || value is null)
             {
@@ -62,6 +50,5 @@ namespace Orc.Controls.Converters
                     return value;
             }
         }
-        #endregion
     }
 }

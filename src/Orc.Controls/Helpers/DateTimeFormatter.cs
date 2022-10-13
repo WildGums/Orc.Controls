@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DateTimeFormatter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -16,11 +9,8 @@ namespace Orc.Controls
 
     public static class DateTimeFormatter
     {
-        #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-        #endregion
 
-        #region Methods
         public static string Format(DateTime dateTime, string format, bool isDateOnly = false)
         {
             return Format(dateTime, DateTimeFormatHelper.GetDateTimeFormatInfo(format, isDateOnly));
@@ -90,6 +80,5 @@ namespace Orc.Controls
 
             return builder.ToString();
         }
-        #endregion
     }
 }

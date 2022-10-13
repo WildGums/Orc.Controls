@@ -1,28 +1,16 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ControlToolBase.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using Catel.Data;
 
     public abstract class ControlToolBase : ModelBase, IControlTool
     {
-        #region Fields
         protected object Target;
-        #endregion
 
-        #region Properties
         public abstract string Name { get; }
         public bool IsOpened { get; private set; }
         public virtual bool IsEnabled => true;
-        #endregion
 
-        #region IControlTool Members
         public virtual void Attach(object target)
         {
             Target = target;
@@ -66,14 +54,11 @@ namespace Orc.Controls
         public event EventHandler<EventArgs> Closed;
         public event EventHandler<EventArgs> Opened;
         public event EventHandler<EventArgs> Opening;
-        #endregion
 
-        #region Methods
-        protected virtual void OnAddParameter(object parameter)
+        protected virtual void OnAddParameter(object? parameter)
         {
         }
 
-        protected abstract void OnOpen(object parameter = null);
-        #endregion
+        protected abstract void OnOpen(object? parameter = null);
     }
 }

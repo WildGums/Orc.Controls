@@ -4,25 +4,19 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
-    using Catel;
     using Catel.IoC;
     using Microsoft.Xaml.Behaviors;
     using Tools;
 
     public static class FrameworkElementExtensions
     {
-        #region Constants
         private static readonly IControlToolManagerFactory ControlToolManagerFactory;
-        #endregion
 
-        #region Constructors
         static FrameworkElementExtensions()
         {
             ControlToolManagerFactory = ServiceLocator.Default.ResolveType<IControlToolManagerFactory>();
         }
-        #endregion
 
-        #region Methods
         public static Rect GetScreenRect(this FrameworkElement frameworkElement)
         {
             ArgumentNullException.ThrowIfNull(frameworkElement);
@@ -115,6 +109,5 @@
             var controlToolManager = frameworkElement.GetControlToolManager();
             return controlToolManager.DetachTool(toolType);
         }
-        #endregion
     }
 }

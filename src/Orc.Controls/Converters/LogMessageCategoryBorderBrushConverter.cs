@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CategoryBorderBrushConverter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2021 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Converters
+﻿namespace Orc.Controls.Converters
 {
     using System;
     using System.Collections.Generic;
@@ -14,11 +7,8 @@ namespace Orc.Controls.Converters
 
     internal class LogMessageCategoryBorderBrushConverter : ValueConverterBase<string>
     {
-        #region Constants
-        public static readonly Dictionary<string, SolidColorBrush> BrushCache = new Dictionary<string, SolidColorBrush>(StringComparer.OrdinalIgnoreCase);
-        #endregion
+        public static readonly Dictionary<string, SolidColorBrush?> BrushCache = new Dictionary<string, SolidColorBrush?>(StringComparer.OrdinalIgnoreCase);
 
-        #region Constructors
         static LogMessageCategoryBorderBrushConverter()
         {
             BrushCache["Debug"] = new SolidColorBrush(Colors.DarkGray);
@@ -27,13 +17,10 @@ namespace Orc.Controls.Converters
             BrushCache["Error"] = new SolidColorBrush(Colors.Red);
             BrushCache["Clock"] = new SolidColorBrush(Colors.Gray);
         }
-        #endregion
 
-        #region Methods
         protected override object? Convert(string? value, Type targetType, object? parameter)
         {
             return BrushCache.TryGetValue(value, out var brush) ? brush : Brushes.Black;
         }
-        #endregion
     }
 }

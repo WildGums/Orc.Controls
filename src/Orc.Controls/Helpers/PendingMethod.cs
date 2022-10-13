@@ -1,18 +1,10 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PendingMethod.cs" company="WildGums">
-//   Copyright (c) 2008 - 2020 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using System.Windows.Threading;
 
     internal static class PendingMethod
     {
-        #region Methods
         public static void InvokeDispatcher(Action action, int delay)
         {
             if (action is null)
@@ -39,7 +31,7 @@ namespace Orc.Controls
             timer.Start();
         }
 
-        private static void OnTimerTick(object sender, EventArgs e)
+        private static void OnTimerTick(object? sender, EventArgs e)
         {
             if (sender is not DispatcherTimer timer)
             {
@@ -52,6 +44,5 @@ namespace Orc.Controls
             var action = timer.Tag as Action;
             action?.Invoke();
         }
-        #endregion
     }
 }
