@@ -7,7 +7,6 @@
 
 namespace Orc.Controls.Tests
 {
-    using System.IO;
     using System.Reflection;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
