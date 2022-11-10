@@ -101,9 +101,9 @@
         /// <summary>
         /// Sets the columns and rows.
         /// </summary>
-        private void SetColumnsAndRows()
+        internal void SetColumnsAndRows()
         {
-            var columnCount = ColumnDefinitions.Count;
+            var columnCount = Math.Max(ColumnDefinitions.Count, 1);
             var currentColumn = 0;
             var currentRow = 0;
 
