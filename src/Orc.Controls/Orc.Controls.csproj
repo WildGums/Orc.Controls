@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <XamlToolsDisableInDebugMode>true</XamlToolsDisableInDebugMode>
     <UseWpf>true</UseWpf>
     <UseWindowsForms>true</UseWindowsForms>
     <ExtrasEnableImplicitWpfReferences>true</ExtrasEnableImplicitWpfReferences>
@@ -48,6 +49,14 @@
     <EmbeddedResource Include="**/GeneratorParameters.json" />
   </ItemGroup>
 
+  <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props')" />
+  <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.mat.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.mat.props')" />
+  <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.xamltools.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.xamltools.props')" />
+
+  <PropertyGroup>
+    <XAMLCombineImportMergedResourceDictionaryReferences>True</XAMLCombineImportMergedResourceDictionaryReferences>
+  </PropertyGroup>
+
   <ItemGroup>
     <XAMLCombineItems Include="Themes\Geometry.xaml">
       <TargetFile>Themes/Generic.generated.xaml</TargetFile>
@@ -66,13 +75,5 @@
       <Visible>True</Visible>
     </XAMLCombineItems>
   </ItemGroup>
-
-  <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props')" />
-  <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.mat.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.mat.props')" />
-  <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.xamltools.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.xamltools.props')" />
-
-  <PropertyGroup>
-    <XAMLCombineImportMergedResourceDictionaryReferences>True</XAMLCombineImportMergedResourceDictionaryReferences>
-  </PropertyGroup>
 </Project>
 
