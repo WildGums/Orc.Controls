@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DoNotShowDropDownOnClickComboboxBehavior.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System.Windows.Controls;
     using System.Windows.Input;
@@ -13,7 +6,6 @@ namespace Orc.Controls
 
     public class DoNotShowDropDownOnClickComboboxBehavior : BehaviorBase<ComboBox>
     {
-        #region Methods
         protected override void OnAssociatedObjectLoaded()
         {
             base.OnAssociatedObjectLoaded();
@@ -29,7 +21,7 @@ namespace Orc.Controls
             var combobox = AssociatedObject;
 
             combobox.PreviewMouseDown -= OnPreviewMouseDown;
-            combobox.PreviewMouseDoubleClick += OnPreviewMouseDoubleClick;
+            combobox.PreviewMouseDoubleClick -= OnPreviewMouseDoubleClick;
 
             base.OnAssociatedObjectUnloaded();
         }
@@ -53,6 +45,5 @@ namespace Orc.Controls
                 args.Handled = true;
             }
         }
-        #endregion
     }
 }
