@@ -5,6 +5,7 @@
     using Catel;
     using NUnit.Framework;
     using Automation;
+    using System;
 
     public static class ColorBoardAssert
     {

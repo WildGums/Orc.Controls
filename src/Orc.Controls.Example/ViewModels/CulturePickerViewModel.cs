@@ -1,5 +1,6 @@
 ﻿namespace Orc.Controls.Example.ViewModels
 {
+    using System;
     using System.Globalization;
     using System.Threading.Tasks;
     using Catel;
