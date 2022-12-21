@@ -1,12 +1,4 @@
-﻿
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TimePicker.cs" company="">
-// Clock-like TimePicker control https://github.com/roy-t/TimePicker
-// </copyright>
-//---------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Example.ViewModels
+﻿namespace Orc.Controls.Example.ViewModels
 {
     using System;
     using System.ComponentModel;

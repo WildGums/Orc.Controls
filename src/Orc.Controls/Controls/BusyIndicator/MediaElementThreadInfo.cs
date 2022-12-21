@@ -22,9 +22,9 @@
         /// <param name="thread">The thread.</param>
         public MediaElementThreadInfo(HostVisual hostVisual, Func<Visual> createVisual, Thread thread)
         {
-            Argument.IsNotNull(nameof(hostVisual), hostVisual);
-            Argument.IsNotNull(nameof(createVisual), createVisual);
-            Argument.IsNotNull(nameof(thread), thread);
+            ArgumentNullException.ThrowIfNull(hostVisual);
+            ArgumentNullException.ThrowIfNull(createVisual);
+            ArgumentNullException.ThrowIfNull(thread);
 
             Id = UniqueIdentifierHelper.GetUniqueIdentifier(typeof(MediaElementThreadInfo));
             HostVisual = hostVisual;

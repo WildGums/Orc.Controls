@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WrapPanel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System.Windows;
     using System.Windows.Controls;
@@ -15,7 +8,6 @@ namespace Orc.Controls
     /// </summary>
     public class WrapPanel : Panel
     {
-        #region Methods
         /// <summary>
         /// The arrange override.
         /// </summary>
@@ -83,6 +75,5 @@ namespace Orc.Controls
 
             return new Size(rowX + dsw, rowY + dsh);
         }
-        #endregion
     }
 }

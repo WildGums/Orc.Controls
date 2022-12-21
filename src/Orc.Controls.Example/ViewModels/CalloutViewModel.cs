@@ -12,7 +12,7 @@
 
         public CalloutViewModel(ICalloutManager calloutManager)
         {
-            Argument.IsNotNull(() => calloutManager);
+            ArgumentNullException.ThrowIfNull(calloutManager);
 
             CalloutManager = calloutManager;
             OpenCallout = new TaskCommand<object>(OpenCalloutExecuteAsync);

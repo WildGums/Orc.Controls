@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ReverseAutoCompletionService.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Example.Services
+﻿namespace Orc.Controls.Example.Services
 {
     using System.Collections;
     using System.Linq;
@@ -18,7 +11,7 @@ namespace Orc.Controls.Example.Services
         #region IAutoCompletionService Members
         public string[] GetAutoCompleteValues(string property, string filter, IEnumerable source)
         {
-            Argument.IsNotNull(() => source);
+            ArgumentNullException.ThrowIfNull(source);
 
             var reverseFilter = string.Empty;
             for (var i = filter.Length - 1; i >= 0; i--)

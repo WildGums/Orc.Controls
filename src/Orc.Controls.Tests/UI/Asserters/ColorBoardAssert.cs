@@ -15,7 +15,7 @@
         /// <param name="expectedColor">Expected color</param>
         public static void Color(ColorBoard colorBoard, Color expectedColor)
         {
-            Argument.IsNotNull(() => colorBoard);
+            ArgumentNullException.ThrowIfNull(colorBoard);
 
             //Color from api should be expected
             var apiColor = colorBoard.Current.Color;

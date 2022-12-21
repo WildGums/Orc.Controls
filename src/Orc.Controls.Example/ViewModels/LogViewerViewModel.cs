@@ -16,7 +16,7 @@
 
         public LogViewerViewModel(IApplicationLogFilterGroupService applicationLogFilterGroupService)
         {
-            Argument.IsNotNull(() => applicationLogFilterGroupService);
+            ArgumentNullException.ThrowIfNull(applicationLogFilterGroupService);
 
             _applicationLogFilterGroupService = applicationLogFilterGroupService;
 

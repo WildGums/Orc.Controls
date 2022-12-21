@@ -12,6 +12,6 @@
         }
 
         public static readonly DependencyProperty CategoryProperty = DependencyProperty.Register(nameof(Category),
-            typeof(string), typeof(LogMessageCategoryControl), new PropertyMetadata(""));
+            typeof(string), typeof(LogMessageCategoryControl), new PropertyMetadata(string.Empty));
     }
 }

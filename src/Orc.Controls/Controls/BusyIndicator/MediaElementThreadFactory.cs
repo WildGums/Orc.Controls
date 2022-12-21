@@ -24,7 +24,7 @@
         /// <returns>The media element thread info.</returns>
         public static MediaElementThreadInfo CreateMediaElementsOnWorkerThread(Func<Visual> createVisual)
         {
-            Argument.IsNotNull("createVisual", createVisual);
+            ArgumentNullException.ThrowIfNull(createVisual);
 
             var thread = new Thread(WorkerThread);
 

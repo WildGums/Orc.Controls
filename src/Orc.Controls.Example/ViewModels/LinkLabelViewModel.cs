@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LinkLabelViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Example.ViewModels
+﻿namespace Orc.Controls.Example.ViewModels
 {
     using Catel;
     using Catel.MVVM;
@@ -20,7 +13,7 @@ namespace Orc.Controls.Example.ViewModels
         #region Constructors
         public LinkLabelViewModel(IMessageService messageService)
         {
-            Argument.IsNotNull(() => messageService);
+            ArgumentNullException.ThrowIfNull(messageService);
 
             _messageService = messageService;
             DefaultAction = new Command(OnDefaultActionExecute);

@@ -73,7 +73,7 @@
 
             try
             {
-                var regEx = Regex.Match("", pattern);
+                var regEx = Regex.Match(string.Empty, pattern);
             }
             catch (ArgumentException)
             {

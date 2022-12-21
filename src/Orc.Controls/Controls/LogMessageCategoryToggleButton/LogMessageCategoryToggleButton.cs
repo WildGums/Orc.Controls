@@ -43,7 +43,7 @@
         }
 
         public static readonly DependencyProperty CategoryProperty = DependencyProperty.Register(nameof(Category),
-            typeof(string), typeof(LogMessageCategoryToggleButton), new PropertyMetadata("",
+            typeof(string), typeof(LogMessageCategoryToggleButton), new PropertyMetadata(string.Empty,
                 (sender, args) => ((LogMessageCategoryToggleButton)sender).OnCategoryChanged(args)));
         #endregion
 
