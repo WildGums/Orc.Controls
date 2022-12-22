@@ -206,9 +206,9 @@
             {
                 var companyDirectory = Catel.IO.Path.GetParentDirectory(appDataDirectory);
 
-                settingsStorage = Regex.Replace(settingsStorage, "%AppData%", appDataDirectory, RegexOptions.IgnoreCase);
-                settingsStorage = Regex.Replace(settingsStorage, "%Company%", companyDirectory, RegexOptions.IgnoreCase);
-                settingsStorage = Regex.Replace(settingsStorage, "%Name%", tool.Name, RegexOptions.IgnoreCase);
+                settingsStorage = Regex.Replace(settingsStorage, "%AppData%", appDataDirectory, RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1));
+                settingsStorage = Regex.Replace(settingsStorage, "%Company%", companyDirectory, RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1));
+                settingsStorage = Regex.Replace(settingsStorage, "%Name%", tool.Name, RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1));
             }
 
             _directoryService.Create(settingsStorage);

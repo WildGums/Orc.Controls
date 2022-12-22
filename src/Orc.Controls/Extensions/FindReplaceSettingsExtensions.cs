@@ -23,7 +23,7 @@
 
             if (settings.UseRegex)
             {
-                return new Regex(textToFind, options);
+                return new Regex(textToFind, options, TimeSpan.FromSeconds(1));
             }
 
             var pattern = Regex.Escape(textToFind);
@@ -37,7 +37,7 @@
                 pattern = "\\b" + pattern + "\\b";
             }
 
-            return new Regex(pattern, options);
+            return new Regex(pattern, options, TimeSpan.FromSeconds(1));
         }
     }
 }

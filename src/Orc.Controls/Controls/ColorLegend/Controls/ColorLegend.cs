@@ -599,7 +599,7 @@ namespace Orc.Controls
 
             try
             {
-                var regex = new Regex(filter.GetRegexStringFromSearchPattern());
+                var regex = new Regex(filter.GetRegexStringFromSearchPattern(), RegexOptions.None, TimeSpan.FromSeconds(1));
                 return items.Where(cp => regex.IsMatch(cp.Description)).ToList();
             }
             catch (Exception)
