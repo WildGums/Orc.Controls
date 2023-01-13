@@ -13,7 +13,7 @@
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
@@ -35,8 +35,8 @@
             // Some test logging, but important to load the assembly first
             var externalTypeToForceAssemblyLoad = typeof(LogViewerLogListener);
 
-            Orc.Theming.FontImage.RegisterFont("FontAwesome", new FontFamily(new Uri("pack://application:,,,/Orc.Controls.Example;component/Resources/Fonts/", UriKind.RelativeOrAbsolute), "./#FontAwesome"));
-            Orc.Theming.FontImage.DefaultFontFamily = "FontAwesome";
+            FontImage.RegisterFont("FontAwesome", new FontFamily(new Uri("pack://application:,,,/Orc.Controls.Example;component/Resources/Fonts/", UriKind.RelativeOrAbsolute), "./#FontAwesome"));
+            FontImage.DefaultFontFamily = "FontAwesome";
 
             var configurationService = ServiceLocator.Default.ResolveRequiredType<IConfigurationService>();
             await configurationService.LoadAsync();

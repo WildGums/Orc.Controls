@@ -2,8 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Orc.Controls"
                     xmlns:catel="http://schemas.catelproject.com"
-                    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
-                    xmlns:orcautomation="http://schemas.wildgums.com/orc/automation"
                     xmlns:automation="clr-namespace:Orc.Controls.Automation">
 
     <ResourceDictionary.MergedDictionaries>
