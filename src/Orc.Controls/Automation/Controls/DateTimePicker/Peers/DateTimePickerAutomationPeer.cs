@@ -1,12 +1,11 @@
-﻿namespace Orc.Controls.Automation
-{
-    using Orc.Automation;
+﻿namespace Orc.Controls.Automation;
 
-    public class DateTimePickerAutomationPeer : AutomationControlPeerBase<Controls.DateTimePicker>
+using Orc.Automation;
+
+public class DateTimePickerAutomationPeer : AutomationControlPeerBase<Controls.DateTimePicker>
+{
+    public DateTimePickerAutomationPeer(Controls.DateTimePicker owner) 
+        : base(owner)
     {
-        public DateTimePickerAutomationPeer(Controls.DateTimePicker owner) 
-            : base(owner)
-        {
-        }
     }
 }

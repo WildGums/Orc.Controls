@@ -1,12 +1,9 @@
-﻿namespace Orc.Controls.Automation
-{
-    using Orc.Automation;
+﻿namespace Orc.Controls.Automation;
 
-    public class ListTextBoxAutomationPeer : TextBoxAutomationPeer<Controls.ListTextBox>
+public class ListTextBoxAutomationPeer : TextBoxAutomationPeer<Controls.ListTextBox>
+{
+    public ListTextBoxAutomationPeer(Controls.ListTextBox owner)
+        : base(owner)
     {
-        public ListTextBoxAutomationPeer(Controls.ListTextBox owner)
-            : base(owner)
-        {
-        }
     }
 }

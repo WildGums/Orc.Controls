@@ -1,16 +1,17 @@
-﻿namespace Orc.Controls.Automation
+﻿#nullable disable
+namespace Orc.Controls.Automation;
+
+using System.Windows.Automation;
+using Orc.Automation;
+using Orc.Automation.Controls;
+
+public class ValidationContextTreeMap : AutomationBase
 {
-    using System.Windows.Automation;
-    using Orc.Automation;
-    using Orc.Automation.Controls;
-
-    public class ValidationContextTreeMap : AutomationBase
+    public ValidationContextTreeMap(AutomationElement element)
+        : base(element)
     {
-        public ValidationContextTreeMap(AutomationElement element)
-            : base(element)
-        {
-        }
-
-        public Tree InnerTree => By.One<Tree>();
     }
+
+    public Tree InnerTree => By.One<Tree>();
 }
+#nullable enable

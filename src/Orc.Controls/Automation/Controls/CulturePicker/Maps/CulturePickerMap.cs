@@ -1,4 +1,5 @@
-﻿namespace Orc.Automation
+﻿#nullable disable
+namespace Orc.Automation
 {
     using System.Windows.Automation;
     using Controls;
@@ -13,3 +14,4 @@
         public ComboBox Combobox => By.One<ComboBox>();
     }
 }
+#nullable enable

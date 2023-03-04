@@ -1,70 +1,69 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System.Windows;
+using System.Windows.Input;
+
+// originally came from http://madprops.org/blog/enter-to-tab-as-an-attached-property/
+public static class EnterKeyTraversal
 {
-    using System.Windows;
-    using System.Windows.Input;
-
-    // originally came from http://madprops.org/blog/enter-to-tab-as-an-attached-property/
-    public static class EnterKeyTraversal
+    #region Methods
+    public static bool GetIsEnabled(DependencyObject obj)
     {
-        #region Methods
-        public static bool GetIsEnabled(DependencyObject obj)
+        return (bool)obj.GetValue(IsEnabledProperty);
+    }
+
+    public static void SetIsEnabled(DependencyObject obj, bool value)
+    {
+        obj.SetValue(IsEnabledProperty, value);
+    }
+
+    public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.RegisterAttached("IsEnabled", typeof(bool),
+        typeof(EnterKeyTraversal), new UIPropertyMetadata(false, OnIsEnabledChanged));
+
+    private static void OnPreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.OriginalSource is not FrameworkElement frameworkElement)
         {
-            return (bool)obj.GetValue(IsEnabledProperty);
+            return;
         }
 
-        public static void SetIsEnabled(DependencyObject obj, bool value)
+        if (e.Key != Key.Enter)
         {
-            obj.SetValue(IsEnabledProperty, value);
+            return;
         }
 
-        public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.RegisterAttached("IsEnabled", typeof(bool),
-            typeof(EnterKeyTraversal), new UIPropertyMetadata(false, OnIsEnabledChanged));
+        e.Handled = true;
+        frameworkElement.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+    }
 
-        private static void OnPreviewKeyDown(object sender, KeyEventArgs e)
+    private static void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        if (sender is not FrameworkElement frameworkElement)
         {
-            if (e.OriginalSource is not FrameworkElement frameworkElement)
-            {
-                return;
-            }
-
-            if (e.Key != Key.Enter)
-            {
-                return;
-            }
-
-            e.Handled = true;
-            frameworkElement.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            return;
         }
 
-        private static void OnUnloaded(object sender, RoutedEventArgs e)
-        {
-            if (sender is not FrameworkElement frameworkElement)
-            {
-                return;
-            }
+        frameworkElement.Unloaded -= OnUnloaded;
+        frameworkElement.PreviewKeyDown -= OnPreviewKeyDown;
+    }
 
+    private static void OnIsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not FrameworkElement frameworkElement)
+        {
+            return;
+        }
+
+        if ((bool)e.NewValue)
+        {
+            frameworkElement.Unloaded += OnUnloaded;
+            frameworkElement.PreviewKeyDown += OnPreviewKeyDown;
+        }
+        else
+        {
             frameworkElement.Unloaded -= OnUnloaded;
             frameworkElement.PreviewKeyDown -= OnPreviewKeyDown;
         }
-
-        private static void OnIsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is not FrameworkElement frameworkElement)
-            {
-                return;
-            }
-
-            if ((bool)e.NewValue)
-            {
-                frameworkElement.Unloaded += OnUnloaded;
-                frameworkElement.PreviewKeyDown += OnPreviewKeyDown;
-            }
-            else
-            {
-                frameworkElement.Unloaded -= OnUnloaded;
-                frameworkElement.PreviewKeyDown -= OnPreviewKeyDown;
-            }
-        }
-        #endregion
     }
+    #endregion
 }

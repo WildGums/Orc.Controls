@@ -1,65 +1,66 @@
-﻿namespace Orc.Controls.Automation
+﻿#nullable disable
+namespace Orc.Controls.Automation;
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Automation;
+using System.Windows.Input;
+using Orc.Automation;
+using Orc.Automation.Controls;
+
+[AutomatedControl(Class = typeof(Controls.FilterBox), ControlTypeName = nameof(ControlType.Edit))]
+public class FilterBox : Edit
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows.Automation;
-    using System.Windows.Input;
-    using Orc.Automation;
-    using Orc.Automation.Controls;
-
-    [AutomatedControl(Class = typeof(Controls.FilterBox), ControlTypeName = nameof(ControlType.Edit))]
-    public class FilterBox : Edit
+    public FilterBox(AutomationElement element) 
+        : base(element)
     {
-        public FilterBox(AutomationElement element) 
-            : base(element)
-        {
-        }
+    }
 
-        public FilterBoxMap Map => Map<FilterBoxMap>();
-        public new FilterBoxModel Current => Model<FilterBoxModel>();
+    public FilterBoxMap Map => Map<FilterBoxMap>();
+    public new FilterBoxModel Current => Model<FilterBoxModel>();
 
-        public string Watermark
-        {
-            get => Map.WatermarkText?.Value ?? string.Empty;
-        }
+    public string Watermark
+    {
+        get => Map.WatermarkText?.Value ?? string.Empty;
+    }
 
-        public void Clear()
-        {
-            Map.ClearButton?.Click();
-        }
+    public void Clear()
+    {
+        Map.ClearButton?.Click();
+    }
 
-        public void SelectItemFromSuggestionList(string item)
-        {
-            var list = GetSuggestionList();
+    public void SelectItemFromSuggestionList(string item)
+    {
+        var list = GetSuggestionList();
 
-            var listItem = list?.Items?.FirstOrDefault(x => Equals(x.DisplayText, item));
+        var listItem = list?.Items?.FirstOrDefault(x => Equals(x.DisplayText, item));
 
-            listItem?.Select();
-        }
+        listItem?.Select();
+    }
 
-        public List<string> OpenSuggestionList()
-        {
-            var list = GetSuggestionList();
+    public List<string> OpenSuggestionList()
+    {
+        var list = GetSuggestionList();
 
-            var result = list?.Items?.Select(x => x.DisplayText)
-                .ToList() ?? new List<string>();
+        var result = list?.Items?.Select(x => x.DisplayText)
+            .ToList() ?? new List<string>();
 
-            return result;
-        }
+        return result;
+    }
 
-        private List GetSuggestionList()
-        {
-            SetFocus();
+    private List GetSuggestionList()
+    {
+        SetFocus();
 
-            KeyboardInputEx.Gesture(Key.LeftCtrl, Key.Space);
+        KeyboardInputEx.Gesture(Key.LeftCtrl, Key.Space);
 
-            Wait.UntilResponsive();
+        Wait.UntilResponsive();
 
-            var windowHost = Element.GetHostWindow();
-            var popup = windowHost.Find(className: "Popup", controlType: ControlType.Window);
-            var list = popup?.Find<List>();
+        var windowHost = Element.GetHostWindow();
+        var popup = windowHost.Find(className: "Popup", controlType: ControlType.Window);
+        var list = popup?.Find<List>();
 
-            return list;
-        }
+        return list;
     }
 }
+#nullable enable

@@ -1,12 +1,11 @@
-﻿namespace Orc.Controls.Automation
-{
-    using Orc.Automation;
+﻿namespace Orc.Controls.Automation;
 
-    public class StaggeredPanelAutomationPeer : AutomationControlPeerBase<Controls.StaggeredPanel>
+using Orc.Automation;
+
+public class StaggeredPanelAutomationPeer : AutomationControlPeerBase<Controls.StaggeredPanel>
+{
+    public StaggeredPanelAutomationPeer(Controls.StaggeredPanel owner)
+        : base(owner)
     {
-        public StaggeredPanelAutomationPeer(Controls.StaggeredPanel owner)
-            : base(owner)
-        {
-        }
     }
 }

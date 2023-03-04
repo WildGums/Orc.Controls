@@ -1,39 +1,37 @@
-﻿namespace Orc.Controls.Automation
+﻿namespace Orc.Controls.Automation;
+
+using System.Windows.Media;
+using System.Windows.Shapes;
+using Catel.Windows;
+using Orc.Automation;
+
+public class ColorPickerAutomationPeer : AutomationControlPeerBase<Controls.ColorPicker>
 {
-    using System.Windows;
-    using System.Windows.Media;
-    using System.Windows.Shapes;
-    using Catel.Windows;
-    using Orc.Automation;
-
-    public class ColorPickerAutomationPeer : AutomationControlPeerBase<Controls.ColorPicker>
+    public ColorPickerAutomationPeer(Controls.ColorPicker owner)
+        : base(owner)
     {
-        public ColorPickerAutomationPeer(Controls.ColorPicker owner)
-            : base(owner)
+        owner.ColorChanged += OnColorChanged;
+    }
+
+    [AutomationMethod]
+    public Color? GetRenderedElementColor()
+    {
+        var surface = Control.FindVisualDescendantByName("ColorSurface");
+        if (surface is System.Windows.Controls.Control control)
         {
-            owner.ColorChanged += OnColorChanged;
+            return (control.Background as SolidColorBrush)?.Color;
         }
 
-        [AutomationMethod]
-        public Color? GetRenderedElementColor()
+        if (surface is Shape shape)
         {
-            var surface = Control.FindVisualDescendantByName("ColorSurface");
-            if (surface is System.Windows.Controls.Control control)
-            {
-                return (control.Background as SolidColorBrush)?.Color;
-            }
-
-            if (surface is Shape shape)
-            {
-                return (shape.Fill as SolidColorBrush)?.Color;
-            }
-
-            return null;
+            return (shape.Fill as SolidColorBrush)?.Color;
         }
 
-        private void OnColorChanged(object sender, ColorChangedEventArgs e)
-        {
-            RaiseEvent(nameof(Controls.ColorPicker.ColorChanged), null);
-        }
+        return null;
+    }
+
+    private void OnColorChanged(object? sender, ColorChangedEventArgs e)
+    {
+        RaiseEvent(nameof(Controls.ColorPicker.ColorChanged), null);
     }
 }

@@ -1,12 +1,13 @@
-﻿namespace Orc.Controls.Automation
-{
-    using Orc.Automation;
+﻿#nullable disable
+namespace Orc.Controls.Automation;
 
-    public class LogMessageCategoryToggleButtonModelPeer : AutomationControlPeerBase<Controls.LogMessageCategoryToggleButton>
+using Orc.Automation;
+
+public class LogMessageCategoryToggleButtonModelPeer : AutomationControlPeerBase<Controls.LogMessageCategoryToggleButton>
+{
+    public LogMessageCategoryToggleButtonModelPeer(Controls.LogMessageCategoryToggleButton owner) 
+        : base(owner)
     {
-        public LogMessageCategoryToggleButtonModelPeer(Controls.LogMessageCategoryToggleButton owner) 
-            : base(owner)
-        {
-        }
     }
 }
+#nullable enable

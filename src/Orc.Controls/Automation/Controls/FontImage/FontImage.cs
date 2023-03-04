@@ -1,13 +1,12 @@
-﻿namespace Orc.Controls.Automation
-{
-    using System.Windows.Automation;
-    using Orc.Automation.Controls;
+﻿namespace Orc.Controls.Automation;
 
-    public class FontImage : FrameworkElement<FontImageModel>
+using System.Windows.Automation;
+using Orc.Automation.Controls;
+
+public class FontImage : FrameworkElement<FontImageModel>
+{
+    public FontImage(AutomationElement element) 
+        : base(element)
     {
-        public FontImage(AutomationElement element) 
-            : base(element)
-        {
-        }
     }
 }

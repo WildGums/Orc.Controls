@@ -1,4 +1,5 @@
-﻿namespace Orc.Controls.Automation;
+﻿#nullable disable
+namespace Orc.Controls.Automation;
 
 using System.Linq;
 using System.Windows;
@@ -25,3 +26,4 @@ public class StepBarSelectItemByTitleNumberDescriptionMethodRun : NamedAutomatio
         return true;
     }
 }
+#nullable enable

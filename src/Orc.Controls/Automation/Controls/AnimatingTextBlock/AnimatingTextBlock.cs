@@ -1,15 +1,14 @@
-﻿namespace Orc.Controls.Automation
-{
-    using System.Windows.Automation;
-    using Orc.Automation;
-    using Orc.Automation.Controls;
+﻿namespace Orc.Controls.Automation;
 
-    [AutomatedControl(Class = typeof(Controls.AnimatingTextBlock))]
-    public class AnimatingTextBlock : FrameworkElement<AnimatingTextBlockModel>
+using System.Windows.Automation;
+using Orc.Automation;
+using Orc.Automation.Controls;
+
+[AutomatedControl(Class = typeof(Controls.AnimatingTextBlock))]
+public class AnimatingTextBlock : FrameworkElement<AnimatingTextBlockModel>
+{
+    public AnimatingTextBlock(AutomationElement element) 
+        : base(element)
     {
-        public AnimatingTextBlock(AutomationElement element) 
-            : base(element)
-        {
-        }
     }
 }
