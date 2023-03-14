@@ -9,47 +9,10 @@ using Catel.Windows.Interactivity;
 
 public class InfinityScrollListBoxBehavior : BehaviorBase<ListBox>
 {
-    #region Constants
+    private ScrollViewer? _scrollViewer;
+
     public static readonly DependencyProperty CommandProperty =
         DependencyProperty.Register(nameof(Command), typeof(TaskCommand), typeof(InfinityScrollListBoxBehavior), new PropertyMetadata(null));
-
-    public static readonly DependencyProperty CommandParameterProperty =
-        DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(InfinityScrollListBoxBehavior), new PropertyMetadata(0));
-
-    public static readonly DependencyProperty IsCommandExecutingProperty =
-        DependencyProperty.RegisterAttached(nameof(IsCommandExecuting), typeof(bool), typeof(InfinityScrollListBoxBehavior),
-            new PropertyMetadata(false));
-
-    public static readonly DependencyProperty ScrollSizeProperty =
-        DependencyProperty.RegisterAttached(nameof(ScrollSize), typeof(int), typeof(InfinityScrollListBoxBehavior), new PropertyMetadata(0));
-    #endregion
-
-    #region Fields
-    private ScrollViewer _scrollViewer;
-    #endregion
-
-    #region Properties
-    private ScrollViewer ScrollViewer
-    {
-        get { return _scrollViewer; }
-        set
-        {
-            if (value != _scrollViewer)
-            {
-                if (_scrollViewer is not null)
-                {
-                    _scrollViewer.ScrollChanged -= OnScrollViewerScrollChanged;
-                }
-
-                _scrollViewer = value;
-
-                if (_scrollViewer is not null)
-                {
-                    _scrollViewer.ScrollChanged += OnScrollViewerScrollChanged;
-                }
-            }
-        }
-    }
 
     public TaskCommand Command
     {
@@ -57,11 +20,18 @@ public class InfinityScrollListBoxBehavior : BehaviorBase<ListBox>
         set { SetValue(CommandProperty, value); }
     }
 
+    public static readonly DependencyProperty CommandParameterProperty =
+        DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(InfinityScrollListBoxBehavior), new PropertyMetadata(0));
+
     public object CommandParameter
     {
         get { return GetValue(CommandParameterProperty); }
         set { SetValue(CommandParameterProperty, value); }
     }
+
+    public static readonly DependencyProperty IsCommandExecutingProperty =
+        DependencyProperty.RegisterAttached(nameof(IsCommandExecuting), typeof(bool), typeof(InfinityScrollListBoxBehavior),
+            new PropertyMetadata(false));
 
     public bool IsCommandExecuting
     {
@@ -69,14 +39,15 @@ public class InfinityScrollListBoxBehavior : BehaviorBase<ListBox>
         set { SetValue(IsCommandExecutingProperty, value); }
     }
 
+    public static readonly DependencyProperty ScrollSizeProperty =
+        DependencyProperty.RegisterAttached(nameof(ScrollSize), typeof(int), typeof(InfinityScrollListBoxBehavior), new PropertyMetadata(0));
+
     public int ScrollSize
     {
         get { return (int)GetValue(ScrollSizeProperty); }
         set { SetValue(ScrollSizeProperty, value); }
     }
-    #endregion
-
-    #region Methods
+    
     protected override void OnAssociatedObjectLoaded()
     {
         FindVisualScroll();
@@ -84,18 +55,35 @@ public class InfinityScrollListBoxBehavior : BehaviorBase<ListBox>
 
     protected override void OnAssociatedObjectUnloaded()
     {
-        base.OnAssociatedObjectUnloaded();
+        if (_scrollViewer is not null)
+        {
+            _scrollViewer.ScrollChanged -= OnScrollViewerScrollChanged;
+        }
     }
 
     private void FindVisualScroll()
     {
-        ScrollViewer = AssociatedObject.FindVisualDescendantByType<ScrollViewer>();
+        if (_scrollViewer is not null)
+        {
+            _scrollViewer.ScrollChanged -= OnScrollViewerScrollChanged;
+        }
+
+        _scrollViewer = AssociatedObject.FindVisualDescendantByType<ScrollViewer>();
+
+        if (_scrollViewer is not null)
+        {
+            _scrollViewer.ScrollChanged += OnScrollViewerScrollChanged;
+        }
     }
 
-    private async void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
+    private async void OnScrollViewerScrollChanged(object? sender, ScrollChangedEventArgs e)
     {
-        var scrolled = _scrollViewer.VerticalOffset;
+        if (_scrollViewer is null)
+        {
+            return;
+        }
 
+        var scrolled = _scrollViewer.VerticalOffset;
         var last = _scrollViewer.ViewportHeight + scrolled;
 
         if (ScrollSize > last)
@@ -114,5 +102,4 @@ public class InfinityScrollListBoxBehavior : BehaviorBase<ListBox>
     {
         Command?.Execute(CommandParameter);
     }
-    #endregion
 }

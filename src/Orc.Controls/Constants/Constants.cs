@@ -1,9 +1,8 @@
-﻿namespace Orc.Controls
-{
-    using System;
+﻿namespace Orc.Controls;
 
-    public static class StepBarConfiguration
-    {
-        public static TimeSpan AnimationDuration { get; set; } = TimeSpan.FromMilliseconds(300);
-    }
+using System;
+
+public static class StepBarConfiguration
+{
+    public static TimeSpan AnimationDuration { get; set; } = TimeSpan.FromMilliseconds(300);
 }

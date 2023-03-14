@@ -5,7 +5,8 @@
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                   xmlns:catel="http://schemas.catelproject.com"
                   xmlns:controls="clr-namespace:Orc.Controls"
-                  mc:Ignorable="d" MinHeight="600" MinWidth="600">
+                  mc:Ignorable="d" MinHeight="600" MinWidth="600"
+                  d:DataContext="{d:DesignInstance controls:LogFilterGroupEditorViewModel}">
 
     <controls:StackGrid>
         <Grid.ColumnDefinitions>

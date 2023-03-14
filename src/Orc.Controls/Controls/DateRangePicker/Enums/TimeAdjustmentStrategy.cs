@@ -1,8 +1,7 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+public enum TimeAdjustmentStrategy
 {
-    public enum TimeAdjustmentStrategy
-    {
-        AdjustEndTime,
-        AdjustDuration
-    }
+    AdjustEndTime = 0,
+    AdjustDuration = 1
 }

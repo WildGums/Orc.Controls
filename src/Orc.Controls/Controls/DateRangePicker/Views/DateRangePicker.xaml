@@ -9,7 +9,8 @@
                    mc:Ignorable="d"
                    x:Name="CurrentControl"
                    d:DesignHeight="22"
-                   d:DesignWidth="190">
+                   d:DesignWidth="190"
+                   d:DataContext="{d:DesignInstance controls:DateRangePickerViewModel}">
     
     <catel:UserControl.Resources>
         <ObjectDataProvider x:Key="timeAdjustmentStrategies"

@@ -1,188 +1,186 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Threading;
+using Catel.Logging;
+using Catel.MVVM;
+using Catel.Services;
+
+public class CalloutViewModel : ViewModelBase, ICallout
 {
-    using System;
-    using System.Threading.Tasks;
-    using System.Windows;
-    using System.Windows.Input;
-    using System.Windows.Threading;
-    using Catel;
-    using Catel.Logging;
-    using Catel.MVVM;
-    using Catel.Services;
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-    public class CalloutViewModel : ViewModelBase, ICallout
+    private readonly ICalloutManager _calloutManager;
+    private readonly IDispatcherService _dispatcherService;
+
+    private DispatcherTimer? _dispatcherTimer;
+
+    public CalloutViewModel(ICalloutManager calloutManager, IDispatcherService dispatcherService)
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        ArgumentNullException.ThrowIfNull(calloutManager);
+        ArgumentNullException.ThrowIfNull(dispatcherService);
 
-        private readonly ICalloutManager _calloutManager;
-        private readonly IDispatcherService _dispatcherService;
-        private DispatcherTimer _dispatcherTimer;
+        _calloutManager = calloutManager;
+        _dispatcherService = dispatcherService;
 
-        public CalloutViewModel(ICalloutManager calloutManager, IDispatcherService dispatcherService)
-        {
-            ArgumentNullException.ThrowIfNull(calloutManager);
-            ArgumentNullException.ThrowIfNull(dispatcherService);
+        Id = Guid.NewGuid();
 
-            _calloutManager = calloutManager;
-            _dispatcherService = dispatcherService;
+        PauseTimer = new Command(OnPauseTimerExecute);
+        ResumeTimer = new Command(OnResumeTimerExecute);
+        ClosePopup = new Command(OnClosePopupExecute);
+    }
 
-            Id = Guid.NewGuid();
+    public Guid Id { get; }
 
-            PauseTimer = new Command(OnPauseTimerExecute);
-            ResumeTimer = new Command(OnResumeTimerExecute);
-            ClosePopup = new Command(OnClosePopupExecute);
-        }
+    public string? Name { get; set; }
 
-        public Guid Id { get; private set; }
+    public new string Title
+    {
+        get { return base.Title; }
+        set { base.Title = value; }
+    }
 
-        public string Name { get; set; }
+    public bool IsOpen { get; set; }
 
-        public new string Title
-        {
-            get { return base.Title; }
-            set { base.Title = value; }
-        }
+    public UIElement? PlacementTarget { get; set; }
 
-        public bool IsOpen { get; set; }
+    public string? Description { get; set; }
 
-        public UIElement PlacementTarget { get; set; }
+    public object? InnerContent { get; set; }
 
-        public string Description { get; set; }
+    public object? Tag => null;
 
-        public object InnerContent { get; set; }
+    public bool IsClosable { get; set; }
 
-        public object Tag => null;
+    public bool HasShown { get; private set; }
 
-        public bool IsClosable { get; set; }
+    public TimeSpan ShowTime { get; set; }
 
-        public bool HasShown { get; private set; }
+    public ICommand? Command { get; set; }
 
-        public TimeSpan ShowTime { get; set; }
-
-        public ICommand Command { get; set; }
-
-        public string Version { get; protected set; }
+    public string? Version { get; protected set; }
         
-        public event EventHandler<CalloutEventArgs> Showing;
+    public event EventHandler<CalloutEventArgs>? Showing;
 
-        public event EventHandler<CalloutEventArgs> Hiding;
+    public event EventHandler<CalloutEventArgs>? Hiding;
 
-        #region Commands
-        public Command PauseTimer { get; private set; }
+    #region Commands
+    public Command PauseTimer { get; }
 
-        private void OnPauseTimerExecute()
+    private void OnPauseTimerExecute()
+    {
+        _dispatcherTimer?.Stop();
+    }
+
+    public Command ResumeTimer { get; }
+
+    private void OnResumeTimerExecute()
+    {
+        _dispatcherTimer?.Start();
+    }
+
+    public Command ClosePopup { get; }
+
+    private void OnClosePopupExecute()
+    {
+        if (IsClosable)
         {
-            if (_dispatcherTimer is not null)
-            {
-                _dispatcherTimer.Stop();
-            }
-        }
-
-        public Command ResumeTimer { get; private set; }
-
-        private void OnResumeTimerExecute()
-        {
-            if (_dispatcherTimer is not null)
-            {
-                _dispatcherTimer.Start();
-            }
-        }
-
-        public Command ClosePopup { get; private set; }
-
-        private void OnClosePopupExecute()
-        {
-            if (IsClosable)
-            {
-                Hide();
-            }
-        }
-        #endregion
-
-        protected override async Task InitializeAsync()
-        {
-            await base.InitializeAsync();
-
-            _dispatcherTimer = new DispatcherTimer();
-            _dispatcherTimer.Tick += OnDispatcherTimerTick;
-
-            _calloutManager.Register(this);
-        }
-
-        protected override async Task CloseAsync()
-        {
-            _dispatcherTimer.Tick -= OnDispatcherTimerTick;
-
-            Hide();
-
-            _calloutManager.Unregister(this);
-
-            await base.CloseAsync();
-        }
-
-        private void OnDispatcherTimerTick(object sender, EventArgs e)
-        {
-            _dispatcherTimer.Stop();
-
             Hide();
         }
+    }
+    #endregion
 
-        public void Show()
+    protected override async Task InitializeAsync()
+    {
+        await base.InitializeAsync();
+
+        _dispatcherTimer = new DispatcherTimer();
+        _dispatcherTimer.Tick += OnDispatcherTimerTick;
+
+        _calloutManager.Register(this);
+    }
+
+    protected override async Task CloseAsync()
+    {
+        if (_dispatcherTimer is null)
         {
-            _dispatcherService.BeginInvokeIfRequired(() =>
-            {
-                if (IsOpen)
-                {
-                    return;
-                }
-
-                Log.Debug($"[{this}] Showing callout");
-
-                if (ShowTime > TimeSpan.Zero)
-                {
-                    Log.Debug($"[{this}] Starting callout timer with interval of '{ShowTime}'");
-
-                    _dispatcherTimer.Interval = ShowTime;
-                    _dispatcherTimer.Start();
-                }
-
-                HasShown = true;
-                IsOpen = true;
-            });
+            return;
         }
 
-        public void Hide()
-        {
-            _dispatcherService.BeginInvokeIfRequired(() =>
-            {
-                _dispatcherTimer.Stop();
+        _dispatcherTimer.Tick -= OnDispatcherTimerTick;
 
-                if (!IsOpen)
-                {
-                    return;
-                }
+        Hide();
 
-                Log.Debug($"[{this}] Hiding callout");
+        _calloutManager.Unregister(this);
 
-                IsOpen = false;
-            });
-        }
+        await base.CloseAsync();
+    }
 
-        private void OnIsOpenChanged()
+    private void OnDispatcherTimerTick(object? sender, EventArgs e)
+    {
+        _dispatcherTimer?.Stop();
+
+        Hide();
+    }
+
+    public void Show()
+    {
+        _dispatcherService.BeginInvokeIfRequired(() =>
         {
             if (IsOpen)
             {
-                Showing?.Invoke(this, new CalloutEventArgs(this));
+                return;
             }
-            else
-            {
-                Hiding?.Invoke(this, new CalloutEventArgs(this));
-            }
-        }
 
-        public override string ToString()
+            Log.Debug($"[{this}] Showing callout");
+
+            if (ShowTime > TimeSpan.Zero && _dispatcherTimer is not null)
+            {
+                Log.Debug($"[{this}] Starting callout timer with interval of '{ShowTime}'");
+
+                _dispatcherTimer.Interval = ShowTime;
+                _dispatcherTimer.Start();
+            }
+
+            HasShown = true;
+            IsOpen = true;
+        });
+    }
+
+    public void Hide()
+    {
+        _dispatcherService.BeginInvokeIfRequired(() =>
         {
-            return $"{Name} | {Id}";
+            _dispatcherTimer?.Stop();
+
+            if (!IsOpen)
+            {
+                return;
+            }
+
+            Log.Debug($"[{this}] Hiding callout");
+
+            IsOpen = false;
+        });
+    }
+
+    private void OnIsOpenChanged()
+    {
+        if (IsOpen)
+        {
+            Showing?.Invoke(this, new CalloutEventArgs(this));
         }
+        else
+        {
+            Hiding?.Invoke(this, new CalloutEventArgs(this));
+        }
+    }
+
+    public override string ToString()
+    {
+        return $"{Name} | {Id}";
     }
 }

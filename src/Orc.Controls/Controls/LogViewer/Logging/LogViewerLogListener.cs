@@ -1,12 +1,11 @@
-﻿namespace Orc.Controls
-{
-    using Catel.Logging;
+﻿namespace Orc.Controls;
 
-    public class LogViewerLogListener : RollingInMemoryLogListener
+using Catel.Logging;
+
+public class LogViewerLogListener : RollingInMemoryLogListener
+{
+    public LogViewerLogListener()
     {
-        public LogViewerLogListener()
-        {
-            MaximumNumberOfLogEntries = 500;
-        }
+        MaximumNumberOfLogEntries = 500;
     }
 }

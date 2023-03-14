@@ -1,19 +1,14 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using Catel.Logging;
+
+public class LogEntryDoubleClickEventArgs : EventArgs
 {
-    using System;
-    using Catel.Logging;
-
-    public class LogEntryDoubleClickEventArgs : EventArgs
+    public LogEntryDoubleClickEventArgs(LogEntry logEntry)
     {
-        #region Constructors
-        public LogEntryDoubleClickEventArgs(LogEntry logEntry)
-        {
-            LogEntry = logEntry;
-        }
-        #endregion
-
-        #region Properties
-        public LogEntry LogEntry { get; private set; }
-        #endregion
+        LogEntry = logEntry;
     }
+
+    public LogEntry LogEntry { get; }
 }

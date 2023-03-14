@@ -77,10 +77,8 @@
 
             try
             {
-                using (var stream = _fileService.OpenWrite(configFile))
-                {
-                    _xmlSerializer.Serialize(filterGroupsToSerialize, stream);
-                }
+                await using var stream = _fileService.OpenWrite(configFile);
+                _xmlSerializer.Serialize(filterGroupsToSerialize, stream);
             }
             catch (Exception ex)
             {

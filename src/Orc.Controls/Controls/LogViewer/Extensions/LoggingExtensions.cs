@@ -1,16 +1,13 @@
-﻿namespace Orc.Controls
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using Catel.Logging;
+﻿namespace Orc.Controls;
 
-    public static class LoggingExtensions
+using System.Collections.Generic;
+using System.Linq;
+using Catel.Logging;
+
+public static class LoggingExtensions
+{
+    public static IEnumerable<RichTextBoxParagraph> ConvertToParagraphs(this IEnumerable<LogEntry> logEntries)
     {
-        #region Methods
-        public static IEnumerable<RichTextBoxParagraph> ConvertToParagraphs(this IEnumerable<LogEntry> logEntries)
-        {
-            return logEntries.Select(x => new RichTextBoxParagraph(x));
-        }
-        #endregion
+        return logEntries.Select(x => new RichTextBoxParagraph(x));
     }
 }

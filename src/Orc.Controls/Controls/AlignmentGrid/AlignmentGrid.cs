@@ -11,15 +11,9 @@ using Theming;
 
 public class AlignmentGrid : ContentControl
 {
-    #region Fields
     private readonly Canvas _containerCanvas = new();
     private readonly ControlzEx.Theming.ThemeManager _themeManager;
-    #endregion
 
-    #region Constructors
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AlignmentGrid"/> class.
-    /// </summary>
     public AlignmentGrid()
     {
         Loaded += OnLoaded;
@@ -34,8 +28,6 @@ public class AlignmentGrid : ContentControl
 
         _themeManager = ControlzEx.Theming.ThemeManager.Current;
     }
-
-    #endregion
 
     #region Dependency properties
     /// <summary>
@@ -82,15 +74,14 @@ public class AlignmentGrid : ContentControl
         typeof(double), typeof(AlignmentGrid), new PropertyMetadata(20.0, (sender, e) => ((AlignmentGrid)sender).Rebuild()));
     #endregion
 
-    #region Methods
-    private void OnLoaded(object sender, RoutedEventArgs e)
+    private void OnLoaded(object? sender, RoutedEventArgs e)
     {
         Rebuild();
 
         _themeManager.ThemeChanged += OnThemeManagerThemeChanged;
     }
 
-    private void OnUnloaded(object sender, RoutedEventArgs e)
+    private void OnUnloaded(object? sender, RoutedEventArgs e)
     {
         _themeManager.ThemeChanged -= OnThemeManagerThemeChanged;
     }
@@ -137,7 +128,7 @@ public class AlignmentGrid : ContentControl
         }
     }
 
-    private void OnAlignmentGridSizeChanged(object sender, SizeChangedEventArgs e)
+    private void OnAlignmentGridSizeChanged(object? sender, SizeChangedEventArgs e)
     {
         Rebuild();
     }
@@ -146,5 +137,4 @@ public class AlignmentGrid : ContentControl
     {
         return new AlignmentGridAutomationPeer(this);
     }
-    #endregion
 }
