@@ -5,7 +5,6 @@
     using System.Windows.Automation.Peers;
     using System.Windows.Controls;
     using System.Windows.Media.Animation;
-    using Automation;
     using Catel.Logging;
     
     [TemplateVisualState(Name = "Expanded", GroupName = "Expander")]
@@ -23,8 +22,10 @@
 
         private double? _previousActualLength;
         private double? _previousMaxLength;
-        private ContentPresenter _expandSite;
-        private Border _headerSiteBorder;
+        private bool _isTemplateApplyPostponed;
+
+        private ContentPresenter? _expandSite;
+        private Border? _headerSiteBorder;
         #endregion
 
         #region Constructors
@@ -80,16 +81,7 @@
         #region Methods
         private void OnIsExpandedChanged(DependencyPropertyChangedEventArgs e)
         {
-            if ((bool)e.NewValue)
-            {
-                OnExpanded();
-            }
-            else
-            {
-                OnCollapsed();
-            }
-
-            UpdateStates(true);
+            UpdateIsExpanded();
         }
 
         private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -108,8 +100,6 @@
             }
         }
 
-        private bool _isTemplateApplyPostponed = false;
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -126,8 +116,8 @@
             {
                 throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_HeaderSiteBorder'");
             }
-            
-            UpdateStates(false);
+
+            UpdateIsExpanded();
 
             _isTemplateApplyPostponed = false;
         }
@@ -249,7 +239,7 @@
                 OnApplyTemplate();
             }
 
-            if (_expandSite is null)
+            if (_headerSiteBorder is null)
             {
                 return;
             }
@@ -351,6 +341,20 @@
         private void UpdateStates(bool useTransitions)
         {
             VisualStateManager.GoToState(this, IsExpanded ? "Expanded" : "Collapsed", useTransitions);
+        }
+
+        private void UpdateIsExpanded()
+        {
+            if (IsExpanded)
+            {
+                OnExpanded();
+            }
+            else
+            {
+                OnCollapsed();
+            }
+
+            UpdateStates(true);
         }
 
         protected override AutomationPeer OnCreateAutomationPeer()

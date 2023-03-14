@@ -79,6 +79,7 @@
                                               VerticalAlignment="Center"/>
 
                                     </Grid>
+
                                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                       VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                       Margin="0"
@@ -131,23 +132,24 @@
                                     Background="Transparent" 
                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+
                                 <ToggleButton x:Name="HeaderSite"
                                               AutomationProperties.AutomationId="HeaderSiteToggleButton"
                                               Style="{StaticResource ExpanderHeaderToggleButtonStyle}"
                                               BorderThickness="{TemplateBinding BorderThickness}"
                                               ContentTemplate="{TemplateBinding HeaderTemplate}" 
-								              ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" 
-								              Content="{TemplateBinding Header}" 
-								              Foreground="{TemplateBinding Foreground}" 
-								              FontWeight="{TemplateBinding FontWeight}" 
-								              FontStyle="{TemplateBinding FontStyle}" 
-								              FontStretch="{TemplateBinding FontStretch}" 
-								              FontSize="{TemplateBinding FontSize}" 
-								              FontFamily="{TemplateBinding FontFamily}" 
-								              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
-								              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
-								              Padding="{TemplateBinding Padding}" 								            
-								              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                              ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" 
+                                              Content="{TemplateBinding Header}" 
+                                              Foreground="{TemplateBinding Foreground}" 
+                                              FontWeight="{TemplateBinding FontWeight}" 
+                                              FontStyle="{TemplateBinding FontStyle}" 
+                                              FontStretch="{TemplateBinding FontStretch}" 
+                                              FontSize="{TemplateBinding FontSize}" 
+                                              FontFamily="{TemplateBinding FontFamily}" 
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                              Padding="{TemplateBinding Padding}" 								            
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </Border>
 
                             <ContentPresenter x:Name="PART_ExpandSite"
