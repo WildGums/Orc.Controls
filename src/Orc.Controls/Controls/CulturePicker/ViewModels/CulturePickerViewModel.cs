@@ -28,7 +28,7 @@ internal class CulturePickerViewModel : ViewModelBase
         }
 
         var selectedCulture = SelectedCulture;
-        if (selectedCulture == null)
+        if (selectedCulture is null)
         {
             return;
         }

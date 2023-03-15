@@ -1,107 +1,114 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Catel.MVVM;
+using Catel.Services;
+using FileSystem;
+
+public class DirectoryPickerViewModel : ViewModelBase
 {
-    using System;
-    using System.IO;
-    using System.Threading.Tasks;
-    using Catel.MVVM;
-    using Catel.Services;
-    using FileSystem;
+    private readonly IProcessService _processService;
+    private readonly ISelectDirectoryService _selectDirectoryService;
+    private readonly IDirectoryService _directoryService;
 
-    public class DirectoryPickerViewModel : ViewModelBase
+    public DirectoryPickerViewModel(ISelectDirectoryService selectDirectoryService, IDirectoryService directoryService, IProcessService processService)
     {
-        private readonly IProcessService _processService;
-        private readonly ISelectDirectoryService _selectDirectoryService;
-        private readonly IDirectoryService _directoryService;
+        ArgumentNullException.ThrowIfNull(selectDirectoryService);
+        ArgumentNullException.ThrowIfNull(directoryService);
+        ArgumentNullException.ThrowIfNull(processService);
 
-        public DirectoryPickerViewModel(ISelectDirectoryService selectDirectoryService, IDirectoryService directoryService, IProcessService processService)
+        _selectDirectoryService = selectDirectoryService;
+        _directoryService = directoryService;
+        _processService = processService;
+
+        OpenDirectory = new Command(OnOpenDirectoryExecute, OnOpenDirectoryCanExecute);
+        SelectDirectory = new TaskCommand(OnSelectDirectoryExecuteAsync);
+        Clear = new Command(OnClearExecute, OnClearCanExecute);
+    }
+
+    public double LabelWidth { get; set; }
+
+    public string? LabelText { get; set; }
+
+    public string? SelectedDirectory { get; set; }
+
+    public Command Clear { get; }
+
+    private bool OnClearCanExecute()
+    {
+        return OnOpenDirectoryCanExecute();
+    }
+
+    private void OnClearExecute()
+    {
+        SelectedDirectory = string.Empty;
+    }
+
+    /// <summary>
+    /// Gets the OpenDirectory command.
+    /// </summary>
+    public Command OpenDirectory { get; private set; }
+
+    /// <summary>
+    /// Method to check whether the OpenDirectory command can be executed.
+    /// </summary>
+    /// <returns><c>true</c> if the command can be executed; otherwise <c>false</c></returns>
+    private bool OnOpenDirectoryCanExecute()
+    {
+        return !string.IsNullOrWhiteSpace(SelectedDirectory);
+    }
+
+    /// <summary>
+    /// Method to invoke when the OpenDirectory command is executed.
+    /// </summary>
+    private void OnOpenDirectoryExecute()
+    {
+        var selectedDirectory = SelectedDirectory;
+        if (string.IsNullOrWhiteSpace(selectedDirectory))
         {
-            ArgumentNullException.ThrowIfNull(selectDirectoryService);
-            ArgumentNullException.ThrowIfNull(directoryService);
-            ArgumentNullException.ThrowIfNull(processService);
-
-            _selectDirectoryService = selectDirectoryService;
-            _directoryService = directoryService;
-            _processService = processService;
-
-            OpenDirectory = new Command(OnOpenDirectoryExecute, OnOpenDirectoryCanExecute);
-            SelectDirectory = new TaskCommand(OnSelectDirectoryExecuteAsync);
-            Clear = new Command(OnClearExecute, OnClearCanExecute);
+            return;
         }
 
-        public double LabelWidth { get; set; }
-
-        public string? LabelText { get; set; }
-
-        public string? SelectedDirectory { get; set; }
-
-        public Command Clear { get; }
-
-        private bool OnClearCanExecute()
+        if (!_directoryService.Exists(selectedDirectory))
         {
-            return OnOpenDirectoryCanExecute();
+            return;
         }
 
-        private void OnClearExecute()
+        var fullPath = Path.GetFullPath(selectedDirectory);
+        _processService.StartProcess(new ProcessContext
         {
-            SelectedDirectory = string.Empty;
+            FileName = fullPath,
+            UseShellExecute = true
+        });
+    }
+
+    /// <summary>
+    /// Gets the SelectDirectory command.
+    /// </summary>
+    public TaskCommand SelectDirectory { get; private set; }
+
+    /// <summary>
+    /// Method to invoke when the SelectOutputDirectory command is executed.
+    /// </summary>
+    private async Task OnSelectDirectoryExecuteAsync()
+    {
+        string? initialDirectory = null;
+
+        if (!string.IsNullOrEmpty(SelectedDirectory))
+        {
+            initialDirectory = Path.GetFullPath(SelectedDirectory);
         }
 
-        /// <summary>
-        /// Gets the OpenDirectory command.
-        /// </summary>
-        public Command OpenDirectory { get; private set; }
-
-        /// <summary>
-        /// Method to check whether the OpenDirectory command can be executed.
-        /// </summary>
-        /// <returns><c>true</c> if the command can be executed; otherwise <c>false</c></returns>
-        private bool OnOpenDirectoryCanExecute()
+        var result = await _selectDirectoryService.DetermineDirectoryAsync(new DetermineDirectoryContext
         {
-            return !string.IsNullOrWhiteSpace(SelectedDirectory);
-        }
+            InitialDirectory = initialDirectory
+        });
 
-        /// <summary>
-        /// Method to invoke when the OpenDirectory command is executed.
-        /// </summary>
-        private void OnOpenDirectoryExecute()
+        if (result.Result)
         {
-            if (_directoryService.Exists(SelectedDirectory))
-            {
-                var fullPath = Path.GetFullPath(SelectedDirectory);
-                _processService.StartProcess(new ProcessContext
-                {
-                    FileName = fullPath,
-                    UseShellExecute = true
-                });
-            }
-        }
-
-        /// <summary>
-        /// Gets the SelectDirectory command.
-        /// </summary>
-        public TaskCommand SelectDirectory { get; private set; }
-
-        /// <summary>
-        /// Method to invoke when the SelectOutputDirectory command is executed.
-        /// </summary>
-        private async Task OnSelectDirectoryExecuteAsync()
-        {
-            string initialDirectory = null;
-
-            if (!string.IsNullOrEmpty(SelectedDirectory))
-            {
-                initialDirectory = Path.GetFullPath(SelectedDirectory);
-            }
-
-            var result = await _selectDirectoryService.DetermineDirectoryAsync(new DetermineDirectoryContext
-            {
-                InitialDirectory = initialDirectory
-            });
-
-            if (result.Result)
-            {
-                SelectedDirectory = result.DirectoryName;
-            }
+            SelectedDirectory = result.DirectoryName;
         }
     }
 }

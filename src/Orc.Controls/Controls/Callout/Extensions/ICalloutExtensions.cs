@@ -11,7 +11,7 @@ public static class ICalloutExtensions
         return GetCalloutConfigurationKeyPrefix(callout.Name, callout.Version);
     }
 
-    public static string GetCalloutConfigurationKeyPrefix(string name, string version)
+    public static string GetCalloutConfigurationKeyPrefix(string? name, string? version)
     {
         if (string.IsNullOrWhiteSpace(name))
         {

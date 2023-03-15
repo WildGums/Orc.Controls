@@ -1,17 +1,16 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+public enum LogFilterExpressionType
 {
-    public enum LogFilterExpressionType
-    {
-        Contains,
+    Contains = 0,
 
-        NotStartsWith,
+    NotStartsWith = 1,
 
-        StartsWith,
+    StartsWith = 2,
 
-        NotContains,
+    NotContains = 3,
 
-        Equals,
+    Equals = 4,
 
-        NotEquals
-    }
+    NotEquals = 5,
 }

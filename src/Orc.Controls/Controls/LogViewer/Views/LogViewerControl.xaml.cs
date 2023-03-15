@@ -15,9 +15,6 @@ using Catel.MVVM;
 using Catel.MVVM.Views;
 using ViewModels;
 
-/// <summary>
-/// Interaction logic for LogViewerControl.xaml.
-/// </summary>
 public partial class LogViewerControl
 {
     private static readonly ILog Log = LogManager.GetCurrentClassLogger();
@@ -41,7 +38,9 @@ public partial class LogViewerControl
     {
         InitializeComponent();
 
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
         _commandManager = this.GetServiceLocator().ResolveRequiredType<ICommandManager>();
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
 
         UpdateMessageBrushes();
     }
@@ -54,7 +53,7 @@ public partial class LogViewerControl
 
     public static readonly DependencyProperty EnableTimestampProperty = DependencyProperty.Register(nameof(EnableTimestamp), typeof(bool),
         typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, e) => ((LogViewerControl)sender).OnEnableTimestampChanged()));
+            (sender, _) => ((LogViewerControl)sender).OnEnableTimestampChanged()));
 
     public bool EnableIcons
     {
@@ -64,7 +63,7 @@ public partial class LogViewerControl
 
     public static readonly DependencyProperty EnableIconsProperty = DependencyProperty.Register(nameof(EnableIcons), typeof(bool),
         typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, e) => ((LogViewerControl)sender).OnEnableIconsChanged()));
+            (sender, _) => ((LogViewerControl)sender).OnEnableIconsChanged()));
 
     public bool EnableThreadId
     {
@@ -83,7 +82,7 @@ public partial class LogViewerControl
 
     public static readonly DependencyProperty EnableTextColoringProperty = DependencyProperty.Register(nameof(EnableTextColoring), typeof(bool),
         typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, e) => ((LogViewerControl)sender).OnEnableTextColoringChanged()));
+            (sender, _) => ((LogViewerControl)sender).OnEnableTextColoringChanged()));
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
     public string LogFilter
@@ -94,7 +93,7 @@ public partial class LogViewerControl
 
     public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register(nameof(LogFilter), typeof(string),
         typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -106,7 +105,7 @@ public partial class LogViewerControl
 
     public static readonly DependencyProperty LogListenerTypeProperty = DependencyProperty.Register(nameof(LogListenerType), typeof(Type),
         typeof(LogViewerControl), new FrameworkPropertyMetadata(typeof(LogViewerLogListener), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -118,7 +117,7 @@ public partial class LogViewerControl
 
     public static readonly DependencyProperty IgnoreCatelLoggingProperty = DependencyProperty.Register(nameof(IgnoreCatelLogging), typeof(bool),
         typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -130,7 +129,7 @@ public partial class LogViewerControl
 
     public static readonly DependencyProperty ShowDebugProperty = DependencyProperty.Register(nameof(ShowDebug), typeof(bool),
         typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -142,7 +141,7 @@ public partial class LogViewerControl
 
     public static readonly DependencyProperty ShowInfoProperty = DependencyProperty.Register(nameof(ShowInfo), typeof(bool),
         typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -154,7 +153,7 @@ public partial class LogViewerControl
 
     public static readonly DependencyProperty ShowWarningProperty = DependencyProperty.Register(nameof(ShowWarning), typeof(bool),
         typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -166,7 +165,7 @@ public partial class LogViewerControl
 
     public static readonly DependencyProperty ShowErrorProperty = DependencyProperty.Register(nameof(ShowError), typeof(bool),
         typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, e) => ((LogViewerControl)sender).UpdateControl()));
+            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -219,7 +218,7 @@ public partial class LogViewerControl
     public static readonly DependencyProperty ShowMultilineMessagesExpandedProperty = DependencyProperty.Register(nameof(ShowMultilineMessagesExpanded),
         typeof(bool), typeof(LogViewerControl),
         new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, 
-            (sender, e) => ((LogViewerControl)sender).OnShowMultilineMessagesExpandedChanged()));
+            (sender, _) => ((LogViewerControl)sender).OnShowMultilineMessagesExpandedChanged()));
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
     public LogFilterGroup? ActiveFilterGroup
@@ -259,7 +258,7 @@ public partial class LogViewerControl
 
     public static readonly DependencyProperty InfoMessageBrushProperty = DependencyProperty.Register(
         nameof(InfoMessageBrush), typeof(Brush), typeof(LogViewerControl), 
-        new PropertyMetadata(Brushes.Black, (sender, args) => ((LogViewerControl) sender).OnMessageColorChanged()));
+        new PropertyMetadata(Brushes.Black, (sender, _) => ((LogViewerControl) sender).OnMessageColorChanged()));
 
     public Brush DebugMessageBrush
     {
@@ -269,7 +268,7 @@ public partial class LogViewerControl
 
     public static readonly DependencyProperty DebugMessageBrushProperty = DependencyProperty.Register(
         nameof(DebugMessageBrush), typeof(Brush), typeof(LogViewerControl),
-        new PropertyMetadata(Brushes.Gray, (sender, args) => ((LogViewerControl)sender).OnMessageColorChanged()));
+        new PropertyMetadata(Brushes.Gray, (sender, _) => ((LogViewerControl)sender).OnMessageColorChanged()));
 
     public Brush WarningMessageBrush
     {
@@ -279,7 +278,7 @@ public partial class LogViewerControl
 
     public static readonly DependencyProperty WarningMessageBrushProperty = DependencyProperty.Register(
         nameof(WarningMessageBrush), typeof(Brush), typeof(LogViewerControl),
-        new PropertyMetadata(Brushes.DarkOrange, (sender, args) => ((LogViewerControl)sender).OnMessageColorChanged()));
+        new PropertyMetadata(Brushes.DarkOrange, (sender, _) => ((LogViewerControl)sender).OnMessageColorChanged()));
 
     public Brush ErrorMessageBrush
     {
@@ -289,7 +288,7 @@ public partial class LogViewerControl
 
     public static readonly DependencyProperty ErrorMessageBrushProperty = DependencyProperty.Register(
         nameof(ErrorMessageBrush), typeof(Brush), typeof(LogViewerControl),
-        new PropertyMetadata(Brushes.Red, (sender, args) => ((LogViewerControl)sender).OnMessageColorChanged()));
+        new PropertyMetadata(Brushes.Red, (sender, _) => ((LogViewerControl)sender).OnMessageColorChanged()));
 
     public event EventHandler<LogEntryDoubleClickEventArgs>? LogEntryDoubleClick;
 

@@ -41,7 +41,7 @@ public static class ICalloutManagerExtensions
         calloutManager.Callouts.Where(x => !x.HasShown).ForEach(x => x.Show());
     }
 
-    public static void ShowCallout(this ICalloutManager calloutManager, Guid id, Func<ICallout, bool> predicate = null)
+    public static void ShowCallout(this ICalloutManager calloutManager, Guid id, Func<ICallout, bool>? predicate = null)
     {
         ArgumentNullException.ThrowIfNull(calloutManager);
 

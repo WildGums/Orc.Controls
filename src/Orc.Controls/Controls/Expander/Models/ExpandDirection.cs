@@ -1,10 +1,9 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+public enum ExpandDirection
 {
-    public enum ExpandDirection
-    {
-        Down = 0,
-        Up = 1,
-        Left = 2,
-        Right = 3,
-    }
+    Down = 0,
+    Up = 1,
+    Left = 2,
+    Right = 3,
 }

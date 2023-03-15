@@ -14,24 +14,23 @@ public class InfinityScrollListBoxBehavior : BehaviorBase<ListBox>
     public static readonly DependencyProperty CommandProperty =
         DependencyProperty.Register(nameof(Command), typeof(TaskCommand), typeof(InfinityScrollListBoxBehavior), new PropertyMetadata(null));
 
-    public TaskCommand Command
+    public TaskCommand? Command
     {
-        get { return (TaskCommand)GetValue(CommandProperty); }
+        get { return (TaskCommand?)GetValue(CommandProperty); }
         set { SetValue(CommandProperty, value); }
     }
 
     public static readonly DependencyProperty CommandParameterProperty =
         DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(InfinityScrollListBoxBehavior), new PropertyMetadata(0));
 
-    public object CommandParameter
+    public object? CommandParameter
     {
         get { return GetValue(CommandParameterProperty); }
         set { SetValue(CommandParameterProperty, value); }
     }
 
-    public static readonly DependencyProperty IsCommandExecutingProperty =
-        DependencyProperty.RegisterAttached(nameof(IsCommandExecuting), typeof(bool), typeof(InfinityScrollListBoxBehavior),
-            new PropertyMetadata(false));
+    public static readonly DependencyProperty IsCommandExecutingProperty = DependencyProperty.RegisterAttached(nameof(IsCommandExecuting),
+        typeof(bool), typeof(InfinityScrollListBoxBehavior), new PropertyMetadata(false));
 
     public bool IsCommandExecuting
     {

@@ -1,9 +1,8 @@
-﻿namespace Orc.Controls.Services
-{
-    using System.Threading.Tasks;
+﻿namespace Orc.Controls.Services;
 
-    public interface ITextInputWindowService
-    {
-        Task<TextInputDialogResult> ShowDialogAsync(string title, string initialText);
-    }
+using System.Threading.Tasks;
+
+public interface ITextInputWindowService
+{
+    Task<TextInputDialogResult> ShowDialogAsync(string title, string initialText);
 }

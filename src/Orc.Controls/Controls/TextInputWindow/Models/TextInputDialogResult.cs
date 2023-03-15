@@ -1,8 +1,7 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+public class TextInputDialogResult
 {
-    public class TextInputDialogResult
-    {
-        public string? Text { get; set; }
-        public bool? Result { get; set; }
-    }
+    public string? Text { get; set; }
+    public bool? Result { get; set; }
 }

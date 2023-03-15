@@ -1,9 +1,8 @@
-﻿namespace Orc.Controls
-{
-    public enum LogFilterAction
-    {
-        Include,
+﻿namespace Orc.Controls;
 
-        Exclude
-    }
+public enum LogFilterAction
+{
+    Include = 0,
+
+    Exclude = 1
 }

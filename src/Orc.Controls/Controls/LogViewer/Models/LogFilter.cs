@@ -19,14 +19,9 @@ public class LogFilter : ModelBase
 
     public bool Pass(LogEntry logEntry)
     {
-        if (logEntry is null)
-        {
-            return false;
-        }
-
         var result = false;
 
-        var expression = string.Empty;
+        string? expression;
 
         switch (Target)
         {
@@ -51,30 +46,31 @@ public class LogFilter : ModelBase
             return Action != LogFilterAction.Include;
         }
 
+        var expressionValue = ExpressionValue ?? string.Empty;
         switch (ExpressionType)
         {
             case LogFilterExpressionType.Contains:
-                result = expression.ContainsIgnoreCase(ExpressionValue);
+                result = expression.ContainsIgnoreCase(expressionValue);
                 break;
 
             case LogFilterExpressionType.NotContains:
-                result = !expression.ContainsIgnoreCase(ExpressionValue);
+                result = !expression.ContainsIgnoreCase(expressionValue);
                 break;
 
             case LogFilterExpressionType.Equals:
-                result = expression.EqualsIgnoreCase(ExpressionValue);
+                result = expression.EqualsIgnoreCase(expressionValue);
                 break;
 
             case LogFilterExpressionType.NotEquals:
-                result = !expression.EqualsIgnoreCase(ExpressionValue);
+                result = !expression.EqualsIgnoreCase(expressionValue);
                 break;
 
             case LogFilterExpressionType.StartsWith:
-                result = expression.StartsWithIgnoreCase(ExpressionValue);
+                result = expression.StartsWithIgnoreCase(expressionValue);
                 break;
 
             case LogFilterExpressionType.NotStartsWith:
-                result = !expression.StartsWithIgnoreCase(ExpressionValue);
+                result = !expression.StartsWithIgnoreCase(expressionValue);
                 break;
         }
 

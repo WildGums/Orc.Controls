@@ -13,6 +13,5 @@ public class LogEntryEventArgs : EventArgs
     }
         
     public List<LogEntry> LogEntries { get; }
-
     public List<LogEntry> FilteredLogEntries { get; }
 }

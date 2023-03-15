@@ -1,17 +1,16 @@
 ﻿#nullable disable
-namespace Orc.Automation
+namespace Orc.Automation;
+
+using System.Windows.Automation;
+using Controls;
+
+public class CulturePickerMap : AutomationBase
 {
-    using System.Windows.Automation;
-    using Controls;
-
-    public class CulturePickerMap : AutomationBase
+    public CulturePickerMap(AutomationElement element) 
+        : base(element)
     {
-        public CulturePickerMap(AutomationElement element) 
-            : base(element)
-        {
-        }
-
-        public ComboBox Combobox => By.One<ComboBox>();
     }
+
+    public ComboBox Combobox => By.One<ComboBox>();
 }
 #nullable enable

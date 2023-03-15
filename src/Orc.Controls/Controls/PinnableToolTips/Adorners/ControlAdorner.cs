@@ -1,120 +1,114 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Media;
+using Catel;
+using Catel.Reflection;
+
+/// <summary>
+/// An adorner class that contains a control as only child.
+/// </summary>
+internal class ControlAdorner : Adorner
 {
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Documents;
-    using System.Windows.Media;
-    using Catel;
-    using Catel.Reflection;
+    private Control? _child;
 
     /// <summary>
-    /// An adorner class that contains a control as only child.
+    /// Initializes a new instance of the <see cref="ControlAdorner" /> class.
     /// </summary>
-    internal class ControlAdorner : Adorner
+    /// <param name="adornedElement">The adorned element.</param>
+    public ControlAdorner(UIElement adornedElement)
+        : base(adornedElement)
     {
-        #region Constructors and Destructors
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ControlAdorner" /> class.
-        /// </summary>
-        /// <param name="adornedElement">The adorned element.</param>
-        public ControlAdorner(UIElement adornedElement)
-            : base(adornedElement)
+        ChildPosition = new Point();
+    }
+
+    /// <summary>
+    /// Gets the visual children count.
+    /// </summary>
+    protected override int VisualChildrenCount => 1;
+
+    /// <summary>
+    /// Gets or sets the child.
+    /// </summary>
+    public Control? Child
+    {
+        get => _child;
+
+        set
         {
-            ChildPosition = new Point();
-        }
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// Gets the visual children count.
-        /// </summary>
-        protected override int VisualChildrenCount => 1;
-        #endregion
-
-        #region Fields
-        /// <summary>
-        /// The child.
-        /// </summary>
-        private Control _child;
-        #endregion
-
-        #region Public Properties
-        /// <summary>
-        /// Gets or sets the child.
-        /// </summary>
-        public Control Child
-        {
-            get => _child;
-
-            set
+            if (_child is not null)
             {
-                if (_child is not null)
-                {
-                    RemoveVisualChild(_child);
-                }
-
-                _child = value;
-
-                if (_child is not null)
-                {
-                    AddVisualChild(_child);
-                }
-            }
-        }
-
-        public Point ChildPosition { get; private set; }
-
-        public Point Offset { get; private set; }
-        #endregion
-
-        #region Methods
-        protected override Size ArrangeOverride(Size finalSize)
-        {
-            var c = _child as IControlAdornerChild;
-
-            PropertyHelper.TryGetPropertyValue(c, nameof(PinnableToolTip.HorizontalOffset), out double childHorizontalOffset);
-            PropertyHelper.TryGetPropertyValue(c, nameof(PinnableToolTip.VerticalOffset), out double childVerticalOffset);
-
-            Offset = new Point(childHorizontalOffset, childVerticalOffset);
-
-            Rect rect;
-            if (c is not null)
-            {
-                var childPosition = c.GetPosition();
-
-                //Debug.WriteLine($"Old child position: {ChildPosition}");
-                //Debug.WriteLine($"New child position: {childPosition}");
-
-                ChildPosition = childPosition;
-
-                var finalPosition = new Point(childPosition.X + childHorizontalOffset,
-                    childPosition.Y + childVerticalOffset);
-
-                rect = new Rect(finalPosition.X, finalPosition.Y, finalSize.Width, finalSize.Height);
-            }
-            else
-            {
-                rect = new Rect(Offset.X, Offset.Y, finalSize.Width, finalSize.Height);
+                RemoveVisualChild(_child);
             }
 
-            _child.Arrange(rect);
+            _child = value;
 
-            return new Size(_child.ActualWidth, _child.ActualHeight);
+            if (_child is not null)
+            {
+                AddVisualChild(_child);
+            }
         }
+    }
 
-        protected override Visual GetVisualChild(int index)
+    public Point ChildPosition { get; private set; }
+
+    public Point Offset { get; private set; }
+
+    protected override Size ArrangeOverride(Size finalSize)
+    {
+        if (_child is null)
         {
-            Argument.IsNotOutOfRange("index", index, 0, 0);
-
-            return _child;
+            return Size.Empty; 
         }
 
-        protected override Size MeasureOverride(Size constraint)
+        PropertyHelper.TryGetPropertyValue(_child, nameof(PinnableToolTip.HorizontalOffset), out double childHorizontalOffset);
+        PropertyHelper.TryGetPropertyValue(_child, nameof(PinnableToolTip.VerticalOffset), out double childVerticalOffset);
+
+        Offset = new Point(childHorizontalOffset, childVerticalOffset);
+
+        Rect rect;
+
+        if (_child is IControlAdornerChild adornerChild)
         {
-            _child.Measure(constraint);
+            var childPosition = adornerChild.GetPosition();
 
-            return _child.DesiredSize;
+            //Debug.WriteLine($"Old child position: {ChildPosition}");
+            //Debug.WriteLine($"New child position: {childPosition}");
+
+            ChildPosition = childPosition;
+
+            var finalPosition = new Point(childPosition.X + childHorizontalOffset,
+                childPosition.Y + childVerticalOffset);
+
+            rect = new Rect(finalPosition.X, finalPosition.Y, finalSize.Width, finalSize.Height);
         }
-        #endregion
+        else
+        {
+            rect = new Rect(Offset.X, Offset.Y, finalSize.Width, finalSize.Height);
+        }
+
+        _child.Arrange(rect);
+
+        return new Size(_child.ActualWidth, _child.ActualHeight);
+    }
+
+    protected override Visual? GetVisualChild(int index)
+    {
+        Argument.IsNotOutOfRange("index", index, 0, 0);
+
+        return _child;
+    }
+
+    protected override Size MeasureOverride(Size constraint)
+    {
+        if (_child is null)
+        {
+            return Size.Empty;
+        }
+
+        _child.Measure(constraint);
+        return _child.DesiredSize;
     }
 }

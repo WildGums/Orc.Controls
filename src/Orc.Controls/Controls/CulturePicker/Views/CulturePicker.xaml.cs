@@ -23,9 +23,9 @@ public sealed partial class CulturePicker
         new FrameworkPropertyMetadata(default(CultureInfo), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-    public CultureInfo SelectedCulture
+    public CultureInfo? SelectedCulture
     {
-        get { return (CultureInfo)GetValue(SelectedCultureProperty); }
+        get { return (CultureInfo?)GetValue(SelectedCultureProperty); }
         set { SetValue(SelectedCultureProperty, value); }
     }
 

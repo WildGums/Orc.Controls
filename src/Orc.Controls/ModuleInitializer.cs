@@ -49,12 +49,12 @@ public static class ModuleInitializer
 
         serviceLocator.RegisterType<ITimeAdjustmentProvider, TimeAdjustmentProvider>();
 
-        var viewModelLocator = serviceLocator.ResolveType<IViewModelLocator>();
+        var viewModelLocator = serviceLocator.ResolveRequiredType<IViewModelLocator>();
         viewModelLocator.Register(typeof(CulturePicker), typeof(CulturePickerViewModel));
         viewModelLocator.Register(typeof(ValidationContextTree), typeof(ValidationContextTreeViewModel));
         viewModelLocator.Register(typeof(ValidationContextView), typeof(ValidationContextViewModel));
 
-        var languageService = serviceLocator.ResolveType<ILanguageService>();
+        var languageService = serviceLocator.ResolveRequiredType<ILanguageService>();
         languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Controls", "Orc.Controls.Properties", "Resources"));
     }
 }

@@ -294,7 +294,7 @@ public class ColorLegend : HeaderedContentControl
     }
 
     public static readonly DependencyProperty SelectedColorItemsProperty = DependencyProperty.RegisterAttached(nameof(SelectedColorItems),
-        typeof(IEnumerable<IColorLegendItem>), typeof(ColorLegend), new PropertyMetadata(null, (sender, _) => ((ColorLegend)sender).OnSelectedColorItemsChanged()));
+        typeof(IEnumerable<IColorLegendItem>), typeof(ColorLegend), new PropertyMetadata(Enumerable.Empty<IColorLegendItem>(), (sender, _) => ((ColorLegend)sender).OnSelectedColorItemsChanged()));
     #endregion
 
     public event EventHandler<EventArgs>? SelectionChanged;
@@ -612,7 +612,11 @@ public class ColorLegend : HeaderedContentControl
         try
         {
             var regex = new Regex(filter.GetRegexStringFromSearchPattern(), RegexOptions.None, TimeSpan.FromSeconds(1));
-            return items.Where(cp => regex.IsMatch(cp.Description)).ToList();
+            return items.Where(x =>
+            {
+                var description = x.Description;
+                return description is not null && regex.IsMatch(description);
+            }).ToList();
         }
         catch (Exception)
         {

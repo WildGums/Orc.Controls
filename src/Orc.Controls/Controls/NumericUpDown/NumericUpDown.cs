@@ -1,617 +1,672 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Linq;
+using System.Windows;
+using System.Windows.Automation.Peers;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+using Catel;
+using Catel.Logging;
+using Catel.MVVM;
+using Orc.Automation;
+
+[TemplatePart(Name = "PART_TextBox", Type = typeof(TextBox))]
+[TemplatePart(Name = "PART_IncreaseButton", Type = typeof(RepeatButton))]
+[TemplatePart(Name = "PART_DecreaseButton", Type = typeof(RepeatButton))]
+[TemplatePart(Name = "PART_SpinButton", Type = typeof(SpinButton))]
+public class NumericUpDown : Control
 {
-    using System;
-    using System.Globalization;
-    using System.Linq;
-    using System.Windows;
-    using System.Windows.Automation.Peers;
-    using System.Windows.Controls;
-    using System.Windows.Controls.Primitives;
-    using System.Windows.Input;
-    using Catel;
-    using Catel.Logging;
-    using Catel.MVVM;
-    using Orc.Automation;
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-    [TemplatePart(Name = "PART_TextBox", Type = typeof(TextBox))]
-    [TemplatePart(Name = "PART_IncreaseButton", Type = typeof(RepeatButton))]
-    [TemplatePart(Name = "PART_DecreaseButton", Type = typeof(RepeatButton))]
-    [TemplatePart(Name = "PART_SpinButton", Type = typeof(SpinButton))]
-    public class NumericUpDown : Control
+    private const int MaxPossibleDecimalPlaces = 28;
+
+    private readonly CultureInfo _culture;
+
+    private SpinButton? _spinButton;
+    private TextBox? _textBox;
+
+    private Command? _decreaseCommand;
+    private Command? _increaseCommand;
+
+    private bool _isValueChanging;
+    private bool _isValueCoercing;
+    private bool _isValueInput;
+
+    static NumericUpDown()
     {
-        #region Constants
-        private const int MaxPossibleDecimalPlaces = 28;
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericUpDown), new FrameworkPropertyMetadata(typeof(NumericUpDown)));
+    }
 
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-        #endregion
+    public NumericUpDown()
+    {
+        _culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+        _culture.NumberFormat.NumberDecimalDigits = DecimalPlaces;
 
-        #region Fields
-        private readonly CultureInfo _culture;
+        Loaded += OnLoaded;
+    }
 
-        private bool _isValueChanging;
-        private bool _isValueCoercing;
-        private bool _isValueInput;
+    #region Dependency properties
+    public Number Value
+    {
+        get { return (Number)GetValue(ValueProperty); }
+        set { SetValue(ValueProperty, value); }
+    }
 
-        private Command _decreaseCommand;
-        private Command _increaseCommand;
+    public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(Number), typeof(NumericUpDown),
+        new PropertyMetadata((Number)0d, (sender, _) => ((NumericUpDown)sender).OnValueChanged(), (o, value) => ((NumericUpDown)o).CoerceValue(value)));
 
-        private SpinButton _spinButton;
+    public double MaxValue
+    {
+        get { return (double)GetValue(MaxValueProperty); }
+        set { SetValue(MaxValueProperty, value); }
+    }
 
-        private TextBox _textBox;
-        #endregion
+    public static readonly DependencyProperty MaxValueProperty = DependencyProperty.Register(nameof(MaxValue), typeof(double), typeof(NumericUpDown),
+        new PropertyMetadata(double.MaxValue, (sender, args) => ((NumericUpDown)sender).OnMaxValueChanged(args), (o, value) => ((NumericUpDown)o).CoerceMaxValue(value)));
 
-        #region Dependency properties
-        public Number Value
+    public double MinValue
+    {
+        get { return (double)GetValue(MinValueProperty); }
+        set { SetValue(MinValueProperty, value); }
+    }
+
+    public static readonly DependencyProperty MinValueProperty = DependencyProperty.Register(nameof(MinValue), typeof(double), typeof(NumericUpDown),
+        new PropertyMetadata(double.MinValue, (sender, args) => ((NumericUpDown)sender).OnMinValueChanged(args), (o, value) => ((NumericUpDown)o).CoerceMinValue(value)));
+
+    public int DecimalPlaces
+    {
+        get { return (int)GetValue(DecimalPlacesProperty); }
+        set { SetValue(DecimalPlacesProperty, value); }
+    }
+
+    public static readonly DependencyProperty DecimalPlacesProperty = DependencyProperty.Register(nameof(DecimalPlaces), typeof(int), typeof(NumericUpDown),
+        new PropertyMetadata(0, OnDecimalPlacesChanged, CoerceDecimalPlaces));
+
+    public int MaxDecimalPlaces
+    {
+        get { return (int)GetValue(MaxDecimalPlacesProperty); }
+        set { SetValue(MaxDecimalPlacesProperty, value); }
+    }
+
+    public static readonly DependencyProperty MaxDecimalPlacesProperty = DependencyProperty.Register(nameof(MaxDecimalPlaces), typeof(int), typeof(NumericUpDown),
+        new PropertyMetadata(MaxPossibleDecimalPlaces, OnMaxDecimalPlacesChanged, CoerceMaxDecimalPlaces));
+
+    public int MinDecimalPlaces
+    {
+        get { return (int)GetValue(MinDecimalPlacesProperty); }
+        set { SetValue(MinDecimalPlacesProperty, value); }
+    }
+
+    public static readonly DependencyProperty MinDecimalPlacesProperty = DependencyProperty.Register(nameof(MinDecimalPlaces), typeof(int), typeof(NumericUpDown),
+        new PropertyMetadata(0, OnMinDecimalPlacesChanged, CoerceMinDecimalPlaces));
+
+    public bool IsDecimalPointDynamic
+    {
+        get { return (bool)GetValue(IsDecimalPointDynamicProperty); }
+        set { SetValue(IsDecimalPointDynamicProperty, value); }
+    }
+
+    public static readonly DependencyProperty IsDecimalPointDynamicProperty = DependencyProperty.Register(nameof(IsDecimalPointDynamic), typeof(bool), typeof(NumericUpDown),
+        new PropertyMetadata(false));
+
+    public double MinorDelta
+    {
+        get { return (double)GetValue(MinorDeltaProperty); }
+        set { SetValue(MinorDeltaProperty, value); }
+    }
+
+    public static readonly DependencyProperty MinorDeltaProperty = DependencyProperty.Register(nameof(MinorDelta), typeof(double), typeof(NumericUpDown),
+        new PropertyMetadata(1d, OnMinorDeltaChanged, CoerceMinorDelta));
+
+    public double MajorDelta
+    {
+        get { return (double)GetValue(MajorDeltaProperty); }
+        set { SetValue(MajorDeltaProperty, value); }
+    }
+
+    public static readonly DependencyProperty MajorDeltaProperty = DependencyProperty.Register(nameof(MajorDelta), typeof(double), typeof(NumericUpDown),
+        new PropertyMetadata(10d, OnMajorDeltaChanged, CoerceMajorDelta));
+
+    public bool IsThousandSeparatorVisible
+    {
+        get { return (bool)GetValue(IsThousandSeparatorVisibleProperty); }
+        set { SetValue(IsThousandSeparatorVisibleProperty, value); }
+    }
+
+    public static readonly DependencyProperty IsThousandSeparatorVisibleProperty = DependencyProperty.Register(nameof(IsThousandSeparatorVisible), typeof(bool), typeof(NumericUpDown),
+        new PropertyMetadata(false, OnIsThousandSeparatorVisibleChanged));
+
+    public bool IsAutoSelectionActive
+    {
+        get { return (bool)GetValue(IsAutoSelectionActiveProperty); }
+        set { SetValue(IsAutoSelectionActiveProperty, value); }
+    }
+
+    public static readonly DependencyProperty IsAutoSelectionActiveProperty = DependencyProperty.Register(nameof(IsAutoSelectionActive), typeof(bool), typeof(NumericUpDown),
+        new PropertyMetadata(true));
+    #endregion
+
+    private double ActualMinValue => Math.Max(MinValue, Value.MinValue);
+    private double ActualMaxValue => Math.Min(MaxValue, Value.MaxValue);
+
+    [MemberNotNullWhen(true, nameof(_textBox),
+        nameof(_spinButton), nameof(_increaseCommand), 
+        nameof(_decreaseCommand))]
+    private bool IsPartsInitialized { get; set; }
+
+    public event EventHandler<EventArgs>? TextChanged;
+
+    public override void OnApplyTemplate()
+    {
+        _textBox = GetTemplateChild("PART_TextBox") as TextBox;
+        if (_textBox is null)
         {
-            get { return (Number)GetValue(ValueProperty); }
-            set { SetValue(ValueProperty, value); }
+            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TextBox'");
         }
 
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(Number), typeof(NumericUpDown),
-            new PropertyMetadata((Number)0d, (sender, args) => ((NumericUpDown)sender).OnValueChanged(args), (o, value) => ((NumericUpDown)o).CoerceValue(value)));
+        _textBox.LostFocus += TextBoxOnLostFocus;
+        _textBox.PreviewMouseLeftButtonUp += TextBoxOnPreviewMouseLeftButtonUp;
+        _textBox.TextChanged += OnTextChanged;
 
-        public double MaxValue
+        _spinButton = GetTemplateChild("PART_SpinButton") as SpinButton;
+        if (_spinButton is null)
         {
-            get { return (double)GetValue(MaxValueProperty); }
-            set { SetValue(MaxValueProperty, value); }
+            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SpinButton'");
         }
 
-        public static readonly DependencyProperty MaxValueProperty = DependencyProperty.Register(nameof(MaxValue), typeof(double), typeof(NumericUpDown),
-            new PropertyMetadata(double.MaxValue, (sender, args) => ((NumericUpDown)sender).OnMaxValueChanged(args), (o, value) => ((NumericUpDown)o).CoerceMaxValue(value)));
+        _increaseCommand = new Command(() => ChangeValue(MinorDelta), () => Value.DValue + MinorDelta <= ActualMaxValue);
+        _decreaseCommand = new Command(() => ChangeValue((-1) * MinorDelta), () => Value.DValue - MinorDelta >= ActualMinValue);
 
-        public double MinValue
+        _spinButton.Canceled += (_, _) => Cancel();
+        _spinButton.SetCurrentValue(SpinButton.IncreaseProperty, _increaseCommand);
+        _spinButton.SetCurrentValue(SpinButton.DecreaseProperty, _decreaseCommand);
+        _spinButton.PreviewMouseLeftButtonDown += (_, _) => RemoveFocus();
+
+        IsPartsInitialized = true;
+    }
+
+    private void OnTextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (!_isValueChanging)
         {
-            get { return (double)GetValue(MinValueProperty); }
-            set { SetValue(MinValueProperty, value); }
-        }
-
-        public static readonly DependencyProperty MinValueProperty = DependencyProperty.Register(nameof(MinValue), typeof(double), typeof(NumericUpDown),
-            new PropertyMetadata(double.MinValue, (sender, args) => ((NumericUpDown)sender).OnMinValueChanged(args), (o, value) => ((NumericUpDown)o).CoerceMinValue(value)));
-
-        public int DecimalPlaces
-        {
-            get { return (int)GetValue(DecimalPlacesProperty); }
-            set { SetValue(DecimalPlacesProperty, value); }
-        }
-
-        public static readonly DependencyProperty DecimalPlacesProperty = DependencyProperty.Register(nameof(DecimalPlaces), typeof(int), typeof(NumericUpDown),
-            new PropertyMetadata(0, OnDecimalPlacesChanged, CoerceDecimalPlaces));
-
-        public int MaxDecimalPlaces
-        {
-            get { return (int)GetValue(MaxDecimalPlacesProperty); }
-            set { SetValue(MaxDecimalPlacesProperty, value); }
-        }
-
-        public static readonly DependencyProperty MaxDecimalPlacesProperty = DependencyProperty.Register(nameof(MaxDecimalPlaces), typeof(int), typeof(NumericUpDown),
-            new PropertyMetadata(MaxPossibleDecimalPlaces, OnMaxDecimalPlacesChanged, CoerceMaxDecimalPlaces));
-
-        public int MinDecimalPlaces
-        {
-            get { return (int)GetValue(MinDecimalPlacesProperty); }
-            set { SetValue(MinDecimalPlacesProperty, value); }
-        }
-
-        public static readonly DependencyProperty MinDecimalPlacesProperty = DependencyProperty.Register(nameof(MinDecimalPlaces), typeof(int), typeof(NumericUpDown),
-            new PropertyMetadata(0, OnMinDecimalPlacesChanged, CoerceMinDecimalPlaces));
-
-        public bool IsDecimalPointDynamic
-        {
-            get { return (bool)GetValue(IsDecimalPointDynamicProperty); }
-            set { SetValue(IsDecimalPointDynamicProperty, value); }
-        }
-
-        public static readonly DependencyProperty IsDecimalPointDynamicProperty = DependencyProperty.Register(nameof(IsDecimalPointDynamic), typeof(bool), typeof(NumericUpDown),
-            new PropertyMetadata(false));
-
-        public double MinorDelta
-        {
-            get { return (double)GetValue(MinorDeltaProperty); }
-            set { SetValue(MinorDeltaProperty, value); }
-        }
-
-        public static readonly DependencyProperty MinorDeltaProperty = DependencyProperty.Register(nameof(MinorDelta), typeof(double), typeof(NumericUpDown),
-            new PropertyMetadata(1d, OnMinorDeltaChanged, CoerceMinorDelta));
-
-        public double MajorDelta
-        {
-            get { return (double)GetValue(MajorDeltaProperty); }
-            set { SetValue(MajorDeltaProperty, value); }
-        }
-
-        public static readonly DependencyProperty MajorDeltaProperty = DependencyProperty.Register(nameof(MajorDelta), typeof(double), typeof(NumericUpDown),
-            new PropertyMetadata(10d, OnMajorDeltaChanged, CoerceMajorDelta));
-
-        public bool IsThousandSeparatorVisible
-        {
-            get { return (bool)GetValue(IsThousandSeparatorVisibleProperty); }
-            set { SetValue(IsThousandSeparatorVisibleProperty, value); }
-        }
-
-        public static readonly DependencyProperty IsThousandSeparatorVisibleProperty = DependencyProperty.Register(nameof(IsThousandSeparatorVisible), typeof(bool), typeof(NumericUpDown),
-            new PropertyMetadata(false, OnIsThousandSeparatorVisibleChanged));
-
-        public bool IsAutoSelectionActive
-        {
-            get { return (bool)GetValue(IsAutoSelectionActiveProperty); }
-            set { SetValue(IsAutoSelectionActiveProperty, value); }
-        }
-
-        public static readonly DependencyProperty IsAutoSelectionActiveProperty = DependencyProperty.Register(nameof(IsAutoSelectionActive), typeof(bool), typeof(NumericUpDown),
-            new PropertyMetadata(true));
-        #endregion
-
-        #region Property
-        private double ActualMinValue => Math.Max(MinValue, Value.MinValue);
-        private double ActualMaxValue => Math.Min(MaxValue, Value.MaxValue);
-        #endregion
-
-        #region Constructors
-        static NumericUpDown()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericUpDown), new FrameworkPropertyMetadata(typeof(NumericUpDown)));
-        }
-
-        public NumericUpDown()
-        {
-            _culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
-            _culture.NumberFormat.NumberDecimalDigits = DecimalPlaces;
-
-            Loaded += OnLoaded;
-        }
-        #endregion
-
-        #region Methods
-        public override void OnApplyTemplate()
-        {
-            _textBox = GetTemplateChild("PART_TextBox") as TextBox;
-            if (_textBox is null)
+            using (new DisposableToken<NumericUpDown>(this, x => x.Instance._isValueInput = true, x => x.Instance._isValueInput = false))
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TextBox'");
+                UpdateValue();
             }
-
-            _textBox.LostFocus += TextBoxOnLostFocus;
-            _textBox.PreviewMouseLeftButtonUp += TextBoxOnPreviewMouseLeftButtonUp;
-            _textBox.TextChanged += OnTextChanged;
-
-            _spinButton = GetTemplateChild("PART_SpinButton") as SpinButton;
-            if (_spinButton is null)
-            {
-                throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SpinButton'");
-            }
-
-            _increaseCommand = new Command(() => ChangeValue(MinorDelta), () => Value.DValue + MinorDelta <= ActualMaxValue);
-            _decreaseCommand = new Command(() => ChangeValue((-1) * MinorDelta), () => Value.DValue - MinorDelta >= ActualMinValue);
-
-            _spinButton.Canceled += (_, _) => Cancel();
-            _spinButton.SetCurrentValue(SpinButton.IncreaseProperty, _increaseCommand);
-            _spinButton.SetCurrentValue(SpinButton.DecreaseProperty, _decreaseCommand);
-            _spinButton.PreviewMouseLeftButtonDown += (_, _) => RemoveFocus();
         }
 
-        private void OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!_isValueChanging)
-            {
-                using (new DisposableToken<NumericUpDown>(this, x => x.Instance._isValueInput = true, x => x.Instance._isValueInput = false))
-                {
-                    UpdateValue();
-                }
-            }
+        TextChanged?.Invoke(this, EventArgs.Empty);
+    }
 
-            TextChanged?.Invoke(this, EventArgs.Empty);
+    private void UpdateValue()
+    {
+        if (!IsPartsInitialized || _isValueCoercing)
+        {
+            return;
         }
-
-        private void UpdateValue()
-        {
-            if (_isValueCoercing)
-            {
-                return;
-            }
             
-            var text = _textBox.Text;
-            if (!double.TryParse(text, out var value))
-            {
-                Cancel();
-
-                return;
-            }
-
-            var number = (Number) CoerceValue(new Number(value, Value.Type));
-
-            SetCurrentValue(ValueProperty, number);
-
-            if (value < ActualMinValue || value > ActualMaxValue)
-            {
-                UpdateTextByValue();
-            }
-        }
-
-        private void UpdateTextByValue()
+        var text = _textBox.Text;
+        if (!double.TryParse(text, out var value))
         {
-            var previousCaretIndex = _textBox.CaretIndex;
+            Cancel();
 
-            var coercedNumberText = IsThousandSeparatorVisible
-                ? Value.DValue.ToString("N", _culture)
-                : Value.DValue.ToString("F", _culture);
-
-            _textBox.SetCurrentValue(TextBox.TextProperty, coercedNumberText);
-
-            _textBox.CaretIndex = previousCaretIndex;
+            return;
         }
+
+        var number = (Number) CoerceValue(new Number(value, Value.Type));
+
+        SetCurrentValue(ValueProperty, number);
+
+        if (value < ActualMinValue || value > ActualMaxValue)
+        {
+            UpdateTextByValue();
+        }
+    }
+
+    private void UpdateTextByValue()
+    {
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
+        var previousCaretIndex = _textBox.CaretIndex;
+
+        var coercedNumberText = IsThousandSeparatorVisible
+            ? Value.DValue.ToString("N", _culture)
+            : Value.DValue.ToString("F", _culture);
+
+        _textBox.SetCurrentValue(TextBox.TextProperty, coercedNumberText);
+
+        _textBox.CaretIndex = previousCaretIndex;
+    }
         
-        private void ChangeValue(double delta)
+    private void ChangeValue(double delta)
+    {
+        if (!IsPartsInitialized)
         {
-            using (new DisposableToken<NumericUpDown>(this, x => x.Instance._isValueChanging = true, x => x.Instance._isValueChanging = false))
-            {
-                var routedEvent = delta > 0 ? SpinButton.IncreasedEvent : SpinButton.DecreasedEvent;
-
-                _spinButton.RaiseEvent(new RoutedEventArgs(routedEvent));
-
-                SetCurrentValue(ValueProperty, Value + delta);
-            }
+            return;
         }
 
-        private void RemoveFocus()
+        using (new DisposableToken<NumericUpDown>(this, x => x.Instance._isValueChanging = true, x => x.Instance._isValueChanging = false))
         {
-            SetCurrentValue(FocusableProperty, true);
-            Focus();
-            SetCurrentValue(FocusableProperty, false);
+            var routedEvent = delta > 0 ? SpinButton.IncreasedEvent : SpinButton.DecreasedEvent;
+
+            _spinButton.RaiseEvent(new RoutedEventArgs(routedEvent));
+
+            SetCurrentValue(ValueProperty, Value + delta);
+        }
+    }
+
+    private void RemoveFocus()
+    {
+        SetCurrentValue(FocusableProperty, true);
+        Focus();
+        SetCurrentValue(FocusableProperty, false);
+    }
+
+    private void OnValueChanged()
+    {
+        _increaseCommand?.RaiseCanExecuteChanged();
+        _decreaseCommand?.RaiseCanExecuteChanged();
+    }
+
+    private object CoerceValue(object baseValue)
+    {
+        if (baseValue is not Number number)
+        {
+            return baseValue;
         }
 
-        private void OnValueChanged(DependencyPropertyChangedEventArgs args)
+        var value = number.DValue;
+
+        using (new DisposableToken<NumericUpDown>(this, x => x.Instance._isValueCoercing = true, x => x.Instance._isValueCoercing = false))
         {
-            _increaseCommand?.RaiseCanExecuteChanged();
-            _decreaseCommand?.RaiseCanExecuteChanged();
-        }
-
-        private object CoerceValue(object baseValue)
-        {
-            if (baseValue is not Number number)
+            if (value < MinValue)
             {
-                return baseValue;
-            }
-
-            var value = number.DValue;
-
-            using (new DisposableToken<NumericUpDown>(this, x => x.Instance._isValueCoercing = true, x => x.Instance._isValueCoercing = false))
-            {
-                if (value < MinValue)
-                {
-                    value = MinValue;
-                }
-
-                if (value > MaxValue)
-                {
-                    value = MaxValue;
-                }
-
-                var valueString = value.ToString(_culture);
-                if (!number.Type.IsFloatingPointType())
-                {
-                    _culture.NumberFormat.NumberDecimalDigits = 0;
-                }
-                else
-                {
-                    var decimalPlaces = GetDecimalPlacesCount(valueString);
-                    if (decimalPlaces > DecimalPlaces)
-                    {
-                        if (IsDecimalPointDynamic)
-                        {
-                            SetCurrentValue(DecimalPlacesProperty, decimalPlaces);
-
-                            if (decimalPlaces > DecimalPlaces)
-                            {
-                                value = TruncateValue(valueString, DecimalPlaces);
-                            }
-                        }
-                        else
-                        {
-                            value = TruncateValue(valueString, decimalPlaces);
-                        }
-                    }
-                    else if (IsDecimalPointDynamic)
-                    {
-                        SetCurrentValue(DecimalPlacesProperty, decimalPlaces);
-                    }
-                }
-
-                if (!_isValueInput)
-                {
-                    _textBox?.SetCurrentValue(TextBox.TextProperty, IsThousandSeparatorVisible
-                        ? value.ToString("N", _culture)
-                        : value.ToString("F", _culture));
-                }
+                value = MinValue;
             }
 
-            return new Number(value, number.Type);
-        }
-
-        private void OnMaxValueChanged(DependencyPropertyChangedEventArgs e)
-        {
-            var maxValue = (double)e.NewValue;
-
-            if (maxValue < MinValue)
+            if (value > MaxValue)
             {
-                SetCurrentValue(MinValueProperty, maxValue);
+                value = MaxValue;
             }
 
-            var value = Value;
-            if (maxValue <= value)
+            var valueString = value.ToString(_culture);
+            if (number.Type?.IsFloatingPointType() != true)
             {
-                SetCurrentValue(ValueProperty, new Number(maxValue, value.Type));
-            }
-
-            _increaseCommand?.RaiseCanExecuteChanged();
-            _decreaseCommand?.RaiseCanExecuteChanged();
-        }
-
-        private object CoerceMaxValue(object baseValue)
-        {
-            var value = Value;
-            var maxValue = value.MaxValue;
-            var baseNumber = (double)baseValue;
-
-            return baseNumber >= maxValue ? maxValue : baseNumber;
-        }
-
-        private object CoerceMinValue(object baseValue)
-        {
-            var value = Value;
-            var minValue = value.MinValue;
-            var baseNumber = (double)baseValue;
-
-            return baseNumber <= minValue ? minValue : baseNumber;
-        }
-
-        private void OnMinValueChanged(DependencyPropertyChangedEventArgs e)
-        {
-            var minValue = (double)e.NewValue;
-
-            if (minValue > MaxValue)
-            {
-                SetCurrentValue(MaxValueProperty, minValue);
-            }
-
-            var value = Value;
-            if (minValue >= value)
-            {
-                SetCurrentValue(ValueProperty, new Number(minValue, value.Type));
-            }
-
-            _increaseCommand?.RaiseCanExecuteChanged();
-            _decreaseCommand?.RaiseCanExecuteChanged();
-        }
-
-        private static void OnDecimalPlacesChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
-        {
-            var control = (NumericUpDown)element;
-            var decimalPlaces = (int)e.NewValue;
-
-            control._culture.NumberFormat.NumberDecimalDigits = decimalPlaces;
-
-            if (control.IsDecimalPointDynamic)
-            {
-                control.SetCurrentValue(IsDecimalPointDynamicProperty, false);
-                control.InvalidateProperty(ValueProperty);
-                control.SetCurrentValue(IsDecimalPointDynamicProperty, true);
+                _culture.NumberFormat.NumberDecimalDigits = 0;
             }
             else
             {
-                control.InvalidateProperty(ValueProperty);
+                var decimalPlaces = GetDecimalPlacesCount(valueString);
+                if (decimalPlaces > DecimalPlaces)
+                {
+                    if (IsDecimalPointDynamic)
+                    {
+                        SetCurrentValue(DecimalPlacesProperty, decimalPlaces);
+
+                        if (decimalPlaces > DecimalPlaces)
+                        {
+                            value = TruncateValue(valueString, DecimalPlaces);
+                        }
+                    }
+                    else
+                    {
+                        value = TruncateValue(valueString, decimalPlaces);
+                    }
+                }
+                else if (IsDecimalPointDynamic)
+                {
+                    SetCurrentValue(DecimalPlacesProperty, decimalPlaces);
+                }
+            }
+
+            if (!_isValueInput)
+            {
+                _textBox?.SetCurrentValue(TextBox.TextProperty, IsThousandSeparatorVisible
+                    ? value.ToString("N", _culture)
+                    : value.ToString("F", _culture));
             }
         }
 
-        private static object CoerceDecimalPlaces(DependencyObject element, object baseValue)
+        return new Number(value, number.Type);
+    }
+
+    private void OnMaxValueChanged(DependencyPropertyChangedEventArgs e)
+    {
+        if (!IsPartsInitialized)
         {
-            var decimalPlaces = (int)baseValue;
-            var control = (NumericUpDown)element;
-
-            if (decimalPlaces < control.MinDecimalPlaces)
-            {
-                decimalPlaces = control.MinDecimalPlaces;
-            }
-            else if (decimalPlaces > control.MaxDecimalPlaces)
-            {
-                decimalPlaces = control.MaxDecimalPlaces;
-            }
-
-            return decimalPlaces;
+            return;
         }
 
-        private static void OnMaxDecimalPlacesChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
-        {
-            var control = (NumericUpDown)element;
+        var maxValue = (double)e.NewValue;
 
-            control.InvalidateProperty(DecimalPlacesProperty);
+        if (maxValue < MinValue)
+        {
+            SetCurrentValue(MinValueProperty, maxValue);
         }
 
-        private static object CoerceMaxDecimalPlaces(DependencyObject element, object baseValue)
+        var value = Value;
+        if (maxValue <= value)
         {
-            var maxDecimalPlaces = (int)baseValue;
-            var control = (NumericUpDown)element;
-
-            if (maxDecimalPlaces > MaxPossibleDecimalPlaces)
-            {
-                maxDecimalPlaces = MaxPossibleDecimalPlaces;
-            }
-            else if (maxDecimalPlaces < 0)
-            {
-                maxDecimalPlaces = 0;
-            }
-            else if (maxDecimalPlaces < control.MinDecimalPlaces)
-            {
-                control.SetCurrentValue(MinDecimalPlacesProperty, maxDecimalPlaces);
-            }
-
-            return maxDecimalPlaces;
+            SetCurrentValue(ValueProperty, new Number(maxValue, value.Type));
         }
 
-        private static void OnMinDecimalPlacesChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
-        {
-            var control = (NumericUpDown)element;
+        _increaseCommand.RaiseCanExecuteChanged();
+        _decreaseCommand.RaiseCanExecuteChanged();
+    }
 
-            control.InvalidateProperty(DecimalPlacesProperty);
+    private object CoerceMaxValue(object baseValue)
+    {
+        var value = Value;
+        var maxValue = value.MaxValue;
+        var baseNumber = (double)baseValue;
+
+        return baseNumber >= maxValue ? maxValue : baseNumber;
+    }
+
+    private object CoerceMinValue(object baseValue)
+    {
+        var value = Value;
+        var minValue = value.MinValue;
+        var baseNumber = (double)baseValue;
+
+        return baseNumber <= minValue ? minValue : baseNumber;
+    }
+
+    private void OnMinValueChanged(DependencyPropertyChangedEventArgs e)
+    {
+        var minValue = (double)e.NewValue;
+
+        if (minValue > MaxValue)
+        {
+            SetCurrentValue(MaxValueProperty, minValue);
         }
 
-        private static object CoerceMinDecimalPlaces(DependencyObject element, object baseValue)
+        var value = Value;
+        if (minValue >= value)
         {
-            var minDecimalPlaces = (int)baseValue;
-            var control = (NumericUpDown)element;
-
-            if (minDecimalPlaces < 0)
-            {
-                minDecimalPlaces = 0;
-            }
-            else if (minDecimalPlaces > MaxPossibleDecimalPlaces)
-            {
-                minDecimalPlaces = MaxPossibleDecimalPlaces;
-            }
-            else if (minDecimalPlaces > control.MaxDecimalPlaces)
-            {
-                control.SetCurrentValue(MaxDecimalPlacesProperty, minDecimalPlaces);
-            }
-
-            return minDecimalPlaces;
+            SetCurrentValue(ValueProperty, new Number(minValue, value.Type));
         }
 
-        private static void OnMinorDeltaChanged(DependencyObject element,
-            DependencyPropertyChangedEventArgs e)
-        {
-            var minorDelta = (double)e.NewValue;
-            var control = (NumericUpDown)element;
+        _increaseCommand?.RaiseCanExecuteChanged();
+        _decreaseCommand?.RaiseCanExecuteChanged();
+    }
 
-            if (minorDelta > control.MajorDelta)
-            {
-                control.SetCurrentValue(MajorDeltaProperty, minorDelta);
-            }
+    private static void OnDecimalPlacesChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
+    {
+        var control = (NumericUpDown)element;
+        var decimalPlaces = (int)e.NewValue;
+
+        control._culture.NumberFormat.NumberDecimalDigits = decimalPlaces;
+
+        if (control.IsDecimalPointDynamic)
+        {
+            control.SetCurrentValue(IsDecimalPointDynamicProperty, false);
+            control.InvalidateProperty(ValueProperty);
+            control.SetCurrentValue(IsDecimalPointDynamicProperty, true);
         }
-
-        private static object CoerceMinorDelta(DependencyObject element, object baseValue)
+        else
         {
-            var minorDelta = (double)baseValue;
-
-            return minorDelta;
-        }
-
-        private static void OnMajorDeltaChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
-        {
-            var majorDelta = (double)e.NewValue;
-            var control = (NumericUpDown)element;
-
-            if (majorDelta < control.MinorDelta)
-            {
-                control.SetCurrentValue(MinorDeltaProperty, majorDelta);
-            }
-        }
-
-        private static object CoerceMajorDelta(DependencyObject element, object baseValue)
-        {
-            return (double)baseValue;
-        }
-
-        private static void OnIsThousandSeparatorVisibleChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
-        {
-            var control = (NumericUpDown)element;
-
             control.InvalidateProperty(ValueProperty);
         }
+    }
 
-        private void TextBoxOnLostFocus(object sender, RoutedEventArgs routedEventArgs)
+    private static object? CoerceDecimalPlaces(DependencyObject element, object? baseValue)
+    {
+        if (baseValue is null)
         {
-            UpdateValue();
+            return 0;
         }
 
-        private void TextBoxOnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs mouseButtonEventArgs)
+        var decimalPlaces = (int)baseValue;
+        var control = (NumericUpDown)element;
+
+        if (decimalPlaces < control.MinDecimalPlaces)
         {
-            if (IsAutoSelectionActive)
-            {
-                _textBox.SelectAll();
-            }
+            decimalPlaces = control.MinDecimalPlaces;
+        }
+        else if (decimalPlaces > control.MaxDecimalPlaces)
+        {
+            decimalPlaces = control.MaxDecimalPlaces;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        return decimalPlaces;
+    }
+
+    private static void OnMaxDecimalPlacesChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
+    {
+        var control = (NumericUpDown)element;
+
+        control.InvalidateProperty(DecimalPlacesProperty);
+    }
+
+    private static object CoerceMaxDecimalPlaces(DependencyObject element, object? baseValue)
+    {
+        if (baseValue is null)
         {
-            InvalidateProperty(ValueProperty);
+            return 0;
         }
 
-        protected override void OnKeyDown(KeyEventArgs e)
+        var maxDecimalPlaces = (int)baseValue;
+        var control = (NumericUpDown)element;
+
+        switch (maxDecimalPlaces)
         {
-            if (e.Key == Key.Escape)
-            {
+            case > MaxPossibleDecimalPlaces:
+                maxDecimalPlaces = MaxPossibleDecimalPlaces;
+                break;
+
+            case < 0:
+                maxDecimalPlaces = 0;
+                break;
+
+            default:
+                {
+                    if (maxDecimalPlaces < control.MinDecimalPlaces)
+                    {
+                        control.SetCurrentValue(MinDecimalPlacesProperty, maxDecimalPlaces);
+                    }
+
+                    break;
+                }
+        }
+
+        return maxDecimalPlaces;
+    }
+
+    private static void OnMinDecimalPlacesChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
+    {
+        var control = (NumericUpDown)element;
+
+        control.InvalidateProperty(DecimalPlacesProperty);
+    }
+
+    private static object CoerceMinDecimalPlaces(DependencyObject element, object? baseValue)
+    {
+        if (baseValue is null)
+        {
+            return 0;
+        }
+
+        var minDecimalPlaces = (int)baseValue;
+        var control = (NumericUpDown)element;
+
+        switch (minDecimalPlaces)
+        {
+            case < 0:
+                minDecimalPlaces = 0;
+                break;
+
+            case > MaxPossibleDecimalPlaces:
+                minDecimalPlaces = MaxPossibleDecimalPlaces;
+                break;
+
+            default:
+                {
+                    if (minDecimalPlaces > control.MaxDecimalPlaces)
+                    {
+                        control.SetCurrentValue(MaxDecimalPlacesProperty, minDecimalPlaces);
+                    }
+
+                    break;
+                }
+        }
+
+        return minDecimalPlaces;
+    }
+
+    private static void OnMinorDeltaChanged(DependencyObject element,
+        DependencyPropertyChangedEventArgs e)
+    {
+        var minorDelta = (double)e.NewValue;
+        var control = (NumericUpDown)element;
+
+        if (minorDelta > control.MajorDelta)
+        {
+            control.SetCurrentValue(MajorDeltaProperty, minorDelta);
+        }
+    }
+
+    private static object CoerceMinorDelta(DependencyObject element, object? baseValue)
+    {
+        if (baseValue is null)
+        {
+            return 0;
+        }
+
+        var minorDelta = (double)baseValue;
+
+        return minorDelta;
+    }
+
+    private static void OnMajorDeltaChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
+    {
+        var majorDelta = (double)e.NewValue;
+        var control = (NumericUpDown)element;
+
+        if (majorDelta < control.MinorDelta)
+        {
+            control.SetCurrentValue(MinorDeltaProperty, majorDelta);
+        }
+    }
+
+    private static object CoerceMajorDelta(DependencyObject element, object? baseValue)
+    {
+        if (baseValue is null)
+        {
+            return 0;
+        }
+
+        return (double)baseValue;
+    }
+
+    private static void OnIsThousandSeparatorVisibleChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
+    {
+        var control = (NumericUpDown)element;
+
+        control.InvalidateProperty(ValueProperty);
+    }
+
+    private void TextBoxOnLostFocus(object sender, RoutedEventArgs routedEventArgs)
+    {
+        UpdateValue();
+    }
+
+    private void TextBoxOnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs mouseButtonEventArgs)
+    {
+        if (IsAutoSelectionActive)
+        {
+            _textBox?.SelectAll();
+        }
+    }
+
+    private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+    {
+        InvalidateProperty(ValueProperty);
+    }
+
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        switch (e.Key)
+        {
+            case Key.Escape:
                 Cancel();
 
                 e.Handled = true;
 
                 return;
-            }
 
-            if (e.Key == Key.Enter)
-            {
+            case Key.Enter:
                 UpdateValue();
 
                 e.Handled = true;
+                break;
+        }
+    }
 
-                return;
-            }
+    protected override void OnPreviewKeyDown(KeyEventArgs e)
+    {
+        if (!IsPartsInitialized)
+        {
+            return;
         }
 
-        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        switch (e.Key)
         {
-            switch (e.Key)
-            {
-                case Key.Up:
-                    _increaseCommand.Execute(null);
-                    break;
+            case Key.Up:
+                _increaseCommand.Execute(null);
+                break;
 
-                case Key.Down:
-                    _decreaseCommand.Execute(null);
-                    break;
+            case Key.Down:
+                _decreaseCommand.Execute(null);
+                break;
 
-                case Key.PageDown:
-                 //   delta = MajorDelta;
-                    break;
+            case Key.PageDown:
+                //   delta = MajorDelta;
+                break;
 
-                case Key.PageUp:
+            case Key.PageUp:
                 //    delta = (-1) * MajorDelta;
-                    break;
+                break;
 
-                default:
-                    return;
-            }
-
-            //ChangeValue(delta);
-            e.Handled = true;
+            default:
+                return;
         }
 
-        private void Cancel()
-        {
-            SetCurrentValue(ValueProperty, new Number(0d, Value.Type));
-        }
+        //ChangeValue(delta);
+        e.Handled = true;
+    }
 
-        private int GetDecimalPlacesCount(string valueString)
-        {
-            return valueString.SkipWhile(c => c.ToString(_culture) != _culture.NumberFormat.NumberDecimalSeparator)
-                .Skip(1)
-                .Count();
-        }
+    private void Cancel()
+    {
+        SetCurrentValue(ValueProperty, new Number(0d, Value.Type));
+    }
 
-        private double TruncateValue(string valueString, int decimalPlaces)
-        {
-            var endPoint = valueString.Length - (decimalPlaces - DecimalPlaces);
-            endPoint++;
+    private int GetDecimalPlacesCount(string valueString)
+    {
+        return valueString.SkipWhile(c => c.ToString(_culture) != _culture.NumberFormat.NumberDecimalSeparator)
+            .Skip(1)
+            .Count();
+    }
 
-            var tempValueString = valueString.Substring(0, endPoint);
+    private double TruncateValue(string valueString, int decimalPlaces)
+    {
+        var endPoint = valueString.Length - (decimalPlaces - DecimalPlaces);
+        endPoint++;
 
-            return double.Parse(tempValueString, _culture);
-        }
+        var tempValueString = valueString[..endPoint];
 
-        protected override AutomationPeer OnCreateAutomationPeer()
-        {
-            return new NumericUpDownAutomationPeer(this);
-        }
-        #endregion
+        return double.Parse(tempValueString, _culture);
+    }
 
-        public event EventHandler<EventArgs> TextChanged;
+    protected override AutomationPeer OnCreateAutomationPeer()
+    {
+        return new NumericUpDownAutomationPeer(this);
     }
 }

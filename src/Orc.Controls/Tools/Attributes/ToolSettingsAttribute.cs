@@ -1,15 +1,14 @@
-﻿namespace Orc.Controls.Tools.Attributes
+﻿namespace Orc.Controls.Tools.Attributes;
+
+using System;
+
+[AttributeUsage(AttributeTargets.Property)]
+public class ToolSettingsAttribute : Attribute
 {
-    using System;
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class ToolSettingsAttribute : Attribute
+    public ToolSettingsAttribute()
     {
-        public ToolSettingsAttribute()
-        {
-            Storage = string.Empty;
-        }
-
-        public string Storage { get; set; }
+        Storage = string.Empty;
     }
+
+    public string Storage { get; set; }
 }

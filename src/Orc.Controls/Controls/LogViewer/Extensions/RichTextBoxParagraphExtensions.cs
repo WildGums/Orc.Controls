@@ -7,7 +7,8 @@ using System.Windows.Input;
 
 public static class RichTextBoxParagraphExtensions
 {
-    public static void SetData(this RichTextBoxParagraph paragraph, bool showTimestamp = true, bool showThreadId = true, bool showMultilineMessagesExpanded = false)
+    public static void SetData(this RichTextBoxParagraph paragraph, bool showTimestamp = true,
+        bool showThreadId = true, bool showMultilineMessagesExpanded = false)
     {
         var timestamp = $"{paragraph.LogEntry.Time} ";
         var toolTip = new StringBuilder();

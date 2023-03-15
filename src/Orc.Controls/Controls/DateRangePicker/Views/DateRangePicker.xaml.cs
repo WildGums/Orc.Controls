@@ -8,7 +8,6 @@ using Catel.MVVM.Views;
 
 public partial class DateRangePicker
 {
-    #region Constructors
     static DateRangePicker()
     {
         typeof(DateRangePicker).AutoDetectViewPropertiesToSubscribe();
@@ -18,13 +17,11 @@ public partial class DateRangePicker
     {
         InitializeComponent();
     }
-    #endregion
 
-    #region Properties
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-    public ObservableCollection<DateRange> Ranges
+    public ObservableCollection<DateRange>? Ranges
     {
-        get { return (ObservableCollection<DateRange>)GetValue(RangesProperty); }
+        get { return (ObservableCollection<DateRange>?)GetValue(RangesProperty); }
         set { SetValue(RangesProperty, value); }
     }
 
@@ -33,9 +30,9 @@ public partial class DateRangePicker
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-    public DateRange SelectedRange
+    public DateRange? SelectedRange
     {
-        get { return (DateRange)GetValue(SelectedRangeProperty); }
+        get { return (DateRange?)GetValue(SelectedRangeProperty); }
         set { SetValue(SelectedRangeProperty, value); }
     }
 
@@ -74,8 +71,7 @@ public partial class DateRangePicker
 
     public static readonly DependencyProperty SpanProperty = DependencyProperty.Register(nameof(Span), typeof(TimeSpan),
         typeof(DateRangePicker), new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-
+    
     public bool AllowCopyPaste
     {
         get { return (bool)GetValue(AllowCopyPasteProperty); }
@@ -84,8 +80,7 @@ public partial class DateRangePicker
 
     public static readonly DependencyProperty AllowCopyPasteProperty = DependencyProperty.Register(nameof(AllowCopyPaste), typeof(bool),
         typeof(DateRangePicker), new FrameworkPropertyMetadata(true));
-
-
+    
     public string Format
     {
         get { return (string)GetValue(FormatProperty); }
@@ -94,8 +89,7 @@ public partial class DateRangePicker
 
     public static readonly DependencyProperty FormatProperty = DependencyProperty.Register(nameof(Format), typeof(string),
         typeof(DateRangePicker), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern));
-
-
+    
     public bool HideTime
     {
         get { return (bool)GetValue(HideTimeProperty); }
@@ -105,7 +99,6 @@ public partial class DateRangePicker
     public static readonly DependencyProperty HideTimeProperty = DependencyProperty.Register(nameof(HideTime), typeof(bool),
         typeof(DateRangePicker), new FrameworkPropertyMetadata(false));
 
-
     public bool HideSeconds
     {
         get { return (bool)GetValue(HideSecondsProperty); }
@@ -114,8 +107,7 @@ public partial class DateRangePicker
 
     public static readonly DependencyProperty HideSecondsProperty = DependencyProperty.Register(nameof(HideSeconds), typeof(bool),
         typeof(DateRangePicker), new FrameworkPropertyMetadata(false));
-
-
+    
     public bool ShowOptionsButton
     {
         get { return (bool)GetValue(ShowOptionsButtonProperty); }
@@ -124,8 +116,7 @@ public partial class DateRangePicker
 
     public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register(nameof(ShowOptionsButton), typeof(bool),
         typeof(DateRangePicker), new FrameworkPropertyMetadata(true));
-
-
+    
     public bool IsReadOnly
     {
         get { return (bool)GetValue(IsReadOnlyProperty); }
@@ -143,5 +134,4 @@ public partial class DateRangePicker
 
     public static readonly DependencyProperty IsAdvancedModeProperty = DependencyProperty.Register(
         nameof(IsAdvancedMode), typeof(bool), typeof(DateRangePicker), new PropertyMetadata(true));
-    #endregion
 }

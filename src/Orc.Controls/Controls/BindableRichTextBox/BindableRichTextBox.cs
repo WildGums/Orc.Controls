@@ -14,9 +14,9 @@ public class BindableRichTextBox : RichTextBox
     }
 
     #region Dependency properties
-    public FlowDocument BindableDocument
+    public FlowDocument? BindableDocument
     {
-        get { return (FlowDocument)GetValue(BindableDocumentProperty); }
+        get { return (FlowDocument?)GetValue(BindableDocumentProperty); }
         set { SetValue(BindableDocumentProperty, value); }
     }
 

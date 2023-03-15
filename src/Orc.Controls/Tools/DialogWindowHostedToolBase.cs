@@ -1,87 +1,86 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Threading.Tasks;
+using Catel.IoC;
+using Catel.MVVM;
+using Catel.Services;
+
+public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
+    where T : ViewModelBase
 {
-    using System;
-    using System.Threading.Tasks;
-    using Catel.IoC;
-    using Catel.MVVM;
-    using Catel.Services;
+    protected readonly IUIVisualizerService _uiVisualizerService;
+    protected readonly ITypeFactory _typeFactory;
 
-    public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
-        where T : ViewModelBase
+    protected object? _parameter;
+    protected T? _windowViewModel;
+
+    protected DialogWindowHostedToolBase(ITypeFactory typeFactory, IUIVisualizerService uiVisualizerService)
     {
-        protected readonly IUIVisualizerService UIVisualizerService;
-        protected readonly ITypeFactory TypeFactory;
-        protected object Parameter;
+        ArgumentNullException.ThrowIfNull(typeFactory);
+        ArgumentNullException.ThrowIfNull(uiVisualizerService);
 
-        protected T WindowViewModel;
+        _typeFactory = typeFactory;
+        _uiVisualizerService = uiVisualizerService;
+    }
 
-        protected DialogWindowHostedToolBase(ITypeFactory typeFactory, IUIVisualizerService uiVisualizerService)
+    public virtual bool IsModal => true;
+
+    protected override void OnOpen(object? parameter = null)
+    {
+        _parameter = parameter;
+
+        _windowViewModel = InitializeViewModel();
+        _windowViewModel.ClosedAsync += OnClosedAsync;
+        ApplyParameter(parameter);
+
+        if (IsModal)
         {
-            ArgumentNullException.ThrowIfNull(typeFactory);
-            ArgumentNullException.ThrowIfNull(uiVisualizerService);
+            _uiVisualizerService.ShowDialogAsync(_windowViewModel, OnWindowCompleted);
+        }
+        else
+        {
+            _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted);
+        }
+    }
 
-            TypeFactory = typeFactory;
-            UIVisualizerService = uiVisualizerService;
+    private void OnWindowCompleted(object? sender, UICompletedEventArgs args)
+    {
+        if (args.Result.DialogResult ?? false)
+        {
+            return;
         }
 
-        public virtual bool IsModal => true;
+        OnAccepted();
+    }
 
-        protected override void OnOpen(object? parameter = null)
+    protected abstract void OnAccepted();
+    protected abstract T InitializeViewModel();
+
+    protected virtual void ApplyParameter(object? parameter)
+    {
+    }
+
+    public override void Close()
+    {
+        base.Close();
+
+        if (_windowViewModel is null)
         {
-            Parameter = parameter;
-
-            WindowViewModel = InitializeViewModel();
-            WindowViewModel.ClosedAsync += OnClosedAsync;
-            ApplyParameter(parameter);
-
-            if (IsModal)
-            {
-                UIVisualizerService.ShowDialogAsync(WindowViewModel, OnWindowCompleted);
-            }
-            else
-            {
-                UIVisualizerService.ShowAsync(WindowViewModel, OnWindowCompleted);
-            }
+            return;
         }
 
-        private void OnWindowCompleted(object? sender, UICompletedEventArgs args)
-        {
-            if (args.Result.DialogResult ?? false)
-            {
-                return;
-            }
-
-            OnAccepted();
-        }
-
-        protected abstract void OnAccepted();
-        protected abstract T InitializeViewModel();
-
-        protected virtual void ApplyParameter(object? parameter)
-        {
-        }
-
-        public override void Close()
-        {
-            base.Close();
-
-            if (WindowViewModel is null)
-            {
-                return;
-            }
-
-            WindowViewModel.ClosedAsync -= OnClosedAsync;
+        _windowViewModel.ClosedAsync -= OnClosedAsync;
 
 #pragma warning disable 4014
-            WindowViewModel.CloseViewModelAsync(null);
+        _windowViewModel.CloseViewModelAsync(null);
 #pragma warning restore 4014
-        }
+    }
 
-        private Task OnClosedAsync(object? sender, ViewModelClosedEventArgs args)
-        {
-            Close();
+    private Task OnClosedAsync(object? sender, ViewModelClosedEventArgs args)
+    {
+        Close();
 
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

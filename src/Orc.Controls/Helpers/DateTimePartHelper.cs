@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
@@ -19,7 +20,8 @@ public class DateTimePartHelper
     private readonly TextBox _textBox;
     private readonly ToggleButton _toggleButton;
 
-    public DateTimePartHelper(DateTime dateTime, DateTimePart dateTimePart, DateTimeFormatInfo dateTimeFormatInfo, TextBox textBox, ToggleButton activeToggleButton)
+    public DateTimePartHelper(DateTime dateTime, DateTimePart dateTimePart, DateTimeFormatInfo dateTimeFormatInfo, TextBox textBox,
+        ToggleButton activeToggleButton)
     {
         ArgumentNullException.ThrowIfNull(dateTimeFormatInfo);
         ArgumentNullException.ThrowIfNull(textBox);
@@ -51,8 +53,8 @@ public class DateTimePartHelper
         popup.Closed += PopupOnClosed;
 
         var popupSource = CreatePopupSource();
-        popupSource.PreviewKeyDown += popupSource_PreviewKeyDown;
-        popupSource.MouseUp += PopupSourceOnMouseUp;
+        popupSource.PreviewKeyDown += OnPopupSourcePreviewKeyDown;
+        popupSource.MouseUp += OnPopupSourceMouseUp;
 
         var automationInformer = new Orc.Automation.Controls.AutomationInformer
         {
@@ -66,25 +68,28 @@ public class DateTimePartHelper
         return popup;
     }
 
-    private void PopupSourceOnMouseUp(object? sender, MouseButtonEventArgs mouseButtonEventArgs)
+    private void OnPopupSourceMouseUp(object? sender, MouseButtonEventArgs mouseButtonEventArgs)
     {
         if (sender is not ListBox listbox)
         {
             return;
         }
-            
-        if(listbox.SelectedItems.Count > 0)
+
+        var selectedItems = listbox.SelectedItems
+            .OfType<KeyValuePair<string, string>>()
+            .ToArray();
+        if(selectedItems.Length > 0)
         {
-            UpdateTextBox((KeyValuePair<string, string>)listbox.SelectedItems[0]);
+            UpdateTextBox(selectedItems[0]);
         }
 
         listbox.FindLogicalOrVisualAncestorByType<Popup>()
-            .SetCurrentValue(Popup.IsOpenProperty, false);
+            ?.SetCurrentValue(Popup.IsOpenProperty, false);
 
         _textBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
     }
 
-    private void popupSource_PreviewKeyDown(object sender, KeyEventArgs e)
+    private void OnPopupSourcePreviewKeyDown(object sender, KeyEventArgs e)
     {
         var listbox = ((ListBox)sender);
         if (e.Key == Key.Down)
@@ -116,7 +121,15 @@ public class DateTimePartHelper
 
         if (e.Key == Key.Enter)
         {
-            UpdateTextBox((KeyValuePair<string, string>)listbox.SelectedItems[0]);
+            var selectedItems = listbox.SelectedItems
+                .OfType<KeyValuePair<string, string>>()
+                .ToArray();
+
+            if (selectedItems.Length > 0)
+            {
+                UpdateTextBox(selectedItems[0]);
+            }
+            
             ((Popup)listbox.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
             _textBox.Focus();
             e.Handled = true;

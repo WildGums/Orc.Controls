@@ -29,7 +29,7 @@ public partial class Callout
     }
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-    public object InnerContent
+    public object? InnerContent
     {
         get { return GetValue(InnerContentProperty); }
         set { SetValue(InnerContentProperty, value); }
@@ -40,9 +40,9 @@ public partial class Callout
 
 
     [ViewToViewModel(viewModelPropertyName: nameof(CalloutViewModel.Name), MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-    public string CalloutName
+    public string? CalloutName
     {
-        get { return (string)GetValue(CalloutNameProperty); }
+        get { return (string?)GetValue(CalloutNameProperty); }
         set { SetValue(CalloutNameProperty, value); }
     }
 
@@ -80,7 +80,7 @@ public partial class Callout
     }
 
     public static readonly DependencyProperty PlacementTargetProperty =
-        DependencyProperty.Register(nameof(PlacementTarget), typeof(object?), typeof(Callout),
+        DependencyProperty.Register(nameof(PlacementTarget), typeof(object), typeof(Callout),
             new PropertyMetadata((sender, args) => ((Callout)sender).OnPlacementTargetChanged(args)));
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -117,9 +117,9 @@ public partial class Callout
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-    public ICommand Command
+    public ICommand? Command
     {
-        get { return (ICommand)GetValue(CommandProperty); }
+        get { return (ICommand?)GetValue(CommandProperty); }
         set { SetValue(CommandProperty, value); }
     }
 

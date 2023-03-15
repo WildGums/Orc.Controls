@@ -142,8 +142,6 @@ public class SpinButton : Control
             _decreaseButtonAutomationPeer ??= new RepeatButtonAutomationPeer(_decreaseButton);
             var invokeProv = _decreaseButtonAutomationPeer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
             invokeProv?.Invoke();
-
-            return;
         }
     }
 

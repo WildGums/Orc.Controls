@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -70,63 +71,71 @@ public class DateTimePicker : Control, IEditableControl
 
     private static readonly HashSet<string> SecondMinuteCantAutoProceedBeginningChars = new() { "1", "2", "3", "4", "5" };
 
-    private bool _isTemplateApplied;
+    private readonly IDispatcherService _dispatcherService;
 
-    private List<TextBox> _textBoxes;
+    private readonly int _defaultSecondFormatPosition = 5;
+    private readonly int _defaultAmPmFormatPosition = 6;
+
+    private NumericTextBox? _daysNumericTextBox;
+    private NumericTextBox? _monthNumericTextBox;
+    private NumericTextBox? _yearNumericTextBox;
+    private NumericTextBox? _hourNumericTextBox;
+    private NumericTextBox? _minuteNumericTextBox;
+    private NumericTextBox? _secondNumericTextBox;
+
+    private TextBlock? _daysMonthsSeparatorTextBlock;
+    private TextBlock? _monthsYearSeparatorTextBlock;
+    private TextBlock? _yearSeparatorTextBlock;
+    private TextBlock? _hourMinuteSeparatorTextBlock;
+    private TextBlock? _minuteSecondSeparatorTextBlock;
+    private TextBlock? _secondAmPmSeparatorTextBlock;
+    private TextBlock? _amPmSeparatorTextBlock;
+        
+    private TextBox? _activeTextBox;
+
+    private ToggleButton? _daysToggleButton;
+    private ToggleButton? _monthToggleButton;
+    private ToggleButton? _yearToggleButton;
+    private ToggleButton? _hourToggleButton;
+    private ToggleButton? _minuteToggleButton;
+    private ToggleButton? _secondToggleButton;
+    private ToggleButton? _amPmToggleButton;
+
+    private DropDownButton? _datePickerIconDropDownButton;
+
+    private MenuItem? _todayMenuItem;
+    private MenuItem? _nowMenuItem;
+    private MenuItem? _selectDateMenuItem;
+    private MenuItem? _selectTimeMenuItem;
+    private MenuItem? _clearMenuItem;
+    private MenuItem? _copyMenuItem;
+    private MenuItem? _pasteMenuItem;
+
+    private Grid? _mainGrid;
+
+    private ListTextBox? _amPmListTextBox;
+
+    private Popup? _calendarPopup;
+    private Calendar? _calendar;
+
+    private Popup? _timePickerPopup;
+    private TimePicker? _timePicker;
+
+    private List<TextBox>? _textBoxes;
     private DateTime _todayValue;
-    private DateTimeFormatInfo _formatInfo;
+    private DateTimeFormatInfo? _formatInfo;
+
     private bool _safeHideTimeValue;
     private bool _applyingFormat;
     private bool _calendarSelectionChangedByKey;
     private bool _suspendTextChanged;
 
-    private readonly int _defaultSecondFormatPosition = 5;
-    private readonly int _defaultAmPmFormatPosition = 6;
-
-    private NumericTextBox _daysNumericTextBox;
-    private NumericTextBox _monthNumericTextBox;
-    private NumericTextBox _yearNumericTextBox;
-    private NumericTextBox _hourNumericTextBox;
-    private NumericTextBox _minuteNumericTextBox;
-    private NumericTextBox _secondNumericTextBox;
-
-    private TextBlock _daysMonthsSeparatorTextBlock;
-    private TextBlock _monthsYearSeparatorTextBlock;
-    private TextBlock _yearSeparatorTextBlock;
-    private TextBlock _hourMinuteSeparatorTextBlock;
-    private TextBlock _minuteSecondSeparatorTextBlock;
-    private TextBlock _secondAmPmSeparatorTextBlock;
-    private TextBlock _amPmSeparatorTextBlock;
-        
-    private TextBox _activeTextBox;
-
-    private ToggleButton _daysToggleButton;
-    private ToggleButton _monthToggleButton;
-    private ToggleButton _yearToggleButton;
-    private ToggleButton _hourToggleButton;
-    private ToggleButton _minuteToggleButton;
-    private ToggleButton _secondToggleButton;
-    private ToggleButton _amPmToggleButton;
-
-    private DropDownButton _datePickerIconDropDownButton;
-
-    private MenuItem _todayMenuItem;
-    private MenuItem _nowMenuItem;
-    private MenuItem _selectDateMenuItem;
-    private MenuItem _selectTimeMenuItem;
-    private MenuItem _clearMenuItem;
-    private MenuItem _copyMenuItem;
-    private MenuItem _pasteMenuItem;
-
-    private Grid _mainGrid;
-
-    private ListTextBox _amPmListTextBox;
-
-    private Popup _calendarPopup;
-    private Calendar _calendar;
-
-    private Popup _timePickerPopup;
-    private TimePicker _timePicker;
+    public DateTimePicker()
+    {
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
+        _dispatcherService = this.GetServiceLocator().ResolveRequiredType<IDispatcherService>();
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
+    }
 
     #region Dependency properties
     public DayOfWeek? FirstDayOfWeek
@@ -137,7 +146,7 @@ public class DateTimePicker : Control, IEditableControl
 
     public static readonly DependencyProperty FirstDayOfWeekProperty = DependencyProperty.Register(
         nameof(FirstDayOfWeek), typeof(DayOfWeek?), typeof(DateTimePicker), new PropertyMetadata(default(DayOfWeek?),
-            (sender, args) => ((DateTimePicker)sender).OnFirstDayOfWeekChanged(args)));
+            (sender, _) => ((DateTimePicker)sender).OnFirstDayOfWeekChanged()));
 
     public CultureInfo Culture
     {
@@ -146,8 +155,8 @@ public class DateTimePicker : Control, IEditableControl
     }
 
     public static readonly DependencyProperty CultureProperty = DependencyProperty.Register(
-        nameof(Culture), typeof(CultureInfo), typeof(DateTimePicker), new PropertyMetadata(default(CultureInfo),
-            (sender, args) => ((DateTimePicker)sender).OnCultureChanged(args)));
+        nameof(Culture), typeof(CultureInfo), typeof(DateTimePicker), new PropertyMetadata(CultureInfo.CurrentUICulture,
+            (sender, _) => ((DateTimePicker)sender).OnCultureChanged()));
 
     public DateTime? Value
     {
@@ -167,7 +176,7 @@ public class DateTimePicker : Control, IEditableControl
 
     public static readonly DependencyProperty ShowOptionsButtonProperty = DependencyProperty.Register(nameof(ShowOptionsButton), typeof(bool),
         typeof(DateTimePicker), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, args) => ((DateTimePicker)sender).OnShowOptionsButtonChanged()));
+            (sender, _) => ((DateTimePicker)sender).OnShowOptionsButtonChanged()));
 
     public bool AllowNull
     {
@@ -195,7 +204,7 @@ public class DateTimePicker : Control, IEditableControl
 
     public static readonly DependencyProperty HideTimeProperty = DependencyProperty.Register(nameof(HideTime), typeof(bool),
         typeof(DateTimePicker), new FrameworkPropertyMetadata(false,
-            (sender, e) => ((DateTimePicker)sender).OnHideTimeChanged()));
+            (sender, _) => ((DateTimePicker)sender).OnHideTimeChanged()));
 
     public bool HideSeconds
     {
@@ -204,7 +213,7 @@ public class DateTimePicker : Control, IEditableControl
     }
 
     public static readonly DependencyProperty HideSecondsProperty = DependencyProperty.Register(nameof(HideSeconds), typeof(bool),
-        typeof(DateTimePicker), new FrameworkPropertyMetadata(false, (sender, e) => ((DateTimePicker)sender).OnHideSecondsChanged()));
+        typeof(DateTimePicker), new FrameworkPropertyMetadata(false, (sender, _) => ((DateTimePicker)sender).OnHideSecondsChanged()));
 
     public bool IsReadOnly
     {
@@ -222,7 +231,8 @@ public class DateTimePicker : Control, IEditableControl
     }
 
     public static readonly DependencyProperty FormatProperty = DependencyProperty.Register(nameof(Format), typeof(string),
-        typeof(DateTimePicker), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern, (sender, e) => ((DateTimePicker)sender).OnFormatChanged()));
+        typeof(DateTimePicker), new FrameworkPropertyMetadata(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern,
+            (sender, _) => ((DateTimePicker)sender).OnFormatChanged()));
 
     public bool IsYearShortFormat
     {
@@ -279,91 +289,131 @@ public class DateTimePicker : Control, IEditableControl
 
     #endregion
 
-    #region Properties
     public bool IsInEditMode { get; private set; }
 
     private int? Day
     {
-        get => (int?)_daysNumericTextBox.Value;
+        get => (int?)_daysNumericTextBox?.Value;
 #pragma warning disable WPF0035 // Use SetValue in setter.
         set
         {
-            _daysNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
-            _daysNumericTextBox.UpdateText();
+            _daysNumericTextBox?.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+            _daysNumericTextBox?.UpdateText();
         }
 #pragma warning restore WPF0035 // Use SetValue in setter.
     }
 
     private int? Month
     {
-        get => (int?)_monthNumericTextBox.Value;
+        get => (int?)_monthNumericTextBox?.Value;
 #pragma warning disable WPF0035 // Use SetValue in setter.
         set
         {
-            _monthNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
-            _monthNumericTextBox.UpdateText();
+            _monthNumericTextBox?.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+            _monthNumericTextBox?.UpdateText();
         }
 #pragma warning restore WPF0035 // Use SetValue in setter.
     }
 
     private int? Year
     {
-        get => (int?)_yearNumericTextBox.Value;
+        get => (int?)_yearNumericTextBox?.Value;
 #pragma warning disable WPF0035 // Use SetValue in setter.
         set
         {
-            _yearNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
-            _yearNumericTextBox.UpdateText();
+            _yearNumericTextBox?.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+            _yearNumericTextBox?.UpdateText();
         }
 #pragma warning restore WPF0035 // Use SetValue in setter.
     }
 
     private int? Hour
     {
-        get => (int?)_hourNumericTextBox.Value;
+        get => (int?)_hourNumericTextBox?.Value;
 #pragma warning disable WPF0035 // Use SetValue in setter.
         set
         {
-            _hourNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
-            _hourNumericTextBox.UpdateText();
+            _hourNumericTextBox?.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+            _hourNumericTextBox?.UpdateText();
         }
 #pragma warning restore WPF0035 // Use SetValue in setter.
     }
 
     private int? Minute
     {
-        get => (int?)_minuteNumericTextBox.Value;
+        get => (int?)_minuteNumericTextBox?.Value;
 #pragma warning disable WPF0035 // Use SetValue in setter.
         set
         {
-            _minuteNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
-            _minuteNumericTextBox.UpdateText();
+            _minuteNumericTextBox?.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+            _minuteNumericTextBox?.UpdateText();
         }
 #pragma warning restore WPF0035 // Use SetValue in setter.
     }
 
     private int? Second
     {
-        get => (int?)_secondNumericTextBox.Value;
+        get => (int?)_secondNumericTextBox?.Value;
 #pragma warning disable WPF0035 // Use SetValue in setter.
         set
         {
-            _secondNumericTextBox.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
-            _secondNumericTextBox.UpdateText();
+            _secondNumericTextBox?.SetCurrentValue(NumericTextBox.ValueProperty, (double?)value);
+            _secondNumericTextBox?.UpdateText();
         }
 #pragma warning restore WPF0035 // Use SetValue in setter.
     }
 
-    private string AmPm
+    private string? AmPm
     {
-        get => _amPmListTextBox.Value;
+        get => _amPmListTextBox?.Value;
 #pragma warning disable WPF0035 // Use SetValue in setter.
-        set => _amPmListTextBox.SetCurrentValue(ListTextBox.ValueProperty, value);
+        set => _amPmListTextBox?.SetCurrentValue(ListTextBox.ValueProperty, value);
 #pragma warning restore WPF0035 // Use SetValue in setter.
     }
-    #endregion
 
-    #region Methods
+    [MemberNotNullWhen(true, nameof(_daysNumericTextBox),
+        nameof(_monthNumericTextBox),
+        nameof(_yearNumericTextBox),
+        nameof(_hourNumericTextBox),
+        nameof(_minuteNumericTextBox),
+        nameof(_secondNumericTextBox),
+        nameof(_secondNumericTextBox),
+        nameof(_daysMonthsSeparatorTextBlock),
+        nameof(_monthsYearSeparatorTextBlock),
+        nameof(_yearSeparatorTextBlock),
+        nameof(_hourMinuteSeparatorTextBlock),
+        nameof(_minuteSecondSeparatorTextBlock),
+        nameof(_secondAmPmSeparatorTextBlock),
+        nameof(_amPmSeparatorTextBlock),
+        nameof(_activeTextBox),
+        nameof(_daysToggleButton),
+        nameof(_monthToggleButton),
+        nameof(_yearToggleButton),
+        nameof(_hourToggleButton),
+        nameof(_minuteToggleButton),
+        nameof(_secondToggleButton),
+        nameof(_amPmToggleButton),
+        nameof(_datePickerIconDropDownButton),
+        nameof(_todayMenuItem),
+        nameof(_nowMenuItem),
+        nameof(_selectDateMenuItem),
+        nameof(_selectTimeMenuItem),
+        nameof(_clearMenuItem),
+        nameof(_copyMenuItem),
+        nameof(_pasteMenuItem),
+        nameof(_mainGrid),
+        nameof(_amPmListTextBox),
+        nameof(_calendarPopup),
+        nameof(_calendar),
+        nameof(_timePickerPopup),
+        nameof(_timePicker),
+        nameof(_textBoxes))]
+    public bool IsPartsInitialized { get; private set; }
+
+    public event EventHandler<EventArgs>? EditStarted;
+    public event EventHandler<EventArgs>? EditEnded;
+    public event EventHandler<EventArgs>? ValueChanged;
+
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -630,7 +680,7 @@ public class DateTimePicker : Control, IEditableControl
         var now = DateTime.Now;
         _todayValue = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
 
-        _isTemplateApplied = true;
+        IsPartsInitialized = true;
 
         ApplyFormat();
 
@@ -653,6 +703,11 @@ public class DateTimePicker : Control, IEditableControl
 
     private void OnSelectDateMenuItemClick(object sender, RoutedEventArgs e)
     {
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
         UnsubscribeFromCalendarEvents();
 
         SetCurrentValue(EnterKeyTraversal.IsEnabledProperty, false);
@@ -671,18 +726,33 @@ public class DateTimePicker : Control, IEditableControl
 
     private void SubscribeToCalendarEvents()
     {
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
         _calendar.PreviewKeyDown += CalendarOnPreviewKeyDown;
         _calendar.SelectedDatesChanged += CalendarOnSelectedDatesChanged;
     }
 
     private void UnsubscribeFromCalendarEvents()
     {
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
         _calendar.PreviewKeyDown -= CalendarOnPreviewKeyDown;
         _calendar.SelectedDatesChanged -= CalendarOnSelectedDatesChanged;
     }
 
     private void OnSelectTimeMenuItemClick(object sender, RoutedEventArgs e)
     {
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
         _timePickerPopup.SetCurrentValue(Popup.IsOpenProperty, true);
         var dateTime = Value ?? _todayValue;
         _timePicker.SetCurrentValue(TimePicker.TimeValueProperty, dateTime.TimeOfDay);
@@ -723,7 +793,7 @@ public class DateTimePicker : Control, IEditableControl
     private void OnCopyMenuItemClick(object sender, RoutedEventArgs e)
     {
         var value = Value;
-        if (value is null)
+        if (value is null || _formatInfo is null)
         {
             return;
         }
@@ -740,7 +810,7 @@ public class DateTimePicker : Control, IEditableControl
 
     private void OnPasteMenuItemClick(object sender, RoutedEventArgs e)
     {
-        if (!Clipboard.ContainsData(DataFormats.Text))
+        if (!Clipboard.ContainsData(DataFormats.Text) || _formatInfo is null)
         {
             return;
         }
@@ -763,14 +833,14 @@ public class DateTimePicker : Control, IEditableControl
         UpdateUi();
     }
 
-    private void OnFirstDayOfWeekChanged(DependencyPropertyChangedEventArgs args)
+    private void OnFirstDayOfWeekChanged()
     {
         ApplyFormat();
 
         UpdateUi();
     }
 
-    private void OnCultureChanged(DependencyPropertyChangedEventArgs args)
+    private void OnCultureChanged()
     {
         ApplyFormat();
 
@@ -779,7 +849,7 @@ public class DateTimePicker : Control, IEditableControl
 
     private void ApplyFormat()
     {
-        if (!_isTemplateApplied)
+        if (!IsPartsInitialized)
         {
             return;
         }
@@ -787,10 +857,9 @@ public class DateTimePicker : Control, IEditableControl
         using (new DisposableToken<DateTimePicker>(this, x => x.Instance._applyingFormat = true, x => x.Instance._applyingFormat = false))
         {
             var format = Format;
-            var culture = Culture ?? CultureInfo.CurrentUICulture;
+            var culture = Culture;
 
             format = DateTimeFormatHelper.FixFormat(culture, format, out var hasAnyTimeFormat);
-
             try
             {
                 _formatInfo = DateTimeFormatHelper.GetDateTimeFormatInfo(format);
@@ -810,7 +879,12 @@ public class DateTimePicker : Control, IEditableControl
 
             UpdateUiPartVisibility();
 
-            var hourPosition = _formatInfo?.HourPosition;
+            if (_formatInfo is null)
+            {
+                return;
+            }
+
+            var hourPosition = _formatInfo.HourPosition;
             if (hourPosition is null)
             {
                 return;
@@ -844,11 +918,11 @@ public class DateTimePicker : Control, IEditableControl
                 Meridiems.GetPmForFormat(_formatInfo)
             });
 
-            _daysNumericTextBox.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.DayFormat.Length));
-            _monthNumericTextBox.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.MonthFormat.Length));
-            _yearNumericTextBox.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.YearFormat.Length));
-            _hourNumericTextBox.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.HourFormat.Length));
-            _minuteNumericTextBox.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.MinuteFormat.Length));
+            _daysNumericTextBox.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.DayFormat?.Length ?? 0));
+            _monthNumericTextBox.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.MonthFormat?.Length ?? 0));
+            _yearNumericTextBox.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.YearFormat?.Length ?? 0));
+            _hourNumericTextBox.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.HourFormat?.Length ?? 0));
+            _minuteNumericTextBox.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.MinuteFormat?.Length ?? 0));
             _secondNumericTextBox.SetCurrentValue(NumericTextBox.FormatProperty, NumberFormatHelper.GetFormat(_formatInfo.SecondFormat?.Length ?? 0));
 
             UnsubscribeNumericTextBoxes();
@@ -924,7 +998,7 @@ public class DateTimePicker : Control, IEditableControl
 
     private void UpdateUiPartVisibility()
     {
-        if (_formatInfo is null)
+        if (_formatInfo is null || !IsPartsInitialized)
         {
             return;
         }
@@ -992,6 +1066,11 @@ public class DateTimePicker : Control, IEditableControl
 
     private void OnToggleButtonChecked(object sender, RoutedEventArgs e)
     {
+        if (!IsPartsInitialized || _formatInfo is null)
+        {
+            return;
+        }
+
         var toggleButton = (ToggleButton)sender;
         var activeDateTimePart = (DateTimePart)toggleButton.Tag;
 
@@ -1059,10 +1138,7 @@ public class DateTimePicker : Control, IEditableControl
 
         if (newValue is null && nv is not null)
         {
-#pragma warning disable IDISP004 // Don't ignore created IDisposable.
-            var dispatcherService = this.GetServiceLocator().ResolveType<IDispatcherService>();
-#pragma warning restore IDISP004 // Don't ignore created IDisposable.
-            dispatcherService.Invoke(() => SetCurrentValue(ValueProperty, nv));
+            _dispatcherService.Invoke(() => SetCurrentValue(ValueProperty, nv));
         }
 
         if (_textBoxes is not null)
@@ -1106,7 +1182,7 @@ public class DateTimePicker : Control, IEditableControl
 
     private void UpdateUi()
     {
-        if (!_isTemplateApplied)
+        if (!IsPartsInitialized)
         {
             return;
         }
@@ -1132,7 +1208,7 @@ public class DateTimePicker : Control, IEditableControl
         }
     }
 
-    private void OnDaysValueChanged(object sender, EventArgs e)
+    private void OnDaysValueChanged(object? sender, EventArgs e)
     {
         var value = Value;
         var day = Day;
@@ -1167,7 +1243,7 @@ public class DateTimePicker : Control, IEditableControl
 
     private void OnDaysTextChanged(object sender, TextChangedEventArgs e)
     {
-        if (_suspendTextChanged)
+        if (!IsPartsInitialized || _suspendTextChanged)
         {
             return;
         }
@@ -1208,7 +1284,7 @@ public class DateTimePicker : Control, IEditableControl
         }
     }
 
-    private void OnMonthValueChanged(object sender, EventArgs e)
+    private void OnMonthValueChanged(object? sender, EventArgs e)
     {
         var value = Value;
         var month = Month;
@@ -1237,6 +1313,11 @@ public class DateTimePicker : Control, IEditableControl
 
     private void OnMonthTextChanged(object sender, TextChangedEventArgs e)
     {
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
         UpdateMaxDaysInMonth();
 
         if (_suspendTextChanged)
@@ -1261,7 +1342,7 @@ public class DateTimePicker : Control, IEditableControl
         }
     }
 
-    private void OnYearValueChanged(object sender, EventArgs e)
+    private void OnYearValueChanged(object? sender, EventArgs e)
     {
         var value = Value;
         var year = Year;
@@ -1289,7 +1370,7 @@ public class DateTimePicker : Control, IEditableControl
 
     private void OnYearTextChanged(object sender, TextChangedEventArgs e)
     {
-        if (_suspendTextChanged)
+        if (!IsPartsInitialized || _suspendTextChanged)
         {
             return;
         }
@@ -1307,13 +1388,14 @@ public class DateTimePicker : Control, IEditableControl
 
         UpdateMaxDaysInMonth();
 
-        using (new DisposableToken<DateTimePicker>(this, x => x.Instance._suspendTextChanged = true, x => x.Instance._suspendTextChanged = false))
+        using (new DisposableToken<DateTimePicker>(this, x => x.Instance._suspendTextChanged = true, 
+                   x => x.Instance._suspendTextChanged = false))
         {
             _yearNumericTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
     }
 
-    private void OnHourValueChanged(object sender, EventArgs e)
+    private void OnHourValueChanged(object? sender, EventArgs e)
     {
         var value = Value;
         var hour = Hour;
@@ -1338,7 +1420,7 @@ public class DateTimePicker : Control, IEditableControl
 
     private void OnHourTextChanged(object sender, TextChangedEventArgs e)
     {
-        if (_suspendTextChanged)
+        if ( !IsPartsInitialized || _suspendTextChanged)
         {
             return;
         }
@@ -1359,13 +1441,14 @@ public class DateTimePicker : Control, IEditableControl
             return;
         }
 
-        using (new DisposableToken<DateTimePicker>(this, x => x.Instance._suspendTextChanged = true, x => x.Instance._suspendTextChanged = false))
+        using (new DisposableToken<DateTimePicker>(this, x => x.Instance._suspendTextChanged = true,
+                   x => x.Instance._suspendTextChanged = false))
         {
             _hourNumericTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
     }
 
-    private void OnMinuteValueChanged(object sender, EventArgs e)
+    private void OnMinuteValueChanged(object? sender, EventArgs e)
     {
         var value = Value;
         var minute = Minute;
@@ -1385,10 +1468,15 @@ public class DateTimePicker : Control, IEditableControl
 
     private void OnMinuteTextChanged(object sender, TextChangedEventArgs e)
     {
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
         TryProceedSecondMinuteEditing(_minuteNumericTextBox);
     }
 
-    private void OnSecondValueChanged(object sender, EventArgs e)
+    private void OnSecondValueChanged(object? sender, EventArgs e)
     {
         var value = Value;
         var second = Second;
@@ -1408,10 +1496,15 @@ public class DateTimePicker : Control, IEditableControl
 
     private void OnSecondTextChanged(object sender, TextChangedEventArgs e)
     {
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
         TryProceedSecondMinuteEditing(_secondNumericTextBox);
     }
 
-    private void OnAmPmListTextBoxValueChanged(object sender, EventArgs e)
+    private void OnAmPmListTextBoxValueChanged(object? sender, EventArgs e)
     {
         var amPm = AmPm;
         var value = Value;
@@ -1464,12 +1557,17 @@ public class DateTimePicker : Control, IEditableControl
 
     private void UpdateMaxDaysInMonth()
     {
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
         if (!int.TryParse(_monthNumericTextBox.Text, out var month))
         {
             return;
         }
 
-        if (month > 12 || month < 1)
+        if (month is > 12 or < 1)
         {
             return;
         }
@@ -1508,9 +1606,19 @@ public class DateTimePicker : Control, IEditableControl
         ApplyFormat();
     }
 
-    private async void OnTextBoxLeftBoundReached(object sender, EventArgs e)
+    private async void OnTextBoxLeftBoundReached(object? sender, EventArgs e)
     {
-        var currentTextBoxIndex = _textBoxes.IndexOf((TextBox)sender);
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
+        if (sender is not TextBox currentTextBox)
+        {
+            return;
+        }
+
+        var currentTextBoxIndex = _textBoxes.IndexOf(currentTextBox);
         var prevTextBox = _textBoxes[currentTextBoxIndex - 1];
 
         prevTextBox.CaretIndex = prevTextBox.Text.Length;
@@ -1520,9 +1628,19 @@ public class DateTimePicker : Control, IEditableControl
         prevTextBox.Focus();
     }
 
-    private async void OnTextBoxRightBoundReached(object sender, EventArgs eventArgs)
+    private async void OnTextBoxRightBoundReached(object? sender, EventArgs eventArgs)
     {
-        var currentTextBoxIndex = _textBoxes.IndexOf((TextBox)sender);
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
+        if (sender is not TextBox currentTextBox)
+        {
+            return;
+        }
+
+        var currentTextBoxIndex = _textBoxes.IndexOf(currentTextBox);
         var nextTextBox = _textBoxes[currentTextBoxIndex + 1];
 
         nextTextBox.CaretIndex = 0;
@@ -1534,6 +1652,11 @@ public class DateTimePicker : Control, IEditableControl
 
     private void SubscribeNumericTextBoxes()
     {
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
         // Enable support for switching between textboxes,
         // 0-5 because we can't switch to right on last textBox.
         for (var i = 0; i <= 5; i++)
@@ -1551,6 +1674,11 @@ public class DateTimePicker : Control, IEditableControl
 
     private void UnsubscribeNumericTextBoxes()
     {
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
         // Disable support for switching between textboxes,
         // 0-4 because we can't switch to right on last textBox.
         for (var i = 0; i <= 5; i++)
@@ -1568,6 +1696,11 @@ public class DateTimePicker : Control, IEditableControl
 
     private void EnableOrDisableHourConverterDependingOnFormat()
     {
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
         if (TryFindResource(nameof(Hour24ToHour12Converter)) is not Hour24ToHour12Converter converter)
         {
             return;
@@ -1579,6 +1712,11 @@ public class DateTimePicker : Control, IEditableControl
 
     private void EnableOrDisableAmPmConverterDependingOnFormat()
     {
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
         if (TryFindResource(nameof(AmPmLongToAmPmShortConverter)) is not AmPmLongToAmPmShortConverter converter)
         {
             return;
@@ -1590,6 +1728,11 @@ public class DateTimePicker : Control, IEditableControl
 
     private void EnableOrDisableYearConverterDependingOnFormat()
     {
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
         if (TryFindResource(nameof(YearLongToYearShortConverter)) is not YearLongToYearShortConverter converter)
         {
             return;
@@ -1654,7 +1797,7 @@ public class DateTimePicker : Control, IEditableControl
         }
     }
 
-    private void CalendarOnSelectedDatesChanged(object sender, SelectionChangedEventArgs args)
+    private void CalendarOnSelectedDatesChanged(object? sender, SelectionChangedEventArgs args)
     {
         if (sender is not Calendar calendar)
         {
@@ -1678,9 +1821,18 @@ public class DateTimePicker : Control, IEditableControl
         _calendarSelectionChangedByKey = false;
     }
 
-    private void CalendarOnPreviewKeyDown(object sender, KeyEventArgs e)
+    private void CalendarOnPreviewKeyDown(object? sender, KeyEventArgs e)
     {
-        var calendar = ((Calendar)sender);
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
+        if (sender is not Calendar calendar)
+        {
+            return;
+        }
+
         if (e.Key == Key.Escape)
         {
             ((Popup)calendar.Parent).SetCurrentValue(Popup.IsOpenProperty, false);
@@ -1752,20 +1904,25 @@ public class DateTimePicker : Control, IEditableControl
         InvalidateEditMode();
     }
 
-    private void OnCalendarPopupClosed(object sender, EventArgs e)
+    private void OnCalendarPopupClosed(object? sender, EventArgs e)
     {
         SetCurrentValue(EnterKeyTraversal.IsEnabledProperty, true);
 
         InvalidateEditMode();
     }
 
-    private void OnTimePickerPopupClosed(object sender, EventArgs e)
+    private void OnTimePickerPopupClosed(object? sender, EventArgs e)
     {
         InvalidateEditMode();
     }
 
     private void InvalidateEditMode()
     {
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
         if (!IsInEditMode)
         {
             return;
@@ -1849,9 +2006,4 @@ public class DateTimePicker : Control, IEditableControl
     {
         return new DateTimePickerAutomationPeer(this);
     }
-    #endregion
-
-    public event EventHandler<EventArgs> EditStarted;
-    public event EventHandler<EventArgs> EditEnded;
-    public event EventHandler<EventArgs> ValueChanged;
 }

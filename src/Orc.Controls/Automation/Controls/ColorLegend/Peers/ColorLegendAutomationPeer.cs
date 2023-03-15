@@ -1,4 +1,5 @@
-﻿namespace Orc.Controls.Automation;
+﻿#nullable disable
+namespace Orc.Controls.Automation;
 
 using System;
 using System.Linq;
@@ -6,13 +7,13 @@ using Orc.Automation;
 
 public class ColorLegendAutomationPeer : AutomationControlPeerBase<Controls.ColorLegend>
 {
-    public ColorLegendAutomationPeer(Orc.Controls.ColorLegend owner)
+    public ColorLegendAutomationPeer(Controls.ColorLegend owner)
         : base(owner)
     {
         owner.SelectionChanged += OwnerOnSelectionChanged;
     }
 
-    private void OwnerOnSelectionChanged(object? sender, EventArgs e)
+    private void OwnerOnSelectionChanged(object sender, EventArgs e)
     {
         RaiseEvent(nameof(ColorLegend.SelectionChanged), 10);
     }
@@ -25,3 +26,4 @@ public class ColorLegendAutomationPeer : AutomationControlPeerBase<Controls.Colo
         item.IsChecked = isChecked;
     }
 }
+#nullable enable
