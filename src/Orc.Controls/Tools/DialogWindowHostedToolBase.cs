@@ -26,7 +26,7 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
 
     public virtual bool IsModal => true;
 
-    protected override void OnOpen(object? parameter = null)
+    protected override async void OnOpen(object? parameter = null)
     {
         _parameter = parameter;
 
@@ -36,11 +36,11 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
 
         if (IsModal)
         {
-            _uiVisualizerService.ShowDialogAsync(_windowViewModel, OnWindowCompleted);
+            await _uiVisualizerService.ShowDialogAsync(_windowViewModel, OnWindowCompleted);
         }
         else
         {
-            _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted);
+            await _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted);
         }
     }
 
