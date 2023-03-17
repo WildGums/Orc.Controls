@@ -27,7 +27,10 @@
 
         protected override void OnAssociatedObjectUnloaded()
         {
-            AssociatedObject.PasswordChanged -= OnPasswordChanged;
+            if(AssociatedObject is not null) 
+            { 
+                AssociatedObject.PasswordChanged -= OnPasswordChanged;
+            }
 
             base.OnAssociatedObjectUnloaded();
         }
