@@ -5,10 +5,5 @@
 /// </summary>
 public partial class TextInputWindow
 {
-    #region Constructors
-    public TextInputWindow()
-    {
-        InitializeComponent();
-    }
-    #endregion
+    public TextInputWindow() => InitializeComponent();
 }
