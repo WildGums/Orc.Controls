@@ -7,7 +7,6 @@
                   xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
                   xmlns:controls="clr-namespace:Orc.Controls"
                   mc:Ignorable="d"
-                  Title="TextInputWindow"   
                   AutomationProperties.AutomationId="TextInputWindowId"
                   Height="450" 
                   Width="800">

@@ -1,159 +1,158 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Linq;
+using Catel;
+using Catel.Collections;
+using Catel.Logging;
+
+public static class ICalloutManagerExtensions
 {
-    using System;
-    using System.Linq;
-    using Catel;
-    using Catel.Collections;
-    using Catel.Logging;
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-    public static class ICalloutManagerExtensions
+    public static IDisposable SuspendInScope(this ICalloutManager calloutManager)
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        ArgumentNullException.ThrowIfNull(calloutManager);
 
-        public static IDisposable SuspendInScope(this ICalloutManager calloutManager)
+        return new DisposableToken<ICalloutManager>(calloutManager,
+            x => x.Instance.Suspend(),
+            x => x.Instance.Resume());
+    }
+
+    public static bool IsAnyCalloutOpen(this ICalloutManager calloutManager)
+    {
+        ArgumentNullException.ThrowIfNull(calloutManager);
+
+        return calloutManager.Callouts.Any(x => x.IsOpen);
+    }
+
+    public static void ShowAllCallouts(this ICalloutManager calloutManager)
+    {
+        ArgumentNullException.ThrowIfNull(calloutManager);
+
+        if (calloutManager.IsSuspended)
         {
-            ArgumentNullException.ThrowIfNull(calloutManager);
-
-            return new DisposableToken<ICalloutManager>(calloutManager,
-                x => x.Instance.Suspend(),
-                x => x.Instance.Resume());
+            Log.Debug($"Callout manager is currently suspended, cannot show all callouts");
+            return;
         }
 
-        public static bool IsAnyCalloutOpen(this ICalloutManager calloutManager)
-        {
-            ArgumentNullException.ThrowIfNull(calloutManager);
+        Log.Debug("Showing all callouts");
 
-            return calloutManager.Callouts.Any(x => x.IsOpen);
+        calloutManager.Callouts.Where(x => !x.HasShown).ForEach(x => x.Show());
+    }
+
+    public static void ShowCallout(this ICalloutManager calloutManager, Guid id, Func<ICallout, bool>? predicate = null)
+    {
+        ArgumentNullException.ThrowIfNull(calloutManager);
+
+        if (calloutManager.IsSuspended)
+        {
+            Log.Debug($"Callout manager is currently suspended, cannot show callout with id '{id}'");
+            return;
         }
 
-        public static void ShowAllCallouts(this ICalloutManager calloutManager)
+        var callout = FindCallout(calloutManager, id);
+        if (callout is null)
         {
-            ArgumentNullException.ThrowIfNull(calloutManager);
+            Log.Debug($"Callout with id '{id}' is not found");
+            return;
+        }
 
-            if (calloutManager.IsSuspended)
+        if (predicate is not null)
+        {
+            if (!predicate(callout))
             {
-                Log.Debug($"Callout manager is currently suspended, cannot show all callouts");
                 return;
             }
-
-            Log.Debug("Showing all callouts");
-
-            calloutManager.Callouts.Where(x => !x.HasShown).ForEach(x => x.Show());
         }
 
-        public static void ShowCallout(this ICalloutManager calloutManager, Guid id, Func<ICallout, bool> predicate = null)
-        {
-            ArgumentNullException.ThrowIfNull(calloutManager);
+        Log.Debug($"Showing callout '{callout}'");
 
-            if (calloutManager.IsSuspended)
+        callout.Show();
+    }
+
+    public static void ShowCallout(this ICalloutManager calloutManager, string name, Func<ICallout, bool>? predicate = null)
+    {
+        ArgumentNullException.ThrowIfNull(calloutManager);
+
+        if (calloutManager.IsSuspended)
+        {
+            Log.Debug($"Callout manager is currently suspended, cannot show callout with name '{name}'");
+            return;
+        }
+
+        var callout = FindCallout(calloutManager, name);
+        if (callout is null)
+        {
+            Log.Debug($"Callout with name '{name}' is not found");
+            return;
+        }
+
+        if (predicate is not null)
+        {
+            if (!predicate(callout))
             {
-                Log.Debug($"Callout manager is currently suspended, cannot show callout with id '{id}'");
                 return;
             }
-
-            var callout = FindCallout(calloutManager, id);
-            if (callout is null)
-            {
-                Log.Debug($"Callout with id '{id}' is not found");
-                return;
-            }
-
-            if (predicate is not null)
-            {
-                if (!predicate(callout))
-                {
-                    return;
-                }
-            }
-
-            Log.Debug($"Showing callout '{callout}'");
-
-            callout.Show();
         }
 
-        public static void ShowCallout(this ICalloutManager calloutManager, string name, Func<ICallout, bool> predicate = null)
+        Log.Debug($"Showing callout '{callout}'");
+
+        callout.Show();
+    }
+
+    public static void HideAllCallouts(this ICalloutManager calloutManager)
+    {
+        ArgumentNullException.ThrowIfNull(calloutManager);
+
+        Log.Debug("Hiding all callouts");
+
+        calloutManager.Callouts.ForEach(x => x.Hide());
+    }
+
+    public static void HideCallout(this ICalloutManager calloutManager, Guid id)
+    {
+        ArgumentNullException.ThrowIfNull(calloutManager);
+
+        var callout = FindCallout(calloutManager, id);
+        if (callout is null)
         {
-            ArgumentNullException.ThrowIfNull(calloutManager);
-
-            if (calloutManager.IsSuspended)
-            {
-                Log.Debug($"Callout manager is currently suspended, cannot show callout with name '{name}'");
-                return;
-            }
-
-            var callout = FindCallout(calloutManager, name);
-            if (callout is null)
-            {
-                Log.Debug($"Callout with name '{name}' is not found");
-                return;
-            }
-
-            if (predicate is not null)
-            {
-                if (!predicate(callout))
-                {
-                    return;
-                }
-            }
-
-            Log.Debug($"Showing callout '{callout}'");
-
-            callout.Show();
+            Log.Debug($"Callout with id '{id}' is not found");
+            return;
         }
 
-        public static void HideAllCallouts(this ICalloutManager calloutManager)
+        Log.Debug($"Hiding callout '{callout}'");
+
+        callout.Hide();
+    }
+
+    public static void HideCallout(this ICalloutManager calloutManager, string name)
+    {
+        ArgumentNullException.ThrowIfNull(calloutManager);
+
+        var callout = FindCallout(calloutManager, name);
+        if (callout is null)
         {
-            ArgumentNullException.ThrowIfNull(calloutManager);
-
-            Log.Debug("Hiding all callouts");
-
-            calloutManager.Callouts.ForEach(x => x.Hide());
+            Log.Debug($"Callout with name '{name}' is not found");
+            return;
         }
 
-        public static void HideCallout(this ICalloutManager calloutManager, Guid id)
-        {
-            ArgumentNullException.ThrowIfNull(calloutManager);
+        Log.Debug($"Hiding callout '{callout}'");
 
-            var callout = FindCallout(calloutManager, id);
-            if (callout is null)
-            {
-                Log.Debug($"Callout with id '{id}' is not found");
-                return;
-            }
+        callout.Hide();
+    }
 
-            Log.Debug($"Hiding callout '{callout}'");
+    public static ICallout? FindCallout(this ICalloutManager calloutManager, Guid id)
+    {
+        ArgumentNullException.ThrowIfNull(calloutManager);
 
-            callout.Hide();
-        }
+        return calloutManager.Callouts.FirstOrDefault(x => x.Id == id);
+    }
 
-        public static void HideCallout(this ICalloutManager calloutManager, string name)
-        {
-            ArgumentNullException.ThrowIfNull(calloutManager);
+    public static ICallout? FindCallout(this ICalloutManager calloutManager, string name)
+    {
+        ArgumentNullException.ThrowIfNull(calloutManager);
 
-            var callout = FindCallout(calloutManager, name);
-            if (callout is null)
-            {
-                Log.Debug($"Callout with name '{name}' is not found");
-                return;
-            }
-
-            Log.Debug($"Hiding callout '{callout}'");
-
-            callout.Hide();
-        }
-
-        public static ICallout FindCallout(this ICalloutManager calloutManager, Guid id)
-        {
-            ArgumentNullException.ThrowIfNull(calloutManager);
-
-            return calloutManager.Callouts.FirstOrDefault(x => x.Id == id);
-        }
-
-        public static ICallout FindCallout(this ICalloutManager calloutManager, string name)
-        {
-            ArgumentNullException.ThrowIfNull(calloutManager);
-
-            return calloutManager.Callouts.FirstOrDefault(x => x.Name == name);
-        }
+        return calloutManager.Callouts.FirstOrDefault(x => x.Name == name);
     }
 }

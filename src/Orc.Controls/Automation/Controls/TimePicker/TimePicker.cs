@@ -1,13 +1,12 @@
-﻿namespace Orc.Controls.Automation
-{
-    using System.Windows.Automation;
-    using Orc.Automation.Controls;
+﻿namespace Orc.Controls.Automation;
 
-    public class TimePicker : FrameworkElement<TimePickerModel>
+using System.Windows.Automation;
+using Orc.Automation.Controls;
+
+public class TimePicker : FrameworkElement<TimePickerModel>
+{
+    public TimePicker(AutomationElement element) 
+        : base(element)
     {
-        public TimePicker(AutomationElement element) 
-            : base(element)
-        {
-        }
     }
 }

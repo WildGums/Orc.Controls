@@ -1,121 +1,117 @@
-﻿namespace Orc.Controls.Automation
+﻿namespace Orc.Controls.Automation;
+
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
+using Catel.Windows;
+using Orc.Automation;
+
+public class ColorBoardAutomationPeer : AutomationControlPeerBase<Controls.ColorBoard>
 {
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Media;
-    using System.Windows.Shapes;
-    using Catel.Windows;
-    using Orc.Automation;
+    private readonly Controls.ColorBoard _owner;
 
-    public class ColorBoardAutomationPeer : AutomationControlPeerBase<Controls.ColorBoard>
+    public ColorBoardAutomationPeer(Controls.ColorBoard owner) 
+        : base(owner)
     {
-        private readonly Controls.ColorBoard _owner;
+        _owner = owner;
 
-        public ColorBoardAutomationPeer(Controls.ColorBoard owner) 
-            : base(owner)
+        owner.DoneClicked += OnDoneClicked;
+        owner.CancelClicked += OnCancelClicked;
+    }
+
+    private void OnCancelClicked(object? sender, RoutedEventArgs e)
+    {
+        RaiseEvent(nameof(Controls.ColorBoard.CancelClicked), null);
+    }
+
+    private void OnDoneClicked(object? sender, RoutedEventArgs e)
+    {
+        RaiseEvent(nameof(Controls.ColorBoard.DoneClicked), null);
+    }
+
+    [AutomationMethod]
+    public Rect GetHsvCanvasBoundingRect()
+    {
+        if (Owner.FindVisualDescendantByName("PART_HSVRectangle") is not Rectangle hsvCanvas)
         {
-            _owner = owner;
-
-            owner.DoneClicked += OnDoneClicked;
-            owner.CancelClicked += OnCancelClicked;
+            return Rect.Empty;
         }
 
-        private void OnCancelClicked(object? sender, RoutedEventArgs e)
+        var screenRect = hsvCanvas.GetScreenRect();
+
+        return screenRect;
+    }
+
+    [AutomationMethod]
+    public Point GetSV()
+    {
+        if (Owner.FindVisualDescendantByName("PART_HSVRectangle") is not Rectangle hsvCanvas)
         {
-            RaiseEvent(nameof(Controls.ColorBoard.CancelClicked), null);
+            return new Point(double.MaxValue, double.MaxValue);
         }
 
-        private void OnDoneClicked(object? sender, RoutedEventArgs e)
+        var ellipse = Owner.FindVisualDescendantByType<Ellipse>();
+        if (ellipse is null)
         {
-            RaiseEvent(nameof(Controls.ColorBoard.DoneClicked), null);
+            return new Point(double.MaxValue, double.MaxValue);
         }
 
-        [AutomationMethod]
-        public Rect GetHsvCanvasBoundingRect()
+        var x = (double)ellipse.GetValue(Canvas.LeftProperty) + ellipse.ActualWidth / 2;
+        var y = (double)ellipse.GetValue(Canvas.TopProperty) + ellipse.ActualHeight / 2;
+
+        var s = x / (hsvCanvas.ActualWidth - 1);
+        if (s < 0d)
         {
-            if (Owner.FindVisualDescendantByName("PART_HSVRectangle") is not Rectangle hsvCanvas)
-            {
-                return Rect.Empty;
-            }
-
-            var screenRect = hsvCanvas.GetScreenRect();
-
-            return screenRect;
+            s = 0d;
+        }
+        else if (s > 1d)
+        {
+            s = 1d;
         }
 
-        [AutomationMethod]
-        public Point GetSV()
+        var v = 1 - y / (hsvCanvas.ActualHeight - 1);
+        if (v < 0d)
         {
-            if (Owner.FindVisualDescendantByName("PART_HSVRectangle") is not Rectangle hsvCanvas)
-            {
-                return new Point(double.MaxValue, double.MaxValue);
-            }
-
-            var ellipse = Owner.FindVisualDescendantByType<Ellipse>();
-            if (ellipse is null)
-            {
-                return new Point(double.MaxValue, double.MaxValue);
-            }
-
-            var x = (double)ellipse.GetValue(Canvas.LeftProperty) + ellipse.ActualWidth / 2;
-            var y = (double)ellipse.GetValue(Canvas.TopProperty) + ellipse.ActualHeight / 2;
-
-            var s = x / (hsvCanvas.ActualWidth - 1);
-            if (s < 0d)
-            {
-                s = 0d;
-            }
-            else if (s > 1d)
-            {
-                s = 1d;
-            }
-
-            var v = 1 - y / (hsvCanvas.ActualHeight - 1);
-            if (v < 0d)
-            {
-                v = 0d;
-            }
-            else if (v > 1d)
-            {
-                v = 1d;
-            }
-
-            return new Point(s, v);
+            v = 0d;
+        }
+        else if (v > 1d)
+        {
+            v = 1d;
         }
 
-        [AutomationMethod]
-        public Point GetColorPoint(Color color)
+        return new Point(s, v);
+    }
+
+    [AutomationMethod]
+    public Point GetColorPoint(Color color)
+    {
+        if (Owner.FindVisualDescendantByName("PART_HSVRectangle") is not Rectangle hsvCanvas)
         {
-            if (Owner.FindVisualDescendantByName("PART_HSVRectangle") is not Rectangle hsvCanvas)
-            {
-                return new Point(double.MaxValue, double.MaxValue);
-            }
+            return new Point(double.MaxValue, double.MaxValue);
+        }
 
-            var ellipse = Owner.FindVisualDescendantByType<Ellipse>();
-            if (ellipse is null)
-            {
-                return new Point(double.MaxValue, double.MaxValue);
-            }
+        var ellipse = Owner.FindVisualDescendantByType<Ellipse>();
+        if (ellipse is null)
+        {
+            return new Point(double.MaxValue, double.MaxValue);
+        }
 
-            var s = ColorHelper.GetHSV_S(color);
-            var v = ColorHelper.GetHSV_V(color);
+        var s = ColorHelper.GetHSV_S(color);
+        var v = ColorHelper.GetHSV_V(color);
             
-            var x = s * hsvCanvas.ActualWidth;
-            var y = (1 - v) * hsvCanvas.ActualHeight;
+        var x = s * hsvCanvas.ActualWidth;
+        var y = (1 - v) * hsvCanvas.ActualHeight;
 
-            return new Point(1.75 * x, 1.75 * y);
-        }
+        return new Point(1.75 * x, 1.75 * y);
+    }
 
-        [AutomationMethod]
-        public Point GetHsvColorEllipsePosition()
-        {
-            var ellipse = Owner.FindVisualDescendantByType<Ellipse>();
-            if (ellipse is null)
-            {
-                return new Point(double.MaxValue, double.MaxValue);
-            }
-
-            return ellipse.GetScreenRect().GetClickablePoint();
-        }
+    [AutomationMethod]
+    public Point GetHsvColorEllipsePosition()
+    {
+        var ellipse = Owner.FindVisualDescendantByType<Ellipse>();
+        return ellipse is not null 
+            ? ellipse.GetScreenRect().GetClickablePoint() 
+            : new Point(double.MaxValue, double.MaxValue);
     }
 }

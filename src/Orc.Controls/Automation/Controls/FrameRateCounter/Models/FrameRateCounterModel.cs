@@ -1,15 +1,16 @@
-﻿namespace Orc.Controls.Automation
+﻿#nullable disable
+namespace Orc.Controls.Automation;
+
+using Orc.Automation;
+
+[ActiveAutomationModel]
+public class FrameRateCounterModel : FrameworkElementModel
 {
-    using Orc.Automation;
-
-    [ActiveAutomationModel]
-    public class FrameRateCounterModel : FrameworkElementModel
+    public FrameRateCounterModel(AutomationElementAccessor accessor) 
+        : base(accessor)
     {
-        public FrameRateCounterModel(AutomationElementAccessor accessor) 
-            : base(accessor)
-        {
-        }
-
-        public string Prefix { get; set; }
     }
+
+    public string Prefix { get; set; }
 }
+#nullable enable

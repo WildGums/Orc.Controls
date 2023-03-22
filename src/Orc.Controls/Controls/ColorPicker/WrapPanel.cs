@@ -1,79 +1,78 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System.Windows;
+using System.Windows.Controls;
+
+/// <summary>
+/// The wrap panel.
+/// </summary>
+public class WrapPanel : Panel
 {
-    using System.Windows;
-    using System.Windows.Controls;
+    /// <summary>
+    /// The arrange override.
+    /// </summary>
+    /// <param name="finalSize">The final size.</param>
+    /// <returns>The <see cref="Size" />.</returns>
+    protected override Size ArrangeOverride(Size finalSize)
+    {
+        double rowY;
+        var rowX = rowY = 0;
+
+        double y = 0;
+
+        foreach (FrameworkElement child in Children)
+        {
+            var ds = child.DesiredSize;
+            y = rowY + ds.Height > y ? rowY + ds.Height : y;
+
+            child.Arrange(new Rect(rowX, rowY, ds.Width, ds.Height));
+
+            rowX += ds.Width;
+
+            if (rowX + ds.Width > finalSize.Width)
+            {
+                rowX = 0;
+                rowY = y;
+            }
+        }
+
+        return base.ArrangeOverride( /*new Size(rowX, rowY + y)*/ finalSize);
+    }
 
     /// <summary>
-    /// The wrap panel.
+    /// The measure override.
     /// </summary>
-    public class WrapPanel : Panel
+    /// <param name="availableSize">The available size.</param>
+    /// <returns>The <see cref="Size" />.</returns>
+    protected override Size MeasureOverride(Size availableSize)
     {
-        /// <summary>
-        /// The arrange override.
-        /// </summary>
-        /// <param name="finalSize">The final size.</param>
-        /// <returns>The <see cref="Size" />.</returns>
-        protected override Size ArrangeOverride(Size finalSize)
+        foreach (FrameworkElement child in Children)
         {
-            double rowX, rowY;
-            rowX = rowY = 0;
-
-            double y = 0;
-
-            foreach (FrameworkElement child in Children)
-            {
-                var ds = child.DesiredSize;
-                y = rowY + ds.Height > y ? rowY + ds.Height : y;
-
-                child.Arrange(new Rect(rowX, rowY, ds.Width, ds.Height));
-
-                rowX += ds.Width;
-
-                if (rowX + ds.Width > finalSize.Width)
-                {
-                    rowX = 0;
-                    rowY = y;
-                }
-            }
-
-            return base.ArrangeOverride( /*new Size(rowX, rowY + y)*/ finalSize);
+            child.Measure(availableSize);
         }
 
-        /// <summary>
-        /// The measure override.
-        /// </summary>
-        /// <param name="availableSize">The available size.</param>
-        /// <returns>The <see cref="Size" />.</returns>
-        protected override Size MeasureOverride(Size availableSize)
+        double rowX, rowY;
+        rowX = rowY = 0;
+
+        double y = 0;
+        double dsw = 0;
+        double dsh = 0;
+
+        foreach (FrameworkElement child in Children)
         {
-            foreach (FrameworkElement child in Children)
+            var ds = child.DesiredSize;
+            dsw = ds.Width;
+            dsh = ds.Height;
+            y = rowY + ds.Height > y ? rowY + ds.Height : y;
+            rowX += ds.Width;
+
+            if (rowX + ds.Width > availableSize.Width)
             {
-                child.Measure(availableSize);
+                rowX = 0;
+                rowY = y;
             }
-
-            double rowX, rowY;
-            rowX = rowY = 0;
-
-            double y = 0;
-            double dsw = 0;
-            double dsh = 0;
-
-            foreach (FrameworkElement child in Children)
-            {
-                var ds = child.DesiredSize;
-                dsw = ds.Width;
-                dsh = ds.Height;
-                y = rowY + ds.Height > y ? rowY + ds.Height : y;
-                rowX += ds.Width;
-
-                if (rowX + ds.Width > availableSize.Width)
-                {
-                    rowX = 0;
-                    rowY = y;
-                }
-            }
-
-            return new Size(rowX + dsw, rowY + dsh);
         }
+
+        return new Size(rowX + dsw, rowY + dsh);
     }
 }

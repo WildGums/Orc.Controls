@@ -1,33 +1,28 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System.Windows;
+using System.Windows.Automation.Peers;
+using System.Windows.Controls;
+using Automation;
+
+public class HeaderBar : Control
 {
-    using System.Windows;
-    using System.Windows.Automation.Peers;
-    using System.Windows.Controls;
-    using Automation;
-
-    public class HeaderBar : Control
+    public HeaderBar()
     {
-        #region Constructors
-        public HeaderBar()
-        {
-            DefaultStyleKey = typeof(HeaderBar);
-        }
-        #endregion
+        DefaultStyleKey = typeof(HeaderBar);
+    }
+    
+    public string? Header
+    {
+        get { return (string?)GetValue(HeaderProperty); }
+        set { SetValue(HeaderProperty, value); }
+    }
 
-        #region Properties
-        public string Header
-        {
-            get { return (string)GetValue(HeaderProperty); }
-            set { SetValue(HeaderProperty, value); }
-        }
+    public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header),
+        typeof(string), typeof(HeaderBar), new PropertyMetadata(string.Empty));
 
-        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header),
-            typeof(string), typeof(HeaderBar), new PropertyMetadata(string.Empty));
-        #endregion
-
-        protected override AutomationPeer OnCreateAutomationPeer()
-        {
-            return new HeaderBarAutomationPeer(this);
-        }
+    protected override AutomationPeer OnCreateAutomationPeer()
+    {
+        return new HeaderBarAutomationPeer(this);
     }
 }

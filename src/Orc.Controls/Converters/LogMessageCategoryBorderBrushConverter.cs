@@ -1,26 +1,25 @@
-﻿namespace Orc.Controls.Converters
+﻿namespace Orc.Controls.Converters;
+
+using System;
+using System.Collections.Generic;
+using System.Windows.Media;
+using Catel.MVVM.Converters;
+
+internal class LogMessageCategoryBorderBrushConverter : ValueConverterBase<string>
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Windows.Media;
-    using Catel.MVVM.Converters;
+    public static readonly Dictionary<string, SolidColorBrush> BrushCache = new(StringComparer.OrdinalIgnoreCase);
 
-    internal class LogMessageCategoryBorderBrushConverter : ValueConverterBase<string>
+    static LogMessageCategoryBorderBrushConverter()
     {
-        public static readonly Dictionary<string, SolidColorBrush?> BrushCache = new Dictionary<string, SolidColorBrush?>(StringComparer.OrdinalIgnoreCase);
+        BrushCache["Debug"] = new SolidColorBrush(Colors.DarkGray);
+        BrushCache["Info"] = new SolidColorBrush(Colors.RoyalBlue);
+        BrushCache["Warning"] = new SolidColorBrush(Colors.DarkOrange);
+        BrushCache["Error"] = new SolidColorBrush(Colors.Red);
+        BrushCache["Clock"] = new SolidColorBrush(Colors.Gray);
+    }
 
-        static LogMessageCategoryBorderBrushConverter()
-        {
-            BrushCache["Debug"] = new SolidColorBrush(Colors.DarkGray);
-            BrushCache["Info"] = new SolidColorBrush(Colors.RoyalBlue);
-            BrushCache["Warning"] = new SolidColorBrush(Colors.DarkOrange);
-            BrushCache["Error"] = new SolidColorBrush(Colors.Red);
-            BrushCache["Clock"] = new SolidColorBrush(Colors.Gray);
-        }
-
-        protected override object? Convert(string? value, Type targetType, object? parameter)
-        {
-            return BrushCache.TryGetValue(value, out var brush) ? brush : Brushes.Black;
-        }
+    protected override object? Convert(string? value, Type targetType, object? parameter)
+    {
+        return BrushCache.TryGetValue(value ?? string.Empty, out var brush) ? brush : Brushes.Black;
     }
 }

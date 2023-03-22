@@ -1,13 +1,12 @@
-﻿namespace Orc.Controls.Automation
-{
-    using System.Windows.Automation;
-    using Orc.Automation.Controls;
+﻿namespace Orc.Controls.Automation;
 
-    public class FrameCounter : FrameworkElement<FrameRateCounterModel>
+using System.Windows.Automation;
+using Orc.Automation.Controls;
+
+public class FrameCounter : FrameworkElement<FrameRateCounterModel>
+{
+    public FrameCounter(AutomationElement element)
+        : base(element)
     {
-        public FrameCounter(AutomationElement element)
-            : base(element)
-        {
-        }
     }
 }

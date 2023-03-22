@@ -1,4 +1,5 @@
-﻿namespace Orc.Controls.Automation;
+﻿#nullable disable
+namespace Orc.Controls.Automation;
 
 using Orc.Automation;
 using Orc.Automation.Controls;
@@ -27,8 +28,8 @@ public class ColorBoardMap : AutomationBase
 
     private readonly ColorBoard _target;
 
-    private HsvCanvasColorBoardPart? _hsvCanvas;
-    private Tab? _tab;
+    private HsvCanvasColorBoardPart _hsvCanvas;
+    private Tab _tab;
 
     public ColorBoardMap(ColorBoard target)
         : base(target.Element)
@@ -36,7 +37,7 @@ public class ColorBoardMap : AutomationBase
         _target = target;
     }
 
-    public override By By => new(Element, Tab);
+    public override By By => new (Element, Tab);
 
     public Tab Tab => _tab ??= base.By.Id().One<Tab>();
 
@@ -53,7 +54,7 @@ public class ColorBoardMap : AutomationBase
     public Edit REdit => By.Tab(HsvTabIndex).Id().One<Edit>();
     public Edit GEdit => By.Tab(HsvTabIndex).Id().One<Edit>();
     public Edit BEdit => By.Tab(HsvTabIndex).Id().One<Edit>();
-    public HsvCanvasColorBoardPart HsvCanvas => Tab.InTab(HsvTabIndex, () => _hsvCanvas ??= new(_target));
+    public HsvCanvasColorBoardPart HsvCanvas => Tab?.InTab(HsvTabIndex, () => _hsvCanvas ??= new(_target));
 
 
     //Out of tab elements
@@ -64,3 +65,4 @@ public class ColorBoardMap : AutomationBase
     public Button SelectButton => By.Id().One<Button>();
     public Button CancelButton => By.Id().One<Button>();
 }
+#nullable enable

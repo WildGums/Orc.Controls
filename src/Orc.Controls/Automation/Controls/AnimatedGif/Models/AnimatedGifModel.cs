@@ -1,15 +1,14 @@
-﻿namespace Orc.Controls.Automation
+﻿namespace Orc.Controls.Automation;
+
+using Orc.Automation;
+
+[ActiveAutomationModel]
+public class AnimatedGifModel : FrameworkElementModel
 {
-    using Orc.Automation;
-
-    [ActiveAutomationModel]
-    public class AnimatedGifModel : FrameworkElementModel
+    public AnimatedGifModel(AutomationElementAccessor accessor) 
+        : base(accessor)
     {
-        public AnimatedGifModel(AutomationElementAccessor accessor) 
-            : base(accessor)
-        {
-        }
-
-        public string? GifSource { get; set; }
     }
+
+    public string? GifSource { get; set; }
 }

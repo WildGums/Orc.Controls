@@ -1,4 +1,5 @@
-﻿namespace Orc.Controls.Automation;
+﻿#nullable disable
+namespace Orc.Controls.Automation;
 
 using Orc.Automation;
 
@@ -18,3 +19,4 @@ public class SaveFilePickerModel : FrameworkElementModel
 
     public string Filter { get; set; }
 }
+#nullable enable

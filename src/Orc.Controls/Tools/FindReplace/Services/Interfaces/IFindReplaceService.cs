@@ -1,10 +1,9 @@
-﻿namespace Orc.Controls.Services
+﻿namespace Orc.Controls.Services;
+
+public interface IFindReplaceService
 {
-    public interface IFindReplaceService
-    {
-        string GetInitialFindText();
-        bool FindNext(string textToFind, FindReplaceSettings settings);
-        bool Replace(string textToFind, string textToReplace, FindReplaceSettings settings);
-        void ReplaceAll(string textToFind, string textToReplace, FindReplaceSettings settings);
-    }
+    string GetInitialFindText();
+    bool FindNext(string textToFind, FindReplaceSettings settings);
+    bool Replace(string textToFind, string textToReplace, FindReplaceSettings settings);
+    void ReplaceAll(string textToFind, string textToReplace, FindReplaceSettings settings);
 }

@@ -1,86 +1,80 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Windows;
+using System.Windows.Automation.Peers;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Threading;
+using Automation;
+
+/// <summary>
+/// A counter to show the frame rate inside an application.
+/// </summary>
+public class FrameRateCounter : TextBlock
 {
-    using System;
-    using System.Windows;
-    using System.Windows.Automation.Peers;
-    using System.Windows.Controls;
-    using System.Windows.Media;
-    using System.Windows.Threading;
-    using Automation;
+    private readonly DispatcherTimer _frameRateTimer = new();
 
-    /// <summary>
-    /// A counter to show the frame rate inside an application.
-    /// </summary>
-    public class FrameRateCounter : TextBlock
+    private int _frameRateCounter;
+
+    // Note: we cache dependency properties for performance
+    private string _prefixThreadSafe;
+
+    public FrameRateCounter()
     {
-        private readonly DispatcherTimer _frameRateTimer = new DispatcherTimer();
+        Loaded += OnControlLoaded;
+        Unloaded += OnControlUnloaded;
 
-        private int _frameRateCounter;
+        _prefixThreadSafe = Prefix;
 
-        // Note: we cache dependency properties for performance
-        private string _prefixThreadSafe;
+        _frameRateTimer.Interval = new TimeSpan(0, 0, 0, 1);
+        _frameRateTimer.Tick += (_, _) => OnFrameRateCounterElapsed();
+    }
 
-        static FrameRateCounter()
-        {
-            //FrameRateCounter.FontFamilyProperty.OverrideMetadata(typeof(FrameRateCounter), new PropertyMetadata(new FontFamily("Consolas")));
-        }
+    public string Prefix
+    {
+        get { return (string)GetValue(PrefixProperty); }
+        set { SetValue(PrefixProperty, value); }
+    }
 
-        public FrameRateCounter()
-        {
-            Loaded += OnControlLoaded;
-            Unloaded += OnControlUnloaded;
+    public static readonly DependencyProperty PrefixProperty = DependencyProperty.Register(nameof(Prefix),
+        typeof(string), typeof(FrameRateCounter), new PropertyMetadata("Frame rate: ", (sender, e) => ((FrameRateCounter)sender)._prefixThreadSafe = (string)e.NewValue));
 
-            _prefixThreadSafe = Prefix;
+    private void OnControlLoaded(object sender, RoutedEventArgs e)
+    {
+        _frameRateTimer.Start();
 
-            _frameRateTimer.Interval = new TimeSpan(0, 0, 0, 1);
-            _frameRateTimer.Tick += (sender, e) => OnFrameRateCounterElapsed();
-        }
+        CompositionTarget.Rendering += OnRendering;
+    }
 
-        public string Prefix
-        {
-            get { return (string)GetValue(PrefixProperty); }
-            set { SetValue(PrefixProperty, value); }
-        }
+    private void OnControlUnloaded(object sender, RoutedEventArgs e)
+    {
+        CompositionTarget.Rendering -= OnRendering;
 
-        public static readonly DependencyProperty PrefixProperty = DependencyProperty.Register(nameof(Prefix),
-            typeof(string), typeof(FrameRateCounter), new PropertyMetadata("Frame rate: ", (sender, e) => ((FrameRateCounter)sender)._prefixThreadSafe = (string)e.NewValue));
+        _frameRateTimer.Stop();
+    }
 
-        private void OnControlLoaded(object sender, RoutedEventArgs e)
-        {
-            _frameRateTimer.Start();
+    private void OnRendering(object? _, EventArgs e)
+    {
+        _frameRateCounter++;
+    }
 
-            CompositionTarget.Rendering += OnRendering;
-        }
+    private void OnFrameRateCounterElapsed()
+    {
+        Update();
 
-        private void OnControlUnloaded(object sender, RoutedEventArgs e)
-        {
-            CompositionTarget.Rendering -= OnRendering;
+        _frameRateCounter = 0;
+    }
 
-            _frameRateTimer.Stop();
-        }
+    private void Update()
+    {
+        var text = $"{_prefixThreadSafe}{_frameRateCounter}";
 
-        private void OnRendering(object sender, EventArgs e)
-        {
-            _frameRateCounter++;
-        }
+        SetCurrentValue(TextProperty, text);
+    }
 
-        private void OnFrameRateCounterElapsed()
-        {
-            Update();
-
-            _frameRateCounter = 0;
-        }
-
-        private void Update()
-        {
-            var text = $"{_prefixThreadSafe}{_frameRateCounter}";
-
-            SetCurrentValue(TextProperty, text);
-        }
-
-        protected override AutomationPeer OnCreateAutomationPeer()
-        {
-            return new FrameRateCounterAutomationPeer(this);
-        }
+    protected override AutomationPeer OnCreateAutomationPeer()
+    {
+        return new FrameRateCounterAutomationPeer(this);
     }
 }

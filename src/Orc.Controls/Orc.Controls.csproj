@@ -8,7 +8,6 @@
     <PackageVersion>1.0.0-alpha0001</PackageVersion>
     <Description>Controls library.</Description>
     <PackageTags>orc;controls;datepicker;timepicker;textbox;connection;string;watermark;</PackageTags>
-    <Nullable>annotations</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -52,6 +51,7 @@
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props')" />
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.mat.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.mat.props')" />
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.xamltools.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.xamltools.props')" />
+  <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.nullable.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.xamltools.props')" />
 
   <PropertyGroup>
     <XAMLColorSchemeGeneratorEnabled>False</XAMLColorSchemeGeneratorEnabled>

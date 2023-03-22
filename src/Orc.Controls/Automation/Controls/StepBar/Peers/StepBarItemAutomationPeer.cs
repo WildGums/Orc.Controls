@@ -1,12 +1,11 @@
-﻿namespace Orc.Controls.Automation
-{
-    using Orc.Automation;
+﻿namespace Orc.Controls.Automation;
 
-    public class StepBarItemAutomationPeer : AutomationControlPeerBase<Controls.StepBarItem>
+using Orc.Automation;
+
+public class StepBarItemAutomationPeer : AutomationControlPeerBase<Controls.StepBarItem>
+{
+    public StepBarItemAutomationPeer(Controls.StepBarItem owner) 
+        : base(owner)
     {
-        public StepBarItemAutomationPeer(Controls.StepBarItem owner) 
-            : base(owner)
-        {
-        }
     }
 }

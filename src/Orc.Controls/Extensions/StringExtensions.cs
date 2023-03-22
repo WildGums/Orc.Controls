@@ -1,96 +1,97 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Windows.Documents;
+
+public static class StringExtensions
 {
-    using System;
-    using System.IO;
-    using System.Linq;
-    using System.Text.RegularExpressions;
-    using System.Windows.Documents;
-
-    public static class StringExtensions
+    internal static string ChunkIntValue(this string input, string partValue, out int val)
     {
-        internal static string ChunkIntValue(this string input, string partValue, out int val)
+        val = int.Parse(partValue);
+        return input[partValue.Length..];
+    }
+
+    internal static bool IsDateTimeFormatPart(this string part)
+    {
+        return part.Contains('h') || part.Contains('H') || part.Contains('m') || part.Contains('s') || part.Contains('t');
+    }
+
+    public static Inline ToInline(this string text)
+    {
+        return new Run(text);
+    }
+
+    public static string GetRegexStringFromSearchPattern(this string pattern)
+    {
+        var regexString = string.Empty;
+        //if exact matching
+        if (pattern.StartsWith("\"") && pattern.EndsWith("\""))
         {
-            val = int.Parse(partValue);
-            return input.Substring(partValue.Length);
+            var modifiedPattern = "/^" + pattern.Substring(1, pattern.Length - 2) + "$/";
+            regexString = modifiedPattern.ExtractRegexString();
         }
 
-        internal static bool IsDateTimeFormatPart(this string part)
+        if (string.IsNullOrWhiteSpace(regexString))
         {
-            return part.Contains('h') || part.Contains('H') || part.Contains('m') || part.Contains('s') || part.Contains('t');
+            regexString = pattern.ExtractRegexString();
         }
 
-        public static Inline ToInline(this string text)
+        if (string.IsNullOrWhiteSpace(regexString))
         {
-            return new Run(text);
+            regexString = pattern.ConstructWildcardRegex();
         }
 
-        public static string GetRegexStringFromSearchPattern(this string pattern)
+        return regexString;
+    }
+
+    public static string ConstructWildcardRegex(this string pattern)
+    {
+        // Always add a wildcard at the end of the pattern
+        pattern = "*" + pattern.Trim('*') + "*";
+
+        // Make it case insensitive by default
+        return "(?i)^" + Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".") + "$";
+    }
+
+    public static string ExtractRegexString(this string filter)
+    {
+        if (!filter.StartsWith("/") || !filter.EndsWith("/"))
         {
-            var regexString = string.Empty;
-            //if exact matching
-            if (pattern.StartsWith("\"") && pattern.EndsWith("\""))
-            {
-                var modifiedPattern = "/^" + pattern.Substring(1, pattern.Length - 2) + "$/";
-                regexString = modifiedPattern.ExtractRegexString();
-            }
-
-            if (string.IsNullOrWhiteSpace(regexString))
-            {
-                regexString = pattern.ExtractRegexString();
-            }
-
-            if (string.IsNullOrWhiteSpace(regexString))
-            {
-                regexString = pattern.ConstructWildcardRegex();
-            }
-
-            return regexString;
+            return string.Empty;
         }
 
-        public static string ConstructWildcardRegex(this string pattern)
-        {
-            // Always add a wildcard at the end of the pattern
-            pattern = "*" + pattern.Trim('*') + "*";
+        filter = filter.Substring(1, filter.Length - 2);
+        return !filter.IsValidRegexPattern() ? string.Empty : filter;
+    }
 
-            // Make it case insensitive by default
-            return "(?i)^" + Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".") + "$";
+    public static bool IsValidRegexPattern(this string pattern)
+    {
+        if (string.IsNullOrWhiteSpace(pattern))
+        {
+            return false;
         }
 
-        public static string ExtractRegexString(this string filter)
+        try
         {
-            if (!filter.StartsWith("/") || !filter.EndsWith("/"))
-            {
-                return string.Empty;
-            }
-
-            filter = filter.Substring(1, filter.Length - 2);
-            return !filter.IsValidRegexPattern() ? string.Empty : filter;
+            var regEx = Regex.Match(string.Empty, pattern, RegexOptions.None, TimeSpan.FromSeconds(1));
+        }
+        catch (ArgumentException)
+        {
+            return false;
         }
 
-        public static bool IsValidRegexPattern(this string pattern)
-        {
-            if (string.IsNullOrWhiteSpace(pattern)) return false;
+        return true;
+    }
 
-            try
-            {
-                var regEx = Regex.Match(string.Empty, pattern, RegexOptions.None, TimeSpan.FromSeconds(1));
-            }
-            catch (ArgumentException)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public static Stream ToStream(this string s)
-        {
-            var stream = new MemoryStream();
-            using var writer = new StreamWriter(stream);
-            writer.Write(s);
-            writer.Flush();
-            stream.Position = 0;
-            return stream;
-        }
+    public static Stream ToStream(this string s)
+    {
+        var stream = new MemoryStream();
+        using var writer = new StreamWriter(stream);
+        writer.Write(s);
+        writer.Flush();
+        stream.Position = 0;
+        return stream;
     }
 }

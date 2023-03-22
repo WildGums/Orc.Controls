@@ -1,265 +1,267 @@
-﻿namespace Orc.Controls
-{
-    using System;
-    using System.Windows;
-    using System.Windows.Automation.Peers;
-    using System.Windows.Controls;
-    using System.Windows.Media.Animation;
-    using Catel.Logging;
+﻿namespace Orc.Controls;
+
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Windows;
+using System.Windows.Automation.Peers;
+using System.Windows.Controls;
+using System.Windows.Media.Animation;
+using Catel.Logging;
     
-    [TemplateVisualState(Name = "Expanded", GroupName = "Expander")]
-    [TemplateVisualState(Name = "Collapsed", GroupName = "Expander")]
-    [TemplatePart(Name = "PART_ExpandSite", Type = typeof(ContentPresenter))]
-    [TemplatePart(Name = "PART_HeaderSiteBorder", Type = typeof(Border))]
-    public class Expander : HeaderedContentControl
+[TemplateVisualState(Name = "Expanded", GroupName = "Expander")]
+[TemplateVisualState(Name = "Collapsed", GroupName = "Expander")]
+[TemplatePart(Name = "PART_ExpandSite", Type = typeof(ContentPresenter))]
+[TemplatePart(Name = "PART_HeaderSiteBorder", Type = typeof(Border))]
+public class Expander : HeaderedContentControl
+{
+    private const double MinimumDuration = 150d;
+
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
+    private double? _previousActualLength;
+    private double? _previousMaxLength;
+    private bool _isTemplateApplyPostponed;
+
+    private ContentPresenter? _expandSite;
+    private Border? _headerSiteBorder;
+
+    public Expander()
     {
-        #region Constants
-        private const double MinimumDuration = 150d;
-        #endregion 
+        DefaultStyleKey = typeof(Expander);
 
-        #region Fields
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        IsVisibleChanged += OnIsVisibleChanged;
+        Loaded += OnLoaded;
+    }
 
-        private double? _previousActualLength;
-        private double? _previousMaxLength;
-        private bool _isTemplateApplyPostponed;
+    #region Properties
+    public bool IsExpanded
+    {
+        get { return (bool)GetValue(IsExpandedProperty); }
+        set { SetValue(IsExpandedProperty, value); }
+    }
 
-        private ContentPresenter? _expandSite;
-        private Border? _headerSiteBorder;
-        #endregion
+    public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(nameof(IsExpanded),
+        typeof(bool), typeof(Expander),
+        new PropertyMetadata(true, (sender, args) => ((Expander)sender).OnIsExpandedChanged(args)));
 
-        #region Constructors
-        public Expander()
-        {
-            DefaultStyleKey = typeof(Expander);
+    public ExpandDirection ExpandDirection
+    {
+        get { return (ExpandDirection)GetValue(ExpandDirectionProperty); }
+        set { SetValue(ExpandDirectionProperty, value); }
+    }
 
-            IsVisibleChanged += OnIsVisibleChanged;
-            Loaded += OnLoaded;
-        }
-        #endregion
-
-        #region Properties
-        public bool IsExpanded
-        {
-            get { return (bool)GetValue(IsExpandedProperty); }
-            set { SetValue(IsExpandedProperty, value); }
-        }
-
-        public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(nameof(IsExpanded),
-            typeof(bool), typeof(Expander),
-            new PropertyMetadata(true, (sender, args) => ((Expander)sender).OnIsExpandedChanged(args)));
-
-        public ExpandDirection ExpandDirection
-        {
-            get { return (ExpandDirection)GetValue(ExpandDirectionProperty); }
-            set { SetValue(ExpandDirectionProperty, value); }
-        }
-
-        public static readonly DependencyProperty ExpandDirectionProperty = DependencyProperty.Register(nameof(ExpandDirection),
-            typeof(ExpandDirection), typeof(Expander), new PropertyMetadata(ExpandDirection.Left));
+    public static readonly DependencyProperty ExpandDirectionProperty = DependencyProperty.Register(nameof(ExpandDirection),
+        typeof(ExpandDirection), typeof(Expander), new PropertyMetadata(ExpandDirection.Left));
         
-        public double ExpandDuration
+    public double ExpandDuration
+    {
+        get { return (double)GetValue(ExpandDurationProperty); }
+        set { SetValue(ExpandDurationProperty, value); }
+    }
+
+    public static readonly DependencyProperty ExpandDurationProperty = DependencyProperty.Register(
+        nameof(ExpandDuration), typeof(double), typeof(Expander), new PropertyMetadata(0d));
+
+
+    public bool AutoResizeGrid
+    {
+        get { return (bool)GetValue(AutoResizeGridProperty); }
+        set { SetValue(AutoResizeGridProperty, value); }
+    }
+
+    public static readonly DependencyProperty AutoResizeGridProperty = DependencyProperty.Register(nameof(AutoResizeGrid),
+        typeof(bool), typeof(Expander), new PropertyMetadata(false));
+    #endregion
+
+    [MemberNotNullWhen(true, nameof(_expandSite), nameof(_headerSiteBorder))]
+    private bool IsPartInitialized { get; set; }
+
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        _expandSite = GetTemplateChild("PART_ExpandSite") as ContentPresenter;
+        if (_expandSite is null)
         {
-            get { return (double)GetValue(ExpandDurationProperty); }
-            set { SetValue(ExpandDurationProperty, value); }
+            _isTemplateApplyPostponed = true;
+            return;
         }
 
-        public static readonly DependencyProperty ExpandDurationProperty = DependencyProperty.Register(
-            nameof(ExpandDuration), typeof(double), typeof(Expander), new PropertyMetadata(0d));
-
-
-        public bool AutoResizeGrid
+        _headerSiteBorder = GetTemplateChild("PART_HeaderSiteBorder") as Border;
+        if (_headerSiteBorder is null)
         {
-            get { return (bool)GetValue(AutoResizeGridProperty); }
-            set { SetValue(AutoResizeGridProperty, value); }
+            throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_HeaderSiteBorder'");
         }
 
-        public static readonly DependencyProperty AutoResizeGridProperty = DependencyProperty.Register(nameof(AutoResizeGrid),
-            typeof(bool), typeof(Expander), new PropertyMetadata(false));
-        #endregion
+        UpdateIsExpanded();
 
-        #region Methods
-        private void OnIsExpandedChanged(DependencyPropertyChangedEventArgs e)
+        _isTemplateApplyPostponed = false;
+
+        IsPartInitialized = true;
+    }
+
+    private void OnIsExpandedChanged(DependencyPropertyChangedEventArgs e)
+    {
+        UpdateIsExpanded();
+    }
+
+    private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        if (IsVisible && _isTemplateApplyPostponed)
         {
-            UpdateIsExpanded();
+            OnApplyTemplate();
+        }
+    }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        if (IsVisible && _isTemplateApplyPostponed)
+        {
+            OnApplyTemplate();
+        }
+    }
+
+    private void AnimateMaxHeight(RowDefinition rowDefinition, double from, double to, double duration)
+    {
+        rowDefinition.BeginAnimation(RowDefinition.MaxHeightProperty, null);
+        if (duration < MinimumDuration)
+        {
+            duration = MinimumDuration;
         }
 
-        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        var storyboard = new Storyboard();
+
+        var animationDuration = new Duration(TimeSpan.FromMilliseconds(duration));
+        var ease = new CubicEase { EasingMode = EasingMode.EaseOut };
+
+        var animation = new DoubleAnimation { EasingFunction = ease, Duration = animationDuration };
+        storyboard.Children.Add(animation);
+        animation.From = from;
+        animation.To = to;
+        Storyboard.SetTarget(animation, rowDefinition);
+        Storyboard.SetTargetProperty(animation, new PropertyPath("(RowDefinition.MaxHeight)"));
+
+        storyboard.Completed += OnRowMaxHeightAnimationCompleted;
+
+        storyboard.Begin();
+    }
+
+    private void AnimateMaxWidth(ColumnDefinition columnDefinition, double from, double to, double duration)
+    {
+        columnDefinition.BeginAnimation(ColumnDefinition.MaxWidthProperty, null);
+        if (duration < MinimumDuration)
         {
-            if (IsVisible && _isTemplateApplyPostponed)
-            {
-                OnApplyTemplate();
-            }
+            duration = MinimumDuration;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        var storyboard = new Storyboard();
+
+        var animationDuration = new Duration(TimeSpan.FromMilliseconds(duration));
+        var ease = new CubicEase
         {
-            if (IsVisible && _isTemplateApplyPostponed)
-            {
-                OnApplyTemplate();
-            }
+            EasingMode = EasingMode.EaseOut
+        };
+
+        var animation = new DoubleAnimation { EasingFunction = ease, Duration = animationDuration };
+        storyboard.Children.Add(animation);
+        animation.From = from;
+        animation.To = to;
+        Storyboard.SetTarget(animation, columnDefinition);
+        Storyboard.SetTargetProperty(animation, new PropertyPath("(ColumnDefinition.MaxWidth)"));
+
+        storyboard.Completed += OnColumnMaxWidthAnimationCompleted;
+
+        storyboard.Begin();
+    }
+
+    private void OnRowMaxHeightAnimationCompleted(object? sender, EventArgs e)
+    {
+        var isExpanded = IsExpanded;
+
+        if (!isExpanded)
+        {
+            return;
         }
 
-        public override void OnApplyTemplate()
+        if (_previousMaxLength is null)
         {
-            base.OnApplyTemplate();
-
-            _expandSite = GetTemplateChild("PART_ExpandSite") as ContentPresenter;
-            if (_expandSite is null)
-            {
-                _isTemplateApplyPostponed = true;
-                return;
-            }
-
-            _headerSiteBorder = GetTemplateChild("PART_HeaderSiteBorder") as Border;
-            if (_headerSiteBorder is null)
-            {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_HeaderSiteBorder'");
-            }
-
-            UpdateIsExpanded();
-
-            _isTemplateApplyPostponed = false;
+            return;
         }
 
-        private void AnimateMaxHeight(RowDefinition rowDefinition, double from, double to, double duration)
+        if (!AutoResizeGrid)
         {
-            rowDefinition.BeginAnimation(RowDefinition.MaxHeightProperty, null);
-            if (duration < MinimumDuration)
-            {
-                duration = MinimumDuration;
-            }
-
-            var storyboard = new Storyboard();
-
-            var animationDuration = new Duration(TimeSpan.FromMilliseconds(duration));
-            var ease = new CubicEase { EasingMode = EasingMode.EaseOut };
-
-            var animation = new DoubleAnimation { EasingFunction = ease, Duration = animationDuration };
-            storyboard.Children.Add(animation);
-            animation.From = from;
-            animation.To = to;
-            Storyboard.SetTarget(animation, rowDefinition);
-            Storyboard.SetTargetProperty(animation, new PropertyPath("(RowDefinition.MaxHeight)"));
-
-            storyboard.Completed += OnRowMaxHeightAnimationCompleted;
-
-            storyboard.Begin();
+            return;
         }
 
-        private void AnimateMaxWidth(ColumnDefinition columnDefinition, double from, double to, double duration)
+        if (Parent is not Grid grid)
         {
-            columnDefinition.BeginAnimation(ColumnDefinition.MaxWidthProperty, null);
-            if (duration < MinimumDuration)
-            {
-                duration = MinimumDuration;
-            }
-
-            var storyboard = new Storyboard();
-
-            var animationDuration = new Duration(TimeSpan.FromMilliseconds(duration));
-            var ease = new CubicEase { EasingMode = EasingMode.EaseOut };
-
-            var animation = new DoubleAnimation { EasingFunction = ease, Duration = animationDuration };
-            storyboard.Children.Add(animation);
-            animation.From = from;
-            animation.To = to;
-            Storyboard.SetTarget(animation, columnDefinition);
-            Storyboard.SetTargetProperty(animation, new PropertyPath("(ColumnDefinition.MaxWidth)"));
-
-            storyboard.Completed += OnColumnMaxWidthAnimationCompleted;
-
-            storyboard.Begin();
+            return;
         }
 
-        private void OnRowMaxHeightAnimationCompleted(object sender, EventArgs e)
+        var row = Grid.GetRow(this);
+        var rowDefinition = grid.RowDefinitions[row];
+
+        rowDefinition.BeginAnimation(RowDefinition.MaxHeightProperty, null);
+    }
+
+    private void OnColumnMaxWidthAnimationCompleted(object? sender, EventArgs e)
+    {
+        var isExpanded = IsExpanded;
+
+        if (!isExpanded)
         {
-            var isExpanded = IsExpanded;
-
-            if (!isExpanded)
-            {
-                return;
-            }
-
-            if (_previousMaxLength is null)
-            {
-                return;
-            }
-
-            if (!AutoResizeGrid)
-            {
-                return;
-            }
-
-            if (Parent is not Grid grid)
-            {
-                return;
-            }
-
-            var row = Grid.GetRow(this);
-            var rowDefinition = grid.RowDefinitions[row];
-
-            rowDefinition.BeginAnimation(RowDefinition.MaxHeightProperty, null);
+            return;
         }
 
-        private void OnColumnMaxWidthAnimationCompleted(object sender, EventArgs e)
+        if (_previousMaxLength is null)
         {
-            var isExpanded = IsExpanded;
-
-            if (!isExpanded)
-            {
-                return;
-            }
-
-            if (_previousMaxLength is null)
-            {
-                return;
-            }
-
-            if (!AutoResizeGrid)
-            {
-                return;
-            }
-
-            if (Parent is not Grid grid)
-            {
-                return;
-            }
-
-            var column = Grid.GetColumn(this);
-            var columnDefinition = grid.ColumnDefinitions[column];
-
-            columnDefinition.BeginAnimation(ColumnDefinition.MaxWidthProperty, null);
+            return;
         }
 
-        protected virtual void OnCollapsed()
+        if (!AutoResizeGrid)
         {
-            if (IsVisible && _isTemplateApplyPostponed)
-            {
-                OnApplyTemplate();
-            }
+            return;
+        }
 
-            if (_headerSiteBorder is null)
-            {
-                return;
-            }
+        if (Parent is not Grid grid)
+        {
+            return;
+        }
 
-            if (!AutoResizeGrid)
-            {
-                _expandSite.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
+        var column = Grid.GetColumn(this);
+        var columnDefinition = grid.ColumnDefinitions[column];
 
-                return;
-            }
+        columnDefinition.BeginAnimation(ColumnDefinition.MaxWidthProperty, null);
+    }
 
-            if (Parent is not Grid grid)
-            {
-                return;
-            }
+    protected virtual void OnCollapsed()
+    {
+        if (IsVisible && _isTemplateApplyPostponed)
+        {
+            OnApplyTemplate();
+        }
 
-            switch (ExpandDirection)
-            {
-                case ExpandDirection.Left:
-                case ExpandDirection.Right:
+        if (!IsPartInitialized)
+        {
+            return;
+        }
+
+        if (!AutoResizeGrid)
+        {
+            _expandSite.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
+
+            return;
+        }
+
+        if (Parent is not Grid grid)
+        {
+            return;
+        }
+
+        switch (ExpandDirection)
+        {
+            case ExpandDirection.Left:
+            case ExpandDirection.Right:
                 {
                     var column = Grid.GetColumn(this);
                     var columnDefinition = grid.ColumnDefinitions[column];
@@ -275,8 +277,8 @@
                     break;
                 }
 
-                case ExpandDirection.Up:
-                case ExpandDirection.Down:
+            case ExpandDirection.Up:
+            case ExpandDirection.Down:
                 {
                     var row = Grid.GetRow(this);
                     var rowDefinition = grid.RowDefinitions[row];
@@ -291,40 +293,50 @@
 
                     break;
                 }
-            }
+        }
+    }
+
+    protected virtual void OnExpanded()
+    {
+        if (IsVisible && _isTemplateApplyPostponed)
+        {
+            OnApplyTemplate();
         }
 
-        protected virtual void OnExpanded()
+        if (!IsPartInitialized)
         {
-            if (!AutoResizeGrid)
-            {
-                _expandSite.SetCurrentValue(VisibilityProperty, Visibility.Visible);
+            return;
+        }
 
-                return;
-            }
+        if (!AutoResizeGrid)
+        {
+            _expandSite.SetCurrentValue(VisibilityProperty, Visibility.Visible);
 
-            if (Parent is not Grid grid)
-            {
-                return;
-            }
+            return;
+        }
 
-            switch (ExpandDirection)
-            {
-                case ExpandDirection.Left:
-                case ExpandDirection.Right:
+        if (Parent is not Grid grid)
+        {
+            return;
+        }
+
+        switch (ExpandDirection)
+        {
+            case ExpandDirection.Left:
+            case ExpandDirection.Right:
+                {
+                    var column = Grid.GetColumn(this);
+
+                    if (_previousActualLength.HasValue)
                     {
-                        var column = Grid.GetColumn(this);
-
-                        if (_previousActualLength.HasValue)
-                        {
-                            var columnDefinition = grid.ColumnDefinitions[column];
-                            AnimateMaxWidth(columnDefinition, _headerSiteBorder.ActualWidth, _previousActualLength.Value, ExpandDuration);
-                        }
-                        break;
+                        var columnDefinition = grid.ColumnDefinitions[column];
+                        AnimateMaxWidth(columnDefinition, _headerSiteBorder.ActualWidth, _previousActualLength.Value, ExpandDuration);
                     }
+                    break;
+                }
 
-                case ExpandDirection.Up:
-                case ExpandDirection.Down:
+            case ExpandDirection.Up:
+            case ExpandDirection.Down:
                 {
                     var row = Grid.GetRow(this);
 
@@ -335,32 +347,30 @@
                     }
                     break;
                 }
-            }
         }
+    }
 
-        private void UpdateStates(bool useTransitions)
+    private void UpdateStates(bool useTransitions)
+    {
+        VisualStateManager.GoToState(this, IsExpanded ? "Expanded" : "Collapsed", useTransitions);
+    }
+
+    private void UpdateIsExpanded()
+    {
+        if (IsExpanded)
         {
-            VisualStateManager.GoToState(this, IsExpanded ? "Expanded" : "Collapsed", useTransitions);
+            OnExpanded();
         }
-
-        private void UpdateIsExpanded()
+        else
         {
-            if (IsExpanded)
-            {
-                OnExpanded();
-            }
-            else
-            {
-                OnCollapsed();
-            }
-
-            UpdateStates(true);
+            OnCollapsed();
         }
 
-        protected override AutomationPeer OnCreateAutomationPeer()
-        {
-            return new Automation.ExpanderAutomationPeer(this);
-        }
-        #endregion
+        UpdateStates(true);
+    }
+
+    protected override AutomationPeer OnCreateAutomationPeer()
+    {
+        return new Automation.ExpanderAutomationPeer(this);
     }
 }

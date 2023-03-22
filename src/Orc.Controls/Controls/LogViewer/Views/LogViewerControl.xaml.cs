@@ -1,673 +1,653 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using Catel.IoC;
+using Catel.Logging;
+using Catel.MVVM;
+using Catel.MVVM.Views;
+using ViewModels;
+
+public partial class LogViewerControl
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Linq;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Documents;
-    using System.Windows.Input;
-    using System.Windows.Media;
-    using Catel.IoC;
-    using Catel.Logging;
-    using Catel.MVVM;
-    using Catel.MVVM.Views;
-    using ViewModels;
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-    /// <summary>
-    /// Interaction logic for LogViewerControl.xaml.
-    /// </summary>
-    public partial class LogViewerControl
+    private static readonly Dictionary<LogEvent, Brush> ColorSets = new();
+
+    private readonly ICommandManager _commandManager;
+    private readonly Dictionary<LogEntry, RichTextBoxParagraph> _paragraphCache = new();
+
+    private LogViewerViewModel? _lastKnownViewModel;
+
+    private bool _hasClearedEntries;
+    private double _lastKnownScrollHeight;
+
+    static LogViewerControl()
     {
-        #region Constants
-        private static readonly Dictionary<LogEvent, Brush> ColorSets = new Dictionary<LogEvent, Brush>();
-        #endregion
+        typeof(LogViewerControl).AutoDetectViewPropertiesToSubscribe();
+    }
 
-        #region Fields
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    public LogViewerControl()
+    {
+        InitializeComponent();
 
-        private readonly ICommandManager _commandManager;
-        private readonly Dictionary<LogEntry, RichTextBoxParagraph> _paragraphCache = new Dictionary<LogEntry, RichTextBoxParagraph>();
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
+        _commandManager = this.GetServiceLocator().ResolveRequiredType<ICommandManager>();
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
 
-        private LogViewerViewModel _lastKnownViewModel;
-        private bool _hasClearedEntries;
-        private double _lastKnownScrollHeight = 0;
-        #endregion
+        UpdateMessageBrushes();
+    }
 
-        #region Events
-        public event EventHandler<LogEntryDoubleClickEventArgs> LogEntryDoubleClick;
-        #endregion
+    public bool EnableTimestamp
+    {
+        get { return (bool)GetValue(EnableTimestampProperty); }
+        set { SetValue(EnableTimestampProperty, value); }
+    }
 
-        #region Constructors
-        static LogViewerControl()
+    public static readonly DependencyProperty EnableTimestampProperty = DependencyProperty.Register(nameof(EnableTimestamp), typeof(bool),
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            (sender, _) => ((LogViewerControl)sender).OnEnableTimestampChanged()));
+
+    public bool EnableIcons
+    {
+        get { return (bool)GetValue(EnableIconsProperty); }
+        set { SetValue(EnableIconsProperty, value); }
+    }
+
+    public static readonly DependencyProperty EnableIconsProperty = DependencyProperty.Register(nameof(EnableIcons), typeof(bool),
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            (sender, _) => ((LogViewerControl)sender).OnEnableIconsChanged()));
+
+    public bool EnableThreadId
+    {
+        get { return (bool)GetValue(EnableThreadIdProperty); }
+        set { SetValue(EnableThreadIdProperty, value); }
+    }
+
+    public static readonly DependencyProperty EnableThreadIdProperty = DependencyProperty.Register(nameof(EnableThreadId), typeof(bool), typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+        (sender, e) => ((LogViewerControl)sender).OnEnableThreadIdChanged()));
+
+    public bool EnableTextColoring
+    {
+        get { return (bool)GetValue(EnableTextColoringProperty); }
+        set { SetValue(EnableTextColoringProperty, value); }
+    }
+
+    public static readonly DependencyProperty EnableTextColoringProperty = DependencyProperty.Register(nameof(EnableTextColoring), typeof(bool),
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            (sender, _) => ((LogViewerControl)sender).OnEnableTextColoringChanged()));
+
+    [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+    public string LogFilter
+    {
+        get { return (string)GetValue(LogFilterProperty); }
+        set { SetValue(LogFilterProperty, value); }
+    }
+
+    public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register(nameof(LogFilter), typeof(string),
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
+
+
+    [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+    public Type LogListenerType
+    {
+        get { return (Type)GetValue(LogListenerTypeProperty); }
+        set { SetValue(LogListenerTypeProperty, value); }
+    }
+
+    public static readonly DependencyProperty LogListenerTypeProperty = DependencyProperty.Register(nameof(LogListenerType), typeof(Type),
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(typeof(LogViewerLogListener), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
+
+
+    [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+    public bool IgnoreCatelLogging
+    {
+        get { return (bool)GetValue(IgnoreCatelLoggingProperty); }
+        set { SetValue(IgnoreCatelLoggingProperty, value); }
+    }
+
+    public static readonly DependencyProperty IgnoreCatelLoggingProperty = DependencyProperty.Register(nameof(IgnoreCatelLogging), typeof(bool),
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
+
+
+    [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+    public bool ShowDebug
+    {
+        get { return (bool)GetValue(ShowDebugProperty); }
+        set { SetValue(ShowDebugProperty, value); }
+    }
+
+    public static readonly DependencyProperty ShowDebugProperty = DependencyProperty.Register(nameof(ShowDebug), typeof(bool),
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
+
+
+    [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+    public bool ShowInfo
+    {
+        get { return (bool)GetValue(ShowInfoProperty); }
+        set { SetValue(ShowInfoProperty, value); }
+    }
+
+    public static readonly DependencyProperty ShowInfoProperty = DependencyProperty.Register(nameof(ShowInfo), typeof(bool),
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
+
+
+    [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+    public bool ShowWarning
+    {
+        get { return (bool)GetValue(ShowWarningProperty); }
+        set { SetValue(ShowWarningProperty, value); }
+    }
+
+    public static readonly DependencyProperty ShowWarningProperty = DependencyProperty.Register(nameof(ShowWarning), typeof(bool),
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
+
+
+    [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+    public bool ShowError
+    {
+        get { return (bool)GetValue(ShowErrorProperty); }
+        set { SetValue(ShowErrorProperty, value); }
+    }
+
+    public static readonly DependencyProperty ShowErrorProperty = DependencyProperty.Register(nameof(ShowError), typeof(bool),
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
+
+
+    [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+    public bool AutoScroll
+    {
+        get { return (bool)GetValue(AutoScrollProperty); }
+        set { SetValue(AutoScrollProperty, value); }
+    }
+
+    public static readonly DependencyProperty AutoScrollProperty = DependencyProperty.Register(nameof(AutoScroll), typeof(bool),
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+    [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+    public ScrollMode ScrollMode
+    {
+        get { return (ScrollMode)GetValue(ScrollModeProperty); }
+        set { SetValue(ScrollModeProperty, value); }
+    }
+
+    public static readonly DependencyProperty ScrollModeProperty = DependencyProperty.Register(nameof(ScrollMode), typeof(ScrollMode),
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(ScrollMode.ManualScrollPriority, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, 
+            (s, args) => ((LogViewerControl)s).OnScrollModeChanged(args)));
+
+    private void OnScrollModeChanged(DependencyPropertyChangedEventArgs args)
+    {
+        var newScrollModeValue = (ScrollMode)args.NewValue;
+
+        //when ManualScrollPriority set we enabled AutoScroll at first, and handle AutoScroll in ScrollChanged event later
+        switch (newScrollModeValue)
         {
-            typeof(LogViewerControl).AutoDetectViewPropertiesToSubscribe();
+            case ScrollMode.AutoScrollPriority:
+                SetCurrentValue(AutoScrollProperty, true);
+                break;
+            case ScrollMode.ManualScrollPriority:
+                SetCurrentValue(AutoScrollProperty, true);
+                break;
+            case ScrollMode.OnlyManual:
+                SetCurrentValue(AutoScrollProperty, false);
+                break;
+        }
+    }
+
+    [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+    public bool ShowMultilineMessagesExpanded
+    {
+        get { return (bool)GetValue(ShowMultilineMessagesExpandedProperty); }
+        set { SetValue(ShowMultilineMessagesExpandedProperty, value); }
+    }
+
+    public static readonly DependencyProperty ShowMultilineMessagesExpandedProperty = DependencyProperty.Register(nameof(ShowMultilineMessagesExpanded),
+        typeof(bool), typeof(LogViewerControl),
+        new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, 
+            (sender, _) => ((LogViewerControl)sender).OnShowMultilineMessagesExpandedChanged()));
+
+    [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+    public LogFilterGroup? ActiveFilterGroup
+    {
+        get { return (LogFilterGroup?)GetValue(ActiveFilterGroupProperty); }
+        set { SetValue(ActiveFilterGroupProperty, value); }
+    }
+
+    public static readonly DependencyProperty ActiveFilterGroupProperty = DependencyProperty.Register(nameof(ActiveFilterGroup),
+        typeof(LogFilterGroup), typeof(LogViewerControl), new PropertyMetadata(null));
+
+
+    public bool SupportCommandManager
+    {
+        get { return (bool)GetValue(SupportCommandManagerProperty); }
+        set { SetValue(SupportCommandManagerProperty, value); }
+    }
+
+    public static readonly DependencyProperty SupportCommandManagerProperty = DependencyProperty.Register(nameof(SupportCommandManager), typeof(bool),
+        typeof(LogViewerControl), new PropertyMetadata(true));
+    
+    [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
+    public int MaximumUpdateBatchSize
+    {
+        get { return (int)GetValue(MaximumUpdateBatchSizeProperty); }
+        set { SetValue(MaximumUpdateBatchSizeProperty, value); }
+    }
+
+    public static readonly DependencyProperty MaximumUpdateBatchSizeProperty = DependencyProperty.Register(nameof(MaximumUpdateBatchSize),
+        typeof(int), typeof(LogViewerControl), new PropertyMetadata(250));
+
+    public Brush InfoMessageBrush
+    {
+        get { return (Brush)GetValue(InfoMessageBrushProperty); }
+        set { SetValue(InfoMessageBrushProperty, value); }
+    }
+
+    public static readonly DependencyProperty InfoMessageBrushProperty = DependencyProperty.Register(
+        nameof(InfoMessageBrush), typeof(Brush), typeof(LogViewerControl), 
+        new PropertyMetadata(Brushes.Black, (sender, _) => ((LogViewerControl) sender).OnMessageColorChanged()));
+
+    public Brush DebugMessageBrush
+    {
+        get { return (Brush)GetValue(DebugMessageBrushProperty); }
+        set { SetValue(DebugMessageBrushProperty, value); }
+    }
+
+    public static readonly DependencyProperty DebugMessageBrushProperty = DependencyProperty.Register(
+        nameof(DebugMessageBrush), typeof(Brush), typeof(LogViewerControl),
+        new PropertyMetadata(Brushes.Gray, (sender, _) => ((LogViewerControl)sender).OnMessageColorChanged()));
+
+    public Brush WarningMessageBrush
+    {
+        get { return (Brush)GetValue(WarningMessageBrushProperty); }
+        set { SetValue(WarningMessageBrushProperty, value); }
+    }
+
+    public static readonly DependencyProperty WarningMessageBrushProperty = DependencyProperty.Register(
+        nameof(WarningMessageBrush), typeof(Brush), typeof(LogViewerControl),
+        new PropertyMetadata(Brushes.DarkOrange, (sender, _) => ((LogViewerControl)sender).OnMessageColorChanged()));
+
+    public Brush ErrorMessageBrush
+    {
+        get { return (Brush)GetValue(ErrorMessageBrushProperty); }
+        set { SetValue(ErrorMessageBrushProperty, value); }
+    }
+
+    public static readonly DependencyProperty ErrorMessageBrushProperty = DependencyProperty.Register(
+        nameof(ErrorMessageBrush), typeof(Brush), typeof(LogViewerControl),
+        new PropertyMetadata(Brushes.Red, (sender, _) => ((LogViewerControl)sender).OnMessageColorChanged()));
+
+    public event EventHandler<LogEntryDoubleClickEventArgs>? LogEntryDoubleClick;
+
+    private void OnMessageColorChanged()
+    {
+        UpdateMessageBrushes();
+
+        UpdateControl();
+    }
+
+    private void UpdateMessageBrushes()
+    {
+        ColorSets[LogEvent.Debug] = DebugMessageBrush;
+        ColorSets[LogEvent.Info] = InfoMessageBrush;
+        ColorSets[LogEvent.Warning] = WarningMessageBrush;
+        ColorSets[LogEvent.Error] = ErrorMessageBrush;
+    }
+
+    protected override void OnViewModelChanged()
+    {
+        base.OnViewModelChanged();
+
+        if (_lastKnownViewModel is not null)
+        {
+            _lastKnownViewModel.LogMessage -= OnViewModelLogMessage;
+            _lastKnownViewModel.ActiveFilterGroupChanged -= OnViewModelActiveFilterGroupChanged;
+            _lastKnownViewModel = null;
         }
 
-        public LogViewerControl()
+        _lastKnownViewModel = ViewModel as LogViewerViewModel;
+        if (_lastKnownViewModel is not null)
         {
-            InitializeComponent();
-            
-            _commandManager = ServiceLocator.Default.ResolveType<ICommandManager>();
-
-            UpdateMessageBrushes();
-        }
-        #endregion
-
-        #region Properties
-        public bool EnableTimestamp
-        {
-            get { return (bool)GetValue(EnableTimestampProperty); }
-            set { SetValue(EnableTimestampProperty, value); }
+            _lastKnownViewModel.LogMessage += OnViewModelLogMessage;
+            _lastKnownViewModel.ActiveFilterGroupChanged += OnViewModelActiveFilterGroupChanged;
         }
 
-        public static readonly DependencyProperty EnableTimestampProperty = DependencyProperty.Register(nameof(EnableTimestamp), typeof(bool),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).OnEnableTimestampChanged()));
+        ScrollToEnd();
+    }
 
-        public bool EnableIcons
+    protected override void OnViewModelPropertyChanged(PropertyChangedEventArgs e)
+    {
+        base.OnViewModelPropertyChanged(e);
+
+        if (e.HasPropertyChanged(nameof(LogViewerViewModel.LogListenerType)))
         {
-            get { return (bool)GetValue(EnableIconsProperty); }
-            set { SetValue(EnableIconsProperty, value); }
+            ClearCacheAndUpdate();
         }
+    }
 
-        public static readonly DependencyProperty EnableIconsProperty = DependencyProperty.Register(nameof(EnableIcons), typeof(bool),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).OnEnableIconsChanged()));
+    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
 
-        public bool EnableThreadId
+        if (e.Property == AutoScrollProperty)
         {
-            get { return (bool)GetValue(EnableThreadIdProperty); }
-            set { SetValue(EnableThreadIdProperty, value); }
-        }
-
-        public static readonly DependencyProperty EnableThreadIdProperty = DependencyProperty.Register(nameof(EnableThreadId), typeof(bool), typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, e) => ((LogViewerControl)sender).OnEnableThreadIdChanged()));
-
-        public bool EnableTextColoring
-        {
-            get { return (bool)GetValue(EnableTextColoringProperty); }
-            set { SetValue(EnableTextColoringProperty, value); }
-        }
-
-        public static readonly DependencyProperty EnableTextColoringProperty = DependencyProperty.Register(nameof(EnableTextColoring), typeof(bool),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).OnEnableTextColoringChanged()));
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public string LogFilter
-        {
-            get { return (string)GetValue(LogFilterProperty); }
-            set { SetValue(LogFilterProperty, value); }
-        }
-
-        public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register(nameof(LogFilter), typeof(string),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public Type LogListenerType
-        {
-            get { return (Type)GetValue(LogListenerTypeProperty); }
-            set { SetValue(LogListenerTypeProperty, value); }
-        }
-
-        public static readonly DependencyProperty LogListenerTypeProperty = DependencyProperty.Register(nameof(LogListenerType), typeof(Type),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(typeof(LogViewerLogListener), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool IgnoreCatelLogging
-        {
-            get { return (bool)GetValue(IgnoreCatelLoggingProperty); }
-            set { SetValue(IgnoreCatelLoggingProperty, value); }
-        }
-
-        public static readonly DependencyProperty IgnoreCatelLoggingProperty = DependencyProperty.Register(nameof(IgnoreCatelLogging), typeof(bool),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool ShowDebug
-        {
-            get { return (bool)GetValue(ShowDebugProperty); }
-            set { SetValue(ShowDebugProperty, value); }
-        }
-
-        public static readonly DependencyProperty ShowDebugProperty = DependencyProperty.Register(nameof(ShowDebug), typeof(bool),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool ShowInfo
-        {
-            get { return (bool)GetValue(ShowInfoProperty); }
-            set { SetValue(ShowInfoProperty, value); }
-        }
-
-        public static readonly DependencyProperty ShowInfoProperty = DependencyProperty.Register(nameof(ShowInfo), typeof(bool),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool ShowWarning
-        {
-            get { return (bool)GetValue(ShowWarningProperty); }
-            set { SetValue(ShowWarningProperty, value); }
-        }
-
-        public static readonly DependencyProperty ShowWarningProperty = DependencyProperty.Register(nameof(ShowWarning), typeof(bool),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool ShowError
-        {
-            get { return (bool)GetValue(ShowErrorProperty); }
-            set { SetValue(ShowErrorProperty, value); }
-        }
-
-        public static readonly DependencyProperty ShowErrorProperty = DependencyProperty.Register(nameof(ShowError), typeof(bool),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (sender, e) => ((LogViewerControl)sender).UpdateControl()));
-
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool AutoScroll
-        {
-            get { return (bool)GetValue(AutoScrollProperty); }
-            set { SetValue(AutoScrollProperty, value); }
-        }
-
-        public static readonly DependencyProperty AutoScrollProperty = DependencyProperty.Register(nameof(AutoScroll), typeof(bool),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public ScrollMode ScrollMode
-        {
-            get { return (ScrollMode)GetValue(ScrollModeProperty); }
-            set { SetValue(ScrollModeProperty, value); }
-        }
-
-        public static readonly DependencyProperty ScrollModeProperty = DependencyProperty.Register(nameof(ScrollMode), typeof(ScrollMode),
-            typeof(LogViewerControl), new FrameworkPropertyMetadata(ScrollMode.ManualScrollPriority, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, 
-                (s, args) => ((LogViewerControl)s).OnScrollModeChanged(args)));
-
-        private void OnScrollModeChanged(DependencyPropertyChangedEventArgs args)
-        {
-            var newScrollModeValue = (ScrollMode)args.NewValue;
-
-            //when ManualScrollPriority set we enabled AutoScroll at first, and handle AutoScroll in ScrollChanged event later
-            switch (newScrollModeValue)
-            {
-                case ScrollMode.AutoScrollPriority:
-                    SetCurrentValue(AutoScrollProperty, true);
-                    break;
-                case ScrollMode.ManualScrollPriority:
-                    SetCurrentValue(AutoScrollProperty, true);
-                    break;
-                case ScrollMode.OnlyManual:
-                    SetCurrentValue(AutoScrollProperty, false);
-                    break;
-            }
-        }
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public bool ShowMultilineMessagesExpanded
-        {
-            get { return (bool)GetValue(ShowMultilineMessagesExpandedProperty); }
-            set { SetValue(ShowMultilineMessagesExpandedProperty, value); }
-        }
-
-        public static readonly DependencyProperty ShowMultilineMessagesExpandedProperty = DependencyProperty.Register(nameof(ShowMultilineMessagesExpanded),
-            typeof(bool), typeof(LogViewerControl),
-            new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, 
-                (sender, e) => ((LogViewerControl)sender).OnShowMultilineMessagesExpandedChanged()));
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public LogFilterGroup ActiveFilterGroup
-        {
-            get { return (LogFilterGroup)GetValue(ActiveFilterGroupProperty); }
-            set { SetValue(ActiveFilterGroupProperty, value); }
-        }
-
-        public static readonly DependencyProperty ActiveFilterGroupProperty = DependencyProperty.Register(nameof(ActiveFilterGroup),
-            typeof(LogFilterGroup), typeof(LogViewerControl), new PropertyMetadata(null));
-
-
-        public bool SupportCommandManager
-        {
-            get { return (bool)GetValue(SupportCommandManagerProperty); }
-            set { SetValue(SupportCommandManagerProperty, value); }
-        }
-
-        public static readonly DependencyProperty SupportCommandManagerProperty = DependencyProperty.Register(nameof(SupportCommandManager), typeof(bool),
-            typeof(LogViewerControl), new PropertyMetadata(true));
-
-
-        [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-        public int MaximumUpdateBatchSize
-        {
-            get { return (int)GetValue(MaximumUpdateBatchSizeProperty); }
-            set { SetValue(MaximumUpdateBatchSizeProperty, value); }
-        }
-
-        public static readonly DependencyProperty MaximumUpdateBatchSizeProperty = DependencyProperty.Register(nameof(MaximumUpdateBatchSize),
-            typeof(int), typeof(LogViewerControl), new PropertyMetadata(250));
-
-        public Brush InfoMessageBrush
-        {
-            get { return (Brush)GetValue(InfoMessageBrushProperty); }
-            set { SetValue(InfoMessageBrushProperty, value); }
-        }
-
-        public static readonly DependencyProperty InfoMessageBrushProperty = DependencyProperty.Register(
-            nameof(InfoMessageBrush), typeof(Brush), typeof(LogViewerControl), 
-            new PropertyMetadata(Brushes.Black, (sender, args) => ((LogViewerControl) sender).OnMessageColorChanged()));
-
-        public Brush DebugMessageBrush
-        {
-            get { return (Brush)GetValue(DebugMessageBrushProperty); }
-            set { SetValue(DebugMessageBrushProperty, value); }
-        }
-
-        public static readonly DependencyProperty DebugMessageBrushProperty = DependencyProperty.Register(
-            nameof(DebugMessageBrush), typeof(Brush), typeof(LogViewerControl),
-            new PropertyMetadata(Brushes.Gray, (sender, args) => ((LogViewerControl)sender).OnMessageColorChanged()));
-
-        public Brush WarningMessageBrush
-        {
-            get { return (Brush)GetValue(WarningMessageBrushProperty); }
-            set { SetValue(WarningMessageBrushProperty, value); }
-        }
-
-        public static readonly DependencyProperty WarningMessageBrushProperty = DependencyProperty.Register(
-            nameof(WarningMessageBrush), typeof(Brush), typeof(LogViewerControl),
-            new PropertyMetadata(Brushes.DarkOrange, (sender, args) => ((LogViewerControl)sender).OnMessageColorChanged()));
-
-        public Brush ErrorMessageBrush
-        {
-            get { return (Brush)GetValue(ErrorMessageBrushProperty); }
-            set { SetValue(ErrorMessageBrushProperty, value); }
-        }
-
-        public static readonly DependencyProperty ErrorMessageBrushProperty = DependencyProperty.Register(
-            nameof(ErrorMessageBrush), typeof(Brush), typeof(LogViewerControl),
-            new PropertyMetadata(Brushes.Red, (sender, args) => ((LogViewerControl)sender).OnMessageColorChanged()));
-        #endregion
-
-        #region Methods
-        private void OnMessageColorChanged()
-        {
-            UpdateMessageBrushes();
-
-            UpdateControl();
-        }
-
-        private void UpdateMessageBrushes()
-        {
-            ColorSets[LogEvent.Debug] = DebugMessageBrush;
-            ColorSets[LogEvent.Info] = InfoMessageBrush;
-            ColorSets[LogEvent.Warning] = WarningMessageBrush;
-            ColorSets[LogEvent.Error] = ErrorMessageBrush;
-        }
-
-        protected override void OnViewModelChanged()
-        {
-            base.OnViewModelChanged();
-
-            if (_lastKnownViewModel is not null)
-            {
-                _lastKnownViewModel.LogMessage -= OnViewModelLogMessage;
-                _lastKnownViewModel.ActiveFilterGroupChanged -= OnViewModelActiveFilterGroupChanged;
-                _lastKnownViewModel = null;
-            }
-
-            _lastKnownViewModel = ViewModel as LogViewerViewModel;
-            if (_lastKnownViewModel is not null)
-            {
-                _lastKnownViewModel.LogMessage += OnViewModelLogMessage;
-                _lastKnownViewModel.ActiveFilterGroupChanged += OnViewModelActiveFilterGroupChanged;
-            }
-
             ScrollToEnd();
         }
+    }
 
-        protected override void OnViewModelPropertyChanged(PropertyChangedEventArgs e)
+    private void OnViewModelLogMessage(object? sender, LogEntryEventArgs e)
+    {
+        UpdateControl(false, e.FilteredLogEntries);
+    }
+
+    private void OnViewModelActiveFilterGroupChanged(object? sender, EventArgs e)
+    {
+        UpdateControl();
+    }
+
+    private void UpdateControl(bool rebuild = true, List<LogEntry>? logEntries = null, bool scrollToEnd = false)
+    {
+        // Using BeginInvoke in order to call properties mapping first. Otherwise filtering by buttons doesen't work.
+        // UpdateControl will be called *before* the properties mapping,
+        // but because we call BeginInvoke, it will be placed at the end of the execution stack
+        Dispatcher.BeginInvoke(new Action(() =>
         {
-            base.OnViewModelPropertyChanged(e);
-
-            if (e.HasPropertyChanged(nameof(LogViewerViewModel.LogListenerType)))
+            if (!IsLoaded)
             {
-                ClearCacheAndUpdate();
+                return;
             }
-        }
 
-        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            base.OnPropertyChanged(e);
+            if (rebuild)
+            {
+                ClearScreen();
 
-            if (e.Property == AutoScrollProperty)
+                if (ViewModel is LogViewerViewModel vm)
+                {
+                    logEntries = vm.GetFilteredLogEntries().ToList();
+                }
+            }
+
+            if (logEntries is null || logEntries.Count <= 0)
+            {
+                return;
+            }
+
+            FillLogEntries(logEntries, LogRecordsRichTextBox);
+
+            if (scrollToEnd || AutoScroll)
             {
                 ScrollToEnd();
             }
-        }
+        }));
+    }
 
-        private void OnViewModelLogMessage(object sender, LogEntryEventArgs e)
+    private void FillLogEntries(IReadOnlyCollection<LogEntry> logEntries, RichTextBox rtb)
+    {
+        rtb.BeginChange();
+
+        rtb.Document ??= CreateFlowDocument();
+
+        var document = rtb.Document;
+        var paragraphs = logEntries.Select(CreateLogEntryParagraph)
+            .Where(x => x is not null)
+            .ToList();
+
+        paragraphs.ForEach(x => document.Blocks.Add(x));
+
+        document.SetCurrentValue(FrameworkContentElement.TagProperty, logEntries.Last().Time);
+
+        rtb.EndChange();
+    }
+
+    protected override void OnLoaded(EventArgs e)
+    {
+        base.OnLoaded(e);
+
+        UpdateControl(scrollToEnd: true);
+    }
+
+    private RichTextBoxParagraph CreateLogEntryParagraph(LogEntry logEntry)
+    {
+        if (_paragraphCache.TryGetValue(logEntry, out var paragraph))
         {
-            UpdateControl(false, e.FilteredLogEntries);
-        }
-
-        private void OnViewModelActiveFilterGroupChanged(object sender, EventArgs e)
-        {
-            UpdateControl();
-        }
-
-        private void UpdateControl(bool rebuild = true, List<LogEntry> logEntries = null, bool scrollToEnd = false)
-        {
-            // Using BeginInvoke in order to call properties mapping first. Otherwise filtering by buttons doesen't work.
-            // UpdateControl will be called *before* the properties mapping,
-            // but because we call BeginInvoke, it will be placed at the end of the execution stack
-            Dispatcher.BeginInvoke(new Action(() =>
-            {
-                if (!IsLoaded)
-                {
-                    return;
-                }
-
-                if (rebuild)
-                {
-                    ClearScreen();
-
-                    if (ViewModel is LogViewerViewModel vm)
-                    {
-                        logEntries = vm.GetFilteredLogEntries().ToList();
-                    }
-                }
-
-                if (logEntries is null || logEntries.Count <= 0)
-                {
-                    return;
-                }
-
-                FillLogEntries(logEntries, LogRecordsRichTextBox);
-
-                if (scrollToEnd || AutoScroll)
-                {
-                    ScrollToEnd();
-                }
-            }));
-        }
-
-        private void FillLogEntries(IReadOnlyCollection<LogEntry> logEntries, RichTextBox rtb)
-        {
-            rtb.BeginChange();
-
-            rtb.Document ??= CreateFlowDocument();
-
-            var document = rtb.Document;
-            var paragraphs = logEntries.Select(CreateLogEntryParagraph)
-                .Where(x => x is not null)
-                .ToList();
-
-            paragraphs.ForEach(x => document.Blocks.Add(x));
-
-            document.SetCurrentValue(FrameworkContentElement.TagProperty, logEntries.Last().Time);
-
-            rtb.EndChange();
-        }
-
-        protected override void OnLoaded(EventArgs e)
-        {
-            base.OnLoaded(e);
-
-            UpdateControl(scrollToEnd: true);
-        }
-
-        private RichTextBoxParagraph CreateLogEntryParagraph(LogEntry logEntry)
-        {
-            if (_paragraphCache.TryGetValue(logEntry, out var paragraph))
-            {
-                return paragraph;
-            }
-
-            paragraph = new RichTextBoxParagraph(logEntry);
-            _paragraphCache[logEntry] = paragraph;
-
-            paragraph.MouseLeftButtonDown += OnParagraphMouseLeftButton;
-
-            if (EnableIcons)
-            {
-                var icon = new Label
-                {
-                    DataContext = logEntry
-                };
-
-                paragraph.Inlines.Add(icon);
-            }
-
-            if (EnableTextColoring)
-            {
-                paragraph.Foreground = ColorSets[logEntry.LogEvent];
-            }
-
-            paragraph.SetData(EnableTimestamp, EnableThreadId, ShowMultilineMessagesExpanded);
-
             return paragraph;
         }
 
-        private void OnParagraphMouseLeftButton(object sender, MouseButtonEventArgs e)
+        paragraph = new RichTextBoxParagraph(logEntry);
+        _paragraphCache[logEntry] = paragraph;
+
+        paragraph.MouseLeftButtonDown += OnParagraphMouseLeftButton;
+
+        if (EnableIcons)
         {
-            var paragraph = sender as RichTextBoxParagraph;
-
-            var logEntry = paragraph?.LogEntry;
-            if (logEntry is null)
+            var icon = new Label
             {
-                return;
-            }
-
-            if (e.ClickCount == 2)
-            {
-                LogEntryDoubleClick?.Invoke(this, new LogEntryDoubleClickEventArgs(logEntry));
-            }
-        }
-
-        private void ScrollToEnd()
-        {
-            if (AutoScroll)
-            {
-                LogRecordsRichTextBox.ScrollToEnd();
-            }
-        }
-
-        private void ClearScreen()
-        {
-            var rtb = LogRecordsRichTextBox;
-
-            var flowDoc = CreateFlowDocument();
-            rtb.Visibility = Visibility.Hidden;
-            rtb.Document = flowDoc;
-            rtb.Visibility = Visibility.Visible;
-
-            var oldDoc = rtb.Document;
-
-            // TODO: Consider doing in a background thread
-            foreach (var block in oldDoc.Blocks)
-            {
-                if (block is RichTextBoxParagraph paragraph)
-                {
-                    paragraph.MouseLeftButtonDown -= OnParagraphMouseLeftButton;
-                }
-            }
-
-            // No need to clear, doc should be garbage collected anyway
-            //oldDoc.Blocks.Clear();
-        }
-
-        private static FlowDocument CreateFlowDocument()
-        {
-            var flowDocument = new FlowDocument
-            {
-                Tag = DateTime.MinValue,
-                AllowDrop = false, 
-                IsHyphenationEnabled = false,
-                IsOptimalParagraphEnabled = false
+                DataContext = logEntry
             };
 
-            return flowDocument;
+            paragraph.Inlines.Add(icon);
         }
 
-        public void Clear()
+        if (EnableTextColoring)
         {
-            _hasClearedEntries = true;
-
-            var vm = ViewModel as LogViewerViewModel;
-            vm?.ClearEntries();
-
-            _paragraphCache.Clear();
-
-            ClearScreen();
+            paragraph.Foreground = ColorSets[logEntry.LogEvent];
         }
 
-        public void CopyToClipboard()
+        paragraph.SetData(EnableTimestamp, EnableThreadId, ShowMultilineMessagesExpanded);
+
+        return paragraph;
+    }
+
+    private void OnParagraphMouseLeftButton(object sender, MouseButtonEventArgs e)
+    {
+        var paragraph = sender as RichTextBoxParagraph;
+
+        var logEntry = paragraph?.LogEntry;
+        if (logEntry is null)
         {
-            var text = LogRecordsRichTextBox.GetInlineText();
-            Clipboard.SetDataObject(text);
+            return;
         }
 
-        public void ExpandAllMultilineLogMessages()
+        if (e.ClickCount == 2)
         {
-            if (LogRecordsRichTextBox.Document is null)
-            {
-                return;
-            }
-
-            foreach (var richTextBoxParagraph in LogRecordsRichTextBox.Document.Blocks.OfType<RichTextBoxParagraph>())
-            {
-                richTextBoxParagraph.SetData(EnableTimestamp, EnableThreadId, true);
-            }
+            LogEntryDoubleClick?.Invoke(this, new LogEntryDoubleClickEventArgs(logEntry));
         }
+    }
 
-        public void CollapseAllMultilineLogMessages()
+    private void ScrollToEnd()
+    {
+        if (AutoScroll)
         {
-            if (LogRecordsRichTextBox.Document is null)
-            {
-                return;
-            }
-
-            foreach (var richTextBoxParagraph in LogRecordsRichTextBox.Document.Blocks.OfType<RichTextBoxParagraph>())
-            {
-                richTextBoxParagraph.SetData(EnableTimestamp, EnableThreadId);
-            }
+            LogRecordsRichTextBox.ScrollToEnd();
         }
+    }
 
-        #endregion
+    private void ClearScreen()
+    {
+        var rtb = LogRecordsRichTextBox;
 
-        private void LogRecordsRichTextBox_OnKeyDown(object sender, KeyEventArgs e)
+        var flowDoc = CreateFlowDocument();
+        rtb.Visibility = Visibility.Hidden;
+        rtb.Document = flowDoc;
+        rtb.Visibility = Visibility.Visible;
+
+        var oldDoc = rtb.Document;
+
+        // TODO: Consider doing in a background thread
+        foreach (var block in oldDoc.Blocks)
         {
-            // Some key down events are not fired by the RichTextBox, others are. To create a consistent
-            // behavior, we don't forward any key downs on the RTB. If a command from the ICommandManager
-            // is used, the PreviewKeyDown event will re-raise that event so the ICommandManager can
-            // respond to it
-            if (SupportCommandManager)
+            if (block is RichTextBoxParagraph paragraph)
             {
-                e.Handled = true;
+                paragraph.MouseLeftButtonDown -= OnParagraphMouseLeftButton;
             }
         }
 
-        private void LogRecordsRichTextBox_OnPreviewKeyDown(object sender, KeyEventArgs e)
+        // No need to clear, doc should be garbage collected anyway
+        //oldDoc.Blocks.Clear();
+    }
+
+    private static FlowDocument CreateFlowDocument()
+    {
+        var flowDocument = new FlowDocument
         {
-            if (!SupportCommandManager)
-            {
-                return;
-            }
+            Tag = DateTime.MinValue,
+            AllowDrop = false, 
+            IsHyphenationEnabled = false,
+            IsOptimalParagraphEnabled = false
+        };
 
-            if (_commandManager is null)
-            {
-                return;
-            }
+        return flowDocument;
+    }
 
-            // This is required to support application-wide commands on the log viewer control, somehow the
-            // RichTextBox does not fire KeyDown events for combinations of keys (CTRL + [Key])
-            var commandNames = _commandManager.GetCommands();
-            foreach (var commandName in commandNames)
-            {
-                var inputGesture = _commandManager.GetInputGesture(commandName);
-                if (inputGesture is null)
-                {
-                    continue;
-                }
+    public void Clear()
+    {
+        _hasClearedEntries = true;
 
-                if (!inputGesture.Matches(e))
-                {
-                    continue;
-                }
+        var vm = ViewModel as LogViewerViewModel;
+        vm?.ClearEntries();
 
-                var keyEventArgs = new KeyEventArgs(e.KeyboardDevice, PresentationSource.FromVisual(this), e.Timestamp, e.Key)
-                {
-                    RoutedEvent = Keyboard.KeyDownEvent
-                };
+        _paragraphCache.Clear();
 
-                RaiseEvent(keyEventArgs);
-                break;
-            }
+        ClearScreen();
+    }
+
+    public void CopyToClipboard()
+    {
+        var text = LogRecordsRichTextBox.GetInlineText();
+        Clipboard.SetDataObject(text);
+    }
+
+    public void ExpandAllMultilineLogMessages()
+    {
+        if (LogRecordsRichTextBox.Document is null)
+        {
+            return;
         }
 
-        private void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
+        foreach (var richTextBoxParagraph in LogRecordsRichTextBox.Document.Blocks.OfType<RichTextBoxParagraph>())
         {
-            if (e.OriginalSource is not ScrollViewer scrollViewer)
+            richTextBoxParagraph.SetData(EnableTimestamp, EnableThreadId, true);
+        }
+    }
+
+    public void CollapseAllMultilineLogMessages()
+    {
+        if (LogRecordsRichTextBox.Document is null)
+        {
+            return;
+        }
+
+        foreach (var richTextBoxParagraph in LogRecordsRichTextBox.Document.Blocks.OfType<RichTextBoxParagraph>())
+        {
+            richTextBoxParagraph.SetData(EnableTimestamp, EnableThreadId);
+        }
+    }
+
+    private void LogRecordsRichTextBox_OnKeyDown(object sender, KeyEventArgs e)
+    {
+        // Some key down events are not fired by the RichTextBox, others are. To create a consistent
+        // behavior, we don't forward any key downs on the RTB. If a command from the ICommandManager
+        // is used, the PreviewKeyDown event will re-raise that event so the ICommandManager can
+        // respond to it
+        if (SupportCommandManager)
+        {
+            e.Handled = true;
+        }
+    }
+
+    private void LogRecordsRichTextBox_OnPreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (!SupportCommandManager)
+        {
+            return;
+        }
+
+        // This is required to support application-wide commands on the log viewer control, somehow the
+        // RichTextBox does not fire KeyDown events for combinations of keys (CTRL + [Key])
+        var commandNames = _commandManager.GetCommands();
+        foreach (var commandName in commandNames)
+        {
+            var inputGesture = _commandManager.GetInputGesture(commandName);
+            if (inputGesture is null)
             {
-                return;
+                continue;
             }
+
+            if (!inputGesture.Matches(e))
+            {
+                continue;
+            }
+
+            var keyEventArgs = new KeyEventArgs(e.KeyboardDevice, PresentationSource.FromVisual(this), e.Timestamp, e.Key)
+            {
+                RoutedEvent = Keyboard.KeyDownEvent
+            };
+
+            RaiseEvent(keyEventArgs);
+            break;
+        }
+    }
+
+    private void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
+    {
+        if (e.OriginalSource is not ScrollViewer scrollViewer)
+        {
+            return;
+        }
            
-            var scrollHeight = scrollViewer.ActualHeight;
+        var scrollHeight = scrollViewer.ActualHeight;
 
-            if (_hasClearedEntries)
-            {
-                _hasClearedEntries = false;
-                return;
-            }
-
-            if (ScrollMode != ScrollMode.ManualScrollPriority)
-            {
-                return;
-            }
-
-            //ignore changes forced by log parts removal (e.g. filtering)
-            if(e.VerticalChange == e.ExtentHeightChange)
-            {
-                return;
-            }
-
-            // Disable auto scroll automatically if we are scrolling up
-            if (e.VerticalChange < 0 && _lastKnownScrollHeight == scrollHeight)
-            {
-#pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
-                SetValue(AutoScrollProperty, false);
-#pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
-            }
-
-            _lastKnownScrollHeight = scrollHeight;
-        }
-
-        private void OnEnableTimestampChanged() => ClearCacheAndUpdate();
-        private void OnEnableIconsChanged() => ClearCacheAndUpdate();
-        private void OnEnableTextColoringChanged() => ClearCacheAndUpdate();
-        private void OnEnableThreadIdChanged() => ClearCacheAndUpdate();
-        private void OnShowMultilineMessagesExpandedChanged() => ClearCacheAndUpdate();
-
-        private void ClearCacheAndUpdate()
+        if (_hasClearedEntries)
         {
-            _paragraphCache.Clear();
-
-            UpdateControl();
+            _hasClearedEntries = false;
+            return;
         }
+
+        if (ScrollMode != ScrollMode.ManualScrollPriority)
+        {
+            return;
+        }
+
+        //ignore changes forced by log parts removal (e.g. filtering)
+        if(e.VerticalChange == e.ExtentHeightChange)
+        {
+            return;
+        }
+
+        // Disable auto scroll automatically if we are scrolling up
+        if (e.VerticalChange < 0 && _lastKnownScrollHeight == scrollHeight)
+        {
+#pragma warning disable WPF0041 // Set mutable dependency properties using SetCurrentValue.
+            SetValue(AutoScrollProperty, false);
+#pragma warning restore WPF0041 // Set mutable dependency properties using SetCurrentValue.
+        }
+
+        _lastKnownScrollHeight = scrollHeight;
+    }
+
+    private void OnEnableTimestampChanged() => ClearCacheAndUpdate();
+    private void OnEnableIconsChanged() => ClearCacheAndUpdate();
+    private void OnEnableTextColoringChanged() => ClearCacheAndUpdate();
+    private void OnEnableThreadIdChanged() => ClearCacheAndUpdate();
+    private void OnShowMultilineMessagesExpandedChanged() => ClearCacheAndUpdate();
+
+    private void ClearCacheAndUpdate()
+    {
+        _paragraphCache.Clear();
+
+        UpdateControl();
     }
 }

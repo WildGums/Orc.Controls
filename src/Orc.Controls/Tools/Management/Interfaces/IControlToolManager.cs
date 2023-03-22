@@ -1,20 +1,19 @@
-﻿namespace Orc.Controls.Tools
+﻿namespace Orc.Controls.Tools;
+
+using System;
+using System.Collections.Generic;
+
+public interface IControlToolManager
 {
-    using System;
-    using System.Collections.Generic;
+    IList<IControlTool> Tools { get; }
 
-    public interface IControlToolManager
-    {
-        IList<IControlTool> Tools { get; }
+    bool CanAttachTool(Type toolType);
+    object? AttachTool(Type toolType);
+    bool DetachTool(Type toolType);
 
-        bool CanAttachTool(Type toolType);
-        object AttachTool(Type toolType);
-        bool DetachTool(Type toolType);
-
-        event EventHandler<ToolManagementEventArgs>? ToolAttached;
-        event EventHandler<ToolManagementEventArgs>? ToolDetached;
-        event EventHandler<ToolManagementEventArgs>? ToolOpening;
-        event EventHandler<ToolManagementEventArgs>? ToolOpened;
-        event EventHandler<ToolManagementEventArgs>? ToolClosed;
-    }
+    event EventHandler<ToolManagementEventArgs>? ToolAttached;
+    event EventHandler<ToolManagementEventArgs>? ToolDetached;
+    event EventHandler<ToolManagementEventArgs>? ToolOpening;
+    event EventHandler<ToolManagementEventArgs>? ToolOpened;
+    event EventHandler<ToolManagementEventArgs>? ToolClosed;
 }

@@ -1,4 +1,5 @@
-﻿namespace Orc.Controls.Automation;
+﻿#nullable disable
+namespace Orc.Controls.Automation;
 
 using System.Collections.Generic;
 using System.Windows.Controls;
@@ -31,3 +32,4 @@ public class StepBarModel : FrameworkElementModel
         }
     }
 }
+#nullable enable

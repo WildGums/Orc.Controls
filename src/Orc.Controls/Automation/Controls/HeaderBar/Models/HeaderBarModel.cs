@@ -1,15 +1,16 @@
-﻿namespace Orc.Controls.Automation
+﻿#nullable disable
+namespace Orc.Controls.Automation;
+
+using Orc.Automation;
+
+[ActiveAutomationModel]
+public class HeaderBarModel : FrameworkElementModel
 {
-    using Orc.Automation;
-
-    [ActiveAutomationModel]
-    public class HeaderBarModel : FrameworkElementModel
+    public HeaderBarModel(AutomationElementAccessor accessor) 
+        : base(accessor)
     {
-        public HeaderBarModel(AutomationElementAccessor accessor) 
-            : base(accessor)
-        {
-        }
-
-        public string Header { get; set; }
     }
+
+    public string Header { get; set; }
 }
+#nullable enable

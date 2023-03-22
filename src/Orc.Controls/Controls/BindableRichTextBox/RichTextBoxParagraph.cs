@@ -1,19 +1,14 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System.Windows.Documents;
+using Catel.Logging;
+
+public class RichTextBoxParagraph : Paragraph
 {
-    using System.Windows.Documents;
-    using Catel.Logging;
-
-    public class RichTextBoxParagraph : Paragraph
+    public RichTextBoxParagraph(LogEntry logEntry)
     {
-        #region Constructors
-        public RichTextBoxParagraph(LogEntry logEntry)
-        {
-            LogEntry = logEntry;
-        }
-        #endregion
-
-        #region Properties
-        public LogEntry LogEntry { get; }
-        #endregion
+        LogEntry = logEntry;
     }
+
+    public LogEntry LogEntry { get; }
 }

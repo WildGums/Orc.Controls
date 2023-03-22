@@ -1,24 +1,25 @@
-﻿namespace Orc.Controls.Automation
+﻿#nullable disable
+namespace Orc.Controls.Automation;
+
+using System.Windows.Automation;
+using Orc.Automation;
+using Orc.Automation.Controls;
+
+public class OpenFilePickerMap : AutomationBase
 {
-    using System.Windows.Automation;
-    using Orc.Automation;
-    using Orc.Automation.Controls;
+    public static string SelectedFileTextBoxId = nameof(SelectedFileTextBox);
+    public static string OpenFileButtonId = nameof(OpenFileButton);
+    public static string OpenDirectoryButtonId = nameof(OpenDirectoryButton);
+    public static string ClearButtonId = nameof(ClearButton);
 
-    public class OpenFilePickerMap : AutomationBase
+    public OpenFilePickerMap(AutomationElement element) 
+        : base(element)
     {
-        public static string SelectedFileTextBoxId = nameof(SelectedFileTextBox);
-        public static string OpenFileButtonId = nameof(OpenFileButton);
-        public static string OpenDirectoryButtonId = nameof(OpenDirectoryButton);
-        public static string ClearButtonId = nameof(ClearButton);
-
-        public OpenFilePickerMap(AutomationElement element) 
-            : base(element)
-        {
-        }
-
-        public Edit SelectedFileTextBox => By.Id().One<Edit>();
-        public Button OpenFileButton => By.Id().One<Button>();
-        public Button OpenDirectoryButton => By.Id().One<Button>();
-        public Button ClearButton => By.Id().One<Button>();
     }
+
+    public Edit SelectedFileTextBox => By.Id().One<Edit>();
+    public Button OpenFileButton => By.Id().One<Button>();
+    public Button OpenDirectoryButton => By.Id().One<Button>();
+    public Button ClearButton => By.Id().One<Button>();
 }
+#nullable enable
