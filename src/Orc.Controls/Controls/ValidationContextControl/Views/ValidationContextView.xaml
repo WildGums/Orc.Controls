@@ -109,7 +109,7 @@
                                         ShowErrors="{Binding ShowErrors}"
                                         ShowWarnings="{Binding ShowWarnings}"
                                         Filter="{Binding Filter}"
-                                        Nodes="{Binding Nodes, Mode=OneWayToSource}" 
+                                        Nodes="{Binding Nodes, Mode=OneWayToSource, FallbackValue={x:Array Type={x:Type controls:IValidationContextTreeNode}}}" 
                                         IsExpandedByDefault="{Binding IsExpandedAllOnStartup}"/>
 
         <DockPanel Grid.Row="2" LastChildFill="False" 

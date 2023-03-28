@@ -2,11 +2,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Security;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Linq;
 using Catel.Data;
 using Catel.MVVM;
 using Catel.Services;
@@ -56,7 +58,7 @@ public class ValidationContextViewModel : ViewModelBase
     public string? Filter { get; set; }
     public IValidationContext? ValidationContext { get; set; }
     public List<IValidationResult>? ValidationResults { get; private set; }
-    public IEnumerable<IValidationContextTreeNode> Nodes { get; set; } = Enumerable.Empty<IValidationContextTreeNode>();
+    public IEnumerable<IValidationContextTreeNode>? Nodes { get; set; } = Enumerable.Empty<IValidationContextTreeNode>();
     
     public Command ExpandAll { get; }
     public Command CollapseAll { get; }
@@ -75,19 +77,25 @@ public class ValidationContextViewModel : ViewModelBase
 
     private bool OnCopyCanExecute()
     {
-        return Nodes.Any(x => x.IsVisible);
+        return Nodes?.Any(x => x.IsVisible) == true;
     }
 
     private void OnCopyExecute()
     {
-        var text = Nodes.ToText();
+        var nodes = Nodes;
+        if (nodes is null)
+        {
+            return;
+        }
+
+        var text = nodes.ToText();
 
         Clipboard.SetText(text);
     }
 
     private void OnOpenExecute()
     {
-        var path = string.Empty;
+        string path;
 
         try
         {
@@ -98,7 +106,11 @@ public class ValidationContextViewModel : ViewModelBase
             return;
         }
 
-        var filePath = CreateValidationContextFile(path);
+        if (!TryCreateValidationContextFile(path, out var filePath))
+        {
+            return;
+        }
+
         _processService.StartProcess(new ProcessContext
         {
             FileName = filePath,
@@ -123,26 +135,40 @@ public class ValidationContextViewModel : ViewModelBase
 
     private void UpdateNodesExpandedState()
     {
-        if (!Nodes.Any())
+        var nodes = Nodes;
+        if (nodes is null)
+        {
+            return;
+        }
+
+        if (!nodes.Any())
         {
             return;
         }
 
         if (IsExpanded)
         {
-            Nodes.ExpandAll();
+            nodes.ExpandAll();
         }
         else
         {
-            Nodes.CollapseAll();
+            nodes.CollapseAll();
         }
     }
 
-    private string CreateValidationContextFile(string path)
+    private bool TryCreateValidationContextFile(string path, [NotNullWhen(true)] out string? filePath)
     {
-        var filePath = Path.Combine(path, "ValidationContext.txt");
-        _fileService.WriteAllText(filePath, Nodes.ToText());
-        return filePath;
+        filePath = null;
+
+        var nodes = Nodes;
+        if (nodes is null)
+        {
+            return false;
+        }
+
+        filePath = Path.Combine(path, "ValidationContext.txt");
+        _fileService.WriteAllText(filePath, nodes.ToText());
+        return true;
     }
 
     private void OnValidationContextChanged()
