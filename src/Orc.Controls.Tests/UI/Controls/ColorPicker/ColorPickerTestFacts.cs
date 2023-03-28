@@ -1,8 +1,10 @@
 ﻿namespace Orc.Controls.Tests.UI
 {
     using System.Collections;
+    using System.Threading;
     using System.Windows;
     using System.Windows.Media;
+    using System.Xml.Linq;
     using Automation;
     using NUnit.Framework;
     using Orc.Automation;
@@ -31,6 +33,42 @@
                 yield return Color.FromArgb(0x00, 0xFF, 0x00, 0xFF);
                 yield return Color.FromArgb(0xFF, 0x00, 0xFF, 0x00);
                 yield return Color.FromArgb(0x12, 0x34, 0x56, 0x78);
+            }
+        }
+
+        [Test]
+        public void Navigate_Through_Rectangle_Pane_Without_Changing_Color()
+        {
+            var target = Target;
+            var targetModel = target.Current;
+
+            target.Current.HorizontalAlignment = HorizontalAlignment.Center;
+            target.Current.VerticalAlignment = VerticalAlignment.Center;
+
+            var colorBoard = target.OpenColorBoard();
+
+            var rect = colorBoard.BoundingRectangle;
+
+            var topLeft = rect.TopLeft;
+            var bottomRight = rect.BottomRight;
+
+            MouseInput.MoveTo(topLeft);
+
+            //Smoothly moving pointer over surface of Color-rect
+            const int movingIterations = 20;
+            for (var i = 0; i < movingIterations; i++)
+            {
+                var previousCurrentColor = targetModel.CurrentColor;
+
+                var newPoint = new Point(topLeft.X + (bottomRight.X - topLeft.X) / movingIterations * i, 
+                    topLeft.Y + (bottomRight.Y - topLeft.Y) / movingIterations * i);
+
+                MouseInput.MoveTo(newPoint);
+
+                Thread.Sleep(10);
+
+                //...and color shouldn't be changing
+                Assert.AreEqual(previousCurrentColor, targetModel.CurrentColor);
             }
         }
 
