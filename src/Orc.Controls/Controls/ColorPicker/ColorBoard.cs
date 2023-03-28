@@ -649,13 +649,8 @@ public class ColorBoard : Control
     /// <param name="e">The e.</param>
     private void OnHsvRectangleMouseLeave(object sender, MouseEventArgs e)
     {
-        if (!IsPartsInitialized)
-        {
-            return;
-        }
-
         _trackingHsv = false;
-        _hsvRectangle.ReleaseMouseCapture();
+        _hsvRectangle?.ReleaseMouseCapture();
     }
 
     /// <summary>
@@ -713,6 +708,11 @@ public class ColorBoard : Control
     private void OnHsvRectangleMouseMove(object? sender, MouseEventArgs e)
     {
         if (!IsPartsInitialized)
+        {
+            return;
+        }
+
+        if (!_trackingHsv)
         {
             return;
         }

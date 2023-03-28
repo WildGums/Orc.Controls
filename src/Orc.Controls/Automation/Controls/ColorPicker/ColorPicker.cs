@@ -55,7 +55,7 @@ public class ColorPicker : FrameworkElement<ColorPickerModel>
         Wait.UntilResponsive();
 
         var colorPopup = windowHost.Find(className: "Popup", controlType: ControlType.Window);
-        var colorBoard = colorPopup?.Find(className: typeof(Controls.ColorBoard).FullName);
+        var colorBoard = colorPopup?.Find(className: "Orc.Controls.ColorBoard[ActiveAutomationControl]");
         return colorBoard is not null 
             ? new ColorBoard(colorBoard) 
             : null;
