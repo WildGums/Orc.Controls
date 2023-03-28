@@ -2355,7 +2355,7 @@ namespace Orc.Controls
         public bool IsCollapsed { get; }
         public bool IsExpanded { get; }
         public bool IsExpandedAllOnStartup { get; set; }
-        public System.Collections.Generic.IEnumerable<Orc.Controls.IValidationContextTreeNode> Nodes { get; set; }
+        public System.Collections.Generic.IEnumerable<Orc.Controls.IValidationContextTreeNode>? Nodes { get; set; }
         public Catel.MVVM.Command Open { get; }
         public bool ShowErrors { get; set; }
         public bool ShowFilterBox { get; set; }
