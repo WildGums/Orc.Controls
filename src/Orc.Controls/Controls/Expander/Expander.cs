@@ -41,8 +41,7 @@ public class Expander : HeaderedContentControl
     }
 
     public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(nameof(IsExpanded),
-        typeof(bool), typeof(Expander),
-        new PropertyMetadata(true, (sender, args) => ((Expander)sender).OnIsExpandedChanged(args)));
+        typeof(bool), typeof(Expander), new PropertyMetadata(false, (sender, args) => ((Expander)sender).OnIsExpandedChanged(args)));
 
     public ExpandDirection ExpandDirection
     {
@@ -111,6 +110,8 @@ public class Expander : HeaderedContentControl
         {
             OnApplyTemplate();
         }
+
+        UpdateIsExpanded();
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
@@ -119,6 +120,8 @@ public class Expander : HeaderedContentControl
         {
             OnApplyTemplate();
         }
+
+        UpdateIsExpanded();
     }
 
     private void AnimateMaxHeight(RowDefinition rowDefinition, double from, double to, double duration)
