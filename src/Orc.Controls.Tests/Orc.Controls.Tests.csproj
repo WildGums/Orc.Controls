@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
     <TargetFrameworks>net6.0-windows</TargetFrameworks>
     <AssemblyName>Orc.Controls.Tests</AssemblyName>
@@ -27,7 +27,7 @@
     </PackageReference>
     <PackageReference Include="Orc.Automation.Tests" Version="5.0.0-alpha0144" />
     <PackageReference Include="PublicApiGenerator" Version="11.0.0" PrivateAssets="all" />
-    <PackageReference Include="Verify.NUnit" Version="19.11.2" />
+    <PackageReference Include="Verify.NUnit" Version="19.12.0" />
   </ItemGroup>
 
   <ItemGroup>
