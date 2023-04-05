@@ -19,11 +19,6 @@ public class ValidationContextView : FrameworkElement<ValidationContextViewModel
 
     public IReadOnlyList<ValidationContextTagTreeItem> TabItems => Map.Tree.TagNodes;
 
-    //public string GetContents()
-    //{
-    //    return Map.Tree.GetContents();
-    //}
-
     public IReadOnlyList<string> GetValidationItems(string tag, ValidationResultType type)
     {
         return Map.Tree.GetValidationItems(tag, type);
@@ -63,13 +58,13 @@ public class ValidationContextView : FrameworkElement<ValidationContextViewModel
 
     public bool IsErrorsVisible
     {
-        get => Map.ShowErrorsButton.IsToggled;
+        get => Map.ShowErrorsButton.IsToggled == true;
         set => Map.ShowErrorsButton.IsToggled = value;
     }
 
     public bool IsWarningsVisible
     {
-        get => Map.ShowWarningButton.IsToggled;
+        get => Map.ShowWarningButton.IsToggled == true;
         set => Map.ShowWarningButton.IsToggled = value;
     }
 
