@@ -15,7 +15,7 @@ public class PinnableToolTip : FrameworkElement<PinnableToolTipModel, PinnableTo
 
     public bool IsPinned
     {
-        get => Map.PinButton.IsToggled;
+        get => Map.PinButton.IsToggled == true;
         set => Map.PinButton.IsToggled = value;
     }
 

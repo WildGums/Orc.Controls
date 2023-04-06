@@ -13,7 +13,7 @@ public class LogMessageCategoryToggleButton : FrameworkElement<LogMessageCategor
 
     public bool IsToggled
     {
-        get => Map.Toggle.IsToggled;
+        get => Map.Toggle.IsToggled == true;
         set => Map.Toggle.IsToggled = value;
     }
 
