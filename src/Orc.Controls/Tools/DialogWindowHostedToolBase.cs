@@ -48,10 +48,8 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
     {
         if (args.Result.DialogResult ?? false)
         {
-            return;
+            OnAccepted();
         }
-
-        OnAccepted();
     }
 
     protected abstract void OnAccepted();
