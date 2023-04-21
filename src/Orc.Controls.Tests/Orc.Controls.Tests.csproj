@@ -25,7 +25,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Orc.Automation.Tests" Version="5.0.0-alpha0160" />
+    <PackageReference Include="Orc.Automation.Tests" Version="5.0.0-alpha0175" />
     <PackageReference Include="PublicApiGenerator" Version="11.0.0" PrivateAssets="all" />
     <PackageReference Include="Verify.NUnit" Version="19.12.3" />
   </ItemGroup>
