@@ -19,23 +19,26 @@
 
         <Label Grid.Column="0" 
                Content="{Binding LabelText}" 
-               Width="{Binding LabelWidth}" />
+               Width="{Binding LabelWidth}" 
+               Margin="3,0,3,0" 
+               VerticalAlignment="Center"/>
 
         <TextBox Grid.Column="1" 
                  IsReadOnly="True"
                  Text="{Binding SelectedFile}" 
-                 Height="{Binding ElementName=SaveFileButton, Path=ActualHeight}"/>
+                 Height="{Binding ElementName=SaveFileButton, Path=ActualHeight}"
+                 Margin="0,0,4,0"/>
 
         <Button x:Name="SaveFileButton"
                 Grid.Column="2" 
-                Margin="0,6,2,6" 
+                Margin="0" 
                 Width="24"
                 Content="..." 
                 ToolTip="{catel:LanguageBinding Controls_BrowseForFile}"
                 Command="{Binding SelectFile}" />
 
         <Button Grid.Column="3"
-                Margin="2,6,2,6"
+                Margin="4,0,2,0"
                 Width="24"
                 ToolTip="{catel:LanguageBinding Controls_OpenFolder}"
                 Command="{Binding OpenDirectory}"
@@ -48,7 +51,7 @@
         </Button>
 
         <Button Grid.Column="4" 
-                Margin="2,6,0,6"
+                Margin="2,0,0,0"
                 Width="24"
                 ToolTip="{catel:LanguageBinding Controls_Clear}"
                 Command="{Binding Clear}"

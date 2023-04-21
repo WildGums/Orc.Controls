@@ -2,8 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Orc.Controls">
 
-    <Style x:Key="{x:Type controls:SaveFilePicker}"
-           TargetType="{x:Type controls:SaveFilePicker}">
+    <Style x:Key="{x:Type controls:OpenFilePicker}"
+           TargetType="{x:Type controls:OpenFilePicker}">
          <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
        </Style>
     

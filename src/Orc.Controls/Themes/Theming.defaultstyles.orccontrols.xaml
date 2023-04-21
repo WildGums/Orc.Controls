@@ -13,12 +13,14 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorLegend/Themes/ColorLegend.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorPicker/Themes/ColorPicker.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/DateTimePicker/Themes/DateTimePicker.generic.xaml" />
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/DirectoryPicker/Themes/DirectoryPicker.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/DropDownButton/Themes/DropDownButton.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/Expander/Themes/Expander.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/FilterBox/Themes/FilterBox.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/FluidProgressBar/Themes/FluidProgressBar.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/FluidProgressBar/Themes/FluidProgressBar.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/FontImage/Themes/FontImage.generic.xaml" />
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/OpenFilePicker/Themes/OpenFilePicker.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/SaveFilePicker/Themes/SaveFilePicker.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/HeaderBar/Themes/HeaderBar.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/LinkLabel/Themes/LinkLabel.generic.xaml" />
