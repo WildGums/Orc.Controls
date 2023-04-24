@@ -17,7 +17,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Column="0" Content="{Binding LabelText}" Width="{Binding LabelWidth}" Margin="3,0,3,0" VerticalAlignment="Center">
+        <Label Grid.Column="0" Content="{Binding LabelText}" Width="{Binding LabelWidth}" VerticalAlignment="Center">
             <Label.Style>
                 <Style TargetType="Label">
                     <Style.Triggers>

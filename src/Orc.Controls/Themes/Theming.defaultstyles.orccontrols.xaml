@@ -425,6 +425,7 @@
            TargetType="{x:Type orccontrols:DirectoryPicker}"
            BasedOn="{StaticResource {x:Type orccontrols:DirectoryPicker}}">
          <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
+         <Setter Property="Height" Value="{DynamicResource Size.Height}" />
        </Style>
     
     <!-- SaveFilePickerControl -->
@@ -432,6 +433,7 @@
            TargetType="{x:Type orccontrols:SaveFilePicker}"
            BasedOn="{StaticResource {x:Type orccontrols:SaveFilePicker}}">
          <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
+         <Setter Property="Height" Value="{DynamicResource Size.Height}" />
        </Style>
     
     <!-- OpenFilePickerControl -->
@@ -439,6 +441,7 @@
            TargetType="{x:Type orccontrols:OpenFilePicker}"
            BasedOn="{StaticResource {x:Type orccontrols:OpenFilePicker}}">
          <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
+         <Setter Property="Height" Value="{DynamicResource Size.Height}" />
        </Style>
     
 
