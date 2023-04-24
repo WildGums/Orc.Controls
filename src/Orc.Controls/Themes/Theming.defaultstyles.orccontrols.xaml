@@ -419,5 +419,27 @@
            BasedOn="{StaticResource {x:Type orccontrols:LogViewerControl}}">
         <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}"/>
     </Style>
+    
+    <!-- DirectoryPickerControl -->
+    <Style x:Key="DefaultDirectoryPickerStyle"
+           TargetType="{x:Type orccontrols:DirectoryPicker}"
+           BasedOn="{StaticResource {x:Type orccontrols:DirectoryPicker}}">
+         <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
+       </Style>
+    
+    <!-- SaveFilePickerControl -->
+    <Style x:Key="DefaultSaveFilePickerStyle"
+           TargetType="{x:Type orccontrols:SaveFilePicker}"
+           BasedOn="{StaticResource {x:Type orccontrols:SaveFilePicker}}">
+         <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
+       </Style>
+    
+    <!-- OpenFilePickerControl -->
+    <Style x:Key="DefaultOpenFilePickerStyle"
+           TargetType="{x:Type orccontrols:OpenFilePicker}"
+           BasedOn="{StaticResource {x:Type orccontrols:OpenFilePicker}}">
+         <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
+       </Style>
+    
 
 </ResourceDictionary>

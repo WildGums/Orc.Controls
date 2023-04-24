@@ -24,6 +24,7 @@ public partial class SaveFilePicker
         InitializeComponent();
     }
 
+    [ObsoleteEx(Message = "This property will be deprecated", TreatAsErrorFromVersion ="4.9.0", RemoveInVersion = "6.0.0")]
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
     public double LabelWidth
     {
@@ -31,10 +32,11 @@ public partial class SaveFilePicker
         set { SetValue(LabelWidthProperty, value); }
     }
 
+    [ObsoleteEx(Message = "This property will be deprecated", TreatAsErrorFromVersion ="4.9.0", RemoveInVersion = "6.0.0")]
     public static readonly DependencyProperty LabelWidthProperty = DependencyProperty.Register(nameof(LabelWidth), typeof(double), 
-        typeof(SaveFilePicker), new PropertyMetadata(125d));
+        typeof(SaveFilePicker), new PropertyMetadata(0d));
 
-
+    [ObsoleteEx(Message = "This property will be deprecated", TreatAsErrorFromVersion ="4.9.0", RemoveInVersion = "6.0.0")]
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
     public string LabelText
     {
@@ -42,6 +44,7 @@ public partial class SaveFilePicker
         set { SetValue(LabelTextProperty, value); }
     }
 
+    [ObsoleteEx(Message = "This property will be deprecated", TreatAsErrorFromVersion ="4.9.0", RemoveInVersion = "6.0.0")]
     public static readonly DependencyProperty LabelTextProperty = DependencyProperty.Register(nameof(LabelText), typeof(string), 
         typeof(SaveFilePicker), new PropertyMetadata(string.Empty));
 

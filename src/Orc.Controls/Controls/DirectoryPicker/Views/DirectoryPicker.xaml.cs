@@ -22,6 +22,7 @@ public partial class DirectoryPicker
         InitializeComponent();
     }
 
+    [ObsoleteEx(Message = "This property will be deprecated", TreatAsErrorFromVersion ="4.9.0", RemoveInVersion = "6.0.0")]
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
     public double LabelWidth
     {
@@ -30,9 +31,11 @@ public partial class DirectoryPicker
     }
 
     // Using a DependencyProperty as the backing store for LabelWidth.  This enables animation, styling, binding, etc...
+    [ObsoleteEx(Message = "This property will be deprecated", TreatAsErrorFromVersion ="4.9.0", RemoveInVersion = "6.0.0")]
     public static readonly DependencyProperty LabelWidthProperty = DependencyProperty.Register(nameof(LabelWidth),
-        typeof(double), typeof(DirectoryPicker), new PropertyMetadata(125d));
+        typeof(double), typeof(DirectoryPicker), new PropertyMetadata(0d));
 
+    [ObsoleteEx(Message = "This property will be deprecated", TreatAsErrorFromVersion ="4.9.0", RemoveInVersion = "6.0.0")]
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
     public string LabelText
     {
@@ -41,6 +44,7 @@ public partial class DirectoryPicker
     }
 
     // Using a DependencyProperty as the backing store for LabelText.  This enables animation, styling, binding, etc...
+    [ObsoleteEx(Message = "This property will be deprecated", TreatAsErrorFromVersion ="4.9.0", RemoveInVersion = "6.0.0")]
     public static readonly DependencyProperty LabelTextProperty =
         DependencyProperty.Register(nameof(LabelText), typeof(string), typeof(DirectoryPicker), new PropertyMetadata(string.Empty));
 

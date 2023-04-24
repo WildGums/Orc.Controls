@@ -4,7 +4,6 @@
 
     <Style x:Key="{x:Type controls:DirectoryPicker}"
            TargetType="{x:Type controls:DirectoryPicker}">
-         <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
        </Style>
     
 </ResourceDictionary>

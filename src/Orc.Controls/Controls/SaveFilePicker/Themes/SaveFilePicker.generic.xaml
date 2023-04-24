@@ -4,7 +4,6 @@
 
     <Style x:Key="{x:Type controls:SaveFilePicker}"
            TargetType="{x:Type controls:SaveFilePicker}">
-         <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
        </Style>
     
 </ResourceDictionary>

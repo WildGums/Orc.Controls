@@ -17,7 +17,18 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Column="0" Content="{Binding LabelText}" Width="{Binding LabelWidth}" Margin="3,0,3,0" VerticalAlignment="Center"/>
+        <Label Grid.Column="0" Content="{Binding LabelText}" Width="{Binding LabelWidth}" Margin="3,0,3,0" VerticalAlignment="Center">
+            <Label.Style>
+                <Style TargetType="Label">
+                    <Style.Triggers>
+                            <DataTrigger Binding="{Binding LabelText, Converter={catel:EmptyStringToCollapsingVisibilityConverter}}">
+                                <Setter Property="Width" Value="0"/>
+                                <Setter Property="Margin" Value="0"/>
+                            </DataTrigger>
+                     </Style.Triggers>
+                    </Style>
+            </Label.Style>
+        </Label>
         <TextBox Grid.Column="1" IsReadOnly="True" Text="{Binding SelectedDirectory}" Margin="0,0,4,0"/>
 
         <Button Grid.Column="2" Margin="0" Width="24" Content="..."
