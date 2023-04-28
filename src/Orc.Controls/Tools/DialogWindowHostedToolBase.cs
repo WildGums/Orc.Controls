@@ -1,7 +1,6 @@
 ﻿namespace Orc.Controls;
 
 using System;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using Catel.IoC;
@@ -17,8 +16,6 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
     protected object? _parameter;
     protected T? _windowViewModel;
 
-    private readonly DispatcherTimer _openDelayTimer;
-
     protected DialogWindowHostedToolBase(ITypeFactory typeFactory, IUIVisualizerService uiVisualizerService)
     {
         ArgumentNullException.ThrowIfNull(typeFactory);
@@ -26,18 +23,13 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
 
         _typeFactory = typeFactory;
         _uiVisualizerService = uiVisualizerService;
-
-        _openDelayTimer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromMilliseconds(200)
-        };
-
-        _openDelayTimer.Tick += OnOpenDelayTimerAsync;
     }
 
-    private async void OnOpenDelayTimerAsync(object? sender, EventArgs e)
+    public virtual bool IsModal => true;
+
+    protected override void OnOpen(object? parameter = null)
     {
-        _openDelayTimer.Stop();
+        _parameter = parameter;
 
         _windowViewModel = InitializeViewModel();
         _windowViewModel.ClosedAsync += OnClosedAsync;
@@ -45,22 +37,12 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
 
         if (IsModal)
         {
-            await _uiVisualizerService.ShowDialogAsync(_windowViewModel, OnWindowCompleted);
+            Task.Run(() => _uiVisualizerService.ShowDialogAsync(_windowViewModel, OnWindowCompleted));
         }
         else
         {
-            await _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted);
+            Task.Run(() => _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted));
         }
-    }
-
-    public virtual bool IsModal => true;
-
-    protected override async void OnOpen(object? parameter = null)
-    {
-        _parameter = parameter;
-
-        _openDelayTimer.Stop();
-        _openDelayTimer.Start();
     }
 
     private void OnWindowCompleted(object? sender, UICompletedEventArgs args)
