@@ -2,6 +2,7 @@
 
 using System;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using Catel.IoC;
 using Catel.MVVM;
 using Catel.Services;
@@ -32,15 +33,15 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
 
         _windowViewModel = InitializeViewModel();
         _windowViewModel.ClosedAsync += OnClosedAsync;
-        ApplyParameter(parameter);
+        ApplyParameter(_parameter);
 
         if (IsModal)
         {
-            await _uiVisualizerService.ShowDialogAsync(_windowViewModel, OnWindowCompleted);
+            await Task.Run(() => _uiVisualizerService.ShowDialogAsync(_windowViewModel, OnWindowCompleted));
         }
         else
         {
-            await _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted);
+            await Task.Run(() => _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted));
         }
     }
 
