@@ -1,7 +1,9 @@
 ﻿namespace Orc.Controls;
 
 using System;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using Catel.IoC;
 using Catel.MVVM;
 using Catel.Services;
@@ -15,6 +17,8 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
     protected object? _parameter;
     protected T? _windowViewModel;
 
+    private readonly DispatcherTimer _openDelayTimer;
+
     protected DialogWindowHostedToolBase(ITypeFactory typeFactory, IUIVisualizerService uiVisualizerService)
     {
         ArgumentNullException.ThrowIfNull(typeFactory);
@@ -22,17 +26,22 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
 
         _typeFactory = typeFactory;
         _uiVisualizerService = uiVisualizerService;
+
+        _openDelayTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMilliseconds(200)
+        };
+
+        _openDelayTimer.Tick += OnOpenDelayTimerAsync;
     }
 
-    public virtual bool IsModal => true;
-
-    protected override async void OnOpen(object? parameter = null)
+    private async void OnOpenDelayTimerAsync(object? sender, EventArgs e)
     {
-        _parameter = parameter;
+        _openDelayTimer.Stop();
 
         _windowViewModel = InitializeViewModel();
         _windowViewModel.ClosedAsync += OnClosedAsync;
-        ApplyParameter(parameter);
+        ApplyParameter(_parameter);
 
         if (IsModal)
         {
@@ -42,6 +51,16 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
         {
             await _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted);
         }
+    }
+
+    public virtual bool IsModal => true;
+
+    protected override async void OnOpen(object? parameter = null)
+    {
+        _parameter = parameter;
+
+        _openDelayTimer.Stop();
+        _openDelayTimer.Start();
     }
 
     private void OnWindowCompleted(object? sender, UICompletedEventArgs args)
