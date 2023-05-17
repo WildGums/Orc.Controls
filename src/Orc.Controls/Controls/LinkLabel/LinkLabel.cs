@@ -351,13 +351,13 @@ public class LinkLabel : Label
             string modifiedUriString;
             if (uri.IsAbsoluteUri)
             {
-                modifiedUriString = $"https://{uri}";
+                var relativePart = uri.GetComponents(UriComponents.PathAndQuery | UriComponents.Fragment,
+                    UriFormat.UriEscaped);
+                modifiedUriString = $"https://{relativePart}";
             }
             else
             {
-                var relativePart = uri.GetComponents(UriComponents.PathAndQuery | UriComponents.Fragment,
-                                                                UriFormat.UriEscaped);
-                modifiedUriString = $"https://{relativePart}";
+                modifiedUriString = $"https://{uri}";
             }
 
             uri = new Uri(modifiedUriString);
