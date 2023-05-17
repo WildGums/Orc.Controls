@@ -199,7 +199,7 @@ public class LinkLabel : Label
     /// <summary>
     /// ClickEvent
     /// </summary>
-    [Category("Behavior")] 
+    [Category("Behavior")]
     public static readonly RoutedEvent? ClickEvent;
 
     /// <summary>
@@ -214,7 +214,7 @@ public class LinkLabel : Label
     /// <summary>
     /// RequestNavigateEvent
     /// </summary>
-    [Category("Behavior")] 
+    [Category("Behavior")]
     public static readonly RoutedEvent? RequestNavigateEvent;
 
     /// <summary>
@@ -339,7 +339,30 @@ public class LinkLabel : Label
             return;
         }
 
-        var destinationUrl = hyperlinkSender?.NavigateUri ?? linklabelSender?.Url;
+        var uri = linklabelSender?.Url;
+
+        if (uri is null ||(!uri.IsAbsoluteUri || (!(uri.Scheme.StartsWith("http", StringComparison.OrdinalIgnoreCase) ||
+      uri.Scheme.StartsWith("https", StringComparison.OrdinalIgnoreCase)))))
+        {
+            var originalUriString = uri?.ToString();
+            var isRelativeUri = !uri?.IsAbsoluteUri;
+            var modifiedUriString = string.Empty;
+
+            if (isRelativeUri is true)
+            {
+                modifiedUriString = "https://" + originalUriString;
+            }
+            else
+            {
+                var relativePart = uri?.GetComponents(UriComponents.PathAndQuery | UriComponents.Fragment,
+                                                                UriFormat.UriEscaped);
+                modifiedUriString = "https://" + relativePart;
+            }
+
+            uri = new Uri(modifiedUriString);
+        }
+
+        var destinationUrl = hyperlinkSender?.NavigateUri ?? uri;
         if (destinationUrl is null || string.IsNullOrEmpty(destinationUrl.ToString()))
         {
             return;
