@@ -340,30 +340,31 @@ public class LinkLabel : Label
         }
 
         var uri = linklabelSender?.Url;
-
-        if (uri is null ||(!uri.IsAbsoluteUri || (!(uri.Scheme.StartsWith("http", StringComparison.OrdinalIgnoreCase) ||
-      uri.Scheme.StartsWith("https", StringComparison.OrdinalIgnoreCase)))))
+        if (uri is null)
         {
-            var originalUriString = uri?.ToString();
-            var isRelativeUri = !uri?.IsAbsoluteUri;
-            var modifiedUriString = string.Empty;
+            return;
+        }
 
-            if (isRelativeUri is true)
+        if (!uri.IsAbsoluteUri || !(uri.Scheme.StartsWith("http", StringComparison.OrdinalIgnoreCase) 
+           || uri.Scheme.StartsWith("https", StringComparison.OrdinalIgnoreCase)))
+        {
+            string modifiedUriString;
+            if (uri.IsAbsoluteUri)
             {
-                modifiedUriString = "https://" + originalUriString;
+                modifiedUriString = $"https://{uri}";
             }
             else
             {
-                var relativePart = uri?.GetComponents(UriComponents.PathAndQuery | UriComponents.Fragment,
+                var relativePart = uri.GetComponents(UriComponents.PathAndQuery | UriComponents.Fragment,
                                                                 UriFormat.UriEscaped);
-                modifiedUriString = "https://" + relativePart;
+                modifiedUriString = $"https://{relativePart}";
             }
 
             uri = new Uri(modifiedUriString);
         }
 
         var destinationUrl = hyperlinkSender?.NavigateUri ?? uri;
-        if (destinationUrl is null || string.IsNullOrEmpty(destinationUrl.ToString()))
+        if (string.IsNullOrEmpty(destinationUrl.ToString()))
         {
             return;
         }
