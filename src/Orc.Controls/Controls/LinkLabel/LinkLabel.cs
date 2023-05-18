@@ -10,8 +10,9 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
-using Automation;
+using Catel;
 using Catel.Logging;
+using Orc.Controls.Automation;
 
 /// <summary>
 /// A label looking like the known hyperlink.
@@ -345,23 +346,17 @@ public class LinkLabel : Label
             return;
         }
 
-        if (!uri.IsAbsoluteUri || !(uri.Scheme.StartsWith("http", StringComparison.OrdinalIgnoreCase) 
-           || uri.Scheme.StartsWith("https", StringComparison.OrdinalIgnoreCase)))
+        if (!uri.IsAbsoluteUri)
         {
-            string modifiedUriString;
-            if (!uri.IsAbsoluteUri)
-            {
-                modifiedUriString = $"https://{uri}";
-            }
-            else
-            {
-                var relativePart = uri.GetComponents(UriComponents.PathAndQuery | UriComponents.Fragment,
-                    UriFormat.UriEscaped);
+            uri = new Uri($"https://{uri}");
+        }
 
-                modifiedUriString = $"https://{relativePart}";
-            }
+        if (uri.IsAbsoluteUri && !uri.Scheme.StartsWithAnyIgnoreCase("http", "https"))
+        {
+            var relativePart = uri.GetComponents(UriComponents.PathAndQuery | UriComponents.Fragment,
+                   UriFormat.UriEscaped);
 
-            uri = new Uri(modifiedUriString);
+            uri = new Uri($"https://{relativePart}");
         }
 
         var destinationUrl = hyperlinkSender?.NavigateUri ?? uri;
