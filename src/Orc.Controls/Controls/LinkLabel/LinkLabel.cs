@@ -349,15 +349,16 @@ public class LinkLabel : Label
            || uri.Scheme.StartsWith("https", StringComparison.OrdinalIgnoreCase)))
         {
             string modifiedUriString;
-            if (uri.IsAbsoluteUri)
+            if (!uri.IsAbsoluteUri)
             {
-                var relativePart = uri.GetComponents(UriComponents.PathAndQuery | UriComponents.Fragment,
-                    UriFormat.UriEscaped);
-                modifiedUriString = $"https://{relativePart}";
+                modifiedUriString = $"https://{uri}";
             }
             else
             {
-                modifiedUriString = $"https://{uri}";
+                var relativePart = uri.GetComponents(UriComponents.PathAndQuery | UriComponents.Fragment,
+                    UriFormat.UriEscaped);
+
+                modifiedUriString = $"https://{relativePart}";
             }
 
             uri = new Uri(modifiedUriString);
