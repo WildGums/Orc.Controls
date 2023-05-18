@@ -11,8 +11,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using Catel;
+using Catel.IoC;
 using Catel.Logging;
-using Orc.Controls.Automation;
+using Catel.Services;
+using Automation;
 
 /// <summary>
 /// A label looking like the known hyperlink.
@@ -25,6 +27,8 @@ public class LinkLabel : Label
     /// The <see cref="ILog">log</see> object.
     /// </summary>
     private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
+    private readonly IProcessService _processService;
 
     /// <summary>
     /// Initializes the <see cref="LinkLabel"/> class.
@@ -43,6 +47,8 @@ public class LinkLabel : Label
     public LinkLabel()
     {
         Unloaded += OnLinkLabelUnloaded;
+
+        _processService = this.GetDependencyResolver().ResolveRequired<IProcessService>();
     }
 
     /// <summary>
@@ -143,8 +149,8 @@ public class LinkLabel : Label
     /// DependencyProperty definition as the backing store for ClickBehavior
     /// </summary>
     public static readonly DependencyProperty ClickBehaviorProperty =
-        DependencyProperty.Register(nameof(ClickBehavior),
-            typeof(LinkLabelClickBehavior), typeof(LinkLabel), new UIPropertyMetadata(LinkLabelClickBehavior.Undefined, OnClickBehaviorChanged));
+        DependencyProperty.Register(nameof(ClickBehavior), typeof(LinkLabelClickBehavior), typeof(LinkLabel), 
+        new UIPropertyMetadata(LinkLabelClickBehavior.Undefined, (sender, args) => ((LinkLabel)sender).OnClickBehaviorChanged(args)));
 
     /// <summary>
     /// Gets or sets the command parameter.
@@ -259,15 +265,9 @@ public class LinkLabel : Label
     /// <summary>
     /// Handles a change of the ClickBehavior property.
     /// </summary>
-    /// <param name="sender">The event sender.</param>
     /// <param name="args">The event arguments.</param>
-    private static void OnClickBehaviorChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+    private void OnClickBehaviorChanged(DependencyPropertyChangedEventArgs args)
     {
-        if (sender is not LinkLabel label)
-        {
-            return;
-        }
-
         if (!args.Property.Name.Equals(ClickBehaviorProperty.Name, StringComparison.Ordinal))
         {
             return;
@@ -278,12 +278,12 @@ public class LinkLabel : Label
 
         if (previous == LinkLabelClickBehavior.OpenUrlInBrowser)
         {
-            label.Click -= OpenBrowserBehaviorImpl;
+            Click -= OpenBrowserBehaviorImpl;
         }
 
         if (next == LinkLabelClickBehavior.OpenUrlInBrowser)
         {
-            label.Click += OpenBrowserBehaviorImpl;
+            Click += OpenBrowserBehaviorImpl;
         }
     }
 
@@ -331,7 +331,7 @@ public class LinkLabel : Label
     /// </summary>
     /// <param name="sender">Event sender</param>
     /// <param name="args">Event arguments</param>
-    private static void OpenBrowserBehaviorImpl(object sender, RoutedEventArgs args)
+    private void OpenBrowserBehaviorImpl(object sender, RoutedEventArgs args)
     {
         var hyperlinkSender = sender as Hyperlink;
         var linklabelSender = sender as LinkLabel;
@@ -370,16 +370,11 @@ public class LinkLabel : Label
 
             try
             {
-                // UseShellExecute is disabled by default in NETCORE
-                var processStartInfo = new ProcessStartInfo
+                _processService.StartProcess(new ProcessContext
                 {
                     FileName = destinationUrl.ToString(),
                     UseShellExecute = true
-                };
-
-#pragma warning disable IDISP004 // Don't ignore created IDisposable
-                Process.Start(processStartInfo);
-#pragma warning restore IDISP004 // Don't ignore created IDisposable
+                });
             }
             catch (Win32Exception ex)
             {
