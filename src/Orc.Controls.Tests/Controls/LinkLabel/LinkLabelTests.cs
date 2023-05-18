@@ -14,7 +14,7 @@ public class LinkLabelTests
 {
     [TestCase("catelproject.com", UriKind.Relative, "https://catelproject.com/")]
     [TestCase("myapp://myaction", UriKind.Absolute, "myapp://myaction")]
-    [TestCase("С:\\my\\long\\path\\to\\exe\\file\\exe.exe", UriKind.Absolute, "С:\\my\\long\\path\\to\\exe\\file\\exe.exe")]
+    [TestCase("С:\\my\\long\\path\\to\\exe\\file\\exe.exe", UriKind.Relative, "С:\\my\\long\\path\\to\\exe\\file\\exe.exe")]
     public void Open_Correct_Uri(string uriPath, UriKind kind, string expectedUri)
     {
         //Prepare
