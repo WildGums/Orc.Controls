@@ -350,11 +350,10 @@ public class LinkLabel : Label
         {
             uri = new Uri($"https://{uri}");
         }
-
-        if (uri.IsAbsoluteUri && !uri.Scheme.StartsWithAnyIgnoreCase("http", "https"))
+        if (!uri.Scheme.Contains("://") && !uri.Scheme.StartsWithAnyIgnoreCase("http", "https") && !uri.IsFile)
         {
             var relativePart = uri.GetComponents(UriComponents.PathAndQuery | UriComponents.Fragment,
-                   UriFormat.UriEscaped);
+                UriFormat.UriEscaped);
 
             uri = new Uri($"https://{relativePart}");
         }
