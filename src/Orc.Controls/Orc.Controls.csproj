@@ -77,5 +77,9 @@
       <Visible>True</Visible>
     </XAMLCombineItems>
   </ItemGroup>
+
+  <ItemGroup>
+    <XAMLCombineItems Remove="Controls\TagTextBox\Themes\TagTextBox.generic.xaml" />
+  </ItemGroup>
 </Project>
 
