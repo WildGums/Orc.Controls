@@ -98,6 +98,13 @@
                                                         <Trigger Property="IsEnabled" Value="False">
                                                             <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}"/>
                                                         </Trigger>
+                                                        <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                                            <Setter Property="BorderBrush" TargetName="Bd" Value="Transparent" />
+                                                        </DataTrigger>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="BorderBrush" TargetName="Bd" Value="Transparent" />
+                                                            <Setter Property="Background" TargetName="Bd" Value="Transparent" />
+                                                        </Trigger>
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
                                                 <!--<ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -128,13 +135,17 @@
                                                 </Grid.ColumnDefinitions>
 
                                                 <TextBlock Margin="5 5 0 5" 
+                                                           x:Name="TagTextBlock"
                                                            Text="{Binding Content}"
                                                            HorizontalAlignment="Center"/>
 
-                                                <Button Grid.Column="1"
+                                                <Button x:Name="PART_DeleteTagButton"
+                                                        Grid.Column="1"
                                                         Height="12"
                                                         Width="12"
-                                                        BorderThickness="0">
+                                                        BorderThickness="0"
+                                                        Command="{Binding OnDeleteTag}"
+                                                        CommandParameter="{Binding ElementName=TagTextBlock, Path=Text}">
                                                     <Image Source="../../../Resources/Images/Delete.png"/>
                                                 </Button>
                                             </Grid>
@@ -145,7 +156,8 @@
                                                      HorizontalContentAlignment="Left"
                                                      HorizontalAlignment="Stretch"
                                                      Visibility="{Binding Path=IsEditing, Converter={catel:BooleanToCollapsingVisibilityConverter}}"
-                                                     BorderThickness="0">
+                                                     BorderThickness="0"
+                                                     Margin="6,0">
                                                 <b:Interaction.Behaviors>
                                                     <catel:AutoCompletion ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TagTextBox}}, Path=Tags}"/>
                                                 </b:Interaction.Behaviors>
@@ -155,8 +167,10 @@
                                 </ListBox.Resources>
                             </ListBox>
 
-                            <Button Width="15"
+                            <Button x:Name="PART_DeleteTagButton"
+                                    Width="15"
                                     Height="15"
+                                    Command="{Binding Path=OnDeleteTag}"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom"/>
                         </Grid>

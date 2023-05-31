@@ -10,6 +10,8 @@ using System.Windows.Input;
 using Catel.Collections;
 using Catel.Data;
 using Catel.Logging;
+using Catel.MVVM;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 public class Tag : ModelBase
 {
@@ -18,13 +20,36 @@ public class Tag : ModelBase
 }
 
 [TemplatePart(Name = "PART_ListBox", Type = typeof(ListBox))]
+[TemplatePart(Name = "PART_DeleteTagButton", Type = typeof(Button))]
 public class TagTextBox : Control
 {
     private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
     private ListBox? _listBox;
+    private Button? _deleteTagButton;
 
     private readonly ObservableCollection<Tag> _tags = new();
+
+    private readonly Command _deleteTag;
+
+    public TagTextBox()
+    {
+        _deleteTag = new Command(OnDeleteTag);
+    }
+
+    private void OnDeleteTag()
+    {
+        //if (tag is null)
+        //{
+        //    return;
+        //}
+
+        //var tagToRemove = _tags.FirstOrDefault(x => string.Equals(x.Content, tag));
+        //if (tagToRemove is not null)
+        //{
+        //    _tags.Remove(tagToRemove);
+        //}
+    }
 
     public IEnumerable<string>? Tags
     {
@@ -57,6 +82,17 @@ public class TagTextBox : Control
 
     public override void OnApplyTemplate()
     {
+        _deleteTagButton = GetTemplateChild("PART_DeleteTagButton") as Button;
+        if (_deleteTagButton is null)
+        {
+            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DeleteTagButton'");
+        }
+        if (_deleteTagButton is not null)
+        {
+            //_deleteTagButton.Click += OnDeleteTag1;
+            _deleteTagButton.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, _deleteTag);
+        }
+
         _listBox = GetTemplateChild("PART_ListBox") as ListBox;
         if (_listBox is null)
         {
@@ -65,6 +101,11 @@ public class TagTextBox : Control
         _listBox?.SetCurrentValue(ItemsControl.ItemsSourceProperty, _tags);
 
         UpdateListBox();
+    }
+
+    private void OnDeleteTag1(object sender, RoutedEventArgs e)
+    {
+        throw new NotImplementedException();
     }
 
     private void UpdateListBox()
