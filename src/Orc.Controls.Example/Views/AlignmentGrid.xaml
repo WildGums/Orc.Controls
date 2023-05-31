@@ -5,10 +5,40 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:catel="http://schemas.catelproject.com"
              xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <CheckBox x:Name="alignmentCheckBox" Content="Enable alignment grid" IsChecked="True" />
-        <orccontrols:AlignmentGrid Visibility="{Binding ElementName=alignmentCheckBox, Path=IsChecked, Converter={catel:BooleanToHidingVisibilityConverter}}"/>
+        <orccontrols:TagTextBox >
+            <orccontrols:TagTextBox.Tags>
+                <x:Array Type="{x:Type system:String}">
+                    <system:String>Hey</system:String>
+                    <system:String>You</system:String>
+                    <system:String>Someone</system:String>
+                </x:Array>
+            </orccontrols:TagTextBox.Tags>
+        </orccontrols:TagTextBox>
+
+
+        <!--<RichTextBox x:Name="txt1" 
+                     IsDocumentEnabled="True"
+                     HorizontalAlignment="Left"
+                     Height="183" 
+                     Margin="36,10,0,0"
+                     VerticalAlignment="Top"
+                     Width="508">
+            <FlowDocument IsEnabled="True">
+                <Paragraph LineHeight="1">
+                    <Button Content="Button"
+                            Height="25"
+                            Width="93"
+                            Click="Button_Click_1"/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>-->
+
+
+        <!--<CheckBox x:Name="alignmentCheckBox" Content="Enable alignment grid" IsChecked="True" />
+        <orccontrols:AlignmentGrid Visibility="{Binding ElementName=alignmentCheckBox, Path=IsChecked, Converter={catel:BooleanToHidingVisibilityConverter}}"/>-->
     </Grid>
 </catel:UserControl>
