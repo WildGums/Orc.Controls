@@ -7,11 +7,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Catel;
 using Catel.Collections;
 using Catel.Data;
 using Catel.Logging;
 using Catel.MVVM;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 public class Tag : ModelBase
 {
@@ -30,25 +30,12 @@ public class TagTextBox : Control
 
     private readonly ObservableCollection<Tag> _tags = new();
 
-    private readonly Command _deleteTag;
+    public static RoutedCommand DeleteTag { get; } = new(nameof(DeleteTag), typeof(TagTextBox));
+
 
     public TagTextBox()
     {
-        _deleteTag = new Command(OnDeleteTag);
-    }
-
-    private void OnDeleteTag()
-    {
-        //if (tag is null)
-        //{
-        //    return;
-        //}
-
-        //var tagToRemove = _tags.FirstOrDefault(x => string.Equals(x.Content, tag));
-        //if (tagToRemove is not null)
-        //{
-        //    _tags.Remove(tagToRemove);
-        //}
+        CreateRoutedCommandBinding(DeleteTag, OnDeleteTag);
     }
 
     public IEnumerable<string>? Tags
@@ -71,28 +58,8 @@ public class TagTextBox : Control
         nameof(SelectedTags), typeof(IReadOnlyCollection<string>), typeof(TagTextBox), new PropertyMetadata(Array.Empty<string>(),
             (sender, args) => ((TagTextBox)sender).OnSelectedTagsChanged(args)));
 
-    private void OnSelectedTagsChanged(DependencyPropertyChangedEventArgs args)
-    {
-    }
-
-    private void OnTagsChanged(DependencyPropertyChangedEventArgs args)
-    {
-        UpdateListBox();
-    }
-
     public override void OnApplyTemplate()
     {
-        //_deleteTagButton = GetTemplateChild("PART_DeleteTagButton") as Button;
-        //if (_deleteTagButton is null)
-        //{
-        //    throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DeleteTagButton'");
-        //}
-        //if (_deleteTagButton is not null)
-        //{
-        //    //_deleteTagButton.Click += OnDeleteTag1;
-        //    _deleteTagButton.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, _deleteTag);
-        //}
-
         _listBox = GetTemplateChild("PART_ListBox") as ListBox;
         if (_listBox is null)
         {
@@ -103,9 +70,26 @@ public class TagTextBox : Control
         UpdateListBox();
     }
 
-    private void OnDeleteTag1(object sender, RoutedEventArgs e)
+    private void OnSelectedTagsChanged(DependencyPropertyChangedEventArgs args)
     {
-        throw new NotImplementedException();
+    }
+
+    private void OnTagsChanged(DependencyPropertyChangedEventArgs args)
+    {
+        UpdateListBox();
+    }
+    
+    private void OnDeleteTag(object param)
+    {
+        var deleteTag = (string)param;
+
+        var tagToDelete = _tags.FirstOrDefault(x => x.Content.EqualsIgnoreCase(deleteTag));
+        if (tagToDelete is null)
+        {
+            return;
+        }
+
+        _tags.Remove(tagToDelete);
     }
 
     private void UpdateListBox()
@@ -129,5 +113,29 @@ public class TagTextBox : Control
             _tags.ForEach(x => x.IsEditing = false);
             _tags.Add(new Tag { IsEditing = true });
         }
+
+        if (e.Key == Key.Delete)
+        {
+            if (_listBox?.SelectedItem is Tag selectedTag)
+            {
+                _tags.Remove(selectedTag);
+            }
+        }
+    }
+
+    private void CreateRoutedCommandBinding(RoutedCommand routedCommand, Action<object> executeAction, Func<object, bool>? canExecute = null)
+    {
+        var routedCommandBinding = new CommandBinding
+        {
+            Command = routedCommand
+        };
+        routedCommandBinding.Executed += (_, args) => executeAction.Invoke(args.Parameter);
+
+        if (canExecute is not null)
+        {
+            routedCommandBinding.CanExecute += (_, args) => args.CanExecute = canExecute.Invoke(args.Parameter);
+        }
+
+        CommandBindings.Add(routedCommandBinding);
     }
 }

@@ -60,13 +60,7 @@
                                                                 <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-
-                                                                <!--<Button Grid.Column="1"
-                                                                    Height="12"
-                                                                    Width="12"
-                                                                    BorderThickness="0">
-                                                                    <Image Source="../../../Resources/Images/Delete.png"/>
-                                                                </Button>-->
+                                                            
                                                             </Grid>
                                                         </Border>
                                                     </Grid>
@@ -107,19 +101,6 @@
                                                         </Trigger>
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
-                                                <!--<ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                                    <Border BorderThickness="1"
-                                                            BorderBrush="{DynamicResource Orc.Brushes.Control.Default.Border}"
-                                                            Margin="6"
-                                                            MinWidth="50"
-                                                            CornerRadius="15"
-                                                            HorizontalAlignment="Center"
-                                                            Visibility="{Binding Path=IsEditing, Converter={catel:BooleanToCollapsingVisibilityConverter SupportInversionUsingCommandParameter=True}, ConverterParameter=TRUE}">
-                                                        
-                                                        <ContentPresenter/>
-
-                                                    </Border>
-                                                </ControlTemplate>-->
                                             </Setter.Value>
                                         </Setter>
                                     </Style>
@@ -144,7 +125,7 @@
                                                         Height="12"
                                                         Width="12"
                                                         BorderThickness="0"
-                                                        Command="{Binding OnDeleteTag}"
+                                                        Command="{x:Static local:TagTextBox.DeleteTag}"
                                                         CommandParameter="{Binding ElementName=TagTextBlock, Path=Text}">
                                                     <Image Source="../../../Resources/Images/Delete.png"/>
                                                 </Button>
