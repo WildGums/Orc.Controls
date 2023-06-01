@@ -117,8 +117,7 @@
                                                            Text="{Binding Content}"
                                                            HorizontalAlignment="Center"/>
 
-                                                <Button x:Name="PART_DeleteTagButton"
-                                                        Grid.Column="1"
+                                                <Button Grid.Column="1"
                                                         Height="12"
                                                         Width="12"
                                                         BorderThickness="0"
@@ -137,7 +136,8 @@
                                                      BorderThickness="0"
                                                      Margin="6,0">
                                                 <b:Interaction.Behaviors>
-                                                    <catel:AutoCompletion ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TagTextBox}}, Path=Tags}"/>
+                                                    <catel:AutoCompletion ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TagTextBox}}, Path=SuggestedTags}"/>
+                                                    <catel:Focus FocusMoment="Loaded"/>
                                                 </b:Interaction.Behaviors>
                                             </TextBox>
                                         </Grid>

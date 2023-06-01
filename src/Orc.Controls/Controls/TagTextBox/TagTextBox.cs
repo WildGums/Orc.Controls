@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,6 +27,7 @@ public class TagTextBox : Control
     private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
     private ListBox? _listBox;
+    private HashSet<string> _removedFromSuggestedTags = new();
     //private Button? _deleteTagButton;
 
     private readonly ObservableCollection<Tag> _tags = new();
@@ -35,6 +37,8 @@ public class TagTextBox : Control
 
     public TagTextBox()
     {
+        _tags.CollectionChanged += OnTagsCollectionChanged;
+
         CreateRoutedCommandBinding(DeleteTag, OnDeleteTag);
     }
 
@@ -47,6 +51,16 @@ public class TagTextBox : Control
     public static readonly DependencyProperty TagsProperty = DependencyProperty.Register(
         nameof(Tags), typeof(IEnumerable<string>), typeof(TagTextBox), new PropertyMetadata(default(IEnumerable<string>),
             (sender, args) => ((TagTextBox)sender).OnTagsChanged(args)));
+
+    public IEnumerable<string>? SuggestedTags
+    {
+        get { return (IEnumerable<string>?)GetValue(SuggestedTagsProperty); }
+        set { SetValue(SuggestedTagsProperty, value); }
+    }
+
+    public static readonly DependencyProperty SuggestedTagsProperty = DependencyProperty.Register(
+        nameof(SuggestedTags), typeof(IEnumerable<string>), typeof(TagTextBox), new PropertyMetadata(Array.Empty<string>(),
+            (sender, args) => ((TagTextBox)sender).OnSuggestedTagsChanged(args)));
 
     public IReadOnlyCollection<string> SelectedTags
     {
@@ -74,11 +88,41 @@ public class TagTextBox : Control
     {
     }
 
+
+    private void OnSuggestedTagsChanged(DependencyPropertyChangedEventArgs args)
+    {
+        //no flag
+        _removedFromSuggestedTags.Clear();
+    }
+
     private void OnTagsChanged(DependencyPropertyChangedEventArgs args)
     {
         UpdateListBox();
     }
-    
+
+    private void OnTagsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (_listBox is null)
+        {
+            return;
+        }
+
+        var allTags = Tags;
+        if (allTags is null)
+        {
+            return;
+        }
+
+        var suggestedTags = SuggestedTags;
+        if (suggestedTags is null)
+        {
+            return;
+        }
+
+        var possibleTagsSuggestions = suggestedTags.Except(_tags.Select(x => x.Content));
+        SetCurrentValue(SuggestedTagsProperty, possibleTagsSuggestions);
+    }
+
     private void OnDeleteTag(object param)
     {
         var deleteTag = (string)param;
@@ -112,6 +156,8 @@ public class TagTextBox : Control
         {
             _tags.ForEach(x => x.IsEditing = false);
             _tags.Add(new Tag { IsEditing = true });
+            
+            return;
         }
 
         if (e.Key == Key.Delete)
