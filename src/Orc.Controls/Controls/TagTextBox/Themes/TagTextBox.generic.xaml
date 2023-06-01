@@ -93,12 +93,13 @@
                                                             <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}"/>
                                                         </Trigger>
                                                         <DataTrigger Binding="{Binding IsEditing}" Value="True">
-                                                            <Setter Property="BorderBrush" TargetName="Bd" Value="Transparent" />
+                                                            <Setter Property="BorderThickness" TargetName="Bd" Value="0" />
+                                                            <Setter Property="Background" TargetName="Bd" Value="Transparent" />
                                                         </DataTrigger>
-                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                        <!--<Trigger Property="IsMouseOver" Value="True">
                                                             <Setter Property="BorderBrush" TargetName="Bd" Value="Transparent" />
                                                             <Setter Property="Background" TargetName="Bd" Value="Transparent" />
-                                                        </Trigger>
+                                                        </Trigger>-->
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
                                             </Setter.Value>
