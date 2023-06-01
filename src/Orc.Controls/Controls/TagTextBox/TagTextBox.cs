@@ -20,13 +20,13 @@ public class Tag : ModelBase
 }
 
 [TemplatePart(Name = "PART_ListBox", Type = typeof(ListBox))]
-[TemplatePart(Name = "PART_DeleteTagButton", Type = typeof(Button))]
+//[TemplatePart(Name = "PART_DeleteTagButton", Type = typeof(Button))]
 public class TagTextBox : Control
 {
     private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
     private ListBox? _listBox;
-    private Button? _deleteTagButton;
+    //private Button? _deleteTagButton;
 
     private readonly ObservableCollection<Tag> _tags = new();
 
@@ -82,16 +82,16 @@ public class TagTextBox : Control
 
     public override void OnApplyTemplate()
     {
-        _deleteTagButton = GetTemplateChild("PART_DeleteTagButton") as Button;
-        if (_deleteTagButton is null)
-        {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DeleteTagButton'");
-        }
-        if (_deleteTagButton is not null)
-        {
-            //_deleteTagButton.Click += OnDeleteTag1;
-            _deleteTagButton.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, _deleteTag);
-        }
+        //_deleteTagButton = GetTemplateChild("PART_DeleteTagButton") as Button;
+        //if (_deleteTagButton is null)
+        //{
+        //    throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DeleteTagButton'");
+        //}
+        //if (_deleteTagButton is not null)
+        //{
+        //    //_deleteTagButton.Click += OnDeleteTag1;
+        //    _deleteTagButton.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, _deleteTag);
+        //}
 
         _listBox = GetTemplateChild("PART_ListBox") as ListBox;
         if (_listBox is null)

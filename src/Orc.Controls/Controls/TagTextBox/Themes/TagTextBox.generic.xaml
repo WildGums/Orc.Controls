@@ -167,10 +167,8 @@
                                 </ListBox.Resources>
                             </ListBox>
 
-                            <Button x:Name="PART_DeleteTagButton"
-                                    Width="15"
+                            <Button Width="15"
                                     Height="15"
-                                    Command="{Binding Path=OnDeleteTag}"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom"/>
                         </Grid>
