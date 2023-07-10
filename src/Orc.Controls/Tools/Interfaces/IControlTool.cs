@@ -1,6 +1,7 @@
 ﻿namespace Orc.Controls;
 
 using System;
+using System.Threading.Tasks;
 
 public interface IControlTool
 {
@@ -10,8 +11,8 @@ public interface IControlTool
 
     void Attach(object target);
     void Detach();
-    void Open(object? parameter);
-    void Close();
+    Task OpenAsync(object? parameter);
+    Task CloseAsync();
 
     event EventHandler<EventArgs>? Attached;
     event EventHandler<EventArgs>? Detached;

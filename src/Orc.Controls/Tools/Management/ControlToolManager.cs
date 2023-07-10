@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using Attributes;
 using Catel.IoC;
@@ -46,7 +47,7 @@ public class ControlToolManager : IControlToolManager
         return existingTool is null;
     }
 
-    public object? AttachTool(Type toolType)
+    public async Task<object?> AttachToolAsync(Type toolType)
     {
         ArgumentNullException.ThrowIfNull(toolType);
 
@@ -78,7 +79,7 @@ public class ControlToolManager : IControlToolManager
         return tool;
     }
 
-    public bool DetachTool(Type toolType)
+    public async Task<bool> DetachToolAsync(Type toolType)
     {
         var tools = Tools;
         var tool = tools.FirstOrDefault(x => x.GetType() == toolType);
@@ -91,7 +92,7 @@ public class ControlToolManager : IControlToolManager
         tool.Opened -= OnToolOpened;
         tool.Closed -= OnToolClosed;
 
-        tool.Close();
+        await tool.CloseAsync();
         tool.Detach();
 
         tools.Remove(tool);
@@ -217,7 +218,7 @@ public class ControlToolManager : IControlToolManager
         return Path.Combine(settingsStorage, fileName);
     }
 
-    private void OnFrameworkElementUnloaded(object? sender, RoutedEventArgs e)
+    private async void OnFrameworkElementUnloaded(object? sender, RoutedEventArgs e)
     {
         if (sender is not FrameworkElement frameworkElement)
         {
@@ -230,7 +231,7 @@ public class ControlToolManager : IControlToolManager
             tool.Opened -= OnToolClosed;
             tool.Closed -= OnToolClosed;
 
-            tool.Close();
+            await tool.CloseAsync();
             tool.Detach();
         }
 

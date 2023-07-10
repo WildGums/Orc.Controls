@@ -2,6 +2,7 @@
 
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Catel.MVVM;
@@ -12,7 +13,7 @@ public class OpenToolCommandExtension : UpdatableMarkupExtension
 {
     private readonly Type _frameworkElementType;
     private readonly Type _toolType;
-    protected Command<object> Command { get; }
+    protected TaskCommand<object> Command { get; }
 
     public OpenToolCommandExtension(Type toolType, Type frameworkElementType)
     {
@@ -21,7 +22,7 @@ public class OpenToolCommandExtension : UpdatableMarkupExtension
 
         _toolType = toolType;
         _frameworkElementType = frameworkElementType;
-        Command = new Command<object>(OnOpenTool, CanExecute);
+        Command = new TaskCommand<object>(OnOpenToolAsync, CanExecute);
     }
 
     protected override object ProvideDynamicValue(IServiceProvider? serviceProvider)
@@ -42,9 +43,15 @@ public class OpenToolCommandExtension : UpdatableMarkupExtension
         return tool?.IsEnabled ?? attachmentTarget.CanAttach(_toolType);
     }
 
-    private void OnOpenTool(object? parameter)
+    private async Task OnOpenToolAsync(object? parameter)
     {
-        GetAttachmentTarget(parameter)?.AttachAndOpenTool(_toolType, parameter);
+        var tool = GetAttachmentTarget(parameter);
+        if (tool is null)
+        {
+            return;
+        }
+
+        await tool.AttachAndOpenToolAsync(_toolType, parameter);
     }
 
     protected virtual FrameworkElement? GetAttachmentTarget(object? parameter = null)

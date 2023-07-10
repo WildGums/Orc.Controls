@@ -2,7 +2,6 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using Catel.IoC;
 using Catel.MVVM;
 using Catel.Services;
 using Moq;
@@ -17,7 +16,6 @@ public class DialogWindowHostedToolBaseTests
     public async Task After_Closing_Tool_Dialog_Tool_Must_Be_Closed_But_Not_Before_Async()
     {
         //Prepare
-        var typeFactoryMockObject = Mock.Of<ITypeFactory>();
         var iuiVisualizerServiceMock = new Mock<IUIVisualizerService>();
         iuiVisualizerServiceMock.Setup(x => x.ShowContextAsync(It.IsAny<UIVisualizerContext>()))
             .Callback<UIVisualizerContext>(async (x) =>
@@ -30,12 +28,12 @@ public class DialogWindowHostedToolBaseTests
         var iuiVisualizerServiceMockObject = iuiVisualizerServiceMock.Object;
 
         //Testing object
-        var tool = new TestDialogWindowHostedTool(typeFactoryMockObject, iuiVisualizerServiceMockObject);
+        var tool = new TestDialogWindowHostedTool(iuiVisualizerServiceMockObject);
 
         //Act
         //Assert that BEFORE closing dialog tool is OPENED
         tool.Opened += (_, _) => Assert.That(tool.IsOpened, Is.True);
-        EventAssert.Raised(tool, nameof(tool.Opened), () => tool.Open());
+        EventAssert.Raised(tool, nameof(tool.Opened), async () => await tool.OpenAsync());
 
         //Wait for dialog to be closed
         await Task.Delay(500);
@@ -50,8 +48,8 @@ public class DialogWindowHostedToolBaseTests
 
     public class TestDialogWindowHostedTool : DialogWindowHostedToolBase<DummyViewModel>
     {
-        public TestDialogWindowHostedTool(ITypeFactory typeFactory, IUIVisualizerService uiVisualizerService)
-            : base(typeFactory, uiVisualizerService)
+        public TestDialogWindowHostedTool(IUIVisualizerService uiVisualizerService)
+            : base(uiVisualizerService)
         {
         }
 

@@ -2,8 +2,6 @@
 
 using System;
 using System.Threading.Tasks;
-using System.Windows.Threading;
-using Catel.IoC;
 using Catel.MVVM;
 using Catel.Services;
 
@@ -11,23 +9,21 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
     where T : ViewModelBase
 {
     protected readonly IUIVisualizerService _uiVisualizerService;
-    protected readonly ITypeFactory _typeFactory;
 
     protected object? _parameter;
     protected T? _windowViewModel;
 
-    protected DialogWindowHostedToolBase(ITypeFactory typeFactory, IUIVisualizerService uiVisualizerService)
+    protected DialogWindowHostedToolBase(IUIVisualizerService uiVisualizerService)
     {
-        ArgumentNullException.ThrowIfNull(typeFactory);
         ArgumentNullException.ThrowIfNull(uiVisualizerService);
 
-        _typeFactory = typeFactory;
         _uiVisualizerService = uiVisualizerService;
     }
 
     public virtual bool IsModal => true;
+    protected override bool IsStayedOpen => !IsModal;
 
-    protected override async void OnOpen(object? parameter = null)
+    protected override async Task OnOpenAsync(object? parameter = null)
     {
         _parameter = parameter;
 
@@ -37,11 +33,11 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
 
         if (IsModal)
         {
-            await Task.Run(() => _uiVisualizerService.ShowDialogAsync(_windowViewModel, OnWindowCompleted));
+            await _uiVisualizerService.ShowDialogAsync(_windowViewModel, OnWindowCompleted);
         }
         else
         {
-            await Task.Run(() => _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted));
+            await _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted);
         }
     }
 
@@ -60,9 +56,9 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
     {
     }
 
-    public override void Close()
+    public override async Task CloseAsync()
     {
-        base.Close();
+        await base.CloseAsync();
 
         if (_windowViewModel is null)
         {
@@ -78,8 +74,6 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
 
     private Task OnClosedAsync(object? sender, ViewModelClosedEventArgs args)
     {
-        Close();
-
-        return Task.CompletedTask;
+        return CloseAsync();
     }
 }

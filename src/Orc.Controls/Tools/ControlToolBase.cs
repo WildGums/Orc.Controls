@@ -1,6 +1,7 @@
 ﻿namespace Orc.Controls;
 
 using System;
+using System.Threading.Tasks;
 using Catel.Data;
 
 public abstract class ControlToolBase : ModelBase, IControlTool
@@ -10,6 +11,7 @@ public abstract class ControlToolBase : ModelBase, IControlTool
     public abstract string Name { get; }
     public bool IsOpened { get; private set; }
     public virtual bool IsEnabled => true;
+    protected virtual bool IsStayedOpen { get; set; } = false;
 
     public event EventHandler<EventArgs>? Attached;
     public event EventHandler<EventArgs>? Detached;
@@ -31,7 +33,7 @@ public abstract class ControlToolBase : ModelBase, IControlTool
         Detached?.Invoke(this, EventArgs.Empty);
     }
 
-    public void Open(object? parameter = null)
+    public async Task OpenAsync(object? parameter = null)
     {
         if (IsOpened)
         {
@@ -42,13 +44,18 @@ public abstract class ControlToolBase : ModelBase, IControlTool
 
         Opening?.Invoke(this, EventArgs.Empty);
 
-        OnOpen(parameter);
+        await OnOpenAsync(parameter);
 
         IsOpened = true;
         Opened?.Invoke(this, EventArgs.Empty);
+
+        if (!IsStayedOpen)
+        {
+            await CloseAsync();
+        }
     }
 
-    public virtual void Close()
+    public virtual async Task CloseAsync()
     {
         IsOpened = false;
 
@@ -59,5 +66,5 @@ public abstract class ControlToolBase : ModelBase, IControlTool
     {
     }
 
-    protected abstract void OnOpen(object? parameter = null);
+    protected abstract Task OnOpenAsync(object? parameter = null);
 }

@@ -36,6 +36,7 @@ public class FindReplaceTool<TFindReplaceService> : ControlToolBase
     }
 
     public override string Name => "FindReplaceTool";
+    protected override bool IsStayedOpen => true;
 
     public override void Attach(object target)
     {
@@ -73,7 +74,7 @@ public class FindReplaceTool<TFindReplaceService> : ControlToolBase
         }
     }
 
-    protected override async void OnOpen(object? parameter = null)
+    protected override async Task OnOpenAsync(object? parameter = null)
     {
         if (_findReplaceService is null)
         {
@@ -88,9 +89,9 @@ public class FindReplaceTool<TFindReplaceService> : ControlToolBase
         _findReplaceViewModel.ClosedAsync += OnClosedAsync;
     }
 
-    public override void Close()
+    public override async Task CloseAsync()
     {
-        base.Close();
+        await base.CloseAsync();
 
         if (_findReplaceViewModel is null)
         {
@@ -106,8 +107,6 @@ public class FindReplaceTool<TFindReplaceService> : ControlToolBase
 
     private Task OnClosedAsync(object? sender, ViewModelClosedEventArgs args)
     {
-        Close();
-
-        return Task.CompletedTask;
+        return base.CloseAsync();
     }
 }
