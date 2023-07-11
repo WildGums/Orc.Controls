@@ -382,12 +382,12 @@ namespace Orc.Controls
     {
         protected object? Target;
         public static readonly Catel.Data.IPropertyData IsOpenedProperty;
-        public static readonly Catel.Data.IPropertyData IsStayedOpenProperty;
+        public static readonly Catel.Data.IPropertyData StaysOpenProperty;
         protected ControlToolBase() { }
         public virtual bool IsEnabled { get; }
         public bool IsOpened { get; }
         public abstract string Name { get; }
-        protected virtual bool IsStayedOpen { get; set; }
+        protected virtual bool StaysOpen { get; set; }
         public event System.EventHandler<System.EventArgs>? Attached;
         public event System.EventHandler<System.EventArgs>? Closed;
         public event System.EventHandler<System.EventArgs>? Detached;
@@ -743,7 +743,7 @@ namespace Orc.Controls
         protected T? _windowViewModel;
         protected DialogWindowHostedToolBase(Catel.Services.IUIVisualizerService uiVisualizerService) { }
         public virtual bool IsModal { get; }
-        protected override bool IsStayedOpen { get; }
+        protected override bool StaysOpen { get; }
         protected virtual void ApplyParameter(object? parameter) { }
         public override System.Threading.Tasks.Task CloseAsync() { }
         protected abstract T InitializeViewModel();
@@ -915,8 +915,8 @@ namespace Orc.Controls
         where TFindReplaceService : Orc.Controls.Services.IFindReplaceService
     {
         public FindReplaceTool(Catel.Services.IUIVisualizerService uiVisualizerService, Catel.IoC.ITypeFactory typeFactory, Catel.IoC.IServiceLocator serviceLocator) { }
-        protected override bool IsStayedOpen { get; }
         public override string Name { get; }
+        protected override bool StaysOpen { get; }
         public override void Attach(object target) { }
         public override System.Threading.Tasks.Task CloseAsync() { }
         protected virtual TFindReplaceService? CreateFindReplaceService(object target) { }
