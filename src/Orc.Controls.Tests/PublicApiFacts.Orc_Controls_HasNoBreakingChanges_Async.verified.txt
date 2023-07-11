@@ -911,17 +911,17 @@ namespace Orc.Controls
     {
         public static System.Text.RegularExpressions.Regex GetRegEx(this Orc.Controls.FindReplaceSettings settings, string textToFind, bool isLeftToRight = false) { }
     }
-    public class FindReplaceTool<TFindReplaceService> : Orc.Controls.ControlToolBase
+    public class FindReplaceTool<TFindReplaceService> : Orc.Controls.DialogWindowHostedToolBase<Orc.Controls.ViewModels.FindReplaceViewModel>
         where TFindReplaceService : Orc.Controls.Services.IFindReplaceService
     {
         public FindReplaceTool(Catel.Services.IUIVisualizerService uiVisualizerService, Catel.IoC.ITypeFactory typeFactory, Catel.IoC.IServiceLocator serviceLocator) { }
+        public override bool IsModal { get; }
         public override string Name { get; }
-        protected override bool StaysOpen { get; }
         public override void Attach(object target) { }
-        public override System.Threading.Tasks.Task CloseAsync() { }
         protected virtual TFindReplaceService? CreateFindReplaceService(object target) { }
         public override void Detach() { }
-        protected override System.Threading.Tasks.Task OnOpenAsync(object? parameter = null) { }
+        protected override Orc.Controls.ViewModels.FindReplaceViewModel InitializeViewModel() { }
+        protected override void OnAccepted() { }
     }
     [System.Windows.TemplatePart(Name="PART_Canvas", Type=typeof(System.Windows.Controls.Canvas))]
     [System.Windows.TemplatePart(Name="PART_Dot1", Type=typeof(System.Windows.Shapes.Rectangle))]
