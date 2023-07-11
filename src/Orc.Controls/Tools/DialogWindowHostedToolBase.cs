@@ -21,7 +21,7 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
     }
 
     public virtual bool IsModal => true;
-    protected override bool IsStayedOpen => !IsModal;
+    protected override bool StaysOpen => !IsModal;
 
     protected override async Task OnOpenAsync(object? parameter = null)
     {

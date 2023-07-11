@@ -4,7 +4,6 @@ using System;
 using System.Threading.Tasks;
 using Catel.IoC;
 using Catel.Logging;
-using Catel.MVVM;
 using Catel.Services;
 using Services;
 using ViewModels;
@@ -36,7 +35,7 @@ public class FindReplaceTool<TFindReplaceService> : ControlToolBase
     }
 
     public override string Name => "FindReplaceTool";
-    protected override bool IsStayedOpen => true;
+    protected override bool StaysOpen => true;
 
     public override void Attach(object target)
     {
@@ -85,8 +84,6 @@ public class FindReplaceTool<TFindReplaceService> : ControlToolBase
         _findReplaceViewModel = new FindReplaceViewModel(_findReplaceSettings, _findReplaceService);
 
         await _uiVisualizerService.ShowAsync(_findReplaceViewModel);
-
-        _findReplaceViewModel.ClosedAsync += OnClosedAsync;
     }
 
     public override async Task CloseAsync()
@@ -98,15 +95,6 @@ public class FindReplaceTool<TFindReplaceService> : ControlToolBase
             return;
         }
 
-        _findReplaceViewModel.ClosedAsync -= OnClosedAsync;
-
-#pragma warning disable 4014
-        _findReplaceViewModel.CloseViewModelAsync(null);
-#pragma warning restore 4014
-    }
-
-    private Task OnClosedAsync(object? sender, ViewModelClosedEventArgs args)
-    {
-        return base.CloseAsync();
+        await _findReplaceViewModel.CloseViewModelAsync(null);
     }
 }

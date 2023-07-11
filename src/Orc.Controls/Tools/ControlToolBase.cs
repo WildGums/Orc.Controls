@@ -11,7 +11,7 @@ public abstract class ControlToolBase : ModelBase, IControlTool
     public abstract string Name { get; }
     public bool IsOpened { get; private set; }
     public virtual bool IsEnabled => true;
-    protected virtual bool IsStayedOpen { get; set; } = false;
+    protected virtual bool StaysOpen { get; set; } = false;
 
     public event EventHandler<EventArgs>? Attached;
     public event EventHandler<EventArgs>? Detached;
@@ -49,7 +49,7 @@ public abstract class ControlToolBase : ModelBase, IControlTool
         IsOpened = true;
         Opened?.Invoke(this, EventArgs.Empty);
 
-        if (!IsStayedOpen)
+        if (!StaysOpen)
         {
             await CloseAsync();
         }
