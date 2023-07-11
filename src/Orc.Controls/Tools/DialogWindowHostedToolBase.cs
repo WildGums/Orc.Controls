@@ -2,12 +2,15 @@
 
 using System;
 using System.Threading.Tasks;
+using Catel.Logging;
 using Catel.MVVM;
 using Catel.Services;
 
 public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
     where T : ViewModelBase
 {
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
     protected readonly IUIVisualizerService _uiVisualizerService;
 
     protected object? _parameter;
@@ -21,28 +24,40 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
     }
 
     public virtual bool IsModal => true;
-    protected override bool StaysOpen => !IsModal;
+    protected override bool StaysOpen => _windowViewModel is not null;
 
-    protected override async Task OnOpenAsync(object? parameter = null)
+    protected override Task OnOpenAsync(object? parameter = null)
     {
-        _parameter = parameter;
+        try
+        {
+            _windowViewModel = InitializeViewModel();
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex);
 
-        _windowViewModel = InitializeViewModel();
-        _windowViewModel.ClosedAsync += OnClosedAsync;
+            return Task.CompletedTask;
+        }
+
+        _parameter = parameter;
         ApplyParameter(_parameter);
 
         if (IsModal)
         {
-            await _uiVisualizerService.ShowDialogAsync(_windowViewModel, OnWindowCompleted);
+            _uiVisualizerService.ShowDialogAsync(_windowViewModel, OnWindowCompleted);
         }
         else
         {
-            await _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted);
+            _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted);
         }
+
+        return Task.CompletedTask;
     }
 
-    private void OnWindowCompleted(object? sender, UICompletedEventArgs args)
+    private async void OnWindowCompleted(object? sender, UICompletedEventArgs args)
     {
+        await base.CloseAsync();
+
         if (args.Result.DialogResult ?? false)
         {
             OnAccepted();
@@ -64,16 +79,7 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
         {
             return;
         }
-
-        _windowViewModel.ClosedAsync -= OnClosedAsync;
-
-#pragma warning disable 4014
-        _windowViewModel.CloseViewModelAsync(null);
-#pragma warning restore 4014
-    }
-
-    private Task OnClosedAsync(object? sender, ViewModelClosedEventArgs args)
-    {
-        return CloseAsync();
+        
+        await _windowViewModel.CloseViewModelAsync(null);
     }
 }
