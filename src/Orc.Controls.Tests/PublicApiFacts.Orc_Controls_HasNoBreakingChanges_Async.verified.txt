@@ -381,22 +381,24 @@ namespace Orc.Controls
     public abstract class ControlToolBase : Catel.Data.ModelBase, Orc.Controls.IControlTool
     {
         protected object? Target;
-        public static readonly Catel.Data.IPropertyData? IsOpenedProperty;
+        public static readonly Catel.Data.IPropertyData IsOpenedProperty;
+        public static readonly Catel.Data.IPropertyData StaysOpenProperty;
         protected ControlToolBase() { }
         public virtual bool IsEnabled { get; }
         public bool IsOpened { get; }
         public abstract string Name { get; }
+        protected virtual bool StaysOpen { get; set; }
         public event System.EventHandler<System.EventArgs>? Attached;
         public event System.EventHandler<System.EventArgs>? Closed;
         public event System.EventHandler<System.EventArgs>? Detached;
         public event System.EventHandler<System.EventArgs>? Opened;
         public event System.EventHandler<System.EventArgs>? Opening;
         public virtual void Attach(object target) { }
-        public virtual void Close() { }
+        public virtual System.Threading.Tasks.Task CloseAsync() { }
         public virtual void Detach() { }
         protected virtual void OnAddParameter(object? parameter) { }
-        protected abstract void OnOpen(object? parameter = null);
-        public void Open(object? parameter = null) { }
+        protected abstract System.Threading.Tasks.Task OnOpenAsync(object? parameter = null);
+        public System.Threading.Tasks.Task OpenAsync(object? parameter = null) { }
     }
     public sealed class CulturePicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
@@ -737,16 +739,16 @@ namespace Orc.Controls
         where T : Catel.MVVM.ViewModelBase
     {
         protected object? _parameter;
-        protected readonly Catel.IoC.ITypeFactory _typeFactory;
         protected readonly Catel.Services.IUIVisualizerService _uiVisualizerService;
         protected T? _windowViewModel;
-        protected DialogWindowHostedToolBase(Catel.IoC.ITypeFactory typeFactory, Catel.Services.IUIVisualizerService uiVisualizerService) { }
+        protected DialogWindowHostedToolBase(Catel.Services.IUIVisualizerService uiVisualizerService) { }
         public virtual bool IsModal { get; }
+        protected override bool StaysOpen { get; }
         protected virtual void ApplyParameter(object? parameter) { }
-        public override void Close() { }
+        public override System.Threading.Tasks.Task CloseAsync() { }
         protected abstract T InitializeViewModel();
         protected abstract void OnAccepted();
-        protected override void OnOpen(object? parameter = null) { }
+        protected override System.Threading.Tasks.Task OnOpenAsync(object? parameter = null) { }
     }
     public class DirectoryPicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
@@ -914,11 +916,12 @@ namespace Orc.Controls
     {
         public FindReplaceTool(Catel.Services.IUIVisualizerService uiVisualizerService, Catel.IoC.ITypeFactory typeFactory, Catel.IoC.IServiceLocator serviceLocator) { }
         public override string Name { get; }
+        protected override bool StaysOpen { get; }
         public override void Attach(object target) { }
-        public override void Close() { }
+        public override System.Threading.Tasks.Task CloseAsync() { }
         protected virtual TFindReplaceService? CreateFindReplaceService(object target) { }
         public override void Detach() { }
-        protected override void OnOpen(object? parameter = null) { }
+        protected override System.Threading.Tasks.Task OnOpenAsync(object? parameter = null) { }
     }
     [System.Windows.TemplatePart(Name="PART_Canvas", Type=typeof(System.Windows.Controls.Canvas))]
     [System.Windows.TemplatePart(Name="PART_Dot1", Type=typeof(System.Windows.Shapes.Rectangle))]
@@ -1001,14 +1004,14 @@ namespace Orc.Controls
     }
     public static class FrameworkElementExtensions
     {
-        public static void AttachAndOpenTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType, object? parameter = null) { }
-        public static void AttachAndOpenTool<T>(this System.Windows.FrameworkElement frameworkElement, object? parameter = null)
+        public static System.Threading.Tasks.Task AttachAndOpenToolAsync(this System.Windows.FrameworkElement frameworkElement, System.Type toolType, object? parameter = null) { }
+        public static System.Threading.Tasks.Task AttachAndOpenToolAsync<T>(this System.Windows.FrameworkElement frameworkElement, object? parameter = null)
             where T :  class, Orc.Controls.IControlTool { }
-        public static object? AttachTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
-        public static T? AttachTool<T>(this System.Windows.FrameworkElement frameworkElement)
+        public static System.Threading.Tasks.Task<object?> AttachToolAsync(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
+        public static System.Threading.Tasks.Task<T?> AttachToolAsync<T>(this System.Windows.FrameworkElement frameworkElement)
             where T :  class, Orc.Controls.IControlTool { }
         public static bool CanAttach(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
-        public static bool DetachTool(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
+        public static System.Threading.Tasks.Task<bool> DetachToolAsync(this System.Windows.FrameworkElement frameworkElement, System.Type toolType) { }
         public static System.Windows.Point GetCenterPointInRoot(this System.Windows.FrameworkElement frameworkElement, System.Windows.FrameworkElement root) { }
         public static Orc.Controls.Tools.IControlToolManager GetControlToolManager(this System.Windows.FrameworkElement frameworkElement) { }
         public static System.Windows.Rect GetScreenRect(this System.Windows.FrameworkElement frameworkElement) { }
@@ -1105,9 +1108,9 @@ namespace Orc.Controls
         event System.EventHandler<System.EventArgs>? Opened;
         event System.EventHandler<System.EventArgs>? Opening;
         void Attach(object target);
-        void Close();
+        System.Threading.Tasks.Task CloseAsync();
         void Detach();
-        void Open(object? parameter);
+        System.Threading.Tasks.Task OpenAsync(object? parameter);
     }
     public interface IEditableControl
     {
@@ -1743,7 +1746,7 @@ namespace Orc.Controls
     public class OpenToolCommandExtension : Catel.Windows.Markup.UpdatableMarkupExtension
     {
         public OpenToolCommandExtension(System.Type toolType, System.Type frameworkElementType) { }
-        protected Catel.MVVM.Command<object> Command { get; }
+        protected Catel.MVVM.TaskCommand<object> Command { get; }
         protected virtual System.Windows.FrameworkElement? GetAttachmentTarget(object? parameter = null) { }
         protected override object ProvideDynamicValue(System.IServiceProvider? serviceProvider) { }
     }
@@ -3909,9 +3912,9 @@ namespace Orc.Controls.Tools
         public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolDetached;
         public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolOpened;
         public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolOpening;
-        public object? AttachTool(System.Type toolType) { }
+        public System.Threading.Tasks.Task<object?> AttachToolAsync(System.Type toolType) { }
         public bool CanAttachTool(System.Type toolType) { }
-        public bool DetachTool(System.Type toolType) { }
+        public System.Threading.Tasks.Task<bool> DetachToolAsync(System.Type toolType) { }
         protected virtual void LoadSettings(Orc.Controls.IControlTool tool) { }
         protected virtual void SaveSettings(Orc.Controls.IControlTool tool) { }
     }
@@ -3928,9 +3931,9 @@ namespace Orc.Controls.Tools
         event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolDetached;
         event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolOpened;
         event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolOpening;
-        object? AttachTool(System.Type toolType);
+        System.Threading.Tasks.Task<object?> AttachToolAsync(System.Type toolType);
         bool CanAttachTool(System.Type toolType);
-        bool DetachTool(System.Type toolType);
+        System.Threading.Tasks.Task<bool> DetachToolAsync(System.Type toolType);
     }
     public interface IControlToolManagerFactory
     {

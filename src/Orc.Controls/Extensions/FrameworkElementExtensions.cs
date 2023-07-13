@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using Catel.IoC;
 using Microsoft.Xaml.Behaviors;
@@ -71,40 +72,50 @@ public static class FrameworkElementExtensions
         return controlToolManager.CanAttachTool(toolType);
     }
 
-    public static void AttachAndOpenTool(this FrameworkElement frameworkElement, Type toolType, object? parameter = null)
+    public static async Task AttachAndOpenToolAsync(this FrameworkElement frameworkElement, Type toolType, object? parameter = null)
     {
         ArgumentNullException.ThrowIfNull(frameworkElement);
         ArgumentNullException.ThrowIfNull(toolType);
 
-        var tool = frameworkElement.AttachTool(toolType) as IControlTool;
-        tool?.Open(parameter);
+        if ((await frameworkElement.AttachToolAsync(toolType)) is not IControlTool tool)
+        {
+            return;
+        }
+
+        await tool.OpenAsync(parameter);
     }
 
-    public static void AttachAndOpenTool<T>(this FrameworkElement frameworkElement, object? parameter = null)
+    public static async Task AttachAndOpenToolAsync<T>(this FrameworkElement frameworkElement, object? parameter = null)
         where T : class, IControlTool
     {
         ArgumentNullException.ThrowIfNull(frameworkElement);
 
-        frameworkElement?.AttachTool<T>()?.Open(parameter);
+        var tool = await frameworkElement.AttachToolAsync<T>();
+        if (tool is null)
+        {
+            return;
+        }
+
+        await tool.OpenAsync(parameter);
     }
 
-    public static object? AttachTool(this FrameworkElement frameworkElement, Type toolType)
+    public static Task<object?> AttachToolAsync(this FrameworkElement frameworkElement, Type toolType)
     {
         var controlToolManager = frameworkElement.GetControlToolManager();
-        return controlToolManager.AttachTool(toolType);
+        return controlToolManager.AttachToolAsync(toolType);
     }
 
-    public static T? AttachTool<T>(this FrameworkElement frameworkElement)
+    public static async Task<T?> AttachToolAsync<T>(this FrameworkElement frameworkElement)
         where T : class, IControlTool
     {
         ArgumentNullException.ThrowIfNull(frameworkElement);
 
-        return frameworkElement.AttachTool(typeof(T)) as T;
+        return (await frameworkElement.AttachToolAsync(typeof(T))) as T;
     }
 
-    public static bool DetachTool(this FrameworkElement frameworkElement, Type toolType)
+    public static Task<bool> DetachToolAsync(this FrameworkElement frameworkElement, Type toolType)
     {
         var controlToolManager = frameworkElement.GetControlToolManager();
-        return controlToolManager.DetachTool(toolType);
+        return controlToolManager.DetachToolAsync(toolType);
     }
 }

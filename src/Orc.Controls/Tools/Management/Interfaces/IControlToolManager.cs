@@ -2,14 +2,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IControlToolManager
 {
     IList<IControlTool> Tools { get; }
 
     bool CanAttachTool(Type toolType);
-    object? AttachTool(Type toolType);
-    bool DetachTool(Type toolType);
+    Task<object?> AttachToolAsync(Type toolType);
+    Task<bool> DetachToolAsync(Type toolType);
 
     event EventHandler<ToolManagementEventArgs>? ToolAttached;
     event EventHandler<ToolManagementEventArgs>? ToolDetached;
