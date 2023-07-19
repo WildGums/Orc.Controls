@@ -16,14 +16,19 @@ public class DialogWindowHostedToolBaseTests
     public async Task After_Closing_Tool_Dialog_Tool_Must_Be_Closed_But_Not_Before_Async()
     {
         //Prepare
+        const int windowLifeTime = 500;
+
         var iuiVisualizerServiceMock = new Mock<IUIVisualizerService>();
         iuiVisualizerServiceMock.Setup(x => x.ShowContextAsync(It.IsAny<UIVisualizerContext>()))
-            .Callback<UIVisualizerContext>(async (x) =>
+            .Callback<UIVisualizerContext>(x =>
             {
-                x.CompletedCallback.Invoke(x, new UICompletedEventArgs(new UIVisualizerResult(true, x, null)));
-                var viewModel = (DummyViewModel)x.Data;
-                //Closing dialog
-                await viewModel.SaveAndCloseViewModelAsync();
+                //Run it in a thread of window
+                Task.Run(async () =>
+                {
+                    await Task.Delay(windowLifeTime);
+
+                    x.CompletedCallback?.Invoke(x, new UICompletedEventArgs(new UIVisualizerResult(true, x, null)));
+                });
             });
         var iuiVisualizerServiceMockObject = iuiVisualizerServiceMock.Object;
 
@@ -36,7 +41,7 @@ public class DialogWindowHostedToolBaseTests
         EventAssert.Raised(tool, nameof(tool.Opened), async () => await tool.OpenAsync());
 
         //Wait for dialog to be closed
-        await Task.Delay(500);
+        await Task.Delay(windowLifeTime + 100);
 
         //Assert that tool is CLOSED
         Assert.That(tool.IsOpened, Is.False);
