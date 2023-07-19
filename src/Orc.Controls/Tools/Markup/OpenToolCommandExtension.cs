@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Catel.MVVM;
 using Catel.Windows;
 using Catel.Windows.Markup;
@@ -61,6 +62,15 @@ public class OpenToolCommandExtension : UpdatableMarkupExtension
             return null;
         }
 
+        if (targetObject is ICommandSource commandSource)
+        {
+            if (commandSource.CommandTarget is FrameworkElement commandTarget
+                && commandTarget.GetType() == _frameworkElementType)
+            {
+                return commandTarget;
+            }
+        }
+        
         var contextMenu = targetObject.FindLogicalAncestorByType<ContextMenu>()
                           ?? targetObject.FindLogicalOrVisualAncestor(x => x.GetType() == typeof(ContextMenu)) as ContextMenu;
 
