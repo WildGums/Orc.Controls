@@ -22,13 +22,9 @@ public class DialogWindowHostedToolBaseTests
         iuiVisualizerServiceMock.Setup(x => x.ShowContextAsync(It.IsAny<UIVisualizerContext>()))
             .Callback<UIVisualizerContext>(x =>
             {
-                //Run it in a thread of window
-                Task.Run(async () =>
-                {
-                    await Task.Delay(windowLifeTime);
+                Thread.Sleep(windowLifeTime);
 
-                    x.CompletedCallback?.Invoke(x, new UICompletedEventArgs(new UIVisualizerResult(true, x, null)));
-                });
+                x.CompletedCallback?.Invoke(x, new UICompletedEventArgs(new UIVisualizerResult(true, x, null)));
             });
         var iuiVisualizerServiceMockObject = iuiVisualizerServiceMock.Object;
 

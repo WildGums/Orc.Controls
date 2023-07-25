@@ -3,7 +3,6 @@
 using System;
 using Catel.IoC;
 using Catel.Logging;
-using Catel.MVVM;
 using Catel.Services;
 using Services;
 using ViewModels;

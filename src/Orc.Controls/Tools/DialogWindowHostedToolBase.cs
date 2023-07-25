@@ -44,11 +44,11 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
 
         if (IsModal)
         {
-            _uiVisualizerService.ShowDialogAsync(_windowViewModel, OnWindowCompleted);
+            Task.Run(async () => await _uiVisualizerService.ShowDialogAsync(_windowViewModel, OnWindowCompleted));
         }
         else
         {
-            _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted);
+            Task.Run(async () => await _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted));
         }
 
         return Task.CompletedTask;
@@ -62,9 +62,22 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
         {
             OnAccepted();
         }
+        else
+        {
+            OnRejected();
+        }
     }
 
-    protected abstract void OnAccepted();
+    protected virtual void OnRejected()
+    {
+        
+    }
+
+    protected virtual void OnAccepted()
+    {
+
+    }
+
     protected abstract T InitializeViewModel();
 
     protected virtual void ApplyParameter(object? parameter)
