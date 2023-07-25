@@ -44,11 +44,11 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
 
         if (IsModal)
         {
-            Task.Run(() => _uiVisualizerService.ShowDialogAsync(_windowViewModel, OnWindowCompleted));
+            Task.Run(async () => await _uiVisualizerService.ShowDialogAsync(_windowViewModel, OnWindowCompleted));
         }
         else
         {
-            Task.Run(() => _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted));
+            Task.Run(async () => await _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted));
         }
 
         return Task.CompletedTask;
