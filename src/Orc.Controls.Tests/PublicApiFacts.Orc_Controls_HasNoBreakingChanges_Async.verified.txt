@@ -747,8 +747,9 @@ namespace Orc.Controls
         protected virtual void ApplyParameter(object? parameter) { }
         public override System.Threading.Tasks.Task CloseAsync() { }
         protected abstract T InitializeViewModel();
-        protected abstract void OnAccepted();
+        protected virtual void OnAccepted() { }
         protected override System.Threading.Tasks.Task OnOpenAsync(object? parameter = null) { }
+        protected virtual void OnRejected() { }
     }
     public class DirectoryPicker : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
