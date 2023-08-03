@@ -384,6 +384,7 @@ namespace Orc.Controls
         public static readonly Catel.Data.IPropertyData IsOpenedProperty;
         public static readonly Catel.Data.IPropertyData StaysOpenProperty;
         protected ControlToolBase() { }
+        public bool IsAttached { get; }
         public virtual bool IsEnabled { get; }
         public bool IsOpened { get; }
         public abstract string Name { get; }
@@ -1100,6 +1101,7 @@ namespace Orc.Controls
     }
     public interface IControlTool
     {
+        bool IsAttached { get; }
         bool IsEnabled { get; }
         bool IsOpened { get; }
         string Name { get; }
