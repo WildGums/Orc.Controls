@@ -41,7 +41,7 @@ public class OpenToolCommandExtension : UpdatableMarkupExtension
         }
 
         var tool = attachmentTarget.GetTools().FirstOrDefault(x => x.GetType() == _toolType);
-        return tool?.IsEnabled ?? attachmentTarget.CanAttach(_toolType);
+        return attachmentTarget.CanAttach(_toolType) || tool?.IsEnabled == true;
     }
 
     private async Task OnOpenToolAsync(object? parameter)

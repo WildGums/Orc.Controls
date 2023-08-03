@@ -44,37 +44,45 @@ public class ControlToolManager : IControlToolManager
     public bool CanAttachTool(Type toolType)
     {
         var existingTool = Tools.FirstOrDefault(x => x.GetType() == toolType);
-        return existingTool is null;
+        return existingTool is null || !existingTool.IsAttached;
     }
 
     public async Task<object?> AttachToolAsync(Type toolType)
     {
         ArgumentNullException.ThrowIfNull(toolType);
 
-        var existingTool = Tools.FirstOrDefault(x => x.GetType() == toolType);
-        if (existingTool is not null)
+        var tools = Tools;
+
+        var tool = tools.FirstOrDefault(x => x.GetType() == toolType);
+        if (tool is null)
         {
-            return existingTool;
+            tool = _typeFactory.CreateInstanceWithParametersAndAutoCompletion(toolType) as IControlTool;
+            if (tool is not null)
+            {
+                tools.Add(tool);
+
+                tool.Opening += OnToolOpening;
+                tool.Opened += OnToolOpened;
+                tool.Closed += OnToolClosed;
+            }
         }
 
-        if (_typeFactory.CreateInstanceWithParametersAndAutoCompletion(toolType) is not IControlTool tool)
-        {
-            return null;
-        }
-
-        if (!Tools.Any())
+        if (!tools.Any())
         {
             _frameworkElement.Unloaded += OnFrameworkElementUnloaded;
         }
 
-        Tools.Add(tool);
-        tool.Attach(_frameworkElement);
+        if (tool is null)
+        {
+            return null;
+        }
 
-        tool.Opening += OnToolOpening;
-        tool.Opened += OnToolOpened;
-        tool.Closed += OnToolClosed;
+        if (!tool.IsAttached)
+        {
+            tool.Attach(_frameworkElement);
 
-        ToolAttached?.Invoke(this, new ToolManagementEventArgs(tool));
+            ToolAttached?.Invoke(this, new ToolManagementEventArgs(tool));
+        }
 
         return tool;
     }

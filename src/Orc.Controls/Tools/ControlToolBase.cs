@@ -11,6 +11,7 @@ public abstract class ControlToolBase : ModelBase, IControlTool
     public abstract string Name { get; }
     public bool IsOpened { get; private set; }
     public virtual bool IsEnabled => true;
+    public bool IsAttached => Target is not null;
     protected virtual bool StaysOpen { get; set; } = false;
 
     public event EventHandler<EventArgs>? Attached;
