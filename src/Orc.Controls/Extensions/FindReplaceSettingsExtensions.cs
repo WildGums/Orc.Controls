@@ -10,7 +10,7 @@ public static class FindReplaceSettingsExtensions
         ArgumentNullException.ThrowIfNull(textToFind);
         ArgumentNullException.ThrowIfNull(settings);
 
-        var options = RegexOptions.None;
+        var options = RegexOptions.Compiled;
         if (settings.IsSearchUp && !isLeftToRight)
         {
             options |= RegexOptions.RightToLeft;

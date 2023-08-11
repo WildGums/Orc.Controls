@@ -66,6 +66,12 @@ public static class FrameworkElementExtensions
         return frameworkElement.GetControlToolManager().Tools;
     }
 
+    public static TControlTool? GetTool<TControlTool>(this FrameworkElement frameworkElement)
+        where TControlTool : IControlTool
+    {
+        return frameworkElement.GetControlToolManager().Tools.OfType<TControlTool>().FirstOrDefault();
+    }
+
     public static bool CanAttach(this FrameworkElement frameworkElement, Type toolType)
     {
         var controlToolManager = frameworkElement.GetControlToolManager();

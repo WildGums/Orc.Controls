@@ -66,6 +66,8 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
         {
             OnRejected();
         }
+
+        OnClosed();
     }
 
     protected virtual void OnRejected()
@@ -74,6 +76,11 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
     }
 
     protected virtual void OnAccepted()
+    {
+
+    }
+
+    protected virtual void OnClosed()
     {
 
     }
