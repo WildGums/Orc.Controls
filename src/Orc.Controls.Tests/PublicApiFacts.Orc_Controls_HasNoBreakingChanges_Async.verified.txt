@@ -1,4 +1,4 @@
-﻿[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
+[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Orc.Controls.Tests")]
 [assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v6.0", FrameworkDisplayName=".NET 6.0")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls")]
@@ -384,6 +384,7 @@ namespace Orc.Controls
         public static readonly Catel.Data.IPropertyData IsOpenedProperty;
         public static readonly Catel.Data.IPropertyData StaysOpenProperty;
         protected ControlToolBase() { }
+        public bool IsAttached { get; }
         public virtual bool IsEnabled { get; }
         public bool IsOpened { get; }
         public abstract string Name { get; }
@@ -748,6 +749,7 @@ namespace Orc.Controls
         public override System.Threading.Tasks.Task CloseAsync() { }
         protected abstract T InitializeViewModel();
         protected virtual void OnAccepted() { }
+        protected virtual void OnClosed() { }
         protected override System.Threading.Tasks.Task OnOpenAsync(object? parameter = null) { }
         protected virtual void OnRejected() { }
     }
@@ -1016,6 +1018,8 @@ namespace Orc.Controls
         public static System.Windows.Point GetCenterPointInRoot(this System.Windows.FrameworkElement frameworkElement, System.Windows.FrameworkElement root) { }
         public static Orc.Controls.Tools.IControlToolManager GetControlToolManager(this System.Windows.FrameworkElement frameworkElement) { }
         public static System.Windows.Rect GetScreenRect(this System.Windows.FrameworkElement frameworkElement) { }
+        public static TControlTool? GetTool<TControlTool>(this System.Windows.FrameworkElement frameworkElement)
+            where TControlTool : Orc.Controls.IControlTool { }
         public static System.Collections.Generic.IList<Orc.Controls.IControlTool> GetTools(this System.Windows.FrameworkElement frameworkElement) { }
         public static Orc.Controls.IEditableControl? TryGetEditableControl(this System.Windows.FrameworkElement frameworkElement) { }
     }
@@ -1100,6 +1104,7 @@ namespace Orc.Controls
     }
     public interface IControlTool
     {
+        bool IsAttached { get; }
         bool IsEnabled { get; }
         bool IsOpened { get; }
         string Name { get; }
@@ -3874,6 +3879,7 @@ namespace Orc.Controls.Services
 {
     public interface IFindReplaceService
     {
+        void FindAll(string textToFind, Orc.Controls.FindReplaceSettings settings);
         bool FindNext(string textToFind, Orc.Controls.FindReplaceSettings settings);
         string GetInitialFindText();
         bool Replace(string textToFind, string textToReplace, Orc.Controls.FindReplaceSettings settings);
@@ -3954,6 +3960,7 @@ namespace Orc.Controls.ViewModels
         public static readonly Catel.Data.IPropertyData TextToFindForReplaceProperty;
         public static readonly Catel.Data.IPropertyData TextToFindProperty;
         public FindReplaceViewModel(Orc.Controls.FindReplaceSettings findReplaceSettings, Orc.Controls.Services.IFindReplaceService findReplaceService) { }
+        public Catel.MVVM.Command<string?> FindAll { get; set; }
         public Catel.MVVM.Command<string?> FindNext { get; }
         [Catel.MVVM.Model]
         public Orc.Controls.FindReplaceSettings FindReplaceSettings { get; }

@@ -8,6 +8,7 @@ public interface IControlTool
     string Name { get; }
     bool IsOpened { get; }
     bool IsEnabled { get; }
+    bool IsAttached { get; }
 
     void Attach(object target);
     void Detach();

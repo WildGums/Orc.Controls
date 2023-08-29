@@ -32,8 +32,8 @@
             </Grid.ColumnDefinitions>
 
             <TabControl Name="tabMain"
-                    Height="Auto"
-                    Grid.ColumnSpan="2">
+                        Height="Auto"
+                        Grid.ColumnSpan="2">
 
                 <TabItem Header="Find">
                     <StackPanel>
@@ -41,36 +41,47 @@
                                Text="Text to Find:"/>
 
                         <TextBox x:Name="TxtFind"
-                             Margin="3"
-                             Text="{Binding TextToFind}"/>
+                                 Margin="3"
+                                 Text="{Binding TextToFind}"/>
 
-                        <Button x:Name="FindNextButton"
-                            Margin="5"
-                            HorizontalAlignment="Right"
-                            Width="80"
-                            Content="Find"
-                            Command="{Binding FindNext}"
-                            CommandParameter="{Binding ElementName=TxtFind, Path=Text}"/>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0"
+                                    HorizontalAlignment="Right">
+
+                            <Button x:Name="FindNextButton"
+                                    Width="80"
+                                    Margin="3"
+                                    Content="Find"
+                                    Command="{Binding FindNext}"
+                                    CommandParameter="{Binding ElementName=TxtFind, Path=Text}"/>
+
+                            <Button x:Name="FindAllNextButton"
+                                    Width="80"
+                                    Margin="3"
+                                    Content="Find all"
+                                    Command="{Binding FindAll}"
+                                    CommandParameter="{Binding ElementName=TxtFind, Path=Text}"/>
+                        </StackPanel>
                     </StackPanel>
                 </TabItem>
 
                 <TabItem Header="Replace">
                     <StackPanel>
                         <TextBlock Margin="3"
-                               Text="Text to Find:"/>
+                                   Text="Text to Find:"/>
 
                         <TextBox x:Name="TxtFind2" 
-                             Margin="3"                             
-                             Text="{Binding TextToFindForReplace}"/>
+                                 Margin="3"                             
+                                 Text="{Binding TextToFindForReplace}"/>
 
                         <TextBlock Margin="3"
-                               Text="Replace with:" />
+                                   Text="Replace with:" />
 
                         <TextBox Name="TxtReplace"
-                             Margin="3"  />
+                                 Margin="3"  />
 
                         <StackPanel Orientation="Horizontal"
-                                HorizontalAlignment="Right">
+                                    HorizontalAlignment="Right">
 
                             <Button x:Name="FindReplaceNextButton"
                                 Margin="5"
