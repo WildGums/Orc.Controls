@@ -1,9 +1,9 @@
 ﻿<catel:UserControl x:Class="Orc.Controls.SaveFilePicker"
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:catel="http://schemas.catelproject.com"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:controls="clr-namespace:Orc.Controls"
                    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
                    d:DataContext="{d:DesignInstance controls:SaveFilePickerViewModel}">
@@ -17,48 +17,58 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Column="0" 
-               Content="{Binding LabelText}" 
-               Width="{Binding LabelWidth}" />
+        <Label Grid.Column="0"
+               Content="{Binding LabelText}"
+               Width="{Binding LabelWidth}"
+               VerticalAlignment="Center">
+            <Label.Style>
+                <Style TargetType="Label">
+                    <Style.Triggers>
+                        <Trigger Property="Content" Value="">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
 
-        <TextBox Grid.Column="1" 
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+        </Label>
+
+        <TextBox Grid.Column="1"
                  IsReadOnly="True"
-                 Text="{Binding SelectedFile}" 
-                 Height="{Binding ElementName=SaveFileButton, Path=ActualHeight}"/>
+                 Text="{Binding SelectedFile}"
+                 Margin="0,0,4,0"
+                 VerticalAlignment="Center" />
 
         <Button x:Name="SaveFileButton"
-                Grid.Column="2" 
-                Margin="0,6,2,6" 
+                Grid.Column="2"
+                Margin="0"
                 Width="24"
-                Content="..." 
+                Content="..."
                 ToolTip="{catel:LanguageBinding Controls_BrowseForFile}"
                 Command="{Binding SelectFile}" />
 
         <Button Grid.Column="3"
-                Margin="2,6,2,6"
+                Margin="4,0,2,0"
                 Width="24"
                 ToolTip="{catel:LanguageBinding Controls_OpenFolder}"
                 Command="{Binding OpenDirectory}"
                 Visibility="{Binding SelectedFile, Converter={catel:EmptyStringToCollapsingVisibilityConverter}}">
-            
-            <Image Source="/Orc.Controls;component/Resources/Images/Folder.png" 
-                   Width="16" 
-                   Height="16" />
 
+            <Image Source="/Orc.Controls;component/Resources/Images/Folder.png"
+                   Width="16"
+                   Height="16" />
         </Button>
 
-        <Button Grid.Column="4" 
-                Margin="2,6,0,6"
+        <Button Grid.Column="4"
+                Margin="2,0,0,0"
                 Width="24"
                 ToolTip="{catel:LanguageBinding Controls_Clear}"
                 Command="{Binding Clear}"
                 Visibility="{Binding SelectedFile, Converter={catel:EmptyStringToCollapsingVisibilityConverter}}">
 
-            <Image Source="/Orc.Controls;component/Resources/Images/Delete.png" 
-                   Width="16" 
+            <Image Source="/Orc.Controls;component/Resources/Images/Delete.png"
+                   Width="16"
                    Height="16" />
-
         </Button>
     </Grid>
-
 </catel:UserControl>

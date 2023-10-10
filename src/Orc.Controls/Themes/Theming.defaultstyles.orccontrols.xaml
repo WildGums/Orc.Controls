@@ -13,12 +13,14 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorLegend/Themes/ColorLegend.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorPicker/Themes/ColorPicker.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/DateTimePicker/Themes/DateTimePicker.generic.xaml" />
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/DirectoryPicker/Themes/DirectoryPicker.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/DropDownButton/Themes/DropDownButton.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/Expander/Themes/Expander.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/FilterBox/Themes/FilterBox.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/FluidProgressBar/Themes/FluidProgressBar.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/FluidProgressBar/Themes/FluidProgressBar.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/FontImage/Themes/FontImage.generic.xaml" />
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/OpenFilePicker/Themes/OpenFilePicker.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/SaveFilePicker/Themes/SaveFilePicker.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/HeaderBar/Themes/HeaderBar.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/LinkLabel/Themes/LinkLabel.generic.xaml" />
@@ -417,5 +419,30 @@
            BasedOn="{StaticResource {x:Type orccontrols:LogViewerControl}}">
         <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}"/>
     </Style>
+    
+    <!-- DirectoryPickerControl -->
+    <Style x:Key="DefaultDirectoryPickerStyle"
+           TargetType="{x:Type orccontrols:DirectoryPicker}"
+           BasedOn="{StaticResource {x:Type orccontrols:DirectoryPicker}}">
+         <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
+         <Setter Property="Height" Value="{DynamicResource Size.Height}" />
+       </Style>
+    
+    <!-- SaveFilePickerControl -->
+    <Style x:Key="DefaultSaveFilePickerStyle"
+           TargetType="{x:Type orccontrols:SaveFilePicker}"
+           BasedOn="{StaticResource {x:Type orccontrols:SaveFilePicker}}">
+         <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
+         <Setter Property="Height" Value="{DynamicResource Size.Height}" />
+       </Style>
+    
+    <!-- OpenFilePickerControl -->
+    <Style x:Key="DefaultOpenFilePickerStyle"
+           TargetType="{x:Type orccontrols:OpenFilePicker}"
+           BasedOn="{StaticResource {x:Type orccontrols:OpenFilePicker}}">
+         <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
+         <Setter Property="Height" Value="{DynamicResource Size.Height}" />
+       </Style>
+    
 
 </ResourceDictionary>
