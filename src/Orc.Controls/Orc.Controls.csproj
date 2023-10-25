@@ -77,9 +77,5 @@
       <Visible>True</Visible>
     </XAMLCombineItems>
   </ItemGroup>
-
-  <ItemGroup>
-    <XAMLCombineItems Remove="Controls\FontImage\Themes\FontImageControl.generic.xaml" />
-  </ItemGroup>
 </Project>
 
