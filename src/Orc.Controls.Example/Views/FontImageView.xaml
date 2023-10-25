@@ -33,7 +33,7 @@
         <orccontrols:ColorPicker x:Name="ForegroundColorPicker"
                                  Color="Black"/>
 
-        <orccontrols:FontImage Grid.ColumnSpan="2"
+        <orccontrols:FontImageControl Grid.ColumnSpan="2"
                                FontFamily="{Binding ElementName=FontTextBox, Path=Text}"
                                ItemName="{Binding ElementName=ItemNameTextBox, Path=Text}"
                                Background="{Binding ElementName=BackgroundColorPicker, Path=Color, Converter={catel:ColorToBrushConverter}}"

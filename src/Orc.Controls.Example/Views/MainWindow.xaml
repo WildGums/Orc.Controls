@@ -97,7 +97,7 @@
                     <views:FilterBox />
                 </TabItem>
 
-                <TabItem Header="FontImage">
+                <TabItem Header="FontImageControl">
                     <views:FontImageView />
                 </TabItem>
 

@@ -5,12 +5,12 @@
     using Orc.Automation;
 
     [Explicit]
-    [TestFixture(TestOf = typeof(FontImage))]
+    [TestFixture(TestOf = typeof(FontImageControl))]
     [Category("UI Tests")]
-    public class FontImageTestFacts : StyledControlTestFacts<FontImage>
+    public class FontImageTestFacts : StyledControlTestFacts<FontImageControl>
     {
         [Target]
-        public Automation.FontImage Target { get; set; }
+        public Automation.FontImageControl Target { get; set; }
 
         [Test]
         public void CorrectlyInitialize()
