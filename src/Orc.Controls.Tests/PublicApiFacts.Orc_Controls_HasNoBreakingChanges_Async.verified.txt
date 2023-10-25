@@ -981,10 +981,10 @@ namespace Orc.Controls
         protected virtual void OnTotalDurationChanged(System.Windows.Duration oldTotalDuration, System.Windows.Duration newTotalDuration) { }
     }
     [System.Windows.TemplatePart(Name="PART_Image", Type=typeof(System.Windows.Controls.Image))]
-    public class FontImage : System.Windows.Controls.Control
+    public class FontImageControl : System.Windows.Controls.Control
     {
         public static readonly System.Windows.DependencyProperty ItemNameProperty;
-        public FontImage() { }
+        public FontImageControl() { }
         public string? ItemName { get; set; }
         public override void OnApplyTemplate() { }
         protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
@@ -3027,21 +3027,21 @@ namespace Orc.Controls.Automation
         public System.Windows.Duration ReverseDuration { get; set; }
         public System.Windows.Duration TotalDuration { get; set; }
     }
-    public class FontImage : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.FontImageModel>
+    public class FontImageControl : Orc.Automation.Controls.FrameworkElement<Orc.Controls.Automation.FontImageControlModel>
     {
-        public FontImage(System.Windows.Automation.AutomationElement element) { }
+        public FontImageControl(System.Windows.Automation.AutomationElement element) { }
     }
-    public class FontImageAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.FontImage>
+    public class FontImageControlAutomationPeer : Orc.Automation.AutomationControlPeerBase<Orc.Controls.FontImageControl>
     {
-        public FontImageAutomationPeer(Orc.Controls.FontImage owner) { }
+        public FontImageControlAutomationPeer(Orc.Controls.FontImageControl owner) { }
     }
     [Orc.Automation.ActiveAutomationModel]
-    public class FontImageModel : Orc.Automation.FrameworkElementModel
+    public class FontImageControlModel : Orc.Automation.FrameworkElementModel
     {
         public static readonly Catel.Data.IPropertyData FontFamilyProperty;
         public static readonly Catel.Data.IPropertyData ForegroundProperty;
         public static readonly Catel.Data.IPropertyData ItemNameProperty;
-        public FontImageModel(Orc.Automation.AutomationElementAccessor accessor) { }
+        public FontImageControlModel(Orc.Automation.AutomationElementAccessor accessor) { }
         public string FontFamily { get; set; }
         public System.Windows.Media.SolidColorBrush Foreground { get; set; }
         public string ItemName { get; set; }

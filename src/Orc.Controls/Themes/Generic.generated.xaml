@@ -1143,7 +1143,7 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <Style x:Key="{x:Type local:FontImage}" TargetType="{x:Type local:FontImage}" BasedOn="{StaticResource Orc.Styles.Control}">
+  <Style x:Key="{x:Type local:FontImageControl}" TargetType="{x:Type local:FontImageControl}" BasedOn="{StaticResource Orc.Styles.Control}">
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="Padding" Value="0" />
     <Setter Property="Template">

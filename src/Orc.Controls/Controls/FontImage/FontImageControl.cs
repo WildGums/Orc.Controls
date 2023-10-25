@@ -14,7 +14,7 @@ using Catel.Windows.Data;
 using Image = System.Windows.Controls.Image;
 
 [TemplatePart(Name = "PART_Image", Type = typeof(Image))]
-public class FontImage : Control
+public class FontImageControl : Control
 {
     private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
@@ -30,8 +30,8 @@ public class FontImage : Control
     }
 
     public static readonly DependencyProperty ItemNameProperty = DependencyProperty.Register(
-        nameof(ItemName), typeof(string), typeof(FontImage), new PropertyMetadata(default(string),
-            (sender, _) => ((FontImage)sender).OnItemNameChanged()));
+        nameof(ItemName), typeof(string), typeof(FontImageControl), new PropertyMetadata(default(string),
+            (sender, _) => ((FontImageControl)sender).OnItemNameChanged()));
 
     private void OnItemNameChanged()
     {
@@ -114,6 +114,6 @@ public class FontImage : Control
 
     protected override AutomationPeer OnCreateAutomationPeer()
     {
-        return new FontImageAutomationPeer(this);
+        return new FontImageControlAutomationPeer(this);
     }
 }

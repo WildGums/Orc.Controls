@@ -5,9 +5,9 @@ using System.Windows.Media;
 using Orc.Automation;
 
 [ActiveAutomationModel]
-public class FontImageModel : FrameworkElementModel
+public class FontImageControlModel : FrameworkElementModel
 {
-    public FontImageModel(AutomationElementAccessor accessor) 
+    public FontImageControlModel(AutomationElementAccessor accessor) 
         : base(accessor)
     {
     }

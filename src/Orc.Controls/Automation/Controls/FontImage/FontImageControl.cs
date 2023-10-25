@@ -3,9 +3,9 @@
 using System.Windows.Automation;
 using Orc.Automation.Controls;
 
-public class FontImage : FrameworkElement<FontImageModel>
+public class FontImageControl : FrameworkElement<FontImageControlModel>
 {
-    public FontImage(AutomationElement element) 
+    public FontImageControl(AutomationElement element) 
         : base(element)
     {
     }
