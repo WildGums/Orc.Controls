@@ -32,9 +32,16 @@ public class DialogWindowHostedToolBaseTests
         var tool = new TestDialogWindowHostedTool(iuiVisualizerServiceMockObject);
 
         //Act
+        var isOpened = false;
         //Assert that BEFORE closing dialog tool is OPENED
-        tool.Opened += (_, _) => Assert.That(tool.IsOpened, Is.True);
-        EventAssert.Raised(tool, nameof(tool.Opened), async () => await tool.OpenAsync());
+        tool.Opened += (_, _) =>
+        {
+            isOpened = true;
+            Assert.That(tool.IsOpened, Is.True);
+        };
+
+        Assert.That(isOpened, Is.True);
+        //EventAssert.Raised(tool, nameof(tool.Opened), async () => await tool.OpenAsync());
 
         //Wait for dialog to be closed
         await Task.Delay(windowLifeTime + 100);
