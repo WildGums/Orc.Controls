@@ -6,7 +6,6 @@ using Catel.MVVM;
 using Catel.Services;
 using Moq;
 using NUnit.Framework;
-using Orc.Automation.Tests;
 
 [TestFixture]
 public class DialogWindowHostedToolBaseTests
@@ -18,21 +17,22 @@ public class DialogWindowHostedToolBaseTests
         //Prepare
         const int windowLifeTime = 500;
 
-        var iuiVisualizerServiceMock = new Mock<IUIVisualizerService>();
-        iuiVisualizerServiceMock.Setup(x => x.ShowContextAsync(It.IsAny<UIVisualizerContext>()))
+        var uiVisualizerServiceMock = new Mock<IUIVisualizerService>();
+        uiVisualizerServiceMock.Setup(x => x.ShowContextAsync(It.IsAny<UIVisualizerContext>()))
             .Callback<UIVisualizerContext>(x =>
             {
                 Thread.Sleep(windowLifeTime);
 
                 x.CompletedCallback?.Invoke(x, new UICompletedEventArgs(new UIVisualizerResult(true, x, null)));
             });
-        var iuiVisualizerServiceMockObject = iuiVisualizerServiceMock.Object;
+        var iuiVisualizerServiceMockObject = uiVisualizerServiceMock.Object;
 
         //Testing object
         var tool = new TestDialogWindowHostedTool(iuiVisualizerServiceMockObject);
 
         //Act
         var isOpened = false;
+
         //Assert that BEFORE closing dialog tool is OPENED
         tool.Opened += (_, _) =>
         {
@@ -40,8 +40,9 @@ public class DialogWindowHostedToolBaseTests
             Assert.That(tool.IsOpened, Is.True);
         };
 
+        await tool.OpenAsync();
+
         Assert.That(isOpened, Is.True);
-        //EventAssert.Raised(tool, nameof(tool.Opened), async () => await tool.OpenAsync());
 
         //Wait for dialog to be closed
         await Task.Delay(windowLifeTime + 100);
