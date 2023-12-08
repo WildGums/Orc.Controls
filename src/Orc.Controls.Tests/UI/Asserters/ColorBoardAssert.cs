@@ -2,7 +2,6 @@
 {
     using System.Linq;
     using System.Windows.Media;
-    using Catel;
     using NUnit.Framework;
     using Automation;
     using System;

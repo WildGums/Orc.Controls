@@ -6,12 +6,10 @@ using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 using System.Windows.Media;
 using Automation;
 using ControlzEx.Theming;
 using Enums;
-using Theming;
 using static ClockMath;
 public class TimePicker : ContentControl
 {

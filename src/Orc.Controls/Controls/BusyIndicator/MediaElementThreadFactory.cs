@@ -4,7 +4,6 @@ using System;
 using System.Threading;
 using System.Windows.Media;
 using System.Windows.Threading;
-using Catel;
 using Catel.Logging;
 
 /// <summary>

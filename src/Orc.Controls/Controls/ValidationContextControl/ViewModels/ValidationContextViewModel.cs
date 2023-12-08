@@ -8,7 +8,6 @@ using System.Linq;
 using System.Security;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Xml.Linq;
 using Catel.Data;
 using Catel.MVVM;
 using Catel.Services;

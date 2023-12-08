@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Catel;
 using Catel.Logging;
 
 public class CalloutManager : ICalloutManager

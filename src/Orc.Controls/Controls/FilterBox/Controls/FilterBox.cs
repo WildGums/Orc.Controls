@@ -2,12 +2,10 @@
 
 using System;
 using System.Collections;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using Automation;
 using Catel.Logging;
@@ -15,7 +13,7 @@ using Catel.MVVM;
 using Catel.Windows.Data;
 using Catel.Windows.Interactivity;
 using Theming;
-    
+
 [TemplatePart(Name = "PART_WatermarkHost", Type = typeof(ContentPresenter))]
 [TemplatePart(Name = "PART_ClearButton", Type = typeof(Button))]
 public class FilterBox : TextBox

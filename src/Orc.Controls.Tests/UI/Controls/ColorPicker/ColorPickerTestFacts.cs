@@ -4,7 +4,6 @@
     using System.Threading;
     using System.Windows;
     using System.Windows.Media;
-    using System.Xml.Linq;
     using Automation;
     using NUnit.Framework;
     using Orc.Automation;

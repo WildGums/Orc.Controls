@@ -1,7 +1,6 @@
 ﻿namespace Orc.Controls.Example.ViewModels
 {
     using System;
-    using Catel;
     using Catel.MVVM;
     using Catel.Services;
 

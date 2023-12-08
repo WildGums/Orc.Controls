@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using Automation;
-using Orc.Automation;
 
 public sealed partial class StepBarItem
 {

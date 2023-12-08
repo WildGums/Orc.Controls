@@ -1,7 +1,6 @@
 ﻿namespace Orc.Controls;
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Automation.Peers;

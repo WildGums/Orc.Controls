@@ -1,15 +1,9 @@
 ﻿namespace Orc.Controls.Example.ViewModels
 {
     using System;
-    using System.ComponentModel;
-    using System.Globalization;
     using System.Threading.Tasks;
     using Catel.Collections;
-    using Catel.Data;
     using Catel.MVVM;
-    using Catel.Threading;
-    using Models;
-    using System.Collections.ObjectModel;
 
     public class DateRangePickerViewModel : ViewModelBase
     {

@@ -3,10 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Catel;
     using Catel.Logging;
     using Catel.MVVM;
-    using Catel.Threading;
 
     public class LogViewerViewModel : ViewModelBase
     {

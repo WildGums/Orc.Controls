@@ -1,6 +1,5 @@
 ﻿namespace Orc.Controls.Example.Views
 {
-    using System.Threading;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Catel.Collections;
 using Catel.Logging;
 using Catel.Runtime.Serialization.Xml;
 using FileSystem;

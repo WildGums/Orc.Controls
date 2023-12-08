@@ -6,7 +6,6 @@
     using System.Threading.Tasks;
     using Catel.MVVM;
     using System.ComponentModel;
-    using Catel.Data;
     using Models;
 
     public class DateTimePickerViewModel : ViewModelBase

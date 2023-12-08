@@ -3,7 +3,6 @@
     using System;
     using System.Threading.Tasks;
     using System.Windows.Threading;
-    using Catel;
     using Catel.MVVM;
 
     public class CalloutViewModel : ViewModelBase

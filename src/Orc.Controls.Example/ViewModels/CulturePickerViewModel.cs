@@ -3,10 +3,8 @@
     using System;
     using System.Globalization;
     using System.Threading.Tasks;
-    using Catel;
     using Catel.MVVM;
     using Catel.Services;
-    using Catel.Threading;
 
     public class CulturePickerViewModel : ViewModelBase
     {

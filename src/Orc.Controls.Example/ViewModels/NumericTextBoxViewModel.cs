@@ -1,7 +1,6 @@
 ﻿namespace Orc.Controls.Example.ViewModels
 {
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Catel.Data;
     using Catel.Fody;
     using Catel.MVVM;
