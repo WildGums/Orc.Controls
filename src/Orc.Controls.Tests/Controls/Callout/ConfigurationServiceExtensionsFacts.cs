@@ -67,7 +67,7 @@
 
             var lastShown = await configurationServiceMock.Object.GetCalloutLastShownAsync(callout);
 
-            Assert.AreEqual(expectedDate, lastShown);
+            Assert.That(lastShown, Is.EqualTo(expectedDate));
 
             configurationServiceMock.Verify(x => x.GetValue(ConfigurationContainer.Roaming, expectedConfigurationKey, expectedDate));
         }

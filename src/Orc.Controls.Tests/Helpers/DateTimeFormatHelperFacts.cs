@@ -43,7 +43,7 @@
             };
 
             [Test]
-            [TestCaseSource("SplitTestCases")]
+            [TestCaseSource(nameof(SplitTestCases))]
             public void CorrectlySplitsDateToParts(string format, char[] formatCharacters, string[] expectedResult)
             {
                 var result = DateTimeFormatHelper.Split(format, formatCharacters);
@@ -214,7 +214,7 @@
             };
 
             [Test]
-            [TestCaseSource("GetDateTimeFormatInfoForDateFormatTestCases")]
+            [TestCaseSource(nameof(GetDateTimeFormatInfoForDateFormatTestCases))]
             public void ReturnsCorrectDateFormatInfoForDateFormat(string format, DateTimeFormatInfo expectedResult)
             {
                 var result = DateTimeFormatHelper.GetDateTimeFormatInfo(format, true);
@@ -267,7 +267,7 @@
             }
 
             [Test]
-            [TestCaseSource("GetDateTimeFormatInfoForDateTimeFormatTestCases")]
+            [TestCaseSource(nameof(GetDateTimeFormatInfoForDateTimeFormatTestCases))]
             public void ReturnsCorrectDateFormatInfoForDateTimeFormat(string format, DateTimeFormatInfo expectedResult)
             {
                 var result = DateTimeFormatHelper.GetDateTimeFormatInfo(format, false);

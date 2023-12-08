@@ -32,7 +32,7 @@
                         var resultItemMessage = resultItem.Message;
                         var foundContextResult = validationContextResults.FirstOrDefault(x => x.Message.Equals(resultItemMessage) && Equals(x.Tag, tag));
                         
-                        Assert.IsNotNull(foundContextResult);
+                        Assert.That(foundContextResult, Is.Not.Null);
                         
                         validationContextResults.Remove(foundContextResult);
                     }
@@ -41,7 +41,7 @@
 
             foreach (var validationResult in validationResults.Values)
             {
-                CollectionAssert.IsEmpty(validationResult);
+                Assert.That(validationResult, Is.Empty);
             }
         }
     }

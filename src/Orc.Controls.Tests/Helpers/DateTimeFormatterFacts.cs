@@ -239,7 +239,7 @@
             };
 
             [Test]
-            [TestCaseSource("FormatDateTestCases")]
+            [TestCaseSource(nameof(FormatDateTestCases))]
             public void CorrectlyFormatDate(DateTime dateTime, string format, string expectedResult)
             {
                 var result = DateTimeFormatter.Format(dateTime, format, true);
@@ -248,7 +248,7 @@
             }
 
             [Test]
-            [TestCaseSource("FormatDateTimeTestCases")]
+            [TestCaseSource(nameof(FormatDateTimeTestCases))]
             public void CorrectlyFormatDateTime(DateTime dateTime, string format, string expectedResult)
             {
                 var result = DateTimeFormatter.Format(dateTime, format, false);

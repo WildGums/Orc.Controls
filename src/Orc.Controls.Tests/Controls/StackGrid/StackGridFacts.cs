@@ -26,20 +26,20 @@
 
             stackGrid.SetColumnsAndRows();
 
-            Assert.AreEqual(0, Grid.GetRow(textBox1));
-            Assert.AreEqual(1, Grid.GetRowSpan(textBox1));
-            Assert.AreEqual(0, Grid.GetColumn(textBox1));
-            Assert.AreEqual(1, Grid.GetColumnSpan(textBox1));
+            Assert.That(Grid.GetRow(textBox1), Is.EqualTo(0));
+            Assert.That(Grid.GetRowSpan(textBox1), Is.EqualTo(1));
+            Assert.That(Grid.GetColumn(textBox1), Is.EqualTo(0));
+            Assert.That(Grid.GetColumnSpan(textBox1), Is.EqualTo(1));
 
-            Assert.AreEqual(1, Grid.GetRow(emptyRow));
-            Assert.AreEqual(1, Grid.GetRowSpan(emptyRow));
-            Assert.AreEqual(0, Grid.GetColumn(emptyRow));
-            Assert.AreEqual(1, Grid.GetColumnSpan(emptyRow));
+            Assert.That(Grid.GetRow(emptyRow), Is.EqualTo(1));
+            Assert.That(Grid.GetRowSpan(emptyRow), Is.EqualTo(1));
+            Assert.That(Grid.GetColumn(emptyRow), Is.EqualTo(0));
+            Assert.That(Grid.GetColumnSpan(emptyRow), Is.EqualTo(1));
 
-            Assert.AreEqual(2, Grid.GetRow(textBox2));
-            Assert.AreEqual(1, Grid.GetRowSpan(textBox2));
-            Assert.AreEqual(0, Grid.GetColumn(textBox2));
-            Assert.AreEqual(1, Grid.GetColumnSpan(textBox2));
+            Assert.That(Grid.GetRow(textBox2), Is.EqualTo(2));
+            Assert.That(Grid.GetRowSpan(textBox2), Is.EqualTo(1));
+            Assert.That(Grid.GetColumn(textBox2), Is.EqualTo(0));
+            Assert.That(Grid.GetColumnSpan(textBox2), Is.EqualTo(1));
         }
     }
 }

@@ -18,7 +18,7 @@
             var callTestMethod = numericTextBox.GetType().GetMethod("DoesStringValueRequireUpdate", BindingFlags.NonPublic | BindingFlags.Static);
             var actualUpdateFlag = (bool)callTestMethod.Invoke(numericTextBox, new object[] { text });
 
-            Assert.AreEqual(expectedUpdateFlag, actualUpdateFlag);
+            Assert.That(actualUpdateFlag, Is.EqualTo(expectedUpdateFlag));
         }
     }
 }

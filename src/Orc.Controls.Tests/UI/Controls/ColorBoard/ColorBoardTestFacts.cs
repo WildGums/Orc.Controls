@@ -178,8 +178,8 @@
 
                 Wait.UntilResponsive();
             }
-            
-            CollectionAssert.AreEqual(target.RecentColors.Select(x => x.Color), expectedColorList);
+
+            Assert.That(expectedColorList, Is.EqualTo(target.RecentColors.Select(x => x.Color)).AsCollection);
         }
 
         private class RecentColorsTestCases : IEnumerable

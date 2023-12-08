@@ -336,7 +336,7 @@
             };
 
             [Test]
-            [TestCaseSource("ParseDateTestCases")]
+            [TestCaseSource(nameof(ParseDateTestCases))]
             public void CorrectlyParseDate(string input, string format, DateTime expectedResult)
             {
                 var result = DateTimeParser.Parse(input, format, true);
@@ -345,7 +345,7 @@
             }
 
             [Test]
-            [TestCaseSource("ParseDateTimeTestCases")]
+            [TestCaseSource(nameof(ParseDateTimeTestCases))]
             public void CorrectlyParseDateTime(string input, string format, DateTime expectedResult)
             {
                 var result = DateTimeParser.Parse(input, format, false);

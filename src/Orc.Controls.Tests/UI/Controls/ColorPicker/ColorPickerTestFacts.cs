@@ -68,7 +68,7 @@
                 Thread.Sleep(10);
 
                 //...and color shouldn't be changing
-                Assert.AreEqual(previousCurrentColor, targetModel.CurrentColor);
+                Assert.That(targetModel.CurrentColor, Is.EqualTo(previousCurrentColor));
             }
         }
 
