@@ -1,19 +1,14 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ToolSettingsAttribute.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls.Tools.Attributes;
 
+using System;
 
-namespace Orc.Controls.Tools.Attributes
+[AttributeUsage(AttributeTargets.Property)]
+public class ToolSettingsAttribute : Attribute
 {
-    using System;
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class ToolSettingsAttribute : Attribute
+    public ToolSettingsAttribute()
     {
-        #region Properties
-        public string Storage { get; set; }
-        #endregion
+        Storage = string.Empty;
     }
+
+    public string Storage { get; set; }
 }

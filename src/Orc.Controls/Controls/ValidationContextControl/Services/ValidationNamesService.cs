@@ -1,123 +1,107 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationNamesService.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Catel;
+using Catel.Data;
+using Catel.Reflection;
+using Catel.Services;
 
-namespace Orc.Controls
+public class ValidationNamesService : IValidationNamesService
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Catel;
-    using Catel.Data;
-    using Catel.Reflection;
-    using Catel.Services;
+    private readonly IDictionary<string, List<IValidationResult>> _cache = new Dictionary<string, List<IValidationResult>>();
+    private readonly ILanguageService _languageService;
 
-    public class ValidationNamesService : IValidationNamesService
+    public ValidationNamesService(ILanguageService languageService)
     {
-        #region Fields
-        private readonly IDictionary<string, List<IValidationResult>> _cache = new Dictionary<string, List<IValidationResult>>();
-        private readonly ILanguageService _languageService;
-        #endregion
+        ArgumentNullException.ThrowIfNull(languageService);
 
-        #region Constructors
-        public ValidationNamesService(ILanguageService languageService)
+        _languageService = languageService;
+    }
+
+    public virtual string GetDisplayName(IValidationResult validationResult)
+    {
+        var tagData = ExtractTagData(validationResult);
+
+        var line = tagData.Line;
+        var columnName = tagData.ColumnName;
+        var columnIndex = tagData.ColumnIndex;
+
+        var messagePrefix = string.Empty;
+
+        var hasLine = line.HasValue;
+        var hasColumnIndex = columnIndex.HasValue;
+        var hasColumnName = !string.IsNullOrWhiteSpace(columnName);
+
+        if (hasLine)
         {
-            Argument.IsNotNull(() => languageService);
-
-            _languageService = languageService;
-        }
-        #endregion
-
-        #region IValidationNamesService Members
-        public virtual string GetDisplayName(IValidationResult validationResult)
-        {
-            var tagData = ExtractTagData(validationResult);
-
-            var line = tagData.Line;
-            var columnName = tagData.ColumnName;
-            var columnIndex = tagData.ColumnIndex;
-
-            var messagePrefix = string.Empty;
-
-            var hasLine = line.HasValue;
-            var hasColumnIndex = columnIndex.HasValue;
-            var hasColumnName = !string.IsNullOrWhiteSpace(columnName);
-
-            if (hasLine)
-            {
-                messagePrefix += $"Row {line}";
-            }
-
-            if (hasLine && (hasColumnIndex || hasColumnName))
-            {
-                messagePrefix += ", Column ";
-            }
-
-            if (hasColumnName)
-            {
-                messagePrefix += $"'{columnName}' ";
-            }
-
-            if (hasColumnIndex)
-            {
-                messagePrefix += $"({columnIndex}) ";
-            }
-
-            return !string.IsNullOrWhiteSpace(messagePrefix)
-                ? $"{messagePrefix} : {validationResult.Message}"
-                : validationResult.Message;
+            messagePrefix += $"Row {line}";
         }
 
-        public void Clear()
+        if (hasLine && (hasColumnIndex || hasColumnName))
         {
-            _cache.Clear();
+            messagePrefix += ", Column ";
         }
 
-        public string GetTagName(IValidationResult validationResult)
+        if (hasColumnName)
         {
-            var tagName = ExtractTagName(validationResult);
-
-            if (!_cache.TryGetValue(tagName, out var results))
-            {
-                results = new List<IValidationResult>();
-                _cache.Add(tagName, results);
-            }
-
-            var exists = (from result in results
-                          where result.Message.EqualsIgnoreCase(validationResult.Message) &&
-                                result.ValidationResultType == validationResult.ValidationResultType &&
-                                ObjectHelper.AreEqual(result.Tag, validationResult.Tag)
-                          select result).Any();
-            if (!exists)
-            {
-                results.Add(validationResult);
-            }
-
-            return tagName;
+            messagePrefix += $"'{columnName}' ";
         }
 
-        public int? GetLineNumber(IValidationResult validationResult)
+        if (hasColumnIndex)
         {
-            return ExtractTagData(validationResult).Line;
+            messagePrefix += $"({columnIndex}) ";
         }
 
-        public virtual IEnumerable<IValidationResult> GetCachedResultsByTagName(string tagName)
+        return !string.IsNullOrWhiteSpace(messagePrefix)
+            ? $"{messagePrefix} : {validationResult.Message}"
+            : validationResult.Message;
+    }
+
+    public void Clear()
+    {
+        _cache.Clear();
+    }
+
+    public string GetTagName(IValidationResult validationResult)
+    {
+        var tagName = ExtractTagName(validationResult);
+
+        if (!_cache.TryGetValue(tagName, out var results))
         {
-            return !_cache.TryGetValue(tagName, out var results) ? Enumerable.Empty<IValidationResult>() : results.AsEnumerable();
+            results = new List<IValidationResult>();
+            _cache.Add(tagName, results);
         }
-        #endregion
 
-        #region Methods
-        protected virtual string ExtractTagName(IValidationResult validationResult)
+        var exists = (from result in results
+            where result.Message.EqualsIgnoreCase(validationResult.Message) &&
+                  result.ValidationResultType == validationResult.ValidationResultType &&
+                  ObjectHelper.AreEqual(result.Tag, validationResult.Tag)
+            select result).Any();
+        if (!exists)
         {
-            var tag = validationResult.Tag;
-            if (ReferenceEquals(tag, null))
-            {
-                return _languageService.GetString("Controls_ValidationContextControl_Misc");
-            }
+            results.Add(validationResult);
+        }
 
+        return tagName;
+    }
+
+    public int? GetLineNumber(IValidationResult validationResult)
+    {
+        return ExtractTagData(validationResult).Line;
+    }
+
+    public virtual IEnumerable<IValidationResult> GetCachedResultsByTagName(string tagName)
+    {
+        return !_cache.TryGetValue(tagName, out var results) ? Enumerable.Empty<IValidationResult>() : results.AsEnumerable();
+    }
+
+    protected virtual string ExtractTagName(IValidationResult validationResult)
+    {
+        var tag = validationResult.Tag;
+        if (tag is not null)
+        {
             var stringValue = tag as string;
             if (!string.IsNullOrWhiteSpace(stringValue))
             {
@@ -128,56 +112,61 @@ namespace Orc.Controls
             var nameProperty = type.GetPropertyEx("Name");
             if (nameProperty is not null)
             {
-                return (string)nameProperty.GetValue(tag, new object[0]);
+                var nameValue = (string?)nameProperty.GetValue(tag, Array.Empty<object>());
+                if (nameValue is not null)
+                {
+                    return nameValue;
+                }
             }
 
-            return tag.ToString();
+            var tagString = tag.ToString();
+            if (tagString is not null)
+            {
+                return tagString;
+            }
         }
 
-        protected virtual int? ExtractTagLine(IValidationResult validationResult)
+        return _languageService.GetRequiredString("Controls_ValidationContextControl_Misc");
+    }
+
+    protected virtual int? ExtractTagLine(IValidationResult validationResult)
+    {
+        return ExtractTagData(validationResult).Line;
+    }
+
+    protected virtual TagDetails ExtractTagData(IValidationResult validationResult)
+    {
+        var tag = validationResult.Tag;
+        var tagDetails = new TagDetails();
+
+        if (tag is null)
         {
-            return ExtractTagData(validationResult).Line;
-        }
-
-        protected virtual TagDetails ExtractTagData(IValidationResult validationResult)
-        {
-            var tag = validationResult.Tag;
-            var tagDetails = new TagDetails();
-
-            if (ReferenceEquals(tag, null))
-            {
-                return tagDetails;
-            }
-
-            if (tag is string)
-            {
-                return tagDetails;
-            }
-
-            var type = tag.GetType();
-
-            var lineProperty = type.GetPropertyEx("Line");
-            tagDetails.Line = lineProperty?.GetValue(tag, new object[0]) as int?;
-
-            var columnNameProperty = type.GetPropertyEx("ColumnName");
-            tagDetails.ColumnName = columnNameProperty?.GetValue(tag, new object[0]) as string;
-
-            var columnIndexProperty = type.GetPropertyEx("ColumnIndex");
-            tagDetails.ColumnIndex = columnIndexProperty?.GetValue(tag, new object[0]) as int?;
-
             return tagDetails;
         }
-        #endregion
 
-        #region Nested type: TagDetails
-        protected class TagDetails
+        if (tag is string)
         {
-            #region Properties
-            public int? Line { get; set; }
-            public string ColumnName { get; set; } = string.Empty;
-            public int? ColumnIndex { get; set; }
-            #endregion
+            return tagDetails;
         }
-        #endregion
+
+        var type = tag.GetType();
+
+        var lineProperty = type.GetPropertyEx("Line");
+        tagDetails.Line = lineProperty?.GetValue(tag, Array.Empty<object>()) as int?;
+
+        var columnNameProperty = type.GetPropertyEx("ColumnName");
+        tagDetails.ColumnName = columnNameProperty?.GetValue(tag, Array.Empty<object>()) as string ?? string.Empty;
+
+        var columnIndexProperty = type.GetPropertyEx("ColumnIndex");
+        tagDetails.ColumnIndex = columnIndexProperty?.GetValue(tag, Array.Empty<object>()) as int?;
+
+        return tagDetails;
+    }
+
+    protected class TagDetails
+    {
+        public int? Line { get; set; }
+        public string ColumnName { get; set; } = string.Empty;
+        public int? ColumnIndex { get; set; }
     }
 }

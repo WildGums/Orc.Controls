@@ -1,17 +1,8 @@
-﻿
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TimePicker.cs" company="">
-// Clock-like TimePicker control https://github.com/roy-t/TimePicker
-// </copyright>
-//---------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Example.ViewModels
+﻿namespace Orc.Controls.Example.ViewModels
 {
     using System;
     using System.ComponentModel;
     using System.Threading.Tasks;
-    using Catel.Data;
     using Catel.MVVM;
     using Enums;
 
@@ -50,7 +41,7 @@ namespace Orc.Controls.Example.ViewModels
         {
             await base.InitializeAsync();
         }
-        protected override void OnPropertyChanged(AdvancedPropertyChangedEventArgs e)
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
 

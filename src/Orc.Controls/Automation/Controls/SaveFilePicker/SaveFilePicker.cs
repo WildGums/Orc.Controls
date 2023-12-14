@@ -1,17 +1,16 @@
-﻿namespace Orc.Controls.Automation
+﻿namespace Orc.Controls.Automation;
+
+using System.Windows.Automation;
+using Orc.Automation;
+using Orc.Automation.Controls;
+
+[AutomatedControl(Class = typeof(Controls.SaveFilePicker))]
+public class SaveFilePicker : FrameworkElement<SaveFilePickerModel, SaveFilePickerMap>
 {
-    using System.Windows.Automation;
-    using Orc.Automation;
-    using Orc.Automation.Controls;
+    //private AutomationElement _saveDialog;
 
-    [AutomatedControl(Class = typeof(Controls.SaveFilePicker))]
-    public class SaveFilePicker : FrameworkElement<SaveFilePickerModel, SaveFilePickerMap>
+    public SaveFilePicker(AutomationElement element)
+        : base(element)
     {
-        //private AutomationElement _saveDialog;
-
-        public SaveFilePicker(AutomationElement element)
-            : base(element)
-        {
-        }
     }
 }

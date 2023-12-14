@@ -1,51 +1,37 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TimeAdjustmentConverter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System;
+using Catel.IoC;
+using Catel.MVVM.Converters;
 
-namespace Orc.Controls
+public class TimeAdjustmentConverter : ValueConverterBase
 {
-    using System;
-    using Catel.IoC;
-    using Catel.MVVM.Converters;
+    private readonly ITimeAdjustmentProvider _timeAdjustmentProvider;
 
-    public class TimeAdjustmentConverter : ValueConverterBase
+    public TimeAdjustmentConverter()
     {
-        #region Fields
-        private readonly ITimeAdjustmentProvider _timeAdjustmentProvider;
-        #endregion
-
-        #region Constructors
-        public TimeAdjustmentConverter()
-        {
 #pragma warning disable IDISP004 // Don't ignore created IDisposable.
-            _timeAdjustmentProvider = this.GetServiceLocator().ResolveType<ITimeAdjustmentProvider>();
+        _timeAdjustmentProvider = this.GetServiceLocator().ResolveRequiredType<ITimeAdjustmentProvider>();
 #pragma warning restore IDISP004 // Don't ignore created IDisposable.
-        }
-        #endregion
+    }
 
-        #region Methods
-        protected override object Convert(object value, Type targetType, object parameter)
+    protected override object? Convert(object? value, Type targetType, object? parameter)
+    {
+        if (value is TimeAdjustmentStrategy strategy)
         {
-            if (value is TimeAdjustmentStrategy strategy)
-            {
-                return _timeAdjustmentProvider.GetTimeAdjustment(strategy);
-            }
-
-            return value;
+            return _timeAdjustmentProvider.GetTimeAdjustment(strategy);
         }
 
-        protected override object ConvertBack(object value, Type targetType, object parameter)
+        return value;
+    }
+
+    protected override object? ConvertBack(object? value, Type targetType, object? parameter)
+    {
+        if (value is TimeAdjustment timeAdjustment)
         {
-            if (value is TimeAdjustment timeAdjustment)
-            {
-                return timeAdjustment.Strategy;
-            }
-
-            return base.ConvertBack(value, targetType, parameter);
+            return timeAdjustment.Strategy;
         }
-        #endregion
+
+        return base.ConvertBack(value, targetType, parameter);
     }
 }

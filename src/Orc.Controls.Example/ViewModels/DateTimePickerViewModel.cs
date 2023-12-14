@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DateTimePickerViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Example.ViewModels
+﻿namespace Orc.Controls.Example.ViewModels
 {
     using System;
     using Catel.Collections;
@@ -13,7 +6,6 @@ namespace Orc.Controls.Example.ViewModels
     using System.Threading.Tasks;
     using Catel.MVVM;
     using System.ComponentModel;
-    using Catel.Data;
     using Models;
 
     public class DateTimePickerViewModel : ViewModelBase
@@ -82,7 +74,7 @@ namespace Orc.Controls.Example.ViewModels
             DateTimeValue = null;
         }
 
-        protected override void OnPropertyChanged(AdvancedPropertyChangedEventArgs e)
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
 

@@ -1,12 +1,11 @@
-﻿namespace Orc.Controls.Automation
-{
-    using Orc.Automation;
+﻿namespace Orc.Controls.Automation;
 
-    public class AnimatingTextBlockAutomationPeer : AutomationControlPeerBase<Controls.AnimatingTextBlock>
+using Orc.Automation;
+
+public class AnimatingTextBlockAutomationPeer : AutomationControlPeerBase<Controls.AnimatingTextBlock>
+{
+    public AnimatingTextBlockAutomationPeer(Controls.AnimatingTextBlock owner) 
+        : base(owner)
     {
-        public AnimatingTextBlockAutomationPeer(Controls.AnimatingTextBlock owner) 
-            : base(owner)
-        {
-        }
     }
 }

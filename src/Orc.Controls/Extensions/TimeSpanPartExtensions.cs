@@ -1,79 +1,42 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TimeSpanPartExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System;
 
-namespace Orc.Controls
+public static class TimeSpanPartExtensions
 {
-    using System;
-
-    public static class TimeSpanPartExtensions
+    public static TimeSpan CreateTimeSpan(this TimeSpanPart timeSpanPart, double value)
     {
-        #region Methods
-        public static TimeSpan CreateTimeSpan(this TimeSpanPart timeSpanPart, double value)
+        return timeSpanPart switch
         {
-            switch (timeSpanPart)
-            {
-                case TimeSpanPart.Days:
-                    return TimeSpan.FromDays(value);
+            TimeSpanPart.Days => TimeSpan.FromDays(value),
+            TimeSpanPart.Hours => TimeSpan.FromHours(value),
+            TimeSpanPart.Minutes => TimeSpan.FromMinutes(value),
+            TimeSpanPart.Seconds => TimeSpan.FromSeconds(value),
+            _ => throw new InvalidOperationException()
+        };
+    }
 
-                case TimeSpanPart.Hours:
-                    return TimeSpan.FromHours(value);
-
-                case TimeSpanPart.Minutes:
-                    return TimeSpan.FromMinutes(value);
-
-                case TimeSpanPart.Seconds:
-                    return TimeSpan.FromSeconds(value);
-
-                default:
-                    throw new InvalidOperationException();
-            }
-        }
-
-        public static double GetTimeSpanPartValue(this TimeSpan value, TimeSpanPart timeSpanPart)
+    public static double GetTimeSpanPartValue(this TimeSpan value, TimeSpanPart timeSpanPart)
+    {
+        return timeSpanPart switch
         {
-            switch (timeSpanPart)
-            {
-                case TimeSpanPart.Days:
-                    return value.TotalDays;
+            TimeSpanPart.Days => value.TotalDays,
+            TimeSpanPart.Hours => value.TotalHours,
+            TimeSpanPart.Minutes => value.TotalMinutes,
+            TimeSpanPart.Seconds => value.TotalSeconds,
+            _ => throw new InvalidOperationException()
+        };
+    }
 
-                case TimeSpanPart.Hours:
-                    return value.TotalHours;
-
-                case TimeSpanPart.Minutes:
-                    return value.TotalMinutes;
-
-                case TimeSpanPart.Seconds:
-                    return value.TotalSeconds;
-
-                default:
-                    throw new InvalidOperationException();
-            }
-        }
-
-        public static string GetTimeSpanPartName(this TimeSpanPart timeSpanPart)
+    public static string GetTimeSpanPartName(this TimeSpanPart timeSpanPart)
+    {
+        return timeSpanPart switch
         {
-            switch (timeSpanPart)
-            {
-                case TimeSpanPart.Days:
-                    return "days";
-
-                case TimeSpanPart.Hours:
-                    return "hours";
-
-                case TimeSpanPart.Minutes:
-                    return "minutes";
-
-                case TimeSpanPart.Seconds:
-                    return "seconds";
-
-                default:
-                    throw new InvalidOperationException();
-            }
-        }
-        #endregion
+            TimeSpanPart.Days => "days",
+            TimeSpanPart.Hours => "hours",
+            TimeSpanPart.Minutes => "minutes",
+            TimeSpanPart.Seconds => "seconds",
+            _ => throw new InvalidOperationException()
+        };
     }
 }

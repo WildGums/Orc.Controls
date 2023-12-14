@@ -1,56 +1,52 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Windows.Media;
+using Catel.Logging;
+using Catel.Runtime.Serialization;
+
+public class ColorLegendItemSerializerModifier : SerializerModifierBase<ColorLegendItem>
 {
-    using System;
-    using System.Windows.Media;
-    using Catel.Logging;
-    using Catel.Runtime.Serialization;
+    private const char ArgbSeparator = ';';
 
-    public class ColorLegendItemSerializerModifier : SerializerModifierBase<ColorLegendItem>
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
+    public override void SerializeMember(ISerializationContext context, MemberValue memberValue)
     {
-        #region Constants
-        private const char ArgbSeparator = ';';
-        #endregion
-
-        #region Fields
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-        #endregion
-
-        #region Methods
-        public override void SerializeMember(ISerializationContext context, MemberValue memberValue)
+        if (string.Equals(nameof(ColorLegendItem.Color), memberValue.Name))
         {
-            if (string.Equals(nameof(ColorLegendItem.Color), memberValue.Name))
+            var color = (Color?)memberValue.Value;
+            if (color is not null)
             {
-                var color = (Color)memberValue.Value;
-                memberValue.Value = $"{color.A}{ArgbSeparator}{color.R}{ArgbSeparator}{color.G}{ArgbSeparator}{color.B}";
+                memberValue.Value = $"{color.Value.A}{ArgbSeparator}{color.Value.R}{ArgbSeparator}{color.Value.G}{ArgbSeparator}{color.Value.B}";
             }
-
-            base.SerializeMember(context, memberValue);
         }
 
-        public override void DeserializeMember(ISerializationContext context, MemberValue memberValue)
+        base.SerializeMember(context, memberValue);
+    }
+
+    public override void DeserializeMember(ISerializationContext context, MemberValue memberValue)
+    {
+        if (string.Equals(nameof(ColorLegendItem.Color), memberValue.Name))
         {
-            if (string.Equals(nameof(ColorLegendItem.Color), memberValue.Name))
+            var color = memberValue.Value as string;
+
+            try
             {
-                var color = memberValue.Value as string;
-
-                try
+                if (!string.IsNullOrEmpty(color))
                 {
-                    if (!string.IsNullOrEmpty(color))
-                    {
-                        var colorParts = color.Split(ArgbSeparator);
+                    var colorParts = color.Split(ArgbSeparator);
 
-                        memberValue.Value = Color.FromArgb(Convert.ToByte(colorParts[0]), Convert.ToByte(colorParts[1]),
-                            Convert.ToByte(colorParts[2]), Convert.ToByte(colorParts[3]));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex, "Cannot modify '{0}' to a color", color);
+                    memberValue.Value = Color.FromArgb(Convert.ToByte(colorParts[0]), Convert.ToByte(colorParts[1]),
+                        Convert.ToByte(colorParts[2]), Convert.ToByte(colorParts[3]));
                 }
             }
-
-            base.DeserializeMember(context, memberValue);
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Cannot modify '{0}' to a color", color);
+            }
         }
-        #endregion
+
+        base.DeserializeMember(context, memberValue);
     }
 }

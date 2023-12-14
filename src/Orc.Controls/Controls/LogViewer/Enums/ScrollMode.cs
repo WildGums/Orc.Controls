@@ -1,9 +1,8 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+public enum ScrollMode
 {
-    public enum ScrollMode
-    {
-        OnlyManual,
-        AutoScrollPriority,
-        ManualScrollPriority
-    }
+    OnlyManual = 0,
+    AutoScrollPriority = 1,
+    ManualScrollPriority = 2
 }

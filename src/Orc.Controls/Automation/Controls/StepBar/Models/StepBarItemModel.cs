@@ -1,16 +1,17 @@
-﻿namespace Orc.Controls.Automation
+﻿#nullable disable
+namespace Orc.Controls.Automation;
+
+using System.Windows.Controls;
+using Orc.Automation;
+
+[ActiveAutomationModel]
+public class StepBarItemModel : FrameworkElementModel
 {
-    using System.Windows.Controls;
-    using Orc.Automation;
-
-    [ActiveAutomationModel]
-    public class StepBarItemModel : FrameworkElementModel
+    public StepBarItemModel(AutomationElementAccessor accessor)
+        : base(accessor)
     {
-        public StepBarItemModel(AutomationElementAccessor accessor)
-            : base(accessor)
-        {
-        }
-
-        public Orientation Orientation { get; set; }
     }
+
+    public Orientation Orientation { get; set; }
 }
+#nullable enable

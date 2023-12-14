@@ -1,16 +1,10 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="App.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Example
+﻿namespace Orc.Controls.Example
 {
     using System;
     using System.Globalization;
     using System.Windows;
     using System.Windows.Media;
+    using Catel.Configuration;
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Services;
@@ -19,7 +13,7 @@ namespace Orc.Controls.Example
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
@@ -28,9 +22,9 @@ namespace Orc.Controls.Example
             //LogManager.AddDebugListener(false);
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
-            var languageService = ServiceLocator.Default.ResolveType<ILanguageService>();
+            var languageService = ServiceLocator.Default.ResolveRequiredType<ILanguageService>();
 
             // Note: it's best to use .CurrentUICulture in actual apps since it will use the preferred language
             // of the user. But in order to demo multilingual features for devs (who mostly have en-US as .CurrentUICulture),
@@ -41,8 +35,11 @@ namespace Orc.Controls.Example
             // Some test logging, but important to load the assembly first
             var externalTypeToForceAssemblyLoad = typeof(LogViewerLogListener);
 
-            Orc.Theming.FontImage.RegisterFont("FontAwesome", new FontFamily(new Uri("pack://application:,,,/Orc.Controls.Example;component/Resources/Fonts/", UriKind.RelativeOrAbsolute), "./#FontAwesome"));
-            Orc.Theming.FontImage.DefaultFontFamily = "FontAwesome";
+            FontImage.RegisterFont("FontAwesome", new FontFamily(new Uri("pack://application:,,,/Orc.Controls.Example;component/Resources/Fonts/", UriKind.RelativeOrAbsolute), "./#FontAwesome"));
+            FontImage.DefaultFontFamily = "FontAwesome";
+
+            var configurationService = ServiceLocator.Default.ResolveRequiredType<IConfigurationService>();
+            await configurationService.LoadAsync();
 
             StyleHelper.CreateStyleForwardersForDefaultStyles();
 

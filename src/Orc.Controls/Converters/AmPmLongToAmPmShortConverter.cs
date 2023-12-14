@@ -1,67 +1,39 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AmPmLongToAmPmShortConverter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls.Converters;
 
+using System;
+using Catel.MVVM.Converters;
 
-namespace Orc.Controls.Converters
+internal class AmPmLongToAmPmShortConverter : ValueConverterBase
 {
-    using System;
-    using Catel.MVVM.Converters;
+    public bool IsEnabled { get; set; }
 
-    internal class AmPmLongToAmPmShortConverter : ValueConverterBase
+    protected override object? Convert(object? value, Type targetType, object? parameter)
     {
-        #region Constructors
-        public AmPmLongToAmPmShortConverter()
+        if (!IsEnabled || value is null)
         {
-        }
-        #endregion
-
-        #region Properties
-        public bool IsEnabled { get; set; }
-        #endregion
-
-        #region Methods
-        protected override object Convert(object value, Type targetType, object parameter)
-        {
-            if (!IsEnabled || value is null)
-            {
-                return value;
-            }
-
-            switch (value)
-            {
-                case Meridiems.LongAM:
-                    return Meridiems.ShortAM;
-
-                case Meridiems.LongPM:
-                    return Meridiems.ShortPM;
-
-                default:
-                    return value;
-            }
+            return value;
         }
 
-        protected override object ConvertBack(object value, Type targetType, object parameter)
+        return value switch
         {
-            if (!IsEnabled || value is null)
-            {
-                return value;
-            }
+            Meridiems.LongAM => Meridiems.ShortAM,
+            Meridiems.LongPM => Meridiems.ShortPM,
+            _ => value
+        };
+    }
 
-            switch (value)
-            {
-                case Meridiems.ShortAM:
-                    return Meridiems.LongAM;
-
-                case Meridiems.ShortPM:
-                    return Meridiems.LongPM;
-
-                default:
-                    return value;
-            }
+    protected override object? ConvertBack(object? value, Type targetType, object? parameter)
+    {
+        if (!IsEnabled || value is null)
+        {
+            return value;
         }
-        #endregion
+
+        return value switch
+        {
+            Meridiems.ShortAM => Meridiems.LongAM,
+            Meridiems.ShortPM => Meridiems.LongPM,
+            _ => value
+        };
     }
 }

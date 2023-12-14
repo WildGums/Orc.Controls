@@ -1,178 +1,200 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationContextViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Linq;
+using System.Security;
+using System.Threading.Tasks;
+using System.Windows;
+using Catel.Data;
+using Catel.MVVM;
+using Catel.Services;
+using FileSystem;
 
-namespace Orc.Controls
+public class ValidationContextViewModel : ViewModelBase
 {
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Security;
-    using System.Threading.Tasks;
-    using System.Windows;
-    using Catel;
-    using Catel.Data;
-    using Catel.MVVM;
-    using Catel.Services;
+    private readonly IDispatcherService _dispatcherService;
+    private readonly IFileService _fileService;
+    private readonly IProcessService _processService;
+    private readonly IValidationContext? _injectedValidationContext;
 
-    public class ValidationContextViewModel : ViewModelBase
+    public ValidationContextViewModel(IProcessService processService, IDispatcherService dispatcherService,
+        IFileService fileService)
     {
-        #region Fields
-        private readonly IDispatcherService _dispatcherService;
-        private readonly IValidationContext _injectedValidationContext;
-        private readonly IProcessService _processService;
-        #endregion
+        ArgumentNullException.ThrowIfNull(processService);
+        ArgumentNullException.ThrowIfNull(dispatcherService);
+        ArgumentNullException.ThrowIfNull(fileService);
 
-        #region Constructors
-        public ValidationContextViewModel(IProcessService processService)
+        _processService = processService;
+        _dispatcherService = dispatcherService;
+        _fileService = fileService;
+
+        ExpandAll = new Command(OnExpandAllExecute);
+        CollapseAll = new Command(OnCollapseAllExecute);
+        Copy = new Command(OnCopyExecute, OnCopyCanExecute);
+        Open = new Command(OnOpenExecute);
+
+        InvalidateCommandsOnPropertyChanged = true;
+    }
+
+    public ValidationContextViewModel(ValidationContext validationContext, IProcessService processService, 
+        IDispatcherService dispatcherService, IFileService fileService)
+        : this(processService, dispatcherService, fileService)
+    {
+        _injectedValidationContext = validationContext;
+    }
+
+    public bool IsExpandedAllOnStartup { get; set; }
+    public bool ShowErrors { get; set; } = true;
+    public bool ShowWarnings { get; set; } = true; 
+    public bool ShowFilterBox { get; set; }
+    public bool IsExpanded { get; private set; }
+    public bool IsCollapsed => !IsExpanded;
+    public int ErrorsCount { get; private set; }
+    public int WarningsCount { get; private set; }
+    public string? Filter { get; set; }
+    public IValidationContext? ValidationContext { get; set; }
+    public List<IValidationResult>? ValidationResults { get; private set; }
+    public IEnumerable<IValidationContextTreeNode>? Nodes { get; set; } = Enumerable.Empty<IValidationContextTreeNode>();
+    
+    public Command ExpandAll { get; }
+    public Command CollapseAll { get; }
+    public Command Copy { get; }
+    public Command Open { get; }
+
+    private void OnExpandAllExecute()
+    {
+        IsExpanded = true;
+    }
+
+    private void OnCollapseAllExecute()
+    {
+        IsExpanded = false;
+    }
+
+    private bool OnCopyCanExecute()
+    {
+        return Nodes?.Any(x => x.IsVisible) == true;
+    }
+
+    private void OnCopyExecute()
+    {
+        var nodes = Nodes;
+        if (nodes is null)
         {
-            Argument.IsNotNull(() => processService);
-
-            _processService = processService;
-
-            ExpandAll = new Command(OnExpandAllExecute);
-            CollapseAll = new Command(OnCollapseAllExecute);
-            Copy = new Command(OnCopyExecute, OnCopyCanExecute);
-            Open = new Command(OnOpenExecute);
-
-            InvalidateCommandsOnPropertyChanged = true;
+            return;
         }
 
-        public ValidationContextViewModel(ValidationContext validationContext, IProcessService processService, IDispatcherService dispatcherService)
-            : this(processService)
-        {
-            Argument.IsNotNull(() => dispatcherService);
+        var text = nodes.ToText();
 
-            _injectedValidationContext = validationContext;
-            _dispatcherService = dispatcherService;
+        Clipboard.SetText(text);
+    }
+
+    private void OnOpenExecute()
+    {
+        string path;
+
+        try
+        {
+            path = Path.GetTempPath();
         }
-        #endregion
-
-        #region Properties
-        public bool IsExpandedAllOnStartup { get; set; }
-        public IValidationContext ValidationContext { get; set; }
-        public bool ShowErrors { get; set; } = true;
-        public bool ShowWarnings { get; set; } = true;
-        public int ErrorsCount { get; private set; }
-        public int WarningsCount { get; private set; }
-        public List<IValidationResult> ValidationResults { get; private set; }
-        public bool ShowFilterBox { get; set; }
-        public string Filter { get; set; }
-        public IEnumerable<IValidationContextTreeNode> Nodes { get; set; }
-
-        public bool IsExpanded { get; private set; }
-        public bool IsCollapsed => !IsExpanded;
-
-        public Command ExpandAll { get; }
-        public Command CollapseAll { get; }
-        public Command Copy { get; }
-        public Command Open { get; }
-        #endregion
-
-        #region Methods
-        private void OnExpandAllExecute()
+        catch (SecurityException)
         {
-            IsExpanded = true;
+            return;
         }
 
-        private void OnCollapseAllExecute()
+        if (!TryCreateValidationContextFile(path, out var filePath))
         {
-            IsExpanded = false;
+            return;
         }
 
-        private bool OnCopyCanExecute()
+        _processService.StartProcess(new ProcessContext
         {
-            return Nodes is not null && Nodes.Any(x => x.IsVisible);
+            FileName = filePath,
+            UseShellExecute = true
+        });
+    }
+
+    private void OnNodesChanged()
+    {
+        UpdateNodesExpandedState();
+    }
+
+    private void OnIsExpandedAllOnStartupChanged()
+    {
+        IsExpanded = IsExpandedAllOnStartup;
+    }
+
+    private void OnIsExpandedChanged()
+    {
+        UpdateNodesExpandedState();
+    }
+
+    private void UpdateNodesExpandedState()
+    {
+        var nodes = Nodes;
+        if (nodes is null)
+        {
+            return;
         }
 
-        private void OnCopyExecute()
+        if (!nodes.Any())
         {
-            var text = Nodes.ToText();
-
-            Clipboard.SetText(text);
+            return;
         }
 
-        private void OnOpenExecute()
+        if (IsExpanded)
         {
-            var path = string.Empty;
+            nodes.ExpandAll();
+        }
+        else
+        {
+            nodes.CollapseAll();
+        }
+    }
 
-            try
-            {
-                path = Path.GetTempPath();
-            }
-            catch (SecurityException)
-            {
-                return;
-            }
+    private bool TryCreateValidationContextFile(string path, [NotNullWhen(true)] out string? filePath)
+    {
+        filePath = null;
 
-            var filePath = CreateValidationContextFile(path);
-            _processService.StartProcess(new ProcessContext
-            {
-                FileName = filePath,
-                UseShellExecute = true
-            });
+        var nodes = Nodes;
+        if (nodes is null)
+        {
+            return false;
         }
 
-        private void OnNodesChanged()
+        filePath = Path.Combine(path, "ValidationContext.txt");
+        _fileService.WriteAllText(filePath, nodes.ToText());
+        return true;
+    }
+
+    private void OnValidationContextChanged()
+    {
+        var validationContext = ValidationContext;
+
+        if (validationContext is null)
         {
-            UpdateNodesExpandedingState();
+            ErrorsCount = 0;
+            WarningsCount = 0;
+            ValidationResults = new List<IValidationResult>();
+
+            return;
         }
 
-        private void OnIsExpandedAllOnStartupChanged()
+        ErrorsCount = validationContext.GetErrorCount();
+        WarningsCount = validationContext.GetWarningCount();
+        ValidationResults = validationContext.GetValidations();
+    }
+
+    protected override async Task InitializeAsync()
+    {
+        await base.InitializeAsync();
+
+        if (_injectedValidationContext is not null)
         {
-            IsExpanded = IsExpandedAllOnStartup;
+            _dispatcherService.BeginInvoke(() => ValidationContext = _injectedValidationContext);
         }
-
-        private void OnIsExpandedChanged()
-        {
-            UpdateNodesExpandedingState();
-        }
-
-        private void UpdateNodesExpandedingState()
-        {
-            if (Nodes is null)
-            {
-                return;
-            }
-
-            if (IsExpanded)
-            {
-                Nodes.ExpandAll();
-            }
-            else
-            {
-                Nodes.CollapseAll();
-            }
-        }
-
-        private string CreateValidationContextFile(string path)
-        {
-            var filePath = Path.Combine(path, "ValidationContext.txt");
-            File.WriteAllText(filePath, Nodes.ToText());
-            return filePath;
-        }
-
-        private void OnValidationContextChanged()
-        {
-            var validationContext = ValidationContext;
-            ErrorsCount = validationContext.GetErrorCount();
-            WarningsCount = validationContext.GetWarningCount();
-
-            ValidationResults = validationContext.GetValidations();
-        }
-
-        protected override async Task InitializeAsync()
-        {
-            await base.InitializeAsync();
-
-            if (_injectedValidationContext is not null)
-            {
-                _dispatcherService.BeginInvoke(() => ValidationContext = _injectedValidationContext);
-            }
-        }
-        #endregion
     }
 }

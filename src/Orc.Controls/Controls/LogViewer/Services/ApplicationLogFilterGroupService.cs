@@ -1,92 +1,46 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ApplicationLogFilterGroupService.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Catel.Logging;
+using Catel.Runtime.Serialization.Xml;
+using FileSystem;
 
-namespace Orc.Controls
+public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupService
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Catel;
-    using Catel.Collections;
-    using Catel.Logging;
-    using Catel.Runtime.Serialization.Xml;
-    using FileSystem;
+    private const string LogFilterGroupsConfigFile = "LogFilterGroups.xml";
 
-    public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupService
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
+    private readonly IFileService _fileService;
+    private readonly IXmlSerializer _xmlSerializer;
+
+    public ApplicationLogFilterGroupService(IFileService fileService, IXmlSerializer xmlSerializer)
     {
-        #region Constants
-        private const string LogFilterGroupsConfigFile = "LogFilterGroups.xml";
+        ArgumentNullException.ThrowIfNull(xmlSerializer);
+        ArgumentNullException.ThrowIfNull(fileService);
 
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-        #endregion
+        _xmlSerializer = xmlSerializer;
+        _fileService = fileService;
+    }
 
-        #region Fields
-        private readonly IFileService _fileService;
-        private readonly IXmlSerializer _xmlSerializer;
-        #endregion
+    public async Task<IEnumerable<LogFilterGroup>> LoadAsync()
+    {
+        var filterGroups = new List<LogFilterGroup>();
 
-        #region Constructors
-        public ApplicationLogFilterGroupService(IFileService fileService, IXmlSerializer xmlSerializer)
+        var applicationDataDirectory = Catel.IO.Path.GetApplicationDataDirectory();
+        var configFile = Path.Combine(applicationDataDirectory, LogFilterGroupsConfigFile);
+        if (_fileService.Exists(configFile))
         {
-            Argument.IsNotNull(() => xmlSerializer);
-            Argument.IsNotNull(() => fileService);
-
-            _xmlSerializer = xmlSerializer;
-            _fileService = fileService;
-        }
-        #endregion
-
-        #region IApplicationLogFilterGroupService Members
-        public async Task<IEnumerable<LogFilterGroup>> LoadAsync()
-        {
-            var filterGroups = new List<LogFilterGroup>();
-
-            var applicationDataDirectory = Catel.IO.Path.GetApplicationDataDirectory();
-            var configFile = Path.Combine(applicationDataDirectory, LogFilterGroupsConfigFile);
-            if (_fileService.Exists(configFile))
-            {
-                try
-                {
-                    using (var stream = _fileService.OpenRead(configFile))
-                    {
-                        filterGroups.AddRange((LogFilterGroup[])_xmlSerializer.Deserialize(typeof(LogFilterGroup[]), stream));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex);
-                }
-            }
-
-            var runtimeFilterGroups = CreateRuntimeFilterGroups();
-            if (runtimeFilterGroups.Count > 0)
-            {
-                Log.Debug($"Adding '{runtimeFilterGroups.Count}' runtime filter groups");
-
-                filterGroups.AddRange(runtimeFilterGroups);
-            }
-
-            return filterGroups.OrderBy(x => x.Name);
-        }
-
-        public async Task SaveAsync(IEnumerable<LogFilterGroup> filterGroups)
-        {
-            var applicationDataDirectory = Catel.IO.Path.GetApplicationDataDirectory();
-            var configFile = Path.Combine(applicationDataDirectory, LogFilterGroupsConfigFile);
-
-            var filterGroupsToSerialize = filterGroups.Where(x => !x.IsRuntime).ToList();
-
             try
             {
-                using (var stream = _fileService.OpenWrite(configFile))
+                await using var stream = _fileService.OpenRead(configFile);
+                if (_xmlSerializer.Deserialize(typeof(LogFilterGroup[]), stream) is LogFilterGroup[] logGroups)
                 {
-                    _xmlSerializer.Serialize(filterGroupsToSerialize, stream);
+                    filterGroups.AddRange(logGroups);
                 }
             }
             catch (Exception ex)
@@ -95,30 +49,57 @@ namespace Orc.Controls
             }
         }
 
-        protected virtual List<LogFilterGroup> CreateRuntimeFilterGroups()
+        var runtimeFilterGroups = CreateRuntimeFilterGroups();
+        if (runtimeFilterGroups.Count > 0)
         {
-            var filterGroups = new List<LogFilterGroup>();
+            Log.Debug($"Adding '{runtimeFilterGroups.Count}' runtime filter groups");
 
-            var methodTimerFilterGroup = new LogFilterGroup
-            {
-                Name = "Method timings",
-                IsRuntime = true,
-                IsEnabled = true
-            };
-
-            methodTimerFilterGroup.LogFilters.Add(new LogFilter
-            {
-                Name = "Exclude anything but method timer",
-                Action = LogFilterAction.Exclude,
-                ExpressionType = LogFilterExpressionType.NotContains,
-                ExpressionValue = "METHODTIMER",
-                Target = LogFilterTarget.LogMessage
-            });
-
-            filterGroups.Add(methodTimerFilterGroup);
-
-            return filterGroups;
+            filterGroups.AddRange(runtimeFilterGroups);
         }
-        #endregion
+
+        return filterGroups.OrderBy(x => x.Name);
+    }
+
+    public async Task SaveAsync(IEnumerable<LogFilterGroup> filterGroups)
+    {
+        var applicationDataDirectory = Catel.IO.Path.GetApplicationDataDirectory();
+        var configFile = Path.Combine(applicationDataDirectory, LogFilterGroupsConfigFile);
+
+        var filterGroupsToSerialize = filterGroups.Where(x => !x.IsRuntime).ToList();
+
+        try
+        {
+            await using var stream = _fileService.OpenWrite(configFile);
+            _xmlSerializer.Serialize(filterGroupsToSerialize, stream);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex);
+        }
+    }
+
+    protected virtual List<LogFilterGroup> CreateRuntimeFilterGroups()
+    {
+        var filterGroups = new List<LogFilterGroup>();
+
+        var methodTimerFilterGroup = new LogFilterGroup
+        {
+            Name = "Method timings",
+            IsRuntime = true,
+            IsEnabled = true
+        };
+
+        methodTimerFilterGroup.LogFilters.Add(new LogFilter
+        {
+            Name = "Exclude anything but method timer",
+            Action = LogFilterAction.Exclude,
+            ExpressionType = LogFilterExpressionType.NotContains,
+            ExpressionValue = "METHODTIMER",
+            Target = LogFilterTarget.LogMessage
+        });
+
+        filterGroups.Add(methodTimerFilterGroup);
+
+        return filterGroups;
     }
 }

@@ -1,45 +1,33 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EditableControlBehaviorBase.cs" company="WildGums">
-//   Copyright (c) 2008 - 2020 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System;
+using System.Windows;
+using Catel.Windows.Interactivity;
 
-namespace Orc.Controls
+public abstract class EditableControlBehaviorBase<T> : BehaviorBase<T>, IEditableControl
+    where T : FrameworkElement
 {
-    using System;
-    using System.Windows;
-    using Catel.Windows.Interactivity;
-
-    public abstract class EditableControlBehaviorBase<T> : BehaviorBase<T>, IEditableControl
-        where T : FrameworkElement
+    #region Dependency properties
+    public bool IsInEditMode
     {
-        #region Dependency properties
-        public bool IsInEditMode
-        {
-            get { return (bool)GetValue(IsInEditModeProperty); }
-            set { SetValue(IsInEditModeProperty, value); }
-        }
+        get { return (bool)GetValue(IsInEditModeProperty); }
+        set { SetValue(IsInEditModeProperty, value); }
+    }
 
-        public static readonly DependencyProperty IsInEditModeProperty = DependencyProperty.Register(
-            nameof(IsInEditMode), typeof(bool), typeof(EditableControlBehaviorBase<T>), new PropertyMetadata(default(bool)));
-        #endregion
+    public static readonly DependencyProperty IsInEditModeProperty = DependencyProperty.Register(
+        nameof(IsInEditMode), typeof(bool), typeof(EditableControlBehaviorBase<T>), new PropertyMetadata(default(bool)));
+    #endregion
 
-        #region IEditableControl Members
-        public event EventHandler<EventArgs> EditStarted;
-        public event EventHandler<EventArgs> EditEnded;
-        #endregion
+    public event EventHandler<EventArgs>? EditStarted;
+    public event EventHandler<EventArgs>? EditEnded;
 
-        #region Methods
-        protected void RaiseEditStarted()
-        {
-            EditStarted?.Invoke(this, EventArgs.Empty);
-        }
+    protected void RaiseEditStarted()
+    {
+        EditStarted?.Invoke(this, EventArgs.Empty);
+    }
 
-        protected void RaiseEditEnded()
-        {
-            EditEnded?.Invoke(this, EventArgs.Empty);
-        }
-        #endregion
+    protected void RaiseEditEnded()
+    {
+        EditEnded?.Invoke(this, EventArgs.Empty);
     }
 }

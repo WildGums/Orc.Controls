@@ -1,13 +1,5 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ColorPicker.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2016 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views
 {
-    using System.Threading;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;

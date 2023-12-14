@@ -1,18 +1,10 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CulturePickerViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls.Example.ViewModels
+﻿namespace Orc.Controls.Example.ViewModels
 {
+    using System;
     using System.Globalization;
     using System.Threading.Tasks;
-    using Catel;
     using Catel.MVVM;
     using Catel.Services;
-    using Catel.Threading;
 
     public class CulturePickerViewModel : ViewModelBase
     {
@@ -25,7 +17,7 @@ namespace Orc.Controls.Example.ViewModels
         #region Constructors
         public CulturePickerViewModel(IMessageService messageService)
         {
-            Argument.IsNotNull(() => messageService);
+            ArgumentNullException.ThrowIfNull(messageService);
 
             _messageService = messageService;
         }
@@ -48,7 +40,7 @@ namespace Orc.Controls.Example.ViewModels
                 _isInitializing = false;
             }
 
-            return TaskHelper.Completed;
+            return Task.CompletedTask;
         }
 
 #pragma warning disable AvoidAsyncVoid

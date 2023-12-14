@@ -1,12 +1,11 @@
-﻿namespace Orc.Controls.Automation
-{
-    using Orc.Automation;
+﻿namespace Orc.Controls.Automation;
 
-    public class TimeSpanPickerAutomationPeer : AutomationControlPeerBase<Controls.TimeSpanPicker>
+using Orc.Automation;
+
+public class TimeSpanPickerAutomationPeer : AutomationControlPeerBase<Controls.TimeSpanPicker>
+{
+    public TimeSpanPickerAutomationPeer(Controls.TimeSpanPicker owner)
+        : base(owner)
     {
-        public TimeSpanPickerAutomationPeer(Controls.TimeSpanPicker owner)
-            : base(owner)
-        {
-        }
     }
 }

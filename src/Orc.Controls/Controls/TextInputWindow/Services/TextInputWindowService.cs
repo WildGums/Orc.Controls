@@ -1,46 +1,36 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TextInputWindowService.cs" company="WildGums">
-//   Copyright (c) 2008 - 2020 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls.Services;
 
+using System;
+using System.Threading.Tasks;
+using Catel.IoC;
+using Catel.Services;
+using ViewModels;
 
-namespace Orc.Controls.Services
+public class TextInputWindowService : ITextInputWindowService
 {
-    using System.Threading.Tasks;
-    using Catel;
-    using Catel.IoC;
-    using Catel.Services;
-    using ViewModels;
+    private readonly ITypeFactory _typeFactory;
+    private readonly IUIVisualizerService _uiVisualizerService;
 
-    public class TextInputWindowService : ITextInputWindowService
+    public TextInputWindowService(ITypeFactory typeFactory, IUIVisualizerService uiVisualizerService)
     {
-        #region Fields
-        private readonly ITypeFactory _typeFactory;
-        private readonly IUIVisualizerService _uiVisualizerService;
-        #endregion
+        ArgumentNullException.ThrowIfNull(typeFactory);
+        ArgumentNullException.ThrowIfNull(uiVisualizerService);
 
-        #region Constructors
-        public TextInputWindowService(ITypeFactory typeFactory, IUIVisualizerService uiVisualizerService)
+        _typeFactory = typeFactory;
+        _uiVisualizerService = uiVisualizerService;
+    }
+
+    public async Task<TextInputDialogResult> ShowDialogAsync(string title, string initialText)
+    {
+        var viewModel = _typeFactory.CreateRequiredInstanceWithParametersAndAutoCompletion<TextInputViewModel>("Rename column");
+        viewModel.Text = initialText;
+
+        var dialogResult = await _uiVisualizerService.ShowDialogAsync(viewModel);
+
+        return new TextInputDialogResult
         {
-            Argument.IsNotNull(() => typeFactory);
-            Argument.IsNotNull(() => uiVisualizerService);
-
-            _typeFactory = typeFactory;
-            _uiVisualizerService = uiVisualizerService;
-        }
-        #endregion
-
-        #region ITextInputWindowService Members
-        public async Task<TextInputDialogResult> ShowDialogAsync(string title, string initialText)
-        {
-            var viewModel = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<TextInputViewModel>("Rename column");
-            viewModel.Text = initialText;
-
-            var dialogResult = await _uiVisualizerService.ShowDialogAsync(viewModel);
-
-            return new TextInputDialogResult {Result = dialogResult, Text = viewModel.Text};
-        }
-        #endregion
+            Result = dialogResult.DialogResult,
+            Text = viewModel.Text
+        };
     }
 }

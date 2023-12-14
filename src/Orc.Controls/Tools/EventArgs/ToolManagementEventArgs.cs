@@ -1,28 +1,15 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ToolManagementEventArgs.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls.Tools;
 
+using System;
 
-namespace Orc.Controls.Tools
+public class ToolManagementEventArgs : EventArgs
 {
-    using System;
-    using Catel;
-
-    public class ToolManagementEventArgs : EventArgs
+    public ToolManagementEventArgs(IControlTool tool)
     {
-        #region Constructors
-        public ToolManagementEventArgs(IControlTool tool)
-        {
-            Argument.IsNotNull(() => tool);
+        ArgumentNullException.ThrowIfNull(tool);
 
-            Tool = tool;
-        }
-        #endregion
-
-        #region Properties
-        public IControlTool Tool { get; }
-        #endregion
+        Tool = tool;
     }
+
+    public IControlTool Tool { get; }
 }

@@ -1,4 +1,5 @@
-﻿namespace Orc.Controls.Automation;
+﻿#nullable disable
+namespace Orc.Controls.Automation;
 
 using System.Windows;
 using System.Windows.Input;
@@ -33,3 +34,4 @@ public class PinnableToolTipModel : FrameworkElementModel
         get => _accessor.Execute(nameof(PinnableToolTipAutomationPeer.GetOwner));
     }
 }
+#nullable enable

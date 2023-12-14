@@ -17,7 +17,7 @@
 
             var actual = ICalloutExtensions.GetCalloutConfigurationKeyPrefix(callout.Object);
 
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
         }
     }
 }

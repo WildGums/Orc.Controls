@@ -1,90 +1,79 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogFilter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System;
+using Catel;
+using Catel.Data;
+using Catel.Logging;
 
-namespace Orc.Controls
+public class LogFilter : ModelBase
 {
-    using System;
-    using Catel;
-    using Catel.Data;
-    using Catel.Logging;
+    public string? Name { get; set; }
 
-    public class LogFilter : ModelBase
+    public LogFilterExpressionType ExpressionType { get; set; } = LogFilterExpressionType.Contains;
+
+    public string? ExpressionValue { get; set; }
+
+    public LogFilterAction Action { get; set; } = LogFilterAction.Include;
+
+    public LogFilterTarget Target { get; set; } = LogFilterTarget.TypeName;
+
+    public bool Pass(LogEntry logEntry)
     {
-        #region Properties
-        public string Name { get; set; }
+        var result = false;
 
-        public LogFilterExpressionType ExpressionType { get; set; } = LogFilterExpressionType.Contains;
+        string? expression;
 
-        public string ExpressionValue { get; set; }
-
-        public LogFilterAction Action { get; set; } = LogFilterAction.Include;
-
-        public LogFilterTarget Target { get; set; } = LogFilterTarget.TypeName;
-        #endregion
-
-        #region Methods
-        public bool Pass(LogEntry logEntry)
+        switch (Target)
         {
-            var result = false;
+            case LogFilterTarget.AssemblyName:
+                expression = logEntry.Log.TargetType.Assembly.GetName().Name;
+                break;
 
-            var expression = string.Empty;
+            case LogFilterTarget.TypeName:
+                expression = logEntry.Log.TargetType.FullName;
+                break;
 
-            switch (Target)
-            {
-                case LogFilterTarget.AssemblyName:
-                    expression = logEntry.Log.TargetType.Assembly.GetName().Name;
-                    break;
+            case LogFilterTarget.LogMessage:
+                expression = logEntry.Message;
+                break;
 
-                case LogFilterTarget.TypeName:
-                    expression = logEntry.Log.TargetType.FullName;
-                    break;
-
-                case LogFilterTarget.LogMessage:
-                    expression = logEntry.Message;
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(Target), $"Target '{Target}' is not yet supported");
-            }
-
-            if (string.IsNullOrWhiteSpace(expression))
-            {
-                return Action != LogFilterAction.Include;
-            }
-
-            switch (ExpressionType)
-            {
-                case LogFilterExpressionType.Contains:
-                    result = expression.ContainsIgnoreCase(ExpressionValue);
-                    break;
-
-                case LogFilterExpressionType.NotContains:
-                    result = !expression.ContainsIgnoreCase(ExpressionValue);
-                    break;
-
-                case LogFilterExpressionType.Equals:
-                    result = expression.EqualsIgnoreCase(ExpressionValue);
-                    break;
-
-                case LogFilterExpressionType.NotEquals:
-                    result = !expression.EqualsIgnoreCase(ExpressionValue);
-                    break;
-
-                case LogFilterExpressionType.StartsWith:
-                    result = expression.StartsWithIgnoreCase(ExpressionValue);
-                    break;
-
-                case LogFilterExpressionType.NotStartsWith:
-                    result = !expression.StartsWithIgnoreCase(ExpressionValue);
-                    break;
-            }
-
-            return Action == LogFilterAction.Include ? result : !result;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(Target), $"Target '{Target}' is not yet supported");
         }
-        #endregion
+
+        if (string.IsNullOrWhiteSpace(expression))
+        {
+            return Action != LogFilterAction.Include;
+        }
+
+        var expressionValue = ExpressionValue ?? string.Empty;
+        switch (ExpressionType)
+        {
+            case LogFilterExpressionType.Contains:
+                result = expression.ContainsIgnoreCase(expressionValue);
+                break;
+
+            case LogFilterExpressionType.NotContains:
+                result = !expression.ContainsIgnoreCase(expressionValue);
+                break;
+
+            case LogFilterExpressionType.Equals:
+                result = expression.EqualsIgnoreCase(expressionValue);
+                break;
+
+            case LogFilterExpressionType.NotEquals:
+                result = !expression.EqualsIgnoreCase(expressionValue);
+                break;
+
+            case LogFilterExpressionType.StartsWith:
+                result = expression.StartsWithIgnoreCase(expressionValue);
+                break;
+
+            case LogFilterExpressionType.NotStartsWith:
+                result = !expression.StartsWithIgnoreCase(expressionValue);
+                break;
+        }
+
+        return Action == LogFilterAction.Include ? result : !result;
     }
 }

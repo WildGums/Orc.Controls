@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Orc.Controls" xmlns:catel="http://schemas.catelproject.com" xmlns:sys="clr-namespace:System;assembly=System.Runtime" xmlns:orcautomation="http://schemas.wildgums.com/orc/automation" xmlns:automation="clr-namespace:Orc.Controls.Automation" xmlns:sys_0="clr-namespace:System;assembly=mscorlib" xmlns:converters="clr-namespace:Orc.Controls.Converters" xmlns:sys_1="clr-namespace:System;assembly=mscorlib" xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors" xmlns:sys_2="clr-namespace:System;assembly=mscorlib" xmlns:sys_3="clr-namespace:System;assembly=mscorlib" xmlns:orctheming="http://schemas.wildgums.com/orc/theming">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Orc.Controls" xmlns:catel="http://schemas.catelproject.com" xmlns:automation="clr-namespace:Orc.Controls.Automation" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:converters="clr-namespace:Orc.Controls.Converters" xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors" xmlns:orctheming="http://schemas.wildgums.com/orc/theming">
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="/Orc.Theming;component/themes/generic.xaml" />
   </ResourceDictionary.MergedDictionaries>
@@ -693,136 +693,6 @@
     </Setter>
   </Style>
   <Style x:Key="Orc.Styles.ColorBoard" TargetType="{x:Type local:ColorBoard}" BasedOn="{StaticResource {x:Type local:ColorBoard}}" />
-  <Style x:Key="{x:Type local:DatePicker}" TargetType="{x:Type local:DatePicker}" BasedOn="{StaticResource Orc.Styles.Control}">
-    <Style.Resources>
-      <converters:YearLongToYearShortConverter x:Key="YearLongToYearShortConverter" />
-      <Style x:Key="LettersStyle" TargetType="{x:Type TextBlock}">
-        <Setter Property="TextAlignment" Value="Center" />
-        <Setter Property="Visibility" Value="Hidden" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Foreground" Value="DarkGray" />
-        <Style.Triggers>
-          <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True">
-            <Setter Property="Visibility" Value="Visible" />
-          </DataTrigger>
-          <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsKeyboardFocusWithin}" Value="True">
-            <Setter Property="Visibility" Value="Visible" />
-          </DataTrigger>
-        </Style.Triggers>
-      </Style>
-      <Style x:Key="RatioSignStyle" TargetType="{x:Type TextBlock}">
-        <Setter Property="TextAlignment" Value="Center" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Style.Triggers>
-          <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True">
-            <Setter Property="Visibility" Value="Hidden" />
-          </DataTrigger>
-          <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsKeyboardFocusWithin}" Value="True">
-            <Setter Property="Visibility" Value="Hidden" />
-          </DataTrigger>
-        </Style.Triggers>
-      </Style>
-      <Style x:Key="DatePickerLetterToggleButtonStyle" BasedOn="{x:Null}" TargetType="{x:Type ToggleButton}">
-        <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="Template">
-          <Setter.Value>
-            <ControlTemplate TargetType="{x:Type ToggleButton}">
-              <TextBlock Style="{StaticResource LettersStyle}">
-                <ContentPresenter />
-              </TextBlock>
-            </ControlTemplate>
-          </Setter.Value>
-        </Setter>
-      </Style>
-      <Style BasedOn="{x:Null}" TargetType="{x:Type local:NumericTextBox}">
-        <Setter Property="TextAlignment" Value="Center" />
-        <Setter Property="Margin" Value="2 0 0 0" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="AllowDrop" Value="true" />
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
-      </Style>
-    </Style.Resources>
-    <Setter Property="local:EnterKeyTraversal.IsEnabled" Value="True" />
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="{x:Type local:DatePicker}">
-          <Grid x:Name="PART_MainGrid">
-            <Border x:Name="MainBorder" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
-              <Grid MinWidth="115">
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid local:EnterKeyTraversal.IsEnabled="True">
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                  </Grid.ColumnDefinitions>
-                  <local:NumericTextBox x:Name="PART_DaysNumericTextBox" Grid.Column="0" MinValue="1" IsReadOnly="{TemplateBinding IsReadOnly}" />
-                  <TextBlock x:Name="PART_DaysMonthsSeparatorTextBlock" Grid.Column="1" Text="/" Style="{DynamicResource RatioSignStyle}" />
-                  <ToggleButton x:Name="PART_DaysToggleButton" Grid.Column="1" Tag="{x:Static local:DateTimePart.Day}" Style="{DynamicResource DatePickerLetterToggleButtonStyle}" Content="{catel:LanguageBinding Controls_DatePicker_ToggleButton_Content_DayAbbreviation}" IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}" />
-                  <local:NumericTextBox x:Name="PART_MonthNumericTextBox" Grid.Column="2" MinValue="1" MaxValue="12" IsReadOnly="{TemplateBinding IsReadOnly}" />
-                  <TextBlock x:Name="PART_MonthsYearSeparatorTextBlock" Grid.Column="3" Text="/" Style="{DynamicResource RatioSignStyle}" />
-                  <ToggleButton x:Name="PART_MonthToggleButton" Grid.Column="3" Tag="{x:Static local:DateTimePart.Month}" Style="{DynamicResource DatePickerLetterToggleButtonStyle}" Content="{catel:LanguageBinding Controls_DatePicker_ToggleButton_Content_MonthAbbreviation}" IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}" />
-                  <local:NumericTextBox x:Name="PART_YearNumericTextBox" Grid.Column="4" MinValue="1" MaxValue="3000" IsReadOnly="{TemplateBinding IsReadOnly}" />
-                  <TextBlock x:Name="PART_YearSeparatorTextBlock" Grid.Column="5" Text="" Style="{DynamicResource RatioSignStyle}" />
-                  <ToggleButton x:Name="PART_YearToggleButton" Grid.Column="5" Tag="{x:Static local:DateTimePart.Year}" Content="{catel:LanguageBinding Controls_DatePicker_ToggleButton_Content_YearAbbreviation}" Style="{DynamicResource DatePickerLetterToggleButtonStyle}" IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}" />
-                </Grid>
-                <Grid Grid.Column="1">
-                  <ToggleButton x:Name="PART_DatePickerIconToggleButton" DockPanel.Dock="Right" Margin="0" Height="19" Width="19" VerticalAlignment="Stretch">
-                    <Grid VerticalAlignment="Stretch">
-                      <Border Grid.Row="0" Background="{TemplateBinding BorderBrush}" Height="4" VerticalAlignment="Top" />
-                      <Ellipse Grid.Row="0" Width="3" Height="3" Fill="{TemplateBinding Background}" VerticalAlignment="Top" />
-                      <TextBlock Text="{Binding Source={x:Static sys_0:DateTime.Today}, StringFormat=' d '}" Margin="0 3 0 0" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                    </Grid>
-                  </ToggleButton>
-                  <Popup Placement="Bottom" VerticalOffset="2" StaysOpen="False" PlacementTarget="{Binding ElementName=PART_DatePickerIconToggleButton}" IsOpen="{Binding IsChecked, ElementName=PART_DatePickerIconToggleButton}">
-                    <Border BorderBrush="{DynamicResource Orc.Brushes.Control.Disabled.Border}" BorderThickness="{TemplateBinding BorderThickness}">
-                      <StackPanel Background="{TemplateBinding Background}">
-                        <Button x:Name="PART_TodayButton" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" BorderThickness="0" Margin="0" Content="{catel:LanguageBinding Controls_DatePicker_Button_Content_Today}" IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}" />
-                        <Button x:Name="PART_SelectDateButton" Content="{catel:LanguageBinding Controls_DatePicker_Button_Content_SelectDate}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" BorderThickness="0" Margin="0" IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}" />
-                        <Separator Visibility="{TemplateBinding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
-                        <Button x:Name="PART_ClearButton" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" BorderThickness="0" Margin="0" Content="{catel:LanguageBinding Controls_DatePicker_Button_Content_Clear}" IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}" Visibility="{TemplateBinding AllowNull, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
-                        <Separator Visibility="{TemplateBinding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
-                        <Button x:Name="PART_CopyButton" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" BorderThickness="0" Margin="0" Content="{catel:LanguageBinding Controls_DatePicker_Button_Content_Copy}" Visibility="{TemplateBinding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
-                        <Button x:Name="PART_PasteButton" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" BorderThickness="0" Margin="0" Content="{catel:LanguageBinding Controls_DatePicker_Button_Content_Paste}" IsEnabled="{TemplateBinding IsReadOnly, Converter={catel:BooleanToOppositeBooleanConverter}}" Visibility="{TemplateBinding AllowCopyPaste, Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
-                      </StackPanel>
-                    </Border>
-                  </Popup>
-                </Grid>
-              </Grid>
-            </Border>
-          </Grid>
-          <ControlTemplate.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-              <Setter TargetName="MainBorder" Property="Background" Value="{DynamicResource Orc.Brushes.Control.Disabled.Background}" />
-              <Setter TargetName="PART_DatePickerIconToggleButton" Property="Background" Value="{DynamicResource Orc.Brushes.Control.Disabled.Background}" />
-            </Trigger>
-          </ControlTemplate.Triggers>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-    <Style.Triggers>
-      <Trigger Property="IsMouseOver" Value="True">
-        <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Border}" />
-      </Trigger>
-      <Trigger Property="IsKeyboardFocusWithin" Value="True">
-        <Setter Property="BorderBrush" Value="{DynamicResource Orc.Brushes.Control.MouseOver.Border}" />
-      </Trigger>
-    </Style.Triggers>
-  </Style>
   <Style x:Key="{x:Type local:DateTimePicker}" TargetType="{x:Type local:DateTimePicker}" BasedOn="{StaticResource Orc.Styles.Control}">
     <Style.Resources>
       <converters:YearLongToYearShortConverter x:Key="YearLongToYearShortConverter" />
@@ -970,7 +840,7 @@
                     <Grid VerticalAlignment="Stretch">
                       <Border Grid.Row="0" Background="{TemplateBinding BorderBrush}" Height="4" VerticalAlignment="Top" />
                       <Ellipse Grid.Row="0" Width="3" Height="3" Fill="{TemplateBinding Background}" VerticalAlignment="Top" />
-                      <TextBlock Text="{Binding Source={x:Static sys_1:DateTime.Today}, StringFormat=' d '}" Margin="0 3 0 0" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                      <TextBlock Text="{Binding Source={x:Static sys:DateTime.Today}, StringFormat=' d '}" Margin="0 3 0 0" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Grid>
                   </local:DropDownButton>
                 </Grid>
@@ -1027,6 +897,9 @@
         <Setter Property="ToggleButton.Background" Value="{DynamicResource Orc.Brushes.Control.Highlighted.Background}" />
       </Trigger>
     </Style.Triggers>
+  </Style>
+  <Style x:Key="{x:Type local:DropDownButton}" TargetType="{x:Type local:DropDownButton}" BasedOn="{StaticResource Orc.Styles.DropDownButton}">
+    <!-- Just a forwarder -->
   </Style>
   <Style x:Key="{x:Type local:Expander}" TargetType="{x:Type local:Expander}" BasedOn="{StaticResource Orc.Styles.Control}">
     <Style.Resources>
@@ -1270,7 +1143,7 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <Style x:Key="{x:Type local:FontImage}" TargetType="{x:Type local:FontImage}" BasedOn="{StaticResource Orc.Styles.Control}">
+  <Style x:Key="{x:Type local:FontImageControl}" TargetType="{x:Type local:FontImageControl}" BasedOn="{StaticResource Orc.Styles.Control}">
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="Padding" Value="0" />
     <Setter Property="Template">
@@ -1533,7 +1406,7 @@
   </Style>
   <Style x:Key="Orc.Styles.RangeSlider" TargetType="{x:Type local:RangeSlider}" BasedOn="{StaticResource Orc.Styles.Control}">
     <Style.Resources>
-      <sys_2:Double x:Key="TrackSizeValue">3</sys_2:Double>
+      <sys:Double x:Key="TrackSizeValue">3</sys:Double>
       <Style x:Key="SimpleSliderStyle" TargetType="{x:Type Slider}">
         <Setter Property="Margin" Value="{DynamicResource Margin.Default}" />
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false" />
@@ -1584,7 +1457,7 @@
               <Setter TargetName="PART_UpperSlider" Property="Margin" Value="0,0,0,10" />
               <Setter TargetName="PART_UpperSlider" Property="VerticalAlignment" Value="Stretch" />
               <Setter TargetName="PART_UpperSlider" Property="HorizontalAlignment" Value="Center" />
-              <Setter TargetName="PART_TrackBackground" Property="Height" Value="{x:Static sys_2:Double.NaN}" />
+              <Setter TargetName="PART_TrackBackground" Property="Height" Value="{x:Static sys:Double.NaN}" />
               <Setter TargetName="PART_TrackBackground" Property="Width" Value="{StaticResource TrackSizeValue}" />
               <Setter TargetName="PART_TrackBackground" Property="Margin" Value="0,5" />
               <Setter TargetName="PART_TrackBackground" Property="VerticalAlignment" Value="Stretch" />
@@ -1598,7 +1471,7 @@
               <Setter TargetName="PART_UpperSlider" Property="VerticalAlignment" Value="Center" />
               <Setter TargetName="PART_UpperSlider" Property="HorizontalAlignment" Value="Stretch" />
               <Setter TargetName="PART_TrackBackground" Property="Height" Value="{StaticResource TrackSizeValue}" />
-              <Setter TargetName="PART_TrackBackground" Property="Width" Value="{x:Static sys_2:Double.NaN}" />
+              <Setter TargetName="PART_TrackBackground" Property="Width" Value="{x:Static sys:Double.NaN}" />
               <Setter TargetName="PART_TrackBackground" Property="Margin" Value="5,0" />
               <Setter TargetName="PART_TrackBackground" Property="VerticalAlignment" Value="Center" />
               <Setter TargetName="PART_TrackBackground" Property="HorizontalAlignment" Value="Stretch" />
@@ -2144,30 +2017,6 @@
   <Style x:Key="DefaultFluidProgressBarStyle" TargetType="{x:Type local:FluidProgressBar}" BasedOn="{StaticResource {x:Type local:FluidProgressBar}}" />
   <Style x:Key="DefaultExpanderStyle" TargetType="{x:Type local:Expander}" BasedOn="{StaticResource {x:Type local:Expander}}" />
   <Style x:Key="DefaultTimeSpanPickerStyle" TargetType="{x:Type local:TimeSpanPicker}" BasedOn="{StaticResource {x:Type local:TimeSpanPicker}}">
-    <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
-    <Setter Property="Padding" Value="{DynamicResource Padding.TextBox}" />
-    <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
-    <Setter Property="HorizontalAlignment" Value="Stretch" />
-    <!-- Due to a bug, adjust the error template (see http://stackoverflow.com/questions/321327/how-do-i-get-rid-of-the-red-rectangle-when-my-wpf-binding-validation-has-failed-a) -->
-    <Setter Property="Validation.ErrorTemplate">
-      <Setter.Value>
-        <ControlTemplate>
-          <DockPanel LastChildFill="True">
-            <Border BorderThickness="1" BorderBrush="Red" Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
-              <AdornedElementPlaceholder x:Name="placeholder" />
-            </Border>
-          </DockPanel>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-    <!-- Show errors as tooltip -->
-    <Style.Triggers>
-      <Trigger Property="Validation.HasError" Value="true">
-        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
-      </Trigger>
-    </Style.Triggers>
-  </Style>
-  <Style x:Key="DefaultDatePickerStyle" TargetType="{x:Type local:DatePicker}" BasedOn="{StaticResource {x:Type local:DatePicker}}">
     <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
     <Setter Property="Padding" Value="{DynamicResource Padding.TextBox}" />
     <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />

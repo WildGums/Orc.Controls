@@ -1,79 +1,71 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ControlToolBase.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System;
+using System.Threading.Tasks;
+using Catel.Data;
 
-namespace Orc.Controls
+public abstract class ControlToolBase : ModelBase, IControlTool
 {
-    using System;
-    using Catel.Data;
+    protected object? Target;
 
-    public abstract class ControlToolBase : ModelBase, IControlTool
+    public abstract string Name { get; }
+    public bool IsOpened { get; private set; }
+    public virtual bool IsEnabled => true;
+    public bool IsAttached => Target is not null;
+    protected virtual bool StaysOpen { get; set; } = false;
+
+    public event EventHandler<EventArgs>? Attached;
+    public event EventHandler<EventArgs>? Detached;
+    public event EventHandler<EventArgs>? Closed;
+    public event EventHandler<EventArgs>? Opened;
+    public event EventHandler<EventArgs>? Opening;
+
+    public virtual void Attach(object target)
     {
-        #region Fields
-        protected object Target;
-        #endregion
+        Target = target;
 
-        #region Properties
-        public abstract string Name { get; }
-        public bool IsOpened { get; private set; }
-        public virtual bool IsEnabled => true;
-        #endregion
-
-        #region IControlTool Members
-        public virtual void Attach(object target)
-        {
-            Target = target;
-
-            Attached?.Invoke(this, EventArgs.Empty);
-        }
-
-        public virtual void Detach()
-        {
-            Target = null;
-
-            Detached?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void Open(object parameter = null)
-        {
-            if (IsOpened)
-            {
-                OnAddParameter(parameter);
-
-                return;
-            }
-
-            Opening?.Invoke(this, EventArgs.Empty);
-
-            OnOpen(parameter);
-
-            IsOpened = true;
-            Opened?.Invoke(this, EventArgs.Empty);
-        }
-
-        public virtual void Close()
-        {
-            IsOpened = false;
-
-            Closed?.Invoke(this, EventArgs.Empty);
-        }
-
-        public event EventHandler<EventArgs> Attached;
-        public event EventHandler<EventArgs> Detached;
-        public event EventHandler<EventArgs> Closed;
-        public event EventHandler<EventArgs> Opened;
-        public event EventHandler<EventArgs> Opening;
-        #endregion
-
-        #region Methods
-        protected virtual void OnAddParameter(object parameter)
-        {
-        }
-
-        protected abstract void OnOpen(object parameter = null);
-        #endregion
+        Attached?.Invoke(this, EventArgs.Empty);
     }
+
+    public virtual void Detach()
+    {
+        Target = null;
+
+        Detached?.Invoke(this, EventArgs.Empty);
+    }
+
+    public async Task OpenAsync(object? parameter = null)
+    {
+        if (IsOpened)
+        {
+            OnAddParameter(parameter);
+
+            return;
+        }
+
+        Opening?.Invoke(this, EventArgs.Empty);
+
+        await OnOpenAsync(parameter);
+
+        IsOpened = true;
+        Opened?.Invoke(this, EventArgs.Empty);
+
+        if (!StaysOpen)
+        {
+            await CloseAsync();
+        }
+    }
+
+    public virtual async Task CloseAsync()
+    {
+        IsOpened = false;
+
+        Closed?.Invoke(this, EventArgs.Empty);
+    }
+
+    protected virtual void OnAddParameter(object? parameter)
+    {
+    }
+
+    protected abstract Task OnOpenAsync(object? parameter = null);
 }

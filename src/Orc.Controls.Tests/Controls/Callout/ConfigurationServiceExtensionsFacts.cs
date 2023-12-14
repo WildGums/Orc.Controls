@@ -1,6 +1,7 @@
 ﻿namespace Orc.Controls.Tests.Controls.Callout
 {
     using System;
+    using System.Threading.Tasks;
     using Catel.Configuration;
     using Moq;
     using NUnit.Framework;
@@ -18,7 +19,7 @@
         }
 
         [Test]
-        public void SetCalloutLastShown_SetsDate()
+        public async Task SetCalloutLastShown_SetsDate_Async()
         {
             var callout = CreateCallout("Test");
             var configurationKey = callout.GetCalloutConfigurationKeyPrefix();
@@ -29,13 +30,13 @@
             var configurationServiceMock = new Mock<IConfigurationService>();
             configurationServiceMock.Setup(x => x.SetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()));
 
-            configurationServiceMock.Object.SetCalloutLastShown(callout, expectedDate);
+            await configurationServiceMock.Object.SetCalloutLastShownAsync(callout, expectedDate);
 
             configurationServiceMock.Verify(x => x.SetValue(ConfigurationContainer.Roaming, expectedConfigurationKey, expectedDate));
         }
 
         [Test]
-        public void SetCalloutLastShown_ClearsDate()
+        public async Task SetCalloutLastShown_ClearsDate_Async()
         {
             var callout = CreateCallout("Test");
             var configurationKey = callout.GetCalloutConfigurationKeyPrefix();
@@ -46,13 +47,13 @@
             var configurationServiceMock = new Mock<IConfigurationService>();
             configurationServiceMock.Setup(x => x.SetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()));
 
-            configurationServiceMock.Object.SetCalloutLastShown(callout, expectedDate);
+            await configurationServiceMock.Object.SetCalloutLastShownAsync(callout, expectedDate);
 
             configurationServiceMock.Verify(x => x.SetValue(ConfigurationContainer.Roaming, expectedConfigurationKey, expectedDate));
         }
 
         [Test]
-        public void GetCalloutLastShown()
+        public async Task GetCalloutLastShown_Async()
         {
             var callout = CreateCallout("Test");
             var configurationKey = callout.GetCalloutConfigurationKeyPrefix();
@@ -61,17 +62,18 @@
             DateTime? expectedDate = null;
 
             var configurationServiceMock = new Mock<IConfigurationService>();
-            configurationServiceMock.Setup(x => x.GetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>())).Returns(expectedDate);
+            configurationServiceMock.Setup(x => x.GetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()))
+                .Returns(() => expectedDate);
 
-            var lastShown = configurationServiceMock.Object.GetCalloutLastShown(callout);
+            var lastShown = await configurationServiceMock.Object.GetCalloutLastShownAsync(callout);
 
-            Assert.AreEqual(expectedDate, lastShown);
+            Assert.That(lastShown, Is.EqualTo(expectedDate));
 
             configurationServiceMock.Verify(x => x.GetValue(ConfigurationContainer.Roaming, expectedConfigurationKey, expectedDate));
         }
 
         [Test]
-        public void MarkCalloutAsNotShown()
+        public async Task MarkCalloutAsNotShown_Async()
         {
             var callout = CreateCallout("Test");
             var configurationKey = callout.GetCalloutConfigurationKeyPrefix();
@@ -80,13 +82,13 @@
             var configurationServiceMock = new Mock<IConfigurationService>();
             configurationServiceMock.Setup(x => x.SetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()));
 
-            configurationServiceMock.Object.MarkCalloutAsNotShown(callout);
+            await configurationServiceMock.Object.MarkCalloutAsNotShownAsync(callout);
 
             configurationServiceMock.Verify(x => x.SetValue(ConfigurationContainer.Roaming, expectedConfigurationKey, false));
         }
 
         [Test]
-        public void MarkCalloutAsShown()
+        public async Task MarkCalloutAsShown_Async()
         {
             var callout = CreateCallout("Test");
             var configurationKey = callout.GetCalloutConfigurationKeyPrefix();
@@ -95,7 +97,7 @@
             var configurationServiceMock = new Mock<IConfigurationService>();
             configurationServiceMock.Setup(x => x.SetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()));
 
-            configurationServiceMock.Object.MarkCalloutAsShown(callout);
+            await configurationServiceMock.Object.MarkCalloutAsShownAsync(callout);
 
             configurationServiceMock.Verify(x => x.SetValue(ConfigurationContainer.Roaming, expectedConfigurationKey, true));
         }

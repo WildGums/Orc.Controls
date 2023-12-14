@@ -2,9 +2,9 @@
 {
     using System.Linq;
     using System.Windows.Media;
-    using Catel;
     using NUnit.Framework;
     using Automation;
+    using System;
 
     public static class ColorBoardAssert
     {
@@ -15,7 +15,7 @@
         /// <param name="expectedColor">Expected color</param>
         public static void Color(ColorBoard colorBoard, Color expectedColor)
         {
-            Argument.IsNotNull(() => colorBoard);
+            ArgumentNullException.ThrowIfNull(colorBoard);
 
             //Color from api should be expected
             var apiColor = colorBoard.Current.Color;

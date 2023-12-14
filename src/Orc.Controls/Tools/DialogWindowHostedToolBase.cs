@@ -1,103 +1,105 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DialogWindowHostedToolBase.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System;
+using System.Threading.Tasks;
+using Catel.Logging;
+using Catel.MVVM;
+using Catel.Services;
 
-namespace Orc.Controls
+public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
+    where T : ViewModelBase
 {
-    using System.Threading.Tasks;
-    using Catel;
-    using Catel.IoC;
-    using Catel.MVVM;
-    using Catel.Services;
-    using Catel.Threading;
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-    public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
-        where T : ViewModelBase
+    protected readonly IUIVisualizerService _uiVisualizerService;
+
+    protected object? _parameter;
+    protected T? _windowViewModel;
+
+    protected DialogWindowHostedToolBase(IUIVisualizerService uiVisualizerService)
     {
-        #region Fields
-        private readonly IUIVisualizerService _uiVisualizerService;
-        protected readonly ITypeFactory TypeFactory;
-        protected object Parameter;
+        ArgumentNullException.ThrowIfNull(uiVisualizerService);
 
-        protected T WindowViewModel;
-        #endregion
+        _uiVisualizerService = uiVisualizerService;
+    }
 
-        #region Constructors
-        protected DialogWindowHostedToolBase(ITypeFactory typeFactory, IUIVisualizerService uiVisualizerService)
+    public virtual bool IsModal => true;
+    protected override bool StaysOpen => _windowViewModel is not null;
+
+    protected override Task OnOpenAsync(object? parameter = null)
+    {
+        try
         {
-            Argument.IsNotNull(() => typeFactory);
-            Argument.IsNotNull(() => uiVisualizerService);
-
-            TypeFactory = typeFactory;
-            _uiVisualizerService = uiVisualizerService;
+            _windowViewModel = InitializeViewModel();
         }
-        #endregion
-
-        #region Properties
-        public virtual bool IsModal => true;
-        #endregion
-
-        #region Methods
-        protected override void OnOpen(object parameter = null)
+        catch (Exception ex)
         {
-            Parameter = parameter;
+            Log.Error(ex);
 
-            WindowViewModel = InitializeViewModel();
-            WindowViewModel.ClosedAsync += OnClosedAsync;
-            ApplyParameter(parameter);
-
-            if (IsModal)
-            {
-                _uiVisualizerService.ShowDialogAsync(WindowViewModel, OnWindowCompleted);
-            }
-            else
-            {
-                _uiVisualizerService.ShowAsync(WindowViewModel, OnWindowCompleted);
-            }
+            return Task.CompletedTask;
         }
 
-        private void OnWindowCompleted(object sender, UICompletedEventArgs args)
-        {
-            if (!(args.Result ?? false))
-            {
-                return;
-            }
+        _parameter = parameter;
+        ApplyParameter(_parameter);
 
+        if (IsModal)
+        {
+            Task.Run(async () => await _uiVisualizerService.ShowDialogAsync(_windowViewModel, OnWindowCompleted));
+        }
+        else
+        {
+            Task.Run(async () => await _uiVisualizerService.ShowAsync(_windowViewModel, OnWindowCompleted));
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async void OnWindowCompleted(object? sender, UICompletedEventArgs args)
+    {
+        await base.CloseAsync();
+
+        if (args.Result.DialogResult ?? false)
+        {
             OnAccepted();
         }
-
-        protected abstract void OnAccepted();
-        protected abstract T InitializeViewModel();
-
-        protected virtual void ApplyParameter(object parameter)
+        else
         {
+            OnRejected();
         }
 
-        public override void Close()
+        OnClosed();
+    }
+
+    protected virtual void OnRejected()
+    {
+        
+    }
+
+    protected virtual void OnAccepted()
+    {
+
+    }
+
+    protected virtual void OnClosed()
+    {
+
+    }
+
+    protected abstract T InitializeViewModel();
+
+    protected virtual void ApplyParameter(object? parameter)
+    {
+    }
+
+    public override async Task CloseAsync()
+    {
+        await base.CloseAsync();
+
+        if (_windowViewModel is null)
         {
-            base.Close();
-
-            if (WindowViewModel is null)
-            {
-                return;
-            }
-
-            WindowViewModel.ClosedAsync -= OnClosedAsync;
-
-#pragma warning disable 4014
-            WindowViewModel.CloseViewModelAsync(null);
-#pragma warning restore 4014
+            return;
         }
-
-        private Task OnClosedAsync(object sender, ViewModelClosedEventArgs args)
-        {
-            Close();
-
-            return TaskHelper.Completed;
-        }
-        #endregion
+        
+        await _windowViewModel.CloseViewModelAsync(null);
     }
 }

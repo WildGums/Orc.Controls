@@ -20,7 +20,7 @@
                 {
                     isCalled = true;
 
-                    Assert.AreEqual(expectedOutput, x.FileName);
+                    Assert.That(x.FileName, Is.EqualTo(expectedOutput));
 
                     return new DetermineSaveFileResult();
                 });
@@ -36,7 +36,7 @@
 
             await taskCommand.Task;
 
-            Assert.IsTrue(isCalled);
+            Assert.That(isCalled, Is.True);
         }
 
         [TestCase(null, "existing_file.txt")]
@@ -51,7 +51,7 @@
                 {
                     isCalled = true;
 
-                    Assert.AreEqual(expectedOutput, x.FileName);
+                    Assert.That(x.FileName, Is.EqualTo(expectedOutput));
 
                     return new DetermineSaveFileResult();
                 });
@@ -68,7 +68,7 @@
 
             await taskCommand.Task;
 
-            Assert.IsTrue(isCalled);
+            Assert.That(isCalled, Is.True);
         }
     }
 }

@@ -1,95 +1,71 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidationContextTreeNode.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using Catel.Collections;
+using Catel.Data;
 
-namespace Orc.Controls
+public class ValidationContextTreeNode : ChildAwareModelBase, IValidationContextTreeNode, IComparable
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using Catel;
-    using Catel.Collections;
-    using Catel.Data;
-
-    public class ValidationContextTreeNode : ChildAwareModelBase, IValidationContextTreeNode, IComparable
+    protected ValidationContextTreeNode(bool isExpanded)
     {
-        #region Constructors
-        protected ValidationContextTreeNode(bool isExpanded)
+        Children = new FastObservableCollection<ValidationContextTreeNode>();
+        IsExpanded = isExpanded;
+    }
+    
+    public FastObservableCollection<ValidationContextTreeNode> Children { get; }
+    public string? DisplayName { get; protected set; }
+    public bool IsExpanded { get; set; }
+    public bool IsVisible { get; set; }
+
+    public ValidationResultType? ResultType { get; set; }
+    IEnumerable<IValidationContextTreeNode> IValidationContextTreeNode.Children => Children.OfType<IValidationContextTreeNode>();
+
+    public int CompareTo(object? obj)
+    {
+        return obj is ValidationContextTreeNode validationContextTreeNode 
+            ? CompareTo(validationContextTreeNode)
+            : 1;
+    }
+    
+    public void ApplyFilter(bool showErrors, bool showWarnings, string filter)
+    {
+        foreach (var validationContextTreeNode in Children)
         {
-            Children = new FastObservableCollection<ValidationContextTreeNode>();
-            IsExpanded = isExpanded;
-        }
-        #endregion
-
-        #region Properties
-        public FastObservableCollection<ValidationContextTreeNode> Children { get; }
-        public string DisplayName { get; protected set; }
-        public bool IsExpanded { get; set; }
-        public bool IsVisible { get; set; }
-
-        public ValidationResultType? ResultType { get; set; }
-        IEnumerable<IValidationContextTreeNode> IValidationContextTreeNode.Children => Children.OfType<IValidationContextTreeNode>();
-        #endregion
-
-        #region IComparable Members
-        public int CompareTo(object obj)
-        {
-            return CompareTo((ValidationContextTreeNode)obj);
-        }
-        #endregion
-
-        #region Methods
-        public void ApplyFilter(bool showErrors, bool showWarnings, string filter)
-        {
-            foreach (var validationContextTreeNode in Children)
-            {
-                validationContextTreeNode.ApplyFilter(showErrors, showWarnings, filter);
-            }
-
-            if (Children.Any(x => x.IsVisible))
-            {
-                IsVisible = true;
-                return;
-            }
-
-            var isVisible = ResultType is null;
-
-            if (showErrors && ResultType is not null && ResultType.Value == ValidationResultType.Error)
-            {
-                isVisible = true;
-            }
-
-            if (showWarnings && ResultType is not null && ResultType.Value == ValidationResultType.Warning)
-            {
-                isVisible = true;
-            }
-
-            if (!isVisible)
-            {
-                IsVisible = false;
-                return;
-            }
-
-            if (string.IsNullOrEmpty(filter))
-            {
-                IsVisible = true;
-                return;
-            }
-
-            var culture = CultureInfo.InvariantCulture;
-            IsVisible = culture.CompareInfo.IndexOf(DisplayName, filter, CompareOptions.IgnoreCase) >= 0;
+            validationContextTreeNode.ApplyFilter(showErrors, showWarnings, filter);
         }
 
-        public virtual int CompareTo(ValidationContextTreeNode node)
+        if (Children.Any(x => x.IsVisible))
         {
-            Argument.IsNotNull(() => node);
-
-            return CultureInfo.InstalledUICulture.CompareInfo.Compare(DisplayName, node.DisplayName);
+            IsVisible = true;
+            return;
         }
-        #endregion
+
+        var isVisible = ResultType is null || showErrors && ResultType == ValidationResultType.Error 
+                                           || showWarnings && ResultType == ValidationResultType.Warning;
+
+        if (!isVisible)
+        {
+            IsVisible = false;
+            return;
+        }
+
+        if (string.IsNullOrEmpty(filter))
+        {
+            IsVisible = true;
+            return;
+        }
+
+        var culture = CultureInfo.InvariantCulture;
+        IsVisible = culture.CompareInfo.IndexOf(DisplayName ?? string.Empty, filter, CompareOptions.IgnoreCase) >= 0;
+    }
+
+    public virtual int CompareTo(ValidationContextTreeNode node)
+    {
+        ArgumentNullException.ThrowIfNull(node);
+
+        return CultureInfo.InstalledUICulture.CompareInfo.Compare(DisplayName, node.DisplayName);
     }
 }

@@ -1,47 +1,37 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IColorLegendItem.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System.ComponentModel;
+using System.Windows.Media;
 
-namespace Orc.Controls
+/// <summary>
+/// The ColorProvider interface.
+/// </summary>
+public interface IColorLegendItem : INotifyPropertyChanged
 {
-    using System.ComponentModel;
-    using System.Windows.Media;
+    /// <summary>
+    /// Gets or sets a value indicating whether color is visible or not
+    /// </summary>
+    bool IsChecked { get; set; }
+
+    bool IsSelected { get; set; }
 
     /// <summary>
-    /// The ColorProvider interface.
+    /// Gets or sets the color.
     /// </summary>
-    public interface IColorLegendItem : INotifyPropertyChanged
-    {
-        #region Properties
-        /// <summary>
-        /// Gets or sets a value indicating whether color is visible or not
-        /// </summary>
-        bool IsChecked { get; set; }
+    Color Color { get; set; }
 
-        bool IsSelected { get; set; }
+    /// <summary>
+    /// Gets or sets the description.
+    /// </summary>
+    string? Description { get; set; }
 
-        /// <summary>
-        /// Gets or sets the color.
-        /// </summary>
-        Color Color { get; set; }
+    /// <summary>
+    /// Gets or sets the additional data.
+    /// </summary>
+    string? AdditionalData { get; set; }
 
-        /// <summary>
-        /// Gets or sets the description.
-        /// </summary>
-        string Description { get; set; }
-
-        /// <summary>
-        /// Gets or sets the additional data.
-        /// </summary>
-        string AdditionalData { get; set; }
-
-        /// <summary>
-        /// Gets or sets the id.
-        /// </summary>
-        string Id { get; set; }
-        #endregion
-    }
+    /// <summary>
+    /// Gets or sets the id.
+    /// </summary>
+    string? Id { get; set; }
 }

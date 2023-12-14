@@ -5,7 +5,9 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:catel="http://schemas.catelproject.com"
                    xmlns:automation="clr-namespace:Orc.Controls.Automation"
-                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+                   xmlns:controls="clr-namespace:Orc.Controls"
+                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
+                   d:DataContext="{d:DesignInstance controls:OpenFilePickerViewModel}">
 
     <Grid>
         <Grid.ColumnDefinitions>

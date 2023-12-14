@@ -3,10 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Catel;
     using Catel.Logging;
     using Catel.MVVM;
-    using Catel.Threading;
 
     public class LogViewerViewModel : ViewModelBase
     {
@@ -16,7 +14,7 @@
 
         public LogViewerViewModel(IApplicationLogFilterGroupService applicationLogFilterGroupService)
         {
-            Argument.IsNotNull(() => applicationLogFilterGroupService);
+            ArgumentNullException.ThrowIfNull(applicationLogFilterGroupService);
 
             _applicationLogFilterGroupService = applicationLogFilterGroupService;
 
@@ -46,7 +44,7 @@
 
         private async Task OnTestUnderPressureExecuteAsync()
         {
-            await TaskHelper.Run(async () =>
+            await Task.Run(async () =>
             {
                 var levelIndex = new Random();
                 var events = new List<LogEvent>

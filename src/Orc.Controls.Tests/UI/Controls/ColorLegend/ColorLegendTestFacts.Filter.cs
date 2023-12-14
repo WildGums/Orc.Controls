@@ -24,21 +24,21 @@
             //USER:     Input search string
             model.Filter = searchString;
 
-// Checking control API
+            // Checking control API
 
             //ItemSource collection shouldn't change
-            CollectionAssert.AreEqual(model.ItemsSource, OriginalItemSource, new TestColorItemComparer());
+            Assert.That(OriginalItemSource, Is.EqualTo(model.ItemsSource).Using(new TestColorItemComparer()));
 
             //Filtered Items and their ids should be filtered
-            CollectionAssert.AreEqual(model.FilteredItemsSource, expectedFilteredItems, new TestColorItemComparer());
-            CollectionAssert.AreEqual(model.FilteredItemsIds, expectedFilteredIds);
+            Assert.That(expectedFilteredItems, Is.EqualTo(model.FilteredItemsSource).Using(new TestColorItemComparer()));
+            Assert.That(expectedFilteredIds, Is.EqualTo(model.FilteredItemsIds).AsCollection);
 
 //Checking visual state
 
             //List part items should have expected items
             var allItemDescriptions = target.Items.Select(x => x.Description).ToList();
 
-            CollectionAssert.AreEqual(allItemDescriptions, expectedFilteredItems.Select(x => x.Description));
+            Assert.That(expectedFilteredItems.Select(x => x.Description), Is.EqualTo(allItemDescriptions).AsCollection);
         }
     }
 }

@@ -1,52 +1,34 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogFilterGroupList.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System;
 
-namespace Orc.Controls
+public partial class LogFilterGroupList
 {
-    using System;
-    using Catel;
+    private LogFilterGroupListViewModel? _lastKnownViewModel;
 
-    public partial class LogFilterGroupList
+    public LogFilterGroupList() => InitializeComponent();
+    
+    protected override void OnViewModelChanged()
     {
-        #region Fields
-        private LogFilterGroupListViewModel _lastKnownViewModel;
-        #endregion
+        base.OnViewModelChanged();
 
-        #region Constructors
-        public LogFilterGroupList()
+        if (_lastKnownViewModel is not null)
         {
-            InitializeComponent();
-        }
-        #endregion
-
-        #region Methods
-        protected override void OnViewModelChanged()
-        {
-            base.OnViewModelChanged();
-
-            if (_lastKnownViewModel is not null)
-            {
-                _lastKnownViewModel.Updated -= OnViewModelUpdated;
-                _lastKnownViewModel = null;
-            }
-
-            _lastKnownViewModel = ViewModel as LogFilterGroupListViewModel;
-            if (_lastKnownViewModel is not null)
-            {
-                _lastKnownViewModel.Updated += OnViewModelUpdated;
-            }
+            _lastKnownViewModel.Updated -= OnViewModelUpdated;
+            _lastKnownViewModel = null;
         }
 
-        private void OnViewModelUpdated(object sender, EventArgs e)
+        _lastKnownViewModel = ViewModel as LogFilterGroupListViewModel;
+        if (_lastKnownViewModel is not null)
         {
-            Updated?.Invoke(this, EventArgs.Empty);
+            _lastKnownViewModel.Updated += OnViewModelUpdated;
         }
-        #endregion
-
-        public event EventHandler<EventArgs> Updated;
     }
+
+    private void OnViewModelUpdated(object? sender, EventArgs e)
+    {
+        Updated?.Invoke(this, EventArgs.Empty);
+    }
+
+    public event EventHandler<EventArgs>? Updated;
 }

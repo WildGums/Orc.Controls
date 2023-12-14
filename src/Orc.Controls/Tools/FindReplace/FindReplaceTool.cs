@@ -1,120 +1,88 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FindReplaceTool.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System;
+using Catel.IoC;
+using Catel.Logging;
+using Catel.Services;
+using Services;
+using ViewModels;
 
-namespace Orc.Controls
+public class FindReplaceTool<TFindReplaceService> : DialogWindowHostedToolBase<FindReplaceViewModel>
+    where TFindReplaceService : IFindReplaceService
 {
-    using System.Threading.Tasks;
-    using Catel;
-    using Catel.IoC;
-    using Catel.MVVM;
-    using Catel.Services;
-    using Catel.Threading;
-    using Services;
-    using ViewModels;
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-    public class FindReplaceTool<TFindReplaceService> : ControlToolBase
-        where TFindReplaceService : IFindReplaceService
+    private readonly FindReplaceSettings _findReplaceSettings;
+    private readonly ITypeFactory _typeFactory;
+    private readonly IServiceLocator _serviceLocator;
+
+    private IFindReplaceService? _findReplaceService;
+
+    public FindReplaceTool(IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory, IServiceLocator serviceLocator)
+        : base(uiVisualizerService)
     {
-        #region Fields
-        private readonly FindReplaceSettings _findReplaceSettings;
-        private readonly IUIVisualizerService _uiVisualizerService;
-        private readonly ITypeFactory _typeFactory;
+        ArgumentNullException.ThrowIfNull(typeFactory);
+        ArgumentNullException.ThrowIfNull(serviceLocator);
 
-        private IFindReplaceService _findReplaceService;
-        private FindReplaceViewModel _findReplaceViewModel;
-        #endregion
+        _typeFactory = typeFactory;
+        _serviceLocator = serviceLocator;
 
-        #region Constructors
-        public FindReplaceTool(IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory)
+        _findReplaceSettings = new FindReplaceSettings();
+    }
+
+    public override string Name => "FindReplaceTool";
+    public override bool IsModal => false;
+
+    public override void Attach(object target)
+    {
+        ArgumentNullException.ThrowIfNull(target);
+
+        base.Attach(target);
+
+        _findReplaceService = _serviceLocator.ResolveType<IFindReplaceService>(target);
+        if (_findReplaceService is not null)
         {
-            Argument.IsNotNull(() => uiVisualizerService);
-            Argument.IsNotNull(() => typeFactory);
-
-            _uiVisualizerService = uiVisualizerService;
-            _typeFactory = typeFactory;
-            _findReplaceSettings = new FindReplaceSettings();
-        }
-        #endregion
-
-        #region Properties
-        public override string Name => "FindReplaceTool";
-        #endregion
-
-        #region Methods
-        public override void Attach(object target)
-        {
-            Argument.IsNotNull(() => target);
-
-            base.Attach(target);
-
-#pragma warning disable IDISP001 // Dispose created.
-            var serviceLocator = target.GetServiceLocator();
-#pragma warning restore IDISP001 // Dispose created.
-
-            _findReplaceService = serviceLocator.TryResolveType<IFindReplaceService>(target);
-            if (_findReplaceService is not null)
-            {
-                return;
-            }
-
-            _findReplaceService = CreateFindReplaceService(target);
-            serviceLocator.RegisterInstance(_findReplaceService, target);
+            return;
         }
 
-        protected virtual TFindReplaceService CreateFindReplaceService(object target)
+        _findReplaceService = CreateFindReplaceService(target);
+        if (_findReplaceService is null)
         {
-            return _typeFactory.CreateInstanceWithParametersAndAutoCompletion<TFindReplaceService>(target);
+            return;
         }
 
-        public override void Detach()
+        _serviceLocator.RegisterInstance(_findReplaceService, target);
+    }
+
+    protected virtual TFindReplaceService? CreateFindReplaceService(object target)
+    {
+        return _typeFactory.CreateInstanceWithParametersAndAutoCompletion<TFindReplaceService>(target);
+    }
+
+    public override void Detach()
+    {
+        var target = Target;
+
+        if (_serviceLocator.IsTypeRegistered<IFindReplaceService>(target))
         {
-            var target = Target;
-
-#pragma warning disable IDISP001 // Dispose created.
-            var serviceLocator = Target.GetServiceLocator();
-#pragma warning restore IDISP001 // Dispose created.
-
-            if (serviceLocator.IsTypeRegistered<IFindReplaceService>(target))
-            {
-                serviceLocator.RemoveType<IFindReplaceService>(target);
-            }
+            _serviceLocator.RemoveType<IFindReplaceService>(target);
         }
 
-        protected override void OnOpen(object parameter = null)
+        base.Detach();
+    }
+
+    protected override void OnAccepted()
+    {
+        //Do nothing
+    }
+
+    protected override FindReplaceViewModel InitializeViewModel()
+    {
+        if (_findReplaceService is null)
         {
-            _findReplaceViewModel = new FindReplaceViewModel(_findReplaceSettings, _findReplaceService);
-
-            _uiVisualizerService.ShowAsync(_findReplaceViewModel);
-
-            _findReplaceViewModel.ClosedAsync += OnClosedAsync;
+            throw Log.ErrorAndCreateException<Exception>("Can't open find replace tool because FindReplaceService isn't initialized yet");
         }
 
-        public override void Close()
-        {
-            base.Close();
-
-            if (_findReplaceViewModel is null)
-            {
-                return;
-            }
-
-            _findReplaceViewModel.ClosedAsync -= OnClosedAsync;
-
-#pragma warning disable 4014
-            _findReplaceViewModel.CloseViewModelAsync(null);
-#pragma warning restore 4014
-        }
-
-        private Task OnClosedAsync(object sender, ViewModelClosedEventArgs args)
-        {
-            Close();
-
-            return TaskHelper.Completed;
-        }
-        #endregion
+        return new FindReplaceViewModel(_findReplaceSettings, _findReplaceService);
     }
 }

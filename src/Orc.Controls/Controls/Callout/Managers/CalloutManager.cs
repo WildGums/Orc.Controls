@@ -1,151 +1,110 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Catel.Logging;
+
+public class CalloutManager : ICalloutManager
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Catel;
-    using Catel.Logging;
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-    public class CalloutManager : ICalloutManager
+    private readonly List<ICallout> _callouts;
+    private int _suspendCount;
+
+    public CalloutManager()
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        _callouts = new List<ICallout>();
+    }
 
-        private readonly List<ICallout> _callouts;
-        private int _suspendCount;
+    public bool IsSuspended
+    {
+        get { return _suspendCount > 0; }
+    }
 
-        public CalloutManager()
+    public List<ICallout> Callouts
+    {
+        get
         {
-            _callouts = new List<ICallout>();
+            var calloutsCopy = _callouts.ToList();
+            return calloutsCopy;
         }
+    }
 
-        public bool IsSuspended
-        {
-            get { return _suspendCount > 0; }
-        }
+    public event EventHandler<CalloutEventArgs>? Registered;
+    public event EventHandler<CalloutEventArgs>? Unregistered;
 
-        public List<ICallout> Callouts
-        {
-            get
-            {
-                var calloutsCopy = _callouts.ToList();
-                return calloutsCopy;
-            }
-        }
+    public event EventHandler<CalloutEventArgs>? Showing;
+    public event EventHandler<CalloutEventArgs>? Hiding;
 
-        public event EventHandler<CalloutEventArgs> Registered;
-        public event EventHandler<CalloutEventArgs> Unregistered;
+    public void Suspend()
+    {
+        _suspendCount++;
 
-        public event EventHandler<CalloutEventArgs> Showing;
-        public event EventHandler<CalloutEventArgs> Hiding;
+        Log.Debug($"Suspended callouts, count = '{_suspendCount}'");
+    }
 
-        public void Suspend()
-        {
-            _suspendCount++;
+    public void Resume()
+    {
+        _suspendCount = Math.Max(0, _suspendCount - 1);
 
-            Log.Debug($"Suspended callouts, count = '{_suspendCount}'");
-        }
+        Log.Debug($"Resumed callouts, count = '{_suspendCount}'");
+    }
 
-        public void Resume()
-        {
-            _suspendCount = Math.Max(0, _suspendCount - 1);
+    public void Register(ICallout callout)
+    {
+        ArgumentNullException.ThrowIfNull(callout);
 
-            Log.Debug($"Resumed callouts, count = '{_suspendCount}'");
-        }
+        Log.Debug($"Registering callout '{callout}'");
 
-        public void Register(ICallout callout)
-        {
-            Argument.IsNotNull(() => callout);
+        _callouts.Add(callout);
 
-            Log.Debug($"Registering callout '{callout}'");
+        SubscribeToCallout(callout);
 
-            _callouts.Add(callout);
+        Registered?.Invoke(this, new CalloutEventArgs(callout));
+    }
 
-            SubscribeToCallout(callout);
+    public void Unregister(ICallout callout)
+    {
+        ArgumentNullException.ThrowIfNull(callout);
 
-            Registered?.Invoke(this, new CalloutEventArgs(callout));
-        }
+        Log.Debug($"Unregistering callout '{callout}'");
 
-        public void Unregister(ICallout callout)
-        {
-            Argument.IsNotNull(() => callout);
+        UnsubscribeFromCallout(callout);
 
-            Log.Debug($"Unregistering callout '{callout}'");
+        // Make sure to hide
+        callout.Hide();
 
-            UnsubscribeFromCallout(callout);
+        _callouts.Remove(callout);
 
-            // Make sure to hide
-            callout.Hide();
+        Unregistered?.Invoke(this, new CalloutEventArgs(callout));
+    }
 
-            _callouts.Remove(callout);
+    public void Clear()
+    {
+        _callouts.ForEach(x => UnsubscribeFromCallout(x));
+        _callouts.Clear();
+    }
 
-            Unregistered?.Invoke(this, new CalloutEventArgs(callout));
-        }
+    private void SubscribeToCallout(ICallout callout)
+    {
+        callout.Showing += OnCalloutShowing;
+        callout.Hiding += OnCalloutHiding;
+    }
 
-        public void Clear()
-        {
-            _callouts.ForEach(x => UnsubscribeFromCallout(x));
-            _callouts.Clear();
-        }
+    private void UnsubscribeFromCallout(ICallout callout)
+    {
+        callout.Showing -= OnCalloutShowing;
+        callout.Hiding -= OnCalloutHiding;
+    }
 
-        //public void ShowAllCallouts()
-        //{
-        //    foreach (var callout in Callouts)
-        //    {
-        //        if (callout is Controls.CalloutViewModel vm)
-        //        {
-        //            if (vm.Delay is not null && vm.Delay > 0)
-        //            {
-        //                var timer = new DispatcherTimer();
-        //                timer.Interval = TimeSpan.FromSeconds((int)vm.Delay);
-        //                timer.Tick += (object o, EventArgs e) =>
-        //                {
-        //                    vm.IsOpen = true;
-        //                    timer.Stop();
-        //                };
-        //                timer.Start();
-        //            }
-        //            else
-        //            {
-        //                vm.IsOpen = true;
-        //            }
-        //        }
-        //    }
-        //}
+    private void OnCalloutShowing(object? sender, CalloutEventArgs e)
+    {
+        Showing?.Invoke(this, e);
+    }
 
-        //public void ShowCallout(UIElement element)
-        //{
-        //    foreach (var callout in Callouts)
-        //    {
-        //        if (callout is CalloutViewModel vm)
-        //        {
-        //            if (vm.PlacementTarget == element)
-        //            {
-        //                vm.IsOpen = true;
-        //            }
-        //        }
-        //    }
-        //}
-
-        private void SubscribeToCallout(ICallout callout)
-        {
-            callout.Showing += OnCalloutShowing;
-            callout.Hiding += OnCalloutHiding;
-        }
-
-        private void UnsubscribeFromCallout(ICallout callout)
-        {
-            callout.Showing -= OnCalloutShowing;
-            callout.Hiding -= OnCalloutHiding;
-        }
-
-        private void OnCalloutShowing(object sender, CalloutEventArgs e)
-        {
-            Showing?.Invoke(this, e);
-        }
-
-        private void OnCalloutHiding(object sender, CalloutEventArgs e)
-        {
-            Hiding?.Invoke(this, e);
-        }
+    private void OnCalloutHiding(object? sender, CalloutEventArgs e)
+    {
+        Hiding?.Invoke(this, e);
     }
 }

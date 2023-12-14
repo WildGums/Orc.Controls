@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-using System.Reflection;
+﻿using System.Reflection;
 using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Markup;
 
@@ -19,13 +13,7 @@ using System.Windows.Markup;
 
 [assembly: XmlnsPrefix("http://schemas.wildgums.com/orc/controls", "orccontrols")]
 [assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls")]
-//[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Behaviors")]
 [assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Converters")]
-//[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Fonts")]
-//[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Markup")]
-//[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Theming")]
-//[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Views")]
-//[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Windows")]
 
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //where theme specific resource dictionaries are located
@@ -35,3 +23,5 @@ using System.Windows.Markup;
                                               //(used if a resource is not found in the page, 
                                               // app, or any theme specific resource dictionaries)
     )]
+
+[assembly: InternalsVisibleTo("Orc.Controls.Tests")]

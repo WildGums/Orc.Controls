@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DateTimeFormatterFacts.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Controls
+﻿namespace Orc.Controls
 {
     using System;
     using NUnit.Framework;
@@ -246,7 +239,7 @@ namespace Orc.Controls
             };
 
             [Test]
-            [TestCaseSource("FormatDateTestCases")]
+            [TestCaseSource(nameof(FormatDateTestCases))]
             public void CorrectlyFormatDate(DateTime dateTime, string format, string expectedResult)
             {
                 var result = DateTimeFormatter.Format(dateTime, format, true);
@@ -255,7 +248,7 @@ namespace Orc.Controls
             }
 
             [Test]
-            [TestCaseSource("FormatDateTimeTestCases")]
+            [TestCaseSource(nameof(FormatDateTimeTestCases))]
             public void CorrectlyFormatDateTime(DateTime dateTime, string format, string expectedResult)
             {
                 var result = DateTimeFormatter.Format(dateTime, format, false);

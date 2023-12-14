@@ -27,7 +27,7 @@
             var availableCultures = model.AvailableCultures;
             var cultureItems = target.Items;
 
-            CollectionAssert.AreEquivalent(cultureItems, availableCultures.Select(x => x.Name));
+            Assert.That(availableCultures.Select(x => x.Name), Is.EquivalentTo(cultureItems));
         }
 
         private class CultureCases : IEnumerable

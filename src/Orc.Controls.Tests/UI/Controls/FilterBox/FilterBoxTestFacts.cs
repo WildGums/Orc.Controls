@@ -26,7 +26,7 @@
 
             var suggestionList = target.OpenSuggestionList();
 
-            CollectionAssert.AreEquivalent(suggestionList, filterSourceList.Select(x => x.Prop1));
+            Assert.That(filterSourceList.Select(x => x.Prop1), Is.EquivalentTo(suggestionList));
         }
 
         [TestCaseSource(typeof(FilterSourceTestCases))]
@@ -47,7 +47,7 @@
 
             var suggestionList = target.OpenSuggestionList();
 
-            CollectionAssert.AreEquivalent(suggestionList, filteredList.Select(x => x.Prop1));
+            Assert.That(filteredList.Select(x => x.Prop1), Is.EquivalentTo(suggestionList));
         }
 
         [TestCaseSource(typeof(FilterSourceTestCases))]
@@ -69,7 +69,7 @@
 
             var suggestionList = target.OpenSuggestionList();
 
-            CollectionAssert.AreEquivalent(suggestionList, filterSourceList.Select(x => x.Prop1));
+            Assert.That(filterSourceList.Select(x => x.Prop1), Is.EquivalentTo(suggestionList));
         }
 
         [Test]

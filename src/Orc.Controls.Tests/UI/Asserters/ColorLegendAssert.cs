@@ -42,7 +42,7 @@
             var checkedItems = target.Items
                 .Select(x => x.IsChecked);
 
-            CollectionAssert.AreEqual(checkedItems, checkedSourceItems);
+            Assert.That(checkedSourceItems, Is.EqualTo(checkedItems).AsCollection);
         }
 
         public static void ItemsSelectedStateMatch(ColorLegend target)
@@ -55,7 +55,7 @@
             var selectedItems = target.Items.Where(x => x.IsSelected)
                 .Select(x => x.IsSelected);
 
-            CollectionAssert.AreEqual(selectedSourceItems, selectedItems);
+            Assert.That(selectedItems, Is.EqualTo(selectedSourceItems).AsCollection);
         }
 
         public static void ClearSelectionState(ColorLegend target)

@@ -1,104 +1,82 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="VisualTargetPresentationSource.cs" company="WildGums">
-//   Copyright (c) 2008 - 2017 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System.Windows;
+using System.Windows.Media;
 
-
-#if NET || NETCORE
-
-namespace Orc.Controls
+/// <summary>
+/// Support for multi-threaded host visuals.
+/// </summary>
+/// <remarks>
+/// The original code can be found here: http://blogs.msdn.com/b/dwayneneed/archive/2007/04/26/multithreaded-ui-hostvisual.aspx.
+/// </remarks>
+public class VisualTargetPresentationSource : PresentationSource
 {
-    using System.Security.Permissions;
-    using System.Windows;
-    using System.Windows.Media;
+#pragma warning disable IDISP006 // Implement IDisposable.
+    private readonly VisualTarget _visualTarget;
+#pragma warning restore IDISP006 // Implement IDisposable.
 
     /// <summary>
-    /// Support for multi-threaded host visuals.
+    /// Initializes a new instance of the <see cref="VisualTargetPresentationSource"/> class.
     /// </summary>
-    /// <remarks>
-    /// The original code can be found here: http://blogs.msdn.com/b/dwayneneed/archive/2007/04/26/multithreaded-ui-hostvisual.aspx.
-    /// </remarks>
-    public class VisualTargetPresentationSource : PresentationSource
+    /// <param name="hostVisual">The host visual.</param>
+    public VisualTargetPresentationSource(HostVisual hostVisual)
     {
-        #region Fields
-#pragma warning disable IDISP006 // Implement IDisposable.
-        private readonly VisualTarget _visualTarget;
-#pragma warning restore IDISP006 // Implement IDisposable.
-        #endregion
+        _visualTarget = new VisualTarget(hostVisual);
+    }
 
-        #region Constructors
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VisualTargetPresentationSource"/> class.
-        /// </summary>
-        /// <param name="hostVisual">The host visual.</param>
-        public VisualTargetPresentationSource(HostVisual hostVisual)
+    /// <summary>
+    /// When overridden in a derived class, gets or sets the root visual being presented in the source.
+    /// </summary>
+    /// <value></value>
+    /// <returns>
+    /// The root visual.
+    /// </returns>
+    public override Visual RootVisual
+    {
+        get { return _visualTarget.RootVisual; }
+        set
         {
-            _visualTarget = new VisualTarget(hostVisual);
-        }
-        #endregion
+            var oldRoot = _visualTarget.RootVisual;
 
-        #region Properties
-        /// <summary>
-        /// When overridden in a derived class, gets or sets the root visual being presented in the source.
-        /// </summary>
-        /// <value></value>
-        /// <returns>
-        /// The root visual.
-        /// </returns>
-        public override Visual RootVisual
-        {
-            get { return _visualTarget.RootVisual; }
-            set
+            // Set the root visual of the VisualTarget.  This visual will
+            // now be used to visually compose the scene.
+            _visualTarget.RootVisual = value;
+
+            // Tell the PresentationSource that the root visual has
+            // changed.  This kicks off a bunch of stuff like the
+            // Loaded event.
+            RootChanged(oldRoot, value);
+
+            // Kickoff layout...
+            if (value is not UIElement rootElement)
             {
-                var oldRoot = _visualTarget.RootVisual;
-
-                // Set the root visual of the VisualTarget.  This visual will
-                // now be used to visually compose the scene.
-                _visualTarget.RootVisual = value;
-
-                // Tell the PresentationSource that the root visual has
-                // changed.  This kicks off a bunch of stuff like the
-                // Loaded event.
-                RootChanged(oldRoot, value);
-
-                // Kickoff layout...
-                if (value is not UIElement rootElement)
-                {
-                    return;
-                }
-
-                rootElement.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                rootElement.Arrange(new Rect(rootElement.DesiredSize));
+                return;
             }
-        }
 
-        /// <summary>
-        /// When overridden in a derived class, gets a value that declares whether the object is disposed.
-        /// </summary>
-        /// <value></value>
-        /// <returns>true if the object is disposed; otherwise, false.
-        /// </returns>
-        public override bool IsDisposed
-        {
-            get { return false; }
+            rootElement.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            rootElement.Arrange(new Rect(rootElement.DesiredSize));
         }
-        #endregion
+    }
 
-        #region Methods
-        /// <summary>
-        /// When overridden in a derived class, returns a visual target for the given source.
-        /// </summary>
-        /// <returns>
-        /// Returns a <see cref="T:System.Windows.Media.CompositionTarget"/> that is target for rendering the visual.
-        /// </returns>
-        protected override CompositionTarget GetCompositionTargetCore()
-        {
-            return _visualTarget;
-        }
-        #endregion
+    /// <summary>
+    /// When overridden in a derived class, gets a value that declares whether the object is disposed.
+    /// </summary>
+    /// <value></value>
+    /// <returns>true if the object is disposed; otherwise, false.
+    /// </returns>
+    public override bool IsDisposed
+    {
+        get { return false; }
+    }
+  
+    /// <summary>
+    /// When overridden in a derived class, returns a visual target for the given source.
+    /// </summary>
+    /// <returns>
+    /// Returns a <see cref="T:System.Windows.Media.CompositionTarget"/> that is target for rendering the visual.
+    /// </returns>
+    protected override CompositionTarget GetCompositionTargetCore()
+    {
+        return _visualTarget;
     }
 }
-#endif
-

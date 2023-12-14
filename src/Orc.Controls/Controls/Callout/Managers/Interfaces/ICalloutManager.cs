@@ -1,27 +1,25 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Collections.Generic;
+
+public interface ICalloutManager
 {
-    using System;
-    using System.Collections.Generic;
-    using Catel.MVVM;
+    List<ICallout> Callouts { get; }
 
-    public interface ICalloutManager
-    {
-        List<ICallout> Callouts { get; }
+    bool IsSuspended { get; }
 
-        bool IsSuspended { get; }
+    void Suspend();
+    void Resume();
 
-        event EventHandler<CalloutEventArgs> Registered;
-        event EventHandler<CalloutEventArgs> Unregistered;
+    void Register(ICallout callout);
+    void Unregister(ICallout callout);
 
-        event EventHandler<CalloutEventArgs> Showing;
-        event EventHandler<CalloutEventArgs> Hiding;
+    void Clear();
 
-        void Suspend();
-        void Resume();
+    event EventHandler<CalloutEventArgs>? Registered;
+    event EventHandler<CalloutEventArgs>? Unregistered;
 
-        void Register(ICallout callout);
-        void Unregister(ICallout callout);
-
-        void Clear();
-    }
+    event EventHandler<CalloutEventArgs>? Showing;
+    event EventHandler<CalloutEventArgs>? Hiding;
 }

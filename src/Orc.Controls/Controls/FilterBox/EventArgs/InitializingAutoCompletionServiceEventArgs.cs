@@ -1,25 +1,15 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="InitializingAutoCompletionServiceEventArgs.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System.Windows;
+using Catel.Services;
 
-namespace Orc.Controls
+/// <summary>
+/// The Initializing Auto Completion Service EventArgs
+/// </summary>
+public class InitializingAutoCompletionServiceEventArgs : RoutedEventArgs
 {
-    using System.Windows;
-    using Catel.Services;
-
     /// <summary>
-    /// The Initializing Auto Completion Service EventArgs
+    /// Sets and gets the AutoCompletionService.
     /// </summary>
-    public class InitializingAutoCompletionServiceEventArgs : RoutedEventArgs
-    {
-        #region Properties
-        /// <summary>
-        /// Sets and gets the AutoCompletionService.
-        /// </summary>
-        public IAutoCompletionService AutoCompletionService { get; set; }
-        #endregion
-    }
+    public IAutoCompletionService? AutoCompletionService { get; set; }
 }

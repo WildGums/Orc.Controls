@@ -1,120 +1,127 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using Catel.IoC;
+using Microsoft.Xaml.Behaviors;
+using Tools;
+
+public static class FrameworkElementExtensions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows;
-    using Catel;
-    using Catel.IoC;
-    using Microsoft.Xaml.Behaviors;
-    using Tools;
+    private static readonly IControlToolManagerFactory ControlToolManagerFactory;
 
-    public static class FrameworkElementExtensions
+    private static readonly Point ZeroPoint = new(0, 0);
+
+    static FrameworkElementExtensions()
     {
-        #region Constants
-        private static readonly IControlToolManagerFactory ControlToolManagerFactory;
-        #endregion
+        ControlToolManagerFactory = ServiceLocator.Default.ResolveRequiredType<IControlToolManagerFactory>();
+    }
 
-        #region Constructors
-        static FrameworkElementExtensions()
+    public static Rect GetScreenRect(this FrameworkElement frameworkElement)
+    {
+        ArgumentNullException.ThrowIfNull(frameworkElement);
+
+        return frameworkElement.IsVisible 
+            ? new Rect(frameworkElement.PointToScreen(ZeroPoint), 
+                frameworkElement.PointToScreen(new Point(frameworkElement.ActualWidth, frameworkElement.ActualHeight))) 
+            : Rect.Empty;
+    }
+
+    public static IEditableControl? TryGetEditableControl(this FrameworkElement frameworkElement)
+    {
+        ArgumentNullException.ThrowIfNull(frameworkElement);
+
+        if (frameworkElement is IEditableControl editableControl)
         {
-            ControlToolManagerFactory = ServiceLocator.Default.ResolveType<IControlToolManagerFactory>();
-        }
-        #endregion
-
-        #region Methods
-        public static Rect GetScreenRect(this FrameworkElement frameworkElement)
-        {
-            Argument.IsNotNull(() => frameworkElement);
-
-            if (!frameworkElement.IsVisible)
-            {
-                return Rect.Empty;
-            }
-
-            return new Rect(frameworkElement.PointToScreen(new Point(0, 0)), frameworkElement.PointToScreen(new Point(frameworkElement.ActualWidth, frameworkElement.ActualHeight)));
-        }
-
-        public static IEditableControl TryGetEditableControl(this FrameworkElement frameworkElement)
-        {
-            Argument.IsNotNull(() => frameworkElement);
-
-            if (frameworkElement is IEditableControl editableControl)
-            {
-                return editableControl;
-            }
-
-            var behaviors = Interaction.GetBehaviors(frameworkElement);
-            editableControl = behaviors.OfType<IEditableControl>().FirstOrDefault();
-
             return editableControl;
         }
 
-        public static Point GetCenterPointInRoot(this FrameworkElement frameworkElement, FrameworkElement root)
+        var behaviors = Interaction.GetBehaviors(frameworkElement);
+        return behaviors.OfType<IEditableControl>().FirstOrDefault();
+    }
+
+    public static Point GetCenterPointInRoot(this FrameworkElement frameworkElement, FrameworkElement root)
+    {
+        ArgumentNullException.ThrowIfNull(frameworkElement);
+        ArgumentNullException.ThrowIfNull(root);
+
+        var lowerThumbRelativePoint = frameworkElement.TransformToAncestor(root)
+            .Transform(new Point(0, 0));
+
+        return new Point(lowerThumbRelativePoint.X + frameworkElement.ActualWidth / 2, lowerThumbRelativePoint.Y + frameworkElement.ActualHeight / 2);
+    }
+
+    public static IControlToolManager GetControlToolManager(this FrameworkElement frameworkElement)
+    {
+        ArgumentNullException.ThrowIfNull(frameworkElement);
+
+        return ControlToolManagerFactory.GetOrCreateManager(frameworkElement);
+    }
+
+    public static IList<IControlTool> GetTools(this FrameworkElement frameworkElement)
+    {
+        return frameworkElement.GetControlToolManager().Tools;
+    }
+
+    public static TControlTool? GetTool<TControlTool>(this FrameworkElement frameworkElement)
+        where TControlTool : IControlTool
+    {
+        return frameworkElement.GetControlToolManager().Tools.OfType<TControlTool>().FirstOrDefault();
+    }
+
+    public static bool CanAttach(this FrameworkElement frameworkElement, Type toolType)
+    {
+        var controlToolManager = frameworkElement.GetControlToolManager();
+        return controlToolManager.CanAttachTool(toolType);
+    }
+
+    public static async Task AttachAndOpenToolAsync(this FrameworkElement frameworkElement, Type toolType, object? parameter = null)
+    {
+        ArgumentNullException.ThrowIfNull(frameworkElement);
+        ArgumentNullException.ThrowIfNull(toolType);
+
+        if ((await frameworkElement.AttachToolAsync(toolType)) is not IControlTool tool)
         {
-            Argument.IsNotNull(() => frameworkElement);
-            Argument.IsNotNull(() => root);
-
-            var lowerThumbRelativePoint = frameworkElement.TransformToAncestor(root)
-                .Transform(new Point(0, 0));
-
-            return new Point(lowerThumbRelativePoint.X + frameworkElement.ActualWidth / 2, lowerThumbRelativePoint.Y + frameworkElement.ActualHeight / 2);
+            return;
         }
 
-        public static IControlToolManager GetControlToolManager(this FrameworkElement frameworkElement)
-        {
-            Argument.IsNotNull(() => frameworkElement);
+        await tool.OpenAsync(parameter);
+    }
 
-            return ControlToolManagerFactory.GetOrCreateManager(frameworkElement);
+    public static async Task AttachAndOpenToolAsync<T>(this FrameworkElement frameworkElement, object? parameter = null)
+        where T : class, IControlTool
+    {
+        ArgumentNullException.ThrowIfNull(frameworkElement);
+
+        var tool = await frameworkElement.AttachToolAsync<T>();
+        if (tool is null)
+        {
+            return;
         }
 
-        public static IList<IControlTool> GetTools(this FrameworkElement frameworkElement)
-        {
-            return frameworkElement.GetControlToolManager().Tools;
-        }
+        await tool.OpenAsync(parameter);
+    }
 
-        public static bool CanAttach(this FrameworkElement frameworkElement, Type toolType)
-        {
-            var controlToolManager = frameworkElement.GetControlToolManager();
-            return controlToolManager.CanAttachTool(toolType);
-        }
+    public static Task<object?> AttachToolAsync(this FrameworkElement frameworkElement, Type toolType)
+    {
+        var controlToolManager = frameworkElement.GetControlToolManager();
+        return controlToolManager.AttachToolAsync(toolType);
+    }
 
-        public static void AttachAndOpenTool(this FrameworkElement frameworkElement, Type toolType, object parameter = null)
-        {
-            Argument.IsNotNull(() => frameworkElement);
-            Argument.IsNotNull(() => toolType);
+    public static async Task<T?> AttachToolAsync<T>(this FrameworkElement frameworkElement)
+        where T : class, IControlTool
+    {
+        ArgumentNullException.ThrowIfNull(frameworkElement);
 
-            var tool = frameworkElement.AttachTool(toolType) as IControlTool;
-            tool?.Open(parameter);
-        }
+        return (await frameworkElement.AttachToolAsync(typeof(T))) as T;
+    }
 
-        public static void AttachAndOpenTool<T>(this FrameworkElement frameworkElement, object parameter = null)
-            where T : class, IControlTool
-        {
-            Argument.IsNotNull(() => frameworkElement);
-
-            frameworkElement?.AttachTool<T>()?.Open(parameter);
-        }
-
-        public static object AttachTool(this FrameworkElement frameworkElement, Type toolType)
-        {
-            var controlToolManager = frameworkElement.GetControlToolManager();
-            return controlToolManager.AttachTool(toolType);
-        }
-
-        public static T AttachTool<T>(this FrameworkElement frameworkElement)
-            where T : class, IControlTool
-        {
-            Argument.IsNotNull(() => frameworkElement);
-
-            return frameworkElement.AttachTool(typeof(T)) as T;
-        }
-
-        public static bool DetachTool(this FrameworkElement frameworkElement, Type toolType)
-        {
-            var controlToolManager = frameworkElement.GetControlToolManager();
-            return controlToolManager.DetachTool(toolType);
-        }
-        #endregion
+    public static Task<bool> DetachToolAsync(this FrameworkElement frameworkElement, Type toolType)
+    {
+        var controlToolManager = frameworkElement.GetControlToolManager();
+        return controlToolManager.DetachToolAsync(toolType);
     }
 }

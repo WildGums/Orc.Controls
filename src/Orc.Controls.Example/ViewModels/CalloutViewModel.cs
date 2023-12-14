@@ -3,7 +3,6 @@
     using System;
     using System.Threading.Tasks;
     using System.Windows.Threading;
-    using Catel;
     using Catel.MVVM;
 
     public class CalloutViewModel : ViewModelBase
@@ -12,7 +11,7 @@
 
         public CalloutViewModel(ICalloutManager calloutManager)
         {
-            Argument.IsNotNull(() => calloutManager);
+            ArgumentNullException.ThrowIfNull(calloutManager);
 
             CalloutManager = calloutManager;
             OpenCallout = new TaskCommand<object>(OpenCalloutExecuteAsync);

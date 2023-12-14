@@ -1,12 +1,11 @@
-﻿namespace Orc.Controls.Automation
-{
-    using Orc.Automation;
+﻿namespace Orc.Controls.Automation;
 
-    public class AnimatedGifAutomationPeer : AutomationControlPeerBase<Controls.AnimatedGif>
+using Orc.Automation;
+
+public class AnimatedGifAutomationPeer : AutomationControlPeerBase<Controls.AnimatedGif>
+{
+    public AnimatedGifAutomationPeer(Controls.AnimatedGif owner)
+        : base(owner)
     {
-        public AnimatedGifAutomationPeer(Controls.AnimatedGif owner)
-            : base(owner)
-        {
-        }
     }
 }

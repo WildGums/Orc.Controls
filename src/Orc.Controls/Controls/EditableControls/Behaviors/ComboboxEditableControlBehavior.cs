@@ -1,100 +1,90 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ComboboxEditableControlBehavior.cs" company="WildGums">
-//   Copyright (c) 2008 - 2020 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System;
+using System.Windows;
+using System.Windows.Controls;
 
-namespace Orc.Controls
+public class ComboboxEditableControlBehavior : EditableControlBehaviorBase<ComboBox>
 {
-    using System;
-    using System.Windows;
-    using System.Windows.Controls;
-
-    public class ComboboxEditableControlBehavior : EditableControlBehaviorBase<ComboBox>
+    protected override void OnAssociatedObjectLoaded()
     {
-        #region Methods
-        protected override void OnAssociatedObjectLoaded()
-        {
-            base.OnAssociatedObjectLoaded();
+        base.OnAssociatedObjectLoaded();
 
-            var combobox = AssociatedObject;
-            combobox.GotFocus += ComboboxOnGotFocus;
-            combobox.LostFocus += OnComboboxLostFocus;
-            combobox.SelectionChanged += OnComboboxSelectionChanged;
-            combobox.DropDownClosed += OnComboboxDropDownClosed;
+        var combobox = AssociatedObject;
+        combobox.GotFocus += ComboboxOnGotFocus;
+        combobox.LostFocus += OnComboboxLostFocus;
+        combobox.SelectionChanged += OnComboboxSelectionChanged;
+        combobox.DropDownClosed += OnComboboxDropDownClosed;
+    }
+
+    protected override void OnAssociatedObjectUnloaded()
+    {
+        base.OnAssociatedObjectUnloaded();
+
+        var combobox = AssociatedObject;
+        combobox.GotFocus -= ComboboxOnGotFocus;
+        combobox.LostFocus -= OnComboboxLostFocus;
+        combobox.SelectionChanged -= OnComboboxSelectionChanged;
+        combobox.DropDownClosed -= OnComboboxDropDownClosed;
+    }
+
+    private void OnComboboxDropDownClosed(object? _, EventArgs e)
+    {
+        SetCurrentValue(IsInEditModeProperty, false);
+
+        RaiseEditEnded();
+    }
+
+    private void ComboboxOnGotFocus(object? _, RoutedEventArgs e)
+    {
+        SetCurrentValue(IsInEditModeProperty, true);
+
+        RaiseEditStarted();
+    }
+
+    private void OnComboboxLostFocus(object? _, RoutedEventArgs e)
+    {
+        var combobox = AssociatedObject;
+        if (combobox.IsDropDownOpen)
+        {
+            return;
         }
 
-        protected override void OnAssociatedObjectUnloaded()
+        if (combobox.IsKeyboardFocused)
         {
-            base.OnAssociatedObjectUnloaded();
-
-            var combobox = AssociatedObject;
-            combobox.GotFocus -= ComboboxOnGotFocus;
-            combobox.LostFocus -= OnComboboxLostFocus;
-            combobox.SelectionChanged -= OnComboboxSelectionChanged;
-            combobox.DropDownClosed -= OnComboboxDropDownClosed;
+            return;
         }
 
-        private void OnComboboxDropDownClosed(object sender, EventArgs e)
+        if (combobox.IsKeyboardFocusWithin)
         {
-            SetCurrentValue(IsInEditModeProperty, false);
-
-            RaiseEditEnded();
+            return;
         }
 
-        private void ComboboxOnGotFocus(object sender, RoutedEventArgs e)
-        {
-            SetCurrentValue(IsInEditModeProperty, true);
+        SetCurrentValue(IsInEditModeProperty, false);
 
-            RaiseEditStarted();
+        RaiseEditEnded();
+    }
+
+    private void OnComboboxSelectionChanged(object? _, SelectionChangedEventArgs e)
+    {
+        var combobox = AssociatedObject;
+        if (combobox.IsDropDownOpen)
+        {
+            return;
         }
 
-        private void OnComboboxLostFocus(object sender, RoutedEventArgs e)
+        if (combobox.IsKeyboardFocused)
         {
-            var combobox = AssociatedObject;
-            if (combobox.IsDropDownOpen)
-            {
-                return;
-            }
-
-            if (combobox.IsKeyboardFocused)
-            {
-                return;
-            }
-
-            if (combobox.IsKeyboardFocusWithin)
-            {
-                return;
-            }
-
-            SetCurrentValue(IsInEditModeProperty, false);
-
-            RaiseEditEnded();
+            return;
         }
 
-        private void OnComboboxSelectionChanged(object sender, SelectionChangedEventArgs e)
+        if (combobox.IsKeyboardFocusWithin)
         {
-            var combobox = AssociatedObject;
-            if (combobox.IsDropDownOpen)
-            {
-                return;
-            }
-
-            if (combobox.IsKeyboardFocused)
-            {
-                return;
-            }
-
-            if (combobox.IsKeyboardFocusWithin)
-            {
-                return;
-            }
-
-            SetCurrentValue(IsInEditModeProperty, false);
-
-            RaiseEditEnded();
+            return;
         }
-        #endregion
+
+        SetCurrentValue(IsInEditModeProperty, false);
+
+        RaiseEditEnded();
     }
 }

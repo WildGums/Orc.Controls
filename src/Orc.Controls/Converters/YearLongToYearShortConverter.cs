@@ -1,63 +1,43 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="YearLongToYearShortConverter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls.Converters;
 
+using System;
+using Catel.MVVM.Converters;
 
-namespace Orc.Controls.Converters
+public class YearLongToYearShortConverter : ValueConverterBase
 {
-    using System;
-    using Catel.MVVM.Converters;
+    private int _yearBase = 2000;
 
-    public class YearLongToYearShortConverter : ValueConverterBase
+    public bool IsEnabled { get; set; }
+
+    protected override object? Convert(object? value, Type targetType, object? parameter)
     {
-        #region Fields
-        private int _yearBase = 2000;
-        #endregion
-
-        #region Constructors
-        public YearLongToYearShortConverter()
+        if (!IsEnabled || value is null)
         {
-        }
-        #endregion
-
-        #region Properties
-        public bool IsEnabled { get; set; }
-        #endregion
-
-        #region Methods
-        protected override object Convert(object value, Type targetType, object parameter)
-        {
-            if (!IsEnabled || value is null)
-            {
-                return value;
-            }
-
-            if (!int.TryParse(value.ToString(), out var yearLong))
-            {
-                return value;
-            }
-
-            _yearBase = yearLong - yearLong % 100;
-
-            return yearLong - _yearBase;
-        }
-
-        protected override object ConvertBack(object value, Type targetType, object parameter)
-        {
-            if (!IsEnabled || value is null)
-            {
-                return value;
-            }
-
-            if (int.TryParse(value.ToString(), out var yearShort))
-            {
-                return _yearBase + yearShort;
-            }
-
             return value;
         }
-        #endregion
+
+        if (!int.TryParse(value.ToString(), out var yearLong))
+        {
+            return value;
+        }
+
+        _yearBase = yearLong - yearLong % 100;
+
+        return yearLong - _yearBase;
+    }
+
+    protected override object? ConvertBack(object? value, Type targetType, object? parameter)
+    {
+        if (!IsEnabled || value is null)
+        {
+            return value;
+        }
+
+        if (int.TryParse(value.ToString(), out var yearShort))
+        {
+            return _yearBase + yearShort;
+        }
+
+        return value;
     }
 }

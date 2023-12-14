@@ -1,67 +1,50 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ControlToolManagerFactory.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls.Tools;
 
+using System;
+using System.Collections.Generic;
+using System.Windows;
+using Catel.IoC;
 
-namespace Orc.Controls.Tools
+public class ControlToolManagerFactory : IControlToolManagerFactory
 {
-    using System.Collections.Generic;
-    using System.Windows;
-    using Catel;
-    using Catel.IoC;
+    private readonly Dictionary<FrameworkElement, IControlToolManager> _controlToolManagers = new();
 
-    public class ControlToolManagerFactory : IControlToolManagerFactory
+    private readonly ITypeFactory _typeFactory;
+
+    public ControlToolManagerFactory(ITypeFactory typeFactory)
     {
-        #region Fields
-        private readonly Dictionary<FrameworkElement, IControlToolManager> _controlToolManagers
-            = new Dictionary<FrameworkElement, IControlToolManager>();
+        ArgumentNullException.ThrowIfNull(typeFactory);
 
-        private readonly ITypeFactory _typeFactory;
-        #endregion
+        _typeFactory = typeFactory;
+    }
 
-        #region Constructors
-        public ControlToolManagerFactory(ITypeFactory typeFactory)
+    public IControlToolManager GetOrCreateManager(FrameworkElement frameworkElement)
+    {
+        ArgumentNullException.ThrowIfNull(frameworkElement);
+
+        if (!_controlToolManagers.TryGetValue(frameworkElement, out var manager))
         {
-            Argument.IsNotNull(() => typeFactory);
-
-            _typeFactory = typeFactory;
+            manager = _typeFactory.CreateRequiredInstanceWithParametersAndAutoCompletion<ControlToolManager>(frameworkElement);
+            frameworkElement.Unloaded += OnFrameworkElementUnloaded;
         }
-        #endregion
 
-        #region IControlToolManagerFactory Members
-        public IControlToolManager GetOrCreateManager(FrameworkElement frameworkElement)
+        _controlToolManagers[frameworkElement] = manager;
+        return manager;
+    }
+
+    private void OnFrameworkElementUnloaded(object sender, RoutedEventArgs e)
+    {
+        if (sender is not FrameworkElement frameworkElement)
         {
-            Argument.IsNotNull(() => frameworkElement);
-
-            if (!_controlToolManagers.TryGetValue(frameworkElement, out var manager))
-            {
-                manager = _typeFactory.CreateInstanceWithParametersAndAutoCompletion<ControlToolManager>(frameworkElement);
-                frameworkElement.Unloaded += OnFrameworkElementUnloaded;
-            }
-
-            _controlToolManagers[frameworkElement] = manager;
-            return manager;
+            return;
         }
-        #endregion
 
-        #region Methods
-        private void OnFrameworkElementUnloaded(object sender, RoutedEventArgs e)
+        if (!_controlToolManagers.ContainsKey(frameworkElement))
         {
-            if (sender is not FrameworkElement frameworkElement)
-            {
-                return;
-            }
-
-            if (!_controlToolManagers.ContainsKey(frameworkElement))
-            {
-                return;
-            }
-
-            _controlToolManagers.Remove(frameworkElement);
-            frameworkElement.Unloaded -= OnFrameworkElementUnloaded;
+            return;
         }
-        #endregion
+
+        _controlToolManagers.Remove(frameworkElement);
+        frameworkElement.Unloaded -= OnFrameworkElementUnloaded;
     }
 }

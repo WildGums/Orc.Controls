@@ -1,21 +1,11 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BooleanExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2020 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System.Windows;
 
-namespace Orc.Controls
+internal static class BooleanExtensions
 {
-    using System.Windows;
-
-    internal static class BooleanExtensions
+    public static Visibility ToVisibility(this bool value, Visibility hiddenState = Visibility.Collapsed)
     {
-        #region Methods
-        public static Visibility ToVisibility(this bool value, Visibility hiddenState = Visibility.Collapsed)
-        {
-            return value ? Visibility.Visible : hiddenState;
-        }
-        #endregion
+        return value ? Visibility.Visible : hiddenState;
     }
 }

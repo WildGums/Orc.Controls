@@ -1,14 +1,13 @@
-﻿namespace Orc.Controls.Automation
-{
-    using System.Windows.Automation;
-    using Orc.Automation;
+﻿namespace Orc.Controls.Automation;
 
-    public class StaggeredPanelMap : AutomationBase
+using System.Windows.Automation;
+using Orc.Automation;
+
+public class StaggeredPanelMap : AutomationBase
+{
+    public StaggeredPanelMap(AutomationElement element) 
+        : base(element)
     {
-        public StaggeredPanelMap(AutomationElement element) 
-            : base(element)
-        {
             
-        }
     }
 }

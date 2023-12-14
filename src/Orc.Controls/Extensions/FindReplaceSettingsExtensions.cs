@@ -1,52 +1,42 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FindReplaceSettingsExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2019 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System;
+using System.Text.RegularExpressions;
 
-namespace Orc.Controls
+public static class FindReplaceSettingsExtensions
 {
-    using System.Text.RegularExpressions;
-    using Catel;
-
-    public static class FindReplaceSettingsExtensions
+    public static Regex GetRegEx(this FindReplaceSettings settings, string textToFind, bool isLeftToRight = false)
     {
-        #region Methods
-        public static Regex GetRegEx(this FindReplaceSettings settings, string textToFind, bool isLeftToRight = false)
+        ArgumentNullException.ThrowIfNull(textToFind);
+        ArgumentNullException.ThrowIfNull(settings);
+
+        var options = RegexOptions.Compiled;
+        if (settings.IsSearchUp && !isLeftToRight)
         {
-            Argument.IsNotNull(() => textToFind);
-            Argument.IsNotNull(() => settings);
-
-            var options = RegexOptions.None;
-            if (settings.IsSearchUp && !isLeftToRight)
-            {
-                options |= RegexOptions.RightToLeft;
-            }
-
-            if (!settings.CaseSensitive)
-            {
-                options |= RegexOptions.IgnoreCase;
-            }
-
-            if (settings.UseRegex)
-            {
-                return new Regex(textToFind, options);
-            }
-
-            var pattern = Regex.Escape(textToFind);
-            if (settings.UseWildcards)
-            {
-                pattern = pattern.Replace("\\*", ".*").Replace("\\?", ".");
-            }
-
-            if (settings.WholeWord)
-            {
-                pattern = "\\b" + pattern + "\\b";
-            }
-
-            return new Regex(pattern, options);
+            options |= RegexOptions.RightToLeft;
         }
-        #endregion
+
+        if (!settings.CaseSensitive)
+        {
+            options |= RegexOptions.IgnoreCase;
+        }
+
+        if (settings.UseRegex)
+        {
+            return new Regex(textToFind, options, TimeSpan.FromSeconds(1));
+        }
+
+        var pattern = Regex.Escape(textToFind);
+        if (settings.UseWildcards)
+        {
+            pattern = pattern.Replace("\\*", ".*").Replace("\\?", ".");
+        }
+
+        if (settings.WholeWord)
+        {
+            pattern = "\\b" + pattern + "\\b";
+        }
+
+        return new Regex(pattern, options, TimeSpan.FromSeconds(1));
     }
 }

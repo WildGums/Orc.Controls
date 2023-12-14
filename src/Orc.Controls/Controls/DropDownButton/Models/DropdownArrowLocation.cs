@@ -1,35 +1,27 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DropdownArrowLocation.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
-
-namespace Orc.Controls
+/// <summary>
+/// The arrow location.
+/// </summary>
+public enum DropdownArrowLocation
 {
     /// <summary>
-    /// The arrow location.
+    /// The left arrow location
     /// </summary>
-    public enum DropdownArrowLocation
-    {
-        /// <summary>
-        /// The left arrow location
-        /// </summary>
-        Left,
+    Left = 0,
 
-        /// <summary>
-        /// The top arrow location
-        /// </summary>
-        Top,
+    /// <summary>
+    /// The top arrow location
+    /// </summary>
+    Top = 1,
 
-        /// <summary>
-        /// The right arrow location
-        /// </summary>
-        Right,
+    /// <summary>
+    /// The right arrow location
+    /// </summary>
+    Right = 2,
 
-        /// <summary>
-        /// The bottom arrow location
-        /// </summary>
-        Bottom
-    }
+    /// <summary>
+    /// The bottom arrow location
+    /// </summary>
+    Bottom = 3
 }

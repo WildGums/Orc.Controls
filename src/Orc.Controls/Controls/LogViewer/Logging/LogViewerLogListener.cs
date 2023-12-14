@@ -1,19 +1,11 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogViewerLogListener.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using Catel.Logging;
 
-namespace Orc.Controls
+public class LogViewerLogListener : RollingInMemoryLogListener
 {
-    using Catel.Logging;
-
-    public class LogViewerLogListener : RollingInMemoryLogListener
+    public LogViewerLogListener()
     {
-        public LogViewerLogListener()
-        {
-            MaximumNumberOfLogEntries = 500;
-        }
+        MaximumNumberOfLogEntries = 500;
     }
 }

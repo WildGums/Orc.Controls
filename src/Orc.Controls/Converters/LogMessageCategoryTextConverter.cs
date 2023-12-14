@@ -1,39 +1,25 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CategoryTextConverter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2021 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls.Converters;
 
+using System;
+using System.Collections.Generic;
+using Catel;
+using Catel.MVVM.Converters;
 
-namespace Orc.Controls.Converters
+internal class LogMessageCategoryTextConverter : ValueConverterBase<string>
 {
-    using System;
-    using System.Collections.Generic;
-    using Catel;
-    using Catel.MVVM.Converters;
+    private static readonly Dictionary<string, string?> PathCache = new(StringComparer.OrdinalIgnoreCase);
 
-    internal class LogMessageCategoryTextConverter : ValueConverterBase<string>
+    static LogMessageCategoryTextConverter()
     {
-        #region Constants
-        private static readonly Dictionary<string, string> PathCache = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        #endregion
+        PathCache["Debug"] = LanguageHelper.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Debug");
+        PathCache["Info"] = LanguageHelper.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Info");
+        PathCache["Warning"] = LanguageHelper.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Warning");
+        PathCache["Error"] = LanguageHelper.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Error");
+        PathCache["Clock"] = null;
+    }
 
-        #region Constructors
-        static LogMessageCategoryTextConverter()
-        {
-            PathCache["Debug"] = LanguageHelper.GetString("Controls_LogMessageCategoryToggleButton_Text_Debug");
-            PathCache["Info"] = LanguageHelper.GetString("Controls_LogMessageCategoryToggleButton_Text_Info");
-            PathCache["Warning"] = LanguageHelper.GetString("Controls_LogMessageCategoryToggleButton_Text_Warning");
-            PathCache["Error"] = LanguageHelper.GetString("Controls_LogMessageCategoryToggleButton_Text_Error");
-            PathCache["Clock"] = null;
-        }
-        #endregion
-
-        #region Methods
-        protected override object Convert(string value, Type targetType, object parameter)
-        {
-            return PathCache.TryGetValue(value, out var cachedvalue) ? cachedvalue : null;
-        }
-        #endregion
+    protected override object? Convert(string? value, Type targetType, object? parameter)
+    {
+        return PathCache.TryGetValue(value ?? string.Empty, out var cachedvalue) ? cachedvalue : null;
     }
 }

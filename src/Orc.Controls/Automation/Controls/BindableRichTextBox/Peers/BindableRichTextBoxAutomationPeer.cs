@@ -1,12 +1,11 @@
-﻿namespace Orc.Controls.Automation
-{
-    using Orc.Automation;
+﻿namespace Orc.Controls.Automation;
 
-    public class BindableRichTextBoxAutomationPeer : AutomationControlPeerBase<Controls.BindableRichTextBox>
+using Orc.Automation;
+
+public class BindableRichTextBoxAutomationPeer : AutomationControlPeerBase<Controls.BindableRichTextBox>
+{
+    public BindableRichTextBoxAutomationPeer(Controls.BindableRichTextBox owner) 
+        : base(owner)
     {
-        public BindableRichTextBoxAutomationPeer(Controls.BindableRichTextBox owner) 
-            : base(owner)
-        {
-        }
     }
 }

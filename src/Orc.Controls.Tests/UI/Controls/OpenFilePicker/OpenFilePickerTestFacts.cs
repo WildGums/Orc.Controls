@@ -58,7 +58,7 @@
 
             model.Filter = filterStr;
 
-            CollectionAssert.AreEquivalent(target.Filters, expectedFilterList);
+            Assert.That(expectedFilterList, Is.EquivalentTo(target.Filters));
         }
         
         [TestCaseSource(typeof(TestFilePathsBaseDirectoryExpectedResultPathSource))]

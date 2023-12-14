@@ -1,95 +1,92 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DateTimeFormatter.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Catel.Logging;
 
-namespace Orc.Controls
+public static class DateTimeFormatter
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using Catel;
-    using Catel.Logging;
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-    public static class DateTimeFormatter
+    public static string Format(DateTime dateTime, string format, bool isDateOnly = false)
     {
-        #region Fields
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-        #endregion
+        return Format(dateTime, DateTimeFormatHelper.GetDateTimeFormatInfo(format, isDateOnly));
+    }
 
-        #region Methods
-        public static string Format(DateTime dateTime, string format, bool isDateOnly = false)
+    internal static string Format(DateTime dateTime, DateTimeFormatInfo formatInfo)
+    {
+        ArgumentNullException.ThrowIfNull(formatInfo);
+
+        var parts = new List<KeyValuePair<int, string>>
         {
-            return Format(dateTime, DateTimeFormatHelper.GetDateTimeFormatInfo(format, isDateOnly));
+            new (formatInfo.DayPosition, dateTime.Day.ToString(NumberFormatHelper.GetFormat(formatInfo.DayFormat?.Length ?? 0))),
+            new (formatInfo.MonthPosition, dateTime.Month.ToString(NumberFormatHelper.GetFormat(formatInfo.MonthFormat?.Length ?? 0)))
+        };
+
+        if (formatInfo.IsYearShortFormat)
+        {
+            var yearShort = dateTime.Year - (dateTime.Year - dateTime.Year % 100);
+            parts.Add(new KeyValuePair<int, string>(formatInfo.YearPosition, yearShort.ToString(NumberFormatHelper.GetFormat(formatInfo.YearFormat?.Length ?? 0))));
+        }
+        else
+        {
+            parts.Add(new KeyValuePair<int, string>(formatInfo.YearPosition, dateTime.Year.ToString(NumberFormatHelper.GetFormat(formatInfo.YearFormat?.Length ?? 0))));
         }
 
-        internal static string Format(DateTime dateTime, DateTimeFormatInfo formatInfo)
+        if (!formatInfo.IsDateOnly)
         {
-            Argument.IsNotNull(() => formatInfo);
-
-            var parts = new List<KeyValuePair<int, string>>
-            {
-                new (formatInfo.DayPosition, dateTime.Day.ToString(NumberFormatHelper.GetFormat(formatInfo.DayFormat.Length))),
-                new (formatInfo.MonthPosition, dateTime.Month.ToString(NumberFormatHelper.GetFormat(formatInfo.MonthFormat.Length)))
-            };
-
-            if (formatInfo.IsYearShortFormat)
-            {
-                var yearShort = dateTime.Year - (dateTime.Year - dateTime.Year % 100);
-                parts.Add(new KeyValuePair<int, string>(formatInfo.YearPosition, yearShort.ToString(NumberFormatHelper.GetFormat(formatInfo.YearFormat.Length))));
-            }
-            else
-            {
-                parts.Add(new KeyValuePair<int, string>(formatInfo.YearPosition, dateTime.Year.ToString(NumberFormatHelper.GetFormat(formatInfo.YearFormat.Length))));
-            }
-
-            if (!formatInfo.IsDateOnly)
+            var hourPosition = formatInfo.HourPosition;
+            if (hourPosition is not null)
             {
                 if (formatInfo.IsHour12Format == true)
                 {
                     var hour12 = dateTime.Hour % 12 > 0 ? dateTime.Hour % 12 : 12;
-                    parts.Add(new KeyValuePair<int, string>(formatInfo.HourPosition.Value, hour12.ToString(NumberFormatHelper.GetFormat(formatInfo.HourFormat.Length))));
+                    parts.Add(new KeyValuePair<int, string>(hourPosition.Value, hour12.ToString(NumberFormatHelper.GetFormat(formatInfo.HourFormat?.Length ?? 0))));
                 }
                 else
                 {
-                    parts.Add(new KeyValuePair<int, string>(formatInfo.HourPosition.Value, dateTime.Hour.ToString(NumberFormatHelper.GetFormat(formatInfo.HourFormat.Length))));
-                }
-
-                parts.Add(new KeyValuePair<int, string>(formatInfo.MinutePosition.Value, dateTime.Minute.ToString(NumberFormatHelper.GetFormat(formatInfo.MinuteFormat.Length))));
-
-                if (formatInfo.SecondPosition.HasValue)
-                {
-                    parts.Add(new KeyValuePair<int, string>(formatInfo.SecondPosition.Value, dateTime.Second.ToString(NumberFormatHelper.GetFormat(formatInfo.SecondFormat.Length))));
-                }
-
-                if (formatInfo.AmPmPosition.HasValue)
-                {
-                    parts.Add(new KeyValuePair<int, string>(formatInfo.AmPmPosition.Value, dateTime.Hour >= 12 ? Meridiems.GetPmForFormat(formatInfo) : Meridiems.GetAmForFormat(formatInfo)));
+                    parts.Add(new KeyValuePair<int, string>(hourPosition.Value, dateTime.Hour.ToString(NumberFormatHelper.GetFormat(formatInfo.HourFormat?.Length ?? 0))));
                 }
             }
 
-            parts = parts.OrderBy(x => x.Key).ToList();
-
-            return BuildFormatString(formatInfo, parts);
-        }
-
-        private static string BuildFormatString(DateTimeFormatInfo formatInfo, List<KeyValuePair<int, string>> parts)
-        {
-            // Always contain year, month, day part.
-            var builder = new StringBuilder();
-
-            builder.Append(formatInfo.Separator0);
-            for (var i = 0; i < parts.Count; i++)
+            var minutePosition = formatInfo.MinutePosition;
+            if (minutePosition is not null)
             {
-                builder.Append(parts[i].Value);
-                builder.Append(formatInfo.GetSeparator(i + 1));
+                parts.Add(new KeyValuePair<int, string>(minutePosition.Value, dateTime.Minute.ToString(NumberFormatHelper.GetFormat(formatInfo.MinuteFormat?.Length ?? 0))));
             }
 
-            return builder.ToString();
+            var secondPosition = formatInfo.SecondPosition;
+            if (secondPosition is not null)
+            {
+                parts.Add(new KeyValuePair<int, string>(secondPosition.Value, dateTime.Second.ToString(NumberFormatHelper.GetFormat(formatInfo.SecondFormat?.Length ?? 0))));
+            }
+
+            var amPmPosition = formatInfo.AmPmPosition;
+            if (amPmPosition is not null)
+            {
+                parts.Add(new KeyValuePair<int, string>(amPmPosition.Value, dateTime.Hour >= 12 ? Meridiems.GetPmForFormat(formatInfo) : Meridiems.GetAmForFormat(formatInfo)));
+            }
         }
-        #endregion
+
+        parts = parts.OrderBy(x => x.Key).ToList();
+
+        return BuildFormatString(formatInfo, parts);
+    }
+
+    private static string BuildFormatString(DateTimeFormatInfo formatInfo, List<KeyValuePair<int, string>> parts)
+    {
+        // Always contain year, month, day part.
+        var builder = new StringBuilder();
+
+        builder.Append(formatInfo.Separator0);
+        for (var i = 0; i < parts.Count; i++)
+        {
+            builder.Append(parts[i].Value);
+            builder.Append(formatInfo.GetSeparator(i + 1));
+        }
+
+        return builder.ToString();
     }
 }

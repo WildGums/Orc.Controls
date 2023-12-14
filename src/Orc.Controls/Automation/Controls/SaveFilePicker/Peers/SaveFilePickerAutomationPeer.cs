@@ -1,12 +1,11 @@
-﻿namespace Orc.Controls.Automation
-{
-    using Orc.Automation;
+﻿namespace Orc.Controls.Automation;
 
-    public class SaveFilePickerAutomationPeer : AutomationControlPeerBase<Controls.SaveFilePicker>
+using Orc.Automation;
+
+public class SaveFilePickerAutomationPeer : AutomationControlPeerBase<Controls.SaveFilePicker>
+{
+    public SaveFilePickerAutomationPeer(Controls.SaveFilePicker owner)
+        : base(owner)
     {
-        public SaveFilePickerAutomationPeer(Controls.SaveFilePicker owner)
-            : base(owner)
-        {
-        }
     }
 }

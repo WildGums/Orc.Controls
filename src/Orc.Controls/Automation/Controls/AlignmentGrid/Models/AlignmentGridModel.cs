@@ -11,7 +11,7 @@ public class AlignmentGridModel : FrameworkElementModel
     {
     }
 
-    public Brush LineBrush { get; set; }
+    public Brush? LineBrush { get; set; }
     public double HorizontalStep { get; set; }
     public double VerticalStep { get; set; }
 }

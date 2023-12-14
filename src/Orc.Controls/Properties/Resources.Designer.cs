@@ -19,7 +19,7 @@ namespace Orc.Controls.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -293,78 +293,6 @@ namespace Orc.Controls.Properties {
         internal static string Controls_ConnectionStringEditWindow_RadioButton_Content_UseWindowsAuthentication {
             get {
                 return ResourceManager.GetString("Controls_ConnectionStringEditWindow_RadioButton_Content_UseWindowsAuthentication", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Clear.
-        /// </summary>
-        internal static string Controls_DatePicker_Button_Content_Clear {
-            get {
-                return ResourceManager.GetString("Controls_DatePicker_Button_Content_Clear", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Copy.
-        /// </summary>
-        internal static string Controls_DatePicker_Button_Content_Copy {
-            get {
-                return ResourceManager.GetString("Controls_DatePicker_Button_Content_Copy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Paste.
-        /// </summary>
-        internal static string Controls_DatePicker_Button_Content_Paste {
-            get {
-                return ResourceManager.GetString("Controls_DatePicker_Button_Content_Paste", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select date.
-        /// </summary>
-        internal static string Controls_DatePicker_Button_Content_SelectDate {
-            get {
-                return ResourceManager.GetString("Controls_DatePicker_Button_Content_SelectDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Today.
-        /// </summary>
-        internal static string Controls_DatePicker_Button_Content_Today {
-            get {
-                return ResourceManager.GetString("Controls_DatePicker_Button_Content_Today", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to d.
-        /// </summary>
-        internal static string Controls_DatePicker_ToggleButton_Content_DayAbbreviation {
-            get {
-                return ResourceManager.GetString("Controls_DatePicker_ToggleButton_Content_DayAbbreviation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to m.
-        /// </summary>
-        internal static string Controls_DatePicker_ToggleButton_Content_MonthAbbreviation {
-            get {
-                return ResourceManager.GetString("Controls_DatePicker_ToggleButton_Content_MonthAbbreviation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to y.
-        /// </summary>
-        internal static string Controls_DatePicker_ToggleButton_Content_YearAbbreviation {
-            get {
-                return ResourceManager.GetString("Controls_DatePicker_ToggleButton_Content_YearAbbreviation", resourceCulture);
             }
         }
         

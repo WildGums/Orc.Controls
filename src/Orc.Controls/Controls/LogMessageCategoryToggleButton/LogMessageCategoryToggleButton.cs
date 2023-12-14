@@ -1,104 +1,108 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Windows;
+using System.Windows.Automation.Peers;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Media;
+using Automation;
+using Catel.Logging;
+using Converters;
+
+[TemplatePart(Name = "PART_Toggle", Type = typeof(ToggleButton))]
+public class LogMessageCategoryToggleButton : Control
 {
-    using System.Windows;
-    using System.Windows.Automation.Peers;
-    using System.Windows.Controls;
-    using System.Windows.Controls.Primitives;
-    using System.Windows.Media;
-    using Automation;
-    using Converters;
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-    [TemplatePart(Name = "PART_Toggle", Type = typeof(ToggleButton))]
-    public class LogMessageCategoryToggleButton : Control
+    private ToggleButton? _toggleButton;
+
+    #region Dependency properties
+    public bool IsChecked
     {
-        #region Fields
-        private ToggleButton _toggleButton;
-        #endregion
+        get { return (bool)GetValue(IsCheckedProperty); }
+        set { SetValue(IsCheckedProperty, value); }
+    }
 
-        #region Dependency properties
-        public bool IsChecked
+    public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked),
+        typeof(bool), typeof(LogMessageCategoryToggleButton), new FrameworkPropertyMetadata(false, 
+            FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+    public int EntryCount
+    {
+        get { return (int)GetValue(EntryCountProperty); }
+        set { SetValue(EntryCountProperty, value); }
+    }
+
+    public static readonly DependencyProperty EntryCountProperty = DependencyProperty.Register(
+        nameof(EntryCount), typeof(int), typeof(LogMessageCategoryToggleButton), new PropertyMetadata(default(int)));
+
+    public string? Category
+    {
+        get { return (string?)GetValue(CategoryProperty); }
+        set { SetValue(CategoryProperty, value); }
+    }
+
+    public static readonly DependencyProperty CategoryProperty = DependencyProperty.Register(nameof(Category),
+        typeof(string), typeof(LogMessageCategoryToggleButton), new PropertyMetadata(string.Empty,
+            (sender, args) => ((LogMessageCategoryToggleButton)sender).OnCategoryChanged(args)));
+    #endregion
+
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        _toggleButton = GetTemplateChild("PART_Toggle") as ToggleButton;
+        if (_toggleButton is null)
         {
-            get { return (bool)GetValue(IsCheckedProperty); }
-            set { SetValue(IsCheckedProperty, value); }
+            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Toggle'");
+        }
+    }
+
+    private void OnCategoryChanged(DependencyPropertyChangedEventArgs args)
+    {
+        var brushes = LogMessageCategoryBorderBrushConverter.BrushCache;
+
+        var newBrushName = args.NewValue as string;
+        if (string.IsNullOrWhiteSpace(newBrushName))
+        {
+            return;
         }
 
-        public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked),
-            typeof(bool), typeof(LogMessageCategoryToggleButton), new FrameworkPropertyMetadata(false, 
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-
-        public int EntryCount
+        if (!brushes.TryGetValue(newBrushName, out var brush))
         {
-            get { return (int)GetValue(EntryCountProperty); }
-            set { SetValue(EntryCountProperty, value); }
+            return;
         }
 
-        public static readonly DependencyProperty EntryCountProperty = DependencyProperty.Register(
-            nameof(EntryCount), typeof(int), typeof(LogMessageCategoryToggleButton), new PropertyMetadata(default(int)));
+        var accentColor = brush.Color;
+        var accentColor20 = Color.FromArgb(51, accentColor.R, accentColor.G, accentColor.B);
+        var accentColor40 = Color.FromArgb(102, accentColor.R, accentColor.G, accentColor.B);
+        var accentColor60 = Color.FromArgb(153, accentColor.R, accentColor.G, accentColor.B);
 
-        public string Category
-        {
-            get { return (string)GetValue(CategoryProperty); }
-            set { SetValue(CategoryProperty, value); }
-        }
+        var accentColorBrush = new SolidColorBrush(accentColor);
+        var accentColorBrush20 = new SolidColorBrush(accentColor20);
+        var accentColorBrush40 = new SolidColorBrush(accentColor40);
+        var accentColorBrush60 = new SolidColorBrush(accentColor60);
 
-        public static readonly DependencyProperty CategoryProperty = DependencyProperty.Register(nameof(Category),
-            typeof(string), typeof(LogMessageCategoryToggleButton), new PropertyMetadata("",
-                (sender, args) => ((LogMessageCategoryToggleButton)sender).OnCategoryChanged(args)));
-        #endregion
+        Resources.Add("Orc.Brushes.Control.Default.Border", accentColorBrush40);
 
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
+        Resources.Add("Orc.Brushes.Control.MouseOver.Background", accentColorBrush20);
+        Resources.Add("Orc.Brushes.Control.MouseOver.Border", accentColorBrush40);
+        Resources.Add("Orc.Brushes.Control.Pressed.Background", accentColorBrush40);
+        Resources.Add("Orc.Brushes.Control.Pressed.Border", accentColorBrush60);
+        Resources.Add("Orc.Brushes.Control.Disabled.Background", accentColorBrush20);
+        Resources.Add("Orc.Brushes.Control.Checked.Background", accentColorBrush);
+        Resources.Add("Orc.Brushes.AccentColor20", accentColorBrush20);
+        Resources.Add("Orc.Brushes.AccentColor40", accentColorBrush40);
+    }
 
-            _toggleButton = (ToggleButton)GetTemplateChild("PART_Toggle");
-        }
+    public void Toggle()
+    {
+        _toggleButton?.Toggle();
+    }
 
-        private void OnCategoryChanged(DependencyPropertyChangedEventArgs args)
-        {
-            var brushes = LogMessageCategoryBorderBrushConverter.BrushCache;
-
-            var newBrushName = args.NewValue as string;
-            if (string.IsNullOrWhiteSpace(newBrushName))
-            {
-                return;
-            }
-
-            if (!brushes.TryGetValue(newBrushName, out var brush))
-            {
-                return;
-            }
-
-            var accentColor = brush.Color;
-            var accentColor20 = Color.FromArgb(51, accentColor.R, accentColor.G, accentColor.B);
-            var accentColor40 = Color.FromArgb(102, accentColor.R, accentColor.G, accentColor.B);
-            var accentColor60 = Color.FromArgb(153, accentColor.R, accentColor.G, accentColor.B);
-
-            var accentColorBrush = new SolidColorBrush(accentColor);
-            var accentColorBrush20 = new SolidColorBrush(accentColor20);
-            var accentColorBrush40 = new SolidColorBrush(accentColor40);
-            var accentColorBrush60 = new SolidColorBrush(accentColor60);
-
-            Resources.Add("Orc.Brushes.Control.Default.Border", accentColorBrush40);
-
-            Resources.Add("Orc.Brushes.Control.MouseOver.Background", accentColorBrush20);
-            Resources.Add("Orc.Brushes.Control.MouseOver.Border", accentColorBrush40);
-            Resources.Add("Orc.Brushes.Control.Pressed.Background", accentColorBrush40);
-            Resources.Add("Orc.Brushes.Control.Pressed.Border", accentColorBrush60);
-            Resources.Add("Orc.Brushes.Control.Disabled.Background", accentColorBrush20);
-            Resources.Add("Orc.Brushes.Control.Checked.Background", accentColorBrush);
-            Resources.Add("Orc.Brushes.AccentColor20", accentColorBrush20);
-            Resources.Add("Orc.Brushes.AccentColor40", accentColorBrush40);
-        }
-
-        public void Toggle()
-        {
-            _toggleButton.Toggle();
-        }
-
-        protected override AutomationPeer OnCreateAutomationPeer()
-        {
-            return new LogMessageCategoryToggleButtonModelPeer(this);
-        }
+    protected override AutomationPeer OnCreateAutomationPeer()
+    {
+        return new LogMessageCategoryToggleButtonModelPeer(this);
     }
 }

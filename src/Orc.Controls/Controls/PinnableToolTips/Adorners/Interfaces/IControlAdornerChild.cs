@@ -1,23 +1,15 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IControlAdornerChild.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
+using System.Windows;
 
-namespace Orc.Controls
+/// <summary>
+/// The ControlAdornerChild interface.
+/// </summary>
+internal interface IControlAdornerChild
 {
-    using System.Windows;
-
     /// <summary>
-    /// The ControlAdornerChild interface.
+    /// The get position.
     /// </summary>
-    internal interface IControlAdornerChild
-    {
-        /// <summary>
-        /// The get position.
-        /// </summary>
-        /// <returns>The <see cref="Point" />.</returns>
-        Point GetPosition();
-    }
+    /// <returns>The <see cref="Point" />.</returns>
+    Point GetPosition();
 }

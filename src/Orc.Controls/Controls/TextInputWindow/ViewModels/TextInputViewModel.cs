@@ -1,25 +1,16 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TextInputViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2020 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls.ViewModels;
 
+using Catel.MVVM;
 
-namespace Orc.Controls.ViewModels
+public class TextInputViewModel : ViewModelBase
 {
-    using Catel.MVVM;
+    private readonly string _title;
 
-    public class TextInputViewModel : ViewModelBase
+    public TextInputViewModel(string? title)
     {
-        #region Constructors
-        public TextInputViewModel(string title)
-        {
-            Title = title;
-        }
-        #endregion
-
-        #region Properties
-        public string Text { get; set; }
-        #endregion
+        _title = title ?? string.Empty;
     }
+
+    public override string Title => _title;
+    public string? Text { get; set; }
 }

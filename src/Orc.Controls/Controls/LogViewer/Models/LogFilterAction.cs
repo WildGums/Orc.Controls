@@ -1,16 +1,8 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogFilterAction.cs" company="WildGums">
-//   Copyright (c) 2008 - 2018 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Controls;
 
-
-namespace Orc.Controls
+public enum LogFilterAction
 {
-    public enum LogFilterAction
-    {
-        Include,
+    Include = 0,
 
-        Exclude
-    }
+    Exclude = 1
 }
