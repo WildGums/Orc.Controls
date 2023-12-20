@@ -1668,7 +1668,7 @@
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type local:TimeSpanPicker}">
           <Grid VerticalAlignment="Stretch">
-            <Border x:Name="PART_MainContainer" Margin="0" Padding="{TemplateBinding Padding}" BorderThickness="1" Visibility="{Binding ElementName=PART_NumericTBEditorContainer, Path=IsVisible, Converter={catel:BooleanToCollapsingVisibilityConverter SupportInversionUsingCommandParameter=True}, ConverterParameter=True}" Style="{DynamicResource TimeSpanBorderStyle}">
+            <Border x:Name="PART_MainContainer" Margin="0" Padding="{TemplateBinding Padding}" BorderThickness="1" Visibility="{Binding ElementName=PART_NumericTBEditorContainerBorder, Path=IsVisible, Converter={catel:BooleanToCollapsingVisibilityConverter SupportInversionUsingCommandParameter=True}, ConverterParameter=True}" Style="{DynamicResource TimeSpanBorderStyle}">
               <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="Auto" />
