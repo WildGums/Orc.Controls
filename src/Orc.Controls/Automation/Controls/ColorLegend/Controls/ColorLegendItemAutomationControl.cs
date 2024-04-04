@@ -5,7 +5,7 @@ using System.Windows.Automation;
 using Orc.Automation;
 using Orc.Automation.Controls;
 
-[AutomatedControl(ControlTypeName = nameof(ControlType.ListItem))]
+[Control(ControlTypeName = nameof(ControlType.ListItem))]
 public class ColorLegendItemAutomationControl : ListItem
 {
     public ColorLegendItemAutomationControl(AutomationElement element)
