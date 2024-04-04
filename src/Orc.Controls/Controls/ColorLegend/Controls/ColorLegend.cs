@@ -490,7 +490,13 @@ public class ColorLegend : HeaderedContentControl
 
         try
         {
-            SetCurrentValue(SelectedColorItemsProperty, GetSelectedList());
+            var selectedItems = GetSelectedList().ToList();
+            foreach (var item in FilteredItemsSource)
+            {
+                item.IsSelected = selectedItems.Contains(item);
+            }
+
+            SetCurrentValue(SelectedColorItemsProperty, selectedItems);
             SelectionChanged?.Invoke(sender, e);
         }
         finally
@@ -602,11 +608,15 @@ public class ColorLegend : HeaderedContentControl
     protected IEnumerable<IColorLegendItem> GetFilteredItems()
     {
         var items = ItemsSource;
-        var filter = Filter;
-
-        if (items is null || string.IsNullOrEmpty(filter))
+        if (items is null)
         {
             return Array.Empty<IColorLegendItem>();
+        }
+
+        var filter = Filter;
+        if (string.IsNullOrEmpty(filter))
+        {
+            return items;
         }
 
         try

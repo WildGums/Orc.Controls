@@ -2659,7 +2659,7 @@ namespace Orc.Controls.Automation
         [Orc.Automation.AutomationMethod]
         public void SetItemCheckState(int index, bool isChecked) { }
     }
-    [Orc.Automation.AutomatedControl(ControlTypeName="ListItem")]
+    [Orc.Automation.Control(ControlTypeName="ListItem")]
     public class ColorLegendItemAutomationControl : Orc.Automation.Controls.ListItem
     {
         public ColorLegendItemAutomationControl(System.Windows.Automation.AutomationElement element) { }
