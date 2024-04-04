@@ -124,8 +124,6 @@ Thumbs.db
 Desktop.ini
 
 # Cake - Uncomment if you are using it
-tools/**
-!tools/packages.config
 build.cakeoverrides
 
 # mstest test results
@@ -159,3 +157,6 @@ data/dsl/*.java
 # Nodejs / NPM
 node_modules
 package-lock.json
+
+!tools/**
+!tools/packages.config
