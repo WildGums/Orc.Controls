@@ -3551,7 +3551,7 @@ namespace Orc.Controls.Automation
         protected override string GetValueFromPattern() { }
         protected override void SetValuePatternInvoke(string value) { }
     }
-    [Orc.Automation.AutomatedControl(ControlTypeName="Window")]
+    [Orc.Automation.Control(ControlTypeName="Window")]
     public class TextInputWindow : Orc.Automation.Controls.Window
     {
         public TextInputWindow(System.Windows.Automation.AutomationElement element) { }
