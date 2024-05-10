@@ -446,7 +446,7 @@ public class ColorLegend : HeaderedContentControl
 
     private void OnSelectedColorItemsChanged()
     {
-        SetSelectedList(SelectedColorItems);
+        SetSelectedList(SelectedColorItems ?? Enumerable.Empty<IColorLegendItem>());
     }
 
     private void OnShowColorVisibilityControlsChanged()
@@ -571,7 +571,8 @@ public class ColorLegend : HeaderedContentControl
 
         try
         {
-            var colorLegendItems = selectedList as IList<IColorLegendItem> ?? selectedList.ToList();
+            var colorLegendItems = selectedList as IList<IColorLegendItem> 
+                                   ?? selectedList.ToList();
 
             if (!_handlingListBoxSelectionChanged)
             {
