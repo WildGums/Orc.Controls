@@ -197,7 +197,7 @@ public class ControlToolManager : IControlToolManager
             catch (Exception e)
             {
                 //Vladimir:Don't crash if something went wrong while saving tool settings into file
-                Log.Error(e);
+                Log.Debug(e);
             }
         }
     }
