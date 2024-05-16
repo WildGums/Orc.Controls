@@ -167,7 +167,7 @@ public class ControlToolManager : IControlToolManager
             catch (Exception e)
             {
                 //Vladimir:Don't crash if something went wrong while loading file
-                Log.Error(e);
+                Log.Debug(e);
             }
         }
     }
