@@ -18,9 +18,9 @@
         public ColorPicker Target { get; set; }
 
         [SetUp]
-        public override void SetUpTest()
+        public override void SetUp()
         {
-            base.SetUpTest();
+            base.SetUp();
         }
 
         private class PositiveSetRGBColorTestCases : IEnumerable
