@@ -27,7 +27,7 @@
     </PackageReference>
     <PackageReference Include="Orc.Automation.Tests" Version="5.0.3" />
     <PackageReference Include="PublicApiGenerator" Version="11.1.0" PrivateAssets="all" />
-    <PackageReference Include="Verify.NUnit" Version="26.4.2" />
+    <PackageReference Include="Verify.NUnit" Version="26.4.4" />
   </ItemGroup>
 
   <ItemGroup>
