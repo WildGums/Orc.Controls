@@ -21,9 +21,15 @@
         public ColorBoard Target { get; set; }
 
         [SetUp]
-        public override void SetUpTest()
+        public void SetUpTest()
         {
-            base.SetUpTest();
+            base.SetUp();
+        }
+
+        [TearDown]
+        public void TearDownTest()
+        {
+            base.TearDown();
         }
 
         private class PositiveSetRGBColorTestCases : IEnumerable

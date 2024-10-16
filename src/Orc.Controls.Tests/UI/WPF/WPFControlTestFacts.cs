@@ -9,7 +9,7 @@
 
     [TestFixture, Explicit]
     [Category("UI Tests")]
-    public class WpfControlTestFacts : ControlUiTestFactsBase<Calendar>
+    public class WpfControlTestFacts : ControlUiTestsBase<Calendar>
     {
         [Target]
         public Orc.Automation.Controls.Calendar Target { get; set; }

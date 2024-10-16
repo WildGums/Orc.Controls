@@ -12,12 +12,12 @@
           "Catel.Fody": "4.9.0",
           "CatenaLogic.Analyzers": "1.4.3",
           "Costura.Fody": "5.7.0",
-          "Fody": "6.8.0",
+          "Fody": "6.8.2",
           "IDisposableAnalyzers": "4.0.7",
           "LoadAssembliesOnStartup.Fody": "4.6.0",
-          "Microsoft.NET.ILLink.Tasks": "8.0.0",
+          "Microsoft.NET.ILLink.Tasks": "8.0.8",
           "ModuleInit.Fody": "2.1.1",
-          "NUnit.Analyzers": "3.10.0",
+          "NUnit.Analyzers": "4.2.0",
           "Orc.Automation": "1.0.0-alpha0001",
           "SourceLink.Copy.PdbFiles": "2.8.3",
           "WpfAnalyzers": "4.1.1"
@@ -27,20 +27,20 @@
         }
       },
       "Catel.Analyzers/1.6.1": {},
-      "Catel.Core/6.0.0": {
+      "Catel.Core/6.0.3": {
         "dependencies": {
           "System.Configuration.ConfigurationManager": "8.0.0"
         },
         "runtime": {
           "lib/net8.0/Catel.Core.dll": {
-            "assemblyVersion": "6.0.0.0",
-            "fileVersion": "6.0.0.0"
+            "assemblyVersion": "6.0.3.0",
+            "fileVersion": "6.0.3.0"
           }
         }
       },
       "Catel.Fody/4.9.0": {
         "dependencies": {
-          "Fody": "6.8.0"
+          "Fody": "6.8.2"
         },
         "runtime": {
           "lib/net6.0/Catel.Fody.Attributes.dll": {
@@ -49,16 +49,16 @@
           }
         }
       },
-      "Catel.MVVM/6.0.0": {
+      "Catel.MVVM/6.0.3": {
         "dependencies": {
-          "Catel.Core": "6.0.0",
+          "Catel.Core": "6.0.3",
           "Microsoft.Xaml.Behaviors.Wpf": "1.1.77",
           "System.ComponentModel.Annotations": "5.0.0"
         },
         "runtime": {
           "lib/net8.0-windows7.0/Catel.MVVM.dll": {
-            "assemblyVersion": "6.0.0.0",
-            "fileVersion": "6.0.0.0"
+            "assemblyVersion": "6.0.3.0",
+            "fileVersion": "6.0.3.0"
           }
         },
         "resources": {
@@ -91,18 +91,18 @@
       "CatenaLogic.Analyzers/1.4.3": {},
       "Costura.Fody/5.7.0": {
         "dependencies": {
-          "Fody": "6.8.0",
+          "Fody": "6.8.2",
           "NETStandard.Library": "1.6.1"
         }
       },
-      "Fody/6.8.0": {},
+      "Fody/6.8.2": {},
       "IDisposableAnalyzers/4.0.7": {},
       "LoadAssembliesOnStartup.Fody/4.6.0": {
         "dependencies": {
-          "Fody": "6.8.0"
+          "Fody": "6.8.2"
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.0": {},
+      "Microsoft.NET.ILLink.Tasks/8.0.8": {},
       "Microsoft.NETCore.Platforms/1.1.0": {},
       "Microsoft.NETCore.Targets/1.1.0": {},
       "Microsoft.Win32.Primitives/4.3.0": {
@@ -122,7 +122,7 @@
       },
       "ModuleInit.Fody/2.1.1": {
         "dependencies": {
-          "Fody": "6.8.0"
+          "Fody": "6.8.2"
         }
       },
       "NETStandard.Library/1.6.1": {
@@ -173,7 +173,7 @@
           "System.Xml.XDocument": "4.3.0"
         }
       },
-      "NUnit.Analyzers/3.10.0": {},
+      "NUnit.Analyzers/4.2.0": {},
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
@@ -796,7 +796,7 @@
       "WpfAnalyzers/4.1.1": {},
       "Orc.Automation/1.0.0-alpha0001": {
         "dependencies": {
-          "Catel.MVVM": "6.0.0"
+          "Catel.MVVM": "6.0.3"
         },
         "runtime": {
           "Orc.Automation.dll": {}
@@ -834,12 +834,12 @@
       "path": "catel.analyzers/1.6.1",
       "hashPath": "catel.analyzers.1.6.1.nupkg.sha512"
     },
-    "Catel.Core/6.0.0": {
+    "Catel.Core/6.0.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-VZiVB3FBv1zsUe6KhOHyij9LOCb3wfStiQI550JRGVCQ9ynd4ZbCfQwJ6T25oyJneLsJmMQeViVvHn9MOBywFA==",
-      "path": "catel.core/6.0.0",
-      "hashPath": "catel.core.6.0.0.nupkg.sha512"
+      "sha512": "sha512-uwKOGBVCdUF4LYfJ51C/0dw45z0HY5C6a0aoVytuNgTMV9SYMjDtiF2zVmYa/ibNQ8V+vnfuz1alh/M3/MQRsg==",
+      "path": "catel.core/6.0.3",
+      "hashPath": "catel.core.6.0.3.nupkg.sha512"
     },
     "Catel.Fody/4.9.0": {
       "type": "package",
@@ -848,12 +848,12 @@
       "path": "catel.fody/4.9.0",
       "hashPath": "catel.fody.4.9.0.nupkg.sha512"
     },
-    "Catel.MVVM/6.0.0": {
+    "Catel.MVVM/6.0.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-TxiPj76YEE00LiOmxtpBdmh9ckwkxmYL0q29QsE3UFrMp4K+R+oXBZvllwOVt4o56FkD1c4oq2ZVSHLHCeRZFQ==",
-      "path": "catel.mvvm/6.0.0",
-      "hashPath": "catel.mvvm.6.0.0.nupkg.sha512"
+      "sha512": "sha512-P1s4BhZ59T86xck2tD1z7E7GD+nFeqf7OkKg1sWTFOIywsTF6efbkTDJsw1jgN3T6X6ltUMQWHrStqEhqdXqHw==",
+      "path": "catel.mvvm/6.0.3",
+      "hashPath": "catel.mvvm.6.0.3.nupkg.sha512"
     },
     "CatenaLogic.Analyzers/1.4.3": {
       "type": "package",
@@ -869,12 +869,12 @@
       "path": "costura.fody/5.7.0",
       "hashPath": "costura.fody.5.7.0.nupkg.sha512"
     },
-    "Fody/6.8.0": {
+    "Fody/6.8.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-hfZ/f8Mezt8aTkgv9nsvFdYoQ809/AqwsJlOGOPYIfBcG2aAIG3v3ex9d8ZqQuFYyMoucjRg4eKy3VleeGodKQ==",
-      "path": "fody/6.8.0",
-      "hashPath": "fody.6.8.0.nupkg.sha512"
+      "sha512": "sha512-sjGHrtGS1+kcrv99WXCvujOFBTQp4zCH3ZC9wo2LAtVaJkuLpHghQx3y4k1Q8ZKuDAbEw+HE6ZjPUJQK3ejepQ==",
+      "path": "fody/6.8.2",
+      "hashPath": "fody.6.8.2.nupkg.sha512"
     },
     "IDisposableAnalyzers/4.0.7": {
       "type": "package",
@@ -890,12 +890,12 @@
       "path": "loadassembliesonstartup.fody/4.6.0",
       "hashPath": "loadassembliesonstartup.fody.4.6.0.nupkg.sha512"
     },
-    "Microsoft.NET.ILLink.Tasks/8.0.0": {
+    "Microsoft.NET.ILLink.Tasks/8.0.8": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-B3etT5XQ2nlWkZGO2m/ytDYrOmSsQG1XNBaM6ZYlX5Ch/tDrMFadr0/mK6gjZwaQc55g+5+WZMw4Cz3m8VEF7g==",
-      "path": "microsoft.net.illink.tasks/8.0.0",
-      "hashPath": "microsoft.net.illink.tasks.8.0.0.nupkg.sha512"
+      "sha512": "sha512-P8wR6MUWwYXIjPJuBaZgo5zlI/GWI6QEAo6NyVIbPefa9CCkohYu7dP2rD/mrqnjEqfRHyl+h9VZrDoGpELqYg==",
+      "path": "microsoft.net.illink.tasks/8.0.8",
+      "hashPath": "microsoft.net.illink.tasks.8.0.8.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/1.1.0": {
       "type": "package",
@@ -939,12 +939,12 @@
       "path": "netstandard.library/1.6.1",
       "hashPath": "netstandard.library.1.6.1.nupkg.sha512"
     },
-    "NUnit.Analyzers/3.10.0": {
+    "NUnit.Analyzers/4.2.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-+F2deTIQms+hJNzuoO68zgP1ftH61+meBx8iMn/90owv+eZpFTyQberapJ87jBm8f22/mwQnWufemjEVIvW11g==",
-      "path": "nunit.analyzers/3.10.0",
-      "hashPath": "nunit.analyzers.3.10.0.nupkg.sha512"
+      "sha512": "sha512-4fJojPkzdoa4nB2+p6U+fITvPnVvwWSnsmiJ/Dl30xqiL3oxNbYvfeSLVd91hOmEjoUqSwN3Z7j1aFedjqWbUA==",
+      "path": "nunit.analyzers/4.2.0",
+      "hashPath": "nunit.analyzers.4.2.0.nupkg.sha512"
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",

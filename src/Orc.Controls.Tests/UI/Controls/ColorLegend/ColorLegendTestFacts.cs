@@ -43,12 +43,18 @@
         public ColorLegend Target { get; set; }
 
         [SetUp]
-        public override void SetUpTest()
+        public void SetUpTest()
         {
-            base.SetUpTest();
+            base.SetUp();
 
             var model = Target.Current;
             model.ItemsSource = OriginalItemSource;
+        }
+
+        [TearDown]
+        public void TearDownTest()
+        {
+            base.TearDown();
         }
 
         [Test]
