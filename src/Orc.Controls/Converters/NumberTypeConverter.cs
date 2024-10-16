@@ -16,7 +16,7 @@ public class NumberTypeConverter : TypeConverter
     {
         return value switch
         {
-            string str => new Number(Convert.ToDouble(str)),
+            string str => !string.IsNullOrWhiteSpace(str) ? new Number(Convert.ToDouble(str)) : string.Empty,
             null => null,
             _ => new Number(value)
         };
