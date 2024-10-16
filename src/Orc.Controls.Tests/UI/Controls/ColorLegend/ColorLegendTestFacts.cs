@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Tests.UI
+namespace Orc.Controls.Tests.UI
 {
     using System;
     using System.Collections;
@@ -43,12 +43,18 @@
         public ColorLegend Target { get; set; }
 
         [SetUp]
-        public override void SetUp()
+        public void SetUpTest()
         {
             base.SetUp();
 
             var model = Target.Current;
             model.ItemsSource = OriginalItemSource;
+        }
+
+        [TearDown]
+        public void TearDownTest()
+        {
+            base.TearDown();
         }
 
         [Test]

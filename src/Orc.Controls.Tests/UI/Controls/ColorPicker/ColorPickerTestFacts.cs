@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Tests.UI
+namespace Orc.Controls.Tests.UI
 {
     using System.Collections;
     using System.Threading;
@@ -18,11 +18,16 @@
         public ColorPicker Target { get; set; }
 
         [SetUp]
-        public override void SetUp()
+        public void SetUpTest()
         {
             base.SetUp();
         }
 
+        [TearDown]
+        public void TearDownTest()
+        {
+            base.TearDown();
+        }
         private class PositiveSetRGBColorTestCases : IEnumerable
         {
             public IEnumerator GetEnumerator()
