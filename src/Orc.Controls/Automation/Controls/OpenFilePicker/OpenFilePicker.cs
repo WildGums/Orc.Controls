@@ -8,19 +8,10 @@ using Orc.Automation.Controls;
 using AutomationEventArgs = System.Windows.Automation.AutomationEventArgs;
 
 [AutomatedControl(Class = typeof(Controls.OpenFilePicker))]
-public class OpenFilePicker : FrameworkElement<OpenFilePickerModel, OpenFilePickerMap>
+public class OpenFilePicker(AutomationElement element)
+    : FrameworkElement<OpenFilePickerModel, OpenFilePickerMap>(element)
 {
-    private AutomationElement _openDialog;
-
-    public OpenFilePicker(AutomationElement element)
-        : base(element)
-    {
-    }
-
-    public string SelectedFileDisplayPath
-    {
-        get => Map.SelectedFileTextBox.Text;
-    }
+    public string SelectedFileDisplayPath => Map.SelectedFileTextBox.Text;
 
     public List<string> Filters
     {
@@ -63,27 +54,11 @@ public class OpenFilePicker : FrameworkElement<OpenFilePickerModel, OpenFilePick
     {
         var map = Map;
             
-        var hostWindow = Element.GetHostWindow();
-
-        hostWindow.DialogOpened += OnDialogOpened;
-
         map.OpenFileButton.Click();
 
         Wait.UntilResponsive(1000);
-
-        hostWindow.DialogOpened -= OnDialogOpened;
-
-        return _openDialog.As<OpenFileDialog>();
-    }
-
-    private void OnDialogOpened(object sender, AutomationEventArgs e)
-    {
-        if (sender is not AutomationElement dialog)
-        {
-            return;
-        }
-
-        _openDialog = dialog;
+        
+        return Orc.Automation.Controls.OpenFileDialog.Wait();
     }
 }
 #nullable enable
