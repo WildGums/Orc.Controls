@@ -3,7 +3,8 @@
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:catel="http://schemas.catelproject.com"
                    xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
-                   xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+                   xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+                   xmlns:orctheming="http://schemas.wildgums.com/orc/theming">
 
     <orccontrols:StackGrid VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
@@ -89,12 +90,12 @@
 
         <TextBlock>
             <Run FontWeight="Bold" Text="Byte"/>
-            <Run FontSize="10" Text="(Min:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:Byte.MinValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=";"/>
-            <Run FontSize="10" Text="Max:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:Byte.MaxValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=")"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="(Min:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:Byte.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=";"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="Max:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:Byte.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=")"/>
         </TextBlock>
         <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
                                    Value="{Binding ByteValue, Mode=TwoWay}"
@@ -111,12 +112,12 @@
 
         <TextBlock>
             <Run FontWeight="Bold" Text="SByte"/>
-            <Run FontSize="10" Text="(Min:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:SByte.MinValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=";"/>
-            <Run FontSize="10" Text="Max:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:SByte.MaxValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=")"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="(Min:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:SByte.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=";"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="Max:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:SByte.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=")"/>
         </TextBlock>
         <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
                                    Value="{Binding SByteValue, Mode=TwoWay}"
@@ -134,12 +135,12 @@
 
         <TextBlock>
             <Run FontWeight="Bold" Text="Short"/>
-            <Run FontSize="10" Text="(Min:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:Int16.MinValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=";"/>
-            <Run FontSize="10" Text="Max:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:Int16.MaxValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=")"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="(Min:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:Int16.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=";"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="Max:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:Int16.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=")"/>
         </TextBlock>
         <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
                                    Value="{Binding ShortValue, Mode=TwoWay}"
@@ -156,12 +157,12 @@
 
         <TextBlock>
             <Run FontWeight="Bold" Text="UShort"/>
-            <Run FontSize="10" Text="(Min:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:UInt16.MinValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=";"/>
-            <Run FontSize="10" Text="Max:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:UInt16.MaxValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=")"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="(Min:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:UInt16.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=";"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="Max:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:UInt16.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=")"/>
         </TextBlock>
         <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
                                    Value="{Binding UShortValue, Mode=TwoWay}"
@@ -178,12 +179,12 @@
 
         <TextBlock>
             <Run FontWeight="Bold" Text="Int"/>
-            <Run FontSize="10" Text="(Min:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:Int32.MinValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=";"/>
-            <Run FontSize="10" Text="Max:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:Int32.MaxValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=")"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="(Min:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:Int32.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=";"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="Max:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:Int32.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=")"/>
         </TextBlock>
         <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
                                    Value="{Binding IntValue, Mode=TwoWay}"
@@ -200,12 +201,12 @@
 
         <TextBlock>
             <Run FontWeight="Bold" Text="UInt"/>
-            <Run FontSize="10" Text="(Min:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:UInt32.MinValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=";"/>
-            <Run FontSize="10" Text="Max:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:UInt32.MaxValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=")"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="(Min:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:UInt32.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=";"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="Max:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:UInt32.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=")"/>
         </TextBlock>
         <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
                                    Value="{Binding UIntValue, Mode=TwoWay}"
@@ -222,12 +223,12 @@
 
         <TextBlock>
             <Run FontWeight="Bold" Text="Long"/>
-            <Run FontSize="10" Text="(Min:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:Int64.MinValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=";"/>
-            <Run FontSize="10" Text="Max:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:Int64.MaxValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=")"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="(Min:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:Int64.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=";"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="Max:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:Int64.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=")"/>
         </TextBlock>
         <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
                                    Value="{Binding LongValue, Mode=TwoWay}"
@@ -244,12 +245,12 @@
 
         <TextBlock>
             <Run FontWeight="Bold" Text="ULong"/>
-            <Run FontSize="10" Text="(Min:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:UInt64.MinValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=";"/>
-            <Run FontSize="10" Text="Max:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:UInt64.MaxValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=")"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="(Min:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:UInt64.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=";"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="Max:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:UInt64.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=")"/>
         </TextBlock>
         <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
                                    Value="{Binding ULongValue, Mode=TwoWay}"
@@ -266,12 +267,12 @@
 
         <TextBlock>
             <Run FontWeight="Bold" Text="Float"/>
-            <Run FontSize="10" Text="(Min:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:Single.MinValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=";"/>
-            <Run FontSize="10" Text="Max:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:Single.MaxValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=")"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="(Min:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:Single.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=";"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="Max:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:Single.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=")"/>
         </TextBlock>
         <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
                                    Value="{Binding FloatValue, Mode=TwoWay}"
@@ -288,12 +289,12 @@
 
         <TextBlock>
             <Run FontWeight="Bold" Text="Double"/>
-            <Run FontSize="10" Text="(Min:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:Double.MinValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=";"/>
-            <Run FontSize="10" Text="Max:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:Double.MaxValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=")"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="(Min:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:Double.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=";"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="Max:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:Double.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=")"/>
         </TextBlock>
         <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
                                    Value="{Binding DoubleValue, Mode=TwoWay}"
@@ -310,12 +311,12 @@
 
         <TextBlock>
             <Run FontWeight="Bold" Text="Decimal"/>
-            <Run FontSize="10" Text="(Min:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:Decimal.MinValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=";"/>
-            <Run FontSize="10" Text="Max:"/>
-            <Run FontSize="10" Text="{Binding Source={x:Static sys:Decimal.MaxValue}, Mode=OneWay}"/>
-            <Run FontSize="10" Text=")"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="(Min:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:Decimal.MinValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=";"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="Max:"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text="{Binding Source={x:Static sys:Decimal.MaxValue}, Mode=OneWay}"/>
+            <Run FontSize="{orctheming:FontSize 10}" Text=")"/>
         </TextBlock>
         <orccontrols:NumericUpDown Style="{StaticResource DefaultNumericUpDownStyle}"
                                    Value="{Binding DecimalValue, Mode=TwoWay}"

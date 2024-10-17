@@ -11,6 +11,7 @@
                    xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
                    xmlns:system="clr-namespace:System;assembly=mscorlib"
                    xmlns:local="clr-namespace:Orc.Controls"
+                   xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
                    x:Name="calloutWindow">
 
     <UserControl.Resources>
@@ -300,7 +301,7 @@
 
                             <TextBlock Grid.Row="0"
                                        Text="{Binding Title}"
-                                       FontSize="14"
+                                       FontSize="{orctheming:FontSize 14}"
                                        FontWeight="Medium"
                                        Foreground="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
                                        HorizontalAlignment="Left" />

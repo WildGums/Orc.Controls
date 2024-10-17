@@ -3,7 +3,8 @@
                     xmlns:controls="clr-namespace:Orc.Controls"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:converters="clr-namespace:Orc.Controls.Converters"
-                    xmlns:catel="http://schemas.catelproject.com">
+                    xmlns:catel="http://schemas.catelproject.com"
+                    xmlns:orctheming="http://schemas.wildgums.com/orc/theming">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Orc.Theming;component/themes/generic.xaml" />
@@ -359,7 +360,7 @@
 
                                             <TextBlock Text="{Binding Source={x:Static sys:DateTime.Today}, StringFormat=' d '}"
                                                        Margin="0 3 0 0"
-                                                       FontSize="10"
+                                                       FontSize="{orctheming:FontSize 10}"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Foreground="{TemplateBinding Foreground}"

@@ -9,6 +9,7 @@
     using Catel.IoC;
     using Catel.Logging;
     using Catel.Services;
+    using Orc.Controls.Example.Views;
     using Orc.Theming;
 
     /// <summary>
@@ -46,6 +47,17 @@
 
             Log.Info("Starting application");
             Log.Info("This log message should show up as debug");
+
+            var application = Application.Current;
+            application.ShutdownMode = ShutdownMode.OnLastWindowClose;
+
+            var mainWindow = new MainWindow();
+            application.MainWindow = mainWindow;
+
+            var window = new FontSizeSelectorWindow();
+            window.ShowDialog();
+
+            mainWindow.ShowDialog();
 
             base.OnStartup(e);
         }
