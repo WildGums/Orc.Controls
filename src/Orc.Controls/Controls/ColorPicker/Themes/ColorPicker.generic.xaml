@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Orc.Controls"
                     xmlns:catel="http://schemas.catelproject.com"
-                    xmlns:automation="clr-namespace:Orc.Controls.Automation">
+                    xmlns:automation="clr-namespace:Orc.Controls.Automation"
+                    xmlns:orctheming="http://schemas.wildgums.com/orc/theming">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Orc.Theming;component/themes/generic.xaml" />
@@ -11,18 +12,23 @@
     <Style x:Key="{x:Type local:ColorPicker}"
            TargetType="{x:Type local:ColorPicker}"
            BasedOn="{StaticResource Orc.Styles.Control}">
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="MinWidth" Value="24"/>
-        <Setter Property="MinHeight" Value="14"/>
+        <Setter Property="SnapsToDevicePixels"
+                Value="True" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
+                Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility"
+                Value="Auto" />
+        <Setter Property="MinWidth"
+                Value="24" />
+        <Setter Property="MinHeight"
+                Value="14" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ColorPicker}">
-                    <Grid x:Name="grid" Background="Transparent">
+                    <Grid x:Name="grid"
+                          Background="Transparent">
                         <ToggleButton x:Name="PART_ToggleDropDown"
                                       Grid.ColumnSpan="2"
-
                                       IsTabStop="False"
                                       ClickMode="Press"
                                       HorizontalContentAlignment="Stretch"
@@ -39,8 +45,10 @@
                                                 <VisualState x:Name="Normal" />
                                                 <VisualState x:Name="MouseOver">
                                                     <Storyboard>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="arrow" Storyboard.TargetProperty="Visibility">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="arrow"
+                                                                                       Storyboard.TargetProperty="Visibility">
+                                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                    Value="{x:Static Visibility.Visible}" />
                                                         </ObjectAnimationUsingKeyFrames>
                                                     </Storyboard>
                                                 </VisualState>
@@ -50,15 +58,19 @@
                                             <VisualStateGroup x:Name="CheckStates">
                                                 <VisualState x:Name="Unchecked">
                                                     <Storyboard>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="arrow" Storyboard.TargetProperty="Visibility">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="arrow"
+                                                                                       Storyboard.TargetProperty="Visibility">
+                                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                    Value="{x:Static Visibility.Hidden}" />
                                                         </ObjectAnimationUsingKeyFrames>
                                                     </Storyboard>
                                                 </VisualState>
                                                 <VisualState x:Name="Checked">
                                                     <Storyboard>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="arrow" Storyboard.TargetProperty="Visibility">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="arrow"
+                                                                                       Storyboard.TargetProperty="Visibility">
+                                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                    Value="{x:Static Visibility.Visible}" />
                                                         </ObjectAnimationUsingKeyFrames>
                                                     </Storyboard>
                                                 </VisualState>
@@ -66,11 +78,12 @@
                                         </VisualStateManager.VisualStateGroups>
 
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="14"/>
-                                            <ColumnDefinition Width="10"/>
+                                            <ColumnDefinition Width="14" />
+                                            <ColumnDefinition Width="10" />
                                         </Grid.ColumnDefinitions>
 
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center" />
 
                                         <Path x:Name="arrow"
                                               Data="M 0 0 L 2.5 3 L 5 0 Z"
@@ -80,15 +93,18 @@
                                               Stretch="None"
                                               Grid.Column="1"
                                               Width="5"
-                                              Visibility="Hidden"/>
+                                              Visibility="Hidden" />
                                     </Grid>
 
                                 </ControlTemplate>
                             </ToggleButton.Template>
                             <ToggleButton.Content>
-                                <Ellipse x:Name="ColorSurface" Width="14" Height="14" Grid.Column="1">
+                                <Ellipse x:Name="ColorSurface"
+                                         Width="14"
+                                         Height="14"
+                                         Grid.Column="1">
                                     <Ellipse.Fill>
-                                        <SolidColorBrush Color="{Binding Color, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <SolidColorBrush Color="{Binding Color, RelativeSource={RelativeSource TemplatedParent}}" />
                                     </Ellipse.Fill>
                                 </Ellipse>
                             </ToggleButton.Content>
@@ -96,7 +112,6 @@
 
                         <Popup x:Name="PART_Popup"
                                AutomationProperties.AutomationId="ColorPopup"
-
                                Placement="{Binding PopupPlacement, RelativeSource={RelativeSource TemplatedParent}}"
                                IsOpen="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
                     </Grid>
@@ -107,27 +122,36 @@
 
     <Style TargetType="{x:Type local:ColorBoard}"
            BasedOn="{StaticResource Orc.Styles.Control}">
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="Color" Value="White" />
-        <Setter Property="Focusable" Value="False"/>
-        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="SnapsToDevicePixels"
+                Value="True" />
+        <Setter Property="Color"
+                Value="White" />
+        <Setter Property="Focusable"
+                Value="False" />
+        <Setter Property="IsTabStop"
+                Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ColorBoard}">
-                    <Grid x:Name="PART_RootGrid" >
+                    <Grid x:Name="PART_RootGrid">
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 AutomationProperties.AutomationId="Chrome1">
-                            <Grid Width="185" Height="300">
+                            <Grid Width="185"
+                                  Height="300">
                                 <Grid.Resources>
                                     <Style x:Key="SliderButtonStyle"
                                            TargetType="{x:Type RepeatButton}"
                                            BasedOn="{StaticResource {x:Type RepeatButton}}">
-                                        <Setter Property="SnapsToDevicePixels" Value="True" />
-                                        <Setter Property="OverridesDefaultStyle"  Value="True" />
-                                        <Setter Property="IsTabStop" Value="False" />
-                                        <Setter Property="Focusable" Value="False" />
+                                        <Setter Property="SnapsToDevicePixels"
+                                                Value="True" />
+                                        <Setter Property="OverridesDefaultStyle"
+                                                Value="True" />
+                                        <Setter Property="IsTabStop"
+                                                Value="False" />
+                                        <Setter Property="Focusable"
+                                                Value="False" />
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -140,8 +164,10 @@
                                     <Style x:Key="ThumbHorizontalStyle"
                                            TargetType="{x:Type Thumb}"
                                            BasedOn="{StaticResource Orc.Styles.Control}">
-                                        <Setter Property="IsTabStop" Value="False" />
-                                        <Setter Property="Focusable" Value="False" />
+                                        <Setter Property="IsTabStop"
+                                                Value="False" />
+                                        <Setter Property="Focusable"
+                                                Value="False" />
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type Thumb}">
@@ -157,10 +183,13 @@
                                         </Setter>
                                     </Style>
 
-                                    <Style x:Key="ThumbVerticalStyle" TargetType="{x:Type Thumb}"
+                                    <Style x:Key="ThumbVerticalStyle"
+                                           TargetType="{x:Type Thumb}"
                                            BasedOn="{StaticResource Orc.Styles.Control}">
-                                        <Setter Property="IsTabStop" Value="False" />
-                                        <Setter Property="Focusable" Value="False" />
+                                        <Setter Property="IsTabStop"
+                                                Value="False" />
+                                        <Setter Property="Focusable"
+                                                Value="False" />
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type Thumb}">
@@ -180,18 +209,26 @@
                                         </Setter>
                                     </Style>
 
-                                    <ControlTemplate x:Key="HorizontalSlider" TargetType="{x:Type Slider}">
+                                    <ControlTemplate x:Key="HorizontalSlider"
+                                                     TargetType="{x:Type Slider}">
                                         <Grid>
                                             <Rectangle Height="10"
                                                        Margin="5,0"
                                                        Stroke="{TemplateBinding BorderBrush}"
-                                                       StrokeThickness="1" >
+                                                       StrokeThickness="1">
                                                 <Rectangle.Fill>
-                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="5,5" SpreadMethod="Repeat" MappingMode="Absolute">
-                                                        <GradientStop Offset="0" Color="LightGray" />
-                                                        <GradientStop Offset="0.5" Color="LightGray" />
-                                                        <GradientStop Offset="0.5" Color="White" />
-                                                        <GradientStop Offset="1" Color="White" />
+                                                    <LinearGradientBrush StartPoint="0,0"
+                                                                         EndPoint="5,5"
+                                                                         SpreadMethod="Repeat"
+                                                                         MappingMode="Absolute">
+                                                        <GradientStop Offset="0"
+                                                                      Color="LightGray" />
+                                                        <GradientStop Offset="0.5"
+                                                                      Color="LightGray" />
+                                                        <GradientStop Offset="0.5"
+                                                                      Color="White" />
+                                                        <GradientStop Offset="1"
+                                                                      Color="White" />
                                                     </LinearGradientBrush>
                                                 </Rectangle.Fill>
                                             </Rectangle>
@@ -201,7 +238,7 @@
                                                        Margin="5,0"
                                                        Fill="{TemplateBinding Background}"
                                                        Stroke="{TemplateBinding BorderBrush}"
-                                                       StrokeThickness="1"/>
+                                                       StrokeThickness="1" />
 
                                             <Track x:Name="PART_Track">
                                                 <Track.DecreaseRepeatButton>
@@ -213,25 +250,30 @@
                                                 </Track.Thumb>
                                                 <Track.IncreaseRepeatButton>
                                                     <RepeatButton Style="{StaticResource SliderButtonStyle}"
-                                                                    Command="Slider.IncreaseLarge" />
+                                                                  Command="Slider.IncreaseLarge" />
                                                 </Track.IncreaseRepeatButton>
                                             </Track>
                                         </Grid>
                                     </ControlTemplate>
 
-                                    <ControlTemplate x:Key="VerticalSlider" TargetType="{x:Type Slider}">
+                                    <ControlTemplate x:Key="VerticalSlider"
+                                                     TargetType="{x:Type Slider}">
                                         <Grid>
-                                            <Rectangle Width="14" Margin="0,5" Fill="{TemplateBinding Background}" />
+                                            <Rectangle Width="14"
+                                                       Margin="0,5"
+                                                       Fill="{TemplateBinding Background}" />
 
                                             <Track x:Name="PART_Track">
                                                 <Track.DecreaseRepeatButton>
-                                                    <RepeatButton Style="{StaticResource SliderButtonStyle}" Command="Slider.DecreaseLarge" />
+                                                    <RepeatButton Style="{StaticResource SliderButtonStyle}"
+                                                                  Command="Slider.DecreaseLarge" />
                                                 </Track.DecreaseRepeatButton>
                                                 <Track.Thumb>
                                                     <Thumb Style="{StaticResource ThumbVerticalStyle}" />
                                                 </Track.Thumb>
                                                 <Track.IncreaseRepeatButton>
-                                                    <RepeatButton Style="{StaticResource SliderButtonStyle}" Command="Slider.IncreaseLarge" />
+                                                    <RepeatButton Style="{StaticResource SliderButtonStyle}"
+                                                                  Command="Slider.IncreaseLarge" />
                                                 </Track.IncreaseRepeatButton>
                                             </Track>
                                         </Grid>
@@ -239,25 +281,42 @@
 
                                     <Style TargetType="{x:Type Slider}"
                                            BasedOn="{StaticResource {x:Type Slider}}">
-                                        <Setter Property="BorderThickness" Value="1" />
-                                        <Setter Property="Maximum" Value="10" />
-                                        <Setter Property="Minimum" Value="0" />
-                                        <Setter Property="Value" Value="0" />
-                                        <Setter Property="BorderBrush" Value="Black" />
-                                        <Setter Property="IsTabStop" Value="false" />
-                                        <Setter Property="Focusable" Value="false" />
-                                        <Setter Property="SnapsToDevicePixels" Value="true" />
-                                        <Setter Property="OverridesDefaultStyle" Value="true" />
+                                        <Setter Property="BorderThickness"
+                                                Value="1" />
+                                        <Setter Property="Maximum"
+                                                Value="10" />
+                                        <Setter Property="Minimum"
+                                                Value="0" />
+                                        <Setter Property="Value"
+                                                Value="0" />
+                                        <Setter Property="BorderBrush"
+                                                Value="Black" />
+                                        <Setter Property="IsTabStop"
+                                                Value="false" />
+                                        <Setter Property="Focusable"
+                                                Value="false" />
+                                        <Setter Property="SnapsToDevicePixels"
+                                                Value="true" />
+                                        <Setter Property="OverridesDefaultStyle"
+                                                Value="true" />
                                         <Style.Triggers>
-                                            <Trigger Property="Orientation" Value="Horizontal">
-                                                <Setter Property="MinWidth" Value="50" />
-                                                <Setter Property="MinHeight" Value="10" />
-                                                <Setter Property="Template" Value="{StaticResource HorizontalSlider}" />
+                                            <Trigger Property="Orientation"
+                                                     Value="Horizontal">
+                                                <Setter Property="MinWidth"
+                                                        Value="50" />
+                                                <Setter Property="MinHeight"
+                                                        Value="10" />
+                                                <Setter Property="Template"
+                                                        Value="{StaticResource HorizontalSlider}" />
                                             </Trigger>
-                                            <Trigger Property="Orientation" Value="Vertical">
-                                                <Setter Property="MinWidth" Value="10" />
-                                                <Setter Property="MinHeight"  Value="50" />
-                                                <Setter Property="Template"  Value="{StaticResource VerticalSlider}" />
+                                            <Trigger Property="Orientation"
+                                                     Value="Vertical">
+                                                <Setter Property="MinWidth"
+                                                        Value="10" />
+                                                <Setter Property="MinHeight"
+                                                        Value="50" />
+                                                <Setter Property="Template"
+                                                        Value="{StaticResource VerticalSlider}" />
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>
@@ -265,18 +324,23 @@
                                     <Style x:Key="TextBoxCustomizedStyle"
                                            TargetType="{x:Type TextBox}"
                                            BasedOn="{StaticResource {x:Type TextBox}}">
-                                        <Setter Property="BorderThickness" Value="0"/>
-                                        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}"/>
-                                        <Setter Property="Background" Value="Transparent" />
-                                        <Setter Property="Padding" Value="2"/>
+                                        <Setter Property="BorderThickness"
+                                                Value="0" />
+                                        <Setter Property="Foreground"
+                                                Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}" />
+                                        <Setter Property="Background"
+                                                Value="Transparent" />
+                                        <Setter Property="Padding"
+                                                Value="2" />
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type TextBox}">
-                                                    <Grid x:Name="RootElement" Background="Transparent">
+                                                    <Grid x:Name="RootElement"
+                                                          Background="Transparent">
                                                         <ScrollViewer x:Name="PART_ContentHost"
                                                                       Margin="0"
                                                                       BorderThickness="0"
-                                                                      IsTabStop="False"/>
+                                                                      IsTabStop="False" />
                                                     </Grid>
                                                 </ControlTemplate>
                                             </Setter.Value>
@@ -284,13 +348,13 @@
                                     </Style>
                                 </Grid.Resources>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
                                 <TabControl Margin="2"
@@ -299,44 +363,55 @@
                                             Padding="2 2 2 4"
                                             Background="{TemplateBinding Background}">
                                     <TabItem Header="{catel:LanguageBinding Controls_ColorPickerGeneric_TabItem_Header_HSV}"
-                                             FontSize="10">
+                                             FontSize="{orctheming:FontSize 10}">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*" />
                                             </Grid.RowDefinitions>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
 
                                             <!--HSV Part-->
-                                            <Canvas x:Name="PART_HSVCanvas" Margin="2" Width="142" Height="142" Focusable="False">
-                                                <Rectangle Width="140" 
+                                            <Canvas x:Name="PART_HSVCanvas"
+                                                    Margin="2"
+                                                    Width="142"
+                                                    Height="142"
+                                                    Focusable="False">
+                                                <Rectangle Width="140"
                                                            Height="140"
                                                            Focusable="False"
-                                                           Stroke="Black" 
+                                                           Stroke="Black"
                                                            StrokeThickness="1"
                                                            VerticalAlignment="Center"
                                                            HorizontalAlignment="Center">
                                                     <Rectangle.Fill>
-                                                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                            <GradientStop Color="#FFFFFFFF" Offset="0" />
-                                                            <GradientStop x:Name="PART_HSVColorGradientStop" Color="#FFFF0000" Offset="1" />
+                                                        <LinearGradientBrush StartPoint="0,0.5"
+                                                                             EndPoint="1,0.5">
+                                                            <GradientStop Color="#FFFFFFFF"
+                                                                          Offset="0" />
+                                                            <GradientStop x:Name="PART_HSVColorGradientStop"
+                                                                          Color="#FFFF0000"
+                                                                          Offset="1" />
                                                         </LinearGradientBrush>
                                                     </Rectangle.Fill>
                                                 </Rectangle>
 
-                                                <Rectangle x:Name="PART_HSVRectangle" 
-                                                           Focusable="False" 
-                                                           Width="140" 
+                                                <Rectangle x:Name="PART_HSVRectangle"
+                                                           Focusable="False"
+                                                           Width="140"
                                                            Height="140"
                                                            VerticalAlignment="Center"
                                                            HorizontalAlignment="Center">
                                                     <Rectangle.Fill>
-                                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                            <GradientStop Color="#00000000" Offset="0" />
-                                                            <GradientStop Color="#FF000000" Offset="1" />
+                                                        <LinearGradientBrush StartPoint="0.5,0"
+                                                                             EndPoint="0.5,1">
+                                                            <GradientStop Color="#00000000"
+                                                                          Offset="0" />
+                                                            <GradientStop Color="#FF000000"
+                                                                          Offset="1" />
                                                         </LinearGradientBrush>
                                                     </Rectangle.Fill>
                                                 </Rectangle>
@@ -344,15 +419,23 @@
                                                 <Ellipse x:Name="PART_HSVEllipse"
                                                          Focusable="False"
                                                          Height="8"
-                                                         Width="8" 
+                                                         Width="8"
                                                          IsHitTestVisible="False">
                                                     <Ellipse.Fill>
-                                                        <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
-                                                            <GradientStop Color="Transparent" Offset="0" />
-                                                            <GradientStop Color="Transparent" Offset="0.25" />
-                                                            <GradientStop Color="White" Offset="0.5" />
-                                                            <GradientStop Color="Black" Offset="0.75" />
-                                                            <GradientStop Color="White" Offset="1" />
+                                                        <RadialGradientBrush GradientOrigin="0.5,0.5"
+                                                                             Center="0.5,0.5"
+                                                                             RadiusX="0.5"
+                                                                             RadiusY="0.5">
+                                                            <GradientStop Color="Transparent"
+                                                                          Offset="0" />
+                                                            <GradientStop Color="Transparent"
+                                                                          Offset="0.25" />
+                                                            <GradientStop Color="White"
+                                                                          Offset="0.5" />
+                                                            <GradientStop Color="Black"
+                                                                          Offset="0.75" />
+                                                            <GradientStop Color="White"
+                                                                          Offset="1" />
                                                         </RadialGradientBrush>
                                                     </Ellipse.Fill>
                                                 </Ellipse>
@@ -360,7 +443,6 @@
 
                                             <Slider Name="PART_HSVSlider"
                                                     AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.HSVSliderId}"
-
                                                     Grid.Column="1"
                                                     Margin="0"
                                                     Height="150"
@@ -372,35 +454,43 @@
                                                     Orientation="Vertical"
                                                     IsMoveToPointEnabled="True">
                                                 <Slider.Background>
-                                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                        <GradientStop Color="#FFFF0000" Offset="0.0" />
-                                                        <GradientStop Color="#FFFFFF00" Offset="0.16666666667" />
-                                                        <GradientStop Color="#FF00FF00" Offset="0.33333333333" />
-                                                        <GradientStop Color="#FF00FFFF" Offset="0.5" />
-                                                        <GradientStop Color="#FF0000FF" Offset="0.66666666667" />
-                                                        <GradientStop Color="#FFFF00FF" Offset="0.83333333333" />
-                                                        <GradientStop Color="#FFFF0000" Offset="1.0" />
+                                                    <LinearGradientBrush StartPoint="0.5,0"
+                                                                         EndPoint="0.5,1">
+                                                        <GradientStop Color="#FFFF0000"
+                                                                      Offset="0.0" />
+                                                        <GradientStop Color="#FFFFFF00"
+                                                                      Offset="0.16666666667" />
+                                                        <GradientStop Color="#FF00FF00"
+                                                                      Offset="0.33333333333" />
+                                                        <GradientStop Color="#FF00FFFF"
+                                                                      Offset="0.5" />
+                                                        <GradientStop Color="#FF0000FF"
+                                                                      Offset="0.66666666667" />
+                                                        <GradientStop Color="#FFFF00FF"
+                                                                      Offset="0.83333333333" />
+                                                        <GradientStop Color="#FFFF0000"
+                                                                      Offset="1.0" />
                                                     </LinearGradientBrush>
                                                 </Slider.Background>
                                             </Slider>
 
                                             <!--RGB Part-->
-                                            <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                                            <Grid Grid.Row="1"
+                                                  Grid.ColumnSpan="2">
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition Height="*"/>
-                                                    <RowDefinition Height="*"/>
-                                                    <RowDefinition Height="*"/>
-                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="*" />
                                                 </Grid.RowDefinitions>
 
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
 
                                                 <Slider x:Name="PART_ASlider"
                                                         AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.ASliderId}"
-
                                                         Grid.Row="0"
                                                         Grid.Column="0"
                                                         Height="20"
@@ -410,9 +500,14 @@
                                                         SmallChange="1"
                                                         VerticalAlignment="Center">
                                                     <Slider.Background>
-                                                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                            <GradientStop x:Name="PART_A0GradientStop" Color="#00000000" Offset="0.0" />
-                                                            <GradientStop x:Name="PART_A1GradientStop" Color="#FF000000" Offset="1.0" />
+                                                        <LinearGradientBrush StartPoint="0,0.5"
+                                                                             EndPoint="1,0.5">
+                                                            <GradientStop x:Name="PART_A0GradientStop"
+                                                                          Color="#00000000"
+                                                                          Offset="0.0" />
+                                                            <GradientStop x:Name="PART_A1GradientStop"
+                                                                          Color="#FF000000"
+                                                                          Offset="1.0" />
                                                         </LinearGradientBrush>
                                                     </Slider.Background>
                                                 </Slider>
@@ -428,9 +523,14 @@
                                                         SmallChange="1"
                                                         VerticalAlignment="Center">
                                                     <Slider.Background>
-                                                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                            <GradientStop x:Name="PART_R0GradientStop" Color="#FF000000" Offset="0.0" />
-                                                            <GradientStop x:Name="PART_R1GradientStop" Color="#FFFF0000" Offset="1.0" />
+                                                        <LinearGradientBrush StartPoint="0,0.5"
+                                                                             EndPoint="1,0.5">
+                                                            <GradientStop x:Name="PART_R0GradientStop"
+                                                                          Color="#FF000000"
+                                                                          Offset="0.0" />
+                                                            <GradientStop x:Name="PART_R1GradientStop"
+                                                                          Color="#FFFF0000"
+                                                                          Offset="1.0" />
                                                         </LinearGradientBrush>
                                                     </Slider.Background>
                                                 </Slider>
@@ -446,16 +546,20 @@
                                                         SmallChange="1"
                                                         VerticalAlignment="Center">
                                                     <Slider.Background>
-                                                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                            <GradientStop x:Name="PART_G0GradientStop" Color="#FF000000" Offset="0.0" />
-                                                            <GradientStop x:Name="PART_G1GradientStop" Color="#FF00FF00" Offset="1.0" />
+                                                        <LinearGradientBrush StartPoint="0,0.5"
+                                                                             EndPoint="1,0.5">
+                                                            <GradientStop x:Name="PART_G0GradientStop"
+                                                                          Color="#FF000000"
+                                                                          Offset="0.0" />
+                                                            <GradientStop x:Name="PART_G1GradientStop"
+                                                                          Color="#FF00FF00"
+                                                                          Offset="1.0" />
                                                         </LinearGradientBrush>
                                                     </Slider.Background>
                                                 </Slider>
 
                                                 <Slider x:Name="PART_BSlider"
                                                         AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.BSliderId}"
-
                                                         Grid.Row="3"
                                                         Grid.Column="0"
                                                         Height="20"
@@ -465,16 +569,20 @@
                                                         SmallChange="1"
                                                         VerticalAlignment="Center">
                                                     <Slider.Background>
-                                                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                            <GradientStop x:Name="PART_B0GradientStop" Color="#FF000000" Offset="0.0" />
-                                                            <GradientStop x:Name="PART_B1GradientStop" Color="#FF0000FF" Offset="1.0" />
+                                                        <LinearGradientBrush StartPoint="0,0.5"
+                                                                             EndPoint="1,0.5">
+                                                            <GradientStop x:Name="PART_B0GradientStop"
+                                                                          Color="#FF000000"
+                                                                          Offset="0.0" />
+                                                            <GradientStop x:Name="PART_B1GradientStop"
+                                                                          Color="#FF0000FF"
+                                                                          Offset="1.0" />
                                                         </LinearGradientBrush>
                                                     </Slider.Background>
                                                 </Slider>
 
                                                 <TextBox x:Name="PART_ATextBox"
                                                          AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.AEditId}"
-
                                                          Grid.Row="0"
                                                          Grid.Column="1"
                                                          Margin="0 2 0 0"
@@ -482,10 +590,9 @@
                                                          Height="20"
                                                          Width="24"
                                                          VerticalAlignment="Center"
-                                                         HorizontalAlignment="Center"/>
+                                                         HorizontalAlignment="Center" />
                                                 <TextBox x:Name="PART_RTextBox"
                                                          AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.REditId}"
-
                                                          Grid.Row="1"
                                                          Grid.Column="1"
                                                          Margin="0 2 0 0"
@@ -493,10 +600,9 @@
                                                          Height="20"
                                                          Width="24"
                                                          VerticalAlignment="Center"
-                                                         HorizontalAlignment="Center"/>
+                                                         HorizontalAlignment="Center" />
                                                 <TextBox x:Name="PART_GTextBox"
                                                          AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.GEditId}"
-
                                                          Grid.Row="2"
                                                          Grid.Column="1"
                                                          Margin="0 2 0 0"
@@ -504,10 +610,9 @@
                                                          Height="20"
                                                          Width="24"
                                                          VerticalAlignment="Center"
-                                                         HorizontalAlignment="Center"/>
+                                                         HorizontalAlignment="Center" />
                                                 <TextBox x:Name="PART_BTextBox"
                                                          AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.BEditId}"
-
                                                          Grid.Row="3"
                                                          Grid.Column="1"
                                                          Margin="0 2 0 0"
@@ -515,28 +620,30 @@
                                                          Height="20"
                                                          Width="24"
                                                          VerticalAlignment="Center"
-                                                         HorizontalAlignment="Center"/>
+                                                         HorizontalAlignment="Center" />
                                             </Grid>
                                         </Grid>
                                     </TabItem>
 
                                     <TabItem Header="{catel:LanguageBinding Controls_ColorPickerGeneric_TabItem_Header_Colors}"
-                                             FontSize="9">
+                                             FontSize="{orctheming:FontSize 9}">
                                         <StackPanel Orientation="Vertical">
                                             <StackPanel.Resources>
                                                 <Style TargetType="{x:Type local:PredefinedColorItem}">
-                                                    <Setter Property="Margin" Value="2"/>
+                                                    <Setter Property="Margin"
+                                                            Value="2" />
                                                     <Setter Property="Template">
                                                         <Setter.Value>
                                                             <ControlTemplate TargetType="{x:Type local:PredefinedColorItem}">
-                                                                <StackPanel Orientation="Horizontal" Background="Transparent">
+                                                                <StackPanel Orientation="Horizontal"
+                                                                            Background="Transparent">
                                                                     <Rectangle x:Name="RectangleColor"
                                                                                Width="12"
                                                                                Height="12"
                                                                                StrokeThickness="1"
                                                                                Stroke="{TemplateBinding BorderBrush}">
                                                                         <Rectangle.Fill>
-                                                                            <SolidColorBrush Color="{Binding Color, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                                            <SolidColorBrush Color="{Binding Color, RelativeSource={RelativeSource TemplatedParent}}" />
                                                                         </Rectangle.Fill>
                                                                     </Rectangle>
                                                                 </StackPanel>
@@ -552,44 +659,45 @@
                                                                 <Grid Background="Transparent">
                                                                     <VisualStateManager.VisualStateGroups>
                                                                         <VisualStateGroup x:Name="CommonStates">
-                                                                            <VisualState x:Name="Normal"/>
+                                                                            <VisualState x:Name="Normal" />
                                                                             <VisualState x:Name="MouseOver">
                                                                                 <Storyboard>
                                                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="brush"
                                                                                                                    Storyboard.TargetProperty="Color">
                                                                                         <DiscreteObjectKeyFrame KeyTime="0"
-                                                                                                                Value="{x:Static Colors.LightSteelBlue}"/>
+                                                                                                                Value="{x:Static Colors.LightSteelBlue}" />
                                                                                     </ObjectAnimationUsingKeyFrames>
                                                                                 </Storyboard>
                                                                             </VisualState>
-                                                                            <VisualState x:Name="Disabled"/>
+                                                                            <VisualState x:Name="Disabled" />
                                                                             <VisualState x:Name="Selected">
                                                                                 <Storyboard>
                                                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="brush"
                                                                                                                    Storyboard.TargetProperty="Color">
-                                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Colors.SteelBlue}"/>
+                                                                                        <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                                Value="{x:Static Colors.SteelBlue}" />
                                                                                     </ObjectAnimationUsingKeyFrames>
                                                                                 </Storyboard>
                                                                             </VisualState>
                                                                         </VisualStateGroup>
                                                                         <VisualStateGroup x:Name="FocusStates">
-                                                                            <VisualState x:Name="Focused"/>
-                                                                            <VisualState x:Name="Unfocused"/>
+                                                                            <VisualState x:Name="Focused" />
+                                                                            <VisualState x:Name="Unfocused" />
                                                                         </VisualStateGroup>
                                                                         <VisualStateGroup x:Name="ValidationStates">
-                                                                            <VisualState x:Name="Valid"/>
-                                                                            <VisualState x:Name="InvalidUnfocused"/>
-                                                                            <VisualState x:Name="InvalidFocused"/>
+                                                                            <VisualState x:Name="Valid" />
+                                                                            <VisualState x:Name="InvalidUnfocused" />
+                                                                            <VisualState x:Name="InvalidFocused" />
                                                                         </VisualStateGroup>
                                                                     </VisualStateManager.VisualStateGroups>
                                                                     <Border x:Name="border">
                                                                         <Border.Background>
                                                                             <SolidColorBrush x:Name="brush"
-                                                                                             Color="Transparent"/>
+                                                                                             Color="Transparent" />
                                                                         </Border.Background>
                                                                         <ContentPresenter HorizontalAlignment="Center"
                                                                                           VerticalAlignment="Center"
-                                                                                          Margin="0"/>
+                                                                                          Margin="0" />
                                                                     </Border>
                                                                 </Grid>
                                                             </ControlTemplate>
@@ -601,7 +709,7 @@
                                             <Border Background="Gray"
                                                     BorderBrush="Transparent">
                                                 <TextBlock Text="{catel:LanguageBinding Controls_ColorPickerGeneric_TextBlock_Text_ThemeColors}"
-                                                           Margin="2 1"/>
+                                                           Margin="2 1" />
                                             </Border>
                                             <ListBox x:Name="PART_ThemeColorsListBox"
                                                      AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.ThemeColorsListBoxId}"
@@ -615,7 +723,8 @@
                                                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
                                                 <ListBox.ItemsPanel>
                                                     <ItemsPanelTemplate>
-                                                        <local:WrapPanel Width="160" Height="96"/>
+                                                        <local:WrapPanel Width="160"
+                                                                         Height="96" />
                                                     </ItemsPanelTemplate>
                                                 </ListBox.ItemsPanel>
                                             </ListBox>
@@ -623,7 +732,7 @@
                                             <Border Background="Gray"
                                                     BorderBrush="{TemplateBinding BorderBrush}">
                                                 <TextBlock Text="{catel:LanguageBinding Controls_ColorPickerGeneric_TextBlock_Text_RecentColors}"
-                                                           Margin="2 1"/>
+                                                           Margin="2 1" />
                                             </Border>
                                             <ListBox x:Name="PART_RecentColorsListBox"
                                                      AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.RecentColorsListBoxId}"
@@ -637,7 +746,7 @@
                                                      Background="{TemplateBinding Background}">
                                                 <ListBox.ItemsPanel>
                                                     <ItemsPanelTemplate>
-                                                        <local:WrapPanel Width="160"/>
+                                                        <local:WrapPanel Width="160" />
                                                     </ItemsPanelTemplate>
                                                 </ListBox.ItemsPanel>
                                             </ListBox>
@@ -652,12 +761,11 @@
                                       VerticalAlignment="Center">
                                     <ComboBox x:Name="PART_ColorComboBox"
                                               AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.ColorComboBoxId}"
-
                                               Height="20"
                                               Margin="2"
                                               HorizontalContentAlignment="Left"
                                               VerticalAlignment="Center"
-                                              HorizontalAlignment="Stretch"/>
+                                              HorizontalAlignment="Stretch" />
 
                                     <StackPanel Orientation="Horizontal"
                                                 Margin="4,0,0,0"
@@ -670,13 +778,12 @@
                                                    StrokeThickness="1">
                                             <Rectangle.Fill>
                                                 <SolidColorBrush x:Name="PART_ColorBrush"
-                                                                 Color="White"/>
+                                                                 Color="White" />
                                             </Rectangle.Fill>
                                         </Rectangle>
 
                                         <TextBox x:Name="PART_ColorTextBox"
                                                  AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.ColorEditId}"
-
                                                  TextOptions.TextRenderingMode="ClearType"
                                                  Margin="5,0"
                                                  Height="20"
@@ -688,13 +795,12 @@
                                 <Grid Grid.Row="2"
                                       Grid.ColumnSpan="2">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
 
                                     <Button x:Name="PART_CancelButton"
                                             AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.CancelButtonId}"
-
                                             Grid.Column="0"
                                             Height="auto"
                                             Margin="2 0 2 2"
@@ -702,11 +808,10 @@
 
                                     <Button x:Name="PART_SelectButton"
                                             AutomationProperties.AutomationId="{x:Static automation:ColorBoardMap.SelectButtonId}"
-
                                             Grid.Column="1"
                                             Height="auto"
                                             Margin="0 0 2 2"
-                                            Content="{catel:LanguageBinding Controls_ColorPickerGeneric_Button_Content_Select}"/>
+                                            Content="{catel:LanguageBinding Controls_ColorPickerGeneric_Button_Content_Select}" />
                                 </Grid>
 
                             </Grid>
@@ -718,22 +823,33 @@
         </Setter>
     </Style>
 
-    <Style x:Key="Orc.Styles.ColorBoard"  
+    <Style x:Key="Orc.Styles.ColorBoard"
            TargetType="{x:Type local:ColorBoard}"
-           BasedOn="{StaticResource {x:Type local:ColorBoard}}"/>
+           BasedOn="{StaticResource {x:Type local:ColorBoard}}" />
 
     <Style TargetType="{x:Type local:PredefinedColorItem}">
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="SnapsToDevicePixels"
+                Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:PredefinedColorItem}">
                     <StackPanel Orientation="Horizontal">
-                        <Rectangle x:Name="RectangleColor" Height="11" Width="22" StrokeThickness="1" Stroke="Black">
+                        <Rectangle x:Name="RectangleColor"
+                                   Height="11"
+                                   Width="22"
+                                   StrokeThickness="1"
+                                   Stroke="Black">
                             <Rectangle.Fill>
-                                <SolidColorBrush Color="{Binding Color, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                <SolidColorBrush Color="{Binding Color, RelativeSource={RelativeSource TemplatedParent}}" />
                             </Rectangle.Fill>
                         </Rectangle>
-                        <TextBlock x:Name="TextBlockColor" TextOptions.TextRenderingMode="ClearType" FontSize="11" Foreground="{TemplateBinding Foreground}" Margin="5,0" Text="{TemplateBinding Text}"></TextBlock>
+                        <TextBlock x:Name="TextBlockColor"
+                                   TextOptions.TextRenderingMode="ClearType"
+                                   FontSize="{orctheming:FontSize 11}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   Margin="5,0"
+                                   Text="{TemplateBinding Text}">
+                        </TextBlock>
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
