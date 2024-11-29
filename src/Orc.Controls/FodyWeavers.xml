@@ -1,11 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Weavers VerifyAssembly="true" VerifyIgnoreCodes="0x80131869,0x8013129D,0x801312F4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
-  <Costura DisableCleanup="true">
-    <IncludeAssemblies>
-    </IncludeAssemblies>
-    <IncludeRuntimeAssemblies>
-    </IncludeRuntimeAssemblies>
-  </Costura>
   <LoadAssembliesOnStartup>
     <ExcludeAssemblies>
       <!-- Add excluded assemblies here -->
