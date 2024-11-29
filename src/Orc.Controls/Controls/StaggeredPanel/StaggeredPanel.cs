@@ -181,6 +181,12 @@ public class StaggeredPanel : Panel
     {
         var horizontalOffset = Padding.Left;
         var verticalOffset = Padding.Top;
+
+        if (_columnWidth == 0)
+        {
+            return finalSize;
+        }
+
         var numColumns = Math.Max(1, (int)Math.Floor((finalSize.Width + ColumnSpacing) / (_columnWidth + ColumnSpacing)));
 
         // adjust for horizontal spacing on all columns expect the first
