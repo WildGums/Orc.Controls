@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:catel="http://schemas.catelproject.com"
              xmlns:orccontrols="clr-namespace:Orc.Controls"
-             mc:Ignorable="d" 
+                   xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
+                   mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
 
     <Grid ToolTip="{Binding Item.Description}">
@@ -60,8 +61,8 @@
                            HorizontalAlignment="Center" 
                            Foreground="{DynamicResource Orc.Brushes.White}"
                            VerticalAlignment="Center" 
-                           FontWeight="Medium" 
-                           FontSize="13" 
+                           FontWeight="Medium"
+                           FontSize="{orctheming:FontSize 13}" 
                            Margin="0,-2,0,0"
                            Visibility="{Binding Item.State, Converter={orccontrols:ShowStepNumberVisibilityConverter}}" />
 
@@ -98,8 +99,8 @@
             </Grid>
 
             <TextBlock Name="TitleTextBlock" 
-                       Text="{Binding Item.Title}" 
-                       FontSize="14" 
+                       Text="{Binding Item.Title}"
+                       FontSize="{orctheming:FontSize 14}" 
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center" 
                        FontWeight="Medium"

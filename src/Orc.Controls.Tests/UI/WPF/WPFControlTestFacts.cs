@@ -6,7 +6,6 @@
     using Orc.Automation.Tests;
     using Calendar = System.Windows.Controls.Calendar;
 
-
     [TestFixture, Explicit]
     [Category("UI Tests")]
     public class WpfControlTestFacts : ControlUiTestsBase<Calendar>

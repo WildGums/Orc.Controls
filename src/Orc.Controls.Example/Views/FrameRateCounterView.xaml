@@ -2,15 +2,16 @@
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:catel="http://schemas.catelproject.com"
-                   xmlns:orccontrols="http://schemas.wildgums.com/orc/controls">
+                   xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
+                   xmlns:orctheming="http://schemas.wildgums.com/orc/theming">
     
     <StackPanel>
-        <orccontrols:FrameRateCounter FontSize="16" 
+        <orccontrols:FrameRateCounter FontSize="{orctheming:FontSize 16}" 
                                       FontWeight="SemiBold"
                                       Margin="6"
                                       FontFamily="Consolas" />
-        
-        <orccontrols:FrameCounter FontSize="16" 
+
+        <orccontrols:FrameCounter FontSize="{orctheming:FontSize 16}" 
                                   FontWeight="SemiBold"
                                   Margin="6"
                                   FontFamily="Consolas" />
