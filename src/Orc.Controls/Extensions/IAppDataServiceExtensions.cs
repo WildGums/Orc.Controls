@@ -5,15 +5,17 @@ using System.Globalization;
 using System.IO;
 using System.Windows;
 using Catel;
+using Catel.IO;
 using Catel.Logging;
+using Catel.Services;
+using Path = System.IO.Path;
 
-public static class WindowExtensions
+public static class IAppDataServiceExtensions
 {
     private static readonly ILog Log = LogManager.GetCurrentClassLogger();
     private const string SizeSeparator = "|";
 
-    [ObsoleteEx(Message = "Use IAppDataService extension instead", TreatAsErrorFromVersion = "6.0", RemoveInVersion = "7.0")]
-    public static void SaveWindowSize(this Window window, string? tag = null)
+    public static void SaveWindowSize(this IAppDataService appDataService, Window window, string? tag = null)
     {
         ArgumentNullException.ThrowIfNull(window);
 
@@ -21,7 +23,7 @@ public static class WindowExtensions
 
         Log.Debug($"Saving window size for '{windowName}'");
 
-        var storageFile = GetWindowStorageFile(window, tag);
+        var storageFile = GetWindowStorageFile(appDataService, window, tag);
 
         try
         {
@@ -43,14 +45,12 @@ public static class WindowExtensions
         }
     }
 
-    [ObsoleteEx(Message = "Use IAppDataService extension instead", TreatAsErrorFromVersion = "6.0", RemoveInVersion = "7.0")]
-    public static void LoadWindowSize(this Window window, bool restoreWindowState)
+    public static void LoadWindowSize(this IAppDataService appDataService, Window window, bool restoreWindowState)
     {
-        LoadWindowSize(window, null, restoreWindowState);
+        LoadWindowSize(appDataService, window, null, restoreWindowState);
     }
 
-    [ObsoleteEx(Message = "Use IAppDataService extension instead", TreatAsErrorFromVersion = "6.0", RemoveInVersion = "7.0")]
-    public static void LoadWindowSize(this Window window, string? tag = null, bool restoreWindowState = false, bool restoreWindowPosition = true)
+    public static void LoadWindowSize(this IAppDataService appDataService, Window window, string? tag = null, bool restoreWindowState = false, bool restoreWindowPosition = true)
     {
         ArgumentNullException.ThrowIfNull(window);
 
@@ -58,7 +58,7 @@ public static class WindowExtensions
 
         Log.Debug($"Loading window size for '{windowName}'");
 
-        var storageFile = GetWindowStorageFile(window, tag);
+        var storageFile = GetWindowStorageFile(appDataService, window, tag);
         if (!File.Exists(storageFile))
         {
             Log.Debug($"Window size file '{storageFile}' does not exist, cannot restore window size");
@@ -133,11 +133,12 @@ public static class WindowExtensions
         }
     }
 
-    private static string GetWindowStorageFile(this Window window, string? tag)
+    [ObsoleteEx(Message = "Use IAppDataService extension instead", TreatAsErrorFromVersion = "6.0", RemoveInVersion = "7.0")]
+    private static string GetWindowStorageFile(this IAppDataService appDataService, Window window, string? tag)
     {
         ArgumentNullException.ThrowIfNull(window);
-
-        var appData = Catel.IO.Path.GetApplicationDataDirectory();
+        
+        var appData = appDataService.GetApplicationDataDirectory(ApplicationDataTarget.UserRoaming);
         var directory = Path.Combine(appData, "windows");
 
         Directory.CreateDirectory(directory);
@@ -150,41 +151,5 @@ public static class WindowExtensions
 
         var file = Path.Combine(directory, $"{window.GetType().FullName}{tagToUse}.dat");
         return file;
-    }
-
-    public static void CenterWindowToParent(this Window window)
-    {
-        ArgumentNullException.ThrowIfNull(window);
-
-        var owner = window.Owner;
-        if (owner is not null)
-        {
-            window.CenterWindowToSize(new Rect(owner.Left, owner.Top, owner.ActualWidth, owner.ActualHeight));
-            return;
-        }
-
-        var parentWindow = Catel.Windows.DependencyObjectExtensions.FindLogicalOrVisualAncestorByType<Window>(window);
-        if (parentWindow is not null)
-        {
-            window.CenterWindowToSize(new Rect(parentWindow.Left, parentWindow.Top, parentWindow.ActualWidth, parentWindow.ActualHeight));
-        }
-    }
-
-    public static void CenterWindowToSize(this Window window, Rect parentRect)
-    {
-        ArgumentNullException.ThrowIfNull(window);
-
-        var windowWidth = window.Width;
-        var windowHeight = window.Height;
-
-        window.SetCurrentValue(Window.LeftProperty, parentRect.Left + (parentRect.Width / 2) - (windowWidth / 2));
-        window.SetCurrentValue(Window.TopProperty, parentRect.Top + (parentRect.Height / 2) - (windowHeight / 2));
-    }
-
-    internal static Size GetSize(this Window window)
-    {
-        ArgumentNullException.ThrowIfNull(window);
-
-        return new Size(window.ActualWidth, window.ActualHeight);
     }
 }

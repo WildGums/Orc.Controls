@@ -2,12 +2,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Catel.IO;
 using Catel.Logging;
 using Catel.Runtime.Serialization.Xml;
+using Catel.Services;
 using FileSystem;
+using Path = System.IO.Path;
 
 public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupService
 {
@@ -17,13 +19,16 @@ public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupServic
 
     private readonly IFileService _fileService;
     private readonly IXmlSerializer _xmlSerializer;
+    private readonly IAppDataService _appDataService;
 
-    public ApplicationLogFilterGroupService(IFileService fileService, IXmlSerializer xmlSerializer)
+    public ApplicationLogFilterGroupService(IFileService fileService, IXmlSerializer xmlSerializer, IAppDataService appDataService)
     {
         ArgumentNullException.ThrowIfNull(xmlSerializer);
         ArgumentNullException.ThrowIfNull(fileService);
+        ArgumentNullException.ThrowIfNull(appDataService);
 
         _xmlSerializer = xmlSerializer;
+        _appDataService = appDataService;
         _fileService = fileService;
     }
 
@@ -31,7 +36,7 @@ public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupServic
     {
         var filterGroups = new List<LogFilterGroup>();
 
-        var applicationDataDirectory = Catel.IO.Path.GetApplicationDataDirectory();
+        var applicationDataDirectory = _appDataService.GetApplicationDataDirectory(ApplicationDataTarget.UserRoaming);
         var configFile = Path.Combine(applicationDataDirectory, LogFilterGroupsConfigFile);
         if (_fileService.Exists(configFile))
         {
@@ -62,7 +67,7 @@ public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupServic
 
     public async Task SaveAsync(IEnumerable<LogFilterGroup> filterGroups)
     {
-        var applicationDataDirectory = Catel.IO.Path.GetApplicationDataDirectory();
+        var applicationDataDirectory = _appDataService.GetApplicationDataDirectory(ApplicationDataTarget.UserRoaming);
         var configFile = Path.Combine(applicationDataDirectory, LogFilterGroupsConfigFile);
 
         var filterGroupsToSerialize = filterGroups.Where(x => !x.IsRuntime).ToList();
