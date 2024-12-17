@@ -68,7 +68,7 @@ namespace Orc.Controls
     }
     public class ApplicationLogFilterGroupService : Orc.Controls.IApplicationLogFilterGroupService
     {
-        public ApplicationLogFilterGroupService(Orc.FileSystem.IFileService fileService, Catel.Runtime.Serialization.Xml.IXmlSerializer xmlSerializer) { }
+        public ApplicationLogFilterGroupService(Orc.FileSystem.IFileService fileService, Catel.Runtime.Serialization.Xml.IXmlSerializer xmlSerializer, Catel.Services.IAppDataService appDataService) { }
         protected virtual System.Collections.Generic.List<Orc.Controls.LogFilterGroup> CreateRuntimeFilterGroups() { }
         public System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Orc.Controls.LogFilterGroup>> LoadAsync() { }
         public System.Threading.Tasks.Task SaveAsync(System.Collections.Generic.IEnumerable<Orc.Controls.LogFilterGroup> filterGroups) { }
@@ -1029,6 +1029,12 @@ namespace Orc.Controls
         public HeaderBar() { }
         public string? Header { get; set; }
         protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
+    }
+    public static class IAppDataServiceExtensions
+    {
+        public static void LoadWindowSize(this Catel.Services.IAppDataService appDataService, System.Windows.Window window, bool restoreWindowState) { }
+        public static void LoadWindowSize(this Catel.Services.IAppDataService appDataService, System.Windows.Window window, string? tag = null, bool restoreWindowState = false, bool restoreWindowPosition = true) { }
+        public static void SaveWindowSize(this Catel.Services.IAppDataService appDataService, System.Windows.Window window, string? tag = null) { }
     }
     public interface IApplicationLogFilterGroupService
     {
@@ -2455,8 +2461,14 @@ namespace Orc.Controls
     {
         public static void CenterWindowToParent(this System.Windows.Window window) { }
         public static void CenterWindowToSize(this System.Windows.Window window, System.Windows.Rect parentRect) { }
+        [System.Obsolete("Use IAppDataService extension instead. Will be treated as an error from version 6" +
+            ".0.0. Will be removed in version 7.0.0.", false)]
         public static void LoadWindowSize(this System.Windows.Window window, bool restoreWindowState) { }
+        [System.Obsolete("Use IAppDataService extension instead. Will be treated as an error from version 6" +
+            ".0.0. Will be removed in version 7.0.0.", false)]
         public static void LoadWindowSize(this System.Windows.Window window, string? tag = null, bool restoreWindowState = false, bool restoreWindowPosition = true) { }
+        [System.Obsolete("Use IAppDataService extension instead. Will be treated as an error from version 6" +
+            ".0.0. Will be removed in version 7.0.0.", false)]
         public static void SaveWindowSize(this System.Windows.Window window, string? tag = null) { }
     }
     public class WrapPanel : System.Windows.Controls.Panel
@@ -3912,7 +3924,7 @@ namespace Orc.Controls.Tools
 {
     public class ControlToolManager : Orc.Controls.Tools.IControlToolManager
     {
-        public ControlToolManager(System.Windows.FrameworkElement frameworkElement, Catel.IoC.ITypeFactory typeFactory, Orc.FileSystem.IDirectoryService directoryService) { }
+        public ControlToolManager(System.Windows.FrameworkElement frameworkElement, Catel.IoC.ITypeFactory typeFactory, Orc.FileSystem.IDirectoryService directoryService, Catel.Services.IAppDataService appDataService) { }
         public System.Collections.Generic.IList<Orc.Controls.IControlTool> Tools { get; }
         public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolAttached;
         public event System.EventHandler<Orc.Controls.Tools.ToolManagementEventArgs>? ToolClosed;

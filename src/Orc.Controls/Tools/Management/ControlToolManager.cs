@@ -9,10 +9,13 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using Attributes;
+using Catel.IO;
 using Catel.IoC;
 using Catel.Logging;
 using Catel.Runtime.Serialization;
+using Catel.Services;
 using FileSystem;
+using Path = System.IO.Path;
 
 public class ControlToolManager : IControlToolManager
 {
@@ -21,16 +24,19 @@ public class ControlToolManager : IControlToolManager
     private readonly FrameworkElement _frameworkElement;
     private readonly ITypeFactory _typeFactory;
     private readonly IDirectoryService _directoryService;
+    private readonly IAppDataService _appDataService;
 
-    public ControlToolManager(FrameworkElement frameworkElement, ITypeFactory typeFactory, IDirectoryService directoryService)
+    public ControlToolManager(FrameworkElement frameworkElement, ITypeFactory typeFactory, IDirectoryService directoryService, IAppDataService appDataService)
     {
         ArgumentNullException.ThrowIfNull(frameworkElement);
         ArgumentNullException.ThrowIfNull(typeFactory);
         ArgumentNullException.ThrowIfNull(directoryService);
+        ArgumentNullException.ThrowIfNull(appDataService);
 
         _frameworkElement = frameworkElement;
         _typeFactory = typeFactory;
         _directoryService = directoryService;
+        _appDataService = appDataService;
     }
 
     public IList<IControlTool> Tools { get; } = new List<IControlTool>();
@@ -206,7 +212,7 @@ public class ControlToolManager : IControlToolManager
     {
         var toolSettingsAttribute = Attribute.GetCustomAttribute(settingsProperty, typeof(ToolSettingsAttribute)) as ToolSettingsAttribute;
         var settingsStorage = toolSettingsAttribute?.Storage;
-        var appDataDirectory = Catel.IO.Path.GetApplicationDataDirectory();
+        var appDataDirectory = _appDataService.GetApplicationDataDirectory(ApplicationDataTarget.UserRoaming);
         var fileName = settingsProperty.Name + ".xml";
 
         if (string.IsNullOrWhiteSpace(settingsStorage))
