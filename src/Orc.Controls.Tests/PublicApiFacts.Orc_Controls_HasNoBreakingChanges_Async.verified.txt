@@ -2461,14 +2461,14 @@ namespace Orc.Controls
     {
         public static void CenterWindowToParent(this System.Windows.Window window) { }
         public static void CenterWindowToSize(this System.Windows.Window window, System.Windows.Rect parentRect) { }
-        [System.Obsolete("Use IAppDataService extension instead. Will be treated as an error from version 6" +
-            ".0.0. Will be removed in version 7.0.0.", false)]
+        [System.Obsolete(("Use IAppDataService extension instead. Will be treated as an error from version 6" +
+            ".0.0. Will be removed in version 7.0.0."), false)]
         public static void LoadWindowSize(this System.Windows.Window window, bool restoreWindowState) { }
-        [System.Obsolete("Use IAppDataService extension instead. Will be treated as an error from version 6" +
-            ".0.0. Will be removed in version 7.0.0.", false)]
+        [System.Obsolete(("Use IAppDataService extension instead. Will be treated as an error from version 6" +
+            ".0.0. Will be removed in version 7.0.0."), false)]
         public static void LoadWindowSize(this System.Windows.Window window, string? tag = null, bool restoreWindowState = false, bool restoreWindowPosition = true) { }
-        [System.Obsolete("Use IAppDataService extension instead. Will be treated as an error from version 6" +
-            ".0.0. Will be removed in version 7.0.0.", false)]
+        [System.Obsolete(("Use IAppDataService extension instead. Will be treated as an error from version 6" +
+            ".0.0. Will be removed in version 7.0.0."), false)]
         public static void SaveWindowSize(this System.Windows.Window window, string? tag = null) { }
     }
     public class WrapPanel : System.Windows.Controls.Panel
