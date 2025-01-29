@@ -192,7 +192,7 @@ namespace Orc.Controls
         public System.TimeSpan ShowTime { get; set; }
         public object? Tag { get; }
         public new string Title { get; set; }
-        public string? Version { get; set; }
+        public string? Version { get; protected set; }
         public event System.EventHandler<Orc.Controls.CalloutEventArgs>? Hiding;
         public event System.EventHandler<Orc.Controls.CalloutEventArgs>? Showing;
         protected override System.Threading.Tasks.Task CloseAsync() { }
@@ -208,10 +208,10 @@ namespace Orc.Controls
         public CalloutWatcherBase(Orc.Controls.ICalloutManager calloutManager, Catel.Configuration.IConfigurationService configurationService) { }
         public virtual Orc.Controls.ICallout? Callout { get; }
         public bool HasShown { get; }
-        public System.Guid? Id { get; set; }
-        public bool IsOneTimeCallout { get; set; }
-        public string? Name { get; set; }
-        public System.TimeSpan ShowInterval { get; set; }
+        public System.Guid? Id { get; protected set; }
+        public bool IsOneTimeCallout { get; protected set; }
+        public string? Name { get; protected set; }
+        public System.TimeSpan ShowInterval { get; protected set; }
         public virtual string Version { get; }
         protected virtual System.Threading.Tasks.Task<System.DateTime?> GetLastShownUtcAsync() { }
         protected virtual void Hide() { }
@@ -2175,7 +2175,7 @@ namespace Orc.Controls
         public TimeBasedCalloutWatcherBase(Orc.Controls.ICalloutManager calloutManager, Catel.Configuration.IConfigurationService configurationService) { }
         public abstract System.TimeSpan Delay { get; }
         public System.DateTime End { get; }
-        public System.DateTime Start { get; set; }
+        public System.DateTime Start { get; protected set; }
         protected virtual void Subscribe(Orc.Controls.ICalloutManager calloutManager) { }
     }
     public class TimePicker : System.Windows.Controls.ContentControl
@@ -2302,7 +2302,7 @@ namespace Orc.Controls
         public static readonly Catel.Data.IPropertyData ResultTypeProperty;
         protected ValidationContextTreeNode(bool isExpanded) { }
         public Catel.Collections.FastObservableCollection<Orc.Controls.ValidationContextTreeNode> Children { get; }
-        public string? DisplayName { get; set; }
+        public string? DisplayName { get; protected set; }
         public bool IsExpanded { get; set; }
         public bool IsVisible { get; set; }
         public Catel.Data.ValidationResultType? ResultType { get; set; }
@@ -2461,14 +2461,14 @@ namespace Orc.Controls
     {
         public static void CenterWindowToParent(this System.Windows.Window window) { }
         public static void CenterWindowToSize(this System.Windows.Window window, System.Windows.Rect parentRect) { }
-        [System.Obsolete(("Use IAppDataService extension instead. Will be treated as an error from version 6" +
-            ".0.0. Will be removed in version 7.0.0."), false)]
+        [System.Obsolete("Use IAppDataService extension instead. Will be treated as an error from version 6" +
+            ".0.0. Will be removed in version 7.0.0.", false)]
         public static void LoadWindowSize(this System.Windows.Window window, bool restoreWindowState) { }
-        [System.Obsolete(("Use IAppDataService extension instead. Will be treated as an error from version 6" +
-            ".0.0. Will be removed in version 7.0.0."), false)]
+        [System.Obsolete("Use IAppDataService extension instead. Will be treated as an error from version 6" +
+            ".0.0. Will be removed in version 7.0.0.", false)]
         public static void LoadWindowSize(this System.Windows.Window window, string? tag = null, bool restoreWindowState = false, bool restoreWindowPosition = true) { }
-        [System.Obsolete(("Use IAppDataService extension instead. Will be treated as an error from version 6" +
-            ".0.0. Will be removed in version 7.0.0."), false)]
+        [System.Obsolete("Use IAppDataService extension instead. Will be treated as an error from version 6" +
+            ".0.0. Will be removed in version 7.0.0.", false)]
         public static void SaveWindowSize(this System.Windows.Window window, string? tag = null) { }
     }
     public class WrapPanel : System.Windows.Controls.Panel
