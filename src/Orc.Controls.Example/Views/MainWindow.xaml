@@ -19,7 +19,7 @@
 
             <orctheming:ThemeSwitcherView Grid.Row="0" />
 
-            <orccontrols:Callout Title="Looking for callouts with a very long title?"
+            <orccontrols:Callout Title="Looking for callouts with a very very very very long title?"
                                  CalloutName="ExampleCallout"
                                  Description="Example callout with a specified delay. Check the callout tab below.
                              
