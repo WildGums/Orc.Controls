@@ -25,7 +25,7 @@
                     Command="{Binding OpenCallout}" />
             
             <orccontrols:Callout x:Name="buttonCallout"
-                                 Title="Print Button."
+                                 Title="Print Button with a very long title."
                                  Description="This is a print button."
                                  TailBaseWidth="{Binding Value, ElementName=TailBaseWidthNumericTextBox}"
                                  Placement="{Binding SelectedValue, ElementName=PlacementCombobox}"
