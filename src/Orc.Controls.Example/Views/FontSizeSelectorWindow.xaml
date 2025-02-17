@@ -6,6 +6,7 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:local="clr-namespace:Orc.Controls.Example.Views"
                    xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
+                   ShowInTaskbar="True"
                    mc:Ignorable="d">
     <Grid>
         <orctheming:FontSizeSwitcherView />

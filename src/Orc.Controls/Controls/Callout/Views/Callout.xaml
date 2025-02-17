@@ -296,19 +296,26 @@
                             </Grid.RowDefinitions>
 
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" MaxWidth="280" />
+                                <!-- 16 + margin -->
+                                <ColumnDefinition Width="20" MaxWidth="20" />
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Row="0"
+                                       MaxWidth="280"
                                        Text="{Binding Title}"
                                        FontSize="{orctheming:FontSize 14}"
                                        FontWeight="Medium"
+                                       TextTrimming="CharacterEllipsis"
                                        Foreground="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
-                                       HorizontalAlignment="Left" />
+                                       HorizontalAlignment="Left"
+                                       Background="Transparent"
+                                       ToolTip="{Binding Title}" />
 
                             <TextBlock Grid.Row="1"
-                                       MaxWidth="200"
-                                       HorizontalAlignment="Center"
+                                       Grid.ColumnSpan="2"
+                                       MaxWidth="300"
+                                       HorizontalAlignment="Stretch"
                                        VerticalAlignment="Center"
                                        Foreground="{DynamicResource Orc.Brushes.Control.Default.Foreground}"
                                        Text="{Binding Description}"
@@ -316,6 +323,7 @@
                                        Visibility="{Binding Description, Converter={catel:EmptyStringToCollapsingVisibilityConverter}}" />
 
                             <ContentPresenter Grid.Row="2"
+                                              Grid.ColumnSpan="2"
                                               Content="{Binding InnerContent}" />
                         </Grid>
 
