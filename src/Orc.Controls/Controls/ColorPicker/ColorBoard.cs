@@ -1,4 +1,4 @@
-namespace Orc.Controls;
+﻿namespace Orc.Controls;
 
 using System;
 using System.Collections.Generic;
@@ -270,15 +270,15 @@ public class ColorBoard : Control
     /// <summary>
     /// Gets or sets the custom theme colors.
     /// </summary>
-    public List<PredefinedColorItem>? CustomThemeColors
+    public IReadOnlyCollection<PredefinedColorItem>? CustomThemeColors
     {
-        get { return (List<PredefinedColorItem>?)GetValue(CustomThemeColorsProperty); }
+        get { return (IReadOnlyCollection<PredefinedColorItem>?)GetValue(CustomThemeColorsProperty); }
         set { SetValue(CustomThemeColorsProperty, value); }
     }
 
     public static readonly DependencyProperty CustomThemeColorsProperty = DependencyProperty.Register(
-        nameof(CustomThemeColors), typeof(List<PredefinedColorItem>), typeof(ColorBoard),
-        new PropertyMetadata(null, (sender, args) => ((ColorBoard)sender).OnCustomThemeColorsChanged(args)));
+        nameof(CustomThemeColors), typeof(IReadOnlyCollection<PredefinedColorItem>), typeof(ColorBoard),
+        new(null, (sender, args) => ((ColorBoard)sender).OnCustomThemeColorsChanged(args)));
 
     private void OnCustomThemeColorsChanged( DependencyPropertyChangedEventArgs e)
     {
@@ -846,32 +846,6 @@ public class ColorBoard : Control
         }
 
         UpdateThemeColorsDisplay();
-
-        //var list = PredefinedColor.AllThemeColors;
-        //var themeColors = new Dictionary<Color, PredefinedColorItem>();
-        //var r = 0;
-        //var c = 0;
-
-        //foreach (var color in list)
-        //{
-        //    var item = new PredefinedColorItem(color.Value, color.Name);
-        //    item.SetValue(Grid.RowProperty, r);
-        //    item.SetValue(Grid.ColumnProperty, c);
-
-        //    _themeColorsListBox.Items.Add(item);
-
-        //    themeColors.TryAdd(color.Value, item);
-
-        //    if (r < 5)
-        //    {
-        //        r++;
-        //    }
-        //    else
-        //    {
-        //        r = 0;
-        //        c++;
-        //    }
-        //}
     }
 
     public void SetHsvColor(Color color)

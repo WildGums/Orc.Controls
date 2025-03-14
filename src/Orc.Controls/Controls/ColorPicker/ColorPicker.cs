@@ -299,7 +299,7 @@ public class ColorPicker : Control
 
         // Convert from IEnumerable<Color> to List<PredefinedColorItem>
         var themeColorItems = CustomThemeColors
-            .Select((color, index) => new PredefinedColorItem(color, $"Custom {index + 1}"))
+            .Select(color => new PredefinedColorItem(color, PredefinedColor.GetColorName(color)))
             .ToList();
 
         _colorBoard.SetCurrentValue(ColorBoard.CustomThemeColorsProperty, themeColorItems);
