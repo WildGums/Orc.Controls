@@ -268,6 +268,24 @@ public class ColorBoard : Control
         typeof(List<PredefinedColorItem>), typeof(ColorBoard), new PropertyMetadata());
 
     /// <summary>
+    /// Gets or sets the custom theme colors.
+    /// </summary>
+    public List<PredefinedColorItem>? CustomThemeColors
+    {
+        get { return (List<PredefinedColorItem>?)GetValue(CustomThemeColorsProperty); }
+        set { SetValue(CustomThemeColorsProperty, value); }
+    }
+
+    public static readonly DependencyProperty CustomThemeColorsProperty = DependencyProperty.Register(
+        nameof(CustomThemeColors), typeof(List<PredefinedColorItem>), typeof(ColorBoard),
+        new PropertyMetadata(null, (sender, args) => ((ColorBoard)sender).OnCustomThemeColorsChanged(args)));
+
+    private void OnCustomThemeColorsChanged( DependencyPropertyChangedEventArgs e)
+    {
+        UpdateThemeColorsDisplay();
+    }
+
+    /// <summary>
     /// Gets a value indicating whether updating.
     /// </summary>
     private bool Updating => _isUpdating != 0;
@@ -498,6 +516,44 @@ public class ColorBoard : Control
         UpdateControls(Color, true, true, true);
 
         KeyDown += OnColorBoardKeyDown;
+    }
+
+    /// <summary>
+    /// Updates the theme colors listbox with custom colors if provided.
+    /// </summary>
+    private void UpdateThemeColorsDisplay()
+    {
+        if (!IsPartsInitialized || _themeColorsListBox is null)
+        {
+            return;
+        }
+
+        _themeColorsListBox.Items.Clear();
+
+        var colorsToDisplay = CustomThemeColors ?? PredefinedColor.AllThemeColors
+            .Select(c => new PredefinedColorItem(c.Value, c.Name))
+            .ToList();
+
+        var r = 0;
+        var c = 0;
+
+        foreach (var item in colorsToDisplay)
+        {
+            item.SetValue(Grid.RowProperty, r);
+            item.SetValue(Grid.ColumnProperty, c);
+
+            _themeColorsListBox.Items.Add(item);
+
+            if (r < 5)
+            {
+                r++;
+            }
+            else
+            {
+                r = 0;
+                c++;
+            }
+        }
     }
 
     /// <summary>
@@ -789,34 +845,33 @@ public class ColorBoard : Control
             return;
         }
 
-        var list = PredefinedColor.AllThemeColors;
-        var themeColors = new Dictionary<Color, PredefinedColorItem>();
-        var r = 0;
-        var c = 0;
+        UpdateThemeColorsDisplay();
 
-        foreach (var color in list)
-        {
-            var item = new PredefinedColorItem(color.Value, color.Name);
-            item.SetValue(Grid.RowProperty, r);
-            item.SetValue(Grid.ColumnProperty, c);
+        //var list = PredefinedColor.AllThemeColors;
+        //var themeColors = new Dictionary<Color, PredefinedColorItem>();
+        //var r = 0;
+        //var c = 0;
 
-            _themeColorsListBox.Items.Add(item);
+        //foreach (var color in list)
+        //{
+        //    var item = new PredefinedColorItem(color.Value, color.Name);
+        //    item.SetValue(Grid.RowProperty, r);
+        //    item.SetValue(Grid.ColumnProperty, c);
 
-            if (!themeColors.ContainsKey(color.Value))
-            {
-                themeColors.Add(color.Value, item);
-            }
+        //    _themeColorsListBox.Items.Add(item);
 
-            if (r < 5)
-            {
-                r++;
-            }
-            else
-            {
-                r = 0;
-                c++;
-            }
-        }
+        //    themeColors.TryAdd(color.Value, item);
+
+        //    if (r < 5)
+        //    {
+        //        r++;
+        //    }
+        //    else
+        //    {
+        //        r = 0;
+        //        c++;
+        //    }
+        //}
     }
 
     public void SetHsvColor(Color color)
