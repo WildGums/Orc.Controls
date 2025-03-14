@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls;
+namespace Orc.Controls;
 
 using System;
 using System.Collections.Generic;
@@ -1034,6 +1034,8 @@ public class ColorBoard : Control
 
         var c = ((PredefinedColorItem)_recentColorsListBox.SelectedItem).Color;
         UpdateControls(c, true, true, true);
+
+        OnDoneClicked();
     }
 
     /// <summary>
@@ -1223,6 +1225,8 @@ public class ColorBoard : Control
 
         var c = ((PredefinedColorItem)_themeColorsListBox.SelectedItem).Color;
         UpdateControls(c, true, true, true);
+
+        OnDoneClicked();
     }
 
     protected override AutomationPeer OnCreateAutomationPeer()
