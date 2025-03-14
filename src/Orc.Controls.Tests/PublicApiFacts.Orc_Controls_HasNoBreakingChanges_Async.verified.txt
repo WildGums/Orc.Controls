@@ -250,10 +250,12 @@ namespace Orc.Controls
     {
         public static readonly System.Windows.RoutedEvent CancelClickedEvent;
         public static readonly System.Windows.DependencyProperty ColorProperty;
+        public static readonly System.Windows.DependencyProperty CustomThemeColorsProperty;
         public static readonly System.Windows.RoutedEvent DoneClickedEvent;
         public static readonly System.Windows.DependencyProperty RecentColorItemsProperty;
         public ColorBoard() { }
         public System.Windows.Media.Color Color { get; set; }
+        public System.Collections.Generic.List<Orc.Controls.PredefinedColorItem>? CustomThemeColors { get; set; }
         public System.Collections.Generic.List<Orc.Controls.PredefinedColorItem>? RecentColorItems { get; set; }
         public event System.Windows.RoutedEventHandler CancelClicked;
         public event System.Windows.RoutedEventHandler DoneClicked;
@@ -361,13 +363,17 @@ namespace Orc.Controls
     {
         public static readonly System.Windows.DependencyProperty ColorProperty;
         public static readonly System.Windows.DependencyProperty CurrentColorProperty;
+        public static readonly System.Windows.DependencyProperty CustomThemeColorsProperty;
         public static readonly System.Windows.DependencyProperty IsDropDownOpenProperty;
         public static readonly System.Windows.DependencyProperty PopupPlacementProperty;
+        public static readonly System.Windows.DependencyProperty PopupScaleProperty;
         public ColorPicker() { }
         public System.Windows.Media.Color Color { get; set; }
         public System.Windows.Media.Color CurrentColor { get; set; }
+        public System.Collections.Generic.IEnumerable<System.Windows.Media.Color>? CustomThemeColors { get; set; }
         public bool IsDropDownOpen { get; set; }
         public System.Windows.Controls.Primitives.PlacementMode PopupPlacement { get; set; }
+        public double PopupScale { get; set; }
         public event System.EventHandler<Orc.Controls.ColorChangedEventArgs>? ColorChanged;
         public override void OnApplyTemplate() { }
         protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
@@ -1830,6 +1836,9 @@ namespace Orc.Controls
     }
     public class PredefinedColor : System.IEquatable<Orc.Controls.PredefinedColor>
     {
+        public PredefinedColor(string rgb, string name) { }
+        public PredefinedColor(System.Windows.Media.Color color, string name) { }
+        public PredefinedColor(byte a, byte r, byte g, byte b, string name) { }
         public string Name { get; }
         public System.Windows.Media.Color Value { get; }
         public static System.Collections.Generic.List<Orc.Controls.PredefinedColor> All { get; }
@@ -1840,6 +1849,7 @@ namespace Orc.Controls
         public static string GetColorName(System.Windows.Media.Color color) { }
         public static Orc.Controls.PredefinedColor? GetPredefinedColor(System.Windows.Media.Color color) { }
         public static bool IsPredefined(System.Windows.Media.Color color) { }
+        public static void SetCustomThemeColors(System.Collections.Generic.IEnumerable<Orc.Controls.PredefinedColor>? colors) { }
         public static bool operator !=(Orc.Controls.PredefinedColor color1, Orc.Controls.PredefinedColor color2) { }
         public static bool operator ==(Orc.Controls.PredefinedColor color1, Orc.Controls.PredefinedColor color2) { }
     }
