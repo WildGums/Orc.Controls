@@ -255,7 +255,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty RecentColorItemsProperty;
         public ColorBoard() { }
         public System.Windows.Media.Color Color { get; set; }
-        public System.Collections.Generic.List<Orc.Controls.PredefinedColorItem>? CustomThemeColors { get; set; }
+        public System.Collections.Generic.IReadOnlyCollection<Orc.Controls.PredefinedColorItem>? CustomThemeColors { get; set; }
         public System.Collections.Generic.List<Orc.Controls.PredefinedColorItem>? RecentColorItems { get; set; }
         public event System.Windows.RoutedEventHandler CancelClicked;
         public event System.Windows.RoutedEventHandler DoneClicked;
