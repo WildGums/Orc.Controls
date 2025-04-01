@@ -1959,7 +1959,6 @@
   </Style>
   <Style x:Key="DefaultDropDownButtonStyle" TargetType="{x:Type local:DropDownButton}" BasedOn="{StaticResource Orc.Styles.DropDownButton}">
     <Setter Property="Margin" Value="{DynamicResource Margin.Button}" />
-    <Setter Property="Height" Value="{DynamicResource Size.Height}" />
     <Setter Property="UseLayoutRounding" Value="True" />
     <!-- Due to a bug, adjust the error template (see http://stackoverflow.com/questions/321327/how-do-i-get-rid-of-the-red-rectangle-when-my-wpf-binding-validation-has-failed-a) -->
     <Setter Property="Validation.ErrorTemplate">
@@ -2073,7 +2072,6 @@
     </Style.Triggers>
   </Style>
   <Style x:Key="DefaultNumericUpDownStyle" TargetType="{x:Type local:NumericUpDown}" BasedOn="{StaticResource {x:Type local:NumericUpDown}}">
-    <Setter Property="Height" Value="{DynamicResource Size.Height}" />
     <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <!-- Due to a bug, adjust the error template (see http://stackoverflow.com/questions/321327/how-do-i-get-rid-of-the-red-rectangle-when-my-wpf-binding-validation-has-failed-a) -->
@@ -2098,7 +2096,6 @@
   <Style x:Key="DefaultSpinButtonStyle" TargetType="{x:Type local:SpinButton}" BasedOn="{StaticResource {x:Type local:SpinButton}}">
     <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
     <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
-    <Setter Property="Height" Value="{DynamicResource Size.Height}" />
     <Setter Property="Width" Value="18" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <!-- Due to a bug, adjust the error template (see http://stackoverflow.com/questions/321327/how-do-i-get-rid-of-the-red-rectangle-when-my-wpf-binding-validation-has-failed-a) -->
@@ -2150,7 +2147,6 @@
   <Style x:Key="DefaultLogMessageCategoryControlStyle" TargetType="{x:Type local:LogMessageCategoryControl}" BasedOn="{StaticResource {x:Type local:LogMessageCategoryControl}}" />
   <Style x:Key="DefaultLogMessageCategoryToggleButtonStyle" TargetType="{x:Type local:LogMessageCategoryToggleButton}" BasedOn="{StaticResource {x:Type local:LogMessageCategoryToggleButton}}" />
   <Style x:Key="DefaultNumericTextBoxStyle" TargetType="{x:Type local:NumericTextBox}" BasedOn="{StaticResource {x:Type local:NumericTextBox}}">
-    <Setter Property="Height" Value="{DynamicResource Size.Height}" />
     <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
     <Setter Property="Padding" Value="{DynamicResource Padding.TextBox}" />
     <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
@@ -2175,7 +2171,6 @@
     </Style.Triggers>
   </Style>
   <Style x:Key="DefaultListTextBoxStyle" TargetType="{x:Type local:ListTextBox}" BasedOn="{StaticResource {x:Type local:ListTextBox}}">
-    <Setter Property="Height" Value="{DynamicResource Size.Height}" />
     <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
     <Setter Property="Padding" Value="{DynamicResource Padding.TextBox}" />
     <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
@@ -2204,7 +2199,6 @@
   </Style>
   <Style x:Key="DefaultBusyIndicatorStyle" TargetType="{x:Type local:BusyIndicator}" BasedOn="{StaticResource {x:Type local:BusyIndicator}}" />
   <Style x:Key="DefaultWatermarkTextBoxStyle" TargetType="{x:Type local:WatermarkTextBox}" BasedOn="{StaticResource {x:Type local:WatermarkTextBox}}">
-    <Setter Property="Height" Value="{DynamicResource Size.Height}" />
     <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
     <Setter Property="Padding" Value="{DynamicResource Padding.TextBox}" />
     <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
