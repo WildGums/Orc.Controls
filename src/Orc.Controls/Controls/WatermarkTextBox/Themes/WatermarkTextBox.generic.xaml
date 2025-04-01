@@ -6,8 +6,10 @@
         <ResourceDictionary Source="/Orc.Theming;component/themes/generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="{x:Type controls:WatermarkTextBox}" TargetType="{x:Type controls:WatermarkTextBox}"
-           BasedOn="{StaticResource Orc.Styles.TextBoxBase}">
+    <Style x:Key="{x:Type controls:WatermarkTextBox}"
+           TargetType="{x:Type controls:WatermarkTextBox}"
+           BasedOn="{StaticResource Orc.Styles.TextBox}">
+
 
         <Setter Property="Template">
             <Setter.Value>
@@ -17,10 +19,13 @@
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="1" />
+                                CornerRadius="1"
+                                SnapsToDevicePixels="True">
 
-                        <ScrollViewer x:Name="PART_ContentHost" 
+                            <ScrollViewer x:Name="PART_ContentHost"
                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                        </Border>
 
                         <ContentPresenter x:Name="PART_WatermarkHost"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -28,24 +33,29 @@
                                           Content="{TemplateBinding Watermark}"
                                           ContentTemplate="{TemplateBinding WatermarkTemplate}"
                                           IsHitTestVisible="False"
-                                          Visibility="Collapsed" >
+                                          Visibility="Collapsed">
                             <ContentPresenter.Resources>
                                 <Style TargetType="{x:Type TextBlock}"
                                        BasedOn="{StaticResource {x:Type TextBlock}}">
-                                    <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Disabled.Border}"/>
+                                    <Setter Property="Foreground"
+                                            Value="{DynamicResource Orc.Brushes.Control.Disabled.Border}" />
                                 </Style>
                             </ContentPresenter.Resources>
                         </ContentPresenter>
-
                     </Grid>
+
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsFocused" Value="False" />
-                                <Condition Property="Text" Value="" />
+                                <Condition Property="IsFocused"
+                                           Value="False" />
+                                <Condition Property="Text"
+                                           Value="" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="PART_WatermarkHost" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="PART_WatermarkHost"
+                                        Property="Visibility"
+                                        Value="Visible" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
