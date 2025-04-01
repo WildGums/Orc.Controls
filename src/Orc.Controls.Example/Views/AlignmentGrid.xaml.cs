@@ -5,11 +5,9 @@
     /// </summary>
     public partial class AlignmentGrid
     {
-        #region Constructors
         public AlignmentGrid()
         {
             InitializeComponent();
         }
-        #endregion
     }
 }
