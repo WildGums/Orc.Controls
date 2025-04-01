@@ -2,11 +2,9 @@
 {
     public partial class Watermark
     {
-        #region Constructors
         public Watermark()
         {
             InitializeComponent();
         }
-        #endregion
     }
 }
