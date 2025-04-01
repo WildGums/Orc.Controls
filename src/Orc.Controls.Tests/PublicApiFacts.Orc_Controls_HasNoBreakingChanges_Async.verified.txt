@@ -1610,14 +1610,14 @@ namespace Orc.Controls
         public static Orc.Controls.Number op_Implicit(byte value) { }
         public static Orc.Controls.Number op_Implicit(decimal value) { }
         public static Orc.Controls.Number op_Implicit(double value) { }
-        public static Orc.Controls.Number op_Implicit(short value) { }
+        public static Orc.Controls.Number op_Implicit(float value) { }
         public static Orc.Controls.Number op_Implicit(int value) { }
         public static Orc.Controls.Number op_Implicit(long value) { }
         public static Orc.Controls.Number op_Implicit(sbyte value) { }
-        public static Orc.Controls.Number op_Implicit(float value) { }
-        public static Orc.Controls.Number op_Implicit(ushort value) { }
+        public static Orc.Controls.Number op_Implicit(short value) { }
         public static Orc.Controls.Number op_Implicit(uint value) { }
         public static Orc.Controls.Number op_Implicit(ulong value) { }
+        public static Orc.Controls.Number op_Implicit(ushort value) { }
         public static Orc.Controls.Number operator +(Orc.Controls.Number left, double right) { }
         public static Orc.Controls.Number operator +(double left, Orc.Controls.Number right) { }
         public static Orc.Controls.Number operator -(Orc.Controls.Number left, double right) { }
@@ -1836,8 +1836,8 @@ namespace Orc.Controls
     }
     public class PredefinedColor : System.IEquatable<Orc.Controls.PredefinedColor>
     {
-        public PredefinedColor(string rgb, string name) { }
         public PredefinedColor(System.Windows.Media.Color color, string name) { }
+        public PredefinedColor(string rgb, string name) { }
         public PredefinedColor(byte a, byte r, byte g, byte b, string name) { }
         public string Name { get; }
         public System.Windows.Media.Color Value { get; }
@@ -2131,8 +2131,8 @@ namespace Orc.Controls
         public bool IsLazyLoading { get; }
         public Orc.Controls.LoadTabItemsBehavior LoadTabItems { get; set; }
         protected new System.Windows.Controls.TabItem? GetSelectedTabItem() { }
-        public virtual void LoadTabItem(int index) { }
         public virtual void LoadTabItem(System.Windows.Controls.ContentPresenter tabItem) { }
+        public virtual void LoadTabItem(int index) { }
         public override void OnApplyTemplate() { }
         protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e) { }
