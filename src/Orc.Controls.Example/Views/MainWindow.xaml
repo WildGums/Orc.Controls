@@ -10,14 +10,16 @@
               Width="1000">
 
     <controls:AutomationInformer>
-        <Grid>
+        <orccontrols:StackGrid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <orctheming:ThemeSwitcherView Grid.Row="0" />
+            <orctheming:ThemeSwitcherView />
+            <orctheming:FontSizeSwitcherView />
 
             <orccontrols:Callout Title="Looking for callouts with a very very very very long title?"
                                  CalloutName="ExampleCallout"
@@ -30,14 +32,11 @@
                                  PlacementTarget="{Binding ElementName=calloutView}" />
 
             <Button x:Name="TestButton"
-                    Grid.Column="0"
-                    Grid.Row="1"
                     AutomationProperties.AutomationId="TestButtonId"
                     Command="{Binding StartTestHost}"
                     Content="Test" />
 
             <orccontrols:TabControl AutomationProperties.AutomationId="TabControl"
-                                    Grid.Row="2"
                                     Padding="10"
                                     TabStripPlacement="Left"
                                     LoadTabItems="EagerLoading">
@@ -174,6 +173,6 @@
                 </TabItem>
 
             </orccontrols:TabControl>
-        </Grid>
+        </orccontrols:StackGrid>
     </controls:AutomationInformer>
 </catel:Window>
