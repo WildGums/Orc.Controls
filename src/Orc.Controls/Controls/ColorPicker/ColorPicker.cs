@@ -1,7 +1,9 @@
 ﻿namespace Orc.Controls;
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
@@ -86,13 +88,50 @@ public class ColorPicker : Control
         typeof(ColorPicker),
         new PropertyMetadata(false));
 
+    // Add to ColorPicker class
+    public double PopupScale
+    {
+        get => (double)GetValue(PopupScaleProperty);
+        set => SetValue(PopupScaleProperty, value);
+    }
+
+    public static readonly DependencyProperty PopupScaleProperty = DependencyProperty.Register(
+        nameof(PopupScale), typeof(double), typeof(ColorPicker),
+        new(1.0, (sender, args) => ((ColorPicker)sender).OnPopupScaleChanged(args)));
+
+    private void OnPopupScaleChanged(DependencyPropertyChangedEventArgs e)
+    {
+        UpdateColorBoardScale();
+    }
+
+    /// <summary>
+    /// Gets or sets the custom theme colors to be displayed in the color picker.
+    /// </summary>
+    public IEnumerable<Color>? CustomThemeColors
+    {
+        get => (IEnumerable<Color>?)GetValue(CustomThemeColorsProperty);
+        set => SetValue(CustomThemeColorsProperty, value);
+    }
+
+    /// <summary>
+    /// The custom theme colors property.
+    /// </summary>
+    public static readonly DependencyProperty CustomThemeColorsProperty = DependencyProperty.Register(
+        nameof(CustomThemeColors), typeof(IEnumerable<Color>), typeof(ColorPicker),
+        new(null, (sender, args) => ((ColorPicker)sender).OnCustomThemeColorsChanged(args)));
+
+    private void OnCustomThemeColorsChanged(DependencyPropertyChangedEventArgs e)
+    {
+        UpdateCustomThemeColors();
+    }
+
     /// <summary>
     /// Gets or sets the popup placement.
     /// </summary>
     public PlacementMode PopupPlacement
     {
-        get { return (PlacementMode)GetValue(PopupPlacementProperty); }
-        set { SetValue(PopupPlacementProperty, value); }
+        get => (PlacementMode)GetValue(PopupPlacementProperty);
+        set => SetValue(PopupPlacementProperty, value);
     }
 
     /// <summary>
@@ -120,7 +159,7 @@ public class ColorPicker : Control
             throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Popup'");
         }
 
-        _colorBoard = new ColorBoard();
+        _colorBoard = new();
         _colorBoard.SetCurrentValue(ColorBoard.ColorProperty, Color);
         _colorBoard.SizeChanged += OnColorBoardSizeChanged;
 
@@ -138,6 +177,14 @@ public class ColorPicker : Control
         KeyDown += OnColorPickerKeyDown;
 
         IsPartsInitialized = true;
+
+        // Pass any custom theme colors to the ColorBoard
+        if (CustomThemeColors is not null)
+        {
+            UpdateCustomThemeColors();
+        }
+
+        UpdateColorBoardScale();
     }
 
     private void OnColorChanged(DependencyPropertyChangedEventArgs e)
@@ -236,8 +283,37 @@ public class ColorPicker : Control
         }
     }
 
-    protected override AutomationPeer OnCreateAutomationPeer()
+
+    private void UpdateCustomThemeColors()
     {
-        return new ColorPickerAutomationPeer(this);
+        if (!IsPartsInitialized || _colorBoard is null)
+        {
+            return;
+        }
+
+        if (CustomThemeColors is null)
+        {
+            _colorBoard.SetCurrentValue(ColorBoard.CustomThemeColorsProperty, null);
+            return;
+        }
+
+        // Convert from IEnumerable<Color> to List<PredefinedColorItem>
+        var themeColorItems = CustomThemeColors
+            .Select(color => new PredefinedColorItem(color, PredefinedColor.GetColorName(color)))
+            .ToList();
+
+        _colorBoard.SetCurrentValue(ColorBoard.CustomThemeColorsProperty, themeColorItems);
     }
+
+    private void UpdateColorBoardScale()
+    {
+        if (!IsPartsInitialized)
+        {
+            return;
+        }
+
+        _colorBoard.SetCurrentValue(LayoutTransformProperty, new ScaleTransform(PopupScale, PopupScale));
+    }
+
+    protected override AutomationPeer OnCreateAutomationPeer() => new ColorPickerAutomationPeer(this);
 }

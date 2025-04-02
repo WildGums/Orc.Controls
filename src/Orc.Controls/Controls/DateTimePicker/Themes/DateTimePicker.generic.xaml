@@ -268,7 +268,6 @@
                                 </Grid>
 
                                 <Grid Grid.Column="1">
-
                                     <controls:DropDownButton x:Name="PART_DatePickerIconDropDownButton"
                                                              DockPanel.Dock="Right"
                                                              IsArrowVisible="False"
@@ -279,7 +278,6 @@
                                                              VerticalAlignment="Stretch">
                                         <controls:DropDownButton.DropDown>
                                             <ContextMenu>
-
                                                 <MenuItem x:Name="PART_TodayMenuItem"
                                                           HorizontalAlignment="Stretch"
                                                           HorizontalContentAlignment="Left"

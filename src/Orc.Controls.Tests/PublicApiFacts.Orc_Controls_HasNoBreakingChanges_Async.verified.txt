@@ -192,7 +192,7 @@ namespace Orc.Controls
         public System.TimeSpan ShowTime { get; set; }
         public object? Tag { get; }
         public new string Title { get; set; }
-        public string? Version { get; set; }
+        public string? Version { get; protected set; }
         public event System.EventHandler<Orc.Controls.CalloutEventArgs>? Hiding;
         public event System.EventHandler<Orc.Controls.CalloutEventArgs>? Showing;
         protected override System.Threading.Tasks.Task CloseAsync() { }
@@ -208,10 +208,10 @@ namespace Orc.Controls
         public CalloutWatcherBase(Orc.Controls.ICalloutManager calloutManager, Catel.Configuration.IConfigurationService configurationService) { }
         public virtual Orc.Controls.ICallout? Callout { get; }
         public bool HasShown { get; }
-        public System.Guid? Id { get; set; }
-        public bool IsOneTimeCallout { get; set; }
-        public string? Name { get; set; }
-        public System.TimeSpan ShowInterval { get; set; }
+        public System.Guid? Id { get; protected set; }
+        public bool IsOneTimeCallout { get; protected set; }
+        public string? Name { get; protected set; }
+        public System.TimeSpan ShowInterval { get; protected set; }
         public virtual string Version { get; }
         protected virtual System.Threading.Tasks.Task<System.DateTime?> GetLastShownUtcAsync() { }
         protected virtual void Hide() { }
@@ -250,10 +250,12 @@ namespace Orc.Controls
     {
         public static readonly System.Windows.RoutedEvent CancelClickedEvent;
         public static readonly System.Windows.DependencyProperty ColorProperty;
+        public static readonly System.Windows.DependencyProperty CustomThemeColorsProperty;
         public static readonly System.Windows.RoutedEvent DoneClickedEvent;
         public static readonly System.Windows.DependencyProperty RecentColorItemsProperty;
         public ColorBoard() { }
         public System.Windows.Media.Color Color { get; set; }
+        public System.Collections.Generic.IReadOnlyCollection<Orc.Controls.PredefinedColorItem>? CustomThemeColors { get; set; }
         public System.Collections.Generic.List<Orc.Controls.PredefinedColorItem>? RecentColorItems { get; set; }
         public event System.Windows.RoutedEventHandler CancelClicked;
         public event System.Windows.RoutedEventHandler DoneClicked;
@@ -361,13 +363,17 @@ namespace Orc.Controls
     {
         public static readonly System.Windows.DependencyProperty ColorProperty;
         public static readonly System.Windows.DependencyProperty CurrentColorProperty;
+        public static readonly System.Windows.DependencyProperty CustomThemeColorsProperty;
         public static readonly System.Windows.DependencyProperty IsDropDownOpenProperty;
         public static readonly System.Windows.DependencyProperty PopupPlacementProperty;
+        public static readonly System.Windows.DependencyProperty PopupScaleProperty;
         public ColorPicker() { }
         public System.Windows.Media.Color Color { get; set; }
         public System.Windows.Media.Color CurrentColor { get; set; }
+        public System.Collections.Generic.IEnumerable<System.Windows.Media.Color>? CustomThemeColors { get; set; }
         public bool IsDropDownOpen { get; set; }
         public System.Windows.Controls.Primitives.PlacementMode PopupPlacement { get; set; }
+        public double PopupScale { get; set; }
         public event System.EventHandler<Orc.Controls.ColorChangedEventArgs>? ColorChanged;
         public override void OnApplyTemplate() { }
         protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
@@ -1604,14 +1610,14 @@ namespace Orc.Controls
         public static Orc.Controls.Number op_Implicit(byte value) { }
         public static Orc.Controls.Number op_Implicit(decimal value) { }
         public static Orc.Controls.Number op_Implicit(double value) { }
-        public static Orc.Controls.Number op_Implicit(short value) { }
+        public static Orc.Controls.Number op_Implicit(float value) { }
         public static Orc.Controls.Number op_Implicit(int value) { }
         public static Orc.Controls.Number op_Implicit(long value) { }
         public static Orc.Controls.Number op_Implicit(sbyte value) { }
-        public static Orc.Controls.Number op_Implicit(float value) { }
-        public static Orc.Controls.Number op_Implicit(ushort value) { }
+        public static Orc.Controls.Number op_Implicit(short value) { }
         public static Orc.Controls.Number op_Implicit(uint value) { }
         public static Orc.Controls.Number op_Implicit(ulong value) { }
+        public static Orc.Controls.Number op_Implicit(ushort value) { }
         public static Orc.Controls.Number operator +(Orc.Controls.Number left, double right) { }
         public static Orc.Controls.Number operator +(double left, Orc.Controls.Number right) { }
         public static Orc.Controls.Number operator -(Orc.Controls.Number left, double right) { }
@@ -1830,6 +1836,9 @@ namespace Orc.Controls
     }
     public class PredefinedColor : System.IEquatable<Orc.Controls.PredefinedColor>
     {
+        public PredefinedColor(System.Windows.Media.Color color, string name) { }
+        public PredefinedColor(string rgb, string name) { }
+        public PredefinedColor(byte a, byte r, byte g, byte b, string name) { }
         public string Name { get; }
         public System.Windows.Media.Color Value { get; }
         public static System.Collections.Generic.List<Orc.Controls.PredefinedColor> All { get; }
@@ -1840,6 +1849,7 @@ namespace Orc.Controls
         public static string GetColorName(System.Windows.Media.Color color) { }
         public static Orc.Controls.PredefinedColor? GetPredefinedColor(System.Windows.Media.Color color) { }
         public static bool IsPredefined(System.Windows.Media.Color color) { }
+        public static void SetCustomThemeColors(System.Collections.Generic.IEnumerable<Orc.Controls.PredefinedColor>? colors) { }
         public static bool operator !=(Orc.Controls.PredefinedColor color1, Orc.Controls.PredefinedColor color2) { }
         public static bool operator ==(Orc.Controls.PredefinedColor color1, Orc.Controls.PredefinedColor color2) { }
     }
@@ -2121,8 +2131,8 @@ namespace Orc.Controls
         public bool IsLazyLoading { get; }
         public Orc.Controls.LoadTabItemsBehavior LoadTabItems { get; set; }
         protected new System.Windows.Controls.TabItem? GetSelectedTabItem() { }
-        public virtual void LoadTabItem(int index) { }
         public virtual void LoadTabItem(System.Windows.Controls.ContentPresenter tabItem) { }
+        public virtual void LoadTabItem(int index) { }
         public override void OnApplyTemplate() { }
         protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         protected override void OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e) { }
@@ -2175,7 +2185,7 @@ namespace Orc.Controls
         public TimeBasedCalloutWatcherBase(Orc.Controls.ICalloutManager calloutManager, Catel.Configuration.IConfigurationService configurationService) { }
         public abstract System.TimeSpan Delay { get; }
         public System.DateTime End { get; }
-        public System.DateTime Start { get; set; }
+        public System.DateTime Start { get; protected set; }
         protected virtual void Subscribe(Orc.Controls.ICalloutManager calloutManager) { }
     }
     public class TimePicker : System.Windows.Controls.ContentControl
@@ -2302,7 +2312,7 @@ namespace Orc.Controls
         public static readonly Catel.Data.IPropertyData ResultTypeProperty;
         protected ValidationContextTreeNode(bool isExpanded) { }
         public Catel.Collections.FastObservableCollection<Orc.Controls.ValidationContextTreeNode> Children { get; }
-        public string? DisplayName { get; set; }
+        public string? DisplayName { get; protected set; }
         public bool IsExpanded { get; set; }
         public bool IsVisible { get; set; }
         public Catel.Data.ValidationResultType? ResultType { get; set; }
@@ -4047,17 +4057,5 @@ namespace Orc.Controls.Views
     {
         public TextInputWindow() { }
         public void InitializeComponent() { }
-    }
-}
-namespace XamlGeneratedNamespace
-{
-    public sealed class GeneratedInternalTypeHelper : System.Windows.Markup.InternalTypeHelper
-    {
-        public GeneratedInternalTypeHelper() { }
-        protected override void AddEventHandler(System.Reflection.EventInfo eventInfo, object target, System.Delegate handler) { }
-        protected override System.Delegate CreateDelegate(System.Type delegateType, object target, string handler) { }
-        protected override object CreateInstance(System.Type type, System.Globalization.CultureInfo culture) { }
-        protected override object GetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, System.Globalization.CultureInfo culture) { }
-        protected override void SetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, object value, System.Globalization.CultureInfo culture) { }
     }
 }

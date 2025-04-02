@@ -47,7 +47,7 @@
 
             var expectedValue = initialValue + delta;
 
-            Assert.That(target.Value, Is.EqualTo((Number)(expectedValue)));
+            Assert.That(target.Value, Is.EqualTo((Number)expectedValue));
             Assert.That(view.Value, Is.EqualTo(expectedViewValue));
         }
 
@@ -68,7 +68,7 @@
 
             var expectedValue = initialValue - delta;
 
-            Assert.That(target.Value, Is.EqualTo((Number)(expectedValue)));
+            Assert.That(target.Value, Is.EqualTo((Number)expectedValue));
             Assert.That(view.Value, Is.EqualTo(expectedViewValue));
         }
 
