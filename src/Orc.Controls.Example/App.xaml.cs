@@ -54,8 +54,9 @@
             var mainWindow = new MainWindow();
             application.MainWindow = mainWindow;
 
-            var window = new FontSizeSelectorWindow();
-            window.ShowDialog();
+            // Note: uncomment to show font size selection at startup
+            //var window = new FontSizeSelectorWindow();
+            //window.ShowDialog();
 
             mainWindow.ShowDialog();
 
