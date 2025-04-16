@@ -198,6 +198,7 @@ public class FilterBox : TextBox
     {
         UpdateAutoCompletion();
     }
+
     private void OnPropertyNameChanged()
     {
         UpdateAutoCompletion();
