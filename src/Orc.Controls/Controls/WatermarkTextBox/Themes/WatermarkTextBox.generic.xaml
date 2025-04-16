@@ -10,7 +10,6 @@
            TargetType="{x:Type controls:WatermarkTextBox}"
            BasedOn="{StaticResource Orc.Styles.TextBox}">
 
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:WatermarkTextBox}">

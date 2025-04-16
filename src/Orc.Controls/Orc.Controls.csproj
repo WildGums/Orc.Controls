@@ -5,7 +5,7 @@
     <RootNamespace>Orc.Controls</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
     <PackageId>Orc.Controls</PackageId>
-    <PackageVersion>1.0.0-alpha0001</PackageVersion>
+    <PackageVersion>5.3.0-alpha0107</PackageVersion>
     <Description>Controls library.</Description>
     <PackageTags>orc;controls;datepicker;timepicker;textbox;connection;string;watermark;</PackageTags>
   </PropertyGroup>
