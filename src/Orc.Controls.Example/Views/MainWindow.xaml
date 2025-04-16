@@ -18,8 +18,10 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <orctheming:ThemeSwitcherView />
-            <orctheming:FontSizeSwitcherView />
+            <StackPanel Orientation="Horizontal">
+                <orctheming:ThemeSwitcherView />
+                <orctheming:FontSizeSwitcherView />
+            </StackPanel>
 
             <orccontrols:Callout Title="Looking for callouts with a very very very very long title?"
                                  CalloutName="ExampleCallout"
