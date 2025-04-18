@@ -26,6 +26,8 @@ public class CalloutViewModel : ViewModelBase, ICallout
         _calloutManager = calloutManager;
         _dispatcherService = dispatcherService;
 
+        ValidateUsingDataAnnotations = false;
+
         Id = Guid.NewGuid();
 
         PauseTimer = new Command(OnPauseTimerExecute);

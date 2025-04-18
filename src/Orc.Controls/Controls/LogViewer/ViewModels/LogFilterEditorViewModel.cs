@@ -13,6 +13,8 @@ public class LogFilterEditorViewModel : ViewModelBase
     {
         ArgumentNullException.ThrowIfNull(logFilter);
 
+        ValidateUsingDataAnnotations = false;
+
         ExpressionTypes = new ObservableCollection<LogFilterExpressionType>(Enum<LogFilterExpressionType>.GetValues());
         Actions = new ObservableCollection<LogFilterAction>(Enum<LogFilterAction>.GetValues());
         Targets = new ObservableCollection<LogFilterTarget>(Enum<LogFilterTarget>.GetValues());

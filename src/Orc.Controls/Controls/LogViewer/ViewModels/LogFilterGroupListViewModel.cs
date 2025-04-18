@@ -26,6 +26,8 @@ public class LogFilterGroupListViewModel : ViewModelBase
         _messageService = messageService;
         _uiVisualizerService = uiVisualizerService;
 
+        ValidateUsingDataAnnotations = false;
+
         FilterGroups = new FastObservableCollection<LogFilterGroup>();
         SelectedFilterGroups = new ObservableCollection<LogFilterGroup>();
 

@@ -6,6 +6,8 @@ public class StepBarItemViewModel : ViewModelBase
 {
     public StepBarItemViewModel(IStepBarItem stepBarItem)
     {
+        ValidateUsingDataAnnotations = false;
+
         Item = stepBarItem;
     }
 

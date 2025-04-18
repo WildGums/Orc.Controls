@@ -18,6 +18,8 @@ public class ValidationContextTreeViewModel : ViewModelBase
 
         _validationNamesService = validationNamesService;
 
+        ValidateUsingDataAnnotations = false;
+
         ValidationResultTags = new FastObservableCollection<ValidationResultTagNode>();
         Filter = string.Empty;
     }

@@ -23,6 +23,8 @@ public class DirectoryPickerViewModel : ViewModelBase
         _directoryService = directoryService;
         _processService = processService;
 
+        ValidateUsingDataAnnotations = false;
+
         OpenDirectory = new Command(OnOpenDirectoryExecute, OnOpenDirectoryCanExecute);
         SelectDirectory = new TaskCommand(OnSelectDirectoryExecuteAsync);
         Clear = new Command(OnClearExecute, OnClearCanExecute);

@@ -31,6 +31,8 @@ public class ValidationContextViewModel : ViewModelBase
         _dispatcherService = dispatcherService;
         _fileService = fileService;
 
+        ValidateUsingDataAnnotations = false;
+
         ExpandAll = new Command(OnExpandAllExecute);
         CollapseAll = new Command(OnCollapseAllExecute);
         Copy = new Command(OnCopyExecute, OnCopyCanExecute);
