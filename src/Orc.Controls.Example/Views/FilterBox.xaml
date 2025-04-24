@@ -7,46 +7,68 @@
     <StackPanel>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="FilterBox Control" VerticalAlignment="Center" Width="150"/>
+                <TextBlock Text="FilterBox Control"
+                           VerticalAlignment="Center"
+                           Width="150" />
                 <orccontrols:FilterBox Width="200"
                                        HorizontalAlignment="Left"
                                        PropertyName="Value"
                                        FilterSource="{Binding FilterSource}"
                                        Text="{Binding FilterText}"
-                                       Watermark="Filter"/>
+                                       Watermark="Filter" />
+                <TextBox IsReadOnly="True"
+                         Text="For alignment checks" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="FilterBox Control" VerticalAlignment="Center" Width="150"/>
+                <TextBlock Text="FilterBox Control"
+                           VerticalAlignment="Center"
+                           Width="150" />
                 <orccontrols:FilterBox Width="200"
                                        HorizontalAlignment="Left"
                                        PropertyName="Value"
-                                       FilterSource="{Binding FilterSource}" Text="{Binding FilterText}" Watermark="Filter"/>
+                                       FilterSource="{Binding FilterSource}"
+                                       Text="{Binding FilterText}"
+                                       Watermark="Filter" />
+                <TextBox IsReadOnly="True"
+                         Text="For alignment checks" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Filtered Text" VerticalAlignment="Center" Width="150" />
+                <TextBlock Text="Filtered Text"
+                           VerticalAlignment="Center"
+                           Width="150" />
                 <TextBox Text="{Binding FilterText}"
-                         VerticalAlignment="Center" 
-                         Width="200" 
-                         HorizontalAlignment="Left"/>
+                         VerticalAlignment="Center"
+                         Width="200"
+                         HorizontalAlignment="Left" />
             </StackPanel>
         </StackPanel>
 
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="FilterBox Control (Reverse)" VerticalAlignment="Center" Width="150"/>
-                <orccontrols:FilterBox Width="200" 
-                                       HorizontalAlignment="Left" 
+                <TextBlock Text="FilterBox Control (Reverse)"
+                           VerticalAlignment="Center"
+                           Width="150" />
+                <orccontrols:FilterBox Width="200"
+                                       HorizontalAlignment="Left"
                                        PropertyName="Value"
-                                       FilterSource="{Binding FilterSource}" 
+                                       FilterSource="{Binding FilterSource}"
                                        Text="{Binding CustomServiceFilterText}"
-                                       Watermark="Filter" 
-                                       InitializingAutoCompletionService="OnFilterBoxControlInitializingAutoCompletionService"/>
+                                       Watermark="Filter"
+                                       InitializingAutoCompletionService="OnFilterBoxControlInitializingAutoCompletionService" />
+                <TextBox IsReadOnly="True"
+                         Text="For alignment checks" />
             </StackPanel>
+
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Filtered Text" VerticalAlignment="Center" Width="150" />
-                <TextBox Text="{Binding CustomServiceFilterText}" VerticalAlignment="Center" Width="200" HorizontalAlignment="Left"/>
+                <TextBlock Text="Filtered Text"
+                           VerticalAlignment="Center"
+                           Width="150" />
+                <TextBox Text="{Binding CustomServiceFilterText}"
+                         VerticalAlignment="Center"
+                         Width="200"
+                         HorizontalAlignment="Left" />
             </StackPanel>
         </StackPanel>
     </StackPanel>

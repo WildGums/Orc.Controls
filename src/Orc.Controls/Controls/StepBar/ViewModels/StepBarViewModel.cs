@@ -11,6 +11,8 @@ public class StepBarViewModel : ViewModelBase
 {
     public StepBarViewModel()
     {
+        ValidateUsingDataAnnotations = false;
+
         Items = new List<IStepBarItem>();
     }
 

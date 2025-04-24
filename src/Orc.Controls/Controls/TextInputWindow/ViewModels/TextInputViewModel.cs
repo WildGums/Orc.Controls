@@ -8,6 +8,8 @@ public class TextInputViewModel : ViewModelBase
 
     public TextInputViewModel(string? title)
     {
+        ValidateUsingDataAnnotations = false;
+
         _title = title ?? string.Empty;
     }
 

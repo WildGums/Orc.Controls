@@ -22,6 +22,8 @@ public class SaveFilePickerViewModel : ViewModelBase
         _saveFileService = saveFileService;
         _processService = processService;
 
+        ValidateUsingDataAnnotations = false;
+
         OpenDirectory = new Command(OnOpenDirectoryExecute, OnOpenDirectoryCanExecute);
         SelectFile = new TaskCommand(OnSelectFileExecuteAsync);
         Clear = new Command(OnClearExecute, OnClearCanExecute);

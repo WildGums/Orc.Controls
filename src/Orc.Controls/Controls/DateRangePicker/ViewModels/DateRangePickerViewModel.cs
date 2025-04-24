@@ -16,6 +16,11 @@ public class DateRangePickerViewModel : ViewModelBase
     private DateTime _endDate;
     private bool _isUpdatingRanges;
 
+    public DateRangePickerViewModel()
+    {
+        ValidateUsingDataAnnotations = false;
+    }
+
     public TimeAdjustmentStrategy TimeAdjustmentStrategy { get; set; }
 
     public ObservableCollection<DateRange>? Ranges

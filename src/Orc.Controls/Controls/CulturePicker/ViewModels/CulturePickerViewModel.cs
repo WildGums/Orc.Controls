@@ -11,6 +11,8 @@ internal class CulturePickerViewModel : ViewModelBase
 
     public CulturePickerViewModel()
     {
+        ValidateUsingDataAnnotations = false;
+
         AvailableCultures = CultureInfo.GetCultures(CultureTypes.AllCultures)
             .Where(culture => !string.IsNullOrEmpty(culture.Name) && !string.IsNullOrEmpty(culture.Parent.Name))
             .OrderBy(culture => culture.DisplayName).ToList();

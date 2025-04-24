@@ -25,6 +25,8 @@ public class LogFilterGroupEditorViewModel : ViewModelBase
         LogFilterGroup = logFilterGroup;
         LogFilters = new ObservableCollection<LogFilter>();
 
+        ValidateUsingDataAnnotations = false;
+
         AddCommand = new TaskCommand(OnAddCommandExecuteAsync);
         EditCommand = new TaskCommand(OnEditCommandExecuteAsync, OnEditCommandCanExecute);
         RemoveCommand = new TaskCommand(OnRemoveCommandExecuteAsync, OnRemoveCommandCanExecute);

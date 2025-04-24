@@ -47,6 +47,8 @@ public class LogViewerViewModel : ViewModelBase
         _dispatcherService = dispatcherService;
         _logViewerLogListener = logViewerLogListener;
 
+        ValidateUsingDataAnnotations = false;
+
         _defaultComboBoxItem = languageService.GetRequiredString(nameof(Properties.Resources.Controls_LogViewer_SelectTypeName));
         _timer = new Timer(OnTimerTick);
 
