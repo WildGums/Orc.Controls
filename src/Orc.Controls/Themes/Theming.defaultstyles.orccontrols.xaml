@@ -8,8 +8,8 @@
         <ResourceDictionary Source="/Orc.Controls;component/Controls/AlignmentGrid/Themes/AlignmentGrid.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/AnimatedGif/Themes/AnimatedGif.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/AnimatingTextBlock/Themes/AnimatingTextBlock.generic.xaml" />
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/BindableRichTextBox/Themes/BindableRichTextBox.generic.xaml"/>
-        <ResourceDictionary Source="/Orc.Controls;component/Controls/BusyIndicator/Themes/BusyIndicator.generic.xaml"/>
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/BindableRichTextBox/Themes/BindableRichTextBox.generic.xaml" />
+        <ResourceDictionary Source="/Orc.Controls;component/Controls/BusyIndicator/Themes/BusyIndicator.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorLegend/Themes/ColorLegend.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/ColorPicker/Themes/ColorPicker.generic.xaml" />
         <ResourceDictionary Source="/Orc.Controls;component/Controls/DateTimePicker/Themes/DateTimePicker.generic.xaml" />
@@ -44,21 +44,26 @@
            TargetType="{x:Type orccontrols:TabControl}"
            BasedOn="{StaticResource {x:Type orccontrols:TabControl}}">
 
-        <Setter Property="Margin" Value="{DynamicResource Margin.Default}" />
+        <Setter Property="Margin"
+                Value="{DynamicResource Margin.Default}" />
 
     </Style>
 
-    <Style x:Key="DefaultDropDownButtonStyle" TargetType="{x:Type orccontrols:DropDownButton}"
+    <Style x:Key="DefaultDropDownButtonStyle"
+           TargetType="{x:Type orccontrols:DropDownButton}"
            BasedOn="{StaticResource Orc.Styles.DropDownButton}">
-        <Setter Property="Margin" Value="{DynamicResource Margin.Button}" />
-        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Margin"
+                Value="{DynamicResource Margin.Button}" />
+        <Setter Property="UseLayoutRounding"
+                Value="True" />
 
         <!-- Due to a bug, adjust the error template (see http://stackoverflow.com/questions/321327/how-do-i-get-rid-of-the-red-rectangle-when-my-wpf-binding-validation-has-failed-a) -->
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red"
+                        <Border BorderThickness="1"
+                                BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -68,19 +73,25 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DefaultBindableRichTextBoxStyle" TargetType="{x:Type orccontrols:BindableRichTextBox}"
+    <Style x:Key="DefaultBindableRichTextBoxStyle"
+           TargetType="{x:Type orccontrols:BindableRichTextBox}"
            BasedOn="{StaticResource {x:Type orccontrols:BindableRichTextBox}}">
-        <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
-        <Setter Property="Padding" Value="{DynamicResource Padding.TextBox}" />
-        <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="MinHeight"
+                Value="{DynamicResource Size.MinHeight}" />
+        <Setter Property="Padding"
+                Value="{DynamicResource Padding.TextBox}" />
+        <Setter Property="Margin"
+                Value="{DynamicResource Margin.TextBox}" />
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
 
         <!-- Due to a bug, adjust the error template (see http://stackoverflow.com/questions/321327/how-do-i-get-rid-of-the-red-rectangle-when-my-wpf-binding-validation-has-failed-a) -->
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red"
+                        <Border BorderThickness="1"
+                                BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -91,25 +102,34 @@
 
         <!-- Show errors as tooltip -->
         <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="true">
-                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
+            <Trigger Property="Validation.HasError"
+                     Value="true">
+                <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <!-- FilterBox -->
-    <Style x:Key="DefaultFilterBoxStyle" TargetType="{x:Type orccontrols:FilterBox}" BasedOn="{StaticResource {x:Type orccontrols:FilterBox}}">
-        <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
-        <Setter Property="Padding" Value="{DynamicResource Padding.TextBox}" />
-        <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Style x:Key="DefaultFilterBoxStyle"
+           TargetType="{x:Type orccontrols:FilterBox}"
+           BasedOn="{StaticResource {x:Type orccontrols:FilterBox}}">
+        <Setter Property="MinHeight"
+                Value="{DynamicResource Size.MinHeight}" />
+        <Setter Property="Padding"
+                Value="{DynamicResource Padding.TextBox}" />
+        <Setter Property="Margin"
+                Value="{DynamicResource Margin.TextBox}" />
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
 
         <!-- Due to a bug, adjust the error template (see http://stackoverflow.com/questions/321327/how-do-i-get-rid-of-the-red-rectangle-when-my-wpf-binding-validation-has-failed-a) -->
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red"
+                        <Border BorderThickness="1"
+                                BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -120,34 +140,43 @@
 
         <!-- Show errors as tooltip -->
         <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="true">
-                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
+            <Trigger Property="Validation.HasError"
+                     Value="true">
+                <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <!-- FluidProgressBar  -->
-    <Style x:Key="DefaultFluidProgressBarStyle" TargetType="{x:Type orccontrols:FluidProgressBar}"
-           BasedOn="{StaticResource {x:Type orccontrols:FluidProgressBar}}"/>
+    <Style x:Key="DefaultFluidProgressBarStyle"
+           TargetType="{x:Type orccontrols:FluidProgressBar}"
+           BasedOn="{StaticResource {x:Type orccontrols:FluidProgressBar}}" />
 
-    <Style x:Key="DefaultExpanderStyle" TargetType="{x:Type orccontrols:Expander}"
-           BasedOn="{StaticResource {x:Type orccontrols:Expander}}"/>
+    <Style x:Key="DefaultExpanderStyle"
+           TargetType="{x:Type orccontrols:Expander}"
+           BasedOn="{StaticResource {x:Type orccontrols:Expander}}" />
 
     <Style x:Key="DefaultTimeSpanPickerStyle"
            TargetType="{x:Type orccontrols:TimeSpanPicker}"
            BasedOn="{StaticResource {x:Type orccontrols:TimeSpanPicker}}">
 
-        <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
-        <Setter Property="Padding" Value="{DynamicResource Padding.TextBox}" />
-        <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="MinHeight"
+                Value="{DynamicResource Size.MinHeight}" />
+        <Setter Property="Padding"
+                Value="{DynamicResource Padding.TextBox}" />
+        <Setter Property="Margin"
+                Value="{DynamicResource Margin.TextBox}" />
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
 
         <!-- Due to a bug, adjust the error template (see http://stackoverflow.com/questions/321327/how-do-i-get-rid-of-the-red-rectangle-when-my-wpf-binding-validation-has-failed-a) -->
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red"
+                        <Border BorderThickness="1"
+                                BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -158,8 +187,10 @@
 
         <!-- Show errors as tooltip -->
         <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="true">
-                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
+            <Trigger Property="Validation.HasError"
+                     Value="true">
+                <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -168,17 +199,22 @@
            TargetType="{x:Type orccontrols:DateTimePicker}"
            BasedOn="{StaticResource {x:Type orccontrols:DateTimePicker}}">
 
-        <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
-        <Setter Property="Padding" Value="{DynamicResource Padding.TextBox}" />
-        <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="MinHeight"
+                Value="{DynamicResource Size.MinHeight}" />
+        <Setter Property="Padding"
+                Value="{DynamicResource Padding.TextBox}" />
+        <Setter Property="Margin"
+                Value="{DynamicResource Margin.TextBox}" />
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
 
         <!-- Due to a bug, adjust the error template (see http://stackoverflow.com/questions/321327/how-do-i-get-rid-of-the-red-rectangle-when-my-wpf-binding-validation-has-failed-a) -->
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red"
+                        <Border BorderThickness="1"
+                                BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -189,8 +225,10 @@
 
         <!-- Show errors as tooltip -->
         <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="true">
-                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
+            <Trigger Property="Validation.HasError"
+                     Value="true">
+                <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -200,15 +238,18 @@
            TargetType="{x:Type orccontrols:NumericUpDown}"
            BasedOn="{StaticResource {x:Type orccontrols:NumericUpDown}}">
 
-        <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Margin"
+                Value="{DynamicResource Margin.TextBox}" />
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
 
         <!-- Due to a bug, adjust the error template (see http://stackoverflow.com/questions/321327/how-do-i-get-rid-of-the-red-rectangle-when-my-wpf-binding-validation-has-failed-a) -->
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red"
+                        <Border BorderThickness="1"
+                                BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -219,8 +260,10 @@
 
         <!-- Show errors as tooltip -->
         <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="true">
-                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
+            <Trigger Property="Validation.HasError"
+                     Value="true">
+                <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -229,17 +272,22 @@
            TargetType="{x:Type orccontrols:SpinButton}"
            BasedOn="{StaticResource {x:Type orccontrols:SpinButton}}">
 
-        <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
-        <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
-        <Setter Property="Width" Value="18" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="MinHeight"
+                Value="{DynamicResource Size.MinHeight}" />
+        <Setter Property="Margin"
+                Value="{DynamicResource Margin.TextBox}" />
+        <Setter Property="Width"
+                Value="18" />
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
 
         <!-- Due to a bug, adjust the error template (see http://stackoverflow.com/questions/321327/how-do-i-get-rid-of-the-red-rectangle-when-my-wpf-binding-validation-has-failed-a) -->
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red"
+                        <Border BorderThickness="1"
+                                BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -250,26 +298,33 @@
 
         <!-- Show errors as tooltip -->
         <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="true">
-                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
+            <Trigger Property="Validation.HasError"
+                     Value="true">
+                <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <Style x:Key="DefaultTimePickerStyle"
-           TargetType="{x:Type orccontrols:TimePicker}" >
+           TargetType="{x:Type orccontrols:TimePicker}">
 
-        <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
-        <Setter Property="Padding" Value="{DynamicResource Padding.TextBox}" />
-        <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="MinHeight"
+                Value="{DynamicResource Size.MinHeight}" />
+        <Setter Property="Padding"
+                Value="{DynamicResource Padding.TextBox}" />
+        <Setter Property="Margin"
+                Value="{DynamicResource Margin.TextBox}" />
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
 
         <!-- Due to a bug, adjust the error template (see http://stackoverflow.com/questions/321327/how-do-i-get-rid-of-the-red-rectangle-when-my-wpf-binding-validation-has-failed-a) -->
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red"
+                        <Border BorderThickness="1"
+                                BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -280,23 +335,29 @@
 
         <!-- Show errors as tooltip -->
         <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="true">
-                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
+            <Trigger Property="Validation.HasError"
+                     Value="true">
+                <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="DefaultLinkLabelStyle" TargetType="{x:Type orccontrols:LinkLabel}"
+    <Style x:Key="DefaultLinkLabelStyle"
+           TargetType="{x:Type orccontrols:LinkLabel}"
            BasedOn="{StaticResource {x:Type orccontrols:LinkLabel}}">
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment"
+                Value="Center" />
     </Style>
 
-    <Style x:Key="DefaultLogMessageCategoryControlStyle" TargetType="{x:Type orccontrols:LogMessageCategoryControl}"
+    <Style x:Key="DefaultLogMessageCategoryControlStyle"
+           TargetType="{x:Type orccontrols:LogMessageCategoryControl}"
            BasedOn="{StaticResource {x:Type orccontrols:LogMessageCategoryControl}}">
     </Style>
 
 
-    <Style x:Key="DefaultLogMessageCategoryToggleButtonStyle" TargetType="{x:Type orccontrols:LogMessageCategoryToggleButton}"
+    <Style x:Key="DefaultLogMessageCategoryToggleButtonStyle"
+           TargetType="{x:Type orccontrols:LogMessageCategoryToggleButton}"
            BasedOn="{StaticResource {x:Type orccontrols:LogMessageCategoryToggleButton}}">
     </Style>
 
@@ -305,17 +366,22 @@
            TargetType="{x:Type orccontrols:NumericTextBox}"
            BasedOn="{StaticResource {x:Type orccontrols:NumericTextBox}}">
 
-        <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
-        <Setter Property="Padding" Value="{DynamicResource Padding.TextBox}" />
-        <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="MinHeight"
+                Value="{DynamicResource Size.MinHeight}" />
+        <Setter Property="Padding"
+                Value="{DynamicResource Padding.TextBox}" />
+        <Setter Property="Margin"
+                Value="{DynamicResource Margin.TextBox}" />
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
 
         <!-- Due to a bug, adjust the error template (see http://stackoverflow.com/questions/321327/how-do-i-get-rid-of-the-red-rectangle-when-my-wpf-binding-validation-has-failed-a) -->
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red"
+                        <Border BorderThickness="1"
+                                BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -326,8 +392,10 @@
 
         <!-- Show errors as tooltip -->
         <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="true">
-                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
+            <Trigger Property="Validation.HasError"
+                     Value="true">
+                <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -336,17 +404,22 @@
            TargetType="{x:Type orccontrols:ListTextBox}"
            BasedOn="{StaticResource {x:Type orccontrols:ListTextBox}}">
 
-        <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
-        <Setter Property="Padding" Value="{DynamicResource Padding.TextBox}" />
-        <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="MinHeight"
+                Value="{DynamicResource Size.MinHeight}" />
+        <Setter Property="Padding"
+                Value="{DynamicResource Padding.TextBox}" />
+        <Setter Property="Margin"
+                Value="{DynamicResource Margin.TextBox}" />
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
 
         <!-- Due to a bug, adjust the error template (see http://stackoverflow.com/questions/321327/how-do-i-get-rid-of-the-red-rectangle-when-my-wpf-binding-validation-has-failed-a) -->
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red"
+                        <Border BorderThickness="1"
+                                BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -357,8 +430,10 @@
 
         <!-- Show errors as tooltip -->
         <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="true">
-                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
+            <Trigger Property="Validation.HasError"
+                     Value="true">
+                <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -367,28 +442,37 @@
            TargetType="{x:Type orccontrols:RangeSlider}"
            BasedOn="{StaticResource Orc.Styles.RangeSlider}">
 
-        <Setter Property="Margin" Value="{DynamicResource Margin.Default}" />
+        <Setter Property="Margin"
+                Value="{DynamicResource Margin.Default}" />
     </Style>
 
     <Style x:Key="DefaultBusyIndicatorStyle"
            TargetType="{x:Type orccontrols:BusyIndicator}"
-           BasedOn="{StaticResource {x:Type orccontrols:BusyIndicator}}"/>
+           BasedOn="{StaticResource {x:Type orccontrols:BusyIndicator}}" />
 
     <!-- WatermarkTextBox -->
-    <Style x:Key="DefaultWatermarkTextBoxStyle" TargetType="{x:Type orccontrols:WatermarkTextBox}" BasedOn="{StaticResource {x:Type orccontrols:WatermarkTextBox}}">
+    <Style x:Key="DefaultWatermarkTextBoxStyle"
+           TargetType="{x:Type orccontrols:WatermarkTextBox}"
+           BasedOn="{StaticResource {x:Type orccontrols:WatermarkTextBox}}">
 
-        <Setter Property="MinHeight" Value="{DynamicResource Size.MinHeight}" />
-        <Setter Property="Padding" Value="{DynamicResource Padding.TextBox}" />
-        <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="MinHeight"
+                Value="{DynamicResource Size.MinHeight}" />
+        <Setter Property="Padding"
+                Value="{DynamicResource Padding.TextBox}" />
+        <Setter Property="Margin"
+                Value="{DynamicResource Margin.TextBox}" />
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
+        <Setter Property="VerticalContentAlignment"
+                Value="Center" />
 
         <!-- Due to a bug, adjust the error template (see http://stackoverflow.com/questions/321327/how-do-i-get-rid-of-the-red-rectangle-when-my-wpf-binding-validation-has-failed-a) -->
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1" BorderBrush="Red"
+                        <Border BorderThickness="1"
+                                BorderBrush="Red"
                                 Visibility="{Binding ElementName=placeholder, Mode=OneWay, Path=AdornedElement.IsVisible, Converter={catel:BooleanToHidingVisibilityConverter}}">
                             <AdornedElementPlaceholder x:Name="placeholder" />
                         </Border>
@@ -399,8 +483,10 @@
 
         <!-- Show errors as tooltip -->
         <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="true">
-                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
+            <Trigger Property="Validation.HasError"
+                     Value="true">
+                <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors), Converter={catel:GetFirstValidationErrorConverter}}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -409,7 +495,8 @@
     <Style x:Key="DefaultLogViewerControlStyle"
            TargetType="{x:Type orccontrols:LogViewerControl}"
            BasedOn="{StaticResource {x:Type orccontrols:LogViewerControl}}">
-        <Setter Property="Margin" Value="{DynamicResource Margin.TextBox}"/>
+        <Setter Property="Margin"
+                Value="{DynamicResource Margin.TextBox}" />
     </Style>
 
 </ResourceDictionary>
