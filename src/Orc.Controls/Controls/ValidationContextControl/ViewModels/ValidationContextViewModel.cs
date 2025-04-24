@@ -37,6 +37,8 @@ public class ValidationContextViewModel : ViewModelBase
         CollapseAll = new Command(OnCollapseAllExecute);
         Copy = new Command(OnCopyExecute, OnCopyCanExecute);
         Open = new Command(OnOpenExecute);
+        
+        Nodes = Enumerable.Empty<IValidationContextTreeNode>();
 
         InvalidateCommandsOnPropertyChanged = true;
     }
@@ -59,7 +61,7 @@ public class ValidationContextViewModel : ViewModelBase
     public string? Filter { get; set; }
     public IValidationContext? ValidationContext { get; set; }
     public List<IValidationResult>? ValidationResults { get; private set; }
-    public IEnumerable<IValidationContextTreeNode>? Nodes { get; set; } = Enumerable.Empty<IValidationContextTreeNode>();
+    public IEnumerable<IValidationContextTreeNode>? Nodes { get; set; }
     
     public Command ExpandAll { get; }
     public Command CollapseAll { get; }
