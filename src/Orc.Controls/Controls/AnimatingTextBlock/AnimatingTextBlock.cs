@@ -9,6 +9,7 @@ using Automation;
 using Catel.Logging;
 using Services;
 
+[StyleTypedProperty(Property = nameof(TextBlockStyle), StyleTargetType = typeof(TextBlock))]
 public class AnimatingTextBlock : UserControl, IStatusRepresenter
 {
     private static readonly ILog Log = LogManager.GetCurrentClassLogger();
@@ -61,6 +62,19 @@ public class AnimatingTextBlock : UserControl, IStatusRepresenter
     }
 
     #region Dependency properties
+
+
+    public Style? TextBlockStyle
+    {
+        get { return (Style?)GetValue(TextBlockStyleProperty); }
+        set { SetValue(TextBlockStyleProperty, value); }
+    }
+
+    public static readonly DependencyProperty TextBlockStyleProperty = DependencyProperty.Register(nameof(TextBlockStyle), 
+        typeof(Style), typeof(AnimatingTextBlock), new PropertyMetadata(null));
+
+
+
     public string Text
     {
         get { return (string)GetValue(TextProperty); }
@@ -217,6 +231,8 @@ public class AnimatingTextBlock : UserControl, IStatusRepresenter
         var renderTransform = RenderTransform;
         SetCurrentValue(RenderTransformProperty, null);
 
+        var textBlockStyle = TextBlockStyle;
+
         for (var i = 0; i < 2; i++)
         {
             var textBlock = new TextBlock
@@ -229,6 +245,11 @@ public class AnimatingTextBlock : UserControl, IStatusRepresenter
                 TextWrapping = TextWrapping.NoWrap,
                 TextTrimming = TextTrimming.CharacterEllipsis,
             };
+
+            if (textBlockStyle is not null)
+            {
+                textBlock.Style = textBlockStyle;
+            }
 
             grid.Children.Add(textBlock);
         }
