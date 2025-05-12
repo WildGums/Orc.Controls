@@ -4,10 +4,8 @@
 
     public class AnimatedGifViewModel : ViewModelBase
     {
-        #region Constructors
         public AnimatedGifViewModel()
         {
         }
-        #endregion
     }
 }
