@@ -1,0 +1,17 @@
+﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.AnimatedTextBlock"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:catel="http://schemas.catelproject.com"
+                   xmlns:orccontrols="http://schemas.wildgums.com/orc/controls">
+
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="AnimatedTextBlock"
+                       VerticalAlignment="Center"
+                       Width="150" />
+            <orccontrols:AnimatingTextBlock HorizontalAlignment="Center"
+                                            Text="{Binding Status}" />
+        </StackPanel>
+    </StackPanel>
+
+</catel:UserControl>

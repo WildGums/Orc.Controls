@@ -6,15 +6,57 @@ using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using Automation;
+using Catel.Logging;
 using Services;
 
 public class AnimatingTextBlock : UserControl, IStatusRepresenter
 {
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
+    private static readonly Storyboard DefaultShowStoryboard;
+    private static readonly Storyboard DefaultHideStoryboard;
+
     private Grid? _contentGrid;
     private int _currentIndex = 0;
 
+    static AnimatingTextBlock()
+    {
+        var showStoryboard = new Storyboard();
+
+        var showAnimation = new DoubleAnimation
+        {
+            To = 1d,
+            Duration = TimeSpan.FromMilliseconds(500),
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+        };
+
+        Storyboard.SetTargetProperty(showAnimation, new PropertyPath(nameof(TextBlock.Opacity)));
+
+        showStoryboard.Children.Add(showAnimation);
+
+        DefaultShowStoryboard = showStoryboard;
+
+        var hideStoryboard = new Storyboard();
+
+        var hideAnimation = new DoubleAnimation
+        {
+            To = 0d,
+            Duration = TimeSpan.FromMilliseconds(500),
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+        };
+
+        Storyboard.SetTargetProperty(hideAnimation, new PropertyPath(nameof(TextBlock.Opacity)));
+
+        hideStoryboard.Children.Add(hideAnimation);
+
+        DefaultHideStoryboard = hideStoryboard;
+    }
+
     public AnimatingTextBlock()
     {
+        SetCurrentValue(ShowStoryboardProperty, DefaultShowStoryboard);
+        SetCurrentValue(HideStoryboardProperty, DefaultHideStoryboard);
+
         Loaded += OnLoaded;
     }
 
@@ -27,7 +69,18 @@ public class AnimatingTextBlock : UserControl, IStatusRepresenter
 
     public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(AnimatingTextBlock),
         new PropertyMetadata(string.Empty, (sender, _) => ((AnimatingTextBlock)sender).OnTextChanged()));
-        
+
+
+    public TextAlignment TextAlignment
+    {
+        get { return (TextAlignment)GetValue(TextAlignmentProperty); }
+        set { SetValue(TextAlignmentProperty, value); }
+    }
+
+    public static readonly DependencyProperty TextAlignmentProperty = DependencyProperty.Register(nameof(TextAlignment), typeof(TextAlignment), 
+        typeof(AnimatingTextBlock), new PropertyMetadata(TextAlignment.Left));
+
+
     public Storyboard? HideStoryboard
     {
         get { return (Storyboard?)GetValue(HideStoryboardProperty); }
@@ -35,7 +88,8 @@ public class AnimatingTextBlock : UserControl, IStatusRepresenter
     }      
         
     public static readonly DependencyProperty HideStoryboardProperty =
-        DependencyProperty.Register(nameof(HideStoryboard), typeof(Storyboard), typeof(AnimatingTextBlock), new PropertyMetadata(null));
+        DependencyProperty.Register(nameof(HideStoryboard), typeof(Storyboard), typeof(AnimatingTextBlock), new PropertyMetadata());
+
 
     public Storyboard? ShowStoryboard 
     {
@@ -44,7 +98,7 @@ public class AnimatingTextBlock : UserControl, IStatusRepresenter
     }    
         
     public static readonly DependencyProperty ShowStoryboardProperty =
-        DependencyProperty.Register(nameof(ShowStoryboard), typeof(Storyboard), typeof(AnimatingTextBlock), new PropertyMetadata(null));
+        DependencyProperty.Register(nameof(ShowStoryboard), typeof(Storyboard), typeof(AnimatingTextBlock), new PropertyMetadata());
 
     #endregion
 
@@ -97,7 +151,8 @@ public class AnimatingTextBlock : UserControl, IStatusRepresenter
 
     private void OnHideComplete()
     {
-        if (string.IsNullOrEmpty(Text))
+        var text = Text;
+        if (string.IsNullOrEmpty(text))
         {
             return;
         }
@@ -114,7 +169,7 @@ public class AnimatingTextBlock : UserControl, IStatusRepresenter
         }
 
         var textBlockToShow = (TextBlock)_contentGrid.Children[_currentIndex];
-        textBlockToShow.SetCurrentValue(TextBlock.TextProperty, Text);
+        textBlockToShow.SetCurrentValue(TextBlock.TextProperty, text);
 
         var showStoryboard = ShowStoryboard;
         if (showStoryboard is not null)
@@ -166,10 +221,13 @@ public class AnimatingTextBlock : UserControl, IStatusRepresenter
         {
             var textBlock = new TextBlock
             {
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalContentAlignment,
+                VerticalAlignment = VerticalContentAlignment,
                 Opacity = 0d,
-                RenderTransform = renderTransform
+                RenderTransform = renderTransform,
+                TextAlignment = TextAlignment,
+                TextWrapping = TextWrapping.NoWrap,
+                TextTrimming = TextTrimming.CharacterEllipsis,
             };
 
             grid.Children.Add(textBlock);
