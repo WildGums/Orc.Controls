@@ -53,15 +53,20 @@ namespace Orc.Controls
         public string GifSource { get; set; }
         protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
     }
+    [System.Windows.StyleTypedProperty(Property="TextBlockStyle", StyleTargetType=typeof(System.Windows.Controls.TextBlock))]
     public class AnimatingTextBlock : System.Windows.Controls.UserControl, Orc.Controls.Services.IStatusRepresenter
     {
         public static readonly System.Windows.DependencyProperty HideStoryboardProperty;
         public static readonly System.Windows.DependencyProperty ShowStoryboardProperty;
+        public static readonly System.Windows.DependencyProperty TextAlignmentProperty;
+        public static readonly System.Windows.DependencyProperty TextBlockStyleProperty;
         public static readonly System.Windows.DependencyProperty TextProperty;
         public AnimatingTextBlock() { }
         public System.Windows.Media.Animation.Storyboard? HideStoryboard { get; set; }
         public System.Windows.Media.Animation.Storyboard? ShowStoryboard { get; set; }
         public string Text { get; set; }
+        public System.Windows.TextAlignment TextAlignment { get; set; }
+        public System.Windows.Style? TextBlockStyle { get; set; }
         public override void OnApplyTemplate() { }
         protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() { }
         public void UpdateStatus(string status) { }

@@ -50,6 +50,10 @@
                     <views:AnimatedGif />
                 </TabItem>
 
+                <TabItem Header="AnimatedTextBlock">
+                    <views:AnimatedTextBlock />
+                </TabItem>
+
                 <TabItem Header="BindableRichTextBox">
                     <views:BindableRichTextBox />
                 </TabItem>
