@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="RepositoryTemplate.XamlTools.Packages">
-    <PackageReference Include="XAMLTools.MSBuild" Version="1.0.0-alpha0085" PrivateAssets="all" />
+    <PackageReference Include="XAMLTools.MSBuild" Version="1.0.0-alpha0167" PrivateAssets="all" />
   </ItemGroup>
 
   <!-- Note: to disable XAML tools during debug and development, use the following csproj:
@@ -61,13 +61,11 @@
   </ItemGroup>
 
    <!--Copy correct file based on whether it's enabled or not--> 
-  <Target Name="PreBuildXamlToolsDisabled" AfterTargets="PreBuildEvent"
-          Condition="'$(XamlToolsDisable)' == 'true'">
+  <Target Name="PreBuildXamlToolsDisabled" AfterTargets="PreBuildEvent" Condition="'$(XamlToolsDisable)' == 'true'">
     <Exec Command="xcopy /f /y &quot;$(ProjectDir)Themes\Generic.XamlTools.Disabled.xaml&quot; &quot;$(ProjectDir)Themes\Generic.xaml&quot;" />
   </Target>
 
-  <Target Name="PreBuildXamlToolsEnabled" AfterTargets="PreBuildEvent"
-          Condition="'$(XamlToolsDisable)' != 'true'">
+  <Target Name="PreBuildXamlToolsEnabled" AfterTargets="PreBuildEvent" Condition="'$(XamlToolsDisable)' != 'true'">
     <Exec Command="xcopy /f /y &quot;$(ProjectDir)Themes\Generic.XamlTools.Enabled.xaml&quot; &quot;$(ProjectDir)Themes\Generic.xaml&quot;" />
   </Target>
 </Project>

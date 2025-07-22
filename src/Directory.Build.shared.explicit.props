@@ -59,8 +59,7 @@
     Fix for .NET Core 3.0, see https://github.com/dotnet/core-sdk/issues/192, it 
     uses obj/release instead of [outputdirectory] 
   -->
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.Output.Intermediate"
-                 Condition=" '$(DotNetPackIntermediateOutputPath)' != '' ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.Output.Intermediate" Condition=" '$(DotNetPackIntermediateOutputPath)' != '' ">
     <IntermediateOutputPath>$(DotNetPackIntermediateOutputPath)</IntermediateOutputPath>
   </PropertyGroup>
 
@@ -92,8 +91,7 @@
     <Title Condition=" '$(Title)' == '' ">$(PackageId)</Title>
   </PropertyGroup>
 
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.Package.Icon"
-                 Condition="Exists('$(MSBuildProjectDirectory)\..\..\design\Package\icon.png')">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.Package.Icon" Condition="Exists('$(MSBuildProjectDirectory)\..\..\design\Package\icon.png')">
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
@@ -103,14 +101,12 @@
 
   <!-- This will include LICENSE.txt and VERIFICATION.txt for Chocolatey -->
   <ItemGroup Label="RepositoryTemplate.Explicit.Configuration.Chocolatey">
-    <None Include="$(OverridableOutputPath)\LICENSE.txt"
-          Condition="Exists('$(OverridableOutputPath)\LICENSE.txt')">
+    <None Include="$(OverridableOutputPath)\LICENSE.txt" Condition="Exists('$(OverridableOutputPath)\LICENSE.txt')">
       <Pack>true</Pack>
       <PackagePath>tools</PackagePath>
     </None>
 
-    <None Include="$(OverridableOutputPath)\VERIFICATION.txt"
-          Condition="Exists('$(OverridableOutputPath)\VERIFICATION.txt')">
+    <None Include="$(OverridableOutputPath)\VERIFICATION.txt" Condition="Exists('$(OverridableOutputPath)\VERIFICATION.txt')">
       <Pack>true</Pack>
       <PackagePath>tools</PackagePath>
     </None>
@@ -163,19 +159,16 @@
   </ItemGroup>
 
   <!-- .NET Core app 2.1 -->
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET2_1"
-                 Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET2_1" Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
     <DefineConstants>$(DefineConstants);NETCORE;NETCORE2_1;NETCOREAPP;NETCOREAPP2_1</DefineConstants>
   </PropertyGroup>
   
   <!-- .NET Core app 3.0 -->
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET3_0"
-                 Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET3_0" Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
     <DefineConstants>$(DefineConstants);NETCORE;NETCORE3_0;NETCOREAPP;NETCOREAPP3_0</DefineConstants>
   </PropertyGroup>
   
-  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET3_0"
-             Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
+  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET3_0" Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
     <None Remove="Platforms\net\**\*.cs;Platforms\net\**\*.xaml;Platforms\net\**\*.xaml.cs" />
     <Compile Include="Platforms\net\**\*.cs" DependentUpon="%(Filename)" />
     <Page Include="Platforms\net\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
@@ -183,13 +176,11 @@
   </ItemGroup>
     
   <!-- .NET Core app 3.1 -->
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET3_1" 
-                 Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET3_1" Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
     <DefineConstants>$(DefineConstants);NETCORE;NETCORE3_0;NETCOREAPP;NETCOREAPP3_0</DefineConstants>
   </PropertyGroup>
   
-  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET3_1"
-             Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET3_1" Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
     <None Remove="Platforms\net\**\*.cs;Platforms\net\**\*.xaml;Platforms\net\**\*.xaml.cs" />
     <Compile Include="Platforms\net\**\*.cs" DependentUpon="%(Filename)" />
     <Page Include="Platforms\net\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
@@ -197,13 +188,11 @@
   </ItemGroup>
   
   <!-- .NET 5.0 -->
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET5_0"
-                 Condition=" $(TargetFramework.StartsWith('net5.0')) ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET5_0" Condition=" $(TargetFramework.StartsWith('net5.0')) ">
     <DefineConstants>$(DefineConstants);NETCORE;NETCORE5;NETCORE5_0;NET5;NET5_0</DefineConstants>
   </PropertyGroup>
   
-  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET5_0"
-             Condition=" $(TargetFramework.StartsWith('net5.0')) ">
+  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET5_0" Condition=" $(TargetFramework.StartsWith('net5.0')) ">
     <None Remove="Platforms\net\**\*.cs;Platforms\net\**\*.xaml;Platforms\net\**\*.xaml.cs" />
     <Compile Include="Platforms\net\**\*.cs" DependentUpon="%(Filename)" />
     <Page Include="Platforms\net\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
@@ -211,13 +200,11 @@
   </ItemGroup>
   
   <!-- .NET 6.0 -->
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET6_0"
-                 Condition=" $(TargetFramework.StartsWith('net6.0')) ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET6_0" Condition=" $(TargetFramework.StartsWith('net6.0')) ">
     <DefineConstants>$(DefineConstants);NETCORE;NETCORE6;NETCORE6_0;NET6;NET6_0</DefineConstants>
   </PropertyGroup>
   
-  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET6_0"
-             Condition=" $(TargetFramework.StartsWith('net6.0')) ">
+  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET6_0" Condition=" $(TargetFramework.StartsWith('net6.0')) ">
     <None Remove="Platforms\net\**\*.cs;Platforms\net\**\*.xaml;Platforms\net\**\*.xaml.cs" />
     <Compile Include="Platforms\net\**\*.cs" DependentUpon="%(Filename)" />
     <Page Include="Platforms\net\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
@@ -225,13 +212,11 @@
   </ItemGroup>
   
   <!-- .NET 7.0 -->
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET7_0"
-                 Condition=" $(TargetFramework.StartsWith('net7.0')) ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET7_0" Condition=" $(TargetFramework.StartsWith('net7.0')) ">
     <DefineConstants>$(DefineConstants);NETCORE;NETCORE7;NETCORE7_0;NET7;NET7_0</DefineConstants>
   </PropertyGroup>
   
-  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET7_0"
-             Condition=" $(TargetFramework.StartsWith('net7.0')) ">
+  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET7_0" Condition=" $(TargetFramework.StartsWith('net7.0')) ">
     <None Remove="Platforms\net\**\*.cs;Platforms\net\**\*.xaml;Platforms\net\**\*.xaml.cs" />
     <Compile Include="Platforms\net\**\*.cs" DependentUpon="%(Filename)" />
     <Page Include="Platforms\net\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
@@ -239,13 +224,11 @@
   </ItemGroup>
   
   <!-- .NET 8.0 -->
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET8_0"
-                 Condition=" $(TargetFramework.StartsWith('net8.0')) ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET8_0" Condition=" $(TargetFramework.StartsWith('net8.0')) ">
     <DefineConstants>$(DefineConstants);NETCORE;NETCORE8;NETCORE8_0;NET8;NET8_0</DefineConstants>
   </PropertyGroup>
   
-  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET8_0"
-             Condition=" $(TargetFramework.StartsWith('net8.0')) ">
+  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET8_0" Condition=" $(TargetFramework.StartsWith('net8.0')) ">
     <None Remove="Platforms\net\**\*.cs;Platforms\net\**\*.xaml;Platforms\net\**\*.xaml.cs" />
     <Compile Include="Platforms\net\**\*.cs" DependentUpon="%(Filename)" />
     <Page Include="Platforms\net\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
@@ -253,13 +236,11 @@
   </ItemGroup>
   
   <!-- .NET 9.0 -->
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET9_0"
-                 Condition=" $(TargetFramework.StartsWith('net9.0')) ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET9_0" Condition=" $(TargetFramework.StartsWith('net9.0')) ">
     <DefineConstants>$(DefineConstants);NETCORE;NETCORE9;NETCORE9_0;NET9;NET9_0</DefineConstants>
   </PropertyGroup>
   
-  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET9_0"
-             Condition=" $(TargetFramework.StartsWith('net9.0')) ">
+  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET9_0" Condition=" $(TargetFramework.StartsWith('net9.0')) ">
     <None Remove="Platforms\net\**\*.cs;Platforms\net\**\*.xaml;Platforms\net\**\*.xaml.cs" />
     <Compile Include="Platforms\net\**\*.cs" DependentUpon="%(Filename)" />
     <Page Include="Platforms\net\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
@@ -267,13 +248,11 @@
   </ItemGroup>
   
   <!-- .NET 10.0 -->
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET10_0"
-                 Condition=" $(TargetFramework.StartsWith('net10.0')) ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET10_0" Condition=" $(TargetFramework.StartsWith('net10.0')) ">
     <DefineConstants>$(DefineConstants);NETCORE;NETCORE10;NETCORE10_0;NET10;NET10_0</DefineConstants>
   </PropertyGroup>
   
-  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET10_0"
-             Condition=" $(TargetFramework.StartsWith('net10.0')) ">
+  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET10_0" Condition=" $(TargetFramework.StartsWith('net10.0')) ">
     <None Remove="Platforms\net\**\*.cs;Platforms\net\**\*.xaml;Platforms\net\**\*.xaml.cs" />
     <Compile Include="Platforms\net\**\*.cs" DependentUpon="%(Filename)" />
     <Page Include="Platforms\net\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
@@ -281,13 +260,11 @@
   </ItemGroup>
 
   <!-- .NET Standard 2.0 -->
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NETSTANDARD2_0"
-                 Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NETSTANDARD2_0" Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <DefineConstants>$(DefineConstants);NETSTANDARD;NETSTANDARD2_0;NS;NS20</DefineConstants>
   </PropertyGroup>
   
-  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NETSTANDARD2_0"
-             Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NETSTANDARD2_0" Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <None Remove="Platforms\netstandard2.0\**\*.cs;Platforms\netstandard2.0\**\*.xaml;Platforms\netstandard2.0\**\*.xaml.cs" />
     <Compile Include="Platforms\netstandard2.0\**\*.cs" DependentUpon="%(Filename)" />
     <Page Include="Platforms\netstandard2.0\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
@@ -295,26 +272,22 @@
   </ItemGroup>
 
   <!-- .NET 4.5 -->
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_5_0"
-                 Condition=" '$(TargetFramework)' == 'net45' ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_5_0" Condition=" '$(TargetFramework)' == 'net45' ">
     <EnableWpfProjectSetup>true</EnableWpfProjectSetup>
     <DefineConstants>$(DefineConstants);NET;NET45;NET450</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_5_1"
-                 Condition=" '$(TargetFramework)' == 'net451' ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_5_1" Condition=" '$(TargetFramework)' == 'net451' ">
     <EnableWpfProjectSetup>true</EnableWpfProjectSetup>
     <DefineConstants>$(DefineConstants);NET;NET45;NET451</DefineConstants>
   </PropertyGroup>
   
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_5_2"
-                 Condition=" '$(TargetFramework)' == 'net452' ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_5_2" Condition=" '$(TargetFramework)' == 'net452' ">
     <EnableWpfProjectSetup>true</EnableWpfProjectSetup>   
     <DefineConstants>$(DefineConstants);NET;NET45;NET452</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET4_5"
-             Condition=" '$(TargetFramework)' == 'net45' OR '$(TargetFramework)' == 'net451' OR '$(TargetFramework)' == 'net452'">
+  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET4_5" Condition=" '$(TargetFramework)' == 'net45' OR '$(TargetFramework)' == 'net451' OR '$(TargetFramework)' == 'net452'">
     <None Remove="Platforms\net\**\*.cs;Platforms\net\**\*.xaml;Platforms\net\**\*.xaml.cs" />
     <Compile Include="Platforms\net\**\*.cs" DependentUpon="%(Filename)" />
     <Page Include="Platforms\net\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
@@ -322,26 +295,22 @@
   </ItemGroup>
 
   <!-- .NET 4.6 -->
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_6_0"
-                 Condition=" '$(TargetFramework)' == 'net46' ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_6_0" Condition=" '$(TargetFramework)' == 'net46' ">
     <EnableWpfProjectSetup>true</EnableWpfProjectSetup>   
     <DefineConstants>$(DefineConstants);NET;NET46;NET460</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_6_1"
-                 Condition=" '$(TargetFramework)' == 'net461' ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_6_1" Condition=" '$(TargetFramework)' == 'net461' ">
     <EnableWpfProjectSetup>true</EnableWpfProjectSetup>   
     <DefineConstants>$(DefineConstants);NET;NET46;NET461</DefineConstants>
   </PropertyGroup>
   
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_6_2"
-                 Condition=" '$(TargetFramework)' == 'net462' ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_6_2" Condition=" '$(TargetFramework)' == 'net462' ">
     <EnableWpfProjectSetup>true</EnableWpfProjectSetup>
     <DefineConstants>$(DefineConstants);NET;NET46;NET462</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET4_6"
-             Condition=" '$(TargetFramework)' == 'net46' OR '$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462'">
+  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET4_6" Condition=" '$(TargetFramework)' == 'net46' OR '$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462'">
     <None Remove="Platforms\net\**\*.cs;Platforms\net\**\*.xaml;Platforms\net\**\*.xaml.cs" />
     <Compile Include="Platforms\net\**\*.cs" DependentUpon="%(Filename)" />
     <Page Include="Platforms\net\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
@@ -349,26 +318,22 @@
   </ItemGroup>
 
   <!-- .NET 4.7 -->
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_7_0"
-                 Condition=" '$(TargetFramework)' == 'net47' ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_7_0" Condition=" '$(TargetFramework)' == 'net47' ">
     <EnableWpfProjectSetup>true</EnableWpfProjectSetup>
     <DefineConstants>$(DefineConstants);NET;NET47;NET470</DefineConstants>
   </PropertyGroup>
   
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_7_1"
-                 Condition=" '$(TargetFramework)' == 'net471' ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_7_1" Condition=" '$(TargetFramework)' == 'net471' ">
     <EnableWpfProjectSetup>true</EnableWpfProjectSetup>   
     <DefineConstants>$(DefineConstants);NET;NET47;NET471</DefineConstants>
   </PropertyGroup>
   
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_7_2"
-                 Condition=" '$(TargetFramework)' == 'net472' ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_7_2" Condition=" '$(TargetFramework)' == 'net472' ">
     <EnableWpfProjectSetup>true</EnableWpfProjectSetup>
     <DefineConstants>$(DefineConstants);NET;NET47;NET472</DefineConstants>
   </PropertyGroup>
   
-  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET4_7"
-             Condition=" '$(TargetFramework)' == 'net47' OR '$(TargetFramework)' == 'net471' OR '$(TargetFramework)' == 'net472'">
+  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET4_7" Condition=" '$(TargetFramework)' == 'net47' OR '$(TargetFramework)' == 'net471' OR '$(TargetFramework)' == 'net472'">
     <None Remove="Platforms\net\**\*.cs;Platforms\net\**\*.xaml;Platforms\net\**\*.xaml.cs" />
     <Compile Include="Platforms\net\**\*.cs" DependentUpon="%(Filename)" />
     <Page Include="Platforms\net\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
@@ -376,26 +341,22 @@
   </ItemGroup>
   
   <!-- .NET 4.8 -->
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_8_0"
-                 Condition=" '$(TargetFramework)' == 'net48' ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_8_0" Condition=" '$(TargetFramework)' == 'net48' ">
     <EnableWpfProjectSetup>true</EnableWpfProjectSetup>
     <DefineConstants>$(DefineConstants);NET;NET48;NET480</DefineConstants>
   </PropertyGroup>
   
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_8_1"
-                 Condition=" '$(TargetFramework)' == 'net481' ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_8_1" Condition=" '$(TargetFramework)' == 'net481' ">
     <EnableWpfProjectSetup>true</EnableWpfProjectSetup>   
     <DefineConstants>$(DefineConstants);NET;NET48;NET481</DefineConstants>
   </PropertyGroup>
   
-  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_8_2"
-                 Condition=" '$(TargetFramework)' == 'net482' ">
+  <PropertyGroup Label="RepositoryTemplate.Explicit.Configuration.NET4_8_2" Condition=" '$(TargetFramework)' == 'net482' ">
     <EnableWpfProjectSetup>true</EnableWpfProjectSetup>
     <DefineConstants>$(DefineConstants);NET;NET48;NET482</DefineConstants>
   </PropertyGroup>
   
-  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET4_8"
-             Condition=" '$(TargetFramework)' == 'net48' OR '$(TargetFramework)' == 'net481' OR '$(TargetFramework)' == 'net482'">
+  <ItemGroup Label="RepositoryTemplate.Explicit.Items.NET4_8" Condition=" '$(TargetFramework)' == 'net48' OR '$(TargetFramework)' == 'net481' OR '$(TargetFramework)' == 'net482'">
     <None Remove="Platforms\net\**\*.cs;Platforms\net\**\*.xaml;Platforms\net\**\*.xaml.cs" />
     <Compile Include="Platforms\net\**\*.cs" DependentUpon="%(Filename)" />
     <Page Include="Platforms\net\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
