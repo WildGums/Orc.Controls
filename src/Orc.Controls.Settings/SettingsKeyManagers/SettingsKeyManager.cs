@@ -99,6 +99,8 @@ public class SettingsKeyManager : ISettingsKeyManager
             return;
         }
 
+        _keys.Add(settingsKey);
+
         var stateChanged = false;
         lock (_lock)
         {
