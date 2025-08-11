@@ -1,0 +1,64 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0-windows;net9.0-windows</TargetFrameworks>
+    <AssemblyName>Orc.Controls.Settings</AssemblyName>
+    <RootNamespace>Orc.Controls.Settings</RootNamespace>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <PackageId>Orc.Controls.Settings</PackageId>
+    <PackageVersion>5.3.0-alpha0107</PackageVersion>
+    <Description>Controls library.</Description>
+    <PackageTags>orc;controls;datepicker;timepicker;textbox;connection;string;watermark;</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <XamlToolsDisableInDebugMode>false</XamlToolsDisableInDebugMode>
+    <UseWpf>true</UseWpf>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ExtrasEnableImplicitWpfReferences>true</ExtrasEnableImplicitWpfReferences>
+    <ExtrasEnableImplicitWinFormsReferences>true</ExtrasEnableImplicitWinFormsReferences>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- SonarQube requires a project guid -->
+    <ProjectGuid>{F5FED560-415B-4197-A7CB-A1513B72FDC2}</ProjectGuid>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Catel.Fody" Version="4.10.0" PrivateAssets="all" />
+    <PackageReference Include="Fody" Version="6.9.2" PrivateAssets="all">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="LoadAssembliesOnStartup.Fody" Version="4.7.0" PrivateAssets="all" />
+    <PackageReference Include="MethodTimer.Fody" Version="3.2.3" PrivateAssets="all" />
+    <PackageReference Include="ModuleInit.Fody" Version="2.1.1" PrivateAssets="all" />
+    <PackageReference Include="Obsolete.Fody" Version="5.3.1" PrivateAssets="all" />
+    <PackageReference Include="Orc.Automation" Version="5.0.5" />
+    <PackageReference Include="Orc.FileSystem" Version="5.0.0" />
+    <PackageReference Include="Orc.Theming" Version="5.3.1" />
+  </ItemGroup>
+
+  <!-- Theming -->
+  <ItemGroup>
+    <Page Remove="**/*.Template.xaml" />
+    <EmbeddedResource Include="**/*.Template.xaml" />
+
+    <None Remove="**/GeneratorParameters.json" />
+    <EmbeddedResource Include="**/GeneratorParameters.json" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.explicit.props')" />
+  <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.mat.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.mat.props')" />
+  <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.nullable.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.xamltools.props')" />
+
+  <PropertyGroup>
+    <XAMLColorSchemeGeneratorEnabled>False</XAMLColorSchemeGeneratorEnabled>
+    <XAMLCombineEnabled>True</XAMLCombineEnabled>
+    <XAMLCombineImportMergedResourceDictionaryReferences>True</XAMLCombineImportMergedResourceDictionaryReferences>
+    <RemoveXAMLCombineItemsFromPages>False</RemoveXAMLCombineItemsFromPages>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Page Remove="Themes\Geometry.xaml" />
+  </ItemGroup>
+</Project>
+
