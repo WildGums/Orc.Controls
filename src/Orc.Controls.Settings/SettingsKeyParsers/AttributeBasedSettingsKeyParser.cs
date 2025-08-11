@@ -14,6 +14,7 @@ public class AttributeBasedSettingsKeyParser<T> : ISettingsKeyParser<T> where T 
     public string ToString(T keyInfo)
     {
         ArgumentNullException.ThrowIfNull(keyInfo);
+
         var properties = GetSettingsProperties();
         var keyParts = new List<string>();
         foreach (var (property, attribute) in properties)
