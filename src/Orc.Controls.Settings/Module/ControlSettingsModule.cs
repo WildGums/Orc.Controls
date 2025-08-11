@@ -32,14 +32,14 @@ public class ControlSettingsModule
 
         _serviceLocator.RegisterType<ISettingsKeyManager, SettingsKeyManager>();
 
-
-
         _serviceLocator.RegisterType<ISettingsLocationProvider, FileSystemLocationProvider>();
         _serviceLocator.RegisterType(typeof(ISettingsSerializer<>), typeof(JsonSettingsSerializer<>));
 
         _serviceLocator.RegisterType(typeof(ISettingsStorage<>), typeof(SettingsStorage<>));
 
         _serviceLocator.RegisterType<ISettingsStateStorage, SettingsStateStorage>();
+
+        _serviceLocator.RegisterType(typeof(ISettingsKeyParser<>), typeof(AttributeBasedSettingsKeyParser<>));
 
         //_serviceLocator.RegisterRequiredTypeAndInstantiate<ISettingsFolderProvider), typeof(FileBasedSettingsFolderProvider));
     }
