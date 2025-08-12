@@ -652,7 +652,7 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
 
     public async Task SaveAsync(string key)
     {
-        if (_settingsKeyInteractionHub.CanSave(this, key))
+        if (!_settingsKeyInteractionHub.CanSave(this, key))
         {
             return;
         }
