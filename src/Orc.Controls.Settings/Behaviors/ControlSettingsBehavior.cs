@@ -650,6 +650,33 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
         return result;
     }
 
+    public async Task SaveAsync(string key)
+    {
+        if (_settingsKeyInteractionHub.CanSave(this, key))
+        {
+            return;
+        }
+
+        var settingsStorage = SettingsStorage;
+        if (settingsStorage is null)
+        {
+            return;
+        }
+
+        var settings = StateStorage.GetStoredSettings<TSettings>(key);
+        if (settings is null)
+        {
+            settings ??= ControlAdapter?.GetCurrentSettings();
+        }
+
+        if (settings is null)
+        {
+            return;
+        }
+        
+        await settingsStorage.SaveAsync(key, settings);
+    }
+
     public void RefreshDirtyState()
     {
         UpdateDirtyState();
