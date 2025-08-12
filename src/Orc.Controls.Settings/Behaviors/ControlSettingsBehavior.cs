@@ -229,7 +229,10 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
 
     private async Task OnRequestControlsAsync(object sender, ControlRequestedEventArgs e)
     {
-        await e.VisitControlAsync(AssociatedObject, this);
+        if (_settingsKeyInteractionHub.CanSave(this, e.SettingsKey))
+        {
+            e.Elements.Add(this);
+        }
     }
 
     private async Task OnLoadRequestedAsync(object? sender, SettingsKeyEventArgs e)
