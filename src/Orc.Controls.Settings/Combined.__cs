@@ -1,0 +1,4682 @@
+
+// Combined C# files - Generated on 08/12/2025 10:08:31
+
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\GlobalSuppressions1.cs
+
+// This file is used by Code Analysis to maintain SuppressMessage
+// attributes that are applied to this project.
+// Project-level suppressions either have no target or are given
+// a specific target and scoped to a namespace, type, member, etc.
+
+using System.Diagnostics.CodeAnalysis;
+
+[assembly: SuppressMessage("WpfAnalyzers.DependencyProperty", "WPF0043:Don't set DataContext and Style using SetCurrentValue.", Justification = "<Pending>", Scope = "member", Target = "~M:Orc.Controls.TimePicker.RenderAmPmButton(System.Double,System.Double)")]
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\ModuleInitializer.cs
+
+using Catel.IoC;
+using Catel.Services;
+
+/// <summary>
+/// Used by the ModuleInit. All code inside the Initialize method is ran as soon as the assembly is loaded.
+/// </summary>
+public static class ModuleInitializer
+{
+    /// <summary>
+    /// Initializes the module.
+    /// </summary>
+    public static void Initialize()
+    {
+        var serviceLocator = ServiceLocator.Default;
+
+        var languageService = serviceLocator.ResolveRequiredType<ILanguageService>();
+        languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Controls.Settings", "Orc.Controls.Settings.Properties", "Resources"));
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\AttachedProperties\SettingsManagement.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Windows;
+
+public static class SettingsManagement
+{
+    /// <summary>
+    /// SettingsKey attached property
+    /// </summary>
+    public static readonly DependencyProperty SettingsKeyProperty =
+        DependencyProperty.RegisterAttached(
+            "SettingsKey",
+            typeof(object),
+            typeof(SettingsManagement),
+            new(null, OnSettingsKeyChanged));
+
+    /// <summary>
+    /// Event fired when SettingsKey property changes on any element
+    /// </summary>
+    public static event EventHandler<SettingsKeyChangedEventArgs>? SettingsKeyChanged;
+
+    /// <summary>
+    /// Property changed callback for SettingsKey
+    /// </summary>
+    /// <param name="d">The dependency object</param>
+    /// <param name="e">Event arguments</param>
+    private static void OnSettingsKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var oldValue = e.OldValue;
+        var newValue = e.NewValue;
+
+        SettingsKeyChanged?.Invoke(d, new(d, oldValue, newValue));
+    }
+
+    /// <summary>
+    /// Gets the SettingsKey value for the specified element
+    /// </summary>
+    /// <param name="element">The element to get the value from</param>
+    /// <returns>The SettingsKey value</returns>
+    public static object? GetSettingsKey(DependencyObject element)
+    {
+        if (element is null)
+        {
+            throw new ArgumentNullException(nameof(element));
+        }
+
+        return (object?)element.GetValue(SettingsKeyProperty);
+    }
+
+    /// <summary>
+    /// Sets the SettingsKey value for the specified element
+    /// </summary>
+    /// <param name="element">The element to set the value on</param>
+    /// <param name="value">The SettingsKey value to set</param>
+    public static void SetSettingsKey(DependencyObject element, object? value)
+    {
+        if (element is null)
+        {
+            throw new ArgumentNullException(nameof(element));
+        }
+
+        element.SetValue(SettingsKeyProperty, value);
+    }
+
+    // Alternative approach using ItemsControl.ItemsControlFromItemContainer
+    //private static DependencyObject? FindTabItemParentAlternative(FrameworkElement element)
+    //{
+    //    // Walk up the logical tree to find a TabItem
+    //    var current = element as DependencyObject;
+    //    while (current is not null)
+    //    {
+    //        if (current is TabItem tabItem)
+    //        {
+    //            // Use ItemsControl.ItemsControlFromItemContainer to get the TabControl
+    //            var tabControl = ItemsControl.ItemsControlFromItemContainer(tabItem);
+    //            return tabControl;
+    //        }
+
+    //        current = current.GetLogicalParent();
+    //    }
+
+    //    return null;
+    //}
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Behaviors\ControlSettingsBehavior.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
+using Catel.IoC;
+using Catel.Logging;
+using Catel.Windows.Interactivity;
+
+public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TControl>, ISettingsElement
+    where TControl : FrameworkElement
+    where TSettings : class
+{
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
+    public static readonly DependencyProperty SettingsKeyProperty = DependencyProperty.Register(
+        nameof(SettingsKey), typeof(string), typeof(ControlSettingsBehavior<TControl, TSettings>),
+        new(null, (sender, _) => ((ControlSettingsBehavior<TControl, TSettings>)sender).OnSettingsKeyChanged()));
+
+    public static readonly DependencyProperty IsSettingsDirtyProperty = DependencyProperty.Register(
+        nameof(IsSettingsDirty), typeof(bool), typeof(ControlSettingsBehavior<TControl, TSettings>),
+        new(false));
+
+    public static readonly DependencyProperty InitialKeySettingsProperty = DependencyProperty.Register(
+        nameof(InitialKeySettings), typeof(InitialKeySettings), typeof(ControlSettingsBehavior<TControl, TSettings>),
+        new(InitialKeySettings.Current));
+
+    public static readonly DependencyProperty SettingsStorageProperty = DependencyProperty.Register(
+        nameof(SettingsStorage), typeof(ISettingsStorage<TSettings>), typeof(ControlSettingsBehavior<TControl, TSettings>),
+        new(null));
+
+    public static readonly DependencyProperty ControlAdapterProperty = DependencyProperty.Register(
+        nameof(ControlAdapter), typeof(IControlSettingsAdapter<TControl, TSettings>), typeof(ControlSettingsBehavior<TControl, TSettings>),
+        new(null, (sender, _) => ((ControlSettingsBehavior<TControl, TSettings>)sender).OnControlAdapterChanged()));
+
+    public static readonly DependencyProperty IsAutosaveProperty = DependencyProperty.Register(
+        nameof(IsAutosave), typeof(bool), typeof(ControlSettingsBehavior<TControl, TSettings>),
+        new(false));
+
+    // New property to control synchronization behavior
+    public static readonly DependencyProperty EnableSynchronizationProperty = DependencyProperty.Register(
+        nameof(EnableSynchronization), typeof(bool), typeof(ControlSettingsBehavior<TControl, TSettings>),
+        new(true));
+
+    protected bool _isLoading;
+    private bool _isSynchronizing; // Prevent infinite loops during sync
+    private TSettings? _lastSavedSettings;
+    protected ISettingsKeyManager _keyManager;
+    protected ISettingsStateStorage StateStorage;
+    private DispatcherTimer? _settingsTimer;
+    private string? _lastLoadedSettingsKey;
+    private IControlSettingsAdapter<TControl, TSettings>? _currentAdapter;
+    private ISettingsKeyInteractionHub _settingsKeyInteractionHub;
+
+    public FrameworkElement? Control => AssociatedObject;
+
+    public string? SettingsKey
+    {
+        get => (string?)GetValue(SettingsKeyProperty);
+        set => SetValue(SettingsKeyProperty, value);
+    }
+
+    public bool IsSettingsDirty
+    {
+        get => (bool)GetValue(IsSettingsDirtyProperty);
+        private set => SetValue(IsSettingsDirtyProperty, value);
+    }
+
+    public InitialKeySettings InitialKeySettings
+    {
+        get => (InitialKeySettings)GetValue(InitialKeySettingsProperty);
+        set => SetValue(InitialKeySettingsProperty, value);
+    }
+
+    public ISettingsStorage<TSettings>? SettingsStorage
+    {
+        get => (ISettingsStorage<TSettings>?)GetValue(SettingsStorageProperty);
+        set => SetValue(SettingsStorageProperty, value);
+    }
+
+    public IControlSettingsAdapter<TControl, TSettings>? ControlAdapter
+    {
+        get => (IControlSettingsAdapter<TControl, TSettings>?)GetValue(ControlAdapterProperty);
+        set => SetValue(ControlAdapterProperty, value);
+    }
+
+    public bool IsAutosave
+    {
+        get => (bool)GetValue(IsAutosaveProperty);
+        set => SetValue(IsAutosaveProperty, value);
+    }
+
+    public bool EnableSynchronization
+    {
+        get => (bool)GetValue(EnableSynchronizationProperty);
+        set => SetValue(EnableSynchronizationProperty, value);
+    }
+
+    public ControlSettingsBehavior()
+    {
+        var serviceLocator = this.GetServiceLocator();
+        _keyManager = serviceLocator.ResolveRequiredType<ISettingsKeyManager>();
+        StateStorage = serviceLocator.ResolveRequiredType<ISettingsStateStorage>();
+        _settingsKeyInteractionHub = serviceLocator.ResolveRequiredType<ISettingsKeyInteractionHub>();
+    }
+
+    protected override void OnAssociatedObjectLoaded()
+    {
+        base.OnAssociatedObjectLoaded();
+
+        var serviceLocator = this.GetServiceLocator();
+
+        // If no storage is explicitly set, try to resolve from IoC
+        if (SettingsStorage is null)
+        {
+            var settingsStorage = serviceLocator.ResolveType<ISettingsStorage<TSettings>>();
+            SetCurrentValue(SettingsStorageProperty, settingsStorage);
+        }
+
+        // If no adapter is explicitly set, try to resolve from IoC
+        if (ControlAdapter is null)
+        {
+            var controlAdapter = serviceLocator.ResolveType<IControlSettingsAdapter<TControl, TSettings>>();
+            SetCurrentValue(ControlAdapterProperty, controlAdapter);
+        }
+
+        // Attach adapter to control
+        AttachAdapter();
+
+        // Subscribe to key manager events
+        _keyManager.LoadRequested += OnLoadRequestedAsync;
+        _keyManager.SaveRequested += OnSaveRequestedAsync;
+        _keyManager.RemoveRequested += OnRemoveRequestedAsync;
+        _keyManager.RenameRequested += OnRenameRequestedAsync;
+        _keyManager.RefreshRequested += OnRefreshRequestedAsync;
+        _keyManager.RequestControls += OnRequestControlsAsync;
+
+        // NEW: Enable and subscribe to settings changed events for synchronization
+        if (EnableSynchronization)
+        {
+            _keyManager.EnableSynchronization();
+            _keyManager.SubscribeToSettingsChanges(OnKeyManagerSettingsChanged);
+        }
+
+        _ = LoadAndApplySettingsAsync();
+    }
+    
+    protected override void OnAssociatedObjectUnloaded()
+    {
+        // Store current settings before unloading
+        if (SettingsKey is not null && ControlAdapter is not null)
+        {
+            try
+            {
+                var currentSettings = ControlAdapter.GetCurrentSettings();
+                if (currentSettings is not null)
+                {
+                    StateStorage.StoreCurrentSettings(SettingsKey, currentSettings);
+                    _keyManager.SetDirty(SettingsKey, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"Error storing current settings for key '{SettingsKey}' during unload");
+            }
+        }
+
+        // Detach adapter
+        DetachAdapter();
+
+        // Unsubscribe from key manager events
+        _keyManager.LoadRequested -= OnLoadRequestedAsync;
+        _keyManager.SaveRequested -= OnSaveRequestedAsync;
+        _keyManager.RemoveRequested -= OnRemoveRequestedAsync;
+        _keyManager.RenameRequested -= OnRenameRequestedAsync;
+        _keyManager.RefreshRequested -= OnRefreshRequestedAsync;
+        _keyManager.RequestControls -= OnRequestControlsAsync;
+
+        // NEW: Unsubscribe from synchronization events
+        if (EnableSynchronization)
+        {
+            _keyManager.UnsubscribeFromSettingsChanges(OnKeyManagerSettingsChanged);
+        }
+
+        CleanupTimer();
+        base.OnAssociatedObjectUnloaded();
+    }
+
+    #region Key Manager Event Handlers
+
+    // NEW: Handle settings changes from other controls with the same key
+    private async void OnKeyManagerSettingsChanged(object? sender, SettingsChangedEventArgs e)
+    {
+        if (!EnableSynchronization || _isSynchronizing || e.SettingsKey != SettingsKey)
+        {
+            return;
+        }
+
+        if (e.Settings is TSettings settings)
+        {
+            try
+            {
+                _isSynchronizing = true;
+                _isLoading = true;
+
+                ControlAdapter?.ApplySettings(settings);
+                await UpdateSettingsAsync();
+              //  _lastSavedSettings = settings;
+
+                Log.Debug($"Synchronized settings for key '{SettingsKey}' from external change ({typeof(TControl).Name})");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"Error synchronizing settings for key '{SettingsKey}' ({typeof(TControl).Name})");
+            }
+            finally
+            {
+                _isLoading = false;
+                _isSynchronizing = false;
+            }
+        }
+    }
+
+    private async Task OnRefreshRequestedAsync(object? sender, SettingsKeyEventArgs e)
+    {
+        await ReloadSettingsAsync(e.SettingsKey);
+    }
+
+    private async Task OnRequestControlsAsync(object sender, ControlRequestedEventArgs e)
+    {
+        if (_settingsKeyInteractionHub.CanSave(this, e.SettingsKey))
+        {
+            e.Elements.Add(this);
+        }
+    }
+
+    private async Task OnLoadRequestedAsync(object? sender, SettingsKeyEventArgs e)
+    {
+        if (e.SettingsKey == SettingsKey)
+        {
+            try
+            {
+                await LoadAndApplySettingsAsync();
+                e.Success = true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"Failed to load settings for key '{e.SettingsKey}'");
+                e.Success = false;
+            }
+        }
+    }
+
+    private async Task OnSaveRequestedAsync(object? sender, SettingsKeyEventArgs e)
+    {
+      //  if (e.SettingsKey == SettingsKey)
+        {
+            try
+            {
+                await SaveSettingsAsync(e.SettingsKey);
+                e.Success = true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"Failed to save settings for key '{e.SettingsKey}'");
+                e.Success = false;
+            }
+        }
+    }
+
+    private async Task OnRemoveRequestedAsync(object? sender, SettingsKeyEventArgs e)
+    {
+        try
+        {
+            await DeleteSettingsAsync(e.SettingsKey);
+            e.Success = true;
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, $"Failed to remove settings for key '{e.SettingsKey}'");
+            e.Success = false;
+        }
+    }
+
+    private async Task OnRenameRequestedAsync(object? sender, SettingsKeyRenameEventArgs e)
+    {
+        if (e.OldKey == SettingsKey)
+        {
+            try
+            {
+                await RenameSettingsAsync(e.OldKey, e.NewKey);
+                e.Success = true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"Failed to rename settings from '{e.OldKey}' to '{e.NewKey}'");
+                e.Success = false;
+            }
+        }
+    }
+
+    #endregion
+
+    private void OnControlAdapterChanged()
+    {
+        // Detach old adapter
+        DetachAdapter();
+
+        // Attach new adapter
+        AttachAdapter();
+
+        // Reload settings with new adapter
+        if (AssociatedObject is not null)
+        {
+            _ = LoadAndApplySettingsAsync();
+        }
+    }
+
+    private void AttachAdapter()
+    {
+        if (ControlAdapter is not null && AssociatedObject is not null)
+        {
+            _currentAdapter = ControlAdapter;
+            _currentAdapter.Attach(AssociatedObject);
+            _currentAdapter.SettingsChanged += OnControlSettingsChanged;
+        }
+    }
+
+    private void DetachAdapter()
+    {
+        if (_currentAdapter is not null)
+        {
+            _currentAdapter.SettingsChanged -= OnControlSettingsChanged;
+            _currentAdapter.Detach();
+            _currentAdapter = null;
+        }
+    }
+
+    private void OnSettingsKeyChanged()
+    {
+        if (AssociatedObject is null)
+        {
+            return;
+        }
+
+        var settingsKey = SettingsKey;
+        if (string.IsNullOrWhiteSpace(settingsKey))
+        {
+            return;
+        }
+
+        _ = _keyManager.LoadAsync(settingsKey);
+    }
+
+    private void OnControlSettingsChanged(object? sender, EventArgs e)
+    {
+        if (_isLoading || _isSynchronizing)
+        {
+            return;
+        }
+
+        // Use timer to debounce frequent settings changes
+        if (_settingsTimer is not null)
+        {
+            _settingsTimer.Stop();
+            _settingsTimer.Start();
+        }
+        else
+        {
+            _settingsTimer = new()
+            {
+                Interval = TimeSpan.FromMilliseconds(400)
+            };
+            _settingsTimer.Tick += OnSettingsTimerTick;
+            _settingsTimer.Start();
+        }
+    }
+
+    private async void OnSettingsTimerTick(object? sender, EventArgs e)
+    {
+        await UpdateSettingsAsync();
+    }
+
+    private async Task UpdateSettingsAsync()
+    {
+        if (_isLoading || _isSynchronizing)
+        {
+            return;
+        }
+
+        _settingsTimer?.Stop();
+
+        if (IsAutosave)
+        {
+            await SaveSettingsAsync();
+        }
+        else
+        {
+            UpdateDirtyState();
+
+            // NEW: Notify other controls about the change
+            if (EnableSynchronization && SettingsKey is not null && ControlAdapter is not null)
+            {
+                var currentSettings = ControlAdapter.GetCurrentSettings();
+                if (currentSettings is not null)
+                {
+                    _keyManager.NotifySettingsChanged(SettingsKey, currentSettings);
+                }
+            }
+        }
+    }
+
+    private async Task LoadAndApplySettingsAsync(bool bypassCache = false)
+    {
+        if (AssociatedObject is null
+            || string.IsNullOrWhiteSpace(SettingsKey)
+            || SettingsStorage is null
+            || ControlAdapter is null)
+        {
+            return;
+        }
+
+        try
+        {
+            _isLoading = true;
+            _lastLoadedSettingsKey = SettingsKey;
+
+            TSettings settingsToApply;
+            // First check if we have stored settings for this key
+            var storedSettings = StateStorage.GetStoredSettings<TSettings>(_lastLoadedSettingsKey);
+            if (storedSettings is not null && !bypassCache)
+            {
+                settingsToApply = storedSettings;
+                _lastSavedSettings = null; // Mark as not saved since these are modified settings
+                Log.Debug($"Loading stored settings for key '{_lastLoadedSettingsKey}' ({typeof(TControl).Name})");
+            }
+            else
+            {
+                // Try to load from storage
+                var loadedSettings = await SettingsStorage.LoadAsync(_lastLoadedSettingsKey);
+                if (loadedSettings is not null)
+                {
+                    settingsToApply = loadedSettings;
+                    _lastSavedSettings = loadedSettings;
+                    Log.Debug($"Loaded settings for key '{_lastLoadedSettingsKey}' ({typeof(TControl).Name})");
+                }
+                else
+                {
+                    _lastSavedSettings = null;
+                    Log.Debug($"No settings found for key '{_lastLoadedSettingsKey}' ({typeof(TControl).Name})");
+
+                    await _keyManager.SaveAsync(_lastLoadedSettingsKey);
+                    return;
+                }
+            }
+
+            ControlAdapter.ApplySettings(settingsToApply);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, $"Error loading settings for key '{_lastLoadedSettingsKey}' ({typeof(TControl).Name})");
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private void UpdateDirtyState()
+    {
+        if (AssociatedObject is null || ControlAdapter is null)
+        {
+            SetCurrentValue(IsSettingsDirtyProperty, false);
+            _keyManager.SetDirty(SettingsKey ?? string.Empty, false);
+            return;
+        }
+
+        try
+        {
+            var currentSettings = ControlAdapter.GetCurrentSettings();
+            var isDirty = !ControlAdapter.AreSettingsEqual(currentSettings, _lastSavedSettings);
+
+            SetCurrentValue(IsSettingsDirtyProperty, isDirty);
+
+            if (isDirty && SettingsKey is not null && currentSettings is not null)
+            {
+                StateStorage.StoreCurrentSettings(SettingsKey, currentSettings);
+                _keyManager.SetDirty(SettingsKey, true);
+            }
+            else
+            {
+                _keyManager.SetDirty(SettingsKey ?? string.Empty, false);
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, $"Error updating dirty state for {typeof(TControl).Name}");
+            SetCurrentValue(IsSettingsDirtyProperty, false);
+            _keyManager.SetDirty(SettingsKey ?? string.Empty, false);
+        }
+    }
+
+    private void CleanupTimer()
+    {
+        if (_settingsTimer is not null)
+        {
+            _settingsTimer.Stop();
+            _settingsTimer.Tick -= OnSettingsTimerTick;
+            _settingsTimer = null;
+        }
+    }
+
+    private async Task RenameSettingsAsync(string oldKey, string newKey)
+    {
+        if (SettingsStorage is null)
+        {
+            return;
+        }
+
+        try
+        {
+            StateStorage.Rename(oldKey, newKey);
+
+            await SettingsStorage.RenameAsync(oldKey, newKey);
+            if (SettingsKey == oldKey)
+            {
+                SetCurrentValue(SettingsKeyProperty, newKey);
+            }
+
+            Log.Debug($"Renamed settings from '{oldKey}' to '{newKey}' ({typeof(TControl).Name})");
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, $"Error renaming settings from '{oldKey}' to '{newKey}' ({typeof(TControl).Name})");
+            throw;
+        }
+    }
+
+    public virtual async Task SaveSettingsAsync(string? settingsKey = null)
+    {
+        settingsKey ??= SettingsKey;
+
+        if (AssociatedObject is null || settingsKey is null || SettingsStorage is null || ControlAdapter is null)
+        {
+            return;
+        }
+
+        try
+        {
+            if (!_settingsKeyInteractionHub.CanSave(this, settingsKey))
+            {
+                return;
+            }
+
+            var settings = StateStorage.GetStoredSettings<TSettings>(settingsKey);
+            if (settings is null && !Equals(settingsKey, SettingsKey))
+            {
+                return;
+            }
+
+            settings ??= ControlAdapter.GetCurrentSettings();
+            if (settings is not null)
+            {
+                await SettingsStorage.SaveAsync(settingsKey, settings);
+
+                _lastSavedSettings = settings;
+
+                // Remove from stored settings since it's now saved
+                StateStorage.RemoveStoredSettings(settingsKey);
+                _keyManager.SetDirty(settingsKey, false);
+
+                UpdateDirtyState();
+
+                // NEW: Notify other controls about the saved settings
+                if (EnableSynchronization)
+                {
+                    _keyManager.NotifySettingsChanged(settingsKey, settings);
+                }
+
+                Log.Debug($"Saved settings for key '{settingsKey}' ({typeof(TControl).Name})");
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, $"Error saving settings for key '{settingsKey}' ({typeof(TControl).Name})");
+            throw;
+        }
+    }
+
+    public virtual async Task ReloadSettingsAsync(string settingsKey)
+    {
+        //if (!AssociatedObject.IsVisible)
+        //{
+        //    return;
+        //}
+
+        if (Equals(settingsKey, SettingsKey))
+        {
+            await LoadAndApplySettingsAsync(true);
+        }
+
+        StateStorage.RemoveStoredSettings(settingsKey);
+        _keyManager.SetDirty(settingsKey, false);
+
+        UpdateDirtyState();
+    }
+
+    public virtual async Task DeleteSettingsAsync(string settingsKey)
+    {
+        if (SettingsStorage is null)
+        {
+            return;
+        }
+
+        await SettingsStorage.DeleteAsync(settingsKey);
+
+        // Remove from stored settings and dirty state
+        StateStorage.RemoveStoredSettings(settingsKey);
+        _keyManager.SetDirty(settingsKey, false);
+
+        Log.Debug($"Deleted settings for key '{settingsKey}' ({typeof(TControl).Name})");
+    }
+
+    async Task<object?> ISettingsElement.GetSettingsAsync(string key)
+    {
+        var storedSettings = StateStorage.GetStoredSettings<TSettings>(key);
+        if (storedSettings is not null)
+        {
+            return storedSettings;
+        }
+
+        var settingsStorage = SettingsStorage;
+        if (settingsStorage is null)
+        {
+            return null;
+        }
+
+        var result = await settingsStorage.LoadAsync(key);
+        if (result is null)
+        {
+            var currentSettings = ControlAdapter?.GetCurrentSettings();
+            if (currentSettings is not null)
+            {
+                await settingsStorage.SaveAsync(key, currentSettings);
+                result = await settingsStorage.LoadAsync(key);
+            }
+        }
+
+        return result;
+    }
+
+    public async Task SaveAsync(string key)
+    {
+        if (!_settingsKeyInteractionHub.CanSave(this, key))
+        {
+            return;
+        }
+
+        var settingsStorage = SettingsStorage;
+        if (settingsStorage is null)
+        {
+            return;
+        }
+
+        var settings = StateStorage.GetStoredSettings<TSettings>(key);
+        if (settings is null)
+        {
+            settings ??= ControlAdapter?.GetCurrentSettings();
+        }
+
+        if (settings is null)
+        {
+            return;
+        }
+        
+        await settingsStorage.SaveAsync(key, settings);
+    }
+
+    public void RefreshDirtyState()
+    {
+        UpdateDirtyState();
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\ControlSettingsAdapters\ControlSettingsAdapterBase.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Windows;
+using System.Windows.Markup;
+
+/// <summary>
+/// Base class for control settings adapters
+/// </summary>
+public abstract class ControlSettingsAdapterBase<TControl, TSettings> : MarkupExtension, IControlSettingsAdapter<TControl, TSettings>
+    where TControl : FrameworkElement
+    where TSettings : class
+{
+    protected TControl? Control { get; private set; }
+    
+    public event EventHandler? SettingsChanged;
+
+    public virtual void Attach(TControl control)
+    {
+        if (Control is not null)
+        {
+            Detach();
+        }
+        
+        Control = control ?? throw new ArgumentNullException(nameof(control));
+        SubscribeToControlEvents();
+    }
+
+    public virtual void Detach()
+    {
+        if (Control is not null)
+        {
+            UnsubscribeFromControlEvents();
+            Control = null;
+        }
+    }
+
+    protected virtual void OnSettingsChanged()
+    {
+        SettingsChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public abstract TSettings? GetCurrentSettings();
+    public abstract void ApplySettings(TSettings settings);
+    public abstract bool AreSettingsEqual(TSettings? current, TSettings? saved);
+
+    protected abstract void SubscribeToControlEvents();
+    protected abstract void UnsubscribeFromControlEvents();
+
+    // MarkupExtension implementation
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\EventArgs\ControlRequestedEventArgs.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows;
+
+public class ControlRequestedEventArgs : EventArgs
+{
+    private const string SearchPattern = @"\{[^}]*\}[^/]*";
+
+    public ControlRequestedEventArgs(string settingsKey) => SettingsKey = settingsKey;
+
+    public string SettingsKey { get; }
+    public List<ISettingsElement> Elements { get; private set; } = [];
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\EventArgs\EnabledKeyEventArgs.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public class EnabledKeyEventArgs : EventArgs
+{
+    private readonly HashSet<string> _enabledKeys = [];
+
+    public string[] EnabledKeys => _enabledKeys.ToArray();
+
+    public void Add(string enabledKey)
+    {
+        _enabledKeys.Add(enabledKey);
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\EventArgs\SettingsChangedEventArgs.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+
+public class SettingsChangedEventArgs : EventArgs
+{
+    public string SettingsKey { get; }
+    public object Settings { get; }
+    public Type SettingsType { get; }
+
+    public SettingsChangedEventArgs(string settingsKey, object settings)
+    {
+        SettingsKey = settingsKey;
+        Settings = settings;
+        SettingsType = settings?.GetType() ?? typeof(object);
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\EventArgs\SettingsKeyChangedEventArgs.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Windows;
+
+/// <summary>
+/// Event arguments for SettingsKey changes
+/// </summary>
+public class SettingsKeyChangedEventArgs : EventArgs
+{
+    public DependencyObject Element { get; }
+    public object? OldValue { get; }
+    public object? NewValue { get; }
+
+    public SettingsKeyChangedEventArgs(DependencyObject element, object? oldValue, object? newValue)
+    {
+        Element = element;
+        OldValue = oldValue;
+        NewValue = newValue;
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\EventArgs\SettingsKeyDirtyEventArgs.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+
+/// <summary>
+/// Event arguments for settings key dirty state changes
+/// </summary>
+public class SettingsKeyDirtyEventArgs : EventArgs
+{
+    public string SettingsKey { get; }
+    public bool IsDirty { get; }
+
+    public SettingsKeyDirtyEventArgs(string settingsKey, bool isDirty)
+    {
+        SettingsKey = settingsKey;
+        IsDirty = isDirty;
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\EventArgs\SettingsKeyEventArgs.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+
+/// <summary>
+/// Event arguments for settings key operations with success tracking
+/// </summary>
+public class SettingsKeyEventArgs : EventArgs
+{
+    public string SettingsKey { get; }
+    public bool Success { get; set; } = false;
+
+    public SettingsKeyEventArgs(string settingsKey)
+    {
+        SettingsKey = settingsKey;
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\EventArgs\SettingsKeyRenameEventArgs.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+
+/// <summary>
+/// Event arguments for settings key rename operations with success tracking
+/// </summary>
+public class SettingsKeyRenameEventArgs : EventArgs
+{
+    public string OldKey { get; }
+    public string NewKey { get; }
+    public bool Success { get; set; } = false;
+
+    public SettingsKeyRenameEventArgs(string oldKey, string newKey)
+    {
+        OldKey = oldKey;
+        NewKey = newKey;
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Extensions\SettingsKeyManagerExtensions.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Runtime.CompilerServices;
+
+// Extension to your existing ISettingsKeyManager interface
+public static class SettingsKeyManagerExtensions
+{
+    private static readonly ConditionalWeakTable<ISettingsKeyManager, SettingsSynchronizationSupport> _syncSupport =
+        new();
+
+    // Add synchronization support to existing manager
+    public static void EnableSynchronization(this ISettingsKeyManager manager)
+    {
+        if (!_syncSupport.TryGetValue(manager, out _))
+        {
+            _syncSupport.Add(manager, new());
+        }
+    }
+
+    // Subscribe to settings changes
+    public static void SubscribeToSettingsChanges(this ISettingsKeyManager manager,
+        EventHandler<SettingsChangedEventArgs> handler)
+    {
+        if (_syncSupport.TryGetValue(manager, out var support))
+        {
+            support.SettingsChanged += handler;
+        }
+    }
+
+    // Unsubscribe from settings changes
+    public static void UnsubscribeFromSettingsChanges(this ISettingsKeyManager manager,
+        EventHandler<SettingsChangedEventArgs> handler)
+    {
+        if (_syncSupport.TryGetValue(manager, out var support))
+        {
+            support.SettingsChanged -= handler;
+        }
+    }
+
+    // Notify about settings changes
+    public static void NotifySettingsChanged(this ISettingsKeyManager manager, string settingsKey, object settings)
+    {
+        if (_syncSupport.TryGetValue(manager, out var support))
+        {
+            support.NotifySettingsChanged(settingsKey, settings);
+        }
+    }
+
+    private class SettingsSynchronizationSupport
+    {
+        public event EventHandler<SettingsChangedEventArgs>? SettingsChanged;
+
+        public void NotifySettingsChanged(string settingsKey, object settings)
+        {
+            var args = new SettingsChangedEventArgs(settingsKey, settings);
+            SettingsChanged?.Invoke(this, args);
+        }
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Folders\SettingsFolderProvider.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Orc.FileSystem;
+
+public class FileBasedSettingsFolderProvider : ISettingsFolderProvider
+{
+    private readonly string _settingsFilePath;
+    private readonly ISpecialFoldersPathResolver _specialFoldersPathResolver;
+    private SettingsFoldersCollection? _cachedSettings;
+    private DateTime _lastFileWrite = DateTime.MinValue;
+    private readonly ISettingsSerializer<SettingsFoldersCollection> _serializer;
+    private readonly IFileService _fileService;
+    private readonly IDirectoryService _directoryService;
+
+    public FileBasedSettingsFolderProvider(string settingsFilePath,
+        ISpecialFoldersPathResolver specialFoldersPathResolver,
+        ISettingsSerializer<SettingsFoldersCollection> serializer,
+        IFileService fileService,
+        IDirectoryService directoryService)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(settingsFilePath);
+        ArgumentNullException.ThrowIfNull(specialFoldersPathResolver);
+        ArgumentNullException.ThrowIfNull(serializer);
+        ArgumentNullException.ThrowIfNull(fileService);
+        ArgumentNullException.ThrowIfNull(directoryService);
+
+        _settingsFilePath = specialFoldersPathResolver.GetResolvedPath(settingsFilePath);
+        _specialFoldersPathResolver = specialFoldersPathResolver;
+        _serializer = serializer;
+        _fileService = fileService;
+        _directoryService = directoryService;
+    }
+
+    public async Task<bool> SettingsFileExistsAsync()
+    {
+        return await Task.FromResult(_fileService.Exists(_settingsFilePath));
+    }
+
+    public async Task<SettingsFoldersCollection> GetSettingsFoldersAsync()
+    {
+        // Check if we need to reload from file
+        if (_cachedSettings is null || HasFileChanged())
+        {
+            await LoadFromFileAsync();
+        }
+
+        // Ensure resolved paths are updated
+        if (_cachedSettings?.SettingsFolders is not null)
+        {
+            foreach (var folder in _cachedSettings.SettingsFolders)
+            {
+                folder.ResolvedPath = folder.Path is null ? string.Empty : _specialFoldersPathResolver.GetResolvedPath(folder.Path);
+            }
+        }
+
+        return _cachedSettings ?? new SettingsFoldersCollection();
+    }
+
+    public async Task SaveSettingsFoldersAsync(SettingsFoldersCollection settingsFolders)
+    {
+        _cachedSettings = settingsFolders ?? new SettingsFoldersCollection();
+        await SaveToFileAsync();
+    }
+
+    public async Task<SettingsFolderItem?> GetSettingsFolderAsync(string name)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+
+        var collection = await GetSettingsFoldersAsync();
+        var folder = collection.SettingsFolders.FirstOrDefault(f =>
+            string.Equals(f.Name, name, StringComparison.OrdinalIgnoreCase));
+
+        if (folder is not null)
+        {
+            folder.ResolvedPath = folder.Path is null ? string.Empty : _specialFoldersPathResolver.GetResolvedPath(folder.Path);
+        }
+
+        return folder;
+    }
+
+    public async Task<bool> SettingsFolderExistsAsync(string name)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+
+        var folder = await GetSettingsFolderAsync(name);
+        return folder is not null;
+    }
+
+    public async Task AddOrUpdateSettingsFolderAsync(SettingsFolderItem folder)
+    {
+        ArgumentNullException.ThrowIfNull(folder);
+        ArgumentException.ThrowIfNullOrWhiteSpace(folder.Name);
+
+        var collection = await GetSettingsFoldersAsync();
+        collection.SettingsFolders ??= [];
+
+        var existingIndex = collection.SettingsFolders.FindIndex(f =>
+            string.Equals(f.Name, folder.Name, StringComparison.OrdinalIgnoreCase));
+
+        if (existingIndex >= 0)
+        {
+            // Update existing
+            collection.SettingsFolders[existingIndex] = folder;
+        }
+        else
+        {
+            // Add new
+            collection.SettingsFolders.Add(folder);
+        }
+
+        await SaveSettingsFoldersAsync(collection);
+    }
+
+    public async Task RemoveSettingsFolderAsync(string name)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+
+        var collection = await GetSettingsFoldersAsync();
+        if (collection.SettingsFolders is null)
+        {
+            return;
+        }
+
+        var folder = collection.SettingsFolders.FirstOrDefault(f =>
+            string.Equals(f.Name, name, StringComparison.OrdinalIgnoreCase));
+
+        if (folder is { CanRemove: true })
+        {
+            collection.SettingsFolders.Remove(folder);
+            await SaveSettingsFoldersAsync(collection);
+        }
+    }
+
+    public async Task<IEnumerable<string>> GetSettingsFolderNamesAsync()
+    {
+        var collection = await GetSettingsFoldersAsync();
+
+        var names = new List<string>();
+        foreach (var folder in collection.SettingsFolders)
+        {
+            if (folder.Name is not null)
+            {
+                names.Add(folder.Name);
+            }
+        }
+
+        return names;
+    }
+
+    public async Task InitializeWithDefaultsAsync(SettingsFoldersCollection defaultSettings, bool overrideExisting = false)
+    {
+        ArgumentNullException.ThrowIfNull(defaultSettings);
+
+        var fileExists = await SettingsFileExistsAsync();
+
+        if (!fileExists || overrideExisting)
+        {
+            // File doesn't exist or we want to override - save defaults
+            await SaveSettingsFoldersAsync(defaultSettings);
+            return;
+        }
+
+        // File exists and we don't want to override - merge with existing
+        var existingCollection = await GetSettingsFoldersAsync();
+
+        // Add any default folders that don't already exist
+        foreach (var defaultFolder in defaultSettings.SettingsFolders ?? [])
+        {
+            var exists = existingCollection.SettingsFolders?.Any(f =>
+                string.Equals(f.Name, defaultFolder.Name, StringComparison.OrdinalIgnoreCase)) ?? false;
+
+            if (exists)
+            {
+                continue;
+            }
+
+            existingCollection.SettingsFolders ??= [];
+            existingCollection.SettingsFolders.Add(defaultFolder);
+        }
+
+        // Update collection-level properties if they're not set
+        if (existingCollection.CanAddFolder == default)
+        {
+            existingCollection.CanAddFolder = defaultSettings.CanAddFolder;
+        }
+
+        await SaveSettingsFoldersAsync(existingCollection);
+    }
+
+    private async Task LoadFromFileAsync()
+    {
+        if (!_fileService.Exists(_settingsFilePath))
+        {
+            _cachedSettings = new();
+            return;
+        }
+
+        try
+        {
+            var json = await _fileService.ReadAllTextAsync(_settingsFilePath);
+            _cachedSettings = await _serializer.DeserializeAsync(json) ?? new SettingsFoldersCollection();
+            _lastFileWrite = File.GetLastWriteTime(_settingsFilePath);
+        }
+        catch (Exception)
+        {
+            // If we can't read the file, start with empty collection
+            _cachedSettings = new();
+        }
+    }
+
+    private async Task SaveToFileAsync()
+    {
+        try
+        {
+            // Ensure directory exists
+            var directory = Path.GetDirectoryName(_settingsFilePath);
+            if (!string.IsNullOrEmpty(directory) && !_directoryService.Exists(directory))
+            {
+                _directoryService.Create(directory);
+            }
+
+            var json = await _serializer.SerializeAsync(_cachedSettings ?? new SettingsFoldersCollection());
+            await _fileService.WriteAllTextAsync(_settingsFilePath, json);
+            _lastFileWrite = DateTime.Now;
+        }
+        catch (Exception)
+        {
+            // Handle file write errors appropriately for your application
+            throw;
+        }
+    }
+
+    private bool HasFileChanged()
+    {
+        if (!_fileService.Exists(_settingsFilePath))
+        {
+            return false;
+        }
+
+        var lastWrite = File.GetLastWriteTime(_settingsFilePath);
+        return lastWrite > _lastFileWrite;
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Helpers\DependencyPropertyHelper.cs
+
+namespace Orc.Controls.Settings;
+
+using System.Windows;
+
+internal static class DependencyPropertyHelper
+{
+    public static bool IsPropertySet(DependencyObject obj, DependencyProperty property)
+    {
+        return obj.ReadLocalValue(property) != DependencyProperty.UnsetValue;
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Helpers\PostponeDispatcherOperation.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Timers;
+using Catel.IoC;
+using Catel.Services;
+
+internal sealed class PostponeDispatcherOperation : IDisposable
+{
+    private readonly Action _action;
+    private readonly IDispatcherService _dispatcherService;
+    private readonly Timer _timer;
+
+    public PostponeDispatcherOperation(Action action)
+    {
+        ArgumentNullException.ThrowIfNull(action);
+
+        _action = action;
+
+        _dispatcherService = this.GetServiceLocator().ResolveRequiredType<IDispatcherService>();
+
+        _timer = new();
+        _timer.Elapsed += OnCompareByColumnTimerElapsed;
+    }
+
+    public void Dispose()
+    {
+        _timer.Dispose();
+    }
+
+    public void Stop()
+    {
+        _timer.Stop();
+    }
+
+    public void Execute(int delay)
+    {
+        if (delay <= 0)
+        {
+            _action();
+            return;
+        }
+
+        _timer.Interval = delay;
+        _timer.Start();
+    }
+
+    private void OnCompareByColumnTimerElapsed(object? _, ElapsedEventArgs e)
+    {
+        _timer.Stop();
+
+        _dispatcherService.Invoke(_action);
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Helpers\SettingsHelper.cs
+
+namespace Orc.Controls.Settings;
+
+using System.Collections.Generic;
+using System.Windows;
+
+/// <summary>
+/// Settings-specific helper methods that use WpfTreeHelper for navigation.
+/// </summary>
+internal static class SettingsHelper
+{
+    /// <summary>
+    /// Gets the combined settings key by traversing up the visual/logical tree, 
+    /// with special handling for TabControl virtualization.
+    /// </summary>
+    /// <param name="startElement">The element to start from</param>
+    /// <param name="separator">The separator to use between keys</param>
+    /// <returns>Combined settings key path</returns>
+    public static string? GetCombinedSettingsKey(DependencyObject? startElement, string separator = "/")
+    {
+        if (startElement is null)
+        {
+            return string.Empty;
+        }
+
+        var keys = new List<string>();
+        var current = startElement;
+
+        while (current is not null)
+        {
+            var settingsKey = SettingsManagement.GetSettingsKey(current)?.ToString();
+            if (!string.IsNullOrEmpty(settingsKey))
+            {
+                keys.Add(settingsKey);
+            }
+            else
+            {
+                var isSet = DependencyPropertyHelper.IsPropertySet(current, SettingsManagement.SettingsKeyProperty);
+                if (isSet)
+                {
+                    return null;
+                }
+            }
+
+            current = WpfTreeHelper.GetNextParent(current);
+        }
+
+        // Reverse the list to get the path from root to current element
+        keys.Reverse();
+        return string.Join(separator, keys);
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Helpers\WpfTreeHelper.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+
+internal static class WpfTreeHelper
+{
+    /// <summary>
+    /// Gets the next parent in the hierarchy, with special handling for TabControl virtualization.
+    /// </summary>
+    /// <param name="element">The current element</param>
+    /// <returns>The next parent element, or null if none found</returns>
+    public static DependencyObject? GetNextParent(DependencyObject? element)
+    {
+        if (element is null)
+        {
+            return null;
+        }
+
+        // Try standard parent resolution first
+        var parent = GetVisualParent(element) ?? GetLogicalParent(element);
+
+        // If we found a parent, return it
+        if (parent is not null)
+        {
+            return parent;
+        }
+
+        // If no parent found and element is a FrameworkElement, 
+        // check if it's the root content of a TabItem (virtualized scenario)
+        if (element is FrameworkElement frameworkElement)
+        {
+            var tabControl = FindOwningTabControl(frameworkElement);
+            if (tabControl is not null)
+            {
+                // Found the TabControl that owns this element, continue traversal from there
+                return tabControl;
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Gets the visual parent of the specified element.
+    /// </summary>
+    public static DependencyObject? GetVisualParent(DependencyObject? element) =>
+        element is not null ? VisualTreeHelper.GetParent(element) : null;
+
+    /// <summary>
+    /// Gets the logical parent of the specified element.
+    /// </summary>
+    public static DependencyObject? GetLogicalParent(DependencyObject? element) =>
+        element is not null ? LogicalTreeHelper.GetParent(element) : null;
+
+    /// <summary>
+    /// Finds the TabControl that owns this element when it's in virtualized TabItem content.
+    /// This is the key method that bridges the gap when visual tree is broken.
+    /// </summary>
+    /// <param name="element">The element that might be TabItem content</param>
+    /// <returns>The owning TabControl if found, null otherwise</returns>
+    public static TabControl? FindOwningTabControl(FrameworkElement element)
+    {
+        if (element is null)
+        {
+            return null;
+        }
+
+        // Strategy 1: Check if element is directly set as TabItem.Content
+        var tabControl = FindTabControlByDirectContent(element);
+        if (tabControl is not null)
+        {
+            return tabControl;
+        }
+
+        // Strategy 2: Check if element is part of a content template
+        tabControl = FindTabControlByContentTemplate(element);
+        if (tabControl is not null)
+        {
+            return tabControl;
+        }
+
+        // Strategy 3: Check DataContext relationships
+        tabControl = FindTabControlByDataContext(element);
+        if (tabControl is not null)
+        {
+            return tabControl;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Finds TabControl where element is directly set as TabItem.Content.
+    /// </summary>
+    private static TabControl? FindTabControlByDirectContent(FrameworkElement element)
+    {
+        var allTabControls = GetAllTabControls();
+
+        foreach (var tabControl in allTabControls)
+        {
+            foreach (var item in tabControl.Items)
+            {
+                if (item is TabItem tabItem && ReferenceEquals(tabItem.Content, element))
+                {
+                    return tabControl;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Finds TabControl where element is part of a ContentTemplate.
+    /// </summary>
+    private static TabControl? FindTabControlByContentTemplate(FrameworkElement element)
+    {
+        var allTabControls = GetAllTabControls();
+
+        foreach (var tabControl in allTabControls)
+        {
+            foreach (var item in tabControl.Items)
+            {
+                if (item is TabItem tabItem && IsElementInContentTemplate(element, tabItem))
+                {
+                    return tabControl;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Checks if element is part of TabItem's content template by walking up the logical tree.
+    /// </summary>
+    private static bool IsElementInContentTemplate(FrameworkElement element, TabItem tabItem)
+    {
+        // Walk up the logical tree to see if we reach the TabItem
+        var current = element as DependencyObject;
+        var visited = new HashSet<DependencyObject>();
+
+        while (current is not null && visited.Add(current))
+        {
+            if (ReferenceEquals(current, tabItem))
+            {
+                return true;
+            }
+
+            // Check if current element's TemplatedParent is the TabItem
+            if (current is FrameworkElement fe && ReferenceEquals(fe.TemplatedParent, tabItem))
+            {
+                return true;
+            }
+
+            current = GetLogicalParent(current);
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Gets all TabControls in the application.
+    /// </summary>
+    private static IEnumerable<TabControl> GetAllTabControls()
+    {
+        var tabControls = new List<TabControl>();
+
+        if (Application.Current is not null)
+        {
+            // Check main window
+            if (Application.Current.MainWindow is not null)
+            {
+                tabControls.AddRange(GetVisualDescendants<TabControl>(Application.Current.MainWindow));
+            }
+
+            // Check all other windows
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window != Application.Current.MainWindow)
+                {
+                    tabControls.AddRange(GetVisualDescendants<TabControl>(window));
+                }
+            }
+        }
+
+        return tabControls;
+    }
+
+    /// <summary>
+    /// Finds a TabItem through the element's naming scope or templated parent.
+    /// </summary>
+    private static TabItem? FindTabItemFromNameScope(FrameworkElement element)
+    {
+        if (element is null)
+        {
+            return null;
+        }
+
+        // Check naming scope
+        var nameScope = NameScope.GetNameScope(element);
+        if (nameScope is TabItem tabItem)
+        {
+            return tabItem;
+        }
+
+        // Check templated parent
+        if (element.TemplatedParent is TabItem templatedTabItem)
+        {
+            return templatedTabItem;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Finds the TabControl by examining DataContext relationships.
+    /// </summary>
+    private static TabControl? FindTabControlByDataContext(FrameworkElement element)
+    {
+        if (element is null)
+        {
+            return null;
+        }
+
+        var allTabControls = GetAllTabControls();
+
+        foreach (var tabControl in allTabControls)
+        {
+            foreach (var item in tabControl.Items)
+            {
+                if (item is TabItem tabItem && IsDataContextRelated(element, tabItem))
+                {
+                    return tabControl;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Gets the window containing the specified element.
+    /// </summary>
+    private static Window? GetContainingWindow(FrameworkElement element)
+    {
+        if (element is null)
+        {
+            return null;
+        }
+
+        var window = Window.GetWindow(element);
+        if (window is not null)
+        {
+            return window;
+        }
+
+        // Fallback to application windows
+        if (Application.Current is not null)
+        {
+            window = Application.Current.MainWindow;
+            if (window is not null)
+            {
+                return window;
+            }
+
+            if (Application.Current.Windows.Count > 0)
+            {
+                return Application.Current.Windows[0];
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Finds a TabItem in the specified TabControl that contains the element.
+    /// </summary>
+    private static TabItem? FindTabItemByDataContextInTabControl(FrameworkElement element, TabControl tabControl)
+    {
+        if (element is null || tabControl is null)
+        {
+            return null;
+        }
+
+        foreach (var item in tabControl.Items)
+        {
+            if (item is TabItem tabItem)
+            {
+                if (IsDataContextRelated(element, tabItem) ||
+                    IsElementLogicallyContainedInTabItem(element, tabItem))
+                {
+                    return tabItem;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Checks if the element's DataContext is related to the TabItem's DataContext.
+    /// </summary>
+    private static bool IsDataContextRelated(FrameworkElement element, TabItem tabItem)
+    {
+        if (element is null || tabItem is null)
+        {
+            return false;
+        }
+
+        var elementContext = element.DataContext;
+        var tabItemContext = tabItem.DataContext;
+
+        // Direct match
+        if (elementContext is not null && tabItemContext is not null)
+        {
+            if (ReferenceEquals(elementContext, tabItemContext) || elementContext.Equals(tabItemContext))
+            {
+                return true;
+            }
+        }
+
+        // Check if element's DataContext is the same as TabItem's bound data
+        if (tabItemContext is not null && ReferenceEquals(elementContext, tabItemContext))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if the element is logically contained within the TabItem.
+    /// This method may temporarily force content creation.
+    /// </summary>
+    private static bool IsElementLogicallyContainedInTabItem(FrameworkElement element, TabItem tabItem)
+    {
+        if (element is null || tabItem is null)
+        {
+            return false;
+        }
+
+        var originalContent = tabItem.Content;
+
+        try
+        {
+            // Check logical parent chain
+            var logicalParent = element as DependencyObject;
+            while (logicalParent is not null)
+            {
+                if (logicalParent == tabItem)
+                {
+                    return true;
+                }
+
+                logicalParent = GetLogicalParent(logicalParent);
+            }
+
+            return false;
+        }
+        finally
+        {
+            // Ensure we don't change the TabItem's state
+            if (tabItem.Content != originalContent)
+            {
+                tabItem.SetCurrentValue(ContentControl.ContentProperty, originalContent);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets all visual descendants of the specified type.
+    /// </summary>
+    public static IEnumerable<T> GetVisualDescendants<T>(DependencyObject? parent) where T : DependencyObject
+    {
+        if (parent is null)
+        {
+            yield break;
+        }
+
+        for (var i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+        {
+            var child = VisualTreeHelper.GetChild(parent, i);
+            if (child is T typedChild)
+            {
+                yield return typedChild;
+            }
+
+            foreach (var grandChild in GetVisualDescendants<T>(child))
+            {
+                yield return grandChild;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets all logical descendants of the specified type.
+    /// </summary>
+    public static IEnumerable<T> GetLogicalDescendants<T>(DependencyObject? parent) where T : DependencyObject
+    {
+        if (parent is null)
+        {
+            yield break;
+        }
+
+        foreach (var child in LogicalTreeHelper.GetChildren(parent).OfType<DependencyObject>())
+        {
+            if (child is T typedChild)
+            {
+                yield return typedChild;
+            }
+
+            foreach (var grandChild in GetLogicalDescendants<T>(child))
+            {
+                yield return grandChild;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Finds the first ancestor of the specified type.
+    /// </summary>
+    public static T? FindAncestor<T>(DependencyObject? element) where T : DependencyObject
+    {
+        var current = element;
+        while (current is not null)
+        {
+            if (current is T ancestor)
+            {
+                return ancestor;
+            }
+
+            current = GetNextParent(current);
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Finds the first descendant of the specified type.
+    /// </summary>
+    public static T? FindDescendant<T>(DependencyObject? parent) where T : DependencyObject =>
+        GetVisualDescendants<T>(parent).FirstOrDefault() ??
+        GetLogicalDescendants<T>(parent).FirstOrDefault();
+
+    /// <summary>
+    /// Gets all parent elements in the hierarchy.
+    /// </summary>
+    public static IEnumerable<DependencyObject> GetParentChain(DependencyObject? element)
+    {
+        var current = element;
+        while (current is not null)
+        {
+            current = GetNextParent(current);
+            if (current is not null)
+            {
+                yield return current;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Searches for elements by name in the visual tree.
+    /// </summary>
+    public static IEnumerable<T> FindElementsByName<T>(DependencyObject? parent, string name) where T : FrameworkElement
+    {
+        if (parent is null || string.IsNullOrEmpty(name))
+        {
+            yield break;
+        }
+
+        foreach (var element in GetVisualDescendants<T>(parent))
+        {
+            if (string.Equals(element.Name, name, StringComparison.OrdinalIgnoreCase))
+            {
+                yield return element;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Searches for the first element by name in the visual tree.
+    /// </summary>
+    public static T? FindElementByName<T>(DependencyObject? parent, string name) where T : FrameworkElement =>
+        FindElementsByName<T>(parent, name).FirstOrDefault();
+
+    /// <summary>
+    /// Searches for elements using a predicate function.
+    /// </summary>
+    public static IEnumerable<T> FindElements<T>(DependencyObject? parent, Func<T, bool> predicate)
+        where T : DependencyObject
+    {
+        if (parent is null || predicate is null)
+        {
+            yield break;
+        }
+
+        foreach (var element in GetVisualDescendants<T>(parent))
+        {
+            if (predicate(element))
+            {
+                yield return element;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Searches for the first element matching a predicate function.
+    /// </summary>
+    public static T? FindElement<T>(DependencyObject? parent, Func<T, bool> predicate) where T : DependencyObject =>
+        FindElements(parent, predicate).FirstOrDefault();
+
+    /// <summary>
+    /// Searches for elements by type in both visual and logical trees.
+    /// </summary>
+    public static IEnumerable<T> FindAllElements<T>(DependencyObject? parent) where T : DependencyObject
+    {
+        if (parent is null)
+        {
+            yield break;
+        }
+
+        var visualElements = GetVisualDescendants<T>(parent);
+        var logicalElements = GetLogicalDescendants<T>(parent);
+
+        // Combine and deduplicate
+        var allElements = visualElements.Concat(logicalElements).Distinct();
+
+        foreach (var element in allElements)
+        {
+            yield return element;
+        }
+    }
+
+    /// <summary>
+    /// Searches for elements with specific attached property values.
+    /// </summary>
+    public static IEnumerable<T> FindElementsByProperty<T>(DependencyObject? parent, DependencyProperty property,
+        object? value) where T : DependencyObject
+    {
+        if (parent is null || property is null)
+        {
+            yield break;
+        }
+
+        foreach (var element in GetVisualDescendants<T>(parent))
+        {
+            var elementValue = element.GetValue(property);
+            if (Equals(elementValue, value))
+            {
+                yield return element;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Searches for elements with specific attached property values.
+    /// </summary>
+    public static T? FindElementByProperty<T>(DependencyObject? parent, DependencyProperty property, object? value)
+        where T : DependencyObject => FindElementsByProperty<T>(parent, property, value).FirstOrDefault();
+
+    /// <summary>
+    /// Searches for elements by DataContext.
+    /// </summary>
+    public static IEnumerable<T> FindElementsByDataContext<T>(DependencyObject? parent, object? dataContext)
+        where T : FrameworkElement
+    {
+        if (parent is null)
+        {
+            yield break;
+        }
+
+        foreach (var element in GetVisualDescendants<T>(parent))
+        {
+            if (Equals(element.DataContext, dataContext))
+            {
+                yield return element;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Searches for the first element by DataContext.
+    /// </summary>
+    public static T? FindElementByDataContext<T>(DependencyObject? parent, object? dataContext)
+        where T : FrameworkElement => FindElementsByDataContext<T>(parent, dataContext).FirstOrDefault();
+
+    /// <summary>
+    /// Searches for elements by Tag property.
+    /// </summary>
+    public static IEnumerable<T> FindElementsByTag<T>(DependencyObject? parent, object? tag) where T : FrameworkElement
+    {
+        if (parent is null)
+        {
+            yield break;
+        }
+
+        foreach (var element in GetVisualDescendants<T>(parent))
+        {
+            if (Equals(element.Tag, tag))
+            {
+                yield return element;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Searches for the first element by Tag property.
+    /// </summary>
+    public static T? FindElementByTag<T>(DependencyObject? parent, object? tag) where T : FrameworkElement =>
+        FindElementsByTag<T>(parent, tag).FirstOrDefault();
+
+    /// <summary>
+    /// Searches ancestors for a specific type or condition.
+    /// </summary>
+    public static IEnumerable<T> FindAncestors<T>(DependencyObject? element) where T : DependencyObject
+    {
+        var current = element;
+        while (current is not null)
+        {
+            current = GetNextParent(current);
+            if (current is T ancestor)
+            {
+                yield return ancestor;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Searches ancestors using a predicate function.
+    /// </summary>
+    public static IEnumerable<T> FindAncestors<T>(DependencyObject? element, Func<T, bool> predicate)
+        where T : DependencyObject
+    {
+        if (predicate is null)
+        {
+            yield break;
+        }
+
+        foreach (var ancestor in FindAncestors<T>(element))
+        {
+            if (predicate(ancestor))
+            {
+                yield return ancestor;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Searches for child elements at a specific depth level.
+    /// </summary>
+    public static IEnumerable<T> FindElementsAtDepth<T>(DependencyObject? parent, int depth) where T : DependencyObject
+    {
+        if (parent is null || depth < 0)
+        {
+            yield break;
+        }
+
+        if (depth == 0)
+        {
+            if (parent is T element)
+            {
+                yield return element;
+            }
+
+            yield break;
+        }
+
+        for (var i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+        {
+            var child = VisualTreeHelper.GetChild(parent, i);
+            foreach (var descendant in FindElementsAtDepth<T>(child, depth - 1))
+            {
+                yield return descendant;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Searches for elements within a specific distance from the parent.
+    /// </summary>
+    public static IEnumerable<T> FindElementsWithinDistance<T>(DependencyObject? parent, int maxDistance)
+        where T : DependencyObject
+    {
+        if (parent is null || maxDistance < 0)
+        {
+            yield break;
+        }
+
+        for (var depth = 0; depth <= maxDistance; depth++)
+        {
+            foreach (var element in FindElementsAtDepth<T>(parent, depth))
+            {
+                yield return element;
+            }
+        }
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Interfaces\IControlSettingsAdapter.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Windows;
+
+/// <summary>
+/// Interface for control settings adapters
+/// </summary>
+public interface IControlSettingsAdapter<TControl, TSettings> /*: IAttachable<TControl>*/
+    where TControl : FrameworkElement
+    where TSettings : class
+{
+    /// <summary>
+    /// Event fired when control settings change
+    /// </summary>
+    event EventHandler? SettingsChanged;
+    
+    /// <summary>
+    /// Gets the current settings from the control
+    /// </summary>
+    TSettings? GetCurrentSettings();
+    
+    /// <summary>
+    /// Applies settings to the control
+    /// </summary>
+    void ApplySettings(TSettings settings);
+    
+    /// <summary>
+    /// Determines if two settings objects are equal
+    /// </summary>
+    bool AreSettingsEqual(TSettings? current, TSettings? saved);
+
+    void Attach(TControl target);
+    void Detach();
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Interfaces\IEmbeddedResourceProvider.cs
+
+namespace Orc.Controls.Settings;
+
+using System.Threading.Tasks;
+
+/// <summary>
+/// Interface for providing embedded resource access
+/// </summary>
+public interface IEmbeddedResourceProvider
+{
+    /// <summary>
+    /// Gets embedded resource content as string
+    /// </summary>
+    Task<string?> GetResourceContentAsync(string resourcePath);
+
+    /// <summary>
+    /// Checks if an embedded resource exists
+    /// </summary>
+    Task<bool> ResourceExistsAsync(string resourcePath);
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Interfaces\ISettingsDataStorage.cs
+
+namespace Orc.Controls.Settings;
+
+using System.Threading.Tasks;
+
+public interface ISettingsDataStorage
+{
+    Task<bool> IsReadOnlyAsync(string settingsKey);
+    Task<bool> CanHandleAsync(string settingsKey);
+    Task<string?> LoadStringAsync(string settingsKey);
+    Task SaveStringAsync(string settingsKey, string data);
+    Task DeleteAsync(string settingsKey);
+    Task RenameAsync(string oldKey, string newKey);
+    Task<bool> ExistsAsync(string settingsKey);
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Interfaces\ISettingsElement.cs
+
+namespace Orc.Controls.Settings;
+
+using System.Threading.Tasks;
+using System.Windows;
+
+public interface ISettingsElement
+{
+    FrameworkElement? Control { get; }
+    string? SettingsKey { get; }
+    Task<object?> GetSettingsAsync(string key);
+    Task SaveAsync(string key);
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Interfaces\ISettingsFolderProvider.cs
+
+namespace Orc.Controls.Settings;
+
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+public interface ISettingsFolderProvider
+{
+    // Existing methods
+    Task<SettingsFoldersCollection> GetSettingsFoldersAsync();
+    Task SaveSettingsFoldersAsync(SettingsFoldersCollection settingsFolders);
+
+    // New methods for individual folder management
+    Task<SettingsFolderItem?> GetSettingsFolderAsync(string name);
+    Task<bool> SettingsFolderExistsAsync(string name);
+    Task AddOrUpdateSettingsFolderAsync(SettingsFolderItem folder);
+    Task RemoveSettingsFolderAsync(string name);
+    Task<IEnumerable<string>> GetSettingsFolderNamesAsync();
+
+    // Initialization method
+    Task InitializeWithDefaultsAsync(SettingsFoldersCollection defaultSettings, bool overrideExisting = false);
+
+    // File management
+    Task<bool> SettingsFileExistsAsync();
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Interfaces\ISettingsInteractionHub.cs
+
+namespace Orc.Controls.Settings;
+
+public interface ISettingsKeyInteractionHub
+{
+    bool CanSave(ISettingsElement element, string key);
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Interfaces\ISettingsKeyManager.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Catel;
+
+/// <summary>
+/// Simplified settings key manager - only handles key operations and state
+/// </summary>
+public interface ISettingsKeyManager
+{
+    /// <summary>
+    /// Get all currently tracked settings keys
+    /// </summary>
+    string[] GetKeys();
+
+    /// <summary>
+    /// Get all keys that have unsaved changes
+    /// </summary>
+    string[] GetDirtyKeys();
+
+    /// <summary>
+    /// Check if a key is dirty
+    /// </summary>
+    bool IsKeyDirty(string settingsKey);
+
+    /// <summary>
+    /// Request to load settings for a key
+    /// </summary>
+    Task LoadAsync(string settingsKey);
+
+    /// <summary>
+    /// Request to save settings for a key
+    /// </summary>
+    Task SaveAsync(string settingsKey);
+
+    /// <summary>
+    /// Request to refresh/reload settings for a key
+    /// </summary>
+    Task RefreshAsync(string settingsKey);
+
+    /// <summary>
+    /// Set dirty state for a key
+    /// </summary>
+    void SetDirty(string settingsKey, bool isDirty);
+
+    /// <summary>
+    /// Request to remove/delete settings for a key
+    /// </summary>
+    void Remove(string settingsKey);
+
+    /// <summary>
+    /// Request to rename a settings key
+    /// </summary>
+    void Rename(string oldKey, string newKey);
+
+    Task<IReadOnlyCollection<ISettingsElement>> GetElementsAsync(string settingsKey);
+
+    // Events
+    event AsyncEventHandler<SettingsKeyEventArgs>? LoadRequested;
+    event AsyncEventHandler<SettingsKeyEventArgs>? SaveRequested;
+    event AsyncEventHandler<SettingsKeyEventArgs>? RefreshRequested;
+    event AsyncEventHandler<SettingsKeyDirtyEventArgs>? DirtyStateChanged;
+    event AsyncEventHandler<SettingsKeyEventArgs>? RemoveRequested;
+    event AsyncEventHandler<SettingsKeyRenameEventArgs>? RenameRequested;
+    event EventHandler<SettingsKeyEventArgs>? KeyLoaded;
+    event EventHandler<SettingsKeyEventArgs>? KeySaved;
+    event EventHandler<SettingsKeyEventArgs>? KeyRefreshed;
+    event EventHandler<SettingsKeyEventArgs>? KeyRemoved;
+    event EventHandler<SettingsKeyRenameEventArgs>? KeyRenamed;
+
+    event AsyncEventHandler<ControlRequestedEventArgs>? RequestControls;
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Interfaces\ISettingsKeyParser.cs
+
+namespace Orc.Controls.Settings;
+
+public interface ISettingsKeyParser<T> where T : class, new()
+{
+    string ToString(T keyInfo);
+    T Parse(string settingsKey);
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Interfaces\ISettingsKeyTypeSerializer.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+
+public interface ISettingsKeyTypeSerializer
+{
+    string Serialize(object? value);
+    object? Deserialize(string value, Type targetType);
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Interfaces\ISettingsLocationProvider.cs
+
+namespace Orc.Controls.Settings;
+
+using System.Threading.Tasks;
+
+public interface ISettingsLocationProvider
+{
+    /// <summary>
+    /// Gets the file path for a given settings key
+    /// </summary>
+    Task<string> GetLocationAsync(string settingsKey);
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Interfaces\ISettingsSerializer.cs
+
+namespace Orc.Controls.Settings;
+
+using System.Threading.Tasks;
+
+public interface ISettingsSerializer<TSettings> where TSettings : class
+{
+    Task<TSettings?> DeserializeAsync(string data);
+    Task<string> SerializeAsync(TSettings settings);
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Interfaces\ISettingsStateStorage.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+
+public interface ISettingsStateStorage
+{
+    /// <summary>
+    /// Stores current settings for a key (for later restoration)
+    /// </summary>
+    void StoreCurrentSettings<T>(string settingsKey, T settings) where T : class;
+
+    /// <summary>
+    /// Gets stored settings for a key
+    /// </summary>
+    T? GetStoredSettings<T>(string settingsKey) where T : class;
+
+    void Rename(string oldKey, string newKey);
+
+    /// <summary>
+    /// Removes stored settings for a key
+    /// </summary>
+    void RemoveStoredSettings(string settingsKey);
+
+    /// <summary>
+    /// Event fired when dirty state changes
+    /// </summary>
+    event EventHandler<SettingsKeyEventArgs> SettingsStored;
+    event EventHandler<SettingsKeyEventArgs> SettingsRemoved;
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Interfaces\ISettingsStorage.cs
+
+namespace Orc.Controls.Settings;
+
+using System.Threading.Tasks;
+
+public interface ISettingsStorage<TSettings> where TSettings : class
+{
+    Task<TSettings?> LoadAsync(string settingsKey);
+    Task SaveAsync(string settingsKey, TSettings settings);
+    Task DeleteAsync(string settingsKey);
+    Task RenameAsync(string oldKey, string newKey);
+    Task<bool> ExistsAsync(string settingsKey);
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Interfaces\ISpecialFoldersPathResolver.cs
+
+namespace Orc.Controls.Settings;
+
+public interface ISpecialFoldersPathResolver
+{
+    string ResolveSpecialFolder(string name);
+    string GetResolvedPath(string path);
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Markup\SettingsKeyBindingExtension.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Markup;
+using System.Windows.Media;
+using System.Windows.Threading;
+using Catel.Windows;
+using Catel.Windows.Markup;
+using Microsoft.Xaml.Behaviors;
+
+[MarkupExtensionReturnType(typeof(string))]
+public class SettingsKeyBindingExtension : UpdatableMarkupExtension
+{
+    private bool _isListening;
+    private bool _isVisibilityListening;
+    private WeakReference<FrameworkElement>? _targetFrameworkElement;
+    private DispatcherTimer? _updateTimer;
+
+    /// <summary>
+    /// The separator to use between combined keys
+    /// </summary>
+    public string Separator { get; set; } = "/";
+
+    public int Delay { get; set; } = 1;
+
+    /// <summary>
+    /// Whether to include the current element in the search
+    /// </summary>
+    public bool IncludeSelf { get; set; } = true;
+
+    /// <summary>
+    /// Debounced UpdateValue method that ensures UpdateValue is called only once after a 500ms delay
+    /// </summary>
+    private void DebouncedUpdateValue()
+    {
+        // Stop and restart the timer
+        if (_updateTimer is not null)
+        {
+            _updateTimer.Stop();
+        }
+        else
+        {
+            _updateTimer = new()
+            {
+                Interval = TimeSpan.FromMilliseconds(Delay)
+            };
+            _updateTimer.Tick += (_, _) =>
+            {
+                _updateTimer.Stop();
+                UpdateValue();
+            };
+        }
+
+        _updateTimer.Start();
+    }
+
+    /// <summary>
+    /// Provides the combined SettingsKey value
+    /// </summary>
+    /// <param name="serviceProvider">The service provider</param>
+    /// <returns>The combined SettingsKey value</returns>
+    protected override object? ProvideDynamicValue(IServiceProvider? serviceProvider)
+    {
+        var targetObject = TargetObject;
+        var attachedObject = targetObject as IAttachedObject;
+        if (attachedObject is not null)
+        {
+            targetObject = attachedObject.AssociatedObject;
+
+            // If AssociatedObject is null, the UpdatableMarkupExtension will handle re-evaluation
+            if (targetObject is null)
+            {
+                // TODO: Temporary postpone
+                new PostponeDispatcherOperation(UpdateValue)
+                    .Execute(500);
+
+                return string.Empty;
+            }
+        }
+
+        if (targetObject is not DependencyObject dependencyObject)
+        {
+            return string.Empty;
+        }
+
+        // If we're in design mode, return a placeholder
+        if (DesignerProperties.GetIsInDesignMode(dependencyObject))
+        {
+            return "Default";
+        }
+
+        // Check if the control is visible in the visual tree
+        if (!IsControlVisible(dependencyObject))
+        {
+            // Subscribe to visibility changes if not already listening
+            SubscribeToVisibilityChanges(dependencyObject);
+
+            // Return empty string for now, will update when becomes visible
+            return string.Empty;
+        }
+
+        // Subscribe to SettingsKey changes if not already listening
+        if (!_isListening)
+        {
+            SubscribeToSettingsKeyChanges(dependencyObject);
+            _isListening = true;
+        }
+
+        var startElement = IncludeSelf ? dependencyObject : dependencyObject.GetVisualParent() ?? dependencyObject.GetLogicalParent();
+        if (startElement is null)
+        {
+            return string.Empty;
+        }
+
+        var resultKey = SettingsHelper.GetCombinedSettingsKey(startElement, Separator);
+        if (attachedObject is not DependencyObject attachedDependencyObject)
+        {
+            return resultKey;
+        }
+
+        var isSet = DependencyPropertyHelper.IsPropertySet(attachedDependencyObject, SettingsManagement.SettingsKeyProperty);
+        var attachedObjectSettingsKey = SettingsManagement.GetSettingsKey(attachedDependencyObject)?.ToString();
+
+        if (!string.IsNullOrWhiteSpace(attachedObjectSettingsKey))
+        {
+            resultKey += Separator + attachedObjectSettingsKey;
+        }
+        else
+        {
+            if (isSet)
+            {
+                return null;
+            }
+        }
+
+        return resultKey;
+    }
+
+    /// <summary>
+    /// Check if the control is visible in the visual tree
+    /// </summary>
+    /// <param name="dependencyObject">The dependency object to check</param>
+    /// <returns>True if the control is visible</returns>
+    private bool IsControlVisible(DependencyObject dependencyObject)
+    {
+        // Walk up the visual tree to check if all ancestors are visible
+        var current = dependencyObject;
+        while (current is not null)
+        {
+            if (current is FrameworkElement frameworkElement)
+            {
+                // Check if the element is visible
+                if (!frameworkElement.IsVisible)
+                {
+                    return false;
+                }
+
+                // Special handling for TabItems - check if they're selected
+                if (IsInUnselectedTabItem(frameworkElement))
+                {
+                    return false;
+                }
+            }
+
+            current = current.GetVisualParent() ?? current.GetLogicalParent();
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Check if the element is inside an unselected TabItem
+    /// </summary>
+    /// <param name="element">The element to check</param>
+    /// <returns>True if inside an unselected TabItem</returns>
+    private bool IsInUnselectedTabItem(FrameworkElement element)
+    {
+        var current = element;
+        while (current is not null)
+        {
+            // Check if we're in a TabItem that's not selected
+            if (current is System.Windows.Controls.TabItem tabItem)
+            {
+                return !tabItem.IsSelected;
+            }
+
+            current = current.GetVisualParent() as FrameworkElement ?? current.GetLogicalParent() as FrameworkElement;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Subscribe to visibility changes
+    /// </summary>
+    /// <param name="dependencyObject">The dependency object to monitor</param>
+    private void SubscribeToVisibilityChanges(DependencyObject dependencyObject)
+    {
+        if (_isVisibilityListening)
+        {
+            return;
+        }
+
+        if (dependencyObject is FrameworkElement frameworkElement)
+        {
+            _targetFrameworkElement = new(frameworkElement);
+
+            // Subscribe to IsVisibleChanged event
+            frameworkElement.IsVisibleChanged += OnIsVisibleChanged;
+
+            // Subscribe to Loaded event in case the element becomes part of visual tree later
+            frameworkElement.Loaded += OnFrameworkElementLoaded;
+
+            // Subscribe to parent TabControl selection changes if applicable
+            SubscribeToTabControlSelectionChanges(frameworkElement);
+
+            _isVisibilityListening = true;
+        }
+    }
+
+    /// <summary>
+    /// Subscribe to TabControl selection changes
+    /// </summary>
+    /// <param name="element">The element to check for TabControl ancestry</param>
+    private void SubscribeToTabControlSelectionChanges(FrameworkElement element)
+    {
+        var current = element;
+        while (current is not null)
+        {
+            if (current is System.Windows.Controls.TabControl tabControl)
+            {
+                tabControl.SelectionChanged += OnTabControlSelectionChanged;
+                break;
+            }
+
+            current = current.GetVisualParent() as FrameworkElement ?? current.GetLogicalParent() as FrameworkElement;
+        }
+    }
+
+    /// <summary>
+    /// Handle TabControl selection changes
+    /// </summary>
+    private void OnTabControlSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        // Check if our target element is now visible due to tab selection change
+        if (_targetFrameworkElement?.TryGetTarget(out var target) == true)
+        {
+            if (IsControlVisible(target))
+            {
+                DebouncedUpdateValue();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Handle visibility changes
+    /// </summary>
+    private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        if ((bool)e.NewValue) // Became visible
+        {
+            DebouncedUpdateValue();
+        }
+    }
+
+    /// <summary>
+    /// Handle loaded event
+    /// </summary>
+    private void OnFrameworkElementLoaded(object sender, RoutedEventArgs e)
+    {
+        if (sender is FrameworkElement frameworkElement && IsControlVisible(frameworkElement))
+        {
+            DebouncedUpdateValue();
+        }
+    }
+
+    /// <summary>
+    /// Subscribe to SettingsKey property changes in the visual tree
+    /// </summary>
+    /// <param name="startElement">The element to start monitoring from</param>
+    private void SubscribeToSettingsKeyChanges(DependencyObject startElement)
+    {
+        // Subscribe to the global SettingsKey change notifications
+        SettingsManagement.SettingsKeyChanged += OnSettingsKeyChanged;
+    }
+
+    /// <summary>
+    /// Handle SettingsKey property changes
+    /// </summary>
+    /// <param name="sender">The element that changed</param>
+    /// <param name="e">Event arguments</param>
+    private void OnSettingsKeyChanged(object? sender, SettingsKeyChangedEventArgs e)
+    {
+        if (TargetObject is not DependencyObject targetObject)
+        {
+            return;
+        }
+
+        // Resolve the actual dependency object if it's an attached object
+        if (targetObject is IAttachedObject attachedObject)
+        {
+            targetObject = attachedObject.AssociatedObject;
+            if (targetObject is null)
+            {
+                return;
+            }
+        }
+
+        // Only update if the control is visible
+        if (!IsControlVisible(targetObject))
+        {
+            return;
+        }
+
+        // Check if the changed element is in our visual tree hierarchy
+        if (IsInVisualTreeHierarchy(targetObject, e.Element))
+        {
+            DebouncedUpdateValue();
+        }
+    }
+
+    /// <summary>
+    /// Check if the changed element affects our visual tree hierarchy
+    /// </summary>
+    /// <param name="targetObject">Our target object</param>
+    /// <param name="changedElement">The element that changed</param>
+    /// <returns>True if the change affects our hierarchy</returns>
+    private bool IsInVisualTreeHierarchy(DependencyObject targetObject, DependencyObject changedElement)
+    {
+        if (targetObject is IAttachedObject attachedObject)
+        {
+            targetObject = attachedObject.AssociatedObject;
+        }
+
+        if (targetObject is null)
+        {
+            return false;
+        }
+
+        if (changedElement is IAttachedObject changedAttachedObject)
+        {
+            return Equals(changedAttachedObject.AssociatedObject, targetObject);
+        }
+
+        var startElement = IncludeSelf ? targetObject : VisualTreeHelper.GetParent(targetObject);
+        var current = startElement;
+
+        // Walk up our visual tree to see if the changed element is an ancestor
+        while (current is not null)
+        {
+            if (current == changedElement)
+            {
+                return true;
+            }
+
+            current = current.GetVisualParent() ?? current.GetLogicalParent();
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Clean up event subscriptions
+    /// </summary>
+    protected override void OnTargetObjectUnloaded()
+    {
+        // Stop and dispose the timer
+        if (_updateTimer is not null)
+        {
+            _updateTimer.Stop();
+            _updateTimer = null;
+        }
+
+        if (_isListening)
+        {
+            SettingsManagement.SettingsKeyChanged -= OnSettingsKeyChanged;
+            _isListening = false;
+        }
+
+        if (_isVisibilityListening)
+        {
+            if (_targetFrameworkElement?.TryGetTarget(out var target) == true)
+            {
+                target.IsVisibleChanged -= OnIsVisibleChanged;
+                target.Loaded -= OnFrameworkElementLoaded;
+
+                // Unsubscribe from TabControl selection changes
+                var current = target;
+                while (current is not null)
+                {
+                    if (current is System.Windows.Controls.TabControl tabControl)
+                    {
+                        tabControl.SelectionChanged -= OnTabControlSelectionChanged;
+                        break;
+                    }
+                    current = current.GetVisualParent() as FrameworkElement ?? current.GetLogicalParent() as FrameworkElement;
+                }
+            }
+
+            _isVisibilityListening = false;
+        }
+
+        base.OnTargetObjectUnloaded();
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Models\InitialKeySettings.cs
+
+namespace Orc.Controls.Settings;
+
+public enum InitialKeySettings
+{
+    None,
+    Current
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Models\SettingsFolderItem.cs
+
+namespace Orc.Controls.Settings;
+
+using System.Windows.Media;
+
+public class SettingsFolderItem
+{
+    public string? Name { get; set; }
+    public string? Path { get; set; }
+    public bool CanEdit { get; set; }
+    public bool CanRemove { get; set; }
+    public string? ResolvedPath { get; set; }
+    public Color? Color { get; set; } = Colors.Black;
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Models\SettingsFoldersCollection.cs
+
+namespace Orc.Controls.Settings;
+
+using System.Collections.Generic;
+
+public class SettingsFoldersCollection
+{
+    public List<SettingsFolderItem> SettingsFolders { get; set; } = [];
+    public bool CanAddFolder { get; set; } = true;
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Models\SettingsGroup.cs
+
+namespace Orc.Controls.Settings;
+
+using System.Windows.Media;
+
+public class SettingsGroup
+{
+    public string? Name { get; set; }
+    public bool CanEdit { get; set; }
+    public bool CanRemove { get; set; }
+    public Color? Color { get; set; }
+
+    protected bool Equals(SettingsGroup other) => Name == other.Name;
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, obj))
+        {
+            return true;
+        }
+
+        if (obj.GetType() != this.GetType())
+        {
+            return false;
+        }
+
+        return Equals((SettingsGroup)obj);
+    }
+
+    public override int GetHashCode() => (Name is not null ? Name.GetHashCode() : 0);
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Module\ControlSettingsModule.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Reflection;
+using Catel.IoC;
+
+public class ControlSettingsModule
+{
+    private readonly IServiceLocator _serviceLocator;
+
+    public ControlSettingsModule(IServiceLocator serviceLocator)
+    {
+        ArgumentNullException.ThrowIfNull(serviceLocator);
+
+        _serviceLocator = serviceLocator;
+    }
+
+    public void Initialize()
+    {
+        //Register IControlSettingsAdapter
+        //DO IT IN APPLICATION
+
+        //Register IEmbeddedResourceProvider
+        //DO IT IN APPLICATION
+
+        //Register ISettingsDataStorage
+        //DO IT IN APPLICATION
+
+        //Register Default SettingsFolderProvider
+        _serviceLocator.RegisterType<ISettingsFolderProvider, FileBasedSettingsFolderProvider>();
+        
+
+        _serviceLocator.RegisterType<ISettingsKeyManager, SettingsKeyManager>();
+
+        _serviceLocator.RegisterType<ISettingsLocationProvider, FileSystemLocationProvider>();
+        _serviceLocator.RegisterType(typeof(ISettingsSerializer<>), typeof(JsonSettingsSerializer<>));
+
+        _serviceLocator.RegisterType(typeof(ISettingsStorage<>), typeof(SettingsStorage<>));
+
+        _serviceLocator.RegisterType<ISettingsStateStorage, SettingsStateStorage>();
+
+        _serviceLocator.RegisterType(typeof(ISettingsKeyParser<>), typeof(AttributeBasedSettingsKeyParser<>));
+
+        //_serviceLocator.RegisterRequiredTypeAndInstantiate<ISettingsFolderProvider), typeof(FileBasedSettingsFolderProvider));
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\obj\Debug\net8.0-windows\.NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+
+// <autogenerated />
+using System;
+using System.Reflection;
+[assembly: global::System.Runtime.Versioning.TargetFrameworkAttribute(".NETCoreApp,Version=v8.0", FrameworkDisplayName = ".NET 8.0")]
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.i.cs
+
+//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//     Runtime Version:4.0.30319.42000
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+namespace XamlGeneratedNamespace {
+    
+    
+    /// <summary>
+    /// GeneratedInternalTypeHelper
+    /// </summary>
+    [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "9.0.3.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+    public sealed class GeneratedInternalTypeHelper : System.Windows.Markup.InternalTypeHelper {
+        
+        /// <summary>
+        /// CreateInstance
+        /// </summary>
+        protected override object CreateInstance(System.Type type, System.Globalization.CultureInfo culture) {
+            return System.Activator.CreateInstance(type, ((System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic) 
+                            | (System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.CreateInstance)), null, null, culture);
+        }
+        
+        /// <summary>
+        /// GetPropertyValue
+        /// </summary>
+        protected override object GetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, System.Globalization.CultureInfo culture) {
+            return propertyInfo.GetValue(target, System.Reflection.BindingFlags.Default, null, null, culture);
+        }
+        
+        /// <summary>
+        /// SetPropertyValue
+        /// </summary>
+        protected override void SetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, object value, System.Globalization.CultureInfo culture) {
+            propertyInfo.SetValue(target, value, System.Reflection.BindingFlags.Default, null, null, culture);
+        }
+        
+        /// <summary>
+        /// CreateDelegate
+        /// </summary>
+        protected override System.Delegate CreateDelegate(System.Type delegateType, object target, string handler) {
+            return ((System.Delegate)(target.GetType().InvokeMember("_CreateDelegate", (System.Reflection.BindingFlags.InvokeMethod 
+                            | (System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)), null, target, new object[] {
+                        delegateType,
+                        handler}, null)));
+        }
+        
+        /// <summary>
+        /// AddEventHandler
+        /// </summary>
+        protected override void AddEventHandler(System.Reflection.EventInfo eventInfo, object target, System.Delegate handler) {
+            eventInfo.AddEventHandler(target, handler);
+        }
+    }
+}
+
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\obj\Debug\net9.0-windows\.NETCoreApp,Version=v9.0.AssemblyAttributes.cs
+
+// <autogenerated />
+using System;
+using System.Reflection;
+[assembly: global::System.Runtime.Versioning.TargetFrameworkAttribute(".NETCoreApp,Version=v9.0", FrameworkDisplayName = ".NET 9.0")]
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\obj\Debug\net9.0-windows\GeneratedInternalTypeHelper.g.i.cs
+
+//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//     Runtime Version:4.0.30319.42000
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+namespace XamlGeneratedNamespace {
+    
+    
+    /// <summary>
+    /// GeneratedInternalTypeHelper
+    /// </summary>
+    [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "9.0.3.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+    public sealed class GeneratedInternalTypeHelper : System.Windows.Markup.InternalTypeHelper {
+        
+        /// <summary>
+        /// CreateInstance
+        /// </summary>
+        protected override object CreateInstance(System.Type type, System.Globalization.CultureInfo culture) {
+            return System.Activator.CreateInstance(type, ((System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic) 
+                            | (System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.CreateInstance)), null, null, culture);
+        }
+        
+        /// <summary>
+        /// GetPropertyValue
+        /// </summary>
+        protected override object GetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, System.Globalization.CultureInfo culture) {
+            return propertyInfo.GetValue(target, System.Reflection.BindingFlags.Default, null, null, culture);
+        }
+        
+        /// <summary>
+        /// SetPropertyValue
+        /// </summary>
+        protected override void SetPropertyValue(System.Reflection.PropertyInfo propertyInfo, object target, object value, System.Globalization.CultureInfo culture) {
+            propertyInfo.SetValue(target, value, System.Reflection.BindingFlags.Default, null, null, culture);
+        }
+        
+        /// <summary>
+        /// CreateDelegate
+        /// </summary>
+        protected override System.Delegate CreateDelegate(System.Type delegateType, object target, string handler) {
+            return ((System.Delegate)(target.GetType().InvokeMember("_CreateDelegate", (System.Reflection.BindingFlags.InvokeMethod 
+                            | (System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)), null, target, new object[] {
+                        delegateType,
+                        handler}, null)));
+        }
+        
+        /// <summary>
+        /// AddEventHandler
+        /// </summary>
+        protected override void AddEventHandler(System.Reflection.EventInfo eventInfo, object target, System.Delegate handler) {
+            eventInfo.AddEventHandler(target, handler);
+        }
+    }
+}
+
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Properties\AssemblyInfo.cs
+
+using System.Reflection;
+using System.Resources;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Markup;
+
+// All other assembly info is defined in SolutionAssemblyInfo.cs
+
+[assembly: AssemblyTitle("Orc.Controls.Settings")]
+[assembly: AssemblyProduct("Orc.Controls.Settings")]
+[assembly: AssemblyDescription("Orc.Controls.Settings library")]
+[assembly: NeutralResourcesLanguage("en-US")]
+
+[assembly: XmlnsPrefix("http://schemas.wildgums.com/orc/controls/settings", "orccontrolssettings")]
+[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls/settings", "Orc.Controls.Settings")]
+
+[assembly: ThemeInfo(
+    ResourceDictionaryLocation.None, //where theme specific resource dictionaries are located
+                                     //(used if a resource is not found in the page, 
+                                     // or application resource dictionaries)
+    ResourceDictionaryLocation.SourceAssembly //where the generic resource dictionary is located
+                                              //(used if a resource is not found in the page, 
+                                              // app, or any theme specific resource dictionaries)
+    )]
+
+[assembly: InternalsVisibleTo("Orc.Controls.Tests")]
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Properties\Resources.Designer.cs
+
+//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//     Runtime Version:4.0.30319.42000
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+namespace Orc.Controls.Settings.Properties {
+    using System;
+    
+    
+    /// <summary>
+    ///   A strongly-typed resource class, for looking up localized strings, etc.
+    /// </summary>
+    // This class was auto-generated by the StronglyTypedResourceBuilder
+    // class via a tool like ResGen or Visual Studio.
+    // To add or remove a member, edit your .ResX file then rerun ResGen
+    // with the /str option, or rebuild your VS project.
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Orc.Controls.Settings.Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Serialization\JsonSettingsSerializer.cs
+
+namespace Orc.Controls.Settings;
+
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+
+public class JsonSettingsSerializer<TSettings> : ISettingsSerializer<TSettings>
+    where TSettings : class
+{
+    private readonly JsonSerializerOptions _serializationOptions;
+
+    public JsonSettingsSerializer()
+    {
+        _serializationOptions = new()
+        {
+            WriteIndented = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,    
+            // Handle circular references
+            ReferenceHandler = ReferenceHandler.Preserve,
+            // Increase max depth if needed
+            MaxDepth = 128
+        };
+
+        // Add the custom Type converter
+        _serializationOptions.Converters.Add(new TypeConverter());
+        _serializationOptions.Converters.Add(new ColorConverter());
+    }
+
+    public async Task<TSettings?> DeserializeAsync(string data)
+    {
+        try
+        {
+            return await Task.FromResult(JsonSerializer.Deserialize<TSettings>(data, _serializationOptions));
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public async Task<string> SerializeAsync(TSettings settings)
+    {
+        return await Task.FromResult(JsonSerializer.Serialize(settings, _serializationOptions));
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Serialization\Converters\ColorConverter.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Windows.Media;
+
+public class ColorConverter : JsonConverter<Color?>
+{
+    private static readonly System.Windows.Media.ColorConverter _wpfColorConverter = new();
+
+    public override Color? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var colorString = reader.GetString();
+        if (string.IsNullOrEmpty(colorString))
+        {
+            return null;
+        }
+
+        try
+        {
+            // Handle hex format (#AARRGGBB or #RRGGBB)
+            if (colorString.StartsWith("#"))
+            {
+                return (Color?)((System.ComponentModel.TypeConverter)_wpfColorConverter).ConvertFromString(colorString);
+            }
+
+            // Handle named colors
+            var color = (Color?)((System.ComponentModel.TypeConverter)_wpfColorConverter).ConvertFromString(colorString);
+            return color;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public override void Write(Utf8JsonWriter writer, Color? value, JsonSerializerOptions options)
+    {
+        if (value is null)
+        {
+            writer.WriteNullValue();
+            return;
+        }
+
+        var color = value.Value;
+        // Write as hex string with alpha channel
+        var hexString = _wpfColorConverter.ConvertToString(color); /*$"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}"*/;
+        writer.WriteStringValue(hexString);
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Serialization\Converters\TypeConverter.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+public class TypeConverter : JsonConverter<Type>
+{
+    public override Type? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var typeName = reader.GetString();
+        if (string.IsNullOrEmpty(typeName))
+        {
+            return null;
+        }
+
+        try
+        {
+            return Type.GetType(typeName);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public override void Write(Utf8JsonWriter writer, Type value, JsonSerializerOptions options)
+    {
+        writer.WriteStringValue(value.AssemblyQualifiedName);
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\SettingsKeyManagers\SettingsKeyManager.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Catel;
+using Catel.Logging;
+
+public class SettingsKeyManager : ISettingsKeyManager
+{
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private readonly Dictionary<string, bool> _dirtyStates = new();
+
+    private readonly HashSet<string> _keys = new();
+    private readonly object _lock = new();
+
+    public event AsyncEventHandler<SettingsKeyEventArgs>? LoadRequested;
+    public event AsyncEventHandler<SettingsKeyEventArgs>? SaveRequested;
+    public event AsyncEventHandler<SettingsKeyEventArgs>? RefreshRequested;
+    public event AsyncEventHandler<SettingsKeyDirtyEventArgs>? DirtyStateChanged;
+    public event AsyncEventHandler<SettingsKeyEventArgs>? RemoveRequested;
+    public event AsyncEventHandler<ControlRequestedEventArgs>? RequestControls;
+    public event AsyncEventHandler<SettingsKeyRenameEventArgs>? RenameRequested;
+    public event EventHandler<SettingsKeyEventArgs>? KeyLoaded;
+    public event EventHandler<SettingsKeyEventArgs>? KeySaved;
+    public event EventHandler<SettingsKeyEventArgs>? KeyRefreshed;
+    public event EventHandler<SettingsKeyEventArgs>? KeyRemoved;
+    public event EventHandler<SettingsKeyRenameEventArgs>? KeyRenamed;
+
+    public string[] GetKeys()
+    {
+        lock (_lock)
+        {
+            return _keys.ToArray();
+        }
+    }
+
+    public async Task LoadAsync(string settingsKey)
+    {
+        if (string.IsNullOrEmpty(settingsKey))
+        {
+            return;
+        }
+
+        Log.Debug($"Load requested for settings key: {settingsKey}");
+        var eventArgs = new SettingsKeyEventArgs(settingsKey);
+
+        if (LoadRequested is not null)
+        {
+            await LoadRequested.SafeInvokeAsync(this, eventArgs);
+        }
+
+        // Only make changes if the operation was successful
+        if (eventArgs.Success)
+        {
+            lock (_lock)
+            {
+                _keys.Add(settingsKey);
+            }
+
+            Log.Debug($"Settings key loaded successfully: {settingsKey}");
+            KeyLoaded?.Invoke(this, new(settingsKey)
+            {
+                Success = true
+            });
+        }
+    }
+
+    public async Task SaveAsync(string settingsKey)
+    {
+        if (string.IsNullOrEmpty(settingsKey))
+        {
+            return;
+        }
+
+        Log.Debug($"Save requested for settings key: {settingsKey}");
+        var eventArgs = new SettingsKeyEventArgs(settingsKey);
+        await SaveRequested.SafeInvokeAsync(this, eventArgs);
+
+        // Only make changes if the operation was successful
+        if (eventArgs.Success)
+        {
+            // Reset dirty state after successful save
+            SetDirty(settingsKey, false);
+
+            Log.Debug($"Settings key saved successfully: {settingsKey}");
+            KeySaved?.Invoke(this, new(settingsKey)
+            {
+                Success = true
+            });
+        }
+    }
+
+    public void SetDirty(string settingsKey, bool isDirty)
+    {
+        if (string.IsNullOrEmpty(settingsKey))
+        {
+            return;
+        }
+
+        _keys.Add(settingsKey);
+
+        var stateChanged = false;
+        lock (_lock)
+        {
+            if (_dirtyStates.TryGetValue(settingsKey, out var currentState))
+            {
+                if (currentState != isDirty)
+                {
+                    _dirtyStates[settingsKey] = isDirty;
+                    stateChanged = true;
+                }
+            }
+            else
+            {
+                _dirtyStates[settingsKey] = isDirty;
+                stateChanged = true;
+            }
+        }
+
+        if (stateChanged)
+        {
+            Log.Debug($"Dirty state changed for settings key '{settingsKey}': {isDirty}");
+            DirtyStateChanged?.Invoke(this, new(settingsKey, isDirty));
+        }
+    }
+
+    public async Task RefreshAsync(string settingsKey)
+    {
+        if (string.IsNullOrEmpty(settingsKey))
+        {
+            return;
+        }
+
+        Log.Debug($"Refresh requested for settings key: {settingsKey}");
+        var eventArgs = new SettingsKeyEventArgs(settingsKey);
+        await RefreshRequested.SafeInvokeAsync(this, eventArgs);
+
+        // Only make changes if the operation was successful
+        if (eventArgs.Success)
+        {
+            Log.Debug($"Settings key refreshed successfully: {settingsKey}");
+            KeyRefreshed?.Invoke(this, new(settingsKey)
+            {
+                Success = true
+            });
+        }
+    }
+
+    public void Remove(string settingsKey)
+    {
+        if (string.IsNullOrEmpty(settingsKey))
+        {
+            return;
+        }
+
+        Log.Debug($"Remove requested for settings key: {settingsKey}");
+        var eventArgs = new SettingsKeyEventArgs(settingsKey);
+        RemoveRequested?.Invoke(this, eventArgs);
+
+        // Only make changes if the operation was successful
+        if (eventArgs.Success)
+        {
+            lock (_lock)
+            {
+                _keys.Remove(settingsKey);
+                _dirtyStates.Remove(settingsKey);
+            }
+
+            Log.Debug($"Settings key removed successfully: {settingsKey}");
+            KeyRemoved?.Invoke(this, new(settingsKey)
+            {
+                Success = true
+            });
+        }
+    }
+
+    public void Rename(string oldKey, string newKey)
+    {
+        if (string.IsNullOrEmpty(oldKey) || string.IsNullOrEmpty(newKey))
+        {
+            return;
+        }
+
+        Log.Debug($"Rename requested from '{oldKey}' to '{newKey}'");
+        var eventArgs = new SettingsKeyRenameEventArgs(oldKey, newKey);
+        RenameRequested?.Invoke(this, eventArgs);
+
+        // Only make changes if the operation was successful
+        if (!eventArgs.Success)
+        {
+            return;
+        }
+
+        lock (_lock)
+        {
+            if (_keys.Remove(oldKey))
+            {
+                _keys.Add(newKey);
+            }
+
+            if (_dirtyStates.Remove(oldKey, out var dirtyState))
+            {
+                _dirtyStates[newKey] = dirtyState;
+            }
+        }
+
+        Log.Debug($"Settings key renamed successfully from '{oldKey}' to '{newKey}'");
+        KeyRenamed?.Invoke(this, new(oldKey, newKey)
+        {
+            Success = true
+        });
+    }
+
+    public bool IsKeyDirty(string settingsKey)
+    {
+        if (string.IsNullOrEmpty(settingsKey))
+        {
+            return false;
+        }
+
+        lock (_lock)
+        {
+            return _dirtyStates.TryGetValue(settingsKey, out var isDirty) && isDirty;
+        }
+    }
+
+    public string[] GetDirtyKeys()
+    {
+        lock (_lock)
+        {
+            return _dirtyStates.Where(kvp => kvp.Value)
+                .Select(kvp => kvp.Key)
+                .ToArray();
+        }
+    }
+
+    public async Task<IReadOnlyCollection<ISettingsElement>> GetElementsAsync(string settingsKey)
+    {
+        var requestElementEventArgs = new ControlRequestedEventArgs(settingsKey);
+
+        await RequestControls.SafeInvokeAsync(this, requestElementEventArgs);
+
+        return requestElementEventArgs.Elements;
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\SettingsKeyParsers\AttributeBasedSettingsKeyParser.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
+
+public class AttributeBasedSettingsKeyParser<T> : ISettingsKeyParser<T> where T : class, new()
+{
+    private static readonly Regex KeyValueRegex = new(@"\[(\w+)\s*=\s*([^\]]+)\]", RegexOptions.Compiled);
+    private readonly Dictionary<Type, ISettingsKeyTypeSerializer> _serializerCache = new();
+
+    public string ToString(T keyInfo)
+    {
+        ArgumentNullException.ThrowIfNull(keyInfo);
+
+        var properties = GetSettingsProperties();
+        var keyParts = new List<string>();
+        foreach (var (property, attribute) in properties)
+        {
+            if (attribute?.Ignore == true)
+            {
+                continue;
+            }
+
+            var value = property.GetValue(keyInfo);
+            if (value is null)
+            {
+                continue;
+            }
+
+            var displayName = attribute?.DisplayName ?? property.Name;
+            var serializedValue = SerializeValue(value, property.PropertyType, attribute?.SerializerType);
+            keyParts.Add($"[{displayName} = {serializedValue}]");
+        }
+
+        return string.Join(string.Empty, keyParts);
+    }
+
+    public T Parse(string settingsKey)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(settingsKey);
+
+        var result = new T();
+        var properties = GetSettingsProperties().ToDictionary(
+            pair => pair.attribute?.DisplayName ?? pair.property.Name,
+            pair => pair,
+            StringComparer.OrdinalIgnoreCase);
+
+        var matches = KeyValueRegex.Matches(settingsKey);
+
+        foreach (Match match in matches)
+        {
+            var key = match.Groups[1].Value.Trim();
+            var value = match.Groups[2].Value.Trim();
+
+            if (!properties.TryGetValue(key, out var propertyInfo))
+            {
+                continue;
+            }
+
+            var (property, attribute) = propertyInfo;
+            if (attribute?.Ignore == true)
+            {
+                continue;
+            }
+
+            var deserializedValue = DeserializeValue(value, property.PropertyType, attribute?.SerializerType);
+            property.SetValue(result, deserializedValue);
+        }
+
+        return result;
+    }
+
+    private List<(PropertyInfo property, SettingsKeyPropertyAttribute? attribute)> GetSettingsProperties()
+    {
+        return typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .Where(p => p.CanRead && p.CanWrite)
+            .Select(p => (p, p.GetCustomAttribute<SettingsKeyPropertyAttribute>()))
+            .ToList();
+    }
+
+    private string SerializeValue(object value, Type propertyType, Type? serializerType)
+    {
+        var serializer = GetSerializer(propertyType, serializerType);
+        return serializer?.Serialize(value) ?? value?.ToString() ?? string.Empty;
+    }
+
+    private object? DeserializeValue(string value, Type propertyType, Type? serializerType)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return null;
+        }
+
+        var serializer = GetSerializer(propertyType, serializerType);
+        return serializer?.Deserialize(value, propertyType) ?? Convert.ChangeType(value, propertyType);
+    }
+
+    private ISettingsKeyTypeSerializer? GetSerializer(Type propertyType, Type? serializerType)
+    {
+        // Check for explicit serializer first
+        if (serializerType is not null)
+        {
+            return GetOrCreateSerializer(serializerType);
+        }
+
+        // Default serializers for common types
+        if (propertyType.IsEnum)
+        {
+            return GetOrCreateSerializer(typeof(EnumSettingsSerializer));
+        }
+
+        return null;
+    }
+
+    private ISettingsKeyTypeSerializer GetOrCreateSerializer(Type serializerType)
+    {
+        if (!_serializerCache.TryGetValue(serializerType, out var serializer))
+        {
+            serializer = (ISettingsKeyTypeSerializer)Activator.CreateInstance(serializerType)!;
+            _serializerCache[serializerType] = serializer;
+        }
+
+        return serializer;
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\SettingsKeyParsers\EnumSettingsSerializer.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+
+public class EnumSettingsSerializer : ISettingsKeyTypeSerializer
+{
+    public string Serialize(object? value) => value?.ToString() ?? string.Empty;
+
+    public object? Deserialize(string value, Type targetType)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return null;
+        }
+
+        return Enum.Parse(targetType, value, true);
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\SettingsKeyParsers\SettingsKeyPropertyAttribute.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+
+// Attribute for property-level serialization control
+[AttributeUsage(AttributeTargets.Property)]
+public class SettingsKeyPropertyAttribute : Attribute
+{
+    public SettingsKeyPropertyAttribute(string? displayName = null) => DisplayName = displayName;
+
+    public SettingsKeyPropertyAttribute(Type serializerType)
+    {
+        if (!typeof(ISettingsKeyTypeSerializer).IsAssignableFrom(serializerType))
+        {
+            throw new ArgumentException($"Type must implement {nameof(ISettingsKeyTypeSerializer)}",
+                nameof(serializerType));
+        }
+
+        SerializerType = serializerType;
+    }
+
+    public SettingsKeyPropertyAttribute(string displayName, Type serializerType) : this(displayName)
+    {
+        if (!typeof(ISettingsKeyTypeSerializer).IsAssignableFrom(serializerType))
+        {
+            throw new ArgumentException($"Type must implement {nameof(ISettingsKeyTypeSerializer)}",
+                nameof(serializerType));
+        }
+
+        SerializerType = serializerType;
+    }
+
+    public string? DisplayName { get; set; }
+    public bool Ignore { get; set; }
+    public Type? SerializerType { get; set; }
+}
+
+// Interface for custom type serializers
+
+// Default serializers for common scenarios
+
+// Generic parser implementation
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\State\SettingsStateStorage.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Collections.Generic;
+using Catel.Logging;
+
+public class SettingsStateStorage : ISettingsStateStorage
+{
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private readonly Dictionary<string, object> _storedSettings = new();
+    private readonly object _lock = new object(); // Add synchronization lock
+
+    public event EventHandler<SettingsKeyEventArgs>? SettingsStored;
+    public event EventHandler<SettingsKeyEventArgs>? SettingsRemoved;
+
+    public void StoreCurrentSettings<T>(string settingsKey, T settings) where T : class
+    {
+        if (string.IsNullOrWhiteSpace(settingsKey))
+        {
+            return;
+        }
+
+        lock (_lock)
+        {
+            _storedSettings[settingsKey] = settings;
+        }
+
+        SettingsStored?.Invoke(this, new(settingsKey));
+        Log.Debug($"Stored settings for key '{settingsKey}' ({typeof(T).Name})");
+    }
+
+    public T? GetStoredSettings<T>(string settingsKey) where T : class
+    {
+        if (string.IsNullOrWhiteSpace(settingsKey))
+        {
+            return null;
+        }
+
+        lock (_lock)
+        {
+            if (!_storedSettings.TryGetValue(settingsKey, out var settings)
+                || settings is not T typedSettings)
+            {
+                return null;
+            }
+
+            Log.Debug($"Retrieved stored settings for key '{settingsKey}' ({typeof(T).Name})");
+            return typedSettings;
+        }
+    }
+
+    public void Rename(string oldKey, string newKey)
+    {
+        lock (_lock)
+        {
+            if (_storedSettings.TryGetValue(oldKey, out var settings))
+            {
+                _storedSettings[newKey] = settings;
+                _storedSettings.Remove(oldKey);
+            }
+        }
+    }
+
+    public void RemoveStoredSettings(string settingsKey)
+    {
+        if (string.IsNullOrWhiteSpace(settingsKey))
+        {
+            return;
+        }
+
+        bool removed;
+        lock (_lock)
+        {
+            removed = _storedSettings.Remove(settingsKey);
+        }
+
+        if (removed)
+        {
+            SettingsRemoved?.Invoke(this, new(settingsKey));
+            Log.Debug($"Removed stored settings and dirty state for key '{settingsKey}'");
+        }
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Storages\EmbeddedResourceProvider.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.IO;
+using System.Reflection;
+using System.Threading.Tasks;
+
+/// <summary>
+/// Default implementation of embedded resource provider
+/// </summary>
+public class EmbeddedResourceProvider : IEmbeddedResourceProvider
+{
+    private readonly Assembly _assembly;
+
+    public EmbeddedResourceProvider(Assembly assembly)
+    {
+        ArgumentNullException.ThrowIfNull(assembly);
+
+        _assembly = assembly;
+    }
+
+    public async Task<string?> GetResourceContentAsync(string resourcePath)
+    {
+        try
+        {
+            await using var stream = _assembly.GetManifestResourceStream(resourcePath);
+            if (stream is null)
+            {
+                return null;
+            }
+
+            using var reader = new StreamReader(stream);
+            return await reader.ReadToEndAsync();
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public async Task<bool> ResourceExistsAsync(string resourcePath)
+    {
+        var resourceNames = _assembly.GetManifestResourceNames();
+
+        return await Task.FromResult(Array.Exists(resourceNames, name => name.Equals(resourcePath, StringComparison.OrdinalIgnoreCase)));
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Storages\EmbeddedResourcesSettingsDataStorage.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Threading.Tasks;
+using Catel.Logging;
+
+public class EmbeddedResourcesSettingsDataStorage : ISettingsDataStorage
+{
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
+    private readonly IEmbeddedResourceProvider _embeddedResourceProvider;
+    private readonly ISettingsLocationProvider _locationProvider;
+
+    public EmbeddedResourcesSettingsDataStorage(
+        IEmbeddedResourceProvider embeddedResourceProvider,
+        ISettingsLocationProvider locationProvider)
+    {
+        _embeddedResourceProvider = embeddedResourceProvider ?? throw new ArgumentNullException(nameof(embeddedResourceProvider));
+        _locationProvider = locationProvider ?? throw new ArgumentNullException(nameof(locationProvider));
+    }
+
+    public async Task<bool> IsReadOnlyAsync(string settingsKey)
+    {
+        return true;
+    }
+
+    /// <summary>
+    /// Determines if this storage can handle the given settings key
+    /// </summary>
+    public async Task<bool> CanHandleAsync(string settingsKey)
+    {
+        try
+        {
+            var location = await _locationProvider.GetLocationAsync(settingsKey);
+
+            // Handle locations that look like resource paths (contain dots but no directory separators)
+            return !string.IsNullOrEmpty(location) &&
+                   location.Contains('.') &&
+                   !location.Contains('\\') &&
+                   !location.Contains('/') &&
+                   !location.Contains(':'); // No drive letters
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<string?> LoadStringAsync(string settingsKey)
+    {
+        if (!await CanHandleAsync(settingsKey))
+        {
+            return null;
+        }
+
+        try
+        {
+            var location = await _locationProvider.GetLocationAsync(settingsKey);
+            var content = await _embeddedResourceProvider.GetResourceContentAsync(location);
+
+            if (!string.IsNullOrEmpty(content))
+            {
+                Log.Debug($"Loaded settings from embedded resource for key: {settingsKey} (location: {location})");
+            }
+
+            return content;
+        }
+        catch (Exception ex)
+        {
+            Log.Warning(ex, $"Error loading embedded resource for key: {settingsKey}");
+            return null;
+        }
+    }
+
+    public async Task<bool> ExistsAsync(string settingsKey)
+    {
+        if (!await CanHandleAsync(settingsKey))
+        {
+            return false;
+        }
+
+        try
+        {
+            var location = await _locationProvider.GetLocationAsync(settingsKey);
+            return await _embeddedResourceProvider.ResourceExistsAsync(location);
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    // Write operations are not supported for embedded resources
+    public Task SaveStringAsync(string settingsKey, string data)
+    {
+        throw Log.ErrorAndCreateException<NotSupportedException>("Embedded resources are read-only. Use a different storage provider for write operations.");
+    }
+
+    public Task DeleteAsync(string settingsKey)
+    {
+        throw Log.ErrorAndCreateException<NotSupportedException>("Embedded resources are read-only. Use a different storage provider for write operations.");
+    }
+
+    public Task RenameAsync(string oldKey, string newKey)
+    {
+        throw Log.ErrorAndCreateException<NotSupportedException>("Embedded resources are read-only. Use a different storage provider for write operations.");
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Storages\FileSystemLocationProvider.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.IO;
+using System.Threading.Tasks;
+
+/// <summary>
+/// File system location provider that converts keys to file paths
+/// </summary>
+public class FileSystemLocationProvider : ISettingsLocationProvider
+{
+    private readonly string _basePath;
+
+    public FileSystemLocationProvider(string basePath)
+    {
+        _basePath = basePath ?? throw new ArgumentNullException(nameof(basePath));
+    }
+
+    public async Task<string> GetLocationAsync(string settingsKey)
+    {
+        if (string.IsNullOrEmpty(settingsKey))
+        {
+            return Path.Combine(_basePath, "Unknown.json");
+        }
+
+        // Convert "Key1/Key2/Key3" to "BasePath/Key1/Key2/Key3.json"
+        var keyParts = settingsKey.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+        // Sanitize each part
+        var sanitizedParts = new string[keyParts.Length];
+        for (var i = 0; i < keyParts.Length; i++)
+        {
+            sanitizedParts[i] = SanitizeFileName(keyParts[i]);
+        }
+
+        // Last part becomes the filename with .json extension
+        if (sanitizedParts.Length > 0)
+        {
+            sanitizedParts[^1] += ".json";
+        }
+
+        return Path.Combine(_basePath, Path.Combine(sanitizedParts));
+    }
+
+    private static string SanitizeFileName(string fileName)
+    {
+        if (string.IsNullOrEmpty(fileName))
+        {
+            return "Unknown";
+        }
+
+        var invalidChars = Path.GetInvalidFileNameChars();
+        var sanitized = fileName;
+
+        foreach (var invalidChar in invalidChars)
+        {
+            sanitized = sanitized.Replace(invalidChar, '_');
+        }
+
+        return sanitized.Replace(':', '_')
+            .Replace('*', '_')
+            .Replace('?', '_')
+            .Replace('"', '_')
+            .Replace('<', '_')
+            .Replace('>', '_')
+            .Replace('|', '_');
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Storages\FileSystemSettingsDataStorage.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
+using Orc.FileSystem;
+
+/// <summary>
+/// File system settings storage using location provider and serializer
+/// </summary>
+public class FileSystemSettingsDataStorage : ISettingsDataStorage
+{
+    private readonly IDirectoryService _directoryService;
+    private readonly IFileService _fileService;
+    private readonly ISettingsLocationProvider _locationProvider;
+
+    public FileSystemSettingsDataStorage(
+        IFileService fileService,
+        IDirectoryService directoryService,
+        ISettingsLocationProvider locationProvider)
+    {
+        _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
+        _directoryService = directoryService ?? throw new ArgumentNullException(nameof(directoryService));
+        _locationProvider = locationProvider ?? throw new ArgumentNullException(nameof(locationProvider));
+    }
+
+    public async Task<bool> IsReadOnlyAsync(string settingsKey)
+    {
+        return false;
+    }
+
+    /// <summary>
+    /// Async version of CanHandle for better performance when possible
+    /// </summary>
+    public async Task<bool> CanHandleAsync(string settingsKey)
+    {
+        try
+        {
+            var location = await _locationProvider.GetLocationAsync(settingsKey);
+            if (location == "Invalid")
+            {
+                return false;
+            }
+
+            // Handle locations that look like file paths (contain directory separators or drive letters)
+            return !string.IsNullOrEmpty(location) &&
+                   (location.Contains('\\') ||
+                    location.Contains('/') ||
+                    location.Contains(':') || // Drive letters like C:
+                    Path.IsPathRooted(location));
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<string?> LoadStringAsync(string settingsKey)
+    {
+        if (!await CanHandleAsync(settingsKey))
+        {
+            return null;
+        }
+
+        try
+        {
+            var location = await _locationProvider.GetLocationAsync(settingsKey);
+
+            if (!_fileService.Exists(location))
+            {
+                return null;
+            }
+
+            return await _fileService.ReadAllTextAsync(location);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public async Task SaveStringAsync(string settingsKey, string data)
+    {
+        if (!await CanHandleAsync(settingsKey))
+        {
+            throw new InvalidOperationException($"This storage cannot handle settings key: {settingsKey}");
+        }
+
+        var location = await _locationProvider.GetLocationAsync(settingsKey);
+        var directory = Path.GetDirectoryName(location);
+
+        if (directory is not null && !_directoryService.Exists(directory))
+        {
+            _directoryService.Create(directory);
+        }
+
+        await _fileService.WriteAllTextAsync(location, data);
+    }
+
+    public async Task DeleteAsync(string settingsKey)
+    {
+        if (!await CanHandleAsync(settingsKey))
+        {
+            return; // Silently ignore if we can't handle it
+        }
+
+        var location = await _locationProvider.GetLocationAsync(settingsKey);
+
+        if (_fileService.Exists(location))
+        {
+            _fileService.Delete(location);
+        }
+    }
+
+    public async Task RenameAsync(string oldKey, string newKey)
+    {
+        var canHandleOld = await CanHandleAsync(oldKey);
+        var canHandleNew = await CanHandleAsync(newKey);
+
+        if (!canHandleOld || !canHandleNew)
+        {
+            throw new InvalidOperationException(
+                $"This storage cannot handle one or both settings keys: {oldKey}, {newKey}");
+        }
+
+        var oldLocation = await _locationProvider.GetLocationAsync(oldKey);
+        var newLocation = await _locationProvider.GetLocationAsync(newKey);
+
+        if (_fileService.Exists(oldLocation))
+        {
+            var newDirectory = Path.GetDirectoryName(newLocation);
+            if (newDirectory is not null && !_directoryService.Exists(newDirectory))
+            {
+                _directoryService.Create(newDirectory);
+            }
+
+            _fileService.Move(oldLocation, newLocation);
+        }
+    }
+
+    public async Task<bool> ExistsAsync(string settingsKey)
+    {
+        if (!await CanHandleAsync(settingsKey))
+        {
+            return false;
+        }
+
+        var location = await _locationProvider.GetLocationAsync(settingsKey);
+        return _fileService.Exists(location);
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Storages\HybridSettingsDataStorage.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Catel.Logging;
+
+public class HybridSettingsDataStorage : ISettingsDataStorage
+{
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
+    private readonly ISettingsDataStorage[] _storages;
+
+    public HybridSettingsDataStorage(IEnumerable<ISettingsDataStorage> storages)
+    {
+        ArgumentNullException.ThrowIfNull(storages);
+
+        _storages = storages.ToArray();
+    }
+
+    public async Task<bool> IsReadOnlyAsync(string settingsKey)
+    {
+        var storage = await GetDataStorageAsync(settingsKey);
+        if (storage is null)
+        {
+            return false;
+        }
+
+        return await storage.IsReadOnlyAsync(settingsKey);
+    }
+
+    public async Task<bool> CanHandleAsync(string settingsKey)
+    {
+        return await GetDataStorageAsync(settingsKey) is not null;
+    }
+
+    private async Task<ISettingsDataStorage?> GetDataStorageAsync(string settingsKey)
+    {
+        foreach (var settingsDataStorage in _storages)
+        {
+            if (await settingsDataStorage.CanHandleAsync(settingsKey))
+            {
+                return settingsDataStorage;
+            }
+        }
+
+        return null;
+    } 
+
+    public async Task<string?> LoadStringAsync(string settingsKey)
+    {
+        Log.Debug($"Loading settings for key: {settingsKey}");
+
+        var storage = await GetDataStorageAsync(settingsKey);
+        if (storage is null)
+        {
+            return null;
+        }
+
+        try
+        {
+            var data = await storage.LoadStringAsync(settingsKey);
+            if (!string.IsNullOrEmpty(data))
+            {
+                return data;
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Warning(ex, $"Error loading from provider for key: {settingsKey}");
+            // Continue to next provider
+        }
+
+        Log.Debug($"No settings found for key: {settingsKey}");
+        return null;
+    }
+
+    public async Task SaveStringAsync(string settingsKey, string data)
+    {
+        var storage = await GetDataStorageAsync(settingsKey);
+        if (storage is null)
+        {
+            return;
+        }
+
+        if (await storage.IsReadOnlyAsync(settingsKey))
+        {
+            return;
+        }
+
+        try
+        {
+            await storage.SaveStringAsync(settingsKey, data);
+            Log.Debug($"Saved settings to provider for key: {settingsKey}");
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, $"Error saving to provider for key: {settingsKey}");
+            throw;
+        }
+    }
+
+    public async Task DeleteAsync(string settingsKey)
+    {
+        var storage = await GetDataStorageAsync(settingsKey);
+        if (storage is null)
+        {
+            return;
+        }
+
+        if (await storage.IsReadOnlyAsync(settingsKey))
+        {
+            return;
+        }
+
+        try
+        {
+            await storage.DeleteAsync(settingsKey);
+            Log.Debug($"Error loading from provider for key: {settingsKey}");
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, $"Error loading from provider for key: {settingsKey}");
+            throw;
+        }
+    }
+
+    public async Task RenameAsync(string oldKey, string newKey)
+    {
+        var oldStorage = await GetDataStorageAsync(oldKey);
+        if (oldStorage is null)
+        {
+            return;
+        }
+
+        var newStorage = await GetDataStorageAsync(newKey);
+        if (newStorage is null)
+        {
+            return;
+        }
+
+        if (!Equals(newStorage, oldStorage))
+        {
+            return;
+        }
+
+        if (await oldStorage.IsReadOnlyAsync(oldKey))
+        {
+            return;
+        }
+
+        if (await newStorage.IsReadOnlyAsync(newKey))
+        {
+            return;
+        }
+
+        try
+        {
+            await oldStorage.RenameAsync(oldKey, newKey);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, $"Error renaming in provider from '{oldKey}' to '{newKey}'");
+            throw;
+        }
+    }
+
+    public async Task<bool> ExistsAsync(string settingsKey)
+    {
+        var storage = await GetDataStorageAsync(settingsKey);
+        if (storage is null)
+        {
+            return false;
+        }
+
+        // Check all providers (read and write enabled) in priority order
+        try
+        {
+            var exists = await storage.ExistsAsync(settingsKey);
+            if (exists)
+            {
+                Log.Debug($"Settings found in provider for key: {settingsKey}");
+                return true;
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Warning(ex, $"Error checking existence in provider for key: {settingsKey}");
+            // Continue to next provider
+        }
+
+        return false;
+    }
+}
+
+// ===============================
+
+// File: C:\Source\Orc.Controls\src\Orc.Controls.Settings\Storages\SettingsStorage.cs
+
+namespace Orc.Controls.Settings;
+
+using System;
+using System.Threading.Tasks;
+
+/// <summary>
+/// Generic settings storage that combines data storage and serialization
+/// </summary>
+public class SettingsStorage<TSettings> : ISettingsStorage<TSettings> 
+    where TSettings : class
+{
+    private readonly ISettingsDataStorage _dataStorage;
+    private readonly ISettingsSerializer<TSettings> _serializer;
+
+    public SettingsStorage(ISettingsDataStorage dataStorage, ISettingsSerializer<TSettings> serializer)
+    {
+        ArgumentNullException.ThrowIfNull(dataStorage);
+        ArgumentNullException.ThrowIfNull(serializer);
+
+        _dataStorage = dataStorage;
+        _serializer = serializer;
+    }
+
+    public async Task<TSettings?> LoadAsync(string settingsKey)
+    {
+        var data = await _dataStorage.LoadStringAsync(settingsKey);
+        if (string.IsNullOrEmpty(data))
+        {
+            return null;
+        }
+
+        try
+        {
+            var result = await _serializer.DeserializeAsync(data);
+            return result;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public async Task SaveAsync(string settingsKey, TSettings settings)
+    {
+        var data = await _serializer.SerializeAsync(settings);
+        await _dataStorage.SaveStringAsync(settingsKey, data);
+    }
+
+    public async Task DeleteAsync(string settingsKey)
+    {
+        await _dataStorage.DeleteAsync(settingsKey);
+    }
+
+    public async Task RenameAsync(string oldKey, string newKey)
+    {
+        await _dataStorage.RenameAsync(oldKey, newKey);
+    }
+
+    public async Task<bool> ExistsAsync(string settingsKey)
+    {
+        return await _dataStorage.ExistsAsync(settingsKey);
+    }
+}

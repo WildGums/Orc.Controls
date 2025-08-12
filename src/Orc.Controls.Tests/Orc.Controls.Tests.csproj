@@ -57,6 +57,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Orc.Controls.Settings\Orc.Controls.Settings.csproj" />
     <ProjectReference Include="..\Orc.Controls\Orc.Controls.csproj" />
   </ItemGroup>
 
