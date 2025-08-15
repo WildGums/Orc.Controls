@@ -12,7 +12,6 @@ using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using Cursors = System.Windows.Input.Cursors;
 using HorizontalAlignment = System.Windows.HorizontalAlignment;
-using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 /// <summary>
@@ -60,23 +59,37 @@ public class TearOffWindow : Window
     /// </summary>
     public bool WasDockedBack { get; set; }
 
-    /// <summary>
-    /// Gets the detached content for docking back
-    /// </summary>
+    public bool IsClosing { get; private set; }
+
     public object? GetDetachedContent()
     {
+        // Return the original content that we stored
         if (!(_windowContentGrid?.Children.Count > 0))
         {
             return _originalContent;
         }
 
-        if (_windowContentGrid.Children[0] is not Border { Child: UIElement childContent } border)
+        if (_windowContentGrid.Children[0] is not Border contentBorder)
         {
             return _originalContent;
         }
 
-        border.Child = null;
-        return childContent;
+        var childContent = contentBorder.Child;
+        if (childContent is null)
+        {
+            return _originalContent;
+        }
+
+        // Important: Remove from current parent before returning
+        contentBorder.Child = null;
+
+        if (_originalContent is ContentPresenter contentPresenter)
+        {
+            contentPresenter.SetCurrentValue(ContentPresenter.ContentProperty, childContent);
+        }
+
+        // Fallback to original content
+        return _originalContent;
     }
 
     private void InitializeWindow(object? content, string title)
@@ -111,50 +124,6 @@ public class TearOffWindow : Window
             SetCurrentValue(ContentProperty, content);
         }
     }
-
-    //private void AddDockBackButton(object? originalContent)
-    //{
-    //    _windowContentGrid = new();
-
-    //    var dockButton = new Button
-    //    {
-    //        Content = "Dock Back",
-    //        Width = 80,
-    //        Height = 25,
-    //        HorizontalAlignment = HorizontalAlignment.Right,
-    //        VerticalAlignment = VerticalAlignment.Top,
-    //        Margin = new(0, 5, 5, 0)
-    //    };
-
-    //    dockButton.Click += OnDockBackButtonClick;
-
-    //    // Wrap original content
-    //    var contentBorder = new Border
-    //    {
-    //        Margin = new(5, 35, 5, 5)
-    //    };
-
-    //    // Set the content directly to the border without detaching
-    //    // since it should already be detached by the calling code
-    //    if (originalContent is UIElement element)
-    //    {
-    //        contentBorder.Child = element;
-    //    }
-    //    else if (originalContent is not null)
-    //    {
-    //        // For non-UIElement content, wrap in a ContentPresenter
-    //        var presenter = new ContentPresenter
-    //        {
-    //            Content = originalContent
-    //        };
-    //        contentBorder.Child = presenter;
-    //    }
-
-    //    _windowContentGrid.Children.Add(contentBorder);
-    //    _windowContentGrid.Children.Add(dockButton);
-
-    //    SetCurrentValue(ContentProperty, _windowContentGrid);
-    //}
 
     private void AddDockBackButton(object? originalContent)
     {
@@ -314,15 +283,8 @@ public class TearOffWindow : Window
     private void CheckForDockTarget()
     {
         var dropTarget = GetDropTarget();
-        if (dropTarget is not null)
-        {
-            // Visual feedback could be added here
-            SetCurrentValue(CursorProperty, Cursors.Hand);
-        }
-        else
-        {
-            SetCurrentValue(CursorProperty, Cursors.Arrow);
-        }
+        // Visual feedback could be added here
+        SetCurrentValue(CursorProperty, dropTarget is not null ? Cursors.Hand : Cursors.Arrow);
     }
 
     private TabControl? GetDropTarget()
@@ -358,7 +320,7 @@ public class TearOffWindow : Window
             try
             {
                 var windowPoint = window.PointFromScreen(screenPoint);
-                if (windowPoint.X >= 0 && windowPoint.Y >= 0 &&
+                if (windowPoint is { X: >= 0, Y: >= 0 } &&
                     windowPoint.X <= window.ActualWidth && windowPoint.Y <= window.ActualHeight)
                 {
                     return window.InputHitTest(windowPoint) as DependencyObject;
@@ -422,28 +384,20 @@ public class TearOffWindow : Window
         var contentToRestore = GetDetachedContent();
 
         _originalTabItem.DockBack(contentToRestore);
-        Close();
+
+        if (!IsClosing)
+        {
+            Close();
+        }
     }
 
     protected override void OnClosing(CancelEventArgs e)
     {
+        IsClosing = true;
+
         if (!WasDockedBack && AllowDockBack)
         {
-            var result = MessageBox.Show(
-                "Do you want to dock this tab back to the main window?",
-                "Close Tab",
-                MessageBoxButton.YesNoCancel,
-                MessageBoxImage.Question);
-
-            switch (result)
-            {
-                case MessageBoxResult.Yes:
-                    DockBack();
-                    break;
-                case MessageBoxResult.Cancel:
-                    e.Cancel = true;
-                    return;
-            }
+            DockBack();
         }
 
         base.OnClosing(e);

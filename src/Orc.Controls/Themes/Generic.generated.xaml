@@ -1525,7 +1525,7 @@
       </Setter>
   </Style>
 
-  <Style TargetType="{x:Type local:TearOffTabItem}" 
+  <!--<Style TargetType="{x:Type local:TearOffTabItem}" 
          BasedOn="{StaticResource {x:Type TabItem}}">
 
       <Setter Property="Cursor" Value="Hand"/>
@@ -1534,13 +1534,33 @@
       <Setter Property="ToolTip" Value="Drag to tear off this tab"/>
 
       <Style.Triggers>
-          <!-- Visual feedback when tab is torn off -->
+          --><!-- Visual feedback when tab is torn off --><!--
           <Trigger Property="IsTornOff" Value="True">
               <Setter Property="Opacity" Value="0.5"/>
               <Setter Property="ToolTip" Value="This tab is torn off - double-click to dock back"/>
           </Trigger>
 
-          <!-- Disable tear-off when not allowed -->
+          --><!-- Disable tear-off when not allowed --><!--
+          <Trigger Property="CanTearOff" Value="False">
+              <Setter Property="Cursor" Value="Arrow"/>
+              <Setter Property="ToolTip" Value="{x:Null}"/>
+          </Trigger>
+      </Style.Triggers>
+  </Style>-->
+
+  <Style TargetType="{x:Type local:TearOffTabItem}" 
+         BasedOn="{StaticResource DefaultTabItemStyle}">
+
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="ToolTip" Value="Drag to tear off this tab"/>
+
+      <Style.Triggers>
+          <!--Visual feedback when tab is torn off-->
+          <Trigger Property="IsTornOff" Value="True">
+              <Setter Property="Opacity" Value="0.5"/>
+              <Setter Property="ToolTip" Value="This tab is torn off - double-click to dock back"/>
+          </Trigger>
+
           <Trigger Property="CanTearOff" Value="False">
               <Setter Property="Cursor" Value="Arrow"/>
               <Setter Property="ToolTip" Value="{x:Null}"/>

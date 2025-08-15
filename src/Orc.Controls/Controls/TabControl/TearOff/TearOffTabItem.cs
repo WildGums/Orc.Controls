@@ -1,10 +1,62 @@
 ﻿namespace Orc.Controls;
 
 using System;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Catel.IoC;
+using Catel.Services;
+using Catel.Windows;
+
+internal sealed class PostponeDispatcherOperation : IDisposable
+{
+    private readonly Action _action;
+    private readonly IDispatcherService _dispatcherService;
+    private readonly Timer _timer;
+
+    public PostponeDispatcherOperation(Action action)
+    {
+        ArgumentNullException.ThrowIfNull(action);
+
+        _action = action;
+
+        _dispatcherService = this.GetServiceLocator().ResolveRequiredType<IDispatcherService>();
+
+        _timer = new();
+        _timer.Elapsed += OnCompareByColumnTimerElapsed;
+    }
+
+    public void Dispose()
+    {
+        _timer.Dispose();
+    }
+
+    public void Stop()
+    {
+        _timer.Stop();
+    }
+
+    public void Execute(int delay)
+    {
+        if (delay <= 0)
+        {
+            _action();
+            return;
+        }
+
+        _timer.Interval = delay;
+        _timer.Start();
+    }
+
+    private void OnCompareByColumnTimerElapsed(object? _, ElapsedEventArgs e)
+    {
+        _timer.Stop();
+
+        _dispatcherService.Invoke(_action);
+    }
+}
 
 /// <summary>
 /// TabItem that supports tear-off functionality
@@ -49,6 +101,7 @@ public class TearOffTabItem : TabItem
     private bool _isDragging;
     private Point _startPoint;
     private TearOffWindow? _tearOffWindow;
+    private Panel? _parentPanel;
 
     static TearOffTabItem()
     {
@@ -226,6 +279,7 @@ public class TearOffTabItem : TabItem
                     // Already removed or not there
                     break;
                 case Panel parentPanel:
+                    _parentPanel = parentPanel;
                     parentPanel.Children.Remove(element);
                     break;
             }
@@ -250,29 +304,43 @@ public class TearOffTabItem : TabItem
         }
     }
 
-    /// <summary>
-    /// Docks the tab back from its torn-off state
-    /// </summary>
     public void DockBack(object? content = null)
     {
         if (!IsTornOff)
         {
             return;
         }
-
+        
         // Get content from tear-off window or use provided content
         var contentToRestore = content ?? _tearOffWindow?.GetDetachedContent();
+        
+        System.Diagnostics.Debug.WriteLine($"DockBack - Content to restore: {contentToRestore?.GetType().Name ?? "null"}");
 
-        // Restore content
-        SetCurrentValue(ContentProperty, contentToRestore);
-        SetCurrentValue(VisibilityProperty, Visibility.Visible);
-        SetCurrentValue(IsTornOffProperty, false);
-
-        // Close tear-off window if it exists
-        if (_tearOffWindow is not null)
+        // Close tear-off window first
+        if (_tearOffWindow is not null && !_tearOffWindow.IsClosing)
         {
             _tearOffWindow.WasDockedBack = true;
             _tearOffWindow.Close();
+            _tearOffWindow = null;
+        }
+
+        if (contentToRestore is ContentPresenter contentPresenter)
+        {
+            SetCurrentValue(ContentProperty, contentPresenter.Content);
+        }
+
+        // Restore content
+        System.Diagnostics.Debug.WriteLine($"Setting Content to: {contentToRestore}");
+        
+        SetCurrentValue(VisibilityProperty, Visibility.Visible);
+        SetCurrentValue(IsTornOffProperty, false);
+
+        System.Diagnostics.Debug.WriteLine($"Content after setting: {Content?.GetType().Name ?? "null"}");
+
+        if (contentToRestore is UIElement element)
+        {
+            _parentPanel?.Children.Add(element);
+            _parentPanel = null;
         }
 
         var tearOffEventArgs = new TearOffEventArgs(TabDockedEvent, this);
