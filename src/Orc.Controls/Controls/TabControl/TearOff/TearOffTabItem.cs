@@ -11,30 +11,26 @@ using System.Windows.Media;
 /// </summary>
 public class TearOffTabItem : TabItem
 {
-    private bool _isDragging;
-    private Point _startPoint;
-    private TearOffWindow? _tearOffWindow;
-
     /// <summary>
     /// Dependency property for IsTornOff
     /// </summary>
     public static readonly DependencyProperty IsTornOffProperty =
         DependencyProperty.Register(nameof(IsTornOff), typeof(bool), typeof(TearOffTabItem),
-            new PropertyMetadata(false, OnIsTornOffChanged));
+            new(false, OnIsTornOffChanged));
 
     /// <summary>
     /// Dependency property for TearOffThreshold
     /// </summary>
     public static readonly DependencyProperty TearOffThresholdProperty =
         DependencyProperty.Register(nameof(TearOffThreshold), typeof(double), typeof(TearOffTabItem),
-            new PropertyMetadata(20.0));
+            new(20.0));
 
     /// <summary>
     /// Dependency property for CanTearOff
     /// </summary>
     public static readonly DependencyProperty CanTearOffProperty =
         DependencyProperty.Register(nameof(CanTearOff), typeof(bool), typeof(TearOffTabItem),
-            new PropertyMetadata(true));
+            new(true));
 
     /// <summary>
     /// Event raised when a tab is torn off
@@ -49,6 +45,10 @@ public class TearOffTabItem : TabItem
     public static readonly RoutedEvent TabDockedEvent =
         EventManager.RegisterRoutedEvent(nameof(TabDocked), RoutingStrategy.Bubble,
             typeof(TearOffEventHandler), typeof(TearOffTabItem));
+
+    private bool _isDragging;
+    private Point _startPoint;
+    private TearOffWindow? _tearOffWindow;
 
     static TearOffTabItem()
     {
@@ -147,7 +147,9 @@ public class TearOffTabItem : TabItem
 
         var tabControl = FindParent<TabControl>(this);
         if (tabControl is null)
+        {
             return;
+        }
 
         var tearOffEventArgs = new TearOffEventArgs(TabTornOffEvent, this);
         RaiseEvent(tearOffEventArgs);
@@ -163,17 +165,73 @@ public class TearOffTabItem : TabItem
         var content = Content;
         var header = Header;
 
-        // Create tear-off window
-        _tearOffWindow = new TearOffWindow(this, content, header?.ToString() ?? "Torn Tab");
+        // Properly detach content from current parent
+        var detachedContent = DetachContent(content);
+
+        // Create tear-off window with detached content
+        _tearOffWindow = new(this, detachedContent, header?.ToString() ?? "Torn Tab");
         _tearOffWindow.Show();
         _tearOffWindow.Closed += OnTearOffWindowClosed;
 
         // Mark as torn off
         SetCurrentValue(IsTornOffProperty, true);
 
-        // Hide the content in the original tab
+        // Clear the content in the original tab
         SetCurrentValue(ContentProperty, null);
         SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
+    }
+
+    private object? DetachContent(object? content)
+    {
+        if (content is not FrameworkElement element)
+        {
+            return content;
+        }
+
+        // Get the logical parent (which is what causes the "already logical child" error)
+        var logicalParent = LogicalTreeHelper.GetParent(element);
+
+        // Handle different types of logical parents
+        switch (logicalParent)
+        {
+            case Panel parentPanel:
+                parentPanel.Children.Remove(element);
+                break;
+
+            case ContentControl parentContent:
+                parentContent.Content = null;
+                break;
+
+            case Decorator parentDecorator:
+                parentDecorator.Child = null;
+                break;
+
+            case ContentPresenter parentPresenter:
+                parentPresenter.Content = null;
+                break;
+
+            //case TabItem parentTabItem:
+            //    // This is the case you encountered - the logical parent is the TabItem itself
+            //    parentTabItem.Content = null;
+            //    break;
+        }
+
+        // Also check if we need to remove from visual parent (in case logical and visual differ)
+        var visualParent = VisualTreeHelper.GetParent(element);
+        if (visualParent != logicalParent)
+        {
+            switch (visualParent)
+            {
+                case Panel parentPanel when !parentPanel.Children.Contains(element):
+                    // Already removed or not there
+                    break;
+                case Panel parentPanel:
+                    parentPanel.Children.Remove(element);
+                    break;
+            }
+        }
+
+        return content;
     }
 
     private void OnTearOffWindowClosed(object? sender, EventArgs e)
@@ -185,7 +243,7 @@ public class TearOffTabItem : TabItem
             // If window was closed by docking, don't restore content here
             if (!_tearOffWindow.WasDockedBack)
             {
-                DockBack(_tearOffWindow.OriginalContent);
+                DockBack(_tearOffWindow.GetDetachedContent());
             }
 
             _tearOffWindow = null;
@@ -198,10 +256,15 @@ public class TearOffTabItem : TabItem
     public void DockBack(object? content = null)
     {
         if (!IsTornOff)
+        {
             return;
+        }
+
+        // Get content from tear-off window or use provided content
+        var contentToRestore = content ?? _tearOffWindow?.GetDetachedContent();
 
         // Restore content
-        SetCurrentValue(ContentProperty, content ?? _tearOffWindow?.OriginalContent);
+        SetCurrentValue(ContentProperty, contentToRestore);
         SetCurrentValue(VisibilityProperty, Visibility.Visible);
         SetCurrentValue(IsTornOffProperty, false);
 

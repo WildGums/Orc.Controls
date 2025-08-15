@@ -28,10 +28,13 @@ public class TearOffWindow : Window
 
     private readonly TearOffTabItem _originalTabItem;
     private bool _isDockingBack;
+    private object? _originalContent;
+    private Grid? _windowContentGrid;
 
     public TearOffWindow(TearOffTabItem originalTabItem, object? content, string title)
     {
         _originalTabItem = originalTabItem ?? throw new ArgumentNullException(nameof(originalTabItem));
+        _originalContent = content;
 
         InitializeWindow(content, title);
         SetupDragAndDrop();
@@ -49,18 +52,34 @@ public class TearOffWindow : Window
     /// <summary>
     /// Gets the original content that was in the tab
     /// </summary>
-    public object? OriginalContent { get; private set; }
+    public object? OriginalContent => _originalContent;
 
     /// <summary>
     /// Gets whether this window was closed due to docking back
     /// </summary>
     public bool WasDockedBack { get; set; }
 
+    /// <summary>
+    /// Gets the detached content for docking back
+    /// </summary>
+    public object? GetDetachedContent()
+    {
+        if (_windowContentGrid?.Children.Count > 0)
+        {
+            if (_windowContentGrid.Children[0] is Border border && border.Child is UIElement childContent)
+            {
+                border.Child = null;
+                return childContent;
+            }
+        }
+
+        return _originalContent;
+    }
+
     private void InitializeWindow(object? content, string title)
     {
         SetCurrentValue(TitleProperty, title);
-        SetCurrentValue(ContentProperty, content);
-        OriginalContent = content;
+        _originalContent = content;
 
         SetCurrentValue(WidthProperty, (double)600);
         SetCurrentValue(HeightProperty, (double)400);
@@ -82,13 +101,17 @@ public class TearOffWindow : Window
         // Add dock back button to window
         if (AllowDockBack)
         {
-            AddDockBackButton();
+            AddDockBackButton(content);
+        }
+        else
+        {
+            SetCurrentValue(ContentProperty, content);
         }
     }
 
-    private void AddDockBackButton()
+    private void AddDockBackButton(object? originalContent)
     {
-        var grid = new Grid();
+        _windowContentGrid = new();
 
         var dockButton = new Button
         {
@@ -108,15 +131,26 @@ public class TearOffWindow : Window
             Margin = new(5, 35, 5, 5)
         };
 
-        if (Content is UIElement originalContent)
+        // Set the content directly to the border without detaching
+        // since it should already be detached by the calling code
+        if (originalContent is UIElement element)
         {
-            contentBorder.Child = originalContent;
+            contentBorder.Child = element;
+        }
+        else if (originalContent is not null)
+        {
+            // For non-UIElement content, wrap in a ContentPresenter
+            var presenter = new ContentPresenter
+            {
+                Content = originalContent
+            };
+            contentBorder.Child = presenter;
         }
 
-        grid.Children.Add(contentBorder);
-        grid.Children.Add(dockButton);
+        _windowContentGrid.Children.Add(contentBorder);
+        _windowContentGrid.Children.Add(dockButton);
 
-        SetCurrentValue(ContentProperty, grid);
+        SetCurrentValue(ContentProperty, _windowContentGrid);
     }
 
     private void OnDockBackButtonClick(object sender, RoutedEventArgs e)
@@ -241,7 +275,8 @@ public class TearOffWindow : Window
 
     private void EnsureWindowOnScreen()
     {
-        var screen = Screen.FromPoint(new((int)Left, (int)Top));
+        var screen = Screen.FromPoint(
+            new((int)Left, (int)Top));
 
         if (Left < screen.WorkingArea.Left)
         {
@@ -277,15 +312,8 @@ public class TearOffWindow : Window
         _isDockingBack = true;
         WasDockedBack = true;
 
-        // Get the content back from the wrapper if needed
-        var contentToRestore = OriginalContent;
-        if (Content is Grid grid && grid.Children.Count > 0)
-        {
-            if (grid.Children[0] is Border border)
-            {
-                contentToRestore = border.Child;
-            }
-        }
+        // Get the content back from the wrapper
+        var contentToRestore = GetDetachedContent();
 
         _originalTabItem.DockBack(contentToRestore);
         Close();
