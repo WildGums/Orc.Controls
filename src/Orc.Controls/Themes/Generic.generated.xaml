@@ -1551,7 +1551,6 @@
   <Style TargetType="{x:Type local:TearOffTabItem}" 
          BasedOn="{StaticResource DefaultTabItemStyle}">
 
-      <Setter Property="Cursor" Value="Hand"/>
       <Setter Property="ToolTip" Value="Drag to tear off this tab"/>
 
       <Style.Triggers>
@@ -1562,7 +1561,6 @@
           </Trigger>
 
           <Trigger Property="CanTearOff" Value="False">
-              <Setter Property="Cursor" Value="Arrow"/>
               <Setter Property="ToolTip" Value="{x:Null}"/>
           </Trigger>
       </Style.Triggers>
