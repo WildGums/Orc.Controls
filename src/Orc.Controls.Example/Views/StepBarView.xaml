@@ -4,7 +4,7 @@
                    xmlns:catel="http://schemas.catelproject.com" 
                    xmlns:orccontrols="http://schemas.wildgums.com/orc/controls">
 
-    <!--<orccontrols:StackGrid>
+    <orccontrols:StackGrid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
@@ -29,78 +29,6 @@
                              Orientation="{Binding SelectedOrientation}"
                              Items="{Binding Items}"
                              SelectedItem="{Binding SelectedItem}" />
-    </orccontrols:StackGrid>-->
-
-    <Grid>
-        <!-- Enhanced TabControl with tear-off enabled -->
-        <orccontrols:TabControl x:Name="MainTabControl"
-                       AllowTearOff="True"
-                       LoadTabItems="LazyLoading"
-                       TabTornOff="OnTabTornOff"
-                       TabDocked="OnTabDocked">
-
-            <!-- Regular TabItem - will be converted to TearOffTabItem automatically -->
-            <TabItem Header="Document 1">
-                <Grid Background="LightBlue">
-                    <StackPanel Margin="20">
-                        <TextBlock Text="Document 1 Content" FontSize="20" FontWeight="Bold"/>
-                        <TextBox Text="This content can be torn off into its own window" 
-                                Margin="0,10" Height="100" TextWrapping="Wrap"/>
-                        <Button Content="Sample Button" Width="100" HorizontalAlignment="Left"/>
-                    </StackPanel>
-                </Grid>
-            </TabItem>
-
-            <TabItem Header="Document 2">
-                <Grid Background="LightGreen">
-                    <StackPanel Margin="20">
-                        <TextBlock Text="Document 2 Content" FontSize="20" FontWeight="Bold"/>
-                        <ListBox Height="150">
-                            <ListBoxItem Content="Item 1"/>
-                            <ListBoxItem Content="Item 2"/>
-                            <ListBoxItem Content="Item 3"/>
-                        </ListBox>
-                    </StackPanel>
-                </Grid>
-            </TabItem>
-
-            <!-- Explicit TearOffTabItem with custom settings -->
-            <orccontrols:TearOffTabItem Header="Special Document"
-                               CanTearOff="True" 
-                               TearOffThreshold="30">
-                <Grid Background="LightCoral">
-                    <StackPanel Margin="20">
-                        <TextBlock Text="Special Document" FontSize="20" FontWeight="Bold"/>
-                        <TextBlock Text="This tab has custom tear-off settings" TextWrapping="Wrap"/>
-                        <DataGrid Height="200" Margin="0,10">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Column 1" Binding="{Binding Property1}"/>
-                                <DataGridTextColumn Header="Column 2" Binding="{Binding Property2}"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </StackPanel>
-                </Grid>
-            </orccontrols:TearOffTabItem>
-
-            <!-- Non-tearable tab -->
-            <orccontrols:TearOffTabItem Header="Fixed Tab" CanTearOff="False">
-                <Grid Background="LightGray">
-                    <StackPanel Margin="20">
-                        <TextBlock Text="This tab cannot be torn off" FontSize="16"/>
-                        <TextBlock Text="It will behave like a regular tab" TextWrapping="Wrap"/>
-                    </StackPanel>
-                </Grid>
-            </orccontrols:TearOffTabItem>
-        </orccontrols:TabControl>
-
-        <!-- Control buttons -->
-        <StackPanel Orientation="Horizontal" 
-                   VerticalAlignment="Bottom" 
-                   HorizontalAlignment="Right" 
-                   Margin="10">
-            <Button Content="Dock All Tabs" Click="DockAllTabs_Click" Margin="5"/>
-            <Button Content="Toggle Tear-off" Click="ToggleTearOff_Click" Margin="5"/>
-        </StackPanel>
-    </Grid>
+    </orccontrols:StackGrid>
 
 </catel:UserControl>
