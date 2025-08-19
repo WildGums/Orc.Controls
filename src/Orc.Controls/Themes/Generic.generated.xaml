@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Orc.Controls" xmlns:catel="http://schemas.catelproject.com" xmlns:automation="clr-namespace:Orc.Controls.Automation" xmlns:orctheming="http://schemas.wildgums.com/orc/theming" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:converters="clr-namespace:Orc.Controls.Converters" xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors">
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="/Orc.Theming;component/themes/generic.xaml" />
@@ -59,20 +59,6 @@
     </Setter>
   </Style>
   <Style x:Key="{x:Type local:SaveFilePicker}" TargetType="{x:Type local:SaveFilePicker}" />
-  <Style TargetType="{x:Type local:TearOffWindow}">
-    <Setter Property="WindowStyle" Value="SingleBorderWindow" />
-    <Setter Property="ResizeMode" Value="CanResize" />
-    <Setter Property="ShowInTaskbar" Value="True" />
-    <Setter Property="MinWidth" Value="300" />
-    <Setter Property="MinHeight" Value="200" />
-    <Setter Property="Icon" Value="{x:Null}" />
-    <Style.Triggers>
-      <!-- Add visual feedback when window can be docked back -->
-      <Trigger Property="AllowDockBack" Value="True">
-        <Setter Property="ToolTip" Value="Double-click title bar or drag to main window to dock back" />
-      </Trigger>
-    </Style.Triggers>
-  </Style>
   <Geometry x:Key="RectangleGeometry">M4,2L20,2C21.1,2 22,2.9 22,4L22,20C22,21.1 21.1,22 20,22L4,22C2.9,22 2,21.1 2,20L2,4C2,2.9 2.9,2 4,2ZM4,4L4,20L20,20L20,4L4,4ZM13,15L11,15L11,17L13,17L13,15ZM13,7L11,7L11,13L13,13L13,7Z</Geometry>
   <Geometry x:Key="TriangleGeometry">M2,21.9997L12,2.00026L20.6247,19.2199L20.6291,19.2199L22,21.9997L22,21.9997L22,21.9997L2,21.9997ZM5.0287,19.9997L18.9638,19.9997L12,6.11526L5.0287,19.9997ZM12.9376,16.5456L11.2947,16.5456L11.2947,18.2081L12.9376,18.2081L12.9376,16.5456ZM12.9376,11.5581L11.2947,11.5581L11.2947,14.8831L12.9376,14.8831L12.9376,11.5581Z</Geometry>
   <Geometry x:Key="ArrowsOutGeometry">M9.5,13.09L10.91,14.5L6.41,19H10V21H3V14H5V17.59L9.5,13.09M10.91,9.5L9.5,10.91L5,6.41V10H3V3H10V5H6.41L10.91,9.5M14.5,13.09L19,17.59V14H21V21H14V19H17.59L13.09,14.5L14.5,13.09M13.09,9.5L17.59,5H14V3H21V10H19V6.41L14.5,10.91L13.09,9.5Z</Geometry>
@@ -1714,41 +1700,10 @@
             <Trigger Property="AllowDockBack" Value="True">
                 <Setter Property="ToolTip" Value="Double-click title bar or drag to main window to dock back"/>
             </Trigger>
-            <Trigger Property="TabStripPlacement" Value="Left">
-              <Setter Property="Grid.Row" TargetName="HeaderPanelBorder" Value="0" />
-              <Setter Property="Grid.Row" TargetName="ContentPanel" Value="0" />
-              <Setter Property="Grid.Column" TargetName="HeaderPanelBorder" Value="0" />
-              <Setter Property="Grid.Column" TargetName="ContentPanel" Value="1" />
-              <Setter Property="Width" TargetName="ColumnDefinition0" Value="Auto" />
-              <Setter Property="Width" TargetName="ColumnDefinition1" Value="*" />
-              <Setter Property="Height" TargetName="RowDefinition0" Value="*" />
-              <Setter Property="Height" TargetName="RowDefinition1" Value="0" />
-              <Setter Property="Margin" TargetName="HeaderPanelBorder" Value="2,2,0,2" />
-            </Trigger>
-            <Trigger Property="TabStripPlacement" Value="Right">
-              <Setter Property="Grid.Row" TargetName="HeaderPanelBorder" Value="0" />
-              <Setter Property="Grid.Row" TargetName="ContentPanel" Value="0" />
-              <Setter Property="Grid.Column" TargetName="HeaderPanelBorder" Value="1" />
-              <Setter Property="Grid.Column" TargetName="ContentPanel" Value="0" />
-              <Setter Property="Width" TargetName="ColumnDefinition0" Value="*" />
-              <Setter Property="Width" TargetName="ColumnDefinition1" Value="Auto" />
-              <Setter Property="Height" TargetName="RowDefinition0" Value="*" />
-              <Setter Property="Height" TargetName="RowDefinition1" Value="0" />
-              <Setter Property="Margin" TargetName="HeaderPanelBorder" Value="0,2,2,2" />
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="false">
-              <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}" />
-            </Trigger>
-            <!-- Show drop zone when tear-off is enabled -->
-            <Trigger Property="AllowTearOff" Value="True">
-              <Setter Property="ToolTip" Value="Drop torn-off tabs here to dock them back" />
-            </Trigger>
-          </ControlTemplate.Triggers>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
-  <Style x:Key="{x:Type local:TimeSpanPicker}" TargetType="{x:Type local:TimeSpanPicker}">
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="{x:Type local:TimeSpanPicker}" TargetType="{x:Type local:TimeSpanPicker}">
     <Style.Resources>
       <Style x:Key="RatioSignStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="TextAlignment" Value="Center" />
