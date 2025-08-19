@@ -1513,59 +1513,81 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <Style x:Key="TabItemFocusVisual">
-      <Setter Property="Control.Template">
-          <Setter.Value>
-              <ControlTemplate>
-                  <Rectangle Margin="3,3,3,1" SnapsToDevicePixels="true" 
+    <Style x:Key="TabItemFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle Margin="3,3,3,1" SnapsToDevicePixels="true" 
                              Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
                              StrokeThickness="1" StrokeDashArray="1 2"/>
-              </ControlTemplate>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+  <!-- Style for the tear-off button -->
+  <Style x:Key="TearOffButtonStyle"
+         TargetType="{x:Type Button}"
+         BasedOn="{StaticResource DefaultButtonStyle}">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="Padding" Value="4,2"/>
+      <Setter Property="Margin" Value="4,0,2,0"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+      <Setter Property="Width" Value="16"/>
+      <Setter Property="Height" Value="16"/>
+      <Setter Property="ToolTip" Value="Tear off tab"/>
+      <Setter Property="Focusable" Value="False"/>
+      <Setter Property="ContentTemplate">
+          <Setter.Value>
+                <DataTemplate>
+                    <Path Data="M2,2 L2,6 L6,6 L6,10 L10,10 L10,6 L14,6 L14,2 Z M4,4 L4,8 L8,8 L8,4 Z"
+                          Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
+                          Stretch="Uniform"
+                          Width="10" Height="10"/>
+                </DataTemplate>
           </Setter.Value>
       </Setter>
   </Style>
 
-  <!--<Style TargetType="{x:Type local:TearOffTabItem}" 
-         BasedOn="{StaticResource {x:Type TabItem}}">
+    <Style TargetType="{x:Type local:TearOffTabItem}" 
+           BasedOn="{StaticResource DefaultTabItemStyle}">
 
-      <Setter Property="Cursor" Value="Hand"/>
-      <Setter Property="Width" Value="100"/>
-      <Setter Property="Height" Value="25"/>
-      <Setter Property="ToolTip" Value="Drag to tear off this tab"/>
+        <!-- Override the header template to include tear-off button -->
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
 
-      <Style.Triggers>
-          --><!-- Visual feedback when tab is torn off --><!--
-          <Trigger Property="IsTornOff" Value="True">
-              <Setter Property="Opacity" Value="0.5"/>
-              <Setter Property="ToolTip" Value="This tab is torn off - double-click to dock back"/>
-          </Trigger>
+                        <!-- Original header content -->
+                        <ContentPresenter Grid.Column="0" 
+                                        Content="{Binding}"
+                                        VerticalAlignment="Center"
+                                        Margin="0,0,4,0"/>
 
-          --><!-- Disable tear-off when not allowed --><!--
-          <Trigger Property="CanTearOff" Value="False">
-              <Setter Property="Cursor" Value="Arrow"/>
-              <Setter Property="ToolTip" Value="{x:Null}"/>
-          </Trigger>
-      </Style.Triggers>
-  </Style>-->
+                        <!-- Tear-off button -->
+                        <Button Grid.Column="1"
+                                Style="{StaticResource TearOffButtonStyle}"
+                                Command="{x:Static local:TearOffCommands.TearOffTab}"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:TearOffTabItem}, 
+                                           Path=CanTearOff, 
+                                           Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
 
-  <Style TargetType="{x:Type local:TearOffTabItem}" 
-         BasedOn="{StaticResource DefaultTabItemStyle}">
-
-      <Setter Property="ToolTip" Value="Drag to tear off this tab"/>
-
-      <Style.Triggers>
-          <!--Visual feedback when tab is torn off-->
-          <Trigger Property="IsTornOff" Value="True">
-              <Setter Property="Opacity" Value="0.5"/>
-              <Setter Property="ToolTip" Value="This tab is torn off - double-click to dock back"/>
-          </Trigger>
-
-          <Trigger Property="CanTearOff" Value="False">
-              <Setter Property="ToolTip" Value="{x:Null}"/>
-          </Trigger>
-      </Style.Triggers>
-  </Style>
-
+        <Style.Triggers>
+            <!-- Visual feedback when tab is torn off -->
+            <Trigger Property="IsTornOff" Value="True">
+                <Setter Property="Opacity" Value="0.5"/>
+                <Setter Property="ToolTip" Value="This tab is torn off - double-click to dock back"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
     <Style TargetType="{x:Type local:TabControl}"
            BasedOn="{StaticResource Orc.Styles.Control}">
@@ -1575,8 +1597,6 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="AllowTearOff" Value="False"/>
-        <!-- Default to false -->
-        <Setter Property="TearOffThreshold" Value="20"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -1592,27 +1612,15 @@
                             <RowDefinition x:Name="RowDefinition1" Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <!-- Header panel with tear-off drop zone -->
+                        <!-- Header panel -->
                         <Border x:Name="HeaderPanelBorder"
                                 Grid.Column="0" Grid.Row="0"
                                 Background="Transparent"
                                 Margin="2,2,2,0">
-
-                            <Grid>
-                                <TabPanel x:Name="HeaderPanel" 
-                                          IsItemsHost="true" 
-                                          KeyboardNavigation.TabIndex="1" 
-                                          Panel.ZIndex="1"/>
-
-                                <!-- Visual feedback for tear-off drop zone -->
-                                <Rectangle x:Name="DropZoneIndicator"
-                                          Fill="LightBlue" 
-                                          Opacity="0"
-                                          IsHitTestVisible="False"
-                                          Stroke="Blue"
-                                          StrokeThickness="2"
-                                          StrokeDashArray="3,3"/>
-                            </Grid>
+                            <TabPanel x:Name="HeaderPanel" 
+                                      IsItemsHost="true" 
+                                      KeyboardNavigation.TabIndex="1" 
+                                      Panel.ZIndex="1"/>
                         </Border>
 
                         <Border x:Name="ContentPanel" 
@@ -1625,23 +1633,9 @@
                                 KeyboardNavigation.TabIndex="2" 
                                 KeyboardNavigation.TabNavigation="Local">
 
-                            <Grid>
-                                <Grid x:Name="PART_ItemsHolder"
-                                      Margin="{TemplateBinding Padding}"
-                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-
-                                <!-- Overlay for drag feedback -->
-                                <Border x:Name="DragOverlay"
-                                       Background="Black"
-                                       Opacity="0"
-                                       IsHitTestVisible="False">
-                                    <TextBlock Text="Drop here to dock tab back"
-                                              Foreground="White"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              FontSize="16"/>
-                                </Border>
-                            </Grid>
+                            <Grid x:Name="PART_ItemsHolder"
+                                  Margin="{TemplateBinding Padding}"
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </Border>
                     </Grid>
 

@@ -35,7 +35,6 @@
         <!-- Enhanced TabControl with tear-off enabled -->
         <orccontrols:TabControl x:Name="MainTabControl"
                        AllowTearOff="True"
-                       TearOffThreshold="25"
                        LoadTabItems="LazyLoading"
                        TabTornOff="OnTabTornOff"
                        TabDocked="OnTabDocked">

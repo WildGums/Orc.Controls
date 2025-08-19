@@ -8,7 +8,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Catel.IoC;
 using Catel.Services;
-using Catel.Windows;
 
 internal sealed class PostponeDispatcherOperation : IDisposable
 {
@@ -59,7 +58,18 @@ internal sealed class PostponeDispatcherOperation : IDisposable
 }
 
 /// <summary>
-/// TabItem that supports tear-off functionality
+/// Command for tearing off a tab
+/// </summary>
+public static class TearOffCommands
+{
+    public static readonly RoutedCommand TearOffTab = new RoutedCommand(
+        nameof(TearOffTab),
+        typeof(TearOffCommands),
+        new InputGestureCollection { new KeyGesture(Key.T, ModifierKeys.Control | ModifierKeys.Shift) });
+}
+
+/// <summary>
+/// TabItem that supports tear-off functionality via button click
 /// </summary>
 public class TearOffTabItem : TabItem
 {
@@ -68,21 +78,14 @@ public class TearOffTabItem : TabItem
     /// </summary>
     public static readonly DependencyProperty IsTornOffProperty =
         DependencyProperty.Register(nameof(IsTornOff), typeof(bool), typeof(TearOffTabItem),
-            new(false, OnIsTornOffChanged));
-
-    /// <summary>
-    /// Dependency property for TearOffThreshold
-    /// </summary>
-    public static readonly DependencyProperty TearOffThresholdProperty =
-        DependencyProperty.Register(nameof(TearOffThreshold), typeof(double), typeof(TearOffTabItem),
-            new(20.0));
+            new PropertyMetadata(false, OnIsTornOffChanged));
 
     /// <summary>
     /// Dependency property for CanTearOff
     /// </summary>
     public static readonly DependencyProperty CanTearOffProperty =
         DependencyProperty.Register(nameof(CanTearOff), typeof(bool), typeof(TearOffTabItem),
-            new(true));
+            new PropertyMetadata(true));
 
     /// <summary>
     /// Event raised when a tab is torn off
@@ -98,8 +101,6 @@ public class TearOffTabItem : TabItem
         EventManager.RegisterRoutedEvent(nameof(TabDocked), RoutingStrategy.Bubble,
             typeof(TearOffEventHandler), typeof(TearOffTabItem));
 
-    private bool _isDragging;
-    private Point _startPoint;
     private TearOffWindow? _tearOffWindow;
     private Panel? _parentPanel;
 
@@ -109,6 +110,12 @@ public class TearOffTabItem : TabItem
             new FrameworkPropertyMetadata(typeof(TearOffTabItem)));
     }
 
+    public TearOffTabItem()
+    {
+        // Register command bindings
+        CommandBindings.Add(new CommandBinding(TearOffCommands.TearOffTab, OnTearOffCommandExecuted, OnTearOffCommandCanExecute));
+    }
+
     /// <summary>
     /// Gets or sets whether this tab is currently torn off
     /// </summary>
@@ -116,15 +123,6 @@ public class TearOffTabItem : TabItem
     {
         get => (bool)GetValue(IsTornOffProperty);
         set => SetValue(IsTornOffProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the distance threshold for tear-off to activate
-    /// </summary>
-    public double TearOffThreshold
-    {
-        get => (double)GetValue(TearOffThresholdProperty);
-        set => SetValue(TearOffThresholdProperty, value);
     }
 
     /// <summary>
@@ -154,50 +152,21 @@ public class TearOffTabItem : TabItem
         remove => RemoveHandler(TabDockedEvent, value);
     }
 
-    protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+    private void OnTearOffCommandCanExecute(object sender, CanExecuteRoutedEventArgs e)
+    {
+        e.CanExecute = CanTearOff && !IsTornOff;
+    }
+
+    private void OnTearOffCommandExecuted(object sender, ExecutedRoutedEventArgs e)
     {
         if (CanTearOff && !IsTornOff)
         {
-            _startPoint = e.GetPosition(this);
-            _isDragging = true;
-            CaptureMouse();
+            InitiateTearOff();
         }
-
-        base.OnMouseLeftButtonDown(e);
-    }
-
-    protected override void OnMouseMove(MouseEventArgs e)
-    {
-        if (_isDragging && e.LeftButton == MouseButtonState.Pressed && CanTearOff && !IsTornOff)
-        {
-            var currentPoint = e.GetPosition(this);
-            var distance = (currentPoint - _startPoint).Length;
-
-            if (distance > TearOffThreshold)
-            {
-                InitiateTearOff();
-            }
-        }
-
-        base.OnMouseMove(e);
-    }
-
-    protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
-    {
-        if (_isDragging)
-        {
-            _isDragging = false;
-            ReleaseMouseCapture();
-        }
-
-        base.OnMouseLeftButtonUp(e);
     }
 
     private void InitiateTearOff()
     {
-        _isDragging = false;
-        ReleaseMouseCapture();
-
         var tabControl = FindParent<TabControl>(this);
         if (tabControl is null)
         {
@@ -222,7 +191,7 @@ public class TearOffTabItem : TabItem
         var detachedContent = DetachContent(content);
 
         // Create tear-off window with detached content
-        _tearOffWindow = new(this, detachedContent, header?.ToString() ?? "Torn Tab");
+        _tearOffWindow = new TearOffWindow(this, detachedContent, header?.ToString() ?? "Torn Tab");
         _tearOffWindow.Show();
         _tearOffWindow.Closed += OnTearOffWindowClosed;
 
@@ -262,11 +231,6 @@ public class TearOffTabItem : TabItem
             case ContentPresenter parentPresenter:
                 parentPresenter.Content = null;
                 break;
-
-            //case TabItem parentTabItem:
-            //    // This is the case you encountered - the logical parent is the TabItem itself
-            //    parentTabItem.Content = null;
-            //    break;
         }
 
         // Also check if we need to remove from visual parent (in case logical and visual differ)
@@ -310,10 +274,10 @@ public class TearOffTabItem : TabItem
         {
             return;
         }
-        
+
         // Get content from tear-off window or use provided content
         var contentToRestore = content ?? _tearOffWindow?.GetDetachedContent();
-        
+
         System.Diagnostics.Debug.WriteLine($"DockBack - Content to restore: {contentToRestore?.GetType().Name ?? "null"}");
 
         // Close tear-off window first
@@ -331,7 +295,7 @@ public class TearOffTabItem : TabItem
 
         // Restore content
         System.Diagnostics.Debug.WriteLine($"Setting Content to: {contentToRestore}");
-        
+
         SetCurrentValue(VisibilityProperty, Visibility.Visible);
         SetCurrentValue(IsTornOffProperty, false);
 

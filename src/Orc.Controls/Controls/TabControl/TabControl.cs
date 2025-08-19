@@ -32,13 +32,6 @@ public class TabControl : System.Windows.Controls.TabControl
         DependencyProperty.Register(nameof(AllowTearOff), typeof(bool), typeof(TabControl),
             new PropertyMetadata(false));
 
-    /// <summary>
-    /// Dependency property for tear-off threshold
-    /// </summary>
-    public static readonly DependencyProperty TearOffThresholdProperty =
-        DependencyProperty.Register(nameof(TearOffThreshold), typeof(double), typeof(TabControl),
-            new PropertyMetadata(20.0));
-
     private readonly ConditionalWeakTable<object, object> _wrappedContainers = new ConditionalWeakTable<object, object>();
     private readonly List<TearOffWindow> _tearOffWindows = new List<TearOffWindow>();
     private Panel? _itemsHolder;
@@ -89,15 +82,6 @@ public class TabControl : System.Windows.Controls.TabControl
     {
         get => (bool)GetValue(AllowTearOffProperty);
         set => SetValue(AllowTearOffProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the distance threshold for tear-off activation
-    /// </summary>
-    public double TearOffThreshold
-    {
-        get => (double)GetValue(TearOffThresholdProperty);
-        set => SetValue(TearOffThresholdProperty, value);
     }
 
     /// <summary>
@@ -162,7 +146,6 @@ public class TabControl : System.Windows.Controls.TabControl
         if (container is TearOffTabItem tearOffTabItem)
         {
             tearOffTabItem.CanTearOff = AllowTearOff;
-            tearOffTabItem.TearOffThreshold = TearOffThreshold;
         }
 
         return container;

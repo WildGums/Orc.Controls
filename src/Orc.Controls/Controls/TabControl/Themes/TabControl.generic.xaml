@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:localcontrols="clr-namespace:Orc.Controls">
+                    xmlns:localcontrols="clr-namespace:Orc.Controls"
+                    xmlns:catel="http://schemas.catelproject.com">
 
 
     <ResourceDictionary.MergedDictionaries>
@@ -22,19 +23,42 @@
     <Style TargetType="{x:Type localcontrols:TearOffTabItem}" 
            BasedOn="{StaticResource DefaultTabItemStyle}">
 
+        <!-- Override the header template to include tear-off button -->
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Original header content -->
+                        <ContentPresenter Grid.Column="0" 
+                                        Content="{Binding}"
+                                        VerticalAlignment="Center"
+                                        Margin="0,0,4,0"/>
+
+                        <!-- Tear-off button -->
+                        <Button Grid.Column="1"
+                                Style="{StaticResource TearOffButtonStyle}"
+                                Command="{x:Static localcontrols:TearOffCommands.TearOffTab}"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=localcontrols:TearOffTabItem}, 
+                                           Path=CanTearOff, 
+                                           Converter={catel:BooleanToCollapsingVisibilityConverter}}"/>
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+
         <Style.Triggers>
-             <!--Visual feedback when tab is torn off--> 
+            <!-- Visual feedback when tab is torn off -->
             <Trigger Property="IsTornOff" Value="True">
                 <Setter Property="Opacity" Value="0.5"/>
                 <Setter Property="ToolTip" Value="This tab is torn off - double-click to dock back"/>
             </Trigger>
-
-            <Trigger Property="CanTearOff" Value="False">
-                <Setter Property="ToolTip" Value="{x:Null}"/>
-            </Trigger>
         </Style.Triggers>
     </Style>
-
 
     <Style TargetType="{x:Type localcontrols:TabControl}"
            BasedOn="{StaticResource Orc.Styles.Control}">
@@ -44,8 +68,6 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="AllowTearOff" Value="False"/>
-        <!-- Default to false -->
-        <Setter Property="TearOffThreshold" Value="20"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -61,27 +83,15 @@
                             <RowDefinition x:Name="RowDefinition1" Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <!-- Header panel with tear-off drop zone -->
+                        <!-- Header panel -->
                         <Border x:Name="HeaderPanelBorder"
                                 Grid.Column="0" Grid.Row="0"
                                 Background="Transparent"
                                 Margin="2,2,2,0">
-
-                            <Grid>
-                                <TabPanel x:Name="HeaderPanel" 
-                                          IsItemsHost="true" 
-                                          KeyboardNavigation.TabIndex="1" 
-                                          Panel.ZIndex="1"/>
-
-                                <!-- Visual feedback for tear-off drop zone -->
-                                <Rectangle x:Name="DropZoneIndicator"
-                                          Fill="LightBlue" 
-                                          Opacity="0"
-                                          IsHitTestVisible="False"
-                                          Stroke="Blue"
-                                          StrokeThickness="2"
-                                          StrokeDashArray="3,3"/>
-                            </Grid>
+                            <TabPanel x:Name="HeaderPanel" 
+                                      IsItemsHost="true" 
+                                      KeyboardNavigation.TabIndex="1" 
+                                      Panel.ZIndex="1"/>
                         </Border>
 
                         <Border x:Name="ContentPanel" 
@@ -94,23 +104,9 @@
                                 KeyboardNavigation.TabIndex="2" 
                                 KeyboardNavigation.TabNavigation="Local">
 
-                            <Grid>
-                                <Grid x:Name="PART_ItemsHolder"
-                                      Margin="{TemplateBinding Padding}"
-                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-
-                                <!-- Overlay for drag feedback -->
-                                <Border x:Name="DragOverlay"
-                                       Background="Black"
-                                       Opacity="0"
-                                       IsHitTestVisible="False">
-                                    <TextBlock Text="Drop here to dock tab back"
-                                              Foreground="White"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              FontSize="16"/>
-                                </Border>
-                            </Grid>
+                            <Grid x:Name="PART_ItemsHolder"
+                                  Margin="{TemplateBinding Padding}"
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </Border>
                     </Grid>
 
