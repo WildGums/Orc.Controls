@@ -51,7 +51,7 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
     private DispatcherTimer? _settingsTimer;
     private string? _lastLoadedSettingsKey;
     private IControlSettingsAdapter<TControl, TSettings>? _currentAdapter;
-    private ISettingsKeyInteractionHub _settingsKeyInteractionHub;
+    private readonly ISettingsKeyInteractionHub _settingsKeyInteractionHub;
 
     public FrameworkElement? Control => AssociatedObject;
 

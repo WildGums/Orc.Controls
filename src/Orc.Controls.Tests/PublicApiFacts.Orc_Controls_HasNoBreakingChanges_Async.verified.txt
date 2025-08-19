@@ -2131,11 +2131,21 @@ namespace Orc.Controls
     [System.Windows.TemplatePart(Name="PART_ItemsHolder", Type=typeof(System.Windows.Controls.Panel))]
     public class TabControl : System.Windows.Controls.TabControl
     {
+        public static readonly System.Windows.DependencyProperty AllowTearOffProperty;
         public static readonly System.Windows.DependencyProperty LoadTabItemsProperty;
+        public static readonly System.Windows.RoutedEvent TabDockedEvent;
+        public static readonly System.Windows.RoutedEvent TabTornOffEvent;
         public TabControl() { }
+        public bool AllowTearOff { get; set; }
         public bool IsLazyLoading { get; }
         public Orc.Controls.LoadTabItemsBehavior LoadTabItems { get; set; }
+        public System.Collections.Generic.IEnumerable<Orc.Controls.TearOffTabItem> TornOffTabs { get; }
+        public event Orc.Controls.TearOffEventHandler TabDocked;
+        public event Orc.Controls.TearOffEventHandler TabTornOff;
+        public void DockAllTabs() { }
+        protected override System.Windows.DependencyObject GetContainerForItemOverride() { }
         protected new System.Windows.Controls.TabItem? GetSelectedTabItem() { }
+        protected override bool IsItemItsOwnContainerOverride(object item) { }
         public virtual void LoadTabItem(System.Windows.Controls.ContentPresenter tabItem) { }
         public virtual void LoadTabItem(int index) { }
         public override void OnApplyTemplate() { }
@@ -2150,6 +2160,41 @@ namespace Orc.Controls
         public System.Windows.DataTemplate ContentTemplate { get; }
         public object Item { get; }
         public System.Windows.Controls.TabItem? TabItem { get; }
+    }
+    public static class TearOffCommands
+    {
+        public static readonly System.Windows.Input.RoutedCommand TearOffTab;
+    }
+    public class TearOffEventArgs : System.Windows.RoutedEventArgs
+    {
+        public TearOffEventArgs(System.Windows.RoutedEvent routedEvent, Orc.Controls.TearOffTabItem tabItem) { }
+        public Orc.Controls.TearOffTabItem TabItem { get; }
+    }
+    public delegate void TearOffEventHandler(object sender, Orc.Controls.TearOffEventArgs e);
+    public class TearOffTabItem : System.Windows.Controls.TabItem
+    {
+        public static readonly System.Windows.DependencyProperty CanTearOffProperty;
+        public static readonly System.Windows.DependencyProperty IsTornOffProperty;
+        public static readonly System.Windows.RoutedEvent TabDockedEvent;
+        public static readonly System.Windows.RoutedEvent TabTornOffEvent;
+        public TearOffTabItem() { }
+        public bool CanTearOff { get; set; }
+        public bool IsTornOff { get; set; }
+        public event Orc.Controls.TearOffEventHandler TabDocked;
+        public event Orc.Controls.TearOffEventHandler TabTornOff;
+        public void DockBack(object? content = null) { }
+    }
+    public class TearOffWindow : System.Windows.Window
+    {
+        public static readonly System.Windows.DependencyProperty AllowDockBackProperty;
+        public TearOffWindow(Orc.Controls.TearOffTabItem originalTabItem, object? content, string title) { }
+        public bool AllowDockBack { get; set; }
+        public bool IsClosing { get; }
+        public object? OriginalContent { get; }
+        public bool WasDockedBack { get; set; }
+        public void DockBack() { }
+        public object? GetDetachedContent() { }
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e) { }
     }
     public static class TextBoxExtensions { }
     public class TextInputDialogResult
