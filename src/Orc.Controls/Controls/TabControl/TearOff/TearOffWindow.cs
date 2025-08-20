@@ -97,14 +97,16 @@ public class TearOffWindow : Window
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        ServiceLocator.Default.ResolveRequiredType<IAppDataService>()
-            .SaveWindowSize(this, _originalTabItem.Header?.ToString());
+        this.GetServiceLocator()
+            .ResolveRequiredType<IAppDataService>()
+            .LoadWindowSize(this, _originalTabItem.Header?.ToString(), true);
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        ServiceLocator.Default.ResolveRequiredType<IAppDataService>()
-            .LoadWindowSize(this, _originalTabItem.Header?.ToString(), true);
+        this.GetServiceLocator()
+            .ResolveRequiredType<IAppDataService>()
+            .SaveWindowSize(this, _originalTabItem.Header?.ToString());
     }
 
     private void InitializeWindow(object? content, string title)
