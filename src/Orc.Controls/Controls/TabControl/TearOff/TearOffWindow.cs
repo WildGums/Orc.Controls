@@ -97,12 +97,14 @@ public class TearOffWindow : Window
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        ServiceLocator.Default.ResolveRequiredType<IAppDataService>().SaveWindowSize(this);
+        ServiceLocator.Default.ResolveRequiredType<IAppDataService>()
+            .SaveWindowSize(this, _originalTabItem.Header?.ToString());
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        ServiceLocator.Default.ResolveRequiredType<IAppDataService>().LoadWindowSize(this);
+        ServiceLocator.Default.ResolveRequiredType<IAppDataService>()
+            .LoadWindowSize(this, _originalTabItem.Header?.ToString(), true);
     }
 
     private void InitializeWindow(object? content, string title)
@@ -110,14 +112,7 @@ public class TearOffWindow : Window
         SetCurrentValue(TitleProperty, title);
         _originalContent = content;
 
-        SetCurrentValue(WidthProperty, (double)600);
-        SetCurrentValue(HeightProperty, (double)400);
         WindowStartupLocation = WindowStartupLocation.Manual;
-
-        // Position near mouse cursor
-        var mousePos = GetMousePosition();
-        SetCurrentValue(LeftProperty, mousePos.X - Width / 2);
-        SetCurrentValue(TopProperty, mousePos.Y - 50);
 
         // Ensure window is on screen
         EnsureWindowOnScreen();
