@@ -8,6 +8,8 @@ using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
+using Catel.IoC;
+using Catel.Services;
 using Application = System.Windows.Application;
 using Cursors = System.Windows.Input.Cursors;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
@@ -36,6 +38,9 @@ public class TearOffWindow : Window
 
         InitializeWindow(content, title);
         SetupDragAndDrop();
+
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
     }
 
     /// <summary>
@@ -90,19 +95,26 @@ public class TearOffWindow : Window
         return _originalContent;
     }
 
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        this.GetServiceLocator()
+            .ResolveRequiredType<IAppDataService>()
+            .LoadWindowSize(this, _originalTabItem.Header?.ToString(), true);
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        this.GetServiceLocator()
+            .ResolveRequiredType<IAppDataService>()
+            .SaveWindowSize(this, _originalTabItem.Header?.ToString());
+    }
+
     private void InitializeWindow(object? content, string title)
     {
         SetCurrentValue(TitleProperty, title);
         _originalContent = content;
 
-        SetCurrentValue(WidthProperty, (double)600);
-        SetCurrentValue(HeightProperty, (double)400);
         WindowStartupLocation = WindowStartupLocation.Manual;
-
-        // Position near mouse cursor
-        var mousePos = GetMousePosition();
-        SetCurrentValue(LeftProperty, mousePos.X - Width / 2);
-        SetCurrentValue(TopProperty, mousePos.Y - 50);
 
         // Ensure window is on screen
         EnsureWindowOnScreen();
@@ -217,11 +229,6 @@ public class TearOffWindow : Window
         _windowContentGrid.Children.Add(contentBorder);
 
         SetCurrentValue(ContentProperty, _windowContentGrid);
-    }
-
-    private void OnDockBackButtonClick(object sender, RoutedEventArgs e)
-    {
-        DockBack();
     }
 
     private void SetupDragAndDrop()
