@@ -1,0 +1,25 @@
+<Solution>
+  <Folder Name="/misc/">
+    <File Path="Directory.build.project.props" />
+    <File Path="Directory.build.props" />
+    <File Path="Directory.build.shared.explicit.props" />
+    <File Path="Directory.build.shared.implicit.props" />
+    <File Path="Directory.build.shared.mat.props" />
+    <File Path="Directory.build.targets" />
+    <File Path="GlobalSuppressions.cs" />
+    <File Path="MethodTimeLogger.cs" />
+    <File Path="Orc.Controls.sln.DotSettings" />
+    <File Path="SolutionAssemblyInfo.cs" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Core/">
+    <Project Path="Orc.Controls.Settings/Orc.Controls.Settings.csproj" />
+    <Project Path="Orc.Controls/Orc.Controls.csproj" />
+  </Folder>
+  <Folder Name="/src/Examples/">
+    <Project Path="Orc.Controls.Example/Orc.Controls.Example.csproj" />
+  </Folder>
+  <Folder Name="/src/Tests/">
+    <Project Path="Orc.Controls.Tests/Orc.Controls.Tests.csproj" />
+  </Folder>
+</Solution>
