@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 public class AttributeBasedSettingsKeyParser<T> : ISettingsKeyParser<T> where T : class, new()
 {
-    private static readonly Regex KeyValueRegex = new(@"\[(\w+)\s*=\s*([^\]]+)\]", RegexOptions.Compiled);
+    private static readonly Regex KeyValueRegex = new(@"\[(\w+)\s*=\s*([^\]]+)\]", RegexOptions.Compiled, TimeSpan.FromSeconds(1));
     private readonly Dictionary<Type, ISettingsKeyTypeSerializer> _serializerCache = new();
 
     public string ToString(T keyInfo)
@@ -17,6 +17,7 @@ public class AttributeBasedSettingsKeyParser<T> : ISettingsKeyParser<T> where T 
 
         var properties = GetSettingsProperties();
         var keyParts = new List<string>();
+
         foreach (var (property, attribute) in properties)
         {
             if (attribute?.Ignore == true)
