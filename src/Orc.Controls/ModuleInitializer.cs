@@ -1,4 +1,5 @@
-﻿using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Linq;
 using Catel.IoC;
 using Catel.Logging;
 using Catel.MVVM;
@@ -15,6 +16,7 @@ public static class ModuleInitializer
     /// <summary>
     /// Initializes the module.
     /// </summary>
+    [ModuleInitializer]
     public static void Initialize()
     {
         var serviceLocator = ServiceLocator.Default;
