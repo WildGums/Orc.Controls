@@ -8,6 +8,7 @@
 public static class LoadAssembliesOnStartup { }
 public static class ModuleInitializer
 {
+    [System.Runtime.CompilerServices.ModuleInitializer]
     public static void Initialize() { }
 }
 namespace Orc.Automation
@@ -1838,6 +1839,12 @@ namespace Orc.Controls
         public static void SetPlacementTarget(System.Windows.DependencyObject element, System.Windows.UIElement? value) { }
         public static void SetShowDuration(System.Windows.DependencyObject element, int value) { }
         public static void SetToolTip(System.Windows.DependencyObject element, object? value) { }
+    }
+    public sealed class PostponeDispatcherOperation
+    {
+        public PostponeDispatcherOperation(System.Action action) { }
+        public void Execute(int delay) { }
+        public void Stop() { }
     }
     public class PredefinedColor : System.IEquatable<Orc.Controls.PredefinedColor>
     {

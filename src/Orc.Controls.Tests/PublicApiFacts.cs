@@ -4,6 +4,7 @@
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using NUnit.Framework;
+    using Orc.Controls.Settings;
     using PublicApiGenerator;
     using VerifyNUnit;
 
@@ -14,6 +15,14 @@
         public async Task Orc_Controls_HasNoBreakingChanges_Async()
         {
             var assembly = typeof(ResizingAdorner).Assembly;
+
+            await PublicApiApprover.ApprovePublicApiAsync(assembly);
+        }
+
+        [Test, MethodImpl(MethodImplOptions.NoInlining)]
+        public async Task Orc_Controls_Settings_HasNoBreakingChanges_Async()
+        {
+            var assembly = typeof(EmbeddedResourceProvider).Assembly;
 
             await PublicApiApprover.ApprovePublicApiAsync(assembly);
         }

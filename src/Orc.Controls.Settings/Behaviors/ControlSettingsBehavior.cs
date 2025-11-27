@@ -99,7 +99,9 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
 
     public ControlSettingsBehavior()
     {
+#pragma warning disable IDISP001 // Dispose created
         var serviceLocator = this.GetServiceLocator();
+#pragma warning restore IDISP001 // Dispose created
         _keyManager = serviceLocator.ResolveRequiredType<ISettingsKeyManager>();
         StateStorage = serviceLocator.ResolveRequiredType<ISettingsStateStorage>();
         _settingsKeyInteractionHub = serviceLocator.ResolveRequiredType<ISettingsKeyInteractionHub>();
@@ -109,7 +111,9 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
     {
         base.OnAssociatedObjectLoaded();
 
+#pragma warning disable IDISP001 // Dispose created
         var serviceLocator = this.GetServiceLocator();
+#pragma warning restore IDISP001 // Dispose created
 
         // If no storage is explicitly set, try to resolve from IoC
         if (SettingsStorage is null)

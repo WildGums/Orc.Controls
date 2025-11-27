@@ -97,16 +97,20 @@ public class TearOffWindow : Window
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
         this.GetServiceLocator()
             .ResolveRequiredType<IAppDataService>()
             .LoadWindowSize(this, _originalTabItem.Header?.ToString(), true);
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
         this.GetServiceLocator()
             .ResolveRequiredType<IAppDataService>()
             .SaveWindowSize(this, _originalTabItem.Header?.ToString());
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
     }
 
     private void InitializeWindow(object? content, string title)

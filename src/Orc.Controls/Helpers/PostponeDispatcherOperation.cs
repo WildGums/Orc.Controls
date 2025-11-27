@@ -1,11 +1,11 @@
-﻿namespace Orc.Controls.Settings;
+﻿namespace Orc.Controls;
 
 using System;
 using System.Timers;
 using Catel.IoC;
 using Catel.Services;
 
-internal sealed class PostponeDispatcherOperation
+public sealed class PostponeDispatcherOperation
 {
     private readonly Action _action;
     private readonly IDispatcherService _dispatcherService;
