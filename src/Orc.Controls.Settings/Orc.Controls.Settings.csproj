@@ -59,5 +59,9 @@
   <ItemGroup>
     <Page Remove="Themes\Geometry.xaml" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Orc.Controls\Orc.Controls.csproj" />
+  </ItemGroup>
 </Project>
 

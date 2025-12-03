@@ -1,4 +1,4 @@
-[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
+﻿[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Orc.Controls.Tests")]
 [assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls")]
@@ -1840,6 +1840,8 @@ namespace Orc.Controls
         public static void SetShowDuration(System.Windows.DependencyObject element, int value) { }
         public static void SetToolTip(System.Windows.DependencyObject element, object? value) { }
     }
+    [System.Obsolete("Use PostponeDispatcherTimerAction instead. Will be treated as an error from versi" +
+        "on 5.4.0. Will be removed in version 6.0.0.", false)]
     public sealed class PostponeDispatcherOperation
     {
         public PostponeDispatcherOperation(System.Action action) { }
@@ -3952,6 +3954,16 @@ namespace Orc.Controls.Enums
     {
         AM = 0,
         PM = 1,
+    }
+}
+namespace Orc.Controls.Helpers
+{
+    public sealed class PostponeDispatcherTimerAction
+    {
+        public PostponeDispatcherTimerAction(System.Action action) { }
+        public void Execute(int delay) { }
+        public void Stop() { }
+        public static void Execute(System.Action action, int delay) { }
     }
 }
 namespace Orc.Controls.Services

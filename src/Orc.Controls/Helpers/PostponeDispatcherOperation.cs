@@ -4,7 +4,10 @@ using System;
 using System.Timers;
 using Catel.IoC;
 using Catel.Services;
+using Helpers;
 
+[ObsoleteEx(Message = "Use PostponeDispatcherTimerAction instead", 
+    TreatAsErrorFromVersion = "5.4.0", RemoveInVersion = "6.0.0")]
 public sealed class PostponeDispatcherOperation
 {
     private readonly Action _action;

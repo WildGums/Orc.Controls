@@ -10,6 +10,7 @@ using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Catel.Windows.Data;
+using Helpers;
 
 /// <summary>
 /// TabControl that will not remove the tab items from the visual tree. This way, views can be re-used.
@@ -180,9 +181,7 @@ public class TabControl : System.Windows.Controls.TabControl
         var args = new TearOffEventArgs(TabDockedEvent, e.TabItem);
         RaiseEvent(args);
 
-        //Select docked tab (give it a time)
-        new PostponeDispatcherOperation(() => e.TabItem.SetCurrentValue(TabItem.IsSelectedProperty, true))
-            .Execute(500);
+        PostponeDispatcherTimerAction.Execute(() => e.TabItem.SetCurrentValue(TabItem.IsSelectedProperty, true), 500);
 
         // Update the items holder
         InitializeItems();
