@@ -29,23 +29,6 @@ public class PostponeActionTests
             Throws.ArgumentNullException);
     }
 
-    [Test]
-    public void Constructor_Default_SubscribesToTimerTick()
-    {
-        // Arrange
-        var tickSubscribed = false;
-        var action = new Action(() => { });
-        var timerMock = new Mock<IPostponeActionTimer>();
-        timerMock.SetupAdd(m => m.Tick += It.IsAny<EventHandler>())
-            .Callback(() => tickSubscribed = true);
-
-        // Act
-        var postponeAction = new PostponeAction(action, timerMock.Object);
-
-        // Assert
-        timerMock.VerifyAdd(m => m.Tick += It.IsAny<EventHandler>(), Times.Once);
-        Assert.That(tickSubscribed, Is.True);
-    }
 
     [Test]
     public void Execute_ZeroDelay_ExecutesActionImmediately()
@@ -54,6 +37,12 @@ public class PostponeActionTests
         var actionExecuted = false;
         var action = new Action(() => actionExecuted = true);
         var timerMock = new Mock<IPostponeActionTimer>();
+
+        var tickSubscribed = false;
+
+        timerMock.SetupAdd(m => m.Tick += It.IsAny<EventHandler>())
+            .Callback(() => tickSubscribed = true);
+
         var postponeAction = new PostponeAction(action, timerMock.Object);
 
         // Act
@@ -62,6 +51,8 @@ public class PostponeActionTests
         // Assert
         Assert.That(actionExecuted, Is.True);
         timerMock.Verify(t => t.Start(), Times.Never);
+
+        Assert.That(tickSubscribed, Is.False);
     }
 
     [Test]
@@ -121,6 +112,8 @@ public class PostponeActionTests
         var action = new Action(() => actionExecuted = true);
         var timerMock = new Mock<IPostponeActionTimer>();
         var postponeAction = new PostponeAction(action, timerMock.Object);
+
+        postponeAction.Execute(10);
 
         // Simulate timer tick
         timerMock.Raise(t => t.Tick += null, EventArgs.Empty);

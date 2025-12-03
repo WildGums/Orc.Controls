@@ -16,7 +16,6 @@ public sealed class PostponeAction
 
         _action = action;
         _timer = timer;
-        _timer.Tick += OnTimerTick;
     }
 
     public PostponeAction(Action action)
@@ -45,6 +44,7 @@ public sealed class PostponeAction
             return;
         }
 
+        _timer.Tick += OnTimerTick;
         _timer.Interval = TimeSpan.FromMilliseconds(delay);
         _timer.Start();
     }
