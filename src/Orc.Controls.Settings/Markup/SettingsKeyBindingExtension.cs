@@ -9,7 +9,6 @@ using System.Windows.Threading;
 using Catel.Windows;
 using Catel.Windows.Markup;
 using Microsoft.Xaml.Behaviors;
-using Orc.Controls.Helpers;
 
 [MarkupExtensionReturnType(typeof(string))]
 public class SettingsKeyBindingExtension : UpdatableMarkupExtension
@@ -74,7 +73,7 @@ public class SettingsKeyBindingExtension : UpdatableMarkupExtension
             if (targetObject is null)
             {
                 // TODO: Temporary postpone
-                PostponeDispatcherTimerAction.Execute(UpdateValue, 500);
+                PostponeAction.Execute(UpdateValue, 500);
 
                 return string.Empty;
             }
