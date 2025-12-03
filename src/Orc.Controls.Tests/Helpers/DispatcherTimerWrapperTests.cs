@@ -5,7 +5,7 @@ using System.Threading;
 using NUnit.Framework;
 
 [TestFixture]
-[Apartment(ApartmentState.STA)] // Требуется для DispatcherTimer
+[Apartment(ApartmentState.STA)]
 public class DispatcherTimerWrapperTests
 {
     [Test]

@@ -163,7 +163,5 @@ public class PostponeActionTests
 
         // Assert
         Assert.That(postponeAction, Is.Not.Null);
-        // Проверяем, что используется правильный тип таймера через рефлексию
-        // (можно также создать свойство для доступа к таймеру для тестирования)
     }
 }
