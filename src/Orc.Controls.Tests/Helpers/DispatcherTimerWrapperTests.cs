@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Tests.Helpers;
+﻿namespace Orc.Controls.Tests;
 
 using System;
 using System.Threading;

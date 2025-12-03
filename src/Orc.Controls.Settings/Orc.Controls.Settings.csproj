@@ -34,8 +34,6 @@
     <PackageReference Include="Orc.Automation" Version="5.1.0-alpha0533" />
     <PackageReference Include="Orc.FileSystem" Version="5.1.0-alpha0848" />
     <PackageReference Include="Orc.Theming" Version="5.4.0-alpha0169" />
-
-    <ProjectReference Include="..\Orc.Controls\Orc.Controls.csproj" />
   </ItemGroup>
 
   <!-- Theming -->
@@ -60,6 +58,10 @@
 
   <ItemGroup>
     <Page Remove="Themes\Geometry.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Orc.Controls\Orc.Controls.csproj" />
   </ItemGroup>
 </Project>
 
