@@ -40,6 +40,8 @@ public sealed class PostponeAction
     {
         if (delay <= 0)
         {
+            DisposeTimer();
+
             _action();
             return;
         }
@@ -53,7 +55,7 @@ public sealed class PostponeAction
     {
         DisposeTimer();
 
-        _action.Invoke();
+        _action();
     }
 
     private void DisposeTimer()
