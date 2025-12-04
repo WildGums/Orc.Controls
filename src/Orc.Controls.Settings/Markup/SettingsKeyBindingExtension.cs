@@ -73,8 +73,7 @@ public class SettingsKeyBindingExtension : UpdatableMarkupExtension
             if (targetObject is null)
             {
                 // TODO: Temporary postpone
-                new PostponeDispatcherOperation(UpdateValue)
-                    .Execute(500);
+                PostponeAction.Execute(UpdateValue, 500);
 
                 return string.Empty;
             }

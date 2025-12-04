@@ -1,4 +1,4 @@
-[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
+﻿[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Orc.Controls.Tests")]
 [assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls")]
@@ -792,6 +792,15 @@ namespace Orc.Controls
         public Catel.MVVM.TaskCommand SelectDirectory { get; }
         public string? SelectedDirectory { get; set; }
     }
+    public sealed class DispatcherTimerWrapper : Orc.Controls.IPostponeActionTimer
+    {
+        public DispatcherTimerWrapper() { }
+        public System.TimeSpan Interval { get; set; }
+        public bool IsEnabled { get; }
+        public event System.EventHandler? Tick;
+        public void Start() { }
+        public void Stop() { }
+    }
     public class DoNotShowDropDownOnClickComboboxBehavior : Catel.Windows.Interactivity.BehaviorBase<System.Windows.Controls.ComboBox>
     {
         public DoNotShowDropDownOnClickComboboxBehavior() { }
@@ -1141,6 +1150,14 @@ namespace Orc.Controls
         bool IsInEditMode { get; }
         event System.EventHandler<System.EventArgs>? EditEnded;
         event System.EventHandler<System.EventArgs>? EditStarted;
+    }
+    public interface IPostponeActionTimer
+    {
+        System.TimeSpan Interval { get; set; }
+        bool IsEnabled { get; }
+        event System.EventHandler Tick;
+        void Start();
+        void Stop();
     }
     public interface IStepBarItem
     {
@@ -1840,6 +1857,16 @@ namespace Orc.Controls
         public static void SetShowDuration(System.Windows.DependencyObject element, int value) { }
         public static void SetToolTip(System.Windows.DependencyObject element, object? value) { }
     }
+    public sealed class PostponeAction
+    {
+        public PostponeAction(System.Action action) { }
+        public PostponeAction(System.Action action, Orc.Controls.IPostponeActionTimer timer) { }
+        public void Execute(int delay) { }
+        public void Stop() { }
+        public static void Execute(System.Action action, int delay) { }
+    }
+    [System.Obsolete("Use PostponeAction instead. Will be treated as an error from version 5.4.0. Will " +
+        "be removed in version 6.0.0.", false)]
     public sealed class PostponeDispatcherOperation
     {
         public PostponeDispatcherOperation(System.Action action) { }

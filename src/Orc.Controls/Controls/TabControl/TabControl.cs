@@ -180,9 +180,7 @@ public class TabControl : System.Windows.Controls.TabControl
         var args = new TearOffEventArgs(TabDockedEvent, e.TabItem);
         RaiseEvent(args);
 
-        //Select docked tab (give it a time)
-        new PostponeDispatcherOperation(() => e.TabItem.SetCurrentValue(TabItem.IsSelectedProperty, true))
-            .Execute(500);
+        PostponeAction.Execute(() => e.TabItem.SetCurrentValue(TabItem.IsSelectedProperty, true), 500);
 
         // Update the items holder
         InitializeItems();

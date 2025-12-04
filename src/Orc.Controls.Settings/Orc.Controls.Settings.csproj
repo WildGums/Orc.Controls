@@ -36,6 +36,10 @@
     <PackageReference Include="Orc.Theming" Version="5.4.0-alpha0169" />
   </ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\Orc.Controls\Orc.Controls.csproj" />
+	</ItemGroup>
+
   <!-- Theming -->
   <ItemGroup>
     <Page Remove="**/*.Template.xaml" />
