@@ -29,14 +29,13 @@ public class PostponeActionTests
             Throws.ArgumentNullException);
     }
 
-
     [Test]
     public void Execute_ZeroDelay_ExecutesActionImmediately()
     {
         // Arrange
         var actionExecuted = false;
         var action = new Action(() => actionExecuted = true);
-        var timerMock = new Mock<IPostponeActionTimer>();
+        var timerMock = new Mock<IDisposablePostponeActionTimer>();
 
         var tickSubscribed = false;
 
@@ -53,6 +52,8 @@ public class PostponeActionTests
         timerMock.Verify(t => t.Start(), Times.Never);
 
         Assert.That(tickSubscribed, Is.False);
+
+        timerMock.Verify(x => x.Dispose(), Times.Once);
     }
 
     [Test]
@@ -61,7 +62,7 @@ public class PostponeActionTests
         // Arrange
         var actionExecuted = false;
         var action = new Action(() => actionExecuted = true);
-        var timerMock = new Mock<IPostponeActionTimer>();
+        var timerMock = new Mock<IDisposablePostponeActionTimer>();
         var postponeAction = new PostponeAction(action, timerMock.Object);
 
         // Act
@@ -70,6 +71,8 @@ public class PostponeActionTests
         // Assert
         Assert.That(actionExecuted, Is.True);
         timerMock.Verify(t => t.Start(), Times.Never);
+
+        timerMock.Verify(x => x.Dispose(), Times.Once);
     }
 
     [Test]
@@ -156,5 +159,9 @@ public class PostponeActionTests
 
         // Assert
         Assert.That(postponeAction, Is.Not.Null);
+    }
+
+    public interface IDisposablePostponeActionTimer : IPostponeActionTimer, IDisposable
+    {
     }
 }
