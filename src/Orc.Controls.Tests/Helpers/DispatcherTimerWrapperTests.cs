@@ -59,8 +59,11 @@ public class DispatcherTimerWrapperTests
         {
             Interval = TimeSpan.FromMilliseconds(100)
         };
+        
         wrapper.Start();
 
+        Assert.That(wrapper.IsEnabled, Is.True);
+        
         // Act
         wrapper.Stop();
 
