@@ -1865,8 +1865,7 @@ namespace Orc.Controls
         public void Stop() { }
         public static void Execute(System.Action action, int delay) { }
     }
-    [System.Obsolete("Use PostponeAction instead. Will be treated as an error from version 5.4.0. Will " +
-        "be removed in version 6.0.0.", false)]
+    [System.Obsolete("Use PostponeAction instead. Will be removed in version 6.0.0.", true)]
     public sealed class PostponeDispatcherOperation
     {
         public PostponeDispatcherOperation(System.Action action) { }
