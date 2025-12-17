@@ -6,13 +6,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
 using Catel.IoC;
 using Catel.Services;
-using Application = System.Windows.Application;
-using Cursors = System.Windows.Input.Cursors;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 /// <summary>
 /// Window that hosts a torn-off tab content
@@ -37,7 +32,6 @@ public class TearOffWindow : Window
         _originalContent = content;
 
         InitializeWindow(content, title);
-        SetupDragAndDrop();
 
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
@@ -51,11 +45,6 @@ public class TearOffWindow : Window
         get => (bool)GetValue(AllowDockBackProperty);
         set => SetValue(AllowDockBackProperty, value);
     }
-
-    /// <summary>
-    /// Gets the original content that was in the tab
-    /// </summary>
-    public object? OriginalContent => _originalContent;
 
     /// <summary>
     /// Gets whether this window was closed due to docking back
@@ -233,114 +222,6 @@ public class TearOffWindow : Window
         _windowContentGrid.Children.Add(contentBorder);
 
         SetCurrentValue(ContentProperty, _windowContentGrid);
-    }
-
-    private void SetupDragAndDrop()
-    {
-        MouseLeftButtonDown += OnMouseLeftButtonDown;
-        MouseMove += OnMouseMove;
-        MouseLeftButtonUp += OnMouseLeftButtonUp;
-    }
-
-    private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        if (AllowDockBack && e.ClickCount == 1)
-        {
-            DragMove();
-        }
-        else if (e.ClickCount == 2)
-        {
-            // Double-click to dock back
-            DockBack();
-        }
-    }
-
-    private void OnMouseMove(object sender, MouseEventArgs e)
-    {
-        if (AllowDockBack && e.LeftButton == MouseButtonState.Pressed && !_isDockingBack)
-        {
-            // Check if we're over a valid drop target (TabControl)
-            CheckForDockTarget();
-        }
-    }
-
-    private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-    {
-        if (_isDockingBack)
-        {
-            return;
-        }
-
-        if (AllowDockBack)
-        {
-            // Check if we should dock back
-            var dropTarget = GetDropTarget();
-            if (dropTarget is not null)
-            {
-                DockBack();
-            }
-        }
-    }
-
-    private void CheckForDockTarget()
-    {
-        var dropTarget = GetDropTarget();
-        // Visual feedback could be added here
-        SetCurrentValue(CursorProperty, dropTarget is not null ? Cursors.Hand : Cursors.Arrow);
-    }
-
-    private TabControl? GetDropTarget()
-    {
-        var mousePos = GetMousePosition();
-        var elementUnderMouse = GetElementUnderMouse(mousePos);
-
-        // Walk up the visual tree to find a TabControl
-        var current = elementUnderMouse;
-        while (current is not null)
-        {
-            if (current is TabControl tabControl)
-            {
-                return tabControl;
-            }
-
-            current = VisualTreeHelper.GetParent(current);
-        }
-
-        return null;
-    }
-
-    private DependencyObject? GetElementUnderMouse(Point screenPoint)
-    {
-        // Convert screen coordinates to find element
-        foreach (Window window in Application.Current.Windows)
-        {
-            if (window == this)
-            {
-                continue;
-            }
-
-            try
-            {
-                var windowPoint = window.PointFromScreen(screenPoint);
-                if (windowPoint is { X: >= 0, Y: >= 0 } &&
-                    windowPoint.X <= window.ActualWidth && windowPoint.Y <= window.ActualHeight)
-                {
-                    return window.InputHitTest(windowPoint) as DependencyObject;
-                }
-            }
-            catch
-            {
-                // Ignore hit test failures
-            }
-        }
-
-        return null;
-    }
-
-    private Point GetMousePosition()
-    {
-        var point = Mouse.GetPosition(Application.Current.MainWindow);
-        return Application.Current.MainWindow?.PointToScreen(point) ?? new Point(0, 0);
     }
 
     private void EnsureWindowOnScreen()
