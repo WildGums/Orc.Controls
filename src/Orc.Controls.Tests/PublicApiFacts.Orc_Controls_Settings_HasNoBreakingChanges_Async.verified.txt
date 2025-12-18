@@ -1,0 +1,436 @@
+﻿[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Orc.Controls.Tests")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
+[assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls/settings", "Orc.Controls.Settings")]
+[assembly: System.Windows.Markup.XmlnsPrefix("http://schemas.wildgums.com/orc/controls/settings", "orccontrolssettings")]
+[assembly: System.Windows.ThemeInfo(System.Windows.ResourceDictionaryLocation.None, System.Windows.ResourceDictionaryLocation.SourceAssembly)]
+public static class LoadAssembliesOnStartup { }
+public static class ModuleInitializer
+{
+    [System.Runtime.CompilerServices.ModuleInitializer]
+    public static void Initialize() { }
+}
+namespace Orc.Controls.Settings
+{
+    public class AttributeBasedSettingsKeyParser<T> : Orc.Controls.Settings.ISettingsKeyParser<T>
+        where T :  class, new ()
+    {
+        public AttributeBasedSettingsKeyParser() { }
+        public T Parse(string settingsKey) { }
+        public string ToString(T keyInfo) { }
+    }
+    public class ColorConverter : System.Text.Json.Serialization.JsonConverter<System.Windows.Media.Color?>
+    {
+        public ColorConverter() { }
+        public override System.Windows.Media.Color? Read(ref System.Text.Json.Utf8JsonReader reader, System.Type typeToConvert, System.Text.Json.JsonSerializerOptions options) { }
+        public override void Write(System.Text.Json.Utf8JsonWriter writer, System.Windows.Media.Color? value, System.Text.Json.JsonSerializerOptions options) { }
+    }
+    public class ControlRequestedEventArgs : System.EventArgs
+    {
+        public ControlRequestedEventArgs(string settingsKey) { }
+        public System.Collections.Generic.List<Orc.Controls.Settings.ISettingsElement> Elements { get; }
+        public string SettingsKey { get; }
+    }
+    public abstract class ControlSettingsAdapterBase<TControl, TSettings> : System.Windows.Markup.MarkupExtension, Orc.Controls.Settings.IControlSettingsAdapter<TControl, TSettings>
+        where TControl : System.Windows.FrameworkElement
+        where TSettings :  class
+    {
+        protected ControlSettingsAdapterBase() { }
+        protected TControl Control { get; }
+        public event System.EventHandler? SettingsChanged;
+        public abstract void ApplySettings(TSettings settings);
+        public abstract bool AreSettingsEqual(TSettings? current, TSettings? saved);
+        public virtual void Attach(TControl control) { }
+        public virtual void Detach() { }
+        public abstract TSettings? GetCurrentSettings();
+        protected virtual void OnSettingsChanged() { }
+        public override object ProvideValue(System.IServiceProvider serviceProvider) { }
+        protected abstract void SubscribeToControlEvents();
+        protected abstract void UnsubscribeFromControlEvents();
+    }
+    public class ControlSettingsBehavior<TControl, TSettings> : Catel.Windows.Interactivity.BehaviorBase<TControl>, Orc.Controls.Settings.ISettingsElement
+        where TControl : System.Windows.FrameworkElement
+        where TSettings :  class
+    {
+        protected Orc.Controls.Settings.ISettingsStateStorage StateStorage;
+        protected bool _isLoading;
+        protected Orc.Controls.Settings.ISettingsKeyManager _keyManager;
+        public static readonly System.Windows.DependencyProperty ControlAdapterProperty;
+        public static readonly System.Windows.DependencyProperty EnableSynchronizationProperty;
+        public static readonly System.Windows.DependencyProperty InitialKeySettingsProperty;
+        public static readonly System.Windows.DependencyProperty IsAutosaveProperty;
+        public static readonly System.Windows.DependencyProperty IsSettingsDirtyProperty;
+        public static readonly System.Windows.DependencyProperty SettingsKeyProperty;
+        public static readonly System.Windows.DependencyProperty SettingsStorageProperty;
+        public ControlSettingsBehavior() { }
+        public System.Windows.FrameworkElement? Control { get; }
+        public Orc.Controls.Settings.IControlSettingsAdapter<TControl, TSettings>? ControlAdapter { get; set; }
+        public bool EnableSynchronization { get; set; }
+        public Orc.Controls.Settings.InitialKeySettings InitialKeySettings { get; set; }
+        public bool IsAutosave { get; set; }
+        public bool IsSettingsDirty { get; }
+        public string? SettingsKey { get; set; }
+        public Orc.Controls.Settings.ISettingsStorage<TSettings>? SettingsStorage { get; set; }
+        public virtual System.Threading.Tasks.Task DeleteSettingsAsync(string settingsKey) { }
+        protected override void OnAssociatedObjectLoaded() { }
+        protected override void OnAssociatedObjectUnloaded() { }
+        public void RefreshDirtyState() { }
+        public virtual System.Threading.Tasks.Task ReloadSettingsAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task SaveAsync(string key) { }
+        public virtual System.Threading.Tasks.Task SaveSettingsAsync(string? settingsKey = null) { }
+    }
+    public class ControlSettingsModule
+    {
+        public ControlSettingsModule(Catel.IoC.IServiceLocator serviceLocator) { }
+        public void Initialize() { }
+    }
+    public class EmbeddedResourceProvider : Orc.Controls.Settings.IEmbeddedResourceProvider
+    {
+        public EmbeddedResourceProvider(System.Reflection.Assembly assembly) { }
+        public System.Threading.Tasks.Task<string?> GetResourceContentAsync(string resourcePath) { }
+        public System.Threading.Tasks.Task<bool> ResourceExistsAsync(string resourcePath) { }
+    }
+    public class EmbeddedResourcesSettingsDataStorage : Orc.Controls.Settings.ISettingsDataStorage
+    {
+        public EmbeddedResourcesSettingsDataStorage(Orc.Controls.Settings.IEmbeddedResourceProvider embeddedResourceProvider, Orc.Controls.Settings.ISettingsLocationProvider locationProvider) { }
+        public System.Threading.Tasks.Task<bool> CanHandleAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task DeleteAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task<bool> ExistsAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task<bool> IsReadOnlyAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task<string?> LoadStringAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task RenameAsync(string oldKey, string newKey) { }
+        public System.Threading.Tasks.Task SaveStringAsync(string settingsKey, string data) { }
+    }
+    public class EnabledKeyEventArgs : System.EventArgs
+    {
+        public EnabledKeyEventArgs() { }
+        public string[] EnabledKeys { get; }
+        public void Add(string enabledKey) { }
+    }
+    public class EnumSettingsSerializer : Orc.Controls.Settings.ISettingsKeyTypeSerializer
+    {
+        public EnumSettingsSerializer() { }
+        public object? Deserialize(string value, System.Type targetType) { }
+        public string Serialize(object? value) { }
+    }
+    public class FileBasedSettingsFolderProvider : Orc.Controls.Settings.ISettingsFolderProvider
+    {
+        public FileBasedSettingsFolderProvider(string settingsFilePath, Orc.Controls.Settings.ISpecialFoldersPathResolver specialFoldersPathResolver, Orc.Controls.Settings.ISettingsSerializer<Orc.Controls.Settings.SettingsFoldersCollection> serializer, Orc.FileSystem.IFileService fileService, Orc.FileSystem.IDirectoryService directoryService) { }
+        public System.Threading.Tasks.Task AddOrUpdateSettingsFolderAsync(Orc.Controls.Settings.SettingsFolderItem folder) { }
+        public System.Threading.Tasks.Task<Orc.Controls.Settings.SettingsFolderItem?> GetSettingsFolderAsync(string name) { }
+        public System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<string>> GetSettingsFolderNamesAsync() { }
+        public System.Threading.Tasks.Task<Orc.Controls.Settings.SettingsFoldersCollection> GetSettingsFoldersAsync() { }
+        public System.Threading.Tasks.Task InitializeWithDefaultsAsync(Orc.Controls.Settings.SettingsFoldersCollection defaultSettings, bool overrideExisting = false) { }
+        public System.Threading.Tasks.Task RemoveSettingsFolderAsync(string name) { }
+        public System.Threading.Tasks.Task SaveSettingsFoldersAsync(Orc.Controls.Settings.SettingsFoldersCollection settingsFolders) { }
+        public System.Threading.Tasks.Task<bool> SettingsFileExistsAsync() { }
+        public System.Threading.Tasks.Task<bool> SettingsFolderExistsAsync(string name) { }
+    }
+    public class FileSystemLocationProvider : Orc.Controls.Settings.ISettingsLocationProvider
+    {
+        public FileSystemLocationProvider(string basePath) { }
+        public System.Threading.Tasks.Task<string> GetLocationAsync(string settingsKey) { }
+    }
+    public class FileSystemSettingsDataStorage : Orc.Controls.Settings.ISettingsDataStorage
+    {
+        public FileSystemSettingsDataStorage(Orc.FileSystem.IFileService fileService, Orc.FileSystem.IDirectoryService directoryService, Orc.Controls.Settings.ISettingsLocationProvider locationProvider) { }
+        public System.Threading.Tasks.Task<bool> CanHandleAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task DeleteAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task<bool> ExistsAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task<bool> IsReadOnlyAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task<string?> LoadStringAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task RenameAsync(string oldKey, string newKey) { }
+        public System.Threading.Tasks.Task SaveStringAsync(string settingsKey, string data) { }
+    }
+    public class HybridSettingsDataStorage : Orc.Controls.Settings.ISettingsDataStorage
+    {
+        public HybridSettingsDataStorage(System.Collections.Generic.IEnumerable<Orc.Controls.Settings.ISettingsDataStorage> storages) { }
+        public System.Threading.Tasks.Task<bool> CanHandleAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task DeleteAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task<bool> ExistsAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task<bool> IsReadOnlyAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task<string?> LoadStringAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task RenameAsync(string oldKey, string newKey) { }
+        public System.Threading.Tasks.Task SaveStringAsync(string settingsKey, string data) { }
+    }
+    public interface IControlSettingsAdapter<TControl, TSettings>
+        where TControl : System.Windows.FrameworkElement
+        where TSettings :  class
+    {
+        event System.EventHandler? SettingsChanged;
+        void ApplySettings(TSettings settings);
+        bool AreSettingsEqual(TSettings? current, TSettings? saved);
+        void Attach(TControl target);
+        void Detach();
+        TSettings? GetCurrentSettings();
+    }
+    public interface IEmbeddedResourceProvider
+    {
+        System.Threading.Tasks.Task<string?> GetResourceContentAsync(string resourcePath);
+        System.Threading.Tasks.Task<bool> ResourceExistsAsync(string resourcePath);
+    }
+    public interface ISettingsDataStorage
+    {
+        System.Threading.Tasks.Task<bool> CanHandleAsync(string settingsKey);
+        System.Threading.Tasks.Task DeleteAsync(string settingsKey);
+        System.Threading.Tasks.Task<bool> ExistsAsync(string settingsKey);
+        System.Threading.Tasks.Task<bool> IsReadOnlyAsync(string settingsKey);
+        System.Threading.Tasks.Task<string?> LoadStringAsync(string settingsKey);
+        System.Threading.Tasks.Task RenameAsync(string oldKey, string newKey);
+        System.Threading.Tasks.Task SaveStringAsync(string settingsKey, string data);
+    }
+    public interface ISettingsElement
+    {
+        System.Windows.FrameworkElement? Control { get; }
+        string? SettingsKey { get; }
+        System.Threading.Tasks.Task<object?> GetSettingsAsync(string key);
+        System.Threading.Tasks.Task SaveAsync(string key);
+    }
+    public interface ISettingsFolderProvider
+    {
+        System.Threading.Tasks.Task AddOrUpdateSettingsFolderAsync(Orc.Controls.Settings.SettingsFolderItem folder);
+        System.Threading.Tasks.Task<Orc.Controls.Settings.SettingsFolderItem?> GetSettingsFolderAsync(string name);
+        System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<string>> GetSettingsFolderNamesAsync();
+        System.Threading.Tasks.Task<Orc.Controls.Settings.SettingsFoldersCollection> GetSettingsFoldersAsync();
+        System.Threading.Tasks.Task InitializeWithDefaultsAsync(Orc.Controls.Settings.SettingsFoldersCollection defaultSettings, bool overrideExisting = false);
+        System.Threading.Tasks.Task RemoveSettingsFolderAsync(string name);
+        System.Threading.Tasks.Task SaveSettingsFoldersAsync(Orc.Controls.Settings.SettingsFoldersCollection settingsFolders);
+        System.Threading.Tasks.Task<bool> SettingsFileExistsAsync();
+        System.Threading.Tasks.Task<bool> SettingsFolderExistsAsync(string name);
+    }
+    public interface ISettingsKeyInteractionHub
+    {
+        bool CanSave(Orc.Controls.Settings.ISettingsElement element, string key);
+    }
+    public interface ISettingsKeyManager
+    {
+        event Catel.AsyncEventHandler<Orc.Controls.Settings.SettingsKeyDirtyEventArgs>? DirtyStateChanged;
+        event System.EventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? KeyLoaded;
+        event System.EventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? KeyRefreshed;
+        event System.EventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? KeyRemoved;
+        event System.EventHandler<Orc.Controls.Settings.SettingsKeyRenameEventArgs>? KeyRenamed;
+        event System.EventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? KeySaved;
+        event Catel.AsyncEventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? LoadRequested;
+        event Catel.AsyncEventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? RefreshRequested;
+        event Catel.AsyncEventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? RemoveRequested;
+        event Catel.AsyncEventHandler<Orc.Controls.Settings.SettingsKeyRenameEventArgs>? RenameRequested;
+        event Catel.AsyncEventHandler<Orc.Controls.Settings.ControlRequestedEventArgs>? RequestControls;
+        event Catel.AsyncEventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? SaveRequested;
+        string[] GetDirtyKeys();
+        System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<Orc.Controls.Settings.ISettingsElement>> GetElementsAsync(string settingsKey);
+        string[] GetKeys();
+        bool IsKeyDirty(string settingsKey);
+        System.Threading.Tasks.Task LoadAsync(string settingsKey);
+        System.Threading.Tasks.Task RefreshAsync(string settingsKey);
+        void Remove(string settingsKey);
+        void Rename(string oldKey, string newKey);
+        System.Threading.Tasks.Task SaveAsync(string settingsKey);
+        void SetDirty(string settingsKey, bool isDirty);
+    }
+    public interface ISettingsKeyParser<T>
+        where T :  class, new ()
+    {
+        T Parse(string settingsKey);
+        string ToString(T keyInfo);
+    }
+    public interface ISettingsKeyTypeSerializer
+    {
+        object? Deserialize(string value, System.Type targetType);
+        string Serialize(object? value);
+    }
+    public interface ISettingsLocationProvider
+    {
+        System.Threading.Tasks.Task<string> GetLocationAsync(string settingsKey);
+    }
+    public interface ISettingsSerializer<TSettings>
+        where TSettings :  class
+    {
+        System.Threading.Tasks.Task<TSettings?> DeserializeAsync(string data);
+        System.Threading.Tasks.Task<string> SerializeAsync(TSettings settings);
+    }
+    public interface ISettingsStateStorage
+    {
+        event System.EventHandler<Orc.Controls.Settings.SettingsKeyEventArgs> SettingsRemoved;
+        event System.EventHandler<Orc.Controls.Settings.SettingsKeyEventArgs> SettingsStored;
+        T? GetStoredSettings<T>(string settingsKey)
+            where T :  class;
+        void RemoveStoredSettings(string settingsKey);
+        void Rename(string oldKey, string newKey);
+        void StoreCurrentSettings<T>(string settingsKey, T settings)
+            where T :  class;
+    }
+    public interface ISettingsStorage<TSettings>
+        where TSettings :  class
+    {
+        System.Threading.Tasks.Task DeleteAsync(string settingsKey);
+        System.Threading.Tasks.Task<bool> ExistsAsync(string settingsKey);
+        System.Threading.Tasks.Task<TSettings?> LoadAsync(string settingsKey);
+        System.Threading.Tasks.Task RenameAsync(string oldKey, string newKey);
+        System.Threading.Tasks.Task SaveAsync(string settingsKey, TSettings settings);
+    }
+    public interface ISpecialFoldersPathResolver
+    {
+        string GetResolvedPath(string path);
+        string ResolveSpecialFolder(string name);
+    }
+    public enum InitialKeySettings
+    {
+        None = 0,
+        Current = 1,
+    }
+    public class JsonSettingsSerializer<TSettings> : Orc.Controls.Settings.ISettingsSerializer<TSettings>
+        where TSettings :  class
+    {
+        public JsonSettingsSerializer() { }
+        public System.Threading.Tasks.Task<TSettings?> DeserializeAsync(string data) { }
+        public System.Threading.Tasks.Task<string> SerializeAsync(TSettings settings) { }
+    }
+    public class SettingsChangedEventArgs : System.EventArgs
+    {
+        public SettingsChangedEventArgs(string settingsKey, object settings) { }
+        public object Settings { get; }
+        public string SettingsKey { get; }
+        public System.Type SettingsType { get; }
+    }
+    public class SettingsFolderItem
+    {
+        public SettingsFolderItem() { }
+        public bool CanEdit { get; set; }
+        public bool CanRemove { get; set; }
+        public System.Windows.Media.Color? Color { get; set; }
+        public string? Name { get; set; }
+        public string? Path { get; set; }
+        public string? ResolvedPath { get; set; }
+    }
+    public class SettingsFoldersCollection
+    {
+        public SettingsFoldersCollection() { }
+        public bool CanAddFolder { get; set; }
+        public System.Collections.Generic.List<Orc.Controls.Settings.SettingsFolderItem> SettingsFolders { get; set; }
+    }
+    public class SettingsGroup
+    {
+        public SettingsGroup() { }
+        public bool CanEdit { get; set; }
+        public bool CanRemove { get; set; }
+        public System.Windows.Media.Color? Color { get; set; }
+        public string? Name { get; set; }
+        protected bool Equals(Orc.Controls.Settings.SettingsGroup other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+    }
+    [System.Windows.Markup.MarkupExtensionReturnType(typeof(string))]
+    public class SettingsKeyBindingExtension : Catel.Windows.Markup.UpdatableMarkupExtension
+    {
+        public SettingsKeyBindingExtension() { }
+        public int Delay { get; set; }
+        public bool IncludeSelf { get; set; }
+        public string Separator { get; set; }
+        protected override void OnTargetObjectUnloaded() { }
+        protected override object? ProvideDynamicValue(System.IServiceProvider? serviceProvider) { }
+    }
+    public class SettingsKeyChangedEventArgs : System.EventArgs
+    {
+        public SettingsKeyChangedEventArgs(System.Windows.DependencyObject element, object? oldValue, object? newValue) { }
+        public System.Windows.DependencyObject Element { get; }
+        public object? NewValue { get; }
+        public object? OldValue { get; }
+    }
+    public class SettingsKeyDirtyEventArgs : System.EventArgs
+    {
+        public SettingsKeyDirtyEventArgs(string settingsKey, bool isDirty) { }
+        public bool IsDirty { get; }
+        public string SettingsKey { get; }
+    }
+    public class SettingsKeyEventArgs : System.EventArgs
+    {
+        public SettingsKeyEventArgs(string settingsKey) { }
+        public string SettingsKey { get; }
+        public bool Success { get; set; }
+    }
+    public class SettingsKeyManager : Orc.Controls.Settings.ISettingsKeyManager
+    {
+        public SettingsKeyManager() { }
+        public event Catel.AsyncEventHandler<Orc.Controls.Settings.SettingsKeyDirtyEventArgs>? DirtyStateChanged;
+        public event System.EventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? KeyLoaded;
+        public event System.EventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? KeyRefreshed;
+        public event System.EventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? KeyRemoved;
+        public event System.EventHandler<Orc.Controls.Settings.SettingsKeyRenameEventArgs>? KeyRenamed;
+        public event System.EventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? KeySaved;
+        public event Catel.AsyncEventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? LoadRequested;
+        public event Catel.AsyncEventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? RefreshRequested;
+        public event Catel.AsyncEventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? RemoveRequested;
+        public event Catel.AsyncEventHandler<Orc.Controls.Settings.SettingsKeyRenameEventArgs>? RenameRequested;
+        public event Catel.AsyncEventHandler<Orc.Controls.Settings.ControlRequestedEventArgs>? RequestControls;
+        public event Catel.AsyncEventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? SaveRequested;
+        public string[] GetDirtyKeys() { }
+        public System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<Orc.Controls.Settings.ISettingsElement>> GetElementsAsync(string settingsKey) { }
+        public string[] GetKeys() { }
+        public bool IsKeyDirty(string settingsKey) { }
+        public System.Threading.Tasks.Task LoadAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task RefreshAsync(string settingsKey) { }
+        public void Remove(string settingsKey) { }
+        public void Rename(string oldKey, string newKey) { }
+        public System.Threading.Tasks.Task SaveAsync(string settingsKey) { }
+        public void SetDirty(string settingsKey, bool isDirty) { }
+    }
+    public static class SettingsKeyManagerExtensions
+    {
+        public static void EnableSynchronization(this Orc.Controls.Settings.ISettingsKeyManager manager) { }
+        public static void NotifySettingsChanged(this Orc.Controls.Settings.ISettingsKeyManager manager, string settingsKey, object settings) { }
+        public static void SubscribeToSettingsChanges(this Orc.Controls.Settings.ISettingsKeyManager manager, System.EventHandler<Orc.Controls.Settings.SettingsChangedEventArgs> handler) { }
+        public static void UnsubscribeFromSettingsChanges(this Orc.Controls.Settings.ISettingsKeyManager manager, System.EventHandler<Orc.Controls.Settings.SettingsChangedEventArgs> handler) { }
+    }
+    [System.AttributeUsage(System.AttributeTargets.Property)]
+    public class SettingsKeyPropertyAttribute : System.Attribute
+    {
+        public SettingsKeyPropertyAttribute(System.Type serializerType) { }
+        public SettingsKeyPropertyAttribute(string? displayName = null) { }
+        public SettingsKeyPropertyAttribute(string displayName, System.Type serializerType) { }
+        public string? DisplayName { get; set; }
+        public bool Ignore { get; set; }
+        public System.Type? SerializerType { get; set; }
+    }
+    public class SettingsKeyRenameEventArgs : System.EventArgs
+    {
+        public SettingsKeyRenameEventArgs(string oldKey, string newKey) { }
+        public string NewKey { get; }
+        public string OldKey { get; }
+        public bool Success { get; set; }
+    }
+    public static class SettingsManagement
+    {
+        public static readonly System.Windows.DependencyProperty SettingsKeyProperty;
+        public static event System.EventHandler<Orc.Controls.Settings.SettingsKeyChangedEventArgs>? SettingsKeyChanged;
+        public static object? GetSettingsKey(System.Windows.DependencyObject element) { }
+        public static void SetSettingsKey(System.Windows.DependencyObject element, object? value) { }
+    }
+    public class SettingsStateStorage : Orc.Controls.Settings.ISettingsStateStorage
+    {
+        public SettingsStateStorage() { }
+        public event System.EventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? SettingsRemoved;
+        public event System.EventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? SettingsStored;
+        public T? GetStoredSettings<T>(string settingsKey)
+            where T :  class { }
+        public void RemoveStoredSettings(string settingsKey) { }
+        public void Rename(string oldKey, string newKey) { }
+        public void StoreCurrentSettings<T>(string settingsKey, T settings)
+            where T :  class { }
+    }
+    public class SettingsStorage<TSettings> : Orc.Controls.Settings.ISettingsStorage<TSettings>
+        where TSettings :  class
+    {
+        public SettingsStorage(Orc.Controls.Settings.ISettingsDataStorage dataStorage, Orc.Controls.Settings.ISettingsSerializer<TSettings> serializer) { }
+        public System.Threading.Tasks.Task DeleteAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task<bool> ExistsAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task<TSettings?> LoadAsync(string settingsKey) { }
+        public System.Threading.Tasks.Task RenameAsync(string oldKey, string newKey) { }
+        public System.Threading.Tasks.Task SaveAsync(string settingsKey, TSettings settings) { }
+    }
+    public class TypeConverter : System.Text.Json.Serialization.JsonConverter<System.Type>
+    {
+        public TypeConverter() { }
+        public override System.Type? Read(ref System.Text.Json.Utf8JsonReader reader, System.Type typeToConvert, System.Text.Json.JsonSerializerOptions options) { }
+        public override void Write(System.Text.Json.Utf8JsonWriter writer, System.Type value, System.Text.Json.JsonSerializerOptions options) { }
+    }
+}

@@ -13,6 +13,7 @@ using Catel.Windows.Data;
 
 /// <summary>
 /// TabControl that will not remove the tab items from the visual tree. This way, views can be re-used.
+/// Now supports tear-off functionality for tabs.
 /// </summary>
 [TemplatePart(Name = "PART_ItemsHolder", Type = typeof(Panel))]
 public class TabControl : System.Windows.Controls.TabControl
@@ -24,8 +25,30 @@ public class TabControl : System.Windows.Controls.TabControl
         typeof(LoadTabItemsBehavior), typeof(TabControl), new PropertyMetadata(LoadTabItemsBehavior.LazyLoading,
             (sender, e) => ((TabControl)sender).OnLoadTabItemsChanged()));
 
+    /// <summary>
+    /// Dependency property for enabling tear-off functionality
+    /// </summary>
+    public static readonly DependencyProperty AllowTearOffProperty =
+        DependencyProperty.Register(nameof(AllowTearOff), typeof(bool), typeof(TabControl),
+            new PropertyMetadata(false));
+
     private readonly ConditionalWeakTable<object, object> _wrappedContainers = new ConditionalWeakTable<object, object>();
+    private readonly List<TearOffWindow> _tearOffWindows = new List<TearOffWindow>();
     private Panel? _itemsHolder;
+
+    /// <summary>
+    /// Event raised when a tab is torn off
+    /// </summary>
+    public static readonly RoutedEvent TabTornOffEvent =
+        EventManager.RegisterRoutedEvent(nameof(TabTornOff), RoutingStrategy.Bubble,
+            typeof(TearOffEventHandler), typeof(TabControl));
+
+    /// <summary>
+    /// Event raised when a tab is docked back
+    /// </summary>
+    public static readonly RoutedEvent TabDockedEvent =
+        EventManager.RegisterRoutedEvent(nameof(TabDocked), RoutingStrategy.Bubble,
+            typeof(TearOffEventHandler), typeof(TabControl));
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TabControl"/>.class.
@@ -46,6 +69,19 @@ public class TabControl : System.Windows.Controls.TabControl
         Loaded += OnTabControlLoaded;
 
         this.SubscribeToDependencyProperty(nameof(TabControl.SelectedItem), OnSelectedItemChanged);
+
+        // Subscribe to tear-off events
+        AddHandler(TearOffTabItem.TabTornOffEvent, new TearOffEventHandler(OnTabTornOff));
+        AddHandler(TearOffTabItem.TabDockedEvent, new TearOffEventHandler(OnTabDocked));
+    }
+
+    /// <summary>
+    /// Gets or sets whether tabs can be torn off from this control
+    /// </summary>
+    public bool AllowTearOff
+    {
+        get => (bool)GetValue(AllowTearOffProperty);
+        set => SetValue(AllowTearOffProperty, value);
     }
 
     /// <summary>
@@ -72,6 +108,105 @@ public class TabControl : System.Windows.Controls.TabControl
         {
             var loadTabItems = LoadTabItems;
             return loadTabItems is LoadTabItemsBehavior.LazyLoading or LoadTabItemsBehavior.LazyLoadingUnloadOthers;
+        }
+    }
+
+    /// <summary>
+    /// Event raised when a tab is torn off
+    /// </summary>
+    public event TearOffEventHandler TabTornOff
+    {
+        add => AddHandler(TabTornOffEvent, value);
+        remove => RemoveHandler(TabTornOffEvent, value);
+    }
+
+    /// <summary>
+    /// Event raised when a tab is docked back
+    /// </summary>
+    public event TearOffEventHandler TabDocked
+    {
+        add => AddHandler(TabDockedEvent, value);
+        remove => RemoveHandler(TabDockedEvent, value);
+    }
+
+    /// <summary>
+    /// Gets the currently torn-off tab items
+    /// </summary>
+    public IEnumerable<TearOffTabItem> TornOffTabs =>
+        Items.OfType<TearOffTabItem>().Where(tab => tab.IsTornOff);
+
+    /// <summary>
+    /// Creates or identifies the element that is used to display the given item.
+    /// </summary>
+    /// <returns>The element that is used to display the given item.</returns>
+    protected override DependencyObject GetContainerForItemOverride()
+    {
+        var container = AllowTearOff ? new TearOffTabItem() : new TabItem();
+
+        if (container is TearOffTabItem tearOffTabItem)
+        {
+            tearOffTabItem.CanTearOff = AllowTearOff;
+        }
+
+        return container;
+    }
+
+    /// <summary>
+    /// Determines if the specified item is (or is eligible to be) its own container.
+    /// </summary>
+    /// <param name="item">The item to check.</param>
+    /// <returns>true if the item is (or is eligible to be) its own container; otherwise, false.</returns>
+    protected override bool IsItemItsOwnContainerOverride(object item)
+    {
+        return item is TabItem;
+    }
+
+    private void OnTabTornOff(object sender, TearOffEventArgs e)
+    {
+        // Raise the event on the TabControl
+        var args = new TearOffEventArgs(TabTornOffEvent, e.TabItem);
+        RaiseEvent(args);
+
+        // Update selection if the torn-off tab was selected
+        if (e.TabItem.IsSelected)
+        {
+            SelectNextAvailableTab();
+        }
+    }
+
+    private void OnTabDocked(object sender, TearOffEventArgs e)
+    {
+        // Raise the event on the TabControl
+        var args = new TearOffEventArgs(TabDockedEvent, e.TabItem);
+        RaiseEvent(args);
+
+        PostponeAction.Execute(() => e.TabItem.SetCurrentValue(TabItem.IsSelectedProperty, true), 500);
+
+        // Update the items holder
+        InitializeItems();
+    }
+
+    private void SelectNextAvailableTab()
+    {
+        var availableTabs = Items.OfType<TabItem>()
+            .Where(tab => tab.Visibility == Visibility.Visible &&
+                         tab is not TearOffTabItem { IsTornOff: true })
+            .ToList();
+
+        if (availableTabs.Any())
+        {
+            availableTabs.First().SetCurrentValue(TabItem.IsSelectedProperty, true);
+        }
+    }
+
+    /// <summary>
+    /// Docks all currently torn-off tabs back to the control
+    /// </summary>
+    public void DockAllTabs()
+    {
+        foreach (var tornTab in TornOffTabs.ToList())
+        {
+            tornTab.DockBack();
         }
     }
 
@@ -344,6 +479,13 @@ public class TabControl : System.Windows.Controls.TabControl
             var tabItem = tabControlItemData.TabItem;
             if (tabItem is not null && tabItem.IsSelected)
             {
+                // Don't show content for torn-off tabs
+                if (tabItem is TearOffTabItem tearOffTabItem && tearOffTabItem.IsTornOff)
+                {
+                    itemsToHide.Add(child, tabControlItemData);
+                    continue;
+                }
+
                 if (child.Content is null)
                 {
                     ShowChildContent(child, tabControlItemData);

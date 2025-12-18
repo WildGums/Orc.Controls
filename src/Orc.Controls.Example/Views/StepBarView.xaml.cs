@@ -1,11 +1,9 @@
-﻿namespace Orc.Controls.Example.Views
-{
+﻿namespace Orc.Controls.Example.Views;
 
-    public partial class StepBarView
+public partial class StepBarView
+{
+    public StepBarView()
     {
-        public StepBarView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

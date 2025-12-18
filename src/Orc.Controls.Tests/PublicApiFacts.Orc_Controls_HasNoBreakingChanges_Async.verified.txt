@@ -1,6 +1,6 @@
-[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
+﻿[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Orc.Controls.Tests")]
-[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v8.0", FrameworkDisplayName=".NET 8.0")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Converters")]
 [assembly: System.Windows.Markup.XmlnsPrefix("http://schemas.wildgums.com/orc/controls", "orccontrols")]
@@ -8,6 +8,7 @@
 public static class LoadAssembliesOnStartup { }
 public static class ModuleInitializer
 {
+    [System.Runtime.CompilerServices.ModuleInitializer]
     public static void Initialize() { }
 }
 namespace Orc.Automation
@@ -791,6 +792,15 @@ namespace Orc.Controls
         public Catel.MVVM.TaskCommand SelectDirectory { get; }
         public string? SelectedDirectory { get; set; }
     }
+    public sealed class DispatcherTimerWrapper : Orc.Controls.IPostponeActionTimer
+    {
+        public DispatcherTimerWrapper() { }
+        public System.TimeSpan Interval { get; set; }
+        public bool IsEnabled { get; }
+        public event System.EventHandler? Tick;
+        public void Start() { }
+        public void Stop() { }
+    }
     public class DoNotShowDropDownOnClickComboboxBehavior : Catel.Windows.Interactivity.BehaviorBase<System.Windows.Controls.ComboBox>
     {
         public DoNotShowDropDownOnClickComboboxBehavior() { }
@@ -1140,6 +1150,14 @@ namespace Orc.Controls
         bool IsInEditMode { get; }
         event System.EventHandler<System.EventArgs>? EditEnded;
         event System.EventHandler<System.EventArgs>? EditStarted;
+    }
+    public interface IPostponeActionTimer
+    {
+        System.TimeSpan Interval { get; set; }
+        bool IsEnabled { get; }
+        event System.EventHandler Tick;
+        void Start();
+        void Stop();
     }
     public interface IStepBarItem
     {
@@ -1839,6 +1857,21 @@ namespace Orc.Controls
         public static void SetShowDuration(System.Windows.DependencyObject element, int value) { }
         public static void SetToolTip(System.Windows.DependencyObject element, object? value) { }
     }
+    public sealed class PostponeAction
+    {
+        public PostponeAction(System.Action action) { }
+        public PostponeAction(System.Action action, Orc.Controls.IPostponeActionTimer timer) { }
+        public void Execute(int delay) { }
+        public void Stop() { }
+        public static void Execute(System.Action action, int delay) { }
+    }
+    [System.Obsolete("Use PostponeAction instead. Will be removed in version 6.0.0.", true)]
+    public sealed class PostponeDispatcherOperation
+    {
+        public PostponeDispatcherOperation(System.Action action) { }
+        public void Execute(int delay) { }
+        public void Stop() { }
+    }
     public class PredefinedColor : System.IEquatable<Orc.Controls.PredefinedColor>
     {
         public PredefinedColor(System.Windows.Media.Color color, string name) { }
@@ -2131,11 +2164,21 @@ namespace Orc.Controls
     [System.Windows.TemplatePart(Name="PART_ItemsHolder", Type=typeof(System.Windows.Controls.Panel))]
     public class TabControl : System.Windows.Controls.TabControl
     {
+        public static readonly System.Windows.DependencyProperty AllowTearOffProperty;
         public static readonly System.Windows.DependencyProperty LoadTabItemsProperty;
+        public static readonly System.Windows.RoutedEvent TabDockedEvent;
+        public static readonly System.Windows.RoutedEvent TabTornOffEvent;
         public TabControl() { }
+        public bool AllowTearOff { get; set; }
         public bool IsLazyLoading { get; }
         public Orc.Controls.LoadTabItemsBehavior LoadTabItems { get; set; }
+        public System.Collections.Generic.IEnumerable<Orc.Controls.TearOffTabItem> TornOffTabs { get; }
+        public event Orc.Controls.TearOffEventHandler TabDocked;
+        public event Orc.Controls.TearOffEventHandler TabTornOff;
+        public void DockAllTabs() { }
+        protected override System.Windows.DependencyObject GetContainerForItemOverride() { }
         protected new System.Windows.Controls.TabItem? GetSelectedTabItem() { }
+        protected override bool IsItemItsOwnContainerOverride(object item) { }
         public virtual void LoadTabItem(System.Windows.Controls.ContentPresenter tabItem) { }
         public virtual void LoadTabItem(int index) { }
         public override void OnApplyTemplate() { }
@@ -2150,6 +2193,41 @@ namespace Orc.Controls
         public System.Windows.DataTemplate ContentTemplate { get; }
         public object Item { get; }
         public System.Windows.Controls.TabItem? TabItem { get; }
+    }
+    public static class TearOffCommands
+    {
+        public static readonly System.Windows.Input.RoutedCommand TearOffTab;
+    }
+    public class TearOffEventArgs : System.Windows.RoutedEventArgs
+    {
+        public TearOffEventArgs(System.Windows.RoutedEvent routedEvent, Orc.Controls.TearOffTabItem tabItem) { }
+        public Orc.Controls.TearOffTabItem TabItem { get; }
+    }
+    public delegate void TearOffEventHandler(object sender, Orc.Controls.TearOffEventArgs e);
+    public class TearOffTabItem : System.Windows.Controls.TabItem
+    {
+        public static readonly System.Windows.DependencyProperty CanTearOffProperty;
+        public static readonly System.Windows.DependencyProperty IsTornOffProperty;
+        public static readonly System.Windows.RoutedEvent TabDockedEvent;
+        public static readonly System.Windows.RoutedEvent TabTornOffEvent;
+        public TearOffTabItem() { }
+        public bool CanTearOff { get; set; }
+        public bool IsTornOff { get; set; }
+        public event Orc.Controls.TearOffEventHandler TabDocked;
+        public event Orc.Controls.TearOffEventHandler TabTornOff;
+        public void DockBack(object? content = null) { }
+    }
+    public class TearOffWindow : System.Windows.Window
+    {
+        public static readonly System.Windows.DependencyProperty AllowDockBackProperty;
+        public TearOffWindow(Orc.Controls.TearOffTabItem originalTabItem, object? content, string title) { }
+        public bool AllowDockBack { get; set; }
+        public bool IsClosing { get; }
+        public object? OriginalContent { get; }
+        public bool WasDockedBack { get; set; }
+        public void DockBack() { }
+        public object? GetDetachedContent() { }
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e) { }
     }
     public static class TextBoxExtensions { }
     public class TextInputDialogResult
