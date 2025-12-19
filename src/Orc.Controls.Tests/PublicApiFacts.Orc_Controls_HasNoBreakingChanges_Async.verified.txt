@@ -2223,7 +2223,6 @@ namespace Orc.Controls
         public TearOffWindow(Orc.Controls.TearOffTabItem originalTabItem, object? content, string title) { }
         public bool AllowDockBack { get; set; }
         public bool IsClosing { get; }
-        public object? OriginalContent { get; }
         public bool WasDockedBack { get; set; }
         public void DockBack() { }
         public object? GetDetachedContent() { }
