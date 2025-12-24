@@ -9,7 +9,7 @@ using Catel.Data;
 using Orc.Automation;
 using Orc.Automation.Controls;
 
-[AutomatedControl(Class = typeof(Controls.ValidationContextTree))]
+[AutomatedControl(Class = typeof(Orc.Controls.ValidationContextTree))]
 public class ValidationContextTree : FrameworkElement<ValidationContextTreeModel, ValidationContextTreeMap>,
     IEnumerable<ValidationContextTagTreeItem>
 {

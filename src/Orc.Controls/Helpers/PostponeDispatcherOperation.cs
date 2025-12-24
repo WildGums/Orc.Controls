@@ -9,22 +9,17 @@ using Catel.Services;
     TreatAsErrorFromVersion = "5.4.0", RemoveInVersion = "6.0.0")]
 public sealed class PostponeDispatcherOperation
 {
-    private readonly Action _action;
     private readonly IDispatcherService _dispatcherService;
+    private readonly Action _action;
 
 #pragma warning disable IDISP006 // Implement IDisposable
     private Timer? _timer;
 #pragma warning restore IDISP006 // Implement IDisposable
 
-    public PostponeDispatcherOperation(Action action)
+    public PostponeDispatcherOperation(IDispatcherService dispatcherService, Action action)
     {
-        ArgumentNullException.ThrowIfNull(action);
-
+        _dispatcherService = dispatcherService;
         _action = action;
-
-#pragma warning disable IDISP004 // Don't ignore created IDisposable
-        _dispatcherService = this.GetServiceLocator().ResolveRequiredType<IDispatcherService>();
-#pragma warning restore IDISP004 // Don't ignore created IDisposable
     }
 
     public void Stop()

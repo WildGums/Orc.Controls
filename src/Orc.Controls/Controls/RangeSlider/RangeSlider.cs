@@ -11,14 +11,15 @@ using System.Windows.Threading;
 using Automation;
 using Catel.Logging;
 using Catel.Windows;
+using Microsoft.Extensions.Logging;
 
 [TemplatePart(Name = "PART_TrackBackground", Type = typeof(Border))]
 [TemplatePart(Name = "PART_SelectedRange", Type = typeof(Rectangle))]
 [TemplatePart(Name = "PART_LowerSlider", Type = typeof(Slider))]
 [TemplatePart(Name = "PART_UpperSlider", Type = typeof(Slider))]
-public class RangeSlider : RangeBase
+public partial class RangeSlider : RangeBase
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(RangeSlider));
 
     private readonly DispatcherTimer _dispatcherTimer;
 

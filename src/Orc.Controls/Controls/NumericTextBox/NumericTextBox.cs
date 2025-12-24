@@ -14,10 +14,11 @@ using Automation;
 using Catel;
 using Catel.Logging;
 using Catel.Windows.Input;
+using Microsoft.Extensions.Logging;
 
 public class NumericTextBox : TextBox
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(NumericTextBox));
 
     private const string MinusCharacter = "-";
     private const string PeriodCharacter = ".";
@@ -226,13 +227,13 @@ public class NumericTextBox : TextBox
             var text = (string)e.DataObject.GetData(typeof(string));
             if (!IsDecimalAllowed && !IsDigitsOnly(text))
             {
-                Log.Warning("Pasted text '{0}' contains decimal separator which is not allowed, paste is not allowed", text);
+                Logger.LogWarning("Pasted text '{0}' contains decimal separator which is not allowed, paste is not allowed", text);
 
                 e.CancelCommand();
             }
             else if (!IsNegativeAllowed && text.Contains(MinusCharacter))
             {
-                Log.Warning("Pasted text '{0}' contains negative value which is not allowed, paste is not allowed", text);
+                Logger.LogWarning("Pasted text '{0}' contains negative value which is not allowed, paste is not allowed", text);
 
                 e.CancelCommand();
             }
@@ -242,7 +243,7 @@ public class NumericTextBox : TextBox
                 return;
             }
 
-            Log.Warning("Pasted text '{0}' could not be parsed as double (wrong culture?), paste is not allowed", text);
+            Logger.LogWarning("Pasted text '{0}' could not be parsed as double (wrong culture?), paste is not allowed", text);
 
             e.CancelCommand();
         }

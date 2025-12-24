@@ -5,19 +5,17 @@ using System.Windows;
 using System.Windows.Automation.Peers;
 using Automation;
 using Catel.Data;
+using Catel.IoC;
 using Catel.MVVM.Views;
+using Microsoft.Extensions.DependencyInjection;
 
 public sealed partial class ValidationContextTree
 {
     static ValidationContextTree()
     {
-        typeof(ValidationContextTree).AutoDetectViewPropertiesToSubscribe();
+        typeof(ValidationContextTree).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
     }
 
-    public ValidationContextTree()
-    {
-        InitializeComponent();
-    }
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
     public IValidationContext? ValidationContext

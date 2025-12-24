@@ -4,14 +4,12 @@ using System;
 using System.Runtime.Serialization;
 using System.Windows.Media;
 using Catel.Data;
-using Catel.Runtime.Serialization;
 
 /// <summary>
 /// The color legend item.
 /// </summary>
 [Serializable]
 [KnownType(typeof(Color))]
-[SerializerModifier(typeof(ColorLegendItemSerializerModifier))]
 public class ColorLegendItem : ModelBase, IColorLegendItem
 {
     /// <summary>
@@ -29,7 +27,6 @@ public class ColorLegendItem : ModelBase, IColorLegendItem
     /// <summary>
     /// Gets or sets the property value.
     /// </summary>
-    [IncludeInSerialization]
     public Color Color { get; set; }
 
     /// <summary>

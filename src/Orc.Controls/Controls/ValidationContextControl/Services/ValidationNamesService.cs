@@ -11,6 +11,7 @@ using Catel.Services;
 public class ValidationNamesService : IValidationNamesService
 {
     private readonly IDictionary<string, List<IValidationResult>> _cache = new Dictionary<string, List<IValidationResult>>();
+
     private readonly ILanguageService _languageService;
 
     public ValidationNamesService(ILanguageService languageService)

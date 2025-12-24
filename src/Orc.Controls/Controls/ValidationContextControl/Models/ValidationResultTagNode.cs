@@ -47,7 +47,7 @@ public class ValidationResultTagNode : ValidationContextTreeNode
         var warningCount = children.OfType<ValidationResultTypeNode>().Where(x => x.ResultType == ValidationResultType.Warning)
             .SelectMany(x => x.Children).Count();
 
-        DisplayName = $"{TagName} ({LanguageHelper.GetString("Controls_ValidationContextControl_Errors")}: {errorCount}, {LanguageHelper.GetString("Controls_ValidationContextControl_Warnings")}: {warningCount})";
+        DisplayName = $"{TagName} ({LanguageHelper.GetRequiredString("Controls_ValidationContextControl_Errors")}: {errorCount}, {LanguageHelper.GetRequiredString("Controls_ValidationContextControl_Warnings")}: {warningCount})";
     }
 
     public override int CompareTo(ValidationContextTreeNode node)

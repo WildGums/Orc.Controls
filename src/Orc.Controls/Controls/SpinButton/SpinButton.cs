@@ -10,15 +10,16 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using Automation;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 using Theming;
 using Control = System.Windows.Controls.Control;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 [TemplatePart(Name = "PART_IncreaseButton", Type = typeof(RepeatButton))]
 [TemplatePart(Name = "PART_DecreaseButton", Type = typeof(RepeatButton))]
-public class SpinButton : Control
+public partial class SpinButton : Control
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(SpinButton));
 
     private RepeatButton? _decreaseButton;
     private RepeatButton? _increaseButton;
@@ -107,14 +108,14 @@ public class SpinButton : Control
         _increaseButton = GetTemplateChild("PART_IncreaseButton") as RepeatButton;
         if (_increaseButton is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_IncreaseButton'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_IncreaseButton'");
         }
         _increaseButton.Click += OnIncreaseButtonClick;
 
         _decreaseButton = GetTemplateChild("PART_DecreaseButton") as RepeatButton;
         if (_decreaseButton is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DecreaseButton'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DecreaseButton'");
         }
         _decreaseButton.Click += OnDecreaseButtonClick;
 

@@ -2,9 +2,9 @@
 
 using Orc.Automation;
 
-public class FontImageControlAutomationPeer : AutomationControlPeerBase<Controls.FontImageControl>
+public class FontImageControlAutomationPeer : AutomationControlPeerBase<Orc.Controls.FontImageControl>
 {
-    public FontImageControlAutomationPeer(Controls.FontImageControl owner) 
+    public FontImageControlAutomationPeer(Orc.Controls.FontImageControl owner) 
         : base(owner)
     {
     }

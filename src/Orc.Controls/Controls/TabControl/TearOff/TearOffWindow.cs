@@ -8,6 +8,7 @@ using System.Windows.Data;
 using System.Windows.Forms;
 using Catel.IoC;
 using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
 /// Window that hosts a torn-off tab content
@@ -86,20 +87,14 @@ public class TearOffWindow : Window
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-#pragma warning disable IDISP004 // Don't ignore created IDisposable
-        this.GetServiceLocator()
-            .ResolveRequiredType<IAppDataService>()
-            .LoadWindowSize(this, _originalTabItem.Header?.ToString(), true);
-#pragma warning restore IDISP004 // Don't ignore created IDisposable
+        var appDataService = IoCContainer.ServiceProvider.GetRequiredService<IAppDataService>();
+        appDataService.LoadWindowSize(this, _originalTabItem.Header?.ToString(), true);
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-#pragma warning disable IDISP004 // Don't ignore created IDisposable
-        this.GetServiceLocator()
-            .ResolveRequiredType<IAppDataService>()
-            .SaveWindowSize(this, _originalTabItem.Header?.ToString());
-#pragma warning restore IDISP004 // Don't ignore created IDisposable
+        var appDataService = IoCContainer.ServiceProvider.GetRequiredService<IAppDataService>();
+        appDataService.SaveWindowSize(this, _originalTabItem.Header?.ToString());
     }
 
     private void InitializeWindow(object? content, string title)
@@ -139,84 +134,84 @@ public class TearOffWindow : Window
         {
             // Handle different types of content properly
             case ContentPresenter contentPresenter:
-            {
-                // If it's a ContentPresenter, we need to get its actual content
-                var actualContent = contentPresenter.Content;
-
-                if (actualContent is UIElement actualElement)
                 {
-                    // Remove the actual content from the ContentPresenter first
-                    contentPresenter.Content = null;
-                    contentBorder.Child = actualElement;
-                }
-                else if (actualContent is not null)
-                {
-                    // For non-UIElement content, create a new ContentPresenter
-                    var newPresenter = new ContentPresenter
-                    {
-                        Content = actualContent,
-                        ContentTemplate = contentPresenter.ContentTemplate,
-                        ContentTemplateSelector = contentPresenter.ContentTemplateSelector,
-                        ContentStringFormat = contentPresenter.ContentStringFormat
-                    };
-                    contentBorder.Child = newPresenter;
-                }
-                else
-                {
-                    // If ContentPresenter has no content, check if it has a bound content
-                    // This handles cases where content is databound
-                    var newPresenter = new ContentPresenter();
+                    // If it's a ContentPresenter, we need to get its actual content
+                    var actualContent = contentPresenter.Content;
 
-                    // Copy relevant properties from the original ContentPresenter
-                    if (contentPresenter.ContentTemplate is not null)
+                    if (actualContent is UIElement actualElement)
                     {
-                        newPresenter.ContentTemplate = contentPresenter.ContentTemplate;
+                        // Remove the actual content from the ContentPresenter first
+                        contentPresenter.Content = null;
+                        contentBorder.Child = actualElement;
                     }
-
-                    if (contentPresenter.ContentTemplateSelector is not null)
+                    else if (actualContent is not null)
                     {
-                        newPresenter.ContentTemplateSelector = contentPresenter.ContentTemplateSelector;
-                    }
-
-                    if (contentPresenter.ContentStringFormat is not null)
-                    {
-                        newPresenter.ContentStringFormat = contentPresenter.ContentStringFormat;
-                    }
-
-                    // Try to copy bindings if they exist
-                    var contentBinding = BindingOperations.GetBinding(contentPresenter, ContentPresenter.ContentProperty);
-                    if (contentBinding is not null)
-                    {
-                        newPresenter.SetBinding(ContentPresenter.ContentProperty, contentBinding);
+                        // For non-UIElement content, create a new ContentPresenter
+                        var newPresenter = new ContentPresenter
+                        {
+                            Content = actualContent,
+                            ContentTemplate = contentPresenter.ContentTemplate,
+                            ContentTemplateSelector = contentPresenter.ContentTemplateSelector,
+                            ContentStringFormat = contentPresenter.ContentStringFormat
+                        };
+                        contentBorder.Child = newPresenter;
                     }
                     else
                     {
-                        // As last resort, set the ContentPresenter itself (though this might not display properly)
-                        newPresenter.Content = contentPresenter;
+                        // If ContentPresenter has no content, check if it has a bound content
+                        // This handles cases where content is databound
+                        var newPresenter = new ContentPresenter();
+
+                        // Copy relevant properties from the original ContentPresenter
+                        if (contentPresenter.ContentTemplate is not null)
+                        {
+                            newPresenter.ContentTemplate = contentPresenter.ContentTemplate;
+                        }
+
+                        if (contentPresenter.ContentTemplateSelector is not null)
+                        {
+                            newPresenter.ContentTemplateSelector = contentPresenter.ContentTemplateSelector;
+                        }
+
+                        if (contentPresenter.ContentStringFormat is not null)
+                        {
+                            newPresenter.ContentStringFormat = contentPresenter.ContentStringFormat;
+                        }
+
+                        // Try to copy bindings if they exist
+                        var contentBinding = BindingOperations.GetBinding(contentPresenter, ContentPresenter.ContentProperty);
+                        if (contentBinding is not null)
+                        {
+                            newPresenter.SetBinding(ContentPresenter.ContentProperty, contentBinding);
+                        }
+                        else
+                        {
+                            // As last resort, set the ContentPresenter itself (though this might not display properly)
+                            newPresenter.Content = contentPresenter;
+                        }
+
+                        contentBorder.Child = newPresenter;
                     }
 
-                    contentBorder.Child = newPresenter;
+                    break;
                 }
-
-                break;
-            }
             case UIElement element:
                 contentBorder.Child = element;
                 break;
             default:
-            {
-                if (originalContent is not null)
                 {
-                    // For non-UIElement content, wrap in a ContentPresenter
-                    var presenter = new ContentPresenter
+                    if (originalContent is not null)
                     {
-                        Content = originalContent
-                    };
-                    contentBorder.Child = presenter;
-                }
+                        // For non-UIElement content, wrap in a ContentPresenter
+                        var presenter = new ContentPresenter
+                        {
+                            Content = originalContent
+                        };
+                        contentBorder.Child = presenter;
+                    }
 
-                break;
-            }
+                    break;
+                }
         }
 
         _windowContentGrid.Children.Add(contentBorder);

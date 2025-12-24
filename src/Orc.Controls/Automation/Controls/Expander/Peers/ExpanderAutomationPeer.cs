@@ -9,9 +9,9 @@ using System.Windows.Controls.Primitives;
 using Catel.Windows;
 using Orc.Automation;
 
-public class ExpanderAutomationPeer : AutomationControlPeerBase<Controls.Expander>, IExpandCollapseProvider
+public class ExpanderAutomationPeer : AutomationControlPeerBase<Orc.Controls.Expander>, IExpandCollapseProvider
 {
-    public ExpanderAutomationPeer(Controls.Expander owner)
+    public ExpanderAutomationPeer(Orc.Controls.Expander owner)
         : base(owner)
     {
     }

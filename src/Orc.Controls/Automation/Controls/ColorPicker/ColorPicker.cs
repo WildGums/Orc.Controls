@@ -7,7 +7,7 @@ using System.Windows.Media;
 using Orc.Automation;
 using Orc.Automation.Controls;
 
-[AutomatedControl(Class = typeof(Controls.ColorPicker))]
+[AutomatedControl(Class = typeof(Orc.Controls.ColorPicker))]
 public class ColorPicker : FrameworkElement<ColorPickerModel>
 {
     private ToggleButton ToggleDropDown => By.ControlType(ControlType.Button).One<ToggleButton>();

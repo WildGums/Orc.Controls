@@ -8,21 +8,20 @@ using System.Windows.Threading;
 using Catel.Logging;
 using Catel.MVVM;
 using Catel.Services;
+using Microsoft.Extensions.Logging;
 
 public class CalloutViewModel : ViewModelBase, ICallout
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-
+    private readonly ILogger<CalloutViewModel> _logger;
     private readonly ICalloutManager _calloutManager;
     private readonly IDispatcherService _dispatcherService;
 
     private DispatcherTimer? _dispatcherTimer;
 
-    public CalloutViewModel(ICalloutManager calloutManager, IDispatcherService dispatcherService)
+    public CalloutViewModel(ILogger<CalloutViewModel> logger, IServiceProvider serviceProvider, 
+        ICalloutManager calloutManager, IDispatcherService dispatcherService)
     {
-        ArgumentNullException.ThrowIfNull(calloutManager);
-        ArgumentNullException.ThrowIfNull(dispatcherService);
-
+        _logger = logger;
         _calloutManager = calloutManager;
         _dispatcherService = dispatcherService;
 
@@ -30,9 +29,9 @@ public class CalloutViewModel : ViewModelBase, ICallout
 
         Id = Guid.NewGuid();
 
-        PauseTimer = new Command(OnPauseTimerExecute);
-        ResumeTimer = new Command(OnResumeTimerExecute);
-        ClosePopup = new Command(OnClosePopupExecute);
+        PauseTimer = new Command(serviceProvider, OnPauseTimerExecute);
+        ResumeTimer = new Command(serviceProvider, OnResumeTimerExecute);
+        ClosePopup = new Command(serviceProvider, OnClosePopupExecute);
     }
 
     public Guid Id { get; }
@@ -137,11 +136,11 @@ public class CalloutViewModel : ViewModelBase, ICallout
                 return;
             }
 
-            Log.Debug($"[{this}] Showing callout");
+            _logger.LogDebug($"[{this}] Showing callout");
 
             if (ShowTime > TimeSpan.Zero && _dispatcherTimer is not null)
             {
-                Log.Debug($"[{this}] Starting callout timer with interval of '{ShowTime}'");
+                _logger.LogDebug($"[{this}] Starting callout timer with interval of '{ShowTime}'");
 
                 _dispatcherTimer.Interval = ShowTime;
                 _dispatcherTimer.Start();
@@ -163,7 +162,7 @@ public class CalloutViewModel : ViewModelBase, ICallout
                 return;
             }
 
-            Log.Debug($"[{this}] Hiding callout");
+            _logger.LogDebug($"[{this}] Hiding callout");
 
             IsOpen = false;
         });

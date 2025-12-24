@@ -12,18 +12,16 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using Automation;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 /// <summary>
 /// A label looking like the known hyperlink.
 /// </summary>
 [TemplatePart(Name = "PART_InnerHyperlink", Type = typeof(Hyperlink))]
 [StyleTypedProperty(Property = nameof(HyperlinkStyle), StyleTargetType = typeof(Hyperlink))]
-public class LinkLabel : Label
+public partial class LinkLabel : Label
 {
-    /// <summary>
-    /// The <see cref="ILog">log</see> object.
-    /// </summary>
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(LinkLabel));
 
     /// <summary>
     /// Initializes the <see cref="LinkLabel"/> class.
@@ -364,7 +362,7 @@ public class LinkLabel : Label
             }
             catch (Win32Exception ex)
             {
-                Log.Warning(ex, "Default handler for http-scheme not valid in Windows");
+                Logger.LogWarning(ex, "Default handler for http-scheme not valid in Windows");
 
                 var processStartInfo = new ProcessStartInfo(@"iexplore.exe", destinationUrl.ToString())
                 {
@@ -377,7 +375,7 @@ public class LinkLabel : Label
         }
         catch (Exception ex)
         {
-            Log.Warning(ex, "Failed to start process to open '{0}'", destinationUrl);
+            Logger.LogWarning(ex, "Failed to start process to open '{0}'", destinationUrl);
         }
         finally
         {

@@ -3,9 +3,9 @@ namespace Orc.Controls.Automation;
 
 using System.Windows.Automation.Peers;
 
-public class WatermarkTextBoxAutomationPeer : TextBoxAutomationPeer<Controls.WatermarkTextBox>
+public class WatermarkTextBoxAutomationPeer : TextBoxAutomationPeer<Orc.Controls.WatermarkTextBox>
 {
-    public WatermarkTextBoxAutomationPeer(Controls.WatermarkTextBox owner) 
+    public WatermarkTextBoxAutomationPeer(Orc.Controls.WatermarkTextBox owner) 
         : base(owner)
     {
     }

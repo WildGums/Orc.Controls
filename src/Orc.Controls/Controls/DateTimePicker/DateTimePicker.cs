@@ -21,6 +21,7 @@ using Catel.Windows;
 using Catel.Windows.Input;
 using Converters;
 using Enums;
+using Microsoft.Extensions.Logging;
 using Calendar = System.Windows.Controls.Calendar;
 
 [TemplatePart(Name = "PART_DaysNumericTextBox", Type = typeof(NumericTextBox))]
@@ -65,9 +66,9 @@ using Calendar = System.Windows.Controls.Calendar;
 
 [TemplatePart(Name = "PART_TimePickerPopup", Type = typeof(Popup))]
 [TemplatePart(Name = "PART_TimePicker", Type = typeof(TimePicker))]
-public class DateTimePicker : Control, IEditableControl
+public partial class DateTimePicker : Control, IEditableControl
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(DateTimePicker));
 
     private static readonly HashSet<string> SecondMinuteCantAutoProceedBeginningChars = new() { "1", "2", "3", "4", "5" };
 
@@ -130,11 +131,9 @@ public class DateTimePicker : Control, IEditableControl
     private bool _calendarSelectionChangedByKey;
     private bool _suspendTextChanged;
 
-    public DateTimePicker()
+    public DateTimePicker(IDispatcherService dispatcherService)
     {
-#pragma warning disable IDISP004 // Don't ignore created IDisposable
-        _dispatcherService = this.GetServiceLocator().ResolveRequiredType<IDispatcherService>();
-#pragma warning restore IDISP004 // Don't ignore created IDisposable
+        _dispatcherService = dispatcherService;
     }
 
     #region Dependency properties
@@ -424,7 +423,7 @@ public class DateTimePicker : Control, IEditableControl
         _daysNumericTextBox = GetTemplateChild("PART_DaysNumericTextBox") as NumericTextBox;
         if (_daysNumericTextBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysNumericTextBox'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysNumericTextBox'");
         }
         _daysNumericTextBox.ValueChanged += OnDaysValueChanged;
         _daysNumericTextBox.TextChanged += OnDaysTextChanged;
@@ -433,7 +432,7 @@ public class DateTimePicker : Control, IEditableControl
         _monthNumericTextBox = GetTemplateChild("PART_MonthNumericTextBox") as NumericTextBox;
         if (_monthNumericTextBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MonthNumericTextBox'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MonthNumericTextBox'");
         }
         _monthNumericTextBox.ValueChanged += OnMonthValueChanged;
         _monthNumericTextBox.TextChanged += OnMonthTextChanged;
@@ -442,7 +441,7 @@ public class DateTimePicker : Control, IEditableControl
         _yearNumericTextBox = GetTemplateChild("PART_YearNumericTextBox") as NumericTextBox;
         if (_yearNumericTextBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_YearNumericTextBox'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_YearNumericTextBox'");
         }
         _yearNumericTextBox.ValueChanged += OnYearValueChanged;
         _yearNumericTextBox.TextChanged += OnYearTextChanged;
@@ -451,7 +450,7 @@ public class DateTimePicker : Control, IEditableControl
         _hourNumericTextBox = GetTemplateChild("PART_HourNumericTextBox") as NumericTextBox;
         if (_hourNumericTextBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HourNumericTextBox'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HourNumericTextBox'");
         }
         _hourNumericTextBox.ValueChanged += OnHourValueChanged;
         _hourNumericTextBox.TextChanged += OnHourTextChanged;
@@ -460,7 +459,7 @@ public class DateTimePicker : Control, IEditableControl
         _minuteNumericTextBox = GetTemplateChild("PART_MinuteNumericTextBox") as NumericTextBox;
         if (_minuteNumericTextBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MinuteNumericTextBox'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MinuteNumericTextBox'");
         }
         _minuteNumericTextBox.ValueChanged += OnMinuteValueChanged;
         _minuteNumericTextBox.TextChanged += OnMinuteTextChanged;
@@ -468,14 +467,14 @@ public class DateTimePicker : Control, IEditableControl
         _secondNumericTextBox = GetTemplateChild("PART_SecondNumericTextBox") as NumericTextBox;
         if (_secondNumericTextBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SecondNumericTextBox'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SecondNumericTextBox'");
         }
         _secondNumericTextBox.ValueChanged += OnSecondValueChanged;
 
         _amPmListTextBox = GetTemplateChild("PART_AmPmListTextBox") as ListTextBox;
         if (_amPmListTextBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_AmPmListTextBox'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_AmPmListTextBox'");
         }
         _amPmListTextBox.ValueChanged += OnAmPmListTextBoxValueChanged;
 
@@ -483,98 +482,98 @@ public class DateTimePicker : Control, IEditableControl
         _daysMonthsSeparatorTextBlock = GetTemplateChild("PART_DaysMonthsSeparatorTextBlock") as TextBlock;
         if (_daysMonthsSeparatorTextBlock is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysMonthsSeparatorTextBlock'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysMonthsSeparatorTextBlock'");
         }
 
         _monthsYearSeparatorTextBlock = GetTemplateChild("PART_MonthsYearSeparatorTextBlock") as TextBlock;
         if (_monthsYearSeparatorTextBlock is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MonthsYearSeparatorTextBlock'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MonthsYearSeparatorTextBlock'");
         }
 
         _yearSeparatorTextBlock = GetTemplateChild("PART_YearSeparatorTextBlock") as TextBlock;
         if (_yearSeparatorTextBlock is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_YearSeparatorTextBlock'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_YearSeparatorTextBlock'");
         }
 
         _hourMinuteSeparatorTextBlock = GetTemplateChild("PART_HourMinuteSeparatorTextBlock") as TextBlock;
         if (_hourMinuteSeparatorTextBlock is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HourMinuteSeparatorTextBlock'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HourMinuteSeparatorTextBlock'");
         }
 
         _minuteSecondSeparatorTextBlock = GetTemplateChild("PART_MinuteSecondSeparatorTextBlock") as TextBlock;
         if (_minuteSecondSeparatorTextBlock is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MinuteSecondSeparatorTextBlock'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MinuteSecondSeparatorTextBlock'");
         }
 
         _secondAmPmSeparatorTextBlock = GetTemplateChild("PART_SecondAmPmSeparatorTextBlock") as TextBlock;
         if (_secondAmPmSeparatorTextBlock is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SecondAmPmSeparatorTextBlock'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SecondAmPmSeparatorTextBlock'");
         }
 
         _amPmSeparatorTextBlock = GetTemplateChild("PART_AmPmSeparatorTextBlock") as TextBlock;
         if (_amPmSeparatorTextBlock is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_AmPmSeparatorTextBlock'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_AmPmSeparatorTextBlock'");
         }
 
         /*Toggles*/
         _daysToggleButton = GetTemplateChild("PART_DaysToggleButton") as ToggleButton;
         if (_daysToggleButton is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysToggleButton'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysToggleButton'");
         }
         _daysToggleButton.Checked += OnToggleButtonChecked;
 
         _monthToggleButton = GetTemplateChild("PART_MonthToggleButton") as ToggleButton;
         if (_monthToggleButton is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MonthToggleButton'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MonthToggleButton'");
         }
         _monthToggleButton.Checked += OnToggleButtonChecked;
 
         _yearToggleButton = GetTemplateChild("PART_YearToggleButton") as ToggleButton;
         if (_yearToggleButton is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_YearToggleButton'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_YearToggleButton'");
         }
 
         _hourToggleButton = GetTemplateChild("PART_HourToggleButton") as ToggleButton;
         if (_hourToggleButton is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HourToggleButton'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HourToggleButton'");
         }
         _hourToggleButton.Checked += OnToggleButtonChecked;
 
         _minuteToggleButton = GetTemplateChild("PART_MinuteToggleButton") as ToggleButton;
         if (_minuteToggleButton is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MinuteToggleButton'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MinuteToggleButton'");
         }
         _minuteToggleButton.Checked += OnToggleButtonChecked;
 
         _secondToggleButton = GetTemplateChild("PART_SecondToggleButton") as ToggleButton;
         if (_secondToggleButton is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SecondToggleButton'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SecondToggleButton'");
         }
         _secondToggleButton.Checked += OnToggleButtonChecked;
 
         _amPmToggleButton = GetTemplateChild("PART_AmPmToggleButton") as ToggleButton;
         if (_amPmToggleButton is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_AmPmToggleButton'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_AmPmToggleButton'");
         }
         _amPmToggleButton.Checked += OnToggleButtonChecked;
 
         _datePickerIconDropDownButton = GetTemplateChild("PART_DatePickerIconDropDownButton") as DropDownButton;
         if (_datePickerIconDropDownButton is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DatePickerIconDropDownButton'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DatePickerIconDropDownButton'");
         }
         _datePickerIconDropDownButton.SetCurrentValue(VisibilityProperty, ShowOptionsButton ? Visibility.Visible : Visibility.Hidden);
 
@@ -582,49 +581,49 @@ public class DateTimePicker : Control, IEditableControl
         _todayMenuItem = GetTemplateChild("PART_TodayMenuItem") as MenuItem;
         if (_todayMenuItem is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TodayMenuItem'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TodayMenuItem'");
         }
         _todayMenuItem.Click += OnTodayMenuItemClick;
 
         _nowMenuItem = GetTemplateChild("PART_NowMenuItem") as MenuItem;
         if (_nowMenuItem is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_NowMenuItem'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_NowMenuItem'");
         }
         _nowMenuItem.Click += OnNowMenuItemClick;
 
         _selectDateMenuItem = GetTemplateChild("PART_SelectDateMenuItem") as MenuItem;
         if (_selectDateMenuItem is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SelectDateMenuItem'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SelectDateMenuItem'");
         }
         _selectDateMenuItem.Click += OnSelectDateMenuItemClick;
 
         _selectTimeMenuItem = GetTemplateChild("PART_SelectTimeMenuItem") as MenuItem;
         if (_selectTimeMenuItem is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SelectTimeMenuItem'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SelectTimeMenuItem'");
         }
         _selectTimeMenuItem.Click += OnSelectTimeMenuItemClick;
 
         _clearMenuItem = GetTemplateChild("PART_ClearMenuItem") as MenuItem;
         if (_clearMenuItem is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ClearMenuItem'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ClearMenuItem'");
         }
         _clearMenuItem.Click += OnClearMenuItemClick;
 
         _copyMenuItem = GetTemplateChild("PART_CopyMenuItem") as MenuItem;
         if (_copyMenuItem is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_CopyMenuItem'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_CopyMenuItem'");
         }
         _copyMenuItem.Click += OnCopyMenuItemClick;
 
         _pasteMenuItem = GetTemplateChild("PART_PasteMenuItem") as MenuItem;
         if (_pasteMenuItem is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_PasteMenuItem'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_PasteMenuItem'");
         }
         _pasteMenuItem.Click += OnPasteMenuItemClick;
 
@@ -632,7 +631,7 @@ public class DateTimePicker : Control, IEditableControl
         _mainGrid = GetTemplateChild("PART_MainGrid") as Grid;
         if (_mainGrid is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MainGrid'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MainGrid'");
         }
         _mainGrid.MouseEnter += OnMouseEnter;
         _mainGrid.MouseLeave += OnMouseLeave;
@@ -642,28 +641,28 @@ public class DateTimePicker : Control, IEditableControl
         _calendarPopup = GetTemplateChild("PART_CalendarPopup") as Popup;
         if (_calendarPopup is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_CalendarPopup'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_CalendarPopup'");
         }
         _calendarPopup.Closed += OnCalendarPopupClosed;
 
         _calendar = GetTemplateChild("PART_Calendar") as Calendar;
         if (_calendar is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Calendar'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Calendar'");
         }
 
         /*Time picker Pop up*/
         _timePickerPopup = GetTemplateChild("PART_TimePickerPopup") as Popup;
         if (_timePickerPopup is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TimePickerPopup'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TimePickerPopup'");
         }
         _timePickerPopup.Closed += OnTimePickerPopupClosed;
 
         _timePicker = GetTemplateChild("PART_TimePicker") as TimePicker;
         if (_timePicker is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TimePicker'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TimePicker'");
         }
 
         _textBoxes = new List<TextBox>
@@ -802,9 +801,9 @@ public class DateTimePicker : Control, IEditableControl
         {
             Clipboard.SetText(DateTimeFormatter.Format(value.Value, _formatInfo), TextDataFormat.Text);
         }
-        catch (FormatException exception)
+        catch (FormatException ex)
         {
-            Log.Warning(exception);
+            Logger.LogWarning(ex, "Failed to copy");
         }
     }
 

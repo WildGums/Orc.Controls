@@ -18,7 +18,7 @@ public class DropdownArrowLocationConverter : ValueConverterBase
     /// The value.
     /// </param>
     /// <param name="targetType">The target type.</param>
-    /// <param name="parameter">The parementer</param>
+    /// <param name="parameter">The parameter.</param>
     /// <returns>
     /// A converted value.
     /// </returns>

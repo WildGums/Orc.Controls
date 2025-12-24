@@ -3,10 +3,11 @@
 using System;
 using System.Linq;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 public static class DateTimeParser
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(DateTimeParser));
 
     public static DateTime? Parse(string input, string format, bool isDateOnly = false)
     {
@@ -36,9 +37,9 @@ public static class DateTimeParser
         {
             result = Parse(input, formatInfo, false);
         }
-        catch (FormatException e)
+        catch (FormatException ex)
         {
-            Log.Warning(e);
+            Logger.LogWarning(ex, "Failed to parse");
 
             return false;
         }
@@ -235,11 +236,11 @@ public static class DateTimeParser
     {
         if (throwOnError)
         {
-            throw innerException is null ? Log.ErrorAndCreateException<TException>(exceptionMessage) 
-                : Log.ErrorAndCreateException<TException>(innerException, exceptionMessage);
+            throw innerException is null ? Logger.LogErrorAndCreateException<TException>(exceptionMessage) 
+                : Logger.LogErrorAndCreateException<TException>(innerException, exceptionMessage);
         }
 
-        Log.Warning(exceptionMessage);
+        Logger.LogWarning(exceptionMessage);
 
         return null;
     }

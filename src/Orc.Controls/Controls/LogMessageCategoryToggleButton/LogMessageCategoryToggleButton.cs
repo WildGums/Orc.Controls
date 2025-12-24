@@ -9,11 +9,12 @@ using System.Windows.Media;
 using Automation;
 using Catel.Logging;
 using Converters;
+using Microsoft.Extensions.Logging;
 
 [TemplatePart(Name = "PART_Toggle", Type = typeof(ToggleButton))]
-public class LogMessageCategoryToggleButton : Control
+public partial class LogMessageCategoryToggleButton : Control
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(LogMessageCategoryToggleButton));
 
     private ToggleButton? _toggleButton;
 
@@ -55,7 +56,7 @@ public class LogMessageCategoryToggleButton : Control
         _toggleButton = GetTemplateChild("PART_Toggle") as ToggleButton;
         if (_toggleButton is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Toggle'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Toggle'");
         }
     }
 

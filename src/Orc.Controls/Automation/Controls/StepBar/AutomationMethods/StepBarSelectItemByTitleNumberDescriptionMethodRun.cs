@@ -11,7 +11,7 @@ public class StepBarSelectItemByTitleNumberDescriptionMethodRun : NamedAutomatio
     {
         result = AutomationValue.FromValue(true);
 
-        if (owner is not Controls.StepBar stepBar)
+        if (owner is not Orc.Controls.StepBar stepBar)
         {
             return false;
         }

@@ -4,7 +4,7 @@ using System.Windows.Automation;
 using Orc.Automation;
 using Orc.Automation.Controls;
 
-[AutomatedControl(Class = typeof(Controls.AlignmentGrid))]
+[AutomatedControl(Class = typeof(Orc.Controls.AlignmentGrid))]
 public class AlignmentGrid : FrameworkElement<AlignmentGridModel>
 {
     public AlignmentGrid(AutomationElement element) 

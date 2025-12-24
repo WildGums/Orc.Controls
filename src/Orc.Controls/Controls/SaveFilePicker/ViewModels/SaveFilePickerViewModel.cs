@@ -6,27 +6,26 @@ using System.Threading.Tasks;
 using Catel.Logging;
 using Catel.MVVM;
 using Catel.Services;
+using Microsoft.Extensions.Logging;
 
 public class SaveFilePickerViewModel : ViewModelBase
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-
     private readonly IProcessService _processService;
+    private readonly ILogger<SaveFilePickerViewModel> _logger;
     private readonly ISaveFileService _saveFileService;
 
-    public SaveFilePickerViewModel(ISaveFileService saveFileService, IProcessService processService)
+    public SaveFilePickerViewModel(ILogger<SaveFilePickerViewModel> logger, 
+        IServiceProvider serviceProvider, ISaveFileService saveFileService, IProcessService processService)
     {
-        ArgumentNullException.ThrowIfNull(saveFileService);
-        ArgumentNullException.ThrowIfNull(processService);
-
+        _logger = logger;
         _saveFileService = saveFileService;
         _processService = processService;
 
         ValidateUsingDataAnnotations = false;
 
-        OpenDirectory = new Command(OnOpenDirectoryExecute, OnOpenDirectoryCanExecute);
-        SelectFile = new TaskCommand(OnSelectFileExecuteAsync);
-        Clear = new Command(OnClearExecute, OnClearCanExecute);
+        OpenDirectory = new Command(serviceProvider, OnOpenDirectoryExecute, OnOpenDirectoryCanExecute);
+        SelectFile = new TaskCommand(serviceProvider, OnSelectFileExecuteAsync);
+        Clear = new Command(serviceProvider, OnClearExecute, OnClearCanExecute);
     }
 
     public double LabelWidth { get; set; }
@@ -83,7 +82,7 @@ public class SaveFilePickerViewModel : ViewModelBase
         var selectedFile = SelectedFile;
         if (string.IsNullOrWhiteSpace(selectedFile))
         {
-            Log.Warning("Can't open directory, because selected file isn't selected");
+            _logger.LogWarning("Can't open directory, because selected file isn't selected");
 
             return;
         }
@@ -91,7 +90,7 @@ public class SaveFilePickerViewModel : ViewModelBase
         var directory = Directory.GetParent(selectedFile);
         if (directory is null)
         {
-            Log.Warning($"Can't find parent directory for selected file: '{selectedFile}'");
+            _logger.LogWarning($"Can't find parent directory for selected file: '{selectedFile}'");
 
             return;
         }

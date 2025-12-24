@@ -2,11 +2,10 @@
 
 using Catel;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 public class DateTimeFormatInfo
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-
     public int DayPosition { get; set; }
     public int MonthPosition { get; set; }
     public int YearPosition { get; set; }

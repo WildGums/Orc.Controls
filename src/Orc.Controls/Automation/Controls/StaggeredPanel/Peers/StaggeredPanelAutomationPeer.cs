@@ -2,9 +2,9 @@
 
 using Orc.Automation;
 
-public class StaggeredPanelAutomationPeer : AutomationControlPeerBase<Controls.StaggeredPanel>
+public class StaggeredPanelAutomationPeer : AutomationControlPeerBase<Orc.Controls.StaggeredPanel>
 {
-    public StaggeredPanelAutomationPeer(Controls.StaggeredPanel owner)
+    public StaggeredPanelAutomationPeer(Orc.Controls.StaggeredPanel owner)
         : base(owner)
     {
     }

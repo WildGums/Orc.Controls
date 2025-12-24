@@ -13,6 +13,6 @@ public class TimeSpanPickerModel : FrameworkElementModel
 
     public TimeSpan? Value { get; set; }
 
-    [ActiveAutomationProperty(nameof(Controls.TimeSpanPicker.IsReadOnly))]
+    [ActiveAutomationProperty(nameof(Orc.Controls.TimeSpanPicker.IsReadOnly))]
     public bool CanEdit { get; set; }
 }

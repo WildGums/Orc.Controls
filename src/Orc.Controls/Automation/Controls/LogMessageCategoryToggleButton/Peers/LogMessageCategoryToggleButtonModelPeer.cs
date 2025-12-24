@@ -3,9 +3,9 @@ namespace Orc.Controls.Automation;
 
 using Orc.Automation;
 
-public class LogMessageCategoryToggleButtonModelPeer : AutomationControlPeerBase<Controls.LogMessageCategoryToggleButton>
+public class LogMessageCategoryToggleButtonModelPeer : AutomationControlPeerBase<Orc.Controls.LogMessageCategoryToggleButton>
 {
-    public LogMessageCategoryToggleButtonModelPeer(Controls.LogMessageCategoryToggleButton owner) 
+    public LogMessageCategoryToggleButtonModelPeer(Orc.Controls.LogMessageCategoryToggleButton owner) 
         : base(owner)
     {
     }

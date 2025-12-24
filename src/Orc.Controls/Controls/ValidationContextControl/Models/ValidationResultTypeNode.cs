@@ -6,6 +6,9 @@ using System.Linq;
 using Catel;
 using Catel.Collections;
 using Catel.Data;
+using Catel.IoC;
+using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 public class ValidationResultTypeNode : ValidationContextTreeNode
 {
@@ -28,14 +31,16 @@ public class ValidationResultTypeNode : ValidationContextTreeNode
 
     private void UpdateDisplayName()
     {
+        var languageService = IoCContainer.ServiceProvider.GetRequiredService<ILanguageService>();
+
         switch (ResultType)
         {
             case ValidationResultType.Error:
-                DisplayName = LanguageHelper.GetRequiredString("Controls_ValidationContextControl_Errors");
+                DisplayName = languageService.GetRequiredString("Controls_ValidationContextControl_Errors");
                 break;
 
             case ValidationResultType.Warning:
-                DisplayName = LanguageHelper.GetRequiredString("Controls_ValidationContextControl_Warnings");
+                DisplayName = languageService.GetRequiredString("Controls_ValidationContextControl_Warnings");
                 break;
         }
     }

@@ -23,7 +23,7 @@ public class OpenToolCommandExtension : UpdatableMarkupExtension
 
         _toolType = toolType;
         _frameworkElementType = frameworkElementType;
-        Command = new TaskCommand<object>(OnOpenToolAsync, CanExecute);
+        Command = new TaskCommand<object>(ServiceProvider, OnOpenToolAsync, CanExecute);
     }
 
     protected override object ProvideDynamicValue(IServiceProvider? serviceProvider)

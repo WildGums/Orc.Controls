@@ -5,18 +5,29 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using Catel.Configuration;
 using Catel.Logging;
+using Catel.Services;
+using Catel.Windows.Threading;
+using Microsoft.Extensions.Logging;
 
 public abstract class TimeBasedCalloutWatcherBase : CalloutWatcherBase
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private readonly ILogger<TimeBasedCalloutWatcherBase> _logger;
+    private readonly IDispatcherService _dispatcherService;
 
-    private readonly DispatcherTimer _dispatcherTimer = new();
+    private readonly DispatcherTimerEx _dispatcherTimer;
 
-    public TimeBasedCalloutWatcherBase(ICalloutManager calloutManager, IConfigurationService configurationService)
+    public TimeBasedCalloutWatcherBase(ILogger<TimeBasedCalloutWatcherBase> logger,
+        ICalloutManager calloutManager, IConfigurationService configurationService,
+        IDispatcherService dispatcherService)
         : base(calloutManager, configurationService)
     {
-        Start = DateTime.MaxValue;
+        _logger = logger;
+        _dispatcherService = dispatcherService;
+
+        _dispatcherTimer = new DispatcherTimerEx(dispatcherService);
         _dispatcherTimer.Tick += OnDispatcherTimerTick;
+
+        Start = DateTime.MaxValue;
 
         Subscribe(_calloutManager);
     }
@@ -41,7 +52,7 @@ public abstract class TimeBasedCalloutWatcherBase : CalloutWatcherBase
             return;
         }
 
-        Log.Debug($"Callout is not yet registered, subscribing to ICalloutManager.Registered event");
+        _logger.LogDebug($"Callout is not yet registered, subscribing to ICalloutManager.Registered event");
 
         calloutManager.Registered += OnCalloutManagerRegistered;
     }

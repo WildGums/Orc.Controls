@@ -12,19 +12,17 @@ public class OpenFilePickerViewModel : ViewModelBase
     private readonly IProcessService _processService;
     private readonly IOpenFileService _openFileService;
 
-    public OpenFilePickerViewModel(IOpenFileService openFileService, IProcessService processService)
+    public OpenFilePickerViewModel(IServiceProvider serviceProvider,
+        IOpenFileService openFileService, IProcessService processService)
     {
-        ArgumentNullException.ThrowIfNull(openFileService);
-        ArgumentNullException.ThrowIfNull(processService);
-
         _openFileService = openFileService;
         _processService = processService;
 
         ValidateUsingDataAnnotations = false;
 
-        OpenDirectory = new Command(OnOpenDirectoryExecute, OnOpenDirectoryCanExecute);
-        SelectFile = new TaskCommand(OnSelectFileExecuteAsync);
-        Clear = new Command(OnClearExecute, OnClearCanExecute);
+        OpenDirectory = new Command(serviceProvider, OnOpenDirectoryExecute, OnOpenDirectoryCanExecute);
+        SelectFile = new TaskCommand(serviceProvider, OnSelectFileExecuteAsync);
+        Clear = new Command(serviceProvider, OnClearExecute, OnClearCanExecute);
     }
 
     public double LabelWidth { get; set; }

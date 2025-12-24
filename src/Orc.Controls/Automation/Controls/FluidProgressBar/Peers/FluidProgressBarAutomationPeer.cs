@@ -2,9 +2,9 @@
 
 using Orc.Automation;
 
-public class FluidProgressBarAutomationPeer : AutomationControlPeerBase<Controls.FluidProgressBar>
+public class FluidProgressBarAutomationPeer : AutomationControlPeerBase<Orc.Controls.FluidProgressBar>
 {
-    public FluidProgressBarAutomationPeer(Controls.FluidProgressBar owner) 
+    public FluidProgressBarAutomationPeer(Orc.Controls.FluidProgressBar owner) 
         : base(owner)
     {
     }

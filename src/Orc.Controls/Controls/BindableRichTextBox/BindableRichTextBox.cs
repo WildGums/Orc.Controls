@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using Automation;
 
-public class BindableRichTextBox : RichTextBox
+public partial class BindableRichTextBox : RichTextBox
 {
     public BindableRichTextBox()
     {

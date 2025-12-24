@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using Catel.Collections;
@@ -11,11 +12,11 @@ public class ValidationContextTreeNode : ChildAwareModelBase, IValidationContext
 {
     protected ValidationContextTreeNode(bool isExpanded)
     {
-        Children = new FastObservableCollection<ValidationContextTreeNode>();
+        Children = new ObservableCollection<ValidationContextTreeNode>();
         IsExpanded = isExpanded;
     }
     
-    public FastObservableCollection<ValidationContextTreeNode> Children { get; }
+    public ObservableCollection<ValidationContextTreeNode> Children { get; }
     public string? DisplayName { get; protected set; }
     public bool IsExpanded { get; set; }
     public bool IsVisible { get; set; }

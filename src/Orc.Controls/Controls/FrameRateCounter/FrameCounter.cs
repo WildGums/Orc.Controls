@@ -10,7 +10,7 @@ using Automation;
 /// <summary>
 /// A counter to show the frame number inside an application.
 /// </summary>
-public class FrameCounter : TextBlock
+public partial class FrameCounter : TextBlock
 {
     private int _frameCounter;
 

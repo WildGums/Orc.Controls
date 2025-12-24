@@ -11,7 +11,8 @@ using Automation;
 using ControlzEx.Theming;
 using Enums;
 using static ClockMath;
-public class TimePicker : ContentControl
+
+public partial class TimePicker : ContentControl
 {
     public const double HourTickRatio = 0.20;
     public const double MinuteTickRatio = 0.10;

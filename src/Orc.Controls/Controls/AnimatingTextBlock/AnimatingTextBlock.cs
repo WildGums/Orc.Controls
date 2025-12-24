@@ -7,12 +7,13 @@ using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using Automation;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 using Services;
 
 [StyleTypedProperty(Property = nameof(TextBlockStyle), StyleTargetType = typeof(TextBlock))]
-public class AnimatingTextBlock : UserControl, IStatusRepresenter
+public partial class AnimatingTextBlock : UserControl, IStatusRepresenter
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(AnimatingTextBlock));
 
     private static readonly Storyboard DefaultShowStoryboard;
     private static readonly Storyboard DefaultHideStoryboard;
@@ -62,8 +63,6 @@ public class AnimatingTextBlock : UserControl, IStatusRepresenter
     }
 
     #region Dependency properties
-
-
     public Style? TextBlockStyle
     {
         get { return (Style?)GetValue(TextBlockStyleProperty); }
@@ -72,7 +71,6 @@ public class AnimatingTextBlock : UserControl, IStatusRepresenter
 
     public static readonly DependencyProperty TextBlockStyleProperty = DependencyProperty.Register(nameof(TextBlockStyle), 
         typeof(Style), typeof(AnimatingTextBlock), new PropertyMetadata(null));
-
 
 
     public string Text

@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using Catel.Logging;
 using Catel.MVVM;
 using Catel.Services;
+using Microsoft.Extensions.Logging;
 
 public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
     where T : ViewModelBase
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(DialogWindowHostedToolBase<T>));
 
     protected readonly IUIVisualizerService _uiVisualizerService;
 
@@ -34,7 +35,7 @@ public abstract class DialogWindowHostedToolBase<T> : ControlToolBase
         }
         catch (Exception ex)
         {
-            Log.Error(ex);
+            Logger.LogError(ex, null);
 
             return Task.CompletedTask;
         }

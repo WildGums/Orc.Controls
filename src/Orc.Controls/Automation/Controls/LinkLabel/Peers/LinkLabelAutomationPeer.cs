@@ -4,9 +4,9 @@ using System.Windows;
 using System.Windows.Navigation;
 using Orc.Automation;
 
-public class LinkLabelAutomationPeer : AutomationControlPeerBase<Controls.LinkLabel>
+public class LinkLabelAutomationPeer : AutomationControlPeerBase<Orc.Controls.LinkLabel>
 {
-    public LinkLabelAutomationPeer(Controls.LinkLabel owner) 
+    public LinkLabelAutomationPeer(Orc.Controls.LinkLabel owner) 
         : base(owner)
     {
         var control = Control;
@@ -17,11 +17,11 @@ public class LinkLabelAutomationPeer : AutomationControlPeerBase<Controls.LinkLa
         
     private void OnClick(object sender, RoutedEventArgs e)
     {
-        RaiseEvent(nameof(Controls.LinkLabel.Click), null);
+        RaiseEvent(nameof(Orc.Controls.LinkLabel.Click), null);
     }
 
     private void OnRequestNavigate(object sender, RequestNavigateEventArgs e)
     {
-        RaiseEvent(nameof(Controls.LinkLabel.RequestNavigate), null);
+        RaiseEvent(nameof(Orc.Controls.LinkLabel.RequestNavigate), null);
     }
 }

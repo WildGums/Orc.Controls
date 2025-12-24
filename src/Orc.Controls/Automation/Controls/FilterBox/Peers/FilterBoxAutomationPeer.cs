@@ -4,7 +4,7 @@ using System.Windows.Automation.Peers;
 
 public class FilterBoxAutomationPeer : TextBoxAutomationPeer<Orc.Controls.FilterBox>
 {
-    public FilterBoxAutomationPeer(Controls.FilterBox owner) 
+    public FilterBoxAutomationPeer(Orc.Controls.FilterBox owner) 
         : base(owner)
     {
     }

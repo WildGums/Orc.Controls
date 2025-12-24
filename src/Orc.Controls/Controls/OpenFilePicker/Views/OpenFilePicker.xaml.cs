@@ -3,7 +3,9 @@
 using System.Windows;
 using System.Windows.Automation.Peers;
 using Automation;
+using Catel.IoC;
 using Catel.MVVM.Views;
+using Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
 ///     Interaction logic for OpenFilePicker.xaml
@@ -12,19 +14,9 @@ public partial class OpenFilePicker
 {
     static OpenFilePicker()
     {
-        typeof(OpenFilePicker).AutoDetectViewPropertiesToSubscribe();
+        typeof(OpenFilePicker).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="OpenFilePicker"/> class.
-    /// </summary>
-    /// <remarks>This method is required for design time support.</remarks>
-    public OpenFilePicker()
-    {
-        InitializeComponent();
-    }
-
-    #region Properties
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
     public double LabelWidth
     {
@@ -78,7 +70,6 @@ public partial class OpenFilePicker
 
     public static readonly DependencyProperty BaseDirectoryProperty = DependencyProperty.Register(nameof(BaseDirectory), typeof(string),
         typeof(OpenFilePicker), new PropertyMetadata(string.Empty));
-    #endregion
 
     protected override AutomationPeer OnCreateAutomationPeer()
     {

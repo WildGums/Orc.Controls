@@ -6,7 +6,7 @@ using System.Windows.Automation;
 using Orc.Automation;
 using Orc.Automation.Controls;
 
-[AutomatedControl(Class = typeof(Controls.SpinButton))]
+[AutomatedControl(Class = typeof(Orc.Controls.SpinButton))]
 public class SpinButton : FrameworkElement
 {
     private readonly SpinButtonMap _map;

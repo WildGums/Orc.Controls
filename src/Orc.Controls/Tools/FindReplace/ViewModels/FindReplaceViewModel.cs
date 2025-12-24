@@ -5,21 +5,20 @@ using System.Media;
 using Catel.MVVM;
 using Services;
 
-public class FindReplaceViewModel : ViewModelBase
+public class FindReplaceViewModel : FeaturedViewModelBase
 {
     private readonly IFindReplaceService _findReplaceService;
 
-    public FindReplaceViewModel(FindReplaceSettings findReplaceSettings, IFindReplaceService findReplaceService)
+    public FindReplaceViewModel(FindReplaceSettings findReplaceSettings, IServiceProvider serviceProvider,
+        IFindReplaceService findReplaceService)
+        : base(serviceProvider)
     {
-        ArgumentNullException.ThrowIfNull(findReplaceSettings);
-        ArgumentNullException.ThrowIfNull(findReplaceService);
-
         _findReplaceService = findReplaceService;
 
-        FindNext = new Command<string?>(OnFindNext);
-        FindAll = new Command<string?>(OnFindAll);
-        Replace = new Command<object?>(OnReplace);
-        ReplaceAll = new Command<object?>(OnReplaceAll);
+        FindNext = new Command<string?>(serviceProvider, OnFindNext);
+        FindAll = new Command<string?>(serviceProvider, OnFindAll);
+        Replace = new Command<object?>(serviceProvider, OnReplace);
+        ReplaceAll = new Command<object?>(serviceProvider, OnReplaceAll);
 
         FindReplaceSettings = findReplaceSettings;
 

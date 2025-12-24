@@ -8,33 +8,28 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using Attributes;
 using Catel.IO;
-using Catel.IoC;
 using Catel.Logging;
-using Catel.Runtime.Serialization;
 using Catel.Services;
 using FileSystem;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Path = System.IO.Path;
 
 public class ControlToolManager : IControlToolManager
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(ControlToolManager));
 
     private readonly FrameworkElement _frameworkElement;
-    private readonly ITypeFactory _typeFactory;
+    private readonly IServiceProvider _serviceProvider;
     private readonly IDirectoryService _directoryService;
     private readonly IAppDataService _appDataService;
 
-    public ControlToolManager(FrameworkElement frameworkElement, ITypeFactory typeFactory, IDirectoryService directoryService, IAppDataService appDataService)
+    public ControlToolManager(FrameworkElement frameworkElement, IServiceProvider serviceProvider, 
+        IDirectoryService directoryService, IAppDataService appDataService)
     {
-        ArgumentNullException.ThrowIfNull(frameworkElement);
-        ArgumentNullException.ThrowIfNull(typeFactory);
-        ArgumentNullException.ThrowIfNull(directoryService);
-        ArgumentNullException.ThrowIfNull(appDataService);
-
         _frameworkElement = frameworkElement;
-        _typeFactory = typeFactory;
+        _serviceProvider = serviceProvider;
         _directoryService = directoryService;
         _appDataService = appDataService;
     }
@@ -62,7 +57,7 @@ public class ControlToolManager : IControlToolManager
         var tool = tools.FirstOrDefault(x => x.GetType() == toolType);
         if (tool is null)
         {
-            tool = _typeFactory.CreateInstanceWithParametersAndAutoCompletion(toolType) as IControlTool;
+            tool = ActivatorUtilities.CreateInstance(_serviceProvider, toolType) as IControlTool;
             if (tool is not null)
             {
                 tools.Add(tool);
@@ -162,19 +157,19 @@ public class ControlToolManager : IControlToolManager
                 continue;
             }
 
-            var serializer = SerializationFactory.GetXmlSerializer();
-            using var fileStream = File.Open(settingsFilePath, FileMode.Open);
+            //var serializer = SerializationFactory.GetXmlSerializer();
+            //using var fileStream = File.Open(settingsFilePath, FileMode.Open);
 
-            try
-            {
-                var settings = serializer.Deserialize(settingsProperty.PropertyType, fileStream);
-                settingsProperty.SetValue(tool, settings);
-            }
-            catch (Exception e)
-            {
-                //Vladimir:Don't crash if something went wrong while loading file
-                Log.Debug(e);
-            }
+            //try
+            //{
+            //    var settings = serializer.Deserialize(settingsProperty.PropertyType, fileStream);
+            //    settingsProperty.SetValue(tool, settings);
+            //}
+            //catch (Exception ex)
+            //{
+            //    //Vladimir:Don't crash if something went wrong while loading file
+            //    Logger.LogDebug(ex, "Failed to load settings");
+            //}
         }
     }
 
@@ -192,19 +187,19 @@ public class ControlToolManager : IControlToolManager
                 continue;
             }
 
-            var serializer = SerializationFactory.GetXmlSerializer();
-            var settingsFilePath = GetSettingsFilePath(tool, settingsProperty);
-            using var fileStream = File.Open(settingsFilePath, FileMode.Create);
+            //var serializer = SerializationFactory.GetXmlSerializer();
+            //var settingsFilePath = GetSettingsFilePath(tool, settingsProperty);
+            //using var fileStream = File.Open(settingsFilePath, FileMode.Create);
 
-            try
-            {
-                serializer.Serialize(settings, fileStream);   
-            }
-            catch (Exception e)
-            {
-                //Vladimir:Don't crash if something went wrong while saving tool settings into file
-                Log.Debug(e);
-            }
+            //try
+            //{
+            //    serializer.Serialize(settings, fileStream);   
+            //}
+            //catch (Exception ex)
+            //{
+            //    //Vladimir:Don't crash if something went wrong while saving tool settings into file
+            //    Logger.LogDebug(ex);
+            //}
         }
     }
 

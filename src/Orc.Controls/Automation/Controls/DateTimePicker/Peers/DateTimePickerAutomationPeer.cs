@@ -2,9 +2,9 @@
 
 using Orc.Automation;
 
-public class DateTimePickerAutomationPeer : AutomationControlPeerBase<Controls.DateTimePicker>
+public class DateTimePickerAutomationPeer : AutomationControlPeerBase<Orc.Controls.DateTimePicker>
 {
-    public DateTimePickerAutomationPeer(Controls.DateTimePicker owner) 
+    public DateTimePickerAutomationPeer(Orc.Controls.DateTimePicker owner) 
         : base(owner)
     {
     }

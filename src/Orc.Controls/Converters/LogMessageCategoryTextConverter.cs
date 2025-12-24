@@ -4,22 +4,31 @@ using System;
 using System.Collections.Generic;
 using Catel;
 using Catel.MVVM.Converters;
+using Catel.Services;
 
 internal class LogMessageCategoryTextConverter : ValueConverterBase<string>
 {
     private static readonly Dictionary<string, string?> PathCache = new(StringComparer.OrdinalIgnoreCase);
 
-    static LogMessageCategoryTextConverter()
+    private readonly ILanguageService _languageService;
+
+    public LogMessageCategoryTextConverter(ILanguageService languageService)
     {
-        PathCache["Debug"] = LanguageHelper.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Debug");
-        PathCache["Info"] = LanguageHelper.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Info");
-        PathCache["Warning"] = LanguageHelper.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Warning");
-        PathCache["Error"] = LanguageHelper.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Error");
-        PathCache["Clock"] = null;
+        _languageService = languageService;
+
+        if (PathCache.Count == 0)
+        {
+            PathCache["Debug"] = _languageService.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Debug");
+            PathCache["Information"] = _languageService.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Info");
+            PathCache["Warning"] = _languageService.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Warning");
+            PathCache["Error"] = _languageService.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Error");
+            PathCache["Critical"] = _languageService.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Error");
+            PathCache["Clock"] = null;
+        }
     }
 
     protected override object? Convert(string? value, Type targetType, object? parameter)
     {
-        return PathCache.TryGetValue(value ?? string.Empty, out var cachedvalue) ? cachedvalue : null;
+        return PathCache.TryGetValue(value ?? string.Empty, out var cachedValue) ? cachedValue : null;
     }
 }

@@ -20,8 +20,8 @@ public class ValidationContextViewModel : ViewModelBase
     private readonly IProcessService _processService;
     private readonly IValidationContext? _injectedValidationContext;
 
-    public ValidationContextViewModel(IProcessService processService, IDispatcherService dispatcherService,
-        IFileService fileService)
+    public ValidationContextViewModel(IServiceProvider serviceProvider, IProcessService processService, 
+        IDispatcherService dispatcherService, IFileService fileService)
     {
         ArgumentNullException.ThrowIfNull(processService);
         ArgumentNullException.ThrowIfNull(dispatcherService);
@@ -33,19 +33,19 @@ public class ValidationContextViewModel : ViewModelBase
 
         ValidateUsingDataAnnotations = false;
 
-        ExpandAll = new Command(OnExpandAllExecute);
-        CollapseAll = new Command(OnCollapseAllExecute);
-        Copy = new Command(OnCopyExecute, OnCopyCanExecute);
-        Open = new Command(OnOpenExecute);
+        ExpandAll = new Command(serviceProvider, OnExpandAllExecute);
+        CollapseAll = new Command(serviceProvider, OnCollapseAllExecute);
+        Copy = new Command(serviceProvider, OnCopyExecute, OnCopyCanExecute);
+        Open = new Command(serviceProvider, OnOpenExecute);
         
         Nodes = Enumerable.Empty<IValidationContextTreeNode>();
 
         InvalidateCommandsOnPropertyChanged = true;
     }
 
-    public ValidationContextViewModel(ValidationContext validationContext, IProcessService processService, 
-        IDispatcherService dispatcherService, IFileService fileService)
-        : this(processService, dispatcherService, fileService)
+    public ValidationContextViewModel(ValidationContext validationContext, IServiceProvider serviceProvider, 
+        IProcessService processService, IDispatcherService dispatcherService, IFileService fileService)
+        : this(serviceProvider, processService, dispatcherService, fileService)
     {
         _injectedValidationContext = validationContext;
     }

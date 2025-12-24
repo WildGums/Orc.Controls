@@ -11,8 +11,7 @@
                    xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
                    xmlns:system="clr-namespace:System;assembly=mscorlib"
                    xmlns:local="clr-namespace:Orc.Controls"
-                   xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
-                   x:Name="calloutWindow">
+                   xmlns:orctheming="http://schemas.wildgums.com/orc/theming">
 
     <UserControl.Resources>
         <system:Double x:Key="DefaultOpacity">1.0</system:Double>

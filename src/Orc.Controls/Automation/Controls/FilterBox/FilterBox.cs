@@ -8,7 +8,7 @@ using System.Windows.Input;
 using Orc.Automation;
 using Orc.Automation.Controls;
 
-[AutomatedControl(Class = typeof(Controls.FilterBox), ControlTypeName = nameof(ControlType.Edit))]
+[AutomatedControl(Class = typeof(Orc.Controls.FilterBox), ControlTypeName = nameof(ControlType.Edit))]
 public class FilterBox : Edit
 {
     public FilterBox(AutomationElement element) 

@@ -11,7 +11,7 @@ public class SetNumericTextBoxValueRun : NamedAutomationMethodRun
     {
         result = AutomationValue.FromValue(true);
 
-        if (owner is not Controls.NumericTextBox numericTextBox)
+        if (owner is not Orc.Controls.NumericTextBox numericTextBox)
         {
             return false;
         }
@@ -26,7 +26,7 @@ public class SetNumericTextBoxValueRun : NamedAutomationMethodRun
         }
 
         var value = (double?)method.Parameters[0].ExtractValue();
-        numericTextBox.SetCurrentValue(Controls.NumericTextBox.ValueProperty, value);
+        numericTextBox.SetCurrentValue(Orc.Controls.NumericTextBox.ValueProperty, value);
 
         if (beenFocused)
         {

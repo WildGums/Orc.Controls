@@ -5,7 +5,7 @@ using System.Windows.Automation;
 using Orc.Automation;
 using Orc.Automation.Controls;
 
-[AutomatedControl(Class = typeof(Controls.PinnableToolTip))]
+[AutomatedControl(Class = typeof(Orc.Controls.PinnableToolTip))]
 public class PinnableToolTip : FrameworkElement<PinnableToolTipModel, PinnableToolTipMap>
 {
     public PinnableToolTip(AutomationElement element)

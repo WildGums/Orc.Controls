@@ -12,53 +12,44 @@ using Catel.IoC;
 using Catel.Logging;
 using Catel.MVVM;
 using Catel.Services;
+using Microsoft.Extensions.Logging;
 
 public class LogViewerViewModel : ViewModelBase
 {
-    private readonly LogViewerLogListener _logViewerLogListener;
-    private readonly ITypeFactory _typeFactory;
+    private readonly IServiceProvider _serviceProvider;
     private readonly IDispatcherService _dispatcherService;
 
     private readonly object _lock = new();
 
     private readonly string _defaultComboBoxItem;
 
-    private readonly FastObservableCollection<LogEntry> _logEntries = new();
+    private readonly List<LogEntry> _logEntries = new();
     private readonly Queue<LogEntry> _queuedEntries = new();
-
-    private ILogListener? _logListener;
 
 #pragma warning disable IDISP006 // Implement IDisposable.
     private readonly Timer _timer;
 #pragma warning restore IDISP006 // Implement IDisposable.
 
-    private bool _hasInitializedFirstLogListener;
     private bool _isClearingLog;
     private bool _isViewModelActive;
-    
-    public LogViewerViewModel(ITypeFactory typeFactory, IDispatcherService dispatcherService,
-        LogViewerLogListener logViewerLogListener, ILanguageService languageService)
-    {
-        ArgumentNullException.ThrowIfNull(typeFactory);
-        ArgumentNullException.ThrowIfNull(dispatcherService);
-        ArgumentNullException.ThrowIfNull(logViewerLogListener);
 
-        _typeFactory = typeFactory;
+    public LogViewerViewModel(IServiceProvider serviceProvider, IDispatcherService dispatcherService,
+       ILanguageService languageService)
+    {
+        _serviceProvider = serviceProvider;
         _dispatcherService = dispatcherService;
-        _logViewerLogListener = logViewerLogListener;
 
         ValidateUsingDataAnnotations = false;
 
         _defaultComboBoxItem = languageService.GetRequiredString(nameof(Properties.Resources.Controls_LogViewer_SelectTypeName));
         _timer = new Timer(OnTimerTick);
 
-        LogListenerType = typeof(LogViewerLogListener);
         ShowDebug = true;
         ShowInfo = true;
         ShowWarning = true;
         ShowError = true;
 
-        var typeNames = new FastObservableCollection<string>
+        var typeNames = new FastObservableCollection<string>(dispatcherService)
         {
             _defaultComboBoxItem
         };
@@ -68,7 +59,7 @@ public class LogViewerViewModel : ViewModelBase
         ResetEntriesCount();
     }
 
-    public ObservableCollection<LogEntry> LogEntries
+    public List<LogEntry> LogEntries
     {
         get
         {
@@ -83,9 +74,7 @@ public class LogViewerViewModel : ViewModelBase
 
     public FastObservableCollection<string> TypeNames { get; }
 
-    public Type? LogListenerType { get; }
-
-    public string?LogFilter { get; set; }
+    public string? LogFilter { get; set; }
     public string? TypeFilter { get; set; }
 
     public bool IgnoreCatelLogging { get; set; }
@@ -118,17 +107,14 @@ public class LogViewerViewModel : ViewModelBase
         {
             lock (_lock)
             {
-                using (_logEntries.SuspendChangeNotifications())
-                {
-                    _logEntries.Clear();
+                _logEntries.Clear();
 
-                    var typeNames = TypeNames;
-                    if (typeNames is not null)
+                var typeNames = TypeNames;
+                if (typeNames is not null)
+                {
+                    using (typeNames.SuspendChangeNotifications())
                     {
-                        using (typeNames.SuspendChangeNotifications())
-                        {
-                            typeNames.ReplaceRange(new[] { _defaultComboBoxItem });
-                        }
+                        typeNames.ReplaceRange(new[] { _defaultComboBoxItem });
                     }
                 }
             }
@@ -240,25 +226,25 @@ public class LogViewerViewModel : ViewModelBase
     private void OnIgnoreCatelLoggingChanged()
     {
         // As an exception, we completely disable Catel on the log listener for performance
-        if (_logListener is not null)
-        {
-            _logListener.IgnoreCatelLogging = IgnoreCatelLogging;
-        }
+        //if (_logListener is not null)
+        //{
+        //    _logListener.IgnoreCatelLogging = IgnoreCatelLogging;
+        //}
     }
 
-    private void OnLogListenerTypeChanged()
-    {
-        UnsubscribeLogListener();
+    //private void OnLogListenerTypeChanged()
+    //{
+    //    UnsubscribeLogListener();
 
-        if (_hasInitializedFirstLogListener)
-        {
-            ClearEntries();
-        }
+    //    if (_hasInitializedFirstLogListener)
+    //    {
+    //        ClearEntries();
+    //    }
 
-        _hasInitializedFirstLogListener = true;
+    //    _hasInitializedFirstLogListener = true;
 
-        SubscribeLogListener();
-    }
+    //    SubscribeLogListener();
+    //}
 
     private void SubscribeLogListener()
     {
@@ -267,53 +253,53 @@ public class LogViewerViewModel : ViewModelBase
             return;
         }
 
-        var logListenerType = LogListenerType;
-        if (logListenerType is null)
-        {
-            return;
-        }
+        //var logListenerType = LogListenerType;
+        //if (logListenerType is null)
+        //{
+        //    return;
+        //}
 
-        if (logListenerType == typeof(LogViewerLogListener))
-        {
-            var logViewerLogListener = _logViewerLogListener;
-            if (logViewerLogListener is not null)
-            {
-                _logListener = logViewerLogListener;
-                _dispatcherService.Invoke(() => AddLogEntries(logViewerLogListener.GetLogEntries().ToList(), true));
-            }
-        }
-        else
-        {
-            if (_typeFactory.CreateInstance(logListenerType) is ILogListener logListener)
-            {
-                LogManager.AddListener(logListener);
-                _logListener = logListener;
-            }
-        }
+        //if (logListenerType == typeof(LogViewerLogListener))
+        //{
+        //    var logViewerLogListener = _logViewerLogListener;
+        //    if (logViewerLogListener is not null)
+        //    {
+        //        _logListener = logViewerLogListener;
+        //        _dispatcherService.Invoke(() => AddLogEntries(logViewerLogListener.GetLogEntries().ToList(), true));
+        //    }
+        //}
+        //else
+        //{
+        //    if (_typeFactory.CreateInstance(logListenerType) is ILogListener logListener)
+        //    {
+        //        LogManager.AddListener(logListener);
+        //        _logListener = logListener;
+        //    }
+        //}
 
-        if (_logListener is null)
-        {
-            return;
-        }
+        //if (_logListener is null)
+        //{
+        //    return;
+        //}
 
-        _logListener.IgnoreCatelLogging = IgnoreCatelLogging;
-        _logListener.LogMessage += OnLogMessage;
+        //_logListener.IgnoreCatelLogging = IgnoreCatelLogging;
+        //_logListener.LogMessage += OnLogMessage;
     }
 
     private void UnsubscribeLogListener()
     {
-        if (_logListener is null)
-        {
-            return;
-        }
+        //if (_logListener is null)
+        //{
+        //    return;
+        //}
 
-        if (_logListener is not LogViewerLogListener)
-        {
-            LogManager.RemoveListener(_logListener);
-        }
+        //if (_logListener is not LogViewerLogListener)
+        //{
+        //    LogManager.RemoveListener(_logListener);
+        //}
 
-        _logListener.LogMessage -= OnLogMessage;
-        _logListener = null;
+        //_logListener.LogMessage -= OnLogMessage;
+        //_logListener = null;
     }
 
     public IEnumerable<LogEntry> GetFilteredLogEntries()
@@ -336,23 +322,24 @@ public class LogViewerViewModel : ViewModelBase
 
     public bool IsValidLogEntry(LogEntry logEntry)
     {
-        return IsAcceptable(logEntry.LogEvent) && PassFilters(logEntry);
+        return IsAcceptable(logEntry.LogLevel) && PassFilters(logEntry);
     }
 
-    private bool IsAcceptable(LogEvent logEvent)
+    private bool IsAcceptable(LogLevel logLevel)
     {
-        switch (logEvent)
+        switch (logLevel)
         {
-            case LogEvent.Debug:
+            case LogLevel.Debug:
                 return ShowDebug;
 
-            case LogEvent.Info:
+            case LogLevel.Information:
                 return ShowInfo;
 
-            case LogEvent.Warning:
+            case LogLevel.Warning:
                 return ShowWarning;
 
-            case LogEvent.Error:
+            case LogLevel.Error:
+            case LogLevel.Critical:
                 return ShowError;
         }
 
@@ -363,10 +350,10 @@ public class LogViewerViewModel : ViewModelBase
     {
         var matchedEntries = entries.Where(PassApplicationFilterGroupsConfiguration).ToList();
 
-        DebugEntriesCount += matchedEntries.Count(x => x.LogEvent == LogEvent.Debug);
-        InfoEntriesCount += matchedEntries.Count(x => x.LogEvent == LogEvent.Info);
-        WarningEntriesCount += matchedEntries.Count(x => x.LogEvent == LogEvent.Warning);
-        ErrorEntriesCount += matchedEntries.Count(x => x.LogEvent == LogEvent.Error);
+        DebugEntriesCount += matchedEntries.Count(x => x.LogLevel == LogLevel.Debug);
+        InfoEntriesCount += matchedEntries.Count(x => x.LogLevel == LogLevel.Information);
+        WarningEntriesCount += matchedEntries.Count(x => x.LogLevel == LogLevel.Warning);
+        ErrorEntriesCount += matchedEntries.Count(x => x.LogLevel == LogLevel.Error || x.LogLevel == LogLevel.Critical);
     }
 
     private bool PassFilters(LogEntry logEntry)
@@ -403,7 +390,7 @@ public class LogViewerViewModel : ViewModelBase
             return true;
         }
 
-        return logEntry.Log.TargetType.Name.IndexOf(typeFilter, StringComparison.OrdinalIgnoreCase) >= 0;
+        return logEntry.Category.IndexOf(typeFilter, StringComparison.OrdinalIgnoreCase) >= 0;
     }
 
     private void AddLogEntries(List<LogEntry> entries, bool bypassClearingLog = false)
@@ -423,8 +410,6 @@ public class LogViewerViewModel : ViewModelBase
             {
                 using (SuspendChangeNotifications())
                 {
-                    using (_logEntries.SuspendChangeNotifications())
-                    {
                         foreach (var entry in entries)
                         {
                             _logEntries.Add(entry);
@@ -434,7 +419,7 @@ public class LogViewerViewModel : ViewModelBase
                                 filteredLogEntries.Add(entry);
                             }
 
-                            var targetTypeName = entry?.Log?.TargetType?.Name ?? string.Empty;
+                            var targetTypeName = entry?.Category ?? string.Empty;
                             if (typeNames.Contains(targetTypeName))
                             {
                                 continue;
@@ -452,7 +437,6 @@ public class LogViewerViewModel : ViewModelBase
                             }
                         }
                     }
-                }
             }
 
             UpdateEntriesCount(entries);
@@ -474,21 +458,21 @@ public class LogViewerViewModel : ViewModelBase
         });
     }
 
-    private void OnLogMessage(object? sender, LogMessageEventArgs e)
-    {
-        var logEntry = new LogEntry(e);
-        if (!logEntry.Data.ContainsKey("ThreadId"))
-        {
-            logEntry.Data["ThreadId"] = ThreadHelper.GetCurrentThreadId();
-        }
+    //private void OnLogMessage(object? sender, LogMessageEventArgs e)
+    //{
+    //    var logEntry = new LogEntry(e);
+    //    if (!logEntry.Data.ContainsKey("ThreadId"))
+    //    {
+    //        logEntry.Data["ThreadId"] = ThreadHelper.GetCurrentThreadId();
+    //    }
 
-        lock (_queuedEntries)
-        {
-            _queuedEntries.Enqueue(logEntry);
-        }
+    //    lock (_queuedEntries)
+    //    {
+    //        _queuedEntries.Enqueue(logEntry);
+    //    }
 
-        StartTimer();
-    }
+    //    StartTimer();
+    //}
 
     private void StartTimer()
     {

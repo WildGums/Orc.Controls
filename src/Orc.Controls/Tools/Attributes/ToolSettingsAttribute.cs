@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls.Tools.Attributes;
+﻿namespace Orc.Controls.Tools;
 
 using System;
 

@@ -2,8 +2,4 @@
 
 public partial class FindReplaceView
 {
-    public FindReplaceView()
-    {
-        InitializeComponent();
-    }
 }

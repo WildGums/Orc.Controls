@@ -5,9 +5,9 @@ using System;
 using System.Linq;
 using Orc.Automation;
 
-public class ColorLegendAutomationPeer : AutomationControlPeerBase<Controls.ColorLegend>
+public class ColorLegendAutomationPeer : AutomationControlPeerBase<Orc.Controls.ColorLegend>
 {
-    public ColorLegendAutomationPeer(Controls.ColorLegend owner)
+    public ColorLegendAutomationPeer(Orc.Controls.ColorLegend owner)
         : base(owner)
     {
         owner.SelectionChanged += OwnerOnSelectionChanged;

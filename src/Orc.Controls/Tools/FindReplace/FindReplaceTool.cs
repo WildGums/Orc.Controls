@@ -4,28 +4,25 @@ using System;
 using Catel.IoC;
 using Catel.Logging;
 using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Services;
 using ViewModels;
 
 public class FindReplaceTool<TFindReplaceService> : DialogWindowHostedToolBase<FindReplaceViewModel>
     where TFindReplaceService : IFindReplaceService
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(FindReplaceTool<TFindReplaceService>));
 
     private readonly FindReplaceSettings _findReplaceSettings;
-    private readonly ITypeFactory _typeFactory;
-    private readonly IServiceLocator _serviceLocator;
+    private readonly IServiceProvider _serviceProvider;
 
     private IFindReplaceService? _findReplaceService;
 
-    public FindReplaceTool(IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory, IServiceLocator serviceLocator)
+    public FindReplaceTool(IServiceProvider serviceProvider, IUIVisualizerService uiVisualizerService)
         : base(uiVisualizerService)
     {
-        ArgumentNullException.ThrowIfNull(typeFactory);
-        ArgumentNullException.ThrowIfNull(serviceLocator);
-
-        _typeFactory = typeFactory;
-        _serviceLocator = serviceLocator;
+        _serviceProvider = serviceProvider;
 
         _findReplaceSettings = new FindReplaceSettings();
     }
@@ -39,11 +36,11 @@ public class FindReplaceTool<TFindReplaceService> : DialogWindowHostedToolBase<F
 
         base.Attach(target);
 
-        _findReplaceService = _serviceLocator.ResolveType<IFindReplaceService>(target);
-        if (_findReplaceService is not null)
-        {
-            return;
-        }
+        //_findReplaceService = _serviceLocator.ResolveType<IFindReplaceService>(target);
+        //if (_findReplaceService is not null)
+        //{
+        //    return;
+        //}
 
         _findReplaceService = CreateFindReplaceService(target);
         if (_findReplaceService is null)
@@ -51,22 +48,22 @@ public class FindReplaceTool<TFindReplaceService> : DialogWindowHostedToolBase<F
             return;
         }
 
-        _serviceLocator.RegisterInstance(_findReplaceService, target);
+        //_serviceLocator.RegisterInstance(_findReplaceService, target);
     }
 
     protected virtual TFindReplaceService? CreateFindReplaceService(object target)
     {
-        return _typeFactory.CreateInstanceWithParametersAndAutoCompletion<TFindReplaceService>(target);
+        return ActivatorUtilities.CreateInstance<TFindReplaceService>(_serviceProvider, target);
     }
 
     public override void Detach()
     {
         var target = Target;
 
-        if (_serviceLocator.IsTypeRegistered<IFindReplaceService>(target))
-        {
-            _serviceLocator.RemoveType<IFindReplaceService>(target);
-        }
+        //if (_serviceLocator.IsTypeRegistered<IFindReplaceService>(target))
+        //{
+        //    _serviceLocator.RemoveType<IFindReplaceService>(target);
+        //}
 
         base.Detach();
     }
@@ -80,9 +77,9 @@ public class FindReplaceTool<TFindReplaceService> : DialogWindowHostedToolBase<F
     {
         if (_findReplaceService is null)
         {
-            throw Log.ErrorAndCreateException<Exception>("Can't open find replace tool because FindReplaceService isn't initialized yet");
+            throw Logger.LogErrorAndCreateException<Exception>("Can't open find replace tool because FindReplaceService isn't initialized yet");
         }
 
-        return new FindReplaceViewModel(_findReplaceSettings, _findReplaceService);
+        return new FindReplaceViewModel(_findReplaceSettings, _serviceProvider, _findReplaceService);
     }
 }

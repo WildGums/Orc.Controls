@@ -2,9 +2,9 @@
 
 using Orc.Automation;
 
-public class ValidationContextViewAutomationPeer : AutomationControlPeerBase<Controls.ValidationContextView>
+public class ValidationContextViewAutomationPeer : AutomationControlPeerBase<Orc.Controls.ValidationContextView>
 {
-    public ValidationContextViewAutomationPeer(Controls.ValidationContextView owner) 
+    public ValidationContextViewAutomationPeer(Orc.Controls.ValidationContextView owner) 
         : base(owner)
     {
     }

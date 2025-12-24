@@ -2,9 +2,9 @@
 
 using Orc.Automation;
 
-public class FrameCounterAutomationPeer : AutomationControlPeerBase<Controls.FrameCounter>
+public class FrameCounterAutomationPeer : AutomationControlPeerBase<Orc.Controls.FrameCounter>
 {
-    public FrameCounterAutomationPeer(Controls.FrameCounter owner) 
+    public FrameCounterAutomationPeer(Orc.Controls.FrameCounter owner) 
         : base(owner)
     {
     }

@@ -12,19 +12,22 @@ using System.Windows.Input;
 using Catel;
 using Catel.Logging;
 using Catel.MVVM;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Orc.Automation;
 
 [TemplatePart(Name = "PART_TextBox", Type = typeof(TextBox))]
 [TemplatePart(Name = "PART_IncreaseButton", Type = typeof(RepeatButton))]
 [TemplatePart(Name = "PART_DecreaseButton", Type = typeof(RepeatButton))]
 [TemplatePart(Name = "PART_SpinButton", Type = typeof(SpinButton))]
-public class NumericUpDown : Control
+public partial class NumericUpDown : Control
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(NumericUpDown));
 
     private const int MaxPossibleDecimalPlaces = 28;
 
     private readonly CultureInfo _culture;
+    private readonly IServiceProvider _serviceProvider;
 
     private SpinButton? _spinButton;
     private TextBox? _textBox;
@@ -41,8 +44,10 @@ public class NumericUpDown : Control
         DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericUpDown), new FrameworkPropertyMetadata(typeof(NumericUpDown)));
     }
 
-    public NumericUpDown()
+    public NumericUpDown(IServiceProvider serviceProvider)
     {
+        _serviceProvider = serviceProvider;
+
         _culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
         _culture.NumberFormat.NumberDecimalDigits = DecimalPlaces;
 
@@ -165,7 +170,7 @@ public class NumericUpDown : Control
         _textBox = GetTemplateChild("PART_TextBox") as TextBox;
         if (_textBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TextBox'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_TextBox'");
         }
 
         _textBox.LostFocus += TextBoxOnLostFocus;
@@ -175,11 +180,11 @@ public class NumericUpDown : Control
         _spinButton = GetTemplateChild("PART_SpinButton") as SpinButton;
         if (_spinButton is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SpinButton'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SpinButton'");
         }
 
-        _increaseCommand = new Command(() => ChangeValue(MinorDelta), () => Value.DValue + MinorDelta <= ActualMaxValue);
-        _decreaseCommand = new Command(() => ChangeValue((-1) * MinorDelta), () => Value.DValue - MinorDelta >= ActualMinValue);
+        _increaseCommand = new Command(_serviceProvider, () => ChangeValue(MinorDelta), () => Value.DValue + MinorDelta <= ActualMaxValue);
+        _decreaseCommand = new Command(_serviceProvider, () => ChangeValue((-1) * MinorDelta), () => Value.DValue - MinorDelta >= ActualMinValue);
 
         _spinButton.Canceled += (_, _) => Cancel();
         _spinButton.SetCurrentValue(SpinButton.IncreaseProperty, _increaseCommand);

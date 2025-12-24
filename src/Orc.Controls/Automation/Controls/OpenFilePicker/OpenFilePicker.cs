@@ -7,7 +7,7 @@ using Orc.Automation;
 using Orc.Automation.Controls;
 using AutomationEventArgs = System.Windows.Automation.AutomationEventArgs;
 
-[AutomatedControl(Class = typeof(Controls.OpenFilePicker))]
+[AutomatedControl(Class = typeof(Orc.Controls.OpenFilePicker))]
 public class OpenFilePicker(AutomationElement element)
     : FrameworkElement<OpenFilePickerModel, OpenFilePickerMap>(element)
 {

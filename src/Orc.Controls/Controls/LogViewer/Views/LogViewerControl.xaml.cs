@@ -13,13 +13,14 @@ using Catel.IoC;
 using Catel.Logging;
 using Catel.MVVM;
 using Catel.MVVM.Views;
+using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using ViewModels;
 
 public partial class LogViewerControl
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-
-    private static readonly Dictionary<LogEvent, Brush> ColorSets = new();
+    private static readonly Dictionary<LogLevel, Brush> ColorSets = new();
 
     private readonly ICommandManager _commandManager;
     private readonly Dictionary<LogEntry, RichTextBoxParagraph> _paragraphCache = new();
@@ -31,16 +32,16 @@ public partial class LogViewerControl
 
     static LogViewerControl()
     {
-        typeof(LogViewerControl).AutoDetectViewPropertiesToSubscribe();
+        typeof(LogViewerControl).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
     }
 
-    public LogViewerControl()
+    public LogViewerControl(IServiceProvider serviceProvider, IViewModelWrapperService viewModelWrapperService,
+        IDataContextSubscriptionService dataContextSubscriptionService, ICommandManager commandManager)
+        : base(serviceProvider, viewModelWrapperService, dataContextSubscriptionService)
     {
-        InitializeComponent();
+        _commandManager = commandManager;
 
-#pragma warning disable IDISP004 // Don't ignore created IDisposable
-        _commandManager = this.GetServiceLocator().ResolveRequiredType<ICommandManager>();
-#pragma warning restore IDISP004 // Don't ignore created IDisposable
+        InitializeComponent();
 
         UpdateMessageBrushes();
     }
@@ -93,18 +94,6 @@ public partial class LogViewerControl
 
     public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register(nameof(LogFilter), typeof(string),
         typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
-
-
-    [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-    public Type LogListenerType
-    {
-        get { return (Type)GetValue(LogListenerTypeProperty); }
-        set { SetValue(LogListenerTypeProperty, value); }
-    }
-
-    public static readonly DependencyProperty LogListenerTypeProperty = DependencyProperty.Register(nameof(LogListenerType), typeof(Type),
-        typeof(LogViewerControl), new FrameworkPropertyMetadata(typeof(LogViewerLogListener), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
             (sender, _) => ((LogViewerControl)sender).UpdateControl()));
 
 
@@ -301,10 +290,11 @@ public partial class LogViewerControl
 
     private void UpdateMessageBrushes()
     {
-        ColorSets[LogEvent.Debug] = DebugMessageBrush;
-        ColorSets[LogEvent.Info] = InfoMessageBrush;
-        ColorSets[LogEvent.Warning] = WarningMessageBrush;
-        ColorSets[LogEvent.Error] = ErrorMessageBrush;
+        ColorSets[LogLevel.Debug] = DebugMessageBrush;
+        ColorSets[LogLevel.Information] = InfoMessageBrush;
+        ColorSets[LogLevel.Warning] = WarningMessageBrush;
+        ColorSets[LogLevel.Error] = ErrorMessageBrush;
+        ColorSets[LogLevel.Critical] = ErrorMessageBrush;
     }
 
     protected override void OnViewModelChanged()
@@ -319,6 +309,7 @@ public partial class LogViewerControl
         }
 
         _lastKnownViewModel = ViewModel as LogViewerViewModel;
+
         if (_lastKnownViewModel is not null)
         {
             _lastKnownViewModel.LogMessage += OnViewModelLogMessage;
@@ -332,10 +323,10 @@ public partial class LogViewerControl
     {
         base.OnViewModelPropertyChanged(e);
 
-        if (e.HasPropertyChanged(nameof(LogViewerViewModel.LogListenerType)))
-        {
-            ClearCacheAndUpdate();
-        }
+        //if (e.HasPropertyChanged(nameof(LogViewerViewModel.LogListenerType)))
+        //{
+        //    ClearCacheAndUpdate();
+        //}
     }
 
     protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
@@ -407,7 +398,7 @@ public partial class LogViewerControl
 
         paragraphs.ForEach(x => document.Blocks.Add(x));
 
-        document.SetCurrentValue(FrameworkContentElement.TagProperty, logEntries.Last().Time);
+        document.SetCurrentValue(FrameworkContentElement.TagProperty, logEntries.Last().DateTime);
 
         rtb.EndChange();
     }
@@ -443,7 +434,7 @@ public partial class LogViewerControl
 
         if (EnableTextColoring)
         {
-            paragraph.Foreground = ColorSets[logEntry.LogEvent];
+            paragraph.Foreground = ColorSets[logEntry.LogLevel];
         }
 
         paragraph.SetData(EnableTimestamp, EnableThreadId, ShowMultilineMessagesExpanded);

@@ -3,7 +3,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-internal class LogMessageCategoryControl : Control
+public partial class LogMessageCategoryControl : Control
 {
     public string? Category
     {

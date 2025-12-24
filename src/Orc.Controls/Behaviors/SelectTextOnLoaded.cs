@@ -2,12 +2,11 @@
 
 using System;
 using System.Timers;
-using Catel.IoC;
 using Catel.Services;
 using Catel.Windows.Interactivity;
 using System.Windows.Controls;
 
-public class SelectTextOnLoaded : BehaviorBase<TextBox>
+public partial class SelectTextOnLoaded : BehaviorBase<TextBox>
 {
     private const double DelayBeforeTextSelected = 10d;
 
@@ -16,11 +15,9 @@ public class SelectTextOnLoaded : BehaviorBase<TextBox>
     private readonly Timer _textSelectTimer = new Timer(DelayBeforeTextSelected);
 #pragma warning restore IDISP006 // Implement IDisposable.
 
-    public SelectTextOnLoaded()
+    public SelectTextOnLoaded(IDispatcherService dispatcherService)
     {
-#pragma warning disable IDISP004 // Don't ignore created IDisposable.
-        _dispatcherService = this.GetServiceLocator().ResolveRequiredType<IDispatcherService>();
-#pragma warning restore IDISP004 // Don't ignore created IDisposable.
+        _dispatcherService = dispatcherService;
     }
 
     protected override void OnAssociatedObjectLoaded()

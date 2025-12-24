@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Automation;
 
-public class ListTextBox : TextBox
+public partial class ListTextBox : TextBox
 {
     private int _currentIndex;
 

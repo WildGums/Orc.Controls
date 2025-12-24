@@ -5,7 +5,7 @@ using Orc.Automation;
 using Orc.Automation.Controls;
 
 
-[AutomatedControl(Class = typeof(Controls.StaggeredPanel))]
+[AutomatedControl(Class = typeof(Orc.Controls.StaggeredPanel))]
 public class StaggeredPanel : FrameworkElement<StaggeredPanelModel, StaggeredPanelMap>
 {
     public StaggeredPanel(AutomationElement element)

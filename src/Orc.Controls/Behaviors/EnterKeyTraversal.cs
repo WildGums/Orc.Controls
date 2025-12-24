@@ -6,7 +6,6 @@ using System.Windows.Input;
 // originally came from http://madprops.org/blog/enter-to-tab-as-an-attached-property/
 public static class EnterKeyTraversal
 {
-    #region Methods
     public static bool GetIsEnabled(DependencyObject obj)
     {
         return (bool)obj.GetValue(IsEnabledProperty);
@@ -65,5 +64,4 @@ public static class EnterKeyTraversal
             frameworkElement.PreviewKeyDown -= OnPreviewKeyDown;
         }
     }
-    #endregion
 }

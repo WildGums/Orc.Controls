@@ -5,7 +5,7 @@ using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using Automation;
 
-public class HeaderBar : Control
+public partial class HeaderBar : Control
 {
     public HeaderBar()
     {

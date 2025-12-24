@@ -26,11 +26,8 @@ public class LogFilter : ModelBase
         switch (Target)
         {
             case LogFilterTarget.AssemblyName:
-                expression = logEntry.Log.TargetType.Assembly.GetName().Name;
-                break;
-
             case LogFilterTarget.TypeName:
-                expression = logEntry.Log.TargetType.FullName;
+                expression = logEntry.Category;
                 break;
 
             case LogFilterTarget.LogMessage:

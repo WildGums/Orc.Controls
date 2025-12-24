@@ -6,8 +6,6 @@ public partial class LogFilterGroupList
 {
     private LogFilterGroupListViewModel? _lastKnownViewModel;
 
-    public LogFilterGroupList() => InitializeComponent();
-    
     protected override void OnViewModelChanged()
     {
         base.OnViewModelChanged();

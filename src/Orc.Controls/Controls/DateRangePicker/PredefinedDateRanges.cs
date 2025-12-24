@@ -2,9 +2,19 @@
 
 using System;
 using Catel;
+using Catel.IoC;
+using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 public static class PredefinedDateRanges
 {
+    private readonly static ILanguageService LanguageService = IoCContainer.ServiceProvider.GetRequiredService<ILanguageService>();
+
+    private static string GetRequiredString(string resourceKey)
+    {
+        return LanguageService.GetRequiredString(resourceKey);
+    }
+
     public static DateRange Today
     {
         get
@@ -15,7 +25,7 @@ public static class PredefinedDateRanges
 
             return new DateRange
             {
-                Name = LanguageHelper.GetRequiredString("Controls_DateRangePicker_Today"),
+                Name = GetRequiredString("Controls_DateRangePicker_Today"),
                 Start = today,
                 End = now
             };
@@ -33,7 +43,7 @@ public static class PredefinedDateRanges
 
             return new DateRange
             {
-                Name = LanguageHelper.GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_Yesterday)),
+                Name = GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_Yesterday)),
                 Start = yesterday,
                 End = today
             };
@@ -55,7 +65,7 @@ public static class PredefinedDateRanges
 
             return new DateRange
             {
-                Name = LanguageHelper.GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_ThisWeek)),
+                Name = GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_ThisWeek)),
                 Start = fdow,
                 End = now
             };
@@ -72,7 +82,7 @@ public static class PredefinedDateRanges
 
             return new DateRange
             {
-                Name = LanguageHelper.GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_ThisMonth)),
+                Name = GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_ThisMonth)),
                 Start = fdom,
                 End = now
             };
@@ -95,7 +105,7 @@ public static class PredefinedDateRanges
 
             return new DateRange
             {
-                Name = LanguageHelper.GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_LastWeek)),
+                Name = GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_LastWeek)),
                 Start = fdolw,
                 End = fdow
             };
@@ -113,7 +123,7 @@ public static class PredefinedDateRanges
 
             return new DateRange
             {
-                Name = LanguageHelper.GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_LastMonth)),
+                Name = GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_LastMonth)),
                 Start = fdolm,
                 End = fdom
             };

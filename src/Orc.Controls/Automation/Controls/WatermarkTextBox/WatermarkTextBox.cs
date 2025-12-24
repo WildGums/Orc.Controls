@@ -5,7 +5,7 @@ using System.Windows.Automation;
 using Orc.Automation;
 using Orc.Automation.Controls;
 
-[AutomatedControl(Class = typeof(Controls.WatermarkTextBox), ControlTypeName = nameof(ControlType.Edit))]
+[AutomatedControl(Class = typeof(Orc.Controls.WatermarkTextBox), ControlTypeName = nameof(ControlType.Edit))]
 public class WatermarkTextBox : Edit
 {
     public WatermarkTextBox(AutomationElement element) 

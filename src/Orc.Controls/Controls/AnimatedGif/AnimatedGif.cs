@@ -14,13 +14,14 @@ using System.Windows.Threading;
 using Automation;
 using Catel.Logging;
 using Catel.Reflection;
+using Microsoft.Extensions.Logging;
 
 /// <summary>
 /// User control supporting animated gif.
 /// </summary>
-public class AnimatedGif : System.Windows.Controls.Image
+public partial class AnimatedGif : System.Windows.Controls.Image
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(AnimatedGif));
 
     private Bitmap? _bitmap;
 
@@ -109,13 +110,13 @@ public class AnimatedGif : System.Windows.Controls.Image
                     assemblyToSearch = AssemblyHelper.GetEntryAssembly();
                     if (assemblyToSearch is null)
                     {
-                        throw Log.ErrorAndCreateException<FileNotFoundException>("Gif source '{0}' was not found", GifSource);
+                        throw Logger.LogErrorAndCreateException<FileNotFoundException>("Gif source '{0}' was not found", GifSource);
                     }
 
                     _bitmap = GetBitmapResourceFromAssembly(assemblyToSearch);
                     if (_bitmap is null)
                     {
-                        throw Log.ErrorAndCreateException<FileNotFoundException>("Gif source '{0}' was not found", GifSource);
+                        throw Logger.LogErrorAndCreateException<FileNotFoundException>("Gif source '{0}' was not found", GifSource);
                     }
                 }
             }
@@ -198,7 +199,7 @@ public class AnimatedGif : System.Windows.Controls.Image
         }
         else
         {
-            Log.Debug("Bitmap is NULL while animating");
+            Logger.LogDebug("Bitmap is NULL while animating");
 
             isNull = true;
 

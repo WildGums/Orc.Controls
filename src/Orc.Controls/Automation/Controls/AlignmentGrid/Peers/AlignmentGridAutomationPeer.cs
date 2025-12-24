@@ -2,9 +2,9 @@
 
 using Orc.Automation;
 
-public class AlignmentGridAutomationPeer : AutomationControlPeerBase<Controls.AlignmentGrid>
+public class AlignmentGridAutomationPeer : AutomationControlPeerBase<Orc.Controls.AlignmentGrid>
 {
-    public AlignmentGridAutomationPeer(Controls.AlignmentGrid owner) 
+    public AlignmentGridAutomationPeer(Orc.Controls.AlignmentGrid owner) 
         : base(owner)
     {
     }

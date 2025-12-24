@@ -2,9 +2,9 @@
 
 using Orc.Automation;
 
-public class AnimatedGifAutomationPeer : AutomationControlPeerBase<Controls.AnimatedGif>
+public class AnimatedGifAutomationPeer : AutomationControlPeerBase<Orc.Controls.AnimatedGif>
 {
-    public AnimatedGifAutomationPeer(Controls.AnimatedGif owner)
+    public AnimatedGifAutomationPeer(Orc.Controls.AnimatedGif owner)
         : base(owner)
     {
     }

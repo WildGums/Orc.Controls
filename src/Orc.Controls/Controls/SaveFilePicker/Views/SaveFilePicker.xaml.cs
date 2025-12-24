@@ -3,7 +3,9 @@
 using System.Windows;
 using System.Windows.Automation.Peers;
 using Automation;
+using Catel.IoC;
 using Catel.MVVM.Views;
+using Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
 ///     Interaction logic for SaveFilePicker.xaml
@@ -12,17 +14,9 @@ public partial class SaveFilePicker
 {
     static SaveFilePicker()
     {
-        typeof(SaveFilePicker).AutoDetectViewPropertiesToSubscribe();
+        typeof(SaveFilePicker).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SaveFilePicker"/> class.
-    /// </summary>
-    /// <remarks>This method is required for design time support.</remarks>
-    public SaveFilePicker()
-    {
-        InitializeComponent();
-    }
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
     public double LabelWidth

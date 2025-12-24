@@ -23,7 +23,7 @@ using Automation;
 [TemplatePart(Name = "PART_CloseButton", Type = typeof(Button))]
 [TemplatePart(Name = "PART_DragGrip", Type = typeof(FrameworkElement))]
 [TemplatePart(Name = "PART_GripDrawing", Type = typeof(GeometryDrawing))]
-public class PinnableToolTip : ContentControl, IControlAdornerChild
+public partial class PinnableToolTip : ContentControl, IControlAdornerChild
 {
     private const double Epsilon = 1E-7;
 

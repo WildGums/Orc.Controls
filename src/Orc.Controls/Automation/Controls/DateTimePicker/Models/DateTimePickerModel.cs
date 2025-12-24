@@ -23,7 +23,7 @@ public class DateTimePickerModel : FrameworkElementModel
     public bool HideTime { get; set; }
     public bool HideSeconds { get; set; }
 
-    [ActiveAutomationProperty(nameof(Controls.DateTimePicker.IsReadOnly))]
+    [ActiveAutomationProperty(nameof(Orc.Controls.DateTimePicker.IsReadOnly))]
     public bool IsControlReadOnly { get; set; }
     public string Format { get; set; }
     public bool IsYearShortFormat { get; }

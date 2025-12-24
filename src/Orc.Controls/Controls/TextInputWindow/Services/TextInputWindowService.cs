@@ -1,28 +1,24 @@
 ﻿namespace Orc.Controls.Services;
 
-using System;
 using System.Threading.Tasks;
-using Catel.IoC;
+using Catel.MVVM;
 using Catel.Services;
 using ViewModels;
 
 public class TextInputWindowService : ITextInputWindowService
 {
-    private readonly ITypeFactory _typeFactory;
+    private readonly IViewModelFactory _viewModelFactory;
     private readonly IUIVisualizerService _uiVisualizerService;
 
-    public TextInputWindowService(ITypeFactory typeFactory, IUIVisualizerService uiVisualizerService)
+    public TextInputWindowService(IViewModelFactory viewModelFactory, IUIVisualizerService uiVisualizerService)
     {
-        ArgumentNullException.ThrowIfNull(typeFactory);
-        ArgumentNullException.ThrowIfNull(uiVisualizerService);
-
-        _typeFactory = typeFactory;
+        _viewModelFactory = viewModelFactory;
         _uiVisualizerService = uiVisualizerService;
     }
 
     public async Task<TextInputDialogResult> ShowDialogAsync(string title, string initialText)
     {
-        var viewModel = _typeFactory.CreateRequiredInstanceWithParametersAndAutoCompletion<TextInputViewModel>("Rename column");
+        var viewModel = _viewModelFactory.CreateRequiredViewModel<TextInputViewModel>("Rename column");
         viewModel.Text = initialText;
 
         var dialogResult = await _uiVisualizerService.ShowDialogAsync(viewModel);

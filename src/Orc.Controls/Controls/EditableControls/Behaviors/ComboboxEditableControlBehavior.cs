@@ -4,7 +4,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 
-public class ComboboxEditableControlBehavior : EditableControlBehaviorBase<ComboBox>
+public partial class ComboboxEditableControlBehavior : EditableControlBehaviorBase<ComboBox>
 {
     protected override void OnAssociatedObjectLoaded()
     {

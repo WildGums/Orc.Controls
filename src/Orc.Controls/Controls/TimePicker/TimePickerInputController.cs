@@ -6,7 +6,6 @@ using static ClockMath;
 using static TimePicker;
 internal class TimePickerInputController
 {
-    #region Fields
     // TimePicker.ActualHeight * MinDistanceRatio is the max
     // distance away from the tip of the indicator you can 
     // click to still start dragging it
@@ -16,9 +15,7 @@ internal class TimePickerInputController
 
     private Indicator _indicator;
     private bool _isDragging;
-    #endregion
 
-    #region Constructors
     public TimePickerInputController(TimePicker timePicker)
     {
         _timePicker = timePicker;
@@ -28,18 +25,14 @@ internal class TimePickerInputController
         _timePicker.MouseLeave += OnTimePickerMouseLeave;
         _timePicker.PreviewMouseLeftButtonUp += OnTimePickerPreviewMouseLeftButtonUp;
     }
-    #endregion
 
-    #region Enums
     private enum Indicator
     {
         None,
         HourIndicator,
         MinuteIndicator
     }
-    #endregion
-        
-    #region Methods
+
     private void StartDragging(Point mouse)
     {
         var width = _timePicker.ActualWidth;
@@ -131,5 +124,4 @@ internal class TimePickerInputController
     {
         StopDragging();
     }
-    #endregion
 }

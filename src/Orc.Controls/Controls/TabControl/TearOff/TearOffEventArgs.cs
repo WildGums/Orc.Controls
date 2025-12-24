@@ -7,7 +7,8 @@ using System.Windows;
 /// </summary>
 public class TearOffEventArgs : RoutedEventArgs
 {
-    public TearOffEventArgs(RoutedEvent routedEvent, TearOffTabItem tabItem) : base(routedEvent)
+    public TearOffEventArgs(RoutedEvent routedEvent, TearOffTabItem tabItem) 
+        : base(routedEvent)
     {
         TabItem = tabItem;
     }

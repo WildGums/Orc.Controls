@@ -8,11 +8,6 @@ using Automation;
 
 public sealed partial class StepBarItem
 {
-    public StepBarItem()
-    {
-        InitializeComponent();
-    }
-
     public Orientation Orientation
     {
         get { return (Orientation)GetValue(OrientationProperty); }

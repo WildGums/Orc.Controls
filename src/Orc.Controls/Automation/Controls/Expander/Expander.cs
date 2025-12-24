@@ -4,7 +4,7 @@ using System.Windows.Automation;
 using Orc.Automation;
 using Orc.Automation.Controls;
 
-[AutomatedControl(Class = typeof(Controls.Expander))]
+[AutomatedControl(Class = typeof(Orc.Controls.Expander))]
 public class Expander : FrameworkElement<ExpanderModel>
 {
     public Expander(AutomationElement element) 

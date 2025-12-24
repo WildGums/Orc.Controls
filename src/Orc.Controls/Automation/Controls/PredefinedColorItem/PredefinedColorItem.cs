@@ -6,7 +6,7 @@ using System.Windows.Media;
 using Orc.Automation;
 using Orc.Automation.Controls;
 
-[AutomatedControl(Class = typeof(Controls.PredefinedColorItem))]
+[AutomatedControl(Class = typeof(Orc.Controls.PredefinedColorItem))]
 public class PredefinedColorItem : AutomationControl
 {
     public PredefinedColorItem(AutomationElement element) 

@@ -2,9 +2,9 @@
 
 using Orc.Automation;
 
-public class BusyIndicatorAutomationPeer : AutomationControlPeerBase<Controls.BusyIndicator>
+public class BusyIndicatorAutomationPeer : AutomationControlPeerBase<Orc.Controls.BusyIndicator>
 {
-    public BusyIndicatorAutomationPeer(Controls.BusyIndicator owner) 
+    public BusyIndicatorAutomationPeer(Orc.Controls.BusyIndicator owner) 
         : base(owner)
     {
     }

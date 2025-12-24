@@ -5,26 +5,27 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Markup;
+using Catel.IoC;
 using Catel.Logging;
 using Catel.MVVM.Views;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 [ContentProperty(nameof(InnerContent))]
 public partial class Callout
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(Callout));
 
     private const double DropShadowSize = 2d;
     private const double ContentBorderPadding = 8d;
 
     static Callout()
     {
-        typeof(Callout).AutoDetectViewPropertiesToSubscribe();
+        typeof(Callout).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
     }
 
-    public Callout()
+    partial void OnInitializedComponent()
     {
-        InitializeComponent();
-
         Popup.Opened += PopupOnOpened;
     }
 
@@ -273,8 +274,7 @@ public partial class Callout
                 break;
 
             default:
-                // NOTE:Vladimir: Will throw if not supported
-                throw Log.ErrorAndCreateException<NotSupportedException>($"Callout placement = '{Placement}' not supported. Supported modes: '{PlacementMode.Left}', '{PlacementMode.Top}', '{PlacementMode.Right}', '{PlacementMode.Bottom}'");
+                throw Logger.LogErrorAndCreateException<NotSupportedException>($"Callout placement = '{Placement}' not supported. Supported modes: '{PlacementMode.Left}', '{PlacementMode.Top}', '{PlacementMode.Right}', '{PlacementMode.Bottom}'");
         }
 
         // Offset is handled by managing Tail size

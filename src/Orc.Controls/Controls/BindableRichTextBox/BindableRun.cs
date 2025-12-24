@@ -6,7 +6,7 @@ using System.Windows.Documents;
 /// <summary>
 /// Bindable run class.
 /// </summary>
-public class BindableRun : Run
+public partial class BindableRun : Run
 {
     /// <summary>
     /// Invoked when the BoundText dependency property has changed.

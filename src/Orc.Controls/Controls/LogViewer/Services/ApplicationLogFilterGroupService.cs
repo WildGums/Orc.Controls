@@ -6,29 +6,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Catel.IO;
 using Catel.Logging;
-using Catel.Runtime.Serialization.Xml;
 using Catel.Services;
 using FileSystem;
+using Microsoft.Extensions.Logging;
 using Path = System.IO.Path;
 
 public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupService
 {
     private const string LogFilterGroupsConfigFile = "LogFilterGroups.xml";
 
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-
+    private readonly ILogger<ApplicationLogFilterGroupService> _logger;
     private readonly IFileService _fileService;
-    private readonly IXmlSerializer _xmlSerializer;
     private readonly IAppDataService _appDataService;
 
-    public ApplicationLogFilterGroupService(IFileService fileService, IXmlSerializer xmlSerializer, IAppDataService appDataService)
+    public ApplicationLogFilterGroupService(ILogger<ApplicationLogFilterGroupService> logger, 
+        IFileService fileService, IAppDataService appDataService)
     {
-        ArgumentNullException.ThrowIfNull(xmlSerializer);
-        ArgumentNullException.ThrowIfNull(fileService);
-        ArgumentNullException.ThrowIfNull(appDataService);
-
-        _xmlSerializer = xmlSerializer;
         _appDataService = appDataService;
+        _logger = logger;
         _fileService = fileService;
     }
 
@@ -43,21 +38,21 @@ public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupServic
             try
             {
                 await using var stream = _fileService.OpenRead(configFile);
-                if (_xmlSerializer.Deserialize(typeof(LogFilterGroup[]), stream) is LogFilterGroup[] logGroups)
-                {
-                    filterGroups.AddRange(logGroups);
-                }
+                //if (_xmlSerializer.Deserialize(typeof(LogFilterGroup[]), stream) is LogFilterGroup[] logGroups)
+                //{
+                //    filterGroups.AddRange(logGroups);
+                //}
             }
             catch (Exception ex)
             {
-                Log.Error(ex);
+                _logger.LogError(ex, "Failed to load");
             }
         }
 
         var runtimeFilterGroups = CreateRuntimeFilterGroups();
         if (runtimeFilterGroups.Count > 0)
         {
-            Log.Debug($"Adding '{runtimeFilterGroups.Count}' runtime filter groups");
+            _logger.LogDebug($"Adding '{runtimeFilterGroups.Count}' runtime filter groups");
 
             filterGroups.AddRange(runtimeFilterGroups);
         }
@@ -75,11 +70,11 @@ public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupServic
         try
         {
             await using var stream = _fileService.OpenWrite(configFile);
-            _xmlSerializer.Serialize(filterGroupsToSerialize, stream);
+            //_xmlSerializer.Serialize(filterGroupsToSerialize, stream);
         }
         catch (Exception ex)
         {
-            Log.Error(ex);
+            _logger.LogError(ex, "Failed to save");
         }
     }
 

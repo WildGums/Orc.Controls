@@ -6,7 +6,7 @@ using Orc.Automation;
 
 public class DropDownButtonAutomationPeer : AutomationControlPeerBase<Orc.Controls.DropDownButton>
 {
-    public DropDownButtonAutomationPeer(Controls.DropDownButton owner)
+    public DropDownButtonAutomationPeer(Orc.Controls.DropDownButton owner)
         : base(owner)
     {
            
