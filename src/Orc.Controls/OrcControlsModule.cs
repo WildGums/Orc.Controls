@@ -15,7 +15,7 @@
     /// </summary>
     public static class OrcControlsModule
     {
-        public static IServiceCollection AddOrcControlsServices(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddOrcControls(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<ILogger, InMemoryLogger>();
 
