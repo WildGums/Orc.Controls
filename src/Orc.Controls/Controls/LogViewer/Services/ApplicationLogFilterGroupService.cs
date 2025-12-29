@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Catel.IO;
-using Catel.Logging;
 using Catel.Services;
 using FileSystem;
 using Microsoft.Extensions.Logging;
+using Orc.Serialization.Json;
 using Path = System.IO.Path;
 
 public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupService
@@ -18,16 +18,18 @@ public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupServic
     private readonly ILogger<ApplicationLogFilterGroupService> _logger;
     private readonly IFileService _fileService;
     private readonly IAppDataService _appDataService;
+    private readonly IJsonSerializerFactory _jsonSerializerFactory;
 
     public ApplicationLogFilterGroupService(ILogger<ApplicationLogFilterGroupService> logger, 
-        IFileService fileService, IAppDataService appDataService)
+        IFileService fileService, IAppDataService appDataService, IJsonSerializerFactory jsonSerializerFactory)
     {
         _appDataService = appDataService;
+        _jsonSerializerFactory = jsonSerializerFactory;
         _logger = logger;
         _fileService = fileService;
     }
 
-    public async Task<IEnumerable<LogFilterGroup>> LoadAsync()
+    public async Task<IReadOnlyList<LogFilterGroup>> LoadAsync()
     {
         var filterGroups = new List<LogFilterGroup>();
 
@@ -38,10 +40,13 @@ public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupServic
             try
             {
                 await using var stream = _fileService.OpenRead(configFile);
-                //if (_xmlSerializer.Deserialize(typeof(LogFilterGroup[]), stream) is LogFilterGroup[] logGroups)
-                //{
-                //    filterGroups.AddRange(logGroups);
-                //}
+
+                var serializer = _jsonSerializerFactory.CreateSerializer();
+
+                if (serializer.Deserialize(stream, typeof(LogFilterGroup[])) is LogFilterGroup[] logGroups)
+                {
+                    filterGroups.AddRange(logGroups);
+                }
             }
             catch (Exception ex)
             {
@@ -57,10 +62,12 @@ public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupServic
             filterGroups.AddRange(runtimeFilterGroups);
         }
 
-        return filterGroups.OrderBy(x => x.Name);
+        return filterGroups
+            .OrderBy(x => x.Name)
+            .ToArray();
     }
 
-    public async Task SaveAsync(IEnumerable<LogFilterGroup> filterGroups)
+    public async Task SaveAsync(IReadOnlyList<LogFilterGroup> filterGroups)
     {
         var applicationDataDirectory = _appDataService.GetApplicationDataDirectory(ApplicationDataTarget.UserRoaming);
         var configFile = Path.Combine(applicationDataDirectory, LogFilterGroupsConfigFile);
@@ -70,7 +77,10 @@ public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupServic
         try
         {
             await using var stream = _fileService.OpenWrite(configFile);
-            //_xmlSerializer.Serialize(filterGroupsToSerialize, stream);
+
+            var serializer = _jsonSerializerFactory.CreateSerializer();
+
+            serializer.Serialize(stream, filterGroupsToSerialize);
         }
         catch (Exception ex)
         {
