@@ -20,6 +20,7 @@ public class CalloutViewModel : ViewModelBase, ICallout
 
     public CalloutViewModel(ILogger<CalloutViewModel> logger, IServiceProvider serviceProvider, 
         ICalloutManager calloutManager, IDispatcherService dispatcherService)
+        : base(serviceProvider)
     {
         _logger = logger;
         _calloutManager = calloutManager;

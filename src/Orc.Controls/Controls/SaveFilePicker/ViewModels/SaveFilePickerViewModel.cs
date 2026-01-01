@@ -3,7 +3,6 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Catel.Logging;
 using Catel.MVVM;
 using Catel.Services;
 using Microsoft.Extensions.Logging;
@@ -16,6 +15,7 @@ public class SaveFilePickerViewModel : ViewModelBase
 
     public SaveFilePickerViewModel(ILogger<SaveFilePickerViewModel> logger, 
         IServiceProvider serviceProvider, ISaveFileService saveFileService, IProcessService processService)
+        : base(serviceProvider)
     {
         _logger = logger;
         _saveFileService = saveFileService;

@@ -18,7 +18,8 @@ public class DateRangePickerViewModel : ViewModelBase
     private bool _isUpdatingRanges;
     private readonly ILanguageService _languageService;
 
-    public DateRangePickerViewModel(ILanguageService languageService)
+    public DateRangePickerViewModel(IServiceProvider serviceProvider, ILanguageService languageService)
+        : base(serviceProvider)
     {
         _languageService = languageService;
 

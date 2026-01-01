@@ -22,6 +22,7 @@ public class ValidationContextViewModel : ViewModelBase
 
     public ValidationContextViewModel(IServiceProvider serviceProvider, IProcessService processService, 
         IDispatcherService dispatcherService, IFileService fileService)
+        : base(serviceProvider)
     {
         ArgumentNullException.ThrowIfNull(processService);
         ArgumentNullException.ThrowIfNull(dispatcherService);

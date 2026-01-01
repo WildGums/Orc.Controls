@@ -20,6 +20,7 @@ public class LogFilterGroupListViewModel : ViewModelBase
     public LogFilterGroupListViewModel(IApplicationLogFilterGroupService applicationLogFilterGroupService, 
         IMessageService messageService, IUIVisualizerService uiVisualizerService, IServiceProvider serviceProvider,
         ILanguageService languageService, IDispatcherService dispatcherService)
+        : base(serviceProvider)
     {
         _applicationLogFilterGroupService = applicationLogFilterGroupService;
         _messageService = messageService;

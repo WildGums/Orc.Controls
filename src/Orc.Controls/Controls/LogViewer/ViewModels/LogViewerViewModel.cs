@@ -35,6 +35,7 @@ public class LogViewerViewModel : ViewModelBase
 
     public LogViewerViewModel(IServiceProvider serviceProvider, IDispatcherService dispatcherService,
        ILanguageService languageService)
+        : base(serviceProvider)
     {
         _serviceProvider = serviceProvider;
         _dispatcherService = dispatcherService;

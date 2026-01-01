@@ -13,9 +13,10 @@ public class DirectoryPickerViewModel : ViewModelBase
     private readonly ISelectDirectoryService _selectDirectoryService;
     private readonly IDirectoryService _directoryService;
 
-    public DirectoryPickerViewModel(IServiceProvider serviceProvider, 
-        ISelectDirectoryService selectDirectoryService, 
-        IDirectoryService directoryService, IProcessService processService)
+    public DirectoryPickerViewModel(IServiceProvider serviceProvider,
+        ISelectDirectoryService selectDirectoryService, IDirectoryService directoryService,
+        IProcessService processService)
+        : base(serviceProvider)
     {
         _selectDirectoryService = selectDirectoryService;
         _directoryService = directoryService;

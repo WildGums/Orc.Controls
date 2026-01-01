@@ -13,7 +13,9 @@ public class ValidationContextTreeViewModel : ViewModelBase
 {
     private readonly IValidationNamesService _validationNamesService;
 
-    public ValidationContextTreeViewModel(IDispatcherService dispatcherService, IValidationNamesService validationNamesService)
+    public ValidationContextTreeViewModel(IServiceProvider serviceProvider, 
+        IDispatcherService dispatcherService, IValidationNamesService validationNamesService)
+        : base(serviceProvider)
     {
         ArgumentNullException.ThrowIfNull(validationNamesService);
 

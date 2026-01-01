@@ -14,6 +14,7 @@ public class OpenFilePickerViewModel : ViewModelBase
 
     public OpenFilePickerViewModel(IServiceProvider serviceProvider,
         IOpenFileService openFileService, IProcessService processService)
+        : base(serviceProvider)
     {
         _openFileService = openFileService;
         _processService = processService;
