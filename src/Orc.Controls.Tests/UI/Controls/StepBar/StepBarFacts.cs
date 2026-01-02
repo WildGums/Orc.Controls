@@ -8,6 +8,7 @@
     using Catel.MVVM;
     using Orc.Automation.Tests;
     using FrameworkElement = System.Windows.FrameworkElement;
+    using System;
 
     [Explicit]
     [TestFixture(TestOf = typeof(StepBar))]
@@ -118,6 +119,13 @@
 
     public class SpecifyCommandMethodRun : NamedAutomationMethodRun
     {
+        private readonly IServiceProvider _serviceProvider;
+
+        public SpecifyCommandMethodRun(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
         public override bool TryInvoke(FrameworkElement owner, AutomationMethod method, out AutomationValue result)
         {
             result = AutomationValue.FromValue(true);
@@ -132,7 +140,7 @@
                 return false;
             }
 
-            itemModel.Command = new Command<TestStepBarItem>(x =>
+            itemModel.Command = new Command<TestStepBarItem>(_serviceProvider, x =>
                 stepBarItem.RaiseEvent(new AutomationMessageSentEventArgs(AutomationRoutedEvents.AutomationMessageSentEvent)));
 
             return true;

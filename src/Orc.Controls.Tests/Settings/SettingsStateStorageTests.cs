@@ -1,5 +1,6 @@
 ﻿namespace Orc.Controls.Settings.Tests;
 
+using Microsoft.Extensions.Logging.Abstractions;
 using NUnit.Framework;
 
 [TestFixture]
@@ -8,7 +9,7 @@ public class SettingsStateStorageTests
     [SetUp]
     public void SetUp()
     {
-        _stateStorage = new();
+        _stateStorage = new(NullLogger<SettingsStateStorage>.Instance);
     }
 
     private SettingsStateStorage _stateStorage;

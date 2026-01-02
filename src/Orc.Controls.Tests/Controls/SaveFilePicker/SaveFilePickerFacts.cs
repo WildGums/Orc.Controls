@@ -2,6 +2,8 @@
 {
     using System.Threading.Tasks;
     using Catel.Services;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging.Abstractions;
     using Moq;
     using NUnit.Framework;
 
@@ -13,6 +15,10 @@
         public async Task UsesDefaultFileName_NoFileSelected_Async(string input, string expectedOutput)
         {
             var isCalled = false;
+
+            var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
+
+            using var serviceProvider = serviceCollection.BuildServiceProvider();
 
             var saveFileServiceMock = new Mock<ISaveFileService>();
             saveFileServiceMock.Setup(x => x.DetermineFileAsync(It.IsAny<DetermineSaveFileContext>()))
@@ -27,7 +33,8 @@
 
             var processServiceMock = new Mock<IProcessService>();
 
-            var vm = new SaveFilePickerViewModel(saveFileServiceMock.Object, processServiceMock.Object);
+            var vm = new SaveFilePickerViewModel(NullLogger<SaveFilePickerViewModel>.Instance,
+                serviceProvider, saveFileServiceMock.Object, processServiceMock.Object);
 
             vm.InitialFileName = input;
 
@@ -45,6 +52,10 @@
         {
             var isCalled = false;
 
+            var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
+
+            using var serviceProvider = serviceCollection.BuildServiceProvider();
+
             var saveFileServiceMock = new Mock<ISaveFileService>();
             saveFileServiceMock.Setup(x => x.DetermineFileAsync(It.IsAny<DetermineSaveFileContext>()))
                 .Returns<DetermineSaveFileContext>(async x =>
@@ -58,7 +69,8 @@
 
             var processServiceMock = new Mock<IProcessService>();
 
-            var vm = new SaveFilePickerViewModel(saveFileServiceMock.Object, processServiceMock.Object);
+            var vm = new SaveFilePickerViewModel(NullLogger<SaveFilePickerViewModel>.Instance,
+                serviceProvider, saveFileServiceMock.Object, processServiceMock.Object);
 
             vm.InitialFileName = input;
             vm.SelectedFile = "existing_file.txt";
