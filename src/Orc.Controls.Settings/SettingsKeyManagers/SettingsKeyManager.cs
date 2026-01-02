@@ -6,14 +6,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Catel;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 public class SettingsKeyManager : ISettingsKeyManager
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private readonly ILogger<SettingsKeyManager> _logger;
+
     private readonly Dictionary<string, bool> _dirtyStates = new();
 
     private readonly HashSet<string> _keys = new();
     private readonly object _lock = new();
+
+    public SettingsKeyManager(ILogger<SettingsKeyManager> logger)
+    {
+        _logger = logger;
+    }
 
     public event AsyncEventHandler<SettingsKeyEventArgs>? LoadRequested;
     public event AsyncEventHandler<SettingsKeyEventArgs>? SaveRequested;
@@ -43,7 +50,7 @@ public class SettingsKeyManager : ISettingsKeyManager
             return;
         }
 
-        Log.Debug($"Load requested for settings key: {settingsKey}");
+        _logger.LogDebug($"Load requested for settings key: {settingsKey}");
         var eventArgs = new SettingsKeyEventArgs(settingsKey);
 
         if (LoadRequested is not null)
@@ -59,7 +66,7 @@ public class SettingsKeyManager : ISettingsKeyManager
                 _keys.Add(settingsKey);
             }
 
-            Log.Debug($"Settings key loaded successfully: {settingsKey}");
+            _logger.LogDebug($"Settings key loaded successfully: {settingsKey}");
             KeyLoaded?.Invoke(this, new(settingsKey)
             {
                 Success = true
@@ -74,7 +81,7 @@ public class SettingsKeyManager : ISettingsKeyManager
             return;
         }
 
-        Log.Debug($"Save requested for settings key: {settingsKey}");
+        _logger.LogDebug($"Save requested for settings key: {settingsKey}");
         var eventArgs = new SettingsKeyEventArgs(settingsKey);
         await SaveRequested.SafeInvokeAsync(this, eventArgs);
 
@@ -84,7 +91,7 @@ public class SettingsKeyManager : ISettingsKeyManager
             // Reset dirty state after successful save
             SetDirty(settingsKey, false);
 
-            Log.Debug($"Settings key saved successfully: {settingsKey}");
+            _logger.LogDebug($"Settings key saved successfully: {settingsKey}");
             KeySaved?.Invoke(this, new(settingsKey)
             {
                 Success = true
@@ -121,7 +128,7 @@ public class SettingsKeyManager : ISettingsKeyManager
 
         if (stateChanged)
         {
-            Log.Debug($"Dirty state changed for settings key '{settingsKey}': {isDirty}");
+            _logger.LogDebug($"Dirty state changed for settings key '{settingsKey}': {isDirty}");
             DirtyStateChanged?.Invoke(this, new(settingsKey, isDirty));
         }
     }
@@ -133,14 +140,14 @@ public class SettingsKeyManager : ISettingsKeyManager
             return;
         }
 
-        Log.Debug($"Refresh requested for settings key: {settingsKey}");
+        _logger.LogDebug($"Refresh requested for settings key: {settingsKey}");
         var eventArgs = new SettingsKeyEventArgs(settingsKey);
         await RefreshRequested.SafeInvokeAsync(this, eventArgs);
 
         // Only make changes if the operation was successful
         if (eventArgs.Success)
         {
-            Log.Debug($"Settings key refreshed successfully: {settingsKey}");
+            _logger.LogDebug($"Settings key refreshed successfully: {settingsKey}");
             KeyRefreshed?.Invoke(this, new(settingsKey)
             {
                 Success = true
@@ -155,7 +162,7 @@ public class SettingsKeyManager : ISettingsKeyManager
             return;
         }
 
-        Log.Debug($"Remove requested for settings key: {settingsKey}");
+        _logger.LogDebug($"Remove requested for settings key: {settingsKey}");
         var eventArgs = new SettingsKeyEventArgs(settingsKey);
         RemoveRequested?.Invoke(this, eventArgs);
 
@@ -168,7 +175,7 @@ public class SettingsKeyManager : ISettingsKeyManager
                 _dirtyStates.Remove(settingsKey);
             }
 
-            Log.Debug($"Settings key removed successfully: {settingsKey}");
+            _logger.LogDebug($"Settings key removed successfully: {settingsKey}");
             KeyRemoved?.Invoke(this, new(settingsKey)
             {
                 Success = true
@@ -183,7 +190,7 @@ public class SettingsKeyManager : ISettingsKeyManager
             return;
         }
 
-        Log.Debug($"Rename requested from '{oldKey}' to '{newKey}'");
+        _logger.LogDebug($"Rename requested from '{oldKey}' to '{newKey}'");
         var eventArgs = new SettingsKeyRenameEventArgs(oldKey, newKey);
         RenameRequested?.Invoke(this, eventArgs);
 
@@ -206,7 +213,7 @@ public class SettingsKeyManager : ISettingsKeyManager
             }
         }
 
-        Log.Debug($"Settings key renamed successfully from '{oldKey}' to '{newKey}'");
+        _logger.LogDebug($"Settings key renamed successfully from '{oldKey}' to '{newKey}'");
         KeyRenamed?.Invoke(this, new(oldKey, newKey)
         {
             Success = true

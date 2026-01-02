@@ -3,18 +3,20 @@
 using System;
 using System.Threading.Tasks;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 public class EmbeddedResourcesSettingsDataStorage : ISettingsDataStorage
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-
+    private readonly ILogger<EmbeddedResourcesSettingsDataStorage> _logger;
     private readonly IEmbeddedResourceProvider _embeddedResourceProvider;
     private readonly ISettingsLocationProvider _locationProvider;
 
     public EmbeddedResourcesSettingsDataStorage(
+        ILogger<EmbeddedResourcesSettingsDataStorage> logger,
         IEmbeddedResourceProvider embeddedResourceProvider,
         ISettingsLocationProvider locationProvider)
     {
+        _logger = logger;
         _embeddedResourceProvider = embeddedResourceProvider ?? throw new ArgumentNullException(nameof(embeddedResourceProvider));
         _locationProvider = locationProvider ?? throw new ArgumentNullException(nameof(locationProvider));
     }
@@ -60,14 +62,14 @@ public class EmbeddedResourcesSettingsDataStorage : ISettingsDataStorage
 
             if (!string.IsNullOrEmpty(content))
             {
-                Log.Debug($"Loaded settings from embedded resource for key: {settingsKey} (location: {location})");
+                _logger.LogDebug($"Loaded settings from embedded resource for key: {settingsKey} (location: {location})");
             }
 
             return content;
         }
         catch (Exception ex)
         {
-            Log.Warning(ex, $"Error loading embedded resource for key: {settingsKey}");
+            _logger.LogWarning(ex, $"Error loading embedded resource for key: {settingsKey}");
             return null;
         }
     }
@@ -93,16 +95,16 @@ public class EmbeddedResourcesSettingsDataStorage : ISettingsDataStorage
     // Write operations are not supported for embedded resources
     public Task SaveStringAsync(string settingsKey, string data)
     {
-        throw Log.ErrorAndCreateException<NotSupportedException>("Embedded resources are read-only. Use a different storage provider for write operations.");
+        throw _logger.LogErrorAndCreateException<NotSupportedException>("Embedded resources are read-only. Use a different storage provider for write operations.");
     }
 
     public Task DeleteAsync(string settingsKey)
     {
-        throw Log.ErrorAndCreateException<NotSupportedException>("Embedded resources are read-only. Use a different storage provider for write operations.");
+        throw _logger.LogErrorAndCreateException<NotSupportedException>("Embedded resources are read-only. Use a different storage provider for write operations.");
     }
 
     public Task RenameAsync(string oldKey, string newKey)
     {
-        throw Log.ErrorAndCreateException<NotSupportedException>("Embedded resources are read-only. Use a different storage provider for write operations.");
+        throw _logger.LogErrorAndCreateException<NotSupportedException>("Embedded resources are read-only. Use a different storage provider for write operations.");
     }
 }

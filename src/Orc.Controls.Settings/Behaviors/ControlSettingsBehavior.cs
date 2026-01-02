@@ -7,12 +7,13 @@ using System.Windows.Threading;
 using Catel.IoC;
 using Catel.Logging;
 using Catel.Windows.Interactivity;
+using Microsoft.Extensions.Logging;
 
 public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TControl>, ISettingsElement
     where TControl : FrameworkElement
     where TSettings : class
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(ControlSettingsBehavior<TControl, TSettings>));
 
     public static readonly DependencyProperty SettingsKeyProperty = DependencyProperty.Register(
         nameof(SettingsKey), typeof(string), typeof(ControlSettingsBehavior<TControl, TSettings>),
@@ -47,7 +48,7 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
     private bool _isSynchronizing; // Prevent infinite loops during sync
     private TSettings? _lastSavedSettings;
     protected ISettingsKeyManager _keyManager;
-    protected ISettingsStateStorage StateStorage;
+    protected ISettingsStateStorage _stateStorage;
     private DispatcherTimer? _settingsTimer;
     private string? _lastLoadedSettingsKey;
     private IControlSettingsAdapter<TControl, TSettings>? _currentAdapter;
@@ -78,7 +79,7 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
         get => (ISettingsStorage<TSettings>?)GetValue(SettingsStorageProperty);
         set => SetValue(SettingsStorageProperty, value);
     }
-
+    public IControlSettingsAdapter<TControl, TSettings> ControlSettingsAdapter { get; }
     public IControlSettingsAdapter<TControl, TSettings>? ControlAdapter
     {
         get => (IControlSettingsAdapter<TControl, TSettings>?)GetValue(ControlAdapterProperty);
@@ -97,37 +98,21 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
         set => SetValue(EnableSynchronizationProperty, value);
     }
 
-    public ControlSettingsBehavior()
+    public ControlSettingsBehavior(ISettingsKeyManager settingsKeyManager, ISettingsStateStorage settingsStateStorage,
+        ISettingsKeyInteractionHub settingsKeyInteractionHub, ISettingsStorage<TSettings> settingsStorage,
+        IControlSettingsAdapter<TControl, TSettings> controlSettingsAdapter)
     {
-#pragma warning disable IDISP001 // Dispose created
-        var serviceLocator = this.GetServiceLocator();
-#pragma warning restore IDISP001 // Dispose created
-        _keyManager = serviceLocator.ResolveRequiredType<ISettingsKeyManager>();
-        StateStorage = serviceLocator.ResolveRequiredType<ISettingsStateStorage>();
-        _settingsKeyInteractionHub = serviceLocator.ResolveRequiredType<ISettingsKeyInteractionHub>();
+        _keyManager = settingsKeyManager;
+        _stateStorage = settingsStateStorage;
+        _settingsKeyInteractionHub = settingsKeyInteractionHub;
+
+        SettingsStorage = settingsStorage;
+        ControlSettingsAdapter = controlSettingsAdapter;
     }
 
     protected override void OnAssociatedObjectLoaded()
     {
         base.OnAssociatedObjectLoaded();
-
-#pragma warning disable IDISP001 // Dispose created
-        var serviceLocator = this.GetServiceLocator();
-#pragma warning restore IDISP001 // Dispose created
-
-        // If no storage is explicitly set, try to resolve from IoC
-        if (SettingsStorage is null)
-        {
-            var settingsStorage = serviceLocator.ResolveType<ISettingsStorage<TSettings>>();
-            SetCurrentValue(SettingsStorageProperty, settingsStorage);
-        }
-
-        // If no adapter is explicitly set, try to resolve from IoC
-        if (ControlAdapter is null)
-        {
-            var controlAdapter = serviceLocator.ResolveType<IControlSettingsAdapter<TControl, TSettings>>();
-            SetCurrentValue(ControlAdapterProperty, controlAdapter);
-        }
 
         // Attach adapter to control
         AttachAdapter();
@@ -160,13 +145,13 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
                 var currentSettings = ControlAdapter.GetCurrentSettings();
                 if (currentSettings is not null)
                 {
-                    StateStorage.StoreCurrentSettings(SettingsKey, currentSettings);
+                    _stateStorage.StoreCurrentSettings(SettingsKey, currentSettings);
                     _keyManager.SetDirty(SettingsKey, true);
                 }
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"Error storing current settings for key '{SettingsKey}' during unload");
+                Logger.LogError(ex, $"Error storing current settings for key '{SettingsKey}' during unload");
             }
         }
 
@@ -212,11 +197,11 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
                 await UpdateSettingsAsync();
               //  _lastSavedSettings = settings;
 
-                Log.Debug($"Synchronized settings for key '{SettingsKey}' from external change ({typeof(TControl).Name})");
+                Logger.LogDebug($"Synchronized settings for key '{SettingsKey}' from external change ({typeof(TControl).Name})");
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"Error synchronizing settings for key '{SettingsKey}' ({typeof(TControl).Name})");
+                Logger.LogError(ex, $"Error synchronizing settings for key '{SettingsKey}' ({typeof(TControl).Name})");
             }
             finally
             {
@@ -250,7 +235,7 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"Failed to load settings for key '{e.SettingsKey}'");
+                Logger.LogError(ex, $"Failed to load settings for key '{e.SettingsKey}'");
                 e.Success = false;
             }
         }
@@ -267,7 +252,7 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"Failed to save settings for key '{e.SettingsKey}'");
+                Logger.LogError(ex, $"Failed to save settings for key '{e.SettingsKey}'");
                 e.Success = false;
             }
         }
@@ -282,7 +267,7 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
         }
         catch (Exception ex)
         {
-            Log.Error(ex, $"Failed to remove settings for key '{e.SettingsKey}'");
+            Logger.LogError(ex, $"Failed to remove settings for key '{e.SettingsKey}'");
             e.Success = false;
         }
     }
@@ -298,7 +283,7 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"Failed to rename settings from '{e.OldKey}' to '{e.NewKey}'");
+                Logger.LogError(ex, $"Failed to rename settings from '{e.OldKey}' to '{e.NewKey}'");
                 e.Success = false;
             }
         }
@@ -432,12 +417,12 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
 
             TSettings settingsToApply;
             // First check if we have stored settings for this key
-            var storedSettings = StateStorage.GetStoredSettings<TSettings>(_lastLoadedSettingsKey);
+            var storedSettings = _stateStorage.GetStoredSettings<TSettings>(_lastLoadedSettingsKey);
             if (storedSettings is not null && !bypassCache)
             {
                 settingsToApply = storedSettings;
                 _lastSavedSettings = null; // Mark as not saved since these are modified settings
-                Log.Debug($"Loading stored settings for key '{_lastLoadedSettingsKey}' ({typeof(TControl).Name})");
+                Logger.LogDebug($"Loading stored settings for key '{_lastLoadedSettingsKey}' ({typeof(TControl).Name})");
             }
             else
             {
@@ -447,12 +432,12 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
                 {
                     settingsToApply = loadedSettings;
                     _lastSavedSettings = loadedSettings;
-                    Log.Debug($"Loaded settings for key '{_lastLoadedSettingsKey}' ({typeof(TControl).Name})");
+                    Logger.LogDebug($"Loaded settings for key '{_lastLoadedSettingsKey}' ({typeof(TControl).Name})");
                 }
                 else
                 {
                     _lastSavedSettings = null;
-                    Log.Debug($"No settings found for key '{_lastLoadedSettingsKey}' ({typeof(TControl).Name})");
+                    Logger.LogDebug($"No settings found for key '{_lastLoadedSettingsKey}' ({typeof(TControl).Name})");
 
                     await _keyManager.SaveAsync(_lastLoadedSettingsKey);
                     return;
@@ -463,7 +448,7 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
         }
         catch (Exception ex)
         {
-            Log.Error(ex, $"Error loading settings for key '{_lastLoadedSettingsKey}' ({typeof(TControl).Name})");
+            Logger.LogError(ex, $"Error loading settings for key '{_lastLoadedSettingsKey}' ({typeof(TControl).Name})");
         }
         finally
         {
@@ -489,7 +474,7 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
 
             if (isDirty && SettingsKey is not null && currentSettings is not null)
             {
-                StateStorage.StoreCurrentSettings(SettingsKey, currentSettings);
+                _stateStorage.StoreCurrentSettings(SettingsKey, currentSettings);
                 _keyManager.SetDirty(SettingsKey, true);
             }
             else
@@ -499,7 +484,7 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
         }
         catch (Exception ex)
         {
-            Log.Error(ex, $"Error updating dirty state for {typeof(TControl).Name}");
+            Logger.LogError(ex, $"Error updating dirty state for {typeof(TControl).Name}");
             SetCurrentValue(IsSettingsDirtyProperty, false);
             _keyManager.SetDirty(SettingsKey ?? string.Empty, false);
         }
@@ -524,7 +509,7 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
 
         try
         {
-            StateStorage.Rename(oldKey, newKey);
+            _stateStorage.Rename(oldKey, newKey);
 
             await SettingsStorage.RenameAsync(oldKey, newKey);
             if (SettingsKey == oldKey)
@@ -532,11 +517,11 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
                 SetCurrentValue(SettingsKeyProperty, newKey);
             }
 
-            Log.Debug($"Renamed settings from '{oldKey}' to '{newKey}' ({typeof(TControl).Name})");
+            Logger.LogDebug($"Renamed settings from '{oldKey}' to '{newKey}' ({typeof(TControl).Name})");
         }
         catch (Exception ex)
         {
-            Log.Error(ex, $"Error renaming settings from '{oldKey}' to '{newKey}' ({typeof(TControl).Name})");
+            Logger.LogError(ex, $"Error renaming settings from '{oldKey}' to '{newKey}' ({typeof(TControl).Name})");
             throw;
         }
     }
@@ -557,7 +542,7 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
                 return;
             }
 
-            var settings = StateStorage.GetStoredSettings<TSettings>(settingsKey);
+            var settings = _stateStorage.GetStoredSettings<TSettings>(settingsKey);
             if (settings is null && !Equals(settingsKey, SettingsKey))
             {
                 return;
@@ -571,7 +556,7 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
                 _lastSavedSettings = settings;
 
                 // Remove from stored settings since it's now saved
-                StateStorage.RemoveStoredSettings(settingsKey);
+                _stateStorage.RemoveStoredSettings(settingsKey);
                 _keyManager.SetDirty(settingsKey, false);
 
                 UpdateDirtyState();
@@ -582,12 +567,12 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
                     _keyManager.NotifySettingsChanged(settingsKey, settings);
                 }
 
-                Log.Debug($"Saved settings for key '{settingsKey}' ({typeof(TControl).Name})");
+                Logger.LogDebug($"Saved settings for key '{settingsKey}' ({typeof(TControl).Name})");
             }
         }
         catch (Exception ex)
         {
-            Log.Error(ex, $"Error saving settings for key '{settingsKey}' ({typeof(TControl).Name})");
+            Logger.LogError(ex, $"Error saving settings for key '{settingsKey}' ({typeof(TControl).Name})");
             throw;
         }
     }
@@ -604,7 +589,7 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
             await LoadAndApplySettingsAsync(true);
         }
 
-        StateStorage.RemoveStoredSettings(settingsKey);
+        _stateStorage.RemoveStoredSettings(settingsKey);
         _keyManager.SetDirty(settingsKey, false);
 
         UpdateDirtyState();
@@ -620,15 +605,15 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
         await SettingsStorage.DeleteAsync(settingsKey);
 
         // Remove from stored settings and dirty state
-        StateStorage.RemoveStoredSettings(settingsKey);
+        _stateStorage.RemoveStoredSettings(settingsKey);
         _keyManager.SetDirty(settingsKey, false);
 
-        Log.Debug($"Deleted settings for key '{settingsKey}' ({typeof(TControl).Name})");
+        Logger.LogDebug($"Deleted settings for key '{settingsKey}' ({typeof(TControl).Name})");
     }
 
     async Task<object?> ISettingsElement.GetSettingsAsync(string key)
     {
-        var storedSettings = StateStorage.GetStoredSettings<TSettings>(key);
+        var storedSettings = _stateStorage.GetStoredSettings<TSettings>(key);
         if (storedSettings is not null)
         {
             return storedSettings;
@@ -667,7 +652,7 @@ public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TContro
             return;
         }
 
-        var settings = StateStorage.GetStoredSettings<TSettings>(key);
+        var settings = _stateStorage.GetStoredSettings<TSettings>(key);
         if (settings is null)
         {
             settings ??= ControlAdapter?.GetCurrentSettings();
