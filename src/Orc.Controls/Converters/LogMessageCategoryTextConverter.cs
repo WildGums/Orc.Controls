@@ -2,11 +2,10 @@
 
 using System;
 using System.Collections.Generic;
-using Catel;
 using Catel.MVVM.Converters;
 using Catel.Services;
 
-internal class LogMessageCategoryTextConverter : ValueConverterBase<string>
+internal partial class LogMessageCategoryTextConverter : ValueConverterBase<string>
 {
     private static readonly Dictionary<string, string?> PathCache = new(StringComparer.OrdinalIgnoreCase);
 
