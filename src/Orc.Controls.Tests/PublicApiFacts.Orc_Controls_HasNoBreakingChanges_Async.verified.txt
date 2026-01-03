@@ -1360,24 +1360,10 @@ namespace Orc.Controls
         EagerLoading = 2,
         EagerLoadingOnFirstUse = 3,
     }
-    public class LogEntry
-    {
-        public LogEntry() { }
-        public required string Category { get; init; }
-        public required System.DateTimeOffset DateTime { get; init; }
-        public required Microsoft.Extensions.Logging.LogLevel LogLevel { get; init; }
-        public required string Message { get; init; }
-    }
     public class LogEntryDoubleClickEventArgs : System.EventArgs
     {
-        public LogEntryDoubleClickEventArgs(Orc.Controls.LogEntry logEntry) { }
-        public Orc.Controls.LogEntry LogEntry { get; }
-    }
-    public class LogEntryEventArgs : System.EventArgs
-    {
-        public LogEntryEventArgs(System.Collections.Generic.List<Orc.Controls.LogEntry> logEntries, System.Collections.Generic.List<Orc.Controls.LogEntry> filteredLogEntries) { }
-        public System.Collections.Generic.List<Orc.Controls.LogEntry> FilteredLogEntries { get; }
-        public System.Collections.Generic.List<Orc.Controls.LogEntry> LogEntries { get; }
+        public LogEntryDoubleClickEventArgs(Catel.Logging.LogEntry logEntry) { }
+        public Catel.Logging.LogEntry LogEntry { get; }
     }
     public class LogFilter : Catel.Data.ModelBase
     {
@@ -1392,7 +1378,7 @@ namespace Orc.Controls
         public string? ExpressionValue { get; set; }
         public string? Name { get; set; }
         public Orc.Controls.LogFilterTarget Target { get; set; }
-        public bool Pass(Orc.Controls.LogEntry logEntry) { }
+        public bool Pass(Catel.Logging.LogEntry logEntry) { }
     }
     public enum LogFilterAction
     {
@@ -1455,7 +1441,7 @@ namespace Orc.Controls
         public bool IsRuntime { get; set; }
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilter> LogFilters { get; }
         public string? Name { get; set; }
-        public bool Pass(Orc.Controls.LogEntry logEntry) { }
+        public bool Pass(Catel.Logging.LogEntry logEntry) { }
         public override string? ToString() { }
     }
     public class LogFilterGroupEditorViewModel : Catel.MVVM.FeaturedViewModelBase
@@ -1600,12 +1586,12 @@ namespace Orc.Controls
         public void InitializeComponent() { }
         protected override void OnLoaded(System.EventArgs e) { }
         protected override void OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
+        protected override void OnUnloaded(System.EventArgs e) { }
         protected override void OnViewModelChanged() { }
-        protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
     }
     public static class LoggingExtensions
     {
-        public static System.Collections.Generic.IEnumerable<Orc.Controls.RichTextBoxParagraph> ConvertToParagraphs(this System.Collections.Generic.IEnumerable<Orc.Controls.LogEntry> logEntries) { }
+        public static System.Collections.Generic.IEnumerable<Orc.Controls.RichTextBoxParagraph> ConvertToParagraphs(this System.Collections.Generic.IEnumerable<Catel.Logging.LogEntry> logEntries) { }
     }
     public static class MediaElementThreadFactory
     {
@@ -1989,8 +1975,8 @@ namespace Orc.Controls
     }
     public class RichTextBoxParagraph : System.Windows.Documents.Paragraph
     {
-        public RichTextBoxParagraph(Orc.Controls.LogEntry logEntry) { }
-        public Orc.Controls.LogEntry LogEntry { get; }
+        public RichTextBoxParagraph(Catel.Logging.LogEntry logEntry) { }
+        public Catel.Logging.LogEntry LogEntry { get; }
     }
     public static class RichTextBoxParagraphExtensions
     {
@@ -4126,14 +4112,14 @@ namespace Orc.Controls.ViewModels
         public static readonly Catel.Data.IPropertyData ShowWarningProperty;
         public static readonly Catel.Data.IPropertyData TypeFilterProperty;
         public static readonly Catel.Data.IPropertyData WarningEntriesCountProperty;
-        public LogViewerViewModel(System.IServiceProvider serviceProvider, Catel.Services.IDispatcherService dispatcherService, Catel.Services.ILanguageService languageService) { }
+        public LogViewerViewModel(System.IServiceProvider serviceProvider, Catel.Services.IDispatcherService dispatcherService, Catel.Services.ILanguageService languageService, Catel.Logging.IInMemoryLoggingContainer inMemoryLoggingContainer) { }
         public Orc.Controls.LogFilterGroup? ActiveFilterGroup { get; set; }
         public bool AutoScroll { get; set; }
         public int DebugEntriesCount { get; }
         public int ErrorEntriesCount { get; }
         public bool IgnoreCatelLogging { get; set; }
         public int InfoEntriesCount { get; }
-        public System.Collections.Generic.List<Orc.Controls.LogEntry> LogEntries { get; }
+        public System.Collections.Generic.List<Catel.Logging.LogEntry> LogEntries { get; }
         public string? LogFilter { get; set; }
         public int MaximumUpdateBatchSize { get; set; }
         public Orc.Controls.ScrollMode ScrollMode { get; set; }
@@ -4146,12 +4132,12 @@ namespace Orc.Controls.ViewModels
         public Catel.Collections.FastObservableCollection<string> TypeNames { get; }
         public int WarningEntriesCount { get; }
         public event System.EventHandler<System.EventArgs>? ActiveFilterGroupChanged;
-        public event System.EventHandler<Orc.Controls.LogEntryEventArgs>? LogMessage;
+        public event System.EventHandler<Catel.Logging.LogEntryEventArgs>? LogMessage;
         public void ClearEntries() { }
         protected override System.Threading.Tasks.Task CloseAsync() { }
-        public System.Collections.Generic.IEnumerable<Orc.Controls.LogEntry> GetFilteredLogEntries() { }
+        public System.Collections.Generic.IEnumerable<Catel.Logging.LogEntry> GetFilteredLogEntries() { }
         protected override System.Threading.Tasks.Task InitializeAsync() { }
-        public bool IsValidLogEntry(Orc.Controls.LogEntry logEntry) { }
+        public bool IsValidLogEntry(Catel.Logging.LogEntry logEntry) { }
     }
     public class TextInputViewModel : Catel.MVVM.ViewModelBase
     {
