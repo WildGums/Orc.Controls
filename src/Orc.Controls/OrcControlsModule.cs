@@ -1,6 +1,7 @@
 ﻿namespace Orc.Controls
 {
     using Catel.Services;
+    using Catel.ThirdPartyNotices;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
     using Microsoft.Extensions.Logging;
@@ -24,6 +25,8 @@
             serviceCollection.TryAddSingleton<ITimeAdjustmentProvider, TimeAdjustmentProvider>();
 
             serviceCollection.AddSingleton<ILanguageSource>(new LanguageResourceSource("Orc.Controls", "Orc.Controls.Properties", "Resources"));
+
+            serviceCollection.AddSingleton<IThirdPartyNotice>((x) => new LibraryThirdPartyNotice("Orc.Controls", "https://github.com/wildgums/orc.controls"));
 
             return serviceCollection;
         }
