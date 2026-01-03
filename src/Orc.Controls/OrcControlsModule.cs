@@ -1,12 +1,9 @@
 ﻿namespace Orc.Controls
 {
-    using Catel.MVVM;
     using Catel.Services;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
     using Microsoft.Extensions.Logging;
-    using Orc.Controls;
-    using Orc.Controls.Controls.LogViewer.Logging;
     using Orc.Controls.Services;
     using Orc.Controls.Tools;
 
@@ -17,8 +14,6 @@
     {
         public static IServiceCollection AddOrcControls(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddSingleton<ILogger, InMemoryLogger>();
-
             serviceCollection.TryAddSingleton<IApplicationLogFilterGroupService, ApplicationLogFilterGroupService>();
             serviceCollection.TryAddSingleton<ICalloutManager, CalloutManager>();
             serviceCollection.TryAddSingleton<ISuggestionListService, SuggestionListService>();

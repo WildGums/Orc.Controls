@@ -2,13 +2,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Catel;
 using Catel.Collections;
-using Catel.IoC;
 using Catel.Logging;
 using Catel.MVVM;
 using Catel.Services;
@@ -18,6 +15,7 @@ public class LogViewerViewModel : ViewModelBase
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly IDispatcherService _dispatcherService;
+    private readonly IInMemoryLoggingContainer _inMemoryLoggingContainer;
 
     private readonly object _lock = new();
 
@@ -34,11 +32,12 @@ public class LogViewerViewModel : ViewModelBase
     private bool _isViewModelActive;
 
     public LogViewerViewModel(IServiceProvider serviceProvider, IDispatcherService dispatcherService,
-       ILanguageService languageService)
+       ILanguageService languageService, IInMemoryLoggingContainer inMemoryLoggingContainer)
         : base(serviceProvider)
     {
         _serviceProvider = serviceProvider;
         _dispatcherService = dispatcherService;
+        _inMemoryLoggingContainer = inMemoryLoggingContainer;
 
         ValidateUsingDataAnnotations = false;
 
@@ -233,20 +232,6 @@ public class LogViewerViewModel : ViewModelBase
         //}
     }
 
-    //private void OnLogListenerTypeChanged()
-    //{
-    //    UnsubscribeLogListener();
-
-    //    if (_hasInitializedFirstLogListener)
-    //    {
-    //        ClearEntries();
-    //    }
-
-    //    _hasInitializedFirstLogListener = true;
-
-    //    SubscribeLogListener();
-    //}
-
     private void SubscribeLogListener()
     {
         if (!_isViewModelActive)
@@ -254,53 +239,14 @@ public class LogViewerViewModel : ViewModelBase
             return;
         }
 
-        //var logListenerType = LogListenerType;
-        //if (logListenerType is null)
-        //{
-        //    return;
-        //}
+        _inMemoryLoggingContainer.LogEntryAdded += OnLogMessage;
 
-        //if (logListenerType == typeof(LogViewerLogListener))
-        //{
-        //    var logViewerLogListener = _logViewerLogListener;
-        //    if (logViewerLogListener is not null)
-        //    {
-        //        _logListener = logViewerLogListener;
-        //        _dispatcherService.Invoke(() => AddLogEntries(logViewerLogListener.GetLogEntries().ToList(), true));
-        //    }
-        //}
-        //else
-        //{
-        //    if (_typeFactory.CreateInstance(logListenerType) is ILogListener logListener)
-        //    {
-        //        LogManager.AddListener(logListener);
-        //        _logListener = logListener;
-        //    }
-        //}
-
-        //if (_logListener is null)
-        //{
-        //    return;
-        //}
-
-        //_logListener.IgnoreCatelLogging = IgnoreCatelLogging;
-        //_logListener.LogMessage += OnLogMessage;
+        _logEntries.ReplaceRange(_inMemoryLoggingContainer.LogEntries);
     }
 
     private void UnsubscribeLogListener()
     {
-        //if (_logListener is null)
-        //{
-        //    return;
-        //}
-
-        //if (_logListener is not LogViewerLogListener)
-        //{
-        //    LogManager.RemoveListener(_logListener);
-        //}
-
-        //_logListener.LogMessage -= OnLogMessage;
-        //_logListener = null;
+        _inMemoryLoggingContainer.LogEntryAdded -= OnLogMessage;
     }
 
     public IEnumerable<LogEntry> GetFilteredLogEntries()
@@ -411,33 +357,33 @@ public class LogViewerViewModel : ViewModelBase
             {
                 using (SuspendChangeNotifications())
                 {
-                        foreach (var entry in entries)
+                    foreach (var entry in entries)
+                    {
+                        _logEntries.Add(entry);
+
+                        if (IsValidLogEntry(entry))
                         {
-                            _logEntries.Add(entry);
+                            filteredLogEntries.Add(entry);
+                        }
 
-                            if (IsValidLogEntry(entry))
-                            {
-                                filteredLogEntries.Add(entry);
-                            }
+                        var targetTypeName = entry?.Category ?? string.Empty;
+                        if (typeNames.Contains(targetTypeName))
+                        {
+                            continue;
+                        }
 
-                            var targetTypeName = entry?.Category ?? string.Empty;
-                            if (typeNames.Contains(targetTypeName))
-                            {
-                                continue;
-                            }
+                        try
+                        {
+                            typeNames.Add(targetTypeName);
 
-                            try
-                            {
-                                typeNames.Add(targetTypeName);
-
-                                requireSorting = true;
-                            }
-                            catch (Exception)
-                            {
-                                // we don't have time for this, let it go...
-                            }
+                            requireSorting = true;
+                        }
+                        catch (Exception)
+                        {
+                            // we don't have time for this, let it go...
                         }
                     }
+                }
             }
 
             UpdateEntriesCount(entries);
@@ -455,25 +401,23 @@ public class LogViewerViewModel : ViewModelBase
                 }
             }
 
-            LogMessage?.Invoke(this, new LogEntryEventArgs(entries, filteredLogEntries));
+            var logMessage = LogMessage;
+            if (logMessage is not null)
+            {
+                entries.ForEach(x => logMessage.Invoke(this, new LogEntryEventArgs(x)));
+            }
         });
     }
 
-    //private void OnLogMessage(object? sender, LogMessageEventArgs e)
-    //{
-    //    var logEntry = new LogEntry(e);
-    //    if (!logEntry.Data.ContainsKey("ThreadId"))
-    //    {
-    //        logEntry.Data["ThreadId"] = ThreadHelper.GetCurrentThreadId();
-    //    }
+    private void OnLogMessage(object? sender, LogEntryEventArgs e)
+    {
+        lock (_queuedEntries)
+        {
+            _queuedEntries.Enqueue(e.LogEntry);
+        }
 
-    //    lock (_queuedEntries)
-    //    {
-    //        _queuedEntries.Enqueue(logEntry);
-    //    }
-
-    //    StartTimer();
-    //}
+        StartTimer();
+    }
 
     private void StartTimer()
     {
