@@ -3,6 +3,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Automation.Peers;
+using Catel;
 using Catel.IoC;
 using Catel.MVVM.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,11 @@ public sealed partial class CulturePicker
 {
     static CulturePicker()
     {
+        if (CatelEnvironment.IsInDesignMode)
+        {
+            return;
+        }
+
         typeof(CulturePicker).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
     }
 

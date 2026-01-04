@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using Catel;
 using Catel.IoC;
 using Catel.Logging;
 using Catel.MVVM;
@@ -32,6 +33,11 @@ public partial class LogViewerControl
 
     static LogViewerControl()
     {
+        if (CatelEnvironment.IsInDesignMode)
+        {
+            return;
+        }
+
         typeof(LogViewerControl).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
     }
 

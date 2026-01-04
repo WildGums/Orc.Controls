@@ -3,6 +3,7 @@
 using System.Windows;
 using System.Windows.Automation.Peers;
 using Automation;
+using Catel;
 using Catel.IoC;
 using Catel.MVVM.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,11 @@ public partial class SaveFilePicker
 {
     static SaveFilePicker()
     {
+        if (CatelEnvironment.IsInDesignMode)
+        {
+            return;
+        }
+
         typeof(SaveFilePicker).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
     }
 

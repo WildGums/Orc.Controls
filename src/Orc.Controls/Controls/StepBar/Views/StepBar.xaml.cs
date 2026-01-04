@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using Automation;
+using Catel;
 using Catel.IoC;
 using Catel.MVVM.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,11 @@ public sealed partial class StepBar
 {
     static StepBar()
     {
+        if (CatelEnvironment.IsInDesignMode)
+        {
+            return;
+        }
+
         typeof(StepBar).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
     }
 

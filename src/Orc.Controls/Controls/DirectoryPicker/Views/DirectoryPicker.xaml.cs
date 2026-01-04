@@ -1,6 +1,7 @@
 ﻿namespace Orc.Controls;
 
 using System.Windows;
+using Catel;
 using Catel.IoC;
 using Catel.MVVM.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,11 @@ public partial class DirectoryPicker
 {
     static DirectoryPicker()
     {
+        if (CatelEnvironment.IsInDesignMode)
+        {
+            return;
+        }
+
         typeof(DirectoryPicker).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
     }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using Automation;
+using Catel;
 using Catel.Data;
 using Catel.IoC;
 using Catel.MVVM.Views;
@@ -13,6 +14,11 @@ public sealed partial class ValidationContextTree
 {
     static ValidationContextTree()
     {
+        if (CatelEnvironment.IsInDesignMode)
+        {
+            return;
+        }
+
         typeof(ValidationContextTree).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
     }
 
