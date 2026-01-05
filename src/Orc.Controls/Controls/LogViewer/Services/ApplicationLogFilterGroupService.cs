@@ -13,7 +13,7 @@ using Path = System.IO.Path;
 
 public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupService
 {
-    private const string LogFilterGroupsConfigFile = "LogFilterGroups.xml";
+    private const string LogFilterGroupsConfigFile = "LogFilterGroups.json";
 
     private readonly ILogger<ApplicationLogFilterGroupService> _logger;
     private readonly IFileService _fileService;

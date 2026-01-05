@@ -211,7 +211,7 @@ public class ControlToolManager : IControlToolManager
         var toolSettingsAttribute = Attribute.GetCustomAttribute(settingsProperty, typeof(ToolSettingsAttribute)) as ToolSettingsAttribute;
         var settingsStorage = toolSettingsAttribute?.Storage;
         var appDataDirectory = _appDataService.GetApplicationDataDirectory(ApplicationDataTarget.UserRoaming);
-        var fileName = settingsProperty.Name + ".xml";
+        var fileName = settingsProperty.Name + ".json";
 
         if (string.IsNullOrWhiteSpace(settingsStorage))
         {
