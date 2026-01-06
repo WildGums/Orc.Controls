@@ -10,13 +10,6 @@ public static class ModuleInitializer
     [System.Runtime.CompilerServices.ModuleInitializer]
     public static void Initialize() { }
 }
-namespace Orc.Controls
-{
-    public static class OrcControlsSettingsModule
-    {
-        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddOrcControlsSettings(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection) { }
-    }
-}
 namespace Orc.Controls.Settings
 {
     public class AttributeBasedSettingsKeyParser<T> : Orc.Controls.Settings.ISettingsKeyParser<T>
@@ -435,5 +428,12 @@ namespace Orc.Controls.Settings
         public TypeConverter() { }
         public override System.Type? Read(ref System.Text.Json.Utf8JsonReader reader, System.Type typeToConvert, System.Text.Json.JsonSerializerOptions options) { }
         public override void Write(System.Text.Json.Utf8JsonWriter writer, System.Type value, System.Text.Json.JsonSerializerOptions options) { }
+    }
+}
+namespace Orc
+{
+    public static class OrcControlsSettingsModule
+    {
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddOrcControlsSettings(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection) { }
     }
 }

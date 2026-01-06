@@ -1801,10 +1801,6 @@ namespace Orc.Controls
         protected virtual System.Windows.FrameworkElement? GetAttachmentTarget(object? parameter = null) { }
         protected override object ProvideDynamicValue(System.IServiceProvider? serviceProvider) { }
     }
-    public static class OrcControlsModule
-    {
-        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddOrcControls(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection) { }
-    }
     public class PasswordBindBehavior : Catel.Windows.Interactivity.BehaviorBase<System.Windows.Controls.PasswordBox>
     {
         public static readonly System.Windows.DependencyProperty PasswordProperty;
@@ -2290,7 +2286,7 @@ namespace Orc.Controls
     }
     public abstract class TimeBasedCalloutWatcherBase : Orc.Controls.CalloutWatcherBase
     {
-        public TimeBasedCalloutWatcherBase(Microsoft.Extensions.Logging.ILogger<Orc.Controls.TimeBasedCalloutWatcherBase> logger, Orc.Controls.ICalloutManager calloutManager, Catel.Configuration.IConfigurationService configurationService, Catel.Services.IDispatcherService dispatcherService) { }
+        public TimeBasedCalloutWatcherBase(Microsoft.Extensions.Logging.ILogger logger, Orc.Controls.ICalloutManager calloutManager, Catel.Configuration.IConfigurationService configurationService, Catel.Services.IDispatcherService dispatcherService) { }
         public abstract System.TimeSpan Delay { get; }
         public System.DateTime End { get; }
         public System.DateTime Start { get; protected set; }
@@ -4164,5 +4160,12 @@ namespace Orc.Controls.Views
         public TextInputWindow(System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public TextInputWindow(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public void InitializeComponent() { }
+    }
+}
+namespace Orc
+{
+    public static class OrcControlsModule
+    {
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddOrcControls(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection) { }
     }
 }
