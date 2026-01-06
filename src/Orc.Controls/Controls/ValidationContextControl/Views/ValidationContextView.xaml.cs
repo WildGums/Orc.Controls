@@ -11,16 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 public sealed partial class ValidationContextView
 {
-    static ValidationContextView()
-    {
-        if (CatelEnvironment.IsInDesignMode)
-        {
-            return;
-        }
-
-        typeof(ValidationContextView).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
-    }
-
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
     public IValidationContext? ValidationContext
     {

@@ -11,16 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 /// </summary>
 public partial class DirectoryPicker
 {
-    static DirectoryPicker()
-    {
-        if (CatelEnvironment.IsInDesignMode)
-        {
-            return;
-        }
-
-        typeof(DirectoryPicker).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
-    }
-
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
     public double LabelWidth
     {

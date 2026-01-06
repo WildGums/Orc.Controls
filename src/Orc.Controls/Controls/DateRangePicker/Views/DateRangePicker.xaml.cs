@@ -4,23 +4,10 @@ using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
-using Catel;
-using Catel.IoC;
 using Catel.MVVM.Views;
-using Microsoft.Extensions.DependencyInjection;
 
 public partial class DateRangePicker
 {
-    static DateRangePicker()
-    {
-        if (CatelEnvironment.IsInDesignMode)
-        {
-            return;
-        }
-
-        typeof(DateRangePicker).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
-    }
-
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
     public ObservableCollection<DateRange>? Ranges
     {

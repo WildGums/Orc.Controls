@@ -12,16 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 public sealed partial class ValidationContextTree
 {
-    static ValidationContextTree()
-    {
-        if (CatelEnvironment.IsInDesignMode)
-        {
-            return;
-        }
-
-        typeof(ValidationContextTree).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
-    }
-
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.ViewToViewModel)]
     public IValidationContext? ValidationContext

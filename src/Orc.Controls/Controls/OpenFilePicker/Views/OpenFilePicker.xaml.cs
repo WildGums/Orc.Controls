@@ -13,16 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 /// </summary>
 public partial class OpenFilePicker
 {
-    static OpenFilePicker()
-    {
-        if (CatelEnvironment.IsInDesignMode)
-        {
-            return;
-        }
-
-        typeof(OpenFilePicker).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
-    }
-
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
     public double LabelWidth
     {

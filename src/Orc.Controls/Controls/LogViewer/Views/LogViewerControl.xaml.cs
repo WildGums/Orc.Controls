@@ -31,16 +31,6 @@ public partial class LogViewerControl
     private bool _hasClearedEntries;
     private double _lastKnownScrollHeight;
 
-    static LogViewerControl()
-    {
-        if (CatelEnvironment.IsInDesignMode)
-        {
-            return;
-        }
-
-        typeof(LogViewerControl).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
-    }
-
     public LogViewerControl(IServiceProvider serviceProvider, IViewModelWrapperService viewModelWrapperService,
         IDataContextSubscriptionService dataContextSubscriptionService, ICommandManager commandManager)
         : base(serviceProvider, viewModelWrapperService, dataContextSubscriptionService)

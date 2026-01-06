@@ -3,28 +3,11 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Automation.Peers;
-using Catel;
-using Catel.IoC;
 using Catel.MVVM.Views;
-using Microsoft.Extensions.DependencyInjection;
 using Orc.Automation;
 
 public sealed partial class CulturePicker
 {
-    static CulturePicker()
-    {
-        if (CatelEnvironment.IsInDesignMode)
-        {
-            return;
-        }
-
-        typeof(CulturePicker).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
-    }
-
-    
-    public static readonly DependencyProperty SelectedCultureProperty = DependencyProperty.Register(
-        nameof(SelectedCulture), typeof(CultureInfo), typeof(CulturePicker),
-        new FrameworkPropertyMetadata(default(CultureInfo), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
     public CultureInfo? SelectedCulture
@@ -32,6 +15,10 @@ public sealed partial class CulturePicker
         get { return (CultureInfo?)GetValue(SelectedCultureProperty); }
         set { SetValue(SelectedCultureProperty, value); }
     }
+    
+    public static readonly DependencyProperty SelectedCultureProperty = DependencyProperty.Register(
+        nameof(SelectedCulture), typeof(CultureInfo), typeof(CulturePicker),
+        new FrameworkPropertyMetadata(default(CultureInfo), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
     protected override AutomationPeer OnCreateAutomationPeer()
     {

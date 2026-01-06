@@ -20,16 +20,6 @@ public partial class Callout
     private const double DropShadowSize = 2d;
     private const double ContentBorderPadding = 8d;
 
-    static Callout()
-    {
-        if (CatelEnvironment.IsInDesignMode)
-        {
-            return;
-        }
-
-        typeof(Callout).AutoDetectViewPropertiesToSubscribe(IoCContainer.ServiceProvider.GetRequiredService<IViewPropertySelector>());
-    }
-
     partial void OnInitializedComponent()
     {
         Popup.Opened += PopupOnOpened;
