@@ -15,12 +15,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Catel.Fody" Version="4.12.0-alpha0118" PrivateAssets="all" />
+    <PackageReference Include="Catel.Fody" Version="4.12.0-alpha0121" PrivateAssets="all" />
+    <PackageReference Include="Catel.SourceGenerators" Version="1.0.0-alpha0032" PrivateAssets="all" />
     <PackageReference Include="Fody" Version="6.9.3" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="LoadAssembliesOnStartup.Fody" Version="4.7.0" PrivateAssets="all" />
-    <PackageReference Include="Orchestra.Core" Version="7.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.1" />
+    <!--<PackageReference Include="Orchestra.Core" Version="7.3.0" />-->
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Orchestra\src\Orchestra.Core\Orchestra.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

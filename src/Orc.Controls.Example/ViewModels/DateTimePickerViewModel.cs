@@ -7,28 +7,25 @@
     using Catel.MVVM;
     using System.ComponentModel;
     using Models;
+    using Catel.Services;
 
     public class DateTimePickerViewModel : ViewModelBase
     {
-        #region Constructors
-        public DateTimePickerViewModel()
+        public DateTimePickerViewModel(IServiceProvider serviceProvider, IDispatcherService dispatcherService)
+            : base(serviceProvider)
         {
-            AvailableFormats = new FastObservableCollection<CultureFormat>();
+            AvailableFormats = new FastObservableCollection<CultureFormat>(dispatcherService);
             DateTimeValue = DateTime.Now;
             DateTimeValueString = string.Empty;
-            SetNull = new Command(OnSetNullExecute);
+            SetNull = new Command(serviceProvider, OnSetNullExecute);
         }
-        #endregion
 
-        #region Properties
         public DateTime? DateTimeValue { get; set; }
         public string DateTimeValueString { get; set; }
         public FastObservableCollection<CultureFormat> AvailableFormats { get; private set; }
         public CultureFormat SelectedFormat { get; set; }
         public Command SetNull { get; }
-        #endregion
 
-        #region Methods
         protected override async Task InitializeAsync()
         {
             await base.InitializeAsync();
@@ -87,6 +84,5 @@
                 DateTimeValueString = string.Empty;
             }
         }
-        #endregion
     }
 }

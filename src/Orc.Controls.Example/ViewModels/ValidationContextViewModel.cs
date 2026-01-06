@@ -1,16 +1,20 @@
 ﻿namespace Orc.Controls.Example.ViewModels
 {
+    using System;
     using System.Threading.Tasks;
     using Catel.Data;
     using Catel.MVVM;
 
     public class ValidationContextViewModel : ViewModelBase
     {
-        #region Properties
-        public IValidationContext ValidationContext { get; private set; }
-        #endregion
+        public ValidationContextViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider)
+        {
+            
+        }
 
-        #region Methods
+        public IValidationContext ValidationContext { get; private set; }
+
         protected override Task InitializeAsync()
         {
             var context = new ValidationContext();
@@ -118,6 +122,5 @@
 
             return base.InitializeAsync();
         }
-        #endregion
     }
 }

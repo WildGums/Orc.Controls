@@ -1,9 +1,15 @@
 ﻿namespace Orc.Controls.Example.ViewModels
 {
+    using System;
     using Catel.MVVM;
 
     public class NumericUpDownViewModel : ViewModelBase
     {
+        public NumericUpDownViewModel(IServiceProvider serviceProvider) 
+            : base(serviceProvider)
+        {
+        }
+
         public byte ByteValue { get; set; }
         public sbyte SByteValue { get; set; }
         public short ShortValue { get; set; }

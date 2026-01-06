@@ -4,11 +4,6 @@
 
     public partial class DateTimePicker
     {
-        public DateTimePicker()
-        {
-            InitializeComponent();
-        }
-
         private void DateTimePicker_OnEditStarted(object sender, EventArgs e)
         {
             

@@ -6,27 +6,21 @@
 
     public class LinkLabelViewModel : ViewModelBase
     {
-        #region Fields
         private readonly IMessageService _messageService;
-        #endregion
 
-        #region Constructors
-        public LinkLabelViewModel(IMessageService messageService)
+        public LinkLabelViewModel(IServiceProvider serviceProvider, IMessageService messageService)
+            : base(serviceProvider)
         {
-            ArgumentNullException.ThrowIfNull(messageService);
-
             _messageService = messageService;
-            DefaultAction = new Command(OnDefaultActionExecute);
-        }
-        #endregion
 
-        #region Commands
+            DefaultAction = new Command(serviceProvider, OnDefaultActionExecute);
+        }
+
         public Command DefaultAction { get; }
 
         private void OnDefaultActionExecute()
         {
             _messageService.ShowInformationAsync("Default action has been executed");
         }
-        #endregion
     }
 }

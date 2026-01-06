@@ -2,8 +2,5 @@
 
 public partial class StepBarView
 {
-    public StepBarView()
-    {
-        InitializeComponent();
-    }
+
 }

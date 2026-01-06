@@ -8,12 +8,13 @@
 
     public class AnimatedTextBlockViewModel : ViewModelBase
     {
-        private DispatcherTimerEx _dispatcherTimerEx;
+        private readonly DispatcherTimerEx _dispatcherTimerEx;
         private readonly Random _random = new Random();
 
         private int _currentIndex;
 
-        public AnimatedTextBlockViewModel(IDispatcherService dispatcherService)
+        public AnimatedTextBlockViewModel(IServiceProvider serviceProvider, IDispatcherService dispatcherService)
+            : base(serviceProvider)
         {
             _dispatcherTimerEx = new DispatcherTimerEx(dispatcherService);
         }

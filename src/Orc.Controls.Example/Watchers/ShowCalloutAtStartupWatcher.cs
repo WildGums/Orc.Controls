@@ -2,11 +2,17 @@
 {
     using System;
     using Catel.Configuration;
+    using Catel.IoC;
+    using Catel.Services;
+    using Microsoft.Extensions.Logging;
 
-    public class ShowCalloutAtStartupWatcher : TimeBasedCalloutWatcherBase
+    public class ShowCalloutAtStartupWatcher : TimeBasedCalloutWatcherBase, IConstructAtStartup
     {
-        public ShowCalloutAtStartupWatcher(ICalloutManager calloutManager, IConfigurationService configurationService) 
-            : base(calloutManager, configurationService)
+        public ShowCalloutAtStartupWatcher(ILogger<ShowCalloutAtStartupWatcher> logger, 
+            ICalloutManager calloutManager, 
+            IConfigurationService configurationService,
+            IDispatcherService dispatcherService) 
+            : base(logger, calloutManager, configurationService, dispatcherService)
         {
             Name = "ExampleCallout";
             IsOneTimeCallout = false;

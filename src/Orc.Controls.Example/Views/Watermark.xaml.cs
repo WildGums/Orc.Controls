@@ -2,9 +2,5 @@
 {
     public partial class Watermark
     {
-        public Watermark()
-        {
-            InitializeComponent();
-        }
     }
 }

@@ -2,9 +2,6 @@
 {
     public partial class SpinButtonView
     {
-        public SpinButtonView()
-        {
-            InitializeComponent();
-        }
+
     }
 }

@@ -1,12 +1,14 @@
 ﻿namespace Orc.Controls.Example.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Windows.Media;
     using Catel.MVVM;
 
     public class PinnableToolTipViewModel : ViewModelBase
     {
-        public PinnableToolTipViewModel()
+        public PinnableToolTipViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
             ColorList = new List<Brush>()
             {

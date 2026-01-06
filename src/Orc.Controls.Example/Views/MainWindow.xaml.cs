@@ -2,10 +2,8 @@
 {
     public partial class MainWindow
     {
-        public MainWindow()
+        partial void OnInitializedComponent()
         {
-            InitializeComponent();
-
             CanCloseUsingEscape = false;
         }
     }

@@ -2,14 +2,14 @@
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
     using Catel.Reflection;
     using Catel.Services;
 
     public sealed class ReverseAutoCompletionService : IAutoCompletionService
     {
-        #region IAutoCompletionService Members
-        public string[] GetAutoCompleteValues(string property, string filter, IEnumerable source)
+        public IReadOnlyList<string> GetAutoCompleteValues(string property, string filter, IEnumerable source)
         {
             ArgumentNullException.ThrowIfNull(source);
 
@@ -21,6 +21,5 @@
 
             return source.Cast<object>().Select(o => PropertyHelper.GetPropertyValue<string>(o, property, true)).Where(s => s.EndsWith(reverseFilter)).ToArray();
         }
-        #endregion
     }
 }

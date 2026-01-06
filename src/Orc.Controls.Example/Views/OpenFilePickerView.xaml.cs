@@ -2,9 +2,6 @@
 {
     public partial class OpenFilePickerView
     {
-        public OpenFilePickerView()
-        {
-            InitializeComponent();
-        }
+
     }
 }

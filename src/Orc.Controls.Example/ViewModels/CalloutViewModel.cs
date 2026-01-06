@@ -9,13 +9,13 @@
     {
         private readonly DispatcherTimer _showCalloutDispatcherTimer = new DispatcherTimer();
 
-        public CalloutViewModel(ICalloutManager calloutManager)
+        public CalloutViewModel(IServiceProvider serviceProvider, ICalloutManager calloutManager)
+            : base(serviceProvider)
         {
-            ArgumentNullException.ThrowIfNull(calloutManager);
-
             CalloutManager = calloutManager;
-            OpenCallout = new TaskCommand<object>(OpenCalloutExecuteAsync);
-            ToggleShowRepeatedly = new TaskCommand(OnShowRepeatedlyExecuteAsync);
+
+            OpenCallout = new TaskCommand<object>(serviceProvider, OpenCalloutExecuteAsync);
+            ToggleShowRepeatedly = new TaskCommand(serviceProvider, OnShowRepeatedlyExecuteAsync);
         }
 
         public ICalloutManager CalloutManager { get; }

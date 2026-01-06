@@ -14,10 +14,11 @@
         private readonly List<FontItem> _source = GetFontItems();
         private readonly Random _randomizer = new Random(DateTime.Now.Millisecond);
 
-        public InfinityScrollViewModel()
+        public InfinityScrollViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
             ListItems = new ObservableCollection<FontItem>();
-            AddItems = new TaskCommand(OnAddItemsExecuteAsync);
+            AddItems = new TaskCommand(serviceProvider, OnAddItemsExecuteAsync);
 
             Count = 10;
             ListItems.AddRange(GetNextItems(30));
@@ -83,10 +84,8 @@
                 Name = name;
             }
 
-            #region Properties
             public ImageSource Image { get; set; }
             public string Name { get; private set; }
-            #endregion
         }
     }
 }

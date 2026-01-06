@@ -2,9 +2,5 @@
 {
     public partial class ValidationContextView
     {
-        public ValidationContextView()
-        {
-            InitializeComponent();
-        }
     }
 }

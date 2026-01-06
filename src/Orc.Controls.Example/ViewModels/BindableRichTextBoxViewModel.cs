@@ -1,28 +1,25 @@
 ﻿namespace Orc.Controls.Example.ViewModels
 {
+    using System;
     using System.Windows.Documents;
     using Catel.MVVM;
 
     public class BindableRichTextBoxViewModel : ViewModelBase
     {
-        #region Constructors
-        public BindableRichTextBoxViewModel()
+        public BindableRichTextBoxViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
             FlowDoc = CreateFlowDocument("This is example text colored with AccentColor");
 
-            ClearText = new Command(OnClearText);
+            ClearText = new Command(serviceProvider, OnClearText);
         }
-        #endregion
 
-        #region Properties
         public FlowDocument FlowDoc { get; set; }
 
         public bool UseAccentText { get; set; }
 
         public Command ClearText { get; set; }
-        #endregion
 
-        #region Methods
         private void OnClearText()
         {
             FlowDoc = CreateFlowDocument();
@@ -47,6 +44,5 @@
         {
             FlowDoc = CreateFlowDocument("This is example text colored with AccentColor");
         }
-        #endregion
     }
 }

@@ -6,27 +6,21 @@
 
     public class DropDownButtonViewModel : ViewModelBase
     {
-        #region Fields
         private readonly IMessageService _messageService;
-        #endregion
 
-        #region Constructors
-        public DropDownButtonViewModel(IMessageService messageService)
+        public DropDownButtonViewModel(IServiceProvider serviceProvider, IMessageService messageService)
+            : base(serviceProvider)
         {
-            ArgumentNullException.ThrowIfNull(messageService);
-
             _messageService = messageService;
-            DefaultAction = new Command(OnDefaultActionExecute);
-        }
-        #endregion
 
-        #region Commands
+            DefaultAction = new Command(serviceProvider, OnDefaultActionExecute);
+        }
+
         public Command DefaultAction { get; private set; }
 
         private void OnDefaultActionExecute()
         {
             _messageService.ShowInformationAsync("Default action has been executed");
         }
-        #endregion
     }
 }

@@ -3,9 +3,5 @@
     public partial class TimePicker
     {
 
-        public TimePicker()
-        {
-            InitializeComponent();
-        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace Orc.Controls.Example.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -9,11 +10,12 @@
 
     public class StepBarViewModel : ViewModelBase
     {
-        public StepBarViewModel()
+        public StepBarViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
-            AvailableOrientations = Enum<Orientation>.GetValues().ToList();
+            AvailableOrientations = Enum<Orientation>.GetValues().ToArray();
 
-            SelectNewItem = new TaskCommand<IStepBarItem>(OnSelectNewItemExecuteAsync, OnSelectNewItemCanExecute);
+            SelectNewItem = new TaskCommand<IStepBarItem>(serviceProvider, OnSelectNewItemExecuteAsync, OnSelectNewItemCanExecute);
         }
 
         public TaskCommand<IStepBarItem> SelectNewItem { get; private set; }
@@ -49,11 +51,11 @@
             SelectedItem = item;
         }
 
-        public List<Orientation> AvailableOrientations { get; private set; }
+        public IReadOnlyList<Orientation> AvailableOrientations { get; private set; }
 
         public Orientation SelectedOrientation { get; set; }
 
-        public List<IStepBarItem> Items { get; private set; }
+        public IReadOnlyList<IStepBarItem> Items { get; private set; }
 
         public IStepBarItem SelectedItem { get; set; }
 

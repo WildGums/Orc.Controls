@@ -1,5 +1,6 @@
 ﻿namespace Orc.Controls.Example.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using Catel.Data;
     using Catel.Fody;
@@ -7,7 +8,8 @@
 
     public class NumericTextBoxViewModel : ViewModelBase
     {
-        public NumericTextBoxViewModel()
+        public NumericTextBoxViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
             IsNullValueAllowed = true;
             IsNegativeAllowed = true;

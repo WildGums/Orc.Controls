@@ -2,11 +2,5 @@
 {
     public partial class DropDownButtonView
     {
-        #region Constructors
-        public DropDownButtonView()
-        {
-            InitializeComponent();
-        }
-        #endregion
     }
 }

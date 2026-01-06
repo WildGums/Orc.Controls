@@ -2,9 +2,6 @@
 {
     public partial class BindableRichTextBox
     {
-        public BindableRichTextBox()
-        {
-            InitializeComponent();
-        }
+
     }
 }

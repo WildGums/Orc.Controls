@@ -7,14 +7,6 @@
 
     public partial class LogViewer
     {
-        #region Constructors
-        public LogViewer()
-        {
-            InitializeComponent();
-        }
-        #endregion
-
-        #region Methods
         protected override async void OnViewModelChanged()
         {
             base.OnViewModelChanged();
@@ -49,6 +41,5 @@
                 ActiveFilterGroupComboBox.SetCurrentValue(System.Windows.Controls.ItemsControl.ItemsSourceProperty, filterGroups);
             }
         }
-        #endregion
     }
 }

@@ -2,9 +2,6 @@
 {
     public partial class AnimatedGif
     {
-        public AnimatedGif()
-        {
-            InitializeComponent();
-        }
+
     }
 }

@@ -5,11 +5,6 @@
 
     public partial class Expander
     {
-        public Expander()
-        {
-            InitializeComponent();
-        }
-
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             var expanderControl = new ExpanderAutomationPeer(ExpanderControl);

@@ -4,30 +4,30 @@
     using System.Threading.Tasks;
     using Catel.Collections;
     using Catel.MVVM;
+    using Catel.Services;
 
     public class DateRangePickerViewModel : ViewModelBase
     {
-        #region Constructors
-        public DateRangePickerViewModel()
+        private readonly IDispatcherService _dispatcherService;
+
+        public DateRangePickerViewModel(IServiceProvider serviceProvider, IDispatcherService dispatcherService)
+            : base(serviceProvider)
         {
-
+            _dispatcherService = dispatcherService;
         }
-        #endregion
 
-        #region Properties
         public FastObservableCollection<DateRange> Ranges { get; set; }
         public DateRange SelectedRange { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public TimeSpan Span { get; set; }
-        #endregion
 
-        #region Methods
         protected override async Task InitializeAsync()
         {
             await base.InitializeAsync();
 
-            var ranges = new FastObservableCollection<DateRange>();
+            var ranges = new FastObservableCollection<DateRange>(_dispatcherService);
+
             using (ranges.SuspendChangeNotifications())
             {
                 ranges.Add(PredefinedDateRanges.Today);
@@ -44,6 +44,5 @@
             Span = ranges[0].Duration;
             SelectedRange = ranges[0];
         }
-        #endregion
     }
 }

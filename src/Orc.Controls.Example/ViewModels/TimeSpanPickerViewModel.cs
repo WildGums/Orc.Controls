@@ -5,10 +5,12 @@
 
     public class TimeSpanPickerViewModel : ViewModelBase
     {
-        public TimeSpanPickerViewModel()
+        public TimeSpanPickerViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
             TimeSpanValue = new TimeSpan(10, 11, 12, 13);
-            SetNull = new Command(OnSetNullExecute);
+
+            SetNull = new Command(serviceProvider, OnSetNullExecute);
         }
 
         public Command SetNull { get; private set; }

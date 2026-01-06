@@ -8,26 +8,18 @@
 
     public class CulturePickerViewModel : ViewModelBase
     {
-        #region Fields
         private readonly IMessageService _messageService;
 
         private bool _isInitializing;
-        #endregion
 
-        #region Constructors
-        public CulturePickerViewModel(IMessageService messageService)
+        public CulturePickerViewModel(IServiceProvider serviceProvider, IMessageService messageService)
+            : base(serviceProvider)
         {
-            ArgumentNullException.ThrowIfNull(messageService);
-
             _messageService = messageService;
         }
-        #endregion
 
-        #region Properties
         public CultureInfo Culture { get; set; }
-        #endregion
 
-        #region Methods
         protected override Task InitializeAsync()
         {
             _isInitializing = true;
@@ -54,6 +46,5 @@
 
             await _messageService.ShowAsync($"Selected culture {Culture.EnglishName}");
         }
-        #endregion
     }
 }

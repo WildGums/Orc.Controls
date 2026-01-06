@@ -1,5 +1,6 @@
 ﻿namespace Orc.Controls.Example.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Windows.Media;
@@ -8,7 +9,8 @@
 
     public class StaggeredPanelViewModel : ViewModelBase
     {
-        public StaggeredPanelViewModel()
+        public StaggeredPanelViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
             ColumnSpacing = 10;
             RowSpacing = 10;
@@ -71,10 +73,8 @@
                 Name = name;
             }
 
-            #region Properties
             public ImageSource Image { get; set; }
             public string Name { get; private set; }
-            #endregion
         }
     }
 }

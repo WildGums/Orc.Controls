@@ -5,21 +5,21 @@
     using System.Threading.Tasks;
     using Catel.Logging;
     using Catel.MVVM;
+    using Microsoft.Extensions.Logging;
 
     public class LogViewerViewModel : ViewModelBase
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        private static readonly ILogger Logger = LogManager.GetLogger(typeof(LogViewerViewModel));
 
         private readonly IApplicationLogFilterGroupService _applicationLogFilterGroupService;
 
-        public LogViewerViewModel(IApplicationLogFilterGroupService applicationLogFilterGroupService)
+        public LogViewerViewModel(IServiceProvider serviceProvider, IApplicationLogFilterGroupService applicationLogFilterGroupService) 
+            : base(serviceProvider)
         {
-            ArgumentNullException.ThrowIfNull(applicationLogFilterGroupService);
-
             _applicationLogFilterGroupService = applicationLogFilterGroupService;
 
-            AddLogRecords = new Command(OnAddLogRecordsExecute);
-            TestUnderPressure = new TaskCommand(OnTestUnderPressureExecuteAsync);
+            AddLogRecords = new Command(serviceProvider, OnAddLogRecordsExecute);
+            TestUnderPressure = new TaskCommand(serviceProvider, OnTestUnderPressureExecuteAsync);
         }
 
         public ScrollMode ScrollMode { get; set; } = ScrollMode.ManualScrollPriority;
@@ -29,17 +29,17 @@
 
         private void OnAddLogRecordsExecute()
         {
-            Log.Debug("Single line debug message");
-            Log.Debug("Multiline debug message that include a first line \nand a second line of the message");
+            Logger.LogDebug("Single line debug message");
+            Logger.LogDebug("Multiline debug message that include a first line \nand a second line of the message");
 
-            Log.Info("Single line info message");
-            Log.Info("Multiline info message that include a first line \nand a second line of the message");
+            Logger.LogInformation("Single line info message");
+            Logger.LogInformation("Multiline info message that include a first line \nand a second line of the message");
 
-            Log.Warning("Single line warning message");
-            Log.Warning("Multiline warning message that include a first line \nand a second line of the message");
+            Logger.LogWarning("Single line warning message");
+            Logger.LogWarning("Multiline warning message that include a first line \nand a second line of the message");
 
-            Log.Error("Single line error message");
-            Log.Error("Multiline error message that include a first line \nand a second line of the message");
+            Logger.LogError("Single line error message");
+            Logger.LogError("Multiline error message that include a first line \nand a second line of the message");
         }
 
         private async Task OnTestUnderPressureExecuteAsync()
@@ -47,12 +47,12 @@
             await Task.Run(async () =>
             {
                 var levelIndex = new Random();
-                var events = new List<LogEvent>
+                var events = new List<LogLevel>
                 {
-                    LogEvent.Debug,
-                    LogEvent.Info,
-                    LogEvent.Warning,
-                    LogEvent.Error
+                    LogLevel.Debug,
+                    LogLevel.Information,
+                    LogLevel.Warning,
+                    LogLevel.Error
                 };
 
                 const int totalCount = 10000;
@@ -61,7 +61,7 @@
                     var logEventIndex = levelIndex.Next(0, events.Count);
                     var logEvent = events[logEventIndex];
 
-                    Log.Write(logEvent, $"[{i + 1} / {totalCount}] This is a stress test");
+                    Logger.Log(logEvent, $"[{i + 1} / {totalCount}] This is a stress test");
 
                     if (i % 20 == 0)
                     {

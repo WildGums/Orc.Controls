@@ -2,9 +2,6 @@
 {
     public partial class CulturePickerView
     {
-        public CulturePickerView()
-        {
-            InitializeComponent();
-        }
+
     }
 }

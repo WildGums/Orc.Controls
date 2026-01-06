@@ -1,12 +1,13 @@
 ﻿namespace Orc.Controls.Example.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using Catel.MVVM;
 
     public class FilterBoxViewModel : ViewModelBase
     {
-        #region Constructors
-        public FilterBoxViewModel()
+        public FilterBoxViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
             FilterSource = new List<KeyValuePair<string, string>>
             {
@@ -18,12 +19,9 @@
                 new KeyValuePair<string, string>("6", "sdfhi"),
             };
         }
-        #endregion
 
-        #region Properties
         public List<KeyValuePair<string, string>> FilterSource { get; }
         public string FilterText { get; set; }
         public string CustomServiceFilterText { get; set; }
-        #endregion
     }
 }

@@ -3,9 +3,6 @@
 
     public partial class NumericUpDownView
     {
-        public NumericUpDownView()
-        {
-            InitializeComponent();
-        }
+
     }
 }

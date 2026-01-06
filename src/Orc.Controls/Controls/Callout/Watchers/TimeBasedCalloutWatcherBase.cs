@@ -2,21 +2,19 @@
 
 using System;
 using System.Threading.Tasks;
-using System.Windows.Threading;
 using Catel.Configuration;
-using Catel.Logging;
 using Catel.Services;
 using Catel.Windows.Threading;
 using Microsoft.Extensions.Logging;
 
 public abstract class TimeBasedCalloutWatcherBase : CalloutWatcherBase
 {
-    private readonly ILogger<TimeBasedCalloutWatcherBase> _logger;
+    private readonly ILogger _logger;
     private readonly IDispatcherService _dispatcherService;
 
     private readonly DispatcherTimerEx _dispatcherTimer;
 
-    public TimeBasedCalloutWatcherBase(ILogger<TimeBasedCalloutWatcherBase> logger,
+    public TimeBasedCalloutWatcherBase(ILogger logger,
         ICalloutManager calloutManager, IConfigurationService configurationService,
         IDispatcherService dispatcherService)
         : base(calloutManager, configurationService)

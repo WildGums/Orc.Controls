@@ -2,9 +2,6 @@
 {
     public partial class RangeSliderView
     {
-        public RangeSliderView()
-        {
-            InitializeComponent();
-        }
+
     }
 }

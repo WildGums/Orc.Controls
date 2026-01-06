@@ -2,9 +2,6 @@
 {
     public partial class FrameRateCounterView
     {
-        public FrameRateCounterView()
-        {
-            InitializeComponent();
-        }
+
     }
 }

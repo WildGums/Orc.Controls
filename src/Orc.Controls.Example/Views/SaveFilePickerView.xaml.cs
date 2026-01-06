@@ -2,9 +2,6 @@
 {
     public partial class SaveFilePickerView
     {
-        public SaveFilePickerView()
-        {
-            InitializeComponent();
-        }
+
     }
 }

@@ -8,8 +8,8 @@
 
     public class TimePickerViewModel : ViewModelBase
     {
-        #region Constructors
-        public TimePickerViewModel()
+        public TimePickerViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
             Time = TimeSpan.Zero;
             TimeValueString = string.Empty;
@@ -20,11 +20,10 @@
             HourTickThickness = 3;
             MinuteTickThickness = 2;
             ClockBorderThickness = 0;
-            SetNull = new Command(OnSetNullExecute);
-        }
-        #endregion
 
-        #region Properties
+            SetNull = new Command(serviceProvider, OnSetNullExecute);
+        }
+
         public TimeSpan? Time { get; set; }
         public string TimeValueString { get; set; }
         public Meridiem AmPm { get; set; }
@@ -34,13 +33,12 @@
         public double HourTickThickness { get; set; }
         public double MinuteTickThickness { get; set; }
         public double ClockBorderThickness { get; set; }
-        #endregion
 
-        #region Methods
         protected override async Task InitializeAsync()
         {
             await base.InitializeAsync();
         }
+
         protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
@@ -79,15 +77,12 @@
                 TimeValueString = string.Empty;
             }
         }
-        #endregion
 
-        #region Commands
         public Command SetNull { get; }
+
         private void OnSetNullExecute()
         {
             Time = null;
         }
-        #endregion
     }
-
 }

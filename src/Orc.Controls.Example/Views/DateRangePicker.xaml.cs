@@ -2,9 +2,6 @@
 {
     public partial class DateRangePicker
     {
-        public DateRangePicker()
-        {
-            InitializeComponent();
-        }
+
     }
 }

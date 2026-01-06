@@ -2,9 +2,6 @@
 {
     public partial class TimeSpanPickerView
     {
-        public TimeSpanPickerView()
-        {
-            InitializeComponent();
-        }
+
     }
 }

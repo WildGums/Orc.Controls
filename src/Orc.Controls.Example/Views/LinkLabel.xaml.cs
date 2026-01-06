@@ -2,9 +2,6 @@
 {
     public partial class LinkLabel
     {
-        public LinkLabel()
-        {
-            InitializeComponent();
-        }
+
     }
 }

@@ -2,9 +2,5 @@
 {
     public partial class DirectoryPickerView
     {
-        public DirectoryPickerView()
-        {
-            InitializeComponent();
-        }
     }
 }

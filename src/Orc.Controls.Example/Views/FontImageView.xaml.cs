@@ -2,9 +2,6 @@
 {
     public partial class FontImageView
     {
-        public FontImageView()
-        {
-            InitializeComponent();
-        }
+
     }
 }

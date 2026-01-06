@@ -29,11 +29,6 @@
         }
 
 
-        public ColorPicker()
-        {
-            InitializeComponent();
-        }
-
         private void OnClick(object sender, RoutedEventArgs e)
         {
             var color = //Color.FromArgb(0x43, 0x88, 0xFA, 0xEE);

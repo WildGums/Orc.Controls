@@ -1,5 +1,6 @@
 ﻿namespace Orc.Controls.Example.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Windows.Media;
@@ -10,10 +11,11 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorLegendViewModel"/> class.
         /// </summary>
-        public ColorLegendViewModel()
+        public ColorLegendViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
             CalendarStateLegend = new List<IColorLegendItem>();
-            UpdateItems = new Command(UpdateCalenderStateLegend);
+            UpdateItems = new Command(serviceProvider, UpdateCalendarStateLegend);
         }
 
         /// <summary>
@@ -27,12 +29,12 @@
         {
             await base.InitializeAsync();
 
-            UpdateCalenderStateLegend();
+            UpdateCalendarStateLegend();
 
             PropertyChanged += (sender, args) => { };
         }
 
-        private void UpdateCalenderStateLegend()
+        private void UpdateCalendarStateLegend()
         {
             var colors = new List<Color>
             {

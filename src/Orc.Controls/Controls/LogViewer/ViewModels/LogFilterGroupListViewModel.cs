@@ -30,16 +30,16 @@ public class LogFilterGroupListViewModel : ViewModelBase
 
         ValidateUsingDataAnnotations = false;
 
-        FilterGroups = new FastObservableCollection<LogFilterGroup>(_dispatcherService);
-        SelectedFilterGroups = new ObservableCollection<LogFilterGroup>();
+        FilterGroups = new Catel.Collections.FastObservableCollection<LogFilterGroup>(_dispatcherService);
+        SelectedFilterGroups = new System.Collections.ObjectModel.ObservableCollection<LogFilterGroup>();
 
         AddCommand = new TaskCommand(serviceProvider, OnAddCommandExecuteAsync);
         EditCommand = new TaskCommand(serviceProvider, OnEditCommandExecuteAsync, OnEditCommandCanExecute);
         RemoveCommand = new TaskCommand(serviceProvider, OnRemoveCommandExecuteAsync, OnRemoveCommandCanExecute);
     }
 
-    public ObservableCollection<LogFilterGroup> FilterGroups { get; private set; }
-    public ObservableCollection<LogFilterGroup> SelectedFilterGroups { get; private set; }
+    public System.Collections.ObjectModel.ObservableCollection<LogFilterGroup> FilterGroups { get; private set; }
+    public System.Collections.ObjectModel.ObservableCollection<LogFilterGroup> SelectedFilterGroups { get; private set; }
     public LogFilterGroup? SelectedFilterGroup { get; set; }
 
     public TaskCommand AddCommand { get; set; }
