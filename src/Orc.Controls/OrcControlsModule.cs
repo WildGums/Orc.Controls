@@ -1,10 +1,11 @@
-﻿namespace Orc.Controls
+﻿namespace Orc
 {
     using Catel.Services;
     using Catel.ThirdPartyNotices;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
     using Microsoft.Extensions.Logging;
+    using Orc.Controls;
     using Orc.Controls.Services;
     using Orc.Controls.Tools;
 

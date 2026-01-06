@@ -1,4 +1,4 @@
-﻿namespace Orc.Controls
+﻿namespace Orc
 {
     using Catel.Services;
     using Microsoft.Extensions.DependencyInjection;
