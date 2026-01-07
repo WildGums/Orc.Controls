@@ -1490,10 +1490,10 @@ namespace Orc.Controls
         public LogFilterGroupListViewModel(Orc.Controls.IApplicationLogFilterGroupService applicationLogFilterGroupService, Catel.Services.IMessageService messageService, Catel.Services.IUIVisualizerService uiVisualizerService, System.IServiceProvider serviceProvider, Catel.Services.ILanguageService languageService, Catel.Services.IDispatcherService dispatcherService) { }
         public Catel.MVVM.TaskCommand AddCommand { get; set; }
         public Catel.MVVM.TaskCommand EditCommand { get; set; }
-        public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilterGroup> FilterGroups { get; }
+        public Catel.Collections.FastObservableCollection<Orc.Controls.LogFilterGroup> FilterGroups { get; }
         public Catel.MVVM.TaskCommand RemoveCommand { get; set; }
         public Orc.Controls.LogFilterGroup? SelectedFilterGroup { get; set; }
-        public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.LogFilterGroup> SelectedFilterGroups { get; }
+        public Catel.Collections.FastObservableCollection<Orc.Controls.LogFilterGroup> SelectedFilterGroups { get; }
         public event System.EventHandler<System.EventArgs>? Updated;
         protected override System.Threading.Tasks.Task InitializeAsync() { }
     }
