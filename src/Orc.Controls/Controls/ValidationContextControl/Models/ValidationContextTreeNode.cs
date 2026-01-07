@@ -12,11 +12,11 @@ public class ValidationContextTreeNode : ChildAwareModelBase, IValidationContext
 {
     protected ValidationContextTreeNode(bool isExpanded)
     {
-        Children = new ObservableCollection<ValidationContextTreeNode>();
+        Children = new System.Collections.ObjectModel.ObservableCollection<ValidationContextTreeNode>();
         IsExpanded = isExpanded;
     }
     
-    public ObservableCollection<ValidationContextTreeNode> Children { get; }
+    public System.Collections.ObjectModel.ObservableCollection<ValidationContextTreeNode> Children { get; }
     public string? DisplayName { get; protected set; }
     public bool IsExpanded { get; set; }
     public bool IsVisible { get; set; }

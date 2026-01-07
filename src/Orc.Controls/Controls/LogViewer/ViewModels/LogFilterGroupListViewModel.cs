@@ -1,10 +1,8 @@
 ﻿namespace Orc.Controls;
 
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Catel;
 using Catel.Collections;
 using Catel.MVVM;
 using Catel.Services;
@@ -30,16 +28,16 @@ public class LogFilterGroupListViewModel : ViewModelBase
 
         ValidateUsingDataAnnotations = false;
 
-        FilterGroups = new Catel.Collections.FastObservableCollection<LogFilterGroup>(_dispatcherService);
-        SelectedFilterGroups = new System.Collections.ObjectModel.ObservableCollection<LogFilterGroup>();
+        FilterGroups = new FastObservableCollection<LogFilterGroup>(_dispatcherService);
+        SelectedFilterGroups = new FastObservableCollection<LogFilterGroup>(_dispatcherService);
 
         AddCommand = new TaskCommand(serviceProvider, OnAddCommandExecuteAsync);
         EditCommand = new TaskCommand(serviceProvider, OnEditCommandExecuteAsync, OnEditCommandCanExecute);
         RemoveCommand = new TaskCommand(serviceProvider, OnRemoveCommandExecuteAsync, OnRemoveCommandCanExecute);
     }
 
-    public System.Collections.ObjectModel.ObservableCollection<LogFilterGroup> FilterGroups { get; private set; }
-    public System.Collections.ObjectModel.ObservableCollection<LogFilterGroup> SelectedFilterGroups { get; private set; }
+    public FastObservableCollection<LogFilterGroup> FilterGroups { get; private set; }
+    public FastObservableCollection<LogFilterGroup> SelectedFilterGroups { get; private set; }
     public LogFilterGroup? SelectedFilterGroup { get; set; }
 
     public TaskCommand AddCommand { get; set; }

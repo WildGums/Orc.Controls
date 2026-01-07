@@ -17,14 +17,14 @@
         public InfinityScrollViewModel(IServiceProvider serviceProvider)
             : base(serviceProvider)
         {
-            ListItems = new ObservableCollection<FontItem>();
+            ListItems = new System.Collections.ObjectModel.ObservableCollection<FontItem>();
             AddItems = new TaskCommand(serviceProvider, OnAddItemsExecuteAsync);
 
             Count = 10;
             ListItems.AddRange(GetNextItems(30));
         }
 
-        public ObservableCollection<FontItem> ListItems { get; set; }
+        public System.Collections.ObjectModel.ObservableCollection<FontItem> ListItems { get; set; }
 
         public TaskCommand AddItems { get; set; }
 
