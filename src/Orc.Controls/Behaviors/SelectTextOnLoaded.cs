@@ -5,33 +5,31 @@ using System.Timers;
 using Catel.Services;
 using Catel.Windows.Interactivity;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 public partial class SelectTextOnLoaded : BehaviorBase<TextBox>
 {
     private const double DelayBeforeTextSelected = 10d;
 
-    private readonly IDispatcherService _dispatcherService;
 #pragma warning disable IDISP006 // Implement IDisposable.
-    private readonly Timer _textSelectTimer = new Timer(DelayBeforeTextSelected);
-#pragma warning restore IDISP006 // Implement IDisposable.
-
-    public SelectTextOnLoaded(IDispatcherService dispatcherService)
+    private readonly DispatcherTimer _textSelectTimer = new()
     {
-        _dispatcherService = dispatcherService;
-    }
+        Interval = TimeSpan.FromMilliseconds(DelayBeforeTextSelected)
+    };
+#pragma warning restore IDISP006 // Implement IDisposable.
 
     protected override void OnAssociatedObjectLoaded()
     {
         base.OnAssociatedObjectLoaded();
 
-        _textSelectTimer.Elapsed += OnSearchTimerElapsed;
+        _textSelectTimer.Tick += OnSearchTimerElapsed;
         _textSelectTimer.Start();
     }
 
     protected override void OnAssociatedObjectUnloaded()
     {
         _textSelectTimer.Stop();
-        _textSelectTimer.Elapsed -= OnSearchTimerElapsed;
+        _textSelectTimer.Tick -= OnSearchTimerElapsed;
 
         base.OnAssociatedObjectUnloaded();
     }
@@ -40,6 +38,6 @@ public partial class SelectTextOnLoaded : BehaviorBase<TextBox>
     {
         _textSelectTimer.Stop();
 
-        _dispatcherService.Invoke(() => AssociatedObject?.SelectAll());
+        AssociatedObject?.SelectAll();
     }
 }

@@ -36,12 +36,6 @@
     <PackageReference Include="Orc.FileSystem" Version="5.1.0" />
     <PackageReference Include="Orc.Theming" Version="5.4.0" />-->
   </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Orc.Automation\src\Orc.Automation\Orc.Automation.csproj" />
-    <ProjectReference Include="..\..\..\Orc.FileSystem\src\Orc.FileSystem\Orc.FileSystem.csproj" />
-    <ProjectReference Include="..\..\..\Orc.Theming\src\Orc.Theming\Orc.Theming.csproj" />
-  </ItemGroup>
 
   <!-- Theming -->
   <ItemGroup>
@@ -81,6 +75,13 @@
       <TargetFile>Themes/Generic.generated.xaml</TargetFile>
       <Visible>True</Visible>
     </XAMLCombineItems>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Orc.Automation\src\Orc.Automation\Orc.Automation.csproj" />
+    <ProjectReference Include="..\..\..\Orc.FileSystem\src\Orc.FileSystem\Orc.FileSystem.csproj" />
+    <ProjectReference Include="..\..\..\Orc.Serialization\src\Orc.Serialization.Json\Orc.Serialization.Json.csproj" />
+    <ProjectReference Include="..\..\..\Orc.Theming\src\Orc.Theming\Orc.Theming.csproj" />
   </ItemGroup>
 </Project>
 
