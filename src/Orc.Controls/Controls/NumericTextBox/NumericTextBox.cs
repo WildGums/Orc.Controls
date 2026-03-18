@@ -24,28 +24,46 @@ public class NumericTextBox : TextBox
     private const string PeriodCharacter = ".";
     private const string CommaCharacter = ",";
 
-    private static readonly HashSet<Key> AllowedKeys = new()
-    {
+    private static readonly HashSet<Key> AllowedKeys =
+    [
         Key.Back,
+
         Key.CapsLock,
+
         Key.LeftCtrl,
+
         Key.RightCtrl,
+
         Key.Down,
+
         Key.End,
+
         Key.Enter,
+
         Key.Escape,
+
         Key.Home,
+
         Key.Insert,
+
         Key.Left,
+
         Key.PageDown,
+
         Key.PageUp,
+
         Key.Right,
+
         Key.LeftShift,
+
         Key.RightShift,
+
         Key.Tab,
+
         Key.Up,
+
         Key.Delete
-    };
+    ];
 
     private readonly MouseButtonEventHandler _selectivelyIgnoreMouseButtonDelegate;
     private readonly RoutedEventHandler _selectAllTextDelegate;
@@ -78,7 +96,7 @@ public class NumericTextBox : TextBox
     }
 
     public static readonly DependencyProperty NullStringProperty = DependencyProperty.Register(
-        nameof(NullString), typeof(string), typeof(NumericTextBox), new PropertyMetadata(default(string)));
+        nameof(NullString), typeof(string), typeof(NumericTextBox), new(default(string)));
 
 
     public CultureInfo? CultureInfo
@@ -88,7 +106,7 @@ public class NumericTextBox : TextBox
     }
 
     public static readonly DependencyProperty CultureInfoProperty = DependencyProperty.Register(
-        nameof(CultureInfo), typeof(CultureInfo), typeof(NumericTextBox), new PropertyMetadata(default(CultureInfo)));
+        nameof(CultureInfo), typeof(CultureInfo), typeof(NumericTextBox), new(default(CultureInfo)));
 
 
     public bool IsChangeValueByUpDownKeyEnabled
@@ -98,7 +116,7 @@ public class NumericTextBox : TextBox
     }
 
     public static readonly DependencyProperty IsChangeValueByUpDownKeyEnabledProperty = DependencyProperty.Register(
-        nameof(IsChangeValueByUpDownKeyEnabled), typeof(bool), typeof(NumericTextBox), new PropertyMetadata(true));
+        nameof(IsChangeValueByUpDownKeyEnabled), typeof(bool), typeof(NumericTextBox), new(true));
         
 
     public bool IsNullValueAllowed
@@ -108,7 +126,7 @@ public class NumericTextBox : TextBox
     }
 
     public static readonly DependencyProperty IsNullValueAllowedProperty = DependencyProperty.Register(nameof(IsNullValueAllowed), typeof(bool),
-        typeof(NumericTextBox), new PropertyMetadata(true, (sender, _) => ((NumericTextBox)sender).OnIsNullValueAllowedChanged()));
+        typeof(NumericTextBox), new(true, (sender, _) => ((NumericTextBox)sender).OnIsNullValueAllowedChanged()));
 
 
     public bool IsNegativeAllowed
@@ -118,7 +136,7 @@ public class NumericTextBox : TextBox
     }
 
     public static readonly DependencyProperty IsNegativeAllowedProperty = DependencyProperty.Register(nameof(IsNegativeAllowed), typeof(bool),
-        typeof(NumericTextBox), new PropertyMetadata(false, (sender, _) => ((NumericTextBox)sender).OnIsNegativeAllowedChanged()));
+        typeof(NumericTextBox), new(false, (sender, _) => ((NumericTextBox)sender).OnIsNegativeAllowedChanged()));
 
 
     public bool IsDecimalAllowed
@@ -128,7 +146,7 @@ public class NumericTextBox : TextBox
     }
 
     public static readonly DependencyProperty IsDecimalAllowedProperty = DependencyProperty.Register(nameof(IsDecimalAllowed), typeof(bool),
-        typeof(NumericTextBox), new PropertyMetadata(false, (sender, _) => ((NumericTextBox)sender).OnIsDecimalAllowedChanged()));
+        typeof(NumericTextBox), new(false, (sender, _) => ((NumericTextBox)sender).OnIsDecimalAllowedChanged()));
 
 
     public double MinValue
@@ -413,7 +431,7 @@ public class NumericTextBox : TextBox
 
         if (!IsNullValueAllowed && !doubleValue.HasValue)
         {
-            doubleValue = default(double);
+            doubleValue = 0;
         }
 
         return doubleValue;
@@ -562,8 +580,7 @@ public class NumericTextBox : TextBox
 
     private static void SelectivelyIgnoreMouseButton(object? sender, MouseButtonEventArgs e)
     {
-        var parent = e.OriginalSource as DependencyObject;
-        if (parent is null)
+        if (e.OriginalSource is not DependencyObject parent)
         {
             return;
         }
