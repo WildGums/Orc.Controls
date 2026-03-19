@@ -124,7 +124,6 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty TitleProperty;
         public static readonly System.Windows.DependencyProperty VerticalOffsetProperty;
         public Callout() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public Callout(System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public Callout(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         [Catel.MVVM.Views.ViewToViewModel("Name", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
@@ -415,7 +414,6 @@ namespace Orc.Controls
     {
         public static readonly System.Windows.DependencyProperty SelectedCultureProperty;
         public CulturePicker() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public CulturePicker(System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public CulturePicker(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
@@ -453,7 +451,6 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty SpanProperty;
         public static readonly System.Windows.DependencyProperty StartDateProperty;
         public DateRangePicker() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public DateRangePicker(System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public DateRangePicker(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public bool AllowCopyPaste { get; set; }
@@ -776,7 +773,6 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty LabelWidthProperty;
         public static readonly System.Windows.DependencyProperty SelectedDirectoryProperty;
         public DirectoryPicker() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public DirectoryPicker(System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public DirectoryPicker(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
@@ -1389,7 +1385,6 @@ namespace Orc.Controls
     {
         public static readonly System.Windows.DependencyProperty LogFilterProperty;
         public LogFilterEditorControl() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public LogFilterEditorControl(System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public LogFilterEditorControl(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewModelToView)]
@@ -1467,7 +1462,6 @@ namespace Orc.Controls
     public class LogFilterGroupEditorWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
         public LogFilterGroupEditorWindow() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public LogFilterGroupEditorWindow(System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public LogFilterGroupEditorWindow(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public void InitializeComponent() { }
@@ -1475,7 +1469,6 @@ namespace Orc.Controls
     public class LogFilterGroupList : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
         public LogFilterGroupList() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public LogFilterGroupList(System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public LogFilterGroupList(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public event System.EventHandler<System.EventArgs>? Updated;
@@ -1759,7 +1752,6 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty LabelWidthProperty;
         public static readonly System.Windows.DependencyProperty SelectedFileProperty;
         public OpenFilePicker() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public OpenFilePicker(System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public OpenFilePicker(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
@@ -1875,13 +1867,6 @@ namespace Orc.Controls
         public void Stop() { }
         public static void Execute(System.Action action, int delay) { }
     }
-    [System.Obsolete("Use PostponeAction instead. Will be removed in version 6.0.0.", true)]
-    public sealed class PostponeDispatcherOperation
-    {
-        public PostponeDispatcherOperation(Catel.Services.IDispatcherService dispatcherService, System.Action action) { }
-        public void Execute(int delay) { }
-        public void Stop() { }
-    }
     public class PredefinedColor : System.IEquatable<Orc.Controls.PredefinedColor>
     {
         public PredefinedColor(System.Windows.Media.Color color, string name) { }
@@ -1987,7 +1972,6 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty LabelWidthProperty;
         public static readonly System.Windows.DependencyProperty SelectedFileProperty;
         public SaveFilePicker() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public SaveFilePicker(System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public SaveFilePicker(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
@@ -2089,7 +2073,6 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty OrientationProperty;
         public static readonly System.Windows.DependencyProperty SelectedItemProperty;
         public StepBar() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public StepBar(System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public StepBar(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
@@ -2110,7 +2093,6 @@ namespace Orc.Controls
     {
         public static readonly System.Windows.DependencyProperty OrientationProperty;
         public StepBarItem() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public StepBarItem(System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public StepBarItem(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public System.Windows.Controls.Orientation Orientation { get; set; }
@@ -2393,7 +2375,6 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ShowWarningsProperty;
         public static readonly System.Windows.DependencyProperty ValidationContextProperty;
         public ValidationContextTree() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public ValidationContextTree(System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public ValidationContextTree(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.ViewToViewModel)]
@@ -2454,7 +2435,6 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty ShowFilterBoxProperty;
         public static readonly System.Windows.DependencyProperty ValidationContextProperty;
         public ValidationContextView() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public ValidationContextView(System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public ValidationContextView(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
@@ -4148,7 +4128,6 @@ namespace Orc.Controls.Views
     public class FindReplaceView : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
         public FindReplaceView() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public FindReplaceView(System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public FindReplaceView(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public void InitializeComponent() { }
@@ -4156,7 +4135,6 @@ namespace Orc.Controls.Views
     public class TextInputWindow : Catel.Windows.DataWindow, System.Windows.Markup.IComponentConnector
     {
         public TextInputWindow() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public TextInputWindow(System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public TextInputWindow(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IWrapControlService wrapControlService, Catel.Services.ILanguageService languageService) { }
         public void InitializeComponent() { }
