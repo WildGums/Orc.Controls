@@ -1,10 +1,9 @@
-﻿namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views;
+
+public partial class MainWindow
 {
-    public partial class MainWindow
+    partial void OnInitializedComponent()
     {
-        partial void OnInitializedComponent()
-        {
-            CanCloseUsingEscape = false;
-        }
+        CanCloseUsingEscape = false;
     }
 }

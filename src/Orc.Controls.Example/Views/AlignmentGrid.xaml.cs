@@ -1,7 +1,6 @@
-﻿namespace Orc.Controls.Example.Views
-{
-    public partial class AlignmentGrid
-    {
+﻿namespace Orc.Controls.Example.Views;
 
-    }
+public partial class AlignmentGrid
+{
+
 }

@@ -1,8 +1,7 @@
 ﻿
-namespace Orc.Controls.Example.Views
-{
-    public partial class NumericTextBox
-    {
+namespace Orc.Controls.Example.Views;
 
-    }
+public partial class NumericTextBox
+{
+
 }

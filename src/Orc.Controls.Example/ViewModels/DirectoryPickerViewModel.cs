@@ -1,13 +1,12 @@
-﻿namespace Orc.Controls.Example.ViewModels
-{
-    using System;
-    using Catel.MVVM;
+﻿namespace Orc.Controls.Example.ViewModels;
 
-    public class DirectoryPickerViewModel : ViewModelBase
+using System;
+using Catel.MVVM;
+
+public class DirectoryPickerViewModel : ViewModelBase
+{
+    public DirectoryPickerViewModel(IServiceProvider serviceProvider) 
+        : base(serviceProvider)
     {
-        public DirectoryPickerViewModel(IServiceProvider serviceProvider) 
-            : base(serviceProvider)
-        {
-        }
     }
 }

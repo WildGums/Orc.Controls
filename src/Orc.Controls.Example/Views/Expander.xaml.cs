@@ -1,15 +1,14 @@
-﻿namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views;
+
+using System.Windows;
+using Automation;
+
+public partial class Expander
 {
-    using System.Windows;
-    using Automation;
-
-    public partial class Expander
+    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
     {
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            var expanderControl = new ExpanderAutomationPeer(ExpanderControl);
+        var expanderControl = new ExpanderAutomationPeer(ExpanderControl);
 
-            expanderControl.Expand();
-        }
+        expanderControl.Expand();
     }
 }

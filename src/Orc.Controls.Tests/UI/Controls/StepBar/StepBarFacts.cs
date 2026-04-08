@@ -1,149 +1,148 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests.UI;
+
+using NUnit.Framework;
+using Orc.Automation;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Input;using Catel.Data;
+using Catel.MVVM;
+using Orc.Automation.Tests;
+using FrameworkElement = System.Windows.FrameworkElement;
+using System;
+
+[Explicit]
+[TestFixture(TestOf = typeof(StepBar))]
+[Category("UI Tests")]
+public class StepBarFacts : StyledControlTestFacts<StepBar>
 {
-    using NUnit.Framework;
-    using Orc.Automation;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows.Input;using Catel.Data;
-    using Catel.MVVM;
-    using Orc.Automation.Tests;
-    using FrameworkElement = System.Windows.FrameworkElement;
-    using System;
+    [Target]
+    public Automation.StepBar Target { get; set; }
 
-    [Explicit]
-    [TestFixture(TestOf = typeof(StepBar))]
-    [Category("UI Tests")]
-    public class StepBarFacts : StyledControlTestFacts<StepBar>
+    [Test]
+    public void CorrectlyRespondToClick()
     {
-        [Target]
-        public Automation.StepBar Target { get; set; }
+        var target = Target;
+        var model = target.Current;
 
-        [Test]
-        public void CorrectlyRespondToClick()
-        {
-            var target = Target;
-            var model = target.Current;
+        model.Items = CreateTestStepBarItems(10);
 
-            model.Items = CreateTestStepBarItems(10);
+        var item = target.Items[2];
 
-            var item = target.Items[2];
+        item.Execute<SpecifyCommandMethodRun>();
 
-            item.Execute<SpecifyCommandMethodRun>();
-
-            //Catch command executed
-            EventAssert.Raised(target, "AutomationMessageSent", () => item.Invoke());
-        }
-
-        [Test]
-        public void CorrectlyInitialize()
-        {
-            var target = Target;
-            var model = target.Current;
-
-            var itemList = CreateTestStepBarItems(10);
-            model.Items = itemList;
-
-            var items = target.Items;
-
-            Assert.That(itemList, Is.EquivalentTo(items.Select(x => x.Current.DataContext))
-                .Using<TestStepBarItem>(CompareItems));
-        }
-
-        [TestCase(20, 17)]
-        [TestCase(20, 0)]
-        [TestCase(20, 19)]
-        public void CorrectlySelectItem(int count, int selectedIndex)
-        {
-            var target = Target;
-            var model = target.Current;
-
-            var testItems = CreateTestStepBarItems(count);
-            
-            var selectedItem = testItems[selectedIndex];
-            model.Items = testItems;
-
-            model.SelectedItem = selectedItem;
-
-            StepBarAssert.Selection(target, selectedItem, CompareItems);
-        }
-
-        private static bool CompareItems(IStepBarItem x, IStepBarItem y)
-        {
-            return string.Equals(x?.Title, y?.Title)
-                   && string.Equals(x?.Description, y?.Description)
-                   && Equals(x?.Number, y?.Number);
-        }
-
-        private static List<IStepBarItem> CreateTestStepBarItems(int count)
-        {
-            var items = new List<IStepBarItem>();
-
-            for (var i = 1; i <= count; i++)
-            {
-                items.Add(new TestStepBarItem
-                {
-                    Title = $"Title{i}",
-                    Number = i,
-                    Description = $"Description{i}",
-                });
-            }
-
-            return items;
-        }
+        //Catch command executed
+        EventAssert.Raised(target, "AutomationMessageSent", () => item.Invoke());
     }
 
-    public class TestStepBarItem : ModelBase, IStepBarItem
+    [Test]
+    public void CorrectlyInitialize()
     {
-        private ICommand _command;
+        var target = Target;
+        var model = target.Current;
 
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public int Number { get; set; }
-        public StepBarItemStates State { get; set; }
+        var itemList = CreateTestStepBarItems(10);
+        model.Items = itemList;
 
-        public ICommand Command
-        {
-            get => _command;
-            set
-            {
-                if (Equals(_command, value))
-                {
-                    return;
-                }
+        var items = target.Items;
 
-                _command = value;
-                RaisePropertyChanged(nameof(Command));
-            }
-        }
+        Assert.That(itemList, Is.EquivalentTo(items.Select(x => x.Current.DataContext))
+            .Using<TestStepBarItem>(CompareItems));
     }
 
-    public class SpecifyCommandMethodRun : NamedAutomationMethodRun
+    [TestCase(20, 17)]
+    [TestCase(20, 0)]
+    [TestCase(20, 19)]
+    public void CorrectlySelectItem(int count, int selectedIndex)
     {
-        private readonly IServiceProvider _serviceProvider;
+        var target = Target;
+        var model = target.Current;
 
-        public SpecifyCommandMethodRun(IServiceProvider serviceProvider)
+        var testItems = CreateTestStepBarItems(count);
+        
+        var selectedItem = testItems[selectedIndex];
+        model.Items = testItems;
+
+        model.SelectedItem = selectedItem;
+
+        StepBarAssert.Selection(target, selectedItem, CompareItems);
+    }
+
+    private static bool CompareItems(IStepBarItem x, IStepBarItem y)
+    {
+        return string.Equals(x?.Title, y?.Title)
+               && string.Equals(x?.Description, y?.Description)
+               && Equals(x?.Number, y?.Number);
+    }
+
+    private static List<IStepBarItem> CreateTestStepBarItems(int count)
+    {
+        var items = new List<IStepBarItem>();
+
+        for (var i = 1; i <= count; i++)
         {
-            _serviceProvider = serviceProvider;
+            items.Add(new TestStepBarItem
+            {
+                Title = $"Title{i}",
+                Number = i,
+                Description = $"Description{i}",
+            });
         }
 
-        public override bool TryInvoke(FrameworkElement owner, AutomationMethod method, out AutomationValue result)
+        return items;
+    }
+}
+
+public class TestStepBarItem : ModelBase, IStepBarItem
+{
+    private ICommand _command;
+
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public int Number { get; set; }
+    public StepBarItemStates State { get; set; }
+
+    public ICommand Command
+    {
+        get => _command;
+        set
         {
-            result = AutomationValue.FromValue(true);
-
-            if (owner is not StepBarItem stepBarItem)
+            if (Equals(_command, value))
             {
-                return false;
+                return;
             }
 
-            if (stepBarItem.DataContext is not TestStepBarItem itemModel)
-            {
-                return false;
-            }
-
-            itemModel.Command = new Command<TestStepBarItem>(_serviceProvider, x =>
-                stepBarItem.RaiseEvent(new AutomationMessageSentEventArgs(AutomationRoutedEvents.AutomationMessageSentEvent)));
-
-            return true;
+            _command = value;
+            RaisePropertyChanged(nameof(Command));
         }
+    }
+}
+
+public class SpecifyCommandMethodRun : NamedAutomationMethodRun
+{
+    private readonly IServiceProvider _serviceProvider;
+
+    public SpecifyCommandMethodRun(IServiceProvider serviceProvider)
+    {
+        _serviceProvider = serviceProvider;
+    }
+
+    public override bool TryInvoke(FrameworkElement owner, AutomationMethod method, out AutomationValue result)
+    {
+        result = AutomationValue.FromValue(true);
+
+        if (owner is not StepBarItem stepBarItem)
+        {
+            return false;
+        }
+
+        if (stepBarItem.DataContext is not TestStepBarItem itemModel)
+        {
+            return false;
+        }
+
+        itemModel.Command = new Command<TestStepBarItem>(_serviceProvider, x =>
+            stepBarItem.RaiseEvent(new AutomationMessageSentEventArgs(AutomationRoutedEvents.AutomationMessageSentEvent)));
+
+        return true;
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace Orc.Controls.Example.Views
-{
-    public partial class LinkLabel
-    {
+﻿namespace Orc.Controls.Example.Views;
 
-    }
+public partial class LinkLabel
+{
+
 }

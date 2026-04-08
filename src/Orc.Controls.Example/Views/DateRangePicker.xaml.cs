@@ -1,7 +1,6 @@
-﻿namespace Orc.Controls.Example.Views
-{
-    public partial class DateRangePicker
-    {
+﻿namespace Orc.Controls.Example.Views;
 
-    }
+public partial class DateRangePicker
+{
+
 }

@@ -1,13 +1,12 @@
-﻿namespace Orc.Controls.Example.Views
-{
-    using Microsoft.Extensions.DependencyInjection;
-    using Services;
+﻿namespace Orc.Controls.Example.Views;
 
-    public partial class FilterBox
+using Microsoft.Extensions.DependencyInjection;
+using Services;
+
+public partial class FilterBox
+{
+    private void OnFilterBoxControlInitializingAutoCompletionService(object sender, InitializingAutoCompletionServiceEventArgs e)
     {
-        private void OnFilterBoxControlInitializingAutoCompletionService(object sender, InitializingAutoCompletionServiceEventArgs e)
-        {
-            e.AutoCompletionService = ActivatorUtilities.CreateInstance<ReverseAutoCompletionService>(ServiceProvider);
-        }
+        e.AutoCompletionService = ActivatorUtilities.CreateInstance<ReverseAutoCompletionService>(ServiceProvider);
     }
 }

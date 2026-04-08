@@ -1,37 +1,36 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests.UI;
+
+using NUnit.Framework;
+using Orc.Automation;
+using Orc.Automation.Tests;
+
+[Explicit]
+[TestFixture(TestOf = typeof(LinkLabel))]
+[Category("UI Tests")]
+public class LinkLabelTestFacts : StyledControlTestFacts<LinkLabel>
 {
-    using NUnit.Framework;
-    using Orc.Automation;
-    using Orc.Automation.Tests;
+    [Target]
+    public Automation.LinkLabel Target { get; set; }
 
-    [Explicit]
-    [TestFixture(TestOf = typeof(LinkLabel))]
-    [Category("UI Tests")]
-    public class LinkLabelTestFacts : StyledControlTestFacts<LinkLabel>
+    [TestCase("Test content")]
+    [TestCase("")]
+    public void CorrectlySetContent(string content)
     {
-        [Target]
-        public Automation.LinkLabel Target { get; set; }
+        var target = Target;
+        var model = target.Current;
 
-        [TestCase("Test content")]
-        [TestCase("")]
-        public void CorrectlySetContent(string content)
-        {
-            var target = Target;
-            var model = target.Current;
+        ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, model, nameof(target.Content), true, content);
+    }
 
-            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, model, nameof(target.Content), true, content);
-        }
+    [Test]
+    public void CorrectlyRespondToClick()
+    {
+        var target = Target;
+        var model = target.Current;
 
-        [Test]
-        public void CorrectlyRespondToClick()
-        {
-            var target = Target;
-            var model = target.Current;
-
-            //Fill content to provide clickable space 
-            model.Content = "Link";
-            
-            EventAssert.Raised(target, nameof(target.Click), () => target.Invoke());
-        }
+        //Fill content to provide clickable space 
+        model.Content = "Link";
+        
+        EventAssert.Raised(target, nameof(target.Click), () => target.Invoke());
     }
 }

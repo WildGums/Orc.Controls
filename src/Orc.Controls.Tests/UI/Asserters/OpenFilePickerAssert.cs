@@ -1,20 +1,19 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests;
+
+using NUnit.Framework;
+
+public static class OpenFilePickerAssert
 {
-    using NUnit.Framework;
-
-    public static class OpenFilePickerAssert
+    public static void SelectedFile(Automation.OpenFilePicker target, string displayedFilePath, string selectedFilePath = null)
     {
-        public static void SelectedFile(Automation.OpenFilePicker target, string displayedFilePath, string selectedFilePath = null)
+        var model = target.Current;
+
+        if (selectedFilePath is null)
         {
-            var model = target.Current;
-
-            if (selectedFilePath is null)
-            {
-                selectedFilePath = displayedFilePath;
-            }
-
-            Assert.That(target.SelectedFileDisplayPath, Is.EqualTo(displayedFilePath));
-            Assert.That(model.SelectedFile, Is.EqualTo(selectedFilePath));
+            selectedFilePath = displayedFilePath;
         }
+
+        Assert.That(target.SelectedFileDisplayPath, Is.EqualTo(displayedFilePath));
+        Assert.That(model.SelectedFile, Is.EqualTo(selectedFilePath));
     }
 }

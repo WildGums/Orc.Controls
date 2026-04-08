@@ -2017,7 +2017,6 @@ namespace Orc.Controls
     public class SelectTextOnLoaded : Catel.Windows.Interactivity.BehaviorBase<System.Windows.Controls.TextBox>
     {
         public SelectTextOnLoaded() { }
-        public SelectTextOnLoaded(Catel.Services.IDispatcherService dispatcherService) { }
         protected override void OnAssociatedObjectLoaded() { }
         protected override void OnAssociatedObjectUnloaded() { }
     }

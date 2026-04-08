@@ -1,126 +1,125 @@
-﻿namespace Orc.Controls.Example.ViewModels
+﻿namespace Orc.Controls.Example.ViewModels;
+
+using System;
+using System.Threading.Tasks;
+using Catel.Data;
+using Catel.MVVM;
+
+public class ValidationContextViewModel : ViewModelBase
 {
-    using System;
-    using System.Threading.Tasks;
-    using Catel.Data;
-    using Catel.MVVM;
-
-    public class ValidationContextViewModel : ViewModelBase
+    public ValidationContextViewModel(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
-        public ValidationContextViewModel(IServiceProvider serviceProvider)
-            : base(serviceProvider)
+        
+    }
+
+    public IValidationContext ValidationContext { get; private set; }
+
+    protected override Task InitializeAsync()
+    {
+        var context = new ValidationContext();
+
+        var result1 = BusinessRuleValidationResult.CreateErrorWithTag("Error1 message", "A");
+        var result2 = BusinessRuleValidationResult.CreateWarningWithTag("Warning1 message", "B");
+        var result3 = FieldValidationResult.CreateWarningWithTag("Property1", "Warning2 message", "C");
+        var result4 = FieldValidationResult.CreateWarningWithTag("Property1", "Very Long message, " +
+                                                                              "which supposed to be wrapped; " +
+                                                                              "Very Long message, " +
+                                                                              "which supposed to be wrapped" +
+                                                                              "Very Long message, " +
+                                                                              "which supposed to be wrapped" +
+                                                                              "Very Long message, " +
+                                                                              "which supposed to be wrapped" +
+                                                                              "Very Long message, " +
+                                                                              "which supposed to be wrapped" +
+                                                                              "Very Long message, " +
+                                                                              "which supposed to be wrapped" +
+                                                                              "Very Long message, " +
+                                                                              "which supposed to be wrapped" +
+                                                                              "Very Long message, " +
+                                                                              "which supposed to be wrapped" +
+                                                                              "Very Long message, " +
+                                                                              "which supposed to be wrapped" +
+                                                                              "Very Long message, " +
+                                                                              "which supposed to be wrapped" +
+                                                                              "Very Long message, " +
+                                                                              "which supposed to be wrapped" +
+                                                                              "Very Long message, " +
+                                                                              "which supposed to be wrapped" +
+                                                                              "Very Long message, " +
+                                                                              "which supposed to be wrapped" +
+                                                                              "Very Long message, " +
+                                                                              "which supposed to be wrapped Warning2 message", "C");
+
+        var tag = new
         {
-            
-        }
+            Name = "A",
+            Line = (int?)2
+        };
 
-        public IValidationContext ValidationContext { get; private set; }
+        var result5 = BusinessRuleValidationResult.CreateErrorWithTag("Error2 message with object tag", tag);
+        var result6 = BusinessRuleValidationResult.CreateErrorWithTag("Error3 message", "B");
 
-        protected override Task InitializeAsync()
+        var result7 = BusinessRuleValidationResult.CreateError("Error3 message");
+        var result8 = BusinessRuleValidationResult.CreateError("Error4 message");
+        var result9 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning3 message", new
         {
-            var context = new ValidationContext();
+            Name = "A",
+            Line = 1
+        });
+        var result10 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning4 message", new
+        {
+            Name = "A",
+            Line = 2
+        });
+        var result11 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning5 message", new
+        {
+            Name = "A",
+            Line = 3,
+            ColumnName = "ColA"
+        });
+        var result12 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning6 message", new
+        {
+            Name = "A",
+            Line = 20,
+            ColumnIndex = 2
+        });
+        var result13 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning7 message", new
+        {
+            Name = "A",
+            Line = 12,
+            ColumnName = "ColC",
+            ColumnIndex = 3
+        });
+        var result14 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning8 message", new
+        {
+            Name = "A",
+            Line = 10
+        });
+        var result15 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning9 message", new
+        {
+            Name = "A",
+            Line = 24
+        });
 
-            var result1 = BusinessRuleValidationResult.CreateErrorWithTag("Error1 message", "A");
-            var result2 = BusinessRuleValidationResult.CreateWarningWithTag("Warning1 message", "B");
-            var result3 = FieldValidationResult.CreateWarningWithTag("Property1", "Warning2 message", "C");
-            var result4 = FieldValidationResult.CreateWarningWithTag("Property1", "Very Long message, " +
-                                                                                  "which supposed to be wrapped; " +
-                                                                                  "Very Long message, " +
-                                                                                  "which supposed to be wrapped" +
-                                                                                  "Very Long message, " +
-                                                                                  "which supposed to be wrapped" +
-                                                                                  "Very Long message, " +
-                                                                                  "which supposed to be wrapped" +
-                                                                                  "Very Long message, " +
-                                                                                  "which supposed to be wrapped" +
-                                                                                  "Very Long message, " +
-                                                                                  "which supposed to be wrapped" +
-                                                                                  "Very Long message, " +
-                                                                                  "which supposed to be wrapped" +
-                                                                                  "Very Long message, " +
-                                                                                  "which supposed to be wrapped" +
-                                                                                  "Very Long message, " +
-                                                                                  "which supposed to be wrapped" +
-                                                                                  "Very Long message, " +
-                                                                                  "which supposed to be wrapped" +
-                                                                                  "Very Long message, " +
-                                                                                  "which supposed to be wrapped" +
-                                                                                  "Very Long message, " +
-                                                                                  "which supposed to be wrapped" +
-                                                                                  "Very Long message, " +
-                                                                                  "which supposed to be wrapped" +
-                                                                                  "Very Long message, " +
-                                                                                  "which supposed to be wrapped Warning2 message", "C");
+        context.Add(result1);
+        context.Add(result2);
+        context.Add(result3);
+        context.Add(result4);
+        context.Add(result5);
+        context.Add(result6);
+        context.Add(result7);
+        context.Add(result8);
+        context.Add(result9);
+        context.Add(result10);
+        context.Add(result11);
+        context.Add(result12);
+        context.Add(result13);
+        context.Add(result14);
+        context.Add(result15);
 
-            var tag = new
-            {
-                Name = "A",
-                Line = (int?)2
-            };
+        ValidationContext = context;
 
-            var result5 = BusinessRuleValidationResult.CreateErrorWithTag("Error2 message with object tag", tag);
-            var result6 = BusinessRuleValidationResult.CreateErrorWithTag("Error3 message", "B");
-
-            var result7 = BusinessRuleValidationResult.CreateError("Error3 message");
-            var result8 = BusinessRuleValidationResult.CreateError("Error4 message");
-            var result9 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning3 message", new
-            {
-                Name = "A",
-                Line = 1
-            });
-            var result10 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning4 message", new
-            {
-                Name = "A",
-                Line = 2
-            });
-            var result11 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning5 message", new
-            {
-                Name = "A",
-                Line = 3,
-                ColumnName = "ColA"
-            });
-            var result12 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning6 message", new
-            {
-                Name = "A",
-                Line = 20,
-                ColumnIndex = 2
-            });
-            var result13 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning7 message", new
-            {
-                Name = "A",
-                Line = 12,
-                ColumnName = "ColC",
-                ColumnIndex = 3
-            });
-            var result14 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning8 message", new
-            {
-                Name = "A",
-                Line = 10
-            });
-            var result15 = FieldValidationResult.CreateWarningWithTag("Property2", "Warning9 message", new
-            {
-                Name = "A",
-                Line = 24
-            });
-
-            context.Add(result1);
-            context.Add(result2);
-            context.Add(result3);
-            context.Add(result4);
-            context.Add(result5);
-            context.Add(result6);
-            context.Add(result7);
-            context.Add(result8);
-            context.Add(result9);
-            context.Add(result10);
-            context.Add(result11);
-            context.Add(result12);
-            context.Add(result13);
-            context.Add(result14);
-            context.Add(result15);
-
-            ValidationContext = context;
-
-            return base.InitializeAsync();
-        }
+        return base.InitializeAsync();
     }
 }

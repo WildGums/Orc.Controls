@@ -1,7 +1,6 @@
-﻿namespace Orc.Controls.Example.Views
-{
+﻿namespace Orc.Controls.Example.Views;
 
-    public partial class BusyIndicator
-    {
-    }
+
+public partial class BusyIndicator
+{
 }

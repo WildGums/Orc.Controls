@@ -1,72 +1,71 @@
-﻿namespace Orc.Controls.Example.ViewModels
+﻿namespace Orc.Controls.Example.ViewModels;
+
+using System;
+using System.Collections.Generic;
+using Catel.MVVM;
+
+public class SpinButtonViewModel : ViewModelBase
 {
-    using System;
-    using System.Collections.Generic;
-    using Catel.MVVM;
-
-    public class SpinButtonViewModel : ViewModelBase
+    private readonly List<string> _allText = new()
     {
-        private readonly List<string> _allText = new()
+        "Olivia",
+        "Emma",
+        "Ava",
+        "Charlotte",
+        "Sophia",
+        "Amelia",
+        "Isabella",
+        "Mia"
+    };
+
+    public SpinButtonViewModel(IServiceProvider serviceProvider)
+        : base(serviceProvider)
+    {
+        _allText.Sort();
+
+        ShowNextName = new Command<string>(serviceProvider, OnShowNextName, CanShowNextName);
+        ShowPreviousName = new Command<string>(serviceProvider, OnShowPreviousName, CanShowPreviousName);
+
+        Text = _allText[0];
+    }
+
+    public string Text { get; set; }
+
+    public Command<string> ShowNextName { get; }
+
+    private void OnShowNextName(string name)
+    {
+        var nameIndex = _allText.IndexOf(name);
+        if (nameIndex < 0 || nameIndex >= _allText.Count - 1)
         {
-            "Olivia",
-            "Emma",
-            "Ava",
-            "Charlotte",
-            "Sophia",
-            "Amelia",
-            "Isabella",
-            "Mia"
-        };
-
-        public SpinButtonViewModel(IServiceProvider serviceProvider)
-            : base(serviceProvider)
-        {
-            _allText.Sort();
-
-            ShowNextName = new Command<string>(serviceProvider, OnShowNextName, CanShowNextName);
-            ShowPreviousName = new Command<string>(serviceProvider, OnShowPreviousName, CanShowPreviousName);
-
-            Text = _allText[0];
+            return;
         }
 
-        public string Text { get; set; }
+        Text = _allText[nameIndex + 1];
+    }
 
-        public Command<string> ShowNextName { get; }
+    private bool CanShowNextName(string name)
+    {
+        var nameIndex = _allText.IndexOf(name);
+        return nameIndex >= 0 && nameIndex < _allText.Count - 1;
+    }
 
-        private void OnShowNextName(string name)
+    public Command<string> ShowPreviousName { get; }
+
+    private void OnShowPreviousName(string name)
+    {
+        var nameIndex = _allText.IndexOf(name);
+        if (nameIndex <= 0)
         {
-            var nameIndex = _allText.IndexOf(name);
-            if (nameIndex < 0 || nameIndex >= _allText.Count - 1)
-            {
-                return;
-            }
-
-            Text = _allText[nameIndex + 1];
+            return;
         }
 
-        private bool CanShowNextName(string name)
-        {
-            var nameIndex = _allText.IndexOf(name);
-            return nameIndex >= 0 && nameIndex < _allText.Count - 1;
-        }
+        Text = _allText[nameIndex - 1];
+    }
 
-        public Command<string> ShowPreviousName { get; }
-
-        private void OnShowPreviousName(string name)
-        {
-            var nameIndex = _allText.IndexOf(name);
-            if (nameIndex <= 0)
-            {
-                return;
-            }
-
-            Text = _allText[nameIndex - 1];
-        }
-
-        private bool CanShowPreviousName(string name)
-        {
-            var nameIndex = _allText.IndexOf(name);
-            return nameIndex > 0;
-        }
+    private bool CanShowPreviousName(string name)
+    {
+        var nameIndex = _allText.IndexOf(name);
+        return nameIndex > 0;
     }
 }

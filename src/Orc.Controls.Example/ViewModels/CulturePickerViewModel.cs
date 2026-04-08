@@ -1,50 +1,49 @@
-﻿namespace Orc.Controls.Example.ViewModels
+﻿namespace Orc.Controls.Example.ViewModels;
+
+using System;
+using System.Globalization;
+using System.Threading.Tasks;
+using Catel.MVVM;
+using Catel.Services;
+
+public class CulturePickerViewModel : ViewModelBase
 {
-    using System;
-    using System.Globalization;
-    using System.Threading.Tasks;
-    using Catel.MVVM;
-    using Catel.Services;
+    private readonly IMessageService _messageService;
 
-    public class CulturePickerViewModel : ViewModelBase
+    private bool _isInitializing;
+
+    public CulturePickerViewModel(IServiceProvider serviceProvider, IMessageService messageService)
+        : base(serviceProvider)
     {
-        private readonly IMessageService _messageService;
+        _messageService = messageService;
+    }
 
-        private bool _isInitializing;
+    public CultureInfo Culture { get; set; }
 
-        public CulturePickerViewModel(IServiceProvider serviceProvider, IMessageService messageService)
-            : base(serviceProvider)
+    protected override Task InitializeAsync()
+    {
+        _isInitializing = true;
+        try
         {
-            _messageService = messageService;
+            Culture = CultureInfo.CurrentUICulture;
+        }
+        finally
+        {
+            _isInitializing = false;
         }
 
-        public CultureInfo Culture { get; set; }
-
-        protected override Task InitializeAsync()
-        {
-            _isInitializing = true;
-            try
-            {
-                Culture = CultureInfo.CurrentUICulture;
-            }
-            finally
-            {
-                _isInitializing = false;
-            }
-
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
+    }
 
 #pragma warning disable AvoidAsyncVoid
-        private async void OnCultureChanged()
+    private async void OnCultureChanged()
 #pragma warning restore AvoidAsyncVoid
+    {
+        if (_isInitializing)
         {
-            if (_isInitializing)
-            {
-                return;
-            }
-
-            await _messageService.ShowAsync($"Selected culture {Culture.EnglishName}");
+            return;
         }
+
+        await _messageService.ShowAsync($"Selected culture {Culture.EnglishName}");
     }
 }

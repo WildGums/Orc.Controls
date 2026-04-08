@@ -1,27 +1,26 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests.UI;
+
+using System.Windows.Media;
+using NUnit.Framework;
+using Orc.Automation;
+
+[Explicit]
+[TestFixture(TestOf = typeof(FluidProgressBar))]
+[Category("UI Tests")]
+public class FluidProgressBarTestFacts : StyledControlTestFacts<FluidProgressBar>
 {
-    using System.Windows.Media;
-    using NUnit.Framework;
-    using Orc.Automation;
+    [Target]
+    public Automation.FluidProgressBar Target { get; set; }
 
-    [Explicit]
-    [TestFixture(TestOf = typeof(FluidProgressBar))]
-    [Category("UI Tests")]
-    public class FluidProgressBarTestFacts : StyledControlTestFacts<FluidProgressBar>
+    [Test]
+    public void CorrectlyInitialize()
     {
-        [Target]
-        public Automation.FluidProgressBar Target { get; set; }
+        var target = Target;
 
-        [Test]
-        public void CorrectlyInitialize()
-        {
-            var target = Target;
+        var model = target.Current;
 
-            var model = target.Current;
+        model.Foreground = Brushes.Red;
 
-            model.Foreground = Brushes.Red;
-
-            model.DotWidth = 30d;
-        }
+        model.DotWidth = 30d;
     }
 }

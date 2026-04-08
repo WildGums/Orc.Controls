@@ -1,70 +1,69 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests;
+
+using System;
+using System.Linq;
+using Automation;
+using NUnit.Framework;
+
+public class ColorLegendAssert
 {
-    using System;
-    using System.Linq;
-    using Automation;
-    using NUnit.Framework;
-
-    public class ColorLegendAssert
+    public static void AllCheckedState(ColorLegend target)
     {
-        public static void AllCheckedState(ColorLegend target)
+        var isAllChecked = target.IsAllVisible;
+        var model = target.Current;
+
+        if (isAllChecked is null)
         {
-            var isAllChecked = target.IsAllVisible;
-            var model = target.Current;
-
-            if (isAllChecked is null)
-            {
-                Assert.That(model.ItemsSource, 
-                    Has.Some.Property(nameof(IColorLegendItem.IsChecked)).True
-                    .And
-                    .Some.Property(nameof(IColorLegendItem.IsChecked)).False);
-            }
-            
-            switch (isAllChecked)
-            {
-                case true:
-                    Assert.That(model.ItemsSource, Has.All.Property(nameof(IColorLegendItem.IsChecked)).True);
-                    break;
-
-                case false:
-                    Assert.That(model.ItemsSource, Has.All.Property(nameof(IColorLegendItem.IsChecked)).False);
-                    break;
-            }
+            Assert.That(model.ItemsSource, 
+                Has.Some.Property(nameof(IColorLegendItem.IsChecked)).True
+                .And
+                .Some.Property(nameof(IColorLegendItem.IsChecked)).False);
         }
-
-        public static void ItemsCheckStateMatch(ColorLegend target)
+        
+        switch (isAllChecked)
         {
-            var model = target.Current;
+            case true:
+                Assert.That(model.ItemsSource, Has.All.Property(nameof(IColorLegendItem.IsChecked)).True);
+                break;
 
-            var checkedSourceItems = model.FilteredItemsSource
-                .Select(x => x.IsChecked);
-
-            var checkedItems = target.Items
-                .Select(x => x.IsChecked);
-
-            Assert.That(checkedSourceItems, Is.EqualTo(checkedItems).AsCollection);
+            case false:
+                Assert.That(model.ItemsSource, Has.All.Property(nameof(IColorLegendItem.IsChecked)).False);
+                break;
         }
+    }
 
-        public static void ItemsSelectedStateMatch(ColorLegend target)
-        {
-            var model = target.Current;
+    public static void ItemsCheckStateMatch(ColorLegend target)
+    {
+        var model = target.Current;
 
-            var selectedSourceItems = (model.SelectedColorItems ?? Array.Empty<IColorLegendItem>())
-                .Select(x => x.IsSelected);
+        var checkedSourceItems = model.FilteredItemsSource
+            .Select(x => x.IsChecked);
 
-            var selectedItems = target.Items.Where(x => x.IsSelected)
-                .Select(x => x.IsSelected);
+        var checkedItems = target.Items
+            .Select(x => x.IsChecked);
 
-            Assert.That(selectedItems, Is.EqualTo(selectedSourceItems).AsCollection);
-        }
+        Assert.That(checkedSourceItems, Is.EqualTo(checkedItems).AsCollection);
+    }
 
-        public static void ClearSelectionState(ColorLegend target)
-        {
-            var model = target.Current;
+    public static void ItemsSelectedStateMatch(ColorLegend target)
+    {
+        var model = target.Current;
 
-            var countSelectedItems = model.SelectedColorItems?.Count() ?? 0;
+        var selectedSourceItems = (model.SelectedColorItems ?? Array.Empty<IColorLegendItem>())
+            .Select(x => x.IsSelected);
 
-            Assert.That(countSelectedItems > 0, Is.EqualTo(target.CanClearSelection));
-        }
+        var selectedItems = target.Items.Where(x => x.IsSelected)
+            .Select(x => x.IsSelected);
+
+        Assert.That(selectedItems, Is.EqualTo(selectedSourceItems).AsCollection);
+    }
+
+    public static void ClearSelectionState(ColorLegend target)
+    {
+        var model = target.Current;
+
+        var countSelectedItems = model.SelectedColorItems?.Count() ?? 0;
+
+        Assert.That(countSelectedItems > 0, Is.EqualTo(target.CanClearSelection));
     }
 }

@@ -1,8 +1,7 @@
-﻿namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views;
+
+
+public partial class FluidProgressBar
 {
 
-    public partial class FluidProgressBar
-    {
-
-    }
 }

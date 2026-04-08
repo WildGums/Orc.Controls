@@ -1,16 +1,15 @@
-﻿namespace Orc.Controls.Tests
-{
-    using NUnit.Framework;
+﻿namespace Orc.Controls.Tests;
 
-    [TestFixture]
-    public class StringExtensionsFacts
+using NUnit.Framework;
+
+[TestFixture]
+public class StringExtensionsFacts
+{
+    [TestCase("1")]
+    [TestCase("/Item //d/")]
+    [TestCase("\"Item //d\"")]
+    public void CorrectlyGetRegexStringFromSearchPattern(string pattern)
     {
-        [TestCase("1")]
-        [TestCase("/Item //d/")]
-        [TestCase("\"Item //d\"")]
-        public void CorrectlyGetRegexStringFromSearchPattern(string pattern)
-        {
-            var regExPattern = StringExtensions.GetRegexStringFromSearchPattern(pattern);
-        }
+        var regExPattern = StringExtensions.GetRegexStringFromSearchPattern(pattern);
     }
 }

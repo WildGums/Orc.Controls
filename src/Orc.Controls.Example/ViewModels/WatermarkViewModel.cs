@@ -1,13 +1,12 @@
-﻿namespace Orc.Controls.Example.ViewModels
-{
-    using System;
-    using Catel.MVVM;
+﻿namespace Orc.Controls.Example.ViewModels;
 
-    public class WatermarkViewModel : ViewModelBase
+using System;
+using Catel.MVVM;
+
+public class WatermarkViewModel : ViewModelBase
+{
+    public WatermarkViewModel(IServiceProvider serviceProvider) 
+        : base(serviceProvider)
     {
-        public WatermarkViewModel(IServiceProvider serviceProvider) 
-            : base(serviceProvider)
-        {
-        }
     }
 }

@@ -1,25 +1,24 @@
-﻿namespace Orc.Controls.Tests
+﻿namespace Orc.Controls.Tests;
+
+using System.Windows;
+using Orc.Automation;
+using Theming;
+
+public class CreateStyleForwardersMethodRun : NamedAutomationMethodRun
 {
-    using System.Windows;
-    using Orc.Automation;
-    using Theming;
+    public override string Name => nameof(CreateStyleForwardersMethodRun);
 
-    public class CreateStyleForwardersMethodRun : NamedAutomationMethodRun
+    public CreateStyleForwardersMethodRun()
     {
-        public override string Name => nameof(CreateStyleForwardersMethodRun);
+        
+    }
 
-        public CreateStyleForwardersMethodRun()
-        {
-            
-        }
+    public override bool TryInvoke(FrameworkElement owner, AutomationMethod method, out AutomationValue result)
+    {
+        StyleHelper.CreateStyleForwardersForDefaultStyles();
 
-        public override bool TryInvoke(FrameworkElement owner, AutomationMethod method, out AutomationValue result)
-        {
-            StyleHelper.CreateStyleForwardersForDefaultStyles();
+        result = AutomationValue.FromValue(10);
 
-            result = AutomationValue.FromValue(10);
-
-            return true;
-        }
+        return true;
     }
 }

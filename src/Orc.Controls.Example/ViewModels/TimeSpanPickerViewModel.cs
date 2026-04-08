@@ -1,25 +1,24 @@
-﻿namespace Orc.Controls.Example.ViewModels
+﻿namespace Orc.Controls.Example.ViewModels;
+
+using System;
+using Catel.MVVM;
+
+public class TimeSpanPickerViewModel : ViewModelBase
 {
-    using System;
-    using Catel.MVVM;
-
-    public class TimeSpanPickerViewModel : ViewModelBase
+    public TimeSpanPickerViewModel(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
-        public TimeSpanPickerViewModel(IServiceProvider serviceProvider)
-            : base(serviceProvider)
-        {
-            TimeSpanValue = new TimeSpan(10, 11, 12, 13);
+        TimeSpanValue = new TimeSpan(10, 11, 12, 13);
 
-            SetNull = new Command(serviceProvider, OnSetNullExecute);
-        }
+        SetNull = new Command(serviceProvider, OnSetNullExecute);
+    }
 
-        public Command SetNull { get; private set; }
+    public Command SetNull { get; private set; }
 
-        public TimeSpan? TimeSpanValue { get; set; }
+    public TimeSpan? TimeSpanValue { get; set; }
 
-        private void OnSetNullExecute()
-        {
-            TimeSpanValue = null;
-        }
+    private void OnSetNullExecute()
+    {
+        TimeSpanValue = null;
     }
 }

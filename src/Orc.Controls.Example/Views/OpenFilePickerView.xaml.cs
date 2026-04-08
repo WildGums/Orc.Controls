@@ -1,7 +1,6 @@
-﻿namespace Orc.Controls.Example.Views
-{
-    public partial class OpenFilePickerView
-    {
+﻿namespace Orc.Controls.Example.Views;
 
-    }
+public partial class OpenFilePickerView
+{
+
 }

@@ -1,63 +1,62 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests.UI;
+
+using System;
+using System.Collections;
+using System.Globalization;
+using System.Linq;
+using NUnit.Framework;
+using Orc.Automation;
+using Orc.Automation.Tests;
+
+[Explicit]
+[TestFixture(TestOf = typeof(CulturePicker))]
+[Category("UI Tests")]
+public partial class CulturePickerTestFacts : StyledControlTestFacts<CulturePicker>
 {
-    using System;
-    using System.Collections;
-    using System.Globalization;
-    using System.Linq;
-    using NUnit.Framework;
-    using Orc.Automation;
-    using Orc.Automation.Tests;
+    [Target]
+    public Automation.CulturePicker Target { get; set; }
 
-    [Explicit]
-    [TestFixture(TestOf = typeof(CulturePicker))]
-    [Category("UI Tests")]
-    public partial class CulturePickerTestFacts : StyledControlTestFacts<CulturePicker>
+    [Test]
+    public void VerifyInitialState()
     {
-        [Target]
-        public Automation.CulturePicker Target { get; set; }
+        var target = Target;
+        var model = target.Current;
 
-        [Test]
-        public void VerifyInitialState()
+        Assert.That(model.SelectedCulture?.Name, Is.EqualTo(target.SelectedCulture));
+
+        var availableCultures = model.AvailableCultures;
+        var cultureItems = target.Items;
+
+        Assert.That(availableCultures.Select(x => x.Name), Is.EquivalentTo(cultureItems));
+    }
+
+    private class CultureCases : IEnumerable
+    {
+        public IEnumerator GetEnumerator()
         {
-            var target = Target;
-            var model = target.Current;
+            var cultureInfos = CultureInfo.GetCultures(CultureTypes.AllCultures)
+                .Where(culture => !string.IsNullOrEmpty(culture.Name) && !string.IsNullOrEmpty(culture.Parent.Name))
+                .OrderBy(culture => culture.DisplayName).ToList();
 
-            Assert.That(model.SelectedCulture?.Name, Is.EqualTo(target.SelectedCulture));
-
-            var availableCultures = model.AvailableCultures;
-            var cultureItems = target.Items;
-
-            Assert.That(availableCultures.Select(x => x.Name), Is.EquivalentTo(cultureItems));
-        }
-
-        private class CultureCases : IEnumerable
-        {
-            public IEnumerator GetEnumerator()
+            for (var i = 0; i < cultureInfos.Count; i+= 50)
             {
-                var cultureInfos = CultureInfo.GetCultures(CultureTypes.AllCultures)
-                    .Where(culture => !string.IsNullOrEmpty(culture.Name) && !string.IsNullOrEmpty(culture.Parent.Name))
-                    .OrderBy(culture => culture.DisplayName).ToList();
+                var cultureInfo = cultureInfos[i];
+                var cultureName = cultureInfo.EnglishName;
 
-                for (var i = 0; i < cultureInfos.Count; i+= 50)
-                {
-                    var cultureInfo = cultureInfos[i];
-                    var cultureName = cultureInfo.EnglishName;
-
-                    yield return new object[] { cultureInfo, cultureName };
-                }
+                yield return new object[] { cultureInfo, cultureName };
             }
         }
+    }
 
-        [TestCaseSource(typeof(CultureCases))]
-        public void CorrectlySelectCulture(CultureInfo cultureInfo, string cultureName)
-        {
-            var target = Target;
-            var model = target.Current;
+    [TestCaseSource(typeof(CultureCases))]
+    public void CorrectlySelectCulture(CultureInfo cultureInfo, string cultureName)
+    {
+        var target = Target;
+        var model = target.Current;
 
-            target.SelectedCulture = cultureName;
+        target.SelectedCulture = cultureName;
 
-            ConnectedPropertiesAssert.VerifyConnectedProperties(model, nameof(model.SelectedCulture),
-                target, nameof(target.SelectedCulture), false, new ValueTuple<object, object>(cultureInfo, cultureName));
-        }
+        ConnectedPropertiesAssert.VerifyConnectedProperties(model, nameof(model.SelectedCulture),
+            target, nameof(target.SelectedCulture), false, new ValueTuple<object, object>(cultureInfo, cultureName));
     }
 }

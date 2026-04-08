@@ -1,8 +1,7 @@
-﻿namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views;
+
+
+public partial class InfinityScroll
 {
 
-    public partial class InfinityScroll
-    {
-
-    }
 }

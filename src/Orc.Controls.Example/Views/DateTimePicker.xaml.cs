@@ -1,17 +1,16 @@
-﻿namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views;
+
+using System;
+
+public partial class DateTimePicker
 {
-    using System;
-
-    public partial class DateTimePicker
+    private void DateTimePicker_OnEditStarted(object sender, EventArgs e)
     {
-        private void DateTimePicker_OnEditStarted(object sender, EventArgs e)
-        {
-            
-        }
+        
+    }
 
-        private void DateTimePicker_OnEditEnded(object sender, EventArgs e)
-        {
-            
-        }
+    private void DateTimePicker_OnEditEnded(object sender, EventArgs e)
+    {
+        
     }
 }

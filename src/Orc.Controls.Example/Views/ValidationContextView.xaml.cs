@@ -1,6 +1,5 @@
-﻿namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views;
+
+public partial class ValidationContextView
 {
-    public partial class ValidationContextView
-    {
-    }
 }
