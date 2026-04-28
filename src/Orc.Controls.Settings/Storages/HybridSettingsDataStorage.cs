@@ -5,18 +5,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 public class HybridSettingsDataStorage : ISettingsDataStorage
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-
+    private readonly ILogger<HybridSettingsDataStorage> _logger;
     private readonly ISettingsDataStorage[] _storages;
 
-    public HybridSettingsDataStorage(IEnumerable<ISettingsDataStorage> storages)
+    public HybridSettingsDataStorage(ILogger<HybridSettingsDataStorage> logger, IEnumerable<ISettingsDataStorage> storages)
     {
         ArgumentNullException.ThrowIfNull(storages);
 
         _storages = storages.ToArray();
+        _logger = logger;
     }
 
     public async Task<bool> IsReadOnlyAsync(string settingsKey)
@@ -50,7 +51,7 @@ public class HybridSettingsDataStorage : ISettingsDataStorage
 
     public async Task<string?> LoadStringAsync(string settingsKey)
     {
-        Log.Debug($"Loading settings for key: {settingsKey}");
+        _logger.LogDebug($"Loading settings for key: {settingsKey}");
 
         var storage = await GetDataStorageAsync(settingsKey);
         if (storage is null)
@@ -68,11 +69,11 @@ public class HybridSettingsDataStorage : ISettingsDataStorage
         }
         catch (Exception ex)
         {
-            Log.Warning(ex, $"Error loading from provider for key: {settingsKey}");
+            _logger.LogWarning(ex, $"Error loading from provider for key: {settingsKey}");
             // Continue to next provider
         }
 
-        Log.Debug($"No settings found for key: {settingsKey}");
+        _logger.LogDebug($"No settings found for key: {settingsKey}");
         return null;
     }
 
@@ -92,11 +93,11 @@ public class HybridSettingsDataStorage : ISettingsDataStorage
         try
         {
             await storage.SaveStringAsync(settingsKey, data);
-            Log.Debug($"Saved settings to provider for key: {settingsKey}");
+            _logger.LogDebug($"Saved settings to provider for key: {settingsKey}");
         }
         catch (Exception ex)
         {
-            Log.Error(ex, $"Error saving to provider for key: {settingsKey}");
+            _logger.LogError(ex, $"Error saving to provider for key: {settingsKey}");
             throw;
         }
     }
@@ -117,11 +118,11 @@ public class HybridSettingsDataStorage : ISettingsDataStorage
         try
         {
             await storage.DeleteAsync(settingsKey);
-            Log.Debug($"Error loading from provider for key: {settingsKey}");
+            _logger.LogDebug($"Error loading from provider for key: {settingsKey}");
         }
         catch (Exception ex)
         {
-            Log.Error(ex, $"Error loading from provider for key: {settingsKey}");
+            _logger.LogError(ex, $"Error loading from provider for key: {settingsKey}");
             throw;
         }
     }
@@ -161,7 +162,7 @@ public class HybridSettingsDataStorage : ISettingsDataStorage
         }
         catch (Exception ex)
         {
-            Log.Error(ex, $"Error renaming in provider from '{oldKey}' to '{newKey}'");
+            _logger.LogError(ex, $"Error renaming in provider from '{oldKey}' to '{newKey}'");
             throw;
         }
     }
@@ -180,13 +181,13 @@ public class HybridSettingsDataStorage : ISettingsDataStorage
             var exists = await storage.ExistsAsync(settingsKey);
             if (exists)
             {
-                Log.Debug($"Settings found in provider for key: {settingsKey}");
+                _logger.LogDebug($"Settings found in provider for key: {settingsKey}");
                 return true;
             }
         }
         catch (Exception ex)
         {
-            Log.Warning(ex, $"Error checking existence in provider for key: {settingsKey}");
+            _logger.LogWarning(ex, $"Error checking existence in provider for key: {settingsKey}");
             // Continue to next provider
         }
 

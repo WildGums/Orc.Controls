@@ -1,13 +1,7 @@
-﻿namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views;
+
+
+public partial class InfinityScroll
 {
-    /// <summary>
-    /// Interaction logic for InfinityScroll.xaml
-    /// </summary>
-    public partial class InfinityScroll
-    {
-        public InfinityScroll()
-        {
-            InitializeComponent();
-        }
-    }
+
 }

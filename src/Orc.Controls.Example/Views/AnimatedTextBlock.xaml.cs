@@ -1,10 +1,6 @@
-﻿namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views;
+
+public partial class AnimatedTextBlock
 {
-    public partial class AnimatedTextBlock
-    {
-        public AnimatedTextBlock()
-        {
-            InitializeComponent();
-        }
-    }
+
 }

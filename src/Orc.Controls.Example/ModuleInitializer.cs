@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using Catel.IoC;
 using Orc.Controls.Example.Watchers;
 
@@ -13,8 +13,5 @@ public static class ModuleInitializer
     [ModuleInitializer]
     public static void Initialize()
     {
-        var serviceLocator = ServiceLocator.Default;
-
-        serviceLocator.RegisterTypeAndInstantiate<ShowCalloutAtStartupWatcher>();
     }
 }

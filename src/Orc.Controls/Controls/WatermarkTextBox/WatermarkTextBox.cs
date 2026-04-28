@@ -11,7 +11,7 @@ using Catel.Windows.Data;
 /// WatermarkTextBox which is a simple <see cref="TextBox"/> that is able to show simple and complex watermarks.
 /// </summary>
 [TemplatePart(Name = "PART_WatermarkHost", Type = typeof(ContentPresenter))]
-public class WatermarkTextBox : TextBox
+public partial class WatermarkTextBox : TextBox
 {
     private ContentPresenter? _watermarkHost;
 

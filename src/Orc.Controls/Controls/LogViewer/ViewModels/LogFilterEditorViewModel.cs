@@ -6,12 +6,19 @@ using System.Collections.ObjectModel;
 using Catel;
 using Catel.Data;
 using Catel.MVVM;
+using Catel.Services;
 
-public class LogFilterEditorViewModel : ViewModelBase
+public class LogFilterEditorViewModel : FeaturedViewModelBase
 {
-    public LogFilterEditorViewModel(LogFilter logFilter)
+    private readonly ILanguageService _languageService;
+
+    public LogFilterEditorViewModel(LogFilter logFilter, IServiceProvider serviceProvider,
+        ILanguageService languageService)
+        : base(serviceProvider)
     {
         ArgumentNullException.ThrowIfNull(logFilter);
+
+        _languageService = languageService;
 
         ValidateUsingDataAnnotations = false;
 
@@ -50,12 +57,12 @@ public class LogFilterEditorViewModel : ViewModelBase
 
         if (string.IsNullOrWhiteSpace(Name))
         {
-            validationResults.Add(FieldValidationResult.CreateError(nameof(Name), LanguageHelper.GetRequiredString(nameof(Properties.Resources.Controls_LogViewer_LogFilterEditor_NameIsRequired))));
+            validationResults.Add(FieldValidationResult.CreateError(nameof(Name), _languageService.GetRequiredString(nameof(Properties.Resources.Controls_LogViewer_LogFilterEditor_NameIsRequired))));
         }
 
         if (string.IsNullOrWhiteSpace(ExpressionValue))
         {
-            validationResults.Add(FieldValidationResult.CreateError(nameof(ExpressionValue), LanguageHelper.GetRequiredString(nameof(Properties.Resources.Controls_LogViewer_LogFilterEditor_ExpressionValueIsRequired))));
+            validationResults.Add(FieldValidationResult.CreateError(nameof(ExpressionValue), _languageService.GetRequiredString(nameof(Properties.Resources.Controls_LogViewer_LogFilterEditor_ExpressionValueIsRequired))));
         }
     }
 }

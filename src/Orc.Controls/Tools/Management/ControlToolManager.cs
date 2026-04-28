@@ -8,35 +8,33 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using Attributes;
 using Catel.IO;
-using Catel.IoC;
 using Catel.Logging;
-using Catel.Runtime.Serialization;
 using Catel.Services;
 using FileSystem;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Orc.Serialization.Json;
 using Path = System.IO.Path;
 
 public class ControlToolManager : IControlToolManager
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(ControlToolManager));
 
     private readonly FrameworkElement _frameworkElement;
-    private readonly ITypeFactory _typeFactory;
+    private readonly IServiceProvider _serviceProvider;
     private readonly IDirectoryService _directoryService;
     private readonly IAppDataService _appDataService;
+    private readonly IJsonSerializerFactory _jsonSerializerFactory;
 
-    public ControlToolManager(FrameworkElement frameworkElement, ITypeFactory typeFactory, IDirectoryService directoryService, IAppDataService appDataService)
+    public ControlToolManager(FrameworkElement frameworkElement, IServiceProvider serviceProvider, 
+        IDirectoryService directoryService, IAppDataService appDataService, IJsonSerializerFactory jsonSerializerFactory)
     {
-        ArgumentNullException.ThrowIfNull(frameworkElement);
-        ArgumentNullException.ThrowIfNull(typeFactory);
-        ArgumentNullException.ThrowIfNull(directoryService);
-        ArgumentNullException.ThrowIfNull(appDataService);
-
         _frameworkElement = frameworkElement;
-        _typeFactory = typeFactory;
+        _serviceProvider = serviceProvider;
         _directoryService = directoryService;
         _appDataService = appDataService;
+        _jsonSerializerFactory = jsonSerializerFactory;
     }
 
     public IList<IControlTool> Tools { get; } = new List<IControlTool>();
@@ -62,7 +60,7 @@ public class ControlToolManager : IControlToolManager
         var tool = tools.FirstOrDefault(x => x.GetType() == toolType);
         if (tool is null)
         {
-            tool = _typeFactory.CreateInstanceWithParametersAndAutoCompletion(toolType) as IControlTool;
+            tool = ActivatorUtilities.CreateInstance(_serviceProvider, toolType) as IControlTool;
             if (tool is not null)
             {
                 tools.Add(tool);
@@ -162,18 +160,18 @@ public class ControlToolManager : IControlToolManager
                 continue;
             }
 
-            var serializer = SerializationFactory.GetXmlSerializer();
+            var serializer = _jsonSerializerFactory.CreateSerializer();
             using var fileStream = File.Open(settingsFilePath, FileMode.Open);
 
             try
             {
-                var settings = serializer.Deserialize(settingsProperty.PropertyType, fileStream);
+                var settings = serializer.Deserialize(fileStream, settingsProperty.PropertyType);
                 settingsProperty.SetValue(tool, settings);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                //Vladimir:Don't crash if something went wrong while loading file
-                Log.Debug(e);
+                // Don't crash if something went wrong while loading file
+                Logger.LogDebug(ex, "Failed to load settings");
             }
         }
     }
@@ -192,18 +190,18 @@ public class ControlToolManager : IControlToolManager
                 continue;
             }
 
-            var serializer = SerializationFactory.GetXmlSerializer();
+            var serializer = _jsonSerializerFactory.CreateSerializer();
             var settingsFilePath = GetSettingsFilePath(tool, settingsProperty);
             using var fileStream = File.Open(settingsFilePath, FileMode.Create);
 
             try
             {
-                serializer.Serialize(settings, fileStream);   
+                serializer.Serialize(fileStream, settings);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                //Vladimir:Don't crash if something went wrong while saving tool settings into file
-                Log.Debug(e);
+                // Don't crash if something went wrong while saving tool settings into file
+                Logger.LogDebug(ex, "Failed to save settings");
             }
         }
     }
@@ -213,7 +211,7 @@ public class ControlToolManager : IControlToolManager
         var toolSettingsAttribute = Attribute.GetCustomAttribute(settingsProperty, typeof(ToolSettingsAttribute)) as ToolSettingsAttribute;
         var settingsStorage = toolSettingsAttribute?.Storage;
         var appDataDirectory = _appDataService.GetApplicationDataDirectory(ApplicationDataTarget.UserRoaming);
-        var fileName = settingsProperty.Name + ".xml";
+        var fileName = settingsProperty.Name + ".json";
 
         if (string.IsNullOrWhiteSpace(settingsStorage))
         {

@@ -8,31 +8,31 @@ using Catel.Data;
 using Catel.MVVM;
 using Catel.Services;
 
-public class LogFilterGroupEditorViewModel : ViewModelBase
+public class LogFilterGroupEditorViewModel : FeaturedViewModelBase
 {
     private readonly IMessageService _messageService;
     private readonly IUIVisualizerService _uiVisualizerService;
+    private readonly ILanguageService _languageService;
 
     public LogFilterGroupEditorViewModel(LogFilterGroup logFilterGroup, IMessageService messageService,
-        IUIVisualizerService uiVisualizerService)
+        IUIVisualizerService uiVisualizerService, IServiceProvider serviceProvider, ILanguageService languageService)
+        : base(serviceProvider)
     {
-        ArgumentNullException.ThrowIfNull(logFilterGroup);
-        ArgumentNullException.ThrowIfNull(messageService);
-        ArgumentNullException.ThrowIfNull(uiVisualizerService);
-
         _messageService = messageService;
         _uiVisualizerService = uiVisualizerService;
+        _languageService = languageService;
+
         LogFilterGroup = logFilterGroup;
         LogFilters = new ObservableCollection<LogFilter>();
 
         ValidateUsingDataAnnotations = false;
 
-        AddCommand = new TaskCommand(OnAddCommandExecuteAsync);
-        EditCommand = new TaskCommand(OnEditCommandExecuteAsync, OnEditCommandCanExecute);
-        RemoveCommand = new TaskCommand(OnRemoveCommandExecuteAsync, OnRemoveCommandCanExecute);
+        AddCommand = new TaskCommand(serviceProvider, OnAddCommandExecuteAsync);
+        EditCommand = new TaskCommand(serviceProvider, OnEditCommandExecuteAsync, OnEditCommandCanExecute);
+        RemoveCommand = new TaskCommand(serviceProvider, OnRemoveCommandExecuteAsync, OnRemoveCommandCanExecute);
     }
 
-    public override string Title => LanguageHelper.GetRequiredString("Controls_LogViewer_LogFilterGroupEditor_Title");
+    public override string Title => _languageService.GetRequiredString("Controls_LogViewer_LogFilterGroupEditor_Title");
 
     public TaskCommand AddCommand { get; }
     public TaskCommand EditCommand { get; }
@@ -54,7 +54,7 @@ public class LogFilterGroupEditorViewModel : ViewModelBase
         if (string.IsNullOrWhiteSpace(Name))
         {
             validationContext.Add(FieldValidationResult.CreateError(nameof(Name),
-                LanguageHelper.GetRequiredString(nameof(Properties.Resources.Controls_LogViewer_LogFilterGroupEditor_NameForTheLogFilterGroupIsRequired))));
+                _languageService.GetRequiredString(nameof(Properties.Resources.Controls_LogViewer_LogFilterGroupEditor_NameForTheLogFilterGroupIsRequired))));
         }
     }
 
@@ -94,7 +94,7 @@ public class LogFilterGroupEditorViewModel : ViewModelBase
 
     private async Task OnRemoveCommandExecuteAsync()
     {
-        var result = await _messageService.ShowAsync(LanguageHelper.GetRequiredString(nameof(Properties.Resources.Controls_LogViewer_AreYouSure)),
+        var result = await _messageService.ShowAsync(_languageService.GetRequiredString(nameof(Properties.Resources.Controls_LogViewer_AreYouSure)),
             button: MessageButton.YesNo, icon: MessageImage.Warning);
         if (result == MessageResult.Yes)
         {

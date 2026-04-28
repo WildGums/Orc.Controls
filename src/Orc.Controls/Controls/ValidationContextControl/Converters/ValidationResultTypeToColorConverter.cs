@@ -12,7 +12,6 @@ public class ValidationResultTypeToColorMultiValueConverter : IMultiValueConvert
     public SolidColorBrush? ErrorBrush { get; set; }
     public SolidColorBrush? WarningBrush { get; set; }
 
-    #region IMultiValueConverter Members
     public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
         if (values.Length != 2)
@@ -38,5 +37,4 @@ public class ValidationResultTypeToColorMultiValueConverter : IMultiValueConvert
     {
         return null;
     }
-    #endregion
 }

@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 using Catel.Collections;
 using Catel.Data;
 using Catel.MVVM;
+using Catel.Services;
 
 public class ValidationContextTreeViewModel : ViewModelBase
 {
     private readonly IValidationNamesService _validationNamesService;
 
-    public ValidationContextTreeViewModel(IValidationNamesService validationNamesService)
+    public ValidationContextTreeViewModel(IServiceProvider serviceProvider, 
+        IDispatcherService dispatcherService, IValidationNamesService validationNamesService)
+        : base(serviceProvider)
     {
         ArgumentNullException.ThrowIfNull(validationNamesService);
 
@@ -20,7 +23,7 @@ public class ValidationContextTreeViewModel : ViewModelBase
 
         ValidateUsingDataAnnotations = false;
 
-        ValidationResultTags = new FastObservableCollection<ValidationResultTagNode>();
+        ValidationResultTags = new FastObservableCollection<ValidationResultTagNode>(dispatcherService);
         Filter = string.Empty;
     }
 

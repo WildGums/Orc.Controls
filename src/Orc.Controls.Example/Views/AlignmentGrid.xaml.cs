@@ -1,13 +1,6 @@
-﻿namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views;
+
+public partial class AlignmentGrid
 {
-    /// <summary>
-    /// Interaction logic for AlignmentGrid.xaml
-    /// </summary>
-    public partial class AlignmentGrid
-    {
-        public AlignmentGrid()
-        {
-            InitializeComponent();
-        }
-    }
+
 }

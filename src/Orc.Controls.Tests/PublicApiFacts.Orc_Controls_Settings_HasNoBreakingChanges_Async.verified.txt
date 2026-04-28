@@ -52,9 +52,9 @@ namespace Orc.Controls.Settings
         where TControl : System.Windows.FrameworkElement
         where TSettings :  class
     {
-        protected Orc.Controls.Settings.ISettingsStateStorage StateStorage;
         protected bool _isLoading;
         protected Orc.Controls.Settings.ISettingsKeyManager _keyManager;
+        protected Orc.Controls.Settings.ISettingsStateStorage _stateStorage;
         public static readonly System.Windows.DependencyProperty ControlAdapterProperty;
         public static readonly System.Windows.DependencyProperty EnableSynchronizationProperty;
         public static readonly System.Windows.DependencyProperty InitialKeySettingsProperty;
@@ -62,9 +62,10 @@ namespace Orc.Controls.Settings
         public static readonly System.Windows.DependencyProperty IsSettingsDirtyProperty;
         public static readonly System.Windows.DependencyProperty SettingsKeyProperty;
         public static readonly System.Windows.DependencyProperty SettingsStorageProperty;
-        public ControlSettingsBehavior() { }
+        public ControlSettingsBehavior(Orc.Controls.Settings.ISettingsKeyManager settingsKeyManager, Orc.Controls.Settings.ISettingsStateStorage settingsStateStorage, Orc.Controls.Settings.ISettingsKeyInteractionHub settingsKeyInteractionHub, Orc.Controls.Settings.ISettingsStorage<TSettings> settingsStorage, Orc.Controls.Settings.IControlSettingsAdapter<TControl, TSettings> controlSettingsAdapter) { }
         public System.Windows.FrameworkElement? Control { get; }
         public Orc.Controls.Settings.IControlSettingsAdapter<TControl, TSettings>? ControlAdapter { get; set; }
+        public Orc.Controls.Settings.IControlSettingsAdapter<TControl, TSettings> ControlSettingsAdapter { get; }
         public bool EnableSynchronization { get; set; }
         public Orc.Controls.Settings.InitialKeySettings InitialKeySettings { get; set; }
         public bool IsAutosave { get; set; }
@@ -79,11 +80,6 @@ namespace Orc.Controls.Settings
         public System.Threading.Tasks.Task SaveAsync(string key) { }
         public virtual System.Threading.Tasks.Task SaveSettingsAsync(string? settingsKey = null) { }
     }
-    public class ControlSettingsModule
-    {
-        public ControlSettingsModule(Catel.IoC.IServiceLocator serviceLocator) { }
-        public void Initialize() { }
-    }
     public class EmbeddedResourceProvider : Orc.Controls.Settings.IEmbeddedResourceProvider
     {
         public EmbeddedResourceProvider(System.Reflection.Assembly assembly) { }
@@ -92,7 +88,7 @@ namespace Orc.Controls.Settings
     }
     public class EmbeddedResourcesSettingsDataStorage : Orc.Controls.Settings.ISettingsDataStorage
     {
-        public EmbeddedResourcesSettingsDataStorage(Orc.Controls.Settings.IEmbeddedResourceProvider embeddedResourceProvider, Orc.Controls.Settings.ISettingsLocationProvider locationProvider) { }
+        public EmbeddedResourcesSettingsDataStorage(Microsoft.Extensions.Logging.ILogger<Orc.Controls.Settings.EmbeddedResourcesSettingsDataStorage> logger, Orc.Controls.Settings.IEmbeddedResourceProvider embeddedResourceProvider, Orc.Controls.Settings.ISettingsLocationProvider locationProvider) { }
         public System.Threading.Tasks.Task<bool> CanHandleAsync(string settingsKey) { }
         public System.Threading.Tasks.Task DeleteAsync(string settingsKey) { }
         public System.Threading.Tasks.Task<bool> ExistsAsync(string settingsKey) { }
@@ -144,7 +140,7 @@ namespace Orc.Controls.Settings
     }
     public class HybridSettingsDataStorage : Orc.Controls.Settings.ISettingsDataStorage
     {
-        public HybridSettingsDataStorage(System.Collections.Generic.IEnumerable<Orc.Controls.Settings.ISettingsDataStorage> storages) { }
+        public HybridSettingsDataStorage(Microsoft.Extensions.Logging.ILogger<Orc.Controls.Settings.HybridSettingsDataStorage> logger, System.Collections.Generic.IEnumerable<Orc.Controls.Settings.ISettingsDataStorage> storages) { }
         public System.Threading.Tasks.Task<bool> CanHandleAsync(string settingsKey) { }
         public System.Threading.Tasks.Task DeleteAsync(string settingsKey) { }
         public System.Threading.Tasks.Task<bool> ExistsAsync(string settingsKey) { }
@@ -350,7 +346,7 @@ namespace Orc.Controls.Settings
     }
     public class SettingsKeyManager : Orc.Controls.Settings.ISettingsKeyManager
     {
-        public SettingsKeyManager() { }
+        public SettingsKeyManager(Microsoft.Extensions.Logging.ILogger<Orc.Controls.Settings.SettingsKeyManager> logger) { }
         public event Catel.AsyncEventHandler<Orc.Controls.Settings.SettingsKeyDirtyEventArgs>? DirtyStateChanged;
         public event System.EventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? KeyLoaded;
         public event System.EventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? KeyRefreshed;
@@ -407,7 +403,7 @@ namespace Orc.Controls.Settings
     }
     public class SettingsStateStorage : Orc.Controls.Settings.ISettingsStateStorage
     {
-        public SettingsStateStorage() { }
+        public SettingsStateStorage(Microsoft.Extensions.Logging.ILogger<Orc.Controls.Settings.SettingsStateStorage> logger) { }
         public event System.EventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? SettingsRemoved;
         public event System.EventHandler<Orc.Controls.Settings.SettingsKeyEventArgs>? SettingsStored;
         public T? GetStoredSettings<T>(string settingsKey)
@@ -432,5 +428,12 @@ namespace Orc.Controls.Settings
         public TypeConverter() { }
         public override System.Type? Read(ref System.Text.Json.Utf8JsonReader reader, System.Type typeToConvert, System.Text.Json.JsonSerializerOptions options) { }
         public override void Write(System.Text.Json.Utf8JsonWriter writer, System.Type value, System.Text.Json.JsonSerializerOptions options) { }
+    }
+}
+namespace Orc
+{
+    public static class OrcControlsSettingsModule
+    {
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddOrcControlsSettings(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection) { }
     }
 }

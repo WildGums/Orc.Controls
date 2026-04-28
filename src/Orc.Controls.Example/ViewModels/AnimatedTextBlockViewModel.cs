@@ -1,48 +1,48 @@
-﻿namespace Orc.Controls.Example.ViewModels
+﻿namespace Orc.Controls.Example.ViewModels;
+
+using System;
+using System.Threading.Tasks;
+using Catel.MVVM;
+using Catel.Services;
+using Catel.Windows.Threading;
+
+public class AnimatedTextBlockViewModel : ViewModelBase
 {
-    using System;
-    using System.Threading.Tasks;
-    using Catel.MVVM;
-    using Catel.Services;
-    using Catel.Windows.Threading;
+    private readonly DispatcherTimerEx _dispatcherTimerEx;
+    private readonly Random _random = new Random();
 
-    public class AnimatedTextBlockViewModel : ViewModelBase
+    private int _currentIndex;
+
+    public AnimatedTextBlockViewModel(IServiceProvider serviceProvider, IDispatcherService dispatcherService)
+        : base(serviceProvider)
     {
-        private DispatcherTimerEx _dispatcherTimerEx;
-        private readonly Random _random = new Random();
+        _dispatcherTimerEx = new DispatcherTimerEx(dispatcherService);
+    }
 
-        private int _currentIndex;
+    public string Status { get; private set; }
 
-        public AnimatedTextBlockViewModel(IDispatcherService dispatcherService)
-        {
-            _dispatcherTimerEx = new DispatcherTimerEx(dispatcherService);
-        }
+    protected override Task InitializeAsync()
+    {
+        _dispatcherTimerEx.Tick += OnDispatcherTimerTick;
+        _dispatcherTimerEx.Start();
 
-        public string Status { get; private set; }
+        return base.InitializeAsync();
+    }
 
-        protected override Task InitializeAsync()
-        {
-            _dispatcherTimerEx.Tick += OnDispatcherTimerTick;
-            _dispatcherTimerEx.Start();
+    protected override Task CloseAsync()
+    {
+        _dispatcherTimerEx.Tick -= OnDispatcherTimerTick;
+        _dispatcherTimerEx.Stop();
 
-            return base.InitializeAsync();
-        }
+        return base.CloseAsync();
+    }
 
-        protected override Task CloseAsync()
-        {
-            _dispatcherTimerEx.Tick -= OnDispatcherTimerTick;
-            _dispatcherTimerEx.Stop();
+    private void OnDispatcherTimerTick(object sender, EventArgs e)
+    {
+        _dispatcherTimerEx.Stop();
+        _dispatcherTimerEx.Interval = TimeSpan.FromMilliseconds(_random.Next(100, 5000));
+        _dispatcherTimerEx.Start();
 
-            return base.CloseAsync();
-        }
-
-        private void OnDispatcherTimerTick(object sender, EventArgs e)
-        {
-            _dispatcherTimerEx.Stop();
-            _dispatcherTimerEx.Interval = TimeSpan.FromMilliseconds(_random.Next(100, 5000));
-            _dispatcherTimerEx.Start();
-
-            Status = $"Status {1 + _currentIndex++}";
-        }
+        Status = $"Status {1 + _currentIndex++}";
     }
 }

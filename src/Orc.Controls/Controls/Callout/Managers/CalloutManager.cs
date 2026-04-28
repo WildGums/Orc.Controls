@@ -4,16 +4,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 public class CalloutManager : ICalloutManager
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private readonly ILogger<CalloutManager> _logger;
 
     private readonly List<ICallout> _callouts;
+
     private int _suspendCount;
 
-    public CalloutManager()
+    public CalloutManager(ILogger<CalloutManager> logger)
     {
+        _logger = logger;
+
         _callouts = new List<ICallout>();
     }
 
@@ -41,21 +45,21 @@ public class CalloutManager : ICalloutManager
     {
         _suspendCount++;
 
-        Log.Debug($"Suspended callouts, count = '{_suspendCount}'");
+        _logger.LogDebug($"Suspended callouts, count = '{_suspendCount}'");
     }
 
     public void Resume()
     {
         _suspendCount = Math.Max(0, _suspendCount - 1);
 
-        Log.Debug($"Resumed callouts, count = '{_suspendCount}'");
+        _logger.LogDebug($"Resumed callouts, count = '{_suspendCount}'");
     }
 
     public void Register(ICallout callout)
     {
         ArgumentNullException.ThrowIfNull(callout);
 
-        Log.Debug($"Registering callout '{callout}'");
+        _logger.LogDebug($"Registering callout '{callout}'");
 
         _callouts.Add(callout);
 
@@ -68,7 +72,7 @@ public class CalloutManager : ICalloutManager
     {
         ArgumentNullException.ThrowIfNull(callout);
 
-        Log.Debug($"Unregistering callout '{callout}'");
+        _logger.LogDebug($"Unregistering callout '{callout}'");
 
         UnsubscribeFromCallout(callout);
 

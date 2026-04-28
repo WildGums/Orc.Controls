@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 public static class DependencyObjectExtensions
 {
-    public static IEnumerable<DependencyObject> GetDescendents(this DependencyObject root)
+    public static IEnumerable<DependencyObject> GetDecendents(this DependencyObject root)
     {
         var count = VisualTreeHelper.GetChildrenCount(root);
 
@@ -15,7 +15,7 @@ public static class DependencyObjectExtensions
             var child = VisualTreeHelper.GetChild(root, i);
             yield return child;
 
-            foreach (var descendent in GetDescendents(child))
+            foreach (var descendent in GetDecendents(child))
             {
                 yield return descendent;
             }

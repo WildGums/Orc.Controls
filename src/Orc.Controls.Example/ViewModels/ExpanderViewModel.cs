@@ -1,8 +1,12 @@
-﻿namespace Orc.Controls.Example.ViewModels
-{
-    using Catel.MVVM;
+﻿namespace Orc.Controls.Example.ViewModels;
 
-    public class ExpanderViewModel : ViewModelBase
+using System;
+using Catel.MVVM;
+
+public class ExpanderViewModel : ViewModelBase
+{
+    public ExpanderViewModel(IServiceProvider serviceProvider) 
+        : base(serviceProvider)
     {
     }
 }

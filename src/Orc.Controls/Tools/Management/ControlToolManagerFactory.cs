@@ -3,19 +3,17 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using Catel.IoC;
+using Microsoft.Extensions.DependencyInjection;
 
 public class ControlToolManagerFactory : IControlToolManagerFactory
 {
     private readonly Dictionary<FrameworkElement, IControlToolManager> _controlToolManagers = new();
 
-    private readonly ITypeFactory _typeFactory;
+    private readonly IServiceProvider _serviceProvider;
 
-    public ControlToolManagerFactory(ITypeFactory typeFactory)
+    public ControlToolManagerFactory(IServiceProvider serviceProvider)
     {
-        ArgumentNullException.ThrowIfNull(typeFactory);
-
-        _typeFactory = typeFactory;
+        _serviceProvider = serviceProvider;
     }
 
     public IControlToolManager GetOrCreateManager(FrameworkElement frameworkElement)
@@ -24,7 +22,7 @@ public class ControlToolManagerFactory : IControlToolManagerFactory
 
         if (!_controlToolManagers.TryGetValue(frameworkElement, out var manager))
         {
-            manager = _typeFactory.CreateRequiredInstanceWithParametersAndAutoCompletion<ControlToolManager>(frameworkElement);
+            manager = ActivatorUtilities.CreateInstance<ControlToolManager>(_serviceProvider, frameworkElement);
             frameworkElement.Unloaded += OnFrameworkElementUnloaded;
         }
 

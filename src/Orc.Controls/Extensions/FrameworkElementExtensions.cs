@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Catel.IoC;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xaml.Behaviors;
 using Tools;
 
@@ -17,7 +18,7 @@ public static class FrameworkElementExtensions
 
     static FrameworkElementExtensions()
     {
-        ControlToolManagerFactory = ServiceLocator.Default.ResolveRequiredType<IControlToolManagerFactory>();
+        ControlToolManagerFactory = IoCContainer.ServiceProvider.GetRequiredService<IControlToolManagerFactory>();
     }
 
     public static Rect GetScreenRect(this FrameworkElement frameworkElement)

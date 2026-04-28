@@ -1,59 +1,49 @@
-﻿namespace Orc.Controls.Example.ViewModels
+﻿namespace Orc.Controls.Example.ViewModels;
+
+using System;
+using System.Globalization;
+using System.Threading.Tasks;
+using Catel.MVVM;
+using Catel.Services;
+
+public class CulturePickerViewModel : ViewModelBase
 {
-    using System;
-    using System.Globalization;
-    using System.Threading.Tasks;
-    using Catel.MVVM;
-    using Catel.Services;
+    private readonly IMessageService _messageService;
 
-    public class CulturePickerViewModel : ViewModelBase
+    private bool _isInitializing;
+
+    public CulturePickerViewModel(IServiceProvider serviceProvider, IMessageService messageService)
+        : base(serviceProvider)
     {
-        #region Fields
-        private readonly IMessageService _messageService;
+        _messageService = messageService;
+    }
 
-        private bool _isInitializing;
-        #endregion
+    public CultureInfo Culture { get; set; }
 
-        #region Constructors
-        public CulturePickerViewModel(IMessageService messageService)
+    protected override Task InitializeAsync()
+    {
+        _isInitializing = true;
+        try
         {
-            ArgumentNullException.ThrowIfNull(messageService);
-
-            _messageService = messageService;
+            Culture = CultureInfo.CurrentUICulture;
         }
-        #endregion
-
-        #region Properties
-        public CultureInfo Culture { get; set; }
-        #endregion
-
-        #region Methods
-        protected override Task InitializeAsync()
+        finally
         {
-            _isInitializing = true;
-            try
-            {
-                Culture = CultureInfo.CurrentUICulture;
-            }
-            finally
-            {
-                _isInitializing = false;
-            }
-
-            return Task.CompletedTask;
+            _isInitializing = false;
         }
+
+        return Task.CompletedTask;
+    }
 
 #pragma warning disable AvoidAsyncVoid
-        private async void OnCultureChanged()
+    private async void OnCultureChanged()
 #pragma warning restore AvoidAsyncVoid
+    {
+        if (_isInitializing)
         {
-            if (_isInitializing)
-            {
-                return;
-            }
-
-            await _messageService.ShowAsync($"Selected culture {Culture.EnglishName}");
+            return;
         }
-        #endregion
+
+        await _messageService.ShowAsync($"Selected culture {Culture.EnglishName}");
     }
 }

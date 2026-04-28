@@ -4,7 +4,7 @@ using System.Windows.Automation;
 using Orc.Automation;
 using Orc.Automation.Controls;
 
-[AutomatedControl(Class = typeof(Controls.StepBarItem))]
+[AutomatedControl(Class = typeof(Orc.Controls.StepBarItem))]
 public class StepBarItem : FrameworkElement<StepBarItemModel, StepBarItemMap>
 {
     public StepBarItem(AutomationElement element)

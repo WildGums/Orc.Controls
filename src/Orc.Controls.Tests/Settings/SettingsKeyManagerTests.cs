@@ -1,6 +1,7 @@
 ﻿namespace Orc.Controls.Settings.Tests;
 
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging.Abstractions;
 using NUnit.Framework;
 
 [TestFixture]
@@ -9,7 +10,7 @@ public class SettingsKeyManagerTests
     [SetUp]
     public void SetUp()
     {
-        _settingsKeyManager = new();
+        _settingsKeyManager = new(NullLogger<SettingsKeyManager>.Instance);
     }
 
     private SettingsKeyManager _settingsKeyManager;

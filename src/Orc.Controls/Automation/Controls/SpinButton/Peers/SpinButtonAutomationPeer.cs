@@ -4,9 +4,9 @@ namespace Orc.Controls.Automation;
 using System.Windows;
 using Orc.Automation;
 
-public class SpinButtonAutomationPeer : AutomationControlPeerBase<Controls.SpinButton>
+public class SpinButtonAutomationPeer : AutomationControlPeerBase<Orc.Controls.SpinButton>
 {
-    public SpinButtonAutomationPeer(Controls.SpinButton owner) 
+    public SpinButtonAutomationPeer(Orc.Controls.SpinButton owner) 
         : base(owner)
     {
         owner.Increased += OnIncreased;
@@ -16,17 +16,17 @@ public class SpinButtonAutomationPeer : AutomationControlPeerBase<Controls.SpinB
         
     private void OnIncreased(object sender, RoutedEventArgs e)
     {
-        RaiseEvent(nameof(Controls.SpinButton.Increased), null);
+        RaiseEvent(nameof(Orc.Controls.SpinButton.Increased), null);
     }
 
     private void OnDecreased(object sender, RoutedEventArgs e)
     {
-        RaiseEvent(nameof(Controls.SpinButton.Decreased), null);
+        RaiseEvent(nameof(Orc.Controls.SpinButton.Decreased), null);
     }
 
     private void OnCanceled(object sender, RoutedEventArgs e)
     {
-        RaiseEvent(nameof(Controls.SpinButton.Canceled), null);
+        RaiseEvent(nameof(Orc.Controls.SpinButton.Canceled), null);
     }
 }
 #nullable enable

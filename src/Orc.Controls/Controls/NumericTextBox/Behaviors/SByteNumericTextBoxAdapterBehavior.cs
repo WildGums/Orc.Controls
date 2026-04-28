@@ -7,7 +7,7 @@ using System.Windows;
 using Catel;
 using Catel.Windows.Interactivity;
 
-public class NumericTextBoxAdapterBehavior : BehaviorBase<NumericTextBox>
+public partial class NumericTextBoxAdapterBehavior : BehaviorBase<NumericTextBox>
 {
     private static readonly Dictionary<Type, NumericTextBoxTypeDescription> TypeDescriptions = new()
     {

@@ -2,13 +2,19 @@
 
 using System;
 using System.Collections.Generic;
-using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 public class SettingsStateStorage : ISettingsStateStorage
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private readonly ILogger<SettingsStateStorage> _logger;
+
     private readonly Dictionary<string, object> _storedSettings = new();
     private readonly object _lock = new object(); // Add synchronization lock
+
+    public SettingsStateStorage(ILogger<SettingsStateStorage> logger)
+    {
+        _logger = logger;
+    }
 
     public event EventHandler<SettingsKeyEventArgs>? SettingsStored;
     public event EventHandler<SettingsKeyEventArgs>? SettingsRemoved;
@@ -26,7 +32,7 @@ public class SettingsStateStorage : ISettingsStateStorage
         }
 
         SettingsStored?.Invoke(this, new(settingsKey));
-        Log.Debug($"Stored settings for key '{settingsKey}' ({typeof(T).Name})");
+        _logger.LogDebug($"Stored settings for key '{settingsKey}' ({typeof(T).Name})");
     }
 
     public T? GetStoredSettings<T>(string settingsKey) where T : class
@@ -44,7 +50,7 @@ public class SettingsStateStorage : ISettingsStateStorage
                 return null;
             }
 
-            Log.Debug($"Retrieved stored settings for key '{settingsKey}' ({typeof(T).Name})");
+            _logger.LogDebug($"Retrieved stored settings for key '{settingsKey}' ({typeof(T).Name})");
             return typedSettings;
         }
     }
@@ -77,7 +83,7 @@ public class SettingsStateStorage : ISettingsStateStorage
         if (removed)
         {
             SettingsRemoved?.Invoke(this, new(settingsKey));
-            Log.Debug($"Removed stored settings and dirty state for key '{settingsKey}'");
+            _logger.LogDebug($"Removed stored settings and dirty state for key '{settingsKey}'");
         }
     }
 }

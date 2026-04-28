@@ -12,16 +12,6 @@ using Catel.MVVM.Views;
 
 public sealed partial class StepBar
 {
-    static StepBar()
-    {
-        typeof(StepBar).AutoDetectViewPropertiesToSubscribe();
-    }
-
-    public StepBar()
-    {
-        InitializeComponent();
-    }
-
     public Orientation Orientation
     {
         get { return (Orientation)GetValue(OrientationProperty); }

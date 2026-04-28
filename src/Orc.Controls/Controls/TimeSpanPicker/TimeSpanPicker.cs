@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Automation;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 [TemplatePart(Name = "PART_DaysNumericTextBox", Type = typeof(NumericTextBox))]
 [TemplatePart(Name = "PART_HoursNumericTextBox", Type = typeof(NumericTextBox))]
@@ -28,10 +29,10 @@ using Catel.Logging;
 [TemplatePart(Name = "PART_EditedUnitTextBlock", Type = typeof(TextBlock))]
 
 [TemplatePart(Name = "PART_NumericTBEditorContainerBorder", Type = typeof(Border))]
-public class TimeSpanPicker : Control
+public partial class TimeSpanPicker : Control
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-    
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(TimeSpanPicker));
+
     private NumericTextBox? _daysNumericTextBox;
     private NumericTextBox? _hoursNumericTextBox;
     private NumericTextBox? _minutesNumericTextBox;
@@ -123,7 +124,7 @@ public class TimeSpanPicker : Control
         _daysNumericTextBox = GetTemplateChild("PART_DaysNumericTextBox") as NumericTextBox;
         if (_daysNumericTextBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysNumericTextBox'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysNumericTextBox'");
         }
         _daysNumericTextBox.ValueChanged += OnDaysValueChanged;
         _daysNumericTextBox.RightBoundReached += OnNumericTextBoxRightBoundReached;
@@ -133,7 +134,7 @@ public class TimeSpanPicker : Control
         _hoursNumericTextBox = GetTemplateChild("PART_HoursNumericTextBox") as NumericTextBox;
         if (_hoursNumericTextBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_HoursNumericTextBox'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_HoursNumericTextBox'");
         }
         _hoursNumericTextBox.ValueChanged += OnHoursValueChanged;
         _hoursNumericTextBox.RightBoundReached += OnNumericTextBoxRightBoundReached;
@@ -144,7 +145,7 @@ public class TimeSpanPicker : Control
         _minutesNumericTextBox = GetTemplateChild("PART_MinutesNumericTextBox") as NumericTextBox;
         if (_minutesNumericTextBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MinutesNumericTextBox'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MinutesNumericTextBox'");
         }
         _minutesNumericTextBox.ValueChanged += OnMinutesValueChanged;
         _minutesNumericTextBox.RightBoundReached += OnNumericTextBoxRightBoundReached;
@@ -155,7 +156,7 @@ public class TimeSpanPicker : Control
         _secondsNumericTextBox = GetTemplateChild("PART_SecondsNumericTextBox") as NumericTextBox;
         if (_secondsNumericTextBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SecondsNumericTextBox'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SecondsNumericTextBox'");
         }
         _secondsNumericTextBox.ValueChanged += OnSecondsValueChanged;
         _secondsNumericTextBox.LeftBoundReached += OnNumericTextBoxLeftBoundReached;
@@ -165,7 +166,7 @@ public class TimeSpanPicker : Control
         _editorNumericTextBox = GetTemplateChild("PART_EditorNumericTextBox") as NumericTextBox;
         if (_editorNumericTextBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_EditorNumericTextBox'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_EditorNumericTextBox'");
         }
         _editorNumericTextBox.ValueChanged += OnEditorValueChanged;
         _editorNumericTextBox.IsKeyboardFocusWithinChanged += OnEditorNumericTextBoxIsKeyboardFocusWithinChanged;
@@ -175,21 +176,21 @@ public class TimeSpanPicker : Control
         _numericTbEditorContainerBorder = GetTemplateChild("PART_NumericTBEditorContainerBorder") as Border;
         if (_numericTbEditorContainerBorder is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_NumericTBEditorContainerBorder'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_NumericTBEditorContainerBorder'");
         }
 
         /*Currently editing unit text block*/
         _editedUnitTextBlock = GetTemplateChild("PART_EditedUnitTextBlock") as TextBlock;
         if (_editedUnitTextBlock is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_EditedUnitTextBlock'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_EditedUnitTextBlock'");
         }
 
         /*Days abbreviation text block*/
         _daysAbbreviationTextBlock = GetTemplateChild("PART_DaysAbbreviationTextBlock") as TextBlock;
         if (_daysAbbreviationTextBlock is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysAbbreviationTextBlock'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysAbbreviationTextBlock'");
         }
         _daysAbbreviationTextBlock.MouseDown += OnAbbreviationTextBlockOnMouseDown;
 
@@ -197,7 +198,7 @@ public class TimeSpanPicker : Control
         _hoursAbbreviationTextBlock = GetTemplateChild("PART_HoursAbbreviationTextBlock") as TextBlock;
         if (_hoursAbbreviationTextBlock is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HoursAbbreviationTextBlock'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HoursAbbreviationTextBlock'");
         }
         _hoursAbbreviationTextBlock.MouseDown += OnAbbreviationTextBlockOnMouseDown;
 
@@ -205,7 +206,7 @@ public class TimeSpanPicker : Control
         _minutesAbbreviationTextBlock = GetTemplateChild("PART_MinutesAbbreviationTextBlock") as TextBlock;
         if (_minutesAbbreviationTextBlock is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MinutesAbbreviationTextBlock'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MinutesAbbreviationTextBlock'");
         }
         _minutesAbbreviationTextBlock.MouseDown += OnAbbreviationTextBlockOnMouseDown;
 
@@ -213,7 +214,7 @@ public class TimeSpanPicker : Control
         _secondsAbbreviationTextBlock = GetTemplateChild("PART_SecondsAbbreviationTextBlock") as TextBlock;
         if (_secondsAbbreviationTextBlock is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SecondsAbbreviationTextBlock'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SecondsAbbreviationTextBlock'");
         }
         _secondsAbbreviationTextBlock.MouseDown += OnAbbreviationTextBlockOnMouseDown;
 
@@ -221,21 +222,21 @@ public class TimeSpanPicker : Control
         _daysHoursSeparatorTextBlock = GetTemplateChild("PART_DaysHoursSeparatorTextBlock") as TextBlock;
         if (_daysHoursSeparatorTextBlock is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysHoursSeparatorTextBlock'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_DaysHoursSeparatorTextBlock'");
         }
 
         /*Hours-Minutes separator text block*/
         _hoursMinutesSeparatorTextBlock = GetTemplateChild("PART_HoursMinutesSeparatorTextBlock") as TextBlock;
         if (_hoursMinutesSeparatorTextBlock is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HoursMinutesSeparatorTextBlock'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HoursMinutesSeparatorTextBlock'");
         }
 
         /*Minutes-Seconds separator text block*/
         _minutesSecondsSeparatorTextBlock = GetTemplateChild("PART_MinutesSecondsSeparatorTextBlock") as TextBlock;
         if (_minutesSecondsSeparatorTextBlock is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MinutesSecondsSeparatorTextBlock'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_MinutesSecondsSeparatorTextBlock'");
         }
 
         IsPartsInitialized = true;

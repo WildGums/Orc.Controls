@@ -16,7 +16,7 @@ using Catel.Windows.Data;
 /// Now supports tear-off functionality for tabs.
 /// </summary>
 [TemplatePart(Name = "PART_ItemsHolder", Type = typeof(Panel))]
-public class TabControl : System.Windows.Controls.TabControl
+public partial class TabControl : System.Windows.Controls.TabControl
 {
     /// <summary>
     /// Dependency property registration for the <see cref="LoadTabItems"/> property.

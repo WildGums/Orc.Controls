@@ -7,16 +7,17 @@ using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using Catel.Logging;
-    
+using Microsoft.Extensions.Logging;
+
 [TemplateVisualState(Name = "Expanded", GroupName = "Expander")]
 [TemplateVisualState(Name = "Collapsed", GroupName = "Expander")]
 [TemplatePart(Name = "PART_ExpandSite", Type = typeof(ContentPresenter))]
 [TemplatePart(Name = "PART_HeaderSiteBorder", Type = typeof(Border))]
-public class Expander : HeaderedContentControl
+public partial class Expander : HeaderedContentControl
 {
     private const double MinimumDuration = 150d;
 
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(Expander));
 
     private double? _previousActualLength;
     private double? _previousMaxLength;
@@ -89,7 +90,7 @@ public class Expander : HeaderedContentControl
         _headerSiteBorder = GetTemplateChild("PART_HeaderSiteBorder") as Border;
         if (_headerSiteBorder is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_HeaderSiteBorder'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_HeaderSiteBorder'");
         }
 
         UpdateIsExpanded();

@@ -10,6 +10,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Catel.IoC;
 using Catel.Windows;
+using Microsoft.Extensions.DependencyInjection;
 
 public class DateTimePartHelper
 {
@@ -165,11 +166,11 @@ public class DateTimePartHelper
 
     private ListBox CreatePopupSource()
     {
-        var serviceLocator = ServiceLocator.Default;
-        var suggestionListService = serviceLocator.ResolveRequiredType<ISuggestionListService>();
+        var serviceProvider = IoCContainer.ServiceProvider;
+        var suggestionListService = serviceProvider.GetRequiredService<ISuggestionListService>();
         var source = suggestionListService.GetSuggestionList(_dateTime, _dateTimePart, _dateTimeFormatInfo);
 
-        var listbox = new ListBox
+        var listBox = new ListBox
         {
             Name="DatePartListBoxId",
             ItemsSource = source,
@@ -178,6 +179,6 @@ public class DateTimePartHelper
             Margin = new Thickness(0, 0, 0, 0),
         };
 
-        return listbox;
+        return listBox;
     }
 }

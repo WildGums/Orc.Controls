@@ -3,17 +3,19 @@
 using System;
 using System.Globalization;
 using System.IO;
-using System.Windows;
 using System.Linq;
+using System.Windows;
 using Catel;
 using Catel.IO;
 using Catel.Logging;
 using Catel.Services;
+using Microsoft.Extensions.Logging;
 using Path = System.IO.Path;
 
 public static class IAppDataServiceExtensions
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(IAppDataServiceExtensions));
+
     private const string SizeSeparator = "|";
 
     public static void SaveWindowSize(this IAppDataService appDataService, Window window, string? tag = null)
@@ -22,7 +24,7 @@ public static class IAppDataServiceExtensions
 
         var windowName = window.GetType().Name;
 
-        Log.Debug($"Saving window size for '{windowName}'");
+        Logger.LogDebug($"Saving window size for '{windowName}'");
 
         var storageFile = GetWindowStorageFile(appDataService, window, tag);
 
@@ -42,7 +44,7 @@ public static class IAppDataServiceExtensions
         }
         catch (Exception ex)
         {
-            Log.Warning(ex, $"Failed to save window size to file '{storageFile}'");
+            Logger.LogWarning(ex, $"Failed to save window size to file '{storageFile}'");
         }
     }
 
@@ -57,12 +59,12 @@ public static class IAppDataServiceExtensions
 
         var windowName = window.GetType().Name;
 
-        Log.Debug($"Loading window size for '{windowName}'");
+        Logger.LogDebug($"Loading window size for '{windowName}'");
 
         var storageFile = GetWindowStorageFile(appDataService, window, tag);
         if (!File.Exists(storageFile))
         {
-            Log.Debug($"Window size file '{storageFile}' does not exist, cannot restore window size");
+            Logger.LogDebug($"Window size file '{storageFile}' does not exist, cannot restore window size");
             return;
         }
 
@@ -71,14 +73,14 @@ public static class IAppDataServiceExtensions
             var sizeText = File.ReadAllText(storageFile);
             if (string.IsNullOrWhiteSpace(sizeText))
             {
-                Log.Warning($"Size text for window is empty, cannot restore window size");
+                Logger.LogWarning($"Size text for window is empty, cannot restore window size");
                 return;
             }
 
             var splitted = sizeText.Split(new[] { SizeSeparator }, StringSplitOptions.RemoveEmptyEntries);
             if (splitted.Length < 2)
             {
-                Log.Warning($"Size text for window could not be splitted correctly, cannot restore window size");
+                Logger.LogWarning($"Size text for window could not be splitted correctly, cannot restore window size");
                 return;
             }
 
@@ -87,7 +89,7 @@ public static class IAppDataServiceExtensions
             var width = StringToObjectHelper.ToDouble(splitted[0], culture);
             var height = StringToObjectHelper.ToDouble(splitted[1], culture);
 
-            Log.Debug($"Setting window size for '{windowName}' to '{width} x {height}'");
+            Logger.LogDebug($"Setting window size for '{windowName}' to '{width} x {height}'");
 
             // Always set window to normal state first when dealing with size/position
             if (window.WindowState != WindowState.Normal)
@@ -110,14 +112,14 @@ public static class IAppDataServiceExtensions
                 var left = StringToObjectHelper.ToDouble(splitted[3], culture);
                 var top = StringToObjectHelper.ToDouble(splitted[4], culture);
 
-                Log.Debug($"Restoring window position for '{windowName}' to '{left} (x) / {top} (y)'");
+                Logger.LogDebug($"Restoring window position for '{windowName}' to '{left} (x) / {top} (y)'");
 
                 // Check if the window would be visible on any monitor
                 var isVisible = IsWindowVisibleOnAnyScreen(left, top, width, height);
 
                 if (!isVisible)
                 {
-                    Log.Warning($"Window position ({left},{top}) with size ({width}x{height}) would not be visible on any screen. Repositioning to primary screen.");
+                    Logger.LogWarning($"Window position ({left},{top}) with size ({width}x{height}) would not be visible on any screen. Repositioning to primary screen.");
                     CenterWindowOnPrimaryScreen(window);
                 }
                 else
@@ -136,13 +138,13 @@ public static class IAppDataServiceExtensions
             // Apply window state after positioning to ensure correct monitor
             if (restoreWindowState && savedWindowState != window.WindowState)
             {
-                Log.Debug($"Restoring window state for '{windowName}' to '{savedWindowState}'");
+                Logger.LogDebug($"Restoring window state for '{windowName}' to '{savedWindowState}'");
                 window.SetCurrentValue(Window.WindowStateProperty, savedWindowState);
             }
         }
         catch (Exception ex)
         {
-            Log.Warning(ex, $"Failed to load window size from file '{storageFile}'");
+            Logger.LogWarning(ex, $"Failed to load window size from file '{storageFile}'");
 
             // Only reposition if restoreWindowPosition is true
             if (restoreWindowPosition)
@@ -231,7 +233,7 @@ public static class IAppDataServiceExtensions
         if (!isVisible)
         {
             // Force window to be visible on primary screen as a last resort
-            Log.Warning($"Window '{window.GetType().Name}' is not visible on any screen after positioning. Forcing to primary screen.");
+            Logger.LogWarning($"Window '{window.GetType().Name}' is not visible on any screen after positioning. Forcing to primary screen.");
             window.SetCurrentValue(Window.WindowStateProperty, WindowState.Normal);
             CenterWindowOnPrimaryScreen(window);
         }
@@ -256,6 +258,6 @@ public static class IAppDataServiceExtensions
         window.SetCurrentValue(Window.LeftProperty, left);
         window.SetCurrentValue(Window.TopProperty, top);
 
-        Log.Debug($"Centered window '{window.GetType().Name}' on primary screen at ({left},{top})");
+        Logger.LogDebug($"Centered window '{window.GetType().Name}' on primary screen at ({left},{top})");
     }
 }

@@ -8,16 +8,6 @@ using Catel.MVVM.Views;
 
 public partial class DateRangePicker
 {
-    static DateRangePicker()
-    {
-        typeof(DateRangePicker).AutoDetectViewPropertiesToSubscribe();
-    }
-
-    public DateRangePicker()
-    {
-        InitializeComponent();
-    }
-
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
     public ObservableCollection<DateRange>? Ranges
     {

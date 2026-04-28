@@ -2,9 +2,9 @@
 
 using Orc.Automation;
 
-public class HeaderBarAutomationPeer : AutomationControlPeerBase<Controls.HeaderBar>
+public class HeaderBarAutomationPeer : AutomationControlPeerBase<Orc.Controls.HeaderBar>
 {
-    public HeaderBarAutomationPeer(Controls.HeaderBar owner) 
+    public HeaderBarAutomationPeer(Orc.Controls.HeaderBar owner) 
         : base(owner)
     {
     }

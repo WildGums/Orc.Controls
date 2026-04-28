@@ -16,6 +16,7 @@ using Automation;
 using Catel.Data;
 using Catel.Logging;
 using Catel.MVVM;
+using Microsoft.Extensions.Logging;
 
 /// <summary>
 /// Control to show color legend with checkboxes for each color.
@@ -25,9 +26,9 @@ using Catel.MVVM;
 [TemplatePart(Name = "PART_UnselectAll", Type = typeof(ButtonBase))]
 [TemplatePart(Name = "PART_All_Visible", Type = typeof(CheckBox))]
 [TemplatePart(Name = "PART_Settings_Button", Type = typeof(DropDownButton))]
-public class ColorLegend : HeaderedContentControl
+public partial class ColorLegend : HeaderedContentControl
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(ColorLegend));
 
     private ButtonBase? _button;
     private ChangeNotificationWrapper? _changeNotificationWrapper;
@@ -51,9 +52,9 @@ public class ColorLegend : HeaderedContentControl
     /// <summary>
     /// Initializes a new instance of the <see cref="ColorLegend" /> class.
     /// </summary>
-    public ColorLegend()
+    public ColorLegend(IServiceProvider serviceProvider)
     {
-        ChangeColor = new Command<object?>(OnChangeColorExecute, OnChangeColorCanExecute);
+        ChangeColor = new Command<object?>(serviceProvider, OnChangeColorExecute, OnChangeColorCanExecute);
     }
 
     [MemberNotNullWhen(true, nameof(_button),
@@ -306,7 +307,7 @@ public class ColorLegend : HeaderedContentControl
         _listBox = GetTemplateChild("PART_List") as ListBox;
         if (_listBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ListBox'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ListBox'");
         }
         _listBox.SelectionChanged += OnListBoxSelectionChanged;
         _listBox.LayoutUpdated += (_, _) =>
@@ -320,13 +321,13 @@ public class ColorLegend : HeaderedContentControl
         _popup = GetTemplateChild("PART_Popup_Color_Board") as Popup;
         if (_popup is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Popup'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Popup'");
         }
 
         _button = GetTemplateChild("PART_UnselectAll") as ButtonBase;
         if (_button is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Button'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Button'");
         }
         _button.Click += (_, _) =>
         {
@@ -336,7 +337,7 @@ public class ColorLegend : HeaderedContentControl
         _checkBox = GetTemplateChild("PART_All_Visible") as CheckBox;
         if (_checkBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_CheckBox'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_CheckBox'");
         }
         _checkBox.Checked += (_, _) => SetCurrentValue(IsAllVisibleProperty, true);
         _checkBox.Unchecked += (_, _) => SetCurrentValue(IsAllVisibleProperty, false);
@@ -512,7 +513,7 @@ public class ColorLegend : HeaderedContentControl
             return;
         }
 
-        var qryAllChecks = _listBox.GetDescendents().OfType<CheckBox>();
+        var qryAllChecks = _listBox.GetDecendents().OfType<CheckBox>();
 
         foreach (var check in qryAllChecks)
         {
@@ -529,7 +530,7 @@ public class ColorLegend : HeaderedContentControl
             return;
         }
 
-        var qryAllArrows = _listBox.GetDescendents().OfType<System.Windows.Shapes.Path>().Where(p => p.Name == "arrow");
+        var qryAllArrows = _listBox.GetDecendents().OfType<System.Windows.Shapes.Path>().Where(p => p.Name == "arrow");
         foreach (var path in qryAllArrows)
         {
             path.SetCurrentValue(VisibilityProperty, AllowColorEditing ? Visibility.Visible : Visibility.Collapsed);
@@ -543,7 +544,7 @@ public class ColorLegend : HeaderedContentControl
             return;
         }
 
-        var colorChangeButtonParts = _listBox.GetDescendents().OfType<Button>().Where(b => string.Equals(b.Name, "PART_ButtonColorChange"));
+        var colorChangeButtonParts = _listBox.GetDecendents().OfType<Button>().Where(b => string.Equals(b.Name, "PART_ButtonColorChange"));
         foreach (var button in colorChangeButtonParts)
         {
             button.SetCurrentValue(VisibilityProperty, ShowColorPicker ? Visibility.Visible : Visibility.Collapsed);

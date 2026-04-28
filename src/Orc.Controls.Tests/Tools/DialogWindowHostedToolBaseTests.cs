@@ -1,9 +1,11 @@
 ﻿namespace Orc.Controls.Tests;
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Catel.MVVM;
 using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
 
@@ -17,6 +19,14 @@ public class DialogWindowHostedToolBaseTests
         //Prepare
         const int windowLifeTime = 500;
 
+        var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
+
+        using var serviceProvider = serviceCollection.BuildServiceProvider();
+
+        var viewModelFactoryMock = new Mock<IViewModelFactory>();
+        viewModelFactoryMock.Setup(x => x.CreateViewModel(It.IsAny<Type>(), It.IsAny<object>()))
+            .Returns<Type, object>((type, dataContext) => new DummyViewModel(serviceProvider));
+
         var uiVisualizerServiceMock = new Mock<IUIVisualizerService>();
         uiVisualizerServiceMock.Setup(x => x.ShowContextAsync(It.IsAny<UIVisualizerContext>()))
             .Callback<UIVisualizerContext>(x =>
@@ -25,10 +35,9 @@ public class DialogWindowHostedToolBaseTests
 
                 x.CompletedCallback?.Invoke(x, new UICompletedEventArgs(new UIVisualizerResult(true, x, null)));
             });
-        var iuiVisualizerServiceMockObject = uiVisualizerServiceMock.Object;
 
         //Testing object
-        var tool = new TestDialogWindowHostedTool(iuiVisualizerServiceMockObject);
+        var tool = new TestDialogWindowHostedTool(viewModelFactoryMock.Object, uiVisualizerServiceMock.Object);
 
         //Act
         var isOpened = false;
@@ -53,13 +62,21 @@ public class DialogWindowHostedToolBaseTests
 
     public class DummyViewModel : ViewModelBase
     {
+        public DummyViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider)
+        {
+            
+        }
     }
 
     public class TestDialogWindowHostedTool : DialogWindowHostedToolBase<DummyViewModel>
     {
-        public TestDialogWindowHostedTool(IUIVisualizerService uiVisualizerService)
+        private readonly IViewModelFactory _viewModelFactory;
+
+        public TestDialogWindowHostedTool(IViewModelFactory viewModelFactory, IUIVisualizerService uiVisualizerService)
             : base(uiVisualizerService)
         {
+            _viewModelFactory = viewModelFactory;
         }
 
         public override string Name => "Test tool";
@@ -71,7 +88,7 @@ public class DialogWindowHostedToolBaseTests
 
         protected override DummyViewModel InitializeViewModel()
         {
-            return new DummyViewModel();
+            return _viewModelFactory.CreateViewModel<DummyViewModel>(null);
         }
     }
 }

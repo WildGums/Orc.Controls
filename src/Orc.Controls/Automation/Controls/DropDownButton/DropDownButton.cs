@@ -7,7 +7,7 @@ using Catel;
 using Orc.Automation;
 using Orc.Automation.Controls;
 
-[AutomatedControl(Class = typeof(Controls.DropDownButton))]
+[AutomatedControl(Class = typeof(Orc.Controls.DropDownButton))]
 public class DropDownButton : FrameworkElement<DropDownButtonModel, DropDownButtonMap>
 {
     public DropDownButton(AutomationElement element)

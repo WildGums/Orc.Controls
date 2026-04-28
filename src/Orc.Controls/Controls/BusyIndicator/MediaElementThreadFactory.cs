@@ -5,13 +5,14 @@ using System.Threading;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 /// <summary>
 /// Factory that allows the creation of media elements on a worker thread.
 /// </summary>
 public static class MediaElementThreadFactory
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(MediaElementThreadFactory));
 
     private static readonly AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
 
@@ -67,7 +68,7 @@ public static class MediaElementThreadFactory
 
             Dispatcher.Run();
 
-            Log.Debug($"[{mediaElementThreadInfo.Id}] Dispatcher has shut down, exiting worker thread");
+            Logger.LogDebug($"[{mediaElementThreadInfo.Id}] Dispatcher has shut down, exiting worker thread");
         }
         catch
         {

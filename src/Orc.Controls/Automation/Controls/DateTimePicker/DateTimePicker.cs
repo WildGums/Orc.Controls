@@ -6,7 +6,7 @@ using System.Windows.Automation;
 using Orc.Automation;
 using Orc.Automation.Controls;
 
-[AutomatedControl(Class = typeof(Controls.DateTimePicker))]
+[AutomatedControl(Class = typeof(Orc.Controls.DateTimePicker))]
 public class DateTimePicker : FrameworkElement<DateTimePickerModel, DateTimePickerMap>
 {
     public DateTimePicker(AutomationElement element)

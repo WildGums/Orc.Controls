@@ -13,14 +13,15 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Automation;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 /// <summary>
 /// The color picker.
 /// </summary>
 [TemplatePart(Name = "PART_Popup", Type = typeof(Popup))]
-public class ColorPicker : Control
+public partial class ColorPicker : Control
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private readonly ILogger<ColorPicker> _logger;
 
     /// <summary>
     /// The color board.
@@ -35,8 +36,10 @@ public class ColorPicker : Control
     /// <summary>
     /// Initializes a new instance of the <see cref="ColorPicker"/> class.
     /// </summary>
-    public ColorPicker()
+    public ColorPicker(ILogger<ColorPicker> logger)
     {
+        _logger = logger;
+
         DefaultStyleKey = typeof(ColorPicker);
     }
 
@@ -140,7 +143,6 @@ public class ColorPicker : Control
     public static readonly DependencyProperty PopupPlacementProperty = DependencyProperty.Register(
         nameof(PopupPlacement), typeof(PlacementMode), typeof(ColorPicker), new PropertyMetadata(PlacementMode.Bottom));
 
-
     [MemberNotNullWhen(true, nameof(_popup), nameof(_colorBoard))]
     private bool IsPartsInitialized { get; set; }
 
@@ -156,7 +158,7 @@ public class ColorPicker : Control
         _popup = GetTemplateChild("PART_Popup") as Popup;
         if (_popup is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Popup'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Popup'");
         }
 
         _colorBoard = new();

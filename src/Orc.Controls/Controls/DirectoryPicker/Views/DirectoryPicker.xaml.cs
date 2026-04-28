@@ -1,27 +1,16 @@
 ﻿namespace Orc.Controls;
 
 using System.Windows;
+using Catel;
+using Catel.IoC;
 using Catel.MVVM.Views;
+using Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
 ///     Interaction logic for DirectoryPicker.xaml
 /// </summary>
 public partial class DirectoryPicker
 {
-    static DirectoryPicker()
-    {
-        typeof(DirectoryPicker).AutoDetectViewPropertiesToSubscribe();
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DirectoryPicker"/> class.
-    /// </summary>
-    /// <remarks>This method is required for design time support.</remarks>
-    public DirectoryPicker()
-    {
-        InitializeComponent();
-    }
-
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
     public double LabelWidth
     {

@@ -1,24 +1,23 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests.UI;
+
+using System;
+using NUnit.Framework;
+using Orc.Automation;
+
+[Explicit]
+[TestFixture(TestOf = typeof(TimePicker))]
+[Category("UI Tests")]
+public class TimePickerFacts : StyledControlTestFacts<TimePicker>
 {
-    using System;
-    using NUnit.Framework;
-    using Orc.Automation;
+    [Target]
+    public Automation.TimePicker Target { get; set; }
 
-    [Explicit]
-    [TestFixture(TestOf = typeof(TimePicker))]
-    [Category("UI Tests")]
-    public class TimePickerFacts : StyledControlTestFacts<TimePicker>
+    [Test]
+    public void CorrectlySetTime()
     {
-        [Target]
-        public Automation.TimePicker Target { get; set; }
+        var target = Target;
+        var model = target.Current;
 
-        [Test]
-        public void CorrectlySetTime()
-        {
-            var target = Target;
-            var model = target.Current;
-
-            model.TimeValue = TimeSpan.FromHours(3);
-        }
+        model.TimeValue = TimeSpan.FromHours(3);
     }
 }

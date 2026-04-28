@@ -1,14 +1,14 @@
-﻿namespace Orc.Controls.Example.ViewModels
+﻿namespace Orc.Controls.Example.ViewModels;
+
+using System;
+using Catel.MVVM;
+
+public class MainViewModel : ViewModelBase
 {
-    using Catel.MVVM;
-
-    public class MainViewModel : ViewModelBase
+    public MainViewModel(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
-        public MainViewModel()
-        {
-            DeferValidationUntilFirstSaveCall = false;
-        }
-
-        public override string Title => "Orc.Controls example";
     }
+
+    public override string Title => "Orc.Controls example";
 }

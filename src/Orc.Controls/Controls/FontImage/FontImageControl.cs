@@ -10,12 +10,13 @@ using Automation;
 using Catel;
 using Catel.Logging;
 using Catel.Windows.Data;
+using Microsoft.Extensions.Logging;
 using Image = System.Windows.Controls.Image;
 
 [TemplatePart(Name = "PART_Image", Type = typeof(Image))]
-public class FontImageControl : Control
+public partial class FontImageControl : Control
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(FontImageControl));
 
     private readonly Theming.FontImage _fontImage = new();
 
@@ -43,7 +44,7 @@ public class FontImageControl : Control
         _image = GetTemplateChild("PART_Image") as Image; 
         if (_image is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Image'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Image'");
         }
 
         Update();
@@ -94,7 +95,7 @@ public class FontImageControl : Control
         }
         catch
         {
-            Log.Warning($"Can't get image source for Item = '{itemName}', Font='{fontName}'");
+            Logger.LogWarning($"Can't get image source for Item = '{itemName}', Font='{fontName}'");
 
             return null;
         }

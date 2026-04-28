@@ -2,9 +2,9 @@
 
 using Orc.Automation;
 
-public class AnimatingTextBlockAutomationPeer : AutomationControlPeerBase<Controls.AnimatingTextBlock>
+public class AnimatingTextBlockAutomationPeer : AutomationControlPeerBase<Orc.Controls.AnimatingTextBlock>
 {
-    public AnimatingTextBlockAutomationPeer(Controls.AnimatingTextBlock owner) 
+    public AnimatingTextBlockAutomationPeer(Orc.Controls.AnimatingTextBlock owner) 
         : base(owner)
     {
     }

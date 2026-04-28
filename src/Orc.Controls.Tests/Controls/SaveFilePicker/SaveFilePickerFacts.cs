@@ -1,74 +1,85 @@
-﻿namespace Orc.Controls.Tests.Controls
+﻿namespace Orc.Controls.Tests.Controls;
+
+using System.Threading.Tasks;
+using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
+using NUnit.Framework;
+
+[TestFixture]
+public class SaveFilePickerFacts
 {
-    using System.Threading.Tasks;
-    using Catel.Services;
-    using Moq;
-    using NUnit.Framework;
-
-    [TestFixture]
-    public class SaveFilePickerFacts
+    [TestCase(null, null)]
+    [TestCase("some_item.txt", "some_item.txt")]
+    public async Task UsesDefaultFileName_NoFileSelected_Async(string input, string expectedOutput)
     {
-        [TestCase(null, null)]
-        [TestCase("some_item.txt", "some_item.txt")]
-        public async Task UsesDefaultFileName_NoFileSelected_Async(string input, string expectedOutput)
-        {
-            var isCalled = false;
+        var isCalled = false;
 
-            var saveFileServiceMock = new Mock<ISaveFileService>();
-            saveFileServiceMock.Setup(x => x.DetermineFileAsync(It.IsAny<DetermineSaveFileContext>()))
-                .Returns<DetermineSaveFileContext>(async x =>
-                {
-                    isCalled = true;
+        var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
 
-                    Assert.That(x.FileName, Is.EqualTo(expectedOutput));
+        using var serviceProvider = serviceCollection.BuildServiceProvider();
 
-                    return new DetermineSaveFileResult();
-                });
+        var saveFileServiceMock = new Mock<ISaveFileService>();
+        saveFileServiceMock.Setup(x => x.DetermineFileAsync(It.IsAny<DetermineSaveFileContext>()))
+            .Returns<DetermineSaveFileContext>(async x =>
+            {
+                isCalled = true;
 
-            var processServiceMock = new Mock<IProcessService>();
+                Assert.That(x.FileName, Is.EqualTo(expectedOutput));
 
-            var vm = new SaveFilePickerViewModel(saveFileServiceMock.Object, processServiceMock.Object);
+                return new DetermineSaveFileResult();
+            });
 
-            vm.InitialFileName = input;
+        var processServiceMock = new Mock<IProcessService>();
 
-            var taskCommand = vm.SelectFile;
-            taskCommand.Execute();
+        var vm = new SaveFilePickerViewModel(NullLogger<SaveFilePickerViewModel>.Instance,
+            serviceProvider, saveFileServiceMock.Object, processServiceMock.Object);
 
-            await taskCommand.Task;
+        vm.InitialFileName = input;
 
-            Assert.That(isCalled, Is.True);
-        }
+        var taskCommand = vm.SelectFile;
+        taskCommand.Execute();
 
-        [TestCase(null, "existing_file.txt")]
-        [TestCase("some_item.txt", "existing_file.txt")]
-        public async Task NotUsesDefaultFileName_FileSelected_Async(string input, string expectedOutput)
-        {
-            var isCalled = false;
+        await taskCommand.Task;
 
-            var saveFileServiceMock = new Mock<ISaveFileService>();
-            saveFileServiceMock.Setup(x => x.DetermineFileAsync(It.IsAny<DetermineSaveFileContext>()))
-                .Returns<DetermineSaveFileContext>(async x =>
-                {
-                    isCalled = true;
+        Assert.That(isCalled, Is.True);
+    }
 
-                    Assert.That(x.FileName, Is.EqualTo(expectedOutput));
+    [TestCase(null, "existing_file.txt")]
+    [TestCase("some_item.txt", "existing_file.txt")]
+    public async Task NotUsesDefaultFileName_FileSelected_Async(string input, string expectedOutput)
+    {
+        var isCalled = false;
 
-                    return new DetermineSaveFileResult();
-                });
+        var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
 
-            var processServiceMock = new Mock<IProcessService>();
+        using var serviceProvider = serviceCollection.BuildServiceProvider();
 
-            var vm = new SaveFilePickerViewModel(saveFileServiceMock.Object, processServiceMock.Object);
+        var saveFileServiceMock = new Mock<ISaveFileService>();
+        saveFileServiceMock.Setup(x => x.DetermineFileAsync(It.IsAny<DetermineSaveFileContext>()))
+            .Returns<DetermineSaveFileContext>(async x =>
+            {
+                isCalled = true;
 
-            vm.InitialFileName = input;
-            vm.SelectedFile = "existing_file.txt";
+                Assert.That(x.FileName, Is.EqualTo(expectedOutput));
 
-            var taskCommand = vm.SelectFile;
-            taskCommand.Execute();
+                return new DetermineSaveFileResult();
+            });
 
-            await taskCommand.Task;
+        var processServiceMock = new Mock<IProcessService>();
 
-            Assert.That(isCalled, Is.True);
-        }
+        var vm = new SaveFilePickerViewModel(NullLogger<SaveFilePickerViewModel>.Instance,
+            serviceProvider, saveFileServiceMock.Object, processServiceMock.Object);
+
+        vm.InitialFileName = input;
+        vm.SelectedFile = "existing_file.txt";
+
+        var taskCommand = vm.SelectFile;
+        taskCommand.Execute();
+
+        await taskCommand.Task;
+
+        Assert.That(isCalled, Is.True);
     }
 }

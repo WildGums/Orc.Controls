@@ -5,9 +5,9 @@ using System.Windows.Shapes;
 using Catel.Windows;
 using Orc.Automation;
 
-public class ColorPickerAutomationPeer : AutomationControlPeerBase<Controls.ColorPicker>
+public class ColorPickerAutomationPeer : AutomationControlPeerBase<Orc.Controls.ColorPicker>
 {
-    public ColorPickerAutomationPeer(Controls.ColorPicker owner)
+    public ColorPickerAutomationPeer(Orc.Controls.ColorPicker owner)
         : base(owner)
     {
         owner.ColorChanged += OnColorChanged;
@@ -32,6 +32,6 @@ public class ColorPickerAutomationPeer : AutomationControlPeerBase<Controls.Colo
 
     private void OnColorChanged(object? sender, ColorChangedEventArgs e)
     {
-        RaiseEvent(nameof(Controls.ColorPicker.ColorChanged), null);
+        RaiseEvent(nameof(Orc.Controls.ColorPicker.ColorChanged), null);
     }
 }

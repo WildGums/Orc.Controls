@@ -1,10 +1,8 @@
 ﻿namespace Orc.Controls;
 
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Catel;
 using Catel.Collections;
 using Catel.MVVM;
 using Catel.Services;
@@ -14,30 +12,32 @@ public class LogFilterGroupListViewModel : ViewModelBase
     private readonly IApplicationLogFilterGroupService _applicationLogFilterGroupService;
     private readonly IMessageService _messageService;
     private readonly IUIVisualizerService _uiVisualizerService;
+    private readonly ILanguageService _languageService;
+    private readonly IDispatcherService _dispatcherService;
 
-    public LogFilterGroupListViewModel(IApplicationLogFilterGroupService applicationLogFilterGroupService, IMessageService messageService,
-        IUIVisualizerService uiVisualizerService)
+    public LogFilterGroupListViewModel(IApplicationLogFilterGroupService applicationLogFilterGroupService, 
+        IMessageService messageService, IUIVisualizerService uiVisualizerService, IServiceProvider serviceProvider,
+        ILanguageService languageService, IDispatcherService dispatcherService)
+        : base(serviceProvider)
     {
-        ArgumentNullException.ThrowIfNull(applicationLogFilterGroupService);
-        ArgumentNullException.ThrowIfNull(messageService);
-        ArgumentNullException.ThrowIfNull(uiVisualizerService);
-
         _applicationLogFilterGroupService = applicationLogFilterGroupService;
         _messageService = messageService;
         _uiVisualizerService = uiVisualizerService;
+        _languageService = languageService;
+        _dispatcherService = dispatcherService;
 
         ValidateUsingDataAnnotations = false;
 
-        FilterGroups = new FastObservableCollection<LogFilterGroup>();
-        SelectedFilterGroups = new ObservableCollection<LogFilterGroup>();
+        FilterGroups = new FastObservableCollection<LogFilterGroup>(_dispatcherService);
+        SelectedFilterGroups = new FastObservableCollection<LogFilterGroup>(_dispatcherService);
 
-        AddCommand = new TaskCommand(OnAddCommandExecuteAsync);
-        EditCommand = new TaskCommand(OnEditCommandExecuteAsync, OnEditCommandCanExecute);
-        RemoveCommand = new TaskCommand(OnRemoveCommandExecuteAsync, OnRemoveCommandCanExecute);
+        AddCommand = new TaskCommand(serviceProvider, OnAddCommandExecuteAsync);
+        EditCommand = new TaskCommand(serviceProvider, OnEditCommandExecuteAsync, OnEditCommandCanExecute);
+        RemoveCommand = new TaskCommand(serviceProvider, OnRemoveCommandExecuteAsync, OnRemoveCommandCanExecute);
     }
 
-    public ObservableCollection<LogFilterGroup> FilterGroups { get; private set; }
-    public ObservableCollection<LogFilterGroup> SelectedFilterGroups { get; private set; }
+    public FastObservableCollection<LogFilterGroup> FilterGroups { get; private set; }
+    public FastObservableCollection<LogFilterGroup> SelectedFilterGroups { get; private set; }
     public LogFilterGroup? SelectedFilterGroup { get; set; }
 
     public TaskCommand AddCommand { get; set; }
@@ -112,7 +112,7 @@ public class LogFilterGroupListViewModel : ViewModelBase
 
     private async Task OnRemoveCommandExecuteAsync()
     {
-        var result = await _messageService.ShowAsync(LanguageHelper.GetRequiredString(nameof(Properties.Resources.Controls_LogViewer_AreYouSure)),
+        var result = await _messageService.ShowAsync(_languageService.GetRequiredString(nameof(Properties.Resources.Controls_LogViewer_AreYouSure)),
             button: MessageButton.YesNo, icon: MessageImage.Warning);
         if (result == MessageResult.Yes)
         {

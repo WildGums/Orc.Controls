@@ -1,20 +1,12 @@
-﻿namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views;
+
+using Microsoft.Extensions.DependencyInjection;
+using Services;
+
+public partial class FilterBox
 {
-    using Catel.IoC;
-    using Services;
-
-    public partial class FilterBox
+    private void OnFilterBoxControlInitializingAutoCompletionService(object sender, InitializingAutoCompletionServiceEventArgs e)
     {
-        public FilterBox()
-        {
-            InitializeComponent();
-        }
-
-        private void OnFilterBoxControlInitializingAutoCompletionService(object sender, InitializingAutoCompletionServiceEventArgs e)
-        {
-#pragma warning disable IDISP004 // Don't ignore created IDisposable
-            e.AutoCompletionService = this.GetTypeFactory().CreateInstance<ReverseAutoCompletionService>();
-#pragma warning restore IDISP004 // Don't ignore created IDisposable
-        }
+        e.AutoCompletionService = ActivatorUtilities.CreateInstance<ReverseAutoCompletionService>(ServiceProvider);
     }
 }

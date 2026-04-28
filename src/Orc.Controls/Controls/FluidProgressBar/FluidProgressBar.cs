@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Automation;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 [TemplatePart(Name = "PART_Dot1", Type = typeof(Rectangle))]
 [TemplatePart(Name = "PART_Dot2", Type = typeof(Rectangle))]
@@ -18,9 +19,9 @@ using Catel.Logging;
 [TemplatePart(Name = "PART_Dot4", Type = typeof(Rectangle))]
 [TemplatePart(Name = "PART_Dot5", Type = typeof(Rectangle))]
 [TemplatePart(Name = "PART_Canvas", Type = typeof(Canvas))]
-public class FluidProgressBar : Control, IDisposable
+public partial class FluidProgressBar : Control, IDisposable
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(FluidProgressBar));
 
     private readonly Dictionary<int, KeyFrameDetails> _keyFrameMap;
     private readonly Dictionary<int, KeyFrameDetails> _opKeyFrameMap;
@@ -58,38 +59,38 @@ public class FluidProgressBar : Control, IDisposable
         _canvas = GetTemplateChild("PART_Canvas") as Canvas;
         if (_canvas is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Canvas'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Canvas'");
         }
             
 
         _dot1 = GetTemplateChild("PART_Dot1") as Rectangle;
         if (_dot1 is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Dot1'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Dot1'");
         }
 
         _dot2 = GetTemplateChild("PART_Dot2") as Rectangle;
         if (_dot2 is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Dot2'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Dot2'");
         }
 
         _dot3 = GetTemplateChild("PART_Dot3") as Rectangle;
         if (_dot3 is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Dot3'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Dot3'");
         }
 
         _dot4 = GetTemplateChild("PART_Dot4") as Rectangle;
         if (_dot4 is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Dot4'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Dot4'");
         }
 
         _dot5 = GetTemplateChild("PART_Dot5") as Rectangle;
         if (_dot5 is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Dot5'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Dot5'");
         }
 
         IsPartsInitialized = true;
@@ -101,7 +102,7 @@ public class FluidProgressBar : Control, IDisposable
     {
         if (!IsPartsInitialized)
         {
-            throw Log.ErrorAndCreateException<Exception>("Can't create storyboard because can't file template");
+            throw Logger.LogErrorAndCreateException<Exception>("Can't create storyboard because can't file template");
         }
 
         var storyboard = new Storyboard

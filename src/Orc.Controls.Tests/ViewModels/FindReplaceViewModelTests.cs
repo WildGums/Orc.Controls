@@ -1,5 +1,6 @@
 ﻿namespace Orc.Controls.Tests;
 
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
 using Services;
@@ -12,6 +13,10 @@ public class FindReplaceViewModelTests
     {
         var findReplaceSettings = new FindReplaceSettings();
         const string findAllSearchString = "searchStr";
+
+        var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
+
+        using var serviceProvider = serviceCollection.BuildServiceProvider();
 
         var isExecuted = false;
 
@@ -26,7 +31,7 @@ public class FindReplaceViewModelTests
             });
         var findReplaceService = findReplaceServiceMock.Object;
 
-        var viewModel = new FindReplaceViewModel(findReplaceSettings, findReplaceService);
+        var viewModel = new FindReplaceViewModel(findReplaceSettings, serviceProvider, findReplaceService);
         viewModel.FindAll.Execute(findAllSearchString);
 
         Assert.That(isExecuted, Is.True);
