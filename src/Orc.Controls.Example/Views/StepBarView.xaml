@@ -30,5 +30,5 @@
                              Items="{Binding Items}"
                              SelectedItem="{Binding SelectedItem}" />
     </orccontrols:StackGrid>
-    
+
 </catel:UserControl>

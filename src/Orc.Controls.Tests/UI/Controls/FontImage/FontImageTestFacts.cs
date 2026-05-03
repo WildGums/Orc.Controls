@@ -1,27 +1,26 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests.UI;
+
+using System.Windows.Media;
+using NUnit.Framework;
+using Orc.Automation;
+
+[Explicit]
+[TestFixture(TestOf = typeof(FontImageControl))]
+[Category("UI Tests")]
+public class FontImageTestFacts : StyledControlTestFacts<FontImageControl>
 {
-    using System.Windows.Media;
-    using NUnit.Framework;
-    using Orc.Automation;
+    [Target]
+    public Automation.FontImageControl Target { get; set; }
 
-    [Explicit]
-    [TestFixture(TestOf = typeof(FontImage))]
-    [Category("UI Tests")]
-    public class FontImageTestFacts : StyledControlTestFacts<FontImage>
+    [Test]
+    public void CorrectlyInitialize()
     {
-        [Target]
-        public Automation.FontImage Target { get; set; }
+        var target = Target;
 
-        [Test]
-        public void CorrectlyInitialize()
-        {
-            var target = Target;
+        var model = target.Current;
 
-            var model = target.Current;
-
-            model.Foreground = Brushes.Red;
-            model.FontFamily = "Segoe UI";
-            model.ItemName = "WOW";
-        }
+        model.Foreground = Brushes.Red;
+        model.FontFamily = "Segoe UI";
+        model.ItemName = "WOW";
     }
 }

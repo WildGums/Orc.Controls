@@ -7,10 +7,8 @@
                    xmlns:catel="http://schemas.catelproject.com"
                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                    mc:Ignorable="d"
-                   x:Name="CurrentControl"
                    d:DesignHeight="22"
-                   d:DesignWidth="190"
-                   d:DataContext="{d:DesignInstance controls:DateRangePickerViewModel}">
+                   d:DesignWidth="190">
     
     <catel:UserControl.Resources>
         <ObjectDataProvider x:Key="timeAdjustmentStrategies"

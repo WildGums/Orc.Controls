@@ -7,7 +7,7 @@ using System.Windows.Automation;
 using Orc.Automation;
 using Orc.Automation.Controls;
 
-[AutomatedControl(Class = typeof(Controls.ColorLegend))]
+[AutomatedControl(Class = typeof(Orc.Controls.ColorLegend))]
 public class ColorLegend : FrameworkElement<ColorLegendModel, ColorLegendMap>
 {
     public ColorLegend(AutomationElement element)

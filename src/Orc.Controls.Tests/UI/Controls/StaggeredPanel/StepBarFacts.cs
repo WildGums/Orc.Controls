@@ -1,37 +1,36 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests.UI;
+
+using System.Collections.Generic;
+using NUnit.Framework;
+using Orc.Automation;
+
+[Explicit]
+[TestFixture(TestOf = typeof(StaggeredPanel))]
+[Category("UI Tests")]
+public partial class StaggeredPanelFacts : StyledControlTestFacts<StaggeredPanel>
 {
-    using System.Collections.Generic;
-    using NUnit.Framework;
-    using Orc.Automation;
+    [Target]
+    public Automation.StaggeredPanel Target { get; set; }
 
-    [Explicit]
-    [TestFixture(TestOf = typeof(StaggeredPanel))]
-    [Category("UI Tests")]
-    public partial class StaggeredPanelFacts : StyledControlTestFacts<StaggeredPanel>
+    [Test]
+    public void CorrectlyInitializeItems()
     {
-        [Target]
-        public Automation.StaggeredPanel Target { get; set; }
+        var target = Target;
+        var model = target.Current;
 
-        [Test]
-        public void CorrectlyInitializeItems()
+        model.ColumnSpacing = 30;
+        model.RowSpacing = 50;
+        model.DesiredColumnWidth = 150;
+
+        InitializeItems(new List<StaggeredPanelTestItem>
         {
-            var target = Target;
-            var model = target.Current;
-
-            model.ColumnSpacing = 30;
-            model.RowSpacing = 50;
-            model.DesiredColumnWidth = 150;
-
-            InitializeItems(new List<StaggeredPanelTestItem>
-            {
-                new () { Content = "Item_1", Width = 150, Height = 250},
-                new () { Content = "Item_2", Width = 150, Height = 250},
-                new () { Content = "Item_3", Width = 150, Height = 250},
-                new () { Content = "Item_4", Width = 150, Height = 250},
-                new () { Content = "Item_5", Width = 150, Height = 250},
-                new () { Content = "Item_6", Width = 150, Height = 250},
-                new () { Content = "Item_7", Width = 150, Height = 250},
-            });
-        }
+            new () { Content = "Item_1", Width = 150, Height = 250},
+            new () { Content = "Item_2", Width = 150, Height = 250},
+            new () { Content = "Item_3", Width = 150, Height = 250},
+            new () { Content = "Item_4", Width = 150, Height = 250},
+            new () { Content = "Item_5", Width = 150, Height = 250},
+            new () { Content = "Item_6", Width = 150, Height = 250},
+            new () { Content = "Item_7", Width = 150, Height = 250},
+        });
     }
 }

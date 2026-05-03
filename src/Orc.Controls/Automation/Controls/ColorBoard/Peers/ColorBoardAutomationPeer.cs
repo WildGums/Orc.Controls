@@ -7,11 +7,11 @@ using System.Windows.Shapes;
 using Catel.Windows;
 using Orc.Automation;
 
-public class ColorBoardAutomationPeer : AutomationControlPeerBase<Controls.ColorBoard>
+public class ColorBoardAutomationPeer : AutomationControlPeerBase<Orc.Controls.ColorBoard>
 {
-    private readonly Controls.ColorBoard _owner;
+    private readonly Orc.Controls.ColorBoard _owner;
 
-    public ColorBoardAutomationPeer(Controls.ColorBoard owner) 
+    public ColorBoardAutomationPeer(Orc.Controls.ColorBoard owner) 
         : base(owner)
     {
         _owner = owner;
@@ -22,12 +22,12 @@ public class ColorBoardAutomationPeer : AutomationControlPeerBase<Controls.Color
 
     private void OnCancelClicked(object? sender, RoutedEventArgs e)
     {
-        RaiseEvent(nameof(Controls.ColorBoard.CancelClicked), null);
+        RaiseEvent(nameof(Orc.Controls.ColorBoard.CancelClicked), null);
     }
 
     private void OnDoneClicked(object? sender, RoutedEventArgs e)
     {
-        RaiseEvent(nameof(Controls.ColorBoard.DoneClicked), null);
+        RaiseEvent(nameof(Orc.Controls.ColorBoard.DoneClicked), null);
     }
 
     [AutomationMethod]

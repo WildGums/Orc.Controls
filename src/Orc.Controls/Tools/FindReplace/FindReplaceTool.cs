@@ -1,41 +1,34 @@
 ﻿namespace Orc.Controls;
 
 using System;
-using System.Threading.Tasks;
 using Catel.IoC;
 using Catel.Logging;
-using Catel.MVVM;
 using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Services;
 using ViewModels;
 
-public class FindReplaceTool<TFindReplaceService> : ControlToolBase
+public class FindReplaceTool<TFindReplaceService> : DialogWindowHostedToolBase<FindReplaceViewModel>
     where TFindReplaceService : IFindReplaceService
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(FindReplaceTool<TFindReplaceService>));
 
     private readonly FindReplaceSettings _findReplaceSettings;
-    private readonly IUIVisualizerService _uiVisualizerService;
-    private readonly ITypeFactory _typeFactory;
-    private readonly IServiceLocator _serviceLocator;
+    private readonly IServiceProvider _serviceProvider;
 
     private IFindReplaceService? _findReplaceService;
-    private FindReplaceViewModel? _findReplaceViewModel;
 
-    public FindReplaceTool(IUIVisualizerService uiVisualizerService, ITypeFactory typeFactory, IServiceLocator serviceLocator)
+    public FindReplaceTool(IServiceProvider serviceProvider, IUIVisualizerService uiVisualizerService)
+        : base(uiVisualizerService)
     {
-        ArgumentNullException.ThrowIfNull(uiVisualizerService);
-        ArgumentNullException.ThrowIfNull(typeFactory);
-        ArgumentNullException.ThrowIfNull(serviceLocator);
-
-        _uiVisualizerService = uiVisualizerService;
-        _typeFactory = typeFactory;
-        _serviceLocator = serviceLocator;
+        _serviceProvider = serviceProvider;
 
         _findReplaceSettings = new FindReplaceSettings();
     }
 
     public override string Name => "FindReplaceTool";
+    public override bool IsModal => false;
 
     public override void Attach(object target)
     {
@@ -43,11 +36,11 @@ public class FindReplaceTool<TFindReplaceService> : ControlToolBase
 
         base.Attach(target);
 
-        _findReplaceService = _serviceLocator.ResolveType<IFindReplaceService>(target);
-        if (_findReplaceService is not null)
-        {
-            return;
-        }
+        //_findReplaceService = _serviceLocator.ResolveType<IFindReplaceService>(target);
+        //if (_findReplaceService is not null)
+        //{
+        //    return;
+        //}
 
         _findReplaceService = CreateFindReplaceService(target);
         if (_findReplaceService is null)
@@ -55,59 +48,38 @@ public class FindReplaceTool<TFindReplaceService> : ControlToolBase
             return;
         }
 
-        _serviceLocator.RegisterInstance(_findReplaceService, target);
+        //_serviceLocator.RegisterInstance(_findReplaceService, target);
     }
 
     protected virtual TFindReplaceService? CreateFindReplaceService(object target)
     {
-        return _typeFactory.CreateInstanceWithParametersAndAutoCompletion<TFindReplaceService>(target);
+        return ActivatorUtilities.CreateInstance<TFindReplaceService>(_serviceProvider, target);
     }
 
     public override void Detach()
     {
         var target = Target;
 
-        if (_serviceLocator.IsTypeRegistered<IFindReplaceService>(target))
-        {
-            _serviceLocator.RemoveType<IFindReplaceService>(target);
-        }
+        //if (_serviceLocator.IsTypeRegistered<IFindReplaceService>(target))
+        //{
+        //    _serviceLocator.RemoveType<IFindReplaceService>(target);
+        //}
+
+        base.Detach();
     }
 
-    protected override async void OnOpen(object? parameter = null)
+    protected override void OnAccepted()
+    {
+        //Do nothing
+    }
+
+    protected override FindReplaceViewModel InitializeViewModel()
     {
         if (_findReplaceService is null)
         {
-            Log.Warning("Can't open find replace tool because FindReplaceService isn't initialized yet");
-            return;
+            throw Logger.LogErrorAndCreateException<Exception>("Can't open find replace tool because FindReplaceService isn't initialized yet");
         }
 
-        _findReplaceViewModel = new FindReplaceViewModel(_findReplaceSettings, _findReplaceService);
-
-        await _uiVisualizerService.ShowAsync(_findReplaceViewModel);
-
-        _findReplaceViewModel.ClosedAsync += OnClosedAsync;
-    }
-
-    public override void Close()
-    {
-        base.Close();
-
-        if (_findReplaceViewModel is null)
-        {
-            return;
-        }
-
-        _findReplaceViewModel.ClosedAsync -= OnClosedAsync;
-
-#pragma warning disable 4014
-        _findReplaceViewModel.CloseViewModelAsync(null);
-#pragma warning restore 4014
-    }
-
-    private Task OnClosedAsync(object? sender, ViewModelClosedEventArgs args)
-    {
-        Close();
-
-        return Task.CompletedTask;
+        return new FindReplaceViewModel(_findReplaceSettings, _serviceProvider, _findReplaceService);
     }
 }

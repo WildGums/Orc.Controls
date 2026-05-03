@@ -2,8 +2,10 @@
 
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Catel.MVVM;
 using Catel.Windows;
 using Catel.Windows.Markup;
@@ -12,7 +14,7 @@ public class OpenToolCommandExtension : UpdatableMarkupExtension
 {
     private readonly Type _frameworkElementType;
     private readonly Type _toolType;
-    protected Command<object> Command { get; }
+    protected TaskCommand<object> Command { get; }
 
     public OpenToolCommandExtension(Type toolType, Type frameworkElementType)
     {
@@ -21,7 +23,8 @@ public class OpenToolCommandExtension : UpdatableMarkupExtension
 
         _toolType = toolType;
         _frameworkElementType = frameworkElementType;
-        Command = new Command<object>(OnOpenTool, CanExecute);
+
+        Command = new TaskCommand<object>(ServiceProvider, OnOpenToolAsync, CanExecute);
     }
 
     protected override object ProvideDynamicValue(IServiceProvider? serviceProvider)
@@ -39,12 +42,18 @@ public class OpenToolCommandExtension : UpdatableMarkupExtension
         }
 
         var tool = attachmentTarget.GetTools().FirstOrDefault(x => x.GetType() == _toolType);
-        return tool?.IsEnabled ?? attachmentTarget.CanAttach(_toolType);
+        return attachmentTarget.CanAttach(_toolType) || tool?.IsEnabled == true;
     }
 
-    private void OnOpenTool(object? parameter)
+    private async Task OnOpenToolAsync(object? parameter)
     {
-        GetAttachmentTarget(parameter)?.AttachAndOpenTool(_toolType, parameter);
+        var tool = GetAttachmentTarget(parameter);
+        if (tool is null)
+        {
+            return;
+        }
+
+        await tool.AttachAndOpenToolAsync(_toolType, parameter);
     }
 
     protected virtual FrameworkElement? GetAttachmentTarget(object? parameter = null)
@@ -54,6 +63,15 @@ public class OpenToolCommandExtension : UpdatableMarkupExtension
             return null;
         }
 
+        if (targetObject is ICommandSource commandSource)
+        {
+            if (commandSource.CommandTarget is FrameworkElement commandTarget
+                && commandTarget.GetType() == _frameworkElementType)
+            {
+                return commandTarget;
+            }
+        }
+        
         var contextMenu = targetObject.FindLogicalAncestorByType<ContextMenu>()
                           ?? targetObject.FindLogicalOrVisualAncestor(x => x.GetType() == typeof(ContextMenu)) as ContextMenu;
 

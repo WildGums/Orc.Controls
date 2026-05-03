@@ -1,6 +1,9 @@
 #l "buildserver.cake"
 
 #tool "nuget:?package=GitVersion.CommandLine&version=5.12.0"
+#tool "nuget:?package=NuGet.CommandLine&version=7.3.1"
+
+#addin "nuget:?package=LibGit2Sharp&version=0.31.0"
 
 //-------------------------------------------------------------
 
@@ -10,6 +13,9 @@ public class GeneralContext : BuildContextWithItemsBase
         : base(parentBuildContext)
     {
         SkipComponentsThatAreNotDeployable = true;
+        EnableMsBuildBinaryLog = true;
+        EnableMsBuildFileLog = true;
+        EnableMsBuildXmlLog = true;
     }
 
     public string Target { get; set; }
@@ -26,12 +32,17 @@ public class GeneralContext : BuildContextWithItemsBase
     public bool VerifyDependencies { get; set; }
     public bool SkipComponentsThatAreNotDeployable { get; set; }
 
+    public bool EnableMsBuildBinaryLog { get; set; }
+    public bool EnableMsBuildFileLog { get; set; }
+    public bool EnableMsBuildXmlLog { get; set; }
+
     public VersionContext Version { get; set; }
     public CopyrightContext Copyright { get; set; }
     public NuGetContext NuGet { get; set; }
     public SolutionContext Solution { get; set; }
     public SourceLinkContext SourceLink { get; set; }
     public CodeSignContext CodeSign { get; set; }
+    public AzureCodeSignContext AzureCodeSign { get; set; }
     public RepositoryContext Repository { get; set; }
     public SonarQubeContext SonarQube { get; set; }
 
@@ -67,58 +78,171 @@ public class VersionContext : BuildContextBase
             var gitVersionSettings = new GitVersionSettings
             {
                 UpdateAssemblyInfo = false,
-                Verbosity = GitVersionVerbosity.Verbose
+                Verbosity = GitVersionVerbosity.Verbose,
+                NoFetch = true
             };
 
-            var gitDirectory = ".git";
-            if (!CakeContext.DirectoryExists(gitDirectory))
+            var mutexName = $"Global\\Cake_GitVersion_Clone_{generalContext.Solution.Name}";
+
+            CakeContext.Information("Trying to acquire mutex to determine version");
+
+            using (var mutex = new System.Threading.Mutex(false, mutexName, out var createdNew))
             {
-                CakeContext.Information("No local .git directory found, treating as dynamic repository");
-
-                // Make a *BIG* assumption that the solution name == repository name
-                var repositoryName = generalContext.Solution.Name;
-                var dynamicRepositoryPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), repositoryName);
-
-                if (ClearCache)
+                if (!mutex.WaitOne(TimeSpan.FromMinutes(2)))
                 {
-                    CakeContext.Warning("Cleaning the cloned temp directory, disable by setting 'GitVersion_ClearCache' to 'false'");
-    
+                    throw new Exception("Could not acquire mutex to determine version");
+                }
+
+                CakeContext.Information("Mutex acquired");
+
+                CakeContext.Information("[{0}] Preparing GitVersion", GetTime());
+
+                var gitDirectory = ".git";
+                if (!CakeContext.DirectoryExists(gitDirectory))
+                {
+                    CakeContext.Information("No local .git directory found, treating as dynamic repository");
+
+                    // Make a *BIG* assumption that the solution name == repository name
+                    var repositoryName = generalContext.Solution.Name;
+                    var dynamicRepositoryPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), repositoryName);
+
+                    // Note: for now we fully clear the cache each time until we found a solid way to pull the latest changes
+                    var clearCache = ClearCache || true;
+                    if (clearCache)
+                    {
+                        CakeContext.Warning("Cleaning the cloned temp directory, disable by setting 'GitVersion_ClearCache' to 'false'");
+        
+                        if (CakeContext.DirectoryExists(dynamicRepositoryPath))
+                        {
+                            CakeContext.DeleteDirectory(dynamicRepositoryPath, new DeleteDirectorySettings
+                            {
+                                Force = true,
+                                Recursive = true
+                            });
+                        }
+                    }
+
+                    // Validate first
+                    if (string.IsNullOrWhiteSpace(generalContext.Repository.BranchName))
+                    {
+                        throw new Exception("No local .git directory was found, but repository branch was not specified either. Make sure to specify the branch");
+                    }
+
+                    if (string.IsNullOrWhiteSpace(generalContext.Repository.Url))
+                    {
+                        throw new Exception("No local .git directory was found, but repository url was not specified either. Make sure to specify the branch");
+                    }
+
+                    CakeContext.Information($"Fetching dynamic repository from url '{generalContext.Repository.Url}' => '{dynamicRepositoryPath}'");
+
+                    // Note: starting with GitVersion 6.x, we need to handle dynamic repos ourselves,
+                    // and we will be using Cake.Git and LibGit2Sharp directly to support cloning a specific commit id
+
+                    var existingRepository = false;
                     if (CakeContext.DirectoryExists(dynamicRepositoryPath))
                     {
-                        CakeContext.DeleteDirectory(dynamicRepositoryPath, new DeleteDirectorySettings
+                        CakeContext.Information("Dynamic repository directory already exists");
+
+                        if (CakeContext.GitIsValidRepository(dynamicRepositoryPath))
                         {
-                            Force = true,
-                            Recursive = true
-                        });
+                            CakeContext.Information("Dynamic repository already exists, reusing existing clone");
+                            existingRepository = true;
+                        }
+                        else
+                        {
+                            CakeContext.Information("Dynamic repository already exists but is not valid, recloning");
+
+                            CakeContext.DeleteDirectory(dynamicRepositoryPath, new DeleteDirectorySettings
+                            {
+                                Force = true,
+                                Recursive = true
+                            });
+                        }
                     }
+
+                    if (existingRepository)
+                    {
+                        // TODO: How to pull?                    
+                    }
+                    else
+                    {
+                        var gitCloneSettings = new GitCloneSettings
+                        {
+                            BranchName = generalContext.Repository.BranchName,
+                            Checkout = true,
+                            IsBare = false,
+                            RecurseSubmodules = false,
+                        };
+
+                        if (!string.IsNullOrWhiteSpace(generalContext.Repository.Username) &&
+                            !string.IsNullOrWhiteSpace(generalContext.Repository.Password))
+                        {
+                            CakeContext.Information("Cloning with authentication");
+
+                            CakeContext.GitClone(generalContext.Repository.Url, 
+                                dynamicRepositoryPath, 
+                                generalContext.Repository.Username, 
+                                generalContext.Repository.Password,
+                                gitCloneSettings);
+                        }
+                        else
+                        {
+                            CakeContext.Information("Cloning without authentication");
+
+                            CakeContext.GitClone(generalContext.Repository.Url, 
+                                dynamicRepositoryPath,
+                                gitCloneSettings);
+                        }
+                    }
+
+                    //LibGit2Sharp.Repository.Clone(generalContext.Repository.Url, dynamicRepositoryPath, cloneOptions);
+
+                    if (!CakeContext.GitIsValidRepository(dynamicRepositoryPath))
+                    {
+                        throw new Exception($"Cloned repository at '{dynamicRepositoryPath}' is not a valid repository");
+                    }
+
+                    CakeContext.Information("Ensuring correct commit ID");
+
+                    // According to docs, to not get into a detached head state, we need to:
+                    //
+                    // git checkout -B 'branch' 'commit id'
+                    // 
+                    // This seems impossible via Cake.Git (and LibGit2Sharp directly), so we will
+                    // just invoke git.exe directly here
+                    //
+                    //CakeContext.GitCheckout(dynamicRepositoryPath, generalContext.Repository.CommitId);
+
+                    var gitCommit = CakeContext.GitLogTip(dynamicRepositoryPath);
+                    if (!string.Equals(gitCommit.Sha, generalContext.Repository.CommitId, StringComparison.OrdinalIgnoreCase))
+                    {
+                        var gitExe = CakeContext.Tools.Resolve("git.exe").FullPath;
+
+                        using (var process = CakeContext.StartAndReturnProcess(gitExe, 
+                            new ProcessSettings
+                            { 
+                                WorkingDirectory = dynamicRepositoryPath,
+                                Arguments = $"checkout -B {generalContext.Repository.BranchName} {generalContext.Repository.CommitId}", 
+                            }))
+                        {
+                            process.WaitForExit();
+
+                            // This should output 0 as valid arguments supplied
+                            CakeContext.Information("Exit code: {0}", process.GetExitCode());
+                        }
+                    }
+
+                    CakeContext.Information("Preparing GitVersion settings");
+
+                    gitVersionSettings.WorkingDirectory = dynamicRepositoryPath;
                 }
+                
+                CakeContext.Information("[{0}] Running GitVersion", GetTime());
 
-                // Validate first
-                if (string.IsNullOrWhiteSpace(generalContext.Repository.BranchName))
-                {
-                    throw new Exception("No local .git directory was found, but repository branch was not specified either. Make sure to specify the branch");
-                }
+                _gitVersionContext = CakeContext.GitVersion(gitVersionSettings);
 
-                if (string.IsNullOrWhiteSpace(generalContext.Repository.Url))
-                {
-                    throw new Exception("No local .git directory was found, but repository url was not specified either. Make sure to specify the branch");
-                }
-
-                CakeContext.Information($"Fetching dynamic repository from url '{generalContext.Repository.Url}' => '{dynamicRepositoryPath}'");
-
-                // Dynamic repository
-                gitVersionSettings.UserName = generalContext.Repository.Username;
-                gitVersionSettings.Password = generalContext.Repository.Password;
-                gitVersionSettings.Url = generalContext.Repository.Url;
-                gitVersionSettings.Branch = generalContext.Repository.BranchName;
-                gitVersionSettings.Commit = generalContext.Repository.CommitId;
-                gitVersionSettings.NoFetch = false;
-                gitVersionSettings.WorkingDirectory = generalContext.RootDirectory;
-                gitVersionSettings.DynamicRepositoryPath = dynamicRepositoryPath;
-                gitVersionSettings.Verbosity = GitVersionVerbosity.Verbose;
+                CakeContext.Information("[{0}] Finished GitVersion", GetTime());
             }
-
-            _gitVersionContext = CakeContext.GitVersion(gitVersionSettings);
         }
 
         return _gitVersionContext;
@@ -244,6 +368,8 @@ public class NuGetContext : BuildContextBase
     
     protected override void LogStateInfoForContext()
     {
+        CakeContext.Information($"NuGet executable path '{Executable}'");
+        CakeContext.Information($"NuGet executable version '{FileVersionInfo.GetVersionInfo(Executable).FileVersion}'");
         CakeContext.Information($"Restore using NuGet: '{RestoreUsingNuGet}'");
         CakeContext.Information($"Restore using dotnet restore: '{RestoreUsingDotNetRestore}'");
     }
@@ -291,7 +417,7 @@ public class SolutionContext : BuildContextBase
     
     protected override void LogStateInfoForContext()
     {
-    
+        CakeContext.Information($"Solution filename: '{FileName}'");
     }
 }
 
@@ -331,6 +457,19 @@ public class CodeSignContext : BuildContextBase
     public string TimeStampUri { get; set; }
     public string HashAlgorithm { get; set; }
 
+    public bool IsAvailable
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(CertificateSubjectName))
+            {
+                return false;
+            }
+
+            return true;
+        }
+    }
+
     protected override void ValidateContext()
     {
     
@@ -338,7 +477,7 @@ public class CodeSignContext : BuildContextBase
     
     protected override void LogStateInfoForContext()
     {
-        if (string.IsNullOrWhiteSpace(CertificateSubjectName))
+        if (!IsAvailable)
         {
             CakeContext.Information($"Code signing is not configured");
             return;
@@ -347,6 +486,62 @@ public class CodeSignContext : BuildContextBase
         CakeContext.Information($"Code signing subject name: '{CertificateSubjectName}'");
         CakeContext.Information($"Code signing timestamp uri: '{TimeStampUri}'");
         CakeContext.Information($"Code signing hash algorithm: '{HashAlgorithm}'");
+    }
+}
+
+//-------------------------------------------------------------
+
+public class AzureCodeSignContext : BuildContextBase
+{
+    public AzureCodeSignContext(IBuildContext parentBuildContext)
+        : base(parentBuildContext)
+    {
+    }
+
+    public string VaultName { get; set; }
+    public string VaultUrl { get { return $"https://{VaultName}.vault.azure.net"; } }
+    public string CertificateName { get; set; }
+    public string TimeStampUri { get; set; }
+    public string HashAlgorithm { get; set; }
+    public string TenantId { get; set; }
+    public string ClientId { get; set; }
+    public string ClientSecret { get; set; }
+
+    public bool IsAvailable
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(VaultName) ||
+                string.IsNullOrWhiteSpace(CertificateName) ||
+                string.IsNullOrWhiteSpace(TenantId) ||
+                string.IsNullOrWhiteSpace(ClientId) ||
+                string.IsNullOrWhiteSpace(ClientSecret))
+            {
+                return false;
+            }
+
+            return true;
+        }
+    }
+
+    protected override void ValidateContext()
+    {
+    
+    }
+    
+    protected override void LogStateInfoForContext()
+    {
+        if (!IsAvailable)
+        {
+            CakeContext.Information($"Azure Code signing is not configured");
+            return;
+        }
+
+        CakeContext.Information($"Azure Code vault name: '{VaultName}'");
+        CakeContext.Information($"Azure Code vault URL: '{VaultUrl}'");
+        CakeContext.Information($"Azure Code signing certificate name: '{CertificateName}'");
+        CakeContext.Information($"Azure Code signing timestamp uri: '{TimeStampUri}'");
+        CakeContext.Information($"Azure Code signing hash algorithm: '{HashAlgorithm}'");
     }
 }
 
@@ -393,7 +588,7 @@ public class SonarQubeContext : BuildContextBase
     public string Url { get; set; }
     public string Organization { get; set; }
     public string Username { get; set; }
-    public string Password { get; set; }
+    public string Token { get; set; }
     public string Project { get; set; }
 
     protected override void ValidateContext()
@@ -434,7 +629,8 @@ private GeneralContext InitializeGeneralContext(BuildContext buildContext, IBuil
     data.NuGet = new NuGetContext(data)
     {
         PackageSources = buildContext.BuildServer.GetVariable("NuGetPackageSources", showValue: true),
-        Executable = "./tools/nuget.exe",
+        // Executable = "./tools/nuget.exe",
+        Executable = buildContext.CakeContext.Tools.Resolve("nuget.exe").FullPath,
         LocalPackagesDirectory = "c:\\source\\_packages",
         RestoreUsingNuGet = buildContext.BuildServer.GetVariableAsBool("NuGet_RestoreUsingNuGet", false, showValue: true),
         RestoreUsingDotNetRestore = buildContext.BuildServer.GetVariableAsBool("NuGet_RestoreUsingDotNetRestore", true, showValue: true),
@@ -443,11 +639,19 @@ private GeneralContext InitializeGeneralContext(BuildContext buildContext, IBuil
 
     var solutionName = buildContext.BuildServer.GetVariable("SolutionName", showValue: true);
 
+    var solutionExtension = "slnx";
+
+    var solutionFiles = GetFiles(string.Format("./src/{0}.{1}", solutionName, solutionExtension));
+    if (solutionFiles.Count == 0)
+    {
+        solutionExtension = "sln";
+    }
+    
     data.Solution = new SolutionContext(data)
     {
         Name = solutionName,
         AssemblyInfoFileName = "./src/SolutionAssemblyInfo.cs",
-        FileName = string.Format("./src/{0}", string.Format("{0}.sln", solutionName)),
+        FileName = string.Format("./src/{0}", string.Format("{0}.{1}", solutionName, solutionExtension)),
         PublishType = buildContext.BuildServer.GetVariable("PublishType", "Unknown", showValue: true),
         ConfigurationName = buildContext.BuildServer.GetVariable("ConfigurationName", "Release", showValue: true),
         BuildSolution = buildContext.BuildServer.GetVariableAsBool("BuildSolution", false, showValue: true)
@@ -462,6 +666,10 @@ private GeneralContext InitializeGeneralContext(BuildContext buildContext, IBuil
     data.UseVisualStudioPrerelease = buildContext.BuildServer.GetVariableAsBool("UseVisualStudioPrerelease", false, showValue: true);
     data.VerifyDependencies = !buildContext.BuildServer.GetVariableAsBool("DependencyCheckDisabled", false, showValue: true);
     data.SkipComponentsThatAreNotDeployable = buildContext.BuildServer.GetVariableAsBool("SkipComponentsThatAreNotDeployable", true, showValue: true);
+
+    data.EnableMsBuildBinaryLog = buildContext.BuildServer.GetVariableAsBool("EnableMsBuildBinaryLog", true, showValue: true);
+    data.EnableMsBuildFileLog = buildContext.BuildServer.GetVariableAsBool("EnableMsBuildFileLog", true, showValue: true);
+    data.EnableMsBuildXmlLog = buildContext.BuildServer.GetVariableAsBool("EnableMsBuildXmlLog", true, showValue: true);
 
     // If local, we want full pdb, so do a debug instead
     if (data.IsLocalBuild)
@@ -487,6 +695,17 @@ private GeneralContext InitializeGeneralContext(BuildContext buildContext, IBuil
         HashAlgorithm = buildContext.BuildServer.GetVariable("CodeSignHashAlgorithm", "SHA256", showValue: true)
     };
 
+    data.AzureCodeSign = new AzureCodeSignContext(data)
+    {
+        VaultName = buildContext.BuildServer.GetVariable("AzureCodeSignVaultName", showValue: true),
+        CertificateName = buildContext.BuildServer.GetVariable("AzureCodeSignCertificateName", showValue: true),
+        TimeStampUri = buildContext.BuildServer.GetVariable("AzureCodeSignTimeStampUri", "http://timestamp.digicert.com", showValue: true),
+        HashAlgorithm = buildContext.BuildServer.GetVariable("AzureCodeSignHashAlgorithm", "SHA256", showValue: true),
+        TenantId = buildContext.BuildServer.GetVariable("AzureCodeSignTenantId", showValue: false),
+        ClientId = buildContext.BuildServer.GetVariable("AzureCodeSignClientId", showValue: false),
+        ClientSecret = buildContext.BuildServer.GetVariable("AzureCodeSignClientSecret", showValue: false),
+    };
+
     data.Repository = new RepositoryContext(data)
     {
         Url = buildContext.BuildServer.GetVariable("RepositoryUrl", showValue: true),
@@ -503,7 +722,7 @@ private GeneralContext InitializeGeneralContext(BuildContext buildContext, IBuil
         Url = buildContext.BuildServer.GetVariable("SonarUrl", showValue: true),
         Organization = buildContext.BuildServer.GetVariable("SonarOrganization", showValue: true),
         Username = buildContext.BuildServer.GetVariable("SonarUsername", showValue: false),
-        Password = buildContext.BuildServer.GetVariable("SonarPassword", showValue: false),
+        Token = buildContext.BuildServer.GetVariable("SonarToken", showValue: false),
         Project = buildContext.BuildServer.GetVariable("SonarProject", data.Solution.Name, showValue: true)
     };
 

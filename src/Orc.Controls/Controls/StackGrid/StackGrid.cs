@@ -42,7 +42,7 @@ using UIEventArgs = System.EventArgs;
 /// ]]>
 /// </code>
 /// </example>
-public class StackGrid : Grid
+public partial class StackGrid : Grid
 {
     private bool _isInitialized;
 

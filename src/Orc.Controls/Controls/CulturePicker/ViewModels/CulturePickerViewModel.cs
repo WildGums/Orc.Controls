@@ -1,5 +1,6 @@
 ﻿namespace Orc.Controls;
 
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -9,8 +10,11 @@ internal class CulturePickerViewModel : ViewModelBase
 {
     private bool _changingSelectedIndex;
 
-    public CulturePickerViewModel()
+    public CulturePickerViewModel(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
+        ValidateUsingDataAnnotations = false;
+
         AvailableCultures = CultureInfo.GetCultures(CultureTypes.AllCultures)
             .Where(culture => !string.IsNullOrEmpty(culture.Name) && !string.IsNullOrEmpty(culture.Parent.Name))
             .OrderBy(culture => culture.DisplayName).ToList();

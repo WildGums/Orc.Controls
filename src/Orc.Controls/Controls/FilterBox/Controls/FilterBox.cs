@@ -2,25 +2,25 @@
 
 using System;
 using System.Collections;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using Automation;
 using Catel.Logging;
 using Catel.MVVM;
+using Catel.Services;
 using Catel.Windows.Data;
 using Catel.Windows.Interactivity;
+using Microsoft.Extensions.Logging;
 using Theming;
-    
+
 [TemplatePart(Name = "PART_WatermarkHost", Type = typeof(ContentPresenter))]
 [TemplatePart(Name = "PART_ClearButton", Type = typeof(Button))]
-public class FilterBox : TextBox
+public partial class FilterBox : TextBox
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(FilterBox));
 
     private readonly Command _clearFilter;
 
@@ -28,9 +28,9 @@ public class FilterBox : TextBox
     private ContentPresenter? _watermarkHost;
     private AutoCompletion? _autoCompletion;
 
-    public FilterBox()
+    public FilterBox(IServiceProvider serviceProvider)
     {
-        _clearFilter = new Command(OnClearFilter, CanClearFilter);
+        _clearFilter = new Command(serviceProvider, OnClearFilter, CanClearFilter);
 
         this.SubscribeToDependencyProperty(nameof(Padding), OnPaddingChanged);
     }
@@ -84,14 +84,14 @@ public class FilterBox : TextBox
         _clearButton = GetTemplateChild("PART_ClearButton") as Button;
         if (_clearButton is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ClearButton'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ClearButton'");
         }
         _clearButton.SetCurrentValue(System.Windows.Controls.Primitives.ButtonBase.CommandProperty, _clearFilter);
 
         _watermarkHost = GetTemplateChild("PART_WatermarkHost") as ContentPresenter;
         if (_watermarkHost is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_WatermarkHost'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_WatermarkHost'");
         }
         UpdateWaterMarkMargin();
 
@@ -200,6 +200,7 @@ public class FilterBox : TextBox
     {
         UpdateAutoCompletion();
     }
+
     private void OnPropertyNameChanged()
     {
         UpdateAutoCompletion();

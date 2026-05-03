@@ -29,19 +29,24 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="Simple watermark"/>
         <orccontrols:WatermarkTextBox Watermark="Textbox with Watermark" />
+        <TextBox Text="TextBox for alignment test" />
 
         <TextBlock Text="First Name:" />
         <orccontrols:WatermarkTextBox Watermark="Enter the first name" />
+        <TextBox Text="TextBox for alignment test" />
 
         <TextBlock Text="Last Name:" />
         <orccontrols:WatermarkTextBox Watermark="Enter the last name" />
+        <TextBox Text="TextBox for alignment test" />
 
         <TextBlock Text="E-mail:"  />
         <TextBox Text="Last Name:" />
+        <TextBox Text="TextBox for alignment test" />
 
         <TextBlock Text="Phone Number:" />
         <orccontrols:WatermarkTextBox>
@@ -52,6 +57,7 @@
                 </StackPanel>
             </orccontrols:WatermarkTextBox.Watermark>
         </orccontrols:WatermarkTextBox>
+        <TextBox Text="TextBox for alignment test" />
 
         <TextBlock Text="E-mail:"  />
         <orccontrols:WatermarkTextBox>
@@ -62,8 +68,7 @@
                 </StackPanel>
             </orccontrols:WatermarkTextBox.Watermark>
         </orccontrols:WatermarkTextBox>
-
-   
+        <TextBox Text="TextBox for alignment test" />
 
     </orccontrols:StackGrid>
 </catel:UserControl>

@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 public static class DateTimeFormatHelper
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(DateTimeFormatHelper));
 
     private const string CorrectDateFormatForSure = "dd\\MMMM\\yyyy";
 

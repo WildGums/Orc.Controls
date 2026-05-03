@@ -11,25 +11,24 @@ using Automation;
 using Catel.IoC;
 using Catel.Logging;
 using Catel.Services;
+using Microsoft.Extensions.Logging;
 using Size = System.Windows.Size;
 
 
 [TemplatePart(Name = "PART_Arrow", Type = typeof(Path))]
 [TemplatePart(Name = "PART_ArrowBorder", Type = typeof(Border))]
-public class DropDownButton : ToggleButton
+public partial class DropDownButton : ToggleButton
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(DropDownButton));
 
     private readonly IDispatcherService _dispatcherService;
 
     private Path? _arrowPath;
     private Border? _arrowBorder;
 
-    public DropDownButton()
+    public DropDownButton(IDispatcherService dispatcherService)
     {
-#pragma warning disable IDISP004 // Don't ignore created IDisposable.
-        _dispatcherService = this.GetServiceLocator().ResolveRequiredType<IDispatcherService>();
-#pragma warning restore IDISP004 // Don't ignore created IDisposable.
+        _dispatcherService = dispatcherService;
     }
 
     #region Dependency properties
@@ -87,13 +86,13 @@ public class DropDownButton : ToggleButton
         _arrowPath = GetTemplateChild("PART_Arrow") as Path;
         if (_arrowPath is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Arrow'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_Arrow'");
         }
 
         _arrowBorder = GetTemplateChild("PART_ArrowBorder") as Border;
         if (_arrowBorder is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ArrowBorder'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ArrowBorder'");
         }
     }
     private void OnHeaderChanged()

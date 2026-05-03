@@ -1,13 +1,6 @@
-﻿namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views;
+
+public partial class StaggeredPanelView
 {
-    /// <summary>
-    /// Interaction logic for StaggeredPanelView.xaml
-    /// </summary>
-    public partial class StaggeredPanelView
-    {
-        public StaggeredPanelView()
-        {
-            InitializeComponent();
-        }
-    }
+
 }

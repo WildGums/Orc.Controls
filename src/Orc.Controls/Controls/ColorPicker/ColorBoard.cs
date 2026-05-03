@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
@@ -16,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using Automation;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 [TemplatePart(Name = "PART_RootGrid", Type = typeof(FrameworkElement))]
 [TemplatePart(Name = "PART_HSVCanvas", Type = typeof(Canvas))]
@@ -57,17 +57,19 @@ using Catel.Logging;
 
 [TemplatePart(Name = "PART_SelectButton", Type = typeof(Button))]
 [TemplatePart(Name = "PART_CancelButton", Type = typeof(Button))]
-public class ColorBoard : Control
+public partial class ColorBoard : Control
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private readonly ILogger<ColorBoard> _logger;
 
     private static readonly Color DefaultColor = Colors.White;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ColorBoard"/> class.
     /// </summary>
-    public ColorBoard()
+    public ColorBoard(ILogger<ColorBoard> logger)
     {
+        _logger = logger;
+
         DefaultStyleKey = typeof(ColorBoard);
 
         var items = new List<PredefinedColorItem>(10);
@@ -212,14 +214,14 @@ public class ColorBoard : Control
     /// <summary>
     /// The dictionary color.
     /// </summary>
-    
+
     private IImmutableDictionary<Color, PredefinedColorItem> _dictionaryColor = ImmutableDictionary<Color, PredefinedColorItem>.Empty;
-    
+
     /// <summary>
     /// The is updating.
     /// </summary>
     private int _isUpdating;
-    
+
     /// <summary>
     /// The tracking hsv.
     /// </summary>
@@ -269,11 +271,29 @@ public class ColorBoard : Control
         typeof(List<PredefinedColorItem>), typeof(ColorBoard), new PropertyMetadata());
 
     /// <summary>
+    /// Gets or sets the custom theme colors.
+    /// </summary>
+    public IReadOnlyCollection<PredefinedColorItem>? CustomThemeColors
+    {
+        get { return (IReadOnlyCollection<PredefinedColorItem>?)GetValue(CustomThemeColorsProperty); }
+        set { SetValue(CustomThemeColorsProperty, value); }
+    }
+
+    public static readonly DependencyProperty CustomThemeColorsProperty = DependencyProperty.Register(
+        nameof(CustomThemeColors), typeof(IReadOnlyCollection<PredefinedColorItem>), typeof(ColorBoard),
+        new(null, (sender, args) => ((ColorBoard)sender).OnCustomThemeColorsChanged(args)));
+
+    private void OnCustomThemeColorsChanged(DependencyPropertyChangedEventArgs e)
+    {
+        UpdateThemeColorsDisplay();
+    }
+
+    /// <summary>
     /// Gets a value indicating whether updating.
     /// </summary>
     private bool Updating => _isUpdating != 0;
 
-    [MemberNotNullWhen(true, nameof(_rootGrid), 
+    [MemberNotNullWhen(true, nameof(_rootGrid),
         nameof(_hsvCanvas), nameof(_hsvColorGradientStop),
         nameof(_hsvRectangle), nameof(_hsvRectangle),
         nameof(_hsvEllipse), nameof(_hsvSlider),
@@ -300,26 +320,26 @@ public class ColorBoard : Control
         _rootGrid = GetTemplateChild("PART_RootGrid") as Grid;
         if (_rootGrid is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_RootGrid'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_RootGrid'");
         }
 
         /*HSV slider*/
         _hsvCanvas = GetTemplateChild("PART_HSVCanvas") as Canvas;
         if (_hsvCanvas is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HSVCanvas'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HSVCanvas'");
         }
 
         _hsvColorGradientStop = GetTemplateChild("PART_HSVColorGradientStop") as GradientStop;
         if (_hsvColorGradientStop is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HSVColorGradientStop'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HSVColorGradientStop'");
         }
 
         _hsvRectangle = GetTemplateChild("PART_HSVRectangle") as Rectangle;
         if (_hsvRectangle is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HSVRectangle'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HSVRectangle'");
         }
         _hsvRectangle.MouseLeftButtonDown += OnHsvRectangleMouseLeftButtonDown;
         _hsvRectangle.MouseMove += OnHsvRectangleMouseMove;
@@ -329,13 +349,13 @@ public class ColorBoard : Control
         _hsvEllipse = GetTemplateChild("PART_HSVEllipse") as Ellipse;
         if (_hsvEllipse is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HSVEllipse'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HSVEllipse'");
         }
 
         _hsvSlider = GetTemplateChild("PART_HSVSlider") as Slider;
         if (_hsvSlider is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HSVSlider'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HSVSlider'");
         }
         _hsvSlider.ValueChanged += OnHsvSliderValueChanged;
 
@@ -343,104 +363,104 @@ public class ColorBoard : Control
         _aSlider = GetTemplateChild("PART_ASlider") as Slider;
         if (_aSlider is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ASlider'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ASlider'");
         }
         _aSlider.ValueChanged += OnArgbSliderValueChanged;
 
         _a0GradientStop = GetTemplateChild("PART_A0GradientStop") as GradientStop;
         if (_a0GradientStop is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_A0GradientStop'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_A0GradientStop'");
         }
 
         _a1GradientStop = GetTemplateChild("PART_A1GradientStop") as GradientStop;
         if (_a1GradientStop is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_A1GradientStop'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_A1GradientStop'");
         }
 
         _rSlider = GetTemplateChild("PART_RSlider") as Slider;
         if (_rSlider is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_RSlider'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_RSlider'");
         }
         _rSlider.ValueChanged += OnArgbSliderValueChanged;
 
         _r0GradientStop = GetTemplateChild("PART_R0GradientStop") as GradientStop;
         if (_r0GradientStop is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_R0GradientStop'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_R0GradientStop'");
         }
 
         _r1GradientStop = GetTemplateChild("PART_R1GradientStop") as GradientStop;
         if (_r1GradientStop is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_R1GradientStop'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_R1GradientStop'");
         }
 
         _gSlider = GetTemplateChild("PART_GSlider") as Slider;
         if (_gSlider is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_GSlider'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_GSlider'");
         }
         _gSlider.ValueChanged += OnArgbSliderValueChanged;
 
         _g0GradientStop = GetTemplateChild("PART_G0GradientStop") as GradientStop;
         if (_g0GradientStop is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_G0GradientStop'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_G0GradientStop'");
         }
 
         _g1GradientStop = GetTemplateChild("PART_G1GradientStop") as GradientStop;
         if (_g1GradientStop is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_G1GradientStop'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_G1GradientStop'");
         }
 
         _bSlider = GetTemplateChild("PART_BSlider") as Slider;
         if (_bSlider is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_BSlider'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_BSlider'");
         }
         _bSlider.ValueChanged += OnArgbSliderValueChanged;
 
         _b0GradientStop = GetTemplateChild("PART_B0GradientStop") as GradientStop;
         if (_b0GradientStop is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_B0GradientStop'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_B0GradientStop'");
         }
 
         _b1GradientStop = GetTemplateChild("PART_B1GradientStop") as GradientStop;
         if (_b1GradientStop is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_B1GradientStop'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_B1GradientStop'");
         }
-            
+
         _aTextBox = GetTemplateChild("PART_ATextBox") as TextBox;
         if (_aTextBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ATextBox'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ATextBox'");
         }
         _aTextBox.LostFocus += OnATextBoxLostFocus;
 
         _rTextBox = GetTemplateChild("PART_RTextBox") as TextBox;
         if (_rTextBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_RTextBox'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_RTextBox'");
         }
         _rTextBox.LostFocus += OnRTextBoxLostFocus;
 
         _gTextBox = GetTemplateChild("PART_GTextBox") as TextBox;
         if (_gTextBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_GTextBox'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_GTextBox'");
         }
         _gTextBox.LostFocus += OnGTextBoxLostFocus;
 
         _bTextBox = GetTemplateChild("PART_BTextBox") as TextBox;
         if (_bTextBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_BTextBox'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_BTextBox'");
         }
         _bTextBox.LostFocus += OnBTextBoxLostFocus;
 
@@ -448,20 +468,20 @@ public class ColorBoard : Control
         _colorComboBox = GetTemplateChild("PART_ColorComboBox") as ComboBox;
         if (_colorComboBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ColorComboBox'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ColorComboBox'");
         }
         _colorComboBox.SelectionChanged += OnColorComboBoxSelectionChanged;
 
         _colorBrush = GetTemplateChild("PART_ColorBrush") as SolidColorBrush;
         if (_colorBrush is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ColorBrush'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ColorBrush'");
         }
 
         _colorTextBox = GetTemplateChild("PART_ColorTextBox") as TextBox;
         if (_colorTextBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ColorTextBox'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ColorTextBox'");
         }
         _colorTextBox.GotFocus += OnColorTextBoxGotFocus;
         _colorTextBox.LostFocus += OnColorTextBoxLostFocus;
@@ -469,26 +489,26 @@ public class ColorBoard : Control
         _themeColorsListBox = GetTemplateChild("PART_ThemeColorsListBox") as ListBox;
         if (_themeColorsListBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ThemeColorsListBox'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_ThemeColorsListBox'");
         }
         _themeColorsListBox.SelectionChanged += OnThemeColorsSelectionChanged;
 
         _recentColorsListBox = GetTemplateChild("PART_RecentColorsListBox") as ListBox;
         if (_recentColorsListBox is null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_RecentColorsListBox'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_RecentColorsListBox'");
         }
         _recentColorsListBox.SelectionChanged += OnRecentColorsSelectionChanged;
 
         if (GetTemplateChild("PART_SelectButton") is not Button selectButton)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SelectButton'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_SelectButton'");
         }
         selectButton.Click += OnsSelectButtonClick;
 
         if (GetTemplateChild("PART_CancelButton") is not Button cancelButton)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_CancelButton'");
+            throw _logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_CancelButton'");
         }
         cancelButton.Click += OnCancelButtonClick;
 
@@ -499,6 +519,44 @@ public class ColorBoard : Control
         UpdateControls(Color, true, true, true);
 
         KeyDown += OnColorBoardKeyDown;
+    }
+
+    /// <summary>
+    /// Updates the theme colors listbox with custom colors if provided.
+    /// </summary>
+    private void UpdateThemeColorsDisplay()
+    {
+        if (!IsPartsInitialized || _themeColorsListBox is null)
+        {
+            return;
+        }
+
+        _themeColorsListBox.Items.Clear();
+
+        var colorsToDisplay = CustomThemeColors ?? PredefinedColor.AllThemeColors
+            .Select(c => new PredefinedColorItem(c.Value, c.Name))
+            .ToList();
+
+        var r = 0;
+        var c = 0;
+
+        foreach (var item in colorsToDisplay)
+        {
+            item.SetValue(Grid.RowProperty, r);
+            item.SetValue(Grid.ColumnProperty, c);
+
+            _themeColorsListBox.Items.Add(item);
+
+            if (r < 5)
+            {
+                r++;
+            }
+            else
+            {
+                r = 0;
+                c++;
+            }
+        }
     }
 
     /// <summary>
@@ -790,34 +848,7 @@ public class ColorBoard : Control
             return;
         }
 
-        var list = PredefinedColor.AllThemeColors;
-        var themeColors = new Dictionary<Color, PredefinedColorItem>();
-        var r = 0;
-        var c = 0;
-
-        foreach (var color in list)
-        {
-            var item = new PredefinedColorItem(color.Value, color.Name);
-            item.SetValue(Grid.RowProperty, r);
-            item.SetValue(Grid.ColumnProperty, c);
-
-            _themeColorsListBox.Items.Add(item);
-
-            if (!themeColors.ContainsKey(color.Value))
-            {
-                themeColors.Add(color.Value, item);
-            }
-
-            if (r < 5)
-            {
-                r++;
-            }
-            else
-            {
-                r = 0;
-                c++;
-            }
-        }
+        UpdateThemeColorsDisplay();
     }
 
     public void SetHsvColor(Color color)
@@ -980,6 +1011,8 @@ public class ColorBoard : Control
 
         var c = ((PredefinedColorItem)_recentColorsListBox.SelectedItem).Color;
         UpdateControls(c, true, true, true);
+
+        OnDoneClicked();
     }
 
     /// <summary>
@@ -1169,6 +1202,8 @@ public class ColorBoard : Control
 
         var c = ((PredefinedColorItem)_themeColorsListBox.SelectedItem).Color;
         UpdateControls(c, true, true, true);
+
+        OnDoneClicked();
     }
 
     protected override AutomationPeer OnCreateAutomationPeer()

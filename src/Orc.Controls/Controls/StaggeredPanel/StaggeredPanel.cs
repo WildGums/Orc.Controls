@@ -12,13 +12,14 @@ using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using Automation;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 /// <summary>
 /// Arranges child elements into a staggered grid pattern where items are added to the column that has used least amount of space.
 /// </summary>
-public class StaggeredPanel : Panel
+public partial class StaggeredPanel : Panel
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(StaggeredPanel));
 
     private double _columnWidth;
 
@@ -147,7 +148,7 @@ public class StaggeredPanel : Panel
             var occupiedSpacing = (numColumns - 1) * ColumnSpacing;
             if (availableWidth < occupiedSpacing)
             {
-                Log.Debug($"Stretch Measure: availableWidth: {availableWidth}, spacing summary: {occupiedSpacing} [{numColumns - 1} x {ColumnSpacing}]");
+                Logger.LogDebug($"Stretch Measure: availableWidth: {availableWidth}, spacing summary: {occupiedSpacing} [{numColumns - 1} x {ColumnSpacing}]");
 
                 // Fallback value to avoid negative size ArgumentException
                 occupiedSpacing = availableWidth;
@@ -181,6 +182,12 @@ public class StaggeredPanel : Panel
     {
         var horizontalOffset = Padding.Left;
         var verticalOffset = Padding.Top;
+
+        if (_columnWidth == 0)
+        {
+            return finalSize;
+        }
+
         var numColumns = Math.Max(1, (int)Math.Floor((finalSize.Width + ColumnSpacing) / (_columnWidth + ColumnSpacing)));
 
         // adjust for horizontal spacing on all columns expect the first

@@ -15,9 +15,10 @@ internal class LogMessageCategoryPathConverter : ValueConverterBase<string>
         var application = Application.Current;
 
         PathCache["Debug"] = application.TryFindResource("LogDebugGeometry") as Geometry;
-        PathCache["Info"] = application.TryFindResource("LogInfoGeometry") as Geometry;
+        PathCache["Information"] = application.TryFindResource("LogInfoGeometry") as Geometry;
         PathCache["Warning"] = application.TryFindResource("LogWarningGeometry") as Geometry;
         PathCache["Error"] = application.TryFindResource("LogErrorGeometry") as Geometry;
+        PathCache["Critical"] = application.TryFindResource("LogErrorGeometry") as Geometry;
         PathCache["Clock"] = application.TryFindResource("LogClockGeometry") as Geometry;
     }
 

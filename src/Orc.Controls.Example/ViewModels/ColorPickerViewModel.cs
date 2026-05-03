@@ -1,8 +1,12 @@
-﻿namespace Orc.Controls.Example.ViewModels
-{
-    using Catel.MVVM;
+﻿namespace Orc.Controls.Example.ViewModels;
 
-    public class ColorPickerViewModel : ViewModelBase
+using System;
+using Catel.MVVM;
+
+public class ColorPickerViewModel : ViewModelBase
+{
+    public ColorPickerViewModel(IServiceProvider serviceProvider) 
+        : base(serviceProvider)
     {
     }
 }

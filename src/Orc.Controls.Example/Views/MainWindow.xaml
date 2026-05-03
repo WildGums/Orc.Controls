@@ -10,16 +10,20 @@
               Width="1000">
 
     <controls:AutomationInformer>
-        <Grid>
+        <orccontrols:StackGrid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <orctheming:ThemeSwitcherView Grid.Row="0" />
+            <StackPanel Orientation="Horizontal">
+                <orctheming:ThemeSwitcherView />
+                <orctheming:FontSizeSwitcherView />
+            </StackPanel>
 
-            <orccontrols:Callout Title="Looking for callouts?"
+            <orccontrols:Callout Title="Looking for callouts with a very very very very long title?"
                                  CalloutName="ExampleCallout"
                                  Description="Example callout with a specified delay. Check the callout tab below.
                              
@@ -30,14 +34,11 @@
                                  PlacementTarget="{Binding ElementName=calloutView}" />
 
             <Button x:Name="TestButton"
-                    Grid.Column="0"
-                    Grid.Row="1"
                     AutomationProperties.AutomationId="TestButtonId"
                     Command="{Binding StartTestHost}"
                     Content="Test" />
 
             <orccontrols:TabControl AutomationProperties.AutomationId="TabControl"
-                                    Grid.Row="2"
                                     Padding="10"
                                     TabStripPlacement="Left"
                                     LoadTabItems="EagerLoading">
@@ -47,6 +48,10 @@
 
                 <TabItem Header="AnimatedGif">
                     <views:AnimatedGif />
+                </TabItem>
+
+                <TabItem Header="AnimatedTextBlock">
+                    <views:AnimatedTextBlock />
                 </TabItem>
 
                 <TabItem Header="BindableRichTextBox">
@@ -97,7 +102,7 @@
                     <views:FilterBox />
                 </TabItem>
 
-                <TabItem Header="FontImage">
+                <TabItem Header="FontImageControl">
                     <views:FontImageView />
                 </TabItem>
 
@@ -174,6 +179,6 @@
                 </TabItem>
 
             </orccontrols:TabControl>
-        </Grid>
+        </orccontrols:StackGrid>
     </controls:AutomationInformer>
 </catel:Window>

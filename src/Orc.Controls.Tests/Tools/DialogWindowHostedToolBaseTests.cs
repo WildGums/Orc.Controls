@@ -1,13 +1,13 @@
 ﻿namespace Orc.Controls.Tests;
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Catel.IoC;
 using Catel.MVVM;
 using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
-using Orc.Automation.Tests;
 
 [TestFixture]
 public class DialogWindowHostedToolBaseTests
@@ -17,28 +17,44 @@ public class DialogWindowHostedToolBaseTests
     public async Task After_Closing_Tool_Dialog_Tool_Must_Be_Closed_But_Not_Before_Async()
     {
         //Prepare
-        var typeFactoryMockObject = Mock.Of<ITypeFactory>();
-        var iuiVisualizerServiceMock = new Mock<IUIVisualizerService>();
-        iuiVisualizerServiceMock.Setup(x => x.ShowContextAsync(It.IsAny<UIVisualizerContext>()))
-            .Callback<UIVisualizerContext>(async (x) =>
+        const int windowLifeTime = 500;
+
+        var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
+
+        using var serviceProvider = serviceCollection.BuildServiceProvider();
+
+        var viewModelFactoryMock = new Mock<IViewModelFactory>();
+        viewModelFactoryMock.Setup(x => x.CreateViewModel(It.IsAny<Type>(), It.IsAny<object>()))
+            .Returns<Type, object>((type, dataContext) => new DummyViewModel(serviceProvider));
+
+        var uiVisualizerServiceMock = new Mock<IUIVisualizerService>();
+        uiVisualizerServiceMock.Setup(x => x.ShowContextAsync(It.IsAny<UIVisualizerContext>()))
+            .Callback<UIVisualizerContext>(x =>
             {
-                x.CompletedCallback.Invoke(x, new UICompletedEventArgs(new UIVisualizerResult(true, x, null)));
-                var viewModel = (DummyViewModel)x.Data;
-                //Closing dialog
-                await viewModel.SaveAndCloseViewModelAsync();
+                Thread.Sleep(windowLifeTime);
+
+                x.CompletedCallback?.Invoke(x, new UICompletedEventArgs(new UIVisualizerResult(true, x, null)));
             });
-        var iuiVisualizerServiceMockObject = iuiVisualizerServiceMock.Object;
 
         //Testing object
-        var tool = new TestDialogWindowHostedTool(typeFactoryMockObject, iuiVisualizerServiceMockObject);
+        var tool = new TestDialogWindowHostedTool(viewModelFactoryMock.Object, uiVisualizerServiceMock.Object);
 
         //Act
+        var isOpened = false;
+
         //Assert that BEFORE closing dialog tool is OPENED
-        tool.Opened += (_, _) => Assert.That(tool.IsOpened, Is.True);
-        EventAssert.Raised(tool, nameof(tool.Opened), () => tool.Open());
+        tool.Opened += (_, _) =>
+        {
+            isOpened = true;
+            Assert.That(tool.IsOpened, Is.True);
+        };
+
+        await tool.OpenAsync();
+
+        Assert.That(isOpened, Is.True);
 
         //Wait for dialog to be closed
-        await Task.Delay(500);
+        await Task.Delay(windowLifeTime + 100);
 
         //Assert that tool is CLOSED
         Assert.That(tool.IsOpened, Is.False);
@@ -46,13 +62,21 @@ public class DialogWindowHostedToolBaseTests
 
     public class DummyViewModel : ViewModelBase
     {
+        public DummyViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider)
+        {
+            
+        }
     }
 
     public class TestDialogWindowHostedTool : DialogWindowHostedToolBase<DummyViewModel>
     {
-        public TestDialogWindowHostedTool(ITypeFactory typeFactory, IUIVisualizerService uiVisualizerService)
-            : base(typeFactory, uiVisualizerService)
+        private readonly IViewModelFactory _viewModelFactory;
+
+        public TestDialogWindowHostedTool(IViewModelFactory viewModelFactory, IUIVisualizerService uiVisualizerService)
+            : base(uiVisualizerService)
         {
+            _viewModelFactory = viewModelFactory;
         }
 
         public override string Name => "Test tool";
@@ -64,7 +88,7 @@ public class DialogWindowHostedToolBaseTests
 
         protected override DummyViewModel InitializeViewModel()
         {
-            return new DummyViewModel();
+            return _viewModelFactory.CreateViewModel<DummyViewModel>(null);
         }
     }
 }

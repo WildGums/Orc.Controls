@@ -10,25 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
-using Catel;
-using Catel.IoC;
-using Catel.Logging;
-using Catel.Services;
 using Automation;
+using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 /// <summary>
 /// A label looking like the known hyperlink.
 /// </summary>
 [TemplatePart(Name = "PART_InnerHyperlink", Type = typeof(Hyperlink))]
 [StyleTypedProperty(Property = nameof(HyperlinkStyle), StyleTargetType = typeof(Hyperlink))]
-public class LinkLabel : Label
+public partial class LinkLabel : Label
 {
-    /// <summary>
-    /// The <see cref="ILog">log</see> object.
-    /// </summary>
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-
-    private readonly IProcessService _processService;
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(LinkLabel));
 
     /// <summary>
     /// Initializes the <see cref="LinkLabel"/> class.
@@ -47,8 +40,6 @@ public class LinkLabel : Label
     public LinkLabel()
     {
         Unloaded += OnLinkLabelUnloaded;
-
-        _processService = this.GetDependencyResolver().ResolveRequired<IProcessService>();
     }
 
     /// <summary>
@@ -149,8 +140,8 @@ public class LinkLabel : Label
     /// DependencyProperty definition as the backing store for ClickBehavior
     /// </summary>
     public static readonly DependencyProperty ClickBehaviorProperty =
-        DependencyProperty.Register(nameof(ClickBehavior), typeof(LinkLabelClickBehavior), typeof(LinkLabel), 
-        new UIPropertyMetadata(LinkLabelClickBehavior.Undefined, (sender, args) => ((LinkLabel)sender).OnClickBehaviorChanged(args)));
+        DependencyProperty.Register(nameof(ClickBehavior), typeof(LinkLabelClickBehavior), typeof(LinkLabel),
+        new UIPropertyMetadata(LinkLabelClickBehavior.Undefined, OnClickBehaviorChanged));
 
     /// <summary>
     /// Gets or sets the command parameter.
@@ -265,9 +256,15 @@ public class LinkLabel : Label
     /// <summary>
     /// Handles a change of the ClickBehavior property.
     /// </summary>
+    /// <param name="sender">The event sender.</param>
     /// <param name="args">The event arguments.</param>
-    private void OnClickBehaviorChanged(DependencyPropertyChangedEventArgs args)
+    private static void OnClickBehaviorChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
+        if (sender is not LinkLabel label)
+        {
+            return;
+        }
+
         if (!args.Property.Name.Equals(ClickBehaviorProperty.Name, StringComparison.Ordinal))
         {
             return;
@@ -278,12 +275,12 @@ public class LinkLabel : Label
 
         if (previous == LinkLabelClickBehavior.OpenUrlInBrowser)
         {
-            Click -= OpenBrowserBehaviorImpl;
+            label.Click -= OpenBrowserBehaviorImpl;
         }
 
         if (next == LinkLabelClickBehavior.OpenUrlInBrowser)
         {
-            Click += OpenBrowserBehaviorImpl;
+            label.Click += OpenBrowserBehaviorImpl;
         }
     }
 
@@ -331,7 +328,7 @@ public class LinkLabel : Label
     /// </summary>
     /// <param name="sender">Event sender</param>
     /// <param name="args">Event arguments</param>
-    private void OpenBrowserBehaviorImpl(object sender, RoutedEventArgs args)
+    private static void OpenBrowserBehaviorImpl(object sender, RoutedEventArgs args)
     {
         var hyperlinkSender = sender as Hyperlink;
         var linklabelSender = sender as LinkLabel;
@@ -340,29 +337,13 @@ public class LinkLabel : Label
             return;
         }
 
-        var uri = linklabelSender?.Url;
-        if (uri is null)
+        var rawUri = hyperlinkSender?.NavigateUri ?? linklabelSender?.Url;
+        if (rawUri is null || string.IsNullOrEmpty(rawUri.OriginalString))
         {
             return;
         }
 
-        if (!uri.IsAbsoluteUri)
-        {
-            uri = new Uri($"https://{uri}");
-        }
-        if (!uri.Scheme.Contains("://") && !uri.Scheme.StartsWithAnyIgnoreCase("http", "https") && !uri.IsFile)
-        {
-            var relativePart = uri.GetComponents(UriComponents.PathAndQuery | UriComponents.Fragment,
-                UriFormat.UriEscaped);
-
-            uri = new Uri($"https://{relativePart}");
-        }
-
-        var destinationUrl = hyperlinkSender?.NavigateUri ?? uri;
-        if (string.IsNullOrEmpty(destinationUrl.ToString()))
-        {
-            return;
-        }
+        var destinationUrl = BuildDestinationUrl(rawUri);
 
         try
         {
@@ -370,17 +351,22 @@ public class LinkLabel : Label
 
             try
             {
-                _processService.StartProcess(new ProcessContext
+                // UseShellExecute is disabled by default in NETCORE
+                var processStartInfo = new ProcessStartInfo
                 {
-                    FileName = destinationUrl.ToString(),
+                    FileName = destinationUrl,
                     UseShellExecute = true
-                });
+                };
+
+#pragma warning disable IDISP004 // Don't ignore created IDisposable
+                Process.Start(processStartInfo);
+#pragma warning restore IDISP004 // Don't ignore created IDisposable
             }
             catch (Win32Exception ex)
             {
-                Log.Warning(ex, "Default handler for http-scheme not valid in Windows");
+                Logger.LogWarning(ex, "Default handler for http-scheme not valid in Windows");
 
-                var processStartInfo = new ProcessStartInfo(@"iexplore.exe", destinationUrl.ToString())
+                var processStartInfo = new ProcessStartInfo(@"iexplore.exe", destinationUrl)
                 {
                     UseShellExecute = false
                 };
@@ -391,12 +377,38 @@ public class LinkLabel : Label
         }
         catch (Exception ex)
         {
-            Log.Warning(ex, "Failed to start process to open '{0}'", destinationUrl);
+            Logger.LogWarning(ex, "Failed to start process to open '{0}'", destinationUrl);
         }
         finally
         {
             Mouse.OverrideCursor = null;
         }
+    }
+
+    /// <summary>
+    /// Builds the destination URL string from the given URI, prepending "https://" for
+    /// relative URIs that look like domain names (not file system paths).
+    /// </summary>
+    /// <param name="uri">The source URI.</param>
+    /// <returns>The destination URL string to open.</returns>
+    internal static string BuildDestinationUrl(Uri uri)
+    {
+        if (!uri.IsAbsoluteUri)
+        {
+            var originalString = uri.OriginalString;
+
+            // Do not modify file system paths (e.g. "C:\path\to\app.exe")
+            if (originalString.Length >= 2 && originalString[1] == ':')
+            {
+                return originalString;
+            }
+
+            // Treat bare host names / relative paths as web URLs
+            return new Uri($"https://{originalString}").ToString();
+        }
+
+        // Absolute URI (including https://, http://, myapp://, file://) — use as-is
+        return uri.ToString();
     }
 
     protected override AutomationPeer OnCreateAutomationPeer()

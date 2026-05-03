@@ -13,19 +13,20 @@ public class DirectoryPickerViewModel : ViewModelBase
     private readonly ISelectDirectoryService _selectDirectoryService;
     private readonly IDirectoryService _directoryService;
 
-    public DirectoryPickerViewModel(ISelectDirectoryService selectDirectoryService, IDirectoryService directoryService, IProcessService processService)
+    public DirectoryPickerViewModel(IServiceProvider serviceProvider,
+        ISelectDirectoryService selectDirectoryService, IDirectoryService directoryService,
+        IProcessService processService)
+        : base(serviceProvider)
     {
-        ArgumentNullException.ThrowIfNull(selectDirectoryService);
-        ArgumentNullException.ThrowIfNull(directoryService);
-        ArgumentNullException.ThrowIfNull(processService);
-
         _selectDirectoryService = selectDirectoryService;
         _directoryService = directoryService;
         _processService = processService;
 
-        OpenDirectory = new Command(OnOpenDirectoryExecute, OnOpenDirectoryCanExecute);
-        SelectDirectory = new TaskCommand(OnSelectDirectoryExecuteAsync);
-        Clear = new Command(OnClearExecute, OnClearCanExecute);
+        ValidateUsingDataAnnotations = false;
+
+        OpenDirectory = new Command(serviceProvider, OnOpenDirectoryExecute, OnOpenDirectoryCanExecute);
+        SelectDirectory = new TaskCommand(serviceProvider, OnSelectDirectoryExecuteAsync);
+        Clear = new Command(serviceProvider, OnClearExecute, OnClearCanExecute);
     }
 
     public double LabelWidth { get; set; }

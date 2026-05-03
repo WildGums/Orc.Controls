@@ -1,31 +1,30 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests.UI;
+
+using NUnit.Framework;
+using Orc.Automation;
+
+[Explicit]
+[TestFixture(TestOf = typeof(FrameRateCounter))]
+[Category("UI Tests")]
+public class HeaderBarTestFacts : StyledControlTestFacts<HeaderBar>
 {
-    using NUnit.Framework;
-    using Orc.Automation;
+    [Target]
+    public Orc.Controls.Automation.HeaderBar Target { get; set; }
 
-    [Explicit]
-    [TestFixture(TestOf = typeof(FrameRateCounter))]
-    [Category("UI Tests")]
-    public class HeaderBarTestFacts : StyledControlTestFacts<HeaderBar>
+    [Test]
+    public void CorrectlySetHeader()
     {
-        [Target]
-        public Orc.Controls.Automation.HeaderBar Target { get; set; }
+        var target = Target;
+        var model = target.Current;
 
-        [Test]
-        public void CorrectlySetHeader()
-        {
-            var target = Target;
-            var model = target.Current;
+        const string header = "Test header";
 
-            const string header = "Test header";
+        model.Header = header;
 
-            model.Header = header;
+        Wait.UntilResponsive(500);
 
-            Wait.UntilResponsive(500);
+        var text = target.Element.TryGetDisplayText();
 
-            var text = target.Element.TryGetDisplayText();
-
-            Assert.That(text, Is.EqualTo(header));
-        }
+        Assert.That(text, Is.EqualTo(header));
     }
 }

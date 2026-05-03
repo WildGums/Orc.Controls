@@ -2,9 +2,9 @@
 
 using Orc.Automation;
 
-public class TimeSpanPickerAutomationPeer : AutomationControlPeerBase<Controls.TimeSpanPicker>
+public class TimeSpanPickerAutomationPeer : AutomationControlPeerBase<Orc.Controls.TimeSpanPicker>
 {
-    public TimeSpanPickerAutomationPeer(Controls.TimeSpanPicker owner)
+    public TimeSpanPickerAutomationPeer(Orc.Controls.TimeSpanPicker owner)
         : base(owner)
     {
     }

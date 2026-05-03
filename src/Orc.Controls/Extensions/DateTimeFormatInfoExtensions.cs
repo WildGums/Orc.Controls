@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 internal static class DateTimeFormatInfoExtensions
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(DateTimeFormatInfoExtensions));
 
     public static int GetCountOfMatches(this DateTimeFormatInfo formatInfo, DateTimeFormatInfo otherFormatInfo)
     {
@@ -314,7 +315,7 @@ internal static class DateTimeFormatInfoExtensions
         formatInfo.IsCorrect = false;
 
         var exception = new FormatException(errorString);
-        Log.Warning(exception);
+        Logger.LogWarning(exception, null);
 
         if (throwException)
         {

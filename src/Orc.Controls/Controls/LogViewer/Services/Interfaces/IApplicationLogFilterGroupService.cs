@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 public interface IApplicationLogFilterGroupService
 {
-    Task<IEnumerable<LogFilterGroup>> LoadAsync();
+    Task<IReadOnlyList<LogFilterGroup>> LoadAsync();
 
-    Task SaveAsync(IEnumerable<LogFilterGroup> filterGroups);
+    Task SaveAsync(IReadOnlyList<LogFilterGroup> filterGroups);
 }

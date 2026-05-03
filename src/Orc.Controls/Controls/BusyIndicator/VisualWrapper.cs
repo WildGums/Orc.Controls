@@ -13,7 +13,7 @@ public class VisualWrapper : FrameworkElement
 {
     private Visual? _child;
 
-    /// <summary>w
+    /// <summary>
     /// Gets or sets the child.
     /// </summary>
     /// <value>The child.</value>

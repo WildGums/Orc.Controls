@@ -4,9 +4,9 @@ namespace Orc.Controls.Automation;
 using System.Windows.Automation;
 using Orc.Automation;
 
-public class PinnableToolTipAutomationPeer : AutomationControlPeerBase<Controls.PinnableToolTip>
+public class PinnableToolTipAutomationPeer : AutomationControlPeerBase<Orc.Controls.PinnableToolTip>
 {
-    public PinnableToolTipAutomationPeer(Controls.PinnableToolTip owner)
+    public PinnableToolTipAutomationPeer(Orc.Controls.PinnableToolTip owner)
         : base(owner)
     {
     }

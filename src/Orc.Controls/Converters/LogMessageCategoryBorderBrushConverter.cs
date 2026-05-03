@@ -12,9 +12,10 @@ internal class LogMessageCategoryBorderBrushConverter : ValueConverterBase<strin
     static LogMessageCategoryBorderBrushConverter()
     {
         BrushCache["Debug"] = new SolidColorBrush(Colors.DarkGray);
-        BrushCache["Info"] = new SolidColorBrush(Colors.RoyalBlue);
+        BrushCache["Information"] = new SolidColorBrush(Colors.RoyalBlue);
         BrushCache["Warning"] = new SolidColorBrush(Colors.DarkOrange);
         BrushCache["Error"] = new SolidColorBrush(Colors.Red);
+        BrushCache["Critical"] = new SolidColorBrush(Colors.Red);
         BrushCache["Clock"] = new SolidColorBrush(Colors.Gray);
     }
 

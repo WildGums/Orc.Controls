@@ -6,6 +6,7 @@ using System.Linq;
 using Catel;
 using Catel.Data;
 using Catel.MVVM;
+using Catel.Services;
 
 public class DateRangePickerViewModel : ViewModelBase
 {
@@ -15,6 +16,15 @@ public class DateRangePickerViewModel : ViewModelBase
     private DateTime _startDate;
     private DateTime _endDate;
     private bool _isUpdatingRanges;
+    private readonly ILanguageService _languageService;
+
+    public DateRangePickerViewModel(IServiceProvider serviceProvider, ILanguageService languageService)
+        : base(serviceProvider)
+    {
+        _languageService = languageService;
+
+        ValidateUsingDataAnnotations = false;
+    }
 
     public TimeAdjustmentStrategy TimeAdjustmentStrategy { get; set; }
 
@@ -97,13 +107,13 @@ public class DateRangePickerViewModel : ViewModelBase
         if (EndDate < StartDate)
         {
             validationContext.Add(FieldValidationResult.CreateError(nameof(EndDate),
-                LanguageHelper.GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_EndDate_NotLess_StartDate_Validation))));
+                _languageService.GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_EndDate_NotLess_StartDate_Validation))));
         }
 
         if (Span < TimeSpan.Zero)
         {
             validationContext.Add(FieldValidationResult.CreateError(nameof(Span),
-                LanguageHelper.GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_Duration_NotLess_Zero_Validation))));
+                _languageService.GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_Duration_NotLess_Zero_Validation))));
         }
     }
 
@@ -240,7 +250,7 @@ public class DateRangePickerViewModel : ViewModelBase
 
         var temporaryRange = new DateRange()
         {
-            Name = LanguageHelper.GetString("Controls_DateRangePicker_Custom"),
+            Name = _languageService.GetString("Controls_DateRangePicker_Custom"),
             Start = _startDate,
             End = _endDate,
             IsTemporary = true

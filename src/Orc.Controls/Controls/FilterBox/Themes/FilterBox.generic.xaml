@@ -9,65 +9,68 @@
 
     <Style x:Key="{x:Type controls:FilterBox}"
            TargetType="{x:Type controls:FilterBox}"
-           BasedOn="{StaticResource Orc.Styles.TextBoxBase}">
+           BasedOn="{StaticResource Orc.Styles.TextBox}">
 
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-  
+        <Setter Property="CaretBrush"
+                Value="{DynamicResource Orc.Brushes.Control.Default.Foreground}" />
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:FilterBox}">
-                    <Border x:Name="Bd" 
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{TemplateBinding Background}"
+                            CornerRadius="1"
                             SnapsToDevicePixels="true">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
                             <ContentPresenter x:Name="PART_WatermarkHost"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Content="{TemplateBinding Watermark}"
                                               IsHitTestVisible="False"
-                                              Visibility="Collapsed" >
+                                              Visibility="Collapsed">
                                 <ContentPresenter.Resources>
                                     <Style TargetType="{x:Type TextBlock}"
                                            BasedOn="{StaticResource {x:Type TextBlock}}">
-                                        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Disabled.Border}"/>
+                                        <Setter Property="Foreground"
+                                                Value="{DynamicResource Orc.Brushes.Control.Disabled.Border}" />
                                     </Style>
                                 </ContentPresenter.Resources>
                             </ContentPresenter>
 
                             <ScrollViewer x:Name="PART_ContentHost"
-                                          Padding="{TemplateBinding Padding}"
-                                          BorderThickness="0" 
-                                          IsTabStop="False" 
+                                          Focusable="false"
+                                          HorizontalScrollBarVisibility="Hidden"
+                                          VerticalScrollBarVisibility="Hidden"
+                                          BorderThickness="0"
+                                          IsTabStop="False"
                                           Background="{x:Null}"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          TextElement.Foreground="{TemplateBinding Foreground}"/>
+                                          TextElement.Foreground="{TemplateBinding Foreground}" />
 
                             <Button x:Name="PART_ClearButton"
                                     BorderThickness="0"
-                                    Margin="0"
-                                    Height="NaN"
+                                    Margin="0,0,2,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
                                     Foreground="{TemplateBinding Foreground}"
                                     Grid.Column="1"
-                                    Width="18"
                                     DockPanel.Dock="Right"
                                     Visibility="{Binding Path=IsEnabled, Converter={catel:BooleanToCollapsingVisibilityConverter}, RelativeSource={RelativeSource Self}}">
-                                
+
                                 <Path x:Name="Path"
-                                      Data="M0,1.05 L1.05,0 8.33,7.26 15.55,0.0 16.6,1.0 9.3,8.3 16.6,15.55 15.55,16.6 8.3,9.3 1,16.6 0,15.6 7.3,8.3 z" 
-                                      Fill="{TemplateBinding Foreground}" 
+                                      Data="M0,1.05 L1.05,0 8.33,7.26 15.55,0.0 16.6,1.0 9.3,8.3 16.6,15.55 15.55,16.6 8.3,9.3 1,16.6 0,15.6 7.3,8.3 z"
+                                      Fill="{TemplateBinding Foreground}"
+                                      Height="12"
+                                      Width="12"
                                       Margin="4"
                                       Stretch="Uniform"
-                                      HorizontalAlignment="Center" 
-                                      VerticalAlignment="Center"/>
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" />
 
                             </Button>
                         </Grid>
@@ -76,11 +79,15 @@
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsFocused" Value="False" />
-                                <Condition Property="Text" Value="" />
+                                <Condition Property="IsFocused"
+                                           Value="False" />
+                                <Condition Property="Text"
+                                           Value="" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="PART_WatermarkHost" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="PART_WatermarkHost"
+                                        Property="Visibility"
+                                        Value="Visible" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>

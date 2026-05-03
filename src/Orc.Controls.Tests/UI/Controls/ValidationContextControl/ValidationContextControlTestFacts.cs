@@ -1,54 +1,54 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests.UI;
+
+using Catel.Data;
+using NUnit.Framework;
+using Orc.Automation;
+using Orc.Automation.Tests;
+
+[Explicit]
+[TestFixture(TestOf = typeof(ValidationContextView))]
+[Category("UI Tests")]
+public partial class ValidationContextControlTestFacts : StyledControlTestFacts<ValidationContextView>
 {
-    using Catel.Data;
-    using NUnit.Framework;
-    using Orc.Automation;
-    using Orc.Automation.Tests;
+    [Target]
+    public Automation.ValidationContextView Target { get; set; }
 
-    [Explicit]
-    [TestFixture(TestOf = typeof(ValidationContextView))]
-    [Category("UI Tests")]
-    public partial class ValidationContextControlTestFacts : StyledControlTestFacts<ValidationContextView>
+    private static ValidationContext CreateTestValidationContext() =>
+        ValidationContextBuilder.Start()
+            .Tag("Test_Tag")
+                .Warnings()
+                    .Business("This is business warning")
+                    .Field("TestProperty", "This is field warning")
+                .Errors()
+                    .Business("This is business error")
+                    .Field("TestProperty", "This is field error")
+                    .Field("TestProperty2", "This is field error 2")
+
+            .Tag("Test_Tag2")
+                .Warnings()
+                    .Business("This is business warning")
+                    .Field("TestProperty", "This is field warning")
+                .Errors()
+                    .Business("This is business error")
+                    .Field("TestProperty", "This is field error")
+                    .Field("TestProperty2", "This is field error 2")
+            .Result();
+
+    [Test]
+    public void VerifyApi()
     {
-        [Target]
-        public Automation.ValidationContextView Target { get; set; }
+        var target = Target;
+        var model = target.Current;
 
-        private static ValidationContext CreateTestValidationContext() =>
-            ValidationContextBuilder.Start()
-                .Tag("Test_Tag")
-                    .Warnings()
-                        .Business("This is business warning")
-                        .Field("TestProperty", "This is field warning")
-                    .Errors()
-                        .Business("This is business error")
-                        .Field("TestProperty", "This is field error")
-                        .Field("TestProperty2", "This is field error 2")
+        var testContext = CreateTestValidationContext();
 
-                .Tag("Test_Tag2")
-                    .Warnings()
-                        .Business("This is business warning")
-                        .Field("TestProperty", "This is field warning")
-                    .Errors()
-                        .Business("This is business error")
-                        .Field("TestProperty", "This is field error")
-                        .Field("TestProperty2", "This is field error 2")
-                .Result();
+        model.ValidationContext = testContext;
 
-        [Test]
-        public void VerifyApi()
-        {
-            var target = Target;
-            var model = target.Current;
+        ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.IsFilterVisible),
+            model, nameof(model.ShowFilterBox), true,
+            true, false);
 
-            var testContext = CreateTestValidationContext();
-
-            model.ValidationContext = testContext;
-
-            ConnectedPropertiesAssert.VerifyIdenticalConnectedProperties(target, nameof(target.IsFilterVisible),
-                model, nameof(model.ShowFilterBox), true,
-                true, false);
-
-            ValidationTreeAssert.Match(target, testContext);
-        }
+        ValidationTreeAssert.Match(target, testContext);
     }
-} 
+}
+

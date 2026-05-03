@@ -1,21 +1,21 @@
-﻿namespace Orc.Controls.Tests.UI
-{
-    using NUnit.Framework;
-    using Orc.Automation;
+﻿namespace Orc.Controls.Tests.UI;
 
-    [Explicit]
-    [TestFixture(TestOf = typeof(ValidationContextTree))]
-    [Category("UI Tests")]
-    public class ValidationContextTreeTestFacts : StyledControlTestFacts<ValidationContextTree>
+using NUnit.Framework;
+using Orc.Automation;
+
+[Explicit]
+[TestFixture(TestOf = typeof(ValidationContextTree))]
+[Category("UI Tests")]
+public class ValidationContextTreeTestFacts : StyledControlTestFacts<ValidationContextTree>
+{
+    [Target]
+    public Automation.ValidationContextTree Target { get; set; }
+        
+    [Test]
+    public void VerifyApi()
     {
-        [Target]
-        public Automation.ValidationContextTree Target { get; set; }
-            
-        [Test]
-        public void VerifyApi()
-        {
-            var target = Target;
-            var model = target.Current;
-        }
+        var target = Target;
+        var model = target.Current;
     }
-} 
+}
+

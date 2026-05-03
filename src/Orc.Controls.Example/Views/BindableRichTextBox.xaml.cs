@@ -1,10 +1,6 @@
-﻿namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views;
+
+public partial class BindableRichTextBox
 {
-    public partial class BindableRichTextBox
-    {
-        public BindableRichTextBox()
-        {
-            InitializeComponent();
-        }
-    }
+
 }

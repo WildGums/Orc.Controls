@@ -1,13 +1,6 @@
-﻿namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views;
+
+public partial class CalloutView
 {
-    /// <summary>
-    /// Interaction logic for ViewWithCallouts.xaml
-    /// </summary>
-    public partial class CalloutView
-    {
-        public CalloutView()
-        {
-            InitializeComponent();
-        }
-    }
+
 }

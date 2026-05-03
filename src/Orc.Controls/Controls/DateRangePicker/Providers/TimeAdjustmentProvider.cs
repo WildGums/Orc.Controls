@@ -3,10 +3,18 @@
 using System;
 using System.Collections.Generic;
 using Catel;
+using Catel.Services;
 
 public class TimeAdjustmentProvider : ITimeAdjustmentProvider
 {
+    private readonly ILanguageService _languageService;
+
     private readonly Dictionary<TimeAdjustmentStrategy, TimeAdjustment> _timeAdjustments = new();
+
+    public TimeAdjustmentProvider(ILanguageService languageService)
+    {
+        _languageService = languageService;
+    }
 
     public TimeAdjustment GetTimeAdjustment(TimeAdjustmentStrategy strategy)
     {
@@ -36,8 +44,8 @@ public class TimeAdjustmentProvider : ITimeAdjustmentProvider
     {
         return strategy switch
         {
-            TimeAdjustmentStrategy.AdjustEndTime => LanguageHelper.GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_Adj_End_Time)),
-            TimeAdjustmentStrategy.AdjustDuration => LanguageHelper.GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_Adj_Duration)),
+            TimeAdjustmentStrategy.AdjustEndTime => _languageService.GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_Adj_End_Time)),
+            TimeAdjustmentStrategy.AdjustDuration => _languageService.GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_Adj_Duration)),
             _ => throw new ArgumentOutOfRangeException(nameof(strategy), strategy, null)
         };
     }

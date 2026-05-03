@@ -5,10 +5,11 @@ using System.Linq;
 using Catel;
 using Catel.Collections;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 public static class ICalloutManagerExtensions
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(ICalloutManagerExtensions));
 
     public static IDisposable SuspendInScope(this ICalloutManager calloutManager)
     {
@@ -32,11 +33,11 @@ public static class ICalloutManagerExtensions
 
         if (calloutManager.IsSuspended)
         {
-            Log.Debug($"Callout manager is currently suspended, cannot show all callouts");
+            Logger.LogDebug($"Callout manager is currently suspended, cannot show all callouts");
             return;
         }
 
-        Log.Debug("Showing all callouts");
+        Logger.LogDebug("Showing all callouts");
 
         calloutManager.Callouts.Where(x => !x.HasShown).ForEach(x => x.Show());
     }
@@ -47,14 +48,14 @@ public static class ICalloutManagerExtensions
 
         if (calloutManager.IsSuspended)
         {
-            Log.Debug($"Callout manager is currently suspended, cannot show callout with id '{id}'");
+            Logger.LogDebug($"Callout manager is currently suspended, cannot show callout with id '{id}'");
             return;
         }
 
         var callout = FindCallout(calloutManager, id);
         if (callout is null)
         {
-            Log.Debug($"Callout with id '{id}' is not found");
+            Logger.LogDebug($"Callout with id '{id}' is not found");
             return;
         }
 
@@ -66,7 +67,7 @@ public static class ICalloutManagerExtensions
             }
         }
 
-        Log.Debug($"Showing callout '{callout}'");
+        Logger.LogDebug($"Showing callout '{callout}'");
 
         callout.Show();
     }
@@ -77,14 +78,14 @@ public static class ICalloutManagerExtensions
 
         if (calloutManager.IsSuspended)
         {
-            Log.Debug($"Callout manager is currently suspended, cannot show callout with name '{name}'");
+            Logger.LogDebug($"Callout manager is currently suspended, cannot show callout with name '{name}'");
             return;
         }
 
         var callout = FindCallout(calloutManager, name);
         if (callout is null)
         {
-            Log.Debug($"Callout with name '{name}' is not found");
+            Logger.LogDebug($"Callout with name '{name}' is not found");
             return;
         }
 
@@ -96,7 +97,7 @@ public static class ICalloutManagerExtensions
             }
         }
 
-        Log.Debug($"Showing callout '{callout}'");
+        Logger.LogDebug($"Showing callout '{callout}'");
 
         callout.Show();
     }
@@ -105,7 +106,7 @@ public static class ICalloutManagerExtensions
     {
         ArgumentNullException.ThrowIfNull(calloutManager);
 
-        Log.Debug("Hiding all callouts");
+        Logger.LogDebug("Hiding all callouts");
 
         calloutManager.Callouts.ForEach(x => x.Hide());
     }
@@ -117,11 +118,11 @@ public static class ICalloutManagerExtensions
         var callout = FindCallout(calloutManager, id);
         if (callout is null)
         {
-            Log.Debug($"Callout with id '{id}' is not found");
+            Logger.LogDebug($"Callout with id '{id}' is not found");
             return;
         }
 
-        Log.Debug($"Hiding callout '{callout}'");
+        Logger.LogDebug($"Hiding callout '{callout}'");
 
         callout.Hide();
     }
@@ -133,11 +134,11 @@ public static class ICalloutManagerExtensions
         var callout = FindCallout(calloutManager, name);
         if (callout is null)
         {
-            Log.Debug($"Callout with name '{name}' is not found");
+            Logger.LogDebug($"Callout with name '{name}' is not found");
             return;
         }
 
-        Log.Debug($"Hiding callout '{callout}'");
+        Logger.LogDebug($"Hiding callout '{callout}'");
 
         callout.Hide();
     }

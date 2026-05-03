@@ -6,7 +6,10 @@
                    xmlns:catel="http://schemas.catelproject.com"
                    xmlns:controls="clr-namespace:Orc.Controls"
                    xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
-                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
+                   xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
+                   mc:Ignorable="d"
+                   d:DesignHeight="300"
+                   d:DesignWidth="400">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -19,10 +22,11 @@
 
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" MinHeight="24" />
+            <RowDefinition Height="Auto"
+                           MinHeight="24" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -50,18 +54,20 @@
                     ToolTip="{catel:LanguageBinding Controls_ValidationContextControl_ExpandAll}"
                     Command="{Binding ExpandAll}"
                     Visibility="{Binding IsCollapsed, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+                <behaviors:Interaction.Behaviors>
+                    <orctheming:Square />
+                </behaviors:Interaction.Behaviors>
 
-                <Path Height="12" 
+                <Path Height="12"
                       Width="12"
-                      Data="{StaticResource ArrowsOutGeometry}" 
+                      Data="{StaticResource ArrowsOutGeometry}"
                       HorizontalAlignment="Center"
-                      Margin="0" 
+                      Margin="0"
                       Fill="{DynamicResource Orc.Brushes.Control.Default.Border}"
-                      SnapsToDevicePixels="True" 
+                      SnapsToDevicePixels="True"
                       Stretch="Fill"
                       UseLayoutRounding="True"
-                      VerticalAlignment="Center"/>
-
+                      VerticalAlignment="Center" />
             </Button>
 
             <Button AutomationProperties.AutomationId="CollapseAllButtonId"
@@ -71,16 +77,20 @@
                     ToolTip="{catel:LanguageBinding Controls_ValidationContextControl_CollapseAll}"
                     Command="{Binding CollapseAll}"
                     Visibility="{Binding IsExpanded, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
+                <behaviors:Interaction.Behaviors>
+                    <orctheming:Square />
+                </behaviors:Interaction.Behaviors>
 
-                <Path Height="12" Width="12" Data="{StaticResource ArrowsInGeometry}" 
+                <Path Height="12"
+                      Width="12"
+                      Data="{StaticResource ArrowsInGeometry}"
                       HorizontalAlignment="Center"
-                      Margin="0" 
-                      SnapsToDevicePixels="True" 
+                      Margin="0"
+                      SnapsToDevicePixels="True"
                       Fill="{DynamicResource Orc.Brushes.Control.Default.Border}"
                       Stretch="Fill"
                       UseLayoutRounding="True"
-                      VerticalAlignment="Center"/>
-
+                      VerticalAlignment="Center" />
             </Button>
 
             <StackPanel Orientation="Horizontal"
@@ -109,10 +119,11 @@
                                         ShowErrors="{Binding ShowErrors}"
                                         ShowWarnings="{Binding ShowWarnings}"
                                         Filter="{Binding Filter}"
-                                        Nodes="{Binding Nodes, Mode=OneWayToSource, FallbackValue={x:Array Type={x:Type controls:IValidationContextTreeNode}}}" 
-                                        IsExpandedByDefault="{Binding IsExpandedAllOnStartup}"/>
+                                        Nodes="{Binding Nodes, Mode=OneWayToSource, FallbackValue={x:Array Type={x:Type controls:IValidationContextTreeNode}}}"
+                                        IsExpandedByDefault="{Binding IsExpandedAllOnStartup}" />
 
-        <DockPanel Grid.Row="2" LastChildFill="False" 
+        <DockPanel Grid.Row="2"
+                   LastChildFill="False"
                    Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:ValidationContextView}}, Path=ShowButtons, Converter={catel:BooleanToCollapsingVisibilityConverter}}">
             <Button AutomationProperties.AutomationId="CopyButtonId"
                     Content="{catel:LanguageBinding Controls_ValidationContextControl_Copy}"

@@ -1,13 +1,6 @@
-﻿namespace Orc.Controls.Example.Views
-{
-    using Catel.IoC;
-    using Services;
+﻿namespace Orc.Controls.Example.Views;
 
-    public partial class FrameRateCounterView
-    {
-        public FrameRateCounterView()
-        {
-            InitializeComponent();
-        }
-    }
+public partial class FrameRateCounterView
+{
+
 }

@@ -1,5 +1,6 @@
 ﻿namespace Orc.Controls;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,8 +10,11 @@ using Catel.MVVM;
 
 public class StepBarViewModel : ViewModelBase
 {
-    public StepBarViewModel()
+    public StepBarViewModel(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
+        ValidateUsingDataAnnotations = false;
+
         Items = new List<IStepBarItem>();
     }
 

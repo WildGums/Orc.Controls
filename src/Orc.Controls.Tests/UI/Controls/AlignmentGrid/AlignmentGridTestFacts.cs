@@ -1,27 +1,26 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests.UI;
+
+using System.Windows.Media;
+using NUnit.Framework;
+using Orc.Automation;
+
+[Explicit]
+[TestFixture(TestOf = typeof(AlignmentGrid))]
+[Category("UI Tests")]
+public class AlignmentGridTestFacts : StyledControlTestFacts<AlignmentGrid>
 {
-    using System.Windows.Media;
-    using NUnit.Framework;
-    using Orc.Automation;
+    [Target]
+    public Automation.AlignmentGrid Target { get; set; }
 
-    [Explicit]
-    [TestFixture(TestOf = typeof(AlignmentGrid))]
-    [Category("UI Tests")]
-    public class AlignmentGridTestFacts : StyledControlTestFacts<AlignmentGrid>
+    [Test]
+    public void CorrectlyInitialize()
     {
-        [Target]
-        public Automation.AlignmentGrid Target { get; set; }
+        var target = Target;
 
-        [Test]
-        public void CorrectlyInitialize()
-        {
-            var target = Target;
+        var model = target.Current;
 
-            var model = target.Current;
-
-            model.HorizontalStep = 10d;
-            model.VerticalStep = 10d;
-            model.LineBrush = Brushes.Blue;
-        }
+        model.HorizontalStep = 10d;
+        model.VerticalStep = 10d;
+        model.LineBrush = Brushes.Blue;
     }
 }

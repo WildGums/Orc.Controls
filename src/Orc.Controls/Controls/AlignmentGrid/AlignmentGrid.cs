@@ -9,7 +9,7 @@ using Automation;
 using ControlzEx.Theming;
 using Theming;
 
-public class AlignmentGrid : ContentControl
+public partial class AlignmentGrid : ContentControl
 {
     private readonly Canvas _containerCanvas = new();
     private readonly ControlzEx.Theming.ThemeManager _themeManager;

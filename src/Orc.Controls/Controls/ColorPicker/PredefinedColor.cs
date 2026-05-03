@@ -22,6 +22,9 @@ public class PredefinedColor : IEquatable<PredefinedColor>
     /// </summary>
     private static Dictionary<string, PredefinedColor>? DictionaryColors;
 
+    // Add a static property to store custom theme colors
+    private static List<PredefinedColor>? _customThemeColors;
+
     /// <summary>
     /// The list colors.
     /// </summary>
@@ -32,6 +35,12 @@ public class PredefinedColor : IEquatable<PredefinedColor>
     /// </summary>
     private static List<PredefinedColor>? ListThemeColors;
 
+    public PredefinedColor(Color color, string name)
+    {
+        Value = color;
+        Name = name;
+    }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="PredefinedColor" /> class.
     /// </summary>
@@ -40,7 +49,7 @@ public class PredefinedColor : IEquatable<PredefinedColor>
     /// <param name="g">The g.</param>
     /// <param name="b">The b.</param>
     /// <param name="name">The name.</param>
-    private PredefinedColor(byte a, byte r, byte g, byte b, string name)
+    public PredefinedColor(byte a, byte r, byte g, byte b, string name)
     {
         Value = Color.FromArgb(a, r, g, b);
         Name = name;
@@ -51,7 +60,7 @@ public class PredefinedColor : IEquatable<PredefinedColor>
     /// </summary>
     /// <param name="rgb">The rgb.</param>
     /// <param name="name">The name.</param>
-    private PredefinedColor(string rgb, string name)
+    public PredefinedColor(string rgb, string name)
     {
         Value = Color.FromArgb(
             0xff,
@@ -81,8 +90,12 @@ public class PredefinedColor : IEquatable<PredefinedColor>
     {
         get
         {
-            InitializeThemeColors();
+            if (_customThemeColors is not null)
+            {
+                return _customThemeColors;
+            }
 
+            InitializeThemeColors();
             return ListThemeColors;
         }
     }
@@ -96,6 +109,18 @@ public class PredefinedColor : IEquatable<PredefinedColor>
     /// Gets the value.
     /// </summary>
     public Color Value { get; private set; }
+
+    public static void SetCustomThemeColors(IEnumerable<PredefinedColor>? colors)
+    {
+        if (colors is null)
+        {
+            _customThemeColors = null;
+            return;
+        }
+
+        _customThemeColors = [..colors];
+    }
+
 
     /// <summary>
     /// The get color name.
@@ -181,68 +206,48 @@ public class PredefinedColor : IEquatable<PredefinedColor>
                 return;
             }
 
-            ListThemeColors = new List<PredefinedColor>
+            ListThemeColors = new()
             {
-                new ("ffffff", "#ffffff"),
-                new ("000000", "#000000"),
-                new ("eeece1", "#eeece1"),
-                new ("1f497d", "#1f497d"),
-                new ("4f81bd", "#4f81bd"),
-                new ("c0504d", "#c0504d"),
-                new ("9bbb59", "#9bbb59"),
-                new ("8064a2", "#8064a2"),
-                new ("4bacc6", "#4bacc6"),
-                new ("f79646", "#f79646"),
-                new ("f2f2f2", "#f2f2f2"),
-                new ("7f7f7f", "#7f7f7f"),
-                new ("ddd9c3", "#ddd9c3"),
-                new ("c6d9f0", "#c6d9f0"),
-                new ("dbe5f1", "#dbe5f1"),
-                new ("f2dcdb", "#f2dcdb"),
-                new ("ebf1dd", "#ebf1dd"),
-                new ("e5e0ec", "#e5e0ec"),
-                new ("dbeef3", "#dbeef3"),
-                new ("fdeada", "#fdeada"),
-                new ("d8d8d8", "#d8d8d8"),
-                new ("595959", "#595959"),
-                new ("c4bd97", "#c4bd97"),
-                new ("8db3e2", "#8db3e2"),
-                new ("b8cce4", "#b8cce4"),
-                new ("e5b9b7", "#e5b9b7"),
-                new ("d7e3bc", "#d7e3bc"),
-                new ("ccc1d9", "#ccc1d9"),
-                new ("b7dde8", "#b7dde8"),
-                new ("fbd5b5", "#fbd5b5"),
-                new ("bfbfbf", "#bfbfbf"),
-                new ("3f3f3f", "#3f3f3f"),
-                new ("938953", "#938953"),
-                new ("548dd4", "#548dd4"),
-                new ("95b3d7", "#95b3d7"),
-                new ("d99694", "#d99694"),
-                new ("c3d69b", "#c3d69b"),
-                new ("b2a2c7", "#b2a2c7"),
-                new ("92cddc", "#92cddc"),
-                new ("fac08f", "#fac08f"),
-                new ("a5a5a5", "#a5a5a5"),
-                new ("262626", "#262626"),
-                new ("494429", "#494429"),
-                new ("17365d", "#17365d"),
-                new ("366092", "#366092"),
-                new ("953734", "#953734"),
-                new ("76923c", "#76923c"),
-                new ("5f497a", "#5f497a"),
-                new ("31859b", "#31859b"),
-                new ("e36c09", "#e36c09"),
-                new ("7f7f7f", "#7f7f7f"),
-                new ("0c0c0c", "#0c0c0c"),
-                new ("1d1b10", "#1d1b10"),
-                new ("0f243e", "#0f243e"),
-                new ("244061", "#244061"),
-                new ("632423", "#632423"),
-                new ("4f6128", "#4f6128"),
-                new ("3f3151", "#3f3151"),
-                new ("205867", "#205867"),
-                new ("974806", "#974806")
+                // Basic colors
+                new ("ffffff", "#ffffff"),   // White
+                new ("000000", "#000000"),   // Black
+                new ("f2f2f2", "#f2f2f2"),   // Light gray
+                new ("7f7f7f", "#7f7f7f"),   // Medium gray
+                new ("262626", "#262626"),   // Dark gray
+
+                // Blues
+                new ("4f81bd", "#4f81bd"),   // Medium blue
+                new ("c6d9f0", "#c6d9f0"),   // Light blue
+                new ("17365d", "#17365d"),   // Dark blue
+                new ("4bacc6", "#4bacc6"),   // Cyan
+                new ("dbeef3", "#dbeef3"),   // Light cyan
+
+                // Reds
+                new ("c0504d", "#c0504d"),   // Medium red
+                new ("f2dcdb", "#f2dcdb"),   // Light red
+                new ("632423", "#632423"),   // Dark red
+
+                // Greens
+                new ("9bbb59", "#9bbb59"),   // Medium green
+                new ("ebf1dd", "#ebf1dd"),   // Light green
+                new ("4f6128", "#4f6128"),   // Dark green
+
+                // Yellows/Oranges
+                new ("f79646", "#f79646"),   // Orange
+                new ("fdeada", "#fdeada"),   // Light orange
+
+                // Purples
+                new ("8064a2", "#8064a2"),   // Medium purple
+                new ("e5e0ec", "#e5e0ec"),   // Light purple
+
+                // Browns/Earth tones
+                new ("ddd9c3", "#ddd9c3"),   // Beige
+                new ("c4bd97", "#c4bd97"),   // Khaki
+                new ("938953", "#938953"),   // Bronze
+
+                // Other useful colors
+                new ("e36c09", "#e36c09"),   // Bright orange
+                new ("548dd4", "#548dd4")    // Bright blue
             };
         }
     }

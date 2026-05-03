@@ -6,13 +6,14 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using Catel;
 using Catel.Logging;
+using Microsoft.Extensions.Logging;
 
 /// <summary>
 /// Media element thread info.
 /// </summary>
 public class MediaElementThreadInfo : Disposable
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(MediaElementThreadInfo));
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MediaElementThreadInfo"/> class.
@@ -70,7 +71,7 @@ public class MediaElementThreadInfo : Disposable
 
         if (Dispatcher is not null)
         {
-            throw Log.ErrorAndCreateException<InvalidOperationException>("Dispatcher is already set and cannot be set again");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Dispatcher is already set and cannot be set again");
         }
 
         Dispatcher = dispatcher;
@@ -92,20 +93,20 @@ public class MediaElementThreadInfo : Disposable
 
             void ShutdownHandler(object? o, EventArgs eventArgs)
             {
-                Log.Debug($"[{Id}] Dispatcher has been shutdown, thread should exit any time now");
+                Logger.LogDebug($"[{Id}] Dispatcher has been shutdown, thread should exit any time now");
 
                 dispatcher.ShutdownFinished -= ShutdownHandler;
             }
 
             dispatcher.ShutdownFinished += ShutdownHandler;
 
-            Log.Debug($"[{Id}] Shutting down the dispatcher");
+            Logger.LogDebug($"[{Id}] Shutting down the dispatcher");
 
             dispatcher.InvokeShutdown();
         }
         else
         {
-            Log.Warning($"[{Id}] No dispatcher object was available, aborting the thread");
+            Logger.LogWarning($"[{Id}] No dispatcher object was available, aborting the thread");
         }
     }
 }

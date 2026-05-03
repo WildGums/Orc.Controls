@@ -10,7 +10,7 @@ using System.Windows.Media;
 using Orc.Automation;
 using Orc.Automation.Controls;
 
-[AutomatedControl(Class = typeof(Controls.ColorBoard))]
+[AutomatedControl(Class = typeof(Orc.Controls.ColorBoard))]
 public class ColorBoard : FrameworkElement<ColorBoardModel, ColorBoardMap>
 {
     public ColorBoard(AutomationElement element)

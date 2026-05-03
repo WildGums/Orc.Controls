@@ -3,21 +3,14 @@
 using System.Windows;
 using System.Windows.Automation.Peers;
 using Automation;
+using Catel;
 using Catel.Data;
+using Catel.IoC;
 using Catel.MVVM.Views;
+using Microsoft.Extensions.DependencyInjection;
 
 public sealed partial class ValidationContextView
 {
-    static ValidationContextView()
-    {
-        typeof(ValidationContextView).AutoDetectViewPropertiesToSubscribe();
-    }
-
-    public ValidationContextView()
-    {
-        InitializeComponent();
-    }
-
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
     public IValidationContext? ValidationContext
     {
