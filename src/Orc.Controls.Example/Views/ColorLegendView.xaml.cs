@@ -1,10 +1,6 @@
-﻿namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views;
+
+public partial class ColorLegendView
 {
-    public partial class ColorLegendView
-    {
-        public ColorLegendView()
-        {
-            InitializeComponent();
-        }
-    }
+
 }

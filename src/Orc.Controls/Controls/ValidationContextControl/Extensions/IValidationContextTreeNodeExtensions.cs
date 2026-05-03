@@ -1,83 +1,76 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public static class IValidationContextTreeNodeExtensions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    public static class IValidationContextTreeNodeExtensions
+    public static string ToText(this IEnumerable<IValidationContextTreeNode> validationContextTreeNodes)
     {
-        #region Methods
-        public static string ToText(this IEnumerable<IValidationContextTreeNode> validationContextTreeNodes)
-        {
-            var result = string.Empty;
-            var nodes = validationContextTreeNodes.Where(x => x.IsVisible).OrderByDescending(x => (IComparable)x).Select(x => new Node
-            {
-                Level = 0,
-                Value = x
-            });
-            var stack = new Stack<Node>(nodes);
-            while (stack.Any())
-            {
-                var node = stack.Pop();
-                for (var i = 0; i < node.Level; i++)
-                {
-                    result += "    ";
-                }
+        var result = string.Empty;
+        var nodes = validationContextTreeNodes.Where(x => x.IsVisible)
+            .OrderByDescending(x => (IComparable)x).Select(x => new Node(0, x));
 
-                result += node.Value.DisplayName + Environment.NewLine;
-                var nexLevel = node.Level + 1;
-                foreach (var subNode in node.Value.Children.Where(x => x.IsVisible).OrderByDescending(x => (IComparable)x))
-                {
-                    stack.Push(new Node
-                    {
-                        Level = nexLevel,
-                        Value = subNode
-                    });
-                }
+        var stack = new Stack<Node>(nodes);
+        while (stack.Any())
+        {
+            var node = stack.Pop();
+            for (var i = 0; i < node.Level; i++)
+            {
+                result += "    ";
             }
 
-            return result;
-        }
-
-        public static void ExpandAll(this IEnumerable<IValidationContextTreeNode> nodes)
-        {
-            foreach (var node in nodes)
+            result += node.Value.DisplayName + Environment.NewLine;
+            var nexLevel = node.Level + 1;
+            foreach (var subNode in node.Value.Children.Where(x => x.IsVisible).OrderByDescending(x => (IComparable)x))
             {
-                node.IsExpanded = true;
-
-                node.Children.ExpandAll();
+                stack.Push(new Node(nexLevel, subNode));
             }
         }
 
-        public static void CollapseAll(this IEnumerable<IValidationContextTreeNode> nodes)
-        {
-            foreach (var node in nodes)
-            {
-                node.IsExpanded = false;
+        return result;
+    }
 
-                node.Children.CollapseAll();
-            }
+    public static void ExpandAll(this IEnumerable<IValidationContextTreeNode> nodes)
+    {
+        foreach (var node in nodes)
+        {
+            node.IsExpanded = true;
+
+            node.Children.ExpandAll();
+        }
+    }
+
+    public static void CollapseAll(this IEnumerable<IValidationContextTreeNode> nodes)
+    {
+        foreach (var node in nodes)
+        {
+            node.IsExpanded = false;
+
+            node.Children.CollapseAll();
+        }
+    }
+
+    public static bool HasAnyCollapsed(this IEnumerable<IValidationContextTreeNode> nodes)
+    {
+        return nodes.Any(x => !x.IsExpanded || HasAnyCollapsed(x.Children));
+    }
+
+    public static bool HasAnyExpanded(this IEnumerable<IValidationContextTreeNode> nodes)
+    {
+        return nodes.Any(x => x.IsExpanded || HasAnyExpanded(x.Children));
+    }
+
+    private class Node
+    {
+        public Node(int level, IValidationContextTreeNode value)
+        {
+            Level = level;
+            Value = value;
         }
 
-        public static bool HasAnyCollapsed(this IEnumerable<IValidationContextTreeNode> nodes)
-        {
-            return nodes?.Any(x => !x.IsExpanded || HasAnyCollapsed(x.Children)) ?? false;
-        }
-
-        public static bool HasAnyExpanded(this IEnumerable<IValidationContextTreeNode> nodes)
-        {
-            return nodes?.Any(x => x.IsExpanded || HasAnyExpanded(x.Children)) ?? false;
-        }
-        #endregion
-
-        #region Nested type: Node
-        private class Node
-        {
-            #region Fields
-            public int Level;
-            public IValidationContextTreeNode Value;
-            #endregion
-        }
-        #endregion
+        public int Level { get; }
+        public IValidationContextTreeNode Value { get; }
     }
 }

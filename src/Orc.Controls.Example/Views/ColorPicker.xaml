@@ -30,12 +30,54 @@
 
         <orccontrols:ColorPicker Grid.Column="1"
                                  Style="{StaticResource ComboboxColorPickerStyle}"
-                                 Color="Green"/>
+                                 Color="Green">
+            <orccontrols:ColorPicker.CustomThemeColors>
+                <x:Array Type="{x:Type Color}">
+                    <!-- Row 0 -->
+                    <Color R="0" G="0" B="0" A="0"/> <!-- Transparent -->
+                    <Color R="255" G="255" B="255" A="255"/> <!-- White -->
+                    <Color R="204" G="204" B="204" A="255"/> <!-- Light Gray -->
+                    <Color R="102" G="102" B="102" A="255"/> <!-- Dark Gray -->
+                    <Color R="0" G="0" B="0" A="255"/> <!-- Black -->
+
+                    <!-- Row 1 -->
+                    <Color R="178" G="255" B="178" A="255"/> <!-- Semi-transparent Light Green -->
+                    <Color R="153" G="255" B="153" A="255"/> <!-- Light Green -->
+                    <Color R="0" G="255" B="0" A="255"/> <!-- Green -->
+                    <Color R="50" G="205" B="50" A="255"/> <!-- Lime Green -->
+                    <Color R="0" G="170" B="0" A="255"/> <!-- Dark Green -->
+
+                    <!-- Row 2 -->
+                    <Color R="0" G="255" B="255" A="255"/> <!-- Cyan -->
+                    <Color R="0" G="153" B="255" A="255"/> <!-- Light Blue -->
+                    <Color R="70" G="130" B="180" A="255"/> <!-- Steel Blue -->
+                    <Color R="0" G="0" B="255" A="255"/> <!-- Blue -->
+                    <Color R="0" G="0" B="170" A="255"/> <!-- Dark Blue -->
+
+                    <!-- Row 3 -->
+                    <Color R="255" G="255" B="0" A="255"/> <!-- Yellow -->
+                    <Color R="255" G="188" B="150" A="255"/> <!-- Salmon Light -->
+                    <Color R="255" G="153" B="102" A="255"/> <!-- Salmon -->
+                    <Color R="255" G="170" B="0" A="255"/> <!-- Orange -->
+                    <Color R="255" G="0" B="0" A="255"/> <!-- Red -->
+
+                    <!-- Row 4 -->
+                    <Color R="255" G="0" B="255" A="255"/> <!-- Magenta -->
+                    <Color R="128" G="0" B="128" A="255"/><!-- Purple -->
+                    <Color R="170" G="0" B="0" A="255"/> <!-- Dark Red -->
+                    <Color R="75" G="0" B="130" A="255"/> <!-- Indigo -->
+                    <Color R="139" G="69" B="19" A="255"/> <!-- Saddle Brown -->
+
+                </x:Array>
+            </orccontrols:ColorPicker.CustomThemeColors>
+        </orccontrols:ColorPicker>
 
         <Button Content="Click me"
-                Click="OnClick"/>
+                Click="OnClick"
+                Visibility="Hidden"/>
 
-        <orccontrols:ColorBoard x:Name="ColorBoard"/>
+        <orccontrols:ColorBoard x:Name="ColorBoard"
+                                Visibility="Hidden"/>
 
 
     </orccontrols:StackGrid>

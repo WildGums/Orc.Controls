@@ -1,26 +1,25 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests.UI;
+
+using System.Windows.Media;
+using NUnit.Framework;
+using Orc.Automation;
+
+[Explicit]
+[TestFixture(TestOf = typeof(BusyIndicator))]
+[Category("UI Tests")]
+public class BusyIndicatorTestFacts : StyledControlTestFacts<BusyIndicator>
 {
-    using System.Windows.Media;
-    using NUnit.Framework;
-    using Orc.Automation;
+    [Target]
+    public Automation.BusyIndicator Target { get; set; }
 
-    [Explicit]
-    [TestFixture(TestOf = typeof(BusyIndicator))]
-    [Category("UI Tests")]
-    public class BusyIndicatorTestFacts : StyledControlTestFacts<BusyIndicator>
+    [Test]
+    [Ignore("Test is broken")]
+    public void CorrectlyInitialize()
     {
-        [Target]
-        public Automation.BusyIndicator Target { get; set; }
+        var target = Target;
 
-        [Test]
-        [Ignore("Test is broken")]
-        public void CorrectlyInitialize()
-        {
-            var target = Target;
+        var model = target.Current;
 
-            var model = target.Current;
-
-            model.Foreground = Brushes.Red;
-        }
+        model.Foreground = Brushes.Red;
     }
 }

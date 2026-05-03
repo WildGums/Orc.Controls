@@ -1,17 +1,22 @@
-﻿namespace Orc.Controls.Example.Watchers
+﻿namespace Orc.Controls.Example.Watchers;
+
+using System;
+using Catel.Configuration;
+using Catel.IoC;
+using Catel.Services;
+using Microsoft.Extensions.Logging;
+
+public class ShowCalloutAtStartupWatcher : TimeBasedCalloutWatcherBase, IConstructAtStartup
 {
-    using System;
-    using Catel.Configuration;
-
-    public class ShowCalloutAtStartupWatcher : TimeBasedCalloutWatcherBase
+    public ShowCalloutAtStartupWatcher(ILogger<ShowCalloutAtStartupWatcher> logger, 
+        ICalloutManager calloutManager, 
+        IConfigurationService configurationService,
+        IDispatcherService dispatcherService) 
+        : base(logger, calloutManager, configurationService, dispatcherService)
     {
-        public ShowCalloutAtStartupWatcher(ICalloutManager calloutManager, IConfigurationService configurationService) 
-            : base(calloutManager, configurationService)
-        {
-            Name = "ExampleCallout";
-            IsOneTimeCallout = false;
-        }
-
-        public override TimeSpan Delay => TimeSpan.FromSeconds(10);
+        Name = "ExampleCallout";
+        IsOneTimeCallout = false;
     }
+
+    public override TimeSpan Delay => TimeSpan.FromSeconds(10);
 }

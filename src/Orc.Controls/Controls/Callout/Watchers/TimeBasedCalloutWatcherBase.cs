@@ -1,95 +1,103 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Threading.Tasks;
+using Catel.Configuration;
+using Catel.Services;
+using Catel.Windows.Threading;
+using Microsoft.Extensions.Logging;
+
+public abstract class TimeBasedCalloutWatcherBase : CalloutWatcherBase
 {
-    using System;
-    using System.Threading.Tasks;
-    using System.Windows.Threading;
-    using Catel.Configuration;
-    using Catel.Logging;
+    private readonly ILogger _logger;
+    private readonly IDispatcherService _dispatcherService;
 
-    public abstract class TimeBasedCalloutWatcherBase : CalloutWatcherBase
+    private readonly DispatcherTimerEx _dispatcherTimer;
+
+    public TimeBasedCalloutWatcherBase(ILogger logger,
+        ICalloutManager calloutManager, IConfigurationService configurationService,
+        IDispatcherService dispatcherService)
+        : base(calloutManager, configurationService)
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        _logger = logger;
+        _dispatcherService = dispatcherService;
 
-        private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer();
+        _dispatcherTimer = new DispatcherTimerEx(dispatcherService);
+        _dispatcherTimer.Tick += OnDispatcherTimerTick;
 
-        public TimeBasedCalloutWatcherBase(ICalloutManager calloutManager, IConfigurationService configurationService)
-            : base(calloutManager, configurationService)
+        Start = DateTime.MaxValue;
+
+        Subscribe(_calloutManager);
+    }
+
+    public DateTime Start { get; protected set; }
+
+    public DateTime End
+    {
+        get { return Start + Delay; }
+    }
+
+    public abstract TimeSpan Delay { get; }
+
+    protected virtual void Subscribe(ICalloutManager calloutManager)
+    {
+        ArgumentNullException.ThrowIfNull(calloutManager);
+
+        var callout = Callout;
+        if (callout is not null)
         {
-            Start = DateTime.MaxValue;
-            _dispatcherTimer.Tick += OnDispatcherTimerTick;
-
-            Subscribe(_calloutManager);
+            Start = DateTime.Now;
+            return;
         }
 
-        public DateTime Start { get; protected set; }
+        _logger.LogDebug($"Callout is not yet registered, subscribing to ICalloutManager.Registered event");
 
-        public DateTime End
+        calloutManager.Registered += OnCalloutManagerRegistered;
+    }
+
+    private async void OnCalloutManagerRegistered(object? sender, CalloutEventArgs e)
+    {
+        if (Id.HasValue &&
+            e.Callout.Id == Id.Value)
         {
-            get { return Start + Delay; }
+            Start = DateTime.Now;
+        }
+        else if (!string.IsNullOrEmpty(Name) &&
+                 e.Callout.Name == Name)
+        {
+            Start = DateTime.Now;
         }
 
-        public abstract TimeSpan Delay { get; }
-
-        protected virtual void Subscribe(ICalloutManager calloutManager)
+        if (Start != DateTime.MaxValue)
         {
-            ArgumentNullException.ThrowIfNull(calloutManager);
+            await ScheduleShowAsync();
+        }
+    }
 
-            var callout = Callout;
-            if (callout is not null)
-            {
-                Start = DateTime.Now;
-                return;
-            }
-
-            Log.Debug($"Callout is not yet registered, subscribing to ICalloutManager.Registered event");
-
-            calloutManager.Registered += OnCalloutManagerRegistered;
+    private async Task ScheduleShowAsync()
+    {
+        if (HasShown)
+        {
+            return;
         }
 
-        private async void OnCalloutManagerRegistered(object? sender, CalloutEventArgs e)
+        var end = End;
+        if (end < DateTime.Now)
         {
-            if (Id.HasValue &&
-                e.Callout.Id == Id.Value)
-            {
-                Start = DateTime.Now;
-            }
-            else if (!string.IsNullOrEmpty(Name) &&
-                     e.Callout.Name == Name)
-            {
-                Start = DateTime.Now;
-            }
-
-            if (Start != DateTime.MaxValue)
-            {
-                await ScheduleShowAsync();
-            }
-        }
-
-        private async Task ScheduleShowAsync()
-        {
-            if (HasShown)
-            {
-                return;
-            }
-
-            var end = End;
-            if (end < DateTime.Now)
-            {
-                await ShowAsync();
-                return;
-            }
-
-            var interval = end - DateTime.Now;
-
-            _dispatcherTimer.Interval = interval;
-            _dispatcherTimer.Start();
-        }
-
-        private async void OnDispatcherTimerTick(object? sender, EventArgs e)
-        {
-            _dispatcherTimer.Stop();
-
             await ShowAsync();
+            return;
         }
+
+        var interval = end - DateTime.Now;
+
+        _dispatcherTimer.Interval = interval;
+        _dispatcherTimer.Start();
+    }
+
+    private async void OnDispatcherTimerTick(object? sender, EventArgs e)
+    {
+        _dispatcherTimer.Stop();
+
+        await ShowAsync();
     }
 }

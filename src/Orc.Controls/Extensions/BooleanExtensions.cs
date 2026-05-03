@@ -1,12 +1,11 @@
-﻿namespace Orc.Controls
-{
-    using System.Windows;
+﻿namespace Orc.Controls;
 
-    internal static class BooleanExtensions
+using System.Windows;
+
+internal static class BooleanExtensions
+{
+    public static Visibility ToVisibility(this bool value, Visibility hiddenState = Visibility.Collapsed)
     {
-        public static Visibility ToVisibility(this bool value, Visibility hiddenState = Visibility.Collapsed)
-        {
-            return value ? Visibility.Visible : hiddenState;
-        }
+        return value ? Visibility.Visible : hiddenState;
     }
 }

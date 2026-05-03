@@ -1,78 +1,90 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using Catel.MVVM;
+using Catel.Windows;
+using Catel.Windows.Markup;
+
+public class OpenToolCommandExtension : UpdatableMarkupExtension
 {
-    using System;
-    using System.Linq;
-    using System.Windows;
-    using System.Windows.Controls;
-    using Catel.MVVM;
-    using Catel.Windows;
-    using Catel.Windows.Markup;
+    private readonly Type _frameworkElementType;
+    private readonly Type _toolType;
+    protected TaskCommand<object> Command { get; }
 
-    public class OpenToolCommandExtension : UpdatableMarkupExtension
+    public OpenToolCommandExtension(Type toolType, Type frameworkElementType)
     {
-        private readonly Type _frameworkElementType;
-        private readonly Type _toolType;
-        protected Command<object> Command { get; }
+        ArgumentNullException.ThrowIfNull(toolType);
+        ArgumentNullException.ThrowIfNull(frameworkElementType);
 
-        public OpenToolCommandExtension(Type toolType, Type frameworkElementType)
+        _toolType = toolType;
+        _frameworkElementType = frameworkElementType;
+
+        Command = new TaskCommand<object>(ServiceProvider, OnOpenToolAsync, CanExecute);
+    }
+
+    protected override object ProvideDynamicValue(IServiceProvider? serviceProvider)
+    {
+        Command.RaiseCanExecuteChanged();
+        return Command;
+    }
+
+    private bool CanExecute(object? parameter)
+    {
+        var attachmentTarget = GetAttachmentTarget();
+        if (attachmentTarget is null)
         {
-            ArgumentNullException.ThrowIfNull(toolType);
-            ArgumentNullException.ThrowIfNull(frameworkElementType);
-
-            _toolType = toolType;
-            _frameworkElementType = frameworkElementType;
-            Command = new Command<object>(OnOpenTool, CanExecute);
+            return false;
         }
 
-        protected override object ProvideDynamicValue(IServiceProvider serviceProvider)
+        var tool = attachmentTarget.GetTools().FirstOrDefault(x => x.GetType() == _toolType);
+        return attachmentTarget.CanAttach(_toolType) || tool?.IsEnabled == true;
+    }
+
+    private async Task OnOpenToolAsync(object? parameter)
+    {
+        var tool = GetAttachmentTarget(parameter);
+        if (tool is null)
         {
-            Command.RaiseCanExecuteChanged();
-            return Command;
+            return;
         }
 
-        private bool CanExecute(object parameter)
+        await tool.AttachAndOpenToolAsync(_toolType, parameter);
+    }
+
+    protected virtual FrameworkElement? GetAttachmentTarget(object? parameter = null)
+    {
+        if (TargetObject is not FrameworkElement targetObject)
         {
-            var attachmentTarget = GetAttachmentTarget();
-            if (attachmentTarget is null)
-            {
-                return false;
-            }
-
-            var tool = attachmentTarget.GetTools().FirstOrDefault(x => x.GetType() == _toolType);
-            if (tool is not null)
-            {
-                return tool.IsEnabled;
-            }
-
-            return attachmentTarget.CanAttach(_toolType);
+            return null;
         }
 
-        private void OnOpenTool(object parameter)
+        if (targetObject is ICommandSource commandSource)
         {
-            GetAttachmentTarget(parameter)?.AttachAndOpenTool(_toolType, parameter);
+            if (commandSource.CommandTarget is FrameworkElement commandTarget
+                && commandTarget.GetType() == _frameworkElementType)
+            {
+                return commandTarget;
+            }
+        }
+        
+        var contextMenu = targetObject.FindLogicalAncestorByType<ContextMenu>()
+                          ?? targetObject.FindLogicalOrVisualAncestor(x => x.GetType() == typeof(ContextMenu)) as ContextMenu;
+
+        if (contextMenu?.PlacementTarget is not FrameworkElement placementTarget)
+        {
+            return null;
         }
 
-        protected virtual FrameworkElement GetAttachmentTarget(object? parameter = null)
+        if (placementTarget.GetType() == _frameworkElementType)
         {
-            if (TargetObject is not FrameworkElement targetObject)
-            {
-                return null;
-            }
-
-            var contextMenu = targetObject.FindLogicalAncestorByType<ContextMenu>()
-                              ?? targetObject.FindLogicalOrVisualAncestor(x => x.GetType() == typeof(ContextMenu)) as ContextMenu;
-
-            if (contextMenu?.PlacementTarget is not FrameworkElement placementTarget)
-            {
-                return null;
-            }
-
-            if (placementTarget.GetType() == _frameworkElementType)
-            {
-                return placementTarget;
-            }
-
-            return placementTarget.FindLogicalOrVisualAncestor(x => x.GetType() == _frameworkElementType) as FrameworkElement;
+            return placementTarget;
         }
+
+        return placementTarget.FindLogicalOrVisualAncestor(x => x.GetType() == _frameworkElementType) as FrameworkElement;
     }
 }

@@ -1,36 +1,26 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Catel.MVVM.Converters;
+
+public partial class TimeAdjustmentCollectionConverter : ValueConverterBase
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Catel.IoC;
-    using Catel.MVVM.Converters;
+    private readonly ITimeAdjustmentProvider _timeAdjustmentProvider;
 
-    public class TimeAdjustmentCollectionConverter : ValueConverterBase
+    public TimeAdjustmentCollectionConverter(ITimeAdjustmentProvider timeAdjustmentProvider)
     {
-        #region Fields
-        private readonly ITimeAdjustmentProvider _timeAdjustmentProvider;
-        #endregion
+        _timeAdjustmentProvider = timeAdjustmentProvider;
+    }
 
-        #region Constructors
-        public TimeAdjustmentCollectionConverter()
+    protected override object? Convert(object? value, Type targetType, object? parameter)
+    {
+        if (value is IEnumerable<TimeAdjustmentStrategy> timeAdjustmentStrategies)
         {
-#pragma warning disable IDISP004 // Don't ignore created IDisposable.
-            _timeAdjustmentProvider = this.GetServiceLocator().ResolveType<ITimeAdjustmentProvider>();
-#pragma warning restore IDISP004 // Don't ignore created IDisposable.
+            return timeAdjustmentStrategies.Select(x => _timeAdjustmentProvider.GetTimeAdjustment(x));
         }
-        #endregion
 
-        #region Methods
-        protected override object? Convert(object? value, Type targetType, object? parameter)
-        {
-            if (value is IEnumerable<TimeAdjustmentStrategy> timeAdjustmentStrategies)
-            {
-                return timeAdjustmentStrategies.Select(x => _timeAdjustmentProvider.GetTimeAdjustment(x));
-            }
-
-            return value;
-        }
-        #endregion
+        return value;
     }
 }

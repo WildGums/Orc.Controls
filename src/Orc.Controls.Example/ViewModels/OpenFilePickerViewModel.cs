@@ -1,11 +1,12 @@
-﻿namespace Orc.Controls.Example.ViewModels
-{
-    using Catel.MVVM;
+﻿namespace Orc.Controls.Example.ViewModels;
 
-    public class OpenFilePickerViewModel : ViewModelBase
+using System;
+using Catel.MVVM;
+
+public class OpenFilePickerViewModel : ViewModelBase
+{
+    public OpenFilePickerViewModel(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
-        public OpenFilePickerViewModel()
-        {
-        }
     }
 }

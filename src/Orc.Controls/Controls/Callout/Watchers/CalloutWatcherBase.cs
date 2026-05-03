@@ -1,93 +1,92 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Threading.Tasks;
+using Catel.Configuration;
+
+public abstract class CalloutWatcherBase
 {
-    using System;
-    using System.Threading.Tasks;
-    using Catel.Configuration;
+    protected readonly ICalloutManager _calloutManager;
+    protected readonly IConfigurationService _configurationService;
 
-    public abstract class CalloutWatcherBase
+    public CalloutWatcherBase(ICalloutManager calloutManager, IConfigurationService configurationService)
     {
-        protected readonly ICalloutManager _calloutManager;
-        protected readonly IConfigurationService _configurationService;
+        ArgumentNullException.ThrowIfNull(calloutManager);
+        ArgumentNullException.ThrowIfNull(configurationService);
 
-        public CalloutWatcherBase(ICalloutManager calloutManager, IConfigurationService configurationService)
+        _calloutManager = calloutManager;
+        _configurationService = configurationService;
+
+        IsOneTimeCallout = true;
+    }
+
+    public Guid? Id { get; protected set; }
+
+    public string? Name { get; protected set; }
+
+    public virtual string Version => "1.0.0";
+
+    public bool HasShown { get; private set; }
+
+    public bool IsOneTimeCallout { get; protected set; }
+
+    public TimeSpan ShowInterval { get; protected set; }
+
+    public virtual ICallout? Callout
+    {
+        get
         {
-            ArgumentNullException.ThrowIfNull(calloutManager);
-            ArgumentNullException.ThrowIfNull(configurationService);
+            ICallout? callout = null;
 
-            _calloutManager = calloutManager;
-            _configurationService = configurationService;
-
-            IsOneTimeCallout = true;
-        }
-
-        public Guid? Id { get; protected set; }
-
-        public string? Name { get; protected set; }
-
-        public virtual string Version => "1.0.0";
-
-        public bool HasShown { get; private set; }
-
-        public bool IsOneTimeCallout { get; protected set; }
-
-        public TimeSpan ShowInterval { get; protected set; }
-
-        public virtual ICallout? Callout
-        {
-            get
+            if (Id.HasValue)
             {
-                ICallout? callout = null;
-
-                if (Id.HasValue)
-                {
-                    callout = _calloutManager.FindCallout(Id.Value);
-                }
-
-                if (callout is null && Name is not null)
-                {
-                    callout = _calloutManager.FindCallout(Name);
-                }
-
-                return callout;
-            }
-        }
-
-        protected virtual async Task ShowAsync()
-        {
-            var callout = Callout;
-            if (callout is null)
-            {
-                return;
+                callout = _calloutManager.FindCallout(Id.Value);
             }
 
-            var lastShownUtc = await GetLastShownUtcAsync();
-            if (IsOneTimeCallout && lastShownUtc.HasValue)
+            if (callout is null && Name is not null)
             {
-                return;
+                callout = _calloutManager.FindCallout(Name);
             }
 
-            callout.Show();
-
-            HasShown = true;
-
-            await _configurationService.MarkCalloutAsShownAsync(callout);
+            return callout;
         }
+    }
 
-        protected virtual void Hide()
+    protected virtual async Task ShowAsync()
+    {
+        var callout = Callout;
+        if (callout is null)
         {
-            Callout?.Hide();
+            return;
         }
 
-        protected virtual async Task<DateTime?> GetLastShownUtcAsync()
+        var lastShownUtc = await GetLastShownUtcAsync();
+        if (IsOneTimeCallout && lastShownUtc.HasValue)
         {
-            var callout = Callout;
-            if (callout is null)
-            {
-                return null;
-            }
-
-            var value = await _configurationService.GetCalloutLastShownAsync(callout);
-            return value;
+            return;
         }
+
+        callout.Show();
+
+        HasShown = true;
+
+        await _configurationService.MarkCalloutAsShownAsync(callout);
+    }
+
+    protected virtual void Hide()
+    {
+        Callout?.Hide();
+    }
+
+    protected virtual async Task<DateTime?> GetLastShownUtcAsync()
+    {
+        var callout = Callout;
+        if (callout is null)
+        {
+            return null;
+        }
+
+        var value = await _configurationService.GetCalloutLastShownAsync(callout);
+        return value;
     }
 }

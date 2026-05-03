@@ -1,14 +1,17 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using Catel.MVVM;
+
+public class StepBarItemViewModel : ViewModelBase
 {
-    using Catel.MVVM;
-
-    public class StepBarItemViewModel : ViewModelBase
+    public StepBarItemViewModel(IStepBarItem stepBarItem, IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
-        public StepBarItemViewModel(IStepBarItem stepBarItem)
-        {
-            Item = stepBarItem;
-        }
+        ValidateUsingDataAnnotations = false;
 
-        public IStepBarItem Item { get; private set; }
+        Item = stepBarItem;
     }
+
+    public IStepBarItem Item { get; private set; }
 }

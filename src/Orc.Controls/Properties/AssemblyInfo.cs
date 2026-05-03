@@ -13,13 +13,7 @@ using System.Windows.Markup;
 
 [assembly: XmlnsPrefix("http://schemas.wildgums.com/orc/controls", "orccontrols")]
 [assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls")]
-//[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Behaviors")]
 [assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Converters")]
-//[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Fonts")]
-//[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Markup")]
-//[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Theming")]
-//[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Views")]
-//[assembly: XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Windows")]
 
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //where theme specific resource dictionaries are located

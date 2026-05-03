@@ -1,12 +1,11 @@
-﻿namespace Orc.Controls.Automation
-{
-    using Orc.Automation;
+﻿namespace Orc.Controls.Automation;
 
-    public class BusyIndicatorAutomationPeer : AutomationControlPeerBase<Controls.BusyIndicator>
+using Orc.Automation;
+
+public class BusyIndicatorAutomationPeer : AutomationControlPeerBase<Orc.Controls.BusyIndicator>
+{
+    public BusyIndicatorAutomationPeer(Orc.Controls.BusyIndicator owner) 
+        : base(owner)
     {
-        public BusyIndicatorAutomationPeer(Controls.BusyIndicator owner) 
-            : base(owner)
-        {
-        }
     }
 }

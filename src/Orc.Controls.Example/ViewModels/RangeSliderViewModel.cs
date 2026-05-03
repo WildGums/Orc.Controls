@@ -1,24 +1,25 @@
-﻿namespace Orc.Controls.Example.ViewModels
+﻿namespace Orc.Controls.Example.ViewModels;
+
+using System;
+using Catel.MVVM;
+
+public class RangeSliderViewModel : ViewModelBase
 {
-    using Catel.MVVM;
-
-    public class RangeSliderViewModel : ViewModelBase
+    public RangeSliderViewModel(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
-        public RangeSliderViewModel()
-        {
-            MinValue = 0;
-            MaxValue = 100;
+        MinValue = 0;
+        MaxValue = 100;
 
-            LowerValue = 20;
-            UpperValue = 80;
-        }
-
-        public double MinValue { get; set; }
-
-        public double MaxValue { get; set; }
-
-        public double LowerValue { get; set; }
-
-        public double UpperValue { get; set; }
+        LowerValue = 20;
+        UpperValue = 80;
     }
+
+    public double MinValue { get; set; }
+
+    public double MaxValue { get; set; }
+
+    public double LowerValue { get; set; }
+
+    public double UpperValue { get; set; }
 }

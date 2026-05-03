@@ -1,67 +1,68 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using Catel.MVVM;
+
+internal class CulturePickerViewModel : ViewModelBase
 {
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using Catel.MVVM;
+    private bool _changingSelectedIndex;
 
-    internal class CulturePickerViewModel : ViewModelBase
+    public CulturePickerViewModel(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
-        #region Fields
-        private bool _changingSelectedIndex;
-        #endregion
+        ValidateUsingDataAnnotations = false;
 
-        #region Constructors
-        public CulturePickerViewModel()
+        AvailableCultures = CultureInfo.GetCultures(CultureTypes.AllCultures)
+            .Where(culture => !string.IsNullOrEmpty(culture.Name) && !string.IsNullOrEmpty(culture.Parent.Name))
+            .OrderBy(culture => culture.DisplayName).ToList();
+    }
+
+    public CultureInfo? SelectedCulture { get; set; }
+    public List<CultureInfo> AvailableCultures { get; }
+    public int SelectedIndex { get; set; }
+
+    private void OnSelectedCultureChanged()
+    {
+        if (_changingSelectedIndex)
         {
-            AvailableCultures = CultureInfo.GetCultures(CultureTypes.AllCultures)
-                .Where(culture => !string.IsNullOrEmpty(culture.Name) && !string.IsNullOrEmpty(culture.Parent.Name))
-                .OrderBy(culture => culture.DisplayName).ToList();
-        }
-        #endregion
-
-        #region Properties
-        public CultureInfo SelectedCulture { get; set; }
-        public List<CultureInfo> AvailableCultures { get; private set; }
-        public int SelectedIndex { get; set; }
-        #endregion
-
-        #region Methods
-        private void OnSelectedCultureChanged()
-        {
-            if (_changingSelectedIndex)
-            {
-                return;
-            }
-
-            var index = AvailableCultures.IndexOf(SelectedCulture);
-            SetSelectedIndex(index);
+            return;
         }
 
-        private void OnSelectedIndexChanged()
+        var selectedCulture = SelectedCulture;
+        if (selectedCulture is null)
         {
-            var selectedIndex = SelectedIndex;
-            if (_changingSelectedIndex || selectedIndex < 0)
-            {
-                return;
-            }
-
-            SelectedCulture = AvailableCultures[selectedIndex];
+            return;
         }
 
-        private void SetSelectedIndex(int index)
-        {
-            _changingSelectedIndex = true;
+        var index = AvailableCultures.IndexOf(selectedCulture);
+        SetSelectedIndex(index);
+    }
 
-            try
-            {
-                SelectedIndex = index;
-            }
-            finally
-            {
-                _changingSelectedIndex = false;
-            }
+    private void OnSelectedIndexChanged()
+    {
+        var selectedIndex = SelectedIndex;
+        if (_changingSelectedIndex || selectedIndex < 0)
+        {
+            return;
         }
-        #endregion
+
+        SelectedCulture = AvailableCultures[selectedIndex];
+    }
+
+    private void SetSelectedIndex(int index)
+    {
+        _changingSelectedIndex = true;
+
+        try
+        {
+            SelectedIndex = index;
+        }
+        finally
+        {
+            _changingSelectedIndex = false;
+        }
     }
 }

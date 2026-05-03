@@ -1,8 +1,12 @@
-﻿namespace Orc.Controls.Example.ViewModels
-{
-    using Catel.MVVM;
+﻿namespace Orc.Controls.Example.ViewModels;
 
-    public class FontImageViewModel : ViewModelBase
+using System;
+using Catel.MVVM;
+
+public class FontImageViewModel : ViewModelBase
+{
+    public FontImageViewModel(IServiceProvider serviceProvider) 
+        : base(serviceProvider)
     {
     }
 }

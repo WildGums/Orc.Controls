@@ -1,12 +1,11 @@
-﻿namespace Orc.Controls.Automation
-{
-    using Orc.Automation;
+﻿namespace Orc.Controls.Automation;
 
-    public class AlignmentGridAutomationPeer : AutomationControlPeerBase<Controls.AlignmentGrid>
+using Orc.Automation;
+
+public class AlignmentGridAutomationPeer : AutomationControlPeerBase<Orc.Controls.AlignmentGrid>
+{
+    public AlignmentGridAutomationPeer(Orc.Controls.AlignmentGrid owner) 
+        : base(owner)
     {
-        public AlignmentGridAutomationPeer(Controls.AlignmentGrid owner) 
-            : base(owner)
-        {
-        }
     }
 }

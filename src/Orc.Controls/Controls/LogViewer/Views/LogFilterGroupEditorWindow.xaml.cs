@@ -1,15 +1,5 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+public partial class LogFilterGroupEditorWindow
 {
-    /// <summary>
-    ///     Interaction logic for LogFilterEditorWindow.xaml
-    /// </summary>
-    public partial class LogFilterGroupEditorWindow
-    {
-        #region Constructors
-        public LogFilterGroupEditorWindow()
-        {
-            InitializeComponent();
-        }
-        #endregion
-    }
 }

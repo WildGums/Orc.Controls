@@ -1,61 +1,61 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System.Windows;
+using System.Windows.Controls;
+using Catel.Windows.Interactivity;
+
+public class PasswordBindBehavior : BehaviorBase<PasswordBox>
 {
-    using System.Windows;
-    using System.Windows.Controls;
-    using Catel.Windows.Interactivity;
-
-    public class PasswordBindBehavior : BehaviorBase<PasswordBox>
+    #region Dependency properties
+    public string? Password
     {
-        #region Dependency properties
-        public string Password
-        {
-            get { return (string)GetValue(PasswordProperty); }
-            set { SetValue(PasswordProperty, value); }
-        }
+        get { return (string?)GetValue(PasswordProperty); }
+        set { SetValue(PasswordProperty, value); }
+    }
 
-        public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register(nameof(Password),
-            typeof(string), typeof(PasswordBindBehavior), new PropertyMetadata(default(string), (sender, args) => ((PasswordBindBehavior)sender).OnPasswordChanged(args)));
-        #endregion
+    public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register(nameof(Password),
+        typeof(string), typeof(PasswordBindBehavior), new PropertyMetadata(default(string), (sender, args) => ((PasswordBindBehavior)sender).OnPasswordChanged(args)));
+    #endregion
 
-        #region Methods
-        protected override void OnAssociatedObjectLoaded()
-        {
+    protected override void OnAssociatedObjectLoaded()
+    {
+        if (AssociatedObject is not null) 
+        {   
             AssociatedObject.PasswordChanged += OnPasswordChanged;
+        }
+    
+        base.OnAssociatedObjectLoaded();
+    }
 
-            base.OnAssociatedObjectLoaded();
+    protected override void OnAssociatedObjectUnloaded()
+    {
+        if (AssociatedObject is not null) 
+        { 
+            AssociatedObject.PasswordChanged -= OnPasswordChanged;
         }
 
-        protected override void OnAssociatedObjectUnloaded()
+        base.OnAssociatedObjectUnloaded();
+    }
+
+    private void OnPasswordChanged(DependencyPropertyChangedEventArgs args)
+    {
+        var passwordTextBox = AssociatedObject;
+        if (passwordTextBox is null)
         {
-            if(AssociatedObject is not null) 
-            { 
-                AssociatedObject.PasswordChanged -= OnPasswordChanged;
-            }
-
-            base.OnAssociatedObjectUnloaded();
+            return;
         }
 
-        private void OnPasswordChanged(DependencyPropertyChangedEventArgs args)
+        var newPassword = args.NewValue as string;
+        if (passwordTextBox.Password == newPassword)
         {
-            var passwordTextBox = AssociatedObject;
-            if (passwordTextBox is null)
-            {
-                return;
-            }
-
-            var newPassword = args.NewValue as string;
-            if (passwordTextBox.Password == newPassword)
-            {
-                return;
-            }
-
-            passwordTextBox.Password = newPassword;
+            return;
         }
 
-        private void OnPasswordChanged(object sender, RoutedEventArgs args)
-        {
-            SetCurrentValue(PasswordProperty, AssociatedObject.Password);
-        }
-        #endregion
+        passwordTextBox.Password = newPassword;
+    }
+
+    private void OnPasswordChanged(object sender, RoutedEventArgs args)
+    {
+        SetCurrentValue(PasswordProperty, AssociatedObject.Password);
     }
 }

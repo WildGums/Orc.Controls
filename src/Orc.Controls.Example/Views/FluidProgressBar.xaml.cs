@@ -1,15 +1,7 @@
-﻿namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views;
+
+
+public partial class FluidProgressBar
 {
-    /// <summary>
-    /// Interaction logic for FluidProgressBar.xaml
-    /// </summary>
-    public partial class FluidProgressBar
-    {
-        #region Constructors
-        public FluidProgressBar()
-        {
-            InitializeComponent();
-        }
-        #endregion
-    }
+
 }

@@ -1,12 +1,11 @@
-﻿namespace Orc.Controls.Automation
-{
-    using Orc.Automation;
+﻿namespace Orc.Controls.Automation;
 
-    public class HeaderBarAutomationPeer : AutomationControlPeerBase<Controls.HeaderBar>
+using Orc.Automation;
+
+public class HeaderBarAutomationPeer : AutomationControlPeerBase<Orc.Controls.HeaderBar>
+{
+    public HeaderBarAutomationPeer(Orc.Controls.HeaderBar owner) 
+        : base(owner)
     {
-        public HeaderBarAutomationPeer(Controls.HeaderBar owner) 
-            : base(owner)
-        {
-        }
     }
 }

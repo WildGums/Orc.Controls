@@ -1,32 +1,27 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System.Collections.ObjectModel;
+using System.Linq;
+using Catel.Data;
+using Catel.Logging;
+
+public class LogFilterGroup : ModelBase
 {
-    using System.Collections.ObjectModel;
-    using System.Linq;
-    using Catel.Data;
-    using Catel.Logging;
+    public string? Name { get; set; }
 
-    public class LogFilterGroup : ModelBase
+    public bool IsRuntime { get; set; }
+
+    public bool IsEnabled { get; set; } = true;
+
+    public ObservableCollection<LogFilter> LogFilters { get; } = new();
+
+    public bool Pass(LogEntry logEntry)
     {
-        #region Properties
-        public string Name { get; set; }
+        return LogFilters.All(filter => filter.Pass(logEntry));
+    }
 
-        public bool IsRuntime { get; set; }
-
-        public bool IsEnabled { get; set; } = true;
-
-        public ObservableCollection<LogFilter> LogFilters { get; set; } = new ObservableCollection<LogFilter>();
-        #endregion
-
-        #region Methods
-        public bool Pass(LogEntry logEntry)
-        {
-            return LogFilters.All(filter => filter.Pass(logEntry));
-        }
-
-        public override string ToString()
-        {
-            return Name;
-        }
-        #endregion
+    public override string? ToString()
+    {
+        return Name;
     }
 }

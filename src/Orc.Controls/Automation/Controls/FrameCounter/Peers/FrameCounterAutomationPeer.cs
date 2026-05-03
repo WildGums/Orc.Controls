@@ -1,12 +1,11 @@
-﻿namespace Orc.Controls.Automation
-{
-    using Orc.Automation;
+﻿namespace Orc.Controls.Automation;
 
-    public class FrameCounterAutomationPeer : AutomationControlPeerBase<Controls.FrameCounter>
+using Orc.Automation;
+
+public class FrameCounterAutomationPeer : AutomationControlPeerBase<Orc.Controls.FrameCounter>
+{
+    public FrameCounterAutomationPeer(Orc.Controls.FrameCounter owner) 
+        : base(owner)
     {
-        public FrameCounterAutomationPeer(Controls.FrameCounter owner) 
-            : base(owner)
-        {
-        }
     }
 }

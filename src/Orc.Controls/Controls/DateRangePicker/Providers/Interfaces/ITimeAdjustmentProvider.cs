@@ -1,7 +1,6 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+public interface ITimeAdjustmentProvider
 {
-    public interface ITimeAdjustmentProvider
-    {
-        TimeAdjustment GetTimeAdjustment(TimeAdjustmentStrategy strategy);
-    }
+    TimeAdjustment GetTimeAdjustment(TimeAdjustmentStrategy strategy);
 }

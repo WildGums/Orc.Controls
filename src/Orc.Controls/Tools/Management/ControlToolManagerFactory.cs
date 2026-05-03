@@ -1,52 +1,48 @@
-﻿namespace Orc.Controls.Tools
+﻿namespace Orc.Controls.Tools;
+
+using System;
+using System.Collections.Generic;
+using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
+
+public class ControlToolManagerFactory : IControlToolManagerFactory
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Windows;
-    using Catel.IoC;
+    private readonly Dictionary<FrameworkElement, IControlToolManager> _controlToolManagers = new();
 
-    public class ControlToolManagerFactory : IControlToolManagerFactory
+    private readonly IServiceProvider _serviceProvider;
+
+    public ControlToolManagerFactory(IServiceProvider serviceProvider)
     {
-        private readonly Dictionary<FrameworkElement, IControlToolManager> _controlToolManagers
-            = new Dictionary<FrameworkElement, IControlToolManager>();
+        _serviceProvider = serviceProvider;
+    }
 
-        private readonly ITypeFactory _typeFactory;
+    public IControlToolManager GetOrCreateManager(FrameworkElement frameworkElement)
+    {
+        ArgumentNullException.ThrowIfNull(frameworkElement);
 
-        public ControlToolManagerFactory(ITypeFactory typeFactory)
+        if (!_controlToolManagers.TryGetValue(frameworkElement, out var manager))
         {
-            ArgumentNullException.ThrowIfNull(typeFactory);
-
-            _typeFactory = typeFactory;
+            manager = ActivatorUtilities.CreateInstance<ControlToolManager>(_serviceProvider, frameworkElement);
+            frameworkElement.Unloaded += OnFrameworkElementUnloaded;
         }
 
-        public IControlToolManager GetOrCreateManager(FrameworkElement frameworkElement)
+        _controlToolManagers[frameworkElement] = manager;
+        return manager;
+    }
+
+    private void OnFrameworkElementUnloaded(object sender, RoutedEventArgs e)
+    {
+        if (sender is not FrameworkElement frameworkElement)
         {
-            ArgumentNullException.ThrowIfNull(frameworkElement);
-
-            if (!_controlToolManagers.TryGetValue(frameworkElement, out var manager))
-            {
-                manager = _typeFactory.CreateRequiredInstanceWithParametersAndAutoCompletion<ControlToolManager>(frameworkElement);
-                frameworkElement.Unloaded += OnFrameworkElementUnloaded;
-            }
-
-            _controlToolManagers[frameworkElement] = manager;
-            return manager;
+            return;
         }
 
-        private void OnFrameworkElementUnloaded(object sender, RoutedEventArgs e)
+        if (!_controlToolManagers.ContainsKey(frameworkElement))
         {
-            if (sender is not FrameworkElement frameworkElement)
-            {
-                return;
-            }
-
-            if (!_controlToolManagers.ContainsKey(frameworkElement))
-            {
-                return;
-            }
-
-            _controlToolManagers.Remove(frameworkElement);
-            frameworkElement.Unloaded -= OnFrameworkElementUnloaded;
+            return;
         }
+
+        _controlToolManagers.Remove(frameworkElement);
+        frameworkElement.Unloaded -= OnFrameworkElementUnloaded;
     }
 }

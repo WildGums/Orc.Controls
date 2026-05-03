@@ -41,7 +41,7 @@
                                            HorizontalAlignment="Center"
                                            Margin="{TemplateBinding Padding}"
                                            VerticalAlignment="Center"
-                                           FontSize="9"
+                                           FontSize="{orctheming:FontSize 9}"
                                            Foreground="{TemplateBinding BorderBrush}" />
                             </Grid>
                             <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"

@@ -1,20 +1,21 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using Catel;
+
+public static class IStepBarItemExtensions
 {
-    using Catel;
-
-    public static class IStepBarItemExtensions
+    public static bool IsSkipped(this StepBarItemStates state)
     {
-        public static bool IsSkipped(this StepBarItemStates state)
+        if (!state.IsFlagSet(StepBarItemStates.IsBeforeCurrent))
         {
-            if (Enum<StepBarItemStates>.Flags.IsFlagSet(state, StepBarItemStates.IsBeforeCurrent))
-            {
-                if (!Enum<StepBarItemStates>.Flags.IsFlagSet(state, StepBarItemStates.IsVisited))
-                {
-                    return true;
-                }
-            }
-
             return false;
         }
+
+        return !state.IsFlagSet(StepBarItemStates.IsVisited);
+    }
+
+    public static bool IsFlagSet(this StepBarItemStates state, StepBarItemStates flag)
+    {
+        return Enum<StepBarItemStates>.Flags.IsFlagSet(state, flag);
     }
 }

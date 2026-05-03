@@ -1,13 +1,12 @@
-﻿namespace Orc.Controls.Automation
-{
-    using Orc.Automation;
+﻿namespace Orc.Controls.Automation;
 
-    [ActiveAutomationModel]
-    public class FindReplaceViewModel : ControlModel
+using Orc.Automation;
+
+[ActiveAutomationModel]
+public class FindReplaceViewModel : ControlModel
+{
+    public FindReplaceViewModel(AutomationElementAccessor accessor)
+        : base(accessor)
     {
-        public FindReplaceViewModel(AutomationElementAccessor accessor)
-            : base(accessor)
-        {
-        }
     }
 }

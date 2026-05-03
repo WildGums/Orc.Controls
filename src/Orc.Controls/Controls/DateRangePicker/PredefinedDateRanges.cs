@@ -1,123 +1,132 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using Catel;
+using Catel.IoC;
+using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
+
+public static class PredefinedDateRanges
 {
-    using System;
-    using Catel;
+    private readonly static ILanguageService LanguageService = IoCContainer.ServiceProvider.GetRequiredService<ILanguageService>();
 
-    public static class PredefinedDateRanges
+    private static string GetRequiredString(string resourceKey)
     {
-        public static DateRange Today
-        {
-            get
-            {
-                var now = DateTime.Now;
-                now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
-                var today = now.Date;
+        return LanguageService.GetRequiredString(resourceKey);
+    }
 
-                return new DateRange
-                {
-                    Name = LanguageHelper.GetRequiredString("Controls_DateRangePicker_Today"),
-                    Start = today,
-                    End = now
-                };
-            }
+    public static DateRange Today
+    {
+        get
+        {
+            var now = DateTime.Now;
+            now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+            var today = now.Date;
+
+            return new DateRange
+            {
+                Name = GetRequiredString("Controls_DateRangePicker_Today"),
+                Start = today,
+                End = now
+            };
         }
+    }
 
-        public static DateRange Yesterday
+    public static DateRange Yesterday
+    {
+        get
         {
-            get
-            {
-                var now = DateTime.Now;
-                now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
-                var today = now.Date;
-                var yesterday = today.AddDays(-1);
+            var now = DateTime.Now;
+            now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+            var today = now.Date;
+            var yesterday = today.AddDays(-1);
 
-                return new DateRange
-                {
-                    Name = LanguageHelper.GetRequiredString("Controls_DateRangePicker_Yesterday"),
-                    Start = yesterday,
-                    End = today
-                };
-            }
+            return new DateRange
+            {
+                Name = GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_Yesterday)),
+                Start = yesterday,
+                End = today
+            };
         }
+    }
 
-        public static DateRange ThisWeek
+    public static DateRange ThisWeek
+    {
+        get
         {
-            get
+            var now = DateTime.Now;
+            now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+            var today = now.Date;
+
+            var diff = today.DayOfWeek - DayOfWeek.Monday;
+            diff += (diff < 0 ? 7 : 0);
+
+            var fdow = today.AddDays(-diff);
+
+            return new DateRange
             {
-                var now = DateTime.Now;
-                now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
-                var today = now.Date;
-
-                var diff = today.DayOfWeek - DayOfWeek.Monday;
-                diff += (diff < 0 ? 7 : 0);
-
-                var fdow = today.AddDays(-diff);
-
-                return new DateRange
-                {
-                    Name = LanguageHelper.GetRequiredString("Controls_DateRangePicker_ThisWeek"),
-                    Start = fdow,
-                    End = now
-                };
-            }
+                Name = GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_ThisWeek)),
+                Start = fdow,
+                End = now
+            };
         }
+    }
 
-        public static DateRange ThisMonth
+    public static DateRange ThisMonth
+    {
+        get
         {
-            get
-            {
-                var now = DateTime.Now;
-                now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
-                var fdom = new DateTime(now.Year, now.Month, 1, 0, 0, 0);
+            var now = DateTime.Now;
+            now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+            var fdom = new DateTime(now.Year, now.Month, 1, 0, 0, 0);
 
-                return new DateRange
-                {
-                    Name = LanguageHelper.GetRequiredString("Controls_DateRangePicker_ThisMonth"),
-                    Start = fdom,
-                    End = now
-                };
-            }
+            return new DateRange
+            {
+                Name = GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_ThisMonth)),
+                Start = fdom,
+                End = now
+            };
         }
+    }
 
-        public static DateRange LastWeek
+    public static DateRange LastWeek
+    {
+        get
         {
-            get
+            var now = DateTime.Now;
+            now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+            var today = now.Date;
+
+            var diff = today.DayOfWeek - DayOfWeek.Monday;
+            diff += (diff < 0 ? 7 : 0);
+
+            var fdow = today.AddDays(-diff).Date;
+            var fdolw = fdow.AddDays(-7);
+
+            return new DateRange
             {
-                var now = DateTime.Now;
-                now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
-                var today = now.Date;
-
-                var diff = today.DayOfWeek - DayOfWeek.Monday;
-                diff += (diff < 0 ? 7 : 0);
-
-                var fdow = today.AddDays(-diff).Date;
-                var fdolw = fdow.AddDays(-7);
-
-                return new DateRange
-                {
-                    Name = LanguageHelper.GetRequiredString("Controls_DateRangePicker_LastWeek"),
-                    Start = fdolw,
-                    End = fdow
-                };
-            }
+                Name = GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_LastWeek)),
+                Start = fdolw,
+                End = fdow
+            };
         }
+    }
 
-        public static DateRange LastMonth
+    public static DateRange LastMonth
+    {
+        get
         {
-            get
-            {
-                var now = DateTime.Now;
-                now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
-                var fdom = new DateTime(now.Year, now.Month, 1, 0, 0, 0);
-                var fdolm = fdom.AddMonths(-1);
+            var now = DateTime.Now;
+            now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+            var fdom = new DateTime(now.Year, now.Month, 1, 0, 0, 0);
+            var fdolm = fdom.AddMonths(-1);
 
-                return new DateRange
-                {
-                    Name = LanguageHelper.GetRequiredString("Controls_DateRangePicker_LastMonth"),
-                    Start = fdolm,
-                    End = fdom
-                };
-            }
+            return new DateRange
+            {
+                Name = GetRequiredString(nameof(Properties.Resources.Controls_DateRangePicker_LastMonth)),
+                Start = fdolm,
+                End = fdom
+            };
         }
     }
 }

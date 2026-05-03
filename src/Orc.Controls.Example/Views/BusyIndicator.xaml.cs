@@ -1,15 +1,6 @@
-﻿namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views;
+
+
+public partial class BusyIndicator
 {
-    /// <summary>
-    /// Interaction logic for BusyIndicator.xaml
-    /// </summary>
-    public partial class BusyIndicator
-    {
-        #region Constructors
-        public BusyIndicator()
-        {
-            InitializeComponent();
-        }
-        #endregion
-    }
 }

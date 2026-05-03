@@ -1,9 +1,8 @@
-﻿namespace Orc.Controls.Tools
-{
-    using System.Windows;
+﻿namespace Orc.Controls.Tools;
 
-    public interface IControlToolManagerFactory
-    {
-        IControlToolManager GetOrCreateManager(FrameworkElement frameworkElement);
-    }
+using System.Windows;
+
+public interface IControlToolManagerFactory
+{
+    IControlToolManager GetOrCreateManager(FrameworkElement frameworkElement);
 }

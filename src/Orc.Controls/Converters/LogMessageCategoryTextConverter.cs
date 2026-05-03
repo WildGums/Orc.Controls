@@ -1,26 +1,33 @@
-﻿namespace Orc.Controls.Converters
+﻿namespace Orc.Controls.Converters;
+
+using System;
+using System.Collections.Generic;
+using Catel.MVVM.Converters;
+using Catel.Services;
+
+internal partial class LogMessageCategoryTextConverter : ValueConverterBase<string>
 {
-    using System;
-    using System.Collections.Generic;
-    using Catel;
-    using Catel.MVVM.Converters;
+    private static readonly Dictionary<string, string?> PathCache = new(StringComparer.OrdinalIgnoreCase);
 
-    internal class LogMessageCategoryTextConverter : ValueConverterBase<string>
+    private readonly ILanguageService _languageService;
+
+    public LogMessageCategoryTextConverter(ILanguageService languageService)
     {
-        private static readonly Dictionary<string, string?> PathCache = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
+        _languageService = languageService;
 
-        static LogMessageCategoryTextConverter()
+        if (PathCache.Count == 0)
         {
-            PathCache["Debug"] = LanguageHelper.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Debug");
-            PathCache["Info"] = LanguageHelper.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Info");
-            PathCache["Warning"] = LanguageHelper.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Warning");
-            PathCache["Error"] = LanguageHelper.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Error");
+            PathCache["Debug"] = _languageService.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Debug");
+            PathCache["Information"] = _languageService.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Info");
+            PathCache["Warning"] = _languageService.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Warning");
+            PathCache["Error"] = _languageService.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Error");
+            PathCache["Critical"] = _languageService.GetRequiredString("Controls_LogMessageCategoryToggleButton_Text_Error");
             PathCache["Clock"] = null;
         }
+    }
 
-        protected override object? Convert(string? value, Type targetType, object? parameter)
-        {
-            return PathCache.TryGetValue(value, out var cachedvalue) ? cachedvalue : null;
-        }
+    protected override object? Convert(string? value, Type targetType, object? parameter)
+    {
+        return PathCache.TryGetValue(value ?? string.Empty, out var cachedValue) ? cachedValue : null;
     }
 }

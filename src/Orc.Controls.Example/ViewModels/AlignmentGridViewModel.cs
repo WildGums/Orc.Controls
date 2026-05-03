@@ -1,8 +1,12 @@
-﻿namespace Orc.Controls.Example.ViewModels
-{
-    using Catel.MVVM;
+﻿namespace Orc.Controls.Example.ViewModels;
 
-    public class AlignmentGridViewModel : ViewModelBase
+using System;
+using Catel.MVVM;
+
+public class AlignmentGridViewModel : ViewModelBase
+{
+    public AlignmentGridViewModel(IServiceProvider serviceProvider) 
+        : base(serviceProvider)
     {
     }
 }

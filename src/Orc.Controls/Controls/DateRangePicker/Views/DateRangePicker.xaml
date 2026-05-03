@@ -7,7 +7,6 @@
                    xmlns:catel="http://schemas.catelproject.com"
                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                    mc:Ignorable="d"
-                   x:Name="CurrentControl"
                    d:DesignHeight="22"
                    d:DesignWidth="190">
     

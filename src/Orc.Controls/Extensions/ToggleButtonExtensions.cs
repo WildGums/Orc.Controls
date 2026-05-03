@@ -1,15 +1,14 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using System.Windows.Controls.Primitives;
+
+internal static class ToggleButtonExtensions
 {
-    using System;
-    using System.Windows.Controls.Primitives;
-
-    internal static class ToggleButtonExtensions
+    public static void Toggle(this ToggleButton toggleButton)
     {
-        public static void Toggle(this ToggleButton toggleButton)
-        {
-            ArgumentNullException.ThrowIfNull(toggleButton);
+        ArgumentNullException.ThrowIfNull(toggleButton);
 
-            toggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, !toggleButton.IsChecked);
-        }
+        toggleButton.SetCurrentValue(ToggleButton.IsCheckedProperty, !toggleButton.IsChecked);
     }
 }

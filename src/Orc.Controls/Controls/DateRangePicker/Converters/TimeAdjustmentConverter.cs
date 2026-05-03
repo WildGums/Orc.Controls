@@ -1,44 +1,35 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+using Catel.IoC;
+using Catel.MVVM.Converters;
+
+public partial class TimeAdjustmentConverter : ValueConverterBase
 {
-    using System;
-    using Catel.IoC;
-    using Catel.MVVM.Converters;
+    private readonly ITimeAdjustmentProvider _timeAdjustmentProvider;
 
-    public class TimeAdjustmentConverter : ValueConverterBase
+    public TimeAdjustmentConverter(ITimeAdjustmentProvider timeAdjustmentProvider)
     {
-        #region Fields
-        private readonly ITimeAdjustmentProvider _timeAdjustmentProvider;
-        #endregion
+        _timeAdjustmentProvider = timeAdjustmentProvider;
+    }
 
-        #region Constructors
-        public TimeAdjustmentConverter()
+    protected override object? Convert(object? value, Type targetType, object? parameter)
+    {
+        if (value is TimeAdjustmentStrategy strategy)
         {
-#pragma warning disable IDISP004 // Don't ignore created IDisposable.
-            _timeAdjustmentProvider = this.GetServiceLocator().ResolveType<ITimeAdjustmentProvider>();
-#pragma warning restore IDISP004 // Don't ignore created IDisposable.
-        }
-        #endregion
-
-        #region Methods
-        protected override object? Convert(object? value, Type targetType, object? parameter)
-        {
-            if (value is TimeAdjustmentStrategy strategy)
-            {
-                return _timeAdjustmentProvider.GetTimeAdjustment(strategy);
-            }
-
-            return value;
+            return _timeAdjustmentProvider.GetTimeAdjustment(strategy);
         }
 
-        protected override object ConvertBack(object value, Type targetType, object parameter)
-        {
-            if (value is TimeAdjustment timeAdjustment)
-            {
-                return timeAdjustment.Strategy;
-            }
+        return value;
+    }
 
-            return base.ConvertBack(value, targetType, parameter);
+    protected override object? ConvertBack(object? value, Type targetType, object? parameter)
+    {
+        if (value is TimeAdjustment timeAdjustment)
+        {
+            return timeAdjustment.Strategy;
         }
-        #endregion
+
+        return base.ConvertBack(value, targetType, parameter);
     }
 }

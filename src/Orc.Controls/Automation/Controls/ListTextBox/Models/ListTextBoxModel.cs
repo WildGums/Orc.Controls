@@ -1,4 +1,5 @@
-﻿namespace Orc.Controls.Automation;
+﻿#nullable disable
+namespace Orc.Controls.Automation;
 
 using System.Collections.Generic;
 using Orc.Automation;
@@ -15,3 +16,4 @@ public class ListTextBoxModel : FrameworkElementModel
     public List<string> ListOfValues { get; set; }
     public string Value { get; set; }
 }
+#nullable enable

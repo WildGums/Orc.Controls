@@ -1,4 +1,5 @@
-﻿namespace Orc.Controls.Automation;
+﻿#nullable disable
+namespace Orc.Controls.Automation;
 
 using Orc.Automation;
 
@@ -16,3 +17,4 @@ public class OpenFilePickerModel : FrameworkElementModel
     public string Filter { get; set; }
     public string BaseDirectory { get; set; }
 }
+#nullable enable

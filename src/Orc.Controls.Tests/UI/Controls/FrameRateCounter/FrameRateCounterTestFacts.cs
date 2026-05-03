@@ -1,37 +1,36 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests.UI;
+
+using NUnit.Framework;
+using Orc.Automation;
+
+[Explicit]
+[TestFixture(TestOf = typeof(FrameRateCounter))]
+[Category("UI Tests")]
+public class FrameRateCounterTestFacts : StyledControlTestFacts<FrameRateCounter>
 {
-    using NUnit.Framework;
-    using Orc.Automation;
+    [Target]
+    public Orc.Controls.Automation.FrameRateCounter Target { get; set; }
 
-    [Explicit]
-    [TestFixture(TestOf = typeof(FrameRateCounter))]
-    [Category("UI Tests")]
-    public class FrameRateCounterTestFacts : StyledControlTestFacts<FrameRateCounter>
+    [Test]
+    public void CorrectlySetPrefix()
     {
-        [Target]
-        public Orc.Controls.Automation.FrameRateCounter Target { get; set; }
+        var target = Target;
+        var model = target.Current;
 
-        [Test]
-        public void CorrectlySetPrefix()
-        {
-            var target = Target;
-            var model = target.Current;
+        const string prefix = "Test prefix: ";
 
-            const string prefix = "Test prefix: ";
+        model.Prefix = prefix;
 
-            model.Prefix = prefix;
+        //var textBlock = target.Find(controlType: ControlType.Text);
 
-            //var textBlock = target.Find(controlType: ControlType.Text);
+        //var currentValue = textBlock.TryGetDisplayText();
+        
+        //Assert.That(currentValue, Does.StartWith(prefix));
 
-            //var currentValue = textBlock.TryGetDisplayText();
-            
-            //Assert.That(currentValue, Does.StartWith(prefix));
+        //Wait.UntilResponsive(200);
 
-            //Wait.UntilResponsive(200);
+        //var rateValue = currentValue.Replace(prefix, string.Empty);
 
-            //var rateValue = currentValue.Replace(prefix, string.Empty);
-
-            //Assert.That(int.TryParse(rateValue, out _), Is.True);
-        }
+        //Assert.That(int.TryParse(rateValue, out _), Is.True);
     }
 }

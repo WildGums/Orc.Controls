@@ -1,29 +1,27 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests.UI;
+
+using System;
+using NUnit.Framework;
+using Orc.Automation;
+using Orc.Automation.Tests;
+using Calendar = System.Windows.Controls.Calendar;
+
+[TestFixture, Explicit]
+[Category("UI Tests")]
+public class WpfControlTestFacts : ControlUiTestsBase<Calendar>
 {
-    using System;
-    using NUnit.Framework;
-    using Orc.Automation;
-    using Orc.Automation.Tests;
-    using Calendar = System.Windows.Controls.Calendar;
+    [Target]
+    public Orc.Automation.Controls.Calendar Target { get; set; }
 
-
-    [TestFixture, Explicit]
-    [Category("UI Tests")]
-    public class WpfControlTestFacts : ControlUiTestFactsBase<Calendar>
+    [Test]
+    public void CorrectlyRun()
     {
-        [Target]
-        public Orc.Automation.Controls.Calendar Target { get; set; }
+        var target = Target;
+        var current = target.Current;
 
-        [Test]
-        public void CorrectlyRun()
-        {
-            var target = Target;
-            var current = target.Current;
+        var result = $"{333.2324000:##.#######}";
+        var result1 = $"{333.2324000:D2}";
 
-            var result = $"{333.2324000:##.#######}";
-            var result1 = $"{333.2324000:D2}";
-
-            target.SelectedDate = new DateTime(2121, 12, 20);
-        }
+        target.SelectedDate = new DateTime(2121, 12, 20);
     }
 }

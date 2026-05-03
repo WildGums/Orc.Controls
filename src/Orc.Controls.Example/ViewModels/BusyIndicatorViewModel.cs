@@ -1,8 +1,12 @@
-﻿namespace Orc.Controls.Example.ViewModels
-{
-    using Catel.MVVM;
+﻿namespace Orc.Controls.Example.ViewModels;
 
-    public class BusyIndicatorViewModel : ViewModelBase
+using System;
+using Catel.MVVM;
+
+public class BusyIndicatorViewModel : ViewModelBase
+{
+    public BusyIndicatorViewModel(IServiceProvider serviceProvider) 
+        : base(serviceProvider)
     {
     }
 }

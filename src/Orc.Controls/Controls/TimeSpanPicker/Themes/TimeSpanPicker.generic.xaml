@@ -111,8 +111,8 @@
                         <Border x:Name="PART_MainContainer"
                                 Margin="0"
                                 Padding="{TemplateBinding Padding}"
-                                BorderThickness="1" 
-                                Visibility="{Binding ElementName=PART_NumericTBEditorContainer, Path=IsVisible, Converter={catel:BooleanToCollapsingVisibilityConverter SupportInversionUsingCommandParameter=True}, ConverterParameter=True}"
+                                BorderThickness="1"
+                                Visibility="{Binding ElementName=PART_NumericTBEditorContainerBorder, Path=IsVisible, Converter={catel:BooleanToCollapsingVisibilityConverter SupportInversionUsingCommandParameter=True}, ConverterParameter=True}"
                                 Style="{DynamicResource TimeSpanBorderStyle}">
 
                             <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">

@@ -1,14 +1,11 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+
+public interface IEditableControl
 {
-    using System;
+    bool IsInEditMode { get; }
 
-    public interface IEditableControl
-    {
-        #region Properties
-        bool IsInEditMode { get; }
-        #endregion
-
-        event EventHandler<EventArgs> EditStarted;
-        event EventHandler<EventArgs> EditEnded;
-    }
+    event EventHandler<EventArgs>? EditStarted;
+    event EventHandler<EventArgs>? EditEnded;
 }

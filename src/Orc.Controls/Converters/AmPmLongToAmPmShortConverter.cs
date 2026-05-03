@@ -1,54 +1,39 @@
-﻿namespace Orc.Controls.Converters
+﻿namespace Orc.Controls.Converters;
+
+using System;
+using Catel.MVVM.Converters;
+
+internal class AmPmLongToAmPmShortConverter : ValueConverterBase
 {
-    using System;
-    using Catel.MVVM.Converters;
+    public bool IsEnabled { get; set; }
 
-    internal class AmPmLongToAmPmShortConverter : ValueConverterBase
+    protected override object? Convert(object? value, Type targetType, object? parameter)
     {
-        public AmPmLongToAmPmShortConverter()
+        if (!IsEnabled || value is null)
         {
+            return value;
         }
 
-        public bool IsEnabled { get; set; }
-
-        protected override object? Convert(object? value, Type targetType, object? parameter)
+        return value switch
         {
-            if (!IsEnabled || value is null)
-            {
-                return value;
-            }
+            Meridiems.LongAM => Meridiems.ShortAM,
+            Meridiems.LongPM => Meridiems.ShortPM,
+            _ => value
+        };
+    }
 
-            switch (value)
-            {
-                case Meridiems.LongAM:
-                    return Meridiems.ShortAM;
-
-                case Meridiems.LongPM:
-                    return Meridiems.ShortPM;
-
-                default:
-                    return value;
-            }
+    protected override object? ConvertBack(object? value, Type targetType, object? parameter)
+    {
+        if (!IsEnabled || value is null)
+        {
+            return value;
         }
 
-        protected override object? ConvertBack(object? value, Type targetType, object? parameter)
+        return value switch
         {
-            if (!IsEnabled || value is null)
-            {
-                return value;
-            }
-
-            switch (value)
-            {
-                case Meridiems.ShortAM:
-                    return Meridiems.LongAM;
-
-                case Meridiems.ShortPM:
-                    return Meridiems.LongPM;
-
-                default:
-                    return value;
-            }
-        }
+            Meridiems.ShortAM => Meridiems.LongAM,
+            Meridiems.ShortPM => Meridiems.LongPM,
+            _ => value
+        };
     }
 }

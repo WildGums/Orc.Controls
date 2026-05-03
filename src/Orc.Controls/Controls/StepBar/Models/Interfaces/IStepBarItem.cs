@@ -1,17 +1,16 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System.Windows.Input;
+
+public interface IStepBarItem
 {
-    using System.Windows.Input;
+    string? Title { get; }
 
-    public interface IStepBarItem
-    {
-        string? Title { get; }
+    string? Description { get; }
 
-        string? Description { get; }
+    int Number { get; }
 
-        int Number { get; }
+    StepBarItemStates State { get; set; }
 
-        StepBarItemStates State { get; set; }
-
-        ICommand? Command { get; }
-    }
+    ICommand? Command { get; }
 }

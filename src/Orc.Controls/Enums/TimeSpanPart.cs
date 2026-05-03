@@ -1,10 +1,9 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+public enum TimeSpanPart
 {
-    public enum TimeSpanPart
-    {
-        Days,
-        Hours,
-        Minutes,
-        Seconds,
-    }
+    Days = 0,
+    Hours = 1,
+    Minutes = 2,
+    Seconds = 3,
 }

@@ -1,10 +1,6 @@
-﻿namespace Orc.Controls.Example.Views
+﻿namespace Orc.Controls.Example.Views;
+
+public partial class RangeSliderView
 {
-    public partial class RangeSliderView
-    {
-        public RangeSliderView()
-        {
-            InitializeComponent();
-        }
-    }
+
 }

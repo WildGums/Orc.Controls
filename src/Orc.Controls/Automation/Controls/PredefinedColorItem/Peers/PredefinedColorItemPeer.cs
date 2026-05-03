@@ -1,12 +1,11 @@
-﻿namespace Orc.Controls
-{
-    using Orc.Automation;
+﻿namespace Orc.Controls;
 
-    public class PredefinedColorItemPeer : AutomationControlPeerBase<PredefinedColorItem>
+using Orc.Automation;
+
+public class PredefinedColorItemPeer : AutomationControlPeerBase<PredefinedColorItem>
+{
+    public PredefinedColorItemPeer(PredefinedColorItem owner)
+        : base(owner)
     {
-        public PredefinedColorItemPeer(PredefinedColorItem owner)
-            : base(owner)
-        {
-        }
     }
 }

@@ -1,8 +1,12 @@
-﻿namespace Orc.Controls.Example.ViewModels
-{
-    using Catel.MVVM;
+﻿namespace Orc.Controls.Example.ViewModels;
 
-    public class FluidProgressBarViewModel : ViewModelBase
+using System;
+using Catel.MVVM;
+
+public class FluidProgressBarViewModel : ViewModelBase
+{
+    public FluidProgressBarViewModel(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
     }
 }

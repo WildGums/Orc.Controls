@@ -24,7 +24,8 @@ Parameters["UseVisualStudioPrerelease"] = "false";
 // DEFINE COMPONENTS TO BUILD / PACKAGE
 //=======================================================
 
-Components.Add(string.Format("{0}", GetBuildServerVariable("SolutionName")));
+Components.Add("Orc.Controls");
+Components.Add("Orc.Controls.Settings");
 
 TestProjects.Add(string.Format("{0}.Tests", GetBuildServerVariable("SolutionName")));
 

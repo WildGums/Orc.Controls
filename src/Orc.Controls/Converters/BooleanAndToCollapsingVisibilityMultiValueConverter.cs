@@ -1,40 +1,44 @@
-﻿namespace Orc.Controls.Converters
+﻿namespace Orc.Controls.Converters;
+
+using System;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Markup;
+
+public class BooleanAndToCollapsingVisibilityMultiValueConverter : MarkupExtension, IMultiValueConverter
 {
-    using System;
-    using System.Globalization;
-    using System.Windows;
-    using System.Windows.Data;
-    using System.Windows.Markup;
-
-    public class BooleanAndToCollapsingVisibilityMultiValueConverter : MarkupExtension, IMultiValueConverter
+    public object? Convert(object?[]? values, Type targetType, object? parameter, CultureInfo? culture)
     {
-        public object? Convert(object?[]? values, Type targetType, object? parameter, CultureInfo? culture)
+        if (values is null)
         {
-            foreach (var obj in values)
-            {
-                if (obj is not bool b)
-                {
-                    return Visibility.Collapsed;
-                }
+            return Visibility.Collapsed;
+        }
 
-                if (!b)
-                {
-                    return Visibility.Collapsed;
-                }
+        foreach (var obj in values)
+        {
+            if (obj is not bool b)
+            {
+                return Visibility.Collapsed;
             }
 
-            return Visibility.Visible;
+            if (!b)
+            {
+                return Visibility.Collapsed;
+            }
         }
 
-        public object?[]? ConvertBack(object? value, Type[] targetTypes, object? parameter, CultureInfo? culture)
-        {
-            // Not supported (and IMultiValueConverter must return null if no conversion is supported)
-            return null;
-        }
+        return Visibility.Visible;
+    }
 
-        public override object? ProvideValue(IServiceProvider serviceProvider)
-        {
-            return this;
-        }
+    public object?[]? ConvertBack(object? value, Type[] targetTypes, object? parameter, CultureInfo? culture)
+    {
+        // Not supported (and IMultiValueConverter must return null if no conversion is supported)
+        return null;
+    }
+
+    public override object? ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
     }
 }

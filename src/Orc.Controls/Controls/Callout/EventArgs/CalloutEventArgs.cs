@@ -1,17 +1,15 @@
-﻿namespace Orc.Controls
+﻿namespace Orc.Controls;
+
+using System;
+
+public class CalloutEventArgs : EventArgs
 {
-    using System;
-    using Catel;
-
-    public class CalloutEventArgs : EventArgs
+    public CalloutEventArgs(ICallout callout)
     {
-        public CalloutEventArgs(ICallout callout)
-        {
-            ArgumentNullException.ThrowIfNull(callout);
+        ArgumentNullException.ThrowIfNull(callout);
 
-            Callout = callout;
-        }
-
-        public ICallout Callout { get; }
+        Callout = callout;
     }
+
+    public ICallout Callout { get; }
 }

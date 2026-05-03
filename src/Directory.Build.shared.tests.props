@@ -5,6 +5,12 @@
     <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.shared.tests.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.shared.tests.props')" />
   -->
 
+  <PropertyGroup Label="RepositoryTemplate.Tests.Configuration">
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <SonarQubeExclude>true</SonarQubeExclude>
+  </PropertyGroup>
+
   <!-- START: This is a buildtime work around for https://github.com/dotnet/corefx/issues/22101 -->
   <Target Name="CopyCustomContent" AfterTargets="AfterBuild"
           Condition="Exists('App.config')">
@@ -13,7 +19,7 @@
   </Target>
   <!-- END: This is a buildtime work around for https://github.com/dotnet/corefx/issues/22101 -->
 
-  <ItemGroup>
+  <ItemGroup Label="RepositoryTemplate.Tests.Items">
     <Compile Remove="*.approved.cs;*.received.cs" />
   </ItemGroup>
 

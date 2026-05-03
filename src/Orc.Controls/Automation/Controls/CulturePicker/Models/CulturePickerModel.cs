@@ -1,4 +1,5 @@
-﻿namespace Orc.Controls.Automation;
+﻿#nullable disable
+namespace Orc.Controls.Automation;
 
 using System.Collections.Generic;
 using System.Globalization;
@@ -17,3 +18,4 @@ public class CulturePickerModel : ControlModel
     public List<CultureInfo> AvailableCultures =>
         (List<CultureInfo>)_accessor.Execute(nameof(CulturePickerAutomationPeer.GetAvailableCultures));
 }
+#nullable enable

@@ -154,6 +154,17 @@ public class ComponentsProcessor : ProcessorBase
             }
 
             RunMsBuild(BuildContext, component, projectFileName, msBuildSettings, "build");
+
+            // Specific code signing, requires the following MSBuild properties:
+            // * CodeSignEnabled
+            // * CodeSignCommand
+            //
+            // This feature is built to allow projects that have post-build copy
+            // steps (e.g. for assets) to be signed correctly before being embedded
+            if (ShouldSignImmediately(BuildContext, component))
+            {
+                SignProjectFiles(BuildContext, component);
+            }
         }        
     }
 
@@ -171,16 +182,18 @@ public class ComponentsProcessor : ProcessorBase
             // Note: some projects, such as Catel.Fody, require packaging
             // of non-deployable projects
             if (BuildContext.General.SkipComponentsThatAreNotDeployable && 
-                !ShouldDeployProject(BuildContext, component))
+                !ShouldPackageProject(BuildContext, component))
             {
-                CakeContext.Information("Component '{0}' should not be deployed", component);
+                CakeContext.Information("Component '{0}' should not be packaged", component);
                 continue;
             }
 
             // Special exception for Blazor projects
             var isBlazorProject = IsBlazorProject(BuildContext, component);
+            var isPackageContainerProject = IsPackageContainerProject(BuildContext, component);
 
             BuildContext.CakeContext.LogSeparator("Packaging component '{0}'", component);
+            CakeContext.Information("IsPackageContainerProject = '{0}'", isPackageContainerProject);
 
             var projectDirectory = GetProjectDirectory(component);
             var projectFileName = GetProjectFileName(BuildContext, component);
@@ -276,6 +289,18 @@ public class ComponentsProcessor : ProcessorBase
                 noBuild = false;
             }
 
+            // Disabled on 2025-09-23 since it was causing issues on local builds during packaging
+            // if (isPackageContainerProject)
+            // {
+            //     // In debug / local builds, automatic building of reference projects
+            //     // is enabled for convenience. If that is the case, noBuild must be
+            //     // set to false, but *only* in debug mode
+            //     if (BuildContext.General.IsLocalBuild)
+            //     {
+            //         noBuild = false;
+            //     }
+            // }
+
             // As described in the this issue: https://github.com/NuGet/Home/issues/4360
             // we should not use IsTool, but set BuildOutputTargetFolder instead
             msBuildSettings.WithProperty("CopyLocalLockFileAssemblies", "true");
@@ -290,27 +315,7 @@ public class ComponentsProcessor : ProcessorBase
             BuildContext.CakeContext.LogSeparator();
         }
 
-        var codeSign = (!BuildContext.General.IsCiBuild && 
-                        !BuildContext.General.IsLocalBuild && 
-                        !string.IsNullOrWhiteSpace(BuildContext.General.CodeSign.CertificateSubjectName));
-        if (codeSign)
-        {
-            // For details, see https://docs.microsoft.com/en-us/nuget/create-packages/sign-a-package
-            // nuget sign MyPackage.nupkg -CertificateSubjectName <MyCertSubjectName> -Timestamper <TimestampServiceURL>
-            var filesToSign = CakeContext.GetFiles($"{BuildContext.General.OutputRootDirectory}/*.nupkg");
-            
-            foreach (var fileToSign in filesToSign)
-            {
-                CakeContext.Information($"Signing NuGet package '{fileToSign}' using certificate subject '{BuildContext.General.CodeSign.CertificateSubjectName}'");
-
-                var exitCode = CakeContext.StartProcess(BuildContext.General.NuGet.Executable, new ProcessSettings
-                {
-                    Arguments = $"sign \"{fileToSign}\" -CertificateSubjectName \"{BuildContext.General.CodeSign.CertificateSubjectName}\" -Timestamper \"{BuildContext.General.CodeSign.TimeStampUri}\""
-                });
-
-                CakeContext.Information("Signing NuGet package exited with '{0}'", exitCode);
-            }
-        }        
+        await SignNuGetPackageAsync();
     }
 
     public override async Task DeployAsync()
@@ -353,5 +358,23 @@ public class ComponentsProcessor : ProcessorBase
     public override async Task FinalizeAsync()
     {
 
+    }
+
+    private async Task SignNuGetPackageAsync()
+    {
+        if (BuildContext.General.IsCiBuild || 
+            BuildContext.General.IsLocalBuild)
+        {
+            return;
+        }
+
+        // For details, see https://docs.microsoft.com/en-us/nuget/create-packages/sign-a-package
+        // nuget sign MyPackage.nupkg -CertificateSubjectName <MyCertSubjectName> -Timestamper <TimestampServiceURL>
+        var filesToSign = CakeContext.GetFiles($"{BuildContext.General.OutputRootDirectory}/*.nupkg");
+        
+        foreach (var fileToSign in filesToSign)
+        {
+            SignNuGetPackage(BuildContext, fileToSign.FullPath);
+        }
     }
 }

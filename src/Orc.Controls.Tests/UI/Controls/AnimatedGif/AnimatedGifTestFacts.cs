@@ -1,24 +1,23 @@
-﻿namespace Orc.Controls.Tests.UI
+﻿namespace Orc.Controls.Tests.UI;
+
+using NUnit.Framework;
+using Orc.Automation;
+
+[Explicit]
+[TestFixture(TestOf = typeof(AnimatedGif))]
+[Category("UI Tests")]
+public class AnimatedGifTestFacts : StyledControlTestFacts<AnimatedGif>
 {
-    using NUnit.Framework;
-    using Orc.Automation;
+    [Target]
+    public Automation.AnimatedGif Target { get; set; }
 
-    [Explicit]
-    [TestFixture(TestOf = typeof(AnimatedGif))]
-    [Category("UI Tests")]
-    public class AnimatedGifTestFacts : StyledControlTestFacts<AnimatedGif>
+    [Test]
+    public void CorrectlyInitialize()
     {
-        [Target]
-        public Automation.AnimatedGif Target { get; set; }
+        var target = Target;
 
-        [Test]
-        public void CorrectlyInitialize()
-        {
-            var target = Target;
+        var model = target.Current;
 
-            var model = target.Current;
-
-            //model.GifSource = "C:\\Temp\\keys.gif";
-        }
+        //model.GifSource = "C:\\Temp\\keys.gif";
     }
 }

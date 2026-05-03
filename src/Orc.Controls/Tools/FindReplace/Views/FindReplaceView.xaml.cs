@@ -1,10 +1,5 @@
-﻿namespace Orc.Controls.Views
+﻿namespace Orc.Controls.Views;
+
+public partial class FindReplaceView
 {
-    public partial class FindReplaceView
-    {
-        public FindReplaceView()
-        {
-            InitializeComponent();
-        }
-    }
 }

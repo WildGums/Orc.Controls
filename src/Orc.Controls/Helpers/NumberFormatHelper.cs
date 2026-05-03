@@ -1,12 +1,11 @@
-﻿namespace Orc.Controls
-{
-    using System.Linq;
+﻿namespace Orc.Controls;
 
-    public static class NumberFormatHelper
+using System.Linq;
+
+public static class NumberFormatHelper
+{
+    public static string GetFormat(int digits)
     {
-        public static string GetFormat(int digits)
-        {
-            return new string(Enumerable.Repeat('0', digits).ToArray());
-        }
+        return new string(Enumerable.Repeat('0', digits).ToArray());
     }
 }

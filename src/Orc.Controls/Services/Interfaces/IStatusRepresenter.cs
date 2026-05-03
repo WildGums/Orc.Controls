@@ -1,7 +1,6 @@
-﻿namespace Orc.Controls.Services
+﻿namespace Orc.Controls.Services;
+
+public interface IStatusRepresenter
 {
-    public interface IStatusRepresenter
-    {
-        void UpdateStatus(string status);
-    }
+    void UpdateStatus(string status);
 }

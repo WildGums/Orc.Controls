@@ -1,12 +1,11 @@
-﻿namespace Orc.Controls.Automation
-{
-    using Orc.Automation;
+﻿namespace Orc.Controls.Automation;
 
-    public class FluidProgressBarAutomationPeer : AutomationControlPeerBase<Controls.FluidProgressBar>
+using Orc.Automation;
+
+public class FluidProgressBarAutomationPeer : AutomationControlPeerBase<Orc.Controls.FluidProgressBar>
+{
+    public FluidProgressBarAutomationPeer(Orc.Controls.FluidProgressBar owner) 
+        : base(owner)
     {
-        public FluidProgressBarAutomationPeer(Controls.FluidProgressBar owner) 
-            : base(owner)
-        {
-        }
     }
 }

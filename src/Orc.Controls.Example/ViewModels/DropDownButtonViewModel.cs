@@ -1,33 +1,25 @@
-﻿namespace Orc.Controls.Example.ViewModels
+﻿namespace Orc.Controls.Example.ViewModels;
+
+using System;
+using Catel.MVVM;
+using Catel.Services;
+
+public class DropDownButtonViewModel : ViewModelBase
 {
-    using System;
-    using Catel;
-    using Catel.MVVM;
-    using Catel.Services;
+    private readonly IMessageService _messageService;
 
-    public class DropDownButtonViewModel : ViewModelBase
+    public DropDownButtonViewModel(IServiceProvider serviceProvider, IMessageService messageService)
+        : base(serviceProvider)
     {
-        #region Fields
-        private readonly IMessageService _messageService;
-        #endregion
+        _messageService = messageService;
 
-        #region Constructors
-        public DropDownButtonViewModel(IMessageService messageService)
-        {
-            ArgumentNullException.ThrowIfNull(messageService);
+        DefaultAction = new Command(serviceProvider, OnDefaultActionExecute);
+    }
 
-            _messageService = messageService;
-            DefaultAction = new Command(OnDefaultActionExecute);
-        }
-        #endregion
+    public Command DefaultAction { get; private set; }
 
-        #region Commands
-        public Command DefaultAction { get; private set; }
-
-        private void OnDefaultActionExecute()
-        {
-            _messageService.ShowInformationAsync("Default action has been executed");
-        }
-        #endregion
+    private void OnDefaultActionExecute()
+    {
+        _messageService.ShowInformationAsync("Default action has been executed");
     }
 }

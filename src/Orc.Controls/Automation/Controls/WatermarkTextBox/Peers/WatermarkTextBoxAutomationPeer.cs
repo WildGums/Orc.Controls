@@ -1,17 +1,18 @@
-﻿namespace Orc.Controls.Automation
+﻿#nullable disable
+namespace Orc.Controls.Automation;
+
+using System.Windows.Automation.Peers;
+
+public class WatermarkTextBoxAutomationPeer : TextBoxAutomationPeer<Orc.Controls.WatermarkTextBox>
 {
-    using System.Windows.Automation.Peers;
-
-    public class WatermarkTextBoxAutomationPeer : TextBoxAutomationPeer<Controls.WatermarkTextBox>
+    public WatermarkTextBoxAutomationPeer(Orc.Controls.WatermarkTextBox owner) 
+        : base(owner)
     {
-        public WatermarkTextBoxAutomationPeer(Controls.WatermarkTextBox owner) 
-            : base(owner)
-        {
-        }
+    }
 
-        protected override AutomationControlType GetAutomationControlTypeCore()
-        {
-            return AutomationControlType.Edit;
-        }
+    protected override AutomationControlType GetAutomationControlTypeCore()
+    {
+        return AutomationControlType.Edit;
     }
 }
+#nullable enable

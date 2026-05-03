@@ -1,18 +1,20 @@
-﻿namespace Orc.Controls.ViewModels
+﻿namespace Orc.Controls.ViewModels;
+
+using System;
+using Catel.MVVM;
+
+public class TextInputViewModel : ViewModelBase
 {
-    using Catel.MVVM;
+    private readonly string _title;
 
-    public class TextInputViewModel : ViewModelBase
+    public TextInputViewModel(string? title, IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
-        #region Constructors
-        public TextInputViewModel(string title)
-        {
-            Title = title;
-        }
-        #endregion
+        ValidateUsingDataAnnotations = false;
 
-        #region Properties
-        public string Text { get; set; }
-        #endregion
+        _title = title ?? string.Empty;
     }
+
+    public override string Title => _title;
+    public string? Text { get; set; }
 }

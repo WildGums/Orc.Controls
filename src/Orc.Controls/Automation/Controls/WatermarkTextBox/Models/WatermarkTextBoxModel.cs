@@ -1,18 +1,19 @@
-﻿namespace Orc.Controls.Automation
+﻿#nullable disable
+namespace Orc.Controls.Automation;
+
+using Orc.Automation;
+
+[ActiveAutomationModel]
+public class WatermarkTextBoxModel : FrameworkElementModel
 {
-    using Orc.Automation;
-
-    [ActiveAutomationModel]
-    public class WatermarkTextBoxModel : FrameworkElementModel
+    public WatermarkTextBoxModel(AutomationElementAccessor accessor) 
+        : base(accessor)
     {
-        public WatermarkTextBoxModel(AutomationElementAccessor accessor) 
-            : base(accessor)
-        {
-        }
-
-        public string Text { get; set; }
-        public string Watermark { get; set; }
-        public bool SelectAllOnGotFocus { get; set; }
-        //public DataTemplate WatermarkTemplate { get; set; }
     }
+
+    public string Text { get; set; }
+    public string Watermark { get; set; }
+    public bool SelectAllOnGotFocus { get; set; }
+    //public DataTemplate WatermarkTemplate { get; set; }
 }
+#nullable enable

@@ -1,4 +1,5 @@
-﻿namespace Orc.Controls.Automation;
+﻿#nullable disable
+namespace Orc.Controls.Automation;
 
 using System.Windows.Controls;
 using Orc.Automation;
@@ -18,3 +19,4 @@ public class RangeSliderModel : FrameworkElementModel
     public bool HighlightSelectedRange { get; set; }
     public Orientation Orientation { get; set; }
 }
+#nullable enable
