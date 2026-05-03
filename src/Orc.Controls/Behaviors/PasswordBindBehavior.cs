@@ -19,14 +19,20 @@ public class PasswordBindBehavior : BehaviorBase<PasswordBox>
 
     protected override void OnAssociatedObjectLoaded()
     {
-        AssociatedObject.PasswordChanged += OnPasswordChanged;
-
+        if (AssociatedObject is not null) 
+        {   
+            AssociatedObject.PasswordChanged += OnPasswordChanged;
+        }
+    
         base.OnAssociatedObjectLoaded();
     }
 
     protected override void OnAssociatedObjectUnloaded()
     {
-        AssociatedObject.PasswordChanged -= OnPasswordChanged;
+        if (AssociatedObject is not null) 
+        { 
+            AssociatedObject.PasswordChanged -= OnPasswordChanged;
+        }
 
         base.OnAssociatedObjectUnloaded();
     }
