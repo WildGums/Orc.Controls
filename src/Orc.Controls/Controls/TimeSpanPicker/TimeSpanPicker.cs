@@ -134,7 +134,7 @@ public partial class TimeSpanPicker : Control
         _hoursNumericTextBox = GetTemplateChild("PART_HoursNumericTextBox") as NumericTextBox;
         if (_hoursNumericTextBox is null)
         {
-            throw Logger.LogErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_HoursNumericTextBox'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HoursNumericTextBox'");
         }
         _hoursNumericTextBox.ValueChanged += OnHoursValueChanged;
         _hoursNumericTextBox.RightBoundReached += OnNumericTextBoxRightBoundReached;

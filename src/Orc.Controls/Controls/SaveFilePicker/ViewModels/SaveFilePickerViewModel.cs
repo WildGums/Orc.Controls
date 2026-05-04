@@ -90,7 +90,7 @@ public class SaveFilePickerViewModel : ViewModelBase
         var directory = Directory.GetParent(selectedFile);
         if (directory is null)
         {
-            _logger.LogWarning($"Can't find parent directory for selected file: '{selectedFile}'");
+            _logger.LogWarning("Can't find parent directory for selected file: '{SelectedFile}'", selectedFile);
 
             return;
         }

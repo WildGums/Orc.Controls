@@ -93,20 +93,20 @@ public class MediaElementThreadInfo : Disposable
 
             void ShutdownHandler(object? o, EventArgs eventArgs)
             {
-                Logger.LogDebug($"[{Id}] Dispatcher has been shutdown, thread should exit any time now");
+                Logger.LogDebug("[{Id}] Dispatcher has been shutdown, thread should exit any time now", Id);
 
                 dispatcher.ShutdownFinished -= ShutdownHandler;
             }
 
             dispatcher.ShutdownFinished += ShutdownHandler;
 
-            Logger.LogDebug($"[{Id}] Shutting down the dispatcher");
+            Logger.LogDebug("[{Id}] Shutting down the dispatcher", Id);
 
             dispatcher.InvokeShutdown();
         }
         else
         {
-            Logger.LogWarning($"[{Id}] No dispatcher object was available, aborting the thread");
+            Logger.LogWarning("[{Id}] No dispatcher object was available, aborting the thread", Id);
         }
     }
 }

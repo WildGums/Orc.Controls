@@ -68,7 +68,7 @@ public static class MediaElementThreadFactory
 
             Dispatcher.Run();
 
-            Logger.LogDebug($"[{mediaElementThreadInfo.Id}] Dispatcher has shut down, exiting worker thread");
+            Logger.LogDebug("[{ThreadId}] Dispatcher has shut down, exiting worker thread", mediaElementThreadInfo.Id);
         }
         catch
         {

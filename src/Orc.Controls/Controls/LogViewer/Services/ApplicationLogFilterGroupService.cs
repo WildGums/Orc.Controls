@@ -57,7 +57,7 @@ public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupServic
         var runtimeFilterGroups = CreateRuntimeFilterGroups();
         if (runtimeFilterGroups.Count > 0)
         {
-            _logger.LogDebug($"Adding '{runtimeFilterGroups.Count}' runtime filter groups");
+            _logger.LogDebug("Adding '{FilterGroupCount}' runtime filter groups", runtimeFilterGroups.Count);
 
             filterGroups.AddRange(runtimeFilterGroups);
         }

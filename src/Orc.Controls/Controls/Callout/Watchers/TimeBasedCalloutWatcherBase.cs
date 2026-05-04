@@ -50,7 +50,7 @@ public abstract class TimeBasedCalloutWatcherBase : CalloutWatcherBase
             return;
         }
 
-        _logger.LogDebug($"Callout is not yet registered, subscribing to ICalloutManager.Registered event");
+        _logger.LogDebug("Callout is not yet registered, subscribing to ICalloutManager.Registered event");
 
         calloutManager.Registered += OnCalloutManagerRegistered;
     }

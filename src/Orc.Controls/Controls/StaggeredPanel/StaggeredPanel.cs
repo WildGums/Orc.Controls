@@ -148,7 +148,7 @@ public partial class StaggeredPanel : Panel
             var occupiedSpacing = (numColumns - 1) * ColumnSpacing;
             if (availableWidth < occupiedSpacing)
             {
-                Logger.LogDebug($"Stretch Measure: availableWidth: {availableWidth}, spacing summary: {occupiedSpacing} [{numColumns - 1} x {ColumnSpacing}]");
+                Logger.LogDebug("Stretch Measure: availableWidth: {AvailableWidth}, spacing summary: {OccupiedSpacing} [{NumColumnsMinusOne} x {ColumnSpacing}]", availableWidth, occupiedSpacing, numColumns - 1, ColumnSpacing);
 
                 // Fallback value to avoid negative size ArgumentException
                 occupiedSpacing = availableWidth;
