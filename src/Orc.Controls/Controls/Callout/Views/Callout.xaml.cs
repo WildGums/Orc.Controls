@@ -270,7 +270,7 @@ public partial class Callout
                 break;
 
             default:
-                throw Logger.LogErrorAndCreateException<NotSupportedException>($"Callout placement = '{Placement}' not supported. Supported modes: '{PlacementMode.Left}', '{PlacementMode.Top}', '{PlacementMode.Right}', '{PlacementMode.Bottom}'");
+                throw Logger.LogErrorAndCreateException<NotSupportedException>("Callout placement = '{Placement}' not supported. Supported modes: '{PlacementModeLeft}', '{PlacementModeTop}', '{PlacementModeRight}', '{PlacementModeBottom}'", Placement, PlacementMode.Left, PlacementMode.Top, PlacementMode.Right, PlacementMode.Bottom);
         }
 
         // Offset is handled by managing Tail size

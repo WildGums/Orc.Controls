@@ -137,11 +137,11 @@ public class CalloutViewModel : ViewModelBase, ICallout
                 return;
             }
 
-            _logger.LogDebug($"[{this}] Showing callout");
+            _logger.LogDebug("[{Callout}] Showing callout", this);
 
             if (ShowTime > TimeSpan.Zero && _dispatcherTimer is not null)
             {
-                _logger.LogDebug($"[{this}] Starting callout timer with interval of '{ShowTime}'");
+                _logger.LogDebug("[{Callout}] Starting callout timer with interval of '{ShowTime}'", this, ShowTime);
 
                 _dispatcherTimer.Interval = ShowTime;
                 _dispatcherTimer.Start();
@@ -163,7 +163,7 @@ public class CalloutViewModel : ViewModelBase, ICallout
                 return;
             }
 
-            _logger.LogDebug($"[{this}] Hiding callout");
+            _logger.LogDebug("[{Callout}] Hiding callout", this);
 
             IsOpen = false;
         });

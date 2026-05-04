@@ -45,21 +45,21 @@ public class CalloutManager : ICalloutManager
     {
         _suspendCount++;
 
-        _logger.LogDebug($"Suspended callouts, count = '{_suspendCount}'");
+        _logger.LogDebug("Suspended callouts, count = '{SuspendCount}'", _suspendCount);
     }
 
     public void Resume()
     {
         _suspendCount = Math.Max(0, _suspendCount - 1);
 
-        _logger.LogDebug($"Resumed callouts, count = '{_suspendCount}'");
+        _logger.LogDebug("Resumed callouts, count = '{SuspendCount}'", _suspendCount);
     }
 
     public void Register(ICallout callout)
     {
         ArgumentNullException.ThrowIfNull(callout);
 
-        _logger.LogDebug($"Registering callout '{callout}'");
+        _logger.LogDebug("Registering callout '{Callout}'", callout);
 
         _callouts.Add(callout);
 
@@ -72,7 +72,7 @@ public class CalloutManager : ICalloutManager
     {
         ArgumentNullException.ThrowIfNull(callout);
 
-        _logger.LogDebug($"Unregistering callout '{callout}'");
+        _logger.LogDebug("Unregistering callout '{Callout}'", callout);
 
         UnsubscribeFromCallout(callout);
 

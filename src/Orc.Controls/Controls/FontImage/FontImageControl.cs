@@ -95,7 +95,7 @@ public partial class FontImageControl : Control
         }
         catch
         {
-            Logger.LogWarning($"Can't get image source for Item = '{itemName}', Font='{fontName}'");
+            Logger.LogWarning("Can't get image source for Item = '{ItemName}', Font='{FontName}'", itemName, fontName);
 
             return null;
         }

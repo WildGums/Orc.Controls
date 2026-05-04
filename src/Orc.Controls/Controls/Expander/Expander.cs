@@ -90,7 +90,7 @@ public partial class Expander : HeaderedContentControl
         _headerSiteBorder = GetTemplateChild("PART_HeaderSiteBorder") as Border;
         if (_headerSiteBorder is null)
         {
-            throw Logger.LogErrorAndCreateException<InvalidOperationException>($"Can't find template part 'PART_HeaderSiteBorder'");
+            throw Logger.LogErrorAndCreateException<InvalidOperationException>("Can't find template part 'PART_HeaderSiteBorder'");
         }
 
         UpdateIsExpanded();
