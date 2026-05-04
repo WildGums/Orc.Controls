@@ -140,8 +140,8 @@ public partial class LinkLabel : Label
     /// DependencyProperty definition as the backing store for ClickBehavior
     /// </summary>
     public static readonly DependencyProperty ClickBehaviorProperty =
-        DependencyProperty.Register(nameof(ClickBehavior),
-            typeof(LinkLabelClickBehavior), typeof(LinkLabel), new UIPropertyMetadata(LinkLabelClickBehavior.Undefined, OnClickBehaviorChanged));
+        DependencyProperty.Register(nameof(ClickBehavior), typeof(LinkLabelClickBehavior), typeof(LinkLabel),
+        new UIPropertyMetadata(LinkLabelClickBehavior.Undefined, OnClickBehaviorChanged));
 
     /// <summary>
     /// Gets or sets the command parameter.
@@ -197,7 +197,7 @@ public partial class LinkLabel : Label
     /// <summary>
     /// ClickEvent
     /// </summary>
-    [Category("Behavior")] 
+    [Category("Behavior")]
     public static readonly RoutedEvent? ClickEvent;
 
     /// <summary>
@@ -212,7 +212,7 @@ public partial class LinkLabel : Label
     /// <summary>
     /// RequestNavigateEvent
     /// </summary>
-    [Category("Behavior")] 
+    [Category("Behavior")]
     public static readonly RoutedEvent? RequestNavigateEvent;
 
     /// <summary>
@@ -337,11 +337,13 @@ public partial class LinkLabel : Label
             return;
         }
 
-        var destinationUrl = hyperlinkSender?.NavigateUri ?? linklabelSender?.Url;
-        if (destinationUrl is null || string.IsNullOrEmpty(destinationUrl.ToString()))
+        var rawUri = hyperlinkSender?.NavigateUri ?? linklabelSender?.Url;
+        if (rawUri is null || string.IsNullOrEmpty(rawUri.OriginalString))
         {
             return;
         }
+
+        var destinationUrl = BuildDestinationUrl(rawUri);
 
         try
         {
@@ -352,7 +354,7 @@ public partial class LinkLabel : Label
                 // UseShellExecute is disabled by default in NETCORE
                 var processStartInfo = new ProcessStartInfo
                 {
-                    FileName = destinationUrl.ToString(),
+                    FileName = destinationUrl,
                     UseShellExecute = true
                 };
 
@@ -364,7 +366,7 @@ public partial class LinkLabel : Label
             {
                 Logger.LogWarning(ex, "Default handler for http-scheme not valid in Windows");
 
-                var processStartInfo = new ProcessStartInfo(@"iexplore.exe", destinationUrl.ToString())
+                var processStartInfo = new ProcessStartInfo(@"iexplore.exe", destinationUrl)
                 {
                     UseShellExecute = false
                 };
@@ -381,6 +383,32 @@ public partial class LinkLabel : Label
         {
             Mouse.OverrideCursor = null;
         }
+    }
+
+    /// <summary>
+    /// Builds the destination URL string from the given URI, prepending "https://" for
+    /// relative URIs that look like domain names (not file system paths).
+    /// </summary>
+    /// <param name="uri">The source URI.</param>
+    /// <returns>The destination URL string to open.</returns>
+    internal static string BuildDestinationUrl(Uri uri)
+    {
+        if (!uri.IsAbsoluteUri)
+        {
+            var originalString = uri.OriginalString;
+
+            // Do not modify file system paths (e.g. "C:\path\to\app.exe")
+            if (originalString.Length >= 2 && originalString[1] == ':')
+            {
+                return originalString;
+            }
+
+            // Treat bare host names / relative paths as web URLs
+            return new Uri($"https://{originalString}").ToString();
+        }
+
+        // Absolute URI (including https://, http://, myapp://, file://) — use as-is
+        return uri.ToString();
     }
 
     protected override AutomationPeer OnCreateAutomationPeer()

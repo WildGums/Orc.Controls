@@ -10,7 +10,7 @@
     <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="5" >
         <TextBlock Text="LinkLabel" VerticalAlignment="Center" Width="160" />
         <orccontrols:LinkLabel Content="Action" ToolTip="Action" Command="{Binding DefaultAction}"
-                       HoverForeground="Orange" Url="http://catelproject.com"
+                       HoverForeground="Orange" Url="catelproject.com"
                        ClickBehavior="OpenUrlInBrowser"/>
     </StackPanel>
 </catel:UserControl>
