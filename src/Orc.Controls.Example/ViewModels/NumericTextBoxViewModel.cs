@@ -6,7 +6,7 @@ using Catel.Data;
 using Catel.Fody;
 using Catel.MVVM;
 
-public class NumericTextBoxViewModel : ViewModelBase
+public class NumericTextBoxViewModel : FeaturedViewModelBase
 {
     public NumericTextBoxViewModel(IServiceProvider serviceProvider)
         : base(serviceProvider)
