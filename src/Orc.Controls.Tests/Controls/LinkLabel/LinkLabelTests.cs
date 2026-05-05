@@ -7,7 +7,7 @@ using NUnit.Framework;
 public class LinkLabelTests
 {
     [TestCase("catelproject.com", UriKind.Relative, "https://catelproject.com/")]
-    [TestCase("myapp://myaction", UriKind.Absolute, "myapp://myaction")]
+    [TestCase("myapp://myaction", UriKind.Absolute, "myapp://myaction/")]
     [TestCase("С:\\my\\long\\path\\to\\exe\\file\\exe.exe", UriKind.Relative, "С:\\my\\long\\path\\to\\exe\\file\\exe.exe")]
     public void BuildDestinationUrl_Returns_Correct_Url(string uriPath, UriKind kind, string expectedUrl)
     {
