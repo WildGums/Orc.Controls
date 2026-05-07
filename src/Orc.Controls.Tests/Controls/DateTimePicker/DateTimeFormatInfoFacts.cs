@@ -47,7 +47,7 @@ public class DateTimeFormatInfoFacts
     }
 
     [TestFixture]
-    public class TheIsDateOnlyProperty
+    public class The_IsDateOnly_Property
     {
         [Test]
         public void Returns_True_When_No_Time_Fields_Set()
