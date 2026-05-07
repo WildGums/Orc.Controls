@@ -5,7 +5,6 @@ using System.Globalization;
 using Converters;
 using NUnit.Framework;
 
-[TestFixture]
 public class TextToTextArrayMultiValueConverterFacts
 {
     [TestFixture]

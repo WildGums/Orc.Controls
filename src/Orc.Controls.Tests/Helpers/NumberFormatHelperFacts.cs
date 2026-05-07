@@ -2,7 +2,6 @@ namespace Orc.Controls.Tests;
 
 using NUnit.Framework;
 
-[TestFixture]
 public class NumberFormatHelperFacts
 {
     [TestFixture]

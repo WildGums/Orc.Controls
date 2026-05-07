@@ -3,7 +3,6 @@ namespace Orc.Controls.Tests;
 using System;
 using NUnit.Framework;
 
-[TestFixture]
 public class TimeSpanPartExtensionsFacts
 {
     [TestFixture]
