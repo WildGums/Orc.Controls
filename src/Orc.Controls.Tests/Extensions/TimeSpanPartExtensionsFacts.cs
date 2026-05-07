@@ -7,7 +7,7 @@ using NUnit.Framework;
 public class TimeSpanPartExtensionsFacts
 {
     [TestFixture]
-    public class TheCreateTimeSpanMethod
+    public class The_CreateTimeSpan_Method
     {
         [Test]
         public void Creates_TimeSpan_From_Days()
@@ -43,7 +43,7 @@ public class TimeSpanPartExtensionsFacts
     }
 
     [TestFixture]
-    public class TheGetTimeSpanPartValueMethod
+    public class The_GetTimeSpanPartValue_Method
     {
         [Test]
         public void Returns_TotalDays_For_Days_Part()
@@ -67,7 +67,7 @@ public class TimeSpanPartExtensionsFacts
     }
 
     [TestFixture]
-    public class TheGetTimeSpanPartNameMethod
+    public class The_GetTimeSpanPartName_Method
     {
         [TestCase(TimeSpanPart.Days, "days")]
         [TestCase(TimeSpanPart.Hours, "hours")]

@@ -6,7 +6,7 @@ using NUnit.Framework;
 public class NumberFormatHelperFacts
 {
     [TestFixture]
-    public class TheGetFormatMethod
+    public class The_GetFormat_Method
     {
         [TestCase(1, "0")]
         [TestCase(2, "00")]

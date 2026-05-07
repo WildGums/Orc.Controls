@@ -9,7 +9,7 @@ using NUnit.Framework;
 public class TextToTextArrayMultiValueConverterFacts
 {
     [TestFixture]
-    public class TheConvertMethod
+    public class The_Convert_Method
     {
         [Test]
         public void Returns_Clone_Of_Input_Array()
@@ -47,7 +47,7 @@ public class TextToTextArrayMultiValueConverterFacts
     }
 
     [TestFixture]
-    public class TheConvertBackMethod
+    public class The_ConvertBack_Method
     {
         [Test]
         public void Throws_NotImplementedException()

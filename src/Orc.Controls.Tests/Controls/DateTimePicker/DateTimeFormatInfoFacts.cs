@@ -6,7 +6,7 @@ using NUnit.Framework;
 public class DateTimeFormatInfoFacts
 {
     [TestFixture]
-    public class TheGetSeparatorMethod
+    public class The_GetSeparator_Method
     {
         [TestCase(0, "-")]
         [TestCase(1, "/")]

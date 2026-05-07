@@ -7,7 +7,7 @@ using NUnit.Framework;
 public class TypeExtensionsFacts
 {
     [TestFixture]
-    public class TheIsFloatingPointTypeMethod
+    public class The_IsFloatingPointType_Method
     {
         [TestCase(typeof(float))]
         [TestCase(typeof(double))]
@@ -28,7 +28,7 @@ public class TypeExtensionsFacts
     }
 
     [TestFixture]
-    public class TheTryGetNumberRangeMethod
+    public class The_TryGetNumberRange_Method
     {
         [TestCase(typeof(int))]
         [TestCase(typeof(double))]

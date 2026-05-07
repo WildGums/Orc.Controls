@@ -6,7 +6,7 @@ using NUnit.Framework;
 public class NumberFacts
 {
     [TestFixture]
-    public class TheConstructor
+    public class The_Constructor
     {
         [Test]
         public void Creates_Valid_Number_From_Int()
@@ -45,7 +45,7 @@ public class NumberFacts
     }
 
     [TestFixture]
-    public class TheComparisonOperators
+    public class The_ComparisonOperators
     {
         [Test]
         public void Greater_Than_Returns_True_When_Left_Is_Larger()
@@ -67,7 +67,7 @@ public class NumberFacts
     }
 
     [TestFixture]
-    public class TheArithmeticOperators
+    public class The_ArithmeticOperators
     {
         [Test]
         public void Addition_With_Double_Returns_Correct_Result()
@@ -91,7 +91,7 @@ public class NumberFacts
     }
 
     [TestFixture]
-    public class TheImplicitConversions
+    public class The_ImplicitConversions
     {
         [Test]
         public void Implicit_Cast_From_Int_Creates_Number()

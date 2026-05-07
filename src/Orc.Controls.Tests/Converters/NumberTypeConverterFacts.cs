@@ -9,7 +9,7 @@ using NUnit.Framework;
 public class NumberTypeConverterFacts
 {
     [TestFixture]
-    public class TheCanConvertFromMethod
+    public class The_CanConvertFrom_Method
     {
         [Test]
         public void Returns_True_For_String_Type()
@@ -40,7 +40,7 @@ public class NumberTypeConverterFacts
     }
 
     [TestFixture]
-    public class TheConvertFromMethod
+    public class The_ConvertFrom_Method
     {
         [Test]
         public void Returns_Number_From_String()
@@ -86,7 +86,7 @@ public class NumberTypeConverterFacts
     }
 
     [TestFixture]
-    public class TheCanConvertToMethod
+    public class The_CanConvertTo_Method
     {
         [Test]
         public void Returns_True_For_String_Type()
