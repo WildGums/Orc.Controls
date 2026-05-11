@@ -31,7 +31,7 @@
     <PackageReference Include="Obsolete.Fody" Version="5.3.1" PrivateAssets="all" />
     <PackageReference Include="Orc.Automation" Version="6.0.0-alpha0093" />
     <PackageReference Include="Orc.FileSystem" Version="6.0.0-alpha0123" />
-    <PackageReference Include="Orc.Serialization.Json" Version="6.0.0-alpha0122" />
+    <PackageReference Include="Orc.Serialization.Json" Version="6.0.0-alpha0129" />
     <PackageReference Include="Orc.Theming" Version="6.0.0-alpha0153" />
   </ItemGroup>
 
