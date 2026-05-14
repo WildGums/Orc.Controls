@@ -6,7 +6,7 @@ using Catel.MVVM;
 using Catel.Services;
 using Catel.Windows.Threading;
 
-public class AnimatedTextBlockViewModel : ViewModelBase
+public partial class AnimatedTextBlockViewModel : ViewModelBase
 {
     private readonly DispatcherTimerEx _dispatcherTimerEx;
     private readonly Random _random = new Random();

@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Catel.MVVM.Converters;
 
-public class TreeViewItemToLeftMarginValueConverter : ValueConverterBase
+public partial class TreeViewItemToLeftMarginValueConverter : ValueConverterBase
 {
     private static readonly Thickness EmptyThickness = new(0);
 

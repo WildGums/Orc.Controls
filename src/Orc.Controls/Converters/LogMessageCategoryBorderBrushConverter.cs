@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using Catel.MVVM.Converters;
 
-internal class LogMessageCategoryBorderBrushConverter : ValueConverterBase<string>
+internal partial class LogMessageCategoryBorderBrushConverter : ValueConverterBase<string>
 {
     public static readonly Dictionary<string, SolidColorBrush> BrushCache = new(StringComparer.OrdinalIgnoreCase);
 

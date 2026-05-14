@@ -3,7 +3,7 @@
 using System;
 using Catel.MVVM.Converters;
 
-public class YearLongToYearShortConverter : ValueConverterBase
+public partial class YearLongToYearShortConverter : ValueConverterBase
 {
     private int _yearBase = 2000;
 

@@ -12,7 +12,7 @@ using Catel.MVVM;
 using Catel.Services;
 using Microsoft.Extensions.Logging;
 
-public class LogViewerViewModel : ViewModelBase
+public partial class LogViewerViewModel : ViewModelBase
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly IDispatcherService _dispatcherService;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Catel.MVVM;
 using Catel.Services;
 
-public class CulturePickerViewModel : ViewModelBase
+public partial class CulturePickerViewModel : ViewModelBase
 {
     private readonly IMessageService _messageService;
 

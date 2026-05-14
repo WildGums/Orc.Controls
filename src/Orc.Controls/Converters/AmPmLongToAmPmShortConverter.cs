@@ -3,7 +3,7 @@
 using System;
 using Catel.MVVM.Converters;
 
-internal class AmPmLongToAmPmShortConverter : ValueConverterBase
+internal partial class AmPmLongToAmPmShortConverter : ValueConverterBase
 {
     public bool IsEnabled { get; set; }
 

@@ -11,7 +11,7 @@ using Catel.Windows.Markup;
 using Microsoft.Xaml.Behaviors;
 
 [MarkupExtensionReturnType(typeof(string))]
-public class SettingsKeyBindingExtension : UpdatableMarkupExtension
+public partial class SettingsKeyBindingExtension : UpdatableMarkupExtension
 {
     private bool _isListening;
     private bool _isVisibilityListening;

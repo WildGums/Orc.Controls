@@ -1,6 +1,6 @@
 ﻿namespace Orc.Controls;
 
-public class IsLastStepBarToVisibilityConverter : StepBarVisibilityConverterBase
+public partial class IsLastStepBarToVisibilityConverter : StepBarVisibilityConverterBase
 {
     protected override bool IsVisible(StepBarItemStates state)
     {

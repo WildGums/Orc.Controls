@@ -3,7 +3,7 @@
 using System;
 using Catel.MVVM;
 
-public class BusyIndicatorViewModel : ViewModelBase
+public partial class BusyIndicatorViewModel : ViewModelBase
 {
     public BusyIndicatorViewModel(IServiceProvider serviceProvider) 
         : base(serviceProvider)

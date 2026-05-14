@@ -4,7 +4,7 @@ using System;
 using Catel.MVVM;
 using Catel.Services;
 
-public class LinkLabelViewModel : ViewModelBase
+public partial class LinkLabelViewModel : ViewModelBase
 {
     private readonly IMessageService _messageService;
 

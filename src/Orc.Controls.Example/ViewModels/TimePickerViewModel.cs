@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Catel.MVVM;
 using Enums;
 
-public class TimePickerViewModel : ViewModelBase
+public partial class TimePickerViewModel : ViewModelBase
 {
     public TimePickerViewModel(IServiceProvider serviceProvider)
         : base(serviceProvider)

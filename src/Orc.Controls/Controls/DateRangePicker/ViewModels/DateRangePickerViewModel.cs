@@ -8,7 +8,7 @@ using Catel.Data;
 using Catel.MVVM;
 using Catel.Services;
 
-public class DateRangePickerViewModel : ViewModelBase
+public partial class DateRangePickerViewModel : ViewModelBase
 {
     private ObservableCollection<DateRange>? _ranges;
     private DateRange? _selectedRange;

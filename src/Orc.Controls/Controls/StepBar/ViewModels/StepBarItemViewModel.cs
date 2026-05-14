@@ -3,7 +3,7 @@
 using System;
 using Catel.MVVM;
 
-public class StepBarItemViewModel : ViewModelBase
+public partial class StepBarItemViewModel : ViewModelBase
 {
     public StepBarItemViewModel(IStepBarItem stepBarItem, IServiceProvider serviceProvider)
         : base(serviceProvider)

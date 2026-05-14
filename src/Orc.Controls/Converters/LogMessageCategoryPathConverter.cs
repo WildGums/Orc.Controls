@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Media;
 using Catel.MVVM.Converters;
 
-internal class LogMessageCategoryPathConverter : ValueConverterBase<string>
+internal partial class LogMessageCategoryPathConverter : ValueConverterBase<string>
 {
     private static readonly Dictionary<string, Geometry?> PathCache = new(StringComparer.OrdinalIgnoreCase);
 

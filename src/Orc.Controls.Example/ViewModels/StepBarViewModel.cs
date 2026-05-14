@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using Catel;
 using Catel.MVVM;
 
-public class StepBarViewModel : ViewModelBase
+public partial class StepBarViewModel : ViewModelBase
 {
     public StepBarViewModel(IServiceProvider serviceProvider)
         : base(serviceProvider)

@@ -3,7 +3,7 @@
 using System;
 using Catel.MVVM;
 
-public class AlignmentGridViewModel : ViewModelBase
+public partial class AlignmentGridViewModel : ViewModelBase
 {
     public AlignmentGridViewModel(IServiceProvider serviceProvider) 
         : base(serviceProvider)

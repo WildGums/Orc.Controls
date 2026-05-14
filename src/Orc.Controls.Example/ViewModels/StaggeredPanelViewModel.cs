@@ -7,7 +7,7 @@ using System.Windows.Media;
 using Catel.MVVM;
 using Orc.Theming;
 
-public class StaggeredPanelViewModel : ViewModelBase
+public partial class StaggeredPanelViewModel : ViewModelBase
 {
     public StaggeredPanelViewModel(IServiceProvider serviceProvider)
         : base(serviceProvider)

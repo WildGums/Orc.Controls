@@ -1,6 +1,6 @@
 ﻿namespace Orc.Controls;
 
-public class ShowStepNumberVisibilityConverter : StepBarVisibilityConverterBase
+public partial class ShowStepNumberVisibilityConverter : StepBarVisibilityConverterBase
 {
     protected override bool IsVisible(StepBarItemStates state)
     {

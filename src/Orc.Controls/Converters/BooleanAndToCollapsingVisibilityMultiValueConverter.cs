@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-public class BooleanAndToCollapsingVisibilityMultiValueConverter : MarkupExtension, IMultiValueConverter
+public partial class BooleanAndToCollapsingVisibilityMultiValueConverter : MarkupExtension, IMultiValueConverter
 {
     public object? Convert(object?[]? values, Type targetType, object? parameter, CultureInfo? culture)
     {

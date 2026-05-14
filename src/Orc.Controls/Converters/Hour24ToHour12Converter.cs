@@ -3,7 +3,7 @@
 using System;
 using Catel.MVVM.Converters;
 
-internal class Hour24ToHour12Converter : ValueConverterBase
+internal partial class Hour24ToHour12Converter : ValueConverterBase
 {
     private int _prev;
 

@@ -5,7 +5,7 @@ using System.Windows;
 using Catel.MVVM.Converters;
 using Controls;
 
-public class ScrollModeEnumToBooleanConverter : ValueConverterBase<ScrollMode, bool>
+public partial class ScrollModeEnumToBooleanConverter : ValueConverterBase<ScrollMode, bool>
 {
     protected override object Convert(ScrollMode value, Type targetType, object parameter)
     {

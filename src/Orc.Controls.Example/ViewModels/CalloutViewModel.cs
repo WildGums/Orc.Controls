@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using Catel.MVVM;
 
-public class CalloutViewModel : ViewModelBase
+public partial class CalloutViewModel : ViewModelBase
 {
     private readonly DispatcherTimer _showCalloutDispatcherTimer = new DispatcherTimer();
 

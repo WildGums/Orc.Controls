@@ -8,7 +8,7 @@ using Catel.Data;
 using Catel.MVVM;
 using Catel.Services;
 
-public class LogFilterEditorViewModel : FeaturedViewModelBase
+public partial class LogFilterEditorViewModel : FeaturedViewModelBase
 {
     private readonly ILanguageService _languageService;
 

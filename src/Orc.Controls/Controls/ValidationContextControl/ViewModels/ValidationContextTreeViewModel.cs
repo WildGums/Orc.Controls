@@ -9,7 +9,7 @@ using Catel.Data;
 using Catel.MVVM;
 using Catel.Services;
 
-public class ValidationContextTreeViewModel : ViewModelBase
+public partial class ValidationContextTreeViewModel : ViewModelBase
 {
     private readonly IValidationNamesService _validationNamesService;
 

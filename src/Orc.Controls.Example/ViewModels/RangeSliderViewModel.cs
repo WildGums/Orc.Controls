@@ -3,7 +3,7 @@
 using System;
 using Catel.MVVM;
 
-public class RangeSliderViewModel : ViewModelBase
+public partial class RangeSliderViewModel : ViewModelBase
 {
     public RangeSliderViewModel(IServiceProvider serviceProvider)
         : base(serviceProvider)

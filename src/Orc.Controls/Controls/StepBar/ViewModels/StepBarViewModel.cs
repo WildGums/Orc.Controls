@@ -8,7 +8,7 @@ using Catel;
 using Catel.Collections;
 using Catel.MVVM;
 
-public class StepBarViewModel : ViewModelBase
+public partial class StepBarViewModel : ViewModelBase
 {
     public StepBarViewModel(IServiceProvider serviceProvider)
         : base(serviceProvider)

@@ -3,7 +3,7 @@
 using System;
 using Catel.MVVM.Converters;
 
-internal class TimeSpanToTotalStringConverter : ValueConverterBase
+internal partial class TimeSpanToTotalStringConverter : ValueConverterBase
 {
     protected override object Convert(object? value, Type targetType, object? parameter)
     {

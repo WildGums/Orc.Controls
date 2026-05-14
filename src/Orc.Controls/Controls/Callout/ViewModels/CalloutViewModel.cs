@@ -10,7 +10,7 @@ using Catel.MVVM;
 using Catel.Services;
 using Microsoft.Extensions.Logging;
 
-public class CalloutViewModel : ViewModelBase, ICallout
+public partial class CalloutViewModel : ViewModelBase, ICallout
 {
     private readonly ILogger<CalloutViewModel> _logger;
     private readonly ICalloutManager _calloutManager;

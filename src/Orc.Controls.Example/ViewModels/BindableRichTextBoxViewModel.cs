@@ -4,7 +4,7 @@ using System;
 using System.Windows.Documents;
 using Catel.MVVM;
 
-public class BindableRichTextBoxViewModel : ViewModelBase
+public partial class BindableRichTextBoxViewModel : ViewModelBase
 {
     public BindableRichTextBoxViewModel(IServiceProvider serviceProvider)
         : base(serviceProvider)

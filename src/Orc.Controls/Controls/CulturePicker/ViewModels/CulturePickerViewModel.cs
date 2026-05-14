@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Linq;
 using Catel.MVVM;
 
-internal class CulturePickerViewModel : ViewModelBase
+internal partial class CulturePickerViewModel : ViewModelBase
 {
     private bool _changingSelectedIndex;
 

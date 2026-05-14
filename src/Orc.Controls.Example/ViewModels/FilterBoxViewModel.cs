@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using Catel.MVVM;
 
-public class FilterBoxViewModel : ViewModelBase
+public partial class FilterBoxViewModel : ViewModelBase
 {
     public FilterBoxViewModel(IServiceProvider serviceProvider)
         : base(serviceProvider)

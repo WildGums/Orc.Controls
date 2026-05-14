@@ -7,7 +7,7 @@ using Catel.Collections;
 using Catel.MVVM;
 using Catel.Services;
 
-public class LogFilterGroupListViewModel : ViewModelBase
+public partial class LogFilterGroupListViewModel : ViewModelBase
 {
     private readonly IApplicationLogFilterGroupService _applicationLogFilterGroupService;
     private readonly IMessageService _messageService;

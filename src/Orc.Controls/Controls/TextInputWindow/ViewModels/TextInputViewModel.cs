@@ -3,7 +3,7 @@
 using System;
 using Catel.MVVM;
 
-public class TextInputViewModel : ViewModelBase
+public partial class TextInputViewModel : ViewModelBase
 {
     private readonly string _title;
 

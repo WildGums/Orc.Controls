@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using Catel.MVVM;
 
-public class SpinButtonViewModel : ViewModelBase
+public partial class SpinButtonViewModel : ViewModelBase
 {
     private readonly List<string> _allText = new()
     {

@@ -7,7 +7,7 @@ using Catel.MVVM;
 using Catel.Services;
 using Microsoft.Extensions.Logging;
 
-public class SaveFilePickerViewModel : ViewModelBase
+public partial class SaveFilePickerViewModel : ViewModelBase
 {
     private readonly IProcessService _processService;
     private readonly ILogger<SaveFilePickerViewModel> _logger;

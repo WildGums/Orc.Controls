@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Catel.Data;
 using Catel.MVVM;
 
-public class ValidationContextViewModel : ViewModelBase
+public partial class ValidationContextViewModel : ViewModelBase
 {
     public ValidationContextViewModel(IServiceProvider serviceProvider)
         : base(serviceProvider)

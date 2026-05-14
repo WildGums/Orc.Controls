@@ -7,7 +7,7 @@ using Catel.Logging;
 using Catel.MVVM;
 using Microsoft.Extensions.Logging;
 
-public class LogViewerViewModel : ViewModelBase
+public partial class LogViewerViewModel : ViewModelBase
 {
     private static readonly ILogger Logger = LogManager.GetLogger(typeof(LogViewerViewModel));
 

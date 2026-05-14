@@ -6,7 +6,7 @@ using Catel.Collections;
 using Catel.MVVM;
 using Catel.Services;
 
-public class DateRangePickerViewModel : ViewModelBase
+public partial class DateRangePickerViewModel : ViewModelBase
 {
     private readonly IDispatcherService _dispatcherService;
 

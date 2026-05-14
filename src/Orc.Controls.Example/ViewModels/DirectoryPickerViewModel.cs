@@ -3,7 +3,7 @@
 using System;
 using Catel.MVVM;
 
-public class DirectoryPickerViewModel : ViewModelBase
+public partial class DirectoryPickerViewModel : ViewModelBase
 {
     public DirectoryPickerViewModel(IServiceProvider serviceProvider) 
         : base(serviceProvider)

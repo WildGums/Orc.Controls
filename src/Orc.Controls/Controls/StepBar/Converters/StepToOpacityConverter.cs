@@ -3,7 +3,7 @@
 using System;
 using Catel.MVVM.Converters;
 
-public class StepToOpacityConverter : ValueConverterBase
+public partial class StepToOpacityConverter : ValueConverterBase
 {
     protected override object Convert(object? value, Type targetType, object? parameter)
     {

@@ -4,7 +4,7 @@ using System;
 using Catel.MVVM;
 using Catel.Services;
 
-public class DropDownButtonViewModel : ViewModelBase
+public partial class DropDownButtonViewModel : ViewModelBase
 {
     private readonly IMessageService _messageService;
 

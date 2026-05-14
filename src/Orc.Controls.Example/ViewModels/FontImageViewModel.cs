@@ -3,7 +3,7 @@
 using System;
 using Catel.MVVM;
 
-public class FontImageViewModel : ViewModelBase
+public partial class FontImageViewModel : ViewModelBase
 {
     public FontImageViewModel(IServiceProvider serviceProvider) 
         : base(serviceProvider)

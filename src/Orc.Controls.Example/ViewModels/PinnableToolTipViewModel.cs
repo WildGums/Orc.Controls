@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using Catel.MVVM;
 
-public class PinnableToolTipViewModel : ViewModelBase
+public partial class PinnableToolTipViewModel : ViewModelBase
 {
     public PinnableToolTipViewModel(IServiceProvider serviceProvider)
         : base(serviceProvider)

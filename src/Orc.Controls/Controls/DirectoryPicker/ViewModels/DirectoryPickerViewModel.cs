@@ -7,7 +7,7 @@ using Catel.MVVM;
 using Catel.Services;
 using FileSystem;
 
-public class DirectoryPickerViewModel : ViewModelBase
+public partial class DirectoryPickerViewModel : ViewModelBase
 {
     private readonly IProcessService _processService;
     private readonly ISelectDirectoryService _selectDirectoryService;

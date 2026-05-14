@@ -8,7 +8,7 @@ using Catel.Data;
 using Catel.MVVM;
 using Catel.Services;
 
-public class LogFilterGroupEditorViewModel : FeaturedViewModelBase
+public partial class LogFilterGroupEditorViewModel : FeaturedViewModelBase
 {
     private readonly IMessageService _messageService;
     private readonly IUIVisualizerService _uiVisualizerService;

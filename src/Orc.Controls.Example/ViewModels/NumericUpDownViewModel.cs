@@ -3,7 +3,7 @@
 using System;
 using Catel.MVVM;
 
-public class NumericUpDownViewModel : ViewModelBase
+public partial class NumericUpDownViewModel : ViewModelBase
 {
     public NumericUpDownViewModel(IServiceProvider serviceProvider) 
         : base(serviceProvider)

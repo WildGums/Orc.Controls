@@ -13,7 +13,7 @@ using Catel.MVVM;
 using Catel.Services;
 using FileSystem;
 
-public class ValidationContextViewModel : ViewModelBase
+public partial class ValidationContextViewModel : ViewModelBase
 {
     private readonly IDispatcherService _dispatcherService;
     private readonly IFileService _fileService;

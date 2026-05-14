@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using Catel.MVVM;
 
-public class ColorLegendViewModel : ViewModelBase
+public partial class ColorLegendViewModel : ViewModelBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ColorLegendViewModel"/> class.

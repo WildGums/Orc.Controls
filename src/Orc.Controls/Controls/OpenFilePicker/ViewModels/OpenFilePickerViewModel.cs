@@ -7,7 +7,7 @@ using Catel.MVVM;
 using Catel.Services;
 using Path = Catel.IO.Path;
 
-public class OpenFilePickerViewModel : ViewModelBase
+public partial class OpenFilePickerViewModel : ViewModelBase
 {
     private readonly IProcessService _processService;
     private readonly IOpenFileService _openFileService;

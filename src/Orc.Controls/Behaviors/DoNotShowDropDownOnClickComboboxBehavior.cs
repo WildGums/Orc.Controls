@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Catel.Windows.Interactivity;
 
-public class DoNotShowDropDownOnClickComboboxBehavior : BehaviorBase<ComboBox>
+public partial class DoNotShowDropDownOnClickComboboxBehavior : BehaviorBase<ComboBox>
 {
     protected override void OnAssociatedObjectLoaded()
     {

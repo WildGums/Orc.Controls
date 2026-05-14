@@ -3,7 +3,7 @@
 using System;
 using Catel.MVVM;
 
-public class WatermarkViewModel : ViewModelBase
+public partial class WatermarkViewModel : ViewModelBase
 {
     public WatermarkViewModel(IServiceProvider serviceProvider) 
         : base(serviceProvider)

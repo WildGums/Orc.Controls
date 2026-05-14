@@ -5,7 +5,7 @@ using System.Media;
 using Catel.MVVM;
 using Services;
 
-public class FindReplaceViewModel : FeaturedViewModelBase
+public partial class FindReplaceViewModel : FeaturedViewModelBase
 {
     private readonly IFindReplaceService _findReplaceService;
 

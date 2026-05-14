@@ -9,7 +9,7 @@ using Catel.MVVM.Converters;
 /// <summary>
 /// The dropdown arrow location converter.
 /// </summary>
-public class DropdownArrowLocationConverter : ValueConverterBase
+public partial class DropdownArrowLocationConverter : ValueConverterBase
 {
     /// <summary>
     /// Converts value <see cref="DropdownArrowLocation "/> values into <see cref="Dock"/> or <see cref="HorizontalAlignment"/>.

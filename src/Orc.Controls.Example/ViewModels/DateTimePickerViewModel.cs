@@ -9,7 +9,7 @@ using System.ComponentModel;
 using Models;
 using Catel.Services;
 
-public class DateTimePickerViewModel : ViewModelBase
+public partial class DateTimePickerViewModel : ViewModelBase
 {
     public DateTimePickerViewModel(IServiceProvider serviceProvider, IDispatcherService dispatcherService)
         : base(serviceProvider)

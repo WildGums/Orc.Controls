@@ -3,7 +3,7 @@
 using System;
 using Catel.MVVM;
 
-public class OpenFilePickerViewModel : ViewModelBase
+public partial class OpenFilePickerViewModel : ViewModelBase
 {
     public OpenFilePickerViewModel(IServiceProvider serviceProvider)
         : base(serviceProvider)

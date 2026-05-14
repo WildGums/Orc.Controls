@@ -10,7 +10,7 @@ using Catel.MVVM;
 using Catel.Windows;
 using Catel.Windows.Markup;
 
-public class OpenToolCommandExtension : UpdatableMarkupExtension
+public partial class OpenToolCommandExtension : UpdatableMarkupExtension
 {
     private readonly Type _frameworkElementType;
     private readonly Type _toolType;

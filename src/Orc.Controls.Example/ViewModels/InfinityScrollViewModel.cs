@@ -9,7 +9,7 @@ using Catel.Collections;
 using Catel.MVVM;
 using Orc.Theming;
 
-public class InfinityScrollViewModel : ViewModelBase
+public partial class InfinityScrollViewModel : ViewModelBase
 {
     private readonly List<FontItem> _source = GetFontItems();
     private readonly Random _randomizer = new Random(DateTime.Now.Millisecond);

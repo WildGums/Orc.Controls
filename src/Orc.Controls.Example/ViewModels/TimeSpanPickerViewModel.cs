@@ -3,7 +3,7 @@
 using System;
 using Catel.MVVM;
 
-public class TimeSpanPickerViewModel : ViewModelBase
+public partial class TimeSpanPickerViewModel : ViewModelBase
 {
     public TimeSpanPickerViewModel(IServiceProvider serviceProvider)
         : base(serviceProvider)
