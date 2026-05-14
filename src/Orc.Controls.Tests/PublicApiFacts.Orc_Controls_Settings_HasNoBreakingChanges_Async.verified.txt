@@ -61,6 +61,7 @@ namespace Orc.Controls.Settings
         public static readonly System.Windows.DependencyProperty IsSettingsDirtyProperty;
         public static readonly System.Windows.DependencyProperty SettingsKeyProperty;
         public static readonly System.Windows.DependencyProperty SettingsStorageProperty;
+        public ControlSettingsBehavior() { }
         public ControlSettingsBehavior(Orc.Controls.Settings.ISettingsKeyManager settingsKeyManager, Orc.Controls.Settings.ISettingsStateStorage settingsStateStorage, Orc.Controls.Settings.ISettingsKeyInteractionHub settingsKeyInteractionHub, Orc.Controls.Settings.ISettingsStorage<TSettings> settingsStorage, Orc.Controls.Settings.IControlSettingsAdapter<TControl, TSettings> controlSettingsAdapter) { }
         public System.Windows.FrameworkElement? Control { get; }
         public Orc.Controls.Settings.IControlSettingsAdapter<TControl, TSettings>? ControlAdapter { get; set; }
