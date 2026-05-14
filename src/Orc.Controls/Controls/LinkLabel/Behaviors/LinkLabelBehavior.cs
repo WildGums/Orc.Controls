@@ -16,7 +16,7 @@ public enum LinkLabelBehavior
     AlwaysUnderline = 1,
 
     /// <summary>
-    /// Hover underline.
+    /// Hover underline.0
     /// </summary>
     HoverUnderline = 2,
 

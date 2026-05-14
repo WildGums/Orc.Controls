@@ -4,12 +4,11 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using Catel.IoC;
 using Catel.Logging;
 using Catel.Windows.Interactivity;
 using Microsoft.Extensions.Logging;
 
-public class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TControl>, ISettingsElement
+public partial class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase<TControl>, ISettingsElement
     where TControl : FrameworkElement
     where TSettings : class
 {

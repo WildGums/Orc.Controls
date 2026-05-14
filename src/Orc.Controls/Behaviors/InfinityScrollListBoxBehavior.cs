@@ -7,7 +7,7 @@ using Catel.MVVM;
 using Catel.Windows;
 using Catel.Windows.Interactivity;
 
-public class InfinityScrollListBoxBehavior : BehaviorBase<ListBox>
+public partial class InfinityScrollListBoxBehavior : BehaviorBase<ListBox>
 {
     private ScrollViewer? _scrollViewer;
 

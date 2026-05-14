@@ -1,8 +1,6 @@
 ﻿namespace Orc.Controls;
 
 using System;
-using System.Timers;
-using Catel.Services;
 using Catel.Windows.Interactivity;
 using System.Windows.Controls;
 using System.Windows.Threading;

@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Catel.Windows.Interactivity;
 
-public class PasswordBindBehavior : BehaviorBase<PasswordBox>
+public partial class PasswordBindBehavior : BehaviorBase<PasswordBox>
 {
     #region Dependency properties
     public string? Password
