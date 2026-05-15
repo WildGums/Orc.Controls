@@ -79,7 +79,7 @@ public partial class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase
         get => (ISettingsStorage<TSettings>?)GetValue(SettingsStorageProperty);
         set => SetValue(SettingsStorageProperty, value);
     }
-    public IControlSettingsAdapter<TControl, TSettings> ControlSettingsAdapter { get; }
+
     public IControlSettingsAdapter<TControl, TSettings>? ControlAdapter
     {
         get => (IControlSettingsAdapter<TControl, TSettings>?)GetValue(ControlAdapterProperty);
@@ -107,7 +107,8 @@ public partial class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase
         _settingsKeyInteractionHub = settingsKeyInteractionHub;
 
         SettingsStorage = settingsStorage;
-        ControlSettingsAdapter = controlSettingsAdapter;
+
+        SetCurrentValue(ControlAdapterProperty, controlSettingsAdapter);
     }
 
     protected override void OnAssociatedObjectLoaded()
