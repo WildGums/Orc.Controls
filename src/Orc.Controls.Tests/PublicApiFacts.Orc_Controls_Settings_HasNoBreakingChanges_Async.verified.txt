@@ -65,7 +65,6 @@ namespace Orc.Controls.Settings
         public ControlSettingsBehavior(Orc.Controls.Settings.ISettingsKeyManager settingsKeyManager, Orc.Controls.Settings.ISettingsStateStorage settingsStateStorage, Orc.Controls.Settings.ISettingsKeyInteractionHub settingsKeyInteractionHub, Orc.Controls.Settings.ISettingsStorage<TSettings> settingsStorage, Orc.Controls.Settings.IControlSettingsAdapter<TControl, TSettings> controlSettingsAdapter) { }
         public System.Windows.FrameworkElement? Control { get; }
         public Orc.Controls.Settings.IControlSettingsAdapter<TControl, TSettings>? ControlAdapter { get; set; }
-        public Orc.Controls.Settings.IControlSettingsAdapter<TControl, TSettings> ControlSettingsAdapter { get; }
         public bool EnableSynchronization { get; set; }
         public Orc.Controls.Settings.InitialKeySettings InitialKeySettings { get; set; }
         public bool IsAutosave { get; set; }
