@@ -1,19 +1,23 @@
-﻿namespace Orc.Controls.ViewModels;
+namespace Orc.Controls.ViewModels;
 
 using System;
 using System.Media;
 using Catel.MVVM;
+using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Services;
 
 public partial class FindReplaceViewModel : FeaturedViewModelBase
 {
     private readonly IFindReplaceService _findReplaceService;
+    private readonly ILanguageService _languageService;
 
     public FindReplaceViewModel(FindReplaceSettings findReplaceSettings, IServiceProvider serviceProvider,
         IFindReplaceService findReplaceService)
         : base(serviceProvider)
     {
         _findReplaceService = findReplaceService;
+        _languageService = serviceProvider.GetRequiredService<ILanguageService>();
 
         FindNext = new Command<string?>(serviceProvider, OnFindNext);
         FindAll = new Command<string?>(serviceProvider, OnFindAll);
@@ -28,7 +32,7 @@ public partial class FindReplaceViewModel : FeaturedViewModelBase
         TextToFindForReplace = initialText;
     }
 
-    public override string Title => "Find and Replace";
+    public override string Title => _languageService.GetRequiredString("Controls_FindReplaceView_Title");
 
     [Model]
     public FindReplaceSettings FindReplaceSettings { get; }

@@ -36,4 +36,21 @@ public class FindReplaceViewModelTests
 
         Assert.That(isExecuted, Is.True);
     }
+
+    [Test]
+    public void Title_Should_Be_Loaded_From_Language_Service()
+    {
+        var findReplaceSettings = new FindReplaceSettings();
+
+        var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
+
+        using var serviceProvider = serviceCollection.BuildServiceProvider();
+
+        var findReplaceServiceMock = new Mock<IFindReplaceService>();
+        var findReplaceService = findReplaceServiceMock.Object;
+
+        var viewModel = new FindReplaceViewModel(findReplaceSettings, serviceProvider, findReplaceService);
+
+        Assert.That(viewModel.Title, Is.EqualTo("Find and Replace"));
+    }
 }

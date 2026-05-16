@@ -189,6 +189,9 @@
   <data name="Controls_ColorLegendGeneric_Button_Content_ClearSelection" xml:space="preserve">
     <value>Clear selection</value>
   </data>
+  <data name="Controls_ColorLegendGeneric_CheckBox_Content_ShowColors" xml:space="preserve">
+    <value>Show colors</value>
+  </data>
   <data name="Controls_ColorPickerGeneric_TextBlock_Text_ThemeColors" xml:space="preserve">
     <value>Theme colors</value>
   </data>
@@ -488,6 +491,63 @@
   </data>
   <data name="Controls_LogMessageCategoryToggleButton_Text_Warning" xml:space="preserve">
     <value>Warning</value>
+  </data>
+  <data name="Controls_FindReplaceView_Title" xml:space="preserve">
+    <value>Find and Replace</value>
+  </data>
+  <data name="Controls_FindReplaceView_TabItem_Header_Find" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="Controls_FindReplaceView_TextBlock_Text_TextToFind" xml:space="preserve">
+    <value>Text to Find:</value>
+  </data>
+  <data name="Controls_FindReplaceView_Button_Content_Find" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="Controls_FindReplaceView_Button_Content_FindAll" xml:space="preserve">
+    <value>Find all</value>
+  </data>
+  <data name="Controls_FindReplaceView_TabItem_Header_Replace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="Controls_FindReplaceView_TextBlock_Text_ReplaceWith" xml:space="preserve">
+    <value>Replace with:</value>
+  </data>
+  <data name="Controls_FindReplaceView_Button_Content_Replace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="Controls_FindReplaceView_Button_Content_ReplaceAll" xml:space="preserve">
+    <value>Replace All</value>
+  </data>
+  <data name="Controls_FindReplaceView_CheckBox_Content_MatchCase" xml:space="preserve">
+    <value>Match case</value>
+  </data>
+  <data name="Controls_FindReplaceView_CheckBox_Content_MatchWholeWord" xml:space="preserve">
+    <value>Match whole word</value>
+  </data>
+  <data name="Controls_FindReplaceView_CheckBox_Content_RegularExpression" xml:space="preserve">
+    <value>Regular Expression</value>
+  </data>
+  <data name="Controls_FindReplaceView_CheckBox_Content_Wildcards" xml:space="preserve">
+    <value>Wildcards</value>
+  </data>
+  <data name="Controls_FindReplaceView_CheckBox_Content_SearchUp" xml:space="preserve">
+    <value>Search up</value>
+  </data>
+  <data name="Controls_ValidationContextControl_ValidationNamesService_Row" xml:space="preserve">
+    <value>Row {0}</value>
+  </data>
+  <data name="Controls_ValidationContextControl_ValidationNamesService_ColumnSeparator" xml:space="preserve">
+    <value>, Column </value>
+  </data>
+  <data name="Controls_ValidationContextControl_ValidationNamesService_ColumnName" xml:space="preserve">
+    <value>'{0}' </value>
+  </data>
+  <data name="Controls_ValidationContextControl_ValidationNamesService_ColumnIndex" xml:space="preserve">
+    <value>({0}) </value>
+  </data>
+  <data name="Controls_ValidationContextControl_ValidationNamesService_MessageFormat" xml:space="preserve">
+    <value>{0} : {1}</value>
   </data>
   <data name="Controls_DatePicker_Button_Content_Clear" xml:space="preserve">
     <value>Clear</value>

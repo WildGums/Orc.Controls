@@ -37,26 +37,26 @@ public class ValidationNamesService : IValidationNamesService
 
         if (hasLine)
         {
-            messagePrefix += $"Row {line}";
+            messagePrefix += string.Format(_languageService.GetRequiredString("Controls_ValidationContextControl_ValidationNamesService_Row"), line);
         }
 
         if (hasLine && (hasColumnIndex || hasColumnName))
         {
-            messagePrefix += ", Column ";
+            messagePrefix += _languageService.GetRequiredString("Controls_ValidationContextControl_ValidationNamesService_ColumnSeparator");
         }
 
         if (hasColumnName)
         {
-            messagePrefix += $"'{columnName}' ";
+            messagePrefix += string.Format(_languageService.GetRequiredString("Controls_ValidationContextControl_ValidationNamesService_ColumnName"), columnName);
         }
 
         if (hasColumnIndex)
         {
-            messagePrefix += $"({columnIndex}) ";
+            messagePrefix += string.Format(_languageService.GetRequiredString("Controls_ValidationContextControl_ValidationNamesService_ColumnIndex"), columnIndex);
         }
 
         return !string.IsNullOrWhiteSpace(messagePrefix)
-            ? $"{messagePrefix} : {validationResult.Message}"
+            ? string.Format(_languageService.GetRequiredString("Controls_ValidationContextControl_ValidationNamesService_MessageFormat"), messagePrefix.TrimEnd(), validationResult.Message)
             : validationResult.Message;
     }
 
