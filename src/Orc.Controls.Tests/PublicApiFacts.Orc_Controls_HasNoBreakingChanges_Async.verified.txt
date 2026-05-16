@@ -4059,7 +4059,6 @@ namespace Orc.Controls.ViewModels
         public static readonly Catel.Data.IPropertyData TextToFindForReplaceProperty;
         public static readonly Catel.Data.IPropertyData TextToFindProperty;
         public FindReplaceViewModel(Orc.Controls.FindReplaceSettings findReplaceSettings, System.IServiceProvider serviceProvider, Orc.Controls.Services.IFindReplaceService findReplaceService, Catel.Services.ILanguageService languageService) { }
-        public FindReplaceViewModel(Orc.Controls.FindReplaceSettings findReplaceSettings, System.IServiceProvider serviceProvider, Orc.Controls.Services.IFindReplaceService findReplaceService) { }
         public Catel.MVVM.Command<string?> FindAll { get; set; }
         public Catel.MVVM.Command<string?> FindNext { get; }
         [Catel.MVVM.Model]

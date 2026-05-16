@@ -4,19 +4,12 @@ using System;
 using System.Media;
 using Catel.MVVM;
 using Catel.Services;
-using Microsoft.Extensions.DependencyInjection;
 using Services;
 
 public partial class FindReplaceViewModel : FeaturedViewModelBase
 {
     private readonly IFindReplaceService _findReplaceService;
     private readonly ILanguageService _languageService;
-
-    public FindReplaceViewModel(FindReplaceSettings findReplaceSettings, IServiceProvider serviceProvider,
-        IFindReplaceService findReplaceService)
-        : this(findReplaceSettings, serviceProvider, findReplaceService, serviceProvider.GetRequiredService<ILanguageService>())
-    {
-    }
 
     public FindReplaceViewModel(FindReplaceSettings findReplaceSettings, IServiceProvider serviceProvider,
         IFindReplaceService findReplaceService, ILanguageService languageService)
