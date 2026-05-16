@@ -1,5 +1,6 @@
-﻿namespace Orc.Controls.Tests;
+namespace Orc.Controls.Tests;
 
+using Catel.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
@@ -17,6 +18,7 @@ public class FindReplaceViewModelTests
         var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
 
         using var serviceProvider = serviceCollection.BuildServiceProvider();
+        var languageService = serviceProvider.GetRequiredService<ILanguageService>();
 
         var isExecuted = false;
 
@@ -31,7 +33,7 @@ public class FindReplaceViewModelTests
             });
         var findReplaceService = findReplaceServiceMock.Object;
 
-        var viewModel = new FindReplaceViewModel(findReplaceSettings, serviceProvider, findReplaceService);
+        var viewModel = new FindReplaceViewModel(findReplaceSettings, serviceProvider, findReplaceService, languageService);
         viewModel.FindAll.Execute(findAllSearchString);
 
         Assert.That(isExecuted, Is.True);
@@ -45,11 +47,12 @@ public class FindReplaceViewModelTests
         var serviceCollection = ServiceCollectionHelper.CreateServiceCollection();
 
         using var serviceProvider = serviceCollection.BuildServiceProvider();
+        var languageService = serviceProvider.GetRequiredService<ILanguageService>();
 
         var findReplaceServiceMock = new Mock<IFindReplaceService>();
         var findReplaceService = findReplaceServiceMock.Object;
 
-        var viewModel = new FindReplaceViewModel(findReplaceSettings, serviceProvider, findReplaceService);
+        var viewModel = new FindReplaceViewModel(findReplaceSettings, serviceProvider, findReplaceService, languageService);
 
         Assert.That(viewModel.Title, Is.EqualTo("Find and Replace"));
     }

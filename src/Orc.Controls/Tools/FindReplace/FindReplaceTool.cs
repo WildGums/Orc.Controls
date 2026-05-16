@@ -80,6 +80,7 @@ public class FindReplaceTool<TFindReplaceService> : DialogWindowHostedToolBase<F
             throw Logger.LogErrorAndCreateException<Exception>("Can't open find replace tool because FindReplaceService isn't initialized yet");
         }
 
-        return new FindReplaceViewModel(_findReplaceSettings, _serviceProvider, _findReplaceService);
+        return new FindReplaceViewModel(_findReplaceSettings, _serviceProvider, _findReplaceService,
+            _serviceProvider.GetRequiredService<ILanguageService>());
     }
 }
