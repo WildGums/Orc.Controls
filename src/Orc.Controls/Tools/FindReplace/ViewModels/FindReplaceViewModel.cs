@@ -13,6 +13,12 @@ public partial class FindReplaceViewModel : FeaturedViewModelBase
     private readonly ILanguageService _languageService;
 
     public FindReplaceViewModel(FindReplaceSettings findReplaceSettings, IServiceProvider serviceProvider,
+        IFindReplaceService findReplaceService)
+        : this(findReplaceSettings, serviceProvider, findReplaceService, serviceProvider.GetRequiredService<ILanguageService>())
+    {
+    }
+
+    public FindReplaceViewModel(FindReplaceSettings findReplaceSettings, IServiceProvider serviceProvider,
         IFindReplaceService findReplaceService, ILanguageService languageService)
         : base(serviceProvider)
     {
@@ -30,12 +36,6 @@ public partial class FindReplaceViewModel : FeaturedViewModelBase
 
         TextToFind = initialText;
         TextToFindForReplace = initialText;
-    }
-
-    public FindReplaceViewModel(FindReplaceSettings findReplaceSettings, IServiceProvider serviceProvider,
-        IFindReplaceService findReplaceService)
-        : this(findReplaceSettings, serviceProvider, findReplaceService, serviceProvider.GetRequiredService<ILanguageService>())
-    {
     }
 
     public override string Title => _languageService.GetRequiredString("Controls_FindReplaceView_Title");
