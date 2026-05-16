@@ -48,6 +48,11 @@ public class ValidationNamesService : IValidationNamesService
         if (hasColumnName)
         {
             messagePrefix += string.Format(_languageService.GetRequiredString("Controls_ValidationContextControl_ValidationNamesService_ColumnName"), columnName);
+
+            if (hasColumnIndex)
+            {
+                messagePrefix += " ";
+            }
         }
 
         if (hasColumnIndex)
@@ -56,7 +61,7 @@ public class ValidationNamesService : IValidationNamesService
         }
 
         return !string.IsNullOrWhiteSpace(messagePrefix)
-            ? string.Format(_languageService.GetRequiredString("Controls_ValidationContextControl_ValidationNamesService_MessageFormat"), messagePrefix.TrimEnd(), validationResult.Message)
+            ? string.Format(_languageService.GetRequiredString("Controls_ValidationContextControl_ValidationNamesService_MessageFormat"), messagePrefix, validationResult.Message)
             : validationResult.Message;
     }
 

@@ -541,10 +541,10 @@
     <value>, Column </value>
   </data>
   <data name="Controls_ValidationContextControl_ValidationNamesService_ColumnName" xml:space="preserve">
-    <value>'{0}' </value>
+    <value>'{0}'</value>
   </data>
   <data name="Controls_ValidationContextControl_ValidationNamesService_ColumnIndex" xml:space="preserve">
-    <value>({0}) </value>
+    <value>({0})</value>
   </data>
   <data name="Controls_ValidationContextControl_ValidationNamesService_MessageFormat" xml:space="preserve">
     <value>{0} : {1}</value>

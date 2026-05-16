@@ -22,15 +22,12 @@ public class ValidationNamesServiceFacts
         var validationResultMock = new Mock<IValidationResult>();
         validationResultMock.SetupGet(x => x.Message).Returns("Invalid value");
         validationResultMock.SetupGet(x => x.ValidationResultType).Returns(ValidationResultType.Error);
-        validationResultMock.SetupGet(x => x.Tag).Returns(new
-        {
-            Line = 3,
-            ColumnName = "Amount",
-            ColumnIndex = 2
-        });
+        validationResultMock.SetupGet(x => x.Tag).Returns(new TestValidationTag(3, "Amount", 2));
 
         var displayName = validationNamesService.GetDisplayName(validationResultMock.Object);
 
         Assert.That(displayName, Is.EqualTo("Row 3, Column 'Amount' (2) : Invalid value"));
     }
+
+    private sealed record TestValidationTag(int Line, string ColumnName, int ColumnIndex);
 }
