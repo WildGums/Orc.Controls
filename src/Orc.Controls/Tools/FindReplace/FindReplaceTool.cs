@@ -81,6 +81,6 @@ public class FindReplaceTool<TFindReplaceService> : DialogWindowHostedToolBase<F
         }
 
         return ActivatorUtilities.CreateInstance<FindReplaceViewModel>(_serviceProvider,
-            _findReplaceSettings, _serviceProvider, _findReplaceService);
+            _findReplaceSettings, _findReplaceService);
     }
 }
