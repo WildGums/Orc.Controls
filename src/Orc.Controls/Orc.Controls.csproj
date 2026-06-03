@@ -32,7 +32,7 @@
     <PackageReference Include="Orc.Automation" Version="6.0.0-alpha0093" />
     <PackageReference Include="Orc.FileSystem" Version="6.0.0-alpha0123" />
     <PackageReference Include="Orc.Serialization.Json" Version="6.0.0-alpha0164" />
-    <PackageReference Include="Orc.Theming" Version="6.0.0-alpha0173" />
+    <PackageReference Include="Orc.Theming" Version="6.0.0-alpha0199" />
   </ItemGroup>
 
   <!-- Theming -->
