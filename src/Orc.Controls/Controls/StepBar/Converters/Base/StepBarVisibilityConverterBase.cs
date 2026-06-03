@@ -6,7 +6,6 @@ using Catel.MVVM.Converters;
 public abstract class StepBarVisibilityConverterBase : VisibilityConverterBase
 {
     protected StepBarVisibilityConverterBase()
-        : base(System.Windows.Visibility.Collapsed)
     {
     }
 

@@ -167,7 +167,7 @@
                         </MenuItem>
                         <MenuItem Background="Transparent" AutomationProperties.AutomationId="ShowColorsMenuItem">
                           <MenuItem.Header>
-                            <CheckBox Content="Show colors" IsChecked="{Binding Path=ShowColorPicker, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <CheckBox Content="{catel:LanguageBinding ResourceName=Controls_ColorLegendGeneric_CheckBox_Content_ShowColors}" IsChecked="{Binding Path=ShowColorPicker, RelativeSource={RelativeSource TemplatedParent}}" />
                           </MenuItem.Header>
                         </MenuItem>
                       </ContextMenu>
