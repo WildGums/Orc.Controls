@@ -21,6 +21,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <CheckBox Grid.ColumnSpan="2" Content="Allow null" IsChecked="{Binding IsNullValueAllowed}" />
@@ -42,18 +44,32 @@
                                     MaxValue="10000" 
                                     Value="{Binding MaxValue}" />
 
-        <Label Content="Numeric text box" />
+        <Label Content="Numeric text box (int)" />
         <orccontrols:NumericTextBox Format="{Binding Format}"
                                     IsNullValueAllowed="{Binding IsNullValueAllowed}" 
+                                    IsDecimalAllowed="False"
+                                    IsNegativeAllowed="{Binding IsNegativeAllowed}"
+                                    MinValue="{Binding MinValue}"
+                                    MaxValue="{Binding MaxValue}"
+                                    Value="{Binding IntValue, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
+
+        <Label Content="Actual bound value (control, int)" />
+        <TextBox Text="{Binding IntValue, Mode=OneWay}"
+                 IsReadOnly="true" />
+
+        <Label Content="Numeric text box (double)" />
+        <orccontrols:NumericTextBox Format="{Binding Format}"
+                                    IsNullValueAllowed="{Binding IsNullValueAllowed}"
                                     IsDecimalAllowed="{Binding IsDecimalAllowed}"
                                     IsNegativeAllowed="{Binding IsNegativeAllowed}"
                                     MinValue="{Binding MinValue}"
-                                    MaxValue="{Binding MaxValue}" 
-                                    Value="{Binding Value, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
+                                    MaxValue="{Binding MaxValue}"
+                                    Value="{Binding DoubleValue, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
-        <Label Content="Actual bound value (control)" />
-        <TextBox Text="{Binding Value, Mode=OneWay}" IsReadOnly="true" />
+        <Label Content="Actual bound value (control, double)" />
+        <TextBox Text="{Binding DoubleValue, Mode=OneWay}"
+                 IsReadOnly="true" />
 
- </orccontrols:StackGrid>
+    </orccontrols:StackGrid>
 
 </catel:UserControl>

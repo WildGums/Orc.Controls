@@ -354,7 +354,8 @@ public class NumericTextBox : TextBox
 
     private void OnLostFocus(object? sender, RoutedEventArgs e)
     {
-        SetCurrentValue(ValueProperty, GetDoubleValue(Text));
+        var doubleValue = GetDoubleValue(Text);
+        SetCurrentValue(ValueProperty, doubleValue);
 
         using (new DisposableToken<NumericTextBox>(this, x => x.Instance._suspendTextChanged = true,
                    x => x.Instance._suspendTextChanged = false))

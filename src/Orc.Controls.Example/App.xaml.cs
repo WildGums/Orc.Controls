@@ -39,6 +39,14 @@ public partial class App
         var hostBuilder = new HostBuilder()
             .ConfigureServices((hostContext, services) =>
             {
+                services.AddLogging(x =>
+                {
+                    x.SetMinimumLevel(LogLevel.Debug);
+
+                    x.AddConsole();
+                    x.AddDebug();
+                });
+
                 services.AddCatelCore();
                 services.AddCatelMvvm();
                 services.AddOrcAutomation();
@@ -52,12 +60,6 @@ public partial class App
                 services.AddSingleton<IAutoCompletionService, ReverseAutoCompletionService>();
 
                 services.AddSingleton<ShowCalloutAtStartupWatcher>();
-
-                services.AddLogging(x =>
-                {
-                    x.AddConsole();
-                    x.AddDebug();
-                });
             });
 
         _host = hostBuilder.Build();

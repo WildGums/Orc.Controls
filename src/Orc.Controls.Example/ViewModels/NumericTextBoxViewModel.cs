@@ -22,7 +22,8 @@ public partial class NumericTextBoxViewModel : FeaturedViewModelBase
     }
 
     [Model]
-    [Expose(nameof(NumericTextBoxExampleModel.Value))]
+    [Expose(nameof(NumericTextBoxExampleModel.IntValue))]
+    [Expose(nameof(NumericTextBoxExampleModel.DoubleValue))]
     public NumericTextBoxExampleModel Model { get; private set; }
 
     public bool IsNullValueAllowed { get; set; }
@@ -41,10 +42,10 @@ public partial class NumericTextBoxViewModel : FeaturedViewModelBase
     {
         base.ValidateFields(validationResults);
 
-        var value = Model?.Value;
+        var value = Model?.DoubleValue;
         if (value.HasValue && value.Value == 0d)
         {
-            validationResults.Add(FieldValidationResult.CreateError(nameof(Model.Value), "Demo validation for value of 0"));
+            validationResults.Add(FieldValidationResult.CreateError(nameof(Model.DoubleValue), "Demo validation for value of 0"));
         }
     }
 }
@@ -53,8 +54,11 @@ public class NumericTextBoxExampleModel : ModelBase
 {
     public NumericTextBoxExampleModel()
     {
-        Value = 42.42;
+        IntValue = 42;
+        DoubleValue = 42.42;
     }
 
-    public double? Value { get; set; }
+    public int? IntValue { get; set; }
+
+    public double? DoubleValue { get; set; }
 }
