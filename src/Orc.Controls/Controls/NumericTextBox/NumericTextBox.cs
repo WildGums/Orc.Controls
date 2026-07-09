@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Automation.Peers;
@@ -373,7 +374,7 @@ public class NumericTextBox : TextBox
     {
         if (value is null && IsBoundToNonNullableValueType())
         {
-            value = CoerceToBoundaries(0d);
+            return;
         }
 
         try
@@ -399,14 +400,22 @@ public class NumericTextBox : TextBox
             return false;
         }
 
-        var source = expression.ResolvedSource;
+        var source = expression.ResolvedSource ?? expression.DataItem;
+
         var propertyName = expression.ResolvedSourcePropertyName;
-        if (source is null || string.IsNullOrEmpty(propertyName))
+        if (string.IsNullOrEmpty(propertyName))
+        {
+            propertyName = expression.ParentBinding.Path?.Path;
+        }
+
+        if (source is null || string.IsNullOrEmpty(propertyName)
+            || propertyName.Contains('.') || propertyName.Contains('['))
         {
             return false;
         }
 
-        var propertyType = source.GetType().GetProperty(propertyName)?.PropertyType;
+        var propertyType = source.GetType()
+            .GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy)?.PropertyType;
         if (propertyType is null)
         {
             return false;

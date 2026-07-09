@@ -32,7 +32,7 @@ internal class NumericTextBoxBoundaryFacts
     }
 
     [Test]
-    public void SetValueSafelyCoercesNullWhenBoundToNonNullableSource()
+    public void SetValueSafelyKeepsPreviousValueWhenBoundToNonNullableSource()
     {
         var source = new NonNullableValueSource();
         var numericTextBox = new NumericTextBox { DataContext = source };
@@ -43,26 +43,12 @@ internal class NumericTextBoxBoundaryFacts
 
         InvokeSetValueSafely(numericTextBox, null);
 
-        Assert.That(numericTextBox.Value, Is.EqualTo(0d));
-        Assert.That(source.Number, Is.EqualTo(0d));
+        Assert.That(numericTextBox.Value, Is.EqualTo(42d));
+        Assert.That(source.Number, Is.EqualTo(42d));
     }
 
     [Test]
-    public void SetValueSafelyCoercesNullIntoRangeWhenBoundToNonNullableSource()
-    {
-        var source = new NonNullableValueSource();
-        var numericTextBox = new NumericTextBox { MinValue = 300, MaxValue = 400, DataContext = source };
-        BindingOperations.SetBinding(numericTextBox, NumericTextBox.ValueProperty,
-            new Binding(nameof(NonNullableValueSource.Number)) { Mode = BindingMode.TwoWay });
-
-        InvokeSetValueSafely(numericTextBox, null);
-
-        Assert.That(numericTextBox.Value, Is.EqualTo(300d));
-        Assert.That(source.Number, Is.EqualTo(300d));
-    }
-
-    [Test]
-    public void SetValueSafelyKeepsNullWhenBoundToNullableSource()
+    public void SetValueSafelyWritesNullWhenBoundToNullableSource()
     {
         var source = new NullableValueSource();
         var numericTextBox = new NumericTextBox { DataContext = source };
@@ -75,6 +61,36 @@ internal class NumericTextBoxBoundaryFacts
 
         Assert.That(numericTextBox.Value, Is.Null);
         Assert.That(source.Number, Is.Null);
+    }
+
+    [Test]
+    public void OnLostFocusClearsToEmptyWhenBoundToNullableSource()
+    {
+        var source = new NullableValueSource();
+        var numericTextBox = new NumericTextBox { IsNullValueAllowed = true, DataContext = source };
+        BindingOperations.SetBinding(numericTextBox, NumericTextBox.ValueProperty,
+            new Binding(nameof(NullableValueSource.Number)) { Mode = BindingMode.TwoWay });
+
+        numericTextBox.Text = string.Empty;
+        InvokeOnLostFocus(numericTextBox);
+
+        Assert.That(numericTextBox.Value, Is.Null);
+        Assert.That(source.Number, Is.Null);
+    }
+
+    [Test]
+    public void OnLostFocusKeepsPreviousValueWhenClearingNonNullableSource()
+    {
+        var source = new NonNullableValueSource();
+        var numericTextBox = new NumericTextBox { IsNullValueAllowed = true, DataContext = source };
+        BindingOperations.SetBinding(numericTextBox, NumericTextBox.ValueProperty,
+            new Binding(nameof(NonNullableValueSource.Number)) { Mode = BindingMode.TwoWay });
+
+        numericTextBox.Text = string.Empty;
+        InvokeOnLostFocus(numericTextBox);
+
+        Assert.That(numericTextBox.Value, Is.EqualTo(42d));
+        Assert.That(source.Number, Is.EqualTo(42d));
     }
 
     private static double? InvokeCoerceToBoundaries(NumericTextBox numericTextBox, double? value)
