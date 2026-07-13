@@ -4,10 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using Automation;
@@ -229,7 +231,16 @@ public class NumericTextBox : TextBox
 
     private double? CoerceValueWithMaxMinBoundaries()
     {
-        var value = Value;
+        return CoerceToBoundaries(Value);
+    }
+
+    private double? CoerceToBoundaries(double? value)
+    {
+        if (value is null)
+        {
+            return null;
+        }
+
         if (value > MaxValue)
         {
             return MaxValue;
@@ -347,21 +358,70 @@ public class NumericTextBox : TextBox
         return update;
     }
 
-    private bool IsValidDoubleValue(double inputValue)
-    {
-        return inputValue <= MaxValue && inputValue >= MinValue;
-    }
-
     private void OnLostFocus(object? sender, RoutedEventArgs e)
     {
-        var doubleValue = GetDoubleValue(Text);
-        SetCurrentValue(ValueProperty, doubleValue);
+        var doubleValue = CoerceToBoundaries(GetDoubleValue(Text));
+        SetValueSafely(doubleValue);
 
         using (new DisposableToken<NumericTextBox>(this, x => x.Instance._suspendTextChanged = true,
                    x => x.Instance._suspendTextChanged = false))
         {
             UpdateText();
         }
+    }
+
+    private void SetValueSafely(double? value)
+    {
+        if (value is null && IsBoundToNonNullableValueType())
+        {
+            return;
+        }
+
+        try
+        {
+            SetCurrentValue(ValueProperty, value);
+        }
+        catch (InvalidCastException ex)
+        {
+            Logger.LogWarning(ex, "Failed to set Value to '{0}'. Bind Value to a nullable type (e.g. double?) or set IsNullValueAllowed=\"False\"", value);
+        }
+    }
+
+    private bool IsBoundToNonNullableValueType()
+    {
+        var expression = GetBindingExpression(ValueProperty);
+        if (expression is null)
+        {
+            return false;
+        }
+
+        if (expression.ParentBinding.Converter is not null)
+        {
+            return false;
+        }
+
+        var source = expression.ResolvedSource ?? expression.DataItem;
+
+        var propertyName = expression.ResolvedSourcePropertyName;
+        if (string.IsNullOrEmpty(propertyName))
+        {
+            propertyName = expression.ParentBinding.Path?.Path;
+        }
+
+        if (source is null || string.IsNullOrEmpty(propertyName)
+            || propertyName.Contains('.') || propertyName.Contains('['))
+        {
+            return false;
+        }
+
+        var propertyType = source.GetType()
+            .GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy)?.PropertyType;
+        if (propertyType is null)
+        {
+            return false;
+        }
+
+        return propertyType.IsValueType && Nullable.GetUnderlyingType(propertyType) is null;
     }
         
     private void OnTextChanged(object? sender, TextChangedEventArgs e)
@@ -398,7 +458,7 @@ public class NumericTextBox : TextBox
 
         if (DoesStringValueRequireUpdate(text))
         {
-            SetCurrentValue(ValueProperty, GetDoubleValue(text));
+            SetValueSafely(GetDoubleValue(text));
         }
     }
 
@@ -466,7 +526,8 @@ public class NumericTextBox : TextBox
             return;
         }
 
-        if (!IsValidDoubleValue(value))
+        // MinValue is enforced on commit (CoerceToBoundaries), not per keystroke
+        if (value > MaxValue)
         {
             e.Handled = true;
         }
