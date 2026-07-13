@@ -27,7 +27,11 @@ internal class NumericTextBoxBoundaryFacts
     [Test]
     public void OnLostFocusClampsValueBelowMinimumUpToMinimum()
     {
-        var numericTextBox = new NumericTextBox { MinValue = 300, MaxValue = 400 };
+        var numericTextBox = new NumericTextBox 
+        {
+            MinValue = 300, 
+            MaxValue = 400 
+        };
 
         numericTextBox.Text = "50";
         InvokeOnLostFocus(numericTextBox);
@@ -39,9 +43,16 @@ internal class NumericTextBoxBoundaryFacts
     public void SetValueSafelyKeepsPreviousValueWhenBoundToNonNullableSource()
     {
         var source = new NonNullableValueSource();
-        var numericTextBox = new NumericTextBox { DataContext = source };
+        var numericTextBox = new NumericTextBox 
+        { 
+            DataContext = source 
+        };
+        
         BindingOperations.SetBinding(numericTextBox, NumericTextBox.ValueProperty,
-            new Binding(nameof(NonNullableValueSource.Number)) { Mode = BindingMode.TwoWay });
+            new Binding(nameof(NonNullableValueSource.Number)) 
+             { 
+                 Mode = BindingMode.TwoWay 
+             });
 
         Assume.That(numericTextBox.Value, Is.EqualTo(42d));
 
@@ -55,9 +66,16 @@ internal class NumericTextBoxBoundaryFacts
     public void SetValueSafelyWritesNullWhenBoundToNullableSource()
     {
         var source = new NullableValueSource();
-        var numericTextBox = new NumericTextBox { DataContext = source };
+        var numericTextBox = new NumericTextBox 
+        {
+            DataContext = source 
+        };
+        
         BindingOperations.SetBinding(numericTextBox, NumericTextBox.ValueProperty,
-            new Binding(nameof(NullableValueSource.Number)) { Mode = BindingMode.TwoWay });
+            new Binding(nameof(NullableValueSource.Number)) 
+            { 
+                Mode = BindingMode.TwoWay 
+            });
 
         Assume.That(numericTextBox.Value, Is.EqualTo(42d));
 
@@ -71,9 +89,17 @@ internal class NumericTextBoxBoundaryFacts
     public void OnLostFocusClearsToEmptyWhenBoundToNullableSource()
     {
         var source = new NullableValueSource();
-        var numericTextBox = new NumericTextBox { IsNullValueAllowed = true, DataContext = source };
+        var numericTextBox = new NumericTextBox 
+        { 
+            IsNullValueAllowed = true, 
+            DataContext = source 
+        };
+        
         BindingOperations.SetBinding(numericTextBox, NumericTextBox.ValueProperty,
-            new Binding(nameof(NullableValueSource.Number)) { Mode = BindingMode.TwoWay });
+            new Binding(nameof(NullableValueSource.Number)) 
+            { 
+                Mode = BindingMode.TwoWay 
+            });
 
         numericTextBox.Text = string.Empty;
         InvokeOnLostFocus(numericTextBox);
@@ -86,9 +112,17 @@ internal class NumericTextBoxBoundaryFacts
     public void OnLostFocusKeepsPreviousValueWhenClearingNonNullableSource()
     {
         var source = new NonNullableValueSource();
-        var numericTextBox = new NumericTextBox { IsNullValueAllowed = true, DataContext = source };
+        var numericTextBox = new NumericTextBox 
+        { 
+            IsNullValueAllowed = true, 
+            DataContext = source 
+        };
+        
         BindingOperations.SetBinding(numericTextBox, NumericTextBox.ValueProperty,
-            new Binding(nameof(NonNullableValueSource.Number)) { Mode = BindingMode.TwoWay });
+            new Binding(nameof(NonNullableValueSource.Number
+            { 
+                Mode = BindingMode.TwoWay 
+            });
 
         numericTextBox.Text = string.Empty;
         InvokeOnLostFocus(numericTextBox);
