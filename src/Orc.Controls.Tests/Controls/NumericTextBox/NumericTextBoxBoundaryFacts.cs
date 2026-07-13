@@ -15,7 +15,11 @@ internal class NumericTextBoxBoundaryFacts
     [TestCase(null, 300d, 400d, null)]
     public void CoerceToBoundariesClampsIntoRange(double? value, double min, double max, double? expected)
     {
-        var numericTextBox = new NumericTextBox { MinValue = min, MaxValue = max };
+        var numericTextBox = new NumericTextBox 
+        {
+            MinValue = min,
+            MaxValue = max 
+        };
 
         Assert.That(InvokeCoerceToBoundaries(numericTextBox, value), Is.EqualTo(expected));
     }
