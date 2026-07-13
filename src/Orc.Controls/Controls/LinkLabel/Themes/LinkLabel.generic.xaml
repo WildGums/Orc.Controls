@@ -2,23 +2,30 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Orc.Controls">
 
-    <Style x:Key="{x:Type controls:LinkLabel}" TargetType="{x:Type controls:LinkLabel}" BasedOn="{StaticResource {x:Type Label}}">
-        <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.AccentColor80}" />
-        <Setter Property="HoverForeground" Value="{DynamicResource Orc.Brushes.AccentColor}" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Style x:Key="{x:Type controls:LinkLabel}"
+           TargetType="{x:Type controls:LinkLabel}"
+           BasedOn="{StaticResource {x:Type Label}}">
+        <Setter Property="Foreground"
+                Value="{DynamicResource Orc.Brushes.AccentColor80}" />
+        <Setter Property="HoverForeground"
+                Value="{DynamicResource Orc.Brushes.AccentColor}" />
+        <Setter Property="VerticalContentAlignment"
+                Value="Center" />
         <Setter Property="HyperlinkStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type Hyperlink}">
-                    <Setter Property="Foreground" 
-                            Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Foreground}"/>
+                    <Setter Property="Foreground"
+                            Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Foreground}" />
                     <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
+                        <Trigger Property="IsMouseOver"
+                                 Value="true">
                             <Setter Property="Foreground"
-                                    Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HoverForeground}"/>
+                                    Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HoverForeground}" />
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
+                        <Trigger Property="IsEnabled"
+                                 Value="false">
                             <Setter Property="Foreground"
-                                    Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}"/>
+                                    Value="{DynamicResource Orc.Brushes.Control.Disabled.Foreground}" />
                         </Trigger>
                     </Style.Triggers>
                 </Style>
@@ -39,47 +46,66 @@
                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                             <Hyperlink x:Name="PART_InnerHyperlink"
-                                        NavigateUri="{Binding RelativeSource= {RelativeSource TemplatedParent}, Path=Url}"
-                                        Style= "{Binding RelativeSource= {RelativeSource TemplatedParent}, Path=HyperlinkStyle}"
-                                        Command="{Binding RelativeSource= {RelativeSource TemplatedParent}, Path=Command}"
-                                        CommandParameter="{Binding RelativeSource= {RelativeSource TemplatedParent}, Path=CommandParameter}"
-                                        CommandTarget="{Binding RelativeSource= {RelativeSource TemplatedParent}, Path=CommandTarget}">
-                                <controls:BindableRun BoundText="{Binding RelativeSource= {RelativeSource TemplatedParent}, Path=Content}"/>
+                                       NavigateUri="{Binding RelativeSource= {RelativeSource TemplatedParent}, Path=Url}"
+                                       Style="{Binding RelativeSource= {RelativeSource TemplatedParent}, Path=HyperlinkStyle}"
+                                       Command="{Binding RelativeSource= {RelativeSource TemplatedParent}, Path=Command}"
+                                       CommandParameter="{Binding RelativeSource= {RelativeSource TemplatedParent}, Path=CommandParameter}"
+                                       CommandTarget="{Binding RelativeSource= {RelativeSource TemplatedParent}, Path=CommandTarget}">
+                                <controls:BindableRun BoundText="{Binding RelativeSource= {RelativeSource TemplatedParent}, Path=Content}" />
                             </Hyperlink>
                         </TextBlock>
                     </Border>
-                    
+
                     <ControlTemplate.Triggers>
-                        <Trigger Property="LinkLabelBehavior" Value="NeverUnderline">
-                            <Setter TargetName="PART_InnerHyperlink" Property="TextDecorations"  Value="None"/>
+                        <Trigger Property="LinkLabelBehavior"
+                                 Value="NeverUnderline">
+                            <Setter TargetName="PART_InnerHyperlink"
+                                    Property="TextDecorations"
+                                    Value="None" />
                         </Trigger>
-                        
-                        <Trigger Property="LinkLabelBehavior" Value="AlwaysUnderline">
-                            <Setter TargetName="PART_InnerHyperlink" Property="TextDecorations" Value="Underline"/>
+
+                        <Trigger Property="LinkLabelBehavior"
+                                 Value="AlwaysUnderline">
+                            <Setter TargetName="PART_InnerHyperlink"
+                                    Property="TextDecorations"
+                                    Value="Underline" />
                         </Trigger>
-                        
+
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="true"/>
-                                <Condition Property="LinkLabelBehavior" Value="HoverUnderline"/>
+                                <Condition Property="IsMouseOver"
+                                           Value="true" />
+                                <Condition Property="LinkLabelBehavior"
+                                           Value="HoverUnderline" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="PART_InnerHyperlink" Property="TextDecorations" Value="Underline"/>
+                            <Setter TargetName="PART_InnerHyperlink"
+                                    Property="TextDecorations"
+                                    Value="Underline" />
                         </MultiTrigger>
-                        
+
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="false"/>
-                                <Condition Property="LinkLabelBehavior" Value="HoverUnderline"/>
+                                <Condition Property="IsMouseOver"
+                                           Value="false" />
+                                <Condition Property="LinkLabelBehavior"
+                                           Value="HoverUnderline" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="PART_InnerHyperlink" Property="TextDecorations" Value="None"/>
+                            <Setter TargetName="PART_InnerHyperlink"
+                                    Property="TextDecorations"
+                                    Value="None" />
                         </MultiTrigger>
-                        
-                        <Trigger SourceName="PART_InnerHyperlink" Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Disabled.Foregound}"/>
+
+                        <Trigger SourceName="PART_InnerHyperlink"
+                                 Property="IsEnabled"
+                                 Value="false">
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource Orc.Brushes.Control.Disabled.Foregound}" />
                         </Trigger>
-                        
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{DynamicResource Orc.Brushes.Control.Disabled.Foregound}"/>
+
+                        <Trigger Property="IsEnabled"
+                                 Value="false">
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource Orc.Brushes.Control.Disabled.Foregound}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

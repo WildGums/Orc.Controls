@@ -18,7 +18,7 @@ public class TextInputWindowService : ITextInputWindowService
 
     public async Task<TextInputDialogResult> ShowDialogAsync(string title, string initialText)
     {
-        var viewModel = _viewModelFactory.CreateRequiredViewModel<TextInputViewModel>("Rename column");
+        var viewModel = _viewModelFactory.CreateRequiredViewModel<TextInputViewModel>(title);
         viewModel.Text = initialText;
 
         var dialogResult = await _uiVisualizerService.ShowDialogAsync(viewModel);

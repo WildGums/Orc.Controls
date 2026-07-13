@@ -35,10 +35,10 @@
                         Height="Auto"
                         Grid.ColumnSpan="2">
 
-                <TabItem Header="Find">
+                <TabItem Header="{catel:LanguageBinding ResourceName=Controls_FindReplaceView_TabItem_Header_Find}">
                     <StackPanel>
                         <TextBlock Margin="3"
-                               Text="Text to Find:"/>
+                               Text="{catel:LanguageBinding ResourceName=Controls_FindReplaceView_TextBlock_Text_TextToFind}"/>
 
                         <TextBox x:Name="TxtFind"
                                  Margin="3"
@@ -51,31 +51,31 @@
                             <Button x:Name="FindNextButton"
                                     Width="80"
                                     Margin="3"
-                                    Content="Find"
+                                    Content="{catel:LanguageBinding ResourceName=Controls_FindReplaceView_Button_Content_Find}"
                                     Command="{Binding FindNext}"
                                     CommandParameter="{Binding ElementName=TxtFind, Path=Text}"/>
 
                             <Button x:Name="FindAllNextButton"
                                     Width="80"
                                     Margin="3"
-                                    Content="Find all"
+                                    Content="{catel:LanguageBinding ResourceName=Controls_FindReplaceView_Button_Content_FindAll}"
                                     Command="{Binding FindAll}"
                                     CommandParameter="{Binding ElementName=TxtFind, Path=Text}"/>
                         </StackPanel>
                     </StackPanel>
                 </TabItem>
 
-                <TabItem Header="Replace">
+                <TabItem Header="{catel:LanguageBinding ResourceName=Controls_FindReplaceView_TabItem_Header_Replace}">
                     <StackPanel>
                         <TextBlock Margin="3"
-                                   Text="Text to Find:"/>
+                                   Text="{catel:LanguageBinding ResourceName=Controls_FindReplaceView_TextBlock_Text_TextToFind}"/>
 
                         <TextBox x:Name="TxtFind2" 
                                  Margin="3"                             
                                  Text="{Binding TextToFindForReplace}"/>
 
                         <TextBlock Margin="3"
-                                   Text="Replace with:" />
+                                   Text="{catel:LanguageBinding ResourceName=Controls_FindReplaceView_TextBlock_Text_ReplaceWith}" />
 
                         <TextBox Name="TxtReplace"
                                  Margin="3"  />
@@ -87,7 +87,7 @@
                                 Margin="5"
                                 HorizontalAlignment="Right"
                                 Width="80" 
-                                Content="Find"
+                                Content="{catel:LanguageBinding ResourceName=Controls_FindReplaceView_Button_Content_Find}"
                                 Command="{Binding FindNext}" 
                                 CommandParameter="{Binding ElementName=TxtFind2, Path=Text}"/>
 
@@ -95,7 +95,7 @@
                                 Margin="5" 
                                 HorizontalAlignment="Right"
                                 Width="80" 
-                                Content="Replace"
+                                Content="{catel:LanguageBinding ResourceName=Controls_FindReplaceView_Button_Content_Replace}"
                                 Command="{Binding Replace}">
                                 <Button.CommandParameter>
                                     <MultiBinding Converter="{StaticResource TextToTextArrayMultiValueConverter}">
@@ -109,7 +109,7 @@
                                 Margin="5"
                                 HorizontalAlignment="Right"
                                 Width="80" 
-                                Content="Replace All"
+                                Content="{catel:LanguageBinding ResourceName=Controls_FindReplaceView_Button_Content_ReplaceAll}"
                                 Command="{Binding ReplaceAll}">
                                 <Button.CommandParameter>
                                     <MultiBinding Converter="{StaticResource TextToTextArrayMultiValueConverter}">
@@ -128,35 +128,35 @@
                   Grid.Row="1"
                   Grid.Column="0" 
                   Margin="10,2"
-                  Content="Match case"
+                  Content="{catel:LanguageBinding ResourceName=Controls_FindReplaceView_CheckBox_Content_MatchCase}"
                   IsChecked="{Binding FindReplaceSettings.CaseSensitive}"/>
 
             <CheckBox Name="CbWholeWord" 
                   Grid.Row="2" 
                   Grid.Column="0"
                   Margin="10,2"                  
-                  Content="Match whole word"
+                  Content="{catel:LanguageBinding ResourceName=Controls_FindReplaceView_CheckBox_Content_MatchWholeWord}"
                   IsChecked="{Binding FindReplaceSettings.WholeWord}" />
 
             <CheckBox Name="CbRegex"
                   Grid.Row="1"
                   Grid.Column="1"
                   Margin="10,2"                  
-                  Content="Regular Expression"
+                  Content="{catel:LanguageBinding ResourceName=Controls_FindReplaceView_CheckBox_Content_RegularExpression}"
                   IsChecked="{Binding FindReplaceSettings.UseRegex}"/>
 
             <CheckBox Name="CbWildcards" 
                   Grid.Row="2"
                   Grid.Column="1"
                   Margin="10,2"                  
-                  Content="Wildcards"
+                  Content="{catel:LanguageBinding ResourceName=Controls_FindReplaceView_CheckBox_Content_Wildcards}"
                   IsChecked="{Binding FindReplaceSettings.UseWildcards}"/>
 
             <CheckBox Name="CbSearchUp" 
                   Grid.Row="3" 
                   Grid.Column="1"
                   Margin="10,2"                  
-                  Content="Search up"
+                  Content="{catel:LanguageBinding ResourceName=Controls_FindReplaceView_CheckBox_Content_SearchUp}"
                   IsChecked="{Binding FindReplaceSettings.IsSearchUp}"/>
         </Grid>
     </controls:AutomationInformer>

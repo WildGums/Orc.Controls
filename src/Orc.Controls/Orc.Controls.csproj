@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <PackageReference Include="Catel.Fody" Version="7.1.0-alpha0016" PrivateAssets="all" />
-    <PackageReference Include="Catel.SourceGenerators" Version="7.1.0-alpha0059" PrivateAssets="all" />
+    <PackageReference Include="Catel.SourceGenerators" Version="7.1.0-alpha0083" PrivateAssets="all" />
     <PackageReference Include="Fody" Version="6.9.3" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -31,8 +31,8 @@
     <PackageReference Include="Obsolete.Fody" Version="5.3.1" PrivateAssets="all" />
     <PackageReference Include="Orc.Automation" Version="6.0.0-alpha0093" />
     <PackageReference Include="Orc.FileSystem" Version="6.0.0-alpha0123" />
-    <PackageReference Include="Orc.Serialization.Json" Version="6.0.0-alpha0131" />
-    <PackageReference Include="Orc.Theming" Version="6.0.0-alpha0153" />
+    <PackageReference Include="Orc.Serialization.Json" Version="6.0.0-alpha0164" />
+    <PackageReference Include="Orc.Theming" Version="6.0.0-alpha0199" />
   </ItemGroup>
 
   <!-- Theming -->
