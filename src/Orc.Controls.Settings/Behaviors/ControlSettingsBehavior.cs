@@ -389,15 +389,33 @@ public partial class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase
         {
             UpdateDirtyState();
 
-            // NEW: Notify other controls about the change
+            // Notify other controls about the change (see NotifyOwnSettingsChanged for why the self-suppression).
             if (EnableSynchronization && SettingsKey is not null && ControlAdapter is not null)
             {
                 var currentSettings = ControlAdapter.GetCurrentSettings();
                 if (currentSettings is not null)
                 {
-                    _keyManager.NotifySettingsChanged(SettingsKey, currentSettings);
+                    NotifyOwnSettingsChanged(SettingsKey, currentSettings);
                 }
             }
+        }
+    }
+
+    // Broadcasts a settings change while suppressing OUR OWN synchronous echo. NotifySettingsChanged invokes every
+    // subscriber inline, including this behavior's OnKeyManagerSettingsChanged, which would otherwise re-apply the
+    // settings we just produced from our own state (a redundant full apply). Setting _isSynchronizing for the
+    // duration makes only our callback early-return; other controls sharing the key still apply normally.
+    private void NotifyOwnSettingsChanged(string settingsKey, object settings)
+    {
+        var wasSynchronizing = _isSynchronizing;
+        _isSynchronizing = true;
+        try
+        {
+            _keyManager.NotifySettingsChanged(settingsKey, settings);
+        }
+        finally
+        {
+            _isSynchronizing = wasSynchronizing;
         }
     }
 
@@ -562,10 +580,14 @@ public partial class ControlSettingsBehavior<TControl, TSettings> : BehaviorBase
 
                 UpdateDirtyState();
 
-                // NEW: Notify other controls about the saved settings
+                // Notify other controls about the saved settings. NotifySettingsChanged invokes subscribers
+                // synchronously and inline — which includes THIS behavior. Re-applying the settings we just produced
+                // from our own current state is a pure-waste round trip (for the DataGrid: a full column/row rebuild
+                // to the identical view). Guard with _isSynchronizing so our own callback self-suppresses while other
+                // controls sharing the key still receive and apply the change.
                 if (EnableSynchronization)
                 {
-                    _keyManager.NotifySettingsChanged(settingsKey, settings);
+                    NotifyOwnSettingsChanged(settingsKey, settings);
                 }
 
                 Logger.LogDebug($"Saved settings for key '{settingsKey}' ({typeof(TControl).Name})");
