@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,18 +25,31 @@ public partial class LogViewerControl
     private static readonly Dictionary<LogLevel, Brush> ColorSets = new();
 
     private readonly ICommandManager _commandManager;
+    private readonly ITimeProvider _timeProvider;
     private readonly Dictionary<LogEntry, RichTextBoxParagraph> _paragraphCache = new();
 
     private LogViewerViewModel? _lastKnownViewModel;
 
+    private readonly List<LogEntry> _pendingLogEntries = new List<LogEntry>();
+    private readonly DispatcherTimerEx _dispatcherTimerEx;
+
+    private DateTimeOffset? _nextForcedUpdate;
     private bool _hasClearedEntries;
     private double _lastKnownScrollHeight;
 
     public LogViewerControl(IServiceProvider serviceProvider, IViewModelWrapperService viewModelWrapperService,
-        IDataContextSubscriptionService dataContextSubscriptionService, ICommandManager commandManager)
+        IDataContextSubscriptionService dataContextSubscriptionService, ICommandManager commandManager,
+        IDispatcherService dispatcherService, ITimeProvider timeProvider)
         : base(serviceProvider, viewModelWrapperService, dataContextSubscriptionService)
     {
         _commandManager = commandManager;
+        _timeProvider = timeProvider;
+        _dispatcherTimerEx = new DispatcherTimerEx(dispatcherService)
+        {
+            // 100 ms delay of a message is reasonable, if the logging keeps pumping,
+            // then the forced update will be triggered after 1 second
+            Interval = TimeSpan.FromMilliseconds(100)
+        };
 
         InitializeComponent();
 
@@ -338,18 +352,61 @@ public partial class LogViewerControl
         }
     }
 
+    protected override void OnViewModelPropertyChanged(PropertyChangedEventArgs e)
+    {
+        base.OnViewModelPropertyChanged(e);
+
+        if (e.PropertyName == nameof(LogViewerViewModel.LogFilter))
+        {
+            UpdateControl(rebuild: true);
+        }
+    }
+
     private void OnViewModelLogMessage(object? sender, LogEntryEventArgs e)
     {
-        UpdateControl(false, e.LogEntry);
+        lock (_pendingLogEntries)
+        {
+            _pendingLogEntries.Add(e.LogEntry);
+        }
+
+        ScheduleUpdate();
     }
 
     private void OnViewModelActiveFilterGroupChanged(object? sender, EventArgs e)
     {
-        UpdateControl();
+        UpdateControl(rebuild: true);
     }
 
-    private void UpdateControl(bool rebuild = true, LogEntry? logEntry = null, bool scrollToEnd = false)
+    private void ScheduleUpdate()
     {
+        _dispatcherTimerEx.Stop();
+
+        var now = _timeProvider.GetUtcNow();
+        if (_nextForcedUpdate is null ||
+            _nextForcedUpdate.Value < now)
+        {
+            // Update now
+            UpdateControl(rebuild: false);
+        }
+        else
+        {
+            _dispatcherTimerEx.Start();
+        }
+    }
+
+    private void OnDispatcherTimerTick(object? sender, EventArgs e)
+    {
+        _dispatcherTimerEx.Stop();
+
+        UpdateControl(rebuild: false);
+    }
+
+    private void UpdateControl(bool rebuild = true, bool scrollToEnd = false)
+    {
+        _dispatcherTimerEx.Stop();
+
+        _nextForcedUpdate = _timeProvider.GetUtcNow().AddSeconds(1);
+
         // Using BeginInvoke in order to call properties mapping first. Otherwise filtering by buttons doesn't work.
         // UpdateControl will be called *before* the properties mapping,
         // but because we call BeginInvoke, it will be placed at the end of the execution stack
@@ -360,20 +417,43 @@ public partial class LogViewerControl
                 return;
             }
 
+            var vm = ViewModel as LogViewerViewModel;
+
             var logEntries = new List<LogEntry>();
 
-            if (logEntry is not null)
+            lock (_pendingLogEntries)
             {
-                logEntries.Add(logEntry);
-            }
-
-            if (rebuild)
-            {
-                ClearScreen();
-
-                if (ViewModel is LogViewerViewModel vm)
+                if (rebuild)
                 {
-                    logEntries = vm.GetFilteredLogEntries().ToList();
+                    ClearScreen();
+
+                    // Full refresh
+                    _pendingLogEntries.Clear();
+
+                    if (vm is not null)
+                    {
+                        logEntries = vm.GetFilteredLogEntries().ToList();
+                    }
+                }
+
+                if (_pendingLogEntries.Count > 0)
+                {
+                    if (vm is not null)
+                    {
+                        foreach (var pending in _pendingLogEntries)
+                        {
+                            if (vm.IsValidLogEntry(pending))
+                            {
+                                logEntries.Add(pending);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        logEntries.AddRange(_pendingLogEntries);
+                    }
+
+                    _pendingLogEntries.Clear();
                 }
             }
 
@@ -413,11 +493,15 @@ public partial class LogViewerControl
     {
         base.OnLoaded(e);
 
+        _dispatcherTimerEx.Tick += OnDispatcherTimerTick;
+
         UpdateControl(scrollToEnd: true);
     }
 
     protected override void OnUnloaded(EventArgs e)
     {
+        _dispatcherTimerEx.Tick -= OnDispatcherTimerTick;
+
         base.OnUnloaded(e);
     }
 

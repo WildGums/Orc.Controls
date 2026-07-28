@@ -43,6 +43,8 @@ public partial class App
                 {
                     x.SetMinimumLevel(LogLevel.Debug);
 
+                    x.AddInMemory();
+
                     x.AddConsole();
                     x.AddDebug();
                 });

@@ -1538,7 +1538,7 @@ namespace Orc.Controls
         public static readonly System.Windows.DependencyProperty SupportCommandManagerProperty;
         public static readonly System.Windows.DependencyProperty WarningMessageBrushProperty;
         public LogViewerControl() { }
-        public LogViewerControl(System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService, Catel.MVVM.ICommandManager commandManager) { }
+        public LogViewerControl(System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService, Catel.MVVM.ICommandManager commandManager, Catel.Services.IDispatcherService dispatcherService, Catel.ITimeProvider timeProvider) { }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public Orc.Controls.LogFilterGroup? ActiveFilterGroup { get; set; }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
@@ -1580,6 +1580,7 @@ namespace Orc.Controls
         protected override void OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs e) { }
         protected override void OnUnloaded(System.EventArgs e) { }
         protected override void OnViewModelChanged() { }
+        protected override void OnViewModelPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
     }
     public static class LoggingExtensions
     {
@@ -4110,7 +4111,7 @@ namespace Orc.Controls.ViewModels
         public event System.EventHandler<Catel.Logging.LogEntryEventArgs>? LogMessage;
         public void ClearEntries() { }
         protected override System.Threading.Tasks.Task CloseAsync() { }
-        public System.Collections.Generic.IEnumerable<Catel.Logging.LogEntry> GetFilteredLogEntries() { }
+        public System.Collections.Generic.IReadOnlyList<Catel.Logging.LogEntry> GetFilteredLogEntries() { }
         protected override System.Threading.Tasks.Task InitializeAsync() { }
         public bool IsValidLogEntry(Catel.Logging.LogEntry logEntry) { }
     }

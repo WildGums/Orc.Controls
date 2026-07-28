@@ -22,10 +22,11 @@ public partial class LogViewerViewModel : ViewModelBase
         TestUnderPressure = new TaskCommand(serviceProvider, OnTestUnderPressureExecuteAsync);
     }
 
+    public string LogFilter { get; set; } = string.Empty;
+
     public ScrollMode ScrollMode { get; set; } = ScrollMode.ManualScrollPriority;
 
     public Command AddLogRecords { get; }
-    public TaskCommand TestUnderPressure { get; }
 
     private void OnAddLogRecordsExecute()
     {
@@ -41,6 +42,8 @@ public partial class LogViewerViewModel : ViewModelBase
         Logger.LogError("Single line error message");
         Logger.LogError("Multiline error message that include a first line \nand a second line of the message");
     }
+
+    public TaskCommand TestUnderPressure { get; }
 
     private async Task OnTestUnderPressureExecuteAsync()
     {

@@ -161,7 +161,7 @@ public partial class LogViewerViewModel : ViewModelBase
         lock (_lock)
         {
             ResetEntriesCount();
-            UpdateEntriesCount(_logEntries.Where(IsValidLogEntry).ToList());
+            UpdateEntriesCount(_logEntries.Where(IsValidLogEntry).ToArray());
         }
 
         ActiveFilterGroupChanged?.Invoke(this, EventArgs.Empty);
@@ -250,7 +250,7 @@ public partial class LogViewerViewModel : ViewModelBase
         _inMemoryLoggingContainer.LogEntryAdded -= OnLogMessage;
     }
 
-    public IEnumerable<LogEntry> GetFilteredLogEntries()
+    public IReadOnlyList<LogEntry> GetFilteredLogEntries()
     {
         var entries = new List<LogEntry>();
 
@@ -294,14 +294,34 @@ public partial class LogViewerViewModel : ViewModelBase
         return false;
     }
 
-    private void UpdateEntriesCount(List<LogEntry> entries)
+    private void UpdateEntriesCount(IReadOnlyList<LogEntry> entries)
     {
-        var matchedEntries = entries.Where(PassApplicationFilterGroupsConfiguration).ToList();
+        var matchedEntries = entries.Where(PassApplicationFilterGroupsConfiguration).ToArray();
 
-        DebugEntriesCount += matchedEntries.Count(x => x.LogLevel == LogLevel.Debug);
-        InfoEntriesCount += matchedEntries.Count(x => x.LogLevel == LogLevel.Information);
-        WarningEntriesCount += matchedEntries.Count(x => x.LogLevel == LogLevel.Warning);
-        ErrorEntriesCount += matchedEntries.Count(x => x.LogLevel == LogLevel.Error || x.LogLevel == LogLevel.Critical);
+        using (SuspendChangeNotifications())
+        {
+            matchedEntries.ForEach(x => IncrementCount(x.LogLevel));
+        }
+    }
+
+    private void IncrementCount(LogLevel logLevel)
+    {
+        if (logLevel is LogLevel.Error or LogLevel.Critical)
+        {
+            ErrorEntriesCount++;
+        }
+        else if (logLevel == LogLevel.Warning)
+        {
+            WarningEntriesCount++;
+        }
+        else if (logLevel == LogLevel.Information)
+        {
+            InfoEntriesCount++;
+        }
+        else if (logLevel == LogLevel.Debug)
+        {
+            DebugEntriesCount++;
+        }
     }
 
     private bool PassFilters(LogEntry logEntry)

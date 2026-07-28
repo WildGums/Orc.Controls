@@ -1,30 +1,33 @@
 ﻿<catel:UserControl x:Class="Orc.Controls.Example.Views.LogViewer"
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-				   xmlns:catel="http://schemas.catelproject.com"
+                   xmlns:catel="http://schemas.catelproject.com"
                    xmlns:converters="clr-namespace:Orc.Controls.Example.Converters"
-				   xmlns:orc="http://schemas.wildgums.com/orc/controls">
+                   xmlns:orc="http://schemas.wildgums.com/orc/controls"
+                   xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        
-        <TextBlock Grid.Column="0" Grid.Row="0" Text="Log Viewer" />
-        <orc:LogViewerControl x:Name="LogViewerControl" Grid.Column="1" Grid.Row="0" MaxHeight="150"
+    <orc:StackGrid>
+        <orc:StackGrid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </orc:StackGrid.RowDefinitions>
+
+        <orc:StackGrid.ColumnDefinitions>
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="*" />
+        </orc:StackGrid.ColumnDefinitions>
+
+        <TextBlock Text="Log Viewer" />
+        <orc:LogViewerControl x:Name="LogViewerControl"
+                              MaxHeight="150"
                               LogEntryDoubleClick="LogViewerControlOnLogRecordDoubleClick"
-                              LogFilter="{Binding Text, ElementName=FilterTextBox}"
+                              LogFilter="{Binding LogFilter}"
                               ShowDebug="{Binding IsChecked, ElementName=ShowDebugToggleButton}"
                               ShowInfo="{Binding IsChecked, ElementName=ShowInfoToggleButton}"
                               ShowWarning="{Binding IsChecked, ElementName=ShowWarningToggleButton}"
@@ -34,57 +37,136 @@
                               ScrollMode="{Binding ScrollMode}"
                               ShowMultilineMessagesExpanded="{Binding IsChecked, ElementName=ShowMultilineMessageExpandedCheckBox}"
                               ActiveFilterGroup="{Binding SelectedItem, ElementName=ActiveFilterGroupComboBox}"
-                              EnableTextColoring="True" EnableIcons="True"/>
+                              EnableTextColoring="True"
+                              EnableIcons="True" />
 
-        <GridSplitter Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Width="Auto" Grid.Row="1" Grid.ColumnSpan="2" Margin="0 0 5 0" 
-                      ResizeBehavior="PreviousAndCurrent" Background="LightGray"/>
+        <GridSplitter Height="4"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Bottom"
+                      Width="Auto"
+                      Grid.ColumnSpan="2"
+                      Margin="0 0 5 0"
+                      ResizeBehavior="PreviousAndCurrent"
+                      Background="LightGray" />
 
-        <TextBlock Grid.Column="0" Grid.Row="2" Text="Log Viewer Events" />
-        <StackPanel Grid.Column="1" Grid.Row="3">
-            <TextBox x:Name="EventsTextBox" MinHeight="50" VerticalScrollBarVisibility="Auto" />
-            <Button Content="Add log records" Command="{Binding AddLogRecords}" />
-            <Button Content="Test under pressure" Command="{Binding TestUnderPressure}" />
-            <Button Content="Clear Log" Click="ClearLog_OnClick" />
+        <orc:EmptyCell />
+        <orc:StackGrid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label Content="Debug count" />
+            <Label Content="{Binding ElementName=LogViewerControl, Path=ViewModel.DebugEntriesCount}" />
+
+            <Label Content="Info count" />
+            <Label Content="{Binding ElementName=LogViewerControl, Path=ViewModel.InfoEntriesCount}" />
+
+            <Label Content="Warning count" />
+            <Label Content="{Binding ElementName=LogViewerControl, Path=ViewModel.WarningEntriesCount}" />
+
+            <Label Content="Error count" />
+            <Label Content="{Binding ElementName=LogViewerControl, Path=ViewModel.ErrorEntriesCount}" />
+        </orc:StackGrid>
+
+        <TextBlock Text="Log Viewer Events" />
+        <StackPanel>
+            <TextBox x:Name="EventsTextBox"
+                     MinHeight="50"
+                     VerticalScrollBarVisibility="Auto" />
+            <Button Content="Add log records"
+                    Command="{Binding AddLogRecords}" />
+            <Button Content="Test under pressure"
+                    Command="{Binding TestUnderPressure}" />
+            <Button Content="Clear Log"
+                    Click="ClearLog_OnClick" />
         </StackPanel>
 
-        <TextBlock Grid.Column="0" Grid.Row="3" Text="Log Viewer Filter" />
-        <TextBox x:Name="FilterTextBox" Grid.Column="1" Grid.Row="2" />
+        <TextBlock Text="Log Viewer Filter" />
+        <TextBox Text="{Binding LogFilter, Mode=TwoWay}">
+            <i:Interaction.Behaviors>
+                <catel:UpdateBindingOnTextChanged UpdateDelay="500" />
+            </i:Interaction.Behaviors>
+        </TextBox>
 
-        <TextBlock Grid.Column="0" Grid.Row="4" Text="Application Filter Groups" />
+        <TextBlock Text="Application Filter Groups" />
 
-        <orc:LogFilterGroupList Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Margin="0" Updated="OnLogFilterGroupListUpdated" />
+        <orc:LogFilterGroupList Grid.ColumnSpan="2"
+                                Margin="0"
+                                Updated="OnLogFilterGroupListUpdated" />
 
-        <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal">
-            <ToggleButton x:Name="ShowDebugToggleButton" Height="25" Width="60" Margin="4" 
-                          VerticalAlignment="Top" Content="Debug" IsChecked="True" />
-            <ToggleButton x:Name="ShowInfoToggleButton" Height="25" Width="60" Margin="0 4 4 4"
-                          VerticalAlignment="Top" Content="Info" IsChecked="True" />
-            <ToggleButton x:Name="ShowWarningToggleButton" Height="25" Width="60" Margin="0 4 4 4"
-                          VerticalAlignment="Top" Content="Warning" IsChecked="True" />
-            <ToggleButton x:Name="ShowErrorToggleButton" Height="25" Width="60" Margin="0 4 4 4"
-                          VerticalAlignment="Top" Content="Error" IsChecked="True" />
+        <orc:EmptyCell />
+        <StackPanel Orientation="Horizontal">
+            <ToggleButton x:Name="ShowDebugToggleButton"
+                          Height="25"
+                          Width="60"
+                          Margin="4"
+                          VerticalAlignment="Top"
+                          Content="Debug"
+                          IsChecked="True" />
+            <ToggleButton x:Name="ShowInfoToggleButton"
+                          Height="25"
+                          Width="60"
+                          Margin="0 4 4 4"
+                          VerticalAlignment="Top"
+                          Content="Info"
+                          IsChecked="True" />
+            <ToggleButton x:Name="ShowWarningToggleButton"
+                          Height="25"
+                          Width="60"
+                          Margin="0 4 4 4"
+                          VerticalAlignment="Top"
+                          Content="Warning"
+                          IsChecked="True" />
+            <ToggleButton x:Name="ShowErrorToggleButton"
+                          Height="25"
+                          Width="60"
+                          Margin="0 4 4 4"
+                          VerticalAlignment="Top"
+                          Content="Error"
+                          IsChecked="True" />
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="6">
+        <orc:EmptyCell />
+        <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <CheckBox x:Name="EnableTimestampCheckBox" Content="Enable Timestamp" />
-                <CheckBox x:Name="AutoScrollCheckBox" Content="Auto Scroll" IsChecked="True" />
-                <RadioButton x:Name="ManualScrollModeRadioButton" Content="Manual Scroll Mode" GroupName="ScrollMode"
-                             IsChecked="{Binding ScrollMode, Converter={converters:ScrollModeEnumToBooleanConverter}, ConverterParameter=OnlyManual}"/>
-                <RadioButton x:Name="AutoScrollModeRadioButton" Content="Auto Scroll Mode" GroupName="ScrollMode"
-                             IsChecked="{Binding ScrollMode, Converter={converters:ScrollModeEnumToBooleanConverter}, ConverterParameter=AutoScrollPriority}"/>
-                <RadioButton x:Name="MixedScrollModeRadioButton" Content="Manual Scroll Priority Mode" GroupName="ScrollMode"
-                             IsChecked="{Binding ScrollMode, Converter={converters:ScrollModeEnumToBooleanConverter}, ConverterParameter=ManualScrollPriority}"/>
+                <CheckBox x:Name="EnableTimestampCheckBox"
+                          Content="Enable Timestamp" />
+                <CheckBox x:Name="AutoScrollCheckBox"
+                          Content="Auto Scroll"
+                          IsChecked="True" />
+                <RadioButton x:Name="ManualScrollModeRadioButton"
+                             Content="Manual Scroll Mode"
+                             GroupName="ScrollMode"
+                             IsChecked="{Binding ScrollMode, Converter={converters:ScrollModeEnumToBooleanConverter}, ConverterParameter=OnlyManual}" />
+                <RadioButton x:Name="AutoScrollModeRadioButton"
+                             Content="Auto Scroll Mode"
+                             GroupName="ScrollMode"
+                             IsChecked="{Binding ScrollMode, Converter={converters:ScrollModeEnumToBooleanConverter}, ConverterParameter=AutoScrollPriority}" />
+                <RadioButton x:Name="MixedScrollModeRadioButton"
+                             Content="Manual Scroll Priority Mode"
+                             GroupName="ScrollMode"
+                             IsChecked="{Binding ScrollMode, Converter={converters:ScrollModeEnumToBooleanConverter}, ConverterParameter=ManualScrollPriority}" />
             </StackPanel>
-            
+
             <StackPanel Orientation="Horizontal">
-                <CheckBox x:Name="ShowMultilineMessageExpandedCheckBox" Content="Show Multiline Message Expanded" IsChecked="False" />
+                <CheckBox x:Name="ShowMultilineMessageExpandedCheckBox"
+                          Content="Show Multiline Message Expanded"
+                          IsChecked="False" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="Active filter group" />
-                <ComboBox x:Name="ActiveFilterGroupComboBox" DisplayMemberPath="Name" />
+                <ComboBox x:Name="ActiveFilterGroupComboBox"
+                          DisplayMemberPath="Name" />
             </StackPanel>
         </StackPanel>
-    </Grid>
+    </orc:StackGrid>
 </catel:UserControl>
