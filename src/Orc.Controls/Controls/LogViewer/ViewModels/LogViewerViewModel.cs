@@ -242,7 +242,11 @@ public partial class LogViewerViewModel : ViewModelBase
 
         _inMemoryLoggingContainer.LogEntryAdded += OnLogMessage;
 
+        ResetEntriesCount();
+
         _logEntries.ReplaceRange(_inMemoryLoggingContainer.LogEntries);
+
+        UpdateEntriesCount(_logEntries);
     }
 
     private void UnsubscribeLogListener()

@@ -107,8 +107,7 @@ public partial class LogViewerControl
     }
 
     public static readonly DependencyProperty LogFilterProperty = DependencyProperty.Register(nameof(LogFilter), typeof(string),
-        typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -119,8 +118,7 @@ public partial class LogViewerControl
     }
 
     public static readonly DependencyProperty IgnoreCatelLoggingProperty = DependencyProperty.Register(nameof(IgnoreCatelLogging), typeof(bool),
-        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -131,8 +129,7 @@ public partial class LogViewerControl
     }
 
     public static readonly DependencyProperty ShowDebugProperty = DependencyProperty.Register(nameof(ShowDebug), typeof(bool),
-        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -143,8 +140,7 @@ public partial class LogViewerControl
     }
 
     public static readonly DependencyProperty ShowInfoProperty = DependencyProperty.Register(nameof(ShowInfo), typeof(bool),
-        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -155,8 +151,7 @@ public partial class LogViewerControl
     }
 
     public static readonly DependencyProperty ShowWarningProperty = DependencyProperty.Register(nameof(ShowWarning), typeof(bool),
-        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -167,8 +162,7 @@ public partial class LogViewerControl
     }
 
     public static readonly DependencyProperty ShowErrorProperty = DependencyProperty.Register(nameof(ShowError), typeof(bool),
-        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, _) => ((LogViewerControl)sender).UpdateControl()));
+        typeof(LogViewerControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
@@ -357,6 +351,13 @@ public partial class LogViewerControl
         base.OnViewModelPropertyChanged(e);
 
         if (e.PropertyName == nameof(LogViewerViewModel.LogFilter))
+        {
+            UpdateControl(rebuild: true);
+        }
+        else if (e.PropertyName == nameof(LogViewerViewModel.ShowDebug) ||
+                 e.PropertyName == nameof(LogViewerViewModel.ShowInfo) ||
+                 e.PropertyName == nameof(LogViewerViewModel.ShowWarning) ||
+                 e.PropertyName == nameof(LogViewerViewModel.ShowError))
         {
             UpdateControl(rebuild: true);
         }
