@@ -219,7 +219,7 @@ jobs:
             CodeSignCertificateSubjectName: "${{ env.CodeSignCertificateSubjectName }}"
             IsCiBuild: "false"
             NuGetRepositoryUrl: "${{ env.NuGetRepositoryUrl }}"
-	    NuGetRepositoryApiKey: "${{steps.nuget-login.outputs.NUGET_API_KEY}}"
+            NuGetRepositoryApiKey: "${{steps.nuget-login.outputs.NUGET_API_KEY}}"
             SonarOrganization: "${{ env.SonarOrganization }}"
             SonarUrl: "${{ env.SonarUrl }}"
             SonarProject: "${{ github.repository_owner }}_${{ github.event.repository.name }}"
