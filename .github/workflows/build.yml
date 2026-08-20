@@ -139,7 +139,7 @@ jobs:
             )
 
             $candidateNames = @(
-              "$($env:REPOSITORY_OWNER)-Private-$VariableName"
+              "$($env:REPOSITORY_OWNER)-Public-$VariableName"
               "$($env:REPOSITORY_OWNER)-$VariableName"
               "$VariableName"
             )
