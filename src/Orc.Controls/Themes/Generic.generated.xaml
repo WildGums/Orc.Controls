@@ -251,7 +251,7 @@
                     <ColumnDefinition Width="5" />
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
-                  <CheckBox x:Name="PART_All_Visible" AutomationProperties.AutomationId="AllVisibleCheckBox" Margin="6 0 6 0" Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_CheckAll}" VerticalAlignment="Center" IsThreeState="True" IsChecked="{Binding IsAllVisible, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type local:ColorLegend}}, &#xD;&#xA;                                                            Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+                  <CheckBox x:Name="PART_All_Visible" AutomationProperties.AutomationId="AllVisibleCheckBox" Margin="6 0 6 0" Content="{catel:LanguageBinding Controls_ColorLegendGeneric_CheckBox_Content_CheckAll}" VerticalAlignment="Center" IsThreeState="True" IsChecked="{Binding IsAllVisible, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ShowColorVisibilityControls, RelativeSource={RelativeSource AncestorType={x:Type local:ColorLegend}}, &#xA;                                                            Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
                   <Grid Grid.Column="2">
                     <Grid.ColumnDefinitions>
                       <ColumnDefinition MinWidth="100" Width="*" />
@@ -1549,7 +1549,7 @@
             <!-- Original header content -->
             <ContentPresenter Grid.Column="0" Content="{Binding}" VerticalAlignment="Center" Margin="0,0,4,0" />
             <!-- Tear-off button -->
-            <Button Grid.Column="1" Style="{StaticResource TearOffButtonStyle}" Command="{x:Static local:TearOffCommands.TearOffTab}" Visibility="{Binding RelativeSource={RelativeSource AncestorType=localcontrols:TearOffTabItem}, &#xD;&#xA;                                           Path=CanTearOff, &#xD;&#xA;                                           Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
+            <Button Grid.Column="1" Style="{StaticResource TearOffButtonStyle}" Command="{x:Static local:TearOffCommands.TearOffTab}" Visibility="{Binding RelativeSource={RelativeSource AncestorType=localcontrols:TearOffTabItem}, &#xA;                                           Path=CanTearOff, &#xA;                                           Converter={catel:BooleanToCollapsingVisibilityConverter}}" />
           </Grid>
         </DataTemplate>
       </Setter.Value>
