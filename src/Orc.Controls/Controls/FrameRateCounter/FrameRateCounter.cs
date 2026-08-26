@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Automation;
+using Catel;
 
 /// <summary>
 /// A counter to show the frame rate inside an application.
@@ -25,6 +26,8 @@ public class FrameRateCounter : TextBlock
         Loaded += OnControlLoaded;
         Unloaded += OnControlUnloaded;
 
+        SetCurrentValue(PrefixProperty, LanguageHelper.GetRequiredString("Controls_FrameRateCounter_DefaultPrefix"));
+
         _prefixThreadSafe = Prefix;
 
         _frameRateTimer.Interval = new TimeSpan(0, 0, 0, 1);
@@ -38,7 +41,7 @@ public class FrameRateCounter : TextBlock
     }
 
     public static readonly DependencyProperty PrefixProperty = DependencyProperty.Register(nameof(Prefix),
-        typeof(string), typeof(FrameRateCounter), new PropertyMetadata("Frame rate: ", (sender, e) => ((FrameRateCounter)sender)._prefixThreadSafe = (string)e.NewValue));
+        typeof(string), typeof(FrameRateCounter), new PropertyMetadata(string.Empty, (sender, e) => ((FrameRateCounter)sender)._prefixThreadSafe = (string)e.NewValue));
 
     private void OnControlLoaded(object sender, RoutedEventArgs e)
     {

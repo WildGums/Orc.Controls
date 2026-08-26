@@ -6,6 +6,7 @@ using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Automation;
+using Catel;
 
 /// <summary>
 /// A counter to show the frame number inside an application.
@@ -23,6 +24,8 @@ public partial class FrameCounter : TextBlock
         Loaded += OnControlLoaded;
         Unloaded += OnControlUnloaded;
 
+        SetCurrentValue(PrefixProperty, LanguageHelper.GetRequiredString("Controls_FrameCounter_DefaultPrefix"));
+
         _resetCountThreadSafe = ResetCount;
         _prefixThreadSafe = Prefix;   
     }
@@ -34,7 +37,7 @@ public partial class FrameCounter : TextBlock
     }
 
     public static readonly DependencyProperty PrefixProperty = DependencyProperty.Register(nameof(Prefix),
-        typeof(string), typeof(FrameCounter), new PropertyMetadata("Frame no: ", (sender, e) => ((FrameCounter)sender)._prefixThreadSafe = (string)e.NewValue));
+        typeof(string), typeof(FrameCounter), new PropertyMetadata(string.Empty, (sender, e) => ((FrameCounter)sender)._prefixThreadSafe = (string)e.NewValue));
 
 
     public int ResetCount

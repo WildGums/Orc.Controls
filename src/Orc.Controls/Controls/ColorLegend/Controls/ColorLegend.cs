@@ -16,6 +16,8 @@ using Automation;
 using Catel.Data;
 using Catel.Logging;
 using Catel.MVVM;
+using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 /// <summary>
@@ -55,6 +57,9 @@ public partial class ColorLegend : HeaderedContentControl
     public ColorLegend(IServiceProvider serviceProvider)
     {
         ChangeColor = new Command<object?>(serviceProvider, OnChangeColorExecute, OnChangeColorCanExecute);
+
+        var languageService = serviceProvider.GetRequiredService<ILanguageService>();
+        SetCurrentValue(FilterWatermarkProperty, languageService.GetRequiredString("Controls_ColorLegend_FilterWatermark"));
     }
 
     [MemberNotNullWhen(true, nameof(_button),
@@ -283,7 +288,7 @@ public partial class ColorLegend : HeaderedContentControl
     }
 
     public static readonly DependencyProperty FilterWatermarkProperty = DependencyProperty.Register(nameof(FilterWatermark),
-        typeof(string), typeof(ColorLegend), new PropertyMetadata("Search"));
+        typeof(string), typeof(ColorLegend), new PropertyMetadata(string.Empty));
 
     /// <summary>
     /// Gets or sets list of selected items.

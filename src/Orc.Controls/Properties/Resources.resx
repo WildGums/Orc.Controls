@@ -573,4 +573,37 @@
   <data name="Controls_DatePicker_ToggleButton_Content_YearAbbreviation" xml:space="preserve">
     <value>y</value>
   </data>
+  <data name="Controls_LogViewer_ToolTip_Time" xml:space="preserve">
+    <value>Time: </value>
+  </data>
+  <data name="Controls_LogViewer_ToolTip_LogType" xml:space="preserve">
+    <value>Log type: </value>
+  </data>
+  <data name="Controls_LogViewer_ToolTip_LogEvent" xml:space="preserve">
+    <value>Log event: </value>
+  </data>
+  <data name="Controls_LogViewer_ExpandButton" xml:space="preserve">
+    <value>[...]</value>
+  </data>
+  <data name="Controls_LogViewer_MethodTimingsFilterGroup" xml:space="preserve">
+    <value>Method timings</value>
+  </data>
+  <data name="Controls_LogViewer_ExcludeAnythingButMethodTimerFilter" xml:space="preserve">
+    <value>Exclude anything but method timer</value>
+  </data>
+  <data name="Controls_Callout_Unnamed" xml:space="preserve">
+    <value>Unnamed</value>
+  </data>
+  <data name="Controls_Callout_DefaultVersion" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Controls_FrameRateCounter_DefaultPrefix" xml:space="preserve">
+    <value>Frame rate: </value>
+  </data>
+  <data name="Controls_FrameCounter_DefaultPrefix" xml:space="preserve">
+    <value>Frame no: </value>
+  </data>
+  <data name="Controls_ColorLegend_FilterWatermark" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>

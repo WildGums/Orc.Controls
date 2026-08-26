@@ -19,14 +19,17 @@ public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupServic
     private readonly IFileService _fileService;
     private readonly IAppDataService _appDataService;
     private readonly IJsonSerializerFactory _jsonSerializerFactory;
+    private readonly ILanguageService _languageService;
 
     public ApplicationLogFilterGroupService(ILogger<ApplicationLogFilterGroupService> logger, 
-        IFileService fileService, IAppDataService appDataService, IJsonSerializerFactory jsonSerializerFactory)
+        IFileService fileService, IAppDataService appDataService, IJsonSerializerFactory jsonSerializerFactory,
+        ILanguageService languageService)
     {
         _appDataService = appDataService;
         _jsonSerializerFactory = jsonSerializerFactory;
         _logger = logger;
         _fileService = fileService;
+        _languageService = languageService;
     }
 
     public async Task<IReadOnlyList<LogFilterGroup>> LoadAsync()
@@ -94,14 +97,14 @@ public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupServic
 
         var methodTimerFilterGroup = new LogFilterGroup
         {
-            Name = "Method timings",
+            Name = _languageService.GetRequiredString("Controls_LogViewer_MethodTimingsFilterGroup"),
             IsRuntime = true,
             IsEnabled = true
         };
 
         methodTimerFilterGroup.LogFilters.Add(new LogFilter
         {
-            Name = "Exclude anything but method timer",
+            Name = _languageService.GetRequiredString("Controls_LogViewer_ExcludeAnythingButMethodTimerFilter"),
             Action = LogFilterAction.Exclude,
             ExpressionType = LogFilterExpressionType.NotContains,
             ExpressionValue = "METHODTIMER",
