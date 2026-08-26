@@ -13,6 +13,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Media;
 using Automation;
+using Catel;
 using Catel.Data;
 using Catel.Logging;
 using Catel.MVVM;
@@ -55,6 +56,8 @@ public partial class ColorLegend : HeaderedContentControl
     public ColorLegend(IServiceProvider serviceProvider)
     {
         ChangeColor = new Command<object?>(serviceProvider, OnChangeColorExecute, OnChangeColorCanExecute);
+
+        SetCurrentValue(FilterWatermarkProperty, LanguageHelper.GetRequiredString("Controls_ColorLegend_FilterWatermark"));
     }
 
     [MemberNotNullWhen(true, nameof(_button),
@@ -283,7 +286,7 @@ public partial class ColorLegend : HeaderedContentControl
     }
 
     public static readonly DependencyProperty FilterWatermarkProperty = DependencyProperty.Register(nameof(FilterWatermark),
-        typeof(string), typeof(ColorLegend), new PropertyMetadata("Search"));
+        typeof(string), typeof(ColorLegend), new PropertyMetadata(string.Empty));
 
     /// <summary>
     /// Gets or sets list of selected items.

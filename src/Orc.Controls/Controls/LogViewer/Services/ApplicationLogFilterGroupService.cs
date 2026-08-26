@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Catel.IO;
+using Catel.IoC;
 using Catel.Services;
 using FileSystem;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Orc.Serialization.Json;
 using Path = System.IO.Path;
@@ -19,14 +21,23 @@ public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupServic
     private readonly IFileService _fileService;
     private readonly IAppDataService _appDataService;
     private readonly IJsonSerializerFactory _jsonSerializerFactory;
+    private readonly ILanguageService _languageService;
 
     public ApplicationLogFilterGroupService(ILogger<ApplicationLogFilterGroupService> logger, 
         IFileService fileService, IAppDataService appDataService, IJsonSerializerFactory jsonSerializerFactory)
+        : this(logger, fileService, appDataService, jsonSerializerFactory, IoCContainer.ServiceProvider.GetRequiredService<ILanguageService>())
+    {
+    }
+
+    public ApplicationLogFilterGroupService(ILogger<ApplicationLogFilterGroupService> logger, 
+        IFileService fileService, IAppDataService appDataService, IJsonSerializerFactory jsonSerializerFactory,
+        ILanguageService languageService)
     {
         _appDataService = appDataService;
         _jsonSerializerFactory = jsonSerializerFactory;
         _logger = logger;
         _fileService = fileService;
+        _languageService = languageService;
     }
 
     public async Task<IReadOnlyList<LogFilterGroup>> LoadAsync()
@@ -94,14 +105,14 @@ public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupServic
 
         var methodTimerFilterGroup = new LogFilterGroup
         {
-            Name = "Method timings",
+            Name = _languageService.GetRequiredString("Controls_LogViewer_MethodTimingsFilterGroup"),
             IsRuntime = true,
             IsEnabled = true
         };
 
         methodTimerFilterGroup.LogFilters.Add(new LogFilter
         {
-            Name = "Exclude anything but method timer",
+            Name = _languageService.GetRequiredString("Controls_LogViewer_ExcludeAnythingButMethodTimerFilter"),
             Action = LogFilterAction.Exclude,
             ExpressionType = LogFilterExpressionType.NotContains,
             ExpressionValue = "METHODTIMER",

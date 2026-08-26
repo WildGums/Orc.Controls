@@ -1,6 +1,7 @@
 ﻿namespace Orc.Controls;
 
 using System;
+using Catel;
 
 public static class ICalloutExtensions
 {
@@ -15,12 +16,12 @@ public static class ICalloutExtensions
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            name = "Unnamed";
+            name = LanguageHelper.GetRequiredString("Controls_Callout_Unnamed");
         }
 
         if (string.IsNullOrWhiteSpace(version))
         {
-            version = "Default";
+            version = LanguageHelper.GetRequiredString("Controls_Callout_DefaultVersion");
         }
 
         var value = $"Callouts.{name}.{version}";
