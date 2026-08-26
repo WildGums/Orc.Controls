@@ -5,10 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Catel.IO;
-using Catel.IoC;
 using Catel.Services;
 using FileSystem;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Orc.Serialization.Json;
 using Path = System.IO.Path;
@@ -22,12 +20,6 @@ public class ApplicationLogFilterGroupService : IApplicationLogFilterGroupServic
     private readonly IAppDataService _appDataService;
     private readonly IJsonSerializerFactory _jsonSerializerFactory;
     private readonly ILanguageService _languageService;
-
-    public ApplicationLogFilterGroupService(ILogger<ApplicationLogFilterGroupService> logger, 
-        IFileService fileService, IAppDataService appDataService, IJsonSerializerFactory jsonSerializerFactory)
-        : this(logger, fileService, appDataService, jsonSerializerFactory, IoCContainer.ServiceProvider.GetRequiredService<ILanguageService>())
-    {
-    }
 
     public ApplicationLogFilterGroupService(ILogger<ApplicationLogFilterGroupService> logger, 
         IFileService fileService, IAppDataService appDataService, IJsonSerializerFactory jsonSerializerFactory,

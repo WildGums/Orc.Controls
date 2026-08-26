@@ -13,10 +13,11 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Media;
 using Automation;
-using Catel;
 using Catel.Data;
 using Catel.Logging;
 using Catel.MVVM;
+using Catel.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 /// <summary>
@@ -57,7 +58,8 @@ public partial class ColorLegend : HeaderedContentControl
     {
         ChangeColor = new Command<object?>(serviceProvider, OnChangeColorExecute, OnChangeColorCanExecute);
 
-        SetCurrentValue(FilterWatermarkProperty, LanguageHelper.GetRequiredString("Controls_ColorLegend_FilterWatermark"));
+        var languageService = serviceProvider.GetRequiredService<ILanguageService>();
+        SetCurrentValue(FilterWatermarkProperty, languageService.GetRequiredString("Controls_ColorLegend_FilterWatermark"));
     }
 
     [MemberNotNullWhen(true, nameof(_button),
