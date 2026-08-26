@@ -16,16 +16,16 @@ public static class RichTextBoxParagraphExtensions
 
         if (!showTimestamp)
         {
-            toolTip.AppendLine(LanguageHelper.GetRequiredString("Controls_LogViewer_ToolTip_Time") + timestamp);
+            toolTip.AppendLine(LanguageHelper.GetRequiredString("Controls_LogViewer_ToolTip_Time") + " " + timestamp);
             timestamp = string.Empty;
         }
 
         var logEntry = paragraph.LogEntry;
 
-        toolTip.AppendLine($"{LanguageHelper.GetRequiredString("Controls_LogViewer_ToolTip_LogType")}{logEntry?.Category}");
+        toolTip.AppendLine($"{LanguageHelper.GetRequiredString("Controls_LogViewer_ToolTip_LogType")} {logEntry?.Category}");
 
         // Note: last call must be Append instead of AppendLine
-        toolTip.Append($"{LanguageHelper.GetRequiredString("Controls_LogViewer_ToolTip_LogEvent")}{logEntry?.LogLevel}");
+        toolTip.Append($"{LanguageHelper.GetRequiredString("Controls_LogViewer_ToolTip_LogEvent")} {logEntry?.LogLevel}");
 
         paragraph.SetCurrentValue(FrameworkContentElement.ToolTipProperty, toolTip.ToString());
 

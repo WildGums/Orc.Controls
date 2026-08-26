@@ -14,6 +14,22 @@
           <source>Browse for folder</source>
           <target state="translated">Zoek map</target>
         </trans-unit>
+        <trans-unit id="Controls_Callout_DefaultVersion" translate="yes" xml:space="preserve">
+          <source>Default</source>
+          <target state="new">Standaard</target>
+        </trans-unit>
+        <trans-unit id="Controls_Callout_Unnamed" translate="yes" xml:space="preserve">
+          <source>Unnamed</source>
+          <target state="new">Naamloos</target>
+        </trans-unit>
+        <trans-unit id="Controls_ColorLegendGeneric_CheckBox_Content_ShowColors" translate="yes" xml:space="preserve">
+          <source>Show colors</source>
+          <target state="new">Toon kleuren</target>
+        </trans-unit>
+        <trans-unit id="Controls_ColorLegend_FilterWatermark" translate="yes" xml:space="preserve">
+          <source>Search</source>
+          <target state="new">Zoeken</target>
+        </trans-unit>
         <trans-unit id="Controls_DateRangePicker_Custom" translate="yes" xml:space="preserve">
           <source>Custom</source>
           <target state="translated">Anders</target>
@@ -50,6 +66,94 @@
           <source>Yesterday</source>
           <target state="translated">Gisteren</target>
         </trans-unit>
+        <trans-unit id="Controls_FindReplaceView_Button_Content_Find" translate="yes" xml:space="preserve">
+          <source>Find</source>
+          <target state="new">Vind</target>
+        </trans-unit>
+        <trans-unit id="Controls_FindReplaceView_Button_Content_FindAll" translate="yes" xml:space="preserve">
+          <source>Find all</source>
+          <target state="new">Vind alles</target>
+        </trans-unit>
+        <trans-unit id="Controls_FindReplaceView_Button_Content_Replace" translate="yes" xml:space="preserve">
+          <source>Replace</source>
+          <target state="new">Vervang</target>
+        </trans-unit>
+        <trans-unit id="Controls_FindReplaceView_Button_Content_ReplaceAll" translate="yes" xml:space="preserve">
+          <source>Replace All</source>
+          <target state="new">Vervang alles</target>
+        </trans-unit>
+        <trans-unit id="Controls_FindReplaceView_CheckBox_Content_MatchCase" translate="yes" xml:space="preserve">
+          <source>Match case</source>
+          <target state="new">Luciferdoos</target>
+        </trans-unit>
+        <trans-unit id="Controls_FindReplaceView_CheckBox_Content_MatchWholeWord" translate="yes" xml:space="preserve">
+          <source>Match whole word</source>
+          <target state="new">Match heel woord</target>
+        </trans-unit>
+        <trans-unit id="Controls_FindReplaceView_CheckBox_Content_RegularExpression" translate="yes" xml:space="preserve">
+          <source>Regular Expression</source>
+          <target state="new">Reguliere expressie</target>
+        </trans-unit>
+        <trans-unit id="Controls_FindReplaceView_CheckBox_Content_SearchUp" translate="yes" xml:space="preserve">
+          <source>Search up</source>
+          <target state="new">Zoek op</target>
+        </trans-unit>
+        <trans-unit id="Controls_FindReplaceView_CheckBox_Content_Wildcards" translate="yes" xml:space="preserve">
+          <source>Wildcards</source>
+          <target state="new">Jokerkaarten</target>
+        </trans-unit>
+        <trans-unit id="Controls_FindReplaceView_TabItem_Header_Find" translate="yes" xml:space="preserve">
+          <source>Find</source>
+          <target state="new">Vind</target>
+        </trans-unit>
+        <trans-unit id="Controls_FindReplaceView_TabItem_Header_Replace" translate="yes" xml:space="preserve">
+          <source>Replace</source>
+          <target state="new">Vervang</target>
+        </trans-unit>
+        <trans-unit id="Controls_FindReplaceView_TextBlock_Text_ReplaceWith" translate="yes" xml:space="preserve">
+          <source>Replace with:</source>
+          <target state="new">Vervang met:</target>
+        </trans-unit>
+        <trans-unit id="Controls_FindReplaceView_TextBlock_Text_TextToFind" translate="yes" xml:space="preserve">
+          <source>Text to Find:</source>
+          <target state="new">Tekst om te vinden:</target>
+        </trans-unit>
+        <trans-unit id="Controls_FindReplaceView_Title" translate="yes" xml:space="preserve">
+          <source>Find and Replace</source>
+          <target state="new">Zoeken en Vervangen</target>
+        </trans-unit>
+        <trans-unit id="Controls_FrameCounter_DefaultPrefix" translate="yes" xml:space="preserve">
+          <source>Frame no: </source>
+          <target state="new">Frame nr:</target>
+        </trans-unit>
+        <trans-unit id="Controls_FrameRateCounter_DefaultPrefix" translate="yes" xml:space="preserve">
+          <source>Frame rate: </source>
+          <target state="new">Framerate:</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_ExcludeAnythingButMethodTimerFilter" translate="yes" xml:space="preserve">
+          <source>Exclude anything but method timer</source>
+          <target state="new">Sluit alles behalve methodtimer uit</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_ExpandButton" translate="yes" xml:space="preserve">
+          <source>[...]</source>
+          <target state="new">[...]</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_MethodTimingsFilterGroup" translate="yes" xml:space="preserve">
+          <source>Method timings</source>
+          <target state="new">Methodetijden</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_ToolTip_LogEvent" translate="yes" xml:space="preserve">
+          <source>Log event:</source>
+          <target state="new">Logboekgebeurtenis:</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_ToolTip_LogType" translate="yes" xml:space="preserve">
+          <source>Log type:</source>
+          <target state="new">Logtype:</target>
+        </trans-unit>
+        <trans-unit id="Controls_LogViewer_ToolTip_Time" translate="yes" xml:space="preserve">
+          <source>Time:</source>
+          <target state="new">Tijd:</target>
+        </trans-unit>
         <trans-unit id="Controls_OpenFolder" translate="yes" xml:space="preserve">
           <source>Open folder</source>
           <target state="translated">Open map</target>
@@ -81,6 +185,26 @@
         <trans-unit id="Controls_ValidationContextControl_Open" translate="yes" xml:space="preserve">
           <source>Open</source>
           <target state="translated">Openen</target>
+        </trans-unit>
+        <trans-unit id="Controls_ValidationContextControl_ValidationNamesService_ColumnIndex" translate="yes" xml:space="preserve">
+          <source>({0})</source>
+          <target state="new">({0})</target>
+        </trans-unit>
+        <trans-unit id="Controls_ValidationContextControl_ValidationNamesService_ColumnName" translate="yes" xml:space="preserve">
+          <source>'{0}'</source>
+          <target state="new">'{0}'</target>
+        </trans-unit>
+        <trans-unit id="Controls_ValidationContextControl_ValidationNamesService_ColumnSeparator" translate="yes" xml:space="preserve">
+          <source>, Column </source>
+          <target state="new">, Kolom</target>
+        </trans-unit>
+        <trans-unit id="Controls_ValidationContextControl_ValidationNamesService_MessageFormat" translate="yes" xml:space="preserve">
+          <source>{0} : {1}</source>
+          <target state="new">{0} : {1}</target>
+        </trans-unit>
+        <trans-unit id="Controls_ValidationContextControl_ValidationNamesService_Row" translate="yes" xml:space="preserve">
+          <source>Row {0}</source>
+          <target state="new">Rij {0}</target>
         </trans-unit>
         <trans-unit id="Controls_ValidationContextControl_Warnings" translate="yes" xml:space="preserve">
           <source>Warnings</source>

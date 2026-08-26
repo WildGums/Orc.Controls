@@ -408,4 +408,97 @@
   <data name="Controls_LogMessageCategoryToggleButton_Text_Warning" xml:space="preserve">
     <value>Warning</value>
   </data>
+  <data name="Controls_ColorLegendGeneric_CheckBox_Content_ShowColors" xml:space="preserve">
+    <value>Couleurs de l’émission</value>
+  </data>
+  <data name="Controls_FindReplaceView_Title" xml:space="preserve">
+    <value>Trouver et remplacer</value>
+  </data>
+  <data name="Controls_FindReplaceView_TabItem_Header_Find" xml:space="preserve">
+    <value>Trouver</value>
+  </data>
+  <data name="Controls_FindReplaceView_TextBlock_Text_TextToFind" xml:space="preserve">
+    <value>Texte à trouver :</value>
+  </data>
+  <data name="Controls_FindReplaceView_Button_Content_Find" xml:space="preserve">
+    <value>Trouver</value>
+  </data>
+  <data name="Controls_FindReplaceView_Button_Content_FindAll" xml:space="preserve">
+    <value>Trouver tout</value>
+  </data>
+  <data name="Controls_FindReplaceView_TabItem_Header_Replace" xml:space="preserve">
+    <value>Remplacer</value>
+  </data>
+  <data name="Controls_FindReplaceView_TextBlock_Text_ReplaceWith" xml:space="preserve">
+    <value>Remplacez par :</value>
+  </data>
+  <data name="Controls_FindReplaceView_Button_Content_Replace" xml:space="preserve">
+    <value>Remplacer</value>
+  </data>
+  <data name="Controls_FindReplaceView_Button_Content_ReplaceAll" xml:space="preserve">
+    <value>Remplacer tout</value>
+  </data>
+  <data name="Controls_FindReplaceView_CheckBox_Content_MatchCase" xml:space="preserve">
+    <value>Affaire de match</value>
+  </data>
+  <data name="Controls_FindReplaceView_CheckBox_Content_MatchWholeWord" xml:space="preserve">
+    <value>Associez le mot entier</value>
+  </data>
+  <data name="Controls_FindReplaceView_CheckBox_Content_RegularExpression" xml:space="preserve">
+    <value>Expression régulière</value>
+  </data>
+  <data name="Controls_FindReplaceView_CheckBox_Content_Wildcards" xml:space="preserve">
+    <value>Cartes à joker</value>
+  </data>
+  <data name="Controls_FindReplaceView_CheckBox_Content_SearchUp" xml:space="preserve">
+    <value>Recherche vers le haut</value>
+  </data>
+  <data name="Controls_ValidationContextControl_ValidationNamesService_Row" xml:space="preserve">
+    <value>Rangée {0}</value>
+  </data>
+  <data name="Controls_ValidationContextControl_ValidationNamesService_ColumnSeparator" xml:space="preserve">
+    <value>, Colonne</value>
+  </data>
+  <data name="Controls_ValidationContextControl_ValidationNamesService_ColumnName" xml:space="preserve">
+    <value>'{0}'</value>
+  </data>
+  <data name="Controls_ValidationContextControl_ValidationNamesService_ColumnIndex" xml:space="preserve">
+    <value>({0})</value>
+  </data>
+  <data name="Controls_ValidationContextControl_ValidationNamesService_MessageFormat" xml:space="preserve">
+    <value>{0} : {1}</value>
+  </data>
+  <data name="Controls_LogViewer_ToolTip_Time" xml:space="preserve">
+    <value>Temps :</value>
+  </data>
+  <data name="Controls_LogViewer_ToolTip_LogType" xml:space="preserve">
+    <value>Type de journal :</value>
+  </data>
+  <data name="Controls_LogViewer_ToolTip_LogEvent" xml:space="preserve">
+    <value>Événement de journal :</value>
+  </data>
+  <data name="Controls_LogViewer_ExpandButton" xml:space="preserve">
+    <value>[...]</value>
+  </data>
+  <data name="Controls_LogViewer_MethodTimingsFilterGroup" xml:space="preserve">
+    <value>Synchronisations de la méthode</value>
+  </data>
+  <data name="Controls_LogViewer_ExcludeAnythingButMethodTimerFilter" xml:space="preserve">
+    <value>Excluez tout sauf le minuteur de méthode</value>
+  </data>
+  <data name="Controls_Callout_Unnamed" xml:space="preserve">
+    <value>Sans nom</value>
+  </data>
+  <data name="Controls_Callout_DefaultVersion" xml:space="preserve">
+    <value>Par défaut</value>
+  </data>
+  <data name="Controls_FrameRateCounter_DefaultPrefix" xml:space="preserve">
+    <value>Fréquence d’images :</value>
+  </data>
+  <data name="Controls_FrameCounter_DefaultPrefix" xml:space="preserve">
+    <value>Numéro de cadre :</value>
+  </data>
+  <data name="Controls_ColorLegend_FilterWatermark" xml:space="preserve">
+    <value>Recherche</value>
+  </data>
 </root>

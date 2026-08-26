@@ -408,4 +408,97 @@
   <data name="Controls_LogMessageCategoryToggleButton_Text_Warning" xml:space="preserve">
     <value>Warning</value>
   </data>
+  <data name="Controls_ColorLegendGeneric_CheckBox_Content_ShowColors" xml:space="preserve">
+    <value>Showfarben</value>
+  </data>
+  <data name="Controls_FindReplaceView_Title" xml:space="preserve">
+    <value>Suchen und Ersetzen</value>
+  </data>
+  <data name="Controls_FindReplaceView_TabItem_Header_Find" xml:space="preserve">
+    <value>Finden Sie</value>
+  </data>
+  <data name="Controls_FindReplaceView_TextBlock_Text_TextToFind" xml:space="preserve">
+    <value>Text zum Finden:</value>
+  </data>
+  <data name="Controls_FindReplaceView_Button_Content_Find" xml:space="preserve">
+    <value>Finden Sie</value>
+  </data>
+  <data name="Controls_FindReplaceView_Button_Content_FindAll" xml:space="preserve">
+    <value>Alles finden</value>
+  </data>
+  <data name="Controls_FindReplaceView_TabItem_Header_Replace" xml:space="preserve">
+    <value>Ersetzen</value>
+  </data>
+  <data name="Controls_FindReplaceView_TextBlock_Text_ReplaceWith" xml:space="preserve">
+    <value>Ersetzen Sie durch:</value>
+  </data>
+  <data name="Controls_FindReplaceView_Button_Content_Replace" xml:space="preserve">
+    <value>Ersetzen</value>
+  </data>
+  <data name="Controls_FindReplaceView_Button_Content_ReplaceAll" xml:space="preserve">
+    <value>Alle ersetzen</value>
+  </data>
+  <data name="Controls_FindReplaceView_CheckBox_Content_MatchCase" xml:space="preserve">
+    <value>Streichholzcase</value>
+  </data>
+  <data name="Controls_FindReplaceView_CheckBox_Content_MatchWholeWord" xml:space="preserve">
+    <value>Ganzwort übereinstimmen</value>
+  </data>
+  <data name="Controls_FindReplaceView_CheckBox_Content_RegularExpression" xml:space="preserve">
+    <value>Regulärer Ausdruck</value>
+  </data>
+  <data name="Controls_FindReplaceView_CheckBox_Content_Wildcards" xml:space="preserve">
+    <value>Joker</value>
+  </data>
+  <data name="Controls_FindReplaceView_CheckBox_Content_SearchUp" xml:space="preserve">
+    <value>Suche nach</value>
+  </data>
+  <data name="Controls_ValidationContextControl_ValidationNamesService_Row" xml:space="preserve">
+    <value>Reihe {0}</value>
+  </data>
+  <data name="Controls_ValidationContextControl_ValidationNamesService_ColumnSeparator" xml:space="preserve">
+    <value>, Spalte</value>
+  </data>
+  <data name="Controls_ValidationContextControl_ValidationNamesService_ColumnName" xml:space="preserve">
+    <value>'{0}'</value>
+  </data>
+  <data name="Controls_ValidationContextControl_ValidationNamesService_ColumnIndex" xml:space="preserve">
+    <value>({0})</value>
+  </data>
+  <data name="Controls_ValidationContextControl_ValidationNamesService_MessageFormat" xml:space="preserve">
+    <value>{0} : {1}</value>
+  </data>
+  <data name="Controls_LogViewer_ToolTip_Time" xml:space="preserve">
+    <value>Zeit:</value>
+  </data>
+  <data name="Controls_LogViewer_ToolTip_LogType" xml:space="preserve">
+    <value>Log-Typ:</value>
+  </data>
+  <data name="Controls_LogViewer_ToolTip_LogEvent" xml:space="preserve">
+    <value>Log-Ereignis:</value>
+  </data>
+  <data name="Controls_LogViewer_ExpandButton" xml:space="preserve">
+    <value>[...]</value>
+  </data>
+  <data name="Controls_LogViewer_MethodTimingsFilterGroup" xml:space="preserve">
+    <value>Methoden-Timings</value>
+  </data>
+  <data name="Controls_LogViewer_ExcludeAnythingButMethodTimerFilter" xml:space="preserve">
+    <value>Nichts außer Method-Timer ausschließen</value>
+  </data>
+  <data name="Controls_Callout_Unnamed" xml:space="preserve">
+    <value>Unbenannt</value>
+  </data>
+  <data name="Controls_Callout_DefaultVersion" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Controls_FrameRateCounter_DefaultPrefix" xml:space="preserve">
+    <value>Bildrate:</value>
+  </data>
+  <data name="Controls_FrameCounter_DefaultPrefix" xml:space="preserve">
+    <value>Bild Nr.:</value>
+  </data>
+  <data name="Controls_ColorLegend_FilterWatermark" xml:space="preserve">
+    <value>Suche</value>
+  </data>
 </root>

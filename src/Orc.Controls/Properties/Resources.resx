@@ -574,13 +574,13 @@
     <value>y</value>
   </data>
   <data name="Controls_LogViewer_ToolTip_Time" xml:space="preserve">
-    <value>Time: </value>
+    <value>Time:</value>
   </data>
   <data name="Controls_LogViewer_ToolTip_LogType" xml:space="preserve">
-    <value>Log type: </value>
+    <value>Log type:</value>
   </data>
   <data name="Controls_LogViewer_ToolTip_LogEvent" xml:space="preserve">
-    <value>Log event: </value>
+    <value>Log event:</value>
   </data>
   <data name="Controls_LogViewer_ExpandButton" xml:space="preserve">
     <value>[...]</value>
