@@ -103,11 +103,11 @@
       },
       "Orchestra.Core": {
         "type": "Direct",
-        "requested": "[8.0.0, )",
-        "resolved": "8.0.0",
-        "contentHash": "l6Ru/Fo2ES8bNGW2FG84aYb9qIs4GdkiThbH767WjecE8LC/vINvIvisIf2NjX06GxwiAYole2pE2WIDxWEHEA==",
+        "requested": "[8.1.2, )",
+        "resolved": "8.1.2",
+        "contentHash": "CScZc0cmR+YZF5z4eySEXbTcOapcCsuOhDG4vwVg5U60OiF2kZHXchB3QUGzUSged/lk+kcEm/tUEte4PgN11w==",
         "dependencies": {
-          "Catel.MVVM": "7.0.0",
+          "Catel.MVVM": "7.0.1",
           "Microsoft-WindowsAPICodePack-Core": "1.1.5",
           "Microsoft-WindowsAPICodePack-Shell": "1.1.5",
           "Orc.Controls": "6.0.0",
@@ -131,8 +131,8 @@
       },
       "Catel.Core": {
         "type": "Transitive",
-        "resolved": "7.0.0",
-        "contentHash": "9S3x/DA2NS8jSzw6Dlupmd8WKkOkb06R1aLIx5dKt9E4ATwqzm9do0a7pPgOTK5wwj3CRstd9ut6Tvgix4z0AA==",
+        "resolved": "7.0.1",
+        "contentHash": "5qPz48rEmScoxaSDbwjJlEKOfSvmWgY7WaZnpl2OtmXS/8sgRgCtTaJIomJ41+I1E90ln7230lW1ldUOLghGoA==",
         "dependencies": {
           "Microsoft.Extensions.Configuration.Json": "10.0.11",
           "Microsoft.Extensions.DependencyInjection": "10.0.11",
@@ -141,11 +141,11 @@
       },
       "Catel.MVVM": {
         "type": "Transitive",
-        "resolved": "7.0.0",
-        "contentHash": "5WLlmyHOmo6MBChJTOoAjO4+liiecKRS8JEfkq4OvLVzjvreNy5gLqeeYsQJmEzo/QRm8C0Kswa5UillllCx4A==",
+        "resolved": "7.0.1",
+        "contentHash": "Xi0YNsSBHlySyLxxfvcbnDZ9GEQqoM/RTc4zVGHOeeUzgzpNFabwFd1mp+gfXjYuGQrWqo6BZRumMIid8zW7RQ==",
         "dependencies": {
-          "Catel.Core": "7.0.0",
-          "Microsoft.Xaml.Behaviors.Wpf": "1.1.142",
+          "Catel.Core": "7.0.1",
+          "Microsoft.Xaml.Behaviors.Wpf": "1.1.158",
           "System.ComponentModel.Annotations": "5.0.0"
         }
       },
@@ -399,8 +399,8 @@
       },
       "Microsoft.Xaml.Behaviors.Wpf": {
         "type": "Transitive",
-        "resolved": "1.1.142",
-        "contentHash": "c47wA/8GHiQ9w+O6+mdqrZhZrxHogx2/fSZyRKL9tz0k+ypoTiwOx6fID0X3jr5LnCazJbCk7KiAcL0zVnNgNA=="
+        "resolved": "1.1.158",
+        "contentHash": "TPQyXvLV/p4/RUeSqaEOUE2pBipFlvNVdrAsTd1qgNzBoIEN2UMJHwH0SrcUFVuDWqpZbphjXiZ/fGA9WnmbTg=="
       },
       "Orc.Automation": {
         "type": "Transitive",
