@@ -3,8 +3,9 @@
 using System;
 using System.Threading.Tasks;
 using Catel.Configuration;
+using Catel.IoC;
 
-public abstract class CalloutWatcherBase
+public abstract class CalloutWatcherBase : IConstructAtStartup
 {
     protected readonly ICalloutManager _calloutManager;
     protected readonly IConfigurationService _configurationService;
