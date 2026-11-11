@@ -95,11 +95,11 @@
       },
       "Orc.Theming": {
         "type": "Direct",
-        "requested": "[6.0.0, )",
-        "resolved": "6.0.0",
-        "contentHash": "vtvT+E+R8wVQ3AtjbkH7nF7Rv1svMjCyR1XKpinTAbj87sLtpeyDvpZZluqFIAa75p061U2xKRk3HoWtcX9WnA==",
+        "requested": "[6.1.0, )",
+        "resolved": "6.1.0",
+        "contentHash": "ymcsF8XYjkp3Zh/17Q2h6z4B8ZCUasmVWSm1nykwiIsokYZ0RDzbsgq7mxQHZiomDh9k6fETS6yTy8PB82GB/w==",
         "dependencies": {
-          "Catel.MVVM": "7.0.0",
+          "Catel.MVVM": "7.0.1",
           "ControlzEx": "7.0.4"
         }
       },
@@ -123,8 +123,8 @@
       },
       "Catel.Core": {
         "type": "Transitive",
-        "resolved": "7.0.0",
-        "contentHash": "9S3x/DA2NS8jSzw6Dlupmd8WKkOkb06R1aLIx5dKt9E4ATwqzm9do0a7pPgOTK5wwj3CRstd9ut6Tvgix4z0AA==",
+        "resolved": "7.0.1",
+        "contentHash": "5qPz48rEmScoxaSDbwjJlEKOfSvmWgY7WaZnpl2OtmXS/8sgRgCtTaJIomJ41+I1E90ln7230lW1ldUOLghGoA==",
         "dependencies": {
           "Microsoft.Extensions.Configuration.Json": "10.0.11",
           "Microsoft.Extensions.DependencyInjection": "10.0.11",
@@ -133,11 +133,11 @@
       },
       "Catel.MVVM": {
         "type": "Transitive",
-        "resolved": "7.0.0",
-        "contentHash": "5WLlmyHOmo6MBChJTOoAjO4+liiecKRS8JEfkq4OvLVzjvreNy5gLqeeYsQJmEzo/QRm8C0Kswa5UillllCx4A==",
+        "resolved": "7.0.1",
+        "contentHash": "Xi0YNsSBHlySyLxxfvcbnDZ9GEQqoM/RTc4zVGHOeeUzgzpNFabwFd1mp+gfXjYuGQrWqo6BZRumMIid8zW7RQ==",
         "dependencies": {
-          "Catel.Core": "7.0.0",
-          "Microsoft.Xaml.Behaviors.Wpf": "1.1.142",
+          "Catel.Core": "7.0.1",
+          "Microsoft.Xaml.Behaviors.Wpf": "1.1.158",
           "System.ComponentModel.Annotations": "5.0.0"
         }
       },
@@ -240,8 +240,8 @@
       },
       "Microsoft.Xaml.Behaviors.Wpf": {
         "type": "Transitive",
-        "resolved": "1.1.142",
-        "contentHash": "c47wA/8GHiQ9w+O6+mdqrZhZrxHogx2/fSZyRKL9tz0k+ypoTiwOx6fID0X3jr5LnCazJbCk7KiAcL0zVnNgNA=="
+        "resolved": "1.1.158",
+        "contentHash": "TPQyXvLV/p4/RUeSqaEOUE2pBipFlvNVdrAsTd1qgNzBoIEN2UMJHwH0SrcUFVuDWqpZbphjXiZ/fGA9WnmbTg=="
       },
       "System.ComponentModel.Annotations": {
         "type": "Transitive",
@@ -343,11 +343,11 @@
       },
       "Orc.Theming": {
         "type": "Direct",
-        "requested": "[6.0.0, )",
-        "resolved": "6.0.0",
-        "contentHash": "vtvT+E+R8wVQ3AtjbkH7nF7Rv1svMjCyR1XKpinTAbj87sLtpeyDvpZZluqFIAa75p061U2xKRk3HoWtcX9WnA==",
+        "requested": "[6.1.0, )",
+        "resolved": "6.1.0",
+        "contentHash": "ymcsF8XYjkp3Zh/17Q2h6z4B8ZCUasmVWSm1nykwiIsokYZ0RDzbsgq7mxQHZiomDh9k6fETS6yTy8PB82GB/w==",
         "dependencies": {
-          "Catel.MVVM": "7.0.0",
+          "Catel.MVVM": "7.0.1",
           "ControlzEx": "7.0.4"
         }
       },
@@ -371,8 +371,8 @@
       },
       "Catel.Core": {
         "type": "Transitive",
-        "resolved": "7.0.0",
-        "contentHash": "9S3x/DA2NS8jSzw6Dlupmd8WKkOkb06R1aLIx5dKt9E4ATwqzm9do0a7pPgOTK5wwj3CRstd9ut6Tvgix4z0AA==",
+        "resolved": "7.0.1",
+        "contentHash": "5qPz48rEmScoxaSDbwjJlEKOfSvmWgY7WaZnpl2OtmXS/8sgRgCtTaJIomJ41+I1E90ln7230lW1ldUOLghGoA==",
         "dependencies": {
           "Microsoft.Extensions.Configuration.Json": "8.0.1",
           "Microsoft.Extensions.DependencyInjection": "8.0.1",
@@ -381,11 +381,11 @@
       },
       "Catel.MVVM": {
         "type": "Transitive",
-        "resolved": "7.0.0",
-        "contentHash": "5WLlmyHOmo6MBChJTOoAjO4+liiecKRS8JEfkq4OvLVzjvreNy5gLqeeYsQJmEzo/QRm8C0Kswa5UillllCx4A==",
+        "resolved": "7.0.1",
+        "contentHash": "Xi0YNsSBHlySyLxxfvcbnDZ9GEQqoM/RTc4zVGHOeeUzgzpNFabwFd1mp+gfXjYuGQrWqo6BZRumMIid8zW7RQ==",
         "dependencies": {
-          "Catel.Core": "7.0.0",
-          "Microsoft.Xaml.Behaviors.Wpf": "1.1.142"
+          "Catel.Core": "7.0.1",
+          "Microsoft.Xaml.Behaviors.Wpf": "1.1.158"
         }
       },
       "ControlzEx": {
@@ -487,8 +487,8 @@
       },
       "Microsoft.Xaml.Behaviors.Wpf": {
         "type": "Transitive",
-        "resolved": "1.1.142",
-        "contentHash": "c47wA/8GHiQ9w+O6+mdqrZhZrxHogx2/fSZyRKL9tz0k+ypoTiwOx6fID0X3jr5LnCazJbCk7KiAcL0zVnNgNA=="
+        "resolved": "1.1.158",
+        "contentHash": "TPQyXvLV/p4/RUeSqaEOUE2pBipFlvNVdrAsTd1qgNzBoIEN2UMJHwH0SrcUFVuDWqpZbphjXiZ/fGA9WnmbTg=="
       }
     },
     "net9.0-windows7.0": {
@@ -585,11 +585,11 @@
       },
       "Orc.Theming": {
         "type": "Direct",
-        "requested": "[6.0.0, )",
-        "resolved": "6.0.0",
-        "contentHash": "vtvT+E+R8wVQ3AtjbkH7nF7Rv1svMjCyR1XKpinTAbj87sLtpeyDvpZZluqFIAa75p061U2xKRk3HoWtcX9WnA==",
+        "requested": "[6.1.0, )",
+        "resolved": "6.1.0",
+        "contentHash": "ymcsF8XYjkp3Zh/17Q2h6z4B8ZCUasmVWSm1nykwiIsokYZ0RDzbsgq7mxQHZiomDh9k6fETS6yTy8PB82GB/w==",
         "dependencies": {
-          "Catel.MVVM": "7.0.0",
+          "Catel.MVVM": "7.0.1",
           "ControlzEx": "7.0.4"
         }
       },
@@ -613,8 +613,8 @@
       },
       "Catel.Core": {
         "type": "Transitive",
-        "resolved": "7.0.0",
-        "contentHash": "9S3x/DA2NS8jSzw6Dlupmd8WKkOkb06R1aLIx5dKt9E4ATwqzm9do0a7pPgOTK5wwj3CRstd9ut6Tvgix4z0AA==",
+        "resolved": "7.0.1",
+        "contentHash": "5qPz48rEmScoxaSDbwjJlEKOfSvmWgY7WaZnpl2OtmXS/8sgRgCtTaJIomJ41+I1E90ln7230lW1ldUOLghGoA==",
         "dependencies": {
           "Microsoft.Extensions.Configuration.Json": "9.0.19",
           "Microsoft.Extensions.DependencyInjection": "9.0.19",
@@ -623,11 +623,11 @@
       },
       "Catel.MVVM": {
         "type": "Transitive",
-        "resolved": "7.0.0",
-        "contentHash": "5WLlmyHOmo6MBChJTOoAjO4+liiecKRS8JEfkq4OvLVzjvreNy5gLqeeYsQJmEzo/QRm8C0Kswa5UillllCx4A==",
+        "resolved": "7.0.1",
+        "contentHash": "Xi0YNsSBHlySyLxxfvcbnDZ9GEQqoM/RTc4zVGHOeeUzgzpNFabwFd1mp+gfXjYuGQrWqo6BZRumMIid8zW7RQ==",
         "dependencies": {
-          "Catel.Core": "7.0.0",
-          "Microsoft.Xaml.Behaviors.Wpf": "1.1.142"
+          "Catel.Core": "7.0.1",
+          "Microsoft.Xaml.Behaviors.Wpf": "1.1.158"
         }
       },
       "ControlzEx": {
@@ -729,8 +729,8 @@
       },
       "Microsoft.Xaml.Behaviors.Wpf": {
         "type": "Transitive",
-        "resolved": "1.1.142",
-        "contentHash": "c47wA/8GHiQ9w+O6+mdqrZhZrxHogx2/fSZyRKL9tz0k+ypoTiwOx6fID0X3jr5LnCazJbCk7KiAcL0zVnNgNA=="
+        "resolved": "1.1.158",
+        "contentHash": "TPQyXvLV/p4/RUeSqaEOUE2pBipFlvNVdrAsTd1qgNzBoIEN2UMJHwH0SrcUFVuDWqpZbphjXiZ/fGA9WnmbTg=="
       }
     }
   }

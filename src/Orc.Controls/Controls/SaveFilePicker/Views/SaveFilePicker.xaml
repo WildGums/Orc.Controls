@@ -27,7 +27,11 @@
 
         <TextBox Grid.Column="1"
                  IsReadOnly="True"
-                 Text="{Binding SelectedFile}" />
+                 Text="{Binding SelectedFile}">
+            <xamlbehaviors:Interaction.Behaviors>
+                <orctheming:ValidationAdornerSiteFor Element="{Binding RelativeSource={RelativeSource AncestorType={x:Type catel:UserControl}}}" />
+            </xamlbehaviors:Interaction.Behaviors>
+        </TextBox>
 
         <Button x:Name="SaveFileButton"
                 Grid.Column="2"
