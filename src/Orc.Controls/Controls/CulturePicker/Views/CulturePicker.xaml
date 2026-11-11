@@ -5,19 +5,27 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:catel="http://schemas.catelproject.com"
                    xmlns:controls="clr-namespace:Orc.Controls"
-                   mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400"
+                   xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
+                   xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
+                   mc:Ignorable="d"
+                   d:DesignHeight="300"
+                   d:DesignWidth="400"
                    d:DataContext="{d:DesignInstance controls:CulturePickerViewModel}">
 
     <Grid>
         <ComboBox x:Name="CultureCombobox"
                   ItemsSource="{Binding AvailableCultures}"
                   SelectedIndex="{Binding SelectedIndex}">
+            <xamlbehaviors:Interaction.Behaviors>
+                <orctheming:ValidationAdornerSiteFor Element="{Binding RelativeSource={RelativeSource AncestorType={x:Type catel:UserControl}}}" />
+            </xamlbehaviors:Interaction.Behaviors>
+
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding EnglishName}"/>
+                    <TextBlock Text="{Binding EnglishName}" />
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
     </Grid>
-    
+
 </catel:UserControl>

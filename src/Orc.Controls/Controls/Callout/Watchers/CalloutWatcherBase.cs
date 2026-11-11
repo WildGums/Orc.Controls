@@ -12,9 +12,6 @@ public abstract class CalloutWatcherBase : IConstructAtStartup
 
     public CalloutWatcherBase(ICalloutManager calloutManager, IConfigurationService configurationService)
     {
-        ArgumentNullException.ThrowIfNull(calloutManager);
-        ArgumentNullException.ThrowIfNull(configurationService);
-
         _calloutManager = calloutManager;
         _configurationService = configurationService;
 

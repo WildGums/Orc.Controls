@@ -27,6 +27,7 @@
                                     x:Name="saveFilePicker" 
                                     LabelText="SaveFilePicker control" 
                                     LabelWidth="150"
+                                    SelectedFile="{Binding FileName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                                     Filter="Image files (*.bmp, *.jpg)|*.bmp;*.jpg|All files (*.*)|*.*"/>
     </orccontrols:StackGrid>
 </catel:UserControl>
