@@ -15,6 +15,7 @@ public static class PredefinedDateRanges
         return LanguageService.GetRequiredString(resourceKey);
     }
 
+#pragma warning disable WFO2000
     public static DateRange Today
     {
         get

@@ -37,7 +37,9 @@ public class ColorBoardMap : AutomationBase
         _target = target;
     }
 
+#pragma warning disable WFO2000
     public override By By => new (Element, Tab);
+#pragma warning restore WFO2000
 
     public Tab Tab => _tab ??= base.By.Id().One<Tab>();
 
