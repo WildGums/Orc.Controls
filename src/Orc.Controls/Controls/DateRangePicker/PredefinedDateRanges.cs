@@ -20,8 +20,8 @@ public static class PredefinedDateRanges
     {
         get
         {
-            var now = DateTime.Now;
-            now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+            var now = DateTimeOffset.Now;
+            now = new DateTimeOffset(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Offset);
             var today = now.Date;
 
             return new DateRange
@@ -37,8 +37,8 @@ public static class PredefinedDateRanges
     {
         get
         {
-            var now = DateTime.Now;
-            now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+            var now = DateTimeOffset.Now;
+            now = new DateTimeOffset(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Offset);
             var today = now.Date;
             var yesterday = today.AddDays(-1);
 
@@ -55,8 +55,8 @@ public static class PredefinedDateRanges
     {
         get
         {
-            var now = DateTime.Now;
-            now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+            var now = DateTimeOffset.Now;
+            now = new DateTimeOffset(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Offset);
             var today = now.Date;
 
             var diff = today.DayOfWeek - DayOfWeek.Monday;
@@ -77,9 +77,9 @@ public static class PredefinedDateRanges
     {
         get
         {
-            var now = DateTime.Now;
-            now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
-            var fdom = new DateTime(now.Year, now.Month, 1, 0, 0, 0);
+            var now = DateTimeOffset.Now;
+            now = new DateTimeOffset(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Offset);
+            var fdom = new DateTimeOffset(now.Year, now.Month, 1, 0, 0, 0, now.Offset);
 
             return new DateRange
             {
@@ -94,8 +94,8 @@ public static class PredefinedDateRanges
     {
         get
         {
-            var now = DateTime.Now;
-            now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+            var now = DateTimeOffset.Now;
+            now = new DateTimeOffset(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Offset);
             var today = now.Date;
 
             var diff = today.DayOfWeek - DayOfWeek.Monday;
@@ -117,9 +117,9 @@ public static class PredefinedDateRanges
     {
         get
         {
-            var now = DateTime.Now;
-            now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
-            var fdom = new DateTime(now.Year, now.Month, 1, 0, 0, 0);
+            var now = DateTimeOffset.Now;
+            now = new DateTimeOffset(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Offset);
+            var fdom = new DateTimeOffset(now.Year, now.Month, 1, 0, 0, 0, now.Offset);
             var fdolm = fdom.AddMonths(-1);
 
             return new DateRange
@@ -130,4 +130,5 @@ public static class PredefinedDateRanges
             };
         }
     }
+#pragma warning restore WFO2000
 }

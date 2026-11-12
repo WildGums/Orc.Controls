@@ -20,10 +20,10 @@ public static class IConfigurationServiceExtensions
         ArgumentNullException.ThrowIfNull(configurationService);
         ArgumentNullException.ThrowIfNull(callout);
 
-        return SetCalloutLastShownAsync(configurationService, callout, DateTime.UtcNow);
+        return SetCalloutLastShownAsync(configurationService, callout, DateTimeOffset.UtcNow);
     }
 
-    public static async Task SetCalloutLastShownAsync(this IConfigurationService configurationService, ICallout callout, DateTime? lastShown)
+    public static async Task SetCalloutLastShownAsync(this IConfigurationService configurationService, ICallout callout, DateTimeOffset? lastShown)
     {
         ArgumentNullException.ThrowIfNull(configurationService);
         ArgumentNullException.ThrowIfNull(callout);
@@ -32,13 +32,13 @@ public static class IConfigurationServiceExtensions
         configurationService.SetRoamingValue(configurationKey, lastShown);
     }
 
-    public static async Task<DateTime?> GetCalloutLastShownAsync(this IConfigurationService configurationService, ICallout callout)
+    public static async Task<DateTimeOffset?> GetCalloutLastShownAsync(this IConfigurationService configurationService, ICallout callout)
     {
         ArgumentNullException.ThrowIfNull(configurationService);
         ArgumentNullException.ThrowIfNull(callout);
 
         var configurationKey = $"{callout.GetCalloutConfigurationKeyPrefix()}.LastShown";
-        return configurationService.GetRoamingValue<DateTime?>(configurationKey);
+        return configurationService.GetRoamingValue<DateTimeOffset?>(configurationKey);
     }
 
     public static async Task MarkCalloutAsNotShownAsync(this IConfigurationService configurationService, ICallout callout)
@@ -58,6 +58,6 @@ public static class IConfigurationServiceExtensions
         var configurationKey = $"{callout.GetCalloutConfigurationKeyPrefix()}.Shown";
         configurationService.SetRoamingValue(configurationKey, true);
 
-        await configurationService.SetCalloutLastShownAsync(callout, DateTime.UtcNow);
+        await configurationService.SetCalloutLastShownAsync(callout, DateTimeOffset.UtcNow);
     }
 }

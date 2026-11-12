@@ -76,7 +76,7 @@ public abstract class CalloutWatcherBase : IConstructAtStartup
         Callout?.Hide();
     }
 
-    protected virtual async Task<DateTime?> GetLastShownUtcAsync()
+    protected virtual async Task<DateTimeOffset?> GetLastShownUtcAsync()
     {
         var callout = Callout;
         if (callout is null)

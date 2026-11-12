@@ -25,14 +25,14 @@ public abstract class TimeBasedCalloutWatcherBase : CalloutWatcherBase
         _dispatcherTimer = new DispatcherTimerEx(dispatcherService);
         _dispatcherTimer.Tick += OnDispatcherTimerTick;
 
-        Start = DateTime.MaxValue;
+        Start = DateTimeOffset.MaxValue;
 
         Subscribe(_calloutManager);
     }
 
-    public DateTime Start { get; protected set; }
+    public DateTimeOffset Start { get; protected set; }
 
-    public DateTime End
+    public DateTimeOffset End
     {
         get { return Start + Delay; }
     }
@@ -46,7 +46,7 @@ public abstract class TimeBasedCalloutWatcherBase : CalloutWatcherBase
         var callout = Callout;
         if (callout is not null)
         {
-            Start = DateTime.Now;
+            Start = DateTimeOffset.Now;
             return;
         }
 
@@ -60,15 +60,15 @@ public abstract class TimeBasedCalloutWatcherBase : CalloutWatcherBase
         if (Id.HasValue &&
             e.Callout.Id == Id.Value)
         {
-            Start = DateTime.Now;
+            Start = DateTimeOffset.Now;
         }
         else if (!string.IsNullOrEmpty(Name) &&
                  e.Callout.Name == Name)
         {
-            Start = DateTime.Now;
+            Start = DateTimeOffset.Now;
         }
 
-        if (Start != DateTime.MaxValue)
+        if (Start != DateTimeOffset.MaxValue)
         {
             await ScheduleShowAsync();
         }
@@ -82,13 +82,13 @@ public abstract class TimeBasedCalloutWatcherBase : CalloutWatcherBase
         }
 
         var end = End;
-        if (end < DateTime.Now)
+        if (end < DateTimeOffset.Now)
         {
             await ShowAsync();
             return;
         }
 
-        var interval = end - DateTime.Now;
+        var interval = end - DateTimeOffset.Now;
 
         _dispatcherTimer.Interval = interval;
         _dispatcherTimer.Start();

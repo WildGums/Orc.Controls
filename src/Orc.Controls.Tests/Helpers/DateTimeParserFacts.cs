@@ -15,37 +15,37 @@ public class DateTimeParserFacts
             {
                 "9-02-12",
                 "y-MM-dd",
-                new DateTime(2009, 2, 12, 0, 0, 0)
+                new DateTimeOffset(2009, 2, 12, 0, 0, 0, TimeSpan.Zero)
             },
             new object []
             {
                 "09-02-12",
                 "yy-MM-dd",
-                new DateTime(2009, 2, 12, 0, 0, 0)
+                new DateTimeOffset(2009, 2, 12, 0, 0, 0, TimeSpan.Zero)
             },
             new object []
             {
                 "917-02-12",
                 "yyy-MM-dd",
-                new DateTime(917, 2, 12, 0, 0, 0),
+                new DateTimeOffset(917, 2, 12, 0, 0, 0, TimeSpan.Zero),
             },
             new object []
             {
                 "2017-02-12",
                 "yyy-MM-dd",
-                new DateTime(2017, 2, 12, 0, 0, 0)
+                new DateTimeOffset(2017, 2, 12, 0, 0, 0, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-12",
                 "yyyy-MM-dd",
-                new DateTime(2017, 2, 12, 0, 0, 0)
+                new DateTimeOffset(2017, 2, 12, 0, 0, 0, TimeSpan.Zero)
             },
             new object []
             {
                 "02017-02-12",
                 "yyyyy-MM-dd",
-                new DateTime(2017, 2, 12, 0, 0, 0)
+                new DateTimeOffset(2017, 2, 12, 0, 0, 0, TimeSpan.Zero)
             },
 
             // Months
@@ -53,13 +53,13 @@ public class DateTimeParserFacts
             {
                 "2017-2-12",
                 "yyyy-M-dd",
-                new DateTime(2017, 2, 12, 0, 0, 0)
+                new DateTimeOffset(2017, 2, 12, 0, 0, 0, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-12",
                 "yyyy-MM-dd",
-                new DateTime(2017, 2, 12, 0, 0, 0)
+                new DateTimeOffset(2017, 2, 12, 0, 0, 0, TimeSpan.Zero)
             },
 
             // Days
@@ -67,13 +67,13 @@ public class DateTimeParserFacts
             {
                 "2017-02-1",
                 "yyyy-MM-d",
-                new DateTime(2017, 2, 1, 0, 0, 0)
+                new DateTimeOffset(2017, 2, 1, 0, 0, 0, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01",
                 "yyyy-MM-dd",
-                new DateTime(2017, 2, 1, 0, 0, 0)
+                new DateTimeOffset(2017, 2, 1, 0, 0, 0, TimeSpan.Zero)
             },
 
             // Accept bad formats
@@ -81,19 +81,19 @@ public class DateTimeParserFacts
             {
                 "2017-02-01",
                 "-yyyy-MM-dd",
-                new DateTime(2017, 2, 1, 0, 0, 0)
+                new DateTimeOffset(2017, 2, 1, 0, 0, 0, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01",
                 "-yyyy-MM-dd-",
-                new DateTime(2017, 2, 1, 0, 0, 0)
+                new DateTimeOffset(2017, 2, 1, 0, 0, 0, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01",
                 "yyyy-MM-dd-",
-                new DateTime(2017, 2, 1, 0, 0, 0)
+                new DateTimeOffset(2017, 2, 1, 0, 0, 0, TimeSpan.Zero)
             },
         };
 
@@ -104,37 +104,37 @@ public class DateTimeParserFacts
             {
                 "9-02-12 09:17:31",
                 "y-MM-dd HH:mm:ss",
-                new DateTime(2009, 2, 12, 9, 17, 31)
+                new DateTimeOffset(2009, 2, 12, 9, 17, 31, TimeSpan.Zero)
             },
             new object []
             {
                 "09-02-12 09:17:31",
                 "yy-MM-dd HH:mm:ss",
-                new DateTime(2009, 2, 12, 9, 17, 31)
+                new DateTimeOffset(2009, 2, 12, 9, 17, 31, TimeSpan.Zero)
             },
             new object []
             {
                 "917-02-12 09:17:31",
                 "yyy-MM-dd HH:mm:ss",
-                new DateTime(917, 2, 12, 9, 17, 31)
+                new DateTimeOffset(917, 2, 12, 9, 17, 31, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-12 09:17:31",
                 "yyy-MM-dd HH:mm:ss",
-                new DateTime(2017, 2, 12, 9, 17, 31)
+                new DateTimeOffset(2017, 2, 12, 9, 17, 31, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-12 09:17:31",
                 "yyyy-MM-dd HH:mm:ss",
-                new DateTime(2017, 2, 12, 9, 17, 31)
+                new DateTimeOffset(2017, 2, 12, 9, 17, 31, TimeSpan.Zero)
             },
             new object []
             {
                 "02017-02-12 09:17:31",
                 "yyyyy-MM-dd HH:mm:ss",
-                new DateTime(2017, 2, 12, 9, 17, 31)
+                new DateTimeOffset(2017, 2, 12, 9, 17, 31, TimeSpan.Zero)
             },
 
             // Months
@@ -142,13 +142,13 @@ public class DateTimeParserFacts
             {
                 "2017-2-12 09:17:31",
                 "yyyy-M-dd HH:mm:ss",
-                new DateTime(2017, 2, 12, 9, 17, 31)
+                new DateTimeOffset(2017, 2, 12, 9, 17, 31, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-12 09:17:31",
                 "yyyy-MM-dd HH:mm:ss",
-                new DateTime(2017, 2, 12, 9, 17, 31)
+                new DateTimeOffset(2017, 2, 12, 9, 17, 31, TimeSpan.Zero)
             },
 
             // Days
@@ -156,13 +156,13 @@ public class DateTimeParserFacts
             {
                 "2017-02-1 09:17:31",
                 "yyyy-MM-d HH:mm:ss",
-                new DateTime(2017, 2, 1, 9, 17, 31)
+                new DateTimeOffset(2017, 2, 1, 9, 17, 31, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 09:17:31",
                 "yyyy-MM-dd HH:mm:ss",
-                new DateTime(2017, 2, 1, 9, 17, 31)
+                new DateTimeOffset(2017, 2, 1, 9, 17, 31, TimeSpan.Zero)
             },
 
             // Hours
@@ -170,37 +170,37 @@ public class DateTimeParserFacts
             {
                 "2017-02-01 9:17:31",
                 "yyyy-MM-dd H:mm:ss",
-                new DateTime(2017, 2, 1, 9, 17, 31)
+                new DateTimeOffset(2017, 2, 1, 9, 17, 31, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 09:17:31",
                 "yyyy-MM-dd HH:mm:ss",
-                new DateTime(2017, 2, 1, 9, 17, 31)
+                new DateTimeOffset(2017, 2, 1, 9, 17, 31, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 9:17:31 AM",
                 "yyyy-MM-dd h:mm:ss tt",
-                new DateTime(2017, 2, 1, 9, 17, 31)
+                new DateTimeOffset(2017, 2, 1, 9, 17, 31, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 09:17:31 AM",
                 "yyyy-MM-dd hh:mm:ss tt",
-                new DateTime(2017, 2, 1, 9, 17, 31)
+                new DateTimeOffset(2017, 2, 1, 9, 17, 31, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 2:17:31 PM",
                 "yyyy-MM-dd h:mm:ss tt",
-                new DateTime(2017, 2, 1, 14, 17, 31)
+                new DateTimeOffset(2017, 2, 1, 14, 17, 31, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 02:17:31 PM",
                 "yyyy-MM-dd hh:mm:ss tt",
-                new DateTime(2017, 2, 1, 14, 17, 31)
+                new DateTimeOffset(2017, 2, 1, 14, 17, 31, TimeSpan.Zero)
             },
 
             // More tolerant with hours
@@ -208,31 +208,31 @@ public class DateTimeParserFacts
             {
                 "2017-02-01 13:17:31 PM",
                 "yyyy-MM-dd hh:mm:ss tt",
-                new DateTime(2017, 2, 1, 13, 17, 31)
+                new DateTimeOffset(2017, 2, 1, 13, 17, 31, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 16:17:31",
                 "yyyy-MM-dd hh:mm:ss tt",
-                new DateTime(2017, 2, 1, 16, 17, 31)
+                new DateTimeOffset(2017, 2, 1, 16, 17, 31, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 08:17:31 PM",
                 "yyyy-MM-dd hh:mm:ss",
-                new DateTime(2017, 2, 1, 20, 17, 31)
+                new DateTimeOffset(2017, 2, 1, 20, 17, 31, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 08:17:31 AM",
                 "yyyy-MM-dd hh:mm:ss",
-                new DateTime(2017, 2, 1, 08, 17, 31)
+                new DateTimeOffset(2017, 2, 1, 08, 17, 31, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 08:17:31 am",
                 "yyyy-MM-dd hh:mm:ss",
-                new DateTime(2017, 2, 1, 08, 17, 31)
+                new DateTimeOffset(2017, 2, 1, 08, 17, 31, TimeSpan.Zero)
             },
 
 
@@ -241,13 +241,13 @@ public class DateTimeParserFacts
             {
                 "2017-02-1 09:9:31",
                 "yyyy-MM-d HH:m:ss",
-                new DateTime(2017, 2, 1, 9, 9, 31)
+                new DateTimeOffset(2017, 2, 1, 9, 9, 31, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 09:09:31",
                 "yyyy-MM-dd HH:mm:ss",
-                new DateTime(2017, 2, 1, 9, 9, 31)
+                new DateTimeOffset(2017, 2, 1, 9, 9, 31, TimeSpan.Zero)
             },
 
             // Seconds
@@ -255,13 +255,13 @@ public class DateTimeParserFacts
             {
                 "2017-02-1 09:09:6",
                 "yyyy-MM-d HH:mm:s",
-                new DateTime(2017, 2, 1, 9, 9, 6)
+                new DateTimeOffset(2017, 2, 1, 9, 9, 6, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 09:09:06",
                 "yyyy-MM-dd HH:mm:ss",
-                new DateTime(2017, 2, 1, 9, 9, 6)
+                new DateTimeOffset(2017, 2, 1, 9, 9, 6, TimeSpan.Zero)
             },
 
             // AM/PM
@@ -269,49 +269,49 @@ public class DateTimeParserFacts
             {
                 "2017-02-1 09:09:06 A",
                 "yyyy-MM-d hh:mm:ss t",
-                new DateTime(2017, 2, 1, 9, 9, 6)
+                new DateTimeOffset(2017, 2, 1, 9, 9, 6, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-1 09:09:06 AM",
                 "yyyy-MM-d hh:mm:ss tt",
-                new DateTime(2017, 2, 1, 9, 9, 6)
+                new DateTimeOffset(2017, 2, 1, 9, 9, 6, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-1 09:09:06 a",
                 "yyyy-MM-d hh:mm:ss t",
-                new DateTime(2017, 2, 1, 9, 9, 6)
+                new DateTimeOffset(2017, 2, 1, 9, 9, 6, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-1 09:09:06 am",
                 "yyyy-MM-d hh:mm:ss tt",
-                new DateTime(2017, 2, 1, 9, 9, 6)
+                new DateTimeOffset(2017, 2, 1, 9, 9, 6, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 02:09:06 P",
                 "yyyy-MM-dd hh:mm:ss t",
-                new DateTime(2017, 2, 1, 14, 9, 6)
+                new DateTimeOffset(2017, 2, 1, 14, 9, 6, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 02:09:06 PM",
                 "yyyy-MM-dd hh:mm:ss tt",
-                new DateTime(2017, 2, 1, 14, 9, 6)
+                new DateTimeOffset(2017, 2, 1, 14, 9, 6, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 02:09:06 p",
                 "yyyy-MM-dd hh:mm:ss t",
-                new DateTime(2017, 2, 1, 14, 9, 6)
+                new DateTimeOffset(2017, 2, 1, 14, 9, 6, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 02:09:06 pm",
                 "yyyy-MM-dd hh:mm:ss tt",
-                new DateTime(2017, 2, 1, 14, 9, 6)
+                new DateTimeOffset(2017, 2, 1, 14, 9, 6, TimeSpan.Zero)
             },
 
             // Accept bad formats
@@ -319,25 +319,25 @@ public class DateTimeParserFacts
             {
                 "2017-02-01 02:09:06 pm",
                 "yyyy-MM-dd hh:mm:ss tt-",
-                new DateTime(2017, 2, 1, 14, 9, 6)
+                new DateTimeOffset(2017, 2, 1, 14, 9, 6, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 02:09:06 pm",
                 "-yyyy-MM-dd hh:mm:ss tt-",
-                new DateTime(2017, 2, 1, 14, 9, 6)
+                new DateTimeOffset(2017, 2, 1, 14, 9, 6, TimeSpan.Zero)
             },
             new object []
             {
                 "2017-02-01 02:09:06 pm",
                 "-yyyy-MM-dd hh:mm:ss tt",
-                new DateTime(2017, 2, 1, 14, 9, 6)
+                new DateTimeOffset(2017, 2, 1, 14, 9, 6, TimeSpan.Zero)
             },
         };
 
         [Test]
         [TestCaseSource(nameof(ParseDateTestCases))]
-        public void CorrectlyParseDate(string input, string format, DateTime expectedResult)
+        public void CorrectlyParseDate(string input, string format, DateTimeOffset expectedResult)
         {
             var result = DateTimeParser.Parse(input, format, true);
 
@@ -346,7 +346,7 @@ public class DateTimeParserFacts
 
         [Test]
         [TestCaseSource(nameof(ParseDateTimeTestCases))]
-        public void CorrectlyParseDateTime(string input, string format, DateTime expectedResult)
+        public void CorrectlyParseDateTime(string input, string format, DateTimeOffset expectedResult)
         {
             var result = DateTimeParser.Parse(input, format, false);
 

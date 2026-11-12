@@ -11,12 +11,12 @@ public static class DateTimeFormatter
 {
     private static readonly ILogger Logger = LogManager.GetLogger(typeof(DateTimeFormatter));
 
-    public static string Format(DateTime dateTime, string format, bool isDateOnly = false)
+    public static string Format(DateTimeOffset dateTime, string format, bool isDateOnly = false)
     {
         return Format(dateTime, DateTimeFormatHelper.GetDateTimeFormatInfo(format, isDateOnly));
     }
 
-    internal static string Format(DateTime dateTime, DateTimeFormatInfo formatInfo)
+    internal static string Format(DateTimeOffset dateTime, DateTimeFormatInfo formatInfo)
     {
         ArgumentNullException.ThrowIfNull(formatInfo);
 

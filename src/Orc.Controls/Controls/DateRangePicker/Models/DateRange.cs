@@ -6,8 +6,8 @@ using Catel.Data;
 public class DateRange : ModelBase
 {
     public string? Name { get; set; }
-    public DateTime Start { get; set; }
-    public DateTime End { get; set; }
+    public DateTimeOffset Start { get; set; }
+    public DateTimeOffset End { get; set; }
     public TimeSpan Duration => End.Subtract(Start);
     public bool IsTemporary { get; internal set; }
 

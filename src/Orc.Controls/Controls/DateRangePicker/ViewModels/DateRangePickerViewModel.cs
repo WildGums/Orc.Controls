@@ -13,8 +13,8 @@ public partial class DateRangePickerViewModel : ViewModelBase
     private ObservableCollection<DateRange>? _ranges;
     private DateRange? _selectedRange;
     private TimeSpan _span;
-    private DateTime _startDate;
-    private DateTime _endDate;
+    private DateTimeOffset _startDate;
+    private DateTimeOffset _endDate;
     private bool _isUpdatingRanges;
     private readonly ILanguageService _languageService;
 
@@ -66,24 +66,24 @@ public partial class DateRangePickerViewModel : ViewModelBase
         }
     }
 
-    public DateTime StartDate
+    public DateTimeOffset StartDate
     {
         get => _startDate;
         set
         {
-            if (UpdateStartDate(_startDate, new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second)))
+            if (UpdateStartDate(_startDate, new DateTimeOffset(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second, value.Offset )))
             {
                 OnStartDateChanged();
             }
         }
     }
 
-    public DateTime EndDate
+    public DateTimeOffset EndDate
     {
         get => _endDate;
         set
         {
-            if (UpdateEndDate(_endDate, new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second)))
+            if (UpdateEndDate(_endDate, new DateTimeOffset(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second, value.Offset)))
             {
                 OnEndDateChanged();
             }
@@ -196,7 +196,7 @@ public partial class DateRangePickerViewModel : ViewModelBase
         return true;
     }
 
-    private bool UpdateStartDate(DateTime currentStartDate, DateTime newStartDate)
+    private bool UpdateStartDate(DateTimeOffset currentStartDate, DateTimeOffset newStartDate)
     {
         if (currentStartDate == newStartDate)
         {
@@ -209,7 +209,7 @@ public partial class DateRangePickerViewModel : ViewModelBase
         return true;
     }
 
-    private bool UpdateEndDate(DateTime currentEndDate, DateTime newEndDate)
+    private bool UpdateEndDate(DateTimeOffset currentEndDate, DateTimeOffset newEndDate)
     {
         if (currentEndDate == newEndDate)
         {

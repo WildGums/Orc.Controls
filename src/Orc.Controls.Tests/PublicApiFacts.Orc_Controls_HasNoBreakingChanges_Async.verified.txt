@@ -1,6 +1,6 @@
 ﻿[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Orc.Controls.Tests")]
-[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v11.0", FrameworkDisplayName=".NET 11.0")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/controls", "Orc.Controls.Converters")]
 [assembly: System.Windows.Markup.XmlnsPrefix("http://schemas.wildgums.com/orc/controls", "orccontrols")]
@@ -220,7 +220,7 @@ namespace Orc.Controls
         public string? Name { get; protected set; }
         public System.TimeSpan ShowInterval { get; protected set; }
         public virtual string Version { get; }
-        protected virtual System.Threading.Tasks.Task<System.DateTime?> GetLastShownUtcAsync() { }
+        protected virtual System.Threading.Tasks.Task<System.DateTimeOffset?> GetLastShownUtcAsync() { }
         protected virtual void Hide() { }
         protected virtual System.Threading.Tasks.Task ShowAsync() { }
     }
@@ -428,10 +428,10 @@ namespace Orc.Controls
         public static readonly Catel.Data.IPropertyData? StartProperty;
         public DateRange() { }
         public System.TimeSpan Duration { get; }
-        public System.DateTime End { get; set; }
+        public System.DateTimeOffset End { get; set; }
         public bool IsTemporary { get; }
         public string? Name { get; set; }
-        public System.DateTime Start { get; set; }
+        public System.DateTimeOffset Start { get; set; }
         protected override void OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs? e) { }
         public override string ToString() { }
     }
@@ -454,7 +454,7 @@ namespace Orc.Controls
         public DateRangePicker(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public bool AllowCopyPaste { get; set; }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
-        public System.DateTime EndDate { get; set; }
+        public System.DateTimeOffset EndDate { get; set; }
         public string Format { get; set; }
         public bool HideSeconds { get; set; }
         public bool HideTime { get; set; }
@@ -468,18 +468,18 @@ namespace Orc.Controls
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
         public System.TimeSpan Span { get; set; }
         [Catel.MVVM.Views.ViewToViewModel("", MappingType=Catel.MVVM.Views.ViewToViewModelMappingType.TwoWayViewWins)]
-        public System.DateTime StartDate { get; set; }
+        public System.DateTimeOffset StartDate { get; set; }
         public void InitializeComponent() { }
     }
     public class DateRangePickerViewModel : Catel.MVVM.ViewModelBase
     {
         public static readonly Catel.Data.IPropertyData? TimeAdjustmentStrategyProperty;
         public DateRangePickerViewModel(System.IServiceProvider serviceProvider, Catel.Services.ILanguageService languageService) { }
-        public System.DateTime EndDate { get; set; }
+        public System.DateTimeOffset EndDate { get; set; }
         public System.Collections.ObjectModel.ObservableCollection<Orc.Controls.DateRange>? Ranges { get; set; }
         public Orc.Controls.DateRange? SelectedRange { get; set; }
         public System.TimeSpan Span { get; set; }
-        public System.DateTime StartDate { get; set; }
+        public System.DateTimeOffset StartDate { get; set; }
         public Orc.Controls.TimeAdjustmentStrategy TimeAdjustmentStrategy { get; set; }
         protected override void OnValidating(Catel.Data.IValidationContext validationContext) { }
     }
@@ -527,12 +527,12 @@ namespace Orc.Controls
     }
     public static class DateTimeFormatter
     {
-        public static string Format(System.DateTime dateTime, string format, bool isDateOnly = false) { }
+        public static string Format(System.DateTimeOffset dateTime, string format, bool isDateOnly = false) { }
     }
     public static class DateTimeParser
     {
-        public static System.DateTime? Parse(string input, string format, bool isDateOnly = false) { }
-        public static bool TryParse(string input, string format, out System.DateTime dateTime, bool isDateOnly = false) { }
+        public static System.DateTimeOffset? Parse(string input, string format, bool isDateOnly = false) { }
+        public static bool TryParse(string input, string format, out System.DateTimeOffset dateTime, bool isDateOnly = false) { }
     }
     public enum DateTimePart
     {
@@ -547,7 +547,7 @@ namespace Orc.Controls
     }
     public class DateTimePartHelper
     {
-        public DateTimePartHelper(System.DateTime dateTime, Orc.Controls.DateTimePart dateTimePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo, System.Windows.Controls.TextBox textBox, System.Windows.Controls.Primitives.ToggleButton activeToggleButton) { }
+        public DateTimePartHelper(System.DateTimeOffset dateTime, Orc.Controls.DateTimePart dateTimePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo, System.Windows.Controls.TextBox textBox, System.Windows.Controls.Primitives.ToggleButton activeToggleButton) { }
         public System.Windows.Controls.Primitives.Popup CreatePopup() { }
     }
     [System.Windows.TemplatePart(Name="PART_AmPmListTextBox", Type=typeof(Orc.Controls.ListTextBox))]
@@ -733,7 +733,7 @@ namespace Orc.Controls
         public bool IsYearShortFormat { get; }
         public bool ShowOptionsButton { get; set; }
         public System.TimeSpan? TimeValue { get; set; }
-        public System.DateTime? Value { get; set; }
+        public System.DateTimeOffset? Value { get; set; }
         public event System.EventHandler<System.EventArgs>? EditEnded;
         public event System.EventHandler<System.EventArgs>? EditStarted;
         public event System.EventHandler<System.EventArgs>? ValueChanged;
@@ -1127,12 +1127,12 @@ namespace Orc.Controls
     }
     public static class IConfigurationServiceExtensions
     {
-        public static System.Threading.Tasks.Task<System.DateTime?> GetCalloutLastShownAsync(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout) { }
+        public static System.Threading.Tasks.Task<System.DateTimeOffset?> GetCalloutLastShownAsync(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout) { }
         public static System.Threading.Tasks.Task<bool> IsCalloutMarkedAsShownAsync(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout) { }
         public static System.Threading.Tasks.Task MarkCalloutAsNotShownAsync(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout) { }
         public static System.Threading.Tasks.Task MarkCalloutAsShownAsync(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout) { }
         public static System.Threading.Tasks.Task SetCalloutLastShownAsync(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout) { }
-        public static System.Threading.Tasks.Task SetCalloutLastShownAsync(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout, System.DateTime? lastShown) { }
+        public static System.Threading.Tasks.Task SetCalloutLastShownAsync(this Catel.Configuration.IConfigurationService configurationService, Orc.Controls.ICallout callout, System.DateTimeOffset? lastShown) { }
     }
     public interface IControlTool
     {
@@ -1179,7 +1179,7 @@ namespace Orc.Controls
     }
     public interface ISuggestionListService
     {
-        System.Collections.Generic.IReadOnlyList<System.Collections.Generic.KeyValuePair<string, string>> GetSuggestionList(System.DateTime dateTime, Orc.Controls.DateTimePart editablePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo);
+        System.Collections.Generic.IReadOnlyList<System.Collections.Generic.KeyValuePair<string, string>> GetSuggestionList(System.DateTimeOffset dateTime, Orc.Controls.DateTimePart editablePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo);
     }
     public interface ITimeAdjustmentProvider
     {
@@ -2161,7 +2161,7 @@ namespace Orc.Controls
     public class SuggestionListService : Orc.Controls.ISuggestionListService
     {
         public SuggestionListService() { }
-        public System.Collections.Generic.IReadOnlyList<System.Collections.Generic.KeyValuePair<string, string>> GetSuggestionList(System.DateTime dateTime, Orc.Controls.DateTimePart editablePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo) { }
+        public System.Collections.Generic.IReadOnlyList<System.Collections.Generic.KeyValuePair<string, string>> GetSuggestionList(System.DateTimeOffset dateTime, Orc.Controls.DateTimePart editablePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo) { }
     }
     [System.Windows.TemplatePart(Name="PART_ItemsHolder", Type=typeof(System.Windows.Controls.Panel))]
     public class TabControl : System.Windows.Controls.TabControl
@@ -2270,8 +2270,8 @@ namespace Orc.Controls
     {
         public TimeBasedCalloutWatcherBase(Microsoft.Extensions.Logging.ILogger logger, Orc.Controls.ICalloutManager calloutManager, Catel.Configuration.IConfigurationService configurationService, Catel.Services.IDispatcherService dispatcherService) { }
         public abstract System.TimeSpan Delay { get; }
-        public System.DateTime End { get; }
-        public System.DateTime Start { get; protected set; }
+        public System.DateTimeOffset End { get; }
+        public System.DateTimeOffset Start { get; protected set; }
         protected virtual void Subscribe(Orc.Controls.ICalloutManager calloutManager) { }
     }
     public class TimePicker : System.Windows.Controls.ContentControl

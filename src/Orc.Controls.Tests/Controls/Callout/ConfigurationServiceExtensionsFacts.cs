@@ -25,10 +25,10 @@ public class ConfigurationServiceExtensionsFacts
         var configurationKey = callout.GetCalloutConfigurationKeyPrefix();
         var expectedConfigurationKey = $"{configurationKey}.LastShown";
 
-        var expectedDate = DateTime.Now;
+        var expectedDate = DateTimeOffset.Now;
 
         var configurationServiceMock = new Mock<IConfigurationService>();
-        configurationServiceMock.Setup(x => x.SetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()));
+        configurationServiceMock.Setup(x => x.SetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTimeOffset?>()));
 
         await configurationServiceMock.Object.SetCalloutLastShownAsync(callout, expectedDate);
 
@@ -42,10 +42,10 @@ public class ConfigurationServiceExtensionsFacts
         var configurationKey = callout.GetCalloutConfigurationKeyPrefix();
         var expectedConfigurationKey = $"{configurationKey}.LastShown";
 
-        DateTime? expectedDate = null;
+        DateTimeOffset? expectedDate = null;
 
         var configurationServiceMock = new Mock<IConfigurationService>();
-        configurationServiceMock.Setup(x => x.SetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()));
+        configurationServiceMock.Setup(x => x.SetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTimeOffset?>()));
 
         await configurationServiceMock.Object.SetCalloutLastShownAsync(callout, expectedDate);
 
@@ -59,10 +59,10 @@ public class ConfigurationServiceExtensionsFacts
         var configurationKey = callout.GetCalloutConfigurationKeyPrefix();
         var expectedConfigurationKey = $"{configurationKey}.LastShown";
 
-        DateTime? expectedDate = null;
+        DateTimeOffset? expectedDate = null;
 
         var configurationServiceMock = new Mock<IConfigurationService>();
-        configurationServiceMock.Setup(x => x.GetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTime?>()))
+        configurationServiceMock.Setup(x => x.GetValue(It.IsAny<ConfigurationContainer>(), It.IsAny<string>(), It.IsAny<DateTimeOffset?>()))
             .Returns(() => expectedDate);
 
         var lastShown = await configurationServiceMock.Object.GetCalloutLastShownAsync(callout);

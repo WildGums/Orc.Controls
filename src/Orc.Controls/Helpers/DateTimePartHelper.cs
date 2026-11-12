@@ -14,20 +14,16 @@ using Microsoft.Extensions.DependencyInjection;
 
 public class DateTimePartHelper
 {
-    private readonly DateTime _dateTime;
+    private readonly DateTimeOffset _dateTime;
     private readonly DateTimeFormatInfo _dateTimeFormatInfo;
     private readonly DateTimePart _dateTimePart;
 
     private readonly TextBox _textBox;
     private readonly ToggleButton _toggleButton;
 
-    public DateTimePartHelper(DateTime dateTime, DateTimePart dateTimePart, DateTimeFormatInfo dateTimeFormatInfo, TextBox textBox,
+    public DateTimePartHelper(DateTimeOffset dateTime, DateTimePart dateTimePart, DateTimeFormatInfo dateTimeFormatInfo, TextBox textBox,
         ToggleButton activeToggleButton)
     {
-        ArgumentNullException.ThrowIfNull(dateTimeFormatInfo);
-        ArgumentNullException.ThrowIfNull(textBox);
-        ArgumentNullException.ThrowIfNull(activeToggleButton);
-
         _dateTime = dateTime;
         _textBox = textBox;
         _toggleButton = activeToggleButton;

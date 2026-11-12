@@ -13,7 +13,7 @@ public class FileBasedSettingsFolderProvider : ISettingsFolderProvider
     private readonly string _settingsFilePath;
     private readonly ISpecialFoldersPathResolver _specialFoldersPathResolver;
     private SettingsFoldersCollection? _cachedSettings;
-    private DateTime _lastFileWrite = DateTime.MinValue;
+    private DateTimeOffset _lastFileWrite = DateTimeOffset.MinValue;
     private readonly ISettingsSerializer<SettingsFoldersCollection> _serializer;
     private readonly IFileService _fileService;
     private readonly IDirectoryService _directoryService;
@@ -227,7 +227,7 @@ public class FileBasedSettingsFolderProvider : ISettingsFolderProvider
 
             var json = await _serializer.SerializeAsync(_cachedSettings ?? new SettingsFoldersCollection());
             await _fileService.WriteAllTextAsync(_settingsFilePath, json);
-            _lastFileWrite = DateTime.Now;
+            _lastFileWrite = DateTimeOffset.Now;
         }
         catch (Exception)
         {

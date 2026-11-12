@@ -31,25 +31,25 @@ public partial class DateRangePicker
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-    public DateTime StartDate
+    public DateTimeOffset StartDate
     {
-        get { return (DateTime)GetValue(StartDateProperty); }
+        get { return (DateTimeOffset)GetValue(StartDateProperty); }
         set { SetValue(StartDateProperty, value); }
     }
 
-    public static readonly DependencyProperty StartDateProperty = DependencyProperty.Register(nameof(StartDate), typeof(DateTime),
-        typeof(DateRangePicker), new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+    public static readonly DependencyProperty StartDateProperty = DependencyProperty.Register(nameof(StartDate), typeof(DateTimeOffset),
+        typeof(DateRangePicker), new FrameworkPropertyMetadata(DateTimeOffset.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]
-    public DateTime EndDate
+    public DateTimeOffset EndDate
     {
-        get { return (DateTime)GetValue(EndDateProperty); }
+        get { return (DateTimeOffset)GetValue(EndDateProperty); }
         set { SetValue(EndDateProperty, value); }
     }
 
-    public static readonly DependencyProperty EndDateProperty = DependencyProperty.Register(nameof(EndDate), typeof(DateTime),
-        typeof(DateRangePicker), new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+    public static readonly DependencyProperty EndDateProperty = DependencyProperty.Register(nameof(EndDate), typeof(DateTimeOffset),
+        typeof(DateRangePicker), new FrameworkPropertyMetadata(DateTimeOffset.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
     [ViewToViewModel(MappingType = ViewToViewModelMappingType.TwoWayViewWins)]

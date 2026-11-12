@@ -15,12 +15,12 @@ public partial class DateTimePickerViewModel : ViewModelBase
         : base(serviceProvider)
     {
         AvailableFormats = new FastObservableCollection<CultureFormat>(dispatcherService);
-        DateTimeValue = DateTime.Now;
+        DateTimeValue = DateTimeOffset.Now;
         DateTimeValueString = string.Empty;
         SetNull = new Command(serviceProvider, OnSetNullExecute);
     }
 
-    public DateTime? DateTimeValue { get; set; }
+    public DateTimeOffset? DateTimeValue { get; set; }
     public string DateTimeValueString { get; set; }
     public FastObservableCollection<CultureFormat> AvailableFormats { get; private set; }
     public CultureFormat SelectedFormat { get; set; }

@@ -6,7 +6,8 @@ using System.Globalization;
 
 public class SuggestionListService : ISuggestionListService
 {
-    public IReadOnlyList<KeyValuePair<string, string>> GetSuggestionList(DateTime dateTime, DateTimePart editablePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo)
+    public IReadOnlyList<KeyValuePair<string, string>> GetSuggestionList(DateTimeOffset dateTime, 
+        DateTimePart editablePart, Orc.Controls.DateTimeFormatInfo dateTimeFormatInfo)
     {
         switch (editablePart)
         {
@@ -41,7 +42,7 @@ public class SuggestionListService : ISuggestionListService
         }
     }
 
-    private static List<KeyValuePair<string, string>> CreateDays(DateTime dateTime)
+    private static List<KeyValuePair<string, string>> CreateDays(DateTimeOffset dateTime)
     {
         var days = new List<KeyValuePair<string, string>>();
         var daysInMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
@@ -54,7 +55,7 @@ public class SuggestionListService : ISuggestionListService
         return days;
     }
 
-    private static List<KeyValuePair<string, string>> CreateMonths(DateTime dateTime)
+    private static List<KeyValuePair<string, string>> CreateMonths(DateTimeOffset dateTime)
     {
         var months = new List<KeyValuePair<string, string>>();
         for (var i = 1; i <= 12; i++)

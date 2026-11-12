@@ -123,7 +123,7 @@ public partial class DateTimePicker : Control, IEditableControl
     private TimePicker? _timePicker;
 
     private List<TextBox>? _textBoxes;
-    private DateTime _todayValue;
+    private DateTimeOffset _todayValue;
     private DateTimeFormatInfo? _formatInfo;
 
     private bool _safeHideTimeValue;
@@ -157,15 +157,15 @@ public partial class DateTimePicker : Control, IEditableControl
         nameof(Culture), typeof(CultureInfo), typeof(DateTimePicker), new PropertyMetadata(CultureInfo.CurrentUICulture,
             (sender, _) => ((DateTimePicker)sender).OnCultureChanged()));
 
-    public DateTime? Value
+    public DateTimeOffset? Value
     {
-        get { return (DateTime?)GetValue(ValueProperty); }
+        get { return (DateTimeOffset?)GetValue(ValueProperty); }
         set { SetValue(ValueProperty, value); }
     }
 
-    public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(DateTime?),
+    public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(DateTimeOffset?),
         typeof(DateTimePicker), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            (sender, e) => ((DateTimePicker)sender).OnValueChanged((DateTime?)e.OldValue, (DateTime?)e.NewValue)));
+            (sender, e) => ((DateTimePicker)sender).OnValueChanged((DateTimeOffset?)e.OldValue, (DateTimeOffset?)e.NewValue)));
 
     public bool ShowOptionsButton
     {
@@ -714,8 +714,8 @@ public partial class DateTimePicker : Control, IEditableControl
         _calendarPopup.SetCurrentValue(Popup.IsOpenProperty, true);
 
         var dateTime = Value ?? _todayValue;
-        _calendar.SetCurrentValue(Calendar.DisplayDateProperty, dateTime);
-        _calendar.SetCurrentValue(Calendar.SelectedDateProperty, Value);
+        _calendar.SetCurrentValue(Calendar.DisplayDateProperty, dateTime.DateTime);
+        _calendar.SetCurrentValue(Calendar.SelectedDateProperty, Value?.DateTime);
 
         _calendar.Focus();
         Keyboard.Focus(_calendar);
@@ -770,15 +770,17 @@ public partial class DateTimePicker : Control, IEditableControl
             SetCurrentValue(HideTimeProperty, false);
         }
 
-        var newDateTime = Value ?? DateTime.Now;
+        var newDateTime = Value ?? DateTimeOffset.Now;
 
         if (AmPmValue.Equals(Meridiem.PM) && newTimeValue.Value.Hours < 12)
         {
-            SetCurrentValue(ValueProperty, new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newTimeValue.Value.Hours + 12, newTimeValue.Value.Minutes, newTimeValue.Value.Seconds));
+            SetCurrentValue(ValueProperty, new DateTimeOffset(newDateTime.Year, newDateTime.Month, newDateTime.Day, 
+                newTimeValue.Value.Hours + 12, newTimeValue.Value.Minutes, newTimeValue.Value.Seconds, newDateTime.Offset));
         }
         else
         {
-            SetCurrentValue(ValueProperty, new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, newTimeValue.Value.Hours, newTimeValue.Value.Minutes, newTimeValue.Value.Seconds));
+            SetCurrentValue(ValueProperty, new DateTimeOffset(newDateTime.Year, newDateTime.Month, newDateTime.Day, 
+                newTimeValue.Value.Hours, newTimeValue.Value.Minutes, newTimeValue.Value.Seconds, newDateTime.Offset));
         }
     }
 
@@ -817,11 +819,12 @@ public partial class DateTimePicker : Control, IEditableControl
         var text = Clipboard.GetText(TextDataFormat.Text);
         if (!string.IsNullOrEmpty(text)
             && (DateTimeParser.TryParse(text, _formatInfo, out var value)
-                || DateTime.TryParseExact(text, Format, null, DateTimeStyles.None, out value)
-                || DateTime.TryParseExact(text, CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern, null, DateTimeStyles.None, out value)
-                || DateTime.TryParseExact(text, CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.InvariantCulture.DateTimeFormat.LongTimePattern, null, DateTimeStyles.None, out value)))
+                || DateTimeOffset.TryParseExact(text, Format, null, DateTimeStyles.None, out value)
+                || DateTimeOffset.TryParseExact(text, CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern, null, DateTimeStyles.None, out value)
+                || DateTimeOffset.TryParseExact(text, CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.InvariantCulture.DateTimeFormat.LongTimePattern, null, DateTimeStyles.None, out value)))
         {
-            SetCurrentValue(ValueProperty, new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second));
+            SetCurrentValue(ValueProperty, new DateTimeOffset(value.Year, value.Month, value.Day, value.Hour, 
+                value.Minute, value.Second, DateTimeOffset.Now.Offset));
         }
     }
 
@@ -1119,15 +1122,15 @@ public partial class DateTimePicker : Control, IEditableControl
         dateTimePartHelper.CreatePopup();
     }
 
-    private void OnValueChanged(DateTime? oldValue, DateTime? newValue)
+    private void OnValueChanged(DateTimeOffset? oldValue, DateTimeOffset? newValue)
     {
         var ov = oldValue;
         var nv = newValue;
 
         if (!AllowNull && newValue is null)
         {
-            var dateTime = DateTime.Now;
-            nv = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
+            var dateTime = DateTimeOffset.Now;
+            nv = new DateTimeOffset(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Offset);
         }
 
         if (ov is null && nv is not null || ov is not null && nv is null)
@@ -1148,7 +1151,7 @@ public partial class DateTimePicker : Control, IEditableControl
         ValueChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    private void UpdateDateTime(DateTime? dateTime)
+    private void UpdateDateTime(DateTimeOffset? dateTime)
     {
         if (!AllowNull && !dateTime.HasValue)
         {
@@ -1158,7 +1161,7 @@ public partial class DateTimePicker : Control, IEditableControl
         SetCurrentValue(ValueProperty, dateTime);
     }
 
-    private void UpdateDate(DateTime? date)
+    private void UpdateDate(DateTimeOffset? date)
     {
         if (!AllowNull && !date.HasValue)
         {
@@ -1235,7 +1238,8 @@ public partial class DateTimePicker : Control, IEditableControl
             dayValue = daysInMoth;
         }
 
-        var newValue = new DateTime(currentValue.Year, currentValue.Month, dayValue, currentValue.Hour, currentValue.Minute, currentValue.Second);
+        var newValue = new DateTimeOffset(currentValue.Year, currentValue.Month, dayValue, currentValue.Hour, 
+            currentValue.Minute, currentValue.Second, currentValue.Offset);
 
         SetCurrentValue(ValueProperty, newValue);
     }
@@ -1302,12 +1306,14 @@ public partial class DateTimePicker : Control, IEditableControl
         var daysInMonth = DateTime.DaysInMonth(currentValue.Year, month.Value);
         if (Day <= daysInMonth)
         {
-            SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, month.Value, Day.Value, currentValue.Hour, currentValue.Minute, currentValue.Second));
+            SetCurrentValue(ValueProperty, new DateTimeOffset(currentValue.Year, month.Value, Day.Value, currentValue.Hour, 
+                currentValue.Minute, currentValue.Second, currentValue.Offset));
             return;
         }
 
         Day = daysInMonth;
-        SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, month.Value, daysInMonth, currentValue.Hour, currentValue.Minute, currentValue.Second));
+        SetCurrentValue(ValueProperty, new DateTimeOffset(currentValue.Year, month.Value, daysInMonth, currentValue.Hour, 
+            currentValue.Minute, currentValue.Second, currentValue.Offset));
     }
 
     private void OnMonthTextChanged(object sender, TextChangedEventArgs e)
@@ -1364,7 +1370,8 @@ public partial class DateTimePicker : Control, IEditableControl
             day = daysInCurrentMonth;
         }
 
-        SetCurrentValue(ValueProperty, new DateTime(year.Value, currentValue.Month, day, currentValue.Hour, currentValue.Minute, currentValue.Second));
+        SetCurrentValue(ValueProperty, new DateTimeOffset(year.Value, currentValue.Month, day, currentValue.Hour, 
+            currentValue.Minute, currentValue.Second, currentValue.Offset));
     }
 
     private void OnYearTextChanged(object sender, TextChangedEventArgs e)
@@ -1414,7 +1421,8 @@ public partial class DateTimePicker : Control, IEditableControl
         }
 
         var currentValue = value ?? _todayValue;
-        SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, hour.Value, currentValue.Minute, currentValue.Second));
+        SetCurrentValue(ValueProperty, new DateTimeOffset(currentValue.Year, currentValue.Month, currentValue.Day, hour.Value, 
+            currentValue.Minute, currentValue.Second, currentValue.Offset));
     }
 
     private void OnHourTextChanged(object sender, TextChangedEventArgs e)
@@ -1462,7 +1470,8 @@ public partial class DateTimePicker : Control, IEditableControl
         }
 
         var currentValue = value ?? _todayValue;
-        SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, currentValue.Hour, minute.Value, currentValue.Second));
+        SetCurrentValue(ValueProperty, new DateTimeOffset(currentValue.Year, currentValue.Month, currentValue.Day, 
+            currentValue.Hour, minute.Value, currentValue.Second, currentValue.Offset));
     }
 
     private void OnMinuteTextChanged(object sender, TextChangedEventArgs e)
@@ -1490,7 +1499,8 @@ public partial class DateTimePicker : Control, IEditableControl
         }
 
         var currentValue = value ?? _todayValue;
-        SetCurrentValue(ValueProperty, new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, currentValue.Hour, currentValue.Minute, second.Value));
+        SetCurrentValue(ValueProperty, new DateTimeOffset(currentValue.Year, currentValue.Month, 
+            currentValue.Day, currentValue.Hour, currentValue.Minute, second.Value, currentValue.Offset));
     }
 
     private void OnSecondTextChanged(object sender, TextChangedEventArgs e)
@@ -1515,7 +1525,8 @@ public partial class DateTimePicker : Control, IEditableControl
 
         if (value is null)
         {
-            SetCurrentValue(ValueProperty, new DateTime(_todayValue.Year, _todayValue.Month, _todayValue.Day, _todayValue.Hour, _todayValue.Minute, _todayValue.Second));
+            SetCurrentValue(ValueProperty, new DateTimeOffset(_todayValue.Year, _todayValue.Month, _todayValue.Day, _todayValue.Hour, 
+                _todayValue.Minute, _todayValue.Second, _todayValue.Offset));
         }
         else
         {
@@ -1526,7 +1537,8 @@ public partial class DateTimePicker : Control, IEditableControl
                 return;
             }
 
-            var newValue = new DateTime(currentValue.Year, currentValue.Month, currentValue.Day, currentValue.Hour, currentValue.Minute, currentValue.Second);
+            var newValue = new DateTimeOffset(currentValue.Year, currentValue.Month, currentValue.Day, 
+                currentValue.Hour, currentValue.Minute, currentValue.Second, currentValue.Offset);
             newValue = newValue.AddHours(Meridiems.LongAM.Equals(amPm) ? -12 : 12);
 
             SetCurrentValue(ValueProperty, newValue);
@@ -1549,7 +1561,8 @@ public partial class DateTimePicker : Control, IEditableControl
 
         var diffTime = isMeridiemAm ? newDateTime.TimeOfDay.Subtract(hours) : newDateTime.TimeOfDay.Add(hours);
 
-        var diffDate = new DateTime(newDateTime.Year, newDateTime.Month, newDateTime.Day, diffTime.Hours, diffTime.Minutes, diffTime.Seconds);
+        var diffDate = new DateTimeOffset(newDateTime.Year, newDateTime.Month, newDateTime.Day, diffTime.Hours, 
+            diffTime.Minutes, diffTime.Seconds, newDateTime.Offset);
         SetCurrentValue(ValueProperty, diffDate);
 
     }

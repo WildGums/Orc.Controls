@@ -9,30 +9,30 @@ public static class DateTimeParser
 {
     private static readonly ILogger Logger = LogManager.GetLogger(typeof(DateTimeParser));
 
-    public static DateTime? Parse(string input, string format, bool isDateOnly = false)
+    public static DateTimeOffset? Parse(string input, string format, bool isDateOnly = false)
     {
         return Parse(input, DateTimeFormatHelper.GetDateTimeFormatInfo(format, isDateOnly));
     }
 
-    internal static DateTime? Parse(string input, DateTimeFormatInfo formatInfo)
+    internal static DateTimeOffset? Parse(string input, DateTimeFormatInfo formatInfo)
     {
         ArgumentNullException.ThrowIfNull(input);
 
         return Parse(input, formatInfo, true);
     }
 
-    public static bool TryParse(string input, string format, out DateTime dateTime, bool isDateOnly = false)
+    public static bool TryParse(string input, string format, out DateTimeOffset dateTime, bool isDateOnly = false)
     {
         return TryParse(input, DateTimeFormatHelper.GetDateTimeFormatInfo(format, isDateOnly), out dateTime);
     }
 
-    internal static bool TryParse(string input, DateTimeFormatInfo formatInfo, out DateTime dateTime)
+    internal static bool TryParse(string input, DateTimeFormatInfo formatInfo, out DateTimeOffset dateTime)
     {
         ArgumentNullException.ThrowIfNull(input);
 
-        dateTime = DateTime.MinValue;
+        dateTime = DateTimeOffset.MinValue;
 
-        DateTime? result;
+        DateTimeOffset? result;
         try
         {
             result = Parse(input, formatInfo, false);
@@ -49,11 +49,11 @@ public static class DateTimeParser
             return false;
         }
 
-        dateTime = (DateTime)result;
+        dateTime = (DateTimeOffset)result;
         return true;
     }
 
-    private static DateTime? Parse(string input, DateTimeFormatInfo formatInfo, bool throwOnError)
+    private static DateTimeOffset? Parse(string input, DateTimeFormatInfo formatInfo, bool throwOnError)
     {
         ArgumentNullException.ThrowIfNull(formatInfo);
 
@@ -200,7 +200,8 @@ public static class DateTimeParser
 
         try
         {
-            return new DateTime(year, month, day, hour, minute, second);
+            // Use local time
+            return new DateTimeOffset(year, month, day, hour, minute, second, DateTimeOffset.Now.Offset);
         }
         catch (Exception exc)
         {
